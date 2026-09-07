@@ -37,7 +37,7 @@
     "review_priority": "P0: the fixed runtime facts plus bounded MCP summary can exceed 1000 tokens; manual review completed",
     "constraints": "New content bounded below 10000 tokens; existing user developer instructions retained; trusted local config names/allowlists only; no remote tool-result injection or history rewrite"
   },
-  "release_acceptance": "pending final optimized artifact and published-archive CI",
+  "release_acceptance": "Exact optimized binary passed local fixtures and live replay; publication CI recorded separately in RELEASE-VERIFICATION.json",
   "gateway_contract": {
     "passed": true,
     "cases": 20,
@@ -51,5 +51,12 @@
   "home_dir_tests": {
     "passed": 4,
     "failed": 0
+  },
+  "final_replay_driver_correction": {
+    "first_attempt": "Passed model switch and review, then timed out with next prompt retained in composer",
+    "cause": "Raw synthetic rapid typing triggered paste-burst Enter deferral",
+    "fix": "Use explicit bracketed paste in the PTY driver",
+    "application_binary_changed": false,
+    "failed_attempt_retained_in_release_validation_logs": true
   }
 }

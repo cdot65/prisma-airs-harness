@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "product": "Prisma AIRS Terminal",
+  "version": "0.1.0-alpha.5",
+  "state_directory": "/home/cdot/.airs-terminal/environments/1f842fd0-ae7c-4cdc-b262-2bf41d3f19ab",
+  "passed": true,
+  "checks": [
+    {
+      "name": "local_tools",
+      "passed": true,
+      "detail": "Required local executables found; this does not exercise kernel sandbox support"
+    },
+    {
+      "name": "linux_user_namespaces",
+      "passed": true,
+      "detail": "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution"
+    },
+    {
+      "name": "configuration",
+      "passed": true,
+      "detail": "https://airs.cdot.io/v1"
+    },
+    {
+      "name": "credential",
+      "passed": true,
+      "detail": "Available locally; workspace identity, not verified individual identity"
+    },
+    {
+      "name": "capabilities",
+      "passed": true,
+      "detail": "Local catalog readable; backend limits still apply"
+    },
+    {
+      "name": "gateway_health",
+      "passed": true,
+      "detail": "HTTPS/HTTP health response successful; inference and policy not exercised"
+    },
+    {
+      "name": "mcp_configuration",
+      "passed": true,
+      "detail": "1 configured server(s); use /mcp and invoke a tool to verify remote authorization"
+    }
+  ]
+}

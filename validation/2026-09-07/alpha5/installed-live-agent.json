@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "binary": "/opt/airs-terminal-release-staging/airs-terminal-alpha5",
+  "checks": [
+    {
+      "mode": "default",
+      "thread_id": "01a07b5c-d081-7441-a54d-3916f71d68e9",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "5524204b-65e1-4c92-af4d-aff44dc362c3"
+    },
+    {
+      "mode": "explicit",
+      "thread_id": "01a07b5d-0cb9-7022-8aa3-9a5087a9c679",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "be464aea-2478-4d0e-a99a-8e69a3323a16"
+    }
+  ],
+  "resume_passed": true,
+  "passed": true
+}

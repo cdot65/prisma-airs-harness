@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "binary": "/opt/airs-terminal-release-staging/airs-terminal-alpha5",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "59240a3d-a03f-4861-98b7-25f9dce65a61",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "65d7baa3-e52c-493d-892b-b28f74a1d547",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "961b928c-f612-47ff-9a87-b9b3f0a784fa",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true
+}

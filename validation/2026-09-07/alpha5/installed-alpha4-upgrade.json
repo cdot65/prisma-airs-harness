@@ -1,0 +1,13 @@
+{
+  "thread_id": "01a07b4a-c80a-7970-b568-0ba0b19daee1",
+  "old_version": "0.1.0-alpha.4",
+  "saved_model": "@openai/gpt-4.1",
+  "saved_reasoning_effort": "medium",
+  "old_live_unsupported_reasoning_reproduced": true,
+  "passed": true,
+  "new_version": "0.1.0-alpha.5",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "history_marker_retained": true,
+  "stale_reasoning_resume_passed": true,
+  "owner_state_modified": false
+}

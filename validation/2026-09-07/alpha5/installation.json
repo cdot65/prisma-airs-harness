@@ -1,0 +1,11 @@
+{
+  "installed": true,
+  "version": "0.1.0-alpha.5",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "rollback_binary": "/home/cdot/.local/share/airs-terminal/rollback/0.1.0-alpha.4-daabbb67fe36/airs-terminal",
+  "rollback_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+  "owner_files_checked": 10,
+  "owner_config_and_history_preserved": true,
+  "changed_owner_paths": [],
+  "existing_processes_stopped": false
+}

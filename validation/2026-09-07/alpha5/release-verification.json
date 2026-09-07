@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "product_version": "0.1.0-alpha.5",
+  "status": "installed_published_and_independently_verified_owner_revalidation_pending",
+  "release": "https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.5",
+  "source_commit": "438b43a33893c4c6a4650b7fb13dfff606494d19",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "archive_sha256": "0271e4e89a8585dafd2c5b246d6d02bb059b5315ce6c4f7dd32a8507e2942916",
+  "owned_ci": {
+    "url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34111335276",
+    "conclusion": "success",
+    "head_sha": "438b43a33893c4c6a4650b7fb13dfff606494d19",
+    "packaged_executable_tests": 20,
+    "scanner_tests": 4,
+    "npm_production_findings": 0,
+    "scope": "Independent Ubuntu verification of locally built archive; not a native CI build"
+  },
+  "live_acceptance": {
+    "interactive_turns": 7,
+    "routes": "default -> @openai/gpt-4.1 -> default",
+    "calculator_tests": 5,
+    "successful_mcp_scans": 3,
+    "skill_edit_test_scan_and_resume": true,
+    "alpha4_live_failure_reproduced_then_resumed_by_alpha5": true
+  },
+  "installation": {
+    "installed": true,
+    "version": "0.1.0-alpha.5",
+    "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+    "rollback_binary": "/home/cdot/.local/share/airs-terminal/rollback/0.1.0-alpha.4-daabbb67fe36/airs-terminal",
+    "rollback_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+    "owner_files_checked": 10,
+    "owner_config_and_history_preserved": true,
+    "changed_owner_paths": [],
+    "existing_processes_stopped": false
+  },
+  "source_secret_scan": {
+    "credential_scan": "passed",
+    "files": 7043,
+    "secret_values_printed": false
+  },
+  "package_secret_scan": {
+    "credential_scan": "passed",
+    "files": 1742,
+    "secret_values_printed": false
+  },
+  "gateway_compatibility": {
+    "native_target_drop_params_verified_locally": true,
+    "local_transform_cases": 4,
+    "webhook_transform_path_verified": true,
+    "live_configuration_changed": false,
+    "reference": "administration/request-compatibility.md"
+  },
+  "self_assessment": {
+    "reported_model_switch_failure_repaired": true,
+    "automated_repair_acceptance": "passed",
+    "alpha4_provisional_9_of_10": "withdrawn after owner failure",
+    "owner_hands_on_review": "pending; no owner acceptance awarded by the agent",
+    "full_team_mvp_complete": false
+  },
+  "limitations": [
+    "Full upstream V8-dependent suite unavailable: musl archive HTTP 404",
+    "Keycloak login/refresh and individual-user authorization remain unfinished under workspace-key fallback",
+    "macOS and native CI build/signing remain deferred",
+    "Generated self-descriptions are not authoritative routing, repository or MCP health metadata",
+    "Scanner image unchanged; historical medium/low findings remain documented"
+  ],
+  "validation_log_asset": "airs-terminal-alpha5-validation.tar.gz",
+  "ci_log_asset": "airs-terminal-alpha5-ci.log"
+}

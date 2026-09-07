@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "airs-terminal 0.1.0-alpha.5",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "source_commit": "438b43a33893c4c6a4650b7fb13dfff606494d19",
+  "checksums_verified": true,
+  "required_notices_present": true,
+  "scope": "extracted package integrity; executable fixtures are a separate check"
+}

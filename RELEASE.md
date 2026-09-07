@@ -94,3 +94,12 @@ V8 musl archive prevents full workspace validation on this host. Existing scanne
 image findings (20 unfixed medium/low, no critical/high) and the broader workspace
 scc warning outside the Linux CLI graph remain documented in the earlier audit.
 Owner hands-on acceptance is required; a self-assigned score does not replace it.
+
+## Publication verification
+
+[Independent Ubuntu release CI](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34111335276)
+passed against immutable tag `airs-terminal-v0.1.0-alpha.5`: 20 packaged executable
+fixtures, four scanner tests and zero production npm findings. The downloaded
+archive's binary and source hashes match the installed binary and release
+provenance. `RELEASE-VERIFICATION.json` and its checksum were uploaded, downloaded
+again and verified. Owner hands-on revalidation remains pending.

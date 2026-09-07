@@ -1,9 +1,13 @@
 //! Explicit, endpoint-bound MCP workspace credentials, independent of inference.
+use super::airs_credentials::Binding as IdentityBinding;
+use super::airs_credentials::Source;
 use super::airs_credentials::file_token;
 use super::airs_credentials::fingerprint;
 use super::airs_environment;
+use super::airs_oidc;
 use anyhow::Context;
 use clap::Args;
+use codex_airs_identity::IdentityConfig;
 use serde::Deserialize;
 use serde::Serialize;
 use std::io::IsTerminal;
@@ -20,8 +24,22 @@ pub struct SetupArgs {
     #[arg(long)]
     pub url: String,
     /// Existing owner-only file containing a separately authorized MCP API key.
-    #[arg(long)]
-    pub credential_file: PathBuf,
+    #[arg(
+        long,
+        required_unless_present = "issuer_url",
+        conflicts_with = "issuer_url"
+    )]
+    pub credential_file: Option<PathBuf>,
+    /// Issuer for the separate MCP resource login; must match the inference identity.
+    #[arg(long, requires_all = ["oidc_client_id", "audience"])]
+    pub issuer_url: Option<String>,
+    #[arg(long, requires = "issuer_url")]
+    pub oidc_client_id: Option<String>,
+    #[arg(long, requires = "issuer_url")]
+    pub audience: Option<String>,
+    /// Use a device code instead of a local browser callback.
+    #[arg(long, requires = "issuer_url")]
+    pub device_auth: bool,
     /// Restrict the local tool catalog to these names. Repeat for more tools.
     #[arg(long)]
     pub tool: Vec<String>,
@@ -45,15 +63,21 @@ struct Binding {
     id: Uuid,
     server: String,
     url: String,
-    credential_file: PathBuf,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    credential_file: Option<PathBuf>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    oidc: Option<IdentityBinding>,
+    #[serde(default)]
+    logged_out: bool,
     credential_fingerprint: String,
 }
 
+#[cfg(not(windows))]
 fn shell_quote(value: &str) -> String {
     format!("'{}'", value.replace('\'', "'\\''"))
 }
 
-pub fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
+pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
     anyhow::ensure!(
         !args.name.is_empty()
             && args.name.len() <= 64
@@ -73,7 +97,6 @@ pub fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
             && url.fragment().is_none(),
         "MCP requires HTTPS without URL credentials, query parameters or fragments"
     );
-    let token = file_token(&args.credential_file)?;
     let _lock = airs_environment::lock(home)?;
     let mut config: toml::Value =
         toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
@@ -84,34 +107,118 @@ pub fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
         .or_insert_with(|| toml::Value::Table(Default::default()))
         .as_table_mut()
         .context("invalid MCP configuration")?;
-    anyhow::ensure!(
-        !servers.contains_key(&args.name),
-        "MCP server already exists; inspect it with mcp get and remove it before replacing its binding"
-    );
-    let binding = Binding {
+    // Reauthentication preserves the helper/binding ID, keeping existing history stable.
+    let existing = if servers.contains_key(&args.name) {
+        let directory = home.join("mcp-bindings");
+        let mut found = None;
+        for entry in std::fs::read_dir(&directory)? {
+            let previous = read_binding(&entry?.path())?;
+            if previous.server == args.name {
+                anyhow::ensure!(
+                    found.is_none(),
+                    "ambiguous MCP bindings; use a new environment"
+                );
+                found = Some(previous);
+            }
+        }
+        let previous =
+            found.context("MCP server has no managed binding; remove it before setup")?;
+        anyhow::ensure!(
+            previous.oidc.is_some() && args.issuer_url.is_some() && previous.url == url.as_str(),
+            "MCP server already exists; only the same OIDC resource can reauthenticate in place"
+        );
+        Some(previous)
+    } else {
+        None
+    };
+    let mut binding = Binding {
         schema_version: 1,
-        id: Uuid::new_v4(),
+        id: existing.as_ref().map_or_else(Uuid::new_v4, |b| b.id),
         server: args.name.clone(),
         url: url.to_string(),
         credential_file: args.credential_file.clone(),
-        credential_fingerprint: fingerprint(&token),
+        credential_fingerprint: String::new(),
+        oidc: None,
+        logged_out: false,
     };
-    let helper = format!(
-        "{} mcp-credential --home {} --binding {}",
-        shell_quote(
-            std::env::current_exe()?
-                .to_str()
-                .context("executable path is not UTF-8")?
-        ),
-        shell_quote(home.to_str().context("state directory is not UTF-8")?),
-        binding.id
-    );
+    let tokens = if let Some(issuer) = &args.issuer_url {
+        let inference = super::airs_credentials::read_binding(home)?;
+        anyhow::ensure!(
+            !home.join("logged-out").exists(),
+            "sign in to inference before MCP"
+        );
+        let Some(Source::Oidc { identity }) = &inference.source else {
+            anyhow::bail!("MCP OIDC requires an OIDC inference identity in this environment");
+        };
+        let config = IdentityConfig {
+            issuer: issuer.clone(),
+            client_id: args
+                .oidc_client_id
+                .clone()
+                .context("missing MCP OIDC client")?,
+            audience: args
+                .audience
+                .clone()
+                .context("missing MCP resource audience")?,
+        };
+        anyhow::ensure!(
+            config.issuer == identity.config.issuer
+                && config.client_id != identity.config.client_id
+                && config.audience != identity.config.audience,
+            "MCP requires the same issuer and a distinct client and resource audience"
+        );
+        let flow = if args.device_auth {
+            airs_oidc::LoginFlow::Device
+        } else {
+            airs_oidc::LoginFlow::Browser
+        };
+        let tokens = airs_oidc::authenticate(config, flow).await?;
+        anyhow::ensure!(
+            tokens.identity.subject == identity.subject,
+            "MCP login belongs to a different user; authenticate with the inference account"
+        );
+        binding.credential_fingerprint = airs_oidc::fingerprint(&binding.url, &tokens.identity)?;
+        binding.oidc = Some(IdentityBinding {
+            schema_version: 1,
+            id: binding.id,
+            gateway_url: binding.url.clone(),
+            credential_fingerprint: binding.credential_fingerprint.clone(),
+            source: Some(Source::Oidc {
+                identity: tokens.identity.clone(),
+            }),
+        });
+        Some(tokens)
+    } else {
+        binding.credential_fingerprint = fingerprint(&file_token(
+            args.credential_file
+                .as_deref()
+                .context("MCP requires a credential file or OIDC login")?,
+        )?);
+        None
+    };
+    if let Some(previous) = &existing {
+        anyhow::ensure!(
+            previous.credential_fingerprint == binding.credential_fingerprint,
+            "MCP identity changed; create a new environment for this resource identity"
+        );
+    }
+    let helper = helper_command(&std::env::current_exe()?, home, binding.id)?;
     let mut server = serde_json::json!({"url": binding.url, "http_headers_helper": helper,
-        "required": args.required, "startup_timeout_sec": 30, "tool_timeout_sec": 60});
+        "required": args.required, "startup_timeout_sec": 90, "tool_timeout_sec": 60});
     if !args.tool.is_empty() {
         server["enabled_tools"] = serde_json::json!(args.tool);
     }
-    servers.insert(args.name.clone(), serde_json::from_value(server)?);
+    let server: toml::Value = serde_json::from_value(server)?;
+    if existing.is_some() {
+        anyhow::ensure!(
+            servers.get(&args.name) == Some(&server),
+            "MCP configuration changed; repeat the original setup options or use a new environment"
+        );
+    }
+    if let (Some(identity), Some(tokens)) = (&binding.oidc, tokens) {
+        airs_oidc::store_tokens(identity, tokens)?;
+    }
+    servers.insert(args.name.clone(), server);
     let directory = home.join("mcp-bindings");
     airs_environment::private_directory(&directory)?;
     airs_environment::atomic_write(
@@ -123,14 +230,14 @@ pub fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
         toml::to_string_pretty(&config)?.as_bytes(),
     )?;
     println!(
-        "Configured MCP server {} at {} with a separate workspace credential.",
+        "Configured MCP server {} at {} with a separate resource credential.",
         args.name, binding.url
     );
     println!("Use mcp list or /mcp to inspect it. The gateway controls remote authorization.");
     Ok(())
 }
 
-pub fn helper(args: &HelperArgs) -> anyhow::Result<()> {
+pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     anyhow::ensure!(
         !std::io::stdout().is_terminal(),
         "MCP credential helper may only write to a pipe"
@@ -141,13 +248,14 @@ pub fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         !args.home.join("logged-out").exists(),
         "environment is logged out; run airs-terminal login"
     );
-    let binding: Binding = serde_json::from_slice(&std::fs::read(
-        args.home
+    let binding = read_binding(
+        &args
+            .home
             .join("mcp-bindings")
             .join(format!("{}.json", args.binding)),
-    )?)?;
+    )?;
     anyhow::ensure!(
-        binding.schema_version == 1 && binding.id == args.binding,
+        binding.schema_version == 1 && binding.id == args.binding && !binding.logged_out,
         "invalid MCP credential binding"
     );
     let config: toml::Value =
@@ -161,12 +269,123 @@ pub fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         destination == Some(binding.url.as_str()),
         "MCP destination changed or server was removed; configure a new binding"
     );
-    let token = file_token(&binding.credential_file)?;
-    anyhow::ensure!(
-        fingerprint(&token) == binding.credential_fingerprint,
-        "MCP credential identity changed; configure a new binding"
-    );
+    let token = if let Some(identity) = &binding.oidc {
+        anyhow::ensure!(
+            identity.id == binding.id
+                && identity.gateway_url == binding.url
+                && identity.credential_fingerprint == binding.credential_fingerprint,
+            "MCP identity binding is inconsistent"
+        );
+        let inference = super::airs_credentials::read_binding(&args.home)?;
+        let (Some(Source::Oidc { identity: user }), Some(Source::Oidc { identity: mcp })) =
+            (&inference.source, &identity.source)
+        else {
+            anyhow::bail!("OIDC identity missing; sign in again");
+        };
+        anyhow::ensure!(
+            user.subject == mcp.subject
+                && user.config.issuer == mcp.config.issuer
+                && user.config.audience != mcp.config.audience
+                && user.config.client_id != mcp.config.client_id,
+            "MCP identity no longer matches the signed-in user and resource"
+        );
+        airs_oidc::credential(identity).await?
+    } else {
+        let token = file_token(
+            binding
+                .credential_file
+                .as_deref()
+                .context("missing MCP credential source")?,
+        )?;
+        anyhow::ensure!(
+            fingerprint(&token) == binding.credential_fingerprint,
+            "MCP credential identity changed; configure a new binding"
+        );
+        token
+    };
     println!("{}", serde_json::json!({"x-portkey-api-key": token}));
+    Ok(())
+}
+
+fn read_binding(path: &Path) -> anyhow::Result<Binding> {
+    anyhow::ensure!(
+        std::fs::metadata(path)?.len() <= 16_384,
+        "MCP binding is too large"
+    );
+    let binding: Binding = serde_json::from_slice(&std::fs::read(path)?)?;
+    anyhow::ensure!(
+        binding.schema_version == 1
+            && (binding.oidc.is_some() != binding.credential_file.is_some()),
+        "invalid MCP credential source"
+    );
+    Ok(binding)
+}
+
+fn helper_command(executable: &Path, home: &Path, id: Uuid) -> anyhow::Result<String> {
+    let executable = executable
+        .to_str()
+        .context("executable path is not UTF-8")?;
+    let home = home.to_str().context("state directory is not UTF-8")?;
+    #[cfg(not(windows))]
+    {
+        Ok(format!(
+            "{} mcp-credential --home {} --binding {id}",
+            shell_quote(executable),
+            shell_quote(home)
+        ))
+    }
+    #[cfg(windows)]
+    {
+        use base64::Engine;
+        // Encoded PowerShell bypasses cmd.exe's percent expansion and quoting of
+        // executable paths. Only nonsecret paths/UUID are encoded, never tokens.
+        let quote = |s: &str| format!("'{}'", s.replace('\'', "''"));
+        let script = format!(
+            "& {} mcp-credential --home {} --binding '{id}'; exit $LASTEXITCODE",
+            quote(executable),
+            quote(home)
+        );
+        let bytes: Vec<u8> = script.encode_utf16().flat_map(u16::to_le_bytes).collect();
+        Ok(format!(
+            "powershell.exe -NoProfile -NonInteractive -EncodedCommand {}",
+            base64::engine::general_purpose::STANDARD.encode(bytes)
+        ))
+    }
+}
+
+/// Disable every local MCP binding before attempting remote revocation. Caller holds the environment lock.
+pub(super) async fn logout(home: &Path) -> anyhow::Result<()> {
+    use codex_keyring_store::KeyringStore;
+    let directory = home.join("mcp-bindings");
+    if !directory.exists() {
+        return Ok(());
+    }
+    let mut failures = false;
+    let mut revoke = Vec::new();
+    for entry in std::fs::read_dir(directory)? {
+        let path = entry?.path();
+        let mut binding = read_binding(&path)?;
+        binding.logged_out = binding.oidc.is_some();
+        airs_environment::atomic_write(&path, &serde_json::to_vec_pretty(&binding)?)?;
+        if let Some(identity) = &binding.oidc {
+            if let Ok(tokens) = airs_oidc::load_active(identity) {
+                revoke.push(tokens);
+            }
+            failures |= codex_airs_identity::CredentialStore
+                .delete(super::airs_credentials::SERVICE, &identity.id.to_string())
+                .is_err();
+        }
+    }
+    for tokens in revoke {
+        match codex_airs_identity::Provider::discover(tokens.identity.config.clone()).await {
+            Ok(provider) => failures |= provider.revoke(&tokens).await.is_err(),
+            Err(_) => failures = true,
+        }
+    }
+    anyhow::ensure!(
+        !failures,
+        "MCP disabled locally; credential deletion or issuer revocation could not be confirmed"
+    );
     Ok(())
 }
 

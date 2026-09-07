@@ -1106,7 +1106,7 @@ async fn cli_main(
         let root = codex_core::config::find_codex_home()?;
         match &subcommand {
             Some(Subcommand::Credential(args)) => return airs_credentials::helper(args).await,
-            Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args),
+            Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args).await,
             Some(Subcommand::Env { command }) => {
                 return airs_environment::run(root.as_path(), command);
             }
@@ -1126,7 +1126,7 @@ async fn cli_main(
         airs_environment::select(root.as_path(), environment.as_deref())?;
         let home = codex_core::config::find_codex_home()?;
         match &subcommand {
-            Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args),
+            Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args).await,
             Some(Subcommand::Login(args)) => {
                 anyhow::ensure!(
                     !args.with_access_token

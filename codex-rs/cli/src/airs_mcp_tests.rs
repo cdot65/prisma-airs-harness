@@ -13,8 +13,8 @@ fn helper_command_quotes_paths_without_shell_expansion() {
     assert_eq!(String::from_utf8(output.stdout).unwrap(), input);
 }
 
-#[test]
-fn setup_rejects_insecure_or_credential_bearing_destinations() {
+#[tokio::test]
+async fn setup_rejects_insecure_or_credential_bearing_destinations() {
     let temp = tempfile::tempdir().unwrap();
     for url in [
         "http://example.com/mcp",
@@ -24,11 +24,15 @@ fn setup_rejects_insecure_or_credential_bearing_destinations() {
         let args = SetupArgs {
             name: "scanner".into(),
             url: url.into(),
-            credential_file: temp.path().join("missing"),
+            credential_file: Some(temp.path().join("missing")),
+            issuer_url: None,
+            oidc_client_id: None,
+            audience: None,
+            device_auth: false,
             tool: Vec::new(),
             required: false,
         };
-        let error = setup(temp.path(), &args).unwrap_err();
+        let error = setup(temp.path(), &args).await.unwrap_err();
         assert!(error.to_string().contains("HTTPS without"));
         assert!(!temp.path().join("config.toml").exists());
     }

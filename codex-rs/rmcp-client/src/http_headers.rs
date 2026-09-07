@@ -42,7 +42,7 @@ use url::Url;
 use crate::utils::create_env_for_mcp_server;
 use crate::www_authenticate::insufficient_scope_challenge;
 
-const HELPER_TIMEOUT: Duration = Duration::from_secs(10);
+const HELPER_TIMEOUT: Duration = Duration::from_secs(60);
 const MAX_HELPER_OUTPUT_BYTES: usize = 64 * 1024;
 type CachedHeaders = Shared<BoxFuture<'static, std::result::Result<Arc<HeaderMap>, Arc<str>>>>;
 
@@ -449,6 +449,12 @@ async fn run_helper(command: &str, cwd: &Path) -> Result<HeaderMap> {
     process.args(["-c", command]);
     #[cfg(unix)]
     process.process_group(0);
+    // Local credential helpers need the user's Secret Service address. These
+    // contain connection coordinates, never tokens; other ambient secrets stay excluded.
+    #[cfg(target_os = "linux")]
+    let credential_env = ["DBUS_SESSION_BUS_ADDRESS".into(), "XDG_RUNTIME_DIR".into()];
+    #[cfg(not(target_os = "linux"))]
+    let credential_env = [];
     process
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
@@ -456,7 +462,10 @@ async fn run_helper(command: &str, cwd: &Path) -> Result<HeaderMap> {
         .current_dir(cwd)
         // Match local MCP subprocess policy; arbitrary ambient variables are not inherited.
         .env_clear()
-        .envs(create_env_for_mcp_server(/*extra_env*/ None, &[])?)
+        .envs(create_env_for_mcp_server(
+            /*extra_env*/ None,
+            &credential_env,
+        )?)
         .kill_on_drop(true);
 
     #[cfg(windows)]

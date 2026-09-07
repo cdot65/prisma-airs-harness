@@ -303,10 +303,12 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
         &home.join("logged-out"),
         b"Local credentials disabled. Run login to reauthenticate.\n",
     )?;
+    let mcp_logout = super::airs_mcp::logout(home).await;
     if !home.join("credential-binding.json").exists() {
         println!(
             "Logged out locally. New inference and MCP credential use is disabled until login; stop running sessions to discard cached credentials."
         );
+        mcp_logout?;
         return Ok(());
     }
     let mut binding = read_binding(home)?;
@@ -352,8 +354,10 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
                 "Signed out locally. No usable refresh token remains; existing access tokens expire normally."
             );
         }
+        mcp_logout?;
         return Ok(());
     }
+    mcp_logout?;
     println!(
         "Logged out locally. Referenced files/environment variables are unchanged; stop running sessions to discard their cached token. Workspace-key revocation is managed in AIRS."
     );

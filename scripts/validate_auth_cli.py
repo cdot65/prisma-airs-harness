@@ -173,12 +173,15 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                 timeout=20,
                 allow_redirects=False,
             )
-        output, error = current.communicate(timeout=60)
+        current.communicate(timeout=60)
         success = current.returncode == 0
         current = None
-        # CLI errors use static messages; never print form redirects or credentials.
+        # Captured CLI output may contain device codes or authorization URLs.
         if success != expect_success:
-            print("CLI outcome mismatch: " + error[-500:], flush=True)
+            print(
+                "CLI outcome differs from expected success=" + str(expect_success),
+                flush=True,
+            )
         return success
 
     try:

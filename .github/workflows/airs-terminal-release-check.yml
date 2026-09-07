@@ -31,7 +31,7 @@ jobs:
           if sysctl kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
             sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           fi
-          bwrap --ro-bind / / --dev /dev --proc /proc --unshare-user --unshare-pid true
+          bwrap --ro-bind / / --unshare-user --unshare-pid /bin/true
       - name: Download and verify release archive
         env:
           GH_TOKEN: ${{ github.token }}

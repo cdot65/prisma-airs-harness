@@ -1,0 +1,22 @@
+{
+  "command": "cargo tree --locked -p codex-cli --target x86_64-unknown-linux-musl --edges normal,build --prefix none --format {p}",
+  "selected_package_count": 1016,
+  "audit_packages": {
+    "scc": [],
+    "quinn-proto": [],
+    "event-listener": [
+      "event-listener v5.4.2"
+    ],
+    "memmap2": [
+      "memmap2 v0.9.11"
+    ],
+    "chacha20": [
+      "chacha20 v0.10.2",
+      "chacha20 v0.9.1"
+    ],
+    "spin": [
+      "spin v0.9.9"
+    ]
+  },
+  "scope": "Linux codex-cli selected normal/build graph; broader workspace audit remains separately recorded"
+}

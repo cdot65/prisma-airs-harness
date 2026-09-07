@@ -70,6 +70,9 @@ def main():
     cases = [
         ("default_omits_model", benign, key, {}, 200),
         ("explicit_model", {**benign, "model": args.explicit_model}, key, {}, 200),
+        ("null_model_rejected", {**benign, "model": None}, key, {}, 400),
+        ("empty_model_rejected", {**benign, "model": ""}, key, {}, 400),
+        ("legacy_alias_rejected", {**benign, "model": "ai-gateway"}, key, {}, 400),
         ("wrong_key", benign, "intentionally-invalid-terminal-key", {}, 401),
         (
             "unknown_provider",

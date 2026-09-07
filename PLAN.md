@@ -19,7 +19,15 @@ complete team identity acceptance from a shared workspace credential.
 8. Build/install/package the verified Linux binary, publish reproducible receipts,
    and assess each acceptance gate. Improve remaining failures before handoff.
 
-## Current evidence
+## Owner acceptance correction
+
+Alpha.4 failed the owner's actual interactive `/model` switch. Its provisional
+9/10 score is withdrawn. Alpha.5 corrects the picker, request capability filtering
+and runtime self-description. The new live and deterministic PTY path is required
+before its installation/publication; see RELEASE.md and VALIDATION.json. Gateway
+JSON-normalization guardrails are a separate capability under review.
+
+## Earlier alpha.4 evidence
 
 - Alpha.4 runtime implementation is committed in reviewable stages. Private
   source repository: `cdot65/prisma-airs-terminal`; inherited Actions are disabled.
@@ -39,11 +47,11 @@ complete team identity acceptance from a shared workspace credential.
   Both gateway replicas are ready at Helm revision 32. The final scanner image
   runs two replicas; the previous hosted MCP failure is avoided through REST.
 - Final optimized build, installed/extracted-artifact checks and private prerelease
-  publication are complete. [Alpha.4](https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.4) is ready for owner hands-on review.
+  publication were completed. [Alpha.4](https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.4) was submitted for review and subsequently failed the interactive model-switch case.
   [Independent CI](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34100831631) passed against the exact published archive: 17 executable
   fixtures, four scanner tests and zero production npm audit findings.
-- Final assessment: **9/10 for the authorized Linux workspace-key pilot**,
-  provisional pending owner review. RELEASE.md and the post-publication
+- Withdrawn historical assessment: **9/10 for the authorized Linux workspace-key pilot**.
+  Owner E2E revealed the missed failure. The historical notes and post-publication
   `validation/2026-09-07/release-verification.json` record evidence and limitations.
   The full original team MVP remains unfinished.
 

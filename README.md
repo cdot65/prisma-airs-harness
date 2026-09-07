@@ -8,15 +8,18 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.4 — Linux workspace-key pilot
+## 0.1.0-alpha.5 — Linux workspace-key pilot
 
-This release adds named environments, endpoint-bound credential references,
-secure-store login, separate MCP credentials, local diagnostics, product UI and
-session revision checks. Live validation covers default/explicit Responses
-routing, local edits and tests, skills, scanner calls, policy denial, cancellation,
-resume and compaction. See [RELEASE.md](RELEASE.md) for the exact release evidence
+Alpha.5 repairs interactive model switching and improves runtime capability
+descriptions. The pilot includes named environments, endpoint-bound credentials,
+secure-store login, separate MCP credentials, diagnostics and session revision
+checks. Alpha.5 validation exercises interactive default/explicit Responses
+routing, local edits and tests, skills, scanner calls, policy denial and resume.
+Earlier pilot receipts cover live cancellation and compaction; the current
+executable fixtures retain compaction coverage. See [RELEASE.md](RELEASE.md) for the exact release evidence
 and remaining acceptance gates. The release's `RELEASE-VERIFICATION.json` asset
-contains post-publication verification and the final self-assessment.
+contains post-publication verification. The alpha.4 provisional score was withdrawn
+after owner testing found the model-switch failure; owner revalidation is required.
 
 Keycloak browser/device login, token refresh and individual-user attribution
 remain deferred. Workspace-key mode identifies a workspace credential. Linux
@@ -33,14 +36,14 @@ establish its sandbox.
 
 ```sh
 set -e
-gh release download airs-terminal-v0.1.0-alpha.4 \
+gh release download airs-terminal-v0.1.0-alpha.5 \
   --repo cdot65/prisma-airs-terminal \
-  --pattern 'airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz*' \
+  --pattern 'airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz*' \
   --dir airs-terminal-download
 cd airs-terminal-download
-sha256sum -c airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz.sha256
-tar -xzf airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz
-cd airs-terminal-0.1.0-alpha.4-linux-x86_64-musl
+sha256sum -c airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz.sha256
+tar -xzf airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz
+cd airs-terminal-0.1.0-alpha.5-linux-x86_64-musl
 sha256sum -c SHA256SUMS > /dev/null
 mkdir -p "$HOME/.local/bin"
 if [ -f "$HOME/.local/bin/airs-terminal" ]; then

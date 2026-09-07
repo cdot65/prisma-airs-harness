@@ -66,3 +66,12 @@ The optional `mcp-scanner/` service uses the MCP TypeScript SDK and the owner's
 Prisma AIRS SDK to expose one stateless scanning tool. It is a separately deployed
 remote backend; the terminal can point at other authorized MCP endpoints and has
 no PAH dependency. Its Dockerfile and pinned npm lockfile are maintained here.
+
+## Alpha.5 owner acceptance repair
+
+Keep the gateway-only reasoning capability checks at the request boundary and in
+the model picker when merging upstream. Empty supported levels must not invent an
+effort. Preserve the bounded runtime context and its separation of MCP tools from
+resources. `scripts/test_airs_terminal.py` now drives the actual interactive model
+switch; `scripts/validate_live_model_switch.py` repeats it through AIRS with real
+local work and scanner calls. The alpha.4 startup-only coverage missed this bug.

@@ -40,6 +40,8 @@ before the generic explicit passthrough branch. Keep the generic explicit branch
 without a drop list. Do not put this rule at the shared root: drop lists accumulate
 through parent/child targets and could remove reasoning for other models too.
 Re-check the current management configuration before applying any candidate.
+Treat each drop list as part of its model target: changing the default model also
+requires reviewing its compatibility rule.
 
 The webhook receives `provider`, `requestType`, metadata and the merged request
 JSON. The handler omits request headers from its body. Different hooks may execute

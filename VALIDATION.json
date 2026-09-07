@@ -1,109 +1,107 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "date": "2026-09-07",
-  "product_version": "0.1.0-alpha.4",
-  "scope": "Linux x86-64 workspace-key pilot; Keycloak and macOS deferred by owner",
-  "status": "validated_linux_pilot_binary",
+  "product_version": "0.1.0-alpha.5",
+  "scope": "Owner interactive model-switch repair for the standalone Linux workspace-key pilot",
+  "status": "validated_linux_hotfix_binary_owner_revalidation_pending",
+  "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
+  "runtime_source_commit": "ecd263a06",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "rust": "1.95.0",
   "profile": "release; upstream defaults; strip --strip-debug",
-  "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "binary_size_bytes": 315435664,
+  "installed_binary": "/home/cdot/.local/bin/airs-terminal",
   "context_default": 1000000,
-  "focused_product_tests": {
-    "passed": 5151,
-    "skipped": 7
-  },
-  "final_dependency_cli_tests": {
-    "passed": 695,
-    "failed": 0,
-    "skipped": 0
-  },
   "executable_fixtures": {
-    "passed": 17,
+    "passed": 20,
     "failed": 0,
-    "sandbox": "workspace-write",
-    "verified_binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
-    "platforms": [
-      "current Alpine 3.24.1 host",
-      "fresh Alpine 3.24.1 container",
-      "fresh Debian 13 container"
-    ],
-    "container_test_identity": "UID 1000; no effective capabilities; approved user-namespace seccomp profile",
-    "restricted_container_behavior": "doctor fails namespace check; no unrestricted fallback"
+    "verified_binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+    "receipt": "validation/2026-09-07/alpha5/installed-fixtures.log"
+  },
+  "focused_core_tests": {
+    "passed": 23,
+    "failed": 0,
+    "filtered_out": 2414
+  },
+  "tui_tests": {
+    "passed": 4090,
+    "failed": 0,
+    "skipped": 6,
+    "passed_on_retry": 1,
+    "environment": "NO_COLOR removed for color-sensitive tests"
+  },
+  "home_directory_tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "scoped_clippy": "passed: just fix -p codex-core -p codex-tui --lib",
+  "installed_interactive_model_switch": {
+    "passed": true,
+    "completed_turns": 7,
+    "routes": "default -> @openai/gpt-4.1 -> default",
+    "mcp_scans": 3,
+    "independent_calculator_tests": true,
+    "receipt": "validation/2026-09-07/alpha5/installed-interactive-model-switch.json"
+  },
+  "installed_agent_resume": {
+    "passed": true,
+    "local_skill_edit_tests_and_remote_scan": true,
+    "receipt": "validation/2026-09-07/alpha5/installed-live-agent.json"
+  },
+  "self_description_review": {
+    "status": "manually reviewed final artifact replies",
+    "receipt": "validation/2026-09-07/alpha5/installed-interactive-replies.json",
+    "limitation": "Natural-language descriptions are not authoritative model or live MCP health metadata",
+    "review_notes": "Reported local-model and missing-MCP errors are corrected in the replay. Generated prose still includes generalizations; exact routing policy, source languages and connection health must be checked against configuration, files and /mcp."
   },
   "gateway_contract": {
     "passed": true,
     "cases": 20,
-    "receipt": "validation/2026-09-07/gateway-contract.json"
+    "receipt": "validation/2026-09-07/alpha5/gateway-contract.json"
   },
-  "mcp_sessions": {
+  "gateway_or_scanner_deployment_changed": false,
+  "gateway_compatibility_transform": {
+    "status": "investigated and documented; not deployed",
+    "native_drop_params_local_checks": 4,
+    "reference": "administration/request-compatibility.md"
+  },
+  "legacy_configuration_and_owner_history_preserved": true,
+  "live_alpha4_failed_session_upgrade": {
     "passed": true,
-    "cases": 33,
-    "receipt": "validation/2026-09-07/mcp-sessions.json"
+    "receipt": "validation/2026-09-07/alpha5/installed-alpha4-upgrade.json",
+    "stale_reasoning_effort": "medium",
+    "route": "@openai/gpt-4.1"
   },
-  "scanner_image": "registry.cdot.io/airs-terminal/scanner@sha256:1cdaca2ff3134e81ad0ac9661e41557eb49805cab4178352d10b1f46de5f97a3",
-  "infrastructure_commit": "5df8d39",
-  "helm_revision": 32,
+  "previous_release": {
+    "version": "0.1.0-alpha.4",
+    "owner_model_switch_failed": true,
+    "provisional_9_of_10_withdrawn": true,
+    "validation": "validation/2026-09-07/alpha4-validation.json"
+  },
+  "full_workspace_tests": {
+    "status": "unavailable_during_compilation",
+    "reason": "V8 150.4.0 musl prebuilt archive HTTP 404; full suite is not green"
+  },
   "deferred": [
     "Keycloak public-client login and refresh",
     "Individual-user authorization and audit",
     "macOS acceptance",
     "Owned native CI artifact build and signing/attestation"
   ],
-  "full_workspace_tests": {
-    "status": "unavailable_during_compilation",
-    "reason": "V8 150.4.0 musl prebuilt archive HTTP 404; full suite is not green"
-  },
-  "security_audit": {
-    "cargo_vulnerability_entries": 0,
-    "remaining_scc_warning": "2.4.0; absent from Linux CLI normal/build graph",
-    "scanner_npm_production_findings": 0,
-    "scanner_image_findings": {
-      "critical": 0,
-      "high": 0,
-      "medium": 13,
-      "low": 7,
-      "fixable": 0
-    }
-  },
-  "owner_review": "pending",
-  "self_assessment": {
-    "final_result": "See post-publication RELEASE-VERIFICATION.json release asset",
-    "scope": "Linux workspace-key pilot; full team MVP is not claimed complete"
-  },
-  "rust_code_revision": "3a687bfbd71022f50005801fa6bb8fb1f89f7e32",
-  "installed_binary": "/home/cdot/.local/bin/airs-terminal",
-  "binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
-  "binary_size_bytes": 315426760,
-  "legacy_configuration_and_history_preserved": true,
-  "interactive_owner_startup": {
-    "passed": true,
-    "environment": "work",
-    "exported_airs_api_key": false,
-    "receipt": "validation/2026-09-07/installed-interactive.json"
-  },
-  "installed_live_agent": {
-    "passed": true,
-    "routes": [
-      "default",
-      "@openai/gpt-4.1"
-    ],
-    "local_skill_edit_test_scan_and_resume": true,
-    "receipt": "validation/2026-09-07/installed-live-agent.json"
-  },
-  "upgrade_rollback": {
-    "passed": true,
-    "receipt": "validation/2026-09-07/upgrade-rollback.json"
-  },
-  "doctor": {
-    "passed": true,
-    "receipt": "validation/2026-09-07/installed-doctor.json"
-  },
+  "historical_security_audit": "No dependencies or scanner image changed; retained findings are documented in alpha4-validation.json, not represented as a fresh audit",
+  "owner_review": "pending revalidation; full team MVP is not claimed complete",
   "owned_ci": {
     "workflow": "airs-terminal-release-check.yml",
-    "scope": "published archive verification and scanner checks; not a native CI build",
-    "final_result": "See post-publication RELEASE-VERIFICATION.json release asset"
+    "scope": "published archive verification and scanner checks, not a native build",
+    "final_result": "See RELEASE-VERIFICATION.json release asset"
   },
-  "publication_verification": "Recorded after archive publication in RELEASE-VERIFICATION.json release asset"
+  "publication_verification": "Recorded after publication in RELEASE-VERIFICATION.json release asset",
+  "upgrade_installation": {
+    "owner_files_preserved": 10,
+    "existing_processes_stopped": false,
+    "rollback_version": "0.1.0-alpha.4",
+    "receipt": "validation/2026-09-07/alpha5/installation.json"
+  }
 }

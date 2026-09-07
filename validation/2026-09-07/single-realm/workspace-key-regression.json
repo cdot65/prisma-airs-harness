@@ -1,0 +1,319 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "case": "default_omits_model",
+      "passed": true,
+      "status": 200,
+      "expected_status": 200,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "response_id": "resp_0ccc28875c48b9bb006a9ec1d865ac87d1a52bf3ecf836f339",
+      "error": null,
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": true,
+          "action": "allow",
+          "scan_id": "4c80353f-7231-479d-ab64-71305e2d34ec",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        },
+        {
+          "phase": "after_request_hooks",
+          "verdict": true,
+          "action": "allow",
+          "scan_id": "86177b03-3c5c-460d-ada2-7a6913e2a96a",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "explicit_model",
+      "passed": true,
+      "status": 200,
+      "expected_status": 200,
+      "root_model_present": true,
+      "requested_model": "@openai/gpt-4.1",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "response_id": "resp_044240a04808a438006a9ec1d9b10487d19828e98813b57136",
+      "error": null,
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": true,
+          "action": null,
+          "scan_id": null,
+          "profile_id": null
+        },
+        {
+          "phase": "before_request_hooks",
+          "verdict": true,
+          "action": "allow",
+          "scan_id": "c77f6d29-71de-4ab8-af31-973afc8a8023",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        },
+        {
+          "phase": "after_request_hooks",
+          "verdict": true,
+          "action": "allow",
+          "scan_id": "322d1b74-fde7-4ce1-9d79-3c7fbfab4700",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "null_model_rejected",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": true,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "empty_model_rejected",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": true,
+      "requested_model": "",
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "legacy_alias_rejected",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": true,
+      "requested_model": "ai-gateway",
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "wrong_key",
+      "passed": true,
+      "status": 401,
+      "expected_status": 401,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "Portkey Error: Invalid API Key. Error Code: 03",
+        "code": "03"
+      },
+      "scans": []
+    },
+    {
+      "case": "unknown_provider",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": true,
+      "requested_model": "@airs-terminal-nonexistent/model",
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "config_override",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "policy_denial_default",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "The guardrail checks defined in the config failed. You can find more information in the `hook_results` object.",
+        "type": "hooks_failed",
+        "param": null,
+        "code": null
+      },
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": false,
+          "action": "block",
+          "scan_id": "bfbf95fa-d55c-44a2-ad23-456e6b7d0198",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "policy_denial_explicit",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "root_model_present": true,
+      "requested_model": "@openai/gpt-4.1",
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "The guardrail checks defined in the config failed. You can find more information in the `hook_results` object.",
+        "type": "hooks_failed",
+        "param": null,
+        "code": null
+      },
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": true,
+          "action": null,
+          "scan_id": null,
+          "profile_id": null
+        },
+        {
+          "phase": "before_request_hooks",
+          "verdict": false,
+          "action": "block",
+          "scan_id": "bf936335-5382-40c3-ad57-d28343333926",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "provider_header_preserves_policy",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "The guardrail checks defined in the config failed. You can find more information in the `hook_results` object.",
+        "type": "hooks_failed",
+        "param": null,
+        "code": null
+      },
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": false,
+          "action": "block",
+          "scan_id": "ea5880c5-c16b-406e-a832-cfd1aaa8a80e",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "guardrail_header_preserves_policy",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "The guardrail checks defined in the config failed. You can find more information in the `hook_results` object.",
+        "type": "hooks_failed",
+        "param": null,
+        "code": null
+      },
+      "scans": [
+        {
+          "phase": "before_request_hooks",
+          "verdict": false,
+          "action": "block",
+          "scan_id": "deecc1fc-049e-4287-9e4e-9efa6ae2538e",
+          "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
+        }
+      ]
+    },
+    {
+      "case": "invalid_provider_key_header",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "invalid_config_id",
+      "passed": true,
+      "status": 400,
+      "expected_status": 400,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": null,
+      "scans": []
+    },
+    {
+      "case": "mcp_key_cannot_infer",
+      "passed": true,
+      "status": 403,
+      "expected_status": 403,
+      "root_model_present": false,
+      "requested_model": null,
+      "resolved_model": null,
+      "response_id": null,
+      "error": {
+        "message": "Portkey Error: Forbidden!. Error Code: 033",
+        "code": "033"
+      },
+      "scans": []
+    },
+    {
+      "case": "inference_key_cannot_invoke_mcp",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "case": "mcp_initialize",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "case": "mcp_catalog_restricted",
+      "status": 200,
+      "tools": [
+        "pan_inline_scan"
+      ],
+      "passed": true
+    },
+    {
+      "case": "mcp_forbidden_tool",
+      "status": 200,
+      "error": {
+        "code": -32602,
+        "message": "Tool 'pan_batch_scan' is disabled"
+      },
+      "passed": true
+    },
+    {
+      "case": "mcp_wrong_key",
+      "status": 401,
+      "passed": true
+    }
+  ]
+}

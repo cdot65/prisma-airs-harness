@@ -1,0 +1,16 @@
+{
+  "checked_at_epoch": 1788789313,
+  "realm": "truffles",
+  "gateway_jwks_url": "https://auth.dev.cdot.io/realms/truffles/protocol/openid-connect/certs",
+  "client": "airs-terminal-pilot",
+  "pilot_enabled": false,
+  "group_path": "/stacks/airs-terminal/users",
+  "group_members": 0,
+  "role_users": 0,
+  "refresh_settings": {
+    "revokeRefreshToken": false,
+    "refreshTokenMaxReuse": 0
+  },
+  "infrastructure_commit": "a6b7199",
+  "identity_release_complete": false
+}

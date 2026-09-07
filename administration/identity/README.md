@@ -7,6 +7,10 @@ continues using its working workspace credential. No teammate has been granted
 the pilot role; synthetic acceptance users are deleted after every run. The
 pilot client is disabled between operator acceptance runs.
 
+The owner requires one realm and one JWKS endpoint. The accepted implementation
+stays in the existing `truffles` stack; see the [single-realm decision](boundary-proposal.md).
+The earlier new-realm/credential-translation proposal is rejected.
+
 ## Deployed foundation
 
 | Resource | Value |
@@ -15,6 +19,7 @@ pilot client is disabled between operator acceptance runs.
 | Public client | `airs-terminal-pilot` |
 | Client UUID | `32a46109-1ed6-450b-b3cc-be5a54666953` |
 | Required client role | `terminal-user` |
+| Access group | `/stacks/airs-terminal/users` (currently empty) |
 | Inference audience | `airs-terminal-inference` |
 | AIRS workspace | `f4aca25e-fe23-4cae-bca7-91f8f3c78594` / `ws-prisma-ff3d74` |
 | Routing default | `774fed74-6cc0-419d-8f71-54442f748e88` / `pc-termin-943065` |
@@ -68,12 +73,12 @@ uv run --script scripts/validate_keycloak_pilot.py \
 
 The fixture requires an initially disabled pilot with no role members, enables
 it for the run, then disables it during cleanup. It creates two synthetic users,
-grants only one the client role, verifies
+joins only one to the stack access group, verifies
 OIDC signatures/issuer/audience/state/nonce, and deletes both users in `finally`.
 It exercises gateway scans, config/header spoof attempts, PKCE rejection, device
 approval, refresh, role removal and logout. No passwords, codes, refresh tokens,
 access tokens or admin tokens enter its receipt. The checked-in result is
-`validation/2026-09-07/identity/public-client.json`.
+`validation/2026-09-07/single-realm/public-client.json`.
 
 This is an operator protocol test, not a browser UI automation suite or installed
 CLI acceptance. Two signed subjects are verified; correlation to persisted AIRS
@@ -84,8 +89,10 @@ Two rollout gates remain:
 
 - **Refresh replay succeeds.** Keycloak 26.2.4's shared `truffles` realm has
   `revokeRefreshToken=false`. The fixture deliberately reports failure when the
-  old refresh token is accepted. Do not enable realm-wide rotation without
-  assessing the other applications that share this realm.
+  old refresh token is accepted. The controlled realm-wide rotation trial tested
+  all 15 browser-capable clients: normal refresh passed, but rapid replay still
+  succeeded for 13. The rollout restored `revokeRefreshToken=false`. The
+  single-realm decision records the failing evidence; this remains a real gate.
 - **Routing configs remain overridable.** Mandatory workspace identity/scanner
   hooks survive inline replacement, including explicit empty hook arrays. This
   repairs the scanner-policy bypass, but does not meet strict routing-config
@@ -113,8 +120,8 @@ work around the SDK discrepancy.
 
 ## Next implementation stages
 
-1. Resolve strict gateway enforcement and refresh replay using the decision in
-   [the identity boundary proposal](boundary-proposal.md). Retest raw requests
+1. Resolve strict gateway enforcement and refresh replay within the existing stack as described in
+   [the single-realm decision](boundary-proposal.md). Retest raw requests
    before granting users access.
 2. Add isolated Rust OIDC modules using a maintained OIDC library: discovery
    validation, browser S256/state/nonce, verified ID-token subject and access-token

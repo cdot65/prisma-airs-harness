@@ -266,10 +266,15 @@ def main():
             )
             user = admin("/users?exact=true&username=" + username)[0]
             users.append({"id": user["id"], "username": username, "password": password})
-        grant_path = (
-            "/users/" + users[0]["id"] + "/role-mappings/clients/" + client["id"]
+        group = admin("/group-by-path/stacks/airs-terminal/users")
+        mapped = admin(
+            "/groups/" + group["id"] + "/role-mappings/clients/" + client["id"]
         )
-        admin(grant_path, "POST", [role])
+        assert [r["id"] for r in mapped] == [role["id"]], (
+            "Unexpected stack role mapping"
+        )
+        grant_path = "/users/" + users[0]["id"] + "/groups/" + group["id"]
+        admin(grant_path, "PUT")
         approved, approved_claims = code_login(users[0])
         denied, denied_claims = code_login(users[1])
         record(
@@ -428,7 +433,10 @@ def main():
         record(
             "refresh_reuse_denied", replay.status_code == 400, status=replay.status_code
         )
-        admin(grant_path, "DELETE", [role])
+        # Replay detection detaches the compromised client session. Use a fresh
+        # browser login to test role removal independently of that revocation.
+        refreshed, _ = code_login(users[0])
+        admin(grant_path, "DELETE")
         revoked = token_request(
             {
                 "client_id": client_name,

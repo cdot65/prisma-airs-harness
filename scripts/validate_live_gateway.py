@@ -7,10 +7,10 @@ It never executes local tools or changes gateway configuration.
 
 import argparse
 import json
-from pathlib import Path
 import urllib.error
 import urllib.request
 import uuid
+from pathlib import Path
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -200,7 +200,7 @@ def main():
         }
     )
     session = {
-        "Mcp-Session-Id": value
+        name: value
         for name, value in headers.items()
         if name.lower() == "mcp-session-id"
     }
@@ -255,6 +255,7 @@ def main():
     receipts.append(
         {"case": "mcp_wrong_key", "status": status, "passed": status == 401}
     )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(
             {"passed": all(r["passed"] for r in receipts), "checks": receipts}, indent=2

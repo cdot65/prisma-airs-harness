@@ -1,0 +1,56 @@
+name: AIRS Terminal native identity
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'codex-rs/airs-identity/**'
+      - 'codex-rs/keyring-store/**'
+      - 'scripts/validate_native_credentials.py'
+      - '.github/workflows/airs-terminal-identity.yml'
+permissions:
+  contents: read
+concurrency:
+  group: airs-terminal-identity-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  native-store:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
+      - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532 # v2.62.49
+        with:
+          tool: just@1.51.0,cargo-nextest
+      - name: Linux native store prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install -y dbus-x11 gnome-keyring libssl-dev pkg-config
+      - name: Verify identity and interrupted credential writes
+        run: just test -p codex-airs-identity --locked
+      - name: Build native persistence fixture
+        working-directory: codex-rs
+        run: cargo build --locked -p codex-airs-identity --example store_acceptance
+      - name: Exercise separate native credential-store processes
+        shell: bash
+        run: |
+          binary=codex-rs/target/debug/examples/store_acceptance
+          if [ "$RUNNER_OS" = Windows ]; then binary="$binary.exe"; fi
+          python scripts/validate_native_credentials.py --binary "$binary" --output native-store.json
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        if: always()
+        with:
+          name: airs-terminal-native-identity-${{ matrix.os }}
+          path: native-store.json
+          if-no-files-found: warn
+          retention-days: 30

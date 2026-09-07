@@ -1,0 +1,14 @@
+{
+  "image": "registry.cdot.io/airs-terminal/scanner:0.1.0-alpha.6",
+  "digest": "sha256:d5c08c37b73d15b680c013d5293e2782604b9410a1c184e8c9864025da123c6c",
+  "base": "gcr.io/distroless/nodejs22-debian13:nonroot@sha256:4e4fb0ce55fd73901600796ef079a9490369d2515d7da31633a91608c82ca13b",
+  "source_revision": "841e2bf19095aa601ad8bbd352463e6628a9f4d6",
+  "source_sha256": {
+    "mcp-scanner/src/server.ts": "1f3e76270f0753f2a5ca6162881fe47bbbd4125cc43be0074d7758ddb8ea639d",
+    "mcp-scanner/src/main.ts": "add8e9cd65264eb4869637b4a26b6abe23468a498988f38364d03cbc1a425882",
+    "mcp-scanner/package-lock.json": "bf64e8916c200104980d66d99274224f8028077d071ba95b7d364a8a07eb07c1",
+    "mcp-scanner/dist/server.js": "a349fb29d5e1eb5b42687d2d837caf79c90bbae33acf97ee8eb8e540c3f9d890",
+    "mcp-scanner/dist/main.js": "e9b5a3cc4f643b529d2a7ed1d31e43a3bd129476b752942242482ffab009d64c"
+  },
+  "build": "tsc then locked production-only dependency install; no native modules; OCI layer on pinned distroless Node 22"
+}

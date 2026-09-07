@@ -10,6 +10,7 @@ import argparse, base64, hashlib, importlib.util, json, os, re, secrets, select,
 from pathlib import Path
 from urllib.parse import urlsplit, urljoin
 import requests
+from collections import Counter
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--binary", type=Path, required=True)
@@ -270,6 +271,13 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                                 "diagnostic": "inference-tool-catalog",
                                 "tools": catalog,
                                 "has_model_key": "model" in obj,
+                                "parallel_tool_calls": obj.get("parallel_tool_calls"),
+                                "input_types": dict(
+                                    Counter(
+                                        i.get("type", i.get("role"))
+                                        for i in obj.get("input", [])
+                                    )
+                                ),
                             }
                         ),
                         flush=True,
@@ -285,6 +293,38 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                         headers=headers,
                         timeout=120,
                         allow_redirects=False,
+                    )
+                    response_events = []
+                    for line in r.text.splitlines():
+                        if line.startswith("data: "):
+                            try:
+                                event = json.loads(line[6:])
+                            except ValueError:
+                                continue
+                            if event.get("type") == "response.output_item.done":
+                                item = event.get("item", {})
+                                response_events.append(
+                                    {
+                                        "type": item.get("type"),
+                                        "name": item.get("name"),
+                                        "call_id": item.get("call_id"),
+                                    }
+                                )
+                    print(
+                        json.dumps(
+                            {
+                                "diagnostic": "response-items",
+                                "status": r.status_code,
+                                "item_count": len(response_events),
+                                "item_types": dict(
+                                    Counter(
+                                        i.get("name") or i.get("type")
+                                        for i in response_events
+                                    )
+                                ),
+                            }
+                        ),
+                        flush=True,
                     )
                     self.send_response(r.status_code)
                     self.send_header(

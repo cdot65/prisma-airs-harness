@@ -94,3 +94,6 @@ jobs:
           node-version: 22.23.2
       - name: Test provider-scoped JSON compatibility
         run: node --test gateway-compatibility/server.test.mjs
+
+      - name: Test original JWT inference and MCP policy
+        run: node --test gateway-identity/*.test.mjs

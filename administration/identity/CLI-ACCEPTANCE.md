@@ -12,7 +12,12 @@ refresh validation helper, operator Kubernetes access, the built Linux binary,
 `uv`, a session D-Bus, and `gnome-keyring-daemon`. The client itself does not require these operator dependencies.
 No management OAuth credential or scanner-permission update is needed for this
 fixture. The full mode additionally keeps a TUI open across access-token expiry
-and requires successful inference and MCP calls in that same process.
+and requires successful inference and MCP calls in that same process. Its 26
+checks include empty MCP inventories and a four-command budget for the simple
+file task. The budget is an acceptance check, not a general runtime command cap.
+`--observe-tools` is an optional diagnostic relay that records only tool names,
+item counts and model-key presence; final release acceptance uses the direct
+TLS endpoints without this relay.
 `--credentials-only` is a narrower diagnostic mode and cannot certify agent/MCP
 execution. Receipt success requires every phase to finish and records the binary
 SHA-256; an interrupted run never becomes a passing receipt.

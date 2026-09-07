@@ -15,7 +15,25 @@
     "Scanner returns empty resources and template inventories; native gateway previously returned internal errors for unsupported discovery",
     "JWT filter permits authenticated inventory while denying resource content, subscriptions and nonallowlisted tools",
     "Simple acceptance task requests at most four shell commands and now fails if this is exceeded",
-    "Full acceptance includes the same interactive terminal after access-token expiry"
+    "Full acceptance includes the same interactive terminal after access-token expiry",
+    "Client requests serial tool calls for gateway routes whose resolved model capabilities are unknown"
   ],
-  "status": "Awaiting final bounded-task validation; no claim of universal model-quality guarantees"
+  "status": "Serial diagnostic passed; rebuilding client and repeating unmodified release acceptance",
+  "discovery_fix_followup": {
+    "shell_commands": 50,
+    "bounded_gate_passed": false
+  },
+  "observed_parallel_response": {
+    "tool_calls_in_first_response": 105,
+    "request_parallel_tool_calls": true,
+    "aborted_after_reproducing": true
+  },
+  "serial_diagnostic": {
+    "shell_commands": 4,
+    "checks_passed": 26,
+    "request_override": {
+      "parallel_tool_calls": false
+    },
+    "not_release_acceptance": true
+  }
 }

@@ -22,8 +22,10 @@ byte. The bearer credential helper is normalized into the native guardrail's
 
 The two listeners (8887 inference, 8888 MCP) forward only to fixed loopback
 backends (8787/8788). Existing non-Terminal credentials retain the native gateway
-path, including MCP streams and websocket upgrades. Terminal MCP is denied until
-its separate resource authorization is configured. Request bodies are bounded to
+path, including MCP streams and websocket upgrades. Terminal MCP requires its
+separate client, audience, scope and role in the same Keycloak realm. Only
+`pan_inline_scan` is allowed. Authenticated resource and template discovery return
+empty inventories; resource reads, subscriptions and other tools are denied. Request bodies are bounded to
 16 MiB, with eight concurrent Terminal requests per replica. Tokens, prompts and
 responses are never logged by this filter.
 
@@ -34,7 +36,7 @@ such as `kubectl port-forward` is outside the teammate threat boundary. Ordinary
 workload network traffic must not reach those ports. The rollout tested both
 replicas from another pod and retained the public Service/LoadBalancer ports.
 
-Run `node --test gateway-identity/server.test.mjs`. Tests use a recording backend
+Run `node --test gateway-identity/*.test.mjs`. Tests use a recording backend
 to verify pre-forward denials, exact body/token preservation, bounded bodies,
 SSE delivery/cancellation, duplicate credentials and shared-stack websockets.
 Live artifacts are in `validation/2026-09-07/auth-release/`. The Keycloak

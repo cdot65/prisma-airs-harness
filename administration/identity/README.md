@@ -2,8 +2,9 @@
 
 The alpha.6 candidate implements public-client authentication and role-based
 inference/MCP authorization in a dedicated AIRS workspace. Its live native-client
-acceptance passed; optimized artifact acceptance and user-audit correlation remain
-open. The installed version 0.1.0-alpha.5 still uses its working workspace credential. No teammate has been granted
+acceptance passed, and persisted input/output security logs were correlated to
+three signed user subjects. A bounded agent-task check exposed excessive parallel
+tool calls; the serial-request client fix is being rebuilt and revalidated. The installed version 0.1.0-alpha.5 still uses its working workspace credential. No teammate has been granted
 the pilot role; synthetic acceptance users are deleted after every run. The
 pilot client is disabled between operator acceptance runs.
 
@@ -81,8 +82,10 @@ access tokens or admin tokens enter its receipt. The checked-in result is
 `validation/2026-09-07/single-realm/public-client.json`.
 
 This is an operator protocol test, not a browser UI automation suite or installed
-CLI acceptance. Two signed subjects are verified; correlation to persisted AIRS
-telemetry is still required before claiming end-to-end user audit attribution.
+CLI acceptance. Three signed subjects are correlated to persisted AIRS input/output security
+scans, including a caller metadata spoofing attempt; see
+`validation/2026-09-07/auth-release/persisted-security-audit.json`.
+This does not certify the separate management usage/cost dashboard.
 MCP now has a separate resource/client/scope and its own native user login,
 validated by the newer CLI acceptance fixture.
 
@@ -103,12 +106,15 @@ The initial refresh and routing findings below have been resolved on the server:
   scope, role and inference-isolation checks are recorded in
   `validation/2026-09-07/auth-release/mcp-jwt-acceptance.json`.
 
-Live deployment: identity-filter v0.1.1, digest
-`sha256:98c3fa682331624ba201fb18f339675a97150060f8628409fbf561a6aea3ef8e`.
+Live deployment: identity-filter v0.1.2, digest
+`sha256:95e107a971240226c245e8727ad0ec6020bc888613007c619665dfa01c6ad993`.
 The Terminal scanner endpoint is
 `https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp`.
-Only `pan_inline_scan` is enabled. Clients remain disabled and the isolated
-server's default user access remains denied until packaged-client acceptance.
+Only `pan_inline_scan` is enabled. Resource and template inventories are empty;
+resource content and subscriptions are denied. Clients remain disabled pending
+final packaged-client acceptance. The scanner's existing default-user-access
+setting is unchanged; actual user JWT authorization works without toggling it.
+The JWT filter and native AIRS verification enforce resource permissions.
 No broad teammate role grants have been made.
 
 Role removal denies the next freshly issued access token. Existing access JWTs

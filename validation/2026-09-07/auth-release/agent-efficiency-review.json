@@ -18,7 +18,7 @@
     "Full acceptance includes the same interactive terminal after access-token expiry",
     "Client requests serial tool calls for gateway routes whose resolved model capabilities are unknown"
   ],
-  "status": "Serial diagnostic passed; rebuilding client and repeating unmodified release acceptance",
+  "status": "Direct candidate and installed client passed; no claim of a universal model-quality guarantee",
   "discovery_fix_followup": {
     "shell_commands": 50,
     "bounded_gate_passed": false
@@ -35,5 +35,16 @@
       "parallel_tool_calls": false
     },
     "not_release_acceptance": true
+  },
+  "final_direct_candidate": {
+    "checks_passed": 27,
+    "shell_commands": 2,
+    "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+    "diagnostic_relay_used": false
+  },
+  "final_installed": {
+    "checks_passed": 27,
+    "shell_commands": 4,
+    "diagnostic_relay_used": false
   }
 }

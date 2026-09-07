@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-09-07T20:07:44.725644+00:00",
+  "passed": true,
+  "subject": "f06a5191-6a46-45e9-aff9-145e7d4a3404",
+  "username": "cdot",
+  "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+  "clients": [
+    {
+      "client": "airs-terminal-pilot",
+      "group": "/stacks/airs-terminal/users",
+      "role": "terminal-user"
+    },
+    {
+      "client": "airs-terminal-mcp",
+      "group": "/stacks/airs-terminal/scanner-users",
+      "role": "scanner-user"
+    }
+  ],
+  "owner_only": true,
+  "rollback_errors": []
+}

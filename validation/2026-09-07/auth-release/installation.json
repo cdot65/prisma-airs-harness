@@ -1,0 +1,12 @@
+{
+  "installed_at": "2026-09-07T20:01:42.897690+00:00",
+  "passed": true,
+  "version": "airs-terminal 0.1.0-alpha.6",
+  "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+  "previous_binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "owner_persistent_state_files_preserved": 5589,
+  "temporary_arg0_helpers_regenerated": true,
+  "atomic_replace": true,
+  "rollback_binary_retained": true,
+  "installed_live_acceptance": "passed: 27 checks"
+}

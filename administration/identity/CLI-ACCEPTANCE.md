@@ -4,23 +4,24 @@ The installed client must pass the actual Keycloak/gateway flow before enabling
 standing user access. `scripts/validate_auth_cli.py` is a deployment-specific
 operator fixture. It creates two disposable users, temporarily enables the two
 Terminal clients, tests native credential storage, and restores disabled clients
-and scanner default-deny access in `finally`. Do not run concurrently with other
+in `finally`. It uses the deployed scanner access policy unchanged. Do not run concurrently with other
 fixtures or against enabled clients with standing grants.
 
 Prerequisites are the reviewed `talos-cluster` checkout containing the Terminal
 refresh validation helper, operator Kubernetes access, the built Linux binary,
-`uv`, a session D-Bus, and `gnome-keyring-daemon`. The `--management-module` is an
-operator-owned ES module exporting an authenticated Prisma AIRS SDK client as
-`gw`. It should read management credentials from the operator's protected CLI
-configuration; do not embed tokens in source or command arguments. The client
-itself does not require any of these operator dependencies.
+`uv`, a session D-Bus, and `gnome-keyring-daemon`. The client itself does not require these operator dependencies.
+No management OAuth credential or scanner-permission update is needed for this
+fixture. The full mode additionally keeps a TUI open across access-token expiry
+and requires successful inference and MCP calls in that same process.
+`--credentials-only` is a narrower diagnostic mode and cannot certify agent/MCP
+execution. Receipt success requires every phase to finish and records the binary
+SHA-256; an interrupted run never becomes a passing receipt.
 
 ```sh
 umask 077
 dbus-run-session -- uv run --locked scripts/validate_auth_cli.py \
   --binary /absolute/path/to/airs-terminal \
   --infrastructure-root /absolute/path/to/talos-cluster \
-  --management-module /absolute/path/to/operator-management.mjs \
   --output /private/cli-oidc-acceptance.json
 ```
 
@@ -43,3 +44,11 @@ That test uses disposable values and needs no IdP or gateway credentials. Linux
 starts an isolated Secret Service session; macOS and Windows use a random account
 in the current user's unlocked native store. All three native jobs passed in
 [run 34147583219](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219).
+
+Persisted attribution is independently verified through the existing AIRS
+security-log export, including both input and output scans and a caller metadata
+spoofing attempt. The read-only `scripts/verify_persisted_airs_audit.py` requires a
+local Elasticsearch port-forward and reads the operator credential in memory.
+It emits only known synthetic subject/trace/scan IDs and verdicts. It does not
+certify the management usage/cost dashboard; that API currently has a separate
+cluster egress timeout.

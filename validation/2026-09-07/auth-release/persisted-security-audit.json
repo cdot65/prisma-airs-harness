@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-09-07T18:38:19.045432+00:00",
+  "passed": true,
+  "source": "Existing AIRS security-log export persisted in Elasticsearch airs-logs-*",
+  "attribution_field": "AIApplicationUserName",
+  "correlation_field": "SessionID",
+  "scope": "Signed-user attribution in persisted input/output security scans; does not certify the management usage/cost dashboard",
+  "checks": [
+    {
+      "subject": "18d47328-abe5-490e-9dbd-d5e4c92cefe2",
+      "trace_id": "24ec0636-9532-4555-ae36-42bef883f3c2",
+      "passed": true,
+      "persisted_records": 10,
+      "scan_ids": [
+        "4e1d3d6a-53a9-499a-a5a0-c5ef5e72287f",
+        "8fb940f6-3828-4f99-8560-ba177592b35d"
+      ],
+      "both_input_and_output_observed": true
+    },
+    {
+      "subject": "d33acd86-d564-4753-8a36-f6b0a774c5d6",
+      "trace_id": "10f6e298-3985-413d-be38-a983aa5cce7d",
+      "passed": true,
+      "persisted_records": 10,
+      "scan_ids": [
+        "0c624c9b-16e1-4626-85ad-2f5a37296ab0",
+        "9d5ac534-c757-4bf6-8fea-c95790092217"
+      ],
+      "both_input_and_output_observed": true
+    },
+    {
+      "subject": "f4ee17af-0060-494f-940d-ff820f5a3599",
+      "trace_id": "a2027b7e-4874-4993-8233-b760eedd8a55",
+      "case": "body-metadata-spoof",
+      "passed": true,
+      "persisted_records": 10,
+      "scan_ids": [
+        "230bd4f9-ab7f-4c01-a52d-1d901015e2ac",
+        "b0db09fd-76ad-467d-95ce-225f24354af7"
+      ],
+      "both_input_and_output_observed": true
+    }
+  ]
+}

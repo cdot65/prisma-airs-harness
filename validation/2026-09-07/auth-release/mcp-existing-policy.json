@@ -1,0 +1,76 @@
+{
+  "checks": [
+    {
+      "test": "authorized-initialize",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "authorized-tools-list",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "only-inline-tool",
+      "passed": true,
+      "tools": [
+        "pan_inline_scan"
+      ]
+    },
+    {
+      "test": "authorized-inline-scan",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "scan-evidence",
+      "passed": true,
+      "scans": [
+        {
+          "action": "allow",
+          "scan_id": "0c6ed8fb-1795-4411-908a-94f9fcefbb73"
+        }
+      ],
+      "tool_error": false
+    },
+    {
+      "test": "wrong-audience",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "test": "wrong-client",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "test": "missing-role",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "test": "missing-scope",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "test": "invalid-signature",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "mcp-token-cannot-infer",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "test": "removed-role-denied",
+      "status": 403,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "fixtures_removed": true,
+  "client_disabled": true,
+  "server_access": "unchanged"
+}

@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {
+      "test": "body-metadata-spoof",
+      "status": 200,
+      "passed": true,
+      "subject": "f4ee17af-0060-494f-940d-ff820f5a3599",
+      "trace_id": "a2027b7e-4874-4993-8233-b760eedd8a55"
+    },
+    {
+      "test": "header-metadata-spoof",
+      "status": 403,
+      "passed": true,
+      "subject": "f4ee17af-0060-494f-940d-ff820f5a3599",
+      "trace_id": "0f0a3057-d57b-4c77-b0d6-5336c0201dae"
+    }
+  ],
+  "fixtures_removed": true
+}

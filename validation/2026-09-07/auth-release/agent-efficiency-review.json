@@ -1,0 +1,21 @@
+{
+  "assessment": "Functional success alone did not satisfy the new bounded-task acceptance gate",
+  "earlier_successful_attempt": {
+    "shell_commands": 6,
+    "mcp_scans": 1
+  },
+  "reviewed_outlier": {
+    "shell_commands": 836,
+    "unique_commands": 49,
+    "forbidden_resource_discovery_calls": 1,
+    "actual_successful_scan_id": "ed9b5a0b-8804-4c6d-b1f7-6391533fd221"
+  },
+  "earlier_timeout_seconds": 180,
+  "changes": [
+    "Scanner returns empty resources and template inventories; native gateway previously returned internal errors for unsupported discovery",
+    "JWT filter permits authenticated inventory while denying resource content, subscriptions and nonallowlisted tools",
+    "Simple acceptance task requests at most four shell commands and now fails if this is exceeded",
+    "Full acceptance includes the same interactive terminal after access-token expiry"
+  ],
+  "status": "Awaiting final bounded-task validation; no claim of universal model-quality guarantees"
+}

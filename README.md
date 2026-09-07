@@ -1,107 +1,198 @@
 # Prisma AIRS Terminal
 
-A standalone terminal agent derived from the open-source Codex Rust CLI. The
-`airs-terminal` executable connects directly to a user-configured Prisma AIRS AI
-Gateway. Files, shell commands, skills, approvals and sessions use the local agent
-runtime. Selected file contents and tool results are sent to the gateway as
-inference context.
+A standalone local terminal agent derived from the open-source Codex Rust CLI.
+Inference goes directly to a configurable Prisma AIRS AI Gateway. Files, shell
+commands, skills, approvals and session history stay under the local runtime;
+selected file contents and tool results become inference context. Remote MCP
+servers are configured and authenticated separately.
 
-**There is no PAH package, SDK, proxy, web application or service dependency.**
+The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## Status: 0.1.0-alpha.3 protocol prototype
+## 0.1.0-alpha.4 — Linux workspace-key pilot
 
-Implemented: independent application state, gateway setup, workspace credential
-references, local capability catalog, optional-model Responses serialization,
-qualified route validation and redirect rejection. A deterministic test exercises
-the built agent, a local file edit, and the tool-result continuation for both
-routing modes.
+This release adds named environments, endpoint-bound credential references,
+secure-store login, separate MCP credentials, local diagnostics, product UI and
+session revision checks. Live validation covers default/explicit Responses
+routing, local edits and tests, skills, scanner calls, policy denial, cancellation,
+resume and compaction. See [RELEASE.md](RELEASE.md) for the exact release evidence
+and remaining acceptance gates.
 
-User state lives in `~/.airs-terminal` (or `AIRS_TERMINAL_HOME`). Trusted
-project configuration uses `.airs-terminal/config.toml`, including in linked
-worktrees. AIRS Terminal does not discover `.codex` project configuration, so
-starting it from your home directory does not import your Codex model selection.
+Keycloak browser/device login, token refresh and individual-user attribution
+remain deferred. Workspace-key mode identifies a workspace credential. Linux
+x86-64 is the current target; macOS testing is a future milestone.
 
-This is not the completed team MVP. Named environments, OS credential storage,
-Keycloak login/refresh, per-user remote MCP validation, complete product branding
-and installed macOS/Linux acceptance remain open. Live gateway validation is
-blocked by missing access to the new terminal workspace. Read
-[IMPLEMENTATION.md](IMPLEMENTATION.md) before treating this as a release candidate.
+## Download and install on Linux x86-64
 
-## Build and configure
+The release is private; authenticate GitHub CLI with your own repository access.
+On Debian/Ubuntu, install `git`, `ripgrep` and `bubblewrap` with your package manager.
+On Alpine, use `apk add git ripgrep bubblewrap`. Python is needed by the included
+acceptance fixtures, not by the terminal itself. The kernel/container policy must
+permit Bubblewrap's user namespaces; the runtime fails explicitly when it cannot
+establish its sandbox.
 
-For native Mac testing, see [MACOS.md](MACOS.md), including a local protocol test
-that does not need a live gateway key. No verified macOS binary is published yet.
+```sh
+set -e
+gh release download airs-terminal-v0.1.0-alpha.4 \
+  --repo cdot65/prisma-airs-terminal \
+  --pattern 'airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz*' \
+  --dir airs-terminal-download
+cd airs-terminal-download
+sha256sum -c airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz.sha256
+tar -xzf airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz
+cd airs-terminal-0.1.0-alpha.4-linux-x86_64-musl
+sha256sum -c SHA256SUMS > /dev/null
+mkdir -p "$HOME/.local/bin"
+if [ -f "$HOME/.local/bin/airs-terminal" ]; then
+  cp -p "$HOME/.local/bin/airs-terminal" "$HOME/.local/bin/airs-terminal.previous"
+fi
+install -m 755 airs-terminal "$HOME/.local/bin/airs-terminal.new"
+mv -f "$HOME/.local/bin/airs-terminal.new" "$HOME/.local/bin/airs-terminal"
+"$HOME/.local/bin/airs-terminal" --version
+```
 
-Rust 1.95.0 is pinned. Read `AGENTS.md` for build prerequisites and test conventions.
+Add `~/.local/bin` to your shell's PATH if necessary. Install is an atomic executable
+replacement; running sessions retain their original process image. Keep the archive
+and checksum for recovery. To roll back, atomically copy the preserved executable
+through another temporary filename in the same directory. Configuration/history
+are preserved, but alpha.3 does not understand alpha.4's named environments; it
+uses the retained legacy application-home state. Stop old sessions before testing
+an upgrade or rollback. The inherited `scripts/install/` scripts install upstream
+Codex and are not this product's installer.
+
+## Set up an environment
+
+```sh
+airs-terminal setup --environment work \
+  --gateway-url https://your-gateway.example/v1 \
+  --model '@openai/gpt-4.1'
+
+# Explicit headless authentication using an existing private file:
+chmod 600 /absolute/path/to/workspace-key
+airs-terminal login --credential-file /absolute/path/to/workspace-key
+
+airs-terminal doctor
+airs-terminal
+```
+
+A bare hostname also works; setup supplies `https://` and `/v1`. The local context
+budget defaults to **1,000,000 tokens**. `--context-window` overrides that budget
+and the generated model capability entries. It cannot increase a provider's real
+limit. Use a separate environment with an appropriate budget for a smaller model.
+
+The default selection **AI Gateway — default** omits the root `model` key in
+initial requests, tool continuations and local compaction requests. The gateway
+chooses its default route. `-m '@provider/model'` or `/model` selects a configured
+explicit entry and preserves that exact qualified route on the wire. The local
+catalog describes capabilities; authorization and policy enforcement belong to
+the gateway.
+
+Setup does not overwrite an environment. Each environment has an independent
+UUID directory containing its configuration, model catalog, MCP state and history.
+
+```sh
+airs-terminal env list
+airs-terminal env use work
+airs-terminal env show work
+airs-terminal --environment work exec 'Inspect this project and run its tests.'
+airs-terminal --environment work resume
+```
+
+State lives in `~/.airs-terminal`, or the absolute directory selected by
+`AIRS_TERMINAL_HOME`. Trusted project configuration uses `.airs-terminal/config.toml`.
+The application does not change `HOME` or `CODEX_HOME`, and does not discover
+`.codex` project settings. Endpoint, credential, capability and MCP settings must
+come from the selected environment; project/profile/CLI overrides are rejected.
+
+## Credentials and recovery
+
+Choose one authentication source:
+
+- `login --credential-file PATH` references an existing owner-only regular file.
+  The application stores the path and a credential fingerprint, without copying
+  the key into configuration. Symlinks and public files are rejected.
+- `login --credential-env NAME` references a variable supplied by your secret
+  manager. Its value is excluded from local tool subprocess environments.
+- Pipe a workspace key into `login --with-api-key` to use the OS credential store.
+  An unavailable store produces an error; there is no automatic plaintext fallback.
+
+`status` performs local checks. `doctor --json` additionally makes a bounded,
+unauthenticated API-root `/health` request (for example `/v1/health`) to the selected gateway and checks local tool
+availability and, on Linux, actual Bubblewrap namespace creation. It does not
+submit inference, and distinguishes local availability from remote authorization.
+
+`logout` and interactive `/logout` disable new inference and MCP credential use
+in the selected environment until login. Referenced key files and external
+variables remain owned by the user. Stop other running sessions to discard their
+cached credentials. Revoke workspace keys through AIRS when server-side revocation
+is needed.
+
+The first agent startup pins the environment's destination, credential identity,
+capability catalog, context budget and MCP configuration. A changed key, catalog
+or MCP binding requires a new
+environment, so existing history cannot silently move to a different identity or
+capability revision. Model choices within the pinned catalog remain selectable.
+A running process keeps its environment even when another process changes the
+default. Resume instructions include the environment name.
+
+## Remote MCP
+
+Configure MCP before the environment's first agent session. Use a separately
+authorized MCP credential and the complete MCP server endpoint:
+
+```sh
+airs-terminal setup-mcp --name security \
+  --url https://tools.example/workspace/security/mcp \
+  --credential-file /absolute/path/to/mcp-key \
+  --tool pan_inline_scan --required
+
+airs-terminal mcp list
+```
+
+Inference credential helpers use `Authorization: Bearer …`. The AIRS MCP helper
+uses `x-portkey-api-key`; these are distinct bindings. MCP setup stores a private
+reference and supplies the header through the existing MCP helper mechanism.
+Changed destinations, changed keys and removed bindings fail closed. `/mcp` shows
+tool availability. `--tool` limits the local catalog; configure server-side
+permissions too. `--required` makes an unavailable server a startup error.
+
+Local files and skills are accessed with local tools. Place a skill's `SKILL.md`
+in `.agents/skills/<name>/` in a project, or the selected environment's `skills`
+directory. Invoke it with `$name`. Use `/compact` to summarize a long thread,
+Escape to interrupt a turn, and `resume` to continue persisted work.
+
+## Build and validate
+
+Rust 1.95.0 is pinned. Read [AGENTS.md](AGENTS.md) for prerequisites and conventions.
+The Linux runtime needs a usable shell and ordinary project tools such as Git and
+ripgrep; Linux also needs Bubblewrap (`bwrap`). The sandbox preserves kernel/filesystem/network restrictions; it does
+not automatically fall back to unrestricted execution.
 
 ```sh
 cd codex-rs
-cargo build --locked -p codex-cli --bin airs-terminal
-./target/debug/airs-terminal --version
-./target/debug/airs-terminal setup --help
+cargo build --locked --release -p codex-cli --bin airs-terminal
+./target/release/airs-terminal --version
 ```
 
-Setup requires your HTTPS inference API root (including any `/v1` prefix). The
-workspace key comes from `AIRS_API_KEY` by default; `--credential-env` changes its
-environment-variable name. The local context budget defaults to **1,000,000
-tokens**; `--context-window` overrides it. This client setting does not increase
-the actual gateway or provider context limit:
+From the repository root, executable fixtures use Python's standard library:
 
 ```sh
-airs-terminal setup \
-  --gateway-url https://your-gateway.example/v1 \
-  --credential-env AIRS_API_KEY \
-  --model '@your-provider/your-model'
+AIRS_TERMINAL_BIN=codex-rs/target/release/airs-terminal \
+  python3 -m unittest discover -s scripts -p 'test_airs_terminal*.py' -v
 ```
 
-Supply the key through your secret manager or shell environment, then run
-`airs-terminal` inside a local repository. Use `airs-terminal exec "your task"`
-for noninteractive operation. Never put a real key in a command argument or a
-configuration file. Setup stores only its environment-variable reference and
-excludes that variable from local tool environments; login-shell loading is
-disabled in the generated configuration.
-
-The default selection, `airs-gateway-default`, refers to local capabilities and
-**omits the root `model` field** in inference requests. An explicit `-m
-'@provider/model'` preserves that exact route. Gateway policies and authorization
-must govern both choices; the local model list is not an access-control boundary.
-
-State is stored in `~/.airs-terminal`, or the absolute directory specified by
-`AIRS_TERMINAL_HOME`. This does not change `HOME` or `CODEX_HOME`. Setup refuses to
-overwrite existing configuration. An unconfigured terminal fails with a setup
-instruction instead of selecting the upstream OpenAI provider.
-
-Some inherited screens and help still say Codex. The separate upstream `codex`
-binary is retained for compatibility tests and is not the product entry point.
-Upstream login, cloud, remote-control, app-server and update commands are disabled
-in this prototype.
-
-## Validation
-
-Use `just test` for Rust tests. The actual-executable protocol test needs only
-Python's standard library and the built binary:
-
-```sh
-python3 -m unittest discover -s scripts -p test_airs_terminal.py -v
-```
-
-It uses a loopback Responses server and a fixed shell command in temporary test
-directories. Its default is the `workspace-write` sandbox. On a host unable to
-run Bubblewrap, `AIRS_TERMINAL_TEST_SANDBOX=danger-full-access` allows protocol-only
-validation of these fixed test fixtures. That result does **not** establish
-sandbox acceptance. Do not use that setting to work around sandbox failures for
-ordinary agent tasks. Current host limitations and test receipts are recorded in
-[IMPLEMENTATION.md](IMPLEMENTATION.md).
+Rust checks use `just test`. The live contract probe is
+`scripts/validate_live_gateway.py --help`; it reads explicit credential files,
+submits small acceptance fixtures, and writes a redacted result. See
+[RELEASE.md](RELEASE.md) for platform-specific test limitations and install receipts.
 
 ## Upstream and license
 
-Pinned baseline: Codex `rust-v0.153.4`, commit
-`3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`. Internal upstream crate names and
-versions are preserved for reviewable updates. The release tag's stale lockfile
-required normalizing 149 workspace versions; external resolutions are unchanged.
-See [BASELINE.json](BASELINE.json) and [UPSTREAM.md](UPSTREAM.md).
+Pinned upstream: Codex `rust-v0.153.4`, commit
+`3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`. Internal crate names and versions stay
+unchanged for reviewable upstream updates. See [BASELINE.json](BASELINE.json) and
+[UPSTREAM.md](UPSTREAM.md) for the fork boundary.
 
-Codex-derived code remains Apache-2.0. Preserve [LICENSE](LICENSE),
-[NOTICE](NOTICE), dependency notices and upstream history. The product does not
-imply OpenAI endorsement. The original introduction is retained as
-[README.upstream.md](README.upstream.md).
+Codex-derived code remains Apache-2.0. Preserve [LICENSE](LICENSE), [NOTICE](NOTICE),
+dependency notices and upstream history. The product does not imply OpenAI
+endorsement. [README.upstream.md](README.upstream.md) preserves the original intro;
+[IMPLEMENTATION.md](IMPLEMENTATION.md) records historical prototype work.

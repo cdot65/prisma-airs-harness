@@ -1,66 +1,68 @@
 {
+  "schema_version": 2,
   "date": "2026-09-07",
-  "product_version": "0.1.0-alpha.3",
-  "source_code_commit": "f05584b2db6460ff9678e716d81f046a45a98f18",
+  "product_version": "0.1.0-alpha.4",
+  "scope": "Linux x86-64 workspace-key pilot; Keycloak and macOS deferred by owner",
+  "status": "final_optimized_artifact_validation_in_progress",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
-  "profile": "dev; debug=0; incremental=false",
   "rust": "1.95.0",
-  "installed_binary": "/home/cdot/.local/bin/airs-terminal",
-  "binary_sha256": "be154f51498d2da765bbe114640d508ad74f3337e2b641f1d5b501fc2624b173",
-  "executable_integration": {
-    "passed": 9,
-    "failed": 0,
-    "sandbox": "danger-full-access; deterministic local fixtures only",
-    "command": "AIRS_TERMINAL_TEST_SANDBOX=danger-full-access python3 -m unittest discover -s scripts -p test_airs_terminal.py -v"
+  "profile": "release; upstream defaults; strip --strip-debug",
+  "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
+  "source_code_commit": "3a687bfbd",
+  "context_default": 1000000,
+  "focused_product_tests": {
+    "passed": 5151,
+    "skipped": 7
   },
-  "routing_and_header_tests": {
-    "passed": 31,
+  "final_dependency_cli_tests": {
+    "passed": 695,
     "failed": 0,
     "skipped": 0
   },
-  "focused_regression": {
-    "passed": 886,
-    "failed": 3,
-    "skipped": 0,
-    "note": "Run before final credential/state review; final changes covered by focused routing and executable tests. All three failures were Bubblewrap /proc mount restrictions."
+  "executable_fixtures": {
+    "passed": 17,
+    "final_artifact_pending": true
   },
+  "gateway_contract": {
+    "passed": true,
+    "cases": 19,
+    "receipt": "validation/2026-09-07/gateway-contract.json"
+  },
+  "mcp_sessions": {
+    "passed": true,
+    "cases": 33,
+    "receipt": "validation/2026-09-07/mcp-sessions.json"
+  },
+  "scanner_image": "registry.cdot.io/airs-terminal/scanner@sha256:1cdaca2ff3134e81ad0ac9661e41557eb49805cab4178352d10b1f46de5f97a3",
+  "infrastructure_commit": "5df8d39",
+  "helm_revision": 32,
+  "deferred": [
+    "Keycloak public-client login and refresh",
+    "Individual-user authorization and audit",
+    "macOS acceptance",
+    "Owned native CI artifact build and signing/attestation"
+  ],
   "full_workspace_tests": {
-    "status": "blocked_during_compilation",
-    "reason": "V8 150.4.0 musl prebuilt archive HTTP 404"
+    "status": "unavailable_during_compilation",
+    "reason": "V8 150.4.0 musl prebuilt archive HTTP 404; full suite is not green"
   },
-  "live_gateway": {
-    "status": "blocked",
-    "workspace_id": "f4aca25e-fe23-4cae-bca7-91f8f3c78594",
-    "scope": "ws_airs_terminal",
-    "reason": "Provider creation returned HTTP 403 / AB03"
+  "security_audit": {
+    "cargo_vulnerability_entries": 0,
+    "remaining_scc_warning": "2.4.0; absent from Linux CLI normal/build graph",
+    "scanner_npm_production_findings": 0,
+    "scanner_image_findings": {
+      "critical": 0,
+      "high": 0,
+      "medium": 13,
+      "low": 7,
+      "fixable": 0
+    }
   },
-  "production_ready": false,
-  "remote_publication": "not published; local Git repository only",
-  "version_output": "airs-terminal 0.1.0-alpha.3",
-  "archive": "codex-rs/target/airs-terminal-0.1.0-alpha.3-linux-x86_64-musl.tar.gz",
-  "installed_binary_verification": {
-    "passed": 9,
-    "failed": 0,
-    "binary_sha256_matches_build": true
-  },
-  "clippy": "passed: cargo clippy --locked -p codex-config --all-targets",
-  "format_check": "passed",
-  "bazel_metadata": "passed with host-only musl Cargo override; no lockfile drift",
-  "setup_tests": {
-    "passed": 10,
-    "failed": 0,
-    "skipped": 534,
-    "command": "just test -p codex-cli --bin airs-terminal --bin codex -E 'test(airs_terminal::tests)'"
-  },
-  "context_default": 1000000,
-  "historical_checks": "routing_and_header_tests, focused_regression and full_workspace_tests describe alpha.1; setup_tests describe alpha.2. Alpha.3 reran config tests, executable integration against build and installed binary, formatting, scoped Clippy and Bazel dependency metadata.",
-  "config_tests": {
-    "passed": 284,
-    "failed": 0,
-    "skipped": 0,
-    "command": "just test -p codex-config"
-  },
-  "interactive_startup": "Passed PTY check with trusted conflicting .codex config; gateway route displayed",
-  "home_directory_startup": "Passed route validation from /home/cdot with gateway credential removed; reached expected missing-credential check without inference"
+  "owner_review": "pending",
+  "self_assessment": {
+    "score": 8,
+    "of": 10,
+    "status": "pre-release; exact artifact/publication pending"
+  }
 }

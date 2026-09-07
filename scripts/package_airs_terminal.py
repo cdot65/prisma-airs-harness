@@ -81,6 +81,7 @@ def main():
             "RELEASE.md",
             "UPSTREAM.md",
             "BASELINE.json",
+            "VALIDATION.json",
         ]:
             shutil.copy2(repo / filename, root / filename)
         rust_sysroot = Path(

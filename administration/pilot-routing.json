@@ -1,0 +1,53 @@
+{
+  "strategy": {
+    "mode": "conditional",
+    "conditions": [
+      {
+        "query": {
+          "$or": [
+            {
+              "params.model": {
+                "$eq": null
+              }
+            },
+            {
+              "params.model": {
+                "$eq": ""
+              }
+            },
+            {
+              "params.model": {
+                "$regex": "^(?!undefined$).+"
+              }
+            }
+          ]
+        },
+        "then": "explicit"
+      }
+    ],
+    "default": "gateway-default"
+  },
+  "targets": [
+    {
+      "name": "gateway-default",
+      "provider": "@openai",
+      "override_params": {
+        "model": "gpt-4.1"
+      }
+    },
+    {
+      "name": "explicit",
+      "passthrough": true
+    }
+  ],
+  "input_guardrails": [
+    "pg-prisma-ff3021"
+  ],
+  "output_guardrails": [
+    "pg-prisma-ff3021"
+  ],
+  "retry": {
+    "attempts": 0
+  },
+  "request_timeout": 120000
+}

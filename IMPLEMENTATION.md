@@ -1,3 +1,7 @@
+> Historical record for alpha.1–alpha.3. The active alpha.4 release, current
+> gateway validation and remaining scope are documented in [RELEASE.md](RELEASE.md).
+> Earlier access blockers below were superseded by the owner-authorized workspace-key pilot.
+
 # Implementation and evidence
 
 Updated: 2026-09-07. This is a protocol-prototype receipt, **not a completed-MVP or

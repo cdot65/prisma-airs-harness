@@ -1,81 +1,98 @@
-<p align="center"><strong>Codex CLI</strong> is a coding agent from OpenAI that runs locally on your computer.
-<p align="center">
-  <img src="https://github.com/openai/codex/blob/main/.github/codex-cli-splash.png" alt="Codex CLI splash" width="80%" />
-</p>
-</br>
-If you want Codex in your code editor (VS Code, Cursor, Windsurf), <a href="https://developers.openai.com/codex/ide">install in your IDE.</a>
-</br>If you want the desktop app experience, run <code>codex app</code> or visit <a href="https://chatgpt.com/codex?app-landing-page=true">the Codex App page</a>.
-</br>If you are looking for the <em>cloud-based agent</em> from OpenAI, <strong>Codex Web</strong>, go to <a href="https://chatgpt.com/codex">chatgpt.com/codex</a>.</p>
+# Prisma AIRS Terminal
 
----
+A standalone terminal agent derived from the open-source Codex Rust CLI. The
+`airs-terminal` executable connects directly to a user-configured Prisma AIRS AI
+Gateway. Files, shell commands, skills, approvals and sessions use the local agent
+runtime. Selected file contents and tool results are sent to the gateway as
+inference context.
 
-## Quickstart
+**There is no PAH package, SDK, proxy, web application or service dependency.**
 
-### Installing and running Codex CLI
+## Status: 0.1.0-alpha.1 protocol prototype
 
-Run the following on Mac or Linux to install Codex CLI:
+Implemented: independent application state, gateway setup, workspace credential
+references, local capability catalog, optional-model Responses serialization,
+qualified route validation and redirect rejection. A deterministic test exercises
+the built agent, a local file edit, and the tool-result continuation for both
+routing modes.
 
-```shell
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+This is not the completed team MVP. Named environments, OS credential storage,
+Keycloak login/refresh, per-user remote MCP validation, complete product branding
+and installed macOS/Linux acceptance remain open. Live gateway validation is
+blocked by missing access to the new terminal workspace. Read
+[IMPLEMENTATION.md](IMPLEMENTATION.md) before treating this as a release candidate.
+
+## Build and configure
+
+Rust 1.95.0 is pinned. Read `AGENTS.md` for build prerequisites and test conventions.
+
+```sh
+cd codex-rs
+cargo build --locked -p codex-cli --bin airs-terminal
+./target/debug/airs-terminal --version
+./target/debug/airs-terminal setup --help
 ```
 
-Run the following on Windows to install Codex CLI:
+Setup requires your HTTPS inference API root (including any `/v1` prefix), the
+**name** of an environment variable supplying a workspace key, and an
+administrator-confirmed context limit valid for every selected route:
 
-```shell
-powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```sh
+airs-terminal setup \
+  --gateway-url https://your-gateway.example/v1 \
+  --credential-env AIRS_API_KEY \
+  --context-window "$AIRS_CONTEXT_WINDOW" \
+  --model '@your-provider/your-model'
 ```
 
-The standalone installers download from `https://releases.openai.com/codex` by default and fall back to GitHub Releases if a metadata or asset download is unavailable. To force GitHub Releases, set `CODEX_INSTALLER_USE_RELEASES_OPENAI_COM` to `false` (`0` and `no` are also accepted):
+Supply the key through your secret manager or shell environment, then run
+`airs-terminal` inside a local repository. Use `airs-terminal exec "your task"`
+for noninteractive operation. Never put a real key in a command argument or a
+configuration file. Setup stores only its environment-variable reference and
+excludes that variable from local tool environments; login-shell loading is
+disabled in the generated configuration.
 
-```shell
-curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_INSTALLER_USE_RELEASES_OPENAI_COM=false sh
+The default selection, `airs-gateway-default`, refers to local capabilities and
+**omits the root `model` field** in inference requests. An explicit `-m
+'@provider/model'` preserves that exact route. Gateway policies and authorization
+must govern both choices; the local model list is not an access-control boundary.
+
+State is stored in `~/.airs-terminal`, or the absolute directory specified by
+`AIRS_TERMINAL_HOME`. This does not change `HOME` or `CODEX_HOME`. Setup refuses to
+overwrite existing configuration. An unconfigured terminal fails with a setup
+instruction instead of selecting the upstream OpenAI provider.
+
+Some inherited screens and help still say Codex. The separate upstream `codex`
+binary is retained for compatibility tests and is not the product entry point.
+Upstream login, cloud, remote-control, app-server and update commands are disabled
+in this prototype.
+
+## Validation
+
+Use `just test` for Rust tests. The actual-executable protocol test needs only
+Python's standard library and the built binary:
+
+```sh
+python3 -m unittest discover -s scripts -p test_airs_terminal.py -v
 ```
 
-```powershell
-$env:CODEX_INSTALLER_USE_RELEASES_OPENAI_COM='false'; irm https://chatgpt.com/codex/install.ps1 | iex
-```
+It uses a loopback Responses server and a fixed shell command in temporary test
+directories. Its default is the `workspace-write` sandbox. On a host unable to
+run Bubblewrap, `AIRS_TERMINAL_TEST_SANDBOX=danger-full-access` allows protocol-only
+validation of these fixed test fixtures. That result does **not** establish
+sandbox acceptance. Do not use that setting to work around sandbox failures for
+ordinary agent tasks. Current host limitations and test receipts are recorded in
+[IMPLEMENTATION.md](IMPLEMENTATION.md).
 
-Codex CLI can also be installed via the following package managers:
+## Upstream and license
 
-```shell
-# Install using npm
-npm install -g @openai/codex
-```
+Pinned baseline: Codex `rust-v0.153.4`, commit
+`3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`. Internal upstream crate names and
+versions are preserved for reviewable updates. The release tag's stale lockfile
+required normalizing 149 workspace versions; external resolutions are unchanged.
+See [BASELINE.json](BASELINE.json) and [UPSTREAM.md](UPSTREAM.md).
 
-```shell
-# Install using Homebrew
-brew install --cask codex
-```
-
-Then simply run `codex` to get started.
-
-<details>
-<summary>You can also go to the <a href="https://github.com/openai/codex/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
-
-Each GitHub Release contains many executables, but in practice, you likely want one of these:
-
-- macOS
-  - Apple Silicon/arm64: `codex-aarch64-apple-darwin.tar.gz`
-  - x86_64 (older Mac hardware): `codex-x86_64-apple-darwin.tar.gz`
-- Linux
-  - x86_64: `codex-x86_64-unknown-linux-musl.tar.gz`
-  - arm64: `codex-aarch64-unknown-linux-musl.tar.gz`
-
-Each archive contains a single entry with the platform baked into the name (e.g., `codex-x86_64-unknown-linux-musl`), so you likely want to rename it to `codex` after extracting it.
-
-</details>
-
-### Using Codex with your ChatGPT plan
-
-Run `codex` and select **Sign in with ChatGPT**. We recommend signing into your ChatGPT account to use Codex as part of your Plus, Pro, Business, Edu, or Enterprise plan. [Learn more about what's included in your ChatGPT plan](https://help.openai.com/en/articles/11369540-codex-in-chatgpt).
-
-You can also use Codex with an API key, but this requires [additional setup](https://developers.openai.com/codex/auth#sign-in-with-an-api-key).
-
-## Docs
-
-- [**Codex Documentation**](https://developers.openai.com/codex)
-- [**Contributing**](./docs/contributing.md)
-- [**Installing & building**](./docs/install.md)
-- [**Open source fund**](./docs/open-source-fund.md)
-
-This repository is licensed under the [Apache-2.0 License](LICENSE).
+Codex-derived code remains Apache-2.0. Preserve [LICENSE](LICENSE),
+[NOTICE](NOTICE), dependency notices and upstream history. The product does not
+imply OpenAI endorsement. The original introduction is retained as
+[README.upstream.md](README.upstream.md).

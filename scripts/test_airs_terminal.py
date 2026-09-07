@@ -103,7 +103,7 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-terminal",
                 "title": "Prisma AIRS Terminal",
-                "version": "0.1.0-alpha.5",
+                "version": "0.1.0-alpha.6",
             },
         )
         self.assertTrue(
@@ -116,7 +116,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.5")
+            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.6")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")

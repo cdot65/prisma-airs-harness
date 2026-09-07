@@ -1,0 +1,141 @@
+{
+  "checked_at": "2026-09-07T12:25:57.312589+00:00",
+  "purpose": "gateway JWT prerequisites; isolated temporary confidential probe, not terminal user login",
+  "client_removed": true,
+  "cases": [
+    {
+      "case": "valid_bound_default",
+      "status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": "resp_021853727a9e6254006a9ead54083887d19f886f7df127b1c9",
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-ab068b",
+            "verdict": true,
+            "scan_ids": [
+              null
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      },
+      "hook_checks": [
+        {
+          "verdict": true,
+          "id": "pg-termin-ab068b",
+          "transformed": false,
+          "checks": [
+            {
+              "data": {
+                "verdict": true,
+                "explanation": "JWT token validation succeeded",
+                "validations": {
+                  "signatureValid": true,
+                  "requiredClaims": {
+                    "valid": true
+                  },
+                  "claimValues": {
+                    "valid": true
+                  }
+                }
+              },
+              "verdict": true,
+              "id": "default.jwt",
+              "execution_time": 88,
+              "transformed": false,
+              "created_at": "2026-09-07T12:25:55.828Z",
+              "log": null,
+              "fail_on_error": true
+            }
+          ],
+          "feedback": null,
+          "execution_time": 88,
+          "async": false,
+          "type": "guardrail",
+          "created_at": "2026-09-07T12:25:55.828Z",
+          "deny": false,
+          "softDeny200": false
+        }
+      ]
+    },
+    {
+      "case": "wrong_resource_audience",
+      "status": 446,
+      "expected_status": 403,
+      "passed": false,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "unrelated-api",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": null,
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-ab068b",
+            "verdict": false,
+            "scan_ids": [
+              null
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      },
+      "hook_checks": [
+        {
+          "verdict": false,
+          "id": "pg-termin-ab068b",
+          "transformed": false,
+          "checks": [
+            {
+              "data": {
+                "verdict": false,
+                "explanation": "JWT validation failed: Invalid claim values: aud",
+                "validations": {
+                  "signatureValid": true,
+                  "requiredClaims": {
+                    "valid": true
+                  },
+                  "claimValues": {
+                    "valid": false,
+                    "failed": [
+                      "aud"
+                    ]
+                  }
+                }
+              },
+              "verdict": false,
+              "id": "default.jwt",
+              "execution_time": 1,
+              "transformed": false,
+              "created_at": "2026-09-07T12:25:57.228Z",
+              "log": null,
+              "fail_on_error": true
+            }
+          ],
+          "feedback": null,
+          "execution_time": 1,
+          "async": false,
+          "type": "guardrail",
+          "created_at": "2026-09-07T12:25:57.228Z",
+          "deny": true,
+          "softDeny200": false
+        }
+      ]
+    }
+  ],
+  "passed": false
+}

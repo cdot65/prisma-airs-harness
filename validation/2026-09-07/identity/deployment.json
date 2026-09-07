@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-07T12:55:08.466Z",
+  "workspace": {
+    "id": "f4aca25e-fe23-4cae-bca7-91f8f3c78594",
+    "slug": "ws-prisma-ff3d74",
+    "scope_name": "ws_airs_terminal",
+    "defaults": {
+      "metadata": {
+        "purpose": "Standalone AIRS terminal protocol pilot",
+        "team_id": "platform",
+        "lifecycle": "active",
+        "managed_by": "manual",
+        "criticality": "high",
+        "environment": "harness",
+        "consumer_type": "automation",
+        "workspace_class": "harness",
+        "data_classification": "confidential"
+      },
+      "input_guardrails": [
+        "f432b9ec-7325-40d9-a37b-84e3e3c9d844",
+        "796dbf51-36a7-400f-a410-c85dcaae5347",
+        "2464a0ab-66e0-42c6-9e68-d00eb9bec9b5"
+      ],
+      "output_guardrails": [
+        "2464a0ab-66e0-42c6-9e68-d00eb9bec9b5"
+      ]
+    }
+  },
+  "routing": {
+    "id": "774fed74-6cc0-419d-8f71-54442f748e88",
+    "slug": "pc-termin-943065",
+    "version_id": "7209222f-6165-4290-8911-722e0ec6c5ea"
+  },
+  "identity_guardrail": {
+    "id": "f432b9ec-7325-40d9-a37b-84e3e3c9d844",
+    "slug": "pg-termin-da0e73",
+    "version_id": "eb4806b7-8761-40fc-9dca-6824a939d1ac"
+  },
+  "scm_scope": "ws_airs_terminal:1852583913",
+  "scm_access_policy": "27d7ce85-433d-489e-b80a-b18f686496c3",
+  "conjur": "prepared; not activated",
+  "installed_binary": "0.1.0-alpha.5 unchanged",
+  "teammate_rollout": false,
+  "raw_probe_resources_removed": true
+}

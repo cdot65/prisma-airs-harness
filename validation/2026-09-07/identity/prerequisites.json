@@ -1,0 +1,153 @@
+{
+  "checked_at": "2026-09-07T11:47:40.817087+00:00",
+  "purpose": "gateway JWT prerequisites; isolated temporary confidential probe, not terminal user login",
+  "client_removed": true,
+  "cases": [
+    {
+      "case": "valid_bound_default",
+      "status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": "resp_0576a51704fa7191006a9ea4575cc487d185f6e3e5e9474ddc",
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "946bd075-c7a9-49b9-ab24-e9baaba6bd24"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "id": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "baf0b3f9-c0bb-4494-856f-be76666e9338"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "wrong_resource_audience",
+      "status": 200,
+      "expected_status": 403,
+      "passed": false,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "unrelated-api",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": "resp_067dea1fb4ba0a13006a9ea4592b9087d196f1decc9cbb2233",
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "9965b1ed-0bcd-41a4-a61d-27820c8282cd"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "id": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "23b5f089-7a8c-410e-8dec-8f138299a686"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "inline_config_override",
+      "status": 200,
+      "expected_status": 400,
+      "passed": false,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": "resp_04939a1ab56542fc006a9ea45a632487d1acbf71cd348e920e",
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "missing_default_config",
+      "status": 200,
+      "expected_status": 403,
+      "passed": false,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": false,
+      "response_id": "resp_06c8361fac3db54b006a9ea45b676087d1a7c5396dad767634",
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "invalid_default_config",
+      "status": 400,
+      "expected_status": 400,
+      "passed": true,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "completions.write",
+        "logs.write"
+      ],
+      "config_claim_present": true,
+      "response_id": null,
+      "error_code": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "missing_inference_scope",
+      "status": 403,
+      "expected_status": 403,
+      "passed": true,
+      "issuer": "https://auth.dev.cdot.io/realms/truffles",
+      "audience": "airs-terminal-inference",
+      "scopes": [
+        "mcp.invoke"
+      ],
+      "config_claim_present": true,
+      "response_id": null,
+      "error_code": "033",
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    }
+  ],
+  "passed": false
+}

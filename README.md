@@ -15,7 +15,8 @@ secure-store login, separate MCP credentials, local diagnostics, product UI and
 session revision checks. Live validation covers default/explicit Responses
 routing, local edits and tests, skills, scanner calls, policy denial, cancellation,
 resume and compaction. See [RELEASE.md](RELEASE.md) for the exact release evidence
-and remaining acceptance gates.
+and remaining acceptance gates. The release's `RELEASE-VERIFICATION.json` asset
+contains post-publication verification and the final self-assessment.
 
 Keycloak browser/device login, token refresh and individual-user attribution
 remain deferred. Workspace-key mode identifies a workspace credential. Linux

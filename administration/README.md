@@ -96,3 +96,9 @@ retries; do not blindly replay an uncertain remote mutation.
 Keycloak public-client login, refresh and distinct-user audit evidence remain
 unfinished under the owner's explicit workspace-key fallback. Do not label this
 pilot a completed team identity implementation.
+
+Private pre-cutover MCP and Helm configurations are preserved by the operator in
+`~/.local/share/airs-terminal/operator-recovery/2026-09-07/` with directory mode
+0700 and file mode 0600. These contain credentials and must never be attached to
+issues or copied into this repository. The rejected untagged scanner image
+candidates were removed from Harbor; the final digest remains available.

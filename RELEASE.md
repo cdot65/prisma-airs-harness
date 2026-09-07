@@ -1,7 +1,9 @@
 # 0.1.0-alpha.4 — Linux workspace-key pilot
 
-Final artifact verification is in progress. This release targets the owner's
-explicit Linux workspace-key fallback. Keycloak browser/device login, refresh,
+This release targets the owner's explicit Linux workspace-key fallback.
+VALIDATION.json records the packaged binary's local verification. The separate
+`RELEASE-VERIFICATION.json` release asset records publication checks, independent
+CI results and the final self-assessment after the archive is published. Keycloak browser/device login, refresh,
 individual-user authorization and macOS acceptance remain separate milestones.
 The complete original team MVP is not claimed complete.
 
@@ -124,8 +126,8 @@ report transient errors without silently retrying them into a pass.
 The earlier **8/10** assessment identified incomplete artifact delivery and unstable
 hosted MCP. Improvements replaced the failing backend session dependency, hardened
 the scanner image, patched audited Rust dependencies, fixed the actual health
-endpoint and added clean-container and executable checks. Final assessment remains
-pending until the exact installed/archive binary and published assets are verified.
+endpoint and added clean-container and executable checks. The final assessment is recorded in the post-publication
+`RELEASE-VERIFICATION.json` asset after the exact archive and independent CI checks.
 
 A final score applies only to the authorized Linux workspace-key pilot. Keycloak,
 individual-user audit, macOS, owned CI/attestation and complete upstream workspace

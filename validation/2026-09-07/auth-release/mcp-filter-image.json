@@ -1,0 +1,12 @@
+{
+  "image": "registry.cdot.io/airs-terminal/identity-filter:0.1.1",
+  "digest": "sha256:98c3fa682331624ba201fb18f339675a97150060f8628409fbf561a6aea3ef8e",
+  "base": "gcr.io/distroless/nodejs22-debian13:nonroot@sha256:4e4fb0ce55fd73901600796ef079a9490369d2515d7da31633a91608c82ca13b",
+  "source_revision": "83b885746207ffdf2dd03320c5fbaa910c6af21e",
+  "source_sha256": {
+    "gateway-identity/server.mjs": "48f279b9e3ea1e7868b05d9311a8e0ad60f448462eed4cdc1ecb9c9ca21d80f9",
+    "gateway-identity/mcp-policy.mjs": "a350e4ed81b5ad54e4e570cc7ac88a91ccbd55338f62a49cc5d8b636ee61bb1a",
+    "LICENSE": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+    "NOTICE": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+  }
+}

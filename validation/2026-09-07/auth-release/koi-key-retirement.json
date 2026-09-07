@@ -1,0 +1,31 @@
+{
+  "retired": true,
+  "passed": true,
+  "checks": [
+    {
+      "phase": "before",
+      "signed_response_verified": true,
+      "callback_preserved": true,
+      "external_application_contacted": false
+    },
+    {
+      "phase": "after",
+      "signed_response_verified": true,
+      "callback_preserved": true,
+      "external_application_contacted": false
+    }
+  ],
+  "realm_metadata_sha256": "df31feb7d73a78bd00502bce0b29233b3315a523ba3ae580d842bf1de7a04644",
+  "retired_client_certificate_sha256": "617489fb976bec9eb08bcb9d49b0e7dbe67ce4782c4ebe3b52b7c82b22d06909",
+  "synthetic_user_removed": true,
+  "client_request_signature_validation": false,
+  "client_response_encryption": false,
+  "key_is_distinct_from_published_realm_signing_keys": true,
+  "client_uuid": "8f0c46b4-c337-4c93-80dd-b4e48b045a0e",
+  "removed_attributes": [
+    "saml.signing.private.key",
+    "saml.signing.certificate",
+    "saml.signing.public.key"
+  ],
+  "scope": "Unused Keycloak client key material retired; signed IdP response verified before and after. External Koi application was not contacted."
+}

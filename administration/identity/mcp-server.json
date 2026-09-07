@@ -1,0 +1,9 @@
+{
+  "workspace_id": "f4aca25e-fe23-4cae-bca7-91f8f3c78594",
+  "integration_id": "a4efedaa-4137-4d49-85a9-6fc8776318a1",
+  "server_id": "1a3dcdd1-7c1e-473a-b7c4-ec78720bd0cc",
+  "slug": "airs-terminal-runtime-scanner",
+  "default_user_access": "deny",
+  "tool": "pan_inline_scan",
+  "endpoint": "https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp"
+}

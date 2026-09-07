@@ -83,7 +83,10 @@ def main():
     skill.mkdir(parents=True)
     (skill / "SKILL.md").write_text(
         "---\nname: review-calculator\ndescription: Verify small calculator changes.\n---\n"
-        "Read both Python files. Preserve addition behavior. Add requested functionality "
+        "The project files calculator.py and test_calculator.py are in the current "
+        "working directory, not in this skill directory. Read those two files. "
+        "Preserve addition behavior and leave unrelated files and caches alone. "
+        "Add requested functionality "
         "and regression tests. Run python3 -m unittest -v and correct failures.\n"
     )
     registry = json.loads((root / "state/environments.json").read_text())

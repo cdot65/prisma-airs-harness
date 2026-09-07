@@ -1,15 +1,15 @@
 {
   "date": "2026-09-07",
-  "product_version": "0.1.0-alpha.2",
-  "source_code_commit": "3653478a2e1c3831a1da53fd0d705c0b0e1be7c7",
+  "product_version": "0.1.0-alpha.3",
+  "source_code_commit": "f05584b2db6460ff9678e716d81f046a45a98f18",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "profile": "dev; debug=0; incremental=false",
   "rust": "1.95.0",
   "installed_binary": "/home/cdot/.local/bin/airs-terminal",
-  "binary_sha256": "d725ee82f11cc0ac021342b756188f3a37a6d8ef0e27cbb4141327285ad8d620",
+  "binary_sha256": "be154f51498d2da765bbe114640d508ad74f3337e2b641f1d5b501fc2624b173",
   "executable_integration": {
-    "passed": 7,
+    "passed": 9,
     "failed": 0,
     "sandbox": "danger-full-access; deterministic local fixtures only",
     "command": "AIRS_TERMINAL_TEST_SANDBOX=danger-full-access python3 -m unittest discover -s scripts -p test_airs_terminal.py -v"
@@ -37,14 +37,14 @@
   },
   "production_ready": false,
   "remote_publication": "not published; local Git repository only",
-  "version_output": "airs-terminal 0.1.0-alpha.2",
-  "archive": "codex-rs/target/airs-terminal-0.1.0-alpha.2-linux-x86_64-musl.tar.gz",
+  "version_output": "airs-terminal 0.1.0-alpha.3",
+  "archive": "codex-rs/target/airs-terminal-0.1.0-alpha.3-linux-x86_64-musl.tar.gz",
   "installed_binary_verification": {
-    "passed": 7,
+    "passed": 9,
     "failed": 0,
     "binary_sha256_matches_build": true
   },
-  "clippy": "passed; one pre-existing unused-import warning in core/tests/suite/openai_file_mcp.rs",
+  "clippy": "passed: cargo clippy --locked -p codex-config --all-targets",
   "format_check": "passed",
   "bazel_metadata": "passed with host-only musl Cargo override; no lockfile drift",
   "setup_tests": {
@@ -54,5 +54,13 @@
     "command": "just test -p codex-cli --bin airs-terminal --bin codex -E 'test(airs_terminal::tests)'"
   },
   "context_default": 1000000,
-  "historical_checks": "routing_and_header_tests, focused_regression, full_workspace_tests, clippy and bazel_metadata describe alpha.1 checks; alpha.2 reran setup tests, executable integration against build and installed binary, and formatting."
+  "historical_checks": "routing_and_header_tests, focused_regression and full_workspace_tests describe alpha.1; setup_tests describe alpha.2. Alpha.3 reran config tests, executable integration against build and installed binary, formatting, scoped Clippy and Bazel dependency metadata.",
+  "config_tests": {
+    "passed": 284,
+    "failed": 0,
+    "skipped": 0,
+    "command": "just test -p codex-config"
+  },
+  "interactive_startup": "Passed PTY check with trusted conflicting .codex config; gateway route displayed",
+  "home_directory_startup": "Passed route validation from /home/cdot with gateway credential removed; reached expected missing-credential check without inference"
 }

@@ -1,0 +1,14 @@
+
+  Doctor
+  Prisma AIRS CLI preflight checks
+
+  ✓ Node.js version — v22.23.2 (>= 20 required)
+  ✓ Config file — valid JSON at /home/cdot/.prisma-airs/config.json
+  ✓ Scanner credentials — airsApiKey set (file)
+  ✓ Management credentials — set: mgmtClientId (file), mgmtClientSecret (file), mgmtTsgId (file)
+  ✓ Scanner API — endpoint reachable, API key accepted
+  ✓ Management OAuth — OAuth token obtained, topics API answered (100 custom topics)
+  ✓ AI Gateway API — endpoint reachable (8 workspaces in scope)
+
+  ✓ All checks passed
+

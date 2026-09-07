@@ -132,6 +132,7 @@ def main():
             "validate_native_credentials.py",
             "airs_oidc_interactive.py",
             "verify_persisted_airs_audit.py",
+            "verify_management_airs_audit.mjs",
         ]:
             shutil.copy2(repo / "scripts" / filename, root / "scripts" / filename)
         rust_sysroot = Path(

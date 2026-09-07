@@ -85,7 +85,9 @@ This is an operator protocol test, not a browser UI automation suite or installe
 CLI acceptance. Three signed subjects are correlated to persisted AIRS input/output security
 scans, including a caller metadata spoofing attempt; see
 `validation/2026-09-07/auth-release/persisted-security-audit.json`.
-This does not certify the separate management usage/cost dashboard.
+The management request-telemetry API independently matched these three subjects
+and trace IDs, with successful response status and cost/usage fields, after
+connectivity recovered at 19:30 UTC. See `persisted-management-audit.json`.
 MCP now has a separate resource/client/scope and its own native user login,
 validated by the newer CLI acceptance fixture.
 

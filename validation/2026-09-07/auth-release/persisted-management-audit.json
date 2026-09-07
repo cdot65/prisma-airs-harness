@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-09-07T19:34:45.794Z",
+  "passed": true,
+  "scope": "SCM persisted request telemetry: signed subject, trace, success, cost and usage fields",
+  "checks": [
+    {
+      "subject": "18d47328-abe5-490e-9dbd-d5e4c92cefe2",
+      "trace_id": "24ec0636-9532-4555-ae36-42bef883f3c2",
+      "records": 1,
+      "passed": true,
+      "cost_recorded": true,
+      "usage_recorded": true
+    },
+    {
+      "subject": "d33acd86-d564-4753-8a36-f6b0a774c5d6",
+      "trace_id": "10f6e298-3985-413d-be38-a983aa5cce7d",
+      "records": 1,
+      "passed": true,
+      "cost_recorded": true,
+      "usage_recorded": true
+    },
+    {
+      "subject": "f4ee17af-0060-494f-940d-ff820f5a3599",
+      "trace_id": "a2027b7e-4874-4993-8233-b760eedd8a55",
+      "records": 1,
+      "passed": true,
+      "cost_recorded": true,
+      "usage_recorded": true
+    }
+  ]
+}

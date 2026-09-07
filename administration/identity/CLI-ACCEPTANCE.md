@@ -55,6 +55,25 @@ Persisted attribution is independently verified through the existing AIRS
 security-log export, including both input and output scans and a caller metadata
 spoofing attempt. The read-only `scripts/verify_persisted_airs_audit.py` requires a
 local Elasticsearch port-forward and reads the operator credential in memory.
-It emits only known synthetic subject/trace/scan IDs and verdicts. It does not
-certify the management usage/cost dashboard; that API currently has a separate
-cluster egress timeout.
+It emits only known synthetic subject/trace/scan IDs and verdicts. Management connectivity recovered at 19:30 UTC. A separate SCM request-telemetry
+check matched all three subjects and trace IDs, including the spoofing case,
+with successful response status and populated cost/usage fields. See
+`validation/2026-09-07/auth-release/persisted-management-audit.json`.
+The earlier timeout and unsupported native gateway log-read attempts remain
+historical evidence.
+
+
+For SCM request attribution, `scripts/verify_management_airs_audit.mjs` accepts an
+operator-owned module exporting the authenticated Prisma AIRS SDK client as `gw`.
+The terminal runtime does not depend on this management module or SDK. Supply
+only known synthetic subject/trace pairs, including the metadata-spoofing case:
+
+```sh
+node scripts/verify_management_airs_audit.mjs \
+  --management-module /absolute/private/management.mjs \
+  --expectations validation/2026-09-07/auth-release/audit-expectations.json \
+  --workspace ws-prisma-ff3d74 --output /private/management-audit.json
+```
+
+The check reads exactly those traces and emits only identifiers and validation
+booleans. It does not export prompts, responses, credentials or unrelated users.

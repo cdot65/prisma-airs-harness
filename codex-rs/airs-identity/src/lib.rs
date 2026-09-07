@@ -5,3 +5,7 @@ pub use provider::Provider;
 mod tokens;
 pub use tokens::Identity;
 pub use tokens::Tokens;
+mod browser;
+mod device;
+pub use browser::BrowserLogin;
+pub use device::DeviceLogin;

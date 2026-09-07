@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "workflow_run": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219",
+  "source_commit": "6fb30c7368e9c0984b5e7cc283ab1721d4ca3462",
+  "platforms": [
+    {
+      "artifact": "airs-terminal-native-identity-windows-2025",
+      "receipt": {
+        "passed": true,
+        "platform": "win32",
+        "separate_processes": 3,
+        "cases": [
+          {
+            "passed": true,
+            "phase": "write"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-pend"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-delete"
+          }
+        ]
+      }
+    },
+    {
+      "artifact": "airs-terminal-native-identity-ubuntu-24.04",
+      "receipt": {
+        "passed": true,
+        "platform": "linux",
+        "separate_processes": 3,
+        "cases": [
+          {
+            "passed": true,
+            "phase": "write"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-pend"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-delete"
+          }
+        ]
+      }
+    },
+    {
+      "artifact": "airs-terminal-native-identity-macos-15",
+      "receipt": {
+        "passed": true,
+        "platform": "darwin",
+        "separate_processes": 3,
+        "cases": [
+          {
+            "passed": true,
+            "phase": "write"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-pend"
+          },
+          {
+            "passed": true,
+            "phase": "read-and-delete"
+          }
+        ]
+      }
+    }
+  ]
+}

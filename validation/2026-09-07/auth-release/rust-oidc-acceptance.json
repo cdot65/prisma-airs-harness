@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "synthetic_user_removed": true,
+  "pilot_disabled": true,
+  "cases": [
+    {
+      "audience": "airs-terminal-inference",
+      "case": "rust_oidc_login_refresh_logout",
+      "passed": true,
+      "subject": "023150bf-04de-4665-b485-7b6d055c8b41",
+      "flow": "browser"
+    },
+    {
+      "audience": "airs-terminal-inference",
+      "case": "rust_oidc_login_refresh_logout",
+      "passed": true,
+      "subject": "023150bf-04de-4665-b485-7b6d055c8b41",
+      "flow": "device"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "test": "setup",
+      "passed": true
+    },
+    {
+      "test": "browser-login",
+      "passed": true
+    },
+    {
+      "test": "verified-subject",
+      "passed": true
+    },
+    {
+      "test": "credential-helper",
+      "passed": true
+    },
+    {
+      "test": "original-resource-jwt",
+      "passed": true
+    },
+    {
+      "test": "different-mcp-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "mcp-login",
+      "passed": true
+    },
+    {
+      "test": "mcp-credential-helper",
+      "passed": true
+    },
+    {
+      "test": "separate-mcp-audience",
+      "passed": true
+    },
+    {
+      "test": "exec-local-filesystem",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "test": "exec-remote-mcp",
+      "passed": true,
+      "tool_calls": 4
+    },
+    {
+      "test": "refresh-after-expiry-window",
+      "passed": true
+    },
+    {
+      "test": "refresh-preserves-identity",
+      "passed": true
+    },
+    {
+      "test": "logout",
+      "passed": true
+    },
+    {
+      "test": "logout-disables-both-helpers",
+      "passed": true
+    },
+    {
+      "test": "different-inference-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-user-history-binding",
+      "passed": true
+    },
+    {
+      "test": "mcp-remains-logged-out",
+      "passed": true
+    },
+    {
+      "test": "mcp-device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-mcp-binding",
+      "passed": true
+    },
+    {
+      "test": "final-logout",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true,
+  "clients_disabled": true,
+  "scanner_default_access": "deny",
+  "purpose": "Unoptimized alpha.6 client acceptance; optimized release acceptance remains a separate gate",
+  "scanner_result": {
+    "action": "allow",
+    "scan_id": "aba22d85-ba31-4c6f-961e-f919485cea4a",
+    "profile_name": "Prisma AIRS Terminal"
+  },
+  "binary_sha256": "44c9bda392d8a4c6ccf2035e282c58920743805d9c9fcf3187acc8bbdd0fc5e0"
+}

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "platform": "linux",
+  "separate_processes": 3,
+  "cases": [
+    {
+      "passed": true,
+      "phase": "write"
+    },
+    {
+      "passed": true,
+      "phase": "read-and-pend"
+    },
+    {
+      "passed": true,
+      "phase": "read-and-delete"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "name": "airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz",
+      "sha256": "f72c5b7ed8b61666a5fe9a061e10444b75c8b6533d3a105dc42c78ca2b252550",
+      "passed": true
+    },
+    {
+      "name": "airs-terminal-0.1.0-alpha.7-validation.tar.gz",
+      "sha256": "1f5964f29007737ce4b55771e759cab520c63f852905cab141cc04d22f32637a",
+      "passed": true
+    },
+    {
+      "name": "airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz.sha256",
+      "sha256": "f0aca4c83b7cb666d27c50d622086a8c981297ab0c2eb8d6c9abcc0ed409bd94",
+      "passed": true
+    },
+    {
+      "name": "airs-terminal-0.1.0-alpha.7-validation.tar.gz.sha256",
+      "sha256": "921b38c582d637b1ec2403d0d70dc8cd6edb7d46b7a4e7d36f1db8d6af41b1ec",
+      "passed": true
+    },
+    {
+      "name": "BUILD-INFO.json",
+      "sha256": "48aa9628f6feede4f8ddfb6fc94d45f9b62500cb62e0e16b512f020da7d24667",
+      "passed": true
+    },
+    {
+      "name": "VALIDATION.json",
+      "sha256": "5bfa2f4c9eb9eaaff11bd35a58b482003a1bb1a2f2af429659f1a4e80eaaf87c",
+      "passed": true
+    }
+  ],
+  "package": {
+    "passed": true,
+    "version": "airs-terminal 0.1.0-alpha.7",
+    "binary_sha256": "0f9adce534747216b577dfa31b1dbff2975c690c06bdb8da221277a9ce4d9623",
+    "source_commit": "042367d57ea6658f89f6f2edf1a477514b47c798",
+    "checksums_verified": true,
+    "required_notices_present": true,
+    "scope": "extracted package integrity; executable fixtures are a separate check"
+  },
+  "github_authorization_forwarded_to_cdn": false
+}

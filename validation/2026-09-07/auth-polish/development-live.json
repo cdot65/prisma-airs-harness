@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "binary": "/home/cdot/.cache/airs-terminal-auth-cli-target/debug/airs-terminal",
+  "binary_sha256": "88e3d66fbc73022c00a8aa383d3cea29ecab1d027aca1864e5571f0f8acec079",
+  "mcp_credential_helper_status_displayed": true,
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "3e5f5ea8-85ab-4e0c-9437-e92a0ca19f00",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "a8f9a6ba-a449-42ee-b3bd-b490b70d2c65",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "df86c732-bdae-4526-8868-602adb948187",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true
+}

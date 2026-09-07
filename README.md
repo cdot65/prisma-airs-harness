@@ -15,6 +15,8 @@ MCP inventory reports **Credential helper** when headers come from the configure
 helper; connection status remains a separate result. Repeated logout reports
 **Already logged out locally**, and doctor directs users to their actual identity.
 The alpha.6 authentication workflow below remains the functional baseline.
+The optimized binary passed 21 executable/PTY fixtures and seven-turn live
+workflows before and after installation; 5,914 affected Rust tests passed.
 See [VALIDATION.json](VALIDATION.json) for the current release's checks.
 
 ## 0.1.0-alpha.6 — user authentication

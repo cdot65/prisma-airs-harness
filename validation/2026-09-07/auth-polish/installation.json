@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "installed_at": "2026-09-07T22:32:20.578864+00:00",
+  "version": "airs-terminal 0.1.0-alpha.7",
+  "binary_sha256": "0f9adce534747216b577dfa31b1dbff2975c690c06bdb8da221277a9ce4d9623",
+  "previous_binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+  "atomic_replace": true,
+  "rollback_binary_retained": true,
+  "protected_state_files_preserved": 11
+}

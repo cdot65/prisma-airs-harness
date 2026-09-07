@@ -1,0 +1,7 @@
+{
+  "source_commit": "72101fa4341972155d1ec8c0dcb21f296d4bca16",
+  "binary_sha256": "0f9adce534747216b577dfa31b1dbff2975c690c06bdb8da221277a9ce4d9623",
+  "binary_size_bytes": 316580632,
+  "profile": "release; upstream optimization defaults; strip --strip-debug",
+  "build_jobs": 8
+}

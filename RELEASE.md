@@ -12,6 +12,15 @@ A repeated logout reports that the environment is already logged out locally,
 while retaining MCP cleanup and existing fail-closed behavior. Doctor no longer
 mislabels an OIDC credential as a workspace identity.
 
+Validation passed: 5,914 affected Rust tests (14 skips), 21 executable/PTY
+fixtures on the stripped optimized binary, and seven-turn live workflows before
+and after installation. Both live runs displayed Credential helper, exercised
+local code/tests and default/explicit/default routing, and completed three real
+scanner calls. Installation preserved 11 checked configuration/binding files and
+retained an alpha.6 rollback executable. The full upstream suite remains blocked
+by the missing V8 musl archive; code mode is disabled. No macOS/Windows executable
+or new native credential-store platform run is claimed by this polish release.
+
 The owner confirmed the alpha.6 E2E workflow, including resumed execution, after
 unlocking the original keyring. Alpha.7 checks are recorded separately in
 VALIDATION.json and the post-publication RELEASE-VERIFICATION.json asset.

@@ -120,3 +120,8 @@ Use `airs-terminal setup --gateway-url https://airs.cdot.io/v1`. The local
 budget does not raise the actual backend limit. Read-only inspection of the two
 deployed Qwen servers found context settings of 131,072 and 32,768 tokens; the
 actual route and server enforcement remain separate from this client preference.
+
+Validation: 10 setup tests and all seven executable integration tests passed;
+the seven integration tests also passed against the installed alpha.2 binary.
+Formatting passed. The installed binary matches the build SHA-256 recorded in
+`VALIDATION.json`. Earlier broad regression results above describe alpha.1.

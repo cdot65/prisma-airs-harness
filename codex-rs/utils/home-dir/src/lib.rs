@@ -4,6 +4,23 @@ use std::path::PathBuf;
 use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
+/// Standalone product version, distinct from the pinned upstream crate versions.
+pub const AIRS_TERMINAL_VERSION: &str = "0.1.0-alpha.4";
+static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
+
+/// Select one independent AIRS environment before loading runtime configuration.
+/// Selection is immutable for the lifetime of this process.
+pub fn select_airs_environment_home(path: PathBuf) -> std::io::Result<()> {
+    if APPLICATION_HOME.get().is_none() {
+        return Err(std::io::Error::other(
+            "AIRS application home is not initialized",
+        ));
+    }
+    let home = AbsolutePathBuf::from_absolute_path(path.canonicalize()?)?;
+    ENVIRONMENT_HOME
+        .set(home)
+        .map_err(|_| std::io::Error::other("environment was already selected"))
+}
 
 /// Whether this process was initialized as the standalone AIRS terminal.
 pub fn is_airs_terminal() -> bool {
@@ -56,6 +73,9 @@ pub fn initialize_airs_terminal_home() -> std::io::Result<()> {
 /// - If `CODEX_HOME` is not set, this function does not verify that the
 ///   directory exists.
 pub fn find_codex_home() -> std::io::Result<AbsolutePathBuf> {
+    if let Some(home) = ENVIRONMENT_HOME.get() {
+        return Ok(home.clone());
+    }
     if let Some(home) = APPLICATION_HOME.get() {
         return Ok(home.clone());
     }

@@ -1,0 +1,248 @@
+//! Named AIRS environments. Each UUID owns its complete upstream runtime home.
+use anyhow::Context;
+use clap::Subcommand;
+use serde::Deserialize;
+use serde::Serialize;
+use std::collections::BTreeMap;
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
+use std::path::PathBuf;
+use uuid::Uuid;
+
+#[derive(Debug, Subcommand)]
+pub enum Command {
+    /// List environments; an asterisk marks the default for new processes.
+    List,
+    /// Select the default environment for new processes.
+    Use { name: String },
+    /// Inspect an environment without showing credentials.
+    Show { name: String },
+    /// Unregister an environment, preserving its local history on disk.
+    Remove { name: String },
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Registry {
+    schema_version: u32,
+    active: Option<String>,
+    environments: BTreeMap<String, Environment>,
+}
+
+impl Default for Registry {
+    fn default() -> Self {
+        Self {
+            schema_version: 1,
+            active: None,
+            environments: BTreeMap::new(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Environment {
+    id: Uuid,
+    gateway_url: String,
+}
+
+pub fn private_directory(path: &Path) -> anyhow::Result<()> {
+    let mut builder = std::fs::DirBuilder::new();
+    builder.recursive(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::DirBuilderExt;
+        builder.mode(0o700);
+    }
+    builder.create(path)?;
+    anyhow::ensure!(
+        std::fs::symlink_metadata(path)?.is_dir(),
+        "state path must be a real directory"
+    );
+    Ok(())
+}
+
+pub fn atomic_write(path: &Path, contents: &[u8]) -> anyhow::Result<()> {
+    let parent = path.parent().context("file has no parent directory")?;
+    let mut file = tempfile::NamedTempFile::new_in(parent)?;
+    file.write_all(contents)?;
+    file.as_file().sync_all()?;
+    file.persist(path)?;
+    #[cfg(unix)]
+    File::open(parent)?.sync_all()?;
+    Ok(())
+}
+
+pub fn lock(home: &Path) -> anyhow::Result<File> {
+    let mut options = std::fs::OpenOptions::new();
+    options.read(true).write(true).create(true).truncate(false);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600).custom_flags(libc::O_NOFOLLOW);
+    }
+    let file = options.open(home.join(".configuration.lock"))?;
+    file.lock()?;
+    Ok(file)
+}
+
+fn read(root: &Path) -> anyhow::Result<Registry> {
+    let path = root.join("environments.json");
+    if !path.exists() {
+        return Ok(Registry::default());
+    }
+    let registry: Registry =
+        serde_json::from_slice(&std::fs::read(path)?).context("invalid environment registry")?;
+    anyhow::ensure!(
+        registry.schema_version == 1,
+        "unsupported environment schema version"
+    );
+    if let Some(name) = &registry.active {
+        anyhow::ensure!(
+            registry.environments.contains_key(name),
+            "active environment is missing"
+        );
+    }
+    Ok(registry)
+}
+
+fn write(root: &Path, registry: &Registry) -> anyhow::Result<()> {
+    atomic_write(
+        &root.join("environments.json"),
+        &serde_json::to_vec_pretty(registry)?,
+    )
+}
+
+fn environment_home(root: &Path, environment: &Environment) -> PathBuf {
+    root.join("environments").join(environment.id.to_string())
+}
+
+pub fn gateway(home: &Path) -> anyhow::Result<String> {
+    let config: toml::Value = toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
+    config
+        .get("model_providers")
+        .and_then(|v| v.get("airs"))
+        .and_then(|v| v.get("base_url"))
+        .and_then(toml::Value::as_str)
+        .map(str::to_owned)
+        .context("run airs-terminal setup to configure the gateway")
+}
+
+pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
+    let registry = read(root)?;
+    let name = requested.or(registry.active.as_deref());
+    let Some(name) = name else {
+        anyhow::ensure!(
+            !root.join("environments.json").exists(),
+            "select an environment with --environment NAME or env use NAME"
+        );
+        return Ok(());
+    };
+    let environment = registry
+        .environments
+        .get(name)
+        .context("unknown environment; use env list")?;
+    let home = environment_home(root, environment);
+    anyhow::ensure!(
+        gateway(&home)? == environment.gateway_url,
+        "gateway binding changed; create a new environment and authenticate explicitly"
+    );
+    codex_utils_home_dir::select_airs_environment_home(home)?;
+    Ok(())
+}
+
+pub fn setup(
+    root: &Path,
+    name: &str,
+    args: &super::airs_terminal::SetupArgs,
+) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        !name.is_empty()
+            && name.len() <= 64
+            && name
+                .bytes()
+                .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'-' | b'_' | b'.')),
+        "environment name must contain 1–64 letters, digits, dots, underscores or hyphens"
+    );
+    let _lock = lock(root)?;
+    let mut registry = read(root)?;
+    anyhow::ensure!(
+        !registry.environments.contains_key(name),
+        "environment already exists; setup never overwrites it"
+    );
+    let mut environment = Environment {
+        id: Uuid::new_v4(),
+        gateway_url: String::new(),
+    };
+    let home = environment_home(root, &environment);
+    private_directory(&home)?;
+    super::airs_terminal::setup_in(args, &home)?;
+    environment.gateway_url = gateway(&home)?;
+    registry.environments.insert(name.to_owned(), environment);
+    registry.active = Some(name.to_owned());
+    write(root, &registry)?;
+    println!("Selected environment {name}. Its sessions and credentials are independent.");
+    Ok(())
+}
+
+pub fn run(root: &Path, command: &Command) -> anyhow::Result<()> {
+    let _lock = lock(root)?;
+    let mut registry = read(root)?;
+    match command {
+        Command::List => {
+            for (name, environment) in &registry.environments {
+                let marker = if registry.active.as_ref() == Some(name) {
+                    "*"
+                } else {
+                    " "
+                };
+                println!("{marker} {name}\t{}", environment.gateway_url);
+            }
+            if registry.environments.is_empty() {
+                println!("No named environments. Use setup --environment NAME --gateway-url URL.");
+            }
+        }
+        Command::Show { name } => {
+            let environment = registry
+                .environments
+                .get(name)
+                .context("unknown environment")?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&serde_json::json!({
+                    "name": name, "id": environment.id, "gateway_url": environment.gateway_url,
+                    "state_directory": environment_home(root, environment)
+                }))?
+            );
+        }
+        Command::Use { name } => {
+            anyhow::ensure!(
+                registry.environments.contains_key(name),
+                "unknown environment"
+            );
+            registry.active = Some(name.clone());
+            write(root, &registry)?;
+            println!("Selected {name} for new processes. Running sessions keep their environment.");
+        }
+        Command::Remove { name } => {
+            let environment = registry
+                .environments
+                .remove(name)
+                .context("unknown environment")?;
+            if registry.active.as_ref() == Some(name) {
+                registry.active = None;
+            }
+            write(root, &registry)?;
+            println!(
+                "Unregistered {name}. History remains at {}.",
+                environment_home(root, &environment).display()
+            );
+        }
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+#[path = "airs_environment_tests.rs"]
+mod tests;

@@ -40,6 +40,7 @@ codex-protocol = { workspace = true }
 codex-rollout = { workspace = true }
 codex-utils-absolute-path = { workspace = true }
 codex-utils-cli = { workspace = true }
+codex-utils-home-dir = { workspace = true }
 codex-utils-oss = { workspace = true }
 codex-utils-sandbox-summary = { workspace = true }
 owo-colors = { workspace = true }

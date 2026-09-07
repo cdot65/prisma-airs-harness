@@ -34,6 +34,44 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
             format!("Install missing local executables: {}", missing.join(", "))
         },
     });
+    #[cfg(target_os = "linux")]
+    {
+        let sandbox = async {
+            let executable = which::which("bwrap")?;
+            let status = tokio::process::Command::new(executable)
+                .args([
+                    "--die-with-parent",
+                    "--unshare-user",
+                    "--unshare-pid",
+                    "--ro-bind",
+                    "/",
+                    "/",
+                    "--",
+                    "/bin/true",
+                ])
+                .env_clear()
+                .stdin(std::process::Stdio::null())
+                .stdout(std::process::Stdio::null())
+                .stderr(std::process::Stdio::null())
+                .kill_on_drop(true)
+                .status()
+                .await?;
+            Ok::<bool, anyhow::Error>(status.success())
+        };
+        let passed = matches!(
+            tokio::time::timeout(Duration::from_secs(3), sandbox).await,
+            Ok(Ok(true))
+        );
+        checks.push(Check {
+            name: "linux_user_namespaces",
+            passed,
+            detail: if passed {
+                "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution".into()
+            } else {
+                "Bubblewrap could not create required namespaces; check host/kernel/container policy. No unsandboxed fallback".into()
+            },
+        });
+    }
     let configuration = (|| -> anyhow::Result<(String, toml::Value)> {
         let gateway = airs_environment::gateway(home)?;
         let config = toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;

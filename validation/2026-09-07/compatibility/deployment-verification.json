@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-09-07T12:03:52.263961+00:00",
+  "compatibility_stage": "deployed_and_validated",
+  "full_mvp_complete": false,
+  "source_commit": "60051f888e2c0e0ff7898620d351e7ac7545ff5c",
+  "infrastructure_commit": "99835f0",
+  "terminal_version": "0.1.0-alpha.5",
+  "terminal_binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "routing": {
+    "config_id": "d68e3bf0-e1c7-4825-bea9-a3351d2d9e20",
+    "config_version": "6103fc1a-a966-4a42-8fc1-6e1614e94a5e",
+    "readback_matches": true,
+    "probe_key_deleted": true,
+    "probe_config_deleted": true,
+    "probe_guardrail_deleted": true
+  },
+  "deployment": {
+    "name": "airs-terminal-compatibility",
+    "ready_replicas": 2,
+    "image": "registry.cdot.io/airs-terminal/compatibility@sha256:a35408c991dd31aa118f9de320dffc9da6375c38a3ea999dfb535e367644bc4f"
+  },
+  "ci": {
+    "url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34119423710",
+    "conclusion": "success",
+    "headSha": "60051f888e2c0e0ff7898620d351e7ac7545ff5c"
+  },
+  "ci_jobs": {
+    "linux-artifact": "success",
+    "scanner": "success",
+    "compatibility": "success"
+  },
+  "live_compatibility_cases": 6,
+  "gateway_contract_cases": 20,
+  "interactive_turns": 7,
+  "interactive_mcp_scans": 3,
+  "compatibility_server_tests": 5,
+  "vault": {
+    "managed_notes": 3690,
+    "errors": 0,
+    "review_warnings": 1064
+  },
+  "unresolved_gates": [
+    "JWT wrong audience accepted",
+    "JWT default config bypass removes mandatory scanner policy",
+    "non-streaming function-only Responses output denied after scanner HTTP 400",
+    "public-client PKCE/device/refresh/logout and per-user MCP acceptance unfinished",
+    "native CI builds/signing and full V8-dependent upstream validation unfinished",
+    "owner hands-on review pending"
+  ],
+  "assessment": "Compatibility stage passes its scoped checks. Full MVP does not meet the owner 9/10 acceptance threshold; mandatory failures are not averaged away."
+}

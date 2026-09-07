@@ -1,0 +1,91 @@
+{
+  "case": "invalid_webhook_credential_fails_closed",
+  "status": 446,
+  "passed": true,
+  "hooks": {
+    "before_request_hooks": [
+      {
+        "verdict": false,
+        "id": "pg-tempor-8de7ab",
+        "transformed": false,
+        "checks": [
+          {
+            "data": {
+              "explanation": "Webhook error: HTTP error! status: 401",
+              "webhookUrl": "https://mcp-airs.cdot.io/terminal-compatibility",
+              "requestContext": {
+                "timeout": 3000
+              },
+              "responseStatus": 401
+            },
+            "verdict": false,
+            "id": "default.webhook",
+            "error": {
+              "name": "HttpError",
+              "message": "HTTP error! status: 401"
+            },
+            "execution_time": 32,
+            "transformed": false,
+            "created_at": "2026-09-07T11:49:41.753Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 32,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T11:49:41.753Z",
+        "deny": true,
+        "softDeny200": false
+      },
+      {
+        "verdict": true,
+        "id": "pg-prisma-ff3021",
+        "transformed": false,
+        "checks": [
+          {
+            "data": {
+              "action": "allow",
+              "category": "benign",
+              "error": false,
+              "errors": [],
+              "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017",
+              "profile_name": "Prisma AIRS Terminal",
+              "prompt_detected": {
+                "dlp": false,
+                "injection": false,
+                "toxic_content": false,
+                "url_cats": false
+              },
+              "report_id": "R57d49e1b-0f4a-42e1-87ba-97018a6baa25",
+              "response_detected": {},
+              "scan_id": "57d49e1b-0f4a-42e1-87ba-97018a6baa25",
+              "session_id": "3b3fc55a-8ff1-4efa-acd8-0a941687efaa",
+              "source": "AI-Runtime-API",
+              "timeout": false,
+              "tool_detected": {},
+              "tr_id": "3b3fc55a-8ff1-4efa-acd8-0a941687efaa",
+              "transaction_id": "pan_6b6f7d98-6961-4d0a-9ddd-82f68c16bb2b"
+            },
+            "verdict": true,
+            "id": "panw-prisma-airs.intercept",
+            "execution_time": 210,
+            "transformed": false,
+            "created_at": "2026-09-07T11:49:41.754Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 211,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T11:49:41.754Z",
+        "deny": false,
+        "softDeny200": false
+      }
+    ],
+    "after_request_hooks": []
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "checked_at": "2026-09-07T11:38:45.461929+00:00",
+  "cases": [
+    {
+      "case": "default_drops_reasoning",
+      "client_model_present": false,
+      "route": null,
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_09c7b9213d91c31c006a9ea2403a5087d185bcd1739b0eca11",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "reasoning": {
+        "context": null,
+        "effort": null,
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "135bcbcc-c7d0-4130-9548-adac542e1b15"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "8c9f97d4-76ac-4074-8b9c-45ec8abc8f92"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "explicit_gpt41_drops_reasoning",
+      "client_model_present": true,
+      "route": "@openai/gpt-4.1",
+      "expected_status": 200,
+      "status": 400,
+      "passed": false,
+      "response_id": null,
+      "resolved_model": null,
+      "reasoning": null,
+      "error_code": "unsupported_parameter",
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "0a64f194-a563-4cb5-90fd-13962bfd656f"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "capable_model_preserves_low",
+      "client_model_present": true,
+      "route": "@openai/gpt-5-mini",
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_07c43e4351081341006a9ea242110087d1abef48548a671d65",
+      "resolved_model": "gpt-5-mini-2025-08-07",
+      "reasoning": {
+        "context": "current_turn",
+        "effort": "low",
+        "mode": "standard",
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "519986ae-4a2f-4aca-b308-3d5defd829e2"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "3639d7e8-91f5-4760-84a3-3a0bb66ebc32"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "capable_model_rejects_invalid_effort",
+      "client_model_present": true,
+      "route": "@openai/gpt-5-mini",
+      "expected_status": 400,
+      "status": 400,
+      "passed": true,
+      "response_id": null,
+      "resolved_model": null,
+      "reasoning": null,
+      "error_code": "invalid_value",
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "602b77dc-0ba3-4aa2-bc7f-ce5c099ee460"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "nested_schema_default",
+      "client_model_present": false,
+      "route": null,
+      "expected_status": 200,
+      "passed": false,
+      "exception": "AttributeError"
+    },
+    {
+      "case": "nested_schema_explicit",
+      "client_model_present": true,
+      "route": "@openai/gpt-4.1",
+      "expected_status": 200,
+      "status": 400,
+      "passed": false,
+      "response_id": null,
+      "resolved_model": null,
+      "reasoning": null,
+      "error_code": "unsupported_parameter",
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "5b631964-47cd-465b-8156-845b6f100ccf"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    }
+  ],
+  "passed": false
+}

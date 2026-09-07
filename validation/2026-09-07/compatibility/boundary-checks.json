@@ -1,0 +1,25 @@
+[
+  {
+    "case": "malformed_or_invalid_root",
+    "payload": "{",
+    "status": 446,
+    "passed": true
+  },
+  {
+    "case": "malformed_or_invalid_root",
+    "payload": "[]",
+    "status": 446,
+    "passed": true
+  },
+  {
+    "case": "malformed_or_invalid_root",
+    "payload": "null",
+    "status": 446,
+    "passed": true
+  },
+  {
+    "case": "expired_canary_key_denied",
+    "status": 401,
+    "passed": true
+  }
+]

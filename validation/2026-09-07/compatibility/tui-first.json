@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "binary": "/home/cdot/.local/bin/airs-terminal",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "raw_log_directory": "/tmp/airs-terminal-compatibility-tui"
+}

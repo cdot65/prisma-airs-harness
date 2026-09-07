@@ -1,0 +1,10 @@
+{
+  "case": "nonstreaming_forced_function_only_output",
+  "status": 446,
+  "passed": false,
+  "scope": "preexisting scanner integration, not compatibility transform",
+  "input_scan_id": "6c95105e-810f-4ef1-8ffd-9a1d9832f2fa",
+  "output_guardrail": "pg-prisma-ff3021",
+  "output_check_error": "HTTP error! status: 400",
+  "investigation": "The deployed output text extractor supplies empty text for function-only Responses output. Strict scanner failure denies the response. No scanner policy was weakened."
+}

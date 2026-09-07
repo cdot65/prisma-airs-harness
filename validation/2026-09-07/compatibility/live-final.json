@@ -1,0 +1,225 @@
+{
+  "checked_at": "2026-09-07T11:57:00.444570+00:00",
+  "cases": [
+    {
+      "case": "default_drops_reasoning",
+      "client_model_present": false,
+      "route": null,
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_00d04912c002be8b006a9ea6844bb087d1aa5ef2e16c0b3a61",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "reasoning": {
+        "context": null,
+        "effort": null,
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "9bc301ee-0a4f-4513-ae03-b66eb73b3924"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "006b7129-83d8-46d9-89a6-ab6b047583cf"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "explicit_gpt41_drops_reasoning",
+      "client_model_present": true,
+      "route": "@openai/gpt-4.1",
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_0291621d423f9c3c006a9ea68567a487d1a98194ef3c2bbf26",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "reasoning": {
+        "context": null,
+        "effort": null,
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-airs-t-6116e0",
+            "verdict": true,
+            "scan_ids": [
+              null
+            ]
+          },
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "2e7e81cf-4595-4fd1-bd8a-07a25d1b5d93"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "655ed7df-36af-4456-b112-5890cfe32d5a"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "capable_model_preserves_low",
+      "client_model_present": true,
+      "route": "@openai/gpt-5-mini",
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_0de86eb6b6a3315b006a9ea687ea9087d18463b522f7ba6fec",
+      "resolved_model": "gpt-5-mini-2025-08-07",
+      "reasoning": {
+        "context": "current_turn",
+        "effort": "low",
+        "mode": "standard",
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "5a8f3a22-5591-4057-9851-76219aba21fc"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "f12a7cc4-016c-473f-8632-cb288f554217"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "capable_model_rejects_invalid_effort",
+      "client_model_present": true,
+      "route": "@openai/gpt-5-mini",
+      "expected_status": 400,
+      "status": 400,
+      "passed": true,
+      "response_id": null,
+      "resolved_model": null,
+      "reasoning": null,
+      "error_code": "invalid_value",
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "9a94ef30-6df5-4115-a358-0ab091890cd4"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "nested_schema_default",
+      "client_model_present": false,
+      "route": null,
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_0cacb3c5196f181b006a9ea68a13a087d1854c454400e49227",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "reasoning": {
+        "context": null,
+        "effort": null,
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "c348b6e8-1d53-4608-b5ad-a95dedcb5263"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "a71929b9-c0ba-4507-9481-d610a957ed3b"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "nested_schema_explicit",
+      "client_model_present": true,
+      "route": "@openai/gpt-4.1",
+      "expected_status": 200,
+      "status": 200,
+      "passed": true,
+      "response_id": "resp_035fafe8a6df183d006a9ea68b561087d1b4b882c793f70909",
+      "resolved_model": "gpt-4.1-2025-04-14",
+      "reasoning": {
+        "context": null,
+        "effort": null,
+        "summary": null
+      },
+      "error_code": null,
+      "scans": {
+        "before_request_hooks": [
+          {
+            "guardrail": "pg-airs-t-6116e0",
+            "verdict": true,
+            "scan_ids": [
+              null
+            ]
+          },
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "21ce63ac-33c2-4f32-b6b9-16868883269d"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "guardrail": "pg-prisma-ff3021",
+            "verdict": true,
+            "scan_ids": [
+              "5057ccef-0158-4d93-9b27-09bca7b1a758"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "passed": true
+}

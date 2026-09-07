@@ -1,0 +1,141 @@
+{
+  "case": "canary_restored_to_working_policy",
+  "status": 200,
+  "passed": true,
+  "response_id": "resp_0ff21d74dd1ccc5b006a9ea54abb8887d1baa57971b5d692cb",
+  "hooks": {
+    "before_request_hooks": [
+      {
+        "verdict": true,
+        "id": "pg-airs-t-6116e0",
+        "transformed": true,
+        "checks": [
+          {
+            "data": {
+              "verdict": true,
+              "explanation": "Webhook request succeeded",
+              "webhookUrl": "https://mcp-airs.cdot.io/terminal-compatibility",
+              "responseData": {
+                "rule_version": "openai-gpt41-reasoning-v1",
+                "removed_fields": [
+                  "reasoning"
+                ]
+              },
+              "requestContext": {
+                "timeout": 3000
+              }
+            },
+            "verdict": true,
+            "id": "default.webhook",
+            "execution_time": 14,
+            "transformed": true,
+            "created_at": "2026-09-07T11:51:38.337Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 14,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T11:51:38.337Z",
+        "deny": false,
+        "softDeny200": false
+      },
+      {
+        "verdict": true,
+        "id": "pg-prisma-ff3021",
+        "transformed": false,
+        "checks": [
+          {
+            "data": {
+              "action": "allow",
+              "category": "benign",
+              "error": false,
+              "errors": [],
+              "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017",
+              "profile_name": "Prisma AIRS Terminal",
+              "prompt_detected": {
+                "dlp": false,
+                "injection": false,
+                "toxic_content": false,
+                "url_cats": false
+              },
+              "report_id": "Ra25bac06-98fa-416a-9a40-ec0aba503901",
+              "response_detected": {},
+              "scan_id": "a25bac06-98fa-416a-9a40-ec0aba503901",
+              "session_id": "0dd9b01d-bf71-4f2b-9116-6a7302b38183",
+              "source": "AI-Runtime-API",
+              "timeout": false,
+              "tool_detected": {},
+              "tr_id": "0dd9b01d-bf71-4f2b-9116-6a7302b38183",
+              "transaction_id": "pan_496e839e-4b8b-47fd-b31a-aa803a08f925"
+            },
+            "verdict": true,
+            "id": "panw-prisma-airs.intercept",
+            "execution_time": 312,
+            "transformed": false,
+            "created_at": "2026-09-07T11:51:38.337Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 312,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T11:51:38.337Z",
+        "deny": false,
+        "softDeny200": false
+      }
+    ],
+    "after_request_hooks": [
+      {
+        "verdict": true,
+        "id": "pg-prisma-ff3021",
+        "transformed": false,
+        "checks": [
+          {
+            "data": {
+              "action": "allow",
+              "category": "benign",
+              "error": false,
+              "errors": [],
+              "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017",
+              "profile_name": "Prisma AIRS Terminal",
+              "prompt_detected": {},
+              "report_id": "Rf16e7d69-a819-49e0-be9c-fde981456a05",
+              "response_detected": {
+                "db_security": false,
+                "dlp": false,
+                "toxic_content": false,
+                "url_cats": false
+              },
+              "scan_id": "f16e7d69-a819-49e0-be9c-fde981456a05",
+              "session_id": "0dd9b01d-bf71-4f2b-9116-6a7302b38183",
+              "source": "AI-Runtime-API",
+              "timeout": false,
+              "tool_detected": {},
+              "tr_id": "0dd9b01d-bf71-4f2b-9116-6a7302b38183",
+              "transaction_id": "pan_9cb5023e-a252-4280-a2d7-969a03da2da7"
+            },
+            "verdict": true,
+            "id": "panw-prisma-airs.intercept",
+            "execution_time": 214,
+            "transformed": false,
+            "created_at": "2026-09-07T11:51:39.435Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 214,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T11:51:39.435Z",
+        "deny": false,
+        "softDeny200": false
+      }
+    ]
+  }
+}

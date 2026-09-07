@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "binary": "/home/cdot/.local/bin/airs-terminal",
+  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "1db403f7-104f-48f3-b68c-d8d521a9e723",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "9a25c39d-d14f-4704-a613-15b7a33cbda7",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "1c4feb53-3576-46d9-a8c5-b8cbb18150c6",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true,
+  "raw_log_directory": "/tmp/airs-terminal-compatibility-tui-final"
+}

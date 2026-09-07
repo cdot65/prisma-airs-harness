@@ -35,6 +35,9 @@ test('actual SDK discovery and scan are stateless, bounded and profile-pinned', 
   const f = await fixture(async input => { calls.push(input); return { action: 'allow', scan_id: 'scan-123', category: 'benign' }; });
   try {
     const client = await f.connect();
+    assert.deepEqual(await client.listResources(), { resources: [] });
+    assert.deepEqual(await client.listResourceTemplates(), { resourceTemplates: [] });
+    assert.equal(calls.length, 0);
     const catalog = await client.listTools();
     assert.deepEqual(catalog.tools.map(tool => tool.name), ['pan_inline_scan']);
     const result = await client.callTool({ name: 'pan_inline_scan', arguments: { scan_request: { prompt: 'hello', profile, app_name: 'test' } } });

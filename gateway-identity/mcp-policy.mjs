@@ -20,7 +20,7 @@ export function mcpRequest(req, claims, policy) {
 }
 
 export function mcpBody(parsed, policy) {
-  const methods = ['initialize', 'notifications/initialized', 'ping', 'tools/list', 'tools/call', 'notifications/cancelled'];
+  const methods = ['initialize', 'notifications/initialized', 'ping', 'tools/list', 'tools/call', 'resources/list', 'resources/templates/list', 'notifications/cancelled'];
   return parsed.jsonrpc === '2.0' && methods.includes(parsed.method) &&
     (parsed.method !== 'tools/call' || policy.mcp.tools.includes(parsed.params?.name));
 }

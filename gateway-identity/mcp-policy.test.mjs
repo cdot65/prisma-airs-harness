@@ -66,3 +66,21 @@ test('MCP rejects other tools, resources, paths and routing overrides', async t 
   }
   assert.equal(f.seen.length, 0);
 });
+
+
+test('MCP permits resource inventory without granting resource contents or subscriptions', async t => {
+  const f = await fixture(t);
+  for (const method of ['resources/list', 'resources/templates/list']) {
+    const response = await fetch(f.url + policy.mcp.path, { method: 'POST',
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params: {} }),
+      headers: { 'x-portkey-api-key': jwt(claims), 'content-type': 'application/json' } });
+    assert.equal(response.status, 200); await response.text();
+  }
+  for (const method of ['resources/read', 'resources/subscribe']) {
+    const response = await fetch(f.url + policy.mcp.path, { method: 'POST',
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params: { uri: 'secret://anything' } }),
+      headers: { 'x-portkey-api-key': jwt(claims), 'content-type': 'application/json' } });
+    assert.equal(response.status, 403); await response.text();
+  }
+  assert.equal(f.seen.length, 2);
+});

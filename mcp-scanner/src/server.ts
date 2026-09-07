@@ -3,6 +3,7 @@ import express from 'express';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
+import { ListResourcesRequestSchema, ListResourceTemplatesRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 
 export interface ScanInput {
   prompt?: string;
@@ -44,7 +45,12 @@ export function createApp(options: {
   app.all('/terminal-scanner/mcp', async (req, res) => {
     // Each HTTP request owns its SDK instance. No in-memory MCP sessions or
     // cross-replica session restoration are required by this fixed tool catalog.
-    const server = new McpServer({ name: 'airs-terminal-scanner', version: '0.1.0-alpha.4' });
+    const server = new McpServer({ name: 'airs-terminal-scanner', version: '0.1.0-alpha.6' });
+    // Tool discovery and resource discovery are separate protocol operations.
+    // This scanner has no resources; advertise an honest empty inventory.
+    server.server.registerCapabilities({ resources: {} });
+    server.server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [] }));
+    server.server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => ({ resourceTemplates: [] }));
     server.registerTool('pan_inline_scan', {
       title: 'Scan content with Prisma AIRS',
       description: 'Scan prompt or response text using the fixed Prisma AIRS Terminal security profile. Returns the actual action and scan ID. Credentials remain on the remote server.',

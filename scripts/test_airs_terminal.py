@@ -22,6 +22,52 @@ EXPLICIT = "@test/org/model:version"
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_mcp_wire_identity_and_separate_credentials(self):
+        self.configure()
+        self.env["AIRS_MCP_TEST_CREDENTIAL"] = "mcp-only-test-credential"
+        with (self.home / "config.toml").open("a") as config:
+            config.write(
+                "\n[mcp_servers.scanner]\n"
+                f'url = "{self.url}/mcp"\n'
+                "required = true\n"
+                "[mcp_servers.scanner.env_http_headers]\n"
+                'x-portkey-api-key = "AIRS_MCP_TEST_CREDENTIAL"\n'
+            )
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        initialized = next(
+            body for _, body in self.mcp_requests if body["method"] == "initialize"
+        )
+        self.assertEqual(
+            initialized["params"]["clientInfo"],
+            {
+                "name": "airs-terminal",
+                "title": "Prisma AIRS Terminal",
+                "version": "0.1.0-alpha.4",
+            },
+        )
+        self.assertTrue(
+            any(body["method"] == "tools/list" for _, body in self.mcp_requests)
+        )
+        for headers, _ in self.mcp_requests:
+            headers = {name.lower(): value for name, value in headers.items()}
+            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.4")
+            self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
+            self.assertNotIn("authorization", headers)
+        self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
+
+        self.requests.clear()
+        self.mcp_requests.clear()
+        config = self.home / "config.toml"
+        config.write_text(
+            config.read_text().replace(f"{self.url}/mcp", f"{self.url}/other-mcp")
+        )
+        rebound = self.execute()
+        self.assertNotEqual(rebound.returncode, 0)
+        self.assertIn("session environment revision changed", rebound.stderr)
+        self.assertEqual(self.requests, [])
+        self.assertEqual(self.mcp_requests, [])
+
     def test_local_compaction_uses_gateway_responses_and_omits_model(self):
         self.configure()
         self.force_compaction = True
@@ -52,6 +98,10 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(revision["schema_version"], 1)
         self.assertNotIn("test-only-credential", json.dumps(revision))
         self.requests.clear()
+        changed_budget = self.execute("-c", "model_context_window=2000000")
+        self.assertNotEqual(changed_budget.returncode, 0)
+        self.assertIn("must come from the selected environment", changed_budget.stderr)
+        self.assertEqual(self.requests, [])
         self.env["AIRS_TEST_CREDENTIAL"] = "different-principal-key"
         changed_identity = self.execute()
         self.assertNotEqual(changed_identity.returncode, 0)
@@ -262,6 +312,7 @@ class TerminalIntegration(unittest.TestCase):
         self.work = self.root / "work"
         self.work.mkdir()
         self.requests = []
+        self.mcp_requests = []
         self.redirect = None
         self.force_compaction = False
         self.env = dict(
@@ -282,6 +333,31 @@ class TerminalIntegration(unittest.TestCase):
 
             def do_POST(self):
                 body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+                if self.path.endswith("/mcp"):
+                    owner.mcp_requests.append((dict(self.headers), body))
+                    if "id" not in body:
+                        self.send_response(202)
+                        self.send_header("Content-Length", "0")
+                        self.end_headers()
+                        return
+                    result = (
+                        {
+                            "protocolVersion": "2025-06-18",
+                            "capabilities": {"tools": {}},
+                            "serverInfo": {"name": "test-scanner", "version": "1"},
+                        }
+                        if body["method"] == "initialize"
+                        else {"tools": []}
+                    )
+                    data = json.dumps(
+                        {"jsonrpc": "2.0", "id": body["id"], "result": result}
+                    ).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
                 owner.requests.append((self.path, dict(self.headers), body))
                 if owner.redirect:
                     self.send_response(307)

@@ -1031,11 +1031,14 @@ pub(crate) fn mcp_initialize_request_params(
     if !extensions.is_empty() {
         capabilities.extensions = Some(extensions);
     }
-    InitializeRequestParams::new(
-        capabilities,
-        Implementation::new("codex-mcp-client", env!("CARGO_PKG_VERSION")).with_title("Codex"),
-    )
-    .with_protocol_version(ProtocolVersion::V_2025_06_18)
+    let implementation = if codex_utils_home_dir::is_airs_terminal() {
+        Implementation::new("airs-terminal", codex_utils_home_dir::AIRS_TERMINAL_VERSION)
+            .with_title("Prisma AIRS Terminal")
+    } else {
+        Implementation::new("codex-mcp-client", env!("CARGO_PKG_VERSION")).with_title("Codex")
+    };
+    InitializeRequestParams::new(capabilities, implementation)
+        .with_protocol_version(ProtocolVersion::V_2025_06_18)
 }
 
 fn mcp_server_info_from_implementation(

@@ -7,6 +7,9 @@ fn rejects_destination_and_credential_override_but_allows_route_selection() {
     std::fs::write(home.path().join("config.toml"), input).unwrap();
     let original: ConfigToml = toml::from_str(input).unwrap();
     let mut effective = original.clone();
+    effective.model_context_window = Some(2_000_000);
+    assert!(validate(home.path(), &effective).is_err());
+    effective = original.clone();
     effective.model = Some("@provider/other".into());
     assert!(validate(home.path(), &effective).is_ok());
     effective.model_providers.get_mut("airs").unwrap().base_url =

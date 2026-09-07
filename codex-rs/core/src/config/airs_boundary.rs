@@ -11,6 +11,7 @@ pub(super) fn validate(home: &Path, effective: &ConfigToml) -> std::io::Result<C
         toml::from_str(&input).map_err(|_| invalid("invalid AIRS user configuration"))?;
     if effective.model_providers != user.model_providers
         || effective.model_catalog_json != user.model_catalog_json
+        || effective.model_context_window != user.model_context_window
         || effective.mcp_servers != user.mcp_servers
         || effective.shell_environment_policy != user.shell_environment_policy
         || effective.allow_login_shell != user.allow_login_shell

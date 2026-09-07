@@ -9,7 +9,6 @@ use codex_exec_server::HttpHeader;
 use codex_exec_server::HttpRedirectPolicy;
 use codex_exec_server::HttpRequestParams;
 use http::HeaderMap;
-use http::HeaderValue;
 use http::Method;
 use http::StatusCode;
 use http::header::AUTHORIZATION;
@@ -32,7 +31,7 @@ use url::Url;
 
 use crate::auth_status::OAuthDiscoveryTimeout;
 use crate::http_client_adapter::StreamableHttpRedirectMode;
-use crate::utils::MCP_USER_AGENT;
+use crate::utils::mcp_user_agent;
 
 const MAX_OAUTH_HTTP_RESPONSE_BODY_BYTES: usize = 1024 * 1024;
 const MAX_OAUTH_HTTP_REDIRECTS: usize = 10;
@@ -148,12 +147,12 @@ impl OAuthHttpClientAdapter {
             headers.remove(name);
         }
         let has_resource_only_headers = is_resource_origin
-            && headers.iter().any(|(name, value)| {
-                name != USER_AGENT || value != HeaderValue::from_static(MCP_USER_AGENT)
-            });
+            && headers
+                .iter()
+                .any(|(name, value)| name != USER_AGENT || value != mcp_user_agent());
         headers.extend(parts.headers);
         if !is_resource_origin {
-            headers.insert(USER_AGENT, HeaderValue::from_static(MCP_USER_AGENT));
+            headers.insert(USER_AGENT, mcp_user_agent());
         }
         let redirect_policy = oauth_redirect_policy(
             self.redirect_mode,

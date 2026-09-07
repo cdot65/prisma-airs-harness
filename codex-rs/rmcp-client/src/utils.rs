@@ -13,6 +13,18 @@ use std::ffi::OsString;
 
 pub(crate) const MCP_USER_AGENT: &str = concat!("codex-mcp-client/", env!("CARGO_PKG_VERSION"));
 
+pub(crate) fn mcp_user_agent() -> HeaderValue {
+    if codex_utils_home_dir::is_airs_terminal() {
+        HeaderValue::from_str(&format!(
+            "airs-terminal/{}",
+            codex_utils_home_dir::AIRS_TERMINAL_VERSION
+        ))
+        .expect("static product version is a valid HTTP header")
+    } else {
+        HeaderValue::from_static(MCP_USER_AGENT)
+    }
+}
+
 pub(crate) fn create_env_for_mcp_server(
     extra_env: Option<HashMap<OsString, OsString>>,
     env_vars: &[McpServerEnvVar],
@@ -105,7 +117,7 @@ pub(crate) fn build_default_headers(
     env_http_headers: Option<HashMap<String, String>>,
 ) -> Result<HeaderMap> {
     let mut headers = HeaderMap::new();
-    headers.insert(USER_AGENT, HeaderValue::from_static(MCP_USER_AGENT));
+    headers.insert(USER_AGENT, mcp_user_agent());
 
     if let Some(static_headers) = http_headers {
         for (name, value) in static_headers {

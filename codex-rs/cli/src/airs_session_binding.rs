@@ -17,6 +17,8 @@ struct Revision {
     credential_identity: String,
     capability_revision: String,
     context_window: i64,
+    #[serde(default)]
+    mcp_config_revision: Option<String>,
 }
 
 pub fn validate(home: &Path) -> anyhow::Result<()> {
@@ -38,13 +40,23 @@ pub fn validate(home: &Path) -> anyhow::Result<()> {
             .get("model_context_window")
             .and_then(toml::Value::as_integer)
             .context("environment has no context window")?,
+        mcp_config_revision: config
+            .get("mcp_servers")
+            .filter(|servers| {
+                servers
+                    .as_table()
+                    .is_some_and(|servers| !servers.is_empty())
+            })
+            .map(toml::to_string)
+            .transpose()?
+            .map(|servers| airs_credentials::fingerprint(&servers)),
     };
     let path = home.join("session-binding.json");
     if path.exists() {
         let previous: Revision = serde_json::from_slice(&std::fs::read(path)?)?;
         anyhow::ensure!(
             previous == revision,
-            "session environment revision changed (gateway, credential or capabilities); create a new environment to keep existing history bound to its original configuration"
+            "session environment revision changed (gateway, credential, capabilities or MCP bindings); create a new environment to keep existing history bound to its original configuration"
         );
     } else {
         airs_environment::atomic_write(&path, &serde_json::to_vec_pretty(&revision)?)?;

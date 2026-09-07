@@ -44,7 +44,7 @@ JSON-normalization guardrails are a separate capability under review.
 ## Earlier alpha.4 evidence
 
 - Alpha.4 runtime implementation is committed in reviewable stages. Private
-  source repository: `cdot65/prisma-airs-terminal`; inherited Actions are disabled.
+  source repository: `cdot65/airs-harness`; inherited Actions are disabled.
 - Focused Rust suite: 5,151 passed, seven skips. Additional CLI/MCP suite:
   972 passed, seven skips (overlaps CLI). Seventeen executable/PTY fixtures passed.
 - Scoped Clippy, formatter and Bazel dependency metadata refresh pass. The full
@@ -61,8 +61,8 @@ JSON-normalization guardrails are a separate capability under review.
   Both gateway replicas are ready at Helm revision 32. The final scanner image
   runs two replicas; the previous hosted MCP failure is avoided through REST.
 - Final optimized build, installed/extracted-artifact checks and private prerelease
-  publication were completed. [Alpha.4](https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.4) was submitted for review and subsequently failed the interactive model-switch case.
-  [Independent CI](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34100831631) passed against the exact published archive: 17 executable
+  publication were completed. [Alpha.4](https://github.com/cdot65/airs-harness/releases/tag/airs-terminal-v0.1.0-alpha.4) was submitted for review and subsequently failed the interactive model-switch case.
+  [Independent CI](https://github.com/cdot65/airs-harness/actions/runs/34100831631) passed against the exact published archive: 17 executable
   fixtures, four scanner tests and zero production npm audit findings.
 - Withdrawn historical assessment: **9/10 for the authorized Linux workspace-key pilot**.
   Owner E2E revealed the missed failure. The historical notes and post-publication

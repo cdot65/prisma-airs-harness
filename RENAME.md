@@ -4,6 +4,7 @@ The standalone product is **Prisma AIRS Harness**, with executable and unscoped
 Verdaccio package **`airs-harness`**. The rename is alpha.8, separate from the
 already released alpha.7. This document does not announce registry publication.
 The hosted PAH application remains a separate project and is not a dependency.
+The independent repository is https://github.com/cdot65/airs-harness.
 
 ## Names used for new work
 
@@ -59,7 +60,7 @@ binary. It is not a separately published product or npm command.
 | `airs-terminal-pilot`, `airs-terminal-mcp`, existing audiences and access groups | Deployed Keycloak authorization contracts. Renaming a CLI does not reprovision identities. |
 | Existing scanner URLs, profile `Prisma AIRS Terminal`, backend `x-airs-terminal-mcp-key` | Deployed gateway/backend configuration; callers must still match the actual policy. |
 | `AIRS_TERMINAL_POLICY` | Legacy backend environment setting; `AIRS_HARNESS_POLICY` takes precedence when supplied. |
-| GitHub `cdot65/prisma-airs-terminal` and matching checkout path | Actual independent source repository; links must keep pointing to an existing repository. |
+| Historical `cdot65/prisma-airs-terminal` URLs and build paths | Archived source provenance; GitHub redirects the old repository URL to `cdot65/airs-harness`. |
 | Existing container names, digests and infrastructure directories | References to deployed artifacts, not newly built package branding. |
 | `validation/`, previous release records and administration evidence | Historical evidence must retain the names and hashes it actually verified. |
 | Upstream `codex-*` crate names, license and notice attribution | Source lineage and internal engine API compatibility. |

@@ -10,7 +10,7 @@
   "files": ["bin/", "lib/", "README.md", "LICENSE", "NOTICE"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cdot65/prisma-airs-terminal.git",
+    "url": "git+https://github.com/cdot65/airs-harness.git",
     "directory": "npm/airs-harness"
   }
 }

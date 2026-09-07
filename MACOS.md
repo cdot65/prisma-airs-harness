@@ -42,11 +42,11 @@ for this prototype.
 
 The npm package is not yet published and a complete macOS binary has not been
 validated. For source testing, clone the actual independent repository using
-your GitHub access. The repository retains its existing URL during the rename.
+your GitHub access. The repository is named `airs-harness`.
 
 ```sh
-git clone git@github.com:cdot65/prisma-airs-terminal.git prisma-airs-harness
-cd prisma-airs-harness/codex-rs
+git clone git@github.com:cdot65/airs-harness.git airs-harness
+cd airs-harness/codex-rs
 rustup show active-toolchain
 CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=4 \
   cargo build --locked -p codex-cli --bin airs-harness

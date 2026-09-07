@@ -98,6 +98,8 @@ def main():
                 "validation",
                 "administration",
                 "mcp-scanner",
+                "gateway-identity",
+                "gateway-compatibility",
             ],
             cwd=repo,
         )
@@ -122,6 +124,12 @@ def main():
             "validate_live_gateway.py",
             "validate_mcp_sessions.py",
             "verify_airs_release.py",
+            "check_airs_endpoints.py",
+            "validate_auth_cli.py",
+            "validate_auth_cli.py.lock",
+            "validate_rust_oidc.py",
+            "validate_rust_oidc.py.lock",
+            "validate_native_credentials.py",
         ]:
             shutil.copy2(repo / "scripts" / filename, root / "scripts" / filename)
         rust_sysroot = Path(

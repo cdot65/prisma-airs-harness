@@ -1,0 +1,55 @@
+{
+  "scope": "Owner interactive model-switch failure and corrective regression coverage",
+  "alpha4": {
+    "unsupported_effort_reproduced": true,
+    "picker_remained_open_reproduced": true,
+    "provisional_score_withdrawn": 9
+  },
+  "development_binary": {
+    "executable_tests_passed": 20,
+    "live_default_explicit_default_passed": true,
+    "live_scan_calls": 3,
+    "installed_release": false
+  },
+  "core_tests": {
+    "passed": 23,
+    "failed": 0,
+    "filtered_out": 2414
+  },
+  "tui_tests": {
+    "passed": 4090,
+    "failed": 0,
+    "skipped": 6,
+    "passed_on_retry": 1,
+    "environment": "NO_COLOR removed for color-sensitive terminal tests"
+  },
+  "full_workspace": {
+    "passed": false,
+    "reason": "V8 150.4.0 musl archive unavailable during build"
+  },
+  "runtime_context_review": {
+    "mcp_summary_max_json_bytes": 2048,
+    "max_servers": 4,
+    "max_tools_per_server": 4,
+    "max_name_characters": 64,
+    "credential_or_server_url_fields_included": false,
+    "review": "Reviewed bounded local configuration summary and fixed product facts; no tool output or unbounded server descriptions are injected",
+    "review_priority": "P0: the fixed runtime facts plus bounded MCP summary can exceed 1000 tokens; manual review completed",
+    "constraints": "New content bounded below 10000 tokens; existing user developer instructions retained; trusted local config names/allowlists only; no remote tool-result injection or history rewrite"
+  },
+  "release_acceptance": "pending final optimized artifact and published-archive CI",
+  "gateway_contract": {
+    "passed": true,
+    "cases": 20,
+    "receipt": "gateway-contract.json"
+  },
+  "lint": {
+    "scoped_clippy": "passed",
+    "command": "just fix -p codex-core -p codex-tui --lib",
+    "log": "airs-terminal-alpha5-fix-final.log"
+  },
+  "home_dir_tests": {
+    "passed": 4,
+    "failed": 0
+  }
+}

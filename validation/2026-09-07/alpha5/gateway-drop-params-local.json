@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "cases": 4,
+  "scope": "Local execution of reviewed parameter-transform functions extracted from the deployed AIRS 2.20.0 bundle; no live config change or routing claim",
+  "bundle_sha256": "b2710c4f6a580a5a1bb525695f942175e4698d61a0c90ba066c48f93490f6331",
+  "checks": [
+    "Root-key removal preserves prompt text and nested tool schemas without mutating input",
+    "Empty drop list preserves supported reasoning",
+    "Dotted path removes only reasoning.effort",
+    "Gateway internal default model does not mutate the original client request"
+  ]
+}

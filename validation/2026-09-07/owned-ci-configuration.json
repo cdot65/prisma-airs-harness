@@ -1,0 +1,9 @@
+{
+  "enabled_workflows": [
+    ".github/workflows/airs-terminal-release-check.yml"
+  ],
+  "disabled_inherited_workflow_count": 27,
+  "contents_permission": "read",
+  "automatic_triggers": false,
+  "build_provenance": "local build; workflow verifies published artifact only"
+}

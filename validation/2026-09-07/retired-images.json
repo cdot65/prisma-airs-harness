@@ -1,0 +1,7 @@
+{
+  "removed_untagged_candidates": [
+    "sha256:8c6639bba88e702a78abaca3cf44e740a16ba8ed487f589d8d406a63b3a29459",
+    "sha256:5c5f06ff5fcefb9dc2e96a38a8cedd5ee2012805f5cbb8aa50ea68ad749a53e4"
+  ],
+  "active_image_preserved": "sha256:1cdaca2ff3134e81ad0ac9661e41557eb49805cab4178352d10b1f46de5f97a3"
+}

@@ -23,7 +23,10 @@ The complete original team MVP is not claimed complete.
 Focused Rust suite: **5,151 passed**, seven existing skips. Additional CLI/MCP
 suite: **972 passed**, seven skips, overlapping the CLI count. Later boundary
 and MCP-branding checks also passed. The final health correction passed **695
-CLI tests** and **17 executable/PTY fixtures**. Counts from overlapping runs are
+CLI tests** after the dependency patches. The final installed binary passes **17
+executable/PTY fixtures** on the current host and fresh Alpine and Debian containers.
+Its normal interactive startup works without an exported key, and both live agent
+routes, resume and an alpha.3/alpha.4 upgrade/rollback rehearsal pass. Counts from overlapping runs are
 not added together. See VALIDATION.json for exact final-binary evidence.
 
 The full upstream workspace suite was attempted but cannot compile V8 150.4.0 on

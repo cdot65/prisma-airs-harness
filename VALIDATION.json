@@ -3,13 +3,12 @@
   "date": "2026-09-07",
   "product_version": "0.1.0-alpha.4",
   "scope": "Linux x86-64 workspace-key pilot; Keycloak and macOS deferred by owner",
-  "status": "final_optimized_artifact_validation_in_progress",
+  "status": "validated_linux_pilot_binary",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "rust": "1.95.0",
   "profile": "release; upstream defaults; strip --strip-debug",
   "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
-  "source_code_commit": "3a687bfbd",
   "context_default": 1000000,
   "focused_product_tests": {
     "passed": 5151,
@@ -22,7 +21,16 @@
   },
   "executable_fixtures": {
     "passed": 17,
-    "final_artifact_pending": true
+    "failed": 0,
+    "sandbox": "workspace-write",
+    "verified_binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+    "platforms": [
+      "current Alpine 3.24.1 host",
+      "fresh Alpine 3.24.1 container",
+      "fresh Debian 13 container"
+    ],
+    "container_test_identity": "UID 1000; no effective capabilities; approved user-namespace seccomp profile",
+    "restricted_container_behavior": "doctor fails namespace check; no unrestricted fallback"
   },
   "gateway_contract": {
     "passed": true,
@@ -61,8 +69,41 @@
   },
   "owner_review": "pending",
   "self_assessment": {
-    "score": 8,
-    "of": 10,
-    "status": "pre-release; exact artifact/publication pending"
-  }
+    "final_result": "See post-publication RELEASE-VERIFICATION.json release asset",
+    "scope": "Linux workspace-key pilot; full team MVP is not claimed complete"
+  },
+  "rust_code_revision": "3a687bfbd71022f50005801fa6bb8fb1f89f7e32",
+  "installed_binary": "/home/cdot/.local/bin/airs-terminal",
+  "binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+  "binary_size_bytes": 315426760,
+  "legacy_configuration_and_history_preserved": true,
+  "interactive_owner_startup": {
+    "passed": true,
+    "environment": "work",
+    "exported_airs_api_key": false,
+    "receipt": "validation/2026-09-07/installed-interactive.json"
+  },
+  "installed_live_agent": {
+    "passed": true,
+    "routes": [
+      "default",
+      "@openai/gpt-4.1"
+    ],
+    "local_skill_edit_test_scan_and_resume": true,
+    "receipt": "validation/2026-09-07/installed-live-agent.json"
+  },
+  "upgrade_rollback": {
+    "passed": true,
+    "receipt": "validation/2026-09-07/upgrade-rollback.json"
+  },
+  "doctor": {
+    "passed": true,
+    "receipt": "validation/2026-09-07/installed-doctor.json"
+  },
+  "owned_ci": {
+    "workflow": "airs-terminal-release-check.yml",
+    "scope": "published archive verification and scanner checks; not a native CI build",
+    "final_result": "See post-publication RELEASE-VERIFICATION.json release asset"
+  },
+  "publication_verification": "Recorded after archive publication in RELEASE-VERIFICATION.json release asset"
 }

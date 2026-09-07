@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "binary": "/home/cdot/.local/bin/airs-terminal",
+  "environment": "work",
+  "exported_airs_api_key": false,
+  "product_header": true,
+  "workspace_credential_header": true,
+  "assistant_reply_persisted": true,
+  "session_file": "/home/cdot/.airs-terminal/environments/1f842fd0-ae7c-4cdc-b262-2bf41d3f19ab/sessions/2026/09/07/rollout-2026-09-07T08-05-10-01a07ae6-56cc-76c0-9e9d-52c594649432.jsonl",
+  "trusted_review_directory": true,
+  "exit_code": 0
+}

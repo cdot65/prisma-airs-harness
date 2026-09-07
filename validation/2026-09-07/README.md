@@ -3,8 +3,9 @@
 These receipts contain request/scan IDs and outcomes, without reusable credentials.
 `gateway-contract.json` and `mcp-sessions.json` exercise the final stateless scanner
 deployment. `scanner-final-runtime-agent.json` verifies both routes and resume on
-that image using the preceding optimized binary. Final installed-binary evidence
-is recorded separately in VALIDATION.json and the release receipt.
+that image using the preceding optimized binary. The final installed binary is covered by the installed-doctor, installed-interactive
+and installed-live-agent receipts, plus upgrade-rollback. Its SHA and fixture
+platforms are in VALIDATION.json. Post-publication CI is a separate release asset.
 
 Cancellation, live compaction and invalid-profile receipts describe earlier
 acceptance runs of the same runtime features; they are not falsely attributed to

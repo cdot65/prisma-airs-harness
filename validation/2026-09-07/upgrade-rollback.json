@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "old_version": "airs-terminal 0.1.0-alpha.3",
+  "new_version": "airs-terminal 0.1.0-alpha.4",
+  "legacy_files_preserved": 2,
+  "total_state_files_preserved": 8,
+  "rollback_executable_verified": true,
+  "named_environment_available_after_reinstall": true,
+  "live_user_state_modified": false,
+  "binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0"
+}

@@ -119,6 +119,9 @@ def main():
     with TerminalSession(binary, env, work) as terminal:
         try:
             terminal.start()
+            terminal.send_line("/mcp verbose")
+            terminal.wait_for(b"Credential helper")
+            receipt["mcp_credential_helper_status_displayed"] = True
 
             def turn(prompt):
                 count = len(completed())

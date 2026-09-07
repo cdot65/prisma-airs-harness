@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import threading
 import unittest
@@ -22,6 +23,28 @@ EXPLICIT = "@test/org/model:version"
 
 
 class TerminalIntegration(unittest.TestCase):
+    @unittest.skipUnless(sys.platform.startswith("linux"), "Linux session-bus recovery")
+    def test_oidc_login_without_keyring_explains_recovery_before_network(self):
+        self.configure()
+        self.env["DBUS_SESSION_BUS_ADDRESS"] = "unix:path=" + str(
+            self.work / "missing-bus"
+        )
+        result = self.run_cli(
+            "login",
+            "--issuer-url",
+            "https://idp.invalid/realms/test",
+            "--oidc-client-id",
+            "terminal",
+            "--audience",
+            "inference",
+            "--device-auth",
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("OS credential store unavailable", result.stderr)
+        self.assertIn("dbus-run-session -- bash", result.stderr)
+        self.assertIn("same shell", result.stderr)
+        self.assertEqual(self.requests, [])
+
     def test_interactive_model_switch_omits_unadvertised_reasoning(self):
         from airs_terminal_pty import TerminalSession
 
@@ -103,7 +126,7 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-terminal",
                 "title": "Prisma AIRS Terminal",
-                "version": "0.1.0-alpha.6",
+                "version": "0.1.0-alpha.7",
             },
         )
         self.assertTrue(
@@ -116,7 +139,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.6")
+            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.7")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
@@ -223,6 +246,12 @@ class TerminalIntegration(unittest.TestCase):
         changed_key = self.run_cli(*args)
         self.assertNotEqual(changed_key.returncode, 0)
         self.assertEqual(changed_key.stdout, "")
+        inventory = self.run_cli("mcp", "list", "--json")
+        self.assertEqual(inventory.returncode, 0, inventory.stderr)
+        self.assertEqual(
+            json.loads(inventory.stdout)[0]["auth_status"], "credential_helper"
+        )
+        self.assertNotIn("different-key", inventory.stdout)
         key.write_text("separate-mcp-test-key")
         config_path.write_text(
             original.replace(
@@ -321,6 +350,9 @@ class TerminalIntegration(unittest.TestCase):
         )
         logout = self.run_cli("logout")
         self.assertEqual(logout.returncode, 0, logout.stderr)
+        repeated = self.run_cli("logout")
+        self.assertEqual(repeated.returncode, 0, repeated.stderr)
+        self.assertIn("Already logged out locally", repeated.stdout)
         self.requests.clear()
         failed = self.execute()
         self.assertNotEqual(failed.returncode, 0)

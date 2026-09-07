@@ -1,16 +1,19 @@
 # Authentication release hands-on review
 
-Run this after the operator confirms alpha.6 is installed and your Terminal roles
+Run this after the operator confirms alpha.7 is installed and your Terminal roles
 are enabled. Use the LAN/VPN that reaches `airs.cdot.io` and `auth.dev.cdot.io`.
 The Linux terminal needs an unlocked Secret Service session. For a headless
 shell, follow the [keyring setup](../../README.md#sign-in-with-keycloak) first;
 keep login and the terminal in that same D-Bus session.
+If you open another shell, unlock the same keyring in its D-Bus session and use
+`airs-terminal env list` to recover the literal environment name. Shell variables
+from the previous session will not automatically exist there.
 
 ## Start an isolated user environment
 
 ```sh
 airs-terminal --version
-# Expected: airs-terminal 0.1.0-alpha.6
+# Expected: airs-terminal 0.1.0-alpha.7
 
 airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1 \
   --model '@openai-terminal-auth/gpt-4.1'

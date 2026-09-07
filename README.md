@@ -8,6 +8,15 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
+## 0.1.0-alpha.7 — authentication workflow polish
+
+Credential-store errors now explain recovery for Linux, macOS and Windows.
+MCP inventory reports **Credential helper** when headers come from the configured
+helper; connection status remains a separate result. Repeated logout reports
+**Already logged out locally**, and doctor directs users to their actual identity.
+The alpha.6 authentication workflow below remains the functional baseline.
+See [VALIDATION.json](VALIDATION.json) for the current release's checks.
+
 ## 0.1.0-alpha.6 — user authentication
 
 Alpha.6 adds public-client Keycloak browser/device login, verified user and resource
@@ -38,14 +47,14 @@ establish its sandbox.
 
 ```sh
 set -e
-gh release download airs-terminal-v0.1.0-alpha.6 \
+gh release download airs-terminal-v0.1.0-alpha.7 \
   --repo cdot65/prisma-airs-terminal \
-  --pattern 'airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz*' \
+  --pattern 'airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz*' \
   --dir airs-terminal-download
 cd airs-terminal-download
-sha256sum -c airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz.sha256
-tar -xzf airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz
-cd airs-terminal-0.1.0-alpha.6-linux-x86_64-musl
+sha256sum -c airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz.sha256
+tar -xzf airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz
+cd airs-terminal-0.1.0-alpha.7-linux-x86_64-musl
 sha256sum -c SHA256SUMS > /dev/null
 mkdir -p "$HOME/.local/bin"
 if [ -f "$HOME/.local/bin/airs-terminal" ]; then
@@ -100,6 +109,12 @@ D-Bus and Secret Service (such as GNOME Keyring); installing a headless binary
 does not create a desktop keyring session. macOS uses Keychain and Windows uses
 Credential Manager. No plaintext refresh-token fallback is provided. Explicit
 workspace-key file/environment modes remain available on headless hosts.
+
+If a new terminal reports `OS credential store unavailable`, return to your
+unlocked D-Bus shell or unlock the same keyring in a new session as described
+below. Shell variables such as `$airs_e2e_env` do not carry into a new shell;
+use `airs-terminal env list` and the literal environment name when resuming.
+Your named environments and conversation history remain on disk.
 
 On a headless Linux host without an existing session bus, start an interactive
 Bash session with `dbus-run-session -- bash`, then unlock Secret Service inside it:

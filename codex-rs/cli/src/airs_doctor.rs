@@ -85,7 +85,7 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
                 name: "credential",
                 passed: credential.is_ok(),
                 detail: match credential {
-                    Ok(()) => "Available locally; workspace identity, not verified individual identity".into(),
+                    Ok(()) => "Available locally; use status to inspect the authentication method and identity".into(),
                     Err(error) => error.to_string(),
                 },
             });

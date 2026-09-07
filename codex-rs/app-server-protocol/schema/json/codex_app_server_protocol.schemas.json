@@ -14178,6 +14178,7 @@
       },
       "McpAuthStatus": {
         "enum": [
+          "credentialHelper",
           "unknown",
           "unsupported",
           "notLoggedIn",

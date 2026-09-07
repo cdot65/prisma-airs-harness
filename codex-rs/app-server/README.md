@@ -2925,3 +2925,12 @@ For server-initiated request payloads, annotate the field the same way so schema
    ```bash
    just test -p codex-app-server-protocol
    ```
+
+### AIRS credential-helper status
+
+AIRS Terminal alpha.7 adds `credentialHelper` to the v2 MCP `authStatus` enum
+(`credential_helper` in the core protocol). It means a configured local helper
+supplies request headers. Status inspection does not invoke the helper, inspect
+its secrets, or imply that login is valid. Use `runtimeStatus` and actual tool
+results to assess connectivity. Clients that exhaustively decode this enum must
+support the new value before connecting to the updated app-server.

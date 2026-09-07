@@ -72,3 +72,13 @@ separate milestones. The full upstream V8-dependent suite cannot build on this
 musl host; the feature is disabled in the supported runtime.
 
 No credential values belong in this document, source control, artifacts or vault.
+
+
+## Authentication workflow polish (alpha.7)
+
+Owner-confirmed alpha.6 E2E acceptance exposed recovery/status presentation gaps.
+Alpha.7 adds platform-specific native-store recovery guidance, explicit MCP
+credential-helper inventory, idempotent logout messaging and accurate doctor
+identity wording. Existing gateway and Keycloak policy are unchanged. Current
+artifact validation and publication evidence belong in VALIDATION.json and the
+release verification receipt; alpha.6 test counts remain historical evidence.

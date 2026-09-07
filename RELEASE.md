@@ -1,3 +1,21 @@
+# 0.1.0-alpha.7 — authentication workflow polish
+
+When a user resumes from a new Linux shell without the unlocked D-Bus keyring
+session, the error now explains how to recover. macOS and Windows receive native
+credential-store guidance. No credentials or history are migrated.
+
+MCP status reports a configured credential helper without executing it or
+claiming that its token is valid. Runtime connection status remains independent.
+The app-server v2 auth enum adds `credentialHelper`; clients using exhaustive
+parsing must support this value. Stable and experimental exports are regenerated.
+A repeated logout reports that the environment is already logged out locally,
+while retaining MCP cleanup and existing fail-closed behavior. Doctor no longer
+mislabels an OIDC credential as a workspace identity.
+
+The owner confirmed the alpha.6 E2E workflow, including resumed execution, after
+unlocking the original keyring. Alpha.7 checks are recorded separately in
+VALIDATION.json and the post-publication RELEASE-VERIFICATION.json asset.
+
 # 0.1.0-alpha.6 — single-realm user authentication
 
 Browser PKCE and device login now authenticate users through the existing

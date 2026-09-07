@@ -16,6 +16,7 @@ use std::collections::BTreeMap;
 
 v2_enum_from_core!(
     pub enum McpAuthStatus from codex_protocol::protocol::McpAuthStatus {
+        CredentialHelper,
         Unknown,
         Unsupported,
         NotLoggedIn,

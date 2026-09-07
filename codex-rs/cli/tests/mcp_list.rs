@@ -462,7 +462,7 @@ fn list_and_get_redact_http_headers_helper() -> Result<()> {
         auth_statuses,
         BTreeMap::from([
             ("authenticated".to_string(), "bearer_token".to_string()),
-            ("docs".to_string(), "unknown".to_string()),
+            ("docs".to_string(), "credential_helper".to_string()),
         ])
     );
     assert!(!marker.exists());

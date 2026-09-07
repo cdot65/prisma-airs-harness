@@ -15,6 +15,19 @@ use uuid::Uuid;
 
 pub(super) const SERVICE: &str = "io.cdot.airs-terminal";
 
+pub(super) fn credential_store_error() -> anyhow::Error {
+    let recovery = if cfg!(target_os = "linux") {
+        "Linux requires an unlocked Secret Service keyring on the current session D-Bus. Return to the shell where you unlocked the keyring. On a headless host, start `dbus-run-session -- bash`, unlock Secret Service with your existing keyring password, and run login/resume inside that same shell. See the README's Keycloak sign-in instructions."
+    } else if cfg!(target_os = "macos") {
+        "Unlock your login keychain in Keychain Access and allow AIRS Terminal to access its credential item, then retry from the same macOS user account."
+    } else if cfg!(windows) {
+        "Run AIRS Terminal from the same signed-in Windows user account and ensure Windows Credential Manager is available, then retry."
+    } else {
+        "Unlock the native credential store for your current user session, then retry."
+    };
+    anyhow::anyhow!("OS credential store unavailable. {recovery} No plaintext fallback is used.")
+}
+
 #[derive(Debug, Default, clap::Args)]
 pub struct LoginArgs {
     /// HTTPS issuer for a public-client OIDC login.
@@ -140,7 +153,7 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
         }
         Source::Keyring => DefaultKeyringStore
             .load(SERVICE, &binding.id.to_string())
-            .map_err(|_| anyhow::anyhow!("OS credential store is unavailable"))?
+            .map_err(|_| credential_store_error())?
             .context("credential is missing from the OS store; run login")?,
         Source::Oidc { .. } => anyhow::bail!("OIDC tokens require the identity credential helper"),
     };
@@ -312,6 +325,13 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
         return Ok(());
     }
     let mut binding = read_binding(home)?;
+    if binding.source.is_none() {
+        mcp_logout?;
+        println!(
+            "Already logged out locally. Stop running sessions to discard cached access tokens."
+        );
+        return Ok(());
+    }
     let oidc = matches!(binding.source, Some(Source::Oidc { .. }));
     let keyring = matches!(binding.source, Some(Source::Keyring | Source::Oidc { .. }));
     let revoke = if oidc {

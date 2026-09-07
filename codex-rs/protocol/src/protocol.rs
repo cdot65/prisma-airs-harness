@@ -3715,6 +3715,8 @@ pub struct McpStartupFailure {
 #[serde(rename_all = "snake_case")]
 #[ts(rename_all = "snake_case")]
 pub enum McpAuthStatus {
+    /// Headers come from an external credential helper; this is not a connectivity check.
+    CredentialHelper,
     Unknown,
     Unsupported,
     NotLoggedIn,
@@ -3726,6 +3728,7 @@ impl fmt::Display for McpAuthStatus {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let text = match self {
             McpAuthStatus::Unknown => "Unknown",
+            McpAuthStatus::CredentialHelper => "Credential helper",
             McpAuthStatus::Unsupported => "Unsupported",
             McpAuthStatus::NotLoggedIn => "Not logged in",
             McpAuthStatus::BearerToken => "Bearer token",

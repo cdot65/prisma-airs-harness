@@ -1,0 +1,49 @@
+{
+  "scope": "alpha.7 authentication workflow polish",
+  "affected_rust_tests": {
+    "passed": 5914,
+    "failed": 0,
+    "skipped": 14,
+    "packages": [
+      "codex-cli",
+      "codex-tui",
+      "codex-mcp",
+      "codex-rmcp-client",
+      "codex-protocol",
+      "codex-app-server-protocol",
+      "codex-utils-home-dir"
+    ],
+    "color_fixture_environment": {
+      "NO_COLOR": "unset",
+      "TERM": "xterm-256color",
+      "COLORTERM": "truecolor"
+    },
+    "log_sha256": "b8f00f0aa9352e91833a17dab336663eb5d6568937a79059cfc0f2038057b205"
+  },
+  "first_pass": {
+    "passed": 5909,
+    "failed": 5,
+    "resolution": "Four cursor-color checks inherited NO_COLOR=1. Helper inventory expectation updated; explicit Authorization headers retain Bearer token status. All affected tests passed on rerun."
+  },
+  "development_binary_fixtures": {
+    "passed": 21,
+    "failed": 0,
+    "scope": "development binary; final release artifact checks remain separate"
+  },
+  "full_workspace": {
+    "attempted": true,
+    "passed": false,
+    "reason": "V8 150.4.0 musl archive HTTP 404",
+    "code_mode_enabled_in_terminal": false,
+    "log_sha256": "9be7a1dd73f5c09fe08486e1e9c02f8c2703fb4470cde3f9358d6571a046bf5a"
+  },
+  "owner_baseline_acceptance": {
+    "version": "0.1.0-alpha.6",
+    "source": "User confirmed the complete E2E workflow after unlocking the original Linux keyring; not a claim of a new alpha.7 owner review."
+  },
+  "scoped_clippy": {
+    "passed": true,
+    "runtime_source_changed": false,
+    "existing_warning": "rmcp-client/src/utils.rs uses expect for its static product User-Agent; no new lint warnings introduced by this change"
+  }
+}

@@ -291,3 +291,35 @@ fn code_mode_preserves_text_fields_on_nontext_and_unknown_blocks() {
         unknown-side output
     ");
 }
+
+#[test]
+fn helper_authentication_does_not_imply_connection_success() {
+    for runtime_status in [
+        McpServerConnectionStatus::Connected,
+        McpServerConnectionStatus::Failed,
+    ] {
+        let status = McpServerStatus {
+            name: "security".into(),
+            runtime_status: Some(runtime_status),
+            plugin_id: None,
+            server_info: None,
+            tools: HashMap::new(),
+            resources: Vec::new(),
+            resource_templates: Vec::new(),
+            auth_status: McpAuthStatus::CredentialHelper,
+        };
+        let rendered = new_mcp_tools_output_from_statuses(&[status], McpServerStatusDetail::Full)
+            .display_lines(/*width*/ 100)
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>()
+            .join("\n");
+        assert!(rendered.contains("Auth: Credential helper"));
+        let expected = if runtime_status == McpServerConnectionStatus::Connected {
+            "connected"
+        } else {
+            "failed"
+        };
+        assert!(rendered.contains(&format!("security: {expected}")));
+    }
+}

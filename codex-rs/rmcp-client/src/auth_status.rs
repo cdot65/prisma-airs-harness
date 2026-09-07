@@ -52,6 +52,8 @@ pub enum McpLoginRequirement {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum McpAuthState {
+    /// A configured helper supplies headers; availability is checked at connection time.
+    CredentialHelper,
     Unsupported,
     Unknown,
     LoggedOut(McpLoginRequirement),
@@ -64,6 +66,7 @@ impl From<McpAuthState> for McpAuthStatus {
         match value {
             McpAuthState::Unsupported => Self::Unsupported,
             McpAuthState::Unknown => Self::Unknown,
+            McpAuthState::CredentialHelper => Self::CredentialHelper,
             McpAuthState::LoggedOut(_) => Self::NotLoggedIn,
             McpAuthState::BearerToken => Self::BearerToken,
             McpAuthState::OAuth => Self::OAuth,

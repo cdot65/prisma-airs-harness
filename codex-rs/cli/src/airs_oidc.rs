@@ -36,9 +36,7 @@ fn save(binding: &Binding, stored: &Stored) -> anyhow::Result<()> {
             &binding.id.to_string(),
             &serde_json::to_string(stored)?,
         )
-        .map_err(|_| {
-            anyhow::anyhow!("OS credential storage failed; no plaintext fallback was written")
-        })
+        .map_err(|_| super::airs_credentials::credential_store_error())
 }
 
 pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
@@ -47,7 +45,7 @@ pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
     };
     let raw = CredentialStore
         .load(SERVICE, &binding.id.to_string())
-        .map_err(|_| anyhow::anyhow!("OS credential store unavailable"))?
+        .map_err(|_| super::airs_credentials::credential_store_error())?
         .context("OIDC credential missing; sign in again")?;
     anyhow::ensure!(raw.len() <= 131_072, "invalid stored identity record");
     let stored: Stored = serde_json::from_str(&raw)
@@ -147,8 +145,9 @@ pub(super) async fn authenticate(
 ) -> anyhow::Result<Tokens> {
     // Fail before asking the user to authenticate if durable OS storage is unavailable.
     let probe = format!("oidc-probe-{}", Uuid::new_v4());
-    CredentialStore.save(SERVICE, &probe, "storage-availability-check")
-        .map_err(|_| anyhow::anyhow!("OIDC login requires an unlocked OS credential store; there is no plaintext fallback"))?;
+    CredentialStore
+        .save(SERVICE, &probe, "storage-availability-check")
+        .map_err(|_| super::airs_credentials::credential_store_error())?;
     CredentialStore
         .delete(SERVICE, &probe)
         .map_err(|_| anyhow::anyhow!("OS credential store cleanup failed"))?;

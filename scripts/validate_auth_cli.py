@@ -6,7 +6,7 @@
 All bearer credentials, passwords and authorization codes stay in memory.
 """
 
-import argparse, base64, importlib.util, json, os, re, secrets, select, subprocess, sys, tempfile, time, uuid
+import argparse, base64, hashlib, importlib.util, json, os, re, secrets, select, subprocess, sys, tempfile, time, uuid
 from pathlib import Path
 from urllib.parse import urlsplit, urljoin
 import requests
@@ -14,22 +14,23 @@ import requests
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--binary", type=Path, required=True)
 parser.add_argument("--infrastructure-root", type=Path, required=True)
-parser.add_argument(
-    "--management-module",
-    type=Path,
-    required=True,
-    help="Operator-only Node module exporting an authenticated AIRS SDK client as gw",
-)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument(
     "--observe-tools",
     action="store_true",
     help="Diagnostic loopback relay records only tool names and model-key presence",
 )
+parser.add_argument(
+    "--credentials-only",
+    action="store_true",
+    help="Verify native credential lifecycle without changing scanner access; does not certify agent/MCP execution",
+)
 args = parser.parse_args()
+os.umask(0o077)
 root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root / "scripts"))
 from validate_rust_oidc import Form
+from airs_oidc_interactive import verify_interactive_refresh
 
 p = args.infrastructure_root.resolve() / "keycloak/stacks/terminal/validate-refresh.py"
 spec = importlib.util.spec_from_file_location("protocol", p)
@@ -38,6 +39,9 @@ spec.loader.exec_module(protocol)
 op = protocol.Operator()
 issuer = protocol.ISSUER
 binary = args.binary.resolve()
+with binary.open("rb") as stream:
+    binary_digest = hashlib.file_digest(stream, "sha256").hexdigest()
+completed = False
 clients = [
     op.api("/clients?clientId=" + name)[0]
     for name in ["airs-terminal-pilot", "airs-terminal-mcp"]
@@ -55,21 +59,6 @@ def check(name, condition, **details):
     rows.append(row)
     print(json.dumps(row), flush=True)
     assert condition, "Acceptance failed: " + name
-
-
-def server_access(access):
-    code = (
-        "import {gw} from "
-        + json.dumps(args.management_module.resolve().as_uri())
-        + "; await gw.mcpServers.updateUserAccess('1a3dcdd1-7c1e-473a-b7c4-ec78720bd0cc',{default_user_access:"
-        + json.dumps(access)
-        + "});"
-    )
-    subprocess.run(
-        ["node", "--input-type=module", "-e", code],
-        check=True,
-        stdout=subprocess.DEVNULL,
-    )
 
 
 with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
@@ -251,7 +240,6 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                 )
         for client in clients:
             op.api("/clients/" + client["id"], "PUT", {"enabled": True})
-        server_access("allow")
         gateway = "https://airs.cdot.io/v1"
         setup_extra = []
         if args.observe_tools:
@@ -373,55 +361,125 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             and mc["sub"] == claims["sub"]
             and mjwt != jwt,
         )
-        result = run(
-            "exec",
-            "--skip-git-repo-check",
-            "--sandbox",
-            "workspace-write",
-            "--json",
-            "Use a local shell tool to write auth-proof.txt containing exactly OIDC_LOCAL_OK. Then call the executable mcp__security.pan_inline_scan tool with scan_request.profile Prisma AIRS Terminal and scan_request.response Hello from AIRS Terminal. This is a tools/call operation, not read_mcp_resource; do not use resource functions to invoke a tool. Report the actual action and scan_id. Do both tools now.",
-            timeout=180,
-        )
-        # Save only this synthetic run's transcript in a private local file for diagnosis.
-        diagnostic = args.output.resolve().with_suffix(".private-exec.log")
-        diagnostic.write_text(result.stdout + "\n" + result.stderr)
-        diagnostic.chmod(0o600)
-        check(
-            "exec-local-filesystem",
-            result.returncode == 0
-            and (work / "auth-proof.txt").exists()
-            and (work / "auth-proof.txt").read_text().strip() == "OIDC_LOCAL_OK",
-            exit_code=result.returncode,
-        )
-        events = []
-        for line in result.stdout.splitlines():
+        if args.credentials_only:
+            response = requests.post(
+                gateway + "/responses",
+                headers={"x-portkey-api-key": jwt},
+                json={
+                    "input": "Reply exactly OIDC_CREDENTIAL_OK",
+                    "max_output_tokens": 20,
+                },
+                timeout=60,
+                allow_redirects=False,
+            )
+            check("credential-inference", response.status_code == 200)
+        else:
+            for method, field in [
+                ("resources/list", "resources"),
+                ("resources/templates/list", "resourceTemplates"),
+            ]:
+                response = requests.post(
+                    mcpurl,
+                    headers={
+                        "x-portkey-api-key": mjwt,
+                        "Accept": "application/json, text/event-stream",
+                    },
+                    json={"jsonrpc": "2.0", "id": 1, "method": method, "params": {}},
+                    timeout=30,
+                    allow_redirects=False,
+                )
+                body = response.text
+                if "text/event-stream" in response.headers.get("Content-Type", ""):
+                    body = next(
+                        line[6:]
+                        for line in body.splitlines()
+                        if line.startswith("data: ")
+                    )
+                payload = json.loads(body)
+                check(
+                    "empty-" + method,
+                    response.status_code == 200
+                    and payload.get("result", {}).get(field) == [],
+                )
             try:
-                events.append(json.loads(line))
-            except ValueError:
-                pass
-        calls = [
-            e.get("item", {})
-            for e in events
-            if e.get("item", {}).get("type") == "mcp_tool_call"
-        ]
-        scans = [
-            (c.get("result") or {}).get("structured_content", {}).get("results", {})
-            for c in calls
-            if c.get("status") == "completed"
-            and c.get("tool") == "pan_inline_scan"
-            and c.get("error") is None
-        ]
-        scan = next(
-            (
-                s
-                for s in scans
-                if s.get("action") == "allow"
-                and s.get("scan_id")
-                and s.get("profile_name") == "Prisma AIRS Terminal"
-            ),
-            None,
-        )
-        check("exec-remote-mcp", scan is not None, tool_calls=len(calls), scan=scan)
+                result = run(
+                    "exec",
+                    "--skip-git-repo-check",
+                    "--sandbox",
+                    "workspace-write",
+                    "--json",
+                    "Write auth-proof.txt containing exactly OIDC_LOCAL_OK using one shell command. Verify it once with one shell command. Use at most four shell commands total. Then call the executable mcp__security.pan_inline_scan tool with scan_request.profile Prisma AIRS Terminal and scan_request.response Hello from AIRS Terminal. This is a tools/call operation, not read_mcp_resource; do not use resource functions to invoke a tool. Report the actual action and scan_id. Do both tools now.",
+                    timeout=180,
+                )
+            except subprocess.TimeoutExpired as error:
+                diagnostic = args.output.resolve().with_suffix(".private-exec.log")
+                diagnostic.write_bytes(
+                    (error.stdout or b"") + b"\n" + (error.stderr or b"")
+                )
+                raise
+            # Save only this synthetic run's transcript in a private local file for diagnosis.
+            diagnostic = args.output.resolve().with_suffix(".private-exec.log")
+            diagnostic.write_text(result.stdout + "\n" + result.stderr)
+            diagnostic.chmod(0o600)
+            check(
+                "exec-local-filesystem",
+                result.returncode == 0
+                and (work / "auth-proof.txt").exists()
+                and (work / "auth-proof.txt").read_text().strip() == "OIDC_LOCAL_OK",
+                exit_code=result.returncode,
+            )
+            events = []
+            for line in result.stdout.splitlines():
+                try:
+                    events.append(json.loads(line))
+                except ValueError:
+                    pass
+            shell_count = sum(
+                e.get("type") == "item.completed"
+                and e.get("item", {}).get("type") == "command_execution"
+                for e in events
+            )
+            check("bounded-simple-task", shell_count <= 4, shell_commands=shell_count)
+            calls = [
+                e.get("item", {})
+                for e in events
+                if e.get("item", {}).get("type") == "mcp_tool_call"
+            ]
+            scans = [
+                (c.get("result") or {}).get("structured_content", {}).get("results", {})
+                for c in calls
+                if c.get("status") == "completed"
+                and c.get("tool") == "pan_inline_scan"
+                and c.get("error") is None
+            ]
+            scan = next(
+                (
+                    s
+                    for s in scans
+                    if s.get("action") == "allow"
+                    and s.get("scan_id")
+                    and s.get("profile_name") == "Prisma AIRS Terminal"
+                ),
+                None,
+            )
+            check("exec-remote-mcp", scan is not None, tool_calls=len(calls), scan=scan)
+        if not args.credentials_only:
+            current_tokens = [
+                run(*credential).stdout.strip(),
+                json.loads(run(*helper).stdout)["x-portkey-api-key"],
+            ]
+            expiry = max(
+                json.loads(base64.urlsafe_b64decode(t.split(".")[1] + "=="))["exp"]
+                for t in current_tokens
+            )
+            interactive = verify_interactive_refresh(
+                binary, env, work, home, expiry, args.output.resolve()
+            )
+            check(
+                "interactive-expired-token-refresh",
+                interactive["passed"],
+                evidence=interactive,
+            )
         # Real expiration interval: validate persisted rotation across two helper processes.
         while time.time() < claims["exp"] - 25:
             time.sleep(min(2, claims["exp"] - 25 - time.time()))
@@ -468,6 +526,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             == mb["id"],
         )
         check("final-logout", run("logout").returncode == 0)
+        completed = True
     finally:
         if current and current.poll() is None:
             current.terminate()
@@ -476,7 +535,6 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             op.api("/clients/" + client["id"], "PUT", {"enabled": False})
         for u in users:
             op.api("/users/" + u["id"], "DELETE")
-        server_access("deny")
         if daemon:
             daemon.terminate()
             daemon.wait(timeout=10)
@@ -484,11 +542,17 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
         out.write_text(
             json.dumps(
                 {
-                    "passed": len(rows) >= 20 and all(r["passed"] for r in rows),
+                    "passed": completed
+                    and len(rows) == (21 if args.credentials_only else 26)
+                    and all(r["passed"] for r in rows),
+                    "scope": "credential-lifecycle-and-inference"
+                    if args.credentials_only
+                    else "full-cli-and-mcp",
+                    "binary_sha256": binary_digest,
                     "checks": rows,
                     "fixtures_removed": True,
                     "clients_disabled": True,
-                    "scanner_default_access": "deny",
+                    "scanner_access_policy": "unchanged",
                 },
                 indent=2,
             )

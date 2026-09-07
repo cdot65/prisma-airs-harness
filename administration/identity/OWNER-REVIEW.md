@@ -16,19 +16,21 @@ airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1
   --model '@openai-terminal-auth/gpt-4.1'
 airs-terminal login \
   --issuer-url https://auth.dev.cdot.io/realms/truffles \
-  --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference
+  --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference --device-auth
 airs-terminal setup-mcp --name security \
   --url https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp \
   --issuer-url https://auth.dev.cdot.io/realms/truffles \
   --oidc-client-id airs-terminal-mcp --audience airs-terminal-security \
-  --tool pan_inline_scan --required
+  --tool pan_inline_scan --required --device-auth
 airs-terminal status
 airs-terminal doctor
 ```
 
 If `work-sso` already exists, select it with `airs-terminal env use work-sso`
-instead of repeating setup. Add `--device-auth` to both login commands when using
-a browser on another machine. Sign in as the same Keycloak user both times.
+instead of repeating setup. These commands use device login so the browser can
+run on another machine while the terminal stays in this Linux workspace. Omit
+`--device-auth` from both commands to use a browser on the same host. Sign in as
+the same Keycloak user both times.
 No workspace key or client secret is needed for these user logins.
 
 ## Exercise files, tools, routes and refresh

@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "name": "RELEASE-VERIFICATION.json",
+      "asset_id": 549344173,
+      "sha256": "eb03ac165884fe83eb20fb1415b7bb6ad8aca2ea2979398142e5c35373e4a8ad",
+      "download_verified": true
+    },
+    {
+      "name": "RELEASE-VERIFICATION.json.sha256",
+      "asset_id": 549344189,
+      "sha256": "4e64ec67ce631a4584fb6e0373de633bdc795767c09ceefbd952cf263501c80f",
+      "download_verified": true
+    }
+  ]
+}

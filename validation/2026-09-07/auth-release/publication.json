@@ -1,0 +1,45 @@
+{
+  "release_id": 384301619,
+  "draft": false,
+  "tag": "airs-terminal-v0.1.0-alpha.6",
+  "url": "https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.6",
+  "source_commit": "febc5ca3b42c8d5aa1b89c71037e65f6c3791389",
+  "assets": [
+    {
+      "id": 549331101,
+      "name": "airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz",
+      "sha256": "8c14f57d275c02bc3fead0b5dd634843d06e7baa19d122086aa95fd713becd22",
+      "size": 109778039
+    },
+    {
+      "id": 549331243,
+      "name": "airs-terminal-0.1.0-alpha.6-validation.tar.gz",
+      "sha256": "c4f8ee43dd2ebf0dfd89c9463c9f1b0b8d827e5a22b13752c6a9e3aff693fa62",
+      "size": 62975
+    },
+    {
+      "id": 549331264,
+      "name": "airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz.sha256",
+      "sha256": "c618cf38b262f261fc058f58a9c9792a55bbcd2c1fd00082c4dc8ad6ee3aeef4",
+      "size": 119
+    },
+    {
+      "id": 549331272,
+      "name": "airs-terminal-0.1.0-alpha.6-validation.tar.gz.sha256",
+      "sha256": "42bd2a7f1542433c99992d79ec85ba8450d7d85cb717911a5885438bc32c7ed9",
+      "size": 112
+    },
+    {
+      "id": 549331281,
+      "name": "BUILD-INFO.json",
+      "sha256": "c99877c8793e87e10c3ec998c571d6e883eb02d6ded81ee00a1eba621c85cb37",
+      "size": 641
+    },
+    {
+      "id": 549331298,
+      "name": "VALIDATION.json",
+      "sha256": "6ecf56c6e2e733d8000734cece9e82ce713210d9d2bc24bde75b01987fdf9a93",
+      "size": 4907
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-07T20:32:05.542470+00:00",
+  "status": "published_installed_verified_ready_for_owner_review",
+  "scope": "Installed standalone Linux authentication prerelease; native credential storage tested on Linux/macOS/Windows",
+  "release_url": "https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.6",
+  "release_tag": "airs-terminal-v0.1.0-alpha.6",
+  "source_commit": "febc5ca3b42c8d5aa1b89c71037e65f6c3791389",
+  "runtime_source_commit": "cdbd82cd0",
+  "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+  "archive_sha256": "8c14f57d275c02bc3fead0b5dd634843d06e7baa19d122086aa95fd713becd22",
+  "download_verification": {
+    "passed": true,
+    "assets": [
+      {
+        "name": "airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz",
+        "sha256": "8c14f57d275c02bc3fead0b5dd634843d06e7baa19d122086aa95fd713becd22",
+        "passed": true
+      },
+      {
+        "name": "airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz.sha256",
+        "sha256": "c618cf38b262f261fc058f58a9c9792a55bbcd2c1fd00082c4dc8ad6ee3aeef4",
+        "passed": true
+      },
+      {
+        "name": "BUILD-INFO.json",
+        "sha256": "c99877c8793e87e10c3ec998c571d6e883eb02d6ded81ee00a1eba621c85cb37",
+        "passed": true
+      },
+      {
+        "name": "VALIDATION.json",
+        "sha256": "6ecf56c6e2e733d8000734cece9e82ce713210d9d2bc24bde75b01987fdf9a93",
+        "passed": true
+      }
+    ],
+    "package": {
+      "passed": true,
+      "version": "airs-terminal 0.1.0-alpha.6",
+      "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+      "source_commit": "febc5ca3b42c8d5aa1b89c71037e65f6c3791389",
+      "checksums_verified": true,
+      "required_notices_present": true,
+      "scope": "extracted package integrity; executable fixtures are a separate check"
+    },
+    "github_authorization_forwarded_to_cdn": false
+  },
+  "independent_release_ci": {
+    "passed": true,
+    "run_id": 34159113218,
+    "url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34159113218",
+    "jobs": [
+      {
+        "name": "linux-artifact",
+        "conclusion": "success"
+      },
+      {
+        "name": "scanner",
+        "conclusion": "success"
+      },
+      {
+        "name": "compatibility",
+        "conclusion": "success"
+      }
+    ],
+    "package": {
+      "passed": true,
+      "version": "airs-terminal 0.1.0-alpha.6",
+      "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+      "source_commit": "febc5ca3b42c8d5aa1b89c71037e65f6c3791389",
+      "checksums_verified": true,
+      "required_notices_present": true,
+      "scope": "extracted package integrity; executable fixtures are a separate check"
+    },
+    "executable_tests": 20
+  },
+  "live_authentication": {
+    "optimized_checks_passed": 27,
+    "installed_checks_passed": 27,
+    "original_signed_jwt": true,
+    "same_process_token_expiry_and_model_switch": true,
+    "separate_inference_and_mcp_audiences": true,
+    "installed_simple_task_shell_commands": 4
+  },
+  "local_executable_fixtures": {
+    "stripped_binary_passed": 20,
+    "extracted_package_passed": 20
+  },
+  "workspace_key_regression": {
+    "passed": true,
+    "turns": 7,
+    "mcp_scans": 3,
+    "receipt": "validation/2026-09-07/auth-release/final-workspace-key-interactive.json"
+  },
+  "supported_core_tests": {
+    "runtime_source_commit": "cdbd82cd0",
+    "fixture_source_commit": "5d0406d47",
+    "passed": true,
+    "tests_passed": 3929,
+    "tests_failed": 0,
+    "tests_skipped_or_excluded": 157,
+    "selection": "not test(code_mode) and not test(explicit_only_orchestrator_skill_is_hidden_but_can_be_invoked)",
+    "reason_for_exclusions": "V8 code-mode host unavailable on musl; code mode is disabled in the Terminal release",
+    "gateway_regression": "default and explicit gateway routes request serial tools; default omits model; explicit preserves qualified route; ordinary provider retains parallel calls",
+    "log_sha256": "1770911ad1cdbaa1f79ebd898f1766291cb61d17500b94053d509b8dd3dd52f2",
+    "earlier_full_core_attempt": {
+      "passed": 3975,
+      "failed": 102,
+      "skipped": 9,
+      "failures": "101 code-mode cases and one gateway fixture inheriting optional OpenAI environment headers; fixture corrected before final supported selection"
+    },
+    "scoped_clippy": {
+      "passed": true,
+      "command": "just fix -p codex-core",
+      "runtime_source_changed": false
+    }
+  },
+  "native_credential_platforms": {
+    "passed": true,
+    "platforms": [
+      "Linux Secret Service",
+      "macOS Keychain",
+      "Windows Credential Manager"
+    ],
+    "workflow_url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219",
+    "identity_source_unchanged_since_tested_commit": true
+  },
+  "owner_access": {
+    "enabled": true,
+    "owner_only": true,
+    "realm": "truffles",
+    "jwks_endpoints": 1,
+    "credentials_created_by_operator": false
+  },
+  "persisted_user_attribution": {
+    "passed": true,
+    "security_receipt": "validation/2026-09-07/auth-release/persisted-security-audit.json",
+    "management_receipt": "validation/2026-09-07/auth-release/persisted-management-audit.json"
+  },
+  "installation": {
+    "installed_at": "2026-09-07T20:01:42.897690+00:00",
+    "passed": true,
+    "version": "airs-terminal 0.1.0-alpha.6",
+    "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+    "previous_binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
+    "owner_persistent_state_files_preserved": 5589,
+    "temporary_arg0_helpers_regenerated": true,
+    "atomic_replace": true,
+    "rollback_binary_retained": true,
+    "installed_live_acceptance": "passed: 27 checks"
+  },
+  "known_limits": [
+    "Full macOS/Windows terminal distribution and E2E",
+    "Native artifact signing/attestation",
+    "Optional Conjur workload-secret activation",
+    "Full upstream workspace test build cannot fetch the V8 150.4.0 musl archive (HTTP 404); code mode is disabled.",
+    "Owner must unlock their native credential store and complete their own login and hands-on review.",
+    "Legacy native gateway log route returned Invalid Log Storage; persisted security export and SCM telemetry were separately verified."
+  ],
+  "self_assessment": {
+    "score": 9,
+    "out_of": 10,
+    "scope": "Authorized Linux authentication release",
+    "basis": "Exact published and installed binary passed bounded live OIDC, MCP, expiry and route-switch checks; independent artifact CI and three-platform native storage passed.",
+    "remaining_for_full_project_completion": "Owner hands-on review, full desktop-platform distribution/E2E, signing/attestation; optional Conjur activation requires authorized administrator credentials."
+  }
+}

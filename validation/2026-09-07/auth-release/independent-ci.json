@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "run_id": 34159113218,
+  "url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34159113218",
+  "jobs": [
+    {
+      "name": "linux-artifact",
+      "conclusion": "success"
+    },
+    {
+      "name": "scanner",
+      "conclusion": "success"
+    },
+    {
+      "name": "compatibility",
+      "conclusion": "success"
+    }
+  ],
+  "package": {
+    "passed": true,
+    "version": "airs-terminal 0.1.0-alpha.6",
+    "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+    "source_commit": "febc5ca3b42c8d5aa1b89c71037e65f6c3791389",
+    "checksums_verified": true,
+    "required_notices_present": true,
+    "scope": "extracted package integrity; executable fixtures are a separate check"
+  },
+  "executable_tests": 20
+}

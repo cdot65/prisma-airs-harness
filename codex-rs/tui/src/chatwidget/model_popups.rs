@@ -220,7 +220,9 @@ impl ChatWidget {
             let description =
                 (!preset.description.is_empty()).then_some(preset.description.to_string());
             let is_current = preset.model.as_str() == self.current_model();
-            let single_supported_effort = preset.supported_reasoning_efforts.len() == 1;
+            let single_supported_effort = preset.supported_reasoning_efforts.len() == 1
+                || (self.config.model_provider.gateway.is_some()
+                    && preset.supported_reasoning_efforts.is_empty());
             let preset_for_action = preset.clone();
             let actions: Vec<SelectionAction> = vec![Box::new(move |tx| {
                 let preset_for_event = preset_for_action.clone();
@@ -240,10 +242,17 @@ impl ChatWidget {
             });
         }
 
-        let header = self.model_menu_header(
-            "Select Model and Effort",
-            "Access legacy models by running codex -m <model_name> or in your config.toml",
-        );
+        let header = if self.config.model_provider.gateway.is_some() {
+            self.model_menu_header(
+                "Select Model",
+                "Choose an authorized gateway route. The default lets AIRS select the model.",
+            )
+        } else {
+            self.model_menu_header(
+                "Select Model and Effort",
+                "Access legacy models by running codex -m <model_name> or in your config.toml",
+            )
+        };
         self.show_model_selection_view(SelectionViewParams {
             view_id: Some(view_id),
             footer_hint: Some(self.bottom_pane.standard_popup_hint_line()),
@@ -419,6 +428,12 @@ impl ChatWidget {
     /// Max and Ultra require an explicit second step so expensive efforts cannot
     /// be selected accidentally while moving through the normal effort scale.
     pub(crate) fn open_reasoning_popup(&mut self, preset: ModelPreset) {
+        if self.config.model_provider.gateway.is_some()
+            && preset.supported_reasoning_efforts.is_empty()
+        {
+            self.apply_model_and_effort(preset.model, /*effort*/ None);
+            return;
+        }
         let default_effort = preset.default_reasoning_effort.clone();
         let supported = &preset.supported_reasoning_efforts;
         let in_plan_mode =

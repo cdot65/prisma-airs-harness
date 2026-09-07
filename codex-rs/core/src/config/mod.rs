@@ -4064,6 +4064,14 @@ impl Config {
 
         let mcp_servers = constrain_mcp_servers(cfg.mcp_servers.clone(), mcp_servers.as_ref())
             .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, format!("{e}")))?;
+        let developer_instructions = if codex_utils_home_dir::is_airs_terminal() {
+            Some(airs_boundary::developer_instructions(
+                developer_instructions,
+                mcp_servers.get(),
+            ))
+        } else {
+            developer_instructions
+        };
 
         let network_permission_profile = constrained_permission_profile.get().clone();
         let network = build_network_proxy_spec(

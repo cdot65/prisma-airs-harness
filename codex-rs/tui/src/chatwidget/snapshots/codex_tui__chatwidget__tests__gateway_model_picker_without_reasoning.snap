@@ -1,0 +1,11 @@
+---
+source: tui/src/chatwidget/tests/popups_and_settings.rs
+assertion_line: 3628
+expression: "render_bottom_popup(&chat, 80)"
+---
+  Select Model
+  Choose an authorized gateway route. The default lets AIRS select the model.
+
+› 1. @openai/gpt-4.1  Explicit AIRS route
+
+  Press enter to confirm or esc to go back

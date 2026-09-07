@@ -806,6 +806,7 @@ impl ModelClient {
             model: self.state.provider.info().request_model(&model_info.slug)?,
             raw_memories,
             reasoning: effort
+                .filter(|effort| self.supports_gateway_reasoning_effort(model_info, effort))
                 .map(|effort| reasoning_effort_for_request(model_info, effort))
                 .map(|effort| Reasoning {
                     effort: Some(effort),
@@ -903,6 +904,18 @@ impl ModelClient {
         request_telemetry
     }
 
+    fn supports_gateway_reasoning_effort(
+        &self,
+        model_info: &ModelInfo,
+        effort: &ReasoningEffortConfig,
+    ) -> bool {
+        self.state.provider.info().gateway.is_none()
+            || model_info
+                .supported_reasoning_levels
+                .iter()
+                .any(|preset| &preset.effort == effort)
+    }
+
     fn build_reasoning(
         &self,
         model_info: &ModelInfo,
@@ -912,6 +925,7 @@ impl ModelClient {
         Reasoning {
             effort: effort
                 .or_else(|| model_info.default_reasoning_level.clone())
+                .filter(|effort| self.supports_gateway_reasoning_effort(model_info, effort))
                 .map(|effort| reasoning_effort_for_request(model_info, effort)),
             summary: (model_info.supports_reasoning_summary_parameter
                 && summary != ReasoningSummaryConfig::None)

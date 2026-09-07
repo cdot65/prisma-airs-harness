@@ -3612,6 +3612,35 @@ async fn server_overloaded_error_does_not_switch_models() {
 }
 
 #[tokio::test]
+async fn gateway_model_picker_clears_unadvertised_reasoning_effort() {
+    let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
+    chat.thread_id = Some(ThreadId::new());
+    chat.config.model_provider.gateway = Some(codex_model_provider_info::GatewayRouting {
+        default_route: "airs-gateway-default".to_string(),
+    });
+    chat.set_reasoning_effort(Some(ReasoningEffortConfig::High));
+    let mut preset = get_available_model(&chat, "gpt-5.4");
+    preset.model = "@openai/gpt-4.1".to_string();
+    preset.description = "Explicit AIRS route".to_string();
+    preset.show_in_picker = true;
+    preset.supported_reasoning_efforts.clear();
+    while rx.try_recv().is_ok() {}
+    chat.open_model_popup_with_presets(vec![preset]);
+    assert_chatwidget_snapshot!(
+        "gateway_model_picker_without_reasoning",
+        render_bottom_popup(&chat, /*width*/ 80)
+    );
+    chat.handle_key_event(KeyEvent::from(KeyCode::Enter));
+    let preset =
+        assert_matches!(rx.try_recv(), Ok(AppEvent::OpenReasoningPopup { model }) => model);
+    chat.open_reasoning_popup(preset);
+    assert_matches!(rx.try_recv(), Ok(AppEvent::UpdateModel(model)) if model == "@openai/gpt-4.1");
+    assert_matches!(rx.try_recv(), Ok(AppEvent::UpdateReasoningEffort(None)));
+    assert_matches!(rx.try_recv(), Ok(AppEvent::PersistModelSelection { model, effort: None }) if model == "@openai/gpt-4.1");
+    assert_eq!(chat.bottom_pane.active_view_id(), None);
+}
+
+#[tokio::test]
 async fn model_reasoning_selection_popup_snapshot() {
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual(Some("gpt-5.4")).await;
 

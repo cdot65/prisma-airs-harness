@@ -22,6 +22,66 @@ EXPLICIT = "@test/org/model:version"
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_interactive_model_switch_omits_unadvertised_reasoning(self):
+        from airs_terminal_pty import TerminalSession
+
+        self.configure()
+        with TerminalSession(BINARY, self.env, self.work) as terminal:
+            terminal.start()
+            terminal.send_line("Create result.txt using a local shell tool.")
+            terminal.wait_for(b"Local tool complete.")
+            default_count = len(self.requests)
+            self.assertGreaterEqual(default_count, 2)
+            terminal.choose_model("down", EXPLICIT)
+            offset = len(terminal.transcript)
+            terminal.send_line("Review the changes and run the tests again.")
+            terminal.wait_for(b"Local tool complete.", offset)
+            explicit_count = len(self.requests)
+            self.assertGreater(explicit_count, default_count)
+            terminal.choose_model("up", "airs-gateway-default")
+            offset = len(terminal.transcript)
+            terminal.send_line("Confirm the review is complete.")
+            terminal.wait_for(b"Local tool complete.", offset)
+            self.assertGreater(len(self.requests), explicit_count)
+        for start, stop, model in (
+            (0, default_count, None),
+            (default_count, explicit_count, EXPLICIT),
+            (explicit_count, len(self.requests), None),
+        ):
+            self.assertTrue(
+                all(
+                    body.get("model") == model
+                    for _, _, body in self.requests[start:stop]
+                ),
+                [(path, body.get("model")) for path, _, body in self.requests],
+            )
+        for _, _, body in self.requests:
+            self.assertNotIn("effort", body.get("reasoning") or {})
+
+    def test_gateway_ignores_stale_reasoning_and_has_runtime_context(self):
+        self.configure()
+        result = self.execute("-m", EXPLICIT, "-c", 'model_reasoning_effort="medium"')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        for _, _, body in self.requests:
+            self.assertNotIn("effort", body.get("reasoning") or {})
+            context = json.dumps(body)
+            self.assertIn("MCP means Model Context Protocol", context)
+            self.assertIn("Inference is remote", context)
+
+    def test_gateway_advertised_reasoning_is_sent(self):
+        self.configure()
+        catalog_path = self.home / "models.json"
+        catalog = json.loads(catalog_path.read_text())
+        for model in catalog["models"]:
+            model["supported_reasoning_levels"] = [
+                {"effort": "low", "description": "Supported low effort"}
+            ]
+        catalog_path.write_text(json.dumps(catalog))
+        result = self.execute("-m", EXPLICIT, "-c", 'model_reasoning_effort="low"')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        for _, _, body in self.requests:
+            self.assertEqual(body["reasoning"]["effort"], "low")
+
     def test_mcp_wire_identity_and_separate_credentials(self):
         self.configure()
         self.env["AIRS_MCP_TEST_CREDENTIAL"] = "mcp-only-test-credential"
@@ -43,15 +103,20 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-terminal",
                 "title": "Prisma AIRS Terminal",
-                "version": "0.1.0-alpha.4",
+                "version": "0.1.0-alpha.5",
             },
         )
         self.assertTrue(
             any(body["method"] == "tools/list" for _, body in self.mcp_requests)
         )
+        request_context = json.dumps(self.requests[0][2])
+        self.assertIn("Configured MCP servers and tool allowlists", request_context)
+        self.assertIn("scanner", request_context)
+        self.assertNotIn("mcp-only-test-credential", request_context)
+
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.4")
+            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.5")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")

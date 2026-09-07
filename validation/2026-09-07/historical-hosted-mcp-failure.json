@@ -1,0 +1,34 @@
+[
+  {
+    "status": 500,
+    "body": "{\"error\":{\"message\":\"Internal Server Error\"}}"
+  },
+  {
+    "status": 200,
+    "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"logging\":{},\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"PANW AI Runtime MCP Server\",\"version\":\"0.0.1\"}}}\n"
+  },
+  {
+    "status": 500,
+    "body": "{\"error\":{\"message\":\"Internal Server Error\"}}"
+  },
+  {
+    "status": 500,
+    "body": "{\"error\":{\"message\":\"Internal Server Error\"}}"
+  },
+  {
+    "status": 200,
+    "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"logging\":{},\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"PANW AI Runtime MCP Server\",\"version\":\"0.0.1\"}}}\n"
+  },
+  {
+    "status": 200,
+    "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"logging\":{},\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"PANW AI Runtime MCP Server\",\"version\":\"0.0.1\"}}}\n"
+  },
+  {
+    "status": 200,
+    "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"logging\":{},\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"PANW AI Runtime MCP Server\",\"version\":\"0.0.1\"}}}\n"
+  },
+  {
+    "status": 200,
+    "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"logging\":{},\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"PANW AI Runtime MCP Server\",\"version\":\"0.0.1\"}}}\n"
+  }
+]

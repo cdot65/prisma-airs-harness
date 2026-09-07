@@ -1,0 +1,11 @@
+{
+  "exit_code": 0,
+  "marker_preserved": true,
+  "events": [
+    {
+      "path": "/tmp/airs-terminal-acceptance-suewsjef/state/environments/a8eb4f64-43f6-4902-a60a-6b05ac2f6846/sessions/2026/09/07/rollout-2026-09-07T04-47-00-01a07a30-e71c-7c51-b845-33109e378059.jsonl",
+      "type": "compacted",
+      "payload_type": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "binary": "/home/cdot/.local/bin/airs-terminal",
+  "checks": [
+    {
+      "mode": "default",
+      "thread_id": "01a07ac1-6f52-7351-a83f-512681fb0f69",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "2da5a4ef-cfd1-47d2-9a1b-edc758fe3cc9"
+    },
+    {
+      "mode": "explicit",
+      "thread_id": "01a07ac1-a898-7452-85e5-a63007ab33e0",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "a5a5d668-c378-46b2-9323-8cf052d3880c"
+    }
+  ],
+  "resume_passed": true,
+  "passed": true
+}

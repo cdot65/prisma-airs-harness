@@ -1,0 +1,43 @@
+{
+  "case": "invalid_required_scanner_profile",
+  "status": 446,
+  "error": {
+    "message": "The guardrail checks defined in the config failed. You can find more information in the `hook_results` object.",
+    "type": "hooks_failed",
+    "param": null,
+    "code": null
+  },
+  "hook_results": {
+    "before_request_hooks": [
+      {
+        "verdict": false,
+        "id": "pg-prisma-ff3021",
+        "transformed": false,
+        "checks": [
+          {
+            "data": null,
+            "verdict": false,
+            "id": "panw-prisma-airs.intercept",
+            "error": {
+              "name": "HttpError",
+              "message": "HTTP error! status: 400"
+            },
+            "execution_time": 162,
+            "transformed": false,
+            "created_at": "2026-09-07T04:33:24.230Z",
+            "log": null,
+            "fail_on_error": true
+          }
+        ],
+        "feedback": null,
+        "execution_time": 162,
+        "async": false,
+        "type": "guardrail",
+        "created_at": "2026-09-07T04:33:24.230Z",
+        "deny": true,
+        "softDeny200": false
+      }
+    ],
+    "after_request_hooks": []
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "cancel_exit_code": 1,
+  "thread_id": "01a07a3a-2e47-7a52-80a0-5e0cd79aa966",
+  "started_once": true,
+  "did_not_finish_after_cancel": true,
+  "resume_exit_code": 0,
+  "side_effect_not_replayed": true
+}

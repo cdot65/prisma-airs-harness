@@ -44,6 +44,22 @@ fn detects_proc_mount_permission_denied_failure() {
 }
 
 #[test]
+fn detects_proc_mount_failure_with_current_bubblewrap_path() {
+    for reason in [
+        "Invalid argument",
+        "Operation not permitted",
+        "Permission denied",
+    ] {
+        assert!(is_proc_mount_failure(&format!(
+            "bwrap: Can't mount proc on /proc: {reason}"
+        )));
+    }
+    assert!(!is_proc_mount_failure(
+        "bwrap: Can't mount proc on /proc/other: Operation not permitted"
+    ));
+}
+
+#[test]
 fn ignores_non_proc_mount_errors() {
     let stderr = "bwrap: Can't bind mount /dev/null: Operation not permitted";
     assert!(!is_proc_mount_failure(stderr));

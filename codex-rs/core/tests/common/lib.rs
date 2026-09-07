@@ -231,6 +231,10 @@ allow_local_binding = true
 #[cfg(target_os = "linux")]
 fn default_test_overrides() -> ConfigOverrides {
     ConfigOverrides {
+        #[cfg(target_env = "musl")]
+        codex_self_exe: Some(
+            codex_utils_cargo_bin::cargo_bin("codex").expect("build the Codex test helper binary"),
+        ),
         codex_linux_sandbox_exe: Some(
             find_codex_linux_sandbox_exe().expect("should find binary for codex-linux-sandbox"),
         ),
@@ -245,19 +249,29 @@ fn default_test_overrides() -> ConfigOverrides {
 
 #[cfg(target_os = "linux")]
 pub fn find_codex_linux_sandbox_exe() -> Result<PathBuf, CargoBinError> {
-    if let Some(path) = TEST_ARG0_PATH_ENTRY
-        .get()
-        .and_then(Option::as_ref)
-        .and_then(|path_entry| path_entry.paths().codex_linux_sandbox_exe.clone())
+    // Rust argv is not initialized in pre-main constructors on musl, so a
+    // libtest executable cannot perform the constructor's arg0 dispatch there.
+    // Use the real helper rather than treating libtest's argument parser as one.
+    #[cfg(target_env = "musl")]
     {
-        return Ok(path);
+        codex_utils_cargo_bin::cargo_bin("codex-linux-sandbox")
     }
+    #[cfg(not(target_env = "musl"))]
+    {
+        if let Some(path) = TEST_ARG0_PATH_ENTRY
+            .get()
+            .and_then(Option::as_ref)
+            .and_then(|path_entry| path_entry.paths().codex_linux_sandbox_exe.clone())
+        {
+            return Ok(path);
+        }
 
-    if let Ok(path) = std::env::current_exe() {
-        return Ok(path);
+        if let Ok(path) = std::env::current_exe() {
+            return Ok(path);
+        }
+
+        codex_utils_cargo_bin::cargo_bin("codex-linux-sandbox")
     }
-
-    codex_utils_cargo_bin::cargo_bin("codex-linux-sandbox")
 }
 
 pub async fn wait_for_event<F>(

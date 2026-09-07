@@ -8,7 +8,6 @@ use std::io::Read;
 use std::os::fd::AsRawFd;
 use std::os::fd::FromRawFd;
 use std::os::unix::ffi::OsStrExt;
-use std::os::unix::fs::OpenOptionsExt;
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
 use std::path::PathBuf;
@@ -1232,10 +1231,19 @@ fn make_directory_tree_writable(path: &Path) -> std::io::Result<()> {
         return Ok(());
     }
 
-    let directory = OpenOptions::new()
-        .read(true)
-        .custom_flags(libc::O_PATH | libc::O_DIRECTORY | libc::O_NOFOLLOW)
-        .open(path)?;
+    // OpenOptions removes O_PATH on musl. Open the inode directly so even a
+    // mode-000 directory can be pinned without following a replacement symlink.
+    let path_cstr = CString::new(path.as_os_str().as_bytes())?;
+    let fd = unsafe {
+        libc::open(
+            path_cstr.as_ptr(),
+            libc::O_PATH | libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    let directory = unsafe { File::from_raw_fd(fd) };
     let directory_path = PathBuf::from(format!("/proc/self/fd/{}", directory.as_raw_fd()));
     fs::set_permissions(&directory_path, fs::Permissions::from_mode(0o700))?;
     for entry in fs::read_dir(directory_path)? {
@@ -1492,7 +1500,7 @@ fn close_fd_or_panic(fd: libc::c_int, context: &str) {
 
 fn is_proc_mount_failure(stderr: &str) -> bool {
     stderr.contains("Can't mount proc")
-        && stderr.contains("/newroot/proc")
+        && (stderr.contains("on /newroot/proc:") || stderr.contains("on /proc:"))
         && (stderr.contains("Invalid argument")
             || stderr.contains("Operation not permitted")
             || stderr.contains("Permission denied"))

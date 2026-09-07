@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--admin-token-file", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--gateway-url", default="https://airs.cdot.io/v1")
     args = parser.parse_args()
     metadata = args.admin_token_file.stat()
     assert metadata.st_mode & 0o077 == 0, "Admin token file must be owner-only"
@@ -184,7 +185,7 @@ def main():
 
     def infer(case, tokens, expected, extra=None, body=None):
         r = requests.post(
-            "https://airs.cdot.io/v1/responses",
+            args.gateway_url.rstrip("/") + "/responses",
             json=body
             or {
                 "input": "Reply exactly HEALTHY.",
@@ -289,9 +290,9 @@ def main():
         infer("authorized_user_default", approved, 200)
         infer("unassigned_user_denied", denied, 446)
         infer(
-            "authorized_user_inline_config_still_scanned",
+            "authorized_user_inline_config_denied",
             approved,
-            200,
+            403,
             {
                 "x-portkey-config": json.dumps(
                     {
@@ -304,7 +305,7 @@ def main():
         infer(
             "unassigned_header_role_spoof_denied",
             denied,
-            446,
+            403,
             {
                 "x-portkey-metadata": json.dumps(
                     {"airs_roles": ["terminal-user"], "_user": users[0]["id"]}

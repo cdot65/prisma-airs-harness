@@ -1,0 +1,17 @@
+{
+  "image": "registry.cdot.io/airs-terminal/identity-filter:0.1.0",
+  "digest": "sha256:eaa6674d8c29e1efa9045122baee3c1fe5a5b0be21f20b376beb2ffb7de10d84",
+  "base": "gcr.io/distroless/nodejs22-debian13:nonroot@sha256:4e4fb0ce55fd73901600796ef079a9490369d2515d7da31633a91608c82ca13b",
+  "layer_sha256": "19a4da7669da17a81b21a270d2b4e30c61e9ca87a493d4b987993873495e28df",
+  "sources": {
+    "app/server.mjs": "0869b4b40773ea990b80dc8ea5231514bff5b218148225857d92313cd160afad",
+    "app/LICENSE": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+    "app/NOTICE": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+  },
+  "builder": "crane mutate (Dockerfile-equivalent OCI layer)",
+  "user": "10001:10001",
+  "entrypoint": [
+    "/nodejs/bin/node",
+    "/app/server.mjs"
+  ]
+}

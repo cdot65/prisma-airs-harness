@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "host": "10.244.1.149",
+      "port": 8787,
+      "connected": false,
+      "passed": true
+    },
+    {
+      "host": "10.244.1.149",
+      "port": 8788,
+      "connected": false,
+      "passed": true
+    },
+    {
+      "host": "10.244.1.149",
+      "port": 8887,
+      "connected": true,
+      "passed": true
+    },
+    {
+      "host": "10.244.1.149",
+      "port": 8888,
+      "connected": true,
+      "passed": true
+    },
+    {
+      "host": "10.244.8.99",
+      "port": 8787,
+      "connected": false,
+      "passed": true
+    },
+    {
+      "host": "10.244.8.99",
+      "port": 8788,
+      "connected": false,
+      "passed": true
+    },
+    {
+      "host": "10.244.8.99",
+      "port": 8887,
+      "connected": true,
+      "passed": true
+    },
+    {
+      "host": "10.244.8.99",
+      "port": 8888,
+      "connected": true,
+      "passed": true
+    }
+  ]
+}

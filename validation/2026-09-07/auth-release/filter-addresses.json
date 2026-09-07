@@ -1,0 +1,85 @@
+[
+  {
+    "case": "hostname",
+    "url": "https://airs.cdot.io",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "load_balancer",
+    "url": "http://192.168.1.53",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "cluster_ip",
+    "url": "http://10.98.61.219",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos-c1",
+    "url": "http://192.168.255.11:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos-c2",
+    "url": "http://192.168.255.12:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos-c3",
+    "url": "http://192.168.255.13:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos1",
+    "url": "http://192.168.255.3:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos2",
+    "url": "http://192.168.255.4:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos3",
+    "url": "http://192.168.255.5:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos4",
+    "url": "http://192.168.255.6:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos5",
+    "url": "http://192.168.255.7:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos6",
+    "url": "http://192.168.255.8:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "nodeport_talos7",
+    "url": "http://192.168.255.9:31711",
+    "status": 403,
+    "passed": true
+  },
+  {
+    "case": "native_invalid_signature_denied",
+    "status": 401,
+    "passed": true
+  }
+]

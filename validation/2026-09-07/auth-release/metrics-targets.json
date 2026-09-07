@@ -1,0 +1,12 @@
+[
+  {
+    "scrapeUrl": "http://10.244.1.149:8887/metrics",
+    "health": "up",
+    "lastError": ""
+  },
+  {
+    "scrapeUrl": "http://10.244.8.99:8887/metrics",
+    "health": "up",
+    "lastError": ""
+  }
+]

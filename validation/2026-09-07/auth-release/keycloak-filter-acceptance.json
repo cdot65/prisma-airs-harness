@@ -1,0 +1,215 @@
+{
+  "checked_at": "2026-09-07T14:39:51.267231+00:00",
+  "purpose": "Public-client IdP and native gateway checks; not installed CLI acceptance",
+  "synthetic_users_removed": true,
+  "pilot_client_disabled": true,
+  "passed": true,
+  "cases": [
+    {
+      "case": "two_user_pkce_identity",
+      "passed": true,
+      "subjects": [
+        "e4e904bb-5133-403b-b396-9edaf170997f",
+        "a05a3f3b-15f5-46e0-ad2a-3aa6b69f766c"
+      ],
+      "access_token_lifetime_seconds": 120
+    },
+    {
+      "case": "authorized_user_default",
+      "passed": true,
+      "status": 200,
+      "expected_status": 200,
+      "response_id": "resp_0cdb1d545cd30f07006a9eccac067487d1bb370ef88028c8e9",
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-da0e73",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-b06244",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "b1609188-a8d0-4281-8377-5e46ce8b904e"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "23f4b9b9-9acd-4557-9eb9-efdccf5b7a09"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "unassigned_user_denied",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "response_id": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-da0e73",
+            "verdict": false,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-b06244",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "e4190893-b323-4572-9e7c-a15f3560000d"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "authorized_user_inline_config_denied",
+      "passed": true,
+      "status": 403,
+      "expected_status": 403,
+      "response_id": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "unassigned_header_role_spoof_denied",
+      "passed": true,
+      "status": 403,
+      "expected_status": 403,
+      "response_id": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "unassigned_nitro_mode_denied",
+      "passed": true,
+      "status": 403,
+      "expected_status": [
+        400,
+        403,
+        446
+      ],
+      "response_id": null,
+      "hooks": {
+        "before_request_hooks": [],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "device_requires_user_approval",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "case": "device_user_identity",
+      "passed": true
+    },
+    {
+      "case": "device_user_inference_scanned",
+      "passed": true,
+      "status": 200,
+      "expected_status": 200,
+      "response_id": "resp_0d225c5d15e9a9d9006a9eccb3e32887d18538a1ef09efb466",
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-da0e73",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-b06244",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "65963b19-e73f-4d00-9470-fbe9893943dc"
+            ]
+          }
+        ],
+        "after_request_hooks": [
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "0489790a-01e5-4ce5-92e1-3ad8a8c98b45"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": "wrong_pkce_verifier_denied",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "case": "refresh_preserves_subject",
+      "passed": true
+    },
+    {
+      "case": "refresh_reuse_denied",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "case": "role_removed_refresh_denied",
+      "passed": true,
+      "status": 446,
+      "expected_status": 446,
+      "response_id": null,
+      "hooks": {
+        "before_request_hooks": [
+          {
+            "id": "pg-termin-da0e73",
+            "verdict": false,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-b06244",
+            "verdict": true,
+            "scan_ids": []
+          },
+          {
+            "id": "pg-termin-054976",
+            "verdict": true,
+            "scan_ids": [
+              "332c8a72-884d-4992-986c-3afe0dceeec8"
+            ]
+          }
+        ],
+        "after_request_hooks": []
+      }
+    },
+    {
+      "case": "logout_prevents_refresh",
+      "passed": true,
+      "status": 400
+    }
+  ]
+}

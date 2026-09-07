@@ -1,0 +1,15 @@
+test_gateway_ignores_stale_reasoning_and_has_runtime_context (test_airs_terminal.TerminalIntegration.test_gateway_ignores_stale_reasoning_and_has_runtime_context) ... FAIL
+
+======================================================================
+FAIL: test_gateway_ignores_stale_reasoning_and_has_runtime_context (test_airs_terminal.TerminalIntegration.test_gateway_ignores_stale_reasoning_and_has_runtime_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/prisma-airs-terminal/scripts/test_airs_terminal.py", line 63, in test_gateway_ignores_stale_reasoning_and_has_runtime_context
+    self.assertNotIn("effort", body.get("reasoning") or {})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'effort' unexpectedly found in {'effort': 'medium'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.749s
+
+FAILED (failures=1)

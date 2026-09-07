@@ -1,0 +1,18 @@
+{
+  "key_id": "0db518a6-a679-452f-bcab-e0b1bb80338b",
+  "before_scopes": [
+    "agents.invoke",
+    "completions.write",
+    "logs.write",
+    "mcp.invoke",
+    "prompts.render"
+  ],
+  "after_scopes": [
+    "completions.write",
+    "logs.write"
+  ],
+  "status": "active",
+  "expires_at": null,
+  "config_id": "d68e3bf0-e1c7-4825-bea9-a3351d2d9e20",
+  "allow_config_override": 0
+}

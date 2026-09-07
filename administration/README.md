@@ -16,8 +16,8 @@ individual-user identity in workspace-key mode.
 The configured workspace is `2f2ba0ed-7797-441e-9add-eec2c60b9723`, slug
 `ws-develo-71f8d8`. The terminal inference key is bound to routing configuration
 `d68e3bf0-e1c7-4825-bea9-a3351d2d9e20` (`pc-prisma-7d87b5`) with
-`allow_config_override=false`. Only its needed inference/agent/logging scopes are
-present. Do not give ordinary terminal users management credentials or provider keys.
+`allow_config_override=false`. Its scopes are limited to `completions.write` and `logs.write`.
+The independent MCP credential has only `mcp.invoke`. Do not give ordinary terminal users management credentials or provider keys.
 
 `pilot-routing.json` is the live, non-secret routing body. The gateway-default
 target selects provider `@openai` and model `gpt-4.1` inside the gateway. The client
@@ -64,7 +64,7 @@ directly; disabling pooling alone did not resolve that failure.
 Server binding `71f3efa5-9a44-4159-9b40-89135ecb9f8e` permits only
 `pan_inline_scan`. `pan_batch_scan` and `pan_get_scan_results` are disabled on the
 server. The separately provisioned workspace credential has only `mcp.invoke`;
-it cannot call inference. User configuration additionally limits the visible tool
+it cannot call inference, and the inference-only key is denied at MCP startup. User configuration additionally limits the visible tool
 catalog. Do not substitute client-side filtering for server authorization.
 
 The installed AIRS gateway image is 2.20.0, with two replicas. Infrastructure lives
@@ -102,3 +102,8 @@ Private pre-cutover MCP and Helm configurations are preserved by the operator in
 0700 and file mode 0600. These contain credentials and must never be attached to
 issues or copied into this repository. The rejected untagged scanner image
 candidates were removed from Harbor; the final digest remains available.
+
+Management authorization updates are not instantaneous at the data plane. The
+scope-reduction probe initially observed the previous MCP permission, then 403
+after convergence. Verify actual inference/MCP denial after a key change;
+management readback alone is not proof of immediate revocation.

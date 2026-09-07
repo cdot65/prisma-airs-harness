@@ -9,21 +9,21 @@
       "root_model_present": false,
       "requested_model": null,
       "resolved_model": "gpt-4.1-2025-04-14",
-      "response_id": "resp_09f175cd42de50f9006a9e67601c6087d182bb9a213a4766a4",
+      "response_id": "resp_0df0d224c633822e006a9e6cb0458487d1a01f568c2f3d7ee1",
       "error": null,
       "scans": [
         {
           "phase": "before_request_hooks",
           "verdict": true,
           "action": "allow",
-          "scan_id": "371c1194-263f-40d2-aa51-be17d5205d3b",
+          "scan_id": "440827a1-80d5-4be1-9eed-1a151414ce4f",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         },
         {
           "phase": "after_request_hooks",
           "verdict": true,
           "action": "allow",
-          "scan_id": "ee1f7af3-2532-4f01-98d0-f0ab42434bd3",
+          "scan_id": "d4c5ad82-6c36-484b-9863-541f643cec98",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -36,21 +36,21 @@
       "root_model_present": true,
       "requested_model": "@openai/gpt-4.1",
       "resolved_model": "gpt-4.1-2025-04-14",
-      "response_id": "resp_020f54764d5cd326006a9e6761bb2887d1a11cdf7cc48d743d",
+      "response_id": "resp_02468eb6d425af96006a9e6cb1d4e887d190562243c87e43ee",
       "error": null,
       "scans": [
         {
           "phase": "before_request_hooks",
           "verdict": true,
           "action": "allow",
-          "scan_id": "06f531b2-2f8b-4a8e-b405-f17256b17de0",
+          "scan_id": "f656e708-7e39-4668-8d68-d5c47870dc67",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         },
         {
           "phase": "after_request_hooks",
           "verdict": true,
           "action": "allow",
-          "scan_id": "a3616370-06b8-473e-8bcc-d87c8bb52895",
+          "scan_id": "4a9cdce3-1058-4e50-85cb-52ea9718ce8f",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -150,7 +150,7 @@
           "phase": "before_request_hooks",
           "verdict": false,
           "action": "block",
-          "scan_id": "b03bf5e0-baa2-417c-b143-da312711c9ae",
+          "scan_id": "564d6798-8921-4284-9f11-08d3276ef559",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -175,7 +175,7 @@
           "phase": "before_request_hooks",
           "verdict": false,
           "action": "block",
-          "scan_id": "430fa2e2-92f9-4155-b5b0-2497a4d5c20f",
+          "scan_id": "811d1d77-208f-48c1-a451-d500e978e274",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -200,7 +200,7 @@
           "phase": "before_request_hooks",
           "verdict": false,
           "action": "block",
-          "scan_id": "b7da8bf5-983e-469c-ac7e-79a80531b4ae",
+          "scan_id": "865a7940-c8a6-428d-928e-4df56e6eb2b1",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -225,7 +225,7 @@
           "phase": "before_request_hooks",
           "verdict": false,
           "action": "block",
-          "scan_id": "2b70bab5-20dd-48a2-b770-d666c85412e8",
+          "scan_id": "f08a7424-6a5d-43e5-a069-ed4f6b9c92c2",
           "profile_id": "11d6d866-a363-44a3-84ec-d161634cc017"
         }
       ]
@@ -268,6 +268,11 @@
         "code": "033"
       },
       "scans": []
+    },
+    {
+      "case": "inference_key_cannot_invoke_mcp",
+      "status": 403,
+      "passed": true
     },
     {
       "case": "mcp_initialize",

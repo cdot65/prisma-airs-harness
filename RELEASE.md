@@ -13,7 +13,7 @@ The complete original team MVP is not claimed complete.
 | --- | --- |
 | Routing | Default omits root `model`; explicit sends exact `@provider/model`. Real default/explicit Responses turns complete. Null, empty and legacy alias inputs are rejected. |
 | Policy | Both routes have synchronous input/output scans. Injection, synthetic DLP and malicious-URL fixtures block. An invalid mandatory profile fails closed; the valid profile was restored. |
-| Authorization | Wrong key 401; MCP-only key cannot infer (403); unauthorized config/provider-key overrides rejected. Provider/guardrail headers cannot bypass the denial fixture. |
+| Authorization | Wrong key 401; MCP-only key cannot infer (403), inference-only key cannot initialize MCP (403); unauthorized config/provider-key overrides rejected. Provider/guardrail headers cannot bypass the denial fixture. |
 | Local agent | Actual sandboxed read/edit, skill instructions, passing Python tests, remote scanner result and model continuation in both routing modes. |
 | Environments | Independent UUID state, endpoint-bound credentials, history pinned to identity/catalog/context/MCP, foreign-session rejection, process-stable environment selection. |
 | Recovery | Live cancellation stops a pending write; resume does not replay it. Live `/compact` persists compaction and retains a session marker on resume. Automatic compaction is also covered by a bounded fixture. |
@@ -59,7 +59,7 @@ hosted MCP session dependency. It exposes one fixed-profile tool, bounds inputs
 and timeouts, uses separate backend authentication and returns errors without an
 allow verdict when scans are unavailable. It does not silently retry scan calls.
 
-The final deployment passes 19 raw routing/policy/authorization checks and repeated,
+The final deployment passes 20 raw routing/policy/authorization checks and repeated,
 concurrent and idle MCP checks; the exact receipts are in `validation/2026-09-07/`.
 Real assembled-agent default/explicit work and resume also passed on the final
 minimal runtime image. Earlier failed probes are documented as historical evidence,

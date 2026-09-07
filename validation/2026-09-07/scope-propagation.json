@@ -1,0 +1,8 @@
+{
+  "scope_reduction_utc": "2026-09-07T07:48:25.827526+00:00",
+  "early_mcp_initialize_status": 200,
+  "early_probe_seconds_after_management_readback": 13.45,
+  "converged_mcp_initialize_status": 403,
+  "converged_probe_seconds_after_management_readback": 59.48,
+  "interpretation": "Management readback preceded data-plane authorization convergence. This is an observation, not a propagation-time guarantee."
+}

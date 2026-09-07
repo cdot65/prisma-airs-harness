@@ -183,6 +183,14 @@ def main():
             },
         },
     }
+    status, _, _ = request(args.mcp_url, init, key)
+    receipts.append(
+        {
+            "case": "inference_key_cannot_invoke_mcp",
+            "status": status,
+            "passed": status == 403,
+        }
+    )
     status, headers, payloads = request(args.mcp_url, init, mcp_key)
     receipts.append(
         {

@@ -38,5 +38,13 @@
   "production_ready": false,
   "remote_publication": "not published; local Git repository only",
   "version_output": "airs-terminal 0.1.0-alpha.1",
-  "archive": "codex-rs/target/airs-terminal-0.1.0-alpha.1-linux-x86_64-musl.tar.gz"
+  "archive": "codex-rs/target/airs-terminal-0.1.0-alpha.1-linux-x86_64-musl.tar.gz",
+  "installed_binary_verification": {
+    "passed": 6,
+    "failed": 0,
+    "binary_sha256_matches_build": true
+  },
+  "clippy": "passed; one pre-existing unused-import warning in core/tests/suite/openai_file_mcp.rs",
+  "format_check": "passed",
+  "bazel_metadata": "passed with host-only musl Cargo override; no lockfile drift"
 }

@@ -40,7 +40,7 @@ See `VALIDATION.json` for the binary SHA-256 and focused test receipt.
 | Standalone Linux/musl Cargo build | Passed. Development profile; not an optimized release build. |
 | Focused API, provider, home-dir and CLI regression run, before final credential/state guards | 889 tests: 886 passed, 3 failed, none skipped. |
 | Three failing regression tests | Bubblewrap could not mount `/proc` in this host; the affected tests are listed below. |
-| Final actual-executable protocol/credential/state tests | 6 passed; see sandbox limitation below. |
+| Final actual-executable protocol/credential/state tests | 6 passed against both the build output and installed binary; see sandbox limitation below. |
 | Dedicated gateway-routing and sensitive-header tests | 31 passed, none skipped. |
 | Full workspace test attempt | Blocked during compilation: upstream `v8` 150.4.0's musl prebuilt archive returned HTTP 404. No full-suite pass is claimed. |
 | Config schema generation | Passed; schema updated. |

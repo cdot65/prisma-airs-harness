@@ -34,7 +34,12 @@ async fn gateway_routes_request_serial_tools_and_preserve_model_selection() -> a
                 config.model_provider.gateway = gateway.map(|default_route| GatewayRouting {
                     default_route: default_route.to_string(),
                 });
-                config.model_provider.requires_openai_auth = false;
+                if gateway.is_some() {
+                    config.model_provider_id = "airs".to_string();
+                    config.model_provider.name = "Test AIRS".to_string();
+                    config.model_provider.requires_openai_auth = false;
+                    config.model_provider.env_http_headers = None;
+                }
                 config.model_provider.supports_websockets = false;
             })
             .build_with_auto_env(&server)
@@ -47,6 +52,9 @@ async fn gateway_routes_request_serial_tools_and_preserve_model_selection() -> a
             }]))
             .await?;
         wait_for_event(&fixture.codex, |event| {
+            if let EventMsg::Error(error) = event {
+                panic!("{selection} with gateway {gateway:?}: {}", error.message);
+            }
             matches!(event, EventMsg::TurnComplete(_))
         })
         .await;

@@ -21,8 +21,10 @@ The independent MCP credential has only `mcp.invoke`. Do not give ordinary termi
 
 `pilot-routing.json` is the live, non-secret routing body. The gateway-default
 target selects provider `@openai` and model `gpt-4.1` inside the gateway. The client
-omits root `model`. Qualified explicit routes use the passthrough branch under
-the same synchronous input/output guardrails. The conditional expression accounts
+omits root `model`. Qualified explicit routes use passthrough targets under
+the same synchronous input/output scanner guardrails. The GPT-4.1 candidate target
+also uses a provider-aware compatibility webhook; see
+[request compatibility](request-compatibility.md). The conditional expression accounts
 for this gateway's query engine coercing an absent property to the string
 `undefined`; null/empty values are directed to the explicit branch and rejected,
 not silently replaced. The terminal itself emits neither null nor empty models.
@@ -94,7 +96,9 @@ alongside successes. Required MCP startup fails after bounded initialization
 retries; do not blindly replay an uncertain remote mutation.
 
 Keycloak public-client login, refresh and distinct-user audit evidence remain
-unfinished under the owner's explicit workspace-key fallback. Do not label this
+unfinished under the owner's explicit workspace-key fallback. The follow-up
+[JWT prerequisite audit](keycloak-prerequisites.md) found live audience and
+mandatory config-binding failures that must be fixed at the gateway before rollout. Do not label this
 pilot a completed team identity implementation.
 
 Private pre-cutover MCP and Helm configurations are preserved by the operator in

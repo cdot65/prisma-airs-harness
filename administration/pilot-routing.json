@@ -1,7 +1,18 @@
 {
+  "retry": {
+    "attempts": 0
+  },
   "strategy": {
     "mode": "conditional",
     "conditions": [
+      {
+        "query": {
+          "params.model": {
+            "$eq": "gpt-4.1"
+          }
+        },
+        "then": "explicit-gpt-4-1"
+      },
       {
         "query": {
           "$or": [
@@ -29,11 +40,22 @@
   },
   "targets": [
     {
-      "name": "gateway-default",
       "provider": "@openai",
+      "name": "gateway-default",
       "override_params": {
         "model": "gpt-4.1"
-      }
+      },
+      "drop_params": [
+        "reasoning"
+      ]
+    },
+    {
+      "name": "explicit-gpt-4-1",
+      "passthrough": true,
+      "input_guardrails": [
+        "pg-airs-t-6116e0",
+        "pg-prisma-ff3021"
+      ]
     },
     {
       "name": "explicit",
@@ -46,8 +68,5 @@
   "output_guardrails": [
     "pg-prisma-ff3021"
   ],
-  "retry": {
-    "attempts": 0
-  },
   "request_timeout": 120000
 }

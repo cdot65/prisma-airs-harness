@@ -705,7 +705,11 @@ impl App {
                     }
                 }
             },
-            AppEvent::Logout => match app_server.logout_account().await {
+            AppEvent::Logout => match if codex_utils_home_dir::is_airs_terminal() {
+                crate::airs_branding::logout(&self.config.codex_home).await
+            } else {
+                app_server.logout_account().await
+            } {
                 Ok(()) => {
                     self.show_shutdown_feedback(tui)?;
                     return Ok(self

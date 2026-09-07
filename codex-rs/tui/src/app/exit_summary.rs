@@ -134,15 +134,27 @@ impl AppExitInfo {
         if let ExitReason::Archived(thread_id) = self.exit_reason {
             lines.push(format!("Session archived: {thread_id}"));
         } else if let Some(thread) = self.resume_hint {
+            let executable = if codex_utils_home_dir::is_airs_terminal() {
+                let mut command = vec!["airs-terminal".to_string()];
+                if let Some(name) = codex_utils_home_dir::find_codex_home()
+                    .ok()
+                    .and_then(|home| crate::airs_branding::environment_name(home.as_path()))
+                {
+                    command.extend(["--environment".to_string(), name]);
+                }
+                escape_command(&command)
+            } else {
+                "codex".to_string()
+            };
             lines.push("To continue this session, run:".to_string());
             lines.push(format!(
                 "  {}",
-                color_command(format!("codex resume {}", thread.thread_id)),
+                color_command(format!("{executable} resume {}", thread.thread_id)),
             ));
             if let Some(thread_name) = thread.thread_name.filter(|name| !name.is_empty()) {
                 lines.push(format!(
                     "Or run {} and select {}.",
-                    color_command("codex resume".to_string()),
+                    color_command(format!("{executable} resume")),
                     color_command(thread_name),
                 ));
             }

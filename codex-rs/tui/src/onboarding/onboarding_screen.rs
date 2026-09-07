@@ -129,7 +129,8 @@ impl OnboardingScreen {
         let auth_config = config.auth_config();
         let mut steps: Vec<Step> = Vec::new();
         steps.push(Step::Welcome(WelcomeWidget::new(
-            !matches!(login_status, LoginStatus::NotAuthenticated),
+            !matches!(login_status, LoginStatus::NotAuthenticated)
+                || codex_utils_home_dir::is_airs_terminal(),
             tui.frame_requester(),
             config.animations,
         )));

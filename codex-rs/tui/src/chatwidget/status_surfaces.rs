@@ -917,6 +917,13 @@ impl ChatWidget {
     }
 
     fn model_with_reasoning_display_name(&self) -> String {
+        if codex_utils_home_dir::is_airs_terminal() {
+            return if self.current_model() == "airs-gateway-default" {
+                "AI Gateway — default".to_string()
+            } else {
+                self.model_display_name().to_string()
+            };
+        }
         let label = self.reasoning_display_name();
         let service_tier_label = self
             .current_service_tier()

@@ -282,6 +282,12 @@ impl StatusHistoryCell {
         let approval_policy = AskForApproval::from(config.permissions.approval_policy.value());
         let permission_profile = config.permissions.effective_permission_profile();
         let workspace_roots = config.effective_workspace_roots();
+        let model_name =
+            if codex_utils_home_dir::is_airs_terminal() && model_name == "airs-gateway-default" {
+                "AI Gateway — default"
+            } else {
+                model_name
+            };
         let mut config_entries = vec![
             ("workdir", config.cwd.display().to_string()),
             ("model", model_name.to_string()),
@@ -299,7 +305,9 @@ impl StatusHistoryCell {
                 ),
             ),
         ];
-        if config.model_provider.wire_api == WireApi::Responses {
+        if config.model_provider.wire_api == WireApi::Responses
+            && !codex_utils_home_dir::is_airs_terminal()
+        {
             let effort_value = reasoning_effort_override
                 .unwrap_or_else(|| config.model_reasoning_effort.clone())
                 .map(|effort| effort.to_string())
@@ -727,9 +735,13 @@ impl HistoryCell for StatusHistoryCell {
         let mut lines: Vec<Line<'static>> = Vec::new();
         lines.push(Line::from(vec![
             Span::from(format!("{}>_ ", FieldFormatter::INDENT)).dim(),
-            Span::from("OpenAI Codex").bold(),
+            Span::from(crate::airs_branding::product_name()).bold(),
             Span::from(" ").dim(),
-            Span::from(format!("(v{CODEX_CLI_VERSION})")).dim(),
+            Span::from(format!(
+                "(v{})",
+                crate::airs_branding::version(CODEX_CLI_VERSION)
+            ))
+            .dim(),
         ]));
 
         let available_inner_width = usize::from(width.saturating_sub(4));

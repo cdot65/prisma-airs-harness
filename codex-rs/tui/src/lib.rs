@@ -149,6 +149,7 @@ mod keymap_setup;
 mod line_truncation;
 pub(crate) mod live_wrap;
 pub use live_wrap::RowBuilder;
+mod airs_branding;
 mod local_chatgpt_auth;
 mod managed_new_thread_defaults;
 mod markdown;

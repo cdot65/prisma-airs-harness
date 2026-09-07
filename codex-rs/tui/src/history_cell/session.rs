@@ -7,6 +7,10 @@ use crate::width::display_width;
 
 pub(crate) const SESSION_HEADER_MAX_INNER_WIDTH: usize = 56; // Just an eyeballed value
 
+#[cfg(test)]
+#[path = "airs_session_tests.rs"]
+mod airs_tests;
+
 pub(crate) fn card_inner_width(width: u16, max_inner_width: usize) -> Option<usize> {
     if width < 4 {
         return None;
@@ -132,7 +136,7 @@ pub(crate) fn new_session_info(
     show_fast_status: bool,
 ) -> SessionInfoCell {
     // Header box rendered as history (so it appears at the very top)
-    let header = SessionHeaderHistoryCell::new(
+    let mut header = SessionHeaderHistoryCell::new(
         session.model.clone(),
         session.reasoning_effort.clone(),
         show_fast_status,
@@ -143,6 +147,12 @@ pub(crate) fn new_session_info(
         session.approval_policy,
         &session.permission_profile,
     ));
+    if codex_utils_home_dir::is_airs_terminal() {
+        header = header.with_airs_context(crate::airs_branding::HeaderContext::from_config(
+            config,
+            &session.permission_profile,
+        ));
+    }
     let mut parts: Vec<Box<dyn HistoryCell>> = vec![Box::new(header)];
 
     if is_first_event {
@@ -224,6 +234,8 @@ pub(crate) fn has_yolo_permissions(
 }
 #[derive(Debug)]
 pub(crate) struct SessionHeaderHistoryCell {
+    product_name: &'static str,
+    airs_context: Option<crate::airs_branding::HeaderContext>,
     version: &'static str,
     model: String,
     model_style: Style,
@@ -260,7 +272,9 @@ impl SessionHeaderHistoryCell {
         version: &'static str,
     ) -> Self {
         Self {
-            version,
+            product_name: crate::airs_branding::product_name(),
+            airs_context: None,
+            version: crate::airs_branding::version(version),
             model,
             model_style,
             reasoning_effort,
@@ -272,6 +286,21 @@ impl SessionHeaderHistoryCell {
 
     pub(crate) fn with_yolo_mode(mut self, yolo_mode: bool) -> Self {
         self.yolo_mode = yolo_mode;
+        self
+    }
+
+    pub(crate) fn with_airs_context(
+        mut self,
+        context: crate::airs_branding::HeaderContext,
+    ) -> Self {
+        self.product_name = "Prisma AIRS Terminal";
+        self.version = codex_utils_home_dir::AIRS_TERMINAL_VERSION;
+        self.reasoning_effort = None;
+        self.show_fast_status = false;
+        if self.model == "airs-gateway-default" {
+            self.model = "AI Gateway — default".into();
+        }
+        self.airs_context = Some(context);
         self
     }
 
@@ -320,7 +349,7 @@ impl HistoryCell for SessionHeaderHistoryCell {
         // Title line rendered inside the box: ">_ OpenAI Codex (vX)"
         let title_spans: Vec<Span<'static>> = vec![
             Span::from(">_ ").dim(),
-            Span::from("OpenAI Codex").bold(),
+            Span::from(self.product_name).bold(),
             Span::from(" ").dim(),
             Span::from(format!("(v{})", self.version)).dim(),
         ];
@@ -329,7 +358,7 @@ impl HistoryCell for SessionHeaderHistoryCell {
         const CHANGE_MODEL_HINT_EXPLANATION: &str = " to change";
         const DIR_LABEL: &str = "directory:";
         const PERMISSIONS_LABEL: &str = "permissions:";
-        let label_width = if self.yolo_mode {
+        let label_width = if self.yolo_mode || self.airs_context.is_some() {
             DIR_LABEL.len().max(PERMISSIONS_LABEL.len())
         } else {
             DIR_LABEL.len()
@@ -373,6 +402,14 @@ impl HistoryCell for SessionHeaderHistoryCell {
             make_row(model_spans),
             make_row(dir_spans),
         ];
+        if let Some(context) = &self.airs_context {
+            for (label, value) in context.rows() {
+                lines.push(make_row(vec![
+                    format!("{label:<label_width$} ").dim(),
+                    value.to_owned().into(),
+                ]));
+            }
+        }
 
         if self.yolo_mode {
             let permissions_label = format!("{PERMISSIONS_LABEL:<label_width$}");
@@ -391,7 +428,7 @@ impl HistoryCell for SessionHeaderHistoryCell {
 
     fn raw_lines(&self) -> Vec<Line<'static>> {
         let mut lines = vec![
-            Line::from(format!("OpenAI Codex (v{})", self.version)),
+            Line::from(format!("{} (v{})", self.product_name, self.version)),
             Line::from(format!(
                 "model: {}{}",
                 self.model,
@@ -404,6 +441,11 @@ impl HistoryCell for SessionHeaderHistoryCell {
                 self.format_directory(/*max_width*/ None)
             )),
         ];
+        if let Some(context) = &self.airs_context {
+            for (label, value) in context.rows() {
+                lines.push(Line::from(format!("{label} {value}")));
+            }
+        }
         if self.yolo_mode {
             lines.push(Line::from("permissions: YOLO mode"));
         }

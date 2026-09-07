@@ -20,6 +20,14 @@ use crate::event_processor::CodexStatus;
 use crate::event_processor::EventProcessor;
 use crate::event_processor::handle_last_message;
 
+fn agent_label() -> &'static str {
+    if codex_utils_home_dir::is_airs_terminal() {
+        "airs-terminal"
+    } else {
+        "codex"
+    }
+}
+
 pub(crate) struct EventProcessorWithHumanOutput {
     bold: Style,
     cyan: Style,
@@ -99,7 +107,7 @@ impl EventProcessorWithHumanOutput {
             ThreadItem::AgentMessage { text, .. } => {
                 eprintln!(
                     "{}\n{}",
-                    "codex".style(self.italic).style(self.magenta),
+                    agent_label().style(self.italic).style(self.magenta),
                     text
                 );
                 self.final_message = Some(text);
@@ -215,7 +223,14 @@ impl EventProcessor for EventProcessorWithHumanOutput {
         session_configured_event: &SessionConfiguredEvent,
     ) {
         const VERSION: &str = env!("CARGO_PKG_VERSION");
-        eprintln!("OpenAI Codex v{VERSION}\n--------");
+        if codex_utils_home_dir::is_airs_terminal() {
+            eprintln!(
+                "Prisma AIRS Terminal v{}\n--------",
+                codex_utils_home_dir::AIRS_TERMINAL_VERSION
+            );
+        } else {
+            eprintln!("OpenAI Codex v{VERSION}\n--------");
+        }
         for (key, value) in config_summary_entries(config, session_configured_event) {
             eprintln!("{} {}", format!("{key}:").style(self.bold), value);
         }
@@ -417,7 +432,7 @@ impl EventProcessor for EventProcessorWithHumanOutput {
         {
             eprintln!(
                 "{}\n{}",
-                "codex".style(self.italic).style(self.magenta),
+                agent_label().style(self.italic).style(self.magenta),
                 message
             );
         }

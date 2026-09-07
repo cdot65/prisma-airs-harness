@@ -1,11 +1,11 @@
 ---
 source: cli/src/airs_terminal_tests.rs
 assertion_line: 11
-expression: setup.render_long_help().to_string()
+expression: help
 ---
 Configure a direct AIRS gateway connection for this standalone terminal
 
-Usage: setup [OPTIONS] --gateway-url <GATEWAY_URL> --context-window <CONTEXT_WINDOW>
+Usage: setup [OPTIONS] --gateway-url <GATEWAY_URL>
 
 Options:
       --gateway-url <GATEWAY_URL>
@@ -13,11 +13,13 @@ Options:
 
       --credential-env <CREDENTIAL_ENV>
           Environment variable containing the workspace credential (not its value)
-          
+
           [default: AIRS_API_KEY]
 
       --context-window <CONTEXT_WINDOW>
-          Administrator-confirmed context limit valid for every configured route
+          Local context budget in tokens. Does not change the gateway/model limit
+
+          [default: 1000000]
 
       --model <MODEL>
           Authorized explicit @provider/model entries. Repeat to add entries

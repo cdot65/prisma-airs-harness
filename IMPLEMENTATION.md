@@ -8,7 +8,7 @@ production-readiness claim**.
 - Separate Git repository with full upstream ancestry, executable `airs-terminal`
   (`0.1.0-alpha.1`) and independent `~/.airs-terminal` state.
 - Setup for a configurable HTTPS Responses API root, workspace-key environment
-  reference and explicitly sized local capability catalog. Existing config is
+  reference and local capability catalog. Existing config is
   never overwritten; newly created Unix state/config permissions are 0700/0600.
 - Gateway-default inference omits the root `model` field. Explicit choices retain
   `@provider/model`, including nested model names and version suffixes. Invalid
@@ -107,3 +107,16 @@ No credential values are committed or written to the vault.
 
 The local protocol milestone is useful and reviewable. It does not yet satisfy
 all MVP gates and should not be scored or announced as a production-ready 9/10.
+
+## Context default update — 0.1.0-alpha.2
+
+At the owner's request, setup now defaults the local context budget to
+**1,000,000 tokens**. `--context-window` is optional and still overrides this
+value. Setup continues to reject non-positive values. The generated configuration
+and catalog use the same selected budget; the request model-omission behavior is
+unchanged. Existing configurations are not rewritten by changing the default.
+
+Use `airs-terminal setup --gateway-url https://airs.cdot.io/v1`. The local
+budget does not raise the actual backend limit. Read-only inspection of the two
+deployed Qwen servers found context settings of 131,072 and 32,768 tokens; the
+actual route and server enforcement remain separate from this client preference.

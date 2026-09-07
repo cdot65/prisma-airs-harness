@@ -8,7 +8,43 @@ fn setup_help_snapshot() {
     use clap::CommandFactory;
     let mut command = crate::MultitoolCli::command();
     let setup = command.find_subcommand_mut("setup").unwrap();
-    insta::assert_snapshot!(setup.render_long_help().to_string());
+    let help = setup
+        .render_long_help()
+        .to_string()
+        .lines()
+        .map(str::trim_end)
+        .collect::<Vec<_>>()
+        .join("\n");
+    insta::assert_snapshot!(help);
+}
+
+#[test]
+fn setup_context_default_and_override_reach_config_and_catalog() {
+    use clap::Parser;
+
+    let dir = tempfile::tempdir().unwrap();
+    for (extra, expected) in [
+        (Vec::new(), 1_000_000),
+        (vec!["--context-window", "32768"], 32768),
+    ] {
+        let mut argv = vec![
+            "airs-terminal",
+            "setup",
+            "--gateway-url",
+            "https://gateway.example/v1",
+        ];
+        argv.extend(extra);
+        let cli = crate::MultitoolCli::try_parse_from(argv).unwrap();
+        let Some(crate::Subcommand::Setup(args)) = cli.subcommand else {
+            panic!("expected setup arguments");
+        };
+        let (config, catalog) = configuration(&args, dir.path()).unwrap();
+        let config: ConfigToml = toml::from_str(&config).unwrap();
+        let catalog: serde_json::Value = serde_json::from_str(&catalog).unwrap();
+        assert_eq!(config.model_context_window, Some(expected));
+        assert_eq!(catalog["models"][0]["context_window"], expected);
+        assert_eq!(catalog["models"][0]["max_context_window"], expected);
+    }
 }
 
 fn args() -> SetupArgs {

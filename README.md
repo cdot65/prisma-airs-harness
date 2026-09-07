@@ -8,7 +8,7 @@ inference context.
 
 **There is no PAH package, SDK, proxy, web application or service dependency.**
 
-## Status: 0.1.0-alpha.1 protocol prototype
+## Status: 0.1.0-alpha.2 protocol prototype
 
 Implemented: independent application state, gateway setup, workspace credential
 references, local capability catalog, optional-model Responses serialization,
@@ -36,15 +36,16 @@ cargo build --locked -p codex-cli --bin airs-terminal
 ./target/debug/airs-terminal setup --help
 ```
 
-Setup requires your HTTPS inference API root (including any `/v1` prefix), the
-**name** of an environment variable supplying a workspace key, and an
-administrator-confirmed context limit valid for every selected route:
+Setup requires your HTTPS inference API root (including any `/v1` prefix). The
+workspace key comes from `AIRS_API_KEY` by default; `--credential-env` changes its
+environment-variable name. The local context budget defaults to **1,000,000
+tokens**; `--context-window` overrides it. This client setting does not increase
+the actual gateway or provider context limit:
 
 ```sh
 airs-terminal setup \
   --gateway-url https://your-gateway.example/v1 \
   --credential-env AIRS_API_KEY \
-  --context-window "$AIRS_CONTEXT_WINDOW" \
   --model '@your-provider/your-model'
 ```
 

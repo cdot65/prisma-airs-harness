@@ -8,7 +8,7 @@ use std::path::Path;
 use url::Url;
 
 const DEFAULT_ROUTE: &str = "airs-gateway-default";
-const PRODUCT_VERSION: &str = "0.1.0-alpha.1";
+const PRODUCT_VERSION: &str = "0.1.0-alpha.2";
 
 pub fn is_standalone() -> bool {
     env!("CARGO_BIN_NAME") == "airs-terminal"
@@ -46,8 +46,8 @@ pub struct SetupArgs {
     /// Environment variable containing the workspace credential (not its value).
     #[arg(long, default_value = "AIRS_API_KEY")]
     pub credential_env: String,
-    /// Administrator-confirmed context limit valid for every configured route.
-    #[arg(long)]
+    /// Local context budget in tokens. Does not change the gateway/model limit.
+    #[arg(long, default_value_t = 1_000_000)]
     pub context_window: i64,
     /// Authorized explicit @provider/model entries. Repeat to add entries.
     #[arg(long)]

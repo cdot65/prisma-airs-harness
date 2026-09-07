@@ -218,6 +218,17 @@ class TerminalIntegration(unittest.TestCase):
             self.assertEqual(self.home.stat().st_mode & 0o777, 0o700)
             self.assertEqual((self.home / "config.toml").stat().st_mode & 0o777, 0o600)
 
+    def test_setup_without_context_flag_persists_default(self):
+        result = self.run_cli(
+            "setup", "--gateway-url", self.url, "--allow-http-loopback"
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        catalog = json.loads((self.home / "models.json").read_text())
+        self.assertEqual(catalog["models"][0]["context_window"], 1_000_000)
+        self.assertIn(
+            "model_context_window = 1000000", (self.home / "config.toml").read_text()
+        )
+
     def test_missing_credential_fails_without_inference(self):
         self.configure()
         self.env.pop("AIRS_TEST_CREDENTIAL")

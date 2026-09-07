@@ -163,7 +163,9 @@ Escape to interrupt a turn, and `resume` to continue persisted work.
 
 ## Build and validate
 
-Rust 1.95.0 is pinned. Read [AGENTS.md](AGENTS.md) for prerequisites and conventions.
+Building the Rust terminal requires a source checkout of this repository. The
+binary archive also includes its acceptance scripts, redacted evidence and the
+optional scanner backend source/Dockerfile. Rust 1.95.0 is pinned. Read [AGENTS.md](AGENTS.md) for prerequisites and conventions.
 The Linux runtime needs a usable shell and ordinary project tools such as Git and
 ripgrep; Linux also needs Bubblewrap (`bwrap`). The sandbox preserves kernel/filesystem/network restrictions; it does
 not automatically fall back to unrestricted execution.

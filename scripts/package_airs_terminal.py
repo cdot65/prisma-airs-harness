@@ -82,8 +82,19 @@ def main():
             "UPSTREAM.md",
             "BASELINE.json",
             "VALIDATION.json",
+            "AGENTS.md",
+            "README.upstream.md",
+            "IMPLEMENTATION.md",
+            "PLAN.md",
         ]:
             shutil.copy2(repo / filename, root / filename)
+        for directory in ["validation", "administration"]:
+            shutil.copytree(repo / directory, root / directory)
+        shutil.copytree(
+            repo / "mcp-scanner",
+            root / "mcp-scanner",
+            ignore=shutil.ignore_patterns("node_modules", "dist", "__pycache__"),
+        )
         (root / "scripts").mkdir()
         for filename in [
             "test_airs_terminal.py",

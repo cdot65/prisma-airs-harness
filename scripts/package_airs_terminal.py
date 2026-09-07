@@ -88,13 +88,30 @@ def main():
             "PLAN.md",
         ]:
             shutil.copy2(repo / filename, root / filename)
-        for directory in ["validation", "administration"]:
-            shutil.copytree(repo / directory, root / directory)
-        shutil.copytree(
-            repo / "mcp-scanner",
-            root / "mcp-scanner",
-            ignore=shutil.ignore_patterns("node_modules", "dist", "__pycache__"),
+        # Ignored local files can contain secrets. Bundle only reviewed source.
+        tracked = subprocess.check_output(
+            [
+                "git",
+                "ls-files",
+                "-z",
+                "--",
+                "validation",
+                "administration",
+                "mcp-scanner",
+            ],
+            cwd=repo,
         )
+        for filename in tracked.decode().split("\0"):
+            if not filename:
+                continue
+            source = repo / filename
+            if source.is_symlink() or not source.resolve().is_relative_to(repo):
+                raise ValueError(
+                    "Bundle source must be a regular file inside the repository"
+                )
+            destination = root / filename
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
         (root / "scripts").mkdir()
         for filename in [
             "test_airs_terminal.py",

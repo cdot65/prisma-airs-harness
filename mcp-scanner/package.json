@@ -1,0 +1,23 @@
+{
+  "name": "@cdot65/airs-terminal-scanner",
+  "version": "0.1.0-alpha.4",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test dist/server.test.js",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "@cdot65/prisma-airs-sdk": "0.21.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "express": "5.2.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.1",
+    "typescript": "5.9.3"
+  }
+}

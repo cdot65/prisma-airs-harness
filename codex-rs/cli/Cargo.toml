@@ -27,6 +27,9 @@ doctest = false
 workspace = true
 
 [dependencies]
+base64 = { workspace = true }
+codex-airs-identity = { path = "../airs-identity" }
+webbrowser = { workspace = true }
 anyhow = { workspace = true }
 chrono = { workspace = true }
 clap = { workspace = true, features = ["derive", "env"] }
@@ -116,6 +119,7 @@ windows-sys = { version = "0.52", features = [
     "Win32_System_Console",
     "Win32_System_Threading",
 ] }
+
 
 [dev-dependencies]
 app_test_support = { workspace = true }

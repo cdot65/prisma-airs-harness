@@ -1,0 +1,32 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "codex-airs-identity"
+version.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+codex-keyring-store = { workspace = true }
+keyring = { workspace = true }
+uuid = { workspace = true, features = ["v4", "serde"] }
+anyhow = { workspace = true }
+jsonwebtoken = { workspace = true }
+openidconnect = { version = "4.0.1", features = ["timing-resistant-secret-traits"] }
+reqwest = { workspace = true, features = ["json", "rustls-tls"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tokio = { workspace = true, features = ["net", "io-util", "time", "macros"] }
+url = { workspace = true }
+
+[dev-dependencies]
+wiremock = { workspace = true }
+
+
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { workspace = true, features = ["async-secret-service", "crypto-rust"] }

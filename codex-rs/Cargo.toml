@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "airs-identity",
     "aws-auth",
     "analytics",
     "agent-graph-store",

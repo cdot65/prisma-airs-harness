@@ -3,10 +3,10 @@ use clap::Command;
 
 fn text(value: &str) -> String {
     value
-        .replace("OpenAI Codex", "Prisma AIRS Terminal")
-        .replace("Codex", "AIRS Terminal")
-        .replace("~/.codex", "~/.airs-terminal")
-        .replace("a AIRS Terminal-provided sandbox", "the local sandbox")
+        .replace("OpenAI Codex", "Prisma AIRS Harness")
+        .replace("Codex", "AIRS Harness")
+        .replace("~/.codex", "~/.airs-harness")
+        .replace("a AIRS Harness-provided sandbox", "the local sandbox")
 }
 
 pub fn command(mut command: Command) -> Command {

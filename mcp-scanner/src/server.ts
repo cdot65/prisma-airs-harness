@@ -45,7 +45,7 @@ export function createApp(options: {
   app.all('/terminal-scanner/mcp', async (req, res) => {
     // Each HTTP request owns its SDK instance. No in-memory MCP sessions or
     // cross-replica session restoration are required by this fixed tool catalog.
-    const server = new McpServer({ name: 'airs-terminal-scanner', version: '0.1.0-alpha.6' });
+    const server = new McpServer({ name: 'airs-harness-scanner', version: '0.1.0-alpha.8' });
     // Tool discovery and resource discovery are separate protocol operations.
     // This scanner has no resources; advertise an honest empty inventory.
     server.server.registerCapabilities({ resources: {} });
@@ -53,7 +53,7 @@ export function createApp(options: {
     server.server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => ({ resourceTemplates: [] }));
     server.registerTool('pan_inline_scan', {
       title: 'Scan content with Prisma AIRS',
-      description: 'Scan prompt or response text using the fixed Prisma AIRS Terminal security profile. Returns the actual action and scan ID. Credentials remain on the remote server.',
+      description: 'Scan prompt or response text using the configured Prisma AIRS security profile. Returns the actual action and scan ID. Credentials remain on the remote server.',
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
       inputSchema: {
         scan_request: z.object({
@@ -68,7 +68,7 @@ export function createApp(options: {
         const result = await options.scan({
           prompt: scan_request.prompt,
           response: scan_request.response,
-          appName: scan_request.app_name ?? 'prisma-airs-terminal',
+          appName: scan_request.app_name ?? 'prisma-airs-harness',
           signal: extra.signal,
         });
         if (result.error || result.timeout || !result.scan_id || !['allow', 'block'].includes(result.action)) {

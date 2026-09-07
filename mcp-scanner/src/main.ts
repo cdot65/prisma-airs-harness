@@ -21,7 +21,7 @@ const app = createApp({
     },
   ),
 });
-const server = app.listen(8080, '0.0.0.0', () => console.log('AIRS Terminal scanner listening on port 8080'));
+const server = app.listen(8080, '0.0.0.0', () => console.log('AIRS Harness scanner listening on port 8080'));
 server.requestTimeout = 15_000;
 server.headersTimeout = 10_000;
 process.on('SIGTERM', () => {

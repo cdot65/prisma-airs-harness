@@ -4,7 +4,7 @@ import json
 import os
 import time
 
-from airs_terminal_pty import TerminalSession
+from airs_harness_pty import TerminalSession
 
 
 def verify_interactive_refresh(binary, env, work, home, expiry, output):

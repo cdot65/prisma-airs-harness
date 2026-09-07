@@ -25,7 +25,7 @@ pub fn validate(home: &Path) -> anyhow::Result<()> {
     let _lock = airs_environment::lock(home)?;
     let config: toml::Value = toml::from_str(
         &std::fs::read_to_string(home.join("config.toml"))
-            .context("environment is not configured; run airs-terminal setup")?,
+            .context("environment is not configured; run airs-harness setup")?,
     )?;
     let catalog = config
         .get("model_catalog_json")

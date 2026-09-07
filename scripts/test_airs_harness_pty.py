@@ -16,23 +16,23 @@ import time
 import unittest
 
 BINARY = Path(
-    os.environ.get("AIRS_TERMINAL_BIN", "codex-rs/target/debug/airs-terminal")
+    os.environ.get("AIRS_HARNESS_BIN", "codex-rs/target/debug/airs-harness")
 ).resolve()
 
 
 class InteractiveTerminal(unittest.TestCase):
     def test_logout_keeps_running_environment_after_default_and_binary_change(self):
-        with tempfile.TemporaryDirectory(prefix="airs-terminal-pty-") as directory:
+        with tempfile.TemporaryDirectory(prefix="airs-harness-pty-") as directory:
             root = Path(directory)
             home = root / "state"
             work = root / "work"
             work.mkdir()
-            binary = root / "airs-terminal"
+            binary = root / "airs-harness"
             shutil.copy2(BINARY, binary)
             key = root / "credential"
             key.write_text("synthetic-interactive-test-key")
             key.chmod(0o600)
-            env = dict(os.environ, AIRS_TERMINAL_HOME=str(home), TERM="xterm-256color")
+            env = dict(os.environ, AIRS_HARNESS_HOME=str(home), TERM="xterm-256color")
 
             def cli(*args):
                 result = subprocess.run(
@@ -97,7 +97,7 @@ class InteractiveTerminal(unittest.TestCase):
                 time.sleep(0.3)
                 os.write(master, b"\r")
                 read_until(b"workspace credential")
-                self.assertIn(b"Prisma AIRS Terminal", transcript)
+                self.assertIn(b"Prisma AIRS Harness", transcript)
                 self.assertIn(b"environment:", transcript)
                 self.assertNotIn(b"Ask Codex", transcript)
                 cli("env", "use", "other")

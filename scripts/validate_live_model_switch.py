@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 import subprocess
 
-from airs_terminal_pty import TerminalSession
+from airs_harness_pty import TerminalSession
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
     work = root / "work"
     work.mkdir()
     binary = args.binary.resolve(strict=True)
-    env = dict(os.environ, AIRS_TERMINAL_HOME=str(root / "state"))
+    env = dict(os.environ, AIRS_HARNESS_HOME=str(root / "state"))
     env.pop("AIRS_API_KEY", None)
 
     def cli(*arguments):
@@ -147,7 +147,7 @@ def main():
             turn(
                 "$review-calculator Add a multiply function and tests covering positive, "
                 "negative, and zero inputs. Run the tests. Then use pan_inline_scan to "
-                'scan "Hello from AIRS Terminal". Report the actual test results, scan '
+                'scan "Hello from AIRS Harness". Report the actual test results, scan '
                 "action, and scan ID."
             )
             terminal.choose_model("down", args.explicit_model)
@@ -158,7 +158,7 @@ def main():
             )
             terminal.choose_model("up", "airs-gateway-default")
             turn(
-                'Use pan_inline_scan to scan "Hello from AIRS Terminal again" and '
+                'Use pan_inline_scan to scan "Hello from AIRS Harness again" and '
                 "report the actual scan action and scan ID."
             )
             validation = subprocess.run(

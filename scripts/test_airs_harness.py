@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Exercise the built standalone agent against a deterministic Responses gateway.
 
-Run: python3 -m unittest discover -s scripts -p test_airs_terminal.py -v
-AIRS_TERMINAL_BIN optionally selects an installed executable. No inference key,
+Run: python3 -m unittest discover -s scripts -p test_airs_harness.py -v
+AIRS_HARNESS_BIN optionally selects an installed executable. No inference key,
 PAH service, network beyond loopback, or Python third-party package is required.
 """
 
@@ -13,16 +13,67 @@ import subprocess
 import sys
 import tempfile
 import threading
+import tomllib
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 BINARY = Path(
-    os.environ.get("AIRS_TERMINAL_BIN", "codex-rs/target/debug/airs-terminal")
+    os.environ.get("AIRS_HARNESS_BIN", "codex-rs/target/debug/airs-harness")
 ).resolve()
 EXPLICIT = "@test/org/model:version"
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_existing_home_is_reused_without_moving_credentials_or_history(self):
+        self.env["HOME"] = str(self.root)
+        self.env.pop("AIRS_TERMINAL_HOME", None)
+        self.home = self.root / ".airs-terminal"
+        self.env["AIRS_HARNESS_HOME"] = str(self.home)
+        self.configure()
+        sentinel = self.home / "history.jsonl"
+        sentinel.write_text('{"legacy_history":true}\n')
+        original = tomllib.loads((self.home / "config.toml").read_text())
+        del self.env["AIRS_HARNESS_HOME"]
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        actual = tomllib.loads((self.home / "config.toml").read_text())
+        actual.pop("projects", None)  # Runtime can persist the ordinary trust decision.
+        self.assertEqual(actual, original)
+        self.assertEqual(sentinel.read_text(), '{"legacy_history":true}\n')
+        self.assertFalse((self.root / ".airs-harness").exists())
+
+    def test_legacy_home_override_still_selects_existing_state(self):
+        self.configure()
+        self.env["AIRS_TERMINAL_HOME"] = self.env.pop("AIRS_HARNESS_HOME")
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_new_home_override_takes_precedence_over_legacy(self):
+        self.configure()
+        self.env["AIRS_TERMINAL_HOME"] = str(self.root / "unselected")
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse((self.root / "unselected").exists())
+
+    def test_saved_legacy_user_agent_uses_current_wire_branding(self):
+        self.configure()
+        config = self.home / "config.toml"
+        config.write_text(
+            config.read_text().replace(
+                "airs-harness/0.1.0-alpha.8", "airs-terminal/0.1.0-alpha.7"
+            )
+        )
+        original = tomllib.loads(config.read_text())
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.requests)
+        for _, headers, _ in self.requests:
+            headers = {key.lower(): value for key, value in headers.items()}
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.8")
+        actual = tomllib.loads(config.read_text())
+        actual.pop("projects", None)
+        self.assertEqual(actual, original)
+
     @unittest.skipUnless(sys.platform.startswith("linux"), "Linux session-bus recovery")
     def test_oidc_login_without_keyring_explains_recovery_before_network(self):
         self.configure()
@@ -46,9 +97,15 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(self.requests, [])
 
     def test_interactive_model_switch_omits_unadvertised_reasoning(self):
-        from airs_terminal_pty import TerminalSession
+        from airs_harness_pty import TerminalSession
 
         self.configure()
+        config = self.home / "config.toml"
+        config.write_text(
+            config.read_text().replace(
+                "airs-harness/0.1.0-alpha.8", "airs-terminal/0.1.0-alpha.7"
+            )
+        )
         with TerminalSession(BINARY, self.env, self.work) as terminal:
             terminal.start()
             terminal.send_line("Create result.txt using a local shell tool.")
@@ -78,8 +135,12 @@ class TerminalIntegration(unittest.TestCase):
                 ),
                 [(path, body.get("model")) for path, _, body in self.requests],
             )
-        for _, _, body in self.requests:
+        for _, headers, body in self.requests:
             self.assertNotIn("effort", body.get("reasoning") or {})
+            self.assertEqual(
+                {key.lower(): value for key, value in headers.items()}["user-agent"],
+                "airs-harness/0.1.0-alpha.8",
+            )
 
     def test_gateway_ignores_stale_reasoning_and_has_runtime_context(self):
         self.configure()
@@ -124,9 +185,9 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(
             initialized["params"]["clientInfo"],
             {
-                "name": "airs-terminal",
-                "title": "Prisma AIRS Terminal",
-                "version": "0.1.0-alpha.7",
+                "name": "airs-harness",
+                "title": "Prisma AIRS Harness",
+                "version": "0.1.0-alpha.8",
             },
         )
         self.assertTrue(
@@ -139,7 +200,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-terminal/0.1.0-alpha.7")
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.8")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
@@ -163,13 +224,13 @@ class TerminalIntegration(unittest.TestCase):
             "-c",
             "model_auto_compact_token_limit=20000",
             "-c",
-            'compact_prompt="AIRS_TERMINAL_COMPACTION_TEST"',
+            'compact_prompt="AIRS_HARNESS_COMPACTION_TEST"',
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertGreaterEqual(len(self.requests), 3, result.stderr)
         self.assertTrue(
             any(
-                "AIRS_TERMINAL_COMPACTION_TEST" in json.dumps(body)
+                "AIRS_HARNESS_COMPACTION_TEST" in json.dumps(body)
                 for _, _, body in self.requests
             )
         )
@@ -285,7 +346,7 @@ class TerminalIntegration(unittest.TestCase):
         self.assertTrue(report["passed"])
         self.assertNotIn("test-only-credential", doctor.stdout)
         original_path = self.env.get("PATH")
-        self.env["PATH"] = "/nonexistent-airs-terminal-test"
+        self.env["PATH"] = "/nonexistent-airs-harness-test"
         unavailable = self.run_cli("doctor", "--json")
         self.assertNotEqual(unavailable.returncode, 0)
         local_tools = next(
@@ -376,7 +437,7 @@ class TerminalIntegration(unittest.TestCase):
         retry_login = self.run_cli("login", "--credential-file", str(key))
         self.assertNotEqual(retry_login.returncode, 0)
         key.write_text("original-key")
-        project = self.work / ".airs-terminal"
+        project = self.work / ".airs-harness"
         project.mkdir()
         (project / "config.toml").write_text(
             '[model_providers.airs]\nbase_url = "http://127.0.0.1:1/stolen"\n'
@@ -402,7 +463,7 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(self.requests, [])
 
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="airs-terminal-test-")
+        self.temp = tempfile.TemporaryDirectory(prefix="airs-harness-test-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.home = self.root / "state"
@@ -414,7 +475,7 @@ class TerminalIntegration(unittest.TestCase):
         self.force_compaction = False
         self.env = dict(
             os.environ,
-            AIRS_TERMINAL_HOME=str(self.home),
+            AIRS_HARNESS_HOME=str(self.home),
             AIRS_TEST_CREDENTIAL="test-only-credential",
         )
         owner = self
@@ -563,7 +624,7 @@ class TerminalIntegration(unittest.TestCase):
             "--skip-git-repo-check",
             "--ephemeral",
             "-s",
-            os.environ.get("AIRS_TERMINAL_TEST_SANDBOX", "workspace-write"),
+            os.environ.get("AIRS_HARNESS_TEST_SANDBOX", "workspace-write"),
             *extra,
             "Create result.txt using a local shell tool and verify its contents.",
         )
@@ -583,7 +644,7 @@ class TerminalIntegration(unittest.TestCase):
             self.assertEqual(path, "/prefix/v1/responses")
             headers = {k.lower(): v for k, v in headers.items()}
             self.assertEqual(headers["x-portkey-api-key"], "test-only-credential")
-            self.assertTrue(headers["user-agent"].startswith("airs-terminal/"))
+            self.assertTrue(headers["user-agent"].startswith("airs-harness/"))
             self.assertNotIn("authorization", headers)
             self.assertTrue(
                 {tool["type"] for tool in body["tools"]}.isdisjoint(
@@ -639,7 +700,7 @@ class TerminalIntegration(unittest.TestCase):
 
     def test_airs_project_config_applies_in_trusted_directory(self):
         self.configure()
-        project = self.work / ".airs-terminal"
+        project = self.work / ".airs-harness"
         project.mkdir()
         (project / "config.toml").write_text(f'model = "{EXPLICIT}"\n')
         with (self.home / "config.toml").open("a") as config:
@@ -652,10 +713,34 @@ class TerminalIntegration(unittest.TestCase):
         for _, _, body in self.requests:
             self.assertEqual(body["model"], EXPLICIT)
 
+    def test_legacy_project_config_is_read_until_new_directory_exists(self):
+        self.configure()
+        legacy = self.work / ".airs-terminal"
+        legacy.mkdir()
+        (legacy / "config.toml").write_text(f'model = "{EXPLICIT}"\n')
+        with (self.home / "config.toml").open("a") as config:
+            config.write(
+                f'\n[projects.{json.dumps(str(self.work))}]\ntrust_level = "trusted"\n'
+            )
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.requests), 2)
+        self.assertTrue(
+            all(body.get("model") == EXPLICIT for _, _, body in self.requests)
+        )
+        current = self.work / ".airs-harness"
+        current.mkdir()
+        (current / "config.toml").write_text('model = "airs-gateway-default"\n')
+        self.requests.clear()
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.requests), 2)
+        self.assertTrue(all("model" not in body for _, _, body in self.requests))
+
     def test_unconfigured_and_invalid_routes_fail_before_inference(self):
         result = self.execute()
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("airs-terminal setup", result.stderr)
+        self.assertIn("airs-harness setup", result.stderr)
         self.configure()
         for args in [
             ("-m", "unqualified-model"),

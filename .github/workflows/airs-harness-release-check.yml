@@ -1,16 +1,16 @@
-name: AIRS Terminal release check
+name: AIRS Harness release check
 on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Published AIRS Terminal release tag to verify
+        description: Published AIRS Harness release tag to verify
         required: true
-        default: airs-terminal-v0.1.0-alpha.7
+        default: airs-harness-v0.1.0-alpha.8
         type: string
 permissions:
   contents: read
 concurrency:
-  group: airs-terminal-release-check
+  group: airs-harness-release-check
   cancel-in-progress: false
 jobs:
   linux-artifact:
@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$RELEASE_TAG" =~ ^airs-terminal-v[0-9]+\.[0-9]+\.[0-9]+(-[a-z0-9.]+)?$ ]]
+          [[ "$RELEASE_TAG" =~ ^airs-harness-v[0-9]+\.[0-9]+\.[0-9]+(-[a-z0-9.]+)?$ ]]
           gh release download "$RELEASE_TAG" --repo "$REPOSITORY" \
             --pattern '*linux-x86_64-musl.tar.gz*' --dir "$RUNNER_TEMP/airs-release"
           cd "$RUNNER_TEMP/airs-release"
@@ -52,14 +52,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          binary=$(find "$RUNNER_TEMP/airs-release" -type f -name airs-terminal)
+          binary=$(find "$RUNNER_TEMP/airs-release" -type f -name airs-harness)
           test -n "$binary"
-          AIRS_TERMINAL_BIN="$binary" python3 -m unittest discover \
-            -s scripts -p 'test_airs_terminal*.py' -v 2>&1 | tee "$RUNNER_TEMP/airs-fixtures.log"
+          AIRS_HARNESS_BIN="$binary" python3 -m unittest discover \
+            -s scripts -p 'test_airs_harness*.py' -v 2>&1 | tee "$RUNNER_TEMP/airs-fixtures.log"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: airs-terminal-linux-release-verification
+          name: airs-harness-linux-release-verification
           path: |
             ${{ runner.temp }}/airs-release-check.json
             ${{ runner.temp }}/airs-fixtures.log

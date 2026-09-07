@@ -1,5 +1,5 @@
 ---
-source: cli/src/airs_terminal_tests.rs
+source: cli/src/airs_harness_tests.rs
 assertion_line: 11
 expression: help
 ---

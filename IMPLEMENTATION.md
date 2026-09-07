@@ -1,3 +1,7 @@
+> Historical implementation record. The current product is Prisma AIRS Harness,
+> invoked as `airs-harness`. See [RENAME.md](RENAME.md) and [PLAN.md](PLAN.md).
+> Names and results below describe the releases at the time they were recorded.
+
 > Historical record for alpha.1–alpha.3. The active alpha.4 release, current
 > gateway validation and remaining scope are documented in [RELEASE.md](RELEASE.md).
 > Earlier access blockers below were superseded by the owner-authorized workspace-key pilot.

@@ -126,7 +126,7 @@ pub fn gateway(home: &Path) -> anyhow::Result<String> {
         .and_then(|v| v.get("base_url"))
         .and_then(toml::Value::as_str)
         .map(str::to_owned)
-        .context("run airs-terminal setup to configure the gateway")
+        .context("run airs-harness setup to configure the gateway")
 }
 
 pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
@@ -152,11 +152,7 @@ pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn setup(
-    root: &Path,
-    name: &str,
-    args: &super::airs_terminal::SetupArgs,
-) -> anyhow::Result<()> {
+pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
     anyhow::ensure!(
         !name.is_empty()
             && name.len() <= 64
@@ -177,7 +173,7 @@ pub fn setup(
     };
     let home = environment_home(root, &environment);
     private_directory(&home)?;
-    super::airs_terminal::setup_in(args, &home)?;
+    super::airs_harness::setup_in(args, &home)?;
     environment.gateway_url = gateway(&home)?;
     registry.environments.insert(name.to_owned(), environment);
     registry.active = Some(name.to_owned());

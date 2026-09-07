@@ -158,7 +158,7 @@ export function createServer({ upstreamPort, policy, mode = 'inference', maxByte
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const policy = JSON.parse(process.env.AIRS_TERMINAL_POLICY);
+  const policy = JSON.parse(process.env.AIRS_HARNESS_POLICY ?? process.env.AIRS_TERMINAL_POLICY);
   const servers = [[8887, 8787], [8888, 8788]].map(([port, upstreamPort]) => {
     const server = createServer({ upstreamPort, policy, mode: port === 8888 ? 'mcp' : 'inference' });
     server.listen(port, '0.0.0.0');

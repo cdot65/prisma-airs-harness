@@ -1031,9 +1031,9 @@ pub(crate) fn mcp_initialize_request_params(
     if !extensions.is_empty() {
         capabilities.extensions = Some(extensions);
     }
-    let implementation = if codex_utils_home_dir::is_airs_terminal() {
-        Implementation::new("airs-terminal", codex_utils_home_dir::AIRS_TERMINAL_VERSION)
-            .with_title("Prisma AIRS Terminal")
+    let implementation = if codex_utils_home_dir::is_airs_harness() {
+        Implementation::new("airs-harness", codex_utils_home_dir::AIRS_HARNESS_VERSION)
+            .with_title("Prisma AIRS Harness")
     } else {
         Implementation::new("codex-mcp-client", env!("CARGO_PKG_VERSION")).with_title("Codex")
     };

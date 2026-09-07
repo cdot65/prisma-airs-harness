@@ -1,0 +1,16 @@
+{
+  "name": "airs-harness",
+  "private": true,
+  "version": "0.1.0-alpha.8",
+  "description": "Prisma AIRS Harness: a local coding agent using your Prisma AIRS AI Gateway.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": { "airs-harness": "bin/airs-harness.js" },
+  "engines": { "node": ">=22" },
+  "files": ["bin/", "lib/", "README.md", "LICENSE", "NOTICE"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cdot65/prisma-airs-terminal.git",
+    "directory": "npm/airs-harness"
+  }
+}

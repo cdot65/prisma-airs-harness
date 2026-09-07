@@ -134,8 +134,8 @@ impl AppExitInfo {
         if let ExitReason::Archived(thread_id) = self.exit_reason {
             lines.push(format!("Session archived: {thread_id}"));
         } else if let Some(thread) = self.resume_hint {
-            let executable = if codex_utils_home_dir::is_airs_terminal() {
-                let mut command = vec!["airs-terminal".to_string()];
+            let executable = if codex_utils_home_dir::is_airs_harness() {
+                let mut command = vec!["airs-harness".to_string()];
                 if let Some(name) = codex_utils_home_dir::find_codex_home()
                     .ok()
                     .and_then(|home| crate::airs_branding::environment_name(home.as_path()))

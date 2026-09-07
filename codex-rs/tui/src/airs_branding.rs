@@ -1,8 +1,8 @@
 //! Standalone product presentation without renaming upstream engine internals.
 use crate::legacy_core::config::Config;
 use codex_protocol::models::PermissionProfile;
-use codex_utils_home_dir::AIRS_TERMINAL_VERSION;
-use codex_utils_home_dir::is_airs_terminal;
+use codex_utils_home_dir::AIRS_HARNESS_VERSION;
+use codex_utils_home_dir::is_airs_harness;
 use codex_utils_sandbox_summary::summarize_permission_profile;
 use std::path::Path;
 
@@ -16,7 +16,7 @@ pub(crate) async fn logout(home: &Path) -> color_eyre::Result<()> {
     let output = tokio::process::Command::new(executable)
         .arg("logout")
         // Bind to this running session even if another process selected a new default.
-        .env("AIRS_TERMINAL_HOME", home)
+        .env("AIRS_HARNESS_HOME", home)
         .output()
         .await?;
     if !output.status.success() {
@@ -29,24 +29,24 @@ pub(crate) async fn logout(home: &Path) -> color_eyre::Result<()> {
 }
 
 pub(crate) fn product_name() -> &'static str {
-    if is_airs_terminal() {
-        "Prisma AIRS Terminal"
+    if is_airs_harness() {
+        "Prisma AIRS Harness"
     } else {
         "OpenAI Codex"
     }
 }
 
 pub(crate) fn version(upstream: &'static str) -> &'static str {
-    if is_airs_terminal() {
-        AIRS_TERMINAL_VERSION
+    if is_airs_harness() {
+        AIRS_HARNESS_VERSION
     } else {
         upstream
     }
 }
 
 pub(crate) fn placeholder() -> &'static str {
-    if is_airs_terminal() {
-        "Ask AIRS Terminal to work on your project"
+    if is_airs_harness() {
+        "Ask AIRS Harness to work on your project"
     } else {
         "Ask Codex to do anything"
     }

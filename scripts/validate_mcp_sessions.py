@@ -39,7 +39,7 @@ def main():
                     "protocolVersion": "2025-03-26",
                     "capabilities": {},
                     "clientInfo": {
-                        "name": "airs-terminal-session-" + uuid.uuid4().hex[:8],
+                        "name": "airs-harness-session-" + uuid.uuid4().hex[:8],
                         "version": "0.1.0-alpha.4",
                     },
                 },
@@ -125,9 +125,9 @@ def main():
                         "name": "pan_inline_scan",
                         "arguments": {
                             "scan_request": {
-                                "prompt": "Hello from AIRS Terminal",
+                                "prompt": "Hello from AIRS Harness",
                                 "profile": "Prisma AIRS Terminal",
-                                "app_name": "prisma-airs-terminal",
+                                "app_name": "prisma-airs-harness",
                             }
                         },
                     },

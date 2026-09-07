@@ -29,7 +29,7 @@ def main():
     work = root / "work"
     work.mkdir()
     binary = args.binary.resolve(strict=True)
-    env = dict(os.environ, AIRS_TERMINAL_HOME=str(root / "state"))
+    env = dict(os.environ, AIRS_HARNESS_HOME=str(root / "state"))
 
     def run(arguments, log):
         result = subprocess.run(
@@ -98,9 +98,9 @@ def main():
         prompt = (
             "$verify-addition Fix calc.py using the local verify-addition skill and run its tests. "
             "Then use the security pan_inline_scan MCP tool once to scan the benign text "
-            "Hello from AIRS Terminal, with scan_request.profile "
+            "Hello from AIRS Harness, with scan_request.profile "
             + args.scan_profile
-            + " and app_name prisma-airs-terminal. Report the scan action and ID. "
+            + " and app_name prisma-airs-harness. Report the scan action and ID. "
             "The session-only marker is ORBIT-746; include it in your final reply "
             "but do not write it into any files."
         )

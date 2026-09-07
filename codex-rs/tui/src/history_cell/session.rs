@@ -147,7 +147,7 @@ pub(crate) fn new_session_info(
         session.approval_policy,
         &session.permission_profile,
     ));
-    if codex_utils_home_dir::is_airs_terminal() {
+    if codex_utils_home_dir::is_airs_harness() {
         header = header.with_airs_context(crate::airs_branding::HeaderContext::from_config(
             config,
             &session.permission_profile,
@@ -293,8 +293,8 @@ impl SessionHeaderHistoryCell {
         mut self,
         context: crate::airs_branding::HeaderContext,
     ) -> Self {
-        self.product_name = "Prisma AIRS Terminal";
-        self.version = codex_utils_home_dir::AIRS_TERMINAL_VERSION;
+        self.product_name = "Prisma AIRS Harness";
+        self.version = codex_utils_home_dir::AIRS_HARNESS_VERSION;
         self.reasoning_effort = None;
         self.show_fast_status = false;
         if self.model == "airs-gateway-default" {

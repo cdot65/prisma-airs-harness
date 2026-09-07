@@ -1,4 +1,4 @@
-# AIRS Terminal request compatibility
+# AIRS Harness request compatibility
 
 This optional gateway webhook removes root `reasoning` only for the resolved
 `openai` provider, model `gpt-4.1`, and Responses API. Other providers, models,

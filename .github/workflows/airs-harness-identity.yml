@@ -1,4 +1,4 @@
-name: AIRS Terminal native identity
+name: AIRS Harness native identity
 on:
   workflow_dispatch:
   push:
@@ -7,11 +7,11 @@ on:
       - 'codex-rs/airs-identity/**'
       - 'codex-rs/keyring-store/**'
       - 'scripts/validate_native_credentials.py'
-      - '.github/workflows/airs-terminal-identity.yml'
+      - '.github/workflows/airs-harness-identity.yml'
 permissions:
   contents: read
 concurrency:
-  group: airs-terminal-identity-${{ github.ref }}
+  group: airs-harness-identity-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   native-store:
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: airs-terminal-native-identity-${{ matrix.os }}
+          name: airs-harness-native-identity-${{ matrix.os }}
           path: native-store.json
           if-no-files-found: warn
           retention-days: 30

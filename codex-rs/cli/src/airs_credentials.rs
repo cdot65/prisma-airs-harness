@@ -13,15 +13,17 @@ use std::path::Path;
 use std::path::PathBuf;
 use uuid::Uuid;
 
+// Stable credential namespace retained across the alpha.8 product rename.
+// Changing it would orphan existing OS-store refresh tokens.
 pub(super) const SERVICE: &str = "io.cdot.airs-terminal";
 
 pub(super) fn credential_store_error() -> anyhow::Error {
     let recovery = if cfg!(target_os = "linux") {
         "Linux requires an unlocked Secret Service keyring on the current session D-Bus. Return to the shell where you unlocked the keyring. On a headless host, start `dbus-run-session -- bash`, unlock Secret Service with your existing keyring password, and run login/resume inside that same shell. See the README's Keycloak sign-in instructions."
     } else if cfg!(target_os = "macos") {
-        "Unlock your login keychain in Keychain Access and allow AIRS Terminal to access its credential item, then retry from the same macOS user account."
+        "Unlock your login keychain in Keychain Access and allow AIRS Harness to access its credential item, then retry from the same macOS user account."
     } else if cfg!(windows) {
-        "Run AIRS Terminal from the same signed-in Windows user account and ensure Windows Credential Manager is available, then retry."
+        "Run AIRS Harness from the same signed-in Windows user account and ensure Windows Credential Manager is available, then retry."
     } else {
         "Unlock the native credential store for your current user session, then retry."
     };
@@ -128,7 +130,7 @@ pub(super) fn file_token(path: &Path) -> anyhow::Result<String> {
 pub(super) fn read_binding(home: &Path) -> anyhow::Result<Binding> {
     let binding: Binding = serde_json::from_slice(
         &std::fs::read(home.join("credential-binding.json"))
-            .context("no credential binding; run airs-terminal login")?,
+            .context("no credential binding; run airs-harness login")?,
     )?;
     anyhow::ensure!(
         binding.schema_version == 1,
@@ -145,7 +147,7 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
     let token = match binding
         .source
         .as_ref()
-        .context("logged out; run airs-terminal login")?
+        .context("logged out; run airs-harness login")?
     {
         Source::File { path } => file_token(path)?,
         Source::Environment { variable } => {
@@ -299,7 +301,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     );
     anyhow::ensure!(
         !args.home.join("logged-out").exists(),
-        "logged out; run airs-terminal login"
+        "logged out; run airs-harness login"
     );
     let token = if matches!(binding.source, Some(Source::Oidc { .. })) {
         super::airs_oidc::credential(&binding).await?
@@ -385,12 +387,12 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
 }
 
 pub fn status(home: &Path) -> anyhow::Result<()> {
-    println!("Prisma AIRS Terminal {}", super::airs_terminal::version());
+    println!("Prisma AIRS Harness {}", super::airs_harness::version());
     println!("State: {}", home.display());
     println!("Gateway: {}", airs_environment::gateway(home)?);
     anyhow::ensure!(
         !home.join("logged-out").exists(),
-        "logged out; run airs-terminal login"
+        "logged out; run airs-harness login"
     );
     if home.join("credential-binding.json").exists() {
         let binding = read_binding(home)?;
@@ -417,7 +419,7 @@ pub fn status(home: &Path) -> anyhow::Result<()> {
             .and_then(|v| v.get("env_http_headers"))
             .and_then(|v| v.get("x-portkey-api-key"))
             .and_then(toml::Value::as_str)
-            .context("run airs-terminal login to configure credentials")?;
+            .context("run airs-harness login to configure credentials")?;
         println!("Authentication: workspace credential from {variable}");
         let token = std::env::var(variable).context("credential is missing; use login --credential-file PATH or login --credential-env NAME")?;
         validate_token(&token)?;
@@ -433,7 +435,7 @@ pub(super) fn check(home: &Path) -> anyhow::Result<()> {
 pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
     anyhow::ensure!(
         !home.join("logged-out").exists(),
-        "logged out; run airs-terminal login"
+        "logged out; run airs-harness login"
     );
     if home.join("credential-binding.json").exists() {
         let binding = read_binding(home)?;
@@ -452,11 +454,9 @@ pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
             .and_then(|v| v.get("env_http_headers"))
             .and_then(|v| v.get("x-portkey-api-key"))
             .and_then(toml::Value::as_str)
-            .context("run airs-terminal login to configure credentials")?;
+            .context("run airs-harness login to configure credentials")?;
         let token = std::env::var(variable).with_context(|| {
-            format!(
-                "credential environment variable {variable} is missing; run airs-terminal login"
-            )
+            format!("credential environment variable {variable} is missing; run airs-harness login")
         })?;
         Ok(fingerprint(validate_token(&token)?))
     }

@@ -148,8 +148,8 @@ impl SlashCommand {
             SlashCommand::Apps => "manage apps",
             SlashCommand::Plugins => "browse plugins",
             SlashCommand::Logout => {
-                if codex_utils_home_dir::is_airs_terminal() {
-                    "log out of AIRS Terminal"
+                if codex_utils_home_dir::is_airs_harness() {
+                    "log out of AIRS Harness"
                 } else {
                     "log out of Codex"
                 }

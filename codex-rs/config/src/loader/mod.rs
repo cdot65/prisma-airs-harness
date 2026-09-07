@@ -88,11 +88,11 @@ const PROJECT_LOCAL_CONFIG_DENYLIST: &[&str] = &[
 ];
 
 // Keep project discovery in the same application namespace as user state.
-// Otherwise launching AIRS Terminal from the user's home can load ~/.codex
+// Otherwise launching AIRS Harness from the user's home can load ~/.codex
 // as a project layer and override the independently configured gateway route.
 fn project_config_dir_name() -> &'static str {
-    if codex_utils_home_dir::is_airs_terminal() {
-        ".airs-terminal"
+    if codex_utils_home_dir::is_airs_harness() {
+        ".airs-harness"
     } else {
         ".codex"
     }
@@ -1135,7 +1135,11 @@ impl ProjectTrustContext {
         }
     }
 
-    fn root_checkout_hooks_folder_for_dir(&self, dir: &AbsolutePathBuf) -> Option<AbsolutePathBuf> {
+    fn root_checkout_hooks_folder_for_dir(
+        &self,
+        dir: &AbsolutePathBuf,
+        namespace: &str,
+    ) -> Option<AbsolutePathBuf> {
         let checkout_root = self.checkout_root.as_ref()?;
         let repo_root = self.repo_root.as_ref()?;
         // Regular checkouts resolve both paths to the same root; linked worktrees do not.
@@ -1144,7 +1148,7 @@ impl ProjectTrustContext {
         }
 
         let relative_dir = dir.as_path().strip_prefix(checkout_root.as_path()).ok()?;
-        Some(repo_root.join(relative_dir).join(project_config_dir_name()))
+        Some(repo_root.join(relative_dir).join(namespace))
     }
 }
 
@@ -1733,7 +1737,23 @@ async fn discover_project_layers(
     let mut layers = Vec::new();
     let mut startup_warnings = Vec::new();
     for dir in dirs {
-        let dot_codex_abs = dir.join(project_config_dir_name());
+        let mut namespace = project_config_dir_name();
+        let mut dot_codex_abs = dir.join(namespace);
+        if codex_utils_home_dir::is_airs_harness()
+            && !fs
+                .get_metadata(
+                    &PathUri::from_abs_path(&dot_codex_abs),
+                    Default::default(),
+                    /*sandbox*/ None,
+                )
+                .await
+                .map(|metadata| metadata.is_directory)
+                .unwrap_or(false)
+        {
+            // Compatibility with project settings created before the product rename.
+            namespace = ".airs-terminal";
+            dot_codex_abs = dir.join(namespace);
+        }
         let dot_codex_uri = PathUri::from_abs_path(&dot_codex_abs);
         if !fs
             .get_metadata(&dot_codex_uri, Default::default(), /*sandbox*/ None)
@@ -1746,7 +1766,8 @@ async fn discover_project_layers(
 
         let decision = trust_context.decision_for_dir(&dir);
         let disabled_reason = trust_context.disabled_reason_for_decision(&decision);
-        let hooks_config_folder_override = trust_context.root_checkout_hooks_folder_for_dir(&dir);
+        let hooks_config_folder_override =
+            trust_context.root_checkout_hooks_folder_for_dir(&dir, namespace);
         let dot_codex_normalized =
             normalize_path(dot_codex_abs.as_path()).unwrap_or_else(|_| dot_codex_abs.to_path_buf());
         if dot_codex_abs == codex_home_abs || dot_codex_normalized == codex_home_normalized {

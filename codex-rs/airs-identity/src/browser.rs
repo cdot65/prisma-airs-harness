@@ -93,7 +93,7 @@ impl BrowserLogin {
             }
             let code = parse_callback(&data, &self.redirect, &self.state, &provider.config.issuer);
             let message = if code.is_ok() {
-                "You may return to AIRS Terminal to finish signing in."
+                "You may return to AIRS Harness to finish signing in."
             } else {
                 "Invalid login callback."
             };

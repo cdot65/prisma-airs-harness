@@ -1,4 +1,18 @@
-# Linux MVP delivery plan
+# Prisma AIRS Harness delivery plan
+
+## Next distribution release — naming contract
+
+Owner direction, reaffirmed for full implementation: product name **Prisma AIRS Harness**, executable `airs-harness`.
+npm package: `airs-harness` (unscoped, for Verdaccio; not yet published). Adapt the
+inherited npm launcher to distribute tested native binaries, beginning with
+macOS endpoint support alongside Linux, and provide guided first-run setup.
+Use the selected names throughout new onboarding, CLI help, UI and package metadata.
+Preserve existing environments, encrypted credential bindings and session history
+during the rename; do not blindly rename persisted identifiers or Keycloak clients.
+The installed alpha.7 release and historical receipts still use `airs-terminal`.
+The checkout and hosted PAH remain separate projects.
+
+## Historical Linux MVP scope
 
 Owner authorization: 2026-09-07. Continue autonomously toward the design and
 implementation plan in the Prisma AIRS Terminal vault effort. Linux is the

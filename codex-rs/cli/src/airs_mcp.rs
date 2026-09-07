@@ -246,7 +246,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     let _lock = airs_environment::lock(&args.home)?;
     anyhow::ensure!(
         !args.home.join("logged-out").exists(),
-        "environment is logged out; run airs-terminal login"
+        "environment is logged out; run airs-harness login"
     );
     let binding = read_binding(
         &args

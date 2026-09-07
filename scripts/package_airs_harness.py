@@ -53,9 +53,9 @@ def main():
     version_output = subprocess.check_output(
         [str(binary), "--version"], text=True
     ).strip()
-    if not version_output.startswith("airs-terminal "):
-        raise ValueError("Expected an AIRS Terminal binary")
-    version = version_output.removeprefix("airs-terminal ")
+    if not version_output.startswith("airs-harness "):
+        raise ValueError("Expected an AIRS Harness binary")
+    version = version_output.removeprefix("airs-harness ")
     commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=repo, text=True
     ).strip()
@@ -65,15 +65,15 @@ def main():
     if source_status.strip():
         raise ValueError("Commit the reviewed source before packaging")
     args.output_directory.mkdir(parents=True, exist_ok=True)
-    name = f"airs-terminal-{version}-linux-x86_64-musl"
+    name = f"airs-harness-{version}-linux-x86_64-musl"
     archive = args.output_directory / (name + ".tar.gz")
     if archive.exists():
         raise FileExistsError(archive)
     with tempfile.TemporaryDirectory(prefix="airs-package-") as temporary:
         root = Path(temporary) / name
         root.mkdir()
-        shutil.copy2(binary, root / "airs-terminal")
-        (root / "airs-terminal").chmod(0o755)
+        shutil.copy2(binary, root / "airs-harness")
+        (root / "airs-harness").chmod(0o755)
         for filename in [
             "LICENSE",
             "NOTICE",
@@ -116,9 +116,9 @@ def main():
             shutil.copy2(source, destination)
         (root / "scripts").mkdir()
         for filename in [
-            "test_airs_terminal.py",
-            "test_airs_terminal_pty.py",
-            "airs_terminal_pty.py",
+            "test_airs_harness.py",
+            "test_airs_harness_pty.py",
+            "airs_harness_pty.py",
             "validate_live_agent.py",
             "validate_live_model_switch.py",
             "validate_live_gateway.py",
@@ -198,19 +198,19 @@ def main():
             + "\n"
         )
         provenance = {
-            "product": "Prisma AIRS Terminal",
+            "product": "Prisma AIRS Harness",
             "version": version,
             "source_commit": commit,
             "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
             "target": "x86_64-unknown-linux-musl",
             "profile": "release; upstream defaults",
             "binary_processing": args.binary_processing,
-            "binary_sha256": digest(root / "airs-terminal"),
+            "binary_sha256": digest(root / "airs-harness"),
             "cargo_lock_sha256": digest(repo / "codex-rs/Cargo.lock"),
             "rust": subprocess.check_output(
                 ["rustc", "--version"], cwd=repo / "codex-rs", text=True
             ).strip(),
-            "build_command": "cargo build --locked --release -p codex-cli --bin airs-terminal",
+            "build_command": "cargo build --locked --release -p codex-cli --bin airs-harness",
         }
         (root / "BUILD-INFO.json").write_text(json.dumps(provenance, indent=2) + "\n")
         files = sorted(path for path in root.rglob("*") if path.is_file())

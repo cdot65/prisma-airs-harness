@@ -67,7 +67,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
     home = tmp / "state"
     work = tmp / "work"
     work.mkdir()
-    env = dict(os.environ, AIRS_TERMINAL_HOME=str(home), BROWSER="/bin/true")
+    env = dict(os.environ, AIRS_HARNESS_HOME=str(home), BROWSER="/bin/true")
     for name in ["data", "config", "runtime"]:
         (tmp / name).mkdir(mode=0o700)
     env.update(
@@ -456,7 +456,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                     "--sandbox",
                     "workspace-write",
                     "--json",
-                    "Write auth-proof.txt containing exactly OIDC_LOCAL_OK using one shell command. Verify it once with one shell command. Use at most four shell commands total. Then call the executable mcp__security.pan_inline_scan tool with scan_request.profile Prisma AIRS Terminal and scan_request.response Hello from AIRS Terminal. This is a tools/call operation, not read_mcp_resource; do not use resource functions to invoke a tool. Report the actual action and scan_id. Do both tools now.",
+                    "Write auth-proof.txt containing exactly OIDC_LOCAL_OK using one shell command. Verify it once with one shell command. Use at most four shell commands total. Then call the executable mcp__security.pan_inline_scan tool with scan_request.profile Prisma AIRS Terminal and scan_request.response Hello from AIRS Harness. This is a tools/call operation, not read_mcp_resource; do not use resource functions to invoke a tool. Report the actual action and scan_id. Do both tools now.",
                     timeout=180,
                 )
             except subprocess.TimeoutExpired as error:

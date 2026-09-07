@@ -28,7 +28,7 @@ fn setup_context_default_and_override_reach_config_and_catalog() {
         (vec!["--context-window", "32768"], 32768),
     ] {
         let mut argv = vec![
-            "airs-terminal",
+            "airs-harness",
             "setup",
             "--gateway-url",
             "https://gateway.example/v1",

@@ -3,10 +3,10 @@ source: cli/src/airs_help_tests.rs
 assertion_line: 19
 expression: command.render_help().to_string()
 ---
-AIRS Terminal CLI
+AIRS Harness CLI
 
-Usage: airs-terminal [OPTIONS] [PROMPT]
-       airs-terminal [OPTIONS] <COMMAND> [ARGS]
+Usage: airs-harness [OPTIONS] [PROMPT]
+       airs-harness [OPTIONS] <COMMAND> [ARGS]
 
 Commands:
   setup-mcp         Connect a remote AIRS MCP server with a separate credential file
@@ -14,17 +14,17 @@ Commands:
   status            Show the selected gateway and local credential availability
   setup             Configure a direct AIRS gateway connection for this standalone
                     terminal
-  exec              Run AIRS Terminal non-interactively [aliases: e]
+  exec              Run AIRS Harness non-interactively [aliases: e]
   review            Run a code review non-interactively
   login             Manage login
   logout            Remove stored authentication credentials
-  mcp               Manage external MCP servers for AIRS Terminal
+  mcp               Manage external MCP servers for AIRS Harness
   completion        Generate shell completion scripts
-  doctor            Diagnose local AIRS Terminal installation, config, auth, and runtime
+  doctor            Diagnose local AIRS Harness installation, config, auth, and runtime
                     health
   sandbox           Run commands within the local sandbox
   debug             Debugging tools
-  apply             Apply the latest diff produced by AIRS Terminal agent as a `git apply`
+  apply             Apply the latest diff produced by AIRS Harness agent as a `git apply`
                     to your local working tree [aliases: a]
   resume            Resume a previous interactive session (picker by default; use --last
                     to continue the most recent)
@@ -52,7 +52,7 @@ Options:
           Disable a feature (repeatable). Equivalent to `-c features.<name>=false`
       --strict-config
           Error out when config.toml contains fields that are not recognized by this
-          version of AIRS Terminal
+          version of AIRS Harness
   -i, --image <FILE>...
           Optional image(s) to attach to the initial prompt
   -m, --model <MODEL>

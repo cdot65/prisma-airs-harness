@@ -1,6 +1,6 @@
 # Upstream and fork boundary
 
-- Product: Prisma AIRS Terminal; executable: `airs-terminal`.
+- Product: Prisma AIRS Harness; executable: `airs-harness`.
 - Upstream: https://github.com/openai/codex.git (git remote `upstream`).
 - Baseline tag: `rust-v0.153.4`.
 - Baseline commit: `3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`.
@@ -46,7 +46,7 @@ locked workspace dependencies; Bazel dependency metadata was refreshed without
 lockfile drift for those additions. No ConfigToml schema fields were added.
 
 The new GitHub repository is private. Inherited OpenAI Actions workflows remain
-reference source and are disabled. The owned manual `airs-terminal-release-check`
+reference source and are disabled. The owned manual `airs-harness-release-check`
 workflow verifies a published archive on a fresh Ubuntu runner and tests/audits
 the scanner. It does not build or attest the binary. The pilot artifact is a local
 optimized build with a pinned Rust toolchain, not signed CI build provenance.
@@ -72,6 +72,10 @@ no PAH dependency. Its Dockerfile and pinned npm lockfile are maintained here.
 Keep the gateway-only reasoning capability checks at the request boundary and in
 the model picker when merging upstream. Empty supported levels must not invent an
 effort. Preserve the bounded runtime context and its separation of MCP tools from
-resources. `scripts/test_airs_terminal.py` now drives the actual interactive model
+resources. `scripts/test_airs_harness.py` now drives the actual interactive model
 switch; `scripts/validate_live_model_switch.py` repeats it through AIRS with real
 local work and scanner calls. The alpha.4 startup-only coverage missed this bug.
+
+The repository URL and upstream crate names are retained for source provenance.
+The npm distribution is `airs-harness`; it wraps the standalone Rust executable
+and does not install or invoke an external Codex CLI. See [RENAME.md](RENAME.md).

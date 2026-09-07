@@ -3151,7 +3151,7 @@ impl Config {
     ) -> std::io::Result<Self> {
         // Keep the large config-construction future off small test thread stacks.
         Box::pin(async move {
-        let airs_user_config = if codex_utils_home_dir::is_airs_terminal() {
+        let airs_user_config = if codex_utils_home_dir::is_airs_harness() {
             Some(airs_boundary::validate(codex_home.as_path(), &cfg)?)
         } else {
             None
@@ -3728,7 +3728,7 @@ impl Config {
         let model_provider_id = model_provider
             .or(cfg.model_provider)
             .unwrap_or_else(|| "openai".to_string());
-        let model_provider = model_providers
+        let mut model_provider = model_providers
             .get(&model_provider_id)
             .ok_or_else(|| {
                 let message = if model_provider_id == LEGACY_OLLAMA_CHAT_PROVIDER_ID {
@@ -3743,13 +3743,18 @@ impl Config {
         let shell_environment_policy = cfg.shell_environment_policy.into();
         if let Some(user) = &airs_user_config {
             airs_boundary::validate_provider(user, &model_provider)?;
+            // Product-owned request identity also applies to saved pre-rename configurations.
+            // Validate the original destination/auth binding before changing presentation.
+            let headers = model_provider.http_headers.get_or_insert_with(HashMap::new);
+            headers.retain(|name, _| !name.eq_ignore_ascii_case("user-agent"));
+            headers.insert("User-Agent".into(), format!("airs-harness/{}", codex_utils_home_dir::AIRS_HARNESS_VERSION).into());
         }
-        if codex_utils_home_dir::is_airs_terminal()
+        if codex_utils_home_dir::is_airs_harness()
             && (model_provider.gateway.is_none() || cfg.model_catalog_json.is_none())
         {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Prisma AIRS Terminal requires an explicit gateway provider and capability catalog; run airs-terminal setup",
+                "Prisma AIRS Harness requires an explicit gateway provider and capability catalog; run airs-harness setup",
             ));
         }
         let allow_login_shell = cfg.allow_login_shell.unwrap_or(true);
@@ -3872,7 +3877,7 @@ impl Config {
         let forced_login_method = cfg.forced_login_method;
 
         let model = model.or(cfg.model);
-        if codex_utils_home_dir::is_airs_terminal() {
+        if codex_utils_home_dir::is_airs_harness() {
             let selection = model.as_deref().ok_or_else(|| {
                 std::io::Error::new(std::io::ErrorKind::InvalidInput, "select a configured AIRS route")
             })?;
@@ -3969,7 +3974,7 @@ impl Config {
 
         let check_for_update_on_startup = cfg.check_for_update_on_startup.unwrap_or(true);
         let model_catalog = load_model_catalog(cfg.model_catalog_json.clone())?;
-        if codex_utils_home_dir::is_airs_terminal()
+        if codex_utils_home_dir::is_airs_harness()
             && model_catalog.as_ref().is_none_or(|catalog| {
                 !catalog.models.iter().any(|entry| Some(&entry.slug) == model.as_ref())
             })
@@ -3985,7 +3990,7 @@ impl Config {
             .as_ref()
             .map(AbsolutePathBuf::to_path_buf)
             .unwrap_or_else(|| codex_home.join("log").to_path_buf());
-        let sqlite_home_env = if codex_utils_home_dir::is_airs_terminal() {
+        let sqlite_home_env = if codex_utils_home_dir::is_airs_harness() {
             None
         } else {
             resolve_sqlite_home_env(&resolved_cwd)
@@ -4064,7 +4069,7 @@ impl Config {
 
         let mcp_servers = constrain_mcp_servers(cfg.mcp_servers.clone(), mcp_servers.as_ref())
             .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, format!("{e}")))?;
-        let developer_instructions = if codex_utils_home_dir::is_airs_terminal() {
+        let developer_instructions = if codex_utils_home_dir::is_airs_harness() {
             Some(airs_boundary::developer_instructions(
                 developer_instructions,
                 mcp_servers.get(),
@@ -4803,7 +4808,7 @@ pub fn find_codex_home() -> std::io::Result<AbsolutePathBuf> {
     codex_utils_home_dir::find_codex_home()
 }
 
-pub use codex_utils_home_dir::initialize_airs_terminal_home;
+pub use codex_utils_home_dir::initialize_airs_harness_home;
 
 /// Returns the path to the folder where Codex logs are stored. Does not verify
 /// that the directory exists.

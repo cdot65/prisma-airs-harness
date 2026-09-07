@@ -705,7 +705,7 @@ impl App {
                     }
                 }
             },
-            AppEvent::Logout => match if codex_utils_home_dir::is_airs_terminal() {
+            AppEvent::Logout => match if codex_utils_home_dir::is_airs_harness() {
                 crate::airs_branding::logout(&self.config.codex_home).await
             } else {
                 app_server.logout_account().await

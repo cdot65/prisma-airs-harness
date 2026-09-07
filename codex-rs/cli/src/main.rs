@@ -46,11 +46,11 @@ use supports_color::Stream;
 mod airs_credentials;
 mod airs_doctor;
 mod airs_environment;
+mod airs_harness;
 mod airs_help;
 mod airs_mcp;
 mod airs_oidc;
 mod airs_session_binding;
-mod airs_terminal;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
 mod cloud_config;
@@ -110,19 +110,19 @@ use codex_terminal_detection::TerminalName;
 #[derive(Debug, Parser)]
 #[clap(
     author,
-    name = airs_terminal::bin_name(),
-    version = airs_terminal::version(),
+    name = airs_harness::bin_name(),
+    version = airs_harness::version(),
     // If a sub‑command is given, ignore requirements of the default args.
     subcommand_negates_reqs = true,
     // The executable is sometimes invoked via a platform‑specific name like
     // `codex-x86_64-unknown-linux-musl`, but the help output should always use
     // the generic `codex` command name that users run.
-    bin_name = airs_terminal::bin_name(),
-    override_usage = airs_terminal::usage()
+    bin_name = airs_harness::bin_name(),
+    override_usage = airs_harness::usage()
 )]
 struct MultitoolCli {
     /// Select an isolated AIRS environment for this process.
-    #[arg(long, global = true, hide = !airs_terminal::is_standalone())]
+    #[arg(long, global = true, hide = !airs_harness::is_standalone())]
     environment: Option<String>,
     #[clap(flatten)]
     pub config_overrides: CliConfigOverrides,
@@ -143,24 +143,24 @@ struct MultitoolCli {
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
     /// Connect a remote AIRS MCP server with a separate credential file.
-    #[clap(name = "setup-mcp", hide = !airs_terminal::is_standalone())]
+    #[clap(name = "setup-mcp", hide = !airs_harness::is_standalone())]
     McpSetup(airs_mcp::SetupArgs),
     #[clap(hide = true)]
     McpCredential(airs_mcp::HelperArgs),
     /// Manage independent AIRS environments.
-    #[clap(hide = !airs_terminal::is_standalone())]
+    #[clap(hide = !airs_harness::is_standalone())]
     Env {
         #[command(subcommand)]
         command: airs_environment::Command,
     },
     /// Show the selected gateway and local credential availability.
-    #[clap(hide = !airs_terminal::is_standalone())]
+    #[clap(hide = !airs_harness::is_standalone())]
     Status,
     #[clap(hide = true)]
     Credential(airs_credentials::HelperArgs),
     /// Configure a direct AIRS gateway connection for this standalone terminal.
-    #[clap(hide = !airs_terminal::is_standalone())]
-    Setup(airs_terminal::SetupArgs),
+    #[clap(hide = !airs_harness::is_standalone())]
+    Setup(airs_harness::SetupArgs),
     /// Browse all agent sessions on the shared local app-server daemon.
     Agents(AgentsCommand),
 
@@ -847,8 +847,8 @@ fn handle_app_exit(exit_info: AppExitInfo) -> anyhow::Result<()> {
 /// Run the update action and print the result.
 fn run_update_action(action: UpdateAction) -> anyhow::Result<()> {
     anyhow::ensure!(
-        !airs_terminal::is_standalone(),
-        "Prisma AIRS Terminal updates must use this project's release artifacts"
+        !airs_harness::is_standalone(),
+        "Prisma AIRS Harness updates must use this project's release artifacts"
     );
     println!();
     let cmd_str = action.command_str();
@@ -1073,9 +1073,9 @@ fn stage_str(stage: Stage) -> &'static str {
 }
 
 fn main() -> anyhow::Result<()> {
-    if airs_terminal::is_standalone() {
-        codex_core::config::initialize_airs_terminal_home()?;
-        let _ = codex_login::default_client::set_default_originator("airs-terminal".to_string());
+    if airs_harness::is_standalone() {
+        codex_core::config::initialize_airs_harness_home()?;
+        let _ = codex_login::default_client::set_default_originator("airs-harness".to_string());
     }
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
@@ -1095,14 +1095,14 @@ async fn cli_main(
         remote,
         mut interactive,
         subcommand,
-    } = if airs_terminal::is_standalone() {
+    } = if airs_harness::is_standalone() {
         use clap::FromArgMatches;
         MultitoolCli::from_arg_matches(&airs_help::command(MultitoolCli::command()).get_matches())
             .unwrap_or_else(|error| error.exit())
     } else {
         MultitoolCli::parse()
     };
-    if airs_terminal::is_standalone() {
+    if airs_harness::is_standalone() {
         let root = codex_core::config::find_codex_home()?;
         match &subcommand {
             Some(Subcommand::Credential(args)) => return airs_credentials::helper(args).await,
@@ -1118,7 +1118,7 @@ async fn cli_main(
                         !root.join("environments.json").exists(),
                         "use setup --environment NAME to create another environment"
                     );
-                    airs_terminal::setup(args)
+                    airs_harness::setup(args)
                 };
             }
             _ => {}
@@ -1197,8 +1197,8 @@ async fn cli_main(
         }
     }
     anyhow::ensure!(
-        airs_terminal::is_standalone() || environment.is_none(),
-        "--environment is available in airs-terminal"
+        airs_harness::is_standalone() || environment.is_none(),
+        "--environment is available in airs-harness"
     );
     // Fold --enable/--disable into config overrides so they flow to all subcommands.
     let toggle_overrides = feature_toggles.to_overrides()?;
@@ -1294,7 +1294,7 @@ async fn cli_main(
             | Subcommand::Env { .. }
             | Subcommand::Status
             | Subcommand::Credential(_),
-        ) => anyhow::bail!("this command is available in airs-terminal"),
+        ) => anyhow::bail!("this command is available in airs-harness"),
         Some(Subcommand::Exec(mut exec_cli)) => {
             reject_remote_mode_for_subcommand(
                 root_remote.as_deref(),
@@ -3015,10 +3015,10 @@ fn merge_interactive_cli_flags(interactive: &mut TuiCli, subcommand_cli: TuiCli)
 
 fn print_completion(cmd: CompletionCommand) {
     let mut app = MultitoolCli::command();
-    if airs_terminal::is_standalone() {
+    if airs_harness::is_standalone() {
         app = airs_help::command(app);
     }
-    let name = airs_terminal::bin_name();
+    let name = airs_harness::bin_name();
     generate(cmd.shell, &mut app, name, &mut std::io::stdout());
 }
 
@@ -3653,7 +3653,7 @@ mod tests {
         assert!(
             help.contains(&format!(
                 "Usage: {} plugin marketplace [OPTIONS] <COMMAND>",
-                airs_terminal::bin_name()
+                airs_harness::bin_name()
             )),
             "{help}"
         );
@@ -3666,7 +3666,7 @@ mod tests {
         ] {
             let help = help_from_args(&["codex", "plugin", "marketplace", subcommand, "--help"]);
             assert!(
-                help.contains(&usage.replace("codex", airs_terminal::bin_name())),
+                help.contains(&usage.replace("codex", airs_harness::bin_name())),
                 "{help}"
             );
         }

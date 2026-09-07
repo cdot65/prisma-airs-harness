@@ -200,7 +200,7 @@ pub(crate) fn resolve_provider_auth(
 ) -> codex_protocol::error::Result<SharedAuthProvider> {
     if provider.gateway.is_some() && provider.auth.is_some() && auth.is_none() {
         return Err(CodexErr::Fatal(
-            "AIRS credential helper could not supply the bound credential; run airs-terminal status, then login if needed".to_string(),
+            "AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed".to_string(),
         ));
     }
     if let Some(auth) = bearer_auth_for_provider(provider)? {

@@ -4,7 +4,7 @@ assertion_line: 26
 expression: render(80)
 ---
 ╭──────────────────────────────────────────────────────╮
-│ >_ Prisma AIRS Terminal (v0.0.0)                     │
+│ >_ Prisma AIRS Harness (v0.0.0)                      │
 │                                                      │
 │ model:       AI Gateway — default   /model to change │
 │ directory:   /workspace/project                      │

@@ -4,11 +4,11 @@ use clap::CommandFactory;
 #[test]
 fn standalone_help_exposes_local_work_and_gateway_configuration() {
     let mut command = command(crate::MultitoolCli::command())
-        .bin_name("airs-terminal")
+        .bin_name("airs-harness")
         .term_width(90)
         .disable_help_subcommand(true)
         .override_usage(
-            "airs-terminal [OPTIONS] [PROMPT]\n       airs-terminal [OPTIONS] <COMMAND> [ARGS]",
+            "airs-harness [OPTIONS] [PROMPT]\n       airs-harness [OPTIONS] <COMMAND> [ARGS]",
         )
         .mut_arg("environment", |arg| arg.hide(false));
     // The test also runs in the upstream codex binary, where AIRS-only commands
@@ -16,5 +16,5 @@ fn standalone_help_exposes_local_work_and_gateway_configuration() {
     for name in ["setup", "setup-mcp", "env", "status"] {
         command = command.mut_subcommand(name, |subcommand| subcommand.hide(false));
     }
-    insta::assert_snapshot!("airs_terminal_help", command.render_help().to_string());
+    insta::assert_snapshot!("airs_harness_help", command.render_help().to_string());
 }

@@ -1,4 +1,4 @@
-# Prisma AIRS Terminal
+# Prisma AIRS Harness
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
 Inference goes directly to a configurable Prisma AIRS AI Gateway. Files, shell
@@ -8,73 +8,35 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.7 — authentication workflow polish
+## 0.1.0-alpha.8 — product rename (publication pending)
 
-Credential-store errors now explain recovery for Linux, macOS and Windows.
-MCP inventory reports **Credential helper** when headers come from the configured
-helper; connection status remains a separate result. Repeated logout reports
-**Already logged out locally**, and doctor directs users to their actual identity.
-The alpha.6 authentication workflow below remains the functional baseline.
-The optimized binary passed 21 executable/PTY fixtures and seven-turn live
-workflows before and after installation; 5,914 affected Rust tests passed.
-See [VALIDATION.json](VALIDATION.json) for the current release's checks.
+The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped
+npm package is `airs-harness`; its launcher runs a matching prebuilt Rust binary.
+The rename is being validated before publication to Verdaccio. This page does
+not announce a published alpha.8 package or a verified macOS distribution.
 
-## 0.1.0-alpha.6 — user authentication
+Fresh state uses `~/.airs-harness`; existing state and credential bindings remain
+compatible. See [RENAME.md](RENAME.md) for the upgrade contract and remaining
+legacy identifiers, and [npm package instructions](npm/airs-harness/README.md).
+[RELEASE.md](RELEASE.md) and [VALIDATION.json](VALIDATION.json) retain historical
+release evidence; alpha.7 test results are not evidence for alpha.8.
 
-Alpha.6 adds public-client Keycloak browser/device login, verified user and resource
-identities, native credential storage, refresh rotation, logout and separate MCP
-authentication. One existing realm/JWKS serves both resources; AIRS receives the
-original signed JWT. Workspace-key environments remain supported.
+## Installation
 
-The optimized Linux binary passed 20 executable/PTY fixtures, all 27 live OIDC
-checks before and after installation, and the seven-turn workspace-key regression.
-The gateway requests serial tools, fixing the excessive parallel calls found in
-acceptance. Native credential-store CI passed on Linux, macOS and Windows; the
-full distributed terminal remains Linux x86-64. The supported core selection passed
-3,929 tests. Full upstream workspace validation remains unavailable because V8
-publishes no prebuilt archive for this musl target; code mode is disabled here.
+Until Verdaccio publication, build the reviewed source with the commands below.
+After publication, install the administrator-approved version of `airs-harness`
+from the organization's registry. Node.js 22 or later is needed for the npm
+launcher; endpoint users do not need Rust for a prebuilt package.
 
-Start with the [owner review guide](administration/identity/OWNER-REVIEW.md).
-[RELEASE.md](RELEASE.md) and [VALIDATION.json](VALIDATION.json) record scope and
-evidence; the release's `RELEASE-VERIFICATION.json` records publication checks.
+The standalone native binary needs Git, ripgrep and your project tools. Linux
+also requires Bubblewrap and a kernel/container policy allowing its namespaces.
+The runtime fails explicitly if it cannot establish its sandbox. Python is a
+validation/project prerequisite, not a dependency of the agent binary.
 
-## Download and install on Linux x86-64
-
-The release is private; authenticate GitHub CLI with your own repository access.
-On Debian/Ubuntu, install `git`, `ripgrep` and `bubblewrap` with your package manager.
-On Alpine, use `apk add git ripgrep bubblewrap`. Python is needed by the included
-acceptance fixtures, not by the terminal itself. The kernel/container policy must
-permit Bubblewrap's user namespaces; the runtime fails explicitly when it cannot
-establish its sandbox.
-
-```sh
-set -e
-gh release download airs-terminal-v0.1.0-alpha.7 \
-  --repo cdot65/prisma-airs-terminal \
-  --pattern 'airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz*' \
-  --dir airs-terminal-download
-cd airs-terminal-download
-sha256sum -c airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz.sha256
-tar -xzf airs-terminal-0.1.0-alpha.7-linux-x86_64-musl.tar.gz
-cd airs-terminal-0.1.0-alpha.7-linux-x86_64-musl
-sha256sum -c SHA256SUMS > /dev/null
-mkdir -p "$HOME/.local/bin"
-if [ -f "$HOME/.local/bin/airs-terminal" ]; then
-  cp -p "$HOME/.local/bin/airs-terminal" "$HOME/.local/bin/airs-terminal.previous"
-fi
-install -m 755 airs-terminal "$HOME/.local/bin/airs-terminal.new"
-mv -f "$HOME/.local/bin/airs-terminal.new" "$HOME/.local/bin/airs-terminal"
-"$HOME/.local/bin/airs-terminal" --version
-```
-
-Add `~/.local/bin` to your shell's PATH if necessary. Install is an atomic executable
-replacement; running sessions retain their original process image. Keep the archive
-and checksum for recovery. To roll back, atomically copy the preserved executable
-through another temporary filename in the same directory. Configuration/history
-are preserved, but alpha.3 does not understand alpha.4's named environments; it
-uses the retained legacy application-home state. Stop old sessions before testing
-an upgrade or rollback. The inherited `scripts/install/` scripts install upstream
-Codex and are not this product's installer.
+macOS native builds and acceptance are described in [MACOS.md](MACOS.md).
+Guided first-run onboarding is a separate upcoming feature; current setup and
+sign-in commands follow. The inherited `scripts/install/` tools install upstream
+Codex and are not Prisma AIRS Harness installers.
 
 ## Sign in with Keycloak
 
@@ -84,20 +46,20 @@ both Terminal roles; teammates need explicit operator grants. The deployment end
 an unrelated GitHub runner:
 
 ```sh
-airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1 \
+airs-harness setup --environment work-sso --gateway-url https://airs.cdot.io/v1 \
   --model '@openai-terminal-auth/gpt-4.1'
-airs-terminal login \
+airs-harness login \
   --issuer-url https://auth.dev.cdot.io/realms/truffles \
   --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference
 
-airs-terminal setup-mcp --name security \
+airs-harness setup-mcp --name security \
   --url https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp \
   --issuer-url https://auth.dev.cdot.io/realms/truffles \
   --oidc-client-id airs-terminal-mcp --audience airs-terminal-security \
   --tool pan_inline_scan --required
 
-airs-terminal status
-airs-terminal
+airs-harness status
+airs-harness
 ```
 
 Use `--device-auth` on `login` or `setup-mcp` when the browser is on another
@@ -115,7 +77,7 @@ workspace-key file/environment modes remain available on headless hosts.
 If a new terminal reports `OS credential store unavailable`, return to your
 unlocked D-Bus shell or unlock the same keyring in a new session as described
 below. Shell variables such as `$airs_e2e_env` do not carry into a new shell;
-use `airs-terminal env list` and the literal environment name when resuming.
+use `airs-harness env list` and the literal environment name when resuming.
 Your named environments and conversation history remain on disk.
 
 On a headless Linux host without an existing session bus, start an interactive
@@ -137,7 +99,7 @@ refresh tokens remain encrypted on disk. This password is for your local keyring
 not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
 unlock their keyring through the OS login instead.
 
-`airs-terminal logout` disables local credential helpers and revokes usable
+`airs-harness logout` disables local credential helpers and revokes usable
 refresh tokens for inference and MCP. Stop running sessions to discard cached
 access tokens; issued JWTs can remain valid for their 120-second lifetime.
 Interrupted refresh requires signing in again rather than retrying a possibly
@@ -147,16 +109,16 @@ environment to preserve history isolation.
 ## Set up an environment
 
 ```sh
-airs-terminal setup --environment work \
+airs-harness setup --environment work \
   --gateway-url https://your-gateway.example/v1 \
   --model '@openai/gpt-4.1'
 
 # Explicit headless authentication using an existing private file:
 chmod 600 /absolute/path/to/workspace-key
-airs-terminal login --credential-file /absolute/path/to/workspace-key
+airs-harness login --credential-file /absolute/path/to/workspace-key
 
-airs-terminal doctor
-airs-terminal
+airs-harness doctor
+airs-harness
 ```
 
 A bare hostname also works; setup supplies `https://` and `/v1`. The local context
@@ -176,15 +138,18 @@ Setup does not overwrite an environment. Each environment has an independent
 UUID directory containing its configuration, model catalog, MCP state and history.
 
 ```sh
-airs-terminal env list
-airs-terminal env use work
-airs-terminal env show work
-airs-terminal --environment work exec 'Inspect this project and run its tests.'
-airs-terminal --environment work resume
+airs-harness env list
+airs-harness env use work
+airs-harness env show work
+airs-harness --environment work exec 'Inspect this project and run its tests.'
+airs-harness --environment work resume
 ```
 
-State lives in `~/.airs-terminal`, or the absolute directory selected by
-`AIRS_TERMINAL_HOME`. Trusted project configuration uses `.airs-terminal/config.toml`.
+State defaults to `~/.airs-harness`, or the absolute directory selected by
+`AIRS_HARNESS_HOME`. If only `~/.airs-terminal` exists, the harness reuses it
+in place. `AIRS_TERMINAL_HOME` remains a fallback override. Trusted project
+configuration uses `.airs-harness/config.toml`, falling back to the legacy
+`.airs-terminal` project directory when the new directory is absent.
 The application does not change `HOME` or `CODEX_HOME`, and does not discover
 `.codex` project settings. Endpoint, credential, capability and MCP settings must
 come from the selected environment; project/profile/CLI overrides are rejected.
@@ -226,12 +191,12 @@ Configure MCP before the environment's first agent session. Use a separately
 authorized MCP credential and the complete MCP server endpoint:
 
 ```sh
-airs-terminal setup-mcp --name security \
+airs-harness setup-mcp --name security \
   --url https://tools.example/workspace/security/mcp \
   --credential-file /absolute/path/to/mcp-key \
   --tool pan_inline_scan --required
 
-airs-terminal mcp list
+airs-harness mcp list
 ```
 
 Workspace-key inference helpers use `Authorization: Bearer …`; OIDC inference
@@ -258,15 +223,15 @@ not automatically fall back to unrestricted execution.
 
 ```sh
 cd codex-rs
-cargo build --locked --release -p codex-cli --bin airs-terminal
-./target/release/airs-terminal --version
+cargo build --locked --release -p codex-cli --bin airs-harness
+./target/release/airs-harness --version
 ```
 
 From the repository root, executable fixtures use Python's standard library:
 
 ```sh
-AIRS_TERMINAL_BIN=codex-rs/target/release/airs-terminal \
-  python3 -m unittest discover -s scripts -p 'test_airs_terminal*.py' -v
+AIRS_HARNESS_BIN=codex-rs/target/release/airs-harness \
+  python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v
 ```
 
 Rust checks use `just test`. The live contract probe is

@@ -1,4 +1,4 @@
-# AIRS Terminal stateless scanner MCP
+# AIRS Harness stateless scanner MCP
 
 An optional remote backend exposing only `pan_inline_scan`, using the official MCP
 TypeScript SDK and the owner-maintained `@cdot65/prisma-airs-sdk`. It calls the

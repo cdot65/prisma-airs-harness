@@ -1,3 +1,15 @@
+# 0.1.0-alpha.8 — Prisma AIRS Harness rename (unpublished)
+
+Product UI, CLI, request identity, executable and owned build tooling are renamed
+for `airs-harness`. The npm distribution is the unscoped `airs-harness` package,
+prepared for Verdaccio. Native platform packages contain the compiled binary,
+build provenance and dependency license notices. See [RENAME.md](RENAME.md).
+
+Existing credential namespaces and deployed auth resource IDs remain compatible.
+Historical releases and validation receipts below retain their original names.
+Alpha.8 validation is recorded separately when its checks finish; previous
+release results must not be presented as results for this renamed binary.
+
 # 0.1.0-alpha.7 — authentication workflow polish
 
 When a user resumes from a new Linux shell without the unlocked D-Bus keyring

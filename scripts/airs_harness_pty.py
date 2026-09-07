@@ -74,7 +74,7 @@ class TerminalSession:
         self.wait_for(b"Yes, continue")
         time.sleep(0.35)
         os.write(self.master, b"\r")
-        self.wait_for(b"Prisma AIRS Terminal")
+        self.wait_for(b"Prisma AIRS Harness")
         time.sleep(0.35)
 
     def choose_model(self, direction, expected):

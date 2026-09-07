@@ -119,16 +119,16 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
     }
     let passed = checks.iter().all(|check| check.passed);
     let report = serde_json::json!({
-        "schema_version": 1, "product": "Prisma AIRS Terminal",
-        "version": super::airs_terminal::version(), "state_directory": home,
+        "schema_version": 1, "product": "Prisma AIRS Harness",
+        "version": super::airs_harness::version(), "state_directory": home,
         "passed": passed, "checks": checks,
     });
     if json {
         println!("{}", serde_json::to_string_pretty(&report)?);
     } else {
         println!(
-            "Prisma AIRS Terminal {} — doctor",
-            super::airs_terminal::version()
+            "Prisma AIRS Harness {} — doctor",
+            super::airs_harness::version()
         );
         println!("State: {}", home.display());
         for check in checks {
@@ -136,6 +136,6 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
             println!("{status} {}: {}", check.name, check.detail);
         }
     }
-    anyhow::ensure!(passed, "one or more AIRS Terminal checks failed");
+    anyhow::ensure!(passed, "one or more AIRS Harness checks failed");
     Ok(())
 }

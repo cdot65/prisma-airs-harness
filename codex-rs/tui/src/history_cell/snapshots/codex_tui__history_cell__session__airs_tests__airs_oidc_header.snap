@@ -3,7 +3,7 @@ source: tui/src/history_cell/airs_session_tests.rs
 expression: "cell.display_lines(80).iter().map(ToString::to_string).collect::<Vec<_>>().join(\"\\n\")"
 ---
 ╭──────────────────────────────────────────────────────╮
-│ >_ Prisma AIRS Terminal (v0.0.0)                     │
+│ >_ Prisma AIRS Harness (v0.0.0)                      │
 │                                                      │
 │ model:       AI Gateway — default   /model to change │
 │ directory:   /workspace/project                      │

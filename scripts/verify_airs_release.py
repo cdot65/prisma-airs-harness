@@ -13,7 +13,7 @@ def main():
     parser.add_argument("--directory", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args()
-    roots = list(args.directory.glob("airs-terminal-*-linux-x86_64-musl"))
+    roots = list(args.directory.glob("airs-harness-*-linux-x86_64-musl"))
     if len(roots) != 1:
         raise ValueError("Expected exactly one extracted release directory")
     root = roots[0].resolve()
@@ -24,14 +24,14 @@ def main():
         stdout=subprocess.DEVNULL,
     )
     info = json.loads((root / "BUILD-INFO.json").read_text())
-    with (root / "airs-terminal").open("rb") as stream:
+    with (root / "airs-harness").open("rb") as stream:
         digest = hashlib.file_digest(stream, "sha256").hexdigest()
     if digest != info["binary_sha256"]:
         raise ValueError("Binary differs from build provenance")
     version = subprocess.check_output(
-        [str(root / "airs-terminal"), "--version"], text=True
+        [str(root / "airs-harness"), "--version"], text=True
     ).strip()
-    if version != "airs-terminal " + info["version"]:
+    if version != "airs-harness " + info["version"]:
         raise ValueError("Executable version differs from provenance")
     required = [
         "LICENSE",

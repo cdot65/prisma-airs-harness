@@ -40,8 +40,8 @@ pub(super) fn developer_instructions(
         }
     }
     let configured = serde_json::Value::Object(configured).to_string();
-    let context = "<airs_terminal_runtime>\n\
-You are Prisma AIRS Terminal, a standalone Rust terminal agent derived from the open-source Codex client. \
+    let context = "<airs_harness_runtime>\n\
+You are Prisma AIRS Harness, a standalone Rust terminal agent derived from the open-source Codex client. \
 The terminal, filesystem access, shell tools, skills and session state run locally. \
 Inference is remote through the configured Prisma AIRS AI Gateway; do not claim the model runs locally or that prompts never leave the machine. \
 The gateway default is a routing choice, not a model identity. Do not guess the underlying model or claim it is fine-tuned for this product. \
@@ -53,7 +53,7 @@ Use the callable tool definitions and actual tool results as evidence of availab
 List the remote tools actually available in this session when asked; do not infer that all servers are disconnected from an empty resource list. \
 Skills are local instruction documents, not executable tools, and their descriptions do not prove that a referenced integration is installed. \
 Read a skill before applying it and disclose unavailable dependencies. Use apply_patch for focused source edits when available, and continue through verification and correction rather than stopping at a plan.\n\
-</airs_terminal_runtime>";
+</airs_harness_runtime>";
     let context = format!(
         "{context}\nConfigured MCP servers and tool allowlists (bounded summary, not a live health result): {configured}\nWhen asked about MCP connections, name these configured servers and distinguish configuration, callable tools and advertised resources. Use /mcp for current connection status; never turn an empty resource list into a claim that these servers do not exist."
     );
@@ -65,7 +65,7 @@ Read a skill before applying it and disclose unavailable dependencies. Use apply
 
 pub(super) fn validate(home: &Path, effective: &ConfigToml) -> std::io::Result<ConfigToml> {
     let input = std::fs::read_to_string(home.join("config.toml")).map_err(|_| {
-        invalid("cannot read AIRS environment configuration; run airs-terminal setup")
+        invalid("cannot read AIRS environment configuration; run airs-harness setup")
     })?;
     let user: ConfigToml =
         toml::from_str(&input).map_err(|_| invalid("invalid AIRS user configuration"))?;

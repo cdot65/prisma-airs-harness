@@ -1,4 +1,4 @@
-# Test Prisma AIRS Terminal on macOS
+# Test Prisma AIRS Harness on macOS
 
 The current packaged executable is Linux-only. Build the source natively on your
 Mac to test local filesystem access and macOS execution. This fork has not yet
@@ -40,23 +40,18 @@ for this prototype.
 
 ## Download and build
 
-Download `prisma-airs-terminal-source-0.1.0-alpha.1.tar.gz` and its `.sha256`
-sidecar from the workspace's `codex-rs/target/` directory. There is no public
-release URL yet. Extract in a directory where `prisma-airs-terminal` does not
-already exist. The archive contains committed source, licenses and dependency
-lockfiles, without credentials, application state, build output or `.git` history.
+The npm package is not yet published and a complete macOS binary has not been
+validated. For source testing, clone the actual independent repository using
+your GitHub access. The repository retains its existing URL during the rename.
 
 ```sh
-shasum -a 256 -c prisma-airs-terminal-source-0.1.0-alpha.1.tar.gz.sha256
-tar -xzf prisma-airs-terminal-source-0.1.0-alpha.1.tar.gz
-cd prisma-airs-terminal/codex-rs
-
+git clone git@github.com:cdot65/prisma-airs-terminal.git prisma-airs-harness
+cd prisma-airs-harness/codex-rs
 rustup show active-toolchain
 CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=4 \
-  cargo build --locked -p codex-cli --bin airs-terminal
-
-./target/debug/airs-terminal --version
-./target/debug/airs-terminal setup --help
+  cargo build --locked -p codex-cli --bin airs-harness
+./target/debug/airs-harness --version
+./target/debug/airs-harness setup --help
 ```
 
 The first build downloads dependencies and compiles the Rust agent engine. It
@@ -79,7 +74,7 @@ state isolation and redirect rejection.
 
 ```sh
 cd ..
-python3 -m unittest discover -s scripts -p test_airs_terminal.py -v
+python3 -m unittest discover -s scripts -p test_airs_harness.py -v
 ```
 
 Keep the test's default `workspace-write` sandbox on macOS. The Linux-host
@@ -93,20 +88,21 @@ After the build and tests succeed, from the repository root:
 
 ```sh
 mkdir -p "$HOME/.local/bin"
-install -m 755 codex-rs/target/debug/airs-terminal "$HOME/.local/bin/airs-terminal"
-"$HOME/.local/bin/airs-terminal" --version
-"$HOME/.local/bin/airs-terminal" setup --help
+install -m 755 codex-rs/target/debug/airs-harness "$HOME/.local/bin/airs-harness"
+"$HOME/.local/bin/airs-harness" --version
+"$HOME/.local/bin/airs-harness" setup --help
 ```
 
-This overwrites an existing `~/.local/bin/airs-terminal` if present; retain any
+This overwrites an existing `~/.local/bin/airs-harness` if present; retain any
 previous version you want to keep. Add `~/.local/bin` to your shell's PATH if you
-want to invoke it as simply `airs-terminal`.
+want to invoke it as simply `airs-harness`.
 
-The new terminal uses `~/.airs-terminal` (or `AIRS_TERMINAL_HOME`), independently
-of an existing Codex installation. For live inference, configure an AIRS workspace
-you are authorized to use, with its real context limit and credential. The new
-terminal pilot workspace still needs its administration access resolved; see
-[IMPLEMENTATION.md](IMPLEMENTATION.md). Keycloak and the full team MVP remain open.
+Fresh state uses `~/.airs-harness` (or `AIRS_HARNESS_HOME`); existing legacy
+state is reused according to [RENAME.md](RENAME.md). macOS uses Keychain. Follow
+[Keycloak sign-in](README.md#sign-in-with-keycloak) on the LAN/VPN for your
+deployment. No D-Bus or GNOME Keyring setup applies to a native Mac session.
+Close Terminal, open a new window and run `airs-harness resume` to verify that
+Keychain credentials and local history remain accessible across sessions.
 
 If the Mac build or tests fail, preserve the first error and the output of
 `sw_vers -productVersion`, `uname -m`, and `rustup show active-toolchain`. Do not

@@ -5,7 +5,7 @@ use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 /// Standalone product version, distinct from the pinned upstream crate versions.
-pub const AIRS_TERMINAL_VERSION: &str = "0.1.0-alpha.7";
+pub const AIRS_HARNESS_VERSION: &str = "0.1.0-alpha.8";
 static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 
 /// Select one independent AIRS environment before loading runtime configuration.
@@ -22,32 +22,44 @@ pub fn select_airs_environment_home(path: PathBuf) -> std::io::Result<()> {
         .map_err(|_| std::io::Error::other("environment was already selected"))
 }
 
-/// Whether this process was initialized as the standalone AIRS terminal.
-pub fn is_airs_terminal() -> bool {
+/// Whether this process was initialized as the standalone AIRS harness.
+pub fn is_airs_harness() -> bool {
     APPLICATION_HOME.get().is_some()
 }
 
-/// Bind this process to Prisma AIRS Terminal's independent application state.
+/// Bind this process to Prisma AIRS Harness's independent application state.
 /// Call before creating the runtime or loading any configuration. Does not alter
 /// HOME or CODEX_HOME, including when spawning local tools.
-pub fn initialize_airs_terminal_home() -> std::io::Result<()> {
-    let configured = std::env::var_os("AIRS_TERMINAL_HOME");
+pub fn initialize_airs_harness_home() -> std::io::Result<()> {
+    // The legacy override remains supported for existing automation.
+    let configured =
+        std::env::var_os("AIRS_HARNESS_HOME").or_else(|| std::env::var_os("AIRS_TERMINAL_HOME"));
     let path = match configured {
         Some(value) if !value.is_empty() => PathBuf::from(value),
         Some(_) => {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "AIRS_TERMINAL_HOME must not be empty",
+                "AIRS_HARNESS_HOME must not be empty",
             ));
         }
-        None => home_dir()
-            .ok_or_else(|| std::io::Error::other("Could not find home directory"))?
-            .join(".airs-terminal"),
+        None => {
+            let user_home =
+                home_dir().ok_or_else(|| std::io::Error::other("Could not find home directory"))?;
+            let current = user_home.join(".airs-harness");
+            let legacy = user_home.join(".airs-terminal");
+            // Keep absolute catalog/helper paths and encrypted identities intact.
+            // Never move a live application home or merge two independent homes.
+            if !current.try_exists()? && legacy.try_exists()? {
+                legacy
+            } else {
+                current
+            }
+        }
     };
     if !path.is_absolute() {
         return Err(std::io::Error::new(
             std::io::ErrorKind::InvalidInput,
-            "AIRS_TERMINAL_HOME must be an absolute directory path",
+            "AIRS_HARNESS_HOME must be an absolute directory path",
         ));
     }
     let mut builder = std::fs::DirBuilder::new();

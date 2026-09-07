@@ -4,14 +4,14 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 build = "build.rs"
-default-run = "airs-terminal"
+default-run = "airs-harness"
 
 [[bin]]
 name = "codex"
 path = "src/main.rs"
 
 [[bin]]
-name = "airs-terminal"
+name = "airs-harness"
 path = "src/airs_main.rs"
 
 [[bin]]

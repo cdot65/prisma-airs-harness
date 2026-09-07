@@ -50,7 +50,7 @@ fn experimental_tooltips() -> Vec<&'static str> {
 
 /// Pick a random tooltip to show to the user when starting Codex.
 pub(crate) fn get_tooltip(plan: Option<PlanType>, fast_mode_enabled: bool) -> Option<String> {
-    if codex_utils_home_dir::is_airs_terminal() {
+    if codex_utils_home_dir::is_airs_harness() {
         return Some("Use **/model** to choose an authorized route. **AI Gateway — default** lets AIRS select the model.".into());
     }
     let mut rng = rand::rng();

@@ -248,7 +248,7 @@ def main():
         admin("/clients/" + client["id"], "PUT", {"enabled": True})
         enabled_client = client["id"]
         for index in range(2):
-            username = "airs-terminal-validation-" + secrets.token_hex(6)
+            username = "airs-harness-validation-" + secrets.token_hex(6)
             password = secrets.token_urlsafe(32) + "Aa1!"
             admin(
                 "/users",

@@ -14,10 +14,10 @@ use std::ffi::OsString;
 pub(crate) const MCP_USER_AGENT: &str = concat!("codex-mcp-client/", env!("CARGO_PKG_VERSION"));
 
 pub(crate) fn mcp_user_agent() -> HeaderValue {
-    if codex_utils_home_dir::is_airs_terminal() {
+    if codex_utils_home_dir::is_airs_harness() {
         HeaderValue::from_str(&format!(
-            "airs-terminal/{}",
-            codex_utils_home_dir::AIRS_TERMINAL_VERSION
+            "airs-harness/{}",
+            codex_utils_home_dir::AIRS_HARNESS_VERSION
         ))
         .expect("static product version is a valid HTTP header")
     } else {

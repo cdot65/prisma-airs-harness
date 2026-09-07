@@ -1,0 +1,27 @@
+name: Prisma AIRS Harness npm launcher
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'npm/airs-harness/**'
+      - 'scripts/package_airs_npm.py'
+      - '.github/workflows/airs-harness-npm-check.yml'
+permissions:
+  contents: read
+jobs:
+  launcher:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - run: node --test npm/airs-harness/launcher.test.js

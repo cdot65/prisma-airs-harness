@@ -21,8 +21,8 @@ use crate::event_processor::EventProcessor;
 use crate::event_processor::handle_last_message;
 
 fn agent_label() -> &'static str {
-    if codex_utils_home_dir::is_airs_terminal() {
-        "airs-terminal"
+    if codex_utils_home_dir::is_airs_harness() {
+        "airs-harness"
     } else {
         "codex"
     }
@@ -223,10 +223,10 @@ impl EventProcessor for EventProcessorWithHumanOutput {
         session_configured_event: &SessionConfiguredEvent,
     ) {
         const VERSION: &str = env!("CARGO_PKG_VERSION");
-        if codex_utils_home_dir::is_airs_terminal() {
+        if codex_utils_home_dir::is_airs_harness() {
             eprintln!(
-                "Prisma AIRS Terminal v{}\n--------",
-                codex_utils_home_dir::AIRS_TERMINAL_VERSION
+                "Prisma AIRS Harness v{}\n--------",
+                codex_utils_home_dir::AIRS_HARNESS_VERSION
             );
         } else {
             eprintln!("OpenAI Codex v{VERSION}\n--------");

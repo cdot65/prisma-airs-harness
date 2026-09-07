@@ -1,10 +1,10 @@
-name: AIRS Terminal management connectivity
+name: AIRS Harness management connectivity
 on:
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: airs-terminal-deployment-check
+  group: airs-harness-deployment-check
   cancel-in-progress: false
 jobs:
   management-endpoint:
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: airs-terminal-public-endpoints
+          name: airs-harness-public-endpoints
           path: ${{ runner.temp }}/airs-endpoints.json
           retention-days: 30
           if-no-files-found: error

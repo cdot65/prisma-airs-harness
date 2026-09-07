@@ -1,0 +1,103 @@
+//! Bounded, redacted diagnostics for the standalone gateway environment.
+use super::airs_credentials;
+use super::airs_environment;
+use anyhow::Context;
+use serde::Serialize;
+use std::path::Path;
+use std::time::Duration;
+
+#[derive(Serialize)]
+struct Check {
+    name: &'static str,
+    passed: bool,
+    detail: String,
+}
+
+pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
+    let mut checks = Vec::new();
+    let tools = if cfg!(target_os = "linux") {
+        &["sh", "git", "rg", "bwrap"][..]
+    } else {
+        &["git", "rg"][..]
+    };
+    let missing: Vec<_> = tools
+        .iter()
+        .filter(|tool| which::which(tool).is_err())
+        .copied()
+        .collect();
+    checks.push(Check {
+        name: "local_tools",
+        passed: missing.is_empty(),
+        detail: if missing.is_empty() {
+            "Required local executables found; this does not exercise kernel sandbox support".into()
+        } else {
+            format!("Install missing local executables: {}", missing.join(", "))
+        },
+    });
+    let configuration = (|| -> anyhow::Result<(String, toml::Value)> {
+        let gateway = airs_environment::gateway(home)?;
+        let config = toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
+        Ok((gateway, config))
+    })();
+    match configuration {
+        Ok((gateway, config)) => {
+            checks.push(Check { name: "configuration", passed: true, detail: gateway.clone() });
+            let credential = airs_credentials::check(home);
+            checks.push(Check {
+                name: "credential",
+                passed: credential.is_ok(),
+                detail: match credential {
+                    Ok(()) => "Available locally; workspace identity, not verified individual identity".into(),
+                    Err(error) => error.to_string(),
+                },
+            });
+            let capabilities = (|| -> anyhow::Result<()> {
+                let path = config.get("model_catalog_json").and_then(toml::Value::as_str)
+                    .context("missing model capability catalog")?;
+                let _: serde_json::Value = serde_json::from_slice(&std::fs::read(path)?)?;
+                anyhow::ensure!(config.get("model_context_window").and_then(toml::Value::as_integer).is_some_and(|v| v > 0), "invalid context window");
+                Ok(())
+            })();
+            checks.push(Check {
+                name: "capabilities", passed: capabilities.is_ok(),
+                detail: match capabilities { Ok(()) => "Local catalog readable; backend limits still apply".into(), Err(error) => error.to_string() },
+            });
+            // No credential or conversation is sent by this reachability probe.
+            let health = (async {
+                let endpoint = url::Url::parse(&gateway)?.join("/health")?;
+                let response = codex_login::default_client::create_client_without_request_logging()
+                    .get(endpoint.as_str()).timeout(Duration::from_secs(8)).send().await?;
+                anyhow::ensure!(response.status().is_success(), "health endpoint returned HTTP {}", response.status().as_u16());
+                Ok::<(), anyhow::Error>(())
+            }).await;
+            checks.push(Check {
+                name: "gateway_health", passed: health.is_ok(),
+                detail: match health { Ok(()) => "HTTPS/HTTP health response successful; inference and policy not exercised".into(), Err(_) => "Health probe failed; check gateway DNS, TLS and /health endpoint".into() },
+            });
+            let mcp_count = config.get("mcp_servers").and_then(toml::Value::as_table).map_or(0, toml::map::Map::len);
+            checks.push(Check { name: "mcp_configuration", passed: true, detail: format!("{mcp_count} configured server(s); use /mcp and invoke a tool to verify remote authorization") });
+        }
+        Err(_) => checks.push(Check { name: "configuration", passed: false, detail: "Cannot read environment configuration; run setup or select a configured environment".into() }),
+    }
+    let passed = checks.iter().all(|check| check.passed);
+    let report = serde_json::json!({
+        "schema_version": 1, "product": "Prisma AIRS Terminal",
+        "version": super::airs_terminal::version(), "state_directory": home,
+        "passed": passed, "checks": checks,
+    });
+    if json {
+        println!("{}", serde_json::to_string_pretty(&report)?);
+    } else {
+        println!(
+            "Prisma AIRS Terminal {} — doctor",
+            super::airs_terminal::version()
+        );
+        println!("State: {}", home.display());
+        for check in checks {
+            let status = if check.passed { "PASS" } else { "FAIL" };
+            println!("{status} {}: {}", check.name, check.detail);
+        }
+    }
+    anyhow::ensure!(passed, "one or more AIRS Terminal checks failed");
+    Ok(())
+}

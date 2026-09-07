@@ -168,7 +168,7 @@ const NARROW_TERMINAL_ROWS: u16 = 24;
 pub struct DoctorCommand {
     /// Emit a redacted machine-readable report.
     #[arg(long, default_value_t = false)]
-    json: bool,
+    pub(super) json: bool,
 
     /// Limit database integrity scans when collecting a feedback attachment.
     #[arg(long, hide = true, default_value_t = false)]

@@ -43,6 +43,12 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use supports_color::Stream;
 
+mod airs_credentials;
+mod airs_doctor;
+mod airs_environment;
+mod airs_help;
+mod airs_mcp;
+mod airs_session_binding;
 mod airs_terminal;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
@@ -114,6 +120,9 @@ use codex_terminal_detection::TerminalName;
     override_usage = airs_terminal::usage()
 )]
 struct MultitoolCli {
+    /// Select an isolated AIRS environment for this process.
+    #[arg(long, global = true, hide = !airs_terminal::is_standalone())]
+    environment: Option<String>,
     #[clap(flatten)]
     pub config_overrides: CliConfigOverrides,
 
@@ -132,6 +141,22 @@ struct MultitoolCli {
 
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
+    /// Connect a remote AIRS MCP server with a separate credential file.
+    #[clap(name = "setup-mcp", hide = !airs_terminal::is_standalone())]
+    McpSetup(airs_mcp::SetupArgs),
+    #[clap(hide = true)]
+    McpCredential(airs_mcp::HelperArgs),
+    /// Manage independent AIRS environments.
+    #[clap(hide = !airs_terminal::is_standalone())]
+    Env {
+        #[command(subcommand)]
+        command: airs_environment::Command,
+    },
+    /// Show the selected gateway and local credential availability.
+    #[clap(hide = !airs_terminal::is_standalone())]
+    Status,
+    #[clap(hide = true)]
+    Credential(airs_credentials::HelperArgs),
     /// Configure a direct AIRS gateway connection for this standalone terminal.
     #[clap(hide = !airs_terminal::is_standalone())]
     Setup(airs_terminal::SetupArgs),
@@ -494,6 +519,8 @@ enum ExecpolicySubcommand {
 
 #[derive(Debug, Parser)]
 struct LoginCommand {
+    #[clap(flatten)]
+    airs: airs_credentials::LoginArgs,
     #[clap(skip)]
     config_overrides: CliConfigOverrides,
 
@@ -1061,28 +1088,93 @@ async fn cli_main(
     remote_control_disabled: bool,
 ) -> anyhow::Result<()> {
     let MultitoolCli {
+        environment,
         config_overrides: mut root_config_overrides,
         feature_toggles,
         remote,
         mut interactive,
         subcommand,
-    } = MultitoolCli::parse();
-    if let Some(Subcommand::Setup(args)) = &subcommand {
-        return airs_terminal::setup(args);
-    }
+    } = if airs_terminal::is_standalone() {
+        use clap::FromArgMatches;
+        MultitoolCli::from_arg_matches(&airs_help::command(MultitoolCli::command()).get_matches())
+            .unwrap_or_else(|error| error.exit())
+    } else {
+        MultitoolCli::parse()
+    };
     if airs_terminal::is_standalone() {
+        let root = codex_core::config::find_codex_home()?;
+        match &subcommand {
+            Some(Subcommand::Credential(args)) => return airs_credentials::helper(args),
+            Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args),
+            Some(Subcommand::Env { command }) => {
+                return airs_environment::run(root.as_path(), command);
+            }
+            Some(Subcommand::Setup(args)) => {
+                return if let Some(name) = environment.as_deref() {
+                    airs_environment::setup(root.as_path(), name, args)
+                } else {
+                    anyhow::ensure!(
+                        !root.join("environments.json").exists(),
+                        "use setup --environment NAME to create another environment"
+                    );
+                    airs_terminal::setup(args)
+                };
+            }
+            _ => {}
+        }
+        airs_environment::select(root.as_path(), environment.as_deref())?;
+        let home = codex_core::config::find_codex_home()?;
+        match &subcommand {
+            Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args),
+            Some(Subcommand::Login(args)) => {
+                anyhow::ensure!(
+                    !args.use_device_code
+                        && !args.with_access_token
+                        && args.api_key.is_none()
+                        && args.issuer_base_url.is_none()
+                        && args.client_id.is_none(),
+                    "use workspace credential login; OpenAI authentication is not supported by AIRS Terminal"
+                );
+                return if args.action.is_some() {
+                    airs_credentials::status(home.as_path())
+                } else {
+                    airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
+                };
+            }
+            Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()),
+            Some(Subcommand::Status) => {
+                return airs_credentials::status(home.as_path());
+            }
+            Some(Subcommand::Doctor(args)) => {
+                return airs_doctor::run(home.as_path(), args.json).await;
+            }
+            _ => {}
+        }
         anyhow::ensure!(
             remote.remote.is_none(),
             "remote agent hosting is not enabled in the AIRS protocol prototype"
         );
+        if matches!(
+            subcommand,
+            None | Some(
+                Subcommand::Exec(_)
+                    | Subcommand::Review(_)
+                    | Subcommand::Resume(_)
+                    | Subcommand::Fork(_)
+            )
+        ) {
+            airs_session_binding::validate(home.as_path())?;
+        }
         match &subcommand {
             Some(
-                Subcommand::Login(_)
-                | Subcommand::Logout(_)
-                | Subcommand::Cloud(_)
+                Subcommand::Cloud(_)
                 | Subcommand::RemoteControl(_)
                 | Subcommand::Update
-                | Subcommand::AppServer(_),
+                | Subcommand::AppServer(_)
+                | Subcommand::Agents(_)
+                | Subcommand::Plugin(_)
+                | Subcommand::McpServer(_)
+                | Subcommand::ExecServer(_),
             ) => {
                 anyhow::bail!(
                     "this upstream service command is not enabled in the AIRS protocol prototype"
@@ -1093,6 +1185,10 @@ async fn cli_main(
             _ => {}
         }
     }
+    anyhow::ensure!(
+        airs_terminal::is_standalone() || environment.is_none(),
+        "--environment is available in airs-terminal"
+    );
     // Fold --enable/--disable into config overrides so they flow to all subcommands.
     let toggle_overrides = feature_toggles.to_overrides()?;
     root_config_overrides.raw_overrides.extend(toggle_overrides);
@@ -1180,7 +1276,14 @@ async fn cli_main(
             .await?;
             handle_app_exit(exit_info)?;
         }
-        Some(Subcommand::Setup(_)) => unreachable!("setup is handled before runtime startup"),
+        Some(
+            Subcommand::Setup(_)
+            | Subcommand::McpSetup(_)
+            | Subcommand::McpCredential(_)
+            | Subcommand::Env { .. }
+            | Subcommand::Status
+            | Subcommand::Credential(_),
+        ) => anyhow::bail!("this command is available in airs-terminal"),
         Some(Subcommand::Exec(mut exec_cli)) => {
             reject_remote_mode_for_subcommand(
                 root_remote.as_deref(),
@@ -2451,6 +2554,11 @@ fn unsupported_subcommand_name_for_strict_config(
 ) -> Option<&'static str> {
     match subcommand {
         Some(Subcommand::Setup(_)) => Some("setup"),
+        Some(Subcommand::McpSetup(_)) => Some("setup-mcp"),
+        Some(Subcommand::McpCredential(_)) => Some("mcp-credential"),
+        Some(Subcommand::Env { .. }) => Some("env"),
+        Some(Subcommand::Status) => Some("status"),
+        Some(Subcommand::Credential(_)) => Some("credential"),
         None
         | Some(Subcommand::Agents(_))
         | Some(Subcommand::Exec(_))
@@ -2896,7 +3004,10 @@ fn merge_interactive_cli_flags(interactive: &mut TuiCli, subcommand_cli: TuiCli)
 
 fn print_completion(cmd: CompletionCommand) {
     let mut app = MultitoolCli::command();
-    let name = "codex";
+    if airs_terminal::is_standalone() {
+        app = airs_help::command(app);
+    }
+    let name = airs_terminal::bin_name();
     generate(cmd.shell, &mut app, name, &mut std::io::stdout());
 }
 
@@ -3060,6 +3171,7 @@ mod tests {
             subcommand,
             feature_toggles: _,
             remote: _,
+            environment: _,
         } = cli;
         interactive
             .shared
@@ -3097,6 +3209,7 @@ mod tests {
             subcommand,
             feature_toggles: _,
             remote: _,
+            environment: _,
         } = cli;
         interactive
             .shared
@@ -3141,6 +3254,7 @@ mod tests {
             subcommand,
             feature_toggles: _,
             remote: _,
+            environment: _,
         } = cli;
 
         let Subcommand::Archive(SessionArchiveCommand {

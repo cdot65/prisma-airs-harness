@@ -1,0 +1,88 @@
+---
+source: cli/src/airs_help_tests.rs
+assertion_line: 19
+expression: command.render_help().to_string()
+---
+AIRS Terminal CLI
+
+Usage: airs-terminal [OPTIONS] [PROMPT]
+       airs-terminal [OPTIONS] <COMMAND> [ARGS]
+
+Commands:
+  setup-mcp         Connect a remote AIRS MCP server with a separate credential file
+  env               Manage independent AIRS environments
+  status            Show the selected gateway and local credential availability
+  setup             Configure a direct AIRS gateway connection for this standalone
+                    terminal
+  exec              Run AIRS Terminal non-interactively [aliases: e]
+  review            Run a code review non-interactively
+  login             Manage login
+  logout            Remove stored authentication credentials
+  mcp               Manage external MCP servers for AIRS Terminal
+  completion        Generate shell completion scripts
+  doctor            Diagnose local AIRS Terminal installation, config, auth, and runtime
+                    health
+  sandbox           Run commands within the local sandbox
+  debug             Debugging tools
+  apply             Apply the latest diff produced by AIRS Terminal agent as a `git apply`
+                    to your local working tree [aliases: a]
+  resume            Resume a previous interactive session (picker by default; use --last
+                    to continue the most recent)
+  queue             Queue a message for an existing session
+  archive           Archive a saved session by id or session name
+  delete            Permanently delete a saved session by id or session name
+  migrate-rollouts  Inspect or migrate legacy local sessions to paginated thread history
+  unarchive         Unarchive a saved session by id or session name
+  fork              Fork a previous interactive session (picker by default; use --last to
+                    fork the most recent)
+  features          Inspect feature flags
+
+Arguments:
+  [PROMPT]  Optional user prompt to start the session
+
+Options:
+      --environment <ENVIRONMENT>
+          Select an isolated AIRS environment for this process
+  -c, --config <key=value>
+          Override an allowed setting in the selected environment. Gateway, credential,
+          capability and MCP bindings cannot be overridden.
+      --enable <FEATURE>
+          Enable a feature (repeatable). Equivalent to `-c features.<name>=true`
+      --disable <FEATURE>
+          Disable a feature (repeatable). Equivalent to `-c features.<name>=false`
+      --strict-config
+          Error out when config.toml contains fields that are not recognized by this
+          version of AIRS Terminal
+  -i, --image <FILE>...
+          Optional image(s) to attach to the initial prompt
+  -m, --model <MODEL>
+          Model the agent should use
+  -p, --profile <CONFIG_PROFILE_V2>
+          Layer <name>.config.toml from the selected environment over its base
+          configuration
+  -s, --sandbox <SANDBOX_MODE>
+          Select the sandbox policy to use when executing model-generated shell commands
+          [possible values: read-only, workspace-write, danger-full-access]
+      --approve-for-me
+          Route approval requests through automatic review using the workspace-write
+          sandbox
+      --dangerously-bypass-approvals-and-sandbox
+          Skip all confirmation prompts and execute commands without sandboxing. EXTREMELY
+          DANGEROUS. Intended solely for running in environments that are externally
+          sandboxed
+      --dangerously-bypass-hook-trust
+          Run enabled hooks without requiring persisted hook trust for this invocation.
+          DANGEROUS. Intended only for automation that already vets hook sources
+  -C, --cd <DIR>
+          Tell the agent to use the specified directory as its working root
+      --add-dir <DIR>
+          Additional directories that should be writable alongside the primary workspace
+  -a, --ask-for-approval <APPROVAL_POLICY>
+          Configure when the model requires human approval before executing a command
+          [possible values: on-request, never]
+      --no-alt-screen
+          Disable alternate screen mode
+  -h, --help
+          Print help (see more with '--help')
+  -V, --version
+          Print version

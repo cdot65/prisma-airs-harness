@@ -74,6 +74,24 @@ class TerminalIntegration(unittest.TestCase):
         actual.pop("projects", None)
         self.assertEqual(actual, original)
 
+    def test_saved_legacy_catalog_uses_new_identity_without_rewriting_history(self):
+        self.configure()
+        catalog = self.home / "models.json"
+        catalog.write_text(
+            catalog.read_text().replace("Prisma AIRS Harness", "Prisma AIRS Terminal")
+        )
+        original = catalog.read_bytes()
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.requests)
+        for _, _, body in self.requests:
+            self.assertIn(
+                "You are Prisma AIRS Harness, a local coding assistant.",
+                body["instructions"],
+            )
+            self.assertNotIn("You are Prisma AIRS Terminal", body["instructions"])
+        self.assertEqual(catalog.read_bytes(), original)
+
     @unittest.skipUnless(sys.platform.startswith("linux"), "Linux session-bus recovery")
     def test_oidc_login_without_keyring_explains_recovery_before_network(self):
         self.configure()

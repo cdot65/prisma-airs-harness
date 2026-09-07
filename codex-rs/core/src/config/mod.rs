@@ -3973,7 +3973,21 @@ impl Config {
         let review_model = override_review_model.or(cfg.review_model);
 
         let check_for_update_on_startup = cfg.check_for_update_on_startup.unwrap_or(true);
-        let model_catalog = load_model_catalog(cfg.model_catalog_json.clone())?;
+        let mut model_catalog = load_model_catalog(cfg.model_catalog_json.clone())?;
+        if codex_utils_home_dir::is_airs_harness()
+            && let Some(catalog) = model_catalog.as_mut()
+        {
+            for model in &mut catalog.models {
+                // Update only the generated legacy greeting in memory. The saved
+                // catalog hash, custom instructions and prior messages stay intact.
+                if let Some(template) = model.model_messages.as_mut()
+                    .and_then(|messages| messages.instructions_template.as_mut())
+                    && let Some(suffix) = template.strip_prefix("You are Prisma AIRS Terminal, a local coding assistant.")
+                {
+                    *template = format!("You are Prisma AIRS Harness, a local coding assistant.{suffix}");
+                }
+            }
+        }
         if codex_utils_home_dir::is_airs_harness()
             && model_catalog.as_ref().is_none_or(|catalog| {
                 !catalog.models.iter().any(|entry| Some(&entry.slug) == model.as_ref())

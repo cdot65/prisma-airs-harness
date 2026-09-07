@@ -36,6 +36,8 @@ This preserves absolute model-catalog and credential-helper paths, environment
 UUIDs, session binding revisions, encrypted refresh tokens and conversation
 history. Historical conversations keep their original messages. New runtime
 instructions and outgoing client identification use the current product name.
+The generated greeting in legacy model catalogs is updated in memory for new
+requests; the saved catalog hash, other instructions and past messages are retained.
 The runtime replaces the product-owned inference User-Agent in memory after
 validating the original gateway/auth configuration; it does not rewrite the
 saved configuration or change the selected model.

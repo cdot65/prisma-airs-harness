@@ -102,7 +102,7 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
             });
             // No credential or conversation is sent by this reachability probe.
             let health = (async {
-                let endpoint = url::Url::parse(&gateway)?.join("/health")?;
+                let endpoint = url::Url::parse(&format!("{}/health", gateway.trim_end_matches('/')))?;
                 let response = codex_login::default_client::create_client_without_request_logging()
                     .get(endpoint.as_str()).timeout(Duration::from_secs(8)).send().await?;
                 anyhow::ensure!(response.status().is_success(), "health endpoint returned HTTP {}", response.status().as_u16());
@@ -110,7 +110,7 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
             }).await;
             checks.push(Check {
                 name: "gateway_health", passed: health.is_ok(),
-                detail: match health { Ok(()) => "HTTPS/HTTP health response successful; inference and policy not exercised".into(), Err(_) => "Health probe failed; check gateway DNS, TLS and /health endpoint".into() },
+                detail: match health { Ok(()) => "HTTPS/HTTP health response successful; inference and policy not exercised".into(), Err(_) => "Health probe failed; check gateway DNS, TLS and its API-root health endpoint".into() },
             });
             let mcp_count = config.get("mcp_servers").and_then(toml::Value::as_table).map_or(0, toml::map::Map::len);
             checks.push(Check { name: "mcp_configuration", passed: true, detail: format!("{mcp_count} configured server(s); use /mcp and invoke a tool to verify remote authorization") });

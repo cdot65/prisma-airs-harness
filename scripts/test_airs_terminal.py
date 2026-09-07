@@ -327,7 +327,7 @@ class TerminalIntegration(unittest.TestCase):
                 pass
 
             def do_GET(self):
-                self.send_response(200 if self.path == "/health" else 404)
+                self.send_response(200 if self.path == "/prefix/v1/health" else 404)
                 self.send_header("Content-Length", "0")
                 self.end_headers()
 

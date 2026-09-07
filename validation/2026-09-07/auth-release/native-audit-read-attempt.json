@@ -1,0 +1,38 @@
+{
+  "checks": [
+    {
+      "subject": "18d47328-abe5-490e-9dbd-d5e4c92cefe2",
+      "trace_id": "24ec0636-9532-4555-ae36-42bef883f3c2",
+      "inference_status": 200,
+      "response_trace": "24ec0636-9532-4555-ae36-42bef883f3c2",
+      "log": {
+        "status": 500,
+        "keys": [
+          "status",
+          "message"
+        ],
+        "attribution": []
+      },
+      "passed": false
+    },
+    {
+      "subject": "d33acd86-d564-4753-8a36-f6b0a774c5d6",
+      "trace_id": "10f6e298-3985-413d-be38-a983aa5cce7d",
+      "inference_status": 200,
+      "response_trace": "10f6e298-3985-413d-be38-a983aa5cce7d",
+      "log": {
+        "status": 500,
+        "keys": [
+          "status",
+          "message"
+        ],
+        "attribution": []
+      },
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "fixtures_removed": true,
+  "read_path": "operator native /v1/logs/:id with original signed user JWT",
+  "limitation": "Native /v1/logs/:id returns HTTP 500: Invalid Log Storage on this managed deployment. Persisted attribution is not yet certified; use management telemetry after egress recovers."
+}

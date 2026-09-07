@@ -8,22 +8,19 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.5 — Linux workspace-key pilot
+## 0.1.0-alpha.6 — authentication release candidate
 
-Alpha.5 repairs interactive model switching and improves runtime capability
-descriptions. The pilot includes named environments, endpoint-bound credentials,
-secure-store login, separate MCP credentials, diagnostics and session revision
-checks. Alpha.5 validation exercises interactive default/explicit Responses
-routing, local edits and tests, skills, scanner calls, policy denial and resume.
-Earlier pilot receipts cover live cancellation and compaction; the current
-executable fixtures retain compaction coverage. See [RELEASE.md](RELEASE.md) for the exact release evidence
-and remaining acceptance gates. The release's `RELEASE-VERIFICATION.json` asset
-contains post-publication verification. The alpha.4 provisional score was withdrawn
-after owner testing found the model-switch failure; owner revalidation is required.
+Alpha.6 adds public-client Keycloak browser and device login, verified user and
+resource identities, native OS credential storage, safe refresh rotation, logout,
+and separate MCP authentication. It uses one existing realm and JWKS endpoint;
+the original access JWT reaches AIRS. Workspace-key environments remain supported.
 
-Keycloak browser/device login, token refresh and individual-user attribution
-remain deferred. Workspace-key mode identifies a workspace credential. Linux
-x86-64 is the current target; macOS testing is a future milestone.
+Native credential-store checks passed on Linux, macOS and Windows. The distributed
+terminal binary remains Linux x86-64; this does not claim full macOS/Windows
+terminal E2E or signed installers. The unoptimized candidate passed the real IdP,
+inference, local-tool, MCP, refresh, logout and user/history-isolation flow.
+Optimized artifact validation and publication remain in progress. See
+[RELEASE.md](RELEASE.md) for current evidence and remaining gates.
 
 ## Download and install on Linux x86-64
 
@@ -36,14 +33,14 @@ establish its sandbox.
 
 ```sh
 set -e
-gh release download airs-terminal-v0.1.0-alpha.5 \
+gh release download airs-terminal-v0.1.0-alpha.6 \
   --repo cdot65/prisma-airs-terminal \
-  --pattern 'airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz*' \
+  --pattern 'airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz*' \
   --dir airs-terminal-download
 cd airs-terminal-download
-sha256sum -c airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz.sha256
-tar -xzf airs-terminal-0.1.0-alpha.5-linux-x86_64-musl.tar.gz
-cd airs-terminal-0.1.0-alpha.5-linux-x86_64-musl
+sha256sum -c airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz.sha256
+tar -xzf airs-terminal-0.1.0-alpha.6-linux-x86_64-musl.tar.gz
+cd airs-terminal-0.1.0-alpha.6-linux-x86_64-musl
 sha256sum -c SHA256SUMS > /dev/null
 mkdir -p "$HOME/.local/bin"
 if [ -f "$HOME/.local/bin/airs-terminal" ]; then
@@ -62,6 +59,67 @@ are preserved, but alpha.3 does not understand alpha.4's named environments; it
 uses the retained legacy application-home state. Stop old sessions before testing
 an upgrade or rollback. The inherited `scripts/install/` scripts install upstream
 Codex and are not this product's installer.
+
+## Sign in with Keycloak
+
+Keep workspace-key and user-identity histories in separate environments. For the
+owner's deployment, connect through the LAN/VPN and wait for the operator's
+Terminal role grant. The deployment endpoints are not publicly reachable from
+an unrelated GitHub runner:
+
+```sh
+airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1
+airs-terminal login \
+  --issuer-url https://auth.dev.cdot.io/realms/truffles \
+  --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference
+
+airs-terminal setup-mcp --name security \
+  --url https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp \
+  --issuer-url https://auth.dev.cdot.io/realms/truffles \
+  --oidc-client-id airs-terminal-mcp --audience airs-terminal-security \
+  --tool pan_inline_scan --required
+
+airs-terminal status
+airs-terminal
+```
+
+Use `--device-auth` on `login` or `setup-mcp` when the browser is on another
+machine. The MCP login must use the same user/issuer, with its distinct client
+and audience. Configure MCP before the first coding session so history starts
+with its intended tool configuration. Repeat the same login/setup-mcp options
+after logout; reauthentication preserves the binding for the same user/resource.
+
+OIDC tokens require an unlocked native credential store. Linux needs a session
+D-Bus and Secret Service (such as GNOME Keyring); installing a headless binary
+does not create a desktop keyring session. macOS uses Keychain and Windows uses
+Credential Manager. No plaintext refresh-token fallback is provided. Explicit
+workspace-key file/environment modes remain available on headless hosts.
+
+On a headless Linux host without an existing session bus, start an interactive
+Bash session with `dbus-run-session -- bash`, then unlock Secret Service inside it:
+
+```bash
+set +x
+read -r -s -p 'Keyring password (choose one on first use): ' airs_keyring_password
+printf '\n'
+if [ -n "$airs_keyring_password" ]; then
+  printf '%s' "$airs_keyring_password" | gnome-keyring-daemon --unlock --components=secrets
+fi
+unset airs_keyring_password
+```
+
+Use a nonempty password you control. Run the Terminal login and coding commands
+inside that same D-Bus session. On a later session, unlock with the same password;
+refresh tokens remain encrypted on disk. This password is for your local keyring,
+not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
+unlock their keyring through the OS login instead.
+
+`airs-terminal logout` disables local credential helpers and revokes usable
+refresh tokens for inference and MCP. Stop running sessions to discard cached
+access tokens; issued JWTs can remain valid for their 120-second lifetime.
+Interrupted refresh requires signing in again rather than retrying a possibly
+consumed token. A different user, issuer, gateway or resource needs a new
+environment to preserve history isolation.
 
 ## Set up an environment
 

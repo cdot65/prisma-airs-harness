@@ -1,3 +1,48 @@
+# 0.1.0-alpha.6 — authentication release candidate
+
+This release adds Keycloak browser/device login and a distinct MCP resource
+identity within the existing `truffles` realm. The client verifies signatures,
+issuer, audience, authorized party, subject and nonce; native AIRS receives and
+verifies the original access JWT. Refresh state commits through the native OS
+store before a token can be reused. Default model selection still omits `model`.
+
+The gateway's original-JWT filter and opt-in Keycloak single-use refresh ledger
+are deployed and tested. MCP requires `airs-terminal-mcp`, audience
+`airs-terminal-security`, scope `portkey.mcp.invoke` and role `scanner-user`.
+Only `pan_inline_scan` is enabled on the isolated Terminal scanner endpoint.
+
+Current evidence:
+
+- 323 affected Rust tests passed, including identity, interrupted native-store
+  writes, MCP HTTP transport and CLI/TUI behavior. Scoped Clippy completed with
+  one existing static user-agent `expect()` warning.
+- Linux, macOS and Windows native-store CI passed in
+  [run 34147583219](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219).
+- The unoptimized alpha.6 candidate passed 20 executable/PTY fixtures and 22 live
+  authentication checks, including local file writes, a real scan, refresh,
+  logout, different-user rejection and device reauthentication with stable bindings.
+- The earlier disclosed inactive Koi client key was retired. Realm keys and
+  metadata were unchanged, and signed SAML responses verified before and after.
+  The external Koi application was not contacted.
+
+Optimized binary acceptance, publication, owner grants and installed validation
+remain open. This candidate record is not a completion declaration. The installed
+binary is still alpha.5. Full macOS/Windows terminal distribution and Conjur
+workload-secret activation remain separate milestones.
+
+At 18:23 UTC, management OAuth TCP connections time out from the cluster but
+succeed from an independent GitHub runner at the same resolved IP. Firewall
+records allow the requests and show no return packets for failed connections.
+Persisted audit correlation and scanner access updates await that connection.
+Native `/v1/logs/:id` reports `Invalid Log Storage` on this managed deployment;
+that failed attempt is retained and is not substituted for audit evidence.
+
+Evidence and reproducible operator checks are under
+`administration/identity/` and `validation/2026-09-07/auth-release/`.
+The prior release history follows for provenance.
+
+---
+
 # 0.1.0-alpha.5 — interactive model-switch repair
 
 Owner E2E testing found a real alpha.4 integration failure: selecting GPT-4.1

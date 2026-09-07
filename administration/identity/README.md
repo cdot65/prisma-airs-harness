@@ -1,9 +1,9 @@
 # Keycloak identity foundation — rollout gate still open
 
-The September 7 native pilot proves public-client authentication and role-based
-inference authorization in a dedicated AIRS workspace. It does **not** implement
-Keycloak login in the installed `airs-terminal` binary. Version 0.1.0-alpha.5
-continues using its working workspace credential. No teammate has been granted
+The alpha.6 candidate implements public-client authentication and role-based
+inference/MCP authorization in a dedicated AIRS workspace. Its live native-client
+acceptance passed; optimized artifact acceptance and user-audit correlation remain
+open. The installed version 0.1.0-alpha.5 still uses its working workspace credential. No teammate has been granted
 the pilot role; synthetic acceptance users are deleted after every run. The
 pilot client is disabled between operator acceptance runs.
 
@@ -58,8 +58,8 @@ will open the browser and will never collect that password itself.
 `gateway-jwt-check.json` is the in-process mandatory check. Signature, issuer,
 audience, authorized party, subject, lifetime, organization, workspace, operation
 scope, role and routing-default claim presence are required. It reads
-`x-portkey-api-key`; the future JWT credential adapter must support that transport
-instead of assuming the existing Bearer-only credential helper is compatible.
+`x-portkey-api-key`; the alpha.6 inference and MCP credential helpers both retain
+the original signed token in that transport.
 
 ## Live acceptance and limits
 
@@ -83,25 +83,38 @@ access tokens or admin tokens enter its receipt. The checked-in result is
 This is an operator protocol test, not a browser UI automation suite or installed
 CLI acceptance. Two signed subjects are verified; correlation to persisted AIRS
 telemetry is still required before claiming end-to-end user audit attribution.
-MCP remains a separate resource/scope and has no per-user login implementation yet.
+MCP now has a separate resource/client/scope and its own native user login,
+validated by the newer CLI acceptance fixture.
 
-Two rollout gates remain:
+The initial refresh and routing findings below have been resolved on the server:
 
-- **Refresh replay succeeds.** Keycloak 26.2.4's shared `truffles` realm has
-  `revokeRefreshToken=false`. The fixture deliberately reports failure when the
-  old refresh token is accepted. The controlled realm-wide rotation trial tested
-  all 15 browser-capable clients: normal refresh passed, but rapid replay still
-  succeeded for 13. The rollout restored `revokeRefreshToken=false`. The
-  single-realm decision records the failing evidence; this remains a real gate.
-- **Routing configs remain overridable.** Mandatory workspace identity/scanner
-  hooks survive inline replacement, including explicit empty hook arrays. This
-  repairs the scanner-policy bypass, but does not meet strict routing-config
-  binding or establish rejection of every provider/custom-host override.
+- The gateway now runs the original-JWT identity filter on both replicas. Every
+  gateway Service targets its filtered ports; NetworkPolicy blocks ordinary pod
+  access to the raw listeners. Default inference omits `model`; explicit routes
+  retain `@provider/model`. Routing override headers and body fields are rejected.
+- Keycloak 26.2.4 uses an opt-in, database-backed single-use refresh ledger for
+  Terminal clients. Realm-wide behavior is unchanged. Rapid replay, concurrent
+  replay, transaction rollback and full replica restart tests passed. This uses
+  internal Keycloak SPIs: pin the image and rerun protocol tests before upgrading.
+- A distinct `airs-terminal-mcp` public client in **the same `truffles` realm**
+  requests audience `airs-terminal-security`, scope `portkey.mcp.invoke` and role
+  `scanner-user`. The original resource JWT reaches native AIRS signature
+  verification. A successful live scan and invalid-signature, audience, client,
+  scope, role and inference-isolation checks are recorded in
+  `validation/2026-09-07/auth-release/mcp-jwt-acceptance.json`.
 
-Role removal denies the next freshly issued access token. Existing JWTs may stay
-valid until expiry; logout prevents refresh but does not promise immediate
-revocation of an already issued bearer token. No terminal role is distributed
-while the two gates above remain open.
+Live deployment: identity-filter v0.1.1, digest
+`sha256:98c3fa682331624ba201fb18f339675a97150060f8628409fbf561a6aea3ef8e`.
+The Terminal scanner endpoint is
+`https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp`.
+Only `pan_inline_scan` is enabled. Clients remain disabled and the isolated
+server's default user access remains denied until packaged-client acceptance.
+No broad teammate role grants have been made.
+
+Role removal denies the next freshly issued access token. Existing access JWTs
+may remain valid for their 120-second lifetime. Logout revokes refresh credentials
+and disables local helpers; stop running sessions to discard cached access tokens.
+The original failed trials remain historical evidence, not current status.
 
 ## API details established live
 
@@ -118,21 +131,35 @@ when `last_updated_at` is null. The targeted operation used authenticated REST a
 verified the unchanged sibling bindings. Do not broaden workspace access to
 work around the SDK discrepancy.
 
-## Next implementation stages
+## Remaining release gates
 
-1. Resolve strict gateway enforcement and refresh replay within the existing stack as described in
-   [the single-realm decision](boundary-proposal.md). Retest raw requests
-   before granting users access.
-2. Add isolated Rust OIDC modules using a maintained OIDC library: discovery
-   validation, browser S256/state/nonce, verified ID-token subject and access-token
-   audience, device polling, OS-store refresh persistence, locked/atomic refresh,
-   logout/revocation and cancellation. Bind history to issuer/client/subject/
-   resource, not rotating token bytes. Keep workspace-key environments supported.
-3. Add server-authorized per-resource MCP login. A workspace key, inference JWT
-   and MCP token must not substitute for each other. Add two-user telemetry and
-   local-session isolation evidence.
-4. Build and install the Linux release, run the packaged regression suite and
-   hands-on TUI authentication/expiry/resume tests before marking M3 complete.
+The Rust client implements browser S256/state/nonce and device login, signed
+identity/resource verification, refresh rotation with durable pending state, and
+stable history binding to issuer/client/subject/resource. The OS store holds token
+bundles; config files contain only nonsecret identity and binding metadata.
+Interrupted refresh requires login rather than risking replay of a consumed token.
+
+Linux Secret Service, macOS Keychain and Windows Credential Manager all passed
+native persistence checks in three separate processes, along with the identity
+and interrupted-write tests. See `native-platforms.json` and GitHub Actions run
+34147583219. These are native credential-store checks; the distributed full
+terminal executable is still Linux-only. Bundles are chunked below Windows entry
+limits and committed through a generation manifest. An ambiguous OS write or
+cleanup failure can leave unreachable encrypted chunks; they are never treated
+as an active credential without the committed manifest. No plaintext fallback
+is implemented.
+
+The unoptimized alpha.6 candidate passed 22 live CLI checks including browser/device
+login, inference, separate MCP identity, local files, a real scan, refresh, logout
+and user/history isolation. The 323 affected Rust checks and scoped Clippy passed.
+Before release: repeat executable and live acceptance on the optimized artifact,
+then publish/install and grant the owner access. Server and crate-level receipts alone do not satisfy this
+gate. The installed alpha.5 client is still the earlier workspace-key release.
+
+MCP OIDC setup requires the same verified user and issuer as inference with a
+distinct public client and audience. Reauthentication preserves its binding ID;
+a different user/resource requires a new environment. MCP helper commands use
+platform-specific quoting, including encoded PowerShell on Windows.
 
 Conjur manifests and a cutover/rollback runbook are prepared in the separate
 `talos-cluster` checkout under `airs-terminal-identity/conjur/`. Kubernetes server

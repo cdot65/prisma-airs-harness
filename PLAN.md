@@ -55,12 +55,19 @@ JSON-normalization guardrails are a separate capability under review.
   `validation/2026-09-07/release-verification.json` record evidence and limitations.
   The full original team MVP remains unfinished.
 
-## Authorized deferrals
+## Authentication release progress
 
-Keycloak is not a verified user-login feature in this pilot. Existing gateway JWT
-validation/config-override behavior needs a separate security review before public
-OIDC client provisioning. No confidential client secret is distributed to users.
-The owner explicitly allowed the workspace API-key fallback and deferred macOS.
-The full team MVP and individual audit acceptance remain unfinished.
+The owner prioritized the authentication release and explicitly required native
+credential stores on Windows and macOS as well as Linux. One existing realm and
+one JWKS endpoint are mandatory. The gateway filter, per-client durable refresh
+ledger and separate MCP client are deployed; native OS store validation passed
+on all three platforms. The alpha.6 candidate passed 323 affected Rust checks,
+20 executable fixtures and 22 real CLI authentication checks. See RELEASE.md.
+
+The remaining gates are optimized artifact acceptance, persisted user-audit
+correlation, publication/installation and owner-only role grants. Do not declare
+the complete team authentication release ready until these pass. Linux remains
+the binary distribution target; full Windows/macOS terminal packaging and Conjur
+workload-secret activation are separate milestones.
 
 No credential values belong in this document, source control, artifacts or vault.

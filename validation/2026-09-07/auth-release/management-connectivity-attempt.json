@@ -1,0 +1,69 @@
+{
+  "passed": false,
+  "cluster": {
+    "checked_at": "2026-09-07T18:14:35.597944+00:00",
+    "passed": false,
+    "checks": [
+      {
+        "test": "keycloak-discovery",
+        "status": 200,
+        "error": null,
+        "passed": true
+      },
+      {
+        "test": "gateway-rejects-anonymous",
+        "status": 401,
+        "error": null,
+        "passed": true
+      },
+      {
+        "test": "mcp-rejects-anonymous",
+        "status": 401,
+        "error": null,
+        "passed": true
+      },
+      {
+        "test": "management-oauth-reachable",
+        "status": null,
+        "error": "URLError",
+        "passed": false
+      }
+    ]
+  },
+  "independent_runner": {
+    "checked_at": "2026-09-07T18:17:39.408246+00:00",
+    "passed": false,
+    "checks": [
+      {
+        "test": "keycloak-discovery",
+        "status": null,
+        "error": "timed out",
+        "passed": false
+      },
+      {
+        "test": "gateway-rejects-anonymous",
+        "status": null,
+        "error": "[Errno 111] Connection refused",
+        "passed": false
+      },
+      {
+        "test": "mcp-rejects-anonymous",
+        "status": null,
+        "error": "[Errno 111] Connection refused",
+        "passed": false
+      },
+      {
+        "test": "management-oauth-reachable",
+        "status": 400,
+        "error": null,
+        "passed": true
+      }
+    ],
+    "management_addresses": [
+      "34.71.129.237"
+    ]
+  },
+  "workflow_run": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34151017184",
+  "firewall_observation": "Matching outbound TCP/443 traffic is allowed; timed-out connections have no received packets. No firewall policies were changed.",
+  "impact": "Management telemetry reads and isolated scanner access updates await management OAuth connectivity. Existing Keycloak/inference/MCP listeners remain reachable from the private network."
+}

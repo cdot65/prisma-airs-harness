@@ -2,3 +2,6 @@
 mod provider;
 pub use provider::IdentityConfig;
 pub use provider::Provider;
+mod tokens;
+pub use tokens::Identity;
+pub use tokens::Tokens;

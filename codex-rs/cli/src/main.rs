@@ -48,6 +48,7 @@ mod airs_doctor;
 mod airs_environment;
 mod airs_help;
 mod airs_mcp;
+mod airs_oidc;
 mod airs_session_binding;
 mod airs_terminal;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
@@ -1104,7 +1105,7 @@ async fn cli_main(
     if airs_terminal::is_standalone() {
         let root = codex_core::config::find_codex_home()?;
         match &subcommand {
-            Some(Subcommand::Credential(args)) => return airs_credentials::helper(args),
+            Some(Subcommand::Credential(args)) => return airs_credentials::helper(args).await,
             Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args),
             Some(Subcommand::Env { command }) => {
                 return airs_environment::run(root.as_path(), command);
@@ -1128,20 +1129,30 @@ async fn cli_main(
             Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args),
             Some(Subcommand::Login(args)) => {
                 anyhow::ensure!(
-                    !args.use_device_code
-                        && !args.with_access_token
+                    !args.with_access_token
                         && args.api_key.is_none()
                         && args.issuer_base_url.is_none()
                         && args.client_id.is_none(),
-                    "use workspace credential login; OpenAI authentication is not supported by AIRS Terminal"
+                    "use workspace credentials or --issuer-url with --oidc-client-id and --audience"
                 );
                 return if args.action.is_some() {
                     airs_credentials::status(home.as_path())
+                } else if args.airs.issuer_url.is_some() {
+                    let flow = if args.use_device_code {
+                        airs_oidc::LoginFlow::Device
+                    } else {
+                        airs_oidc::LoginFlow::Browser
+                    };
+                    airs_oidc::login(home.as_path(), &args.airs, flow).await
                 } else {
+                    anyhow::ensure!(
+                        !args.use_device_code,
+                        "--device-auth requires --issuer-url, --oidc-client-id and --audience"
+                    );
                     airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
                 };
             }
-            Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()),
+            Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()).await,
             Some(Subcommand::Status) => {
                 return airs_credentials::status(home.as_path());
             }

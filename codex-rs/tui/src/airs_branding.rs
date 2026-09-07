@@ -76,6 +76,30 @@ pub(crate) struct HeaderContext {
     pub permissions: String,
 }
 
+fn identity_label(home: &Path) -> String {
+    let oidc = || -> Option<String> {
+        let path = home.join("credential-binding.json");
+        if std::fs::metadata(&path).ok()?.len() > 16_384 {
+            return None;
+        }
+        let binding: serde_json::Value = serde_json::from_slice(&std::fs::read(path).ok()?).ok()?;
+        let source = binding.get("source")?;
+        if source.get("kind")?.as_str()? != "oidc" {
+            return None;
+        }
+        let identity = source.get("identity")?;
+        let label = identity
+            .get("display_name")
+            .and_then(serde_json::Value::as_str)
+            .or_else(|| identity.get("subject")?.as_str())?;
+        if label.is_empty() || label.len() > 128 || label.chars().any(char::is_control) {
+            return Some("OIDC user".into());
+        }
+        Some(format!("OIDC · {label}"))
+    };
+    oidc().unwrap_or_else(|| "workspace credential".into())
+}
+
 impl HeaderContext {
     pub(crate) fn from_config(config: &Config, permissions: &PermissionProfile) -> Self {
         let home = config.codex_home.as_path();
@@ -87,7 +111,7 @@ impl HeaderContext {
                 .base_url
                 .clone()
                 .unwrap_or_else(|| "unconfigured".into()),
-            identity: "workspace credential".into(),
+            identity: identity_label(home),
             permissions: summarize_permission_profile(
                 permissions,
                 &config.cwd,

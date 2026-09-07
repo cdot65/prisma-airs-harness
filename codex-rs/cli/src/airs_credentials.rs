@@ -13,10 +13,18 @@ use std::path::Path;
 use std::path::PathBuf;
 use uuid::Uuid;
 
-const SERVICE: &str = "io.cdot.airs-terminal";
+pub(super) const SERVICE: &str = "io.cdot.airs-terminal";
 
 #[derive(Debug, Default, clap::Args)]
 pub struct LoginArgs {
+    /// HTTPS issuer for a public-client OIDC login.
+    #[arg(long, requires_all = ["oidc_client_id", "audience"], conflicts_with_all = ["credential_file", "credential_env", "with_api_key"])]
+    pub issuer_url: Option<String>,
+    #[arg(long, requires = "issuer_url")]
+    pub oidc_client_id: Option<String>,
+    /// Resource audience required in the signed gateway access token.
+    #[arg(long, requires = "issuer_url")]
+    pub audience: Option<String>,
     /// Reference an existing owner-only credential file (explicit headless mode).
     #[arg(long, conflicts_with = "credential_env")]
     pub credential_file: Option<PathBuf>,
@@ -35,20 +43,27 @@ pub struct HelperArgs {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "kebab-case", deny_unknown_fields)]
-enum Source {
-    File { path: PathBuf },
-    Environment { variable: String },
+pub(super) enum Source {
+    File {
+        path: PathBuf,
+    },
+    Environment {
+        variable: String,
+    },
     Keyring,
+    Oidc {
+        identity: codex_airs_identity::Identity,
+    },
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Binding {
-    schema_version: u32,
-    id: Uuid,
-    gateway_url: String,
-    credential_fingerprint: String,
-    source: Option<Source>,
+pub(super) struct Binding {
+    pub(super) schema_version: u32,
+    pub(super) id: Uuid,
+    pub(super) gateway_url: String,
+    pub(super) credential_fingerprint: String,
+    pub(super) source: Option<Source>,
 }
 
 pub(super) fn fingerprint(token: &str) -> String {
@@ -97,7 +112,7 @@ pub(super) fn file_token(path: &Path) -> anyhow::Result<String> {
     Ok(validate_token(&token)?.to_owned())
 }
 
-fn read_binding(home: &Path) -> anyhow::Result<Binding> {
+pub(super) fn read_binding(home: &Path) -> anyhow::Result<Binding> {
     let binding: Binding = serde_json::from_slice(
         &std::fs::read(home.join("credential-binding.json"))
             .context("no credential binding; run airs-terminal login")?,
@@ -127,6 +142,7 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
             .load(SERVICE, &binding.id.to_string())
             .map_err(|_| anyhow::anyhow!("OS credential store is unavailable"))?
             .context("credential is missing from the OS store; run login")?,
+        Source::Oidc { .. } => anyhow::bail!("OIDC tokens require the identity credential helper"),
     };
     let token = validate_token(&token)?.to_owned();
     anyhow::ensure!(
@@ -198,6 +214,15 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
         DefaultKeyringStore.save(SERVICE, &binding.id.to_string(), &token)
             .map_err(|_| anyhow::anyhow!("OS credential store is unavailable; no plaintext fallback was written. Use an explicit credential-file or credential-env reference."))?;
     }
+    install_binding(home, &binding)?;
+    println!(
+        "Configured workspace credential for {}. No individual user identity is asserted.",
+        binding.gateway_url
+    );
+    Ok(())
+}
+
+pub(super) fn install_binding(home: &Path, binding: &Binding) -> anyhow::Result<()> {
     let mut config: toml::Value =
         toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
     let provider = config
@@ -211,7 +236,7 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
     let helper = serde_json::json!({
         "command": std::env::current_exe()?,
         "args": ["credential", "--home", home, "--binding", binding.id],
-        "timeout_ms": 5000, "refresh_interval_ms": 1000, "cwd": home
+        "timeout_ms": 60000, "refresh_interval_ms": 1000, "cwd": home
     });
     provider.insert("auth".into(), serde_json::from_value(helper)?);
     if let Some(Source::Environment { variable }) = &binding.source {
@@ -244,14 +269,10 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
     if logged_out.exists() {
         std::fs::remove_file(logged_out)?;
     }
-    println!(
-        "Configured workspace credential for {}. No individual user identity is asserted.",
-        binding.gateway_url
-    );
     Ok(())
 }
 
-pub fn helper(args: &HelperArgs) -> anyhow::Result<()> {
+pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     anyhow::ensure!(
         !std::io::stdout().is_terminal(),
         "credential helper may only write to a pipe"
@@ -263,11 +284,20 @@ pub fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         binding.id == args.binding,
         "credential binding changed; restart in the intended environment"
     );
-    println!("{}", resolve(&binding)?);
+    anyhow::ensure!(
+        !args.home.join("logged-out").exists(),
+        "logged out; run airs-terminal login"
+    );
+    let token = if matches!(binding.source, Some(Source::Oidc { .. })) {
+        super::airs_oidc::credential(&binding).await?
+    } else {
+        resolve(&binding)?
+    };
+    println!("{token}");
     Ok(())
 }
 
-pub fn logout(home: &Path) -> anyhow::Result<()> {
+pub async fn logout(home: &Path) -> anyhow::Result<()> {
     let _lock = airs_environment::lock(home)?;
     airs_environment::atomic_write(
         &home.join("logged-out"),
@@ -280,18 +310,49 @@ pub fn logout(home: &Path) -> anyhow::Result<()> {
         return Ok(());
     }
     let mut binding = read_binding(home)?;
-    let keyring = matches!(binding.source, Some(Source::Keyring));
+    let oidc = matches!(binding.source, Some(Source::Oidc { .. }));
+    let keyring = matches!(binding.source, Some(Source::Keyring | Source::Oidc { .. }));
+    let revoke = if oidc {
+        super::airs_oidc::load_active(&binding).ok()
+    } else {
+        None
+    };
     binding.source = None;
     airs_environment::atomic_write(
         &home.join("credential-binding.json"),
         &serde_json::to_vec_pretty(&binding)?,
     )?;
-    if keyring {
+    if oidc {
+        codex_airs_identity::CredentialStore
+            .delete(SERVICE, &binding.id.to_string())
+            .map_err(|_| {
+                anyhow::anyhow!("local binding disabled, but OS credential-store deletion failed")
+            })?;
+    } else if keyring {
         DefaultKeyringStore
             .delete(SERVICE, &binding.id.to_string())
             .map_err(|_| {
                 anyhow::anyhow!("local binding disabled, but OS credential-store deletion failed")
             })?;
+    }
+    if oidc {
+        if let Some(tokens) = revoke {
+            let provider =
+                codex_airs_identity::Provider::discover(tokens.identity.config.clone()).await;
+            match provider {
+                Ok(provider) if provider.revoke(&tokens).await.is_ok() => println!(
+                    "Signed out locally and revoked the issuer refresh token. Stop running sessions to discard cached access tokens."
+                ),
+                _ => anyhow::bail!(
+                    "signed out locally; issuer revocation could not be confirmed. Existing access tokens expire normally"
+                ),
+            }
+        } else {
+            println!(
+                "Signed out locally. No usable refresh token remains; existing access tokens expire normally."
+            );
+        }
+        return Ok(());
     }
     println!(
         "Logged out locally. Referenced files/environment variables are unchanged; stop running sessions to discard their cached token. Workspace-key revocation is managed in AIRS."
@@ -309,6 +370,14 @@ pub fn status(home: &Path) -> anyhow::Result<()> {
     );
     if home.join("credential-binding.json").exists() {
         let binding = read_binding(home)?;
+        if let Some(Source::Oidc { identity }) = &binding.source {
+            super::airs_oidc::load_active(&binding)?;
+            println!("Authentication: OIDC; issuer {}", identity.config.issuer);
+            println!("Subject: {}", identity.subject);
+            println!("Audience: {}", identity.config.audience);
+            println!("Credential: available in OS store (local check)");
+            return Ok(());
+        }
         println!(
             "Authentication: workspace credential; binding {}",
             binding.id
@@ -343,7 +412,13 @@ pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
         "logged out; run airs-terminal login"
     );
     if home.join("credential-binding.json").exists() {
-        Ok(fingerprint(&resolve(&read_binding(home)?)?))
+        let binding = read_binding(home)?;
+        if matches!(binding.source, Some(Source::Oidc { .. })) {
+            super::airs_oidc::load_active(&binding)?;
+            Ok(binding.credential_fingerprint)
+        } else {
+            Ok(fingerprint(&resolve(&binding)?))
+        }
     } else {
         let config: toml::Value =
             toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;

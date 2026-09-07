@@ -33,3 +33,29 @@ fn airs_header_shows_environment_auth_gateway_and_permissions() {
         .join("\n");
     insta::assert_snapshot!("airs_header_transcript", raw);
 }
+
+#[test]
+fn airs_oidc_header_shows_the_user_identity() {
+    let mut cell = SessionHeaderHistoryCell::new(
+        "airs-gateway-default".into(),
+        None,
+        /*show_fast_status*/ false,
+        PathBuf::from("/workspace/project"),
+        "upstream-version",
+    )
+    .with_airs_context(crate::airs_branding::HeaderContext {
+        environment: "work-sso".into(),
+        gateway: "https://airs.example/v1".into(),
+        identity: "OIDC · teammate".into(),
+        permissions: "workspace-write".into(),
+    });
+    cell.version = "0.0.0";
+    insta::assert_snapshot!(
+        "airs_oidc_header",
+        cell.display_lines(80)
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+}

@@ -24,6 +24,9 @@ blocked by missing access to the new terminal workspace. Read
 
 ## Build and configure
 
+For native Mac testing, see [MACOS.md](MACOS.md), including a local protocol test
+that does not need a live gateway key. No verified macOS binary is published yet.
+
 Rust 1.95.0 is pinned. Read `AGENTS.md` for build prerequisites and test conventions.
 
 ```sh

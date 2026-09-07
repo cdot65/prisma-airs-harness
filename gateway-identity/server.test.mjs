@@ -2,10 +2,15 @@ import assert from 'node:assert/strict';
 import http from 'node:http';
 import { once } from 'node:events';
 import { test } from 'node:test';
-import { createServer } from './server.mjs';
+import { createServer, terminalCredential } from './server.mjs';
 
 const policy = { clients: ['airs-terminal-pilot'], workspace: 'ws-prisma-ff3d74', paths: ['/v1/responses', '/v1/chat/completions'] };
 const token = `header.${Buffer.from(JSON.stringify({ azp: 'airs-terminal-pilot', portkey_workspace: policy.workspace })).toString('base64url')}.signature`;
+
+test('foreign JWTs without an authorized-party claim retain native authentication', () => {
+  const foreign = `header.${Buffer.from(JSON.stringify({ sub: 'foreign-user', portkey_workspace: 'another-workspace' })).toString('base64url')}.signature`;
+  assert.equal(terminalCredential({ authorization: `Bearer ${foreign}` }, policy), null);
+});
 async function fixture(t, respond) {
   const seen = [];
   const backend = http.createServer(async (req, res) => {

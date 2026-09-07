@@ -1,5 +1,6 @@
 import http from 'node:http';
 import { pathToFileURL } from 'node:url';
+import { mcpRequest, mcpBody } from './mcp-policy.mjs';
 
 const hop = new Set(['connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization',
   'te', 'trailer', 'transfer-encoding', 'upgrade']);
@@ -16,7 +17,7 @@ export function terminalCredential(headers, policy) {
   if (parts.length !== 3) return null;
   try {
     const claims = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
-    return claims && (policy.clients.includes(claims.azp) ||
+    return claims && (policy.clients.includes(claims.azp) || (policy.mcp && claims.azp === policy.mcp.client) ||
       claims.portkey_workspace === policy.workspace) ? token : null;
   } catch { return null; }
 }
@@ -31,14 +32,20 @@ function failure(res, status, message) {
   res.end(JSON.stringify({ error: { message, type: 'terminal_policy_error' } }));
 }
 
-function validateRequest(req, policy) {
-  if (req.method !== 'POST' || !policy.paths.includes(req.url)) return [403, 'Operation is not authorized for Terminal'];
+function validateRequest(req, policy, credential, mode) {
+  const claims = JSON.parse(Buffer.from(credential.split('.')[1], 'base64url').toString('utf8'));
+  if (mode === 'mcp') {
+    const invalid = mcpRequest(req, claims, policy);
+    if (invalid) return invalid;
+  } else if (req.method !== 'POST' || !policy.paths.includes(req.url) || !policy.clients.includes(claims.azp)) {
+    return [403, 'Operation is not authorized for Terminal'];
+  }
   if (Object.keys(req.headers).some(key =>
     (key.startsWith('x-portkey-') && !allowedPortkey.has(key)) || ['api-key', 'x-api-key'].includes(key))) {
     return [403, 'Caller-supplied gateway routing and policy headers are not permitted'];
   }
   if (req.headers['x-portkey-api-key'] && req.headers.authorization) return [400, 'Use one gateway credential header'];
-  if (req.headers['content-encoding'] || req.headers['content-type']?.split(';')[0].trim() !== 'application/json') {
+  if (req.headers['content-encoding'] || (req.method === 'POST' && req.headers['content-type']?.split(';')[0].trim() !== 'application/json')) {
     return [415, 'Uncompressed application/json is required'];
   }
   return null;
@@ -55,7 +62,7 @@ async function body(req, limit) {
   return Buffer.concat(chunks);
 }
 
-export function createServer({ upstreamPort, policy, maxBytes = 16 * 1024 * 1024, maxActive = 8 }) {
+export function createServer({ upstreamPort, policy, mode = 'inference', maxBytes = 16 * 1024 * 1024, maxActive = 8 }) {
   if (!Number.isInteger(upstreamPort) || upstreamPort < 1 || upstreamPort > 65535 ||
       !policy?.clients?.length || !policy?.workspace || !policy?.paths?.length) throw new Error('Invalid identity filter configuration');
   let active = 0;
@@ -69,7 +76,7 @@ export function createServer({ upstreamPort, policy, maxBytes = 16 * 1024 * 1024
     const credential = terminalCredential(req.headers, policy);
     let bytes;
     if (credential) {
-      const invalid = validateRequest(req, policy);
+      const invalid = validateRequest(req, policy, credential, mode);
       if (invalid) return failure(res, ...invalid);
       if (Number(req.headers['content-length'] ?? 0) > maxBytes) return failure(res, 413, 'Request body exceeds the Terminal limit');
       if (active >= maxActive) return failure(res, 503, 'Terminal capacity reached');
@@ -77,9 +84,12 @@ export function createServer({ upstreamPort, policy, maxBytes = 16 * 1024 * 1024
       res.once('close', () => { active--; });
       try {
         bytes = await body(req, maxBytes);
-        const parsed = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+        const parsed = req.method === 'POST' ? JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)) : {};
         if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) ||
             forbiddenBody.some(key => Object.hasOwn(parsed, key))) throw new Error('body');
+        if (mode === 'mcp' && req.method === 'POST' && !mcpBody(parsed, policy)) {
+          return failure(res, 403, 'MCP operation or tool is not authorized');
+        }
         if (Object.hasOwn(parsed, 'model') && (typeof parsed.model !== 'string' ||
             !/^@[A-Za-z0-9][A-Za-z0-9._-]*\/[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$/.test(parsed.model))) {
           return failure(res, 400, 'Select the gateway default or an explicit @provider/model');
@@ -150,7 +160,7 @@ export function createServer({ upstreamPort, policy, maxBytes = 16 * 1024 * 1024
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const policy = JSON.parse(process.env.AIRS_TERMINAL_POLICY);
   const servers = [[8887, 8787], [8888, 8788]].map(([port, upstreamPort]) => {
-    const server = createServer({ upstreamPort, policy });
+    const server = createServer({ upstreamPort, policy, mode: port === 8888 ? 'mcp' : 'inference' });
     server.listen(port, '0.0.0.0');
     return server;
   });

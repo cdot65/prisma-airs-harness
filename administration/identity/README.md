@@ -1,12 +1,11 @@
-# Keycloak identity foundation — rollout gate still open
+# Keycloak user authentication
 
-The alpha.6 candidate implements public-client authentication and role-based
-inference/MCP authorization in a dedicated AIRS workspace. Its live native-client
-acceptance passed, and persisted input/output security logs were correlated to
-three signed user subjects. A bounded agent-task check exposed excessive parallel
-tool calls; the serial-request client fix is being rebuilt and revalidated. The installed version 0.1.0-alpha.5 still uses its working workspace credential. No teammate has been granted
-the pilot role; synthetic acceptance users are deleted after every run. The
-pilot client is disabled between operator acceptance runs.
+The installed alpha.6 Linux binary passed all 27 live authentication checks,
+including OIDC model switching, real MCP tools and continued use after token
+expiry. Persisted security and SCM telemetry match the original signed user.
+Both Terminal public clients are enabled, with standing roles granted only to
+the verified owner `cdot`. Synthetic users are removed after each fixture.
+Use [OWNER-REVIEW.md](OWNER-REVIEW.md) for hands-on acceptance.
 
 The owner requires one realm and one JWKS endpoint. The accepted implementation
 stays in the existing `truffles` stack; see the [single-realm decision](boundary-proposal.md).
@@ -20,7 +19,7 @@ The earlier new-realm/credential-translation proposal is rejected.
 | Public client | `airs-terminal-pilot` |
 | Client UUID | `32a46109-1ed6-450b-b3cc-be5a54666953` |
 | Required client role | `terminal-user` |
-| Access group | `/stacks/airs-terminal/users` (currently empty) |
+| Access group | `/stacks/airs-terminal/users` (owner `cdot` only) |
 | Inference audience | `airs-terminal-inference` |
 | AIRS workspace | `f4aca25e-fe23-4cae-bca7-91f8f3c78594` / `ws-prisma-ff3d74` |
 | Routing default | `774fed74-6cc0-419d-8f71-54442f748e88` / `pc-termin-943065` |
@@ -113,8 +112,8 @@ Live deployment: identity-filter v0.1.2, digest
 The Terminal scanner endpoint is
 `https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp`.
 Only `pan_inline_scan` is enabled. Resource and template inventories are empty;
-resource content and subscriptions are denied. Clients remain disabled pending
-final packaged-client acceptance. The scanner's existing default-user-access
+resource content and subscriptions are denied. Both clients are enabled following installed
+acceptance; only the owner has standing role grants. The scanner's existing default-user-access
 setting is unchanged; actual user JWT authorization works without toggling it.
 The JWT filter and native AIRS verification enforce resource permissions.
 No broad teammate role grants have been made.
@@ -139,7 +138,7 @@ when `last_updated_at` is null. The targeted operation used authenticated REST a
 verified the unchanged sibling bindings. Do not broaden workspace access to
 work around the SDK discrepancy.
 
-## Remaining release gates
+## Client validation and operating limits
 
 The Rust client implements browser S256/state/nonce and device login, signed
 identity/resource verification, refresh rotation with durable pending state, and
@@ -157,12 +156,12 @@ cleanup failure can leave unreachable encrypted chunks; they are never treated
 as an active credential without the committed manifest. No plaintext fallback
 is implemented.
 
-The unoptimized alpha.6 candidate passed 22 live CLI checks including browser/device
-login, inference, separate MCP identity, local files, a real scan, refresh, logout
-and user/history isolation. The 323 affected Rust checks and scoped Clippy passed.
-Before release: repeat executable and live acceptance on the optimized artifact,
-then publish/install and grant the owner access. Server and crate-level receipts alone do not satisfy this
-gate. The installed alpha.5 client is still the earlier workspace-key release.
+The optimized binary passed the full 27-check CLI fixture both before and after
+installation, 20 executable/PTY fixtures and the seven-turn workspace-key replay.
+The supported core selection passed 3,929 tests and scoped Clippy passed. The full
+upstream suite fails at the missing V8 musl archive; code mode is disabled here.
+Publication verification is a separate release asset; owner hands-on review
+remains pending.
 
 MCP OIDC setup requires the same verified user and issuer as inference with a
 distinct public client and audience. Reauthentication preserves its binding ID;

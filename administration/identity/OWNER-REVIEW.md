@@ -59,7 +59,9 @@ automated release fixtures.
 ## Check logout and resume
 
 Exit the terminal, run `airs-terminal logout`, and check `airs-terminal status`.
-Both inference and MCP credentials should be unavailable. Repeat the two login
+Both inference and MCP credentials should be unavailable. The current IdP policy
+uses a 15-minute idle timeout and a one-hour maximum session; reaching those
+limits requires signing in again. Repeat the two login
 commands above with the same user, then run `airs-terminal resume` from the review
 directory. The existing session should remain available under the same identity.
 

@@ -8,21 +8,24 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.6 — authentication release candidate
+## 0.1.0-alpha.6 — user authentication
 
-Alpha.6 adds public-client Keycloak browser and device login, verified user and
-resource identities, native OS credential storage, safe refresh rotation, logout,
-and separate MCP authentication. It uses one existing realm and JWKS endpoint;
-the original access JWT reaches AIRS. Workspace-key environments remain supported.
+Alpha.6 adds public-client Keycloak browser/device login, verified user and resource
+identities, native credential storage, refresh rotation, logout and separate MCP
+authentication. One existing realm/JWKS serves both resources; AIRS receives the
+original signed JWT. Workspace-key environments remain supported.
 
-Native credential-store checks passed on Linux, macOS and Windows. The distributed
-terminal binary remains Linux x86-64; this does not claim full macOS/Windows
-terminal E2E or signed installers. The unoptimized candidate passed the real IdP,
-inference, local-tool, MCP, refresh, logout and user/history-isolation flow.
-The optimized binary also passed the executable fixtures and real workspace-key
-model-switch/tool regression. Optimized OIDC/MCP acceptance and publication remain
-in progress. See
-[RELEASE.md](RELEASE.md) for current evidence and remaining gates.
+The optimized Linux binary passed 20 executable/PTY fixtures, all 27 live OIDC
+checks before and after installation, and the seven-turn workspace-key regression.
+The gateway requests serial tools, fixing the excessive parallel calls found in
+acceptance. Native credential-store CI passed on Linux, macOS and Windows; the
+full distributed terminal remains Linux x86-64. The supported core selection passed
+3,929 tests. Full upstream workspace validation remains unavailable because V8
+publishes no prebuilt archive for this musl target; code mode is disabled here.
+
+Start with the [owner review guide](administration/identity/OWNER-REVIEW.md).
+[RELEASE.md](RELEASE.md) and [VALIDATION.json](VALIDATION.json) record scope and
+evidence; the release's `RELEASE-VERIFICATION.json` records publication checks.
 
 ## Download and install on Linux x86-64
 
@@ -65,8 +68,8 @@ Codex and are not this product's installer.
 ## Sign in with Keycloak
 
 Keep workspace-key and user-identity histories in separate environments. For the
-owner's deployment, connect through the LAN/VPN and wait for the operator's
-Terminal role grant. The deployment endpoints are not publicly reachable from
+owner's deployment, connect through the LAN/VPN. The verified owner `cdot` has
+both Terminal roles; teammates need explicit operator grants. The deployment endpoints are not publicly reachable from
 an unrelated GitHub runner:
 
 ```sh

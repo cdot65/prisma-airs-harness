@@ -1,26 +1,26 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "date": "2026-09-07",
   "product_version": "0.1.0-alpha.6",
-  "scope": "Standalone Linux authentication release candidate; native credential storage on Linux macOS Windows",
-  "status": "optimized_candidate_validated_workspace_key_authentication_rollout_gates_open",
+  "scope": "Installed standalone Linux authentication prerelease; native credential storage tested on Linux/macOS/Windows",
+  "status": "installed_and_live_acceptance_passed",
   "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
-  "runtime_source_commit": "b40d53714",
+  "runtime_source_commit": "cdbd82cd0",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "rust": "1.95.0",
   "profile": "release; upstream defaults; strip --strip-debug",
   "linker": "LLD through COMPILER_PATH; no Rust optimization-profile override",
-  "binary_sha256": "848ba3bd8c6855f241e16d64e02cc92dbf6a4ff78fb150e016332c6062402a9a",
-  "binary_size_bytes": 316570504,
-  "installed_version": "0.1.0-alpha.5",
+  "binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+  "binary_size_bytes": 316587536,
+  "installed_version": "0.1.0-alpha.6",
   "context_default": 1000000,
   "affected_rust_tests": {
     "passed": 323,
     "failed": 0,
     "selection": "airs_ tests plus identity, home-dir and rmcp-client packages"
   },
-  "scoped_clippy": "completed; existing static user-agent expect warning; other build warnings are retained upstream unused imports",
+  "scoped_clippy": "passed; runtime source unchanged",
   "native_credential_platforms": {
     "passed": true,
     "platforms": [
@@ -33,36 +33,29 @@
   "executable_fixtures": {
     "passed": 20,
     "failed": 0,
-    "verified_binary_sha256": "848ba3bd8c6855f241e16d64e02cc92dbf6a4ff78fb150e016332c6062402a9a",
-    "receipt": "validation/2026-09-07/auth-release/optimized-fixtures.log"
+    "verified_binary_sha256": "d4882f333fa86a271771063b1963c6d07d89b5fb38b8e021f34d71f1bf304838",
+    "receipt": "validation/2026-09-07/auth-release/final-binary-fixtures.log"
   },
   "optimized_workspace_key_interactive": {
     "passed": true,
     "turns": 7,
-    "model_switch": "default -> @openai/gpt-4.1 -> default",
     "mcp_scans": 3,
-    "independent_arithmetic_assertions": true,
-    "receipt": "validation/2026-09-07/auth-release/optimized-workspace-key-interactive.json"
+    "receipt": "validation/2026-09-07/auth-release/final-workspace-key-interactive.json"
   },
   "oidc_cli_candidate": {
-    "passed": 22,
+    "passed": 27,
     "failed": 0,
-    "binary_profile": "unoptimized; does not certify optimized artifact",
-    "receipt": "validation/2026-09-07/auth-release/cli-candidate-acceptance.json"
+    "binary_profile": "optimized",
+    "receipt": "validation/2026-09-07/auth-release/optimized-direct-auth.json"
   },
   "original_jwt_mcp_policy": {
     "passed": true,
-    "receipt": "validation/2026-09-07/auth-release/mcp-jwt-acceptance.json"
+    "checks": 20,
+    "receipt": "validation/2026-09-07/auth-release/mcp-discovery-acceptance.json"
   },
-  "release_gates_open": [
-    "Optimized OIDC/MCP acceptance requiring isolated scanner access update",
-    "Persisted per-user audit correlation through management telemetry",
-    "Artifact publication and installed verification",
-    "Standing owner grants; clients remain disabled and scanner user default denied"
-  ],
   "management_connectivity": {
-    "status": "cluster TCP timeout; independent GitHub runner succeeds at same IP",
-    "receipt": "validation/2026-09-07/auth-release/management-connectivity-attempt.json"
+    "status": "restored; authenticated management and gateway doctor checks passed",
+    "receipt": "validation/2026-09-07/auth-release/restored-management-connectivity.json"
   },
   "native_audit_read": {
     "passed": false,
@@ -74,13 +67,56 @@
     "validation": "validation/2026-09-07/alpha5-validation.json"
   },
   "full_workspace_tests": {
-    "status": "not certified",
-    "reason": "Inherited V8 musl archive unavailable; affected scoped checks are recorded separately"
+    "status": "attempted; cannot build V8 150.4.0 on musl because the prebuilt archive returns HTTP 404",
+    "receipt": "validation/2026-09-07/auth-release/full-workspace-attempt.json"
   },
   "deferred": [
     "Full macOS/Windows terminal distribution and E2E",
     "Native artifact signing/attestation",
     "Optional Conjur workload-secret activation"
   ],
-  "owner_review": "Pending; authentication release is not declared complete"
+  "owner_review": "Pending hands-on review; see administration/identity/OWNER-REVIEW.md",
+  "supported_core_tests": {
+    "runtime_source_commit": "cdbd82cd0",
+    "fixture_source_commit": "5d0406d47",
+    "passed": true,
+    "tests_passed": 3929,
+    "tests_failed": 0,
+    "tests_skipped_or_excluded": 157,
+    "selection": "not test(code_mode) and not test(explicit_only_orchestrator_skill_is_hidden_but_can_be_invoked)",
+    "reason_for_exclusions": "V8 code-mode host unavailable on musl; code mode is disabled in the Terminal release",
+    "gateway_regression": "default and explicit gateway routes request serial tools; default omits model; explicit preserves qualified route; ordinary provider retains parallel calls",
+    "log_sha256": "1770911ad1cdbaa1f79ebd898f1766291cb61d17500b94053d509b8dd3dd52f2",
+    "earlier_full_core_attempt": {
+      "passed": 3975,
+      "failed": 102,
+      "skipped": 9,
+      "failures": "101 code-mode cases and one gateway fixture inheriting optional OpenAI environment headers; fixture corrected before final supported selection"
+    },
+    "scoped_clippy": {
+      "passed": true,
+      "command": "just fix -p codex-core",
+      "runtime_source_changed": false
+    }
+  },
+  "oidc_cli_installed": {
+    "passed": 27,
+    "failed": 0,
+    "receipt": "validation/2026-09-07/auth-release/installed-auth.json"
+  },
+  "owner_access": {
+    "enabled": true,
+    "owner_only": true,
+    "receipt": "validation/2026-09-07/auth-release/owner-access.json"
+  },
+  "installation": {
+    "passed": true,
+    "receipt": "validation/2026-09-07/auth-release/installation.json"
+  },
+  "persisted_user_attribution": {
+    "passed": true,
+    "security_receipt": "validation/2026-09-07/auth-release/persisted-security-audit.json",
+    "management_receipt": "validation/2026-09-07/auth-release/persisted-management-audit.json"
+  },
+  "release_verification": "See RELEASE-VERIFICATION.json asset for post-publication verification"
 }

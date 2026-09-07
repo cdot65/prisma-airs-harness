@@ -57,17 +57,18 @@ JSON-normalization guardrails are a separate capability under review.
 
 ## Authentication release progress
 
-The owner prioritized the authentication release and explicitly required native
-credential stores on Windows and macOS as well as Linux. One existing realm and
-one JWKS endpoint are mandatory. The gateway filter, per-client durable refresh
-ledger and separate MCP client are deployed; native OS store validation passed
-on all three platforms. The alpha.6 candidate passed 323 affected Rust checks,
-20 executable fixtures and 22 real CLI authentication checks. See RELEASE.md.
+The installed alpha.6 binary passed the 27-check user-authentication flow, including
+real OIDC model switching and refresh in one running TUI. The original user JWT
+passes through the existing realm/JWKS to AIRS; native stores passed on Linux,
+macOS and Windows. Twenty executable fixtures, seven workspace-key turns, 3,929
+supported core tests, scoped Clippy and live MCP authorization checks passed.
+Persisted security and management telemetry map to the signed user, including
+spoof rejection. Only the owner has standing Terminal role grants.
 
-The remaining gates are optimized artifact acceptance, persisted user-audit
-correlation, publication/installation and owner-only role grants. Do not declare
-the complete team authentication release ready until these pass. Linux remains
-the binary distribution target; full Windows/macOS terminal packaging and Conjur
-workload-secret activation are separate milestones.
+Publication verification is recorded separately in `RELEASE-VERIFICATION.json`.
+Owner hands-on review is the remaining acceptance step after artifact publication.
+Full Windows/macOS terminal packaging and Conjur workload-secret activation are
+separate milestones. The full upstream V8-dependent suite cannot build on this
+musl host; the feature is disabled in the supported runtime.
 
 No credential values belong in this document, source control, artifacts or vault.

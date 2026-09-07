@@ -129,10 +129,15 @@ report transient errors without silently retrying them into a pass.
 The earlier **8/10** assessment identified incomplete artifact delivery and unstable
 hosted MCP. Improvements replaced the failing backend session dependency, hardened
 the scanner image, patched audited Rust dependencies, fixed the actual health
-endpoint and added clean-container and executable checks. The final assessment is recorded in the post-publication
-`RELEASE-VERIFICATION.json` asset after the exact archive and independent CI checks.
+endpoint and added clean-container and executable checks. The final assessment is **9/10 for the delivered Linux workspace-key pilot**,
+provisional pending owner review. [Independent CI](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34100831631) passed against the exact
+published archive (17 executable fixtures, four scanner tests, zero npm audit
+findings). The release's `RELEASE-VERIFICATION.json` asset and its copy in
+`validation/2026-09-07/release-verification.json` record final evidence. The
+immutable release source is `381266c87f9072d19a5fa85d18556b13aef74017`; this
+post-publication documentation does not change the tagged archive.
 
 A final score applies only to the authorized Linux workspace-key pilot. Keycloak,
-individual-user audit, macOS, owned CI/attestation and complete upstream workspace
+individual-user audit, macOS, native CI builds/signing and complete upstream workspace
 validation remain explicit limitations. Owner hands-on review is the final product
 acceptance event, independent of this self-assessment.

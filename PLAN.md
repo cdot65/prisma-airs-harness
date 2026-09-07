@@ -38,9 +38,14 @@ complete team identity acceptance from a shared workspace credential.
   isolation `31fadca`, followed by stateless scanner deployment `5df8d39`.
   Both gateway replicas are ready at Helm revision 32. The final scanner image
   runs two replicas; the previous hosted MCP failure is avoided through REST.
-- Final optimized build, installed/extracted-artifact checks, private prerelease
-  publication and owner-review handoff remain in progress. RELEASE.md tracks the
-  final gate-by-gate assessment; do not infer completeness from this task list.
+- Final optimized build, installed/extracted-artifact checks and private prerelease
+  publication are complete. [Alpha.4](https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.4) is ready for owner hands-on review.
+  [Independent CI](https://github.com/cdot65/prisma-airs-terminal/actions/runs/34100831631) passed against the exact published archive: 17 executable
+  fixtures, four scanner tests and zero production npm audit findings.
+- Final assessment: **9/10 for the authorized Linux workspace-key pilot**,
+  provisional pending owner review. RELEASE.md and the post-publication
+  `validation/2026-09-07/release-verification.json` record evidence and limitations.
+  The full original team MVP remains unfinished.
 
 ## Authorized deferrals
 

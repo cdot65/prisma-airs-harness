@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-09-07T08:35:26.747739+00:00",
+  "status": "ready_for_owner_hands_on_review",
+  "product": "Prisma AIRS Terminal",
+  "version": "0.1.0-alpha.4",
+  "scope": "Standalone Linux x86-64 workspace-key pilot",
+  "full_team_mvp_complete": false,
+  "release_url": "https://github.com/cdot65/prisma-airs-terminal/releases/tag/airs-terminal-v0.1.0-alpha.4",
+  "source_commit": "381266c87f9072d19a5fa85d18556b13aef74017",
+  "archive": {
+    "name": "airs-terminal-0.1.0-alpha.4-linux-x86_64-musl.tar.gz",
+    "sha256": "8567af68eae115f007f64935e5fbd3b8f3a21e44416df0eb7b968a0a8edd01ab"
+  },
+  "binary": {
+    "sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+    "installed_path": "/home/cdot/.local/bin/airs-terminal",
+    "legacy_configuration_and_history_preserved": true
+  },
+  "ci": {
+    "url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34100831631",
+    "conclusion": "success",
+    "source_commit": "381266c87f9072d19a5fa85d18556b13aef74017",
+    "ubuntu_executable_fixtures_passed": 17,
+    "scanner_tests_passed": 4,
+    "scanner_npm_audit_findings": 0,
+    "scope": "Verifies the exact published archive; the binary was built locally and is not a signed CI build"
+  },
+  "local_verification": {
+    "doctor": "passed",
+    "executable_fixtures": {
+      "passed": 17,
+      "failed": 0,
+      "platforms": [
+        "current Alpine host",
+        "fresh Alpine container",
+        "fresh Debian container"
+      ]
+    },
+    "live_agent": {
+      "schema_version": 1,
+      "binary": "/home/cdot/.local/bin/airs-terminal",
+      "checks": [
+        {
+          "mode": "default",
+          "thread_id": "01a07ae6-54a5-70f3-bc2e-c453fded55a5",
+          "local_tests_passed": true,
+          "skill_passed": true,
+          "mcp_completed": true,
+          "scan_id": "57b1257f-e0f7-4274-9c5c-e4e4c038116b"
+        },
+        {
+          "mode": "explicit",
+          "thread_id": "01a07ae6-8ed9-7310-8cda-399584257a41",
+          "local_tests_passed": true,
+          "skill_passed": true,
+          "mcp_completed": true,
+          "scan_id": "e4040547-8ff4-4e9d-91ea-5de62b772552"
+        }
+      ],
+      "resume_passed": true,
+      "passed": true
+    },
+    "interactive": {
+      "passed": true,
+      "binary": "/home/cdot/.local/bin/airs-terminal",
+      "environment": "work",
+      "exported_airs_api_key": false,
+      "product_header": true,
+      "workspace_credential_header": true,
+      "assistant_reply_persisted": true,
+      "session_file": "/home/cdot/.airs-terminal/environments/1f842fd0-ae7c-4cdc-b262-2bf41d3f19ab/sessions/2026/09/07/rollout-2026-09-07T08-05-10-01a07ae6-56cc-76c0-9e9d-52c594649432.jsonl",
+      "trusted_review_directory": true,
+      "exit_code": 0
+    },
+    "upgrade_rollback": {
+      "passed": true,
+      "old_version": "airs-terminal 0.1.0-alpha.3",
+      "new_version": "airs-terminal 0.1.0-alpha.4",
+      "legacy_files_preserved": 2,
+      "total_state_files_preserved": 8,
+      "rollback_executable_verified": true,
+      "named_environment_available_after_reinstall": true,
+      "live_user_state_modified": false,
+      "binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0"
+    },
+    "archive_integrity": {
+      "passed": true,
+      "version": "airs-terminal 0.1.0-alpha.4",
+      "binary_sha256": "daabbb67fe3678ce80f142f0d57cf57662280962b6b11f516ce76c7b40061cc0",
+      "source_commit": "381266c87f9072d19a5fa85d18556b13aef74017",
+      "checksums_verified": true,
+      "required_notices_present": true,
+      "scope": "extracted package integrity; executable fixtures are a separate check"
+    },
+    "credential_scan": {
+      "passed": true,
+      "files_checked": 8741,
+      "credential_values_checked": 7,
+      "raw_and_base64_checked": true,
+      "scope": "tracked source and extracted final archive including the executable",
+      "matches": []
+    },
+    "ignored_file_exclusion": {
+      "passed": true,
+      "ignored_synthetic_secret_excluded": true,
+      "tracked_scanner_source_and_validation_receipts_included": true,
+      "source_commit": "381266c87f9072d19a5fa85d18556b13aef74017",
+      "archive_sha256": "8567af68eae115f007f64935e5fbd3b8f3a21e44416df0eb7b968a0a8edd01ab"
+    }
+  },
+  "gateway_verification": {
+    "routing_policy_and_authorization_cases_passed": 20,
+    "repeated_concurrent_idle_mcp_cases_passed": 33,
+    "inference_and_mcp_credentials_separately_authorized": true,
+    "default_root_model_omitted": true,
+    "explicit_route": "@openai/gpt-4.1",
+    "mandatory_input_output_policy": true,
+    "gateway_ready_replicas": 2,
+    "scanner_ready_replicas": 2,
+    "scanner_nodes": [
+      "talos1",
+      "talos2"
+    ],
+    "scanner_image": "registry.cdot.io/airs-terminal/scanner@sha256:1cdaca2ff3134e81ad0ac9661e41557eb49805cab4178352d10b1f46de5f97a3"
+  },
+  "self_assessment": {
+    "score": 9,
+    "out_of": 10,
+    "scope": "Delivered Linux workspace-key pilot; provisional pending owner review",
+    "previous_score": 8,
+    "improvements": [
+      "Replaced intermittently failing hosted MCP sessions with a stateless REST-backed scanner",
+      "Patched audited Rust dependencies and replaced the scanner runtime image after its vulnerability scan",
+      "Finished named credentials/history boundaries, API-root health diagnostics and normal interactive startup",
+      "Reduced inference-key scopes and verified cross-resource credential denial after propagation",
+      "Verified final Linux binaries, upgrade/rollback, packaged notices, ignored-file exclusion and independent published-archive CI"
+    ],
+    "limits": [
+      "Keycloak login/refresh and individual-user audit remain unfinished under the authorized workspace-key fallback",
+      "macOS is deferred",
+      "The full upstream workspace suite is not green because the V8 musl archive is unavailable",
+      "Native CI builds and signed build attestations remain future engineering work",
+      "Scanner image retains 20 unfixed medium/low findings; Cargo workspace retains an scc warning outside the Linux CLI normal/build graph",
+      "Management permission changes require data-plane propagation verification"
+    ]
+  },
+  "owner_review": {
+    "directory": "/home/cdot/airs-terminal-review",
+    "commands": [
+      "cd ~/airs-terminal-review",
+      "airs-terminal"
+    ],
+    "environment": "work",
+    "api_key_export_required": false,
+    "review_status": "pending"
+  }
+}

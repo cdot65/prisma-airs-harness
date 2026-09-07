@@ -25,8 +25,10 @@ Current evidence:
   metadata were unchanged, and signed SAML responses verified before and after.
   The external Koi application was not contacted.
 
-Optimized binary acceptance, publication, owner grants and installed validation
-remain open. This candidate record is not a completion declaration. The installed
+The optimized binary passed 20 executable/PTY fixtures and a seven-turn real
+workspace-key replay with both model switches, arithmetic tests and three scans.
+Optimized OIDC/MCP acceptance, audit correlation, publication, owner grants and
+installed validation remain open. This candidate record is not a completion declaration. The installed
 binary is still alpha.5. Full macOS/Windows terminal distribution and Conjur
 workload-secret activation remain separate milestones.
 

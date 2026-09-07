@@ -19,7 +19,9 @@ Native credential-store checks passed on Linux, macOS and Windows. The distribut
 terminal binary remains Linux x86-64; this does not claim full macOS/Windows
 terminal E2E or signed installers. The unoptimized candidate passed the real IdP,
 inference, local-tool, MCP, refresh, logout and user/history-isolation flow.
-Optimized artifact validation and publication remain in progress. See
+The optimized binary also passed the executable fixtures and real workspace-key
+model-switch/tool regression. Optimized OIDC/MCP acceptance and publication remain
+in progress. See
 [RELEASE.md](RELEASE.md) for current evidence and remaining gates.
 
 ## Download and install on Linux x86-64

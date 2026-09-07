@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "binary": "/home/cdot/.local/share/airs-terminal/candidates/0.1.0-alpha.6/airs-terminal",
+  "binary_sha256": "848ba3bd8c6855f241e16d64e02cc92dbf6a4ff78fb150e016332c6062402a9a",
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "90a5a1d1-b657-4e9a-9087-2b20f5c9beee",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "f13b8472-70b6-49f4-80c6-5410aa363d48",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "d560adcc-89b3-4b9b-b5ff-df33aa485fb4",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true
+}

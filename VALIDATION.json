@@ -1,107 +1,86 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "date": "2026-09-07",
-  "product_version": "0.1.0-alpha.5",
-  "scope": "Owner interactive model-switch repair for the standalone Linux workspace-key pilot",
-  "status": "validated_linux_hotfix_binary_owner_revalidation_pending",
+  "product_version": "0.1.0-alpha.6",
+  "scope": "Standalone Linux authentication release candidate; native credential storage on Linux macOS Windows",
+  "status": "optimized_candidate_validated_workspace_key_authentication_rollout_gates_open",
   "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
-  "runtime_source_commit": "ecd263a06",
+  "runtime_source_commit": "b40d53714",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "rust": "1.95.0",
   "profile": "release; upstream defaults; strip --strip-debug",
-  "binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
-  "binary_size_bytes": 315435664,
-  "installed_binary": "/home/cdot/.local/bin/airs-terminal",
+  "linker": "LLD through COMPILER_PATH; no Rust optimization-profile override",
+  "binary_sha256": "848ba3bd8c6855f241e16d64e02cc92dbf6a4ff78fb150e016332c6062402a9a",
+  "binary_size_bytes": 316570504,
+  "installed_version": "0.1.0-alpha.5",
   "context_default": 1000000,
+  "affected_rust_tests": {
+    "passed": 323,
+    "failed": 0,
+    "selection": "airs_ tests plus identity, home-dir and rmcp-client packages"
+  },
+  "scoped_clippy": "completed; existing static user-agent expect warning; other build warnings are retained upstream unused imports",
+  "native_credential_platforms": {
+    "passed": true,
+    "platforms": [
+      "linux",
+      "darwin",
+      "win32"
+    ],
+    "receipt": "validation/2026-09-07/auth-release/native-platforms.json"
+  },
   "executable_fixtures": {
     "passed": 20,
     "failed": 0,
-    "verified_binary_sha256": "432667527cc408f035746f838f4809961b6d84d0927f0c14a8b7c1678cd3bb70",
-    "receipt": "validation/2026-09-07/alpha5/installed-fixtures.log"
+    "verified_binary_sha256": "848ba3bd8c6855f241e16d64e02cc92dbf6a4ff78fb150e016332c6062402a9a",
+    "receipt": "validation/2026-09-07/auth-release/optimized-fixtures.log"
   },
-  "focused_core_tests": {
-    "passed": 23,
-    "failed": 0,
-    "filtered_out": 2414
-  },
-  "tui_tests": {
-    "passed": 4090,
-    "failed": 0,
-    "skipped": 6,
-    "passed_on_retry": 1,
-    "environment": "NO_COLOR removed for color-sensitive tests"
-  },
-  "home_directory_tests": {
-    "passed": 4,
-    "failed": 0
-  },
-  "scoped_clippy": "passed: just fix -p codex-core -p codex-tui --lib",
-  "installed_interactive_model_switch": {
+  "optimized_workspace_key_interactive": {
     "passed": true,
-    "completed_turns": 7,
-    "routes": "default -> @openai/gpt-4.1 -> default",
+    "turns": 7,
+    "model_switch": "default -> @openai/gpt-4.1 -> default",
     "mcp_scans": 3,
-    "independent_calculator_tests": true,
-    "receipt": "validation/2026-09-07/alpha5/installed-interactive-model-switch.json"
+    "independent_arithmetic_assertions": true,
+    "receipt": "validation/2026-09-07/auth-release/optimized-workspace-key-interactive.json"
   },
-  "installed_agent_resume": {
+  "oidc_cli_candidate": {
+    "passed": 22,
+    "failed": 0,
+    "binary_profile": "unoptimized; does not certify optimized artifact",
+    "receipt": "validation/2026-09-07/auth-release/cli-candidate-acceptance.json"
+  },
+  "original_jwt_mcp_policy": {
     "passed": true,
-    "local_skill_edit_tests_and_remote_scan": true,
-    "receipt": "validation/2026-09-07/alpha5/installed-live-agent.json"
+    "receipt": "validation/2026-09-07/auth-release/mcp-jwt-acceptance.json"
   },
-  "self_description_review": {
-    "status": "manually reviewed final artifact replies",
-    "receipt": "validation/2026-09-07/alpha5/installed-interactive-replies.json",
-    "limitation": "Natural-language descriptions are not authoritative model or live MCP health metadata",
-    "review_notes": "Reported local-model and missing-MCP errors are corrected in the replay. Generated prose still includes generalizations; exact routing policy, source languages and connection health must be checked against configuration, files and /mcp."
+  "release_gates_open": [
+    "Optimized OIDC/MCP acceptance requiring isolated scanner access update",
+    "Persisted per-user audit correlation through management telemetry",
+    "Artifact publication and installed verification",
+    "Standing owner grants; clients remain disabled and scanner user default denied"
+  ],
+  "management_connectivity": {
+    "status": "cluster TCP timeout; independent GitHub runner succeeds at same IP",
+    "receipt": "validation/2026-09-07/auth-release/management-connectivity-attempt.json"
   },
-  "gateway_contract": {
-    "passed": true,
-    "cases": 20,
-    "receipt": "validation/2026-09-07/alpha5/gateway-contract.json"
-  },
-  "gateway_or_scanner_deployment_changed": false,
-  "gateway_compatibility_transform": {
-    "status": "investigated and documented; not deployed",
-    "native_drop_params_local_checks": 4,
-    "reference": "administration/request-compatibility.md"
-  },
-  "legacy_configuration_and_owner_history_preserved": true,
-  "live_alpha4_failed_session_upgrade": {
-    "passed": true,
-    "receipt": "validation/2026-09-07/alpha5/installed-alpha4-upgrade.json",
-    "stale_reasoning_effort": "medium",
-    "route": "@openai/gpt-4.1"
+  "native_audit_read": {
+    "passed": false,
+    "reason": "managed deployment native log route reports Invalid Log Storage",
+    "receipt": "validation/2026-09-07/auth-release/native-audit-read-attempt.json"
   },
   "previous_release": {
-    "version": "0.1.0-alpha.4",
-    "owner_model_switch_failed": true,
-    "provisional_9_of_10_withdrawn": true,
-    "validation": "validation/2026-09-07/alpha4-validation.json"
+    "version": "0.1.0-alpha.5",
+    "validation": "validation/2026-09-07/alpha5-validation.json"
   },
   "full_workspace_tests": {
-    "status": "unavailable_during_compilation",
-    "reason": "V8 150.4.0 musl prebuilt archive HTTP 404; full suite is not green"
+    "status": "not certified",
+    "reason": "Inherited V8 musl archive unavailable; affected scoped checks are recorded separately"
   },
   "deferred": [
-    "Keycloak public-client login and refresh",
-    "Individual-user authorization and audit",
-    "macOS acceptance",
-    "Owned native CI artifact build and signing/attestation"
+    "Full macOS/Windows terminal distribution and E2E",
+    "Native artifact signing/attestation",
+    "Optional Conjur workload-secret activation"
   ],
-  "historical_security_audit": "No dependencies or scanner image changed; retained findings are documented in alpha4-validation.json, not represented as a fresh audit",
-  "owner_review": "pending revalidation; full team MVP is not claimed complete",
-  "owned_ci": {
-    "workflow": "airs-terminal-release-check.yml",
-    "scope": "published archive verification and scanner checks, not a native build",
-    "final_result": "See RELEASE-VERIFICATION.json release asset"
-  },
-  "publication_verification": "Recorded after publication in RELEASE-VERIFICATION.json release asset",
-  "upgrade_installation": {
-    "owner_files_preserved": 10,
-    "existing_processes_stopped": false,
-    "rollback_version": "0.1.0-alpha.4",
-    "receipt": "validation/2026-09-07/alpha5/installation.json"
-  }
+  "owner_review": "Pending; authentication release is not declared complete"
 }

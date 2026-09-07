@@ -1,4 +1,4 @@
-name: AIRS Terminal deployment connectivity
+name: AIRS Terminal management connectivity
 on:
   workflow_dispatch:
 permissions:
@@ -7,15 +7,15 @@ concurrency:
   group: airs-terminal-deployment-check
   cancel-in-progress: false
 jobs:
-  public-endpoints:
+  management-endpoint:
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-      - name: Check TLS connectivity and anonymous rejection without credentials
-        run: python3 scripts/check_airs_endpoints.py --output "$RUNNER_TEMP/airs-endpoints.json"
+      - name: Check management TLS from outside the private cluster
+        run: python3 scripts/check_airs_endpoints.py --scope management --output "$RUNNER_TEMP/airs-endpoints.json"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:

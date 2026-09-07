@@ -44,10 +44,18 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--scope", choices=["all", "stack", "management"], default="all"
+    )
     args = parser.parse_args()
     rows = []
     opener = urllib.request.build_opener(NoRedirect)
     for name, url, method, expected in ENDPOINTS:
+        management = name == "management-oauth-reachable"
+        if (args.scope == "management" and not management) or (
+            args.scope == "stack" and management
+        ):
+            continue
         request = urllib.request.Request(
             url, method=method, data=b"" if method == "POST" else None
         )
@@ -67,18 +75,23 @@ def main():
                 "passed": status in expected,
             }
         )
-    receipt = {
-        "checked_at": datetime.now(timezone.utc).isoformat(),
-        "passed": all(r["passed"] for r in rows),
-        "checks": rows,
-        "management_addresses": sorted(
+    try:
+        addresses = sorted(
             {
                 row[4][0]
                 for row in socket.getaddrinfo(
                     "auth.apps.paloaltonetworks.com", 443, type=socket.SOCK_STREAM
                 )
             }
-        ),
+        )
+    except OSError:
+        addresses = []
+    receipt = {
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+        "scope": args.scope,
+        "passed": all(r["passed"] for r in rows),
+        "checks": rows,
+        "management_addresses": addresses,
     }
     args.output.write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt))

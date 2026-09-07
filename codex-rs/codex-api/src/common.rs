@@ -46,7 +46,8 @@ impl From<CyberAccessProgram> for AccessPrograms {
 /// Canonical input payload for the compaction endpoint.
 #[derive(Debug, Clone, Serialize)]
 pub struct CompactionInput<'a> {
-    pub model: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<&'a str>,
     pub input: &'a [ResponseItem],
     #[serde(skip_serializing_if = "str::is_empty")]
     pub instructions: &'a str,
@@ -68,7 +69,8 @@ pub struct CompactionInput<'a> {
 /// Canonical input payload for the memory summarize endpoint.
 #[derive(Debug, Clone, Serialize)]
 pub struct MemorySummarizeInput {
-    pub model: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
     #[serde(rename = "traces")]
     pub raw_memories: Vec<RawMemory>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -273,7 +275,8 @@ impl Serialize for ResponsesApiTools {
 
 #[derive(Debug, Serialize, Clone, PartialEq)]
 pub struct ResponsesApiRequest {
-    pub model: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub instructions: String,
     pub input: Vec<ResponseItem>,
@@ -302,7 +305,7 @@ pub struct ResponsesApiRequest {
 impl<'a> From<&'a ResponsesApiRequest> for ResponseCreateWsRequest<'a> {
     fn from(request: &'a ResponsesApiRequest) -> Self {
         Self {
-            model: &request.model,
+            model: request.model.as_deref(),
             instructions: &request.instructions,
             previous_response_id: None,
             input: &request.input,
@@ -326,7 +329,8 @@ impl<'a> From<&'a ResponsesApiRequest> for ResponseCreateWsRequest<'a> {
 
 #[derive(Debug, Serialize)]
 pub struct ResponseCreateWsRequest<'a> {
-    pub model: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<&'a str>,
     #[serde(skip_serializing_if = "str::is_empty")]
     pub instructions: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]

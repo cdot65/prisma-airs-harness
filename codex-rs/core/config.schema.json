@@ -1429,6 +1429,19 @@
       ],
       "type": "string"
     },
+    "GatewayRouting": {
+      "additionalProperties": false,
+      "description": "Separates a gateway's default route from the local model capability catalog.\n\n`default_route` identifies a local capability descriptor, not a provider model. Selecting it omits the inference model field. Other selections must name an explicit gateway integration and model; authorization remains server-side.",
+      "properties": {
+        "default_route": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "default_route"
+      ],
+      "type": "object"
+    },
     "GhostSnapshotToml": {
       "additionalProperties": false,
       "properties": {
@@ -2233,6 +2246,14 @@
         "experimental_bearer_token": {
           "description": "Value to use with `Authorization: Bearer <token>` header. Use of this config is discouraged in favor of `env_key` for security reasons, but this may be necessary when using this programmatically.",
           "type": "string"
+        },
+        "gateway": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/GatewayRouting"
+            }
+          ],
+          "description": "Optional gateway routing contract, independent of local capabilities."
         },
         "http_headers": {
           "additionalProperties": {

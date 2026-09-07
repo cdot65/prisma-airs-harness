@@ -662,7 +662,7 @@ impl ModelClient {
         } = request;
         self.prepare_response_items_for_request(&mut input);
         let payload = ApiCompactionInput {
-            model: &model,
+            model: model.as_deref(),
             input: &input,
             instructions: &instructions,
             tools,
@@ -696,7 +696,7 @@ impl ModelClient {
         }
         if let Some(header_value) = self.build_routing_hint_header(
             client_setup.auth.as_ref(),
-            &model,
+            model.as_deref(),
             service_tier.as_deref(),
         ) {
             extra_headers.insert(X_CODEX_ROUTING_HINT_HEADER, header_value);
@@ -803,7 +803,7 @@ impl ModelClient {
                 .with_telemetry(Some(request_telemetry));
 
         let payload = ApiMemorySummarizeInput {
-            model: model_info.slug.clone(),
+            model: self.state.provider.info().request_model(&model_info.slug)?,
             raw_memories,
             reasoning: effort
                 .map(|effort| reasoning_effort_for_request(model_info, effort))
@@ -1012,7 +1012,7 @@ impl ModelClient {
         let prompt_cache_key = Some(self.prompt_cache_key(responses_metadata));
         let service_tier = model_info.service_tier_for_request(service_tier);
         let request = ResponsesApiRequest {
-            model: model_info.slug.clone(),
+            model: self.state.provider.info().request_model(&model_info.slug)?,
             instructions,
             input,
             tools,
@@ -1107,9 +1107,10 @@ impl ModelClient {
     fn build_routing_hint_header(
         &self,
         auth: Option<&CodexAuth>,
-        model: &str,
+        model: Option<&str>,
         service_tier: Option<&str>,
     ) -> Option<HeaderValue> {
+        let model = model?;
         if !self.uses_codex_backend(auth) {
             return None;
         }
@@ -1127,11 +1128,23 @@ impl ModelClient {
         endpoint: &str,
     ) -> Result<ReqwestTransport> {
         let request_url = api_provider.url_for_path(endpoint);
-        let client = create_client_for_route(
-            &self.http_client_factory,
-            &request_url,
-            ClientRouteClass::Api,
-        )
+        // Custom gateway credentials must never follow an inference redirect,
+        // even when carried in a nonstandard header such as x-portkey-api-key.
+        let client = if self.state.provider.info().gateway.is_some() {
+            codex_http_client::HttpClientBuilder::new()
+                .without_redirects()
+                .build_respecting_outbound_proxy_policy(
+                    &self.http_client_factory,
+                    &request_url,
+                    ClientRouteClass::Api,
+                )
+        } else {
+            create_client_for_route(
+                &self.http_client_factory,
+                &request_url,
+                ClientRouteClass::Api,
+            )
+        }
         .map_err(std::io::Error::from)?;
         Ok(ReqwestTransport::from_http_client(client))
     }
@@ -1621,7 +1634,7 @@ impl ModelClientSession {
             if endpoint == ResponsesEndpoint::Responses
                 && let Some(header_value) = self.client.build_routing_hint_header(
                     client_setup.auth.as_ref(),
-                    &request.model,
+                    request.model.as_deref(),
                     request.service_tier.as_deref(),
                 )
             {
@@ -1769,7 +1782,7 @@ impl ModelClientSession {
             websocket_metadata.routing_hint = if endpoint == ResponsesEndpoint::Responses {
                 self.client.build_routing_hint_header(
                     client_setup.auth.as_ref(),
-                    &request.model,
+                    request.model.as_deref(),
                     request.service_tier.as_deref(),
                 )
             } else {

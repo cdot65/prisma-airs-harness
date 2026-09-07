@@ -180,7 +180,7 @@ mod tests {
         );
 
         let input = MemorySummarizeInput {
-            model: "gpt-test".to_string(),
+            model: Some("gpt-test".to_string()),
             raw_memories: vec![RawMemory {
                 id: "trace-1".to_string(),
                 metadata: RawMemoryMetadata {

@@ -12,6 +12,7 @@ name = "Ollama"
 base_url = "http://localhost:11434/v1"
         "#;
     let expected_provider = ModelProviderInfo {
+        gateway: None,
         name: "Ollama".into(),
         base_url: Some("http://localhost:11434/v1".into()),
         env_key: None,
@@ -45,6 +46,7 @@ env_key = "AZURE_OPENAI_API_KEY"
 query_params = { api-version = "2025-04-01-preview" }
         "#;
     let expected_provider = ModelProviderInfo {
+        gateway: None,
         name: "Azure".into(),
         base_url: Some("https://xxxxx.openai.azure.com/openai".into()),
         env_key: Some("AZURE_OPENAI_API_KEY".into()),
@@ -82,6 +84,7 @@ env_http_headers = { "X-Example-Env-Header" = "EXAMPLE_ENV_VAR" }
 supports_standalone_web_search = true
         "#;
     let expected_provider = ModelProviderInfo {
+        gateway: None,
         name: "Example".into(),
         base_url: Some("https://example.com".into()),
         env_key: Some("API_KEY".into()),
@@ -256,6 +259,7 @@ fn test_create_amazon_bedrock_provider() {
     assert_eq!(
         ModelProviderInfo::create_amazon_bedrock_provider(/*aws*/ None),
         ModelProviderInfo {
+            gateway: None,
             name: "Amazon Bedrock".to_string(),
             base_url: None,
             env_key: None,

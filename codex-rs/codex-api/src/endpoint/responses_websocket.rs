@@ -248,7 +248,7 @@ impl ResponsesWebsocketConnection {
         let ResponsesWsRequest::ResponseCreate(ws_request) = &request;
         let client_metadata = ws_request.client_metadata.as_ref();
         let timing_log_context = ResponsesWebsocketTimingLogContext {
-            model: ws_request.model.to_string(),
+            model: ws_request.model.unwrap_or("gateway-default").to_string(),
             session_id: client_metadata
                 .and_then(|metadata| metadata.get(SESSION_ID_CLIENT_METADATA_KEY))
                 .cloned(),
@@ -940,7 +940,7 @@ mod tests {
     #[test]
     fn direct_serialization_preserves_websocket_request_payload() {
         let api_request = ResponsesApiRequest {
-            model: "gpt-test".to_string(),
+            model: Some("gpt-test".to_string()),
             instructions: "Use the available tools.".to_string(),
             input: vec![ResponseItem::Message {
                 id: Some(ResponseItemId::with_suffix("msg", "1")),

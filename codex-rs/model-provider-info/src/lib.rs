@@ -24,6 +24,9 @@ use std::fmt;
 use std::num::NonZeroU64;
 use std::time::Duration;
 
+mod gateway;
+pub use gateway::GatewayRouting;
+
 const DEFAULT_STREAM_IDLE_TIMEOUT_MS: u64 = 300_000;
 const DEFAULT_STREAM_MAX_RETRIES: u64 = 5;
 const DEFAULT_REQUEST_MAX_RETRIES: u64 = 4;
@@ -95,6 +98,9 @@ impl<'de> Deserialize<'de> for WireApi {
 #[derive(Debug, Clone, Default, Deserialize, Serialize, PartialEq, JsonSchema)]
 #[schemars(deny_unknown_fields)]
 pub struct ModelProviderInfo {
+    /// Optional gateway routing contract, independent of local capabilities.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub gateway: Option<GatewayRouting>,
     /// Friendly display name.
     #[serde(default)]
     pub name: String,
@@ -191,7 +197,27 @@ fn default_aws_auth_refresh_timeout_ms() -> NonZeroU64 {
 }
 
 impl ModelProviderInfo {
+    /// Resolve the outbound model field without changing local model metadata.
+    pub fn request_model(&self, selection: &str) -> CodexResult<Option<String>> {
+        match &self.gateway {
+            Some(gateway) => gateway.request_model(selection).map_err(CodexErr::Fatal),
+            None => Ok(Some(selection.to_string())),
+        }
+    }
+
     pub fn validate(&self) -> std::result::Result<(), String> {
+        if let Some(gateway) = &self.gateway {
+            gateway.validate()?;
+            if self.base_url.as_deref().is_none_or(str::is_empty) {
+                return Err("gateway routing requires an explicit base_url".to_string());
+            }
+            if self.aws.is_some() || self.requires_openai_auth || self.supports_websockets {
+                return Err(
+                    "gateway routing requires HTTP Responses and independent gateway authentication"
+                        .to_string(),
+                );
+            }
+        }
         if self.aws.is_some() {
             if self.supports_websockets {
                 // TODO(celia-oai): Support AWS SigV4 signing for WebSocket
@@ -277,8 +303,16 @@ impl ModelProviderInfo {
 
         if let Some(env_headers) = &self.env_http_headers {
             for (header, env_var) in env_headers {
-                if let Ok(val) = std::env::var(env_var)
-                    && !val.trim().is_empty()
+                let value = std::env::var(env_var).ok().filter(|v| !v.trim().is_empty());
+                if value.is_none() && self.gateway.is_some() {
+                    return Err(CodexErr::EnvVar(EnvVarError {
+                        var: env_var.clone(),
+                        instructions: Some(
+                            "Supply the configured gateway credential before starting.".to_string(),
+                        ),
+                    }));
+                }
+                if let Some(val) = value
                     && let (Ok(name), Ok(value)) =
                         (HeaderName::try_from(header), HeaderValue::try_from(val))
                 {
@@ -287,6 +321,11 @@ impl ModelProviderInfo {
             }
         }
 
+        if self.gateway.is_some() {
+            for value in headers.values_mut() {
+                value.set_sensitive(true);
+            }
+        }
         Ok(headers)
     }
 
@@ -385,6 +424,7 @@ impl ModelProviderInfo {
 
     pub fn create_openai_provider(base_url: Option<String>) -> ModelProviderInfo {
         ModelProviderInfo {
+            gateway: None,
             name: OPENAI_PROVIDER_NAME.into(),
             base_url,
             env_key: None,
@@ -425,6 +465,7 @@ impl ModelProviderInfo {
         aws: Option<ModelProviderAwsAuthInfo>,
     ) -> ModelProviderInfo {
         ModelProviderInfo {
+            gateway: None,
             name: AMAZON_BEDROCK_PROVIDER_NAME.into(),
             // The runtime provider derives the regional Mantle endpoint when
             // this is unset. A configured value is therefore unambiguously an
@@ -611,6 +652,7 @@ pub fn create_oss_provider(default_provider_port: u16, wire_api: WireApi) -> Mod
 
 pub fn create_oss_provider_with_base_url(base_url: &str, wire_api: WireApi) -> ModelProviderInfo {
     ModelProviderInfo {
+        gateway: None,
         name: "gpt-oss".into(),
         base_url: Some(base_url.into()),
         env_key: None,

@@ -59,6 +59,7 @@ mod tests {
     #[test]
     fn collect_auth_env_telemetry_buckets_provider_env_key_name() {
         let provider = ModelProviderInfo {
+            gateway: None,
             name: "Custom".to_string(),
             base_url: None,
             env_key: Some("sk-should-not-leak".to_string()),

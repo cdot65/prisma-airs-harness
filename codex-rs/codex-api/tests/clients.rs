@@ -329,52 +329,58 @@ async fn responses_client_uses_guardian_path() -> Result<()> {
 
 #[tokio::test]
 async fn responses_client_stream_request_preserves_item_ids() -> Result<()> {
-    let state = RecordingState::default();
-    let transport = RecordingTransport::new(state.clone());
-    let client = ResponsesClient::new(transport, provider("openai"), Arc::new(NoAuth));
-    let request = ResponsesApiRequest {
-        model: "gpt-test".into(),
-        instructions: "Say hi".into(),
-        input: vec![ResponseItem::Message {
-            id: Some(ResponseItemId::with_suffix("msg", "1")),
-            role: "user".into(),
-            content: vec![ContentItem::InputText { text: "hi".into() }],
-            phase: None,
-            internal_chat_message_metadata_passthrough: None,
-        }],
-        tools: Some(empty_tools().into()),
-        tool_choice: "auto".into(),
-        parallel_tool_calls: false,
-        reasoning: None,
-        store: false,
-        stream: true,
-        stream_options: None,
-        include: Vec::new(),
-        service_tier: None,
-        prompt_cache_key: None,
-        text: None,
-        client_metadata: None,
-        access_programs: None,
-    };
-    let expected = serde_json::to_value(&request)?;
+    for model in [None, Some("@gateway/provider-model".to_string())] {
+        let state = RecordingState::default();
+        let transport = RecordingTransport::new(state.clone());
+        let client = ResponsesClient::new(transport, provider("openai"), Arc::new(NoAuth));
+        let request = ResponsesApiRequest {
+            model: model.clone(),
+            instructions: "Say hi".into(),
+            input: vec![ResponseItem::Message {
+                id: Some(ResponseItemId::with_suffix("msg", "1")),
+                role: "user".into(),
+                content: vec![ContentItem::InputText { text: "hi".into() }],
+                phase: None,
+                internal_chat_message_metadata_passthrough: None,
+            }],
+            tools: Some(empty_tools().into()),
+            tool_choice: "auto".into(),
+            parallel_tool_calls: false,
+            reasoning: None,
+            store: false,
+            stream: true,
+            stream_options: None,
+            include: Vec::new(),
+            service_tier: None,
+            prompt_cache_key: None,
+            text: None,
+            client_metadata: None,
+            access_programs: None,
+        };
+        let expected = serde_json::to_value(&request)?;
 
-    let _stream = client
-        .stream_request(request, ResponsesOptions::default())
-        .await?;
+        let _stream = client
+            .stream_request(request, ResponsesOptions::default())
+            .await?;
 
-    let requests = state.take_stream_requests();
-    assert_eq!(requests.len(), 1);
-    let prepared = requests[0]
-        .prepare_body_for_send()
-        .expect("body should prepare");
-    let body: serde_json::Value =
-        serde_json::from_slice(prepared.body.as_deref().expect("body should be JSON"))?;
-    assert_eq!(body, expected);
-    assert_eq!(body["input"][0]["id"], "msg_1");
-    assert_eq!(
-        prepared.headers.get(http::header::CONTENT_TYPE),
-        Some(&HeaderValue::from_static("application/json"))
-    );
+        let requests = state.take_stream_requests();
+        assert_eq!(requests.len(), 1);
+        let prepared = requests[0]
+            .prepare_body_for_send()
+            .expect("body should prepare");
+        let body: serde_json::Value =
+            serde_json::from_slice(prepared.body.as_deref().expect("body should be JSON"))?;
+        assert_eq!(body, expected);
+        match model {
+            None => assert!(!body.as_object().unwrap().contains_key("model")),
+            Some(value) => assert_eq!(body["model"], value),
+        }
+        assert_eq!(body["input"][0]["id"], "msg_1");
+        assert_eq!(
+            prepared.headers.get(http::header::CONTENT_TYPE),
+            Some(&HeaderValue::from_static("application/json"))
+        );
+    }
     Ok(())
 }
 
@@ -427,7 +433,7 @@ async fn streaming_client_retries_on_transport_error() -> Result<()> {
     provider.retry.max_attempts = 2;
 
     let request = ResponsesApiRequest {
-        model: "gpt-test".into(),
+        model: Some("gpt-test".into()),
         instructions: "Say hi".into(),
         input: Vec::new(),
         tools: Some(empty_tools().into()),
@@ -542,7 +548,7 @@ async fn azure_store_sends_ids_and_headers() -> Result<()> {
     let client = ResponsesClient::new(transport, provider("azure"), Arc::new(NoAuth));
 
     let request = ResponsesApiRequest {
-        model: "gpt-test".into(),
+        model: Some("gpt-test".into()),
         instructions: "Say hi".into(),
         input: vec![ResponseItem::Message {
             id: Some(ResponseItemId::with_suffix("msg", "1")),

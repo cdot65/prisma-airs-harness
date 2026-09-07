@@ -520,7 +520,7 @@ impl LunaSampler {
             }
         }
         let mut request = ResponsesApiRequest {
-            model: MODEL.to_owned(),
+            model: Some(MODEL.to_owned()),
             instructions: String::new(),
             input,
             tools: None,

@@ -7,6 +7,7 @@ certify authentication, authorization or model/tool execution.
 
 import argparse
 import json
+import socket
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -57,7 +58,7 @@ def main():
         except urllib.error.HTTPError as exc:
             status = exc.code
         except (urllib.error.URLError, TimeoutError) as exc:
-            error = type(exc).__name__
+            error = str(getattr(exc, "reason", exc))[:200]
         rows.append(
             {
                 "test": name,
@@ -70,6 +71,14 @@ def main():
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "passed": all(r["passed"] for r in rows),
         "checks": rows,
+        "management_addresses": sorted(
+            {
+                row[4][0]
+                for row in socket.getaddrinfo(
+                    "auth.apps.paloaltonetworks.com", 443, type=socket.SOCK_STREAM
+                )
+            }
+        ),
     }
     args.output.write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt))

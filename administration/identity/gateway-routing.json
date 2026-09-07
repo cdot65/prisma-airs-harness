@@ -1,0 +1,62 @@
+{
+  "retry": {
+    "attempts": 0
+  },
+  "strategy": {
+    "mode": "conditional",
+    "conditions": [
+      {
+        "query": {
+          "params.model": {
+            "$eq": "gpt-4.1"
+          }
+        },
+        "then": "explicit-gpt-4-1"
+      },
+      {
+        "query": {
+          "$or": [
+            {
+              "params.model": {
+                "$eq": null
+              }
+            },
+            {
+              "params.model": {
+                "$eq": ""
+              }
+            },
+            {
+              "params.model": {
+                "$regex": "^(?!undefined$).+"
+              }
+            }
+          ]
+        },
+        "then": "explicit"
+      }
+    ],
+    "default": "gateway-default"
+  },
+  "targets": [
+    {
+      "provider": "@openai-terminal-auth",
+      "name": "gateway-default",
+      "override_params": {
+        "model": "gpt-4.1"
+      },
+      "drop_params": [
+        "reasoning"
+      ]
+    },
+    {
+      "name": "explicit-gpt-4-1",
+      "passthrough": true
+    },
+    {
+      "name": "explicit",
+      "passthrough": true
+    }
+  ],
+  "request_timeout": 120000
+}

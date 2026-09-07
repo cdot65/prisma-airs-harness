@@ -1,5 +1,11 @@
 # Keycloak rollout gate
 
+Update: the isolated [Keycloak identity foundation](identity/README.md) now proves
+mandatory workspace JWT/scanner policies and public-client role enforcement.
+The original shared-workspace failures below remain historical evidence. Strict
+routing binding and refresh-token replay protection still block teammate rollout.
+
+
 Live tests on September 7 found **three failed gateway authorization gates**.
 Do not distribute a terminal public-client login against this configuration yet.
 Workspace-key mode remains the supported pilot path. These findings concern

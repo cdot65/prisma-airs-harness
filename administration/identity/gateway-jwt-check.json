@@ -1,0 +1,66 @@
+{
+  "headerKey": "x-portkey-api-key",
+  "jwksUri": "https://auth.dev.cdot.io/realms/truffles/protocol/openid-connect/certs",
+  "algorithms": [
+    "RS256"
+  ],
+  "maxTokenAge": "5m",
+  "requiredClaims": [
+    "iss",
+    "aud",
+    "azp",
+    "sub",
+    "exp",
+    "iat",
+    "portkey_oid",
+    "portkey_workspace",
+    "scope",
+    "airs_roles",
+    "defaults"
+  ],
+  "claimValues": {
+    "iss": {
+      "values": [
+        "https://auth.dev.cdot.io/realms/truffles"
+      ],
+      "matchType": "exact"
+    },
+    "aud": {
+      "values": [
+        "airs-terminal-inference"
+      ],
+      "matchType": "exact"
+    },
+    "azp": {
+      "values": [
+        "airs-terminal-pilot"
+      ],
+      "matchType": "exact"
+    },
+    "portkey_oid": {
+      "values": [
+        "80f1e8db-1efe-49a7-a45b-b45cade4d861"
+      ],
+      "matchType": "exact"
+    },
+    "portkey_workspace": {
+      "values": [
+        "ws-prisma-ff3d74"
+      ],
+      "matchType": "exact"
+    },
+    "scope": {
+      "values": [
+        "^portkey\\.completions\\.write$"
+      ],
+      "matchType": "regex"
+    },
+    "airs_roles": {
+      "values": [
+        "^terminal-user$"
+      ],
+      "matchType": "regex"
+    }
+  },
+  "failOnError": true
+}

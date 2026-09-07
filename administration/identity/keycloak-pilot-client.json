@@ -1,0 +1,113 @@
+{
+  "clientId": "airs-terminal-pilot",
+  "name": "Prisma AIRS Terminal identity pilot",
+  "description": "Public native client. No default users or grants. Not approved for teammate rollout.",
+  "enabled": false,
+  "protocol": "openid-connect",
+  "publicClient": true,
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": false,
+  "serviceAccountsEnabled": false,
+  "fullScopeAllowed": false,
+  "redirectUris": [
+    "http://127.0.0.1/callback"
+  ],
+  "webOrigins": [],
+  "defaultClientScopes": [
+    "portkey.completions.write",
+    "portkey.logs.write"
+  ],
+  "optionalClientScopes": [],
+  "attributes": {
+    "pkce.code.challenge.method": "S256",
+    "oauth2.device.authorization.grant.enabled": "true",
+    "access.token.lifespan": "120",
+    "client.session.idle.timeout": "900",
+    "client.session.max.lifespan": "3600",
+    "use.refresh.tokens": "true",
+    "client.offline.session.idle.timeout": "0"
+  },
+  "protocolMappers": [
+    {
+      "name": "portkey_oid",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-hardcoded-claim-mapper",
+      "consentRequired": false,
+      "config": {
+        "claim.name": "portkey_oid",
+        "claim.value": "80f1e8db-1efe-49a7-a45b-b45cade4d861",
+        "jsonType.label": "String",
+        "access.token.claim": "true",
+        "id.token.claim": "false",
+        "userinfo.token.claim": "false"
+      }
+    },
+    {
+      "name": "portkey_workspace",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-hardcoded-claim-mapper",
+      "consentRequired": false,
+      "config": {
+        "claim.name": "portkey_workspace",
+        "claim.value": "ws-prisma-ff3d74",
+        "jsonType.label": "String",
+        "access.token.claim": "true",
+        "id.token.claim": "false",
+        "userinfo.token.claim": "false"
+      }
+    },
+    {
+      "name": "aud",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-hardcoded-claim-mapper",
+      "consentRequired": false,
+      "config": {
+        "claim.name": "aud",
+        "claim.value": "airs-terminal-inference",
+        "jsonType.label": "String",
+        "access.token.claim": "true",
+        "id.token.claim": "false",
+        "userinfo.token.claim": "false"
+      }
+    },
+    {
+      "name": "defaults",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-hardcoded-claim-mapper",
+      "consentRequired": false,
+      "config": {
+        "claim.name": "defaults",
+        "claim.value": "{\"config_id\":\"774fed74-6cc0-419d-8f71-54442f748e88\",\"config_slug\":\"pc-termin-943065\",\"allow_config_override\":false}",
+        "jsonType.label": "JSON",
+        "access.token.claim": "true",
+        "id.token.claim": "false",
+        "userinfo.token.claim": "false"
+      }
+    },
+    {
+      "name": "terminal-role-grants",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usermodel-client-role-mapper",
+      "consentRequired": false,
+      "config": {
+        "usermodel.clientRoleMapping.clientId": "airs-terminal-pilot",
+        "claim.name": "airs_roles",
+        "jsonType.label": "String",
+        "multivalued": "true",
+        "access.token.claim": "true",
+        "id.token.claim": "false",
+        "userinfo.token.claim": "false"
+      }
+    },
+    {
+      "name": "subject",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-sub-mapper",
+      "config": {
+        "access.token.claim": "true",
+        "introspection.token.claim": "true"
+      }
+    }
+  ]
+}

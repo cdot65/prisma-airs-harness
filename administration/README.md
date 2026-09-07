@@ -1,5 +1,9 @@
 # Linux pilot administration
 
+Keycloak work now has a separate [identity foundation](identity/README.md) and
+[boundary proposal](identity/boundary-proposal.md). The installed workspace-key
+pilot below remains the supported path while identity release gates are open.
+
 The local terminal has no management-plane SDK or PAH runtime dependency. These
 records describe the owner's September 7 pilot; they are not an automatic
 migration. Provision equivalent resources in another workspace, then validate both

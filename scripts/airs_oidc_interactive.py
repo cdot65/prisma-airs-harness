@@ -56,8 +56,15 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
                 os.write(terminal.master, b"\r")
                 terminal.wait_for(b"permissions:")
             time.sleep(0.35)
-            for label in ["before token expiry", "after token expiry"]:
+            for label in [
+                "before token expiry",
+                "explicit route",
+                "after token expiry",
+            ]:
+                if label == "explicit route":
+                    terminal.choose_model("down", "@openai-terminal-auth/gpt-4.1")
                 if label.startswith("after"):
+                    terminal.choose_model("up", "airs-gateway-default")
                     terminal.wait_until(lambda: time.time() >= expiry + 5, timeout=150)
                 before_turn, before_scan = len(completed()), len(scans())
                 terminal.send_line(
@@ -77,6 +84,12 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
                 "passed": True,
                 "same_terminal_process": True,
                 "continued_after_initial_token_expiry": True,
+                "model_switch_passed": True,
+                "model_sequence": [
+                    "gateway default",
+                    "@openai-terminal-auth/gpt-4.1",
+                    "gateway default",
+                ],
                 "turns": observed,
             }
         finally:

@@ -341,7 +341,15 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             setup_extra = ["--allow-http-loopback"]
         check(
             "setup",
-            run("setup", "--gateway-url", gateway, *setup_extra).returncode == 0,
+            run(
+                "setup",
+                "--gateway-url",
+                gateway,
+                "--model",
+                "@openai-terminal-auth/gpt-4.1",
+                *setup_extra,
+            ).returncode
+            == 0,
         )
         login = [
             "login",
@@ -520,6 +528,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                 interactive["passed"],
                 evidence=interactive,
             )
+            check("interactive-oidc-model-switch", interactive["model_switch_passed"])
         # Real expiration interval: validate persisted rotation across two helper processes.
         while time.time() < claims["exp"] - 25:
             time.sleep(min(2, claims["exp"] - 25 - time.time()))
@@ -583,7 +592,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             json.dumps(
                 {
                     "passed": completed
-                    and len(rows) == (21 if args.credentials_only else 26)
+                    and len(rows) == (21 if args.credentials_only else 27)
                     and all(r["passed"] for r in rows),
                     "scope": "credential-lifecycle-and-inference"
                     if args.credentials_only

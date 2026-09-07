@@ -70,7 +70,8 @@ Terminal role grant. The deployment endpoints are not publicly reachable from
 an unrelated GitHub runner:
 
 ```sh
-airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1
+airs-terminal setup --environment work-sso --gateway-url https://airs.cdot.io/v1 \
+  --model '@openai-terminal-auth/gpt-4.1'
 airs-terminal login \
   --issuer-url https://auth.dev.cdot.io/realms/truffles \
   --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference
@@ -148,7 +149,8 @@ initial requests, tool continuations and local compaction requests. The gateway
 chooses its default route. `-m '@provider/model'` or `/model` selects a configured
 explicit entry and preserves that exact qualified route on the wire. The local
 catalog describes capabilities; authorization and policy enforcement belong to
-the gateway.
+the gateway. Gateway requests select one tool call at a time because the
+resolved model's parallel-call capability is not known to the local catalog.
 
 Setup does not overwrite an environment. Each environment has an independent
 UUID directory containing its configuration, model catalog, MCP state and history.
@@ -212,8 +214,9 @@ airs-terminal setup-mcp --name security \
 airs-terminal mcp list
 ```
 
-Inference credential helpers use `Authorization: Bearer …`. The AIRS MCP helper
-uses `x-portkey-api-key`; these are distinct bindings. MCP setup stores a private
+Workspace-key inference helpers use `Authorization: Bearer …`; OIDC inference
+and AIRS MCP helpers use the native `x-portkey-api-key` header. Inference and MCP
+are distinct credential bindings. MCP setup stores a private
 reference and supplies the header through the existing MCP helper mechanism.
 Changed destinations, changed keys and removed bindings fail closed. `/mcp` shows
 tool availability. `--tool` limits the local catalog; configure server-side

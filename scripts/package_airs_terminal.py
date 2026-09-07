@@ -84,6 +84,16 @@ def main():
             "VALIDATION.json",
         ]:
             shutil.copy2(repo / filename, root / filename)
+        (root / "scripts").mkdir()
+        for filename in [
+            "test_airs_terminal.py",
+            "test_airs_terminal_pty.py",
+            "validate_live_agent.py",
+            "validate_live_gateway.py",
+            "validate_mcp_sessions.py",
+            "verify_airs_release.py",
+        ]:
+            shutil.copy2(repo / "scripts" / filename, root / "scripts" / filename)
         rust_sysroot = Path(
             subprocess.check_output(
                 ["rustc", "--print", "sysroot"], cwd=repo / "codex-rs", text=True

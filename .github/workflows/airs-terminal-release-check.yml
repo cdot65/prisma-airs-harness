@@ -1,0 +1,83 @@
+name: AIRS Terminal release check
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Published AIRS Terminal release tag to verify
+        required: true
+        default: airs-terminal-v0.1.0-alpha.4
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: airs-terminal-release-check
+  cancel-in-progress: false
+jobs:
+  linux-artifact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Prepare isolated Linux runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y bubblewrap ripgrep
+          # Match the inherited Linux test prerequisites on this ephemeral runner.
+          sudo sysctl -w kernel.unprivileged_userns_clone=1
+          if sysctl kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          bwrap --ro-bind / / --dev /dev --proc /proc --unshare-user --unshare-pid true
+      - name: Download and verify release archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^airs-terminal-v[0-9]+\.[0-9]+\.[0-9]+(-[a-z0-9.]+)?$ ]]
+          gh release download "$RELEASE_TAG" --repo "$REPOSITORY" \
+            --pattern '*linux-x86_64-musl.tar.gz*' --dir "$RUNNER_TEMP/airs-release"
+          cd "$RUNNER_TEMP/airs-release"
+          sha256sum -c ./*.tar.gz.sha256
+          tar -xzf ./*.tar.gz
+          python3 "$GITHUB_WORKSPACE/scripts/verify_airs_release.py" \
+            --directory "$RUNNER_TEMP/airs-release" --receipt "$RUNNER_TEMP/airs-release-check.json"
+      - name: Exercise the packaged executable
+        shell: bash
+        run: |
+          set -euo pipefail
+          binary=$(find "$RUNNER_TEMP/airs-release" -type f -name airs-terminal)
+          test -n "$binary"
+          AIRS_TERMINAL_BIN="$binary" python3 -m unittest discover \
+            -s scripts -p 'test_airs_terminal*.py' -v 2>&1 | tee "$RUNNER_TEMP/airs-fixtures.log"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        if: always()
+        with:
+          name: airs-terminal-linux-release-verification
+          path: |
+            ${{ runner.temp }}/airs-release-check.json
+            ${{ runner.temp }}/airs-fixtures.log
+          retention-days: 30
+          if-no-files-found: warn
+  scanner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 22.23.2
+      - name: Test and audit scanner
+        working-directory: mcp-scanner
+        run: |
+          npm ci --ignore-scripts
+          npm test
+          npm audit --omit=dev --registry=https://registry.npmjs.org

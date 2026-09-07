@@ -89,7 +89,10 @@ project-scoped pull-only robot. Scanner and management secrets are absent from
 terminal configuration and release artifacts.
 
 The private source repository is `https://github.com/cdot65/prisma-airs-terminal`.
-Inherited OpenAI Actions are disabled. The Linux binary is locally built with
+Inherited OpenAI Actions are disabled. The owned manual release-check workflow
+downloads the published archive, verifies checksums/provenance, runs executable
+fixtures on a fresh Ubuntu runner, and tests/audits the scanner. Its final run
+status is recorded separately from local build evidence. The Linux binary is locally built with
 pinned Rust 1.95.0 and locked dependencies; no signed CI attestation is claimed.
 The archive contains LICENSE/NOTICE, dependency and Rust runtime notices,
 BUILD-INFO.json, VALIDATION.json and SHA-256 checksums. Internal Codex crate names

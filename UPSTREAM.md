@@ -46,9 +46,10 @@ locked workspace dependencies; Bazel dependency metadata was refreshed without
 lockfile drift for those additions. No ConfigToml schema fields were added.
 
 The new GitHub repository is private. Inherited OpenAI Actions workflows remain
-reference source and repository Actions are disabled until an owned CI workflow
-is separately validated. The pilot artifact is a local optimized build with a
-pinned Rust toolchain, not a claim of signed CI provenance.
+reference source and are disabled. The owned manual `airs-terminal-release-check`
+workflow verifies a published archive on a fresh Ubuntu runner and tests/audits
+the scanner. It does not build or attest the binary. The pilot artifact is a local
+optimized build with a pinned Rust toolchain, not signed CI build provenance.
 
 Do not remove copyright or license attribution to achieve branding consistency.
 Do not add PAH libraries, RPC transports, services or proxies to this project.

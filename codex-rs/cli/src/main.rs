@@ -43,6 +43,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use supports_color::Stream;
 
+mod airs_terminal;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
 mod cloud_config;
@@ -102,14 +103,15 @@ use codex_terminal_detection::TerminalName;
 #[derive(Debug, Parser)]
 #[clap(
     author,
-    version,
+    name = airs_terminal::bin_name(),
+    version = airs_terminal::version(),
     // If a sub‑command is given, ignore requirements of the default args.
     subcommand_negates_reqs = true,
     // The executable is sometimes invoked via a platform‑specific name like
     // `codex-x86_64-unknown-linux-musl`, but the help output should always use
     // the generic `codex` command name that users run.
-    bin_name = "codex",
-    override_usage = "codex [OPTIONS] [PROMPT]\n       codex [OPTIONS] <COMMAND> [ARGS]"
+    bin_name = airs_terminal::bin_name(),
+    override_usage = airs_terminal::usage()
 )]
 struct MultitoolCli {
     #[clap(flatten)]
@@ -130,6 +132,9 @@ struct MultitoolCli {
 
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
+    /// Configure a direct AIRS gateway connection for this standalone terminal.
+    #[clap(hide = !airs_terminal::is_standalone())]
+    Setup(airs_terminal::SetupArgs),
     /// Browse all agent sessions on the shared local app-server daemon.
     Agents(AgentsCommand),
 
@@ -813,6 +818,10 @@ fn handle_app_exit(exit_info: AppExitInfo) -> anyhow::Result<()> {
 
 /// Run the update action and print the result.
 fn run_update_action(action: UpdateAction) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        !airs_terminal::is_standalone(),
+        "Prisma AIRS Terminal updates must use this project's release artifacts"
+    );
     println!();
     let cmd_str = action.command_str();
     println!("Updating Codex via `{cmd_str}`...");
@@ -1036,6 +1045,10 @@ fn stage_str(stage: Stage) -> &'static str {
 }
 
 fn main() -> anyhow::Result<()> {
+    if airs_terminal::is_standalone() {
+        codex_core::config::initialize_airs_terminal_home()?;
+        let _ = codex_login::default_client::set_default_originator("airs-terminal".to_string());
+    }
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
         cli_main(arg0_paths, remote_control_disabled).await?;
@@ -1054,6 +1067,32 @@ async fn cli_main(
         mut interactive,
         subcommand,
     } = MultitoolCli::parse();
+    if let Some(Subcommand::Setup(args)) = &subcommand {
+        return airs_terminal::setup(args);
+    }
+    if airs_terminal::is_standalone() {
+        anyhow::ensure!(
+            remote.remote.is_none(),
+            "remote agent hosting is not enabled in the AIRS protocol prototype"
+        );
+        match &subcommand {
+            Some(
+                Subcommand::Login(_)
+                | Subcommand::Logout(_)
+                | Subcommand::Cloud(_)
+                | Subcommand::RemoteControl(_)
+                | Subcommand::Update
+                | Subcommand::AppServer(_),
+            ) => {
+                anyhow::bail!(
+                    "this upstream service command is not enabled in the AIRS protocol prototype"
+                );
+            }
+            #[cfg(any(target_os = "macos", target_os = "windows"))]
+            Some(Subcommand::App(_)) => anyhow::bail!("use the local AIRS terminal executable"),
+            _ => {}
+        }
+    }
     // Fold --enable/--disable into config overrides so they flow to all subcommands.
     let toggle_overrides = feature_toggles.to_overrides()?;
     root_config_overrides.raw_overrides.extend(toggle_overrides);
@@ -1141,6 +1180,7 @@ async fn cli_main(
             .await?;
             handle_app_exit(exit_info)?;
         }
+        Some(Subcommand::Setup(_)) => unreachable!("setup is handled before runtime startup"),
         Some(Subcommand::Exec(mut exec_cli)) => {
             reject_remote_mode_for_subcommand(
                 root_remote.as_deref(),
@@ -2410,6 +2450,7 @@ fn unsupported_subcommand_name_for_strict_config(
     subcommand: &Option<Subcommand>,
 ) -> Option<&'static str> {
     match subcommand {
+        Some(Subcommand::Setup(_)) => Some("setup"),
         None
         | Some(Subcommand::Agents(_))
         | Some(Subcommand::Exec(_))
@@ -3485,7 +3526,10 @@ mod tests {
     fn plugin_marketplace_help_uses_plugin_namespace() {
         let help = help_from_args(&["codex", "plugin", "marketplace", "--help"]);
         assert!(
-            help.contains("Usage: codex plugin marketplace [OPTIONS] <COMMAND>"),
+            help.contains(&format!(
+                "Usage: {} plugin marketplace [OPTIONS] <COMMAND>",
+                airs_terminal::bin_name()
+            )),
             "{help}"
         );
 
@@ -3496,7 +3540,10 @@ mod tests {
             ("remove", "Usage: codex plugin marketplace remove"),
         ] {
             let help = help_from_args(&["codex", "plugin", "marketplace", subcommand, "--help"]);
-            assert!(help.contains(usage), "{help}");
+            assert!(
+                help.contains(&usage.replace("codex", airs_terminal::bin_name())),
+                "{help}"
+            );
         }
     }
 

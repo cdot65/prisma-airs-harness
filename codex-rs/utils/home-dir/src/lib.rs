@@ -1,6 +1,51 @@
 use codex_utils_absolute_path::AbsolutePathBuf;
 use dirs::home_dir;
 use std::path::PathBuf;
+use std::sync::OnceLock;
+
+static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
+
+/// Whether this process was initialized as the standalone AIRS terminal.
+pub fn is_airs_terminal() -> bool {
+    APPLICATION_HOME.get().is_some()
+}
+
+/// Bind this process to Prisma AIRS Terminal's independent application state.
+/// Call before creating the runtime or loading any configuration. Does not alter
+/// HOME or CODEX_HOME, including when spawning local tools.
+pub fn initialize_airs_terminal_home() -> std::io::Result<()> {
+    let configured = std::env::var_os("AIRS_TERMINAL_HOME");
+    let path = match configured {
+        Some(value) if !value.is_empty() => PathBuf::from(value),
+        Some(_) => {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "AIRS_TERMINAL_HOME must not be empty",
+            ));
+        }
+        None => home_dir()
+            .ok_or_else(|| std::io::Error::other("Could not find home directory"))?
+            .join(".airs-terminal"),
+    };
+    if !path.is_absolute() {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "AIRS_TERMINAL_HOME must be an absolute directory path",
+        ));
+    }
+    let mut builder = std::fs::DirBuilder::new();
+    builder.recursive(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::DirBuilderExt;
+        builder.mode(0o700);
+    }
+    builder.create(&path)?;
+    let home = AbsolutePathBuf::from_absolute_path(path.canonicalize()?)?;
+    APPLICATION_HOME
+        .set(home)
+        .map_err(|_| std::io::Error::other("application home was already initialized"))
+}
 
 /// Returns the path to the Codex configuration directory, which can be
 /// specified by the `CODEX_HOME` environment variable. If not set, defaults to
@@ -11,6 +56,9 @@ use std::path::PathBuf;
 /// - If `CODEX_HOME` is not set, this function does not verify that the
 ///   directory exists.
 pub fn find_codex_home() -> std::io::Result<AbsolutePathBuf> {
+    if let Some(home) = APPLICATION_HOME.get() {
+        return Ok(home.clone());
+    }
     let codex_home_env = std::env::var("CODEX_HOME")
         .ok()
         .filter(|val| !val.is_empty());

@@ -3735,6 +3735,14 @@ impl Config {
             .clone();
 
         let shell_environment_policy = cfg.shell_environment_policy.into();
+        if codex_utils_home_dir::is_airs_terminal()
+            && (model_provider.gateway.is_none() || cfg.model_catalog_json.is_none())
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "Prisma AIRS Terminal requires an explicit gateway provider and capability catalog; run airs-terminal setup",
+            ));
+        }
         let allow_login_shell = cfg.allow_login_shell.unwrap_or(true);
 
         let history = cfg.history.unwrap_or_default();
@@ -3855,6 +3863,14 @@ impl Config {
         let forced_login_method = cfg.forced_login_method;
 
         let model = model.or(cfg.model);
+        if codex_utils_home_dir::is_airs_terminal() {
+            let selection = model.as_deref().ok_or_else(|| {
+                std::io::Error::new(std::io::ErrorKind::InvalidInput, "select a configured AIRS route")
+            })?;
+            model_provider.request_model(selection).map_err(|error| {
+                std::io::Error::new(std::io::ErrorKind::InvalidInput, error.to_string())
+            })?;
+        }
         let notices = cfg.notice.unwrap_or_default();
         let service_tier = match service_tier_override {
             Some(Some(service_tier)) => Some(service_tier),
@@ -3944,13 +3960,27 @@ impl Config {
 
         let check_for_update_on_startup = cfg.check_for_update_on_startup.unwrap_or(true);
         let model_catalog = load_model_catalog(cfg.model_catalog_json.clone())?;
+        if codex_utils_home_dir::is_airs_terminal()
+            && model_catalog.as_ref().is_none_or(|catalog| {
+                !catalog.models.iter().any(|entry| Some(&entry.slug) == model.as_ref())
+            })
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "the selected AIRS route needs an entry in the local capability catalog",
+            ));
+        }
 
         let log_dir = cfg
             .log_dir
             .as_ref()
             .map(AbsolutePathBuf::to_path_buf)
             .unwrap_or_else(|| codex_home.join("log").to_path_buf());
-        let sqlite_home_env = resolve_sqlite_home_env(&resolved_cwd);
+        let sqlite_home_env = if codex_utils_home_dir::is_airs_terminal() {
+            None
+        } else {
+            resolve_sqlite_home_env(&resolved_cwd)
+        };
         requirements::push_sqlite_home_env_override_warning(
             configured_sqlite_home.as_ref(),
             sqlite_home_env.as_deref(),
@@ -4755,6 +4785,8 @@ fn normalize_guardian_policy_config(value: Option<&str>) -> Option<String> {
 pub fn find_codex_home() -> std::io::Result<AbsolutePathBuf> {
     codex_utils_home_dir::find_codex_home()
 }
+
+pub use codex_utils_home_dir::initialize_airs_terminal_home;
 
 /// Returns the path to the folder where Codex logs are stored. Does not verify
 /// that the directory exists.

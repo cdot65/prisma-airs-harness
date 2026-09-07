@@ -404,7 +404,10 @@ def codex_rust_crate(
             rustc_flags = rustc_flags_extra + binary_rustc_flags_extra.get(binary, []) + WINDOWS_RUSTC_LINK_FLAGS,
             # rules_rust substitutes workspace status values only for stamped
             # actions, so pass the existing key through to final binaries.
-            rustc_env = {"STABLE_GIT_COMMIT": "{STABLE_GIT_COMMIT}"},
+            rustc_env = {
+                "CARGO_BIN_NAME": binary,
+                "STABLE_GIT_COMMIT": "{STABLE_GIT_COMMIT}",
+            },
             srcs = native.glob(["src/**/*.rs"]),
             stamp = 1,
             visibility = ["//visibility:public"],

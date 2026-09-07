@@ -5,7 +5,7 @@ on:
       release_tag:
         description: Published AIRS Terminal release tag to verify
         required: true
-        default: airs-terminal-v0.1.0-alpha.4
+        default: airs-terminal-v0.1.0-alpha.5
         type: string
 permissions:
   contents: read

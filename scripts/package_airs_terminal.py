@@ -116,7 +116,9 @@ def main():
         for filename in [
             "test_airs_terminal.py",
             "test_airs_terminal_pty.py",
+            "airs_terminal_pty.py",
             "validate_live_agent.py",
+            "validate_live_model_switch.py",
             "validate_live_gateway.py",
             "validate_mcp_sessions.py",
             "verify_airs_release.py",

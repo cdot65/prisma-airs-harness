@@ -579,9 +579,13 @@ class TerminalIntegration(unittest.TestCase):
 
     def test_gateway_default_local_tool_and_continuation(self):
         self.assert_tool_loop(None)
+        for _, _, body in self.requests:
+            self.assertIs(body["parallel_tool_calls"], False)
 
     def test_explicit_route_local_tool_and_continuation(self):
         self.assert_tool_loop(EXPLICIT)
+        for _, _, body in self.requests:
+            self.assertIs(body["parallel_tool_calls"], False)
 
     def test_codex_project_config_does_not_override_airs_route(self):
         self.configure()

@@ -1031,7 +1031,12 @@ impl ModelClient {
             input,
             tools,
             tool_choice: "auto".to_string(),
-            parallel_tool_calls: prompt.parallel_tool_calls && !model_info.use_responses_lite,
+            // A gateway route can change its underlying model without changing the
+            // local catalog. Request one call at a time until parallel execution
+            // capabilities can be negotiated for the resolved route.
+            parallel_tool_calls: prompt.parallel_tool_calls
+                && !model_info.use_responses_lite
+                && self.state.provider.info().gateway.is_none(),
             reasoning: Some(reasoning),
             store: false,
             stream: true,

@@ -192,3 +192,5 @@ mod window_headers;
 mod windows_sandbox;
 mod workspace_roots;
 mod worktree_trust;
+
+mod gateway_tool_sequence;

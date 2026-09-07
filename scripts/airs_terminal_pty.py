@@ -64,7 +64,9 @@ class TerminalSession:
         self.wait_until(lambda: marker in self.transcript[offset:], timeout)
 
     def send_line(self, text):
-        os.write(self.master, text.encode())
+        # Mark synthetic input as paste so rapid key events cannot defer Enter
+        # into a newline while the terminal's paste-burst detector settles.
+        os.write(self.master, b"\x1b[200~" + text.encode() + b"\x1b[201~")
         time.sleep(0.25)
         os.write(self.master, b"\r")
 

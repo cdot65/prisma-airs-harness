@@ -1,0 +1,139 @@
+//! Bounded token bundles with an atomic OS-store manifest commit.
+//! Each hex chunk fits Windows' 2,560-byte UTF-16 credential limit.
+use codex_keyring_store::CredentialStoreError;
+use codex_keyring_store::KeyringStore;
+use serde::Deserialize;
+use serde::Serialize;
+use sha2::Digest;
+use sha2::Sha256;
+use uuid::Uuid;
+
+const CHUNK_BYTES: usize = 512;
+const MAX_BYTES: usize = 131_072;
+
+#[derive(Debug)]
+pub(super) struct ChunkedStore<S>(pub(super) S);
+
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct Manifest {
+    version: u32,
+    generation: Uuid,
+    chunks: usize,
+    sha256: String,
+}
+
+fn invalid() -> CredentialStoreError {
+    CredentialStoreError::new(keyring::Error::Invalid(
+        "identity bundle".into(),
+        "missing, corrupt or oversized record".into(),
+    ))
+}
+
+impl Manifest {
+    fn parse(raw: &str) -> Result<Self, CredentialStoreError> {
+        if raw.len() > 1024 {
+            return Err(invalid());
+        }
+        let value: Self = serde_json::from_str(raw).map_err(|_| invalid())?;
+        if value.version != 1
+            || !(1..=MAX_BYTES / CHUNK_BYTES).contains(&value.chunks)
+            || value.sha256.len() != 64
+        {
+            return Err(invalid());
+        }
+        Ok(value)
+    }
+
+    fn account(&self, root: &str, index: usize) -> String {
+        format!("{root}.{}.{}", self.generation, index)
+    }
+}
+
+impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
+    fn load(&self, service: &str, account: &str) -> Result<Option<String>, CredentialStoreError> {
+        let Some(raw) = self.0.load(service, account)? else {
+            return Ok(None);
+        };
+        let manifest = Manifest::parse(&raw)?;
+        let mut bytes = Vec::new();
+        for index in 0..manifest.chunks {
+            let hex = self
+                .0
+                .load(service, &manifest.account(account, index))?
+                .ok_or_else(invalid)?;
+            if hex.is_empty()
+                || hex.len() > CHUNK_BYTES * 2
+                || hex.len() % 2 != 0
+                || !hex.bytes().all(|b| b.is_ascii_hexdigit())
+            {
+                return Err(invalid());
+            }
+            for pair in hex.as_bytes().chunks_exact(2) {
+                let pair = std::str::from_utf8(pair).map_err(|_| invalid())?;
+                bytes.push(u8::from_str_radix(pair, 16).map_err(|_| invalid())?);
+            }
+        }
+        if format!("{:x}", Sha256::digest(&bytes)) != manifest.sha256 {
+            return Err(invalid());
+        }
+        String::from_utf8(bytes).map(Some).map_err(|_| invalid())
+    }
+
+    fn save(&self, service: &str, account: &str, value: &str) -> Result<(), CredentialStoreError> {
+        if value.is_empty() || value.len() > MAX_BYTES {
+            return Err(invalid());
+        }
+        let previous = self
+            .0
+            .load(service, account)?
+            .map(|raw| Manifest::parse(&raw))
+            .transpose()?;
+        let manifest = Manifest {
+            version: 1,
+            generation: Uuid::new_v4(),
+            chunks: value.len().div_ceil(CHUNK_BYTES),
+            sha256: format!("{:x}", Sha256::digest(value.as_bytes())),
+        };
+        for (index, chunk) in value.as_bytes().chunks(CHUNK_BYTES).enumerate() {
+            let hex: String = chunk.iter().map(|byte| format!("{byte:02x}")).collect();
+            if let Err(error) = self
+                .0
+                .save(service, &manifest.account(account, index), &hex)
+            {
+                // The old manifest is still authoritative. Remove only the new generation.
+                for written in 0..=index {
+                    let _ = self.0.delete(service, &manifest.account(account, written));
+                }
+                return Err(error);
+            }
+        }
+        let raw = serde_json::to_string(&manifest).map_err(|_| invalid())?;
+        // If this call has an ambiguous outcome, retain the new chunks: the
+        // manifest may have committed. Readers use exactly one complete generation.
+        self.0.save(service, account, &raw)?;
+        if let Some(previous) = previous {
+            for index in 0..previous.chunks {
+                let _ = self.0.delete(service, &previous.account(account, index));
+            }
+        }
+        Ok(())
+    }
+
+    fn delete(&self, service: &str, account: &str) -> Result<bool, CredentialStoreError> {
+        let Some(raw) = self.0.load(service, account)? else {
+            return Ok(false);
+        };
+        // Disable reads even if a corrupt manifest prevents chunk enumeration.
+        self.0.delete(service, account)?;
+        let manifest = Manifest::parse(&raw)?;
+        for index in 0..manifest.chunks {
+            self.0.delete(service, &manifest.account(account, index))?;
+        }
+        Ok(true)
+    }
+}
+
+#[cfg(test)]
+#[path = "chunks_tests.rs"]
+mod tests;

@@ -160,6 +160,7 @@ use codex_network_proxy::NetworkProxyConfig;
 use toml::Value as TomlValue;
 use toml_edit::DocumentMut;
 
+mod airs_boundary;
 mod auth_keyring;
 pub mod edit;
 mod managed_features;
@@ -3150,6 +3151,11 @@ impl Config {
     ) -> std::io::Result<Self> {
         // Keep the large config-construction future off small test thread stacks.
         Box::pin(async move {
+        let airs_user_config = if codex_utils_home_dir::is_airs_terminal() {
+            Some(airs_boundary::validate(codex_home.as_path(), &cfg)?)
+        } else {
+            None
+        };
         if cfg.experimental_thread_store_endpoint.is_some() {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
@@ -3735,6 +3741,9 @@ impl Config {
             .clone();
 
         let shell_environment_policy = cfg.shell_environment_policy.into();
+        if let Some(user) = &airs_user_config {
+            airs_boundary::validate_provider(user, &model_provider)?;
+        }
         if codex_utils_home_dir::is_airs_terminal()
             && (model_provider.gateway.is_none() || cfg.model_catalog_json.is_none())
         {

@@ -198,6 +198,11 @@ pub(crate) fn resolve_provider_auth(
     auth: Option<&CodexAuth>,
     provider: &ModelProviderInfo,
 ) -> codex_protocol::error::Result<SharedAuthProvider> {
+    if provider.gateway.is_some() && provider.auth.is_some() && auth.is_none() {
+        return Err(CodexErr::Fatal(
+            "AIRS credential helper could not supply the bound credential; run airs-terminal status, then login if needed".to_string(),
+        ));
+    }
     if let Some(auth) = bearer_auth_for_provider(provider)? {
         return Ok(Arc::new(auth));
     }
@@ -220,6 +225,10 @@ pub(crate) fn resolve_provider_auth(
         None => unauthenticated_auth_provider(),
     })
 }
+
+#[cfg(test)]
+#[path = "airs_auth_tests.rs"]
+mod airs_auth_tests;
 
 pub(crate) async fn resolve_provider_auth_for_scope(
     auth_manager: Option<Arc<AuthManager>>,

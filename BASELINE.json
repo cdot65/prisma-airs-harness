@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-07",
+  "baseline": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+  "target": "x86_64-unknown-linux-musl",
+  "rust": "1.95.0",
+  "workspace_versions_normalized": 149,
+  "external_dependency_changes": 0,
+  "baseline_binary_sha256": "37f31cc5a8c98688409327015d2712a7861c29f0f066b46d8ff06eb527e7c18e",
+  "build": "cargo build --locked -p codex-cli --bin codex",
+  "profile": "dev, debug=0, incremental=false"
+}

@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "phase": "build",
+  "command": "just test --test-threads 4",
+  "dependency": "v8 150.4.0",
+  "http_status": 404,
+  "archive_url": "https://github.com/denoland/rusty_v8/releases/download/v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-unknown-linux-musl.a.gz",
+  "runtime_impact": "Code mode is disabled and not required by the supported Terminal CLI graph",
+  "log_sha256": "85a498d0304a9620b738c546abad54156d52b17ebb34ef86678d6a8da0518b93"
+}

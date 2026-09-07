@@ -1,0 +1,23 @@
+{
+  "runtime_source_commit": "cdbd82cd0",
+  "fixture_source_commit": "5d0406d47",
+  "passed": true,
+  "tests_passed": 3929,
+  "tests_failed": 0,
+  "tests_skipped_or_excluded": 157,
+  "selection": "not test(code_mode) and not test(explicit_only_orchestrator_skill_is_hidden_but_can_be_invoked)",
+  "reason_for_exclusions": "V8 code-mode host unavailable on musl; code mode is disabled in the Terminal release",
+  "gateway_regression": "default and explicit gateway routes request serial tools; default omits model; explicit preserves qualified route; ordinary provider retains parallel calls",
+  "log_sha256": "1770911ad1cdbaa1f79ebd898f1766291cb61d17500b94053d509b8dd3dd52f2",
+  "earlier_full_core_attempt": {
+    "passed": 3975,
+    "failed": 102,
+    "skipped": 9,
+    "failures": "101 code-mode cases and one gateway fixture inheriting optional OpenAI environment headers; fixture corrected before final supported selection"
+  },
+  "scoped_clippy": {
+    "passed": true,
+    "command": "just fix -p codex-core",
+    "runtime_source_changed": false
+  }
+}

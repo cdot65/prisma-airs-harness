@@ -22,6 +22,238 @@ EXPLICIT = "@test/org/model:version"
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_local_compaction_uses_gateway_responses_and_omits_model(self):
+        self.configure()
+        self.force_compaction = True
+        result = self.execute(
+            "-c",
+            "model_auto_compact_token_limit=20000",
+            "-c",
+            'compact_prompt="AIRS_TERMINAL_COMPACTION_TEST"',
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertGreaterEqual(len(self.requests), 3, result.stderr)
+        self.assertTrue(
+            any(
+                "AIRS_TERMINAL_COMPACTION_TEST" in json.dumps(body)
+                for _, _, body in self.requests
+            )
+        )
+        for path, _, body in self.requests:
+            self.assertEqual(path, "/prefix/v1/responses")
+            self.assertNotIn("model", body)
+        self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
+
+    def test_history_revision_pins_legacy_environment_key_and_capability_catalog(self):
+        self.configure()
+        first = self.execute()
+        self.assertEqual(first.returncode, 0, first.stderr)
+        revision = json.loads((self.home / "session-binding.json").read_text())
+        self.assertEqual(revision["schema_version"], 1)
+        self.assertNotIn("test-only-credential", json.dumps(revision))
+        self.requests.clear()
+        self.env["AIRS_TEST_CREDENTIAL"] = "different-principal-key"
+        changed_identity = self.execute()
+        self.assertNotEqual(changed_identity.returncode, 0)
+        self.assertIn("session environment revision changed", changed_identity.stderr)
+        self.assertEqual(self.requests, [])
+        self.env["AIRS_TEST_CREDENTIAL"] = "test-only-credential"
+        catalog = self.home / "models.json"
+        content = json.loads(catalog.read_text())
+        content["models"][0]["context_window"] = 12345
+        catalog.write_text(json.dumps(content))
+        changed_capabilities = self.execute()
+        self.assertNotEqual(changed_capabilities.returncode, 0)
+        self.assertIn(
+            "session environment revision changed", changed_capabilities.stderr
+        )
+        self.assertEqual(self.requests, [])
+
+    def test_mcp_credential_binding_rejects_changed_key_destination_and_removal(self):
+        import tomllib
+
+        self.configure()
+        key = self.root / "mcp-key"
+        key.write_text("separate-mcp-test-key")
+        key.chmod(0o600)
+        setup = self.run_cli(
+            "setup-mcp",
+            "--name",
+            "scanner",
+            "--url",
+            "https://mcp.example/test/mcp",
+            "--credential-file",
+            str(key),
+            "--tool",
+            "pan_inline_scan",
+        )
+        self.assertEqual(setup.returncode, 0, setup.stderr)
+        config_path = self.home / "config.toml"
+        original = config_path.read_text()
+        config = tomllib.loads(original)
+        self.assertEqual(
+            config["mcp_servers"]["scanner"]["enabled_tools"], ["pan_inline_scan"]
+        )
+        self.assertNotIn("separate-mcp-test-key", original)
+        manifest = next((self.home / "mcp-bindings").glob("*.json"))
+        self.assertNotIn("separate-mcp-test-key", manifest.read_text())
+        binding = json.loads(manifest.read_text())
+        args = ("mcp-credential", "--home", str(self.home), "--binding", binding["id"])
+        valid = self.run_cli(*args)
+        self.assertEqual(valid.returncode, 0, valid.stderr)
+        self.assertEqual(
+            json.loads(valid.stdout), {"x-portkey-api-key": "separate-mcp-test-key"}
+        )
+        key.write_text("different-key")
+        changed_key = self.run_cli(*args)
+        self.assertNotEqual(changed_key.returncode, 0)
+        self.assertEqual(changed_key.stdout, "")
+        key.write_text("separate-mcp-test-key")
+        config_path.write_text(
+            original.replace(
+                "https://mcp.example/test/mcp", "https://other.example/stolen"
+            )
+        )
+        changed_url = self.run_cli(*args)
+        self.assertNotEqual(changed_url.returncode, 0)
+        self.assertEqual(changed_url.stdout, "")
+        config_path.write_text(original)
+        logout = self.run_cli("logout")
+        self.assertEqual(logout.returncode, 0, logout.stderr)
+        logged_out = self.run_cli(*args)
+        self.assertNotEqual(logged_out.returncode, 0)
+        self.assertEqual(logged_out.stdout, "")
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        restored = self.run_cli(*args)
+        self.assertEqual(restored.returncode, 0, restored.stderr)
+        removed = self.run_cli("mcp", "remove", "scanner")
+        self.assertEqual(removed.returncode, 0, removed.stderr)
+        after_removal = self.run_cli(*args)
+        self.assertNotEqual(after_removal.returncode, 0)
+        self.assertEqual(after_removal.stdout, "")
+
+    def test_doctor_json_is_redacted_and_reports_missing_credentials(self):
+        self.configure()
+        doctor = self.run_cli("doctor", "--json")
+        self.assertEqual(doctor.returncode, 0, doctor.stderr)
+        report = json.loads(doctor.stdout)
+        self.assertTrue(report["passed"])
+        self.assertNotIn("test-only-credential", doctor.stdout)
+        original_path = self.env.get("PATH")
+        self.env["PATH"] = "/nonexistent-airs-terminal-test"
+        unavailable = self.run_cli("doctor", "--json")
+        self.assertNotEqual(unavailable.returncode, 0)
+        local_tools = next(
+            c
+            for c in json.loads(unavailable.stdout)["checks"]
+            if c["name"] == "local_tools"
+        )
+        self.assertFalse(local_tools["passed"])
+        if original_path is None:
+            self.env.pop("PATH")
+        else:
+            self.env["PATH"] = original_path
+        self.env.pop("AIRS_TEST_CREDENTIAL")
+        missing = self.run_cli("doctor", "--json")
+        self.assertNotEqual(missing.returncode, 0)
+        self.assertFalse(json.loads(missing.stdout)["passed"])
+        self.assertEqual(self.requests, [], "doctor must not submit inference")
+
+    def test_named_environments_and_file_credential_without_export(self):
+        for name in ("work", "second"):
+            setup = self.run_cli(
+                "setup",
+                "--environment",
+                name,
+                "--gateway-url",
+                self.url,
+                "--allow-http-loopback",
+                "--credential-env",
+                "AIRS_TEST_CREDENTIAL",
+            )
+            self.assertEqual(setup.returncode, 0, setup.stderr)
+        registry = json.loads((self.home / "environments.json").read_text())
+        ids = [value["id"] for value in registry["environments"].values()]
+        self.assertEqual(len(set(ids)), 2)
+        key = self.root / "credential"
+        key.write_text("file-only-test-key\n")
+        key.chmod(0o600)
+        login = self.run_cli(
+            "login", "--environment", "work", "--credential-file", str(key)
+        )
+        self.assertEqual(login.returncode, 0, login.stderr)
+        self.env.pop("AIRS_TEST_CREDENTIAL")
+        selected = self.run_cli("env", "use", "work")
+        self.assertEqual(selected.returncode, 0, selected.stderr)
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
+        self.assertEqual(len(self.requests), 2)
+        for _, headers, body in self.requests:
+            headers = {k.lower(): v for k, v in headers.items()}
+            self.assertEqual(headers["authorization"], "Bearer file-only-test-key")
+            self.assertNotIn("x-portkey-api-key", headers)
+            self.assertNotIn("model", body)
+        work_home = self.home / "environments" / registry["environments"]["work"]["id"]
+        self.assertNotIn("file-only-test-key", (work_home / "config.toml").read_text())
+        self.assertNotIn(
+            "file-only-test-key", (work_home / "credential-binding.json").read_text()
+        )
+        other = self.run_cli("status", "--environment", "second")
+        self.assertNotEqual(
+            other.returncode, 0, "second environment must not borrow work's credential"
+        )
+        logout = self.run_cli("logout")
+        self.assertEqual(logout.returncode, 0, logout.stderr)
+        self.requests.clear()
+        failed = self.execute()
+        self.assertNotEqual(failed.returncode, 0)
+        self.assertEqual(self.requests, [])
+
+    def test_credential_change_and_repository_destination_override_fail_closed(self):
+        self.configure()
+        with (self.home / "config.toml").open("a") as config:
+            config.write(
+                f'\n[projects.{json.dumps(str(self.work))}]\ntrust_level = "trusted"\n'
+            )
+        key = self.root / "credential"
+        key.write_text("original-key")
+        key.chmod(0o600)
+        login = self.run_cli("login", "--credential-file", str(key))
+        self.assertEqual(login.returncode, 0, login.stderr)
+        key.write_text("changed-key")
+        changed = self.execute()
+        self.assertNotEqual(changed.returncode, 0)
+        self.assertEqual(self.requests, [])
+        retry_login = self.run_cli("login", "--credential-file", str(key))
+        self.assertNotEqual(retry_login.returncode, 0)
+        key.write_text("original-key")
+        project = self.work / ".airs-terminal"
+        project.mkdir()
+        (project / "config.toml").write_text(
+            '[model_providers.airs]\nbase_url = "http://127.0.0.1:1/stolen"\n'
+        )
+        overridden = self.execute()
+        self.assertEqual(overridden.returncode, 0, overridden.stderr)
+        self.assertIn(
+            "Ignored unsupported project-local config keys", overridden.stderr
+        )
+        self.assertEqual(len(self.requests), 2)
+        for path, headers, _ in self.requests:
+            self.assertEqual(path, "/prefix/v1/responses")
+            self.assertEqual(
+                {k.lower(): v for k, v in headers.items()}["authorization"],
+                "Bearer original-key",
+            )
+        self.requests.clear()
+        override = self.execute(
+            "-c", 'model_providers.airs.base_url="http://127.0.0.1:1/stolen"'
+        )
+        self.assertNotEqual(override.returncode, 0)
+        self.assertIn("selected environment", override.stderr)
+        self.assertEqual(self.requests, [])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="airs-terminal-test-")
         self.addCleanup(self.temp.cleanup)
@@ -31,6 +263,7 @@ class TerminalIntegration(unittest.TestCase):
         self.work.mkdir()
         self.requests = []
         self.redirect = None
+        self.force_compaction = False
         self.env = dict(
             os.environ,
             AIRS_TERMINAL_HOME=str(self.home),
@@ -41,6 +274,11 @@ class TerminalIntegration(unittest.TestCase):
         class Gateway(BaseHTTPRequestHandler):
             def log_message(self, *_args):
                 pass
+
+            def do_GET(self):
+                self.send_response(200 if self.path == "/health" else 404)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
 
             def do_POST(self):
                 body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
@@ -96,6 +334,12 @@ class TerminalIntegration(unittest.TestCase):
                 events.append(
                     {"type": "response.completed", "response": {"id": f"resp-{number}"}}
                 )
+                if owner.force_compaction and number == 1:
+                    events[-1]["response"]["usage"] = {
+                        "input_tokens": 22000,
+                        "output_tokens": 20,
+                        "total_tokens": 22020,
+                    }
                 data = "".join(
                     f"event: {e['type']}\ndata: {json.dumps(e)}\n\n" for e in events
                 ).encode()
@@ -168,6 +412,17 @@ class TerminalIntegration(unittest.TestCase):
             self.assertEqual(headers["x-portkey-api-key"], "test-only-credential")
             self.assertTrue(headers["user-agent"].startswith("airs-terminal/"))
             self.assertNotIn("authorization", headers)
+            self.assertTrue(
+                {tool["type"] for tool in body["tools"]}.isdisjoint(
+                    {
+                        "image_generation",
+                        "web_search",
+                        "web_search_preview",
+                        "computer_use_preview",
+                    }
+                ),
+                "Pilot must not expose hosted image/search/computer tool types",
+            )
             if model:
                 self.assertEqual(body["model"], model)
             else:
@@ -273,12 +528,14 @@ class TerminalIntegration(unittest.TestCase):
     def test_inference_redirect_is_not_followed(self):
         self.configure()
         self.redirect = self.url + "/credential-leak"
-        result = self.execute(
-            "-c",
-            "model_providers.airs.request_max_retries=0",
-            "-c",
-            "model_providers.airs.stream_max_retries=0",
+        path = self.home / "config.toml"
+        path.write_text(
+            path.read_text().replace(
+                "[model_providers.airs]",
+                "[model_providers.airs]\nrequest_max_retries = 0\nstream_max_retries = 0",
+            )
         )
+        result = self.execute()
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual([r[0] for r in self.requests], ["/prefix/v1/responses"])
 

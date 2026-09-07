@@ -8,7 +8,7 @@ use std::path::Path;
 use url::Url;
 
 const DEFAULT_ROUTE: &str = "airs-gateway-default";
-const PRODUCT_VERSION: &str = "0.1.0-alpha.2";
+const PRODUCT_VERSION: &str = "0.1.0-alpha.3";
 
 pub fn is_standalone() -> bool {
     env!("CARGO_BIN_NAME") == "airs-terminal"

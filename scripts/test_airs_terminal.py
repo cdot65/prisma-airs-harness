@@ -187,6 +187,39 @@ class TerminalIntegration(unittest.TestCase):
     def test_explicit_route_local_tool_and_continuation(self):
         self.assert_tool_loop(EXPLICIT)
 
+    def test_codex_project_config_does_not_override_airs_route(self):
+        self.configure()
+        foreign = self.work / ".codex"
+        foreign.mkdir()
+        foreign_config = foreign / "config.toml"
+        original = 'model = "gpt-6-astra"\n'
+        foreign_config.write_text(original)
+        with (self.home / "config.toml").open("a") as config:
+            config.write(
+                f'\n[projects.{json.dumps(str(self.work))}]\ntrust_level = "trusted"\n'
+            )
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.requests), 2, result.stderr)
+        for _, _, body in self.requests:
+            self.assertNotIn("model", body)
+        self.assertEqual(foreign_config.read_text(), original)
+
+    def test_airs_project_config_applies_in_trusted_directory(self):
+        self.configure()
+        project = self.work / ".airs-terminal"
+        project.mkdir()
+        (project / "config.toml").write_text(f'model = "{EXPLICIT}"\n')
+        with (self.home / "config.toml").open("a") as config:
+            config.write(
+                f'\n[projects.{json.dumps(str(self.work))}]\ntrust_level = "trusted"\n'
+            )
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.requests), 2, result.stderr)
+        for _, _, body in self.requests:
+            self.assertEqual(body["model"], EXPLICIT)
+
     def test_unconfigured_and_invalid_routes_fail_before_inference(self):
         result = self.execute()
         self.assertNotEqual(result.returncode, 0)

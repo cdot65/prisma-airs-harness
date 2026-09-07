@@ -2700,6 +2700,7 @@ dependencies = [
  "codex-network-proxy",
  "codex-protocol",
  "codex-utils-absolute-path",
+ "codex-utils-home-dir",
  "codex-utils-path",
  "codex-utils-path-uri",
  "codex-utils-redacted-string",

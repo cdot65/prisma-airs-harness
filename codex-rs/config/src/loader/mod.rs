@@ -87,6 +87,17 @@ const PROJECT_LOCAL_CONFIG_DENYLIST: &[&str] = &[
     "otel",
 ];
 
+// Keep project discovery in the same application namespace as user state.
+// Otherwise launching AIRS Terminal from the user's home can load ~/.codex
+// as a project layer and override the independently configured gateway route.
+fn project_config_dir_name() -> &'static str {
+    if codex_utils_home_dir::is_airs_terminal() {
+        ".airs-terminal"
+    } else {
+        ".codex"
+    }
+}
+
 async fn first_layer_config_error_from_entries(layers: &[ConfigLayerEntry]) -> Option<ConfigError> {
     typed_first_layer_config_error_from_entries::<ConfigToml>(layers, CONFIG_TOML_FILE).await
 }
@@ -1133,7 +1144,7 @@ impl ProjectTrustContext {
         }
 
         let relative_dir = dir.as_path().strip_prefix(checkout_root.as_path()).ok()?;
-        Some(repo_root.join(relative_dir).join(".codex"))
+        Some(repo_root.join(relative_dir).join(project_config_dir_name()))
     }
 }
 
@@ -1722,7 +1733,7 @@ async fn discover_project_layers(
     let mut layers = Vec::new();
     let mut startup_warnings = Vec::new();
     for dir in dirs {
-        let dot_codex_abs = dir.join(".codex");
+        let dot_codex_abs = dir.join(project_config_dir_name());
         let dot_codex_uri = PathUri::from_abs_path(&dot_codex_abs);
         if !fs
             .get_metadata(&dot_codex_uri, Default::default(), /*sandbox*/ None)

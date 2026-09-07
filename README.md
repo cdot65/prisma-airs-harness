@@ -8,13 +8,18 @@ inference context.
 
 **There is no PAH package, SDK, proxy, web application or service dependency.**
 
-## Status: 0.1.0-alpha.2 protocol prototype
+## Status: 0.1.0-alpha.3 protocol prototype
 
 Implemented: independent application state, gateway setup, workspace credential
 references, local capability catalog, optional-model Responses serialization,
 qualified route validation and redirect rejection. A deterministic test exercises
 the built agent, a local file edit, and the tool-result continuation for both
 routing modes.
+
+User state lives in `~/.airs-terminal` (or `AIRS_TERMINAL_HOME`). Trusted
+project configuration uses `.airs-terminal/config.toml`, including in linked
+worktrees. AIRS Terminal does not discover `.codex` project configuration, so
+starting it from your home directory does not import your Codex model selection.
 
 This is not the completed team MVP. Named environments, OS credential storage,
 Keycloak login/refresh, per-user remote MCP validation, complete product branding

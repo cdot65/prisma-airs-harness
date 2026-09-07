@@ -125,3 +125,30 @@ Validation: 10 setup tests and all seven executable integration tests passed;
 the seven integration tests also passed against the installed alpha.2 binary.
 Formatting passed. The installed binary matches the build SHA-256 recorded in
 `VALIDATION.json`. Earlier broad regression results above describe alpha.1.
+
+## Project configuration isolation — 0.1.0-alpha.3
+
+Launching alpha.2 from the user's home reproduced `Fatal error: select the
+gateway default route or an explicit @provider/model`. Although AIRS user state
+was isolated, inherited project discovery still loaded `.codex/config.toml`.
+The user's Codex model selection then overrode the valid AIRS default route.
+
+Project discovery now uses `.airs-terminal` in the standalone process, including
+the root checkout hook directory for linked worktrees. Ordinary Codex processes
+retain `.codex` discovery. The existing trust gate and exclusion of the active
+application home from project layers remain in place. User configuration files
+are not rewritten. The config crate reuses the existing application-identity
+helper through one workspace dependency; no external dependency version changed.
+
+Two actual-executable regressions first failed against alpha.2: ignoring a
+conflicting Codex model in a trusted directory, and applying an AIRS-specific
+project route in a trusted directory. The first asserts that default inference
+still omits `model`, and the second checks the exact explicit route on both
+requests of the local tool loop.
+
+Validation: all 284 `codex-config` tests passed, as did scoped Clippy, formatting,
+and Bazel dependency metadata (no MODULE.bazel.lock drift). All nine executable
+integration cases passed against the build and installed alpha.3 binary. An
+interactive PTY smoke check displayed the gateway route despite a conflicting
+trusted `.codex` config. Startup from `/home/cdot` now passes route validation
+and reaches the intentionally missing-credential check without inference.

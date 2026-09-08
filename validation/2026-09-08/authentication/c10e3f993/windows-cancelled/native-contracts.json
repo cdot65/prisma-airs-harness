@@ -1,0 +1,136 @@
+{
+  "run": 34259921603,
+  "job": 102175027283,
+  "tested_source": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "comparison_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "unit_test_passed": true,
+  "cases": [
+    {
+      "name": "codex-airs-identity storage::chunks::tests::ambiguous_journal_write_prevents_any_new_chunk_and_can_be_retried",
+      "seconds": 0.022
+    },
+    {
+      "name": "codex-airs-identity browser::tests::callback_binds_host_state_issuer_and_unique_fields",
+      "seconds": 0.022
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::corrupt_active_generation_blocks_retirement_but_explicit_delete_cleans_all",
+      "seconds": 0.017
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::ambiguous_manifest_commit_preserves_both_generations_until_next_save",
+      "seconds": 0.018
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::corrupt_pending_journal_preserves_generation_evidence",
+      "seconds": 0.017
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::corrupt_manifest_is_retained_when_deletion_cannot_enumerate_chunks",
+      "seconds": 0.018
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::failed_old_generation_cleanup_is_retried_by_delete",
+      "seconds": 0.019
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::failed_tombstone_write_preserves_the_active_credential_and_all_chunks",
+      "seconds": 0.02
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::interrupted_chunk_or_manifest_write_never_exposes_partial_replacement",
+      "seconds": 0.019
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::interrupted_chunk_write_blocks_new_generation_until_cleanup_succeeds",
+      "seconds": 0.018
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::intervening_legacy_writer_current_generation_survives_recovery",
+      "seconds": 0.026
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::interrupted_deletion_disables_reads_and_retains_enumeration_until_retry_finishes",
+      "seconds": 0.032
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::missing_or_changed_chunk_fails_closed",
+      "seconds": 0.019
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::new_chunk_readback_failure_keeps_previous_commit_and_cleanup_evidence",
+      "seconds": 0.017
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::replacement_waits_for_pending_deletion_to_finish",
+      "seconds": 0.018
+    },
+    {
+      "name": "codex-airs-identity storage::chunks::tests::large_unicode_bundle_fits_windows_entries_and_round_trips",
+      "seconds": 0.101
+    },
+    {
+      "name": "codex-airs-identity storage::workspace::tests::invalid_new_token_never_changes_either_native_namespace",
+      "seconds": 0.017
+    },
+    {
+      "name": "codex-airs-identity storage::workspace::tests::full_workspace_token_fits_windows_entries_and_does_not_replace_legacy_record",
+      "seconds": 0.062
+    },
+    {
+      "name": "codex-airs-identity storage::workspace::tests::missing_or_corrupt_v2_never_falls_back_to_legacy_and_read_never_migrates",
+      "seconds": 0.016
+    },
+    {
+      "name": "codex-airs-identity tokens::tests::refresh_allows_missing_nonce_but_rejects_a_changed_nonce",
+      "seconds": 0.04
+    },
+    {
+      "name": "codex-airs-identity tokens::tests::validates_both_tokens_and_retains_original_access_jwt",
+      "seconds": 0.028
+    },
+    {
+      "name": "codex-airs-identity tokens::tests::verifies_access_token_hash_and_device_nonce_absence",
+      "seconds": 0.058
+    },
+    {
+      "name": "codex-airs-identity tokens::tests::rejects_signed_identity_substitution_and_wrong_resource",
+      "seconds": 0.12
+    },
+    {
+      "name": "codex-keyring-store::diagnostics captures_typed_windows_status",
+      "seconds": 0.011
+    },
+    {
+      "name": "codex-keyring-store::diagnostics diagnostic_classification_does_not_render_sensitive_error_payloads",
+      "seconds": 0.013
+    },
+    {
+      "name": "codex-keyring-store::diagnostics status_looking_backend_text_is_not_treated_as_native_evidence",
+      "seconds": 0.011
+    }
+  ],
+  "passed": 26,
+  "failed": 0,
+  "skipped": 0,
+  "nextest_run_id": "96526853-e23f-49a9-ad76-5ef974c0e8f9",
+  "execution_seconds": 0.393,
+  "completed_at": "2026-09-08T18:01:09Z",
+  "raw_job_log_sha256": "4819d7914333ac3af24ab2659ee412acc18c90755270fea11b05d45aaab748e8",
+  "crate_tree_identity": {
+    "codex-rs/airs-identity": {
+      "c10e3f99393f7d79dbe48fa228a9a18e548953e1": "a0dffb458310a8002cfffd136437b0eb92df8040",
+      "154b4f0bcef7528844e85177d7e4dce611982044": "a0dffb458310a8002cfffd136437b0eb92df8040"
+    },
+    "codex-rs/keyring-store": {
+      "c10e3f99393f7d79dbe48fa228a9a18e548953e1": "9f83be35f888d817ae3eaf0e5b80647b1ead4e2a",
+      "154b4f0bcef7528844e85177d7e4dce611982044": "9f83be35f888d817ae3eaf0e5b80647b1ead4e2a"
+    }
+  },
+  "limits": [
+    "Tests ran against c10, not a newly built source154 Windows executable.",
+    "Crate tree identities match; workspace lockfile differs by a CLI-only dependency edge. This comparison does not relabel the historical run.",
+    "Chunk storage contracts use mock stores; these tests do not establish live Windows Credential Manager persistence, ConPTY onboarding, or installed package acceptance.",
+    "The later executable compilation was cancelled and did not complete."
+  ]
+}

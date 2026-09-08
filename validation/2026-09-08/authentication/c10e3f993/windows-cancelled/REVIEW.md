@@ -44,3 +44,15 @@ artifact-before-final-cache ordering, and unchanged concurrency/timeout. Actual
 PowerShell compilation/cache behavior has not been run for this change. No Rust
 build, Windows dispatch, publication or source154 runtime change was performed.
 A relaunch remains separate from this reviewable workflow preparation.
+
+
+## Completed Windows unit stage
+
+Before cancellation, the job passed 26 unit contract tests with zero skips
+(Nextest run `96526853-e23f-49a9-ad76-5ef974c0e8f9`). The tests covered token
+validation, chunk/transaction failures, namespace separation and typed Windows
+diagnostics. Their [names and source identities](native-contracts.json) are
+retained with the full private job-log hash. The identity and keyring crate trees
+are unchanged between c10 and source154; this comparison does not rename the
+historical test run or establish a current Windows executable pass. Storage
+contract mocks do not replace real Credential Manager lifecycle acceptance.

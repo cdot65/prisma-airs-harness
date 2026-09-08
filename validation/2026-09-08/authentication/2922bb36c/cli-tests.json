@@ -1,0 +1,16 @@
+{
+  "source_commit": "2922bb36c",
+  "passed": true,
+  "tests": 359,
+  "failures": 0,
+  "skipped": 0,
+  "junit_sha256": "46c7ca7419a6dae7c76468223c984c157864189d509fa0e3aaec46ca275eabfe",
+  "candidate_profile": "release; dependencies opt-level=3; codex-cli opt-level=1; lto=false; codegen-units=16; debug=0",
+  "command": "just test --release --config profile.release.package.codex-cli.opt-level=1 -p codex-cli --bin airs-harness",
+  "release_ready": false,
+  "limitations": [
+    "Native metadata status intentionally does not verify credential availability.",
+    "Independent review found missing safe issuer URL validation and earlier doctor gateway validation; fixes and UI snapshots pending.",
+    "No regular binary built from this status checkpoint."
+  ]
+}

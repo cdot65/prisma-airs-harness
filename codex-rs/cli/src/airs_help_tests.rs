@@ -25,3 +25,10 @@ fn standalone_help_exposes_local_work_and_gateway_configuration() {
     }
     insta::assert_snapshot!("airs_harness_help", command.render_help().to_string());
 }
+
+#[test]
+fn standalone_doctor_help_discloses_optional_inference_probe() {
+    let mut root = command(crate::MultitoolCli::command());
+    let doctor = root.find_subcommand_mut("doctor").unwrap();
+    insta::assert_snapshot!("airs_doctor_help", doctor.render_long_help().to_string());
+}

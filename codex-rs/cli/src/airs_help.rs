@@ -31,6 +31,9 @@ pub fn command(mut command: Command) -> Command {
             arg = arg.help("Layer <name>.config.toml from the selected environment over its base configuration")
                 .long_help("Layer <name>.config.toml from the selected environment over its base configuration. Destination and credential bindings remain fixed.");
         }
+        if arg.get_long() == Some("verify-access") {
+            arg = arg.hide(false);
+        }
         if arg.get_long() == Some("with-api-key") {
             arg = arg.help("Enter a workspace API key securely and save it in the OS credential store")
                 .long_help("Enter a workspace API key at a hidden terminal prompt and save it in the OS credential store. Automation may supply the key through stdin. The key is never saved in a plaintext configuration file.");

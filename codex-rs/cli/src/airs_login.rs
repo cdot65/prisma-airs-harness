@@ -287,7 +287,11 @@ pub(super) async fn interactive(
         }
         "2" => airs_credentials::login(home, &LoginArgs::default(), /*stdin_key*/ true),
         _ => anyhow::bail!("Sign-in cancelled; choose 1 or 2 next time"),
-    }
+    }?;
+    eprintln!("{}", super::airs_access::DISCLOSURE);
+    let access = super::airs_access::verify(home).await;
+    eprintln!("{}", access.after_login());
+    Ok(())
 }
 
 #[cfg(test)]

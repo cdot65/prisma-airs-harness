@@ -43,6 +43,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use supports_color::Stream;
 
+mod airs_access;
 mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_doctor;
@@ -1193,7 +1194,7 @@ async fn cli_main(
                 return airs_credentials::status(home.as_path());
             }
             Some(Subcommand::Doctor(args)) => {
-                return airs_doctor::run(home.as_path(), args.json).await;
+                return airs_doctor::run(home.as_path(), args).await;
             }
             _ => {}
         }

@@ -4,7 +4,7 @@ description: First launch, secure sign-in, resume, logout, and support diagnosti
 status: private-candidate
 created: 2026-09-08
 updated: 2026-09-08
-source_commit: c10e3f993
+source_commit: pending-gateway-verification-stage
 tags: [prisma-airs-harness, authentication, onboarding, macos, linux, windows]
 ---
 
@@ -52,9 +52,28 @@ Choose **1, Company sign-in**, or **2, Workspace API key**:
 Credentials use macOS Keychain, the Linux credential service, or Windows
 Credential Manager. Follow any operating-system authorization prompt. A storage
 failure stops sign-in; the application does not silently save plaintext.
-Successful sign-in stores credentials; it **does not verify gateway access or
-MCP authorization**. Start with a harmless chat request, such as “Reply with
-ready,” to exercise inference. Optional MCP access needs its own tool test.
+After guided sign-in saves your credential, the harness announces one small
+connectivity request. It sends a fixed message, allows up to 16 output tokens,
+and sends no local files or tools. The request asks the provider not to store
+the response; your gateway's logging policy still applies.
+
+**Gateway access verified** means that this inference check succeeded. It does
+not verify MCP authorization. If the check fails, you see **Credential saved;
+gateway access not yet verified** with a safe reason and retry instructions.
+Your saved credential remains available. A client correlation ID identifies
+the check; it is not a provider-issued response ID.
+
+To retry without signing in again:
+
+```text
+airs-harness doctor --verify-access
+```
+
+Select the same environment when retrying, for example
+`airs-harness --environment work doctor --verify-access`. The check uses the
+configured model selection: the gateway default sends no model name, while an
+explicit route must appear in that environment's local capability catalog.
+Optional MCP access still needs its own harmless tool test.
 
 If you need to sign in again, run:
 
@@ -105,9 +124,14 @@ airs-harness doctor
 airs-harness doctor --json
 ```
 
-Doctor checks local configuration, tools, credential availability, and gateway
-health. Its health probe does not authenticate inference, and its MCP count
-does not prove tool permissions. This candidate has no diagnostic-bundle wizard.
+Plain `doctor` checks local configuration, tools, credential availability, and
+unauthenticated gateway health. Add `--verify-access` for the disclosed inference
+check; add `--json` if support needs a machine-readable report. The access check
+allows 10 seconds to connect and 30 seconds overall, including credential-helper
+resolution. Its response is limited to 64 KiB, and credentials never follow a
+redirect. Explicit login commands used by automation do not trigger this probe.
+The MCP count does not prove tool permissions. This candidate has no
+diagnostic-bundle wizard.
 
 Share the candidate build reference, OS and terminal versions, failing command,
 and the storage error's **operation, category, and OS status**. An unavailable

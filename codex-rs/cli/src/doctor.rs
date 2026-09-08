@@ -170,6 +170,10 @@ pub struct DoctorCommand {
     #[arg(long, default_value_t = false)]
     pub(super) json: bool,
 
+    /// Verify AIRS gateway access with one minimal inference request (up to 16 output tokens).
+    #[arg(long, hide = !super::airs_harness::is_standalone())]
+    pub(super) verify_access: bool,
+
     /// Limit database integrity scans when collecting a feedback attachment.
     #[arg(long, hide = true, default_value_t = false)]
     feedback: bool,
@@ -331,6 +335,10 @@ pub async fn run_doctor(
     interactive: &TuiCli,
     arg0_paths: &Arg0DispatchPaths,
 ) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        !command.verify_access,
+        "--verify-access is available in airs-harness doctor"
+    );
     let report = build_report(&command, root_config_overrides, interactive, arg0_paths).await;
 
     if command.json {

@@ -13,7 +13,7 @@ struct Check {
     detail: String,
 }
 
-pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
+pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Result<()> {
     let mut checks = Vec::new();
     let tools = if cfg!(target_os = "linux") {
         &["sh", "git", "rg", "bwrap"][..]
@@ -80,15 +80,20 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
     match configuration {
         Ok((gateway, config)) => {
             checks.push(Check { name: "configuration", passed: true, detail: gateway.clone() });
-            let credential = airs_credentials::check(home);
-            checks.push(Check {
-                name: "credential",
-                passed: credential.is_ok(),
-                detail: match credential {
-                    Ok(()) => "Available locally; use status to inspect the authentication method and identity".into(),
-                    Err(error) => error.to_string(),
-                },
-            });
+            if !args.verify_access {
+                let credential = airs_credentials::check(home);
+                checks.push(Check {
+                    name: "credential",
+                    passed: credential.is_ok(),
+                    detail: match credential {
+                        Ok(()) => "Available locally; use status to inspect the authentication method and identity".into(),
+                        Err(error) => error.to_string(),
+                    },
+                });
+            }
+            // --verify-access resolves credentials only through the bounded
+            // helper below. A second native read here could prompt or block
+            // before that deadline starts; gateway_access reports its result.
             let capabilities = (|| -> anyhow::Result<()> {
                 let path = config.get("model_catalog_json").and_then(toml::Value::as_str)
                     .context("missing model capability catalog")?;
@@ -117,13 +122,22 @@ pub async fn run(home: &Path, json: bool) -> anyhow::Result<()> {
         }
         Err(_) => checks.push(Check { name: "configuration", passed: false, detail: "Cannot read environment configuration; run setup or select a configured environment".into() }),
     }
+    if args.verify_access {
+        eprintln!("{}", super::airs_access::DISCLOSURE);
+        let access = super::airs_access::verify(home).await;
+        checks.push(Check {
+            name: "gateway_access",
+            passed: access.outcome.is_ok(),
+            detail: access.summary(),
+        });
+    }
     let passed = checks.iter().all(|check| check.passed);
     let report = serde_json::json!({
         "schema_version": 1, "product": "Prisma AIRS Harness",
         "version": super::airs_harness::version(), "state_directory": home,
         "passed": passed, "checks": checks,
     });
-    if json {
+    if args.json {
         println!("{}", serde_json::to_string_pretty(&report)?);
     } else {
         println!(

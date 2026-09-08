@@ -1,0 +1,30 @@
+---
+source: cli/src/airs_help_tests.rs
+assertion_line: 33
+expression: doctor.render_long_help().to_string()
+---
+Diagnose local AIRS Harness installation, config, auth, and runtime health
+
+Usage: doctor [OPTIONS]
+
+Options:
+      --json
+          Emit a redacted machine-readable report
+
+      --verify-access
+          Verify AIRS gateway access with one minimal inference request (up to 16 output tokens)
+
+      --summary
+          Only show grouped check rows and the final count summary
+
+      --all
+          Expand long lists in detailed human output
+
+      --no-color
+          Disable ANSI color in human output
+
+      --ascii
+          Use ASCII status labels and separators in human output
+
+  -h, --help
+          Print help

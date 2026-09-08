@@ -26,6 +26,24 @@ def main():
     try:
         fixture.configure()
         fixture.env.pop("AIRS_TEST_CREDENTIAL", None)
+        # Exercise the actual OIDC chunked-store preflight before discovery.
+        # The closed loopback endpoint cannot authenticate or issue any tokens.
+        preflight = fixture.run_cli(
+            "login",
+            "--issuer-url",
+            "https://127.0.0.1:9",
+            "--oidc-client-id",
+            "keychain-acceptance",
+            "--audience",
+            "keychain-acceptance",
+        )
+        if (
+            preflight.returncode == 0
+            or "issuer discovery unavailable" not in preflight.stderr
+        ):
+            raise RuntimeError(
+                "OIDC native-store preflight failed: " + preflight.stderr[-4000:]
+            )
         login = subprocess.run(
             [str(args.binary.resolve()), "login", "--with-api-key"],
             input=key + "\n",
@@ -83,6 +101,7 @@ def main():
                     "passed": True,
                     "platform": sys.platform,
                     "cli_secure_login": True,
+                    "oidc_native_store_preflight": True,
                     "new_process_credential_access": True,
                     "authenticated_local_tool_loop": True,
                     "plaintext_state_absent": True,

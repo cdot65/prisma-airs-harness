@@ -1,0 +1,46 @@
+name: Prisma AIRS Harness published macOS storage check
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: read
+jobs:
+  storage:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-26]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Install the exact published package on Apple Silicon
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github.npmrc
+        run: |
+          test "$(uname -m)" = arm64
+          brew install ripgrep
+          echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
+          AIRS_LAUNCHER_URL="$(node -e 'const r=require("./validation/2026-09-08/github-packages/PUBLICATION.json"); console.log(r.packages.find(p=>p.name==="@cdot65/prisma-airs-harness").tarball)')"
+          npm install -g --prefix "$RUNNER_TEMP/installed" --include=optional --ignore-scripts --no-audit --no-fund --registry https://registry.npmjs.org "$AIRS_LAUNCHER_URL"
+      - name: Check the installed signature and native credential lifecycle
+        run: |
+          sw_vers -productVersion
+          security default-keychain -d user
+          security list-keychains -d user
+          codesign --verify --strict --verbose=2 "$RUNNER_TEMP/installed/lib/node_modules/@cdot65/prisma-airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness"
+          python scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/installed/bin/airs-harness" --receipt "$RUNNER_TEMP/storage.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: macos-storage-${{ matrix.os }}
+          path: ${{ runner.temp }}/storage.json

@@ -24,3 +24,14 @@ The unsupported broad npm test invocation included a native-only executable-copy
 fixture; the intended npm suite passes 27/27, and that copy/move fixture passes
 against the native binary. The earlier Mac JavaScript fixture alias mismatch was
 corrected and all three platform jobs pass.
+
+## Final independent release review
+
+Final score: **9/10**, with no blocker for this managed CLI/eight-skill release.
+The reviewer independently downloaded all three published packages anonymously,
+verified SHA256/SHA512 and registry metadata, confirmed the exact CLI 5.2.0 pin
+and Linux x64/Apple Silicon-only native dependencies, and checked the active
+local alpha.9 command, managed CLI version and alpha.8 backup. Fresh production,
+live skill, document generation and installed Mac CLI Keychain receipts are
+consistent. The release is ready for the owner's hands-on review; the broader
+platform/enterprise milestones remain outside this completed release scope.

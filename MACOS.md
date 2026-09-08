@@ -440,6 +440,35 @@ Gatekeeper to install this alpha.
 
 ### Keychain is unlocked but login still fails
 
+Both Keycloak login and `login --with-api-key` use the OS credential store. A
+storage error occurs before either flow can establish gateway access; switching
+between those two login commands does not bypass Keychain.
+
+To continue with a workspace API key while investigating storage, use the
+existing environment-variable mode. If you already configured `mac-key`, run
+this block directly in your Mac's terminal; no reinstall or repeat setup is needed:
+
+```zsh
+(
+  set +x
+  read -rs 'AIRS_API_KEY?Workspace API key: ' || exit
+  printf '\n'
+  export AIRS_API_KEY
+  airs-harness --environment mac-key login --credential-env AIRS_API_KEY &&
+    airs-harness --environment mac-key
+)
+```
+
+The prompt hides the key. The harness saves a variable reference and credential
+fingerprint, not the key, and does not access Keychain for this credential.
+Exiting the harness ends the temporary shell and its exported key. Repeat the
+block with the same key on your next launch; to resume, append `resume` to the
+last `airs-harness` command. A rotated key requires a new environment.
+
+This is an explicit workspace-key alternative, not a repair for Keycloak token
+storage. Gateway authorization is checked when you make a request. Do not paste
+the key into chat, command arguments, or shell startup files.
+
 Opening and unlocking the login keychain does not establish that the harness's
 process can use the **default user keychain** selected by macOS. Alpha.9 reports
 a generic storage error and does not expose the underlying OS status. If the

@@ -324,6 +324,20 @@ jobs:
       - name: Exercise Keychain through the exact installed npm candidate
         run: |
           python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/cli-keychain.json"
+      - name: Preserve npm installation diagnostics on success or failure
+        if: always()
+        run: |
+          python3 - <<'DIAGNOSTICS'
+          import os, shutil
+          from pathlib import Path
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          destination = temporary / 'airs-evidence/npm-diagnostics'
+          destination.mkdir(parents=True, exist_ok=True)
+          for name in ('npm-install.log', 'INSTALL-NETWORK.json', 'INSTALL-VERIFICATION.json'):
+              source = temporary / 'AIRS Candidate Install' / name
+              if source.is_file() and not source.is_symlink() and source.stat().st_size <= 5 * 1024 * 1024:
+                  shutil.copyfile(source, destination / name)
+          DIAGNOSTICS
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: airs-harness-darwin-arm64-private-candidate-${{ github.run_attempt }}

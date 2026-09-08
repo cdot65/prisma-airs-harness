@@ -55,6 +55,7 @@ def main():
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--binary-sha256", required=True)
     parser.add_argument("--build-run", required=True)
+    parser.add_argument("--artifact-id", default="")
     parser.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args()
     receipt = {
@@ -75,6 +76,10 @@ def main():
         ]:
             if not re.fullmatch(pattern, value):
                 raise ValueError("Invalid artifact identity")
+        if args.artifact_id:
+            if not re.fullmatch(r"[0-9]+", args.artifact_id):
+                raise ValueError("Invalid artifact ID")
+            receipt["artifact_id"] = args.artifact_id
         receipt.update(
             source_commit=args.source_commit,
             binary_sha256=args.binary_sha256,

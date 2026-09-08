@@ -11,6 +11,9 @@ on:
       binary_sha256:
         description: Independently verified preserved executable SHA-256
         required: true
+      artifact_id:
+        description: Exact artifact ID for attempt-qualified builds; omit for legacy fixed-name artifacts
+        required: false
 permissions:
   contents: read
   actions: read
@@ -22,6 +25,7 @@ jobs:
       AIRS_DIAGNOSTIC_BUILD_RUN: ${{ inputs.build_run }}
       AIRS_DIAGNOSTIC_SOURCE: ${{ inputs.source_commit }}
       AIRS_DIAGNOSTIC_BINARY_SHA256: ${{ inputs.binary_sha256 }}
+      AIRS_DIAGNOSTIC_ARTIFACT_ID: ${{ inputs.artifact_id }}
     steps:
       - name: Require Apple Silicon and initialize nonrelease evidence
         run: |
@@ -37,15 +41,24 @@ jobs:
       - name: Install local fixture prerequisite
         run: brew install ripgrep
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: inputs.artifact_id == ''
         with:
           name: airs-harness-darwin-arm64-unvalidated-executables
+          path: ${{ runner.temp }}/compiled
+          run-id: ${{ inputs.build_run }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: inputs.artifact_id != ''
+        with:
+          artifact-ids: ${{ inputs.artifact_id }}
+          merge-multiple: true
           path: ${{ runner.temp }}/compiled
           run-id: ${{ inputs.build_run }}
           github-token: ${{ github.token }}
       - name: Verify preserved bytes and test actual CLI Keychain lifecycle
         timeout-minutes: 8
         run: |
-          python3 scripts/validate_macos_artifact_keychain.py --archive "$RUNNER_TEMP/compiled/unvalidated-macos-executables.tar.gz" --source-commit "$AIRS_DIAGNOSTIC_SOURCE" --binary-sha256 "$AIRS_DIAGNOSTIC_BINARY_SHA256" --build-run "$AIRS_DIAGNOSTIC_BUILD_RUN" --receipt "$RUNNER_TEMP/airs-keychain-evidence/diagnostic.json"
+          python3 scripts/validate_macos_artifact_keychain.py --archive "$RUNNER_TEMP/compiled/unvalidated-macos-executables.tar.gz" --source-commit "$AIRS_DIAGNOSTIC_SOURCE" --binary-sha256 "$AIRS_DIAGNOSTIC_BINARY_SHA256" --build-run "$AIRS_DIAGNOSTIC_BUILD_RUN" --artifact-id "$AIRS_DIAGNOSTIC_ARTIFACT_ID" --receipt "$RUNNER_TEMP/airs-keychain-evidence/diagnostic.json"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:

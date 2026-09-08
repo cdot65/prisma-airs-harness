@@ -137,7 +137,17 @@ def main():
             cwd=package,
             text=True,
         )
-        record = json.loads(result)[0]
+        packed = json.loads(result)
+        # npm 12 keys JSON output by package name; earlier npm emits an array.
+        records = list(packed.values()) if isinstance(packed, dict) else packed
+        if (
+            not isinstance(records, list)
+            or len(records) != 1
+            or not isinstance(records[0], dict)
+            or records[0].get("name") != package.name
+        ):
+            raise ValueError("npm pack did not return the expected single package")
+        record = records[0]
         receipts.append(
             {
                 "name": record["name"],

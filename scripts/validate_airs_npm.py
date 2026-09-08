@@ -125,8 +125,10 @@ def main():
             raise ValueError("Expected exactly one installed native package")
         native_info = native_infos[0]
         provenance = json.loads(native_info.read_text())
-        native = native_info.parent / "bin" / (
-            "airs-harness.exe" if os.name == "nt" else "airs-harness"
+        native = (
+            native_info.parent
+            / "bin"
+            / ("airs-harness.exe" if os.name == "nt" else "airs-harness")
         )
         with native.open("rb") as stream:
             native_digest = hashlib.file_digest(stream, "sha256").hexdigest()

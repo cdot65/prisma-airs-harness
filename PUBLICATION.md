@@ -8,7 +8,14 @@ held until the Apple Silicon build and credential acceptance pass.
 - Product: Prisma AIRS Harness; CLI and unscoped npm package: `airs-harness`.
 - Version: `0.1.0-alpha.8`.
 - Registry: `https://npm.cdot.io`, LAN/VPN, anonymous downloads.
-- Native release provenance: `b3486afcd3da6bcc27daf1bb4b02c56ebadb5739`.
+- Native package source revision: `b3486afcd3da6bcc27daf1bb4b02c56ebadb5739`.
+- Linux executable compilation receipt: `17624ca2761a0ca4217f54944b69a6436d7ec375`;
+  it was repackaged without changing the binary. Both revisions have the exact
+  `codex-rs` tree `bc8f5ee8041d5a64111d8473b34d7a9b89999bc7`. Changes between those
+  revisions are documentation, packaging, fixtures and validation records.
+- Apple Silicon compilation uses `b3486afcd` directly. Packaging source and
+  original compilation receipts are distinct evidence, not a claim that the
+  existing Linux executable was recompiled during publication.
 - Targets: Linux x64 musl and macOS Apple Silicon. Intel Macs are excluded by owner policy.
 - [Mac user runbook](MACOS.md).
 

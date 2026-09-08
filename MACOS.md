@@ -1,8 +1,8 @@
 # Prisma AIRS Harness on your Mac
 
-The alpha.8 Mac release is being validated before npm publication. These commands
-are the installation runbook for that release; publication status and test evidence
-are recorded in [PUBLICATION.md](PUBLICATION.md).
+Use this runbook to install the prebuilt alpha.8 package on Apple Silicon.
+Current release availability and test evidence are recorded in the
+[publication report](https://github.com/cdot65/airs-harness/blob/main/PUBLICATION.md).
 
 ## Install
 
@@ -207,8 +207,8 @@ previous version you want to keep. Add `~/.local/bin` to your shell's PATH if yo
 want to invoke it as simply `airs-harness`.
 
 Fresh state uses `~/.airs-harness` (or `AIRS_HARNESS_HOME`); existing legacy
-state is reused according to [RENAME.md](RENAME.md). macOS uses Keychain. Follow
-[Keycloak sign-in](README.md#sign-in-with-keycloak) on the LAN/VPN for your
+state is reused according to [rename contract](https://github.com/cdot65/airs-harness/blob/main/RENAME.md). macOS uses Keychain. Follow
+[sign-in and scanner instructions](#sign-in-and-connect-the-scanner) on the LAN/VPN for your
 deployment. No D-Bus or GNOME Keyring setup applies to a native Mac session.
 Close Terminal, open a new window and run `airs-harness resume` to verify that
 Keychain credentials and local history remain accessible across sessions.

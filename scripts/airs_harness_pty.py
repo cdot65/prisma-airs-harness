@@ -12,7 +12,7 @@ import time
 
 
 class TerminalSession:
-    def __init__(self, binary, environment, directory):
+    def __init__(self, binary, environment, directory, *, arguments=None):
         self.master, slave = pty.openpty()
         fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 40, 120, 0, 0))
 
@@ -22,7 +22,10 @@ class TerminalSession:
 
         try:
             self.process = subprocess.Popen(
-                [str(binary), "--no-alt-screen"],
+                [
+                    str(binary),
+                    *(arguments if arguments is not None else ["--no-alt-screen"]),
+                ],
                 env=dict(environment, TERM="xterm-256color"),
                 cwd=directory,
                 stdin=slave,

@@ -26,6 +26,10 @@ jobs:
       CARGO_PROFILE_DEV_DEBUG: 0
       CARGO_PROFILE_TEST_DEBUG: 0
     steps:
+      - name: Require Apple Silicon before installing build tools
+        if: runner.os == 'macOS'
+        shell: bash
+        run: test "$(uname -m)" = arm64
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false

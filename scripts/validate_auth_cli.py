@@ -47,7 +47,9 @@ clients = [
     op.api("/clients?clientId=" + name)[0]
     for name in ["airs-terminal-pilot", "airs-terminal-mcp"]
 ]
-assert all(not c["enabled"] for c in clients), "Clients must start disabled"
+assert all(c["enabled"] for c in clients), (
+    "Intended test clients must already be enabled; this fixture never changes shared client availability"
+)
 users = []
 rows = []
 daemon = None
@@ -239,8 +241,6 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                     "POST",
                     [role],
                 )
-        for client in clients:
-            op.api("/clients/" + client["id"], "PUT", {"enabled": True})
         gateway = "https://airs.cdot.io/v1"
         setup_extra = []
         if args.observe_tools:
@@ -580,8 +580,6 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
         if current and current.poll() is None:
             current.terminate()
             current.communicate(timeout=10)
-        for client in clients:
-            op.api("/clients/" + client["id"], "PUT", {"enabled": False})
         for u in users:
             op.api("/users/" + u["id"], "DELETE")
         if daemon:
@@ -600,7 +598,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                     "binary_sha256": binary_digest,
                     "checks": rows,
                     "fixtures_removed": True,
-                    "clients_disabled": True,
+                    "client_availability_mutated": False,
                     "scanner_access_policy": "unchanged",
                 },
                 indent=2,

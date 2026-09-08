@@ -32,6 +32,71 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_invalid_binding_errors_do_not_echo_record_contents(self):
+        self.configure()
+        canary = "private-invalid-binding-value"
+        (self.home / "credential-binding.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "id": "0e7e417a-d7b6-4dc7-8ae3-72d5c2f3a096",
+                    "gateway_url": self.url,
+                    "credential_fingerprint": "0" * 64,
+                    "source": {"kind": canary},
+                }
+            )
+        )
+        for arguments in (
+            ["status"],
+            ["doctor", "--json"],
+            ["login", "--credential-env", "AIRS_TEST_CREDENTIAL"],
+        ):
+            with self.subTest(arguments=arguments):
+                result = self.run_cli(*arguments)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertNotIn(canary, result.stdout + result.stderr)
+        self.assertEqual(self.requests, [])
+
+    @unittest.skipIf(
+        sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"
+    )
+    def test_guided_setup_retains_public_settings_after_cancelled_login(self):
+        from airs_harness_pty import TerminalSession
+
+        self.env.pop("AIRS_API_KEY", None)
+        with TerminalSession(
+            BINARY,
+            self.env,
+            self.work,
+            arguments=["setup", "--allow-http-loopback"],
+        ) as terminal:
+            terminal.wait_for(b"Environment name [work]")
+            os.write(terminal.master, b"review\r")
+            terminal.wait_for(b"AI Gateway URL:")
+            os.write(terminal.master, self.url.encode() + b"\r")
+            terminal.wait_for(b"Choose 1 or 2")
+            os.write(terminal.master, b"2\r")
+            terminal.wait_for(b"Workspace API key (input hidden")
+            os.write(terminal.master, b"\x1b")
+            terminal.wait_for(b"Sign-in cancelled")
+            terminal.process.wait(timeout=5)
+        registry = json.loads((self.home / "environments.json").read_text())
+        self.assertEqual(registry["active"], "review")
+        selected = self.home / "environments" / registry["environments"]["review"]["id"]
+        config = tomllib.loads((selected / "config.toml").read_text())
+        self.assertEqual(config["model_context_window"], 1_000_000)
+        self.assertFalse((selected / "credential-binding.json").exists())
+        for arguments in ([], ["resume"], ["fork"]):
+            with self.subTest(arguments=arguments):
+                with TerminalSession(
+                    BINARY, self.env, self.work, arguments=arguments
+                ) as terminal:
+                    terminal.wait_for(b"Choose 1 or 2")
+                    self.assertNotIn(b"AI Gateway URL:", terminal.transcript)
+                    os.write(terminal.master, b"\x03")
+                    terminal.process.wait(timeout=5)
+        self.assertEqual(self.requests, [])
+
     def test_existing_home_is_reused_without_moving_credentials_or_history(self):
         self.env["HOME"] = str(self.root)
         self.env.pop("AIRS_TERMINAL_HOME", None)
@@ -117,9 +182,92 @@ class TerminalIntegration(unittest.TestCase):
             "--device-auth",
         )
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("OS credential store unavailable", result.stderr)
-        self.assertIn("dbus-run-session -- bash", result.stderr)
-        self.assertIn("same shell", result.stderr)
+        self.assertIn(
+            "Credential storage failed during check credential storage", result.stderr
+        )
+        self.assertIn("Linux credential service", result.stderr)
+        self.assertIn("category:", result.stderr)
+        self.assertIn("OS status:", result.stderr)
+        self.assertEqual(self.requests, [])
+
+    @unittest.skipIf(
+        sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"
+    )
+    def test_workspace_login_hides_paste_and_restores_terminal_on_cancel(self):
+        import termios
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        for arguments in (["login"], ["login", "--with-api-key"]):
+            with self.subTest(arguments=arguments):
+                with TerminalSession(
+                    BINARY, self.env, self.work, arguments=arguments
+                ) as terminal:
+                    if arguments == ["login"]:
+                        terminal.wait_for(b"Choose 1 or 2")
+                        os.write(terminal.master, b"2\r")
+                    terminal.wait_for(b"Workspace API key (input hidden")
+                    self.assertFalse(
+                        termios.tcgetattr(terminal.master)[3] & termios.ECHO
+                    )
+                    secret = b"private-test-key-never-echo"
+                    os.write(terminal.master, b"\x1b[200~" + secret + b"\x1b[201~")
+                    os.write(terminal.master, b"\x03")
+                    terminal.wait_for(b"Sign-in cancelled")
+                    terminal.process.wait(timeout=5)
+                    self.assertNotIn(secret, terminal.transcript)
+                    self.assertTrue(
+                        termios.tcgetattr(terminal.master)[3] & termios.ECHO
+                    )
+                    self.assertTrue(
+                        termios.tcgetattr(terminal.master)[3] & termios.ICANON
+                    )
+                self.assertFalse((self.home / "credential-binding.json").exists())
+        self.assertEqual(self.requests, [])
+
+    @unittest.skipIf(
+        sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"
+    )
+    def test_workspace_login_rejects_multiline_paste_without_echo_or_binding(self):
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        with TerminalSession(
+            BINARY, self.env, self.work, arguments=["login", "--with-api-key"]
+        ) as terminal:
+            terminal.wait_for(b"Workspace API key (input hidden")
+            os.write(
+                terminal.master, b"\x1b[200~private-line-one\nprivate-line-two\x1b[201~"
+            )
+            terminal.wait_for(b"Paste a single workspace API key")
+            terminal.process.wait(timeout=5)
+            self.assertNotIn(b"private-line-one", terminal.transcript)
+            self.assertNotIn(b"private-line-two", terminal.transcript)
+        self.assertFalse((self.home / "credential-binding.json").exists())
+        self.assertEqual(self.requests, [])
+
+    @unittest.skipIf(
+        sys.platform == "win32", "POSIX signals; Windows uses native console acceptance"
+    )
+    def test_workspace_login_restores_terminal_when_terminated(self):
+        import signal
+        import termios
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        with TerminalSession(
+            BINARY, self.env, self.work, arguments=["login", "--with-api-key"]
+        ) as terminal:
+            terminal.wait_for(b"Workspace API key (input hidden")
+            secret = b"private-key-at-interruption"
+            os.write(terminal.master, b"\x1b[200~" + secret + b"\x1b[201~")
+            terminal.process.send_signal(signal.SIGTERM)
+            terminal.wait_until(lambda: terminal.process.poll() is not None)
+            self.assertNotIn(secret, terminal.transcript)
+            mode = termios.tcgetattr(terminal.master)[3]
+            self.assertTrue(mode & termios.ECHO)
+            self.assertTrue(mode & termios.ICANON)
+        self.assertFalse((self.home / "credential-binding.json").exists())
         self.assertEqual(self.requests, [])
 
     def test_interactive_model_switch_omits_unadvertised_reasoning(self):

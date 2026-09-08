@@ -5,6 +5,10 @@ use std::fmt;
 use std::fmt::Debug;
 use tracing::trace;
 
+mod diagnostics;
+pub use diagnostics::CredentialStoreDiagnostic;
+pub use diagnostics::CredentialStoreErrorKind;
+
 #[derive(Debug)]
 pub enum CredentialStoreError {
     Other(KeyringError),
@@ -62,8 +66,12 @@ impl KeyringStore for DefaultKeyringStore {
                 Ok(None)
             }
             Err(error) => {
-                trace!("keyring.load error, service={service}, account={account}, error={error}");
-                Err(CredentialStoreError::new(error))
+                let error = CredentialStoreError::new(error);
+                trace!(
+                    "keyring.load error, service={service}, account={account}, diagnostic={:?}",
+                    error.diagnostic()
+                );
+                Err(error)
             }
         }
     }
@@ -80,8 +88,12 @@ impl KeyringStore for DefaultKeyringStore {
                 Ok(())
             }
             Err(error) => {
-                trace!("keyring.save error, service={service}, account={account}, error={error}");
-                Err(CredentialStoreError::new(error))
+                let error = CredentialStoreError::new(error);
+                trace!(
+                    "keyring.save error, service={service}, account={account}, diagnostic={:?}",
+                    error.diagnostic()
+                );
+                Err(error)
             }
         }
     }
@@ -99,8 +111,12 @@ impl KeyringStore for DefaultKeyringStore {
                 Ok(false)
             }
             Err(error) => {
-                trace!("keyring.delete error, service={service}, account={account}, error={error}");
-                Err(CredentialStoreError::new(error))
+                let error = CredentialStoreError::new(error);
+                trace!(
+                    "keyring.delete error, service={service}, account={account}, diagnostic={:?}",
+                    error.diagnostic()
+                );
+                Err(error)
             }
         }
     }

@@ -37,7 +37,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update -qq && sudo apt-get install -y dbus-x11 gnome-keyring libssl-dev pkg-config
       - name: Verify identity and interrupted credential writes
-        run: just test -p codex-airs-identity --locked
+        run: just test -p codex-airs-identity -p codex-keyring-store --locked
       - name: Build native persistence fixture
         working-directory: codex-rs
         run: cargo build --locked -p codex-airs-identity --example store_acceptance

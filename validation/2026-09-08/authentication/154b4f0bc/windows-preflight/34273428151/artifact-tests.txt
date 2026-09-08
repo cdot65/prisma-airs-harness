@@ -1,0 +1,7 @@
+test_links_duplicates_and_publishable_manifests_are_rejected (test_airs_windows_artifact.ImmutableWindowsArtifact.test_links_duplicates_and_publishable_manifests_are_rejected) ... ok
+test_roundtrip_and_each_independent_identity_fail_closed (test_airs_windows_artifact.ImmutableWindowsArtifact.test_roundtrip_and_each_independent_identity_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.130s
+
+OK

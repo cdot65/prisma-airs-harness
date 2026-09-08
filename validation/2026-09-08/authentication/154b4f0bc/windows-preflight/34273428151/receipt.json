@@ -1,0 +1,67 @@
+{
+  "run_id": 34273428151,
+  "workflow_commit": "fa44f0a86fb7204e09b8e0c1c5102b204475d2ba",
+  "runtime_source_requested": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "scope": "Windows hosted preflight-only; disposable artifacts and prerequisite checks; no Rust compilation or native candidate execution",
+  "passed": true,
+  "release_ready": false,
+  "owner_device_tested": false,
+  "build_job": "skipped",
+  "acceptance_job": "skipped",
+  "job": {
+    "id": 102220503079,
+    "started_at": "2026-09-08T20:12:29Z",
+    "completed_at": "2026-09-08T20:13:31Z",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 10074757193,
+    "zip_sha256": "e847da5d62d03faffbfc192401cdffea026a21ce11310f07e149c9346861d8f3",
+    "digest_verified": true
+  },
+  "node_tests": {
+    "total": 12,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 4,
+    "skip_scope": "Existing Unix login-shell and signal/stdio fixtures explicitly skip on Windows"
+  },
+  "packaging_tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  },
+  "artifact_helper_tests": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "scope": "Roundtrip, canonical source newline, independent digest and malformed-manifest/member cases using disposable fixtures"
+  },
+  "pinned_conpty_dependency": {
+    "version": "3.0.5",
+    "binary_wheel_install_and_import": "passed",
+    "actual_conpty_prompt_executed": false,
+    "evidence": "Successful named GitHub job step executing exact version assertion"
+  },
+  "confirmed_repairs": [
+    "4f095bac0 canonical disposable fixture path",
+    "4d80b6c2a portable LF checksum files"
+  ],
+  "retained_files": {
+    "launcher-tests.txt": {
+      "original_sha256": "5885ee47a33196ad2fce5889645daf698c4008f22831f617ba641c6ca7aefea6",
+      "retained_sha256": "27b503867892f1706e878a332e833396a5af28e3fb0c6059a5b9781997b02fd6",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    },
+    "packaging-tests.txt": {
+      "original_sha256": "f2acd5e622f315a412e97c7548c38f9fc4d83dad0921907524fd45dc4a3f7e0b",
+      "retained_sha256": "c6f149e794499f6f49aaed7c5479ae031ecabff7df78c396ccf991a24276c146",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    },
+    "artifact-tests.txt": {
+      "original_sha256": "00f0ed55807281f6bd266e82dfa1a8e5426e1dae9e5cc10d7fc8fe4400320eb0",
+      "retained_sha256": "82d03669fa6cdf5fb2d29b98b5315c24a227fd1fbd4fbcebb17c2d22861db3b0",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    }
+  }
+}

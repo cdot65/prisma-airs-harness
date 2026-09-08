@@ -1,3 +1,4 @@
+mod airs_http;
 mod auth_status;
 mod bounded_stdio_transport;
 mod elicitation_client_service;

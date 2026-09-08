@@ -92,7 +92,7 @@ impl OAuthHttpClientAdapter {
         redirect_mode: StreamableHttpRedirectMode,
     ) -> Result<Self, url::ParseError> {
         Ok(Self {
-            http_client,
+            http_client: crate::airs_http::guard_http_client(http_client),
             default_headers,
             resource_origin: Url::parse(resource_url)?.origin(),
             timeout: OAuthDiscoveryTimeout::Requested,
@@ -110,7 +110,7 @@ impl OAuthHttpClientAdapter {
         redirect_mode: StreamableHttpRedirectMode,
     ) -> Result<Self, url::ParseError> {
         Ok(Self {
-            http_client,
+            http_client: crate::airs_http::guard_http_client(http_client),
             default_headers,
             resource_origin: Url::parse(resource_url)?.origin(),
             timeout: OAuthDiscoveryTimeout::Capped(max_timeout),

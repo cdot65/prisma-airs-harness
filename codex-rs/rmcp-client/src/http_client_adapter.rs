@@ -121,7 +121,9 @@ impl StreamableHttpClientAdapter {
         initialize_deadline: Arc<Mutex<Option<Instant>>>,
     ) -> Self {
         Self {
-            http_client: Arc::new(SameOriginRedirectHttpClient::new(http_client)),
+            http_client: Arc::new(SameOriginRedirectHttpClient::new(
+                crate::airs_http::guard_http_client(http_client),
+            )),
             default_headers,
             auth_provider,
             event_stream_cancellations: Arc::default(),

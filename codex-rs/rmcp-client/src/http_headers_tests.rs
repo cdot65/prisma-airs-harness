@@ -467,6 +467,7 @@ async fn refresh_retry_rechecks_deadline_and_redirects() {
     let temp = tempfile::tempdir().expect("helper directory");
     let command = "if [ -e invoked ]; then printf '{\"Proxy-Authorization\":\"Bearer fresh\"}'; else touch invoked; printf '{}'; fi";
     let client = HttpHeadersClient {
+        session: None,
         inner: Arc::new(RouteAwareHttpClient::new(HttpClientFactory::new(
             OutboundProxyPolicy::ReqwestDefault,
         ))),

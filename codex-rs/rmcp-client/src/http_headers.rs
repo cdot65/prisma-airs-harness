@@ -19,6 +19,8 @@ use codex_exec_server::HttpRedirectPolicy;
 use codex_exec_server::HttpRequestParams;
 use codex_exec_server::HttpRequestResponse;
 use codex_exec_server::HttpResponseBodyStream;
+use codex_utils_home_dir::airs_session::AirsSessionGuard;
+use codex_utils_home_dir::airs_session::current_airs_session_guard;
 #[cfg(all(unix, not(target_os = "macos")))]
 use codex_utils_pty::process_group::kill_process_group;
 #[cfg(target_os = "macos")]
@@ -69,6 +71,7 @@ struct RequestHeaders {
 struct HttpHeadersClient {
     inner: Arc<dyn HttpClient>,
     provider: HttpHeadersProvider,
+    session: Option<AirsSessionGuard>,
 }
 
 struct HelperProcess {
@@ -226,10 +229,38 @@ pub fn with_http_headers_helper(
     cwd: PathBuf,
 ) -> Result<Arc<dyn HttpClient>> {
     let provider = HttpHeadersProvider::new(server_url, command, cwd)?;
-    Ok(Arc::new(HttpHeadersClient { inner, provider }))
+    Ok(Arc::new(HttpHeadersClient {
+        inner,
+        provider,
+        session: current_airs_session_guard()?,
+    }))
 }
 
 impl HttpHeadersClient {
+    async fn session_request<T>(
+        &self,
+        request: impl std::future::Future<Output = Result<T, ExecServerError>>,
+    ) -> Result<T, ExecServerError> {
+        let Some(guard) = &self.session else {
+            return request.await;
+        };
+        let check = || {
+            guard
+                .check()
+                .map_err(|error| ExecServerError::HttpRequest(error.to_string()))
+        };
+        check()?;
+        tokio::pin!(request);
+        let mut interval = tokio::time::interval(Duration::from_millis(250));
+        loop {
+            tokio::select! {
+                biased;
+                _ = interval.tick() => check()?,
+                result = &mut request => { check()?; return result; }
+            }
+        }
+    }
+
     async fn prepare_request(
         &self,
         params: HttpRequestParams,
@@ -366,7 +397,8 @@ impl HttpHeadersClient {
             .method
             .eq_ignore_ascii_case("POST")
             .then(|| params.headers.clone());
-        let (params, headers, deadline) = self.prepare_request(params).await?;
+        let (params, headers, deadline) =
+            self.session_request(self.prepare_request(params)).await?;
         let original = original_headers
             .filter(|_| headers.is_some())
             .map(|headers| {
@@ -383,7 +415,7 @@ impl HttpHeadersClient {
                     .any(|header| header.name.eq_ignore_ascii_case("proxy-authorization"))
         };
         let prevent_proxy_authorization_redirect = needs_redirect_check(&params);
-        let response = send(params).await?;
+        let response = self.session_request(send(params)).await?;
         if prevent_proxy_authorization_redirect {
             Self::reject_proxy_authorization_redirect(response_headers(&response))?;
         }
@@ -394,7 +426,7 @@ impl HttpHeadersClient {
         {
             drop(response);
             let prevent_proxy_authorization_redirect = needs_redirect_check(&retry);
-            let response = send(retry).await?;
+            let response = self.session_request(send(retry)).await?;
             if prevent_proxy_authorization_redirect {
                 Self::reject_proxy_authorization_redirect(response_headers(&response))?;
             }
@@ -579,3 +611,7 @@ fn parse_helper_output(stdout: Vec<u8>) -> Result<HeaderMap> {
 #[cfg(test)]
 #[path = "http_headers_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "http_headers_revocation_tests.rs"]
+mod revocation_tests;

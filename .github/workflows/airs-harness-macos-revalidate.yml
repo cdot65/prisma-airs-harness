@@ -2,6 +2,14 @@ name: Prisma AIRS Harness macOS private artifact acceptance
 on:
   workflow_dispatch:
     inputs:
+      runner:
+        description: Hosted Apple Silicon acceptance runner (no compilation)
+        type: choice
+        default: macos-15
+        options:
+          - macos-15
+          - macos-26
+        required: true
       build_run:
         description: Run containing the compiled Apple Silicon executable artifact
         required: true
@@ -28,9 +36,10 @@ defaults:
     shell: bash
 jobs:
   acceptance:
-    runs-on: macos-15
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 45
     env:
+      AIRS_ACCEPTANCE_RUNNER: ${{ inputs.runner }}
       AIRS_COMPILATION_RUN: ${{ inputs.build_run }}
       AIRS_SELECTED_ARTIFACT: ${{ inputs.artifact_id }}
       AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
@@ -45,6 +54,12 @@ jobs:
           test "$(uname -m)" = arm64
           test "$RUNNER_ARCH" = ARM64
           mkdir -p "$RUNNER_TEMP/airs-evidence"
+          python3 - <<'HOST'
+          import json, os, platform
+          from pathlib import Path
+          host = {'selected_runner': os.environ['AIRS_ACCEPTANCE_RUNNER'], 'machine': platform.machine(), 'macos_version': platform.mac_ver()[0], 'owner_device': False}
+          (Path(os.environ['RUNNER_TEMP']) / 'airs-evidence/acceptance-host.json').write_text(json.dumps(host, indent=2) + '\n')
+          HOST
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false

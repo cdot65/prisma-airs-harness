@@ -42,6 +42,16 @@ class MacWorkflowBoundary(unittest.TestCase):
                         build.index("id: save_source_cache"),
                     )
                     self.assertEqual(build.count("continue-on-error: true"), 2)
+                else:
+                    self.assertRegex(
+                        text,
+                        r"(?m)^        options:\n          - macos-15\n          - macos-26$",
+                    )
+                    self.assertIn("default: macos-15", text)
+                    self.assertIn("runs-on: ${{ inputs.runner }}", acceptance)
+                    self.assertIn('test "$(uname -m)" = arm64', acceptance)
+                    self.assertIn('test "$RUNNER_ARCH" = ARM64', acceptance)
+                    self.assertIn("acceptance-host.json", acceptance)
         # Exercise the shell failure behavior relied on by the workflow.
         result = subprocess.run(
             [

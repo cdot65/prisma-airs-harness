@@ -57,6 +57,10 @@ If fixture code changes, use `airs-harness-macos-revalidate.yml` from the correc
 tooling revision. Supply the original build run, exact artifact ID, runtime commit,
 and independently verified archive/CLI/fixture SHA-256 values from build evidence.
 This workflow runs the full acceptance scope on preserved bytes without compiling.
+Choose `macos-15` (the default) or `macos-26` for the hosted Apple Silicon runner.
+The same verified executables can be exercised on both OS versions; every run
+records its selected runner and actual OS version. Both choices retain ARM64
+checks. Hosted macOS 26 acceptance does not replace the owner's Mac review.
 Rerunning an old workflow uses its original tooling revision; it does not pick up
 a fixture fix. Runtime changes still require a new build.
 

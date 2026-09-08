@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "release_ready": false,
+  "published": false,
+  "owner_device_tested": false,
+  "scope": "preserved Apple Silicon CLI Keychain lifecycle on hosted macOS; no build or promotion",
+  "phase": "completed",
+  "source_commit": "f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+  "binary_sha256": "42f1ac8b383bd5556f42361184ba436446ea7717855a650d5109391109c46ea0",
+  "build_run": "34265276427",
+  "archive_sha256": "5303ba01e5f7985edcba57eb812e0600b5fdbe3fa5d37c371d1d940ca953191c",
+  "artifact_verified": true,
+  "architecture": "arm64",
+  "signature": "verified ad-hoc; not Developer ID or notarization",
+  "checks": {
+    "cli_secure_login": true,
+    "oidc_native_store_preflight": true,
+    "new_process_credential_access": true,
+    "logout_rejects_credential_helper": true,
+    "authenticated_local_tool_loop": true,
+    "plaintext_state_absent": true,
+    "logout_blocks_inference": true
+  }
+}

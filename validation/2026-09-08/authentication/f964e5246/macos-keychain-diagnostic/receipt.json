@@ -1,0 +1,14 @@
+{
+  "run_id": 34270422810,
+  "workflow_commit": "35d3fe43d9b0550798b358bc919b6a617bf188ce",
+  "runtime_commit": "f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+  "artifact_id": 10073656176,
+  "artifact_zip_sha256": "f53bd3c77f9c8f3b42e1440efd5be49eb0ae9b8a240d51be18e11f5a1cd4a4af",
+  "artifact_zip_digest_verified": true,
+  "diagnostic_sha256": "59455f5339333e70aa55cf73e3de0e79bae09a663fcc3616328e3a2774574c20",
+  "passed": true,
+  "release_ready": false,
+  "owner_device_tested": false,
+  "rust_build_performed": false,
+  "newer_runtime_validation": false
+}

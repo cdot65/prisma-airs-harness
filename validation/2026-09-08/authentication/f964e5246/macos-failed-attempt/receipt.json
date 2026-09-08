@@ -1,0 +1,44 @@
+{
+  "build_run": 34265276427,
+  "source_commit": "f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+  "artifact_id": 10073297863,
+  "artifact_zip_sha256": "7fc1bf023f7a4e2bd483df150da60f474cb37fa4fba0d055e1a4bb98831d79ac",
+  "binary_sha256": "42f1ac8b383bd5556f42361184ba436446ea7717855a650d5109391109c46ea0",
+  "executed_locally": false,
+  "release_ready": false,
+  "passed": false,
+  "build_passed": true,
+  "cache_saved": true,
+  "hosted_arm_signature_verified": true,
+  "tests": {
+    "run": 36,
+    "passed": 33,
+    "failed": 1,
+    "skipped": 2
+  },
+  "failure": {
+    "test": "test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route",
+    "case": "bound=False",
+    "assertion": "Expected explicit model in a request made while gateway default was selected",
+    "expected_model": "@test/org/model:version",
+    "actual_model_present": false,
+    "fixture_correction": "Explicitly select the catalog route before the first probe; setup --model advertises a route but does not select it"
+  },
+  "later_keychain_and_npm_checks": "not reached",
+  "owner_device_tested": false,
+  "evidence_artifact": {
+    "id": 10073347130,
+    "zip_sha256": "4a4fee3974db3033559d5a3fb8357f359bf18ea955395f0e5cc50b3f59cd4c02",
+    "zip_digest_verified": true
+  },
+  "native_log_sha256": "ba3aa908f0143f931b16a15d362a242cab8d2a6f1edff9797dc07cafbda1d0ba",
+  "artifact_only_followup": {
+    "run_id": 34270422810,
+    "scope": "actual preserved CLI Keychain lifecycle only",
+    "status_at_recording": "queued-or-running",
+    "credited_pass": false
+  },
+  "retained_native_log": "native-tests.txt",
+  "retained_native_log_sha256": "8676f199f4366274b0b6e54188e7ff18ce2e8891705914259ec52e5bcb8b3c1b",
+  "retained_native_log_normalization": "Removed trailing line whitespace only; native_log_sha256 identifies original artifact member"
+}

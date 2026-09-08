@@ -26,6 +26,11 @@ parser.add_argument(
     action="store_true",
     help="Verify native credential lifecycle without changing scanner access; does not certify agent/MCP execution",
 )
+parser.add_argument(
+    "--verify-gateway-access",
+    action="store_true",
+    help="Require the candidate's bounded authenticated doctor probe after browser login",
+)
 args = parser.parse_args()
 os.umask(0o077)
 root = Path(__file__).resolve().parents[1]
@@ -366,6 +371,21 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             "verified-subject",
             binding["source"]["identity"]["subject"] == users[0]["id"],
         )
+        if args.verify_gateway_access:
+            probe = run("doctor", "--verify-access", "--json", timeout=50)
+            report = json.loads(probe.stdout)
+            access = next(
+                row for row in report["checks"] if row["name"] == "gateway_access"
+            )
+            correlation = re.search(
+                r"Client correlation ID: ([0-9a-f-]{36})", access["detail"]
+            )
+            check(
+                "bounded-authenticated-oidc-probe",
+                access["passed"] and correlation is not None,
+                client_correlation_id=correlation.group(1) if correlation else None,
+                mcp_permissions_tested=False,
+            )
         credential = ["credential", "--home", str(home), "--binding", binding["id"]]
         first = run(*credential)
         check("credential-helper", first.returncode == 0)

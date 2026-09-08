@@ -6,6 +6,10 @@ import path from "node:path";
 const require = createRequire(import.meta.url);
 
 export function platformPackage(platform, arch) {
+  if (platform === "darwin" && arch === "x64") {
+    throw new Error("Prisma AIRS Harness supports Apple Silicon Macs only. " +
+      "On Apple Silicon, use an arm64 Node.js installation outside Rosetta.");
+  }
   if (!["linux", "darwin", "win32"].includes(platform) ||
       !["arm64", "x64"].includes(arch)) {
     throw new Error(`Prisma AIRS Harness does not support ${platform}/${arch}.`);

@@ -25,6 +25,9 @@ def digest(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument(
+        "--source-directory", type=Path, default=Path(__file__).resolve().parents[1]
+    )
     parser.add_argument("--metadata", type=Path, required=True)
     parser.add_argument("--output-directory", type=Path, required=True)
     parser.add_argument(
@@ -35,7 +38,6 @@ def main():
     targets = {
         "x86_64-unknown-linux-musl": "linux-x86_64-musl",
         "aarch64-apple-darwin": "darwin-arm64",
-        "x86_64-apple-darwin": "darwin-x64",
     }
     parser.add_argument(
         "--target", choices=targets, default="x86_64-unknown-linux-musl"
@@ -43,7 +45,7 @@ def main():
     parser.add_argument("--validation", type=Path)
     parser.add_argument("--profile", default="release; upstream defaults")
     args = parser.parse_args()
-    repo = Path(__file__).resolve().parents[1]
+    repo = args.source_directory.resolve(strict=True)
     binary = args.binary.resolve(strict=True)
     metadata = json.loads(args.metadata.read_text())
     packages = {package["id"]: package for package in metadata["packages"]}

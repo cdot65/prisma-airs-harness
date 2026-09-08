@@ -26,6 +26,7 @@ function fixture(t, native) {
 
 test("unsupported platform is actionable", () => {
   assert.throws(() => platformPackage("freebsd", "x64"), /does not support/);
+  assert.throws(() => platformPackage("darwin", "x64"), /Apple Silicon Macs only/);
 });
 
 test("missing platform dependency fails without fetching a replacement", (t) => {

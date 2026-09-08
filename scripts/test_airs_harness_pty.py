@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Linux interactive startup/logout regression; no inference or real key required."""
+"""Native interactive startup/logout regression; no inference or real key required."""
 
 import fcntl
 import json
@@ -104,7 +104,7 @@ class InteractiveTerminal(unittest.TestCase):
                 replacement = root / "replacement"
                 shutil.copy2(BINARY, replacement)
                 os.replace(replacement, binary)
-                os.write(master, b"/logout")
+                os.write(master, b"\x1b[200~/logout\x1b[201~")
                 time.sleep(0.25)
                 os.write(master, b"\r")
                 deadline = time.monotonic() + 15

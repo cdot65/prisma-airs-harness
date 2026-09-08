@@ -24,6 +24,13 @@ BINARY = Path(
 EXPLICIT = "@test/org/model:version"
 
 
+def latest_user_text(body):
+    for item in reversed(body.get("input", [])):
+        if item.get("role") == "user":
+            return "".join(part.get("text", "") for part in item.get("content", []))
+    return ""
+
+
 class TerminalIntegration(unittest.TestCase):
     def test_existing_home_is_reused_without_moving_credentials_or_history(self):
         self.env["HOME"] = str(self.root)
@@ -125,38 +132,56 @@ class TerminalIntegration(unittest.TestCase):
                 "airs-harness/0.1.0-alpha.8", "airs-terminal/0.1.0-alpha.7"
             )
         )
+        prompts = {
+            "Create result.txt using a local shell tool. Phase one.": (
+                None,
+                "First phase finished.",
+            ),
+            "Review the changes and run the tests again. Phase two.": (
+                EXPLICIT,
+                "Second phase finished.",
+            ),
+            "Confirm the review is complete. Phase three.": (
+                None,
+                "Third phase finished.",
+            ),
+        }
+        self.phase_replies = {prompt: reply for prompt, (_, reply) in prompts.items()}
         with TerminalSession(BINARY, self.env, self.work) as terminal:
             self.terminal_transcript = terminal.transcript
             terminal.start()
-            terminal.send_line("Create result.txt using a local shell tool.")
-            terminal.wait_for(b"Local tool complete.")
-            default_count = len(self.requests)
-            self.phase_counts = {"default_count": default_count}
-            self.assertGreaterEqual(default_count, 2)
-            terminal.choose_model("down", EXPLICIT)
-            offset = len(terminal.transcript)
-            terminal.send_line("Review the changes and run the tests again.")
-            terminal.wait_for(b"Local tool complete.", offset)
-            explicit_count = len(self.requests)
-            self.phase_counts["explicit_count"] = explicit_count
-            self.assertGreater(explicit_count, default_count)
-            terminal.choose_model("up", "airs-gateway-default")
-            offset = len(terminal.transcript)
-            terminal.send_line("Confirm the review is complete.")
-            terminal.wait_for(b"Local tool complete.", offset)
-            self.assertGreater(len(self.requests), explicit_count)
-        for start, stop, model in (
-            (0, default_count, None),
-            (default_count, explicit_count, EXPLICIT),
-            (explicit_count, len(self.requests), None),
-        ):
-            self.assertTrue(
-                all(
-                    body.get("model") == model
-                    for _, _, body in self.requests[start:stop]
-                ),
-                [(path, body.get("model")) for path, _, body in self.requests],
-            )
+            for index, (prompt, (model, reply)) in enumerate(prompts.items()):
+                if index:
+                    terminal.choose_model(
+                        "down" if model else "up", model or "airs-gateway-default"
+                    )
+                offset = len(terminal.transcript)
+                terminal.send_line(prompt)
+                terminal.wait_for(reply.encode(), offset)
+        counts = dict.fromkeys(prompts, 0)
+        for _, _, body in self.requests:
+            prompt = latest_user_text(body)
+            if prompt in prompts:
+                counts[prompt] += 1
+                model = prompts[prompt][0]
+            else:
+                # Session naming is a separate background request based on the
+                # original turn. Arrival order does not define its model route.
+                self.assertTrue(
+                    prompt.startswith("Generate a concise, single-line task title"),
+                    prompt,
+                )
+                self.assertTrue(
+                    prompt.endswith("User prompt:\n" + next(iter(prompts))), prompt
+                )
+                model = None
+            if model is None:
+                self.assertNotIn("model", body)
+            else:
+                self.assertEqual(body.get("model"), model)
+        self.assertTrue(all(counts.values()), counts)
+        self.assertGreaterEqual(counts[next(iter(prompts))], 2)
+        self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
         for _, headers, body in self.requests:
             self.assertNotIn("effort", body.get("reasoning") or {})
             self.assertEqual(
@@ -501,6 +526,7 @@ class TerminalIntegration(unittest.TestCase):
         self.mcp_requests = []
         self.redirect = None
         self.force_compaction = False
+        self.phase_replies = {}
         self.env = dict(
             os.environ,
             AIRS_HARNESS_HOME=str(self.home),
@@ -587,7 +613,14 @@ class TerminalIntegration(unittest.TestCase):
                                 "content": [
                                     {
                                         "type": "output_text",
-                                        "text": "Local tool complete.",
+                                        "text": (
+                                            owner.phase_replies.get(
+                                                latest_user_text(body),
+                                                "Create result file",
+                                            )
+                                            if owner.phase_replies
+                                            else "Local tool complete."
+                                        ),
                                     }
                                 ],
                             },

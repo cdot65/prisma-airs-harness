@@ -160,6 +160,7 @@ The repository is named `airs-harness`.
 git clone git@github.com:cdot65/airs-harness.git airs-harness
 cd airs-harness/codex-rs
 rustup show active-toolchain
+test "$(uname -m)" = arm64 || exit 1
 CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=4 \
   cargo build --locked -p codex-cli --bin airs-harness
 ./target/debug/airs-harness --version

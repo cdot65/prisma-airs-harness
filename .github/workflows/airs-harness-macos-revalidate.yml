@@ -6,17 +6,35 @@ on:
         description: Run containing the compiled Apple Silicon executable artifact
         required: true
         default: '34178828451'
+      source_ref:
+        description: Exact compiled runtime source revision
+        required: true
+        default: b3486afcd3da6bcc27daf1bb4b02c56ebadb5739
 permissions:
   contents: read
   actions: read
 jobs:
   acceptance:
     runs-on: macos-15
-    timeout-minutes: 15
+    timeout-minutes: 25
+    env:
+      AIRS_COMPILATION_RUN: ${{ inputs.build_run }}
+      AIRS_RELEASE_TARGET: aarch64-apple-darwin
+      AIRS_RELEASE_SUFFIX: darwin-arm64
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
+      - name: Check out immutable runtime source for package provenance
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ inputs.source_ref }}
+          path: runtime
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.13'
@@ -32,10 +50,44 @@ jobs:
           brew install ripgrep
           mkdir -p "$RUNNER_TEMP/airs-evidence"
           tar -xzf "$RUNNER_TEMP/compiled/unvalidated-macos-executables.tar.gz" -C "$RUNNER_TEMP/compiled"
+          test "$(lipo -archs "$RUNNER_TEMP/compiled/airs-harness")" = arm64
           codesign --verify --strict --verbose=2 "$RUNNER_TEMP/compiled/airs-harness"
-          cat "$RUNNER_TEMP/compiled/runtime-source.txt"
+          test "$(cat "$RUNNER_TEMP/compiled/runtime-source.txt")" = "$(git -C runtime rev-parse HEAD)"
+          otool -L "$RUNNER_TEMP/compiled/airs-harness" | tee "$RUNNER_TEMP/airs-evidence/libraries.log"
           shasum -a 256 "$RUNNER_TEMP/compiled/airs-harness" > "$RUNNER_TEMP/airs-evidence/executable-sha256.txt"
           AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/fixtures" AIRS_HARNESS_BIN="$RUNNER_TEMP/compiled/airs-harness" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$RUNNER_TEMP/airs-evidence/native-tests.log" 2>&1
+      - name: Native Keychain acceptance
+        run: |
+          python3 scripts/validate_native_credentials.py --binary "$RUNNER_TEMP/compiled/store_acceptance" --output "$RUNNER_TEMP/airs-evidence/keychain.json"
+          python3 scripts/record_airs_macos_validation.py --binary "$RUNNER_TEMP/compiled/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence" --target "$AIRS_RELEASE_TARGET" --source-directory runtime --build-run "$AIRS_COMPILATION_RUN"
+      - name: Restore dependency sources for license inventory without compiling
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: airs-macos-v1-${{ runner.arch }}-${{ github.sha }}
+          restore-keys: airs-macos-v1-${{ runner.arch }}-
+      - name: Resolve locked dependency metadata without compiling
+        working-directory: runtime/codex-rs
+        run: cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
+      - name: Package preserved native release and npm candidate
+        run: |
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
+          python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
+          python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
+          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/airs-npm-install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
+          AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/npm-fixtures" AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-npm-install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: airs-harness-darwin-arm64
+          path: |
+            ${{ runner.temp }}/airs-package/*.tar.gz
+            ${{ runner.temp }}/airs-package/*.sha256
+          compression-level: 0
+          retention-days: 30
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:

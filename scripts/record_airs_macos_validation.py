@@ -4,6 +4,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -14,6 +15,7 @@ def main():
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--target", required=True)
+    parser.add_argument("--build-run")
     parser.add_argument("--source-directory", type=Path, default=Path.cwd())
     args = parser.parse_args()
     tests = (args.evidence / "native-tests.log").read_text()
@@ -33,6 +35,13 @@ def main():
     keychain = json.loads((args.evidence / "keychain.json").read_text())
     receipt = {
         "product": "Prisma AIRS Harness",
+        "compilation_run": args.build_run or os.environ.get("GITHUB_RUN_ID"),
+        "validation_run": os.environ.get("GITHUB_RUN_ID"),
+        "validation_tooling_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=Path(__file__).resolve().parents[1],
+            text=True,
+        ).strip(),
         "product_version": version.removeprefix("airs-harness "),
         "target": args.target,
         "binary_sha256": digest,

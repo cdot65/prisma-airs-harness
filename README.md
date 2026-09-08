@@ -8,7 +8,16 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.9 — managed Prisma AIRS CLI
+## Authentication release status
+
+The guided sign-in and native credential-diagnostic changes are still private,
+unpublished candidates. Installing alpha.9 does not install those changes, and
+the reported owner-Mac Keychain incident remains open. See the
+[acceptance ledger](validation/2026-09-08/authentication/154b4f0bc/ACCEPTANCE.md)
+and [independent readiness review](validation/2026-09-08/authentication/154b4f0bc/REVIEW.md)
+for verified results and remaining release gates.
+
+## Published 0.1.0-alpha.9 — managed Prisma AIRS CLI
 
 The npm package is `airs-harness`; its launcher runs a matching prebuilt Rust
 agent and requires `@cdot65/prisma-airs-cli@5.2.0` (SDK 0.28.0). Eight embedded
@@ -19,7 +28,7 @@ See [CLI setup and upgrade policy](PRISMA-AIRS-CLI.md) and
 
 Linux x64 and Apple Silicon native/npm acceptance passed. Existing environments,
 credential bindings and history retain the [rename compatibility contract](RENAME.md).
-[VALIDATION.json](VALIDATION.json) records current acceptance; [RELEASE.md](RELEASE.md)
+[VALIDATION.json](VALIDATION.json) records that published release's acceptance; [RELEASE.md](RELEASE.md)
 and archived validation files retain historical evidence.
 
 ## Installation

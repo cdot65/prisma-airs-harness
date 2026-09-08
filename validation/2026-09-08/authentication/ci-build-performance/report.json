@@ -1,0 +1,227 @@
+{
+  "reviewed_utc": "2026-09-08T20:24:46.468706+00:00",
+  "scope": "Read-only completed-run and configuration investigation; no Rust invocation, benchmark, active build modification, runtime/CI edit, Intel build or paid runner change.",
+  "mac_runs": [
+    {
+      "run": 34259924957,
+      "log_sha256": "098dc3ae0c1b2a5510597c04b24d014de638a9affa8eb02e69a2969111256ffe",
+      "cache": [
+        "2026-09-08T17:56:04.3334070Z Cache Size: ~1693 MB (1775315296 B)",
+        "2026-09-08T17:56:39.2012100Z Cache restored from key: airs-macos-v1-ARM64-834cb96cec7f1a6c4f791783915e9ad8d0e64523b0c163ad5e1cff1b49903b20-fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+        "2026-09-08T18:45:22.2839390Z Cache saved with key: airs-macos-v1-ARM64-7690827eee8facac403e4ae4dd185886b9187841a29ee7c81356a759aebe6d82-c10e3f99393f7d79dbe48fa228a9a18e548953e1"
+      ],
+      "cargo_finished": [
+        "2026-09-08T18:44:04.4539920Z     Finished `release` profile [optimized] target(s) in 47m 16s",
+        "2026-09-08T18:44:11.7159090Z     Finished `release` profile [optimized] target(s) in 6.68s"
+      ],
+      "compiling_line_count": 133,
+      "codex_compiling_count": 133,
+      "first_compiles": [
+        {
+          "timestamp": "2026-09-08T17:56:54.9338700Z",
+          "name": "codex-utils-absolute-path",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T17:56:54.9663920Z",
+          "name": "codex-utils-rustls-provider",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T17:56:55.8078250Z",
+          "name": "codex-http-client",
+          "version": "0.153.4"
+        }
+      ],
+      "last_compiles": [
+        {
+          "timestamp": "2026-09-08T18:27:27.2670630Z",
+          "name": "codex-cloud-tasks",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:29:29.3871620Z",
+          "name": "codex-exec",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:34:05.4741470Z",
+          "name": "codex-app-server-daemon",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:34:10.5049480Z",
+          "name": "codex-mcp-server",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:35:06.5056260Z",
+          "name": "codex-app-server-test-client",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:35:12.3268140Z",
+          "name": "codex-stdio-to-uds",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:44:06.6242700Z",
+          "name": "codex-keyring-store",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:44:07.2154310Z",
+          "name": "codex-airs-identity",
+          "version": "0.153.4"
+        }
+      ],
+      "steps": [
+        {
+          "name": "Reuse native Rust build outputs",
+          "seconds": 71.0,
+          "result": "success"
+        },
+        {
+          "name": "Build optimized native agent and Keychain fixture",
+          "seconds": 2847.0,
+          "result": "success"
+        },
+        {
+          "name": "Preserve successful compilation before acceptance tests",
+          "seconds": 69.0,
+          "result": "success"
+        },
+        {
+          "name": "Native execution, sandbox and Keychain acceptance",
+          "seconds": 72.0,
+          "result": "failure"
+        }
+      ],
+      "cli_invocation_workspace_compile_lines": 131,
+      "store_fixture_invocation_compile_lines": 2,
+      "unique_compiling_packages": 131,
+      "fingerprint_dirty_reason_captured": false
+    },
+    {
+      "run": 34265276427,
+      "log_sha256": "caaa3264fa4ed4763731ac9aba478122cd70fb865620f1b5d793bea65a94fb24",
+      "cache": [
+        "2026-09-08T18:49:52.3209600Z Cache Size: ~2038 MB (2137173305 B)",
+        "2026-09-08T18:50:31.5652620Z Cache restored from key: airs-macos-v1-ARM64-7690827eee8facac403e4ae4dd185886b9187841a29ee7c81356a759aebe6d82-c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+        "2026-09-08T19:34:06.4584540Z Cache saved with key: airs-macos-v1-ARM64-6829d11afabd2f9b9e4d345b5a7a8535ee7c21136ca98d108367a51b3fe27cb2-f964e5246dec3b8d98ab8ba6920c060a2aeb176c"
+      ],
+      "cargo_finished": [
+        "2026-09-08T19:32:56.8789930Z     Finished `release` profile [optimized] target(s) in 42m 16s",
+        "2026-09-08T19:33:05.8579180Z     Finished `release` profile [optimized] target(s) in 8.30s"
+      ],
+      "compiling_line_count": 133,
+      "codex_compiling_count": 133,
+      "first_compiles": [
+        {
+          "timestamp": "2026-09-08T18:50:44.5049660Z",
+          "name": "codex-utils-absolute-path",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:50:44.5214030Z",
+          "name": "codex-utils-rustls-provider",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T18:50:45.1683670Z",
+          "name": "codex-http-client",
+          "version": "0.153.4"
+        }
+      ],
+      "last_compiles": [
+        {
+          "timestamp": "2026-09-08T19:17:31.0498380Z",
+          "name": "codex-cloud-tasks",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:19:06.7474880Z",
+          "name": "codex-exec",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:22:33.6097790Z",
+          "name": "codex-mcp-server",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:23:28.6523730Z",
+          "name": "codex-app-server-daemon",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:23:35.4894420Z",
+          "name": "codex-app-server-test-client",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:23:41.9852160Z",
+          "name": "codex-stdio-to-uds",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:32:59.8695760Z",
+          "name": "codex-keyring-store",
+          "version": "0.153.4"
+        },
+        {
+          "timestamp": "2026-09-08T19:33:00.5271370Z",
+          "name": "codex-airs-identity",
+          "version": "0.153.4"
+        }
+      ],
+      "steps": [
+        {
+          "name": "Reuse native Rust build outputs",
+          "seconds": 67.0,
+          "result": "success"
+        },
+        {
+          "name": "Build optimized native agent and Keychain fixture",
+          "seconds": 2549.0,
+          "result": "success"
+        },
+        {
+          "name": "Preserve successful compilation before acceptance tests",
+          "seconds": 59.0,
+          "result": "success"
+        },
+        {
+          "name": "Native execution, sandbox and Keychain acceptance",
+          "seconds": 77.0,
+          "result": "failure"
+        }
+      ],
+      "cli_invocation_workspace_compile_lines": 131,
+      "store_fixture_invocation_compile_lines": 2,
+      "unique_compiling_packages": 131,
+      "fingerprint_dirty_reason_captured": false
+    }
+  ],
+  "local154": {
+    "source": "154b4f0bcef7528844e85177d7e4dce611982044",
+    "wall_seconds": 560,
+    "cli_library_seconds": 58.08,
+    "cli_binary_unit_seconds": 501.22,
+    "build_script_seconds": 0.01,
+    "timing_unit_count": 1399,
+    "other_units_reported_zero_duration": 1396,
+    "profile_difference": "Linux154 and current Mac private-candidate workflow override codex-cli opt-level1; old c10/f964Mac used default release opt-level3.",
+    "timing_scope": "Binary-unit duration includes compiler/codegen/link; not an isolated linker measurement."
+  },
+  "confirmed": "Successful dependency cache restoration followed by broad workspace recompilation, not total cache miss.",
+  "likely_unconfirmed": "Fresh checkout source mtimes can invalidate restored path/workspace outputs; no old fingerprint dirty trace proves the reason for these specific runs.",
+  "next_instrumentation": "At next planned build retain --timings plus CARGO_LOG=cargo::core::compiler::fingerprint=info, resolved cache key, toolchain/profile, and peakRSS/CPU evidence; do not start another build just to sample.",
+  "sources": [
+    "https://doc.rust-lang.org/stable/nightly-rustc/cargo/core/compiler/fingerprint/index.html",
+    "https://doc.rust-lang.org/cargo/faq.html#why-is-cargo-rebuilding-my-code",
+    "https://doc.rust-lang.org/cargo/reference/profiles.html",
+    "https://doc.rust-lang.org/cargo/reference/build-cache.html",
+    "https://github.com/mozilla/sccache/blob/main/docs/Rust.md"
+  ]
+}

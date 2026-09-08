@@ -16,7 +16,7 @@ The owned `airs-harness-macos-release.yml` workflow separates three jobs:
    and Node launcher tests run on Linux before allocating a compiler runner.
 2. **Build:** Apple Silicon compiles the CLI and native Keychain fixture, signs
    them ad hoc, and uploads their immutable artifact. Candidate CLI optimization
-   is level 1; dependencies retain release settings, with no LTO, 16 codegen
+   is level 1; dependencies retain release settings, with `LTO=false`, 16 codegen
    units and no debug information. Provenance records the actual settings.
 3. **Acceptance:** A fresh Apple Silicon job downloads that exact artifact ID,
    verifies runtime source, archive and both executable hashes, architecture and
@@ -40,7 +40,8 @@ An architecture-matching fallback
 allows reuse after validation-only workflow edits; Cargo still validates the
 lockfile, compiler options and source fingerprints. Cache restoration never skips
 compilation checks or acceptance. Only manual trusted release workflows use this
-cache. Warm-build duration remains to be measured.
+cache. The revised build profile still needs a measured result; earlier cache-restored
+builds are recorded below.
 
 Acceptance restores a separate dependency-source cache for license inventory,
 without downloading the large Rust build-output tree. A miss can fetch locked
@@ -64,6 +65,26 @@ acceptance passes. They do not promote ad-hoc signatures to production signing o
 claim owner-device acceptance. Older artifacts with unrecorded compiler settings
 retain that uncertainty. Cheap checks reduce avoidable failures but do not replace
 native acceptance or prove runtime/fixture compatibility on every platform.
+
+## Measured cache behavior
+
+The failed f964 run restored a 2.14 GB build cache in 67 seconds, then rebuilt
+131 workspace packages in 42m 16s. The preceding c10 run also rebuilt those
+packages after a successful cache restore and took 47m 16s. Third-party compiled
+dependencies were reused; this was not a total cache miss. Both compilations
+succeeded and failed later in acceptance.
+
+Fresh-checkout timestamps can invalidate workspace artifacts, but the logs did
+not retain Cargo fingerprint reasons, so that explanation remains unconfirmed.
+The local Linux 154 build took 9m 20s while rebuilding essentially the CLI only,
+with different optimization settings and hardware. It is not a comparable Mac
+benchmark. See the [timing and cache review](validation/2026-09-08/authentication/ci-build-performance/REPORT.md).
+
+During the next planned build, retain Cargo fingerprint diagnostics alongside
+build timings and the actual cache key/profile. Do not trigger another long build
+solely to collect diagnostics. Artifact-only acceptance retries already avoid
+compilation; persistent-workspace or compiler-cache changes need separate
+measurements before claiming a speed improvement.
 
 ## Dedicated Mac requirements
 

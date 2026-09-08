@@ -1,0 +1,51 @@
+{
+  "run_id": 34272896730,
+  "workflow_commit": "70c2aed38462675f3be0a2422b98f7eb34966937",
+  "runtime_source_requested": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "scope": "Windows hosted preflight-only; no Rust compilation or native candidate execution",
+  "passed": false,
+  "release_ready": false,
+  "build_job": "skipped",
+  "acceptance_job": "skipped",
+  "artifact": {
+    "id": 10074544193,
+    "zip_sha256": "efd833686014271a5d404d51334c85cedbc63b3fc44c51557f6d504033d1e200",
+    "digest_verified": true
+  },
+  "node_tests": {
+    "total": 12,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 4
+  },
+  "packaging_tests": {
+    "test_methods": 5,
+    "passed_methods": 4,
+    "failed_methods": 1,
+    "failed_assertions": 1
+  },
+  "canonical_fixture_path_regression": "passed",
+  "artifact_helper_tests": "not reached",
+  "pinned_conpty_dependency": "not reached",
+  "failure": "Windows packaging wrote CRLF checksum lines; the portable LF checksum assertion correctly rejected them",
+  "packaging_fix_commit": "4d80b6c2a",
+  "fix_scope": "Explicit LF for inner SHA256SUMS and outer archive .sha256; native executable unchanged",
+  "fix_local_evidence": {
+    "platform": "Linux",
+    "packaging_tests": 5,
+    "passed": true,
+    "native_windows_retry_pending": true
+  },
+  "retained_files": {
+    "launcher-tests.txt": {
+      "original_sha256": "5715051752029bcbca3b885eaa824d1d96e6ff532df138c67990e9b7b18dc682",
+      "retained_sha256": "3a599a58d015ff6a44f7072cc7e9e655650a2105ab3dce1cb5498d4490f6b039",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    },
+    "packaging-tests.txt": {
+      "original_sha256": "54d88c16181c87ce971fc7969bb903f70e963c1284b526e13d6928e7b0ae10d1",
+      "retained_sha256": "79002b3f7bdbb10f8620dd5d6f47d42ccc1abdac6f490b8d0264c5c7a6c5801c",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    }
+  }
+}

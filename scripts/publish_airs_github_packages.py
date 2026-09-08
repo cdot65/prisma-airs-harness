@@ -131,9 +131,7 @@ def main():
             )
         )
         if association.get("repository", {}).get("full_name") != "cdot65/airs-harness":
-            raise ValueError(
-                "Published package is not associated with the harness repository"
-            )
+            raise ValueError("Published repository association: " + json.dumps(association.get("repository")))
         published.append(
             {
                 "name": manifest["name"],

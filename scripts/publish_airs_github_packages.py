@@ -57,12 +57,13 @@ def main():
         ):
             raise ValueError("Unexpected repository association")
         manifest["name"] = "@cdot65/prisma-" + record["name"]
+        manifest["repository"] = {"type": "git", "url": "https://github.com/cdot65/airs-harness.git"}
         manifest["publishConfig"] = {"registry": REGISTRY}
         staged.append((record, package, manifest))
     native_urls = {}
     published = []
     for record, package, manifest in sorted(
-        staged, key=lambda item: item[0]["name"] == "airs-harness"
+        staged, key=lambda item: (item[0]["name"] == "airs-harness", item[0]["name"])
     ):
         if record["name"] == "airs-harness":
             if set(manifest["optionalDependencies"]) != set(native_urls):

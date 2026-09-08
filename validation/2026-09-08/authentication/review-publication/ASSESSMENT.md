@@ -1,8 +1,8 @@
 # Review prerelease distribution assessment
 
 Date: 2026-09-08. Reviewer: `/root/release_review`.
-Scope: read-only P5/P6 release-path assessment, followed by separately requested
-legacy publisher guard work. This is not a publication receipt or release approval.
+Scope: P5/P6 release-path assessment, legacy publisher guard work, and a
+22:18 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
 The reviewer authored the guard implementation; root performed its separate review.
 
 ## Plan interpretation and remaining work
@@ -26,15 +26,17 @@ The remaining path is:
    Hosted ad-hoc Keychain success is not the owner's Mac incident reproduction or fix.
    A proposed unsigned public diagnostic tier would need a separate explicit plan
    decision; the current guards and P5 do not provide one.
-4. Implement ordinary scoped npm installation with correct public dependency
-   resolution. Current instructions deliberately use a separately resolved tarball:
-   the harness, public CLI and public SDK share @cdot65. Changing only the CLI to
-   a tarball is insufficient and breaks the current literal-version comparison in
-   resolvePrismaCli. The earlier shrinkwrap proposal is superseded: npm12 no longer
-   consumes it. [The bounded local experiment](install-feasibility/REPORT.md) verifies
-   bundled CLI/SDK plus scoped exact-version native dependencies on npm10 and npm12.
-   Real Sharp platform selection remains a packaging blocker; this is feasibility
-   evidence, not implemented packaging or a real GitHub Packages installation.
+4. The scoped package-name install implementation now exists as opt-in
+   `--scoped --bundle-cli`, preserving exact native/CLI/SDK versions and candidate
+   guards. [Maintained Linux bundle acceptance](maintained-bundle-d0c/REPORT.md)
+   passed on npm10 and npm12, including actual CLI diagnostics and image/document
+   generation. The bundle selects Sharp payloads from supplied native targets,
+   preserves licenses, and verifies installed files against recorded hashes and
+   the documented npm shebang normalization. Hosted Mac bundled acceptance is
+   underway; Windows generated command-shim validation explicitly remains
+   unsupported. Real GitHub access, signing and migration are still unverified.
+   The [earlier synthetic experiment](install-feasibility/REPORT.md) is historical
+   feasibility evidence, and the shrinkwrap proposal remains superseded.
 5. Test fresh package-name/tag installation with an empty cache and intended scope
    mapping, actual native selection and hashes, managed CLI pin, installed Keychain
    lifecycle, alpha.9 credential/session migration, and relocation. Verify teammate

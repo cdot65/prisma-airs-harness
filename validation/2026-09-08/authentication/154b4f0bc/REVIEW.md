@@ -98,3 +98,57 @@ The detailed [acceptance ledger](ACCEPTANCE.md), [Linux artifact receipt](linux-
 and [P5 assessment](../review-publication/ASSESSMENT.md) and [install feasibility](../review-publication/install-feasibility/REPORT.md) are the supporting record.
 The companion evidence index freezes reviewed receipt hashes. Later Mac evidence
 must be appended as a dated revision; no pending result is counted as passed here.
+
+
+## Addendum: completed Linux two-expiry and hosted Mac 15/26 evidence
+
+Reviewed 2026-09-08 after Mac15 acceptance completed at **21:04:13 UTC** and
+Mac26 at **21:13:13 UTC**. This supersedes the earlier pending status while preserving that historical
+snapshot. **Overall FAIL and formal score NOT ESTABLISHED remain unchanged.**
+
+- Linux's new first-attempt installed npm run passed **29/29** between
+  20:57:38 and 21:02:20 UTC. The exact wrapper and native hashes were independently
+  checked, as were the receipt and all six fixture hashes at source 67976. One TUI
+  continued across **two recorded inference-and-MCP expiry boundaries**; each
+  subsequent turn performed two successful local commands, verified its unique
+  file, and returned a distinct real allow scan ID. The earlier 28-check receipt
+  remains byte-identical. This closes the previously missing invocation-path and
+  two-expiry-continuation evidence for this Linux fixture, not full A12. Private
+  helper snapshots may themselves rotate near-expiry credentials before each
+  wait; none run during the wait or following task. Concurrent/crash-safe refresh,
+  exact server rotation count and required desktop coverage remain open.
+- Mac15 run **34272843528** passed on hosted macOS **15.7.9 ARM64**. Native
+  suite: **37 passed, 2 explicit skips / 39 methods**. Installed suite:
+  **37 passed, 1 Linux-only skip / 38 methods**, including the managed CLI skill.
+  The raw-only npm-managed skip is covered by the installed suite; Linux bus
+  recovery is not a Mac scenario. Seven separate native-store phases passed,
+  including the 16 KiB workspace and legacy/v2 cases. Both native and installed
+  CLI Keychain receipts pass secure login, exact private helper readback,
+  new-process access, local tool loop, plaintext-state absence and logout denial.
+  Managed CLI 5.2.0 real corpus generation passed. The independently rehashed
+  native is `f9ca78fccf5e16a18055b05b655e2fb1c5523362bf353d99c0de0daa2c19850b`;
+  fixture and three downloaded artifact ZIP hashes also match canonical receipts.
+  These are **ad-hoc signed, unpublished private bytes and loopback inference**,
+  not Developer ID/notarization, real gateway/MCP, owner-Mac, upgrade or novice
+  trials. Combined build step 47m42s is measured; no optimization speedup is inferred.
+- The cancelled historical c10 Windows job did complete **26/26 identity/keyring
+  contract tests, zero skips** at 18:01:09 UTC. The original log hash, nextest UUID,
+  summary and unchanged identity/keyring crate tree IDs between c10 and 154 were
+  independently verified. Mock storage contracts and typed-error tests do not
+  establish live Credential Manager, a source154 Windows executable or ConPTY.
+  Cancellation and the absent executable/cache outcomes remain unchanged.
+
+Mac26 run **34278615096** subsequently passed on hosted **macOS 26.6.2 ARM64**
+in **7m13s**, using the same source/archive/CLI/fixture identity as Mac15 without
+Rust compilation. Actual logs again reconcile to **37 passed + 2 skips / 39 native
+methods** and **37 passed + 1 Linux-only skip / 38 installed methods**. Seven store
+phases, native and installed CLI Keychain lifecycles, and managed CLI corpus
+contracts passed. The evidence ZIP SHA256 was independently verified; original
+compilation provenance and newer validation tooling remain separately recorded.
+This establishes hosted cross-version native/installed acceptance and the working
+artifact-only retry path. It does not close signing, owner-device, real Mac gateway,
+full desktop/user trials, Windows or publication gates. See
+[the new evidence index](review-addendum-evidence.json),
+[Linux two-expiry evidence](linux-binary/oidc-two-expiry-evidence.json),
+[Mac15 receipt](macos-15/RUN-RECEIPT.json), [Mac26 receipt](macos-26/RUN-RECEIPT.json) and
+[historical Windows contracts](../c10e3f993/windows-cancelled/native-contracts.json).

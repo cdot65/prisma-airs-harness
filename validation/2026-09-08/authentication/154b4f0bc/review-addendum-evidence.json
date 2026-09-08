@@ -1,0 +1,125 @@
+{
+  "recorded_at": "2026-09-08T21:16:39.579094+00:00",
+  "reviewer": "/root/release_review",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "release_decision": "FAIL",
+  "formal_weighted_score": null,
+  "score_reason": "Frozen denominator and mandatory signing/owner/Windows/desktop/trial gates still absent.",
+  "independently_verified": {
+    "linux_new_receipt_hash": true,
+    "linux_original28_receipt_unchanged": true,
+    "linux_installed_wrapper_and_native_hashes": true,
+    "linux_all6_fixture_hashes_at67976": true,
+    "linux29_checks_all_pass": true,
+    "linux_two_turns_after_both_resource_expiries": true,
+    "linux_two_unique_files_and_distinct_allow_scan_ids": true,
+    "windows_original_log_hash_and26pass_summary": true,
+    "windows_identity_and_keyring_crate_tree_ids_c10_vs154": true,
+    "mac15_raw_native_and_store_fixture_hashes": true,
+    "mac15_three_downloaded_artifact_zip_hashes": true,
+    "mac15_native37passed2skips": true,
+    "mac15_installed37passed1skip": true,
+    "mac15_store7phases": true,
+    "mac15_native_and_installed_cli_keychain": true,
+    "mac26_evidence_zip_hash": true,
+    "mac26_same_mac15_original_artifact_and_native_fixture_identity": true,
+    "mac26_native37passed2skips": true,
+    "mac26_installed37passed1skip": true,
+    "mac26_native_store7phases": true,
+    "mac26_native_and_installed_cli_keychain": true
+  },
+  "mac26": {
+    "run": 34278615096,
+    "status": "success",
+    "completed_at": "2026-09-08T21:13:13Z",
+    "host": "macOS26.6.2 ARM64",
+    "native_and_installed_acceptance_passed": true,
+    "full_platform_acceptance_passed": false,
+    "compilation_performed": false
+  },
+  "receipts": [
+    {
+      "path": "154b4f0bc/linux-binary/oidc-two-expiry-live.json",
+      "sha256": "de6e62325d9071867b61ba50642300268d460f5a28c916841c3f39a12afcd8c6"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/oidc-two-expiry-evidence.json",
+      "sha256": "d219a2e5d2f794391bdb7fdc6eef4de7c0366fd7f812cb8ed7daa5a74c44c5f8"
+    },
+    {
+      "path": "c10e3f993/windows-cancelled/native-contracts.json",
+      "sha256": "e8290cdc6171523ea4e55f1636db5b7b52376f85c082ecba143f82f3b739dc03"
+    },
+    {
+      "path": "154b4f0bc/macos-15/RUN-RECEIPT.json",
+      "sha256": "c9d4ea355ce3ef3b4944f45c188bc4a9730129268a086790161678b79a491359"
+    },
+    {
+      "path": "154b4f0bc/macos-15/build-artifact.json",
+      "sha256": "0041a908691f8bc361241fb043f3c3cb5e09ff426e4a89e3c789e0affddf3784"
+    },
+    {
+      "path": "154b4f0bc/macos-15/native-tests.txt",
+      "sha256": "68aa26965435a0b478a87255d2dec9a9187a4928280064caa90867cbf96b7fb6"
+    },
+    {
+      "path": "154b4f0bc/macos-15/installed-tests.txt",
+      "sha256": "e7476c7531ad92020810a984468708ea1ce3e0c380c706b59cf195bbc35143df"
+    },
+    {
+      "path": "154b4f0bc/macos-15/native-store.json",
+      "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed"
+    },
+    {
+      "path": "154b4f0bc/macos-15/native-cli-keychain.json",
+      "sha256": "c5d3d207f5e2a9a4b549acad546e98764a2b2a00ed9399bb8cfae6f7dd8b9237"
+    },
+    {
+      "path": "154b4f0bc/macos-15/installed-cli-keychain.json",
+      "sha256": "c5d3d207f5e2a9a4b549acad546e98764a2b2a00ed9399bb8cfae6f7dd8b9237"
+    },
+    {
+      "path": "154b4f0bc/macos-15/managed-prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "154b4f0bc/macos-26/RUN-RECEIPT.json",
+      "sha256": "bb4791b435706908409d0ba7f163a1757856b5f4298b71a2c57abdde4d815252"
+    },
+    {
+      "path": "154b4f0bc/macos-26/artifact-selection.json",
+      "sha256": "9a7ad2b29b7f7e557dda9d6130d8a8886f69202a8e3acef1ae2c3e54936d6a5c"
+    },
+    {
+      "path": "154b4f0bc/macos-26/acceptance-host.json",
+      "sha256": "915916dab7505375c02d5d69a5840aa673af524158b583f7081717abdb136cf6"
+    },
+    {
+      "path": "154b4f0bc/macos-26/native-tests.txt",
+      "sha256": "8c423c1824b2c275f9c739c60ac3f2c716322a913fda3c5c7db421e5cefb892f"
+    },
+    {
+      "path": "154b4f0bc/macos-26/installed-tests.txt",
+      "sha256": "170f30dea6838a12222718fb713279aad351e3053a98e6577a1fdce180e73c12"
+    },
+    {
+      "path": "154b4f0bc/macos-26/native-store.json",
+      "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed"
+    },
+    {
+      "path": "154b4f0bc/macos-26/native-cli-keychain.json",
+      "sha256": "c5d3d207f5e2a9a4b549acad546e98764a2b2a00ed9399bb8cfae6f7dd8b9237"
+    },
+    {
+      "path": "154b4f0bc/macos-26/installed-cli-keychain.json",
+      "sha256": "c5d3d207f5e2a9a4b549acad546e98764a2b2a00ed9399bb8cfae6f7dd8b9237"
+    },
+    {
+      "path": "154b4f0bc/macos-26/managed-prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    }
+  ],
+  "tests_rerun": false,
+  "new_build": false,
+  "published": false
+}

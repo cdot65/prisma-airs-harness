@@ -54,7 +54,11 @@ Existing protected `~/.prisma-airs/config.json` is supported. Nonempty environme
 values override file values. Users can provision these through their existing
 secret manager or login environment before starting the harness. Keycloak user
 JWTs and gateway workspace inference keys do not replace management service
-account credentials. This phase does not add a management credential store or
+account credentials. CLI 5.2.0's DLP management path requires the three
+`PANW_MGMT_*` environment variables even when doctor and other management
+commands accept the config file. An `AISEC_MISSING_VARIABLE:clientId` error in
+that path calls for explicit management environment provisioning, not a different
+tenant or harness JWT. This phase does not add a management credential store or
 write plaintext secrets on behalf of the user.
 
 The managed wrapper disables automatic loading of a working directory's `.env`.

@@ -42,9 +42,17 @@ A fresh install from production Verdaccio then exercises the actual npm command.
 - [Apple Silicon retry](https://github.com/cdot65/airs-harness/actions/runs/34178828451):
   runtime source remains `b3486afcd`; validation tooling is
   `78233a21861175a14369e03d06eb3c3be014b314`. The three corrected fixtures passed on
-  Linux before this retry. Native archives retain source-era fixture copies;
+  Linux before this retry. Compilation succeeded and its executable/cache were preserved.
+  The follow-up diagnostics explained an extra default-route request as background
+  session-title generation, not incorrect explicit-model routing. Fixture checks
+  now classify every request by prompt and account for title generation explicitly.
+  Native archives retain source-era fixture copies;
   current acceptance uses the separately identified workflow tooling. Published
   npm packages contain the executable, licenses and provenance, not those fixtures.
+- [Artifact-only acceptance and packaging](https://github.com/cdot65/airs-harness/actions/runs/34183332079):
+  reuses the compiled ARM executable without rebuilding; checks source revision,
+  architecture, signature, native execution, Keychain and npm installation. Validation
+  tooling revision: `f309144dae5555943925e02bcbc17a280809070c`.
 - Linux native executable SHA256: `0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400`.
 - Existing Linux optimized/installed live checks: seven turns and three real
   scanner calls each, recorded in [VALIDATION.json](VALIDATION.json).
@@ -72,13 +80,12 @@ checks. Windows npm distribution, guided onboarding, and managed-device signing
 remain follow-up work. The full upstream Rust suite has a pre-existing missing
 V8 musl dependency archive; code mode remains disabled.
 
-The owner ruled out future Intel Mac builds on September 8. The already-running
-Intel build is allowed to finish, but its artifact will not be published. Active
+The owner ruled out future Intel Mac builds on September 8. The original
+Intel job finished; it will not be rerun and its output will not be published. Active
 release and Keychain workflows now target Apple Silicon only. Inherited upstream
 workflows remain disabled. A source/dependency-keyed Cargo cache is configured for
 future builds and saved immediately after successful compilation, so a later
-acceptance failure retains compiled outputs. The current cold build cannot acquire
-that cache retroactively.
+acceptance failure retains compiled outputs. The successful ARM compilation cache and executable have now been saved.
 A dedicated Apple Silicon runner is being considered, pending host access.
 
 An independent agent's provisional review identified registry namespace isolation

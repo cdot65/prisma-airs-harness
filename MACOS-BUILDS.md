@@ -32,6 +32,14 @@ diagnostic artifacts before acceptance. They are not release packages. Successfu
 native and npm checks produce the separate validated archive. Later credential
 checks download that archive and require no Rust rebuild.
 
+`airs-harness-macos-revalidate.yml` can promote the preserved executable only after
+checking its runtime source revision, Mach-O architecture, ad-hoc signature and
+hash, then rerunning native, Keychain and npm acceptance. It regenerates locked
+license metadata without invoking a Rust build. Receipts identify both the
+compilation run and validation tooling revision. The first artifact-only diagnostic
+run completed its 27 native checks in 58.5 seconds; this is test time, not the
+whole packaging pipeline.
+
 ## Dedicated Mac requirements
 
 A dedicated Apple Silicon Mac with a persistent workspace can preserve local

@@ -115,10 +115,12 @@ class InteractiveTerminal(unittest.TestCase):
                             transcript.extend(os.read(master, 65536))
                         except OSError:
                             break
+                try:
+                    returncode = process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    self.fail(transcript.decode(errors="replace")[-2500:])
                 self.assertEqual(
-                    process.poll(),
-                    0,
-                    transcript.decode(errors="replace")[-2500:],
+                    returncode, 0, transcript.decode(errors="replace")[-2500:]
                 )
                 registry = json.loads((home / "environments.json").read_text())
                 work_home = (

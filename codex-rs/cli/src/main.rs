@@ -43,6 +43,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use supports_color::Stream;
 
+mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_doctor;
 mod airs_environment;
@@ -1210,6 +1211,7 @@ async fn cli_main(
             )
         ) {
             airs_session_binding::validate(home.as_path())?;
+            codex_utils_home_dir::airs_session::pin_current_airs_session()?;
         }
         match &subcommand {
             Some(

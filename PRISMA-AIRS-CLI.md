@@ -111,5 +111,5 @@ requires additional provisioning; its installation is not an npm prerequisite.
 
 | Harness | CLI | SDK | Status |
 | --- | --- | --- | --- |
-| 0.1.0-alpha.9 | 5.2.0 | 0.28.0 | Native/npm acceptance passed; publication pending |
+| 0.1.0-alpha.9 | 5.2.0 | 0.28.0 | Validated CLI/native/npm compatibility |
 | 0.1.0-alpha.8 | None required | None required | Previously published |

@@ -6,6 +6,8 @@ use std::fmt::Debug;
 use tracing::trace;
 
 mod diagnostics;
+#[cfg(target_os = "macos")]
+mod macos;
 pub use diagnostics::CredentialStoreDiagnostic;
 pub use diagnostics::CredentialStoreErrorKind;
 
@@ -100,8 +102,13 @@ impl KeyringStore for DefaultKeyringStore {
 
     fn delete(&self, service: &str, account: &str) -> Result<bool, CredentialStoreError> {
         trace!("keyring.delete start, service={service}, account={account}");
+        #[cfg(not(target_os = "macos"))]
         let entry = Entry::new(service, account).map_err(CredentialStoreError::new)?;
-        match entry.delete_credential() {
+        #[cfg(not(target_os = "macos"))]
+        let result = entry.delete_credential();
+        #[cfg(target_os = "macos")]
+        let result = macos::delete(service, account);
+        match result {
             Ok(()) => {
                 trace!("keyring.delete success, service={service}, account={account}");
                 Ok(true)

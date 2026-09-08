@@ -28,5 +28,5 @@ keyring = { workspace = true, features = ["windows-native"] }
 keyring = { workspace = true, features = ["sync-secret-service"] }
 
 [lib]
-test = false
+test = true
 doctest = false

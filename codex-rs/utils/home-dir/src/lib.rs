@@ -1,3 +1,5 @@
+pub mod airs_session;
+
 use codex_utils_absolute_path::AbsolutePathBuf;
 use dirs::home_dir;
 use std::path::PathBuf;

@@ -1,0 +1,31 @@
+{
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "summary": {
+    "name": "nextest-run",
+    "tests": "359",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "7287292f-edc2-4477-ae3b-80aef6bcf675",
+    "timestamp": "2026-09-08T19:30:38.163+00:00",
+    "time": "1.113"
+  },
+  "junit_sha256": "4f34e008e350d518221fd2d85a9590ec60181fd7f2a3bebfbab85f42523b00c9",
+  "command": "just test --release -p codex-cli --bin airs-harness",
+  "passed": true,
+  "passed_tests": 359,
+  "failed_tests": 0,
+  "skipped_tests": 0,
+  "original_junit_path": "/var/tmp/airs-auth-154b-unit-results/cli-junit.xml",
+  "sanitized_junit_sha256": "dbe7b5082963531a3f7cd4a7c292baca8e5ff73459438b096a592d29e446b8c5",
+  "sanitization": "Removed process output/error streams and properties; retained all test identities, timings and statuses.",
+  "scoped_fix": {
+    "command": "just fix --release -p codex-cli --bin airs-harness",
+    "passed": true,
+    "duration_seconds": 25.33,
+    "runtime_changes": false,
+    "evidence_source": "Parent agent execution report; no separate output artifact provided for independent inspection."
+  },
+  "scope": "Linux CLI unit/fault tests for source154; final regular executable, packaged bytes and live/platform acceptance are pending.",
+  "release_ready": false
+}

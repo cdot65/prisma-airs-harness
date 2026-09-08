@@ -1,0 +1,29 @@
+{
+  "source_commit_reviewed": "d0c682c5f57bedfe60807744e604ab1d334e777f",
+  "source_package": "xml-js@1.6.11",
+  "source_archive_sri_verified": true,
+  "normalizations": [
+    {
+      "path": "bin/cli.js",
+      "transform": "npm-bin-shebang-crlf-to-lf-v1",
+      "original_sha256": "aa72cc9d9db04bf268fdc06d1ff3d1e71306ec477855c494d01c18de64872b2e",
+      "normalized_sha256": "5c6cd92f9d5642d61029a93c2755a007a75eb42d0a16a15a8d07563defdfaae5"
+    }
+  ],
+  "comparisons": [
+    {
+      "npm": "npm12.0.2",
+      "actual_fix_bin_matches_maintained_unpack": true,
+      "fix_bin_source_sha256": "b1036f2acb267c12751485a7daf9f3cc793f8447e344ac7030a97fcff5388145"
+    },
+    {
+      "npm": "npm10.9.8",
+      "actual_fix_bin_matches_maintained_unpack": true,
+      "fix_bin_source_sha256": "eed383d9cb6529244f5f5c29ee8258d141f3231b06db4a453d1181dac3f83f1b"
+    }
+  ],
+  "original_bytes": 5361,
+  "normalized_bytes": 5360,
+  "network_requests": 0,
+  "real_user_files_modified": false
+}

@@ -22,3 +22,7 @@ The npm10 request assertions compare the exact denial category/path set. An unre
 After disabling the notifier, the next real bundle attempt made only the expected four staged package requests. Its unchanged network receipt is retained as `subsequent-real-bundle-network-only.json`. That run subsequently failed an installed-file hash check caused by npm's handling of a command shebang. Therefore clean network behavior alone is not recorded as complete bundle acceptance. A later exact-source installation result must establish the remaining file and runtime checks.
 
 This correction concerns private npm packaging fixtures. It awards no native platform, owner-device, production-signing, publication, teammate-access, or full-release score. Historical review statements remain preserved alongside this explicit correction.
+
+## Independent npm bin normalization check
+
+The subsequent bounded review of `d0c682c5f57bedfe60807744e604ab1d334e777f` compared the actual npm 10.9.8 and 12.0.2 bin-links implementations with maintained unpacking of SRI-verified `xml-js@1.6.11`. Both produce the same one-byte first-shebang CRLF-to-LF change. The source and resulting hashes, implementation hashes and exact lengths are retained in `independent-shebang-review.json`. This check used temporary copies without network requests; it does not establish a complete installation or native-platform pass. The maintained verifier accepts that single recorded canonical hash and checks reconstruction of the original hash, rather than accepting arbitrary newline or body changes.

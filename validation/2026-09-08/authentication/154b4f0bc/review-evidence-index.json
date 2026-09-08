@@ -1,0 +1,89 @@
+{
+  "recorded_at": "2026-09-08T20:47:11.874111+00:00",
+  "reviewer": "/root/release_review",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "formal_weighted_score": null,
+  "score_reason": "Frozen per-platform applicable subcase denominator absent; mandatory gates incomplete.",
+  "release_decision": "FAIL",
+  "owner_mac_retest": "pending",
+  "mac_status_observed_at": "2026-09-08T20:42:44Z",
+  "mac_run_id": 34272843528,
+  "mac_status": "build in progress; no native acceptance credit",
+  "reviewed_receipts": [
+    {
+      "path": "154b4f0bc/ACCEPTANCE.md",
+      "sha256": "b4535a2e5019dfd9cded36cb17bcd7d2d03006e99e26784167870bd2b56ee031"
+    },
+    {
+      "path": "154b4f0bc/cli-tests.json",
+      "sha256": "a0abde8db75e32dbc8722447c354f8bd484c9a10d0015902ae4ea7b852feb9a6"
+    },
+    {
+      "path": "154b4f0bc/cli-junit-sanitized.xml",
+      "sha256": "dbe7b5082963531a3f7cd4a7c292baca8e5ff73459438b096a592d29e446b8c5"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/receipt.json",
+      "sha256": "bdf45509148e44b9e0134b60652e737d02f327f07e38cc51a0bfc223938b1a79"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/installed-tests.json",
+      "sha256": "4adc989964d83138b5f2cf692ca2e4321b23876a84c18ad20b27d9983cfaaf1c"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/managed-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/oidc-live.json",
+      "sha256": "cd32c8dcb2ce671228f8ac0a17e127153a14334ba167c883255d687eed87fbc7"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/workspace-live-rerun.json",
+      "sha256": "dec50b07a5a989354f59d20679a77bcf18451657d19b43e544c4d75ed9e2c96b"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/cancellation-trials.json",
+      "sha256": "3ad97a04e85112522932f909c5acf414ecfa2e499d8a32ae49fd771a7bcacaf5"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/installed-package.json",
+      "sha256": "addabae228f00b43bfbfc7c9cbfb330061a53d9f37970847df93b97994b6fa90"
+    },
+    {
+      "path": "154b4f0bc/linux-binary/npm-packages.json",
+      "sha256": "33c2ee3b2b71ee0d50fde63f685d16702d783c1ee98e76550afd6f2d2d57a8ef"
+    },
+    {
+      "path": "c10e3f993/windows-cancelled/receipt.json",
+      "sha256": "b3c7dfabfdb293dea84371c7ad6c1fc5b642a9b4ee8147a39b7e7b3c68dc1554"
+    },
+    {
+      "path": "c10e3f993/windows-cancelled/checkpoint-local-validation.json",
+      "sha256": "923166c72b30d5de2a9a000005e46e71e937c474bac3260fe3f6133b0e7437d0"
+    },
+    {
+      "path": "review-publication/ASSESSMENT.md",
+      "sha256": "21b6e9d7828d02b6f58a930ac17651477203b1b8883de33cb1db03df118ba9ae"
+    },
+    {
+      "path": "review-publication/install-feasibility/REPORT.md",
+      "sha256": "b474d4f31a65c9455b3596dddfe7c5c30a81f4d68c47f26a59809877061d76c4"
+    },
+    {
+      "path": "review-publication/install-feasibility/receipts.ndjson",
+      "sha256": "213cd3fe4fa245c70b1b2e8c2e82887813e361efa4cd1c0d924bce50944e1c82"
+    },
+    {
+      "path": "review-publication/install-feasibility/evidence-index.json",
+      "sha256": "29d1942f56b85e65850370ff6ca3f17a798a860a7df19ee8afb9d7b59f1291f0"
+    }
+  ],
+  "direct_rehash_checks": {
+    "original_and_installed_native_binary": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+    "both_match": true
+  },
+  "tests_rerun": false,
+  "new_build": false,
+  "published": false
+}

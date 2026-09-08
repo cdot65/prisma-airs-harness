@@ -2,6 +2,13 @@ use super::*;
 use clap::CommandFactory;
 
 #[test]
+fn standalone_login_help_describes_hidden_input() {
+    let mut root = command(crate::MultitoolCli::command());
+    let login = root.find_subcommand_mut("login").unwrap();
+    insta::assert_snapshot!("airs_login_help", login.render_long_help().to_string());
+}
+
+#[test]
 fn standalone_help_exposes_local_work_and_gateway_configuration() {
     let mut command = command(crate::MultitoolCli::command())
         .bin_name("airs-harness")

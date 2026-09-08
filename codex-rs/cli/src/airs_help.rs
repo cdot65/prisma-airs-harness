@@ -32,8 +32,8 @@ pub fn command(mut command: Command) -> Command {
                 .long_help("Layer <name>.config.toml from the selected environment over its base configuration. Destination and credential bindings remain fixed.");
         }
         if arg.get_long() == Some("with-api-key") {
-            arg = arg.help("Read a workspace API key from stdin and save it in the OS credential store")
-                .long_help("Read a workspace API key from stdin and save it in the OS credential store. If that store is unavailable, use an explicit --credential-file or --credential-env reference; there is no plaintext fallback.");
+            arg = arg.help("Enter a workspace API key securely and save it in the OS credential store")
+                .long_help("Enter a workspace API key at a hidden terminal prompt and save it in the OS credential store. Automation may supply the key through stdin. The key is never saved in a plaintext configuration file.");
         }
         if matches!(arg.get_long(), Some("remote" | "remote-auth-token-env" | "oss" | "local-provider" | "search" | "api-key" | "with-access-token" | "issuer-base-url" | "client-id")) {
             arg = arg.hide(true);

@@ -48,6 +48,7 @@ mod airs_doctor;
 mod airs_environment;
 mod airs_harness;
 mod airs_help;
+mod airs_login;
 mod airs_mcp;
 mod airs_oidc;
 mod airs_secret_prompt;
@@ -1137,21 +1138,27 @@ async fn cli_main(
                         && args.client_id.is_none(),
                     "use workspace credentials or --issuer-url with --oidc-client-id and --audience"
                 );
+                let flow = if args.use_device_code {
+                    airs_oidc::LoginFlow::Device
+                } else {
+                    airs_oidc::LoginFlow::Browser
+                };
                 return if args.action.is_some() {
                     airs_credentials::status(home.as_path())
                 } else if args.airs.issuer_url.is_some() {
-                    let flow = if args.use_device_code {
-                        airs_oidc::LoginFlow::Device
-                    } else {
-                        airs_oidc::LoginFlow::Browser
-                    };
+                    airs_login::remember_settings(home.as_path(), &args.airs)?;
                     airs_oidc::login(home.as_path(), &args.airs, flow).await
-                } else {
+                } else if args.with_api_key
+                    || args.airs.credential_file.is_some()
+                    || args.airs.credential_env.is_some()
+                {
                     anyhow::ensure!(
                         !args.use_device_code,
-                        "--device-auth requires --issuer-url, --oidc-client-id and --audience"
+                        "--device-auth cannot be combined with workspace credential options"
                     );
                     airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
+                } else {
+                    airs_login::interactive(home.as_path(), flow).await
                 };
             }
             Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()).await,

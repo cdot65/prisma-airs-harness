@@ -1,0 +1,24 @@
+{
+  "source_commit": "f9895675a569fc05558321adf8af18cdd49314a6",
+  "runtime_checkpoint": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "binary_sha256": "084e1944a06313bfe28cff78137fb9e268969c8fd7e881e0fcd536f08ca6e234",
+  "release_ready": false,
+  "known_runtime_issue": "Shared legacy native namespace preservation fixed later in e9de4116d; this binary excludes that fix.",
+  "executable_first_attempt": {
+    "total": 33,
+    "passed": 31,
+    "failed": 1,
+    "skipped": 1,
+    "failure": "Logout was blocked by credential helper before transport guard; assertion expected only the later guard message.",
+    "skipped_reason": "Managed CLI acceptance requires installed npm package."
+  },
+  "focused_logout_rerun": {
+    "passed": true,
+    "duration_seconds": 2.831,
+    "scope": "Actual subprocess logout while configuration lock held; no later traffic; another process login does not reactivate old TUI; fresh process works.",
+    "fixture_change": "Accept either helper rejection or generation guard for first request; retain exact generation guard after relogin and request-count assertions."
+  },
+  "build_profile": "release; opt-level=3; lto=false; codegen-units=16; debug=0",
+  "build_seconds": 1232,
+  "workspace_receipt": "workspace-live.json"
+}

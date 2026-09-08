@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "platform": "linux",
+  "binary_sha256": "084e1944a06313bfe28cff78137fb9e268969c8fd7e881e0fcd536f08ca6e234",
+  "gateway": "https://airs.cdot.io/v1",
+  "checks": [
+    "guided-hidden-login",
+    "native-keyring-binding",
+    "separate-process-status",
+    "live-default-route-inference",
+    "local-file-effect",
+    "new-process-resume-memory",
+    "logout",
+    "post-logout-status-blocked",
+    "post-logout-new-process-exec-blocked",
+    "no-plaintext-key-in-state-or-transcripts"
+  ],
+  "phase": "completed",
+  "credential_mode": "workspace-native-keyring",
+  "fixture_store": "disposable-dbus-secret-service",
+  "raw_logs_retained": false,
+  "mcp_tested": false,
+  "live_process_logout_invalidation_tested": false,
+  "model_route": "gateway-default",
+  "model_field_wire_inspected": false,
+  "plaintext_scan_excludes": [
+    "encrypted-native-keyring-records"
+  ],
+  "started_at_unix": 1788892457,
+  "warm_local_status": {
+    "runs": 30,
+    "samples": [
+      {
+        "version_ms": 7.34768295660615,
+        "status_ms": 18.521007150411606
+      },
+      {
+        "version_ms": 7.001732941716909,
+        "status_ms": 18.04318092763424
+      },
+      {
+        "version_ms": 6.614926969632506,
+        "status_ms": 18.464632099494338
+      },
+      {
+        "version_ms": 8.268862031400204,
+        "status_ms": 20.59879805892706
+      },
+      {
+        "version_ms": 7.342943921685219,
+        "status_ms": 17.911483999341726
+      },
+      {
+        "version_ms": 7.532669929787517,
+        "status_ms": 17.250803066417575
+      },
+      {
+        "version_ms": 6.84255501255393,
+        "status_ms": 17.071836860850453
+      },
+      {
+        "version_ms": 7.035617018118501,
+        "status_ms": 16.749010886996984
+      },
+      {
+        "version_ms": 6.771601038053632,
+        "status_ms": 18.086511874571443
+      },
+      {
+        "version_ms": 7.128321100026369,
+        "status_ms": 16.71259314753115
+      },
+      {
+        "version_ms": 6.4709370490163565,
+        "status_ms": 17.650242894887924
+      },
+      {
+        "version_ms": 7.56877800449729,
+        "status_ms": 17.964061815291643
+      },
+      {
+        "version_ms": 7.384762866422534,
+        "status_ms": 18.701485823839903
+      },
+      {
+        "version_ms": 7.233859039843082,
+        "status_ms": 17.25283684208989
+      },
+      {
+        "version_ms": 7.104856893420219,
+        "status_ms": 18.530976958572865
+      },
+      {
+        "version_ms": 7.353713968768716,
+        "status_ms": 18.320339964702725
+      },
+      {
+        "version_ms": 6.668126909062266,
+        "status_ms": 17.121780896559358
+      },
+      {
+        "version_ms": 7.465293165296316,
+        "status_ms": 18.93058721907437
+      },
+      {
+        "version_ms": 7.206327049061656,
+        "status_ms": 19.444841891527176
+      },
+      {
+        "version_ms": 7.303510094061494,
+        "status_ms": 16.27344894222915
+      },
+      {
+        "version_ms": 7.69393309019506,
+        "status_ms": 19.32104886509478
+      },
+      {
+        "version_ms": 6.670130882412195,
+        "status_ms": 18.76302110031247
+      },
+      {
+        "version_ms": 7.15189496986568,
+        "status_ms": 16.720387153327465
+      },
+      {
+        "version_ms": 6.929307011887431,
+        "status_ms": 17.193634994328022
+      },
+      {
+        "version_ms": 7.495730882510543,
+        "status_ms": 17.18827593140304
+      },
+      {
+        "version_ms": 6.642138119786978,
+        "status_ms": 17.95533485710621
+      },
+      {
+        "version_ms": 8.163976017385721,
+        "status_ms": 17.913566902279854
+      },
+      {
+        "version_ms": 6.888480857014656,
+        "status_ms": 18.11640802770853
+      },
+      {
+        "version_ms": 11.583214160054922,
+        "status_ms": 17.102994956076145
+      },
+      {
+        "version_ms": 6.820803973823786,
+        "status_ms": 17.557738814502954
+      }
+    ],
+    "p95_ms": 19.444841891527176,
+    "target_ms": 500,
+    "target_met": true,
+    "scope": "whole status process including startup and configuration; no network",
+    "credential_resolution_isolated": false
+  },
+  "credential_lifecycle": {
+    "auth_mode": "workspace-key",
+    "requested_runs": 20,
+    "completed_runs": 20,
+    "first_run_included_live_inference_and_resume": true,
+    "repeat_runs_include_inference_or_refresh": false,
+    "durations_seconds": [
+      10.52883774600923,
+      0.48063373984768987,
+      0.4860529222059995,
+      0.4870266900397837,
+      0.48040059208869934,
+      0.483962096972391,
+      0.4711257410235703,
+      0.43939120997674763,
+      0.4438333681318909,
+      0.4415784450247884,
+      0.4422124749980867,
+      0.4578381380997598,
+      0.46206013299524784,
+      0.4512536870315671,
+      0.47196812299080193,
+      0.4712795000523329,
+      0.4718795570079237,
+      0.46823097695596516,
+      0.4345026118680835,
+      0.4347818980459124
+    ]
+  },
+  "files_inspected": 98,
+  "finished_at_unix": 1788892476
+}

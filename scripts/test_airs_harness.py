@@ -77,7 +77,18 @@ class TerminalIntegration(unittest.TestCase):
                     count = len(self.requests)
                     offset = len(terminal.transcript)
                     terminal.send_line("Try another request after sign-out.")
-                    terminal.wait_for(b"authentication changed", offset, timeout=5)
+                    # The trusted helper can reject the revoked epoch before
+                    # transport preparation reaches its own generation guard.
+                    terminal.wait_until(
+                        lambda: any(
+                            message in terminal.transcript[offset:]
+                            for message in (
+                                b"authentication changed",
+                                b"credential helper could not supply the bound credential",
+                            )
+                        ),
+                        timeout=5,
+                    )
                     self.assertEqual(len(self.requests), count)
                 finally:
                     fcntl.flock(lock, fcntl.LOCK_UN)

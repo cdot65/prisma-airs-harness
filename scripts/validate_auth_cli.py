@@ -606,12 +606,13 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             daemon.terminate()
             daemon.wait(timeout=10)
         out = args.output.resolve()
+        expected_checks = (21 if args.credentials_only else 27) + int(args.verify_gateway_access)
+        passed = completed and len(rows) == expected_checks and all(r["passed"] for r in rows)
         out.write_text(
             json.dumps(
                 {
-                    "passed": completed
-                    and len(rows) == (21 if args.credentials_only else 27)
-                    and all(r["passed"] for r in rows),
+                    "passed": passed,
+                    "expected_checks": expected_checks,
                     "scope": "credential-lifecycle-and-inference"
                     if args.credentials_only
                     else "full-cli-and-mcp",
@@ -625,3 +626,6 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             )
             + "\n"
         )
+
+        if completed and not passed:
+            raise RuntimeError("Completed fixture did not satisfy its receipt checks")

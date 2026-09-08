@@ -1,0 +1,33 @@
+{
+  "exit_code": 0,
+  "checks": [
+    {
+      "name": "Node.js version",
+      "status": "pass"
+    },
+    {
+      "name": "Config file",
+      "status": "pass"
+    },
+    {
+      "name": "Scanner credentials",
+      "status": "pass"
+    },
+    {
+      "name": "Management credentials",
+      "status": "pass"
+    },
+    {
+      "name": "Scanner API",
+      "status": "pass"
+    },
+    {
+      "name": "Management OAuth",
+      "status": "pass"
+    },
+    {
+      "name": "AI Gateway API",
+      "status": "pass"
+    }
+  ]
+}

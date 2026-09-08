@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: unsupported platform is actionable
+ok 1 - unsupported platform is actionable
+  ---
+  duration_ms: 1.041586
+  type: 'test'
+  ...
+# Subtest: missing platform dependency fails without fetching a replacement
+ok 2 - missing platform dependency fails without fetching a replacement
+  ---
+  duration_ms: 32.14591
+  type: 'test'
+  ...
+# Subtest: incomplete native package reports a reinstall
+ok 3 - incomplete native package reports a reinstall
+  ---
+  duration_ms: 31.063578
+  type: 'test'
+  ...
+# Subtest: Windows PATH variants cannot override the managed CLI directory
+ok 4 - Windows PATH variants cannot override the managed CLI directory
+  ---
+  duration_ms: 0.8626
+  type: 'test'
+  ...
+# Subtest: native launch requires the pinned dependency before executing anything
+ok 5 - native launch requires the pinned dependency before executing anything
+  ---
+  duration_ms: 65.442721
+  type: 'test'
+  ...
+# Subtest: native login-shell tools use the pinned CLI even after PATH is replaced
+ok 6 - native login-shell tools use the pinned CLI even after PATH is replaced
+  ---
+  duration_ms: 105.222324
+  type: 'test'
+  ...
+# Subtest: launcher preserves arguments, cwd, stdin and exit code
+ok 7 - launcher preserves arguments, cwd, stdin and exit code
+  ---
+  duration_ms: 32.903493
+  type: 'test'
+  ...
+# Subtest: termination reaches the native process
+ok 8 - termination reaches the native process
+  ---
+  duration_ms: 32.2736
+  type: 'test'
+  ...
+# Subtest: termination still forwards after the native process handles an interrupt
+ok 9 - termination still forwards after the native process handles an interrupt
+  ---
+  duration_ms: 48.711856
+  type: 'test'
+  ...
+# Subtest: managed CLI preserves arguments and exit status while excluding project dotenv loading
+ok 10 - managed CLI preserves arguments and exit status while excluding project dotenv loading
+  ---
+  duration_ms: 57.417401
+  type: 'test'
+  ...
+# Subtest: missing or mismatched managed CLI fails instead of selecting a global airs
+ok 11 - missing or mismatched managed CLI fails instead of selecting a global airs
+  ---
+  duration_ms: 66.030034
+  type: 'test'
+  ...
+# Subtest: dotenv argv cannot redirect managed credential discovery
+ok 12 - dotenv argv cannot redirect managed credential discovery
+  ---
+  duration_ms: 28.688168
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 397.816996

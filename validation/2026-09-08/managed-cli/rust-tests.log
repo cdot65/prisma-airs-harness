@@ -1,0 +1,210 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling parking_lot v0.12.5
+   Compiling mio v1.2.0
+   Compiling serde_json v1.0.149
+   Compiling getrandom v0.3.4
+   Compiling tokio v1.52.3
+   Compiling tracing v0.1.44
+   Compiling futures-io v0.3.32
+   Compiling futures-util v0.3.32
+   Compiling digest v0.10.7
+   Compiling tinystr v0.8.3
+   Compiling icu_locale_core v2.2.0
+   Compiling either v1.15.0
+   Compiling itertools v0.14.0
+   Compiling icu_provider v2.2.0
+   Compiling rand_core v0.9.5
+   Compiling uuid v1.20.0
+   Compiling rand_chacha v0.9.0
+   Compiling futures-executor v0.3.32
+   Compiling futures v0.3.31
+   Compiling rand v0.9.3
+   Compiling icu_properties v2.2.0
+   Compiling icu_normalizer v2.2.0
+   Compiling ahash v0.8.12
+   Compiling memchr v2.8.1
+   Compiling sha2 v0.10.9
+   Compiling tokio-util v0.7.18
+   Compiling idna_adapter v1.2.1
+   Compiling tokio-graceful v0.2.2
+   Compiling rama-utils v0.3.0-alpha.4
+   Compiling idna v1.1.0
+   Compiling serde_core v1.0.228
+   Compiling rama-core v0.3.0-alpha.4
+   Compiling flume v0.12.0
+   Compiling num-integer v0.1.46
+   Compiling getrandom v0.2.17
+   Compiling getrandom v0.4.2
+   Compiling aws-lc-rs v1.16.2
+   Compiling num-bigint v0.4.6
+   Compiling ring v0.17.14
+   Compiling rama-http-types v0.3.0-alpha.4
+   Compiling url v2.5.8
+   Compiling openssl-sys v0.9.111
+   Compiling rustls v0.23.36
+   Compiling schemars v0.8.22
+   Compiling h2 v0.4.16
+   Compiling rama-net v0.3.0-alpha.4
+   Compiling rustls-webpki v0.103.13
+   Compiling aho-corasick v1.1.4
+   Compiling serde v1.0.228
+   Compiling regex-automata v0.4.13
+   Compiling ts-rs v11.1.0
+   Compiling rand v0.10.1
+   Compiling sha1 v0.10.6
+   Compiling openssl v0.10.75
+   Compiling lock_free_hashtable v0.1.4
+   Compiling moka v0.12.13
+   Compiling regex v1.12.3
+   Compiling asn1-rs v0.7.1
+   Compiling hickory-proto v0.25.2
+   Compiling heapless v0.7.17
+   Compiling quickcheck v1.1.0
+   Compiling codex-utils-absolute-path v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/absolute-path)
+   Compiling arrayvec v0.7.6
+   Compiling hyper v1.8.1
+   Compiling allocative v0.3.6
+   Compiling dashmap v6.1.0
+   Compiling nix v0.28.0
+   Compiling blake3 v1.8.2
+   Compiling rustls-native-certs v0.8.3
+   Compiling hickory-resolver v0.25.2
+   Compiling native-tls v0.2.14
+   Compiling postcard v1.1.3
+   Compiling schemafy_core v0.5.2
+   Compiling sorted_vector_map v0.2.1
+   Compiling Inflector v0.11.4
+   Compiling tokio-rustls v0.26.4
+   Compiling static_interner v0.1.2
+   Compiling bstr v1.12.1
+   Compiling pagable v0.4.1
+   Compiling rama-http-headers v0.3.0-alpha.4
+   Compiling rama-dns v0.3.0-alpha.4
+   Compiling schemafy_lib v0.5.2
+   Compiling oid-registry v0.8.1
+   Compiling hyper-util v0.1.20
+   Compiling der-parser v10.0.0
+   Compiling tokio-stream v0.1.18
+   Compiling rama-http v0.3.0-alpha.4
+   Compiling rama-tcp v0.3.0-alpha.4
+   Compiling tower v0.5.3
+   Compiling x509-parser v0.18.1
+   Compiling tokio-test v0.4.5
+   Compiling starlark_map v0.14.2
+   Compiling flate2 v1.1.8
+   Compiling schemafy v0.5.2
+   Compiling tokio-native-tls v0.3.1
+   Compiling cookie v0.18.1
+   Compiling lsp-types v0.97.0
+   Compiling fd-lock v4.0.4
+   Compiling yasna v0.5.2
+   Compiling publicsuffix v2.3.0
+   Compiling rustyline v14.0.0
+   Compiling rcgen v0.14.7
+   Compiling display_container v0.9.0
+   Compiling tracing-subscriber v0.3.22
+   Compiling cookie_store v0.22.1
+   Compiling png v0.18.0
+   Compiling debugserver-types v0.5.0
+   Compiling rama-http-core v0.3.0-alpha.4
+   Compiling hyper-tls v0.6.0
+   Compiling tower-http v0.6.8
+   Compiling hyper-rustls v0.27.7
+   Compiling gix-validate v0.11.0
+   Compiling codex-utils-rustls-provider v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/rustls-provider)
+   Compiling rama-unix v0.3.0-alpha.4
+   Compiling rama-udp v0.3.0-alpha.4
+   Compiling tempfile v3.27.0
+   Compiling tracing-log v0.2.0
+   Compiling opentelemetry v0.31.0
+   Compiling gix-path v0.11.2
+   Compiling enumflags2 v0.7.12
+   Compiling codex-utils-cache v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/cache)
+   Compiling tracing-opentelemetry v0.32.1
+   Compiling starlark_syntax v0.14.2
+   Compiling rama-tls-rustls v0.3.0-alpha.4
+   Compiling reqwest v0.12.28
+   Compiling rama-http-backend v0.3.0-alpha.4
+   Compiling rama-socks5 v0.3.0-alpha.4
+   Compiling icu_locale v2.2.0
+   Compiling starlark v0.14.2
+   Compiling image v0.25.9
+   Compiling globset v0.4.18
+   Compiling codex-utils-home-dir v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/home-dir)
+   Compiling tree-sitter v0.25.10
+   Compiling codex-utils-path-uri v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/path-uri)
+   Compiling codex-utils-string v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/string)
+   Compiling icu_decimal v2.2.0
+   Compiling codex-utils-image v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/image)
+   Compiling codex-network-proxy v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/network-proxy)
+   Compiling codex-http-client v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/http-client)
+   Compiling landlock v0.4.4
+   Compiling gix-url v0.35.2
+   Compiling codex-extension-items v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/ext/items)
+   Compiling codex-utils-redacted-string v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/utils/redacted-string)
+   Compiling codex-async-utils v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/async-utils)
+   Compiling strum v0.27.2
+   Compiling which v8.0.0
+   Compiling codex-skills v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/skills)
+   Compiling codex-execpolicy v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/execpolicy)
+   Compiling codex-protocol v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/protocol)
+   Compiling codex-shell-command v0.153.4 (/home/cdot/development/cdot65/airs-harness/codex-rs/shell-command)
+    Finished `test` profile [unoptimized] target(s) in 1m 00s
+────────────
+ Nextest run ID bb3090cf-035f-4b66-a21b-0639f3341438 with nextest profile: local
+    Starting 53 tests across 2 binaries
+        PASS [   0.010s] ( 1/53) codex-skills invocation::tests::script_run_detection_excludes_python_c
+        PASS [   0.010s] ( 2/53) codex-skills interface::tests::resolves_local_interface_fields_and_assets
+        PASS [   0.011s] ( 3/53) codex-skills invocation::tests::skill_doc_read_detection_matches_shared_read_parser
+        PASS [   0.011s] ( 4/53) codex-skills mentions::tests::requires_exact_name_boundaries
+        PASS [   0.061s] ( 5/53) codex-skills interface::tests::drops_invalid_fields_without_discarding_valid_interface_fields
+        PASS [   0.061s] ( 6/53) codex-skills interface::tests::resolves_plugin_shared_assets
+        PASS [   0.065s] ( 7/53) codex-skills interface::tests::rejects_invalid_local_interface_fields
+        PASS [   0.054s] ( 8/53) codex-skills selection::tests::collect_explicit_skill_mentions_allows_explicit_path_with_connector_conflict
+        PASS [   0.065s] ( 9/53) codex-skills mentions::tests::handles_plain_and_linked_mentions
+        PASS [   0.065s] (10/53) codex-skills invocation::tests::skill_script_run_detection_matches_relative_path_from_skill_root
+        PASS [   0.054s] (11/53) codex-skills selection::tests::collect_explicit_skill_mentions_dedupes_by_path
+        PASS [   0.056s] (12/53) codex-skills selection::tests::collect_explicit_skill_mentions_accepts_structured_discovery_path
+        PASS [   0.065s] (13/53) codex-skills invocation::tests::skill_script_run_detection_matches_absolute_path_from_any_workdir
+        PASS [   0.065s] (14/53) codex-skills mentions::tests::stops_at_non_name_chars
+        PASS [   0.056s] (15/53) codex-skills selection::tests::collect_explicit_skill_mentions_accepts_linked_discovery_path
+        PASS [   0.066s] (16/53) codex-skills loading::tests::snapshot_handles_share_owner_managed_values_and_identity
+        PASS [   0.066s] (17/53) codex-skills interface::tests::rejects_plugin_assets_outside_shared_assets_root
+        PASS [   0.066s] (18/53) codex-skills parser::tests::parses_repairs_and_sanitizes_frontmatter
+        PASS [   0.066s] (19/53) codex-skills model::tests::policy_restricts_implicit_invocation_and_products
+        PASS [   0.067s] (20/53) codex-skills mentions::tests::handles_many_sigils_without_looping
+        PASS [   0.066s] (21/53) codex-skills model::tests::missing_policy_allows_implicit_invocation_and_all_products
+        PASS [   0.006s] (22/53) codex-skills selection::tests::collect_explicit_skill_mentions_prefers_resource_path
+        PASS [   0.066s] (23/53) codex-skills mentions::tests::trims_linked_paths_and_allows_spacing
+        PASS [   0.066s] (24/53) codex-skills parser::tests::uses_default_name_and_requires_description
+        PASS [   0.067s] (25/53) codex-skills parser::tests::preserves_overlong_descriptions_and_short_descriptions
+        PASS [   0.068s] (26/53) codex-skills invocation::tests::skill_doc_read_detection_matches_absolute_path
+        PASS [   0.007s] (27/53) codex-skills selection::tests::collect_explicit_skill_mentions_prefers_linked_path_over_name
+        PASS [   0.005s] (28/53) codex-skills selection::tests::collect_explicit_skill_mentions_rejects_disabled_discovery_path
+        PASS [   0.005s] (29/53) codex-skills selection::tests::collect_explicit_skill_mentions_prioritizes_structured_inputs
+        PASS [   0.005s] (30/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_disabled_structured_and_blocks_plain_fallback
+        PASS [   0.005s] (31/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_ambiguous_name
+        PASS [   0.005s] (32/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_invalid_structured_and_blocks_plain_fallback
+        PASS [   0.006s] (33/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_missing_path_without_fallback
+        PASS [   0.006s] (34/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_missing_path_with_no_fallback
+        PASS [   0.006s] (35/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_plain_name_when_connector_matches
+        PASS [   0.006s] (36/53) codex-utils-home-dir tests::find_codex_home_env_missing_path_is_fatal
+        PASS [   0.005s] (37/53) codex-utils-home-dir tests::find_codex_home_without_env_uses_default_home_dir
+        PASS [   0.006s] (38/53) codex-skills selection::tests::collect_explicit_skill_mentions_skips_when_linked_path_disabled
+        PASS [   0.005s] (39/53) codex-utils-home-dir tests::find_codex_home_env_valid_directory_canonicalizes
+        PASS [   0.006s] (40/53) codex-utils-home-dir tests::find_codex_home_env_file_path_is_fatal
+        PASS [   0.007s] (41/53) codex-skills tests::fingerprint_traverses_nested_entries
+        PASS [   0.009s] (42/53) codex-skills selection::tests::collect_explicit_skill_mentions_text_respects_skill_order
+        PASS [   0.108s] (43/53) codex-skills invocation::tests::powershell_skill_doc_read_matches_common_forms
+        PASS [   0.108s] (44/53) codex-skills invocation::tests::windows_executor_skill_reads_share_powershell_classification
+        PASS [   0.109s] (45/53) codex-skills interface::tests::rejects_absolute_asset_paths
+        PASS [   0.112s] (46/53) codex-skills invocation::tests::script_run_detection_matches_runner_plus_extension
+        PASS [   0.112s] (47/53) codex-skills loading::tests::skill_root_loader_supports_shared_trait_objects
+        PASS [   0.112s] (48/53) codex-skills parser::tests::repairs_unrecognized_frontmatter_fields_that_need_quotes
+        PASS [   0.112s] (49/53) codex-skills mentions::tests::requires_link_syntax
+        PASS [   0.112s] (50/53) codex-skills mentions::tests::skips_common_env_vars
+        PASS [   0.112s] (51/53) codex-skills parser::tests::repairs_short_descriptions_containing_colons_and_apostrophes
+        PASS [   0.113s] (52/53) codex-skills mentions::tests::keeps_plugin_skill_namespaces
+        PASS [   0.114s] (53/53) codex-skills parser::tests::preserves_block_scalar_bodies_while_repairing_other_fields
+────────────
+     Summary [   0.116s] 53 tests run: 53 passed, 0 skipped

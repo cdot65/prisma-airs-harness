@@ -1,0 +1,14 @@
+{
+  "product": "Prisma AIRS Harness",
+  "product_version": "0.1.0-alpha.9",
+  "target": "x86_64-unknown-linux-musl",
+  "binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "source_commit": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+  "native_tests": {
+    "passed": 27,
+    "skipped": 1
+  },
+  "profile": "release; opt-level=3; lto=false; codegen-units=16; debug=0; strip --strip-debug",
+  "cli_version": "5.2.0",
+  "npm_and_live_acceptance_pending": true
+}

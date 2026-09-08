@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "binary": "/home/cdot/.local/state/airs-harness-cli-integration/linux-candidate/lib/node_modules/airs-harness/bin/airs-harness.js",
+  "checks": [
+    {
+      "mode": "default",
+      "thread_id": "01a080b1-56ec-7841-9967-e6f1cd536a80",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "56cf51f0-6032-4e03-bb0a-3e09f1cd7e1d"
+    },
+    {
+      "mode": "explicit",
+      "thread_id": "01a080b1-bae5-7d13-85e1-b44dc1598d1c",
+      "local_tests_passed": true,
+      "skill_passed": true,
+      "mcp_completed": true,
+      "scan_id": "0cf5f843-403c-4cad-81b9-12bfab55a75c"
+    }
+  ],
+  "resume_passed": true,
+  "passed": true
+}

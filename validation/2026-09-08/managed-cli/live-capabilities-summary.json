@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "read_only": true,
+  "checks": [
+    {
+      "operation": "runtime profiles",
+      "exit_code": 0,
+      "read_only": true,
+      "json_output": true,
+      "returned_items": 1
+    },
+    {
+      "operation": "redteam targets",
+      "exit_code": 0,
+      "read_only": true,
+      "json_output": true,
+      "returned_items": 1
+    },
+    {
+      "operation": "model-security groups",
+      "exit_code": 0,
+      "read_only": true,
+      "json_output": true,
+      "returned_items": 1
+    },
+    {
+      "operation": "gateway workspaces",
+      "exit_code": 0,
+      "read_only": true,
+      "json_output": true,
+      "returned_items": 8
+    },
+    {
+      "operation": "DLP patterns",
+      "exit_code": 0,
+      "management_source": "explicit child environment from owner protected configuration",
+      "read_only": true,
+      "json_output": true,
+      "returned_items": 1
+    }
+  ],
+  "dlp_config_file_alone_supported": false
+}

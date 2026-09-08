@@ -1,0 +1,50 @@
+{
+  "run_id": 34272404475,
+  "workflow_commit": "5b070fb349b5cbdecc42d49e842dcf030444625d",
+  "runtime_source_requested": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "scope": "Windows hosted preflight-only; disposable fixtures, no Rust compilation or native candidate execution",
+  "passed": false,
+  "release_ready": false,
+  "build_job": "skipped",
+  "acceptance_job": "skipped",
+  "artifact": {
+    "id": 10074354646,
+    "zip_sha256": "7fa3f9ac76adc2bf53cd69e819e49847ba2abf35d553efc13987dfebb51e2eef",
+    "digest_verified": true
+  },
+  "node_tests": {
+    "total": 12,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 4,
+    "skip_scope": "Existing Unix login-shell and signal/stdio fixtures explicitly skip on Windows"
+  },
+  "packaging_tests": {
+    "test_methods": 5,
+    "passed_methods": 2,
+    "failed_methods": 3,
+    "failed_assertions": 4
+  },
+  "artifact_helper_tests": "not reached",
+  "pinned_conpty_dependency": "not reached",
+  "failure": "Disposable fixture command whitelist compared an unresolved Windows temporary path against the packer canonical path; no production package failure established",
+  "fixture_fix_commit": "4f095bac0",
+  "fix_local_evidence": {
+    "platform": "Linux",
+    "packaging_tests": 5,
+    "passed": true,
+    "native_windows_retry_pending": true
+  },
+  "retained_files": {
+    "launcher-tests.txt": {
+      "original_sha256": "9bf4da2b628402e04e1f015057e0a0eb4ed5df597c960ec37b9a0ae545c63967",
+      "retained_sha256": "4dbd1f9a2e369980c6fc4da49dbc8915c4e84af7665413d6e62b8d5501e1c9ff",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    },
+    "packaging-tests.txt": {
+      "original_sha256": "b8d30852104510ad5afd1aba67a518404456d682aae792da32f2be9279c2b298",
+      "retained_sha256": "e8ab9b2da01c4e435bf8d4c08086c0b8ff9e8823afdf78b12b9f4bd9253d7766",
+      "normalization": "CRLF to LF and trailing whitespace removal only"
+    }
+  }
+}

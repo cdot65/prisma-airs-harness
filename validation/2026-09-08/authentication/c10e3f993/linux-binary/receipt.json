@@ -20,5 +20,20 @@
   },
   "build_profile": "release; opt-level=3; lto=false; codegen-units=16; debug=0",
   "build_seconds": 1232,
-  "workspace_receipt": "workspace-live.json"
+  "workspace_receipt": "workspace-live.json",
+  "installed_executable_suite": {
+    "passed": true,
+    "tests": 33,
+    "skipped": 0,
+    "duration_seconds": 29.478,
+    "binary_sha256": "084e1944a06313bfe28cff78137fb9e268969c8fd7e881e0fcd536f08ca6e234",
+    "scope": "Linux npm-installed path containing spaces; includes managed CLI skill, local tools, loopback inference/MCP, logout across processes."
+  },
+  "oidc_live_first_attempt": {
+    "passed": false,
+    "successful_checks_before_failure": 14,
+    "failure_phase": "same-terminal MCP scan after initial token expiry",
+    "observation": "Inference completed and invoked remote tool, which reported scan unavailable or incomplete with no allow verdict. Earlier scans succeeded. Downstream cause under investigation; no refresh acceptance credit.",
+    "fixtures_removed": true
+  }
 }

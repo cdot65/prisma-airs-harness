@@ -1,0 +1,75 @@
+{
+  "passed": false,
+  "scope": "full-cli-and-mcp",
+  "binary_sha256": "084e1944a06313bfe28cff78137fb9e268969c8fd7e881e0fcd536f08ca6e234",
+  "checks": [
+    {
+      "test": "setup",
+      "passed": true
+    },
+    {
+      "test": "browser-login",
+      "passed": true
+    },
+    {
+      "test": "verified-subject",
+      "passed": true
+    },
+    {
+      "test": "credential-helper",
+      "passed": true
+    },
+    {
+      "test": "original-resource-jwt",
+      "passed": true
+    },
+    {
+      "test": "different-mcp-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "mcp-login",
+      "passed": true
+    },
+    {
+      "test": "mcp-credential-helper",
+      "passed": true
+    },
+    {
+      "test": "separate-mcp-audience",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/list",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/templates/list",
+      "passed": true
+    },
+    {
+      "test": "exec-local-filesystem",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "test": "bounded-simple-task",
+      "passed": true,
+      "shell_commands": 4
+    },
+    {
+      "test": "exec-remote-mcp",
+      "passed": true,
+      "tool_calls": 2,
+      "scan": {
+        "action": "allow",
+        "scan_id": "96698337-53e5-4afa-b2fd-86611df5943a",
+        "profile_name": "Prisma AIRS Terminal",
+        "category": "benign"
+      }
+    }
+  ],
+  "fixtures_removed": true,
+  "client_availability_mutated": false,
+  "scanner_access_policy": "unchanged"
+}

@@ -6,6 +6,7 @@ tests registry dependency resolution and npm's command link, not just npm pack.
 """
 
 import argparse
+import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
@@ -114,8 +115,27 @@ def main():
             raise ValueError(
                 "Installed command did not launch the expected native version"
             )
+        modules = prefix / ("node_modules" if os.name == "nt" else "lib/node_modules")
+        native_infos = list(
+            (modules / "airs-harness/node_modules").glob(
+                "airs-harness-*/BUILD-INFO.json"
+            )
+        )
+        if len(native_infos) != 1:
+            raise ValueError("Expected exactly one installed native package")
+        native_info = native_infos[0]
+        provenance = json.loads(native_info.read_text())
+        native = native_info.parent / "bin" / (
+            "airs-harness.exe" if os.name == "nt" else "airs-harness"
+        )
+        with native.open("rb") as stream:
+            native_digest = hashlib.file_digest(stream, "sha256").hexdigest()
+        if native_digest != provenance["binary_sha256"]:
+            raise ValueError("Installed native binary differs from build provenance")
         receipt = {
             "passed": True,
+            "binary_sha256": native_digest,
+            "source_commit": provenance["source_commit"],
             "published": False,
             "version": version,
             "command": str(command),

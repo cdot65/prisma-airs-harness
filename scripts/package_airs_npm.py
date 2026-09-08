@@ -161,6 +161,10 @@ def main():
     receipt = {
         "published": False,
         "source_commit": source_commit,
+        "packaging_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=root, text=True
+        ).strip(),
+        "required_dependencies": manifest["dependencies"],
         "registry": args.registry,
         "publish_order": receipts,
     }

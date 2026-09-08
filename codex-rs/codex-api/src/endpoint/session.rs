@@ -1,3 +1,6 @@
+#[path = "session_guard.rs"]
+mod session_guard;
+
 use crate::auth::SharedAuthProvider;
 use crate::error::ApiError;
 use crate::provider::Provider;
@@ -13,11 +16,13 @@ use codex_client::TransportError;
 use http::HeaderMap;
 use http::Method;
 use serde_json::Value;
+use session_guard::SessionGuard;
 use std::sync::Arc;
 use tracing::instrument;
 
 pub(crate) struct EndpointSession<T: HttpTransport> {
     transport: T,
+    guard: SessionGuard,
     provider: Provider,
     auth: SharedAuthProvider,
     request_telemetry: Option<Arc<dyn RequestTelemetry>>,
@@ -27,6 +32,7 @@ impl<T: HttpTransport> EndpointSession<T> {
     pub(crate) fn new(transport: T, provider: Provider, auth: SharedAuthProvider) -> Self {
         Self {
             transport,
+            guard: SessionGuard::current(),
             provider,
             auth,
             request_telemetry: None,
@@ -103,8 +109,13 @@ impl<T: HttpTransport> EndpointSession<T> {
                 let auth = self.auth.clone();
                 let transport = &self.transport;
                 async move {
-                    let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
-                    transport.execute(req).await
+                    self.guard
+                        .run(async {
+                            let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
+                            self.guard.check()?;
+                            transport.execute(req).await
+                        })
+                        .await
                 }
             },
         )
@@ -144,13 +155,22 @@ impl<T: HttpTransport> EndpointSession<T> {
                 let auth = self.auth.clone();
                 let transport = &self.transport;
                 async move {
-                    let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
-                    transport.stream(req).await
+                    self.guard
+                        .run(async {
+                            let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
+                            self.guard.check()?;
+                            transport.stream(req).await
+                        })
+                        .await
                 }
             },
         )
         .await?;
 
-        Ok(stream)
+        Ok(self.guard.stream(stream))
     }
 }
+
+#[cfg(test)]
+#[path = "session_tests.rs"]
+mod tests;

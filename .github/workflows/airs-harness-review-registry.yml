@@ -1,0 +1,34 @@
+name: Prisma AIRS Harness review registry preflight
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Proposed unused prerelease version (read-only check)
+        required: true
+        default: 0.1.0-alpha.10
+permissions:
+  contents: read
+  packages: read
+jobs:
+  registry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Check registry preflight behavior before authentication
+        run: python -m unittest discover -s scripts -p test_airs_review_registry.py -v
+      - name: Verify existing package access and proposed version
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          REVIEW_VERSION: ${{ inputs.version }}
+        run: python scripts/check_airs_review_registry.py --version "$REVIEW_VERSION" --output "$RUNNER_TEMP/registry.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: review-registry-preflight
+          path: ${{ runner.temp }}/registry.json

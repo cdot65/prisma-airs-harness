@@ -71,6 +71,9 @@ class NativePackaging(unittest.TestCase):
             (notices / name).write_text("test license")
         binary = directory / "disposable-native-fixture"
         binary.write_bytes(b"not an executable: packaging contract only")
+        # The packer resolves Windows short-name and macOS temporary-path aliases.
+        # Match the same existing file without relaxing the command whitelist.
+        binary = binary.resolve(strict=True)
         metadata = directory / "metadata.json"
         metadata.write_text(json.dumps({"packages": [], "resolve": {"nodes": []}}))
 

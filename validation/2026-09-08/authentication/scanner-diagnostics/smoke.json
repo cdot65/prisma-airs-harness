@@ -1,0 +1,13 @@
+{
+  "candidate_reference": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+  "pod": "airs-scanner-review-8d2c97975a",
+  "passed": true,
+  "scanner_requests_made": 0,
+  "public_service_created": false,
+  "image_id": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+  "health_status": 200,
+  "unauthorized_mcp_status": 401,
+  "owned_pod_deleted": true,
+  "production_deployment_unchanged": true,
+  "real_scanner_or_gateway_credentials_used": false
+}

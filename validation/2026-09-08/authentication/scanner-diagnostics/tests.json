@@ -1,0 +1,28 @@
+{
+  "kind": "completed-local-test-summary",
+  "source_commit": "c92a7079f",
+  "source_directory": "/home/cdot/development/cdot65/airs-harness/mcp-scanner",
+  "command": "npm test",
+  "test_command": "npm run build && node --test dist/server.test.js",
+  "passed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "tool_session": 49224,
+  "record_basis": "completed TAP result captured in agent tool output; this summary is not a rerun",
+  "tests_ran_before_final_formatting": true,
+  "formatting_and_diff_check_passed": true,
+  "live_services_exercised": false,
+  "image_built": false,
+  "deployed": false,
+  "tests": [
+    "actual SDK discovery and scan are stateless, bounded and profile-pinned",
+    "unauthorized HTTP requests do not invoke the scanner or disclose keys",
+    "upstream errors, timeouts and incomplete verdicts fail without hidden retries",
+    "independent concurrent clients preserve their own results",
+    "typed upstream failures log safe metadata once and never return sensitive errors",
+    "diagnostics reject arbitrary correlations and never serialize unknown errors",
+    "a failed diagnostic sink preserves the original fail-closed tool result"
+  ],
+  "summary_updated_at": "2026-09-08T19:01:49.097725+00:00",
+  "test_execution_timestamp_retained": false
+}

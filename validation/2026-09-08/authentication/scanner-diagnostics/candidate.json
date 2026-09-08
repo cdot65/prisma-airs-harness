@@ -1,0 +1,51 @@
+{
+  "base": "registry.cdot.io/airs-terminal/scanner@sha256:d5c08c37b73d15b680c013d5293e2782604b9410a1c184e8c9864025da123c6c",
+  "rollback_digest": "sha256:d5c08c37b73d15b680c013d5293e2782604b9410a1c184e8c9864025da123c6c",
+  "candidate_tag": "registry.cdot.io/airs-terminal/scanner:diagnostics-c92a7079f-candidate",
+  "build_method": "incremental-oci-reviewed-js-layer",
+  "dockerfile_rebuilt": false,
+  "source_revision": "c92a7079fa4adaba24814c092104696854f6a5e0",
+  "platform": "linux/amd64",
+  "sdk_version": "0.21.0",
+  "dependencies_match_active_image": true,
+  "javascript_sha256": {
+    "main.js": "f64c51abcaf3e19c9716ee55fe8cebed02bdc33764ac8a78d4f3de611d91a391",
+    "server.js": "48b410bb8f840ae826f62c2152a73f2d5c7c538366acd374c352369a1a4ff9b0",
+    "failure.js": "438760d052d700035380ecf2da023e3c06716013be1dc07fa73406b1590ede00"
+  },
+  "base_main_matches_compiled_main": false,
+  "layer_sha256": "1fcadef85304b65312bf49f5f557d80fb428c1c16b36d66930e2434b5791ba5f",
+  "archive_sha256": null,
+  "archive_export": "stopped after no progress; direct registry append used",
+  "runtime": {
+    "Entrypoint": [
+      "/nodejs/bin/node",
+      "/app/dist/main.js"
+    ],
+    "Cmd": null,
+    "User": "10001:10001",
+    "WorkingDir": "/app"
+  },
+  "pushed": true,
+  "deployed": false,
+  "candidate_digest": "sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+  "candidate_reference": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+  "base_layers_preserved": true,
+  "runtime_configuration_preserved": true,
+  "harbor_scan": {
+    "status": "Success",
+    "severity_counts": {
+      "Medium": 13,
+      "Low": 7,
+      "Critical": 0,
+      "High": 0
+    },
+    "total": 20,
+    "fixable_high_critical": 0
+  },
+  "base_main_diff_is_startup_branding_only": true,
+  "candidate_reviewed_at": "2026-09-08T19:01:49.097472+00:00",
+  "temporary_auth_configs_removed": true,
+  "isolated_pod_smoke_passed": true,
+  "smoke_receipt": "/var/tmp/airs-scanner-candidate-c92a7079f/smoke.json"
+}

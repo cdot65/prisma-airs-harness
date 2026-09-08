@@ -1,0 +1,37 @@
+{
+  "started_utc": "2026-09-08T19:06:44.630337+00:00",
+  "deployment": "airs-gw/airs-terminal-scanner",
+  "manifest_commit": "4527aae13db09537baf4c36b2504076914202443",
+  "image": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+  "rollback_image": "registry.cdot.io/airs-terminal/scanner@sha256:d5c08c37b73d15b680c013d5293e2782604b9410a1c184e8c9864025da123c6c",
+  "non_image_spec_sha256_before": "f054f992c1aea5a44060ec785481df55a55fc34a1f2d7145181c8f8b22d96ea0",
+  "method": "kubectl set image (targeted Deployment only)",
+  "scanner_requests_performed": 0,
+  "previous_live_scan_failure_resolved": false,
+  "completed_utc": "2026-09-08T19:07:21.842319+00:00",
+  "rollout_status": "successful",
+  "non_image_spec_sha256_after": "f054f992c1aea5a44060ec785481df55a55fc34a1f2d7145181c8f8b22d96ea0",
+  "non_image_spec_unchanged": true,
+  "generation": 4,
+  "observed_generation": 4,
+  "updated_replicas": 2,
+  "ready_replicas": 2,
+  "available_replicas": 2,
+  "pods": [
+    {
+      "name": "airs-terminal-scanner-5c7688867-fgkqt",
+      "ready": true,
+      "image_id": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+      "restart_count": 0
+    },
+    {
+      "name": "airs-terminal-scanner-5c7688867-zgmds",
+      "ready": true,
+      "image_id": "registry.cdot.io/airs-terminal/scanner@sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c",
+      "restart_count": 0
+    }
+  ],
+  "old_terminating_pods": [],
+  "rollback_command": "kubectl -n airs-gw set image deployment/airs-terminal-scanner scanner=registry.cdot.io/airs-terminal/scanner@sha256:d5c08c37b73d15b680c013d5293e2782604b9410a1c184e8c9864025da123c6c",
+  "fresh_authenticated_e2e": "pending parent fixture"
+}

@@ -9,6 +9,7 @@ PAH service, network beyond loopback, or Python third-party package is required.
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -364,9 +365,15 @@ class TerminalIntegration(unittest.TestCase):
         self.assertTrue(report["passed"])
         self.assertNotIn("test-only-credential", doctor.stdout)
         original_path = self.env.get("PATH")
-        self.env["PATH"] = "/nonexistent-airs-harness-test"
+        missing_tools = self.root / "missing-local-tools"
+        missing_tools.mkdir()
+        # Keep the npm launcher's prerequisite while hiding Git/ripgrep/Bubblewrap.
+        if node := shutil.which("node", path=original_path):
+            (missing_tools / Path(node).name).symlink_to(Path(node).resolve())
+        self.env["PATH"] = str(missing_tools)
         unavailable = self.run_cli("doctor", "--json")
         self.assertNotEqual(unavailable.returncode, 0)
+        self.assertTrue(unavailable.stdout, unavailable.stderr)
         local_tools = next(
             c
             for c in json.loads(unavailable.stdout)["checks"]

@@ -1,3 +1,51 @@
+# GitHub Packages distribution
+
+The owned `airs-harness-github-packages.yml` workflow publishes scoped copies of
+an existing verified npm release to GitHub Packages. GitHub does not index
+Verdaccio packages automatically. The three packages are `@cdot65/prisma-airs-harness`,
+`@cdot65/prisma-airs-harness-linux-x64`, and `@cdot65/prisma-airs-harness-darwin-arm64`, linked to
+this repository. The executable command remains `airs-harness`.
+
+Only the package manifests change: names are scoped, the destination registry is
+GitHub, and native dependencies point to their immutable GitHub tarball URLs.
+All original source archive checksums are checked against a committed publication
+receipt before publication; published archives are downloaded and compared byte
+for byte. Already published versions must match the staged integrity. The
+workflow then installs from an empty cache and runs the executable acceptance
+suite on Linux x64 and Apple Silicon. It does not compile Rust or build Intel Macs.
+
+To publish a future validated release, attach its original npm tarballs to its
+GitHub release, commit the publication receipt, then dispatch the workflow on
+`main` with that release tag and receipt path. It uses the repository's temporary
+`GITHUB_TOKEN` with `packages: write`; acceptance jobs use `packages: read`.
+Packages initially inherit this private repository's access; publication does
+not make the source repository or packages public.
+
+## Install from GitHub Packages
+
+GitHub requires a classic personal access token with `read:packages` and access
+to the package. Authenticate interactively (use the token as the password):
+
+```bash
+npm login --auth-type=legacy --registry=https://npm.pkg.github.com
+```
+
+Resolve only the harness from GitHub, then install using npmjs for its public
+CLI/SDK dependencies. Do not redirect the whole `@cdot65` scope to GitHub: those
+public dependencies share that scope.
+
+```bash
+airs_harness_url="$(npm view @cdot65/prisma-airs-harness@0.1.0-alpha.9 dist.tarball --registry=https://npm.pkg.github.com)"
+npm install -g "$airs_harness_url" --registry=https://registry.npmjs.org
+airs-harness --version
+airs-harness airs doctor --output json
+```
+
+The native dependencies still download from GitHub with the same authentication.
+Verdaccio's existing anonymous LAN/VPN installation remains supported. For npm
+registry authentication and repository linking, see
+[GitHub's npm registry documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
+
 # Alpha.9 managed CLI release
 
 Published `airs-harness@0.1.0-alpha.9` and its Linux x64/Apple Silicon packages

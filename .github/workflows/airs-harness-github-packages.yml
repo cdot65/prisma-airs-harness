@@ -1,0 +1,96 @@
+name: Prisma AIRS Harness GitHub Packages
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release containing the verified original npm archives
+        required: true
+        default: airs-harness-v0.1.0-alpha.9
+      receipt:
+        description: Committed publication receipt for those archives
+        required: true
+        default: validation/2026-09-08/managed-cli/PUBLICATION.json
+permissions:
+  contents: read
+concurrency:
+  group: airs-harness-github-packages
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      launcher_url: ${{ steps.publish.outputs.launcher_url }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Configure registry authentication without redirecting public dependencies
+        run: echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$RUNNER_TEMP/github.npmrc"
+      - name: Download released archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: gh release download "$RELEASE_TAG" --pattern '*.tgz' --dir "$RUNNER_TEMP/original-npm"
+      - name: Verify, scope, publish and download every package
+        id: publish
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github.npmrc
+          GH_TOKEN: ${{ github.token }}
+          RECEIPT: ${{ inputs.receipt }}
+        run: |
+          python scripts/publish_airs_github_packages.py --receipt "$RECEIPT" --archives "$RUNNER_TEMP/original-npm" --output "$RUNNER_TEMP/github-publication"
+          echo "launcher_url=$(cat "$RUNNER_TEMP/github-publication/launcher-url.txt")" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: github-packages-publication
+          path: ${{ runner.temp }}/github-publication/PUBLICATION.json
+  acceptance:
+    needs: publish
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Install from GitHub with public CLI dependency resolution
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github.npmrc
+          LAUNCHER_URL: ${{ needs.publish.outputs.launcher_url }}
+        run: |
+          if [ "$RUNNER_OS" = macOS ]; then test "$(uname -m)" = arm64; fi
+          echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
+          npm install -g --prefix "$RUNNER_TEMP/installed" --cache "$RUNNER_TEMP/empty-cache" --ignore-scripts --no-audit --no-fund --registry https://registry.npmjs.org "$LAUNCHER_URL"
+          "$RUNNER_TEMP/installed/bin/airs-harness" --version
+          "$RUNNER_TEMP/installed/bin/airs-harness" airs --version
+          AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/installed/bin/airs-harness" python -m unittest discover -s scripts -p test_airs_harness.py -v 2>&1 | tee "$RUNNER_TEMP/acceptance.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: github-packages-${{ matrix.os }}-acceptance
+          path: ${{ runner.temp }}/acceptance.log

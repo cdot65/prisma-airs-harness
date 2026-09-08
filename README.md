@@ -257,3 +257,5 @@ Codex-derived code remains Apache-2.0. Preserve [LICENSE](LICENSE), [NOTICE](NOT
 dependency notices and upstream history. The product does not imply OpenAI
 endorsement. [README.upstream.md](README.upstream.md) preserves the original intro;
 [IMPLEMENTATION.md](IMPLEMENTATION.md) records historical prototype work.
+
+GitHub Packages is an additional distribution channel; see [GitHub installation and publication](PUBLICATION.md#github-packages-distribution) for authenticated installation without redirecting the public CLI dependencies.

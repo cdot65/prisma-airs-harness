@@ -2,9 +2,30 @@
 
 import json
 import os
+import tempfile
 import time
 
 from airs_harness_pty import TerminalSession
+
+MAX_PRIVATE_TRANSCRIPT_BYTES = 4 * 1024 * 1024
+
+
+def write_private_transcript(path, transcript):
+    """Atomically retain a bounded diagnostic tail, private from its first byte."""
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=".private-interactive-", dir=path.parent
+    )
+    try:
+        with os.fdopen(descriptor, "wb") as target:
+            target.write(transcript[-MAX_PRIVATE_TRANSCRIPT_BYTES:])
+            target.flush()
+            os.fsync(target.fileno())
+        os.replace(temporary, path)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
 
 
 def verify_interactive_refresh(binary, env, work, home, expiry, output):
@@ -93,6 +114,6 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
                 "turns": observed,
             }
         finally:
-            output.with_suffix(".private-interactive.log").write_bytes(
-                terminal.transcript
+            write_private_transcript(
+                output.with_suffix(".private-interactive.log"), terminal.transcript
             )

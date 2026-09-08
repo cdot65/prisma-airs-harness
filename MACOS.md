@@ -53,6 +53,10 @@ The architecture must be `arm64`. If it says `x64`, reopen Terminal without
 Rosetta and use an Apple Silicon Node installation. The harness requires Node.js
 22.13+ in the 22.x line, or 23.5+.
 
+When using nvm, `node --version` may differ from Homebrew's installed version
+because nvm selects the active executable. An active arm64 Node 22.23.2 already
+meets this release's requirements; no switch to Homebrew Node is necessary.
+
 Connect your organization's VPN when needed. GitHub installation uses
 `github.com`, `npm.pkg.github.com`, and `registry.npmjs.org`. Verdaccio uses
 `npm.cdot.io`. Both gateway login methods need `airs.cdot.io`; Keycloak also
@@ -103,7 +107,7 @@ permission inheritance. See the [administrator setup](#administrator-setup-for-g
 5. Install the resolved download:
 
    ```zsh
-   if [[ "$airs_harness_url" == https://npm.pkg.github.com/download/* ]]; then
+   if [[ -n "$airs_harness_url" ]]; then
      npm install -g "$airs_harness_url" --include=optional --registry=https://registry.npmjs.org
    else
      printf 'Resolve the GitHub package URL successfully before installing.\n'

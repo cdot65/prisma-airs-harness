@@ -1,0 +1,68 @@
+import base64,hashlib,io,json,os,re,subprocess,tarfile,threading,time
+from pathlib import Path
+from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+from urllib.parse import unquote,urlsplit
+ROOT=Path(__file__).resolve().parent
+NAME='@cdot65/prisma-airs-harness';VERSION='0.1.0-alpha.9'
+CLI='@cdot65/prisma-airs-cli';SDK='@cdot65/prisma-airs-sdk';NATIVE='@cdot65/prisma-airs-harness-linux-x64'
+SENTINELS={'private':'synthetic-private-host-sentinel','public':'synthetic-public-host-sentinel'}
+all_results=[]
+def archive(manifest,files={}):
+ buf=io.BytesIO()
+ with tarfile.open(fileobj=buf,mode='w:gz') as tar:
+  for path,data in {'package.json':json.dumps(manifest).encode(),**files}.items():
+   entry=tarfile.TarInfo('package/'+path);entry.size=len(data);entry.mode=0o755 if path.endswith('.js') else 0o644;tar.addfile(entry,io.BytesIO(data))
+ return buf.getvalue()
+def integrity(blob):return 'sha512-'+base64.b64encode(hashlib.sha512(blob).digest()).decode()
+for npm_label,npm in [('npm10',['node',str(ROOT/'npm10/package/bin/npm-cli.js')]),('npm12',['npm'])]:
+ for variant in ['bundled-required','bundled-include-optional']:
+  case=ROOT/f'{npm_label}-{variant}';case.mkdir(mode=0o700,exist_ok=True);requests=[];metadata={};blobs={};servers={};urls={}
+  def handler(role):
+   class Registry(BaseHTTPRequestHandler):
+    def log_message(self,*args):pass
+    def do_GET(self):
+     path=unquote(urlsplit(self.path).path);auth=self.headers.get('Authorization','')
+     classification='none' if not auth else next((r for r,v in SENTINELS.items() if auth=='Bearer '+v),'unexpected')
+     requests.append({'registry':role,'path':path,'auth_identity':classification,'host':self.headers.get('Host')})
+     if role=='private' and classification!='private':self.send_error(401);return
+     key=(role,path)
+     if key in blobs:data=blobs[key];kind='application/octet-stream'
+     elif key in metadata:data=json.dumps(metadata[key]).encode();kind='application/json'
+     else:self.send_error(404);return
+     self.send_response(200);self.send_header('Content-Type',kind);self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
+   return Registry
+  for role,host in [('private','127.0.0.1'),('public','127.0.0.2')]:
+   server=ThreadingHTTPServer((host,0),handler(role));servers[role]=server;urls[role]=f'http://{host}:{server.server_port}';threading.Thread(target=server.serve_forever,daemon=True).start()
+  def add(role,manifest,files={},hint=False):
+   blob=archive(manifest,files);path='/download/'+manifest['name']+'/'+manifest['version']+'/package.tgz';blobs[role,path]=blob
+   record={**manifest,'dist':{'tarball':urls[role]+path,'integrity':integrity(blob)}}
+   if hint:record['_hasShrinkwrap']=True
+   metadata[role,'/'+manifest['name']]={'name':manifest['name'],'dist-tags':{'latest':manifest['version']},'versions':{manifest['version']:record}}
+   return {'version':manifest['version'],'resolved':urls[role]+path,'integrity':integrity(blob)}
+  sdk=add('public',{'name':SDK,'version':'0.28.0','main':'index.js'},{'index.js':b'module.exports="0.28.0";\n'})
+  cli=add('public',{'name':CLI,'version':'5.2.0','main':'index.js','dependencies':{SDK:'0.28.0'}},{'index.js':b'module.exports={version:"5.2.0",sdk:require("@cdot65/prisma-airs-sdk")};\n'})
+  native=add('private',{'name':NATIVE,'version':VERSION,'main':'index.js','os':['linux'],'cpu':['x64']},{'index.js':b'module.exports="synthetic-linux-native";\n'})
+  manifest={'name':NAME,'version':VERSION,'bin':{'airs-harness':'bin/airs-harness.js'},'dependencies':{CLI:'5.2.0'},'optionalDependencies':{NATIVE:native['resolved']}}
+  if variant=='bundled-required':manifest['dependencies'][NATIVE]=manifest.pop('optionalDependencies')[NATIVE]
+  lock={'name':NAME,'version':VERSION,'lockfileVersion':3,'requires':True,'packages':{'':manifest,'node_modules/'+CLI:{**cli,'dependencies':{SDK:'0.28.0'}},'node_modules/'+SDK:sdk,'node_modules/'+NATIVE:{**native,'optional':True,'os':['linux'],'cpu':['x64']}}}
+  files={'bin/airs-harness.js':b'#!/usr/bin/env node\nconsole.log(JSON.stringify({cli:require("@cdot65/prisma-airs-cli"),native:require("@cdot65/prisma-airs-harness-linux-x64")}));\n'}
+  if variant.startswith('bundled'):
+   manifest['bundleDependencies']=[CLI]
+   files.update({'node_modules/'+CLI+'/package.json':json.dumps({'name':CLI,'version':'5.2.0','main':'index.js','dependencies':{SDK:'0.28.0'}}).encode(),'node_modules/'+CLI+'/index.js':b'module.exports={version:"5.2.0",sdk:require("@cdot65/prisma-airs-sdk")};\n','node_modules/'+SDK+'/package.json':json.dumps({'name':SDK,'version':'0.28.0','main':'index.js'}).encode(),'node_modules/'+SDK+'/index.js':b'module.exports="0.28.0";\n'})
+  if variant in ['package-lock','shrinkwrap','shrinkwrap-hint']:files['package-lock.json' if variant=='package-lock' else 'npm-shrinkwrap.json']=json.dumps(lock).encode()
+  add('private',manifest,files,hint=variant=='shrinkwrap-hint')
+  config=case/'user.npmrc';config.write_text('registry='+urls['public']+'/\n@cdot65:registry='+urls['private']+'/\n'+''.join('//'+urlsplit(urls[role]).netloc+'/:_authToken='+SENTINELS[role]+'\n' for role in urls)+'update-notifier=false\n');config.chmod(0o600)
+  globalconfig=case/'global.npmrc';globalconfig.write_text('')
+  env={k:v for k,v in os.environ.items() if not k.upper().startswith(('NPM_','NODE_AUTH_TOKEN'))};env.update(NPM_CONFIG_USERCONFIG=str(config),NPM_CONFIG_GLOBALCONFIG=str(globalconfig),NPM_CONFIG_CACHE=str(case/'cache'),NO_PROXY='127.0.0.1,127.0.0.2',no_proxy='127.0.0.1,127.0.0.2')
+  try:
+   started=time.monotonic();r=subprocess.run([*npm,'install','--global','--prefix',str(case/'prefix'),'--ignore-scripts','--include=optional','--no-audit','--no-fund',NAME+'@'+VERSION],cwd=case,env=env,capture_output=True,timeout=30)
+   runtime=None
+   if r.returncode==0:
+    launched=subprocess.run([str(case/'prefix/bin/airs-harness')],env=env,cwd=case,capture_output=True,timeout=5)
+    if launched.returncode==0:runtime=json.loads(launched.stdout)
+   output=r.stdout+r.stderr
+   safe={'npm':subprocess.check_output([*npm,'--version'],env=env,text=True).strip(),'node':subprocess.check_output(['node','--version'],text=True).strip(),'variant':variant,'exit_code':r.returncode,'seconds':time.monotonic()-started,'error_codes':sorted(set(re.findall(rb'\bE[A-Z0-9]{3,}\b',output))),'runtime':runtime,'runtime_exit_code':launched.returncode if r.returncode==0 else None,'install_output':output.decode(errors='replace'),'literal_cli_pin':manifest['dependencies'][CLI],'literal_sdk_pin':'0.28.0','private_token_seen_on_public':any(x['registry']=='public' and x['auth_identity']=='private' for x in requests),'public_token_seen_on_private':any(x['registry']=='private' and x['auth_identity']=='public' for x in requests),'unexpected_auth':any(x['auth_identity']=='unexpected' for x in requests),'sentinel_in_npm_output':any(v.encode() in output for v in SENTINELS.values()),'requests':requests}
+   safe['error_codes']=[x.decode() for x in safe['error_codes']];all_results.append(safe);(case/'receipt.json').write_text(json.dumps(safe,indent=2)+'\n');(ROOT/'bundled-controls-results.json').write_text(json.dumps(all_results,indent=2)+'\n')
+   print(json.dumps({k:safe[k] for k in ['npm','variant','exit_code','error_codes','runtime','private_token_seen_on_public','unexpected_auth']}),flush=True)
+  finally:
+   for server in servers.values():server.shutdown();server.server_close()

@@ -30,8 +30,11 @@ The remaining path is:
    resolution. Current instructions deliberately use a separately resolved tarball:
    the harness, public CLI and public SDK share @cdot65. Changing only the CLI to
    a tarball is insufficient and breaks the current literal-version comparison in
-   resolvePrismaCli. A generated published npm-shrinkwrap preserving exact public
-   CLI/SDK and native URLs is a candidate solution to test, not an implemented fix.
+   resolvePrismaCli. The earlier shrinkwrap proposal is superseded: npm12 no longer
+   consumes it. [The bounded local experiment](install-feasibility/REPORT.md) verifies
+   bundled CLI/SDK plus scoped exact-version native dependencies on npm10 and npm12.
+   Real Sharp platform selection remains a packaging blocker; this is feasibility
+   evidence, not implemented packaging or a real GitHub Packages installation.
 5. Test fresh package-name/tag installation with an empty cache and intended scope
    mapping, actual native selection and hashes, managed CLI pin, installed Keychain
    lifecycle, alpha.9 credential/session migration, and relocation. Verify teammate
@@ -40,9 +43,11 @@ The remaining path is:
    manual P6 trials on those exact bytes. Keep production promotion and its score
    separate. A changed runtime or signature invalidates affected acceptance.
 
-npm documents shrinkwrap as a publishable lockfile suitable for globally installed
-CLI applications; package-lock alone is not the distribution solution:
-https://docs.npmjs.com/cli/v11/configuring-npm/npm-shrinkwrap-json/
+Older npm documents described shrinkwrap for published CLI applications, but npm12
+removed that mechanism and denies direct remote-URL dependency specs by default.
+The local controls preserve those failures and test a bundled alternative without
+weakening npm security defaults. See the [experiment report](install-feasibility/REPORT.md)
+and [npm12 documentation](https://github.com/npm/cli/blob/latest/docs/lib/content/configuring-npm/package-lock-json.md).
 
 Existing workflow GitHub authentication uses temporary GITHUB_TOKEN with
 packages:write; acceptance uses packages:read. Authenticated operator API access

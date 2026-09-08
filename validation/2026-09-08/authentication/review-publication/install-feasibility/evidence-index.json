@@ -1,0 +1,97 @@
+{
+  "recorded_at_utc": "2026-09-08T20:44:40.411383+00:00",
+  "synthetic_install_cases": 26,
+  "ordinary_install_scope": "@cdot65 private registry; default public registry; 127.0.0.1 and 127.0.0.2",
+  "original_sources": [
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/experiment.py",
+      "sha256": "9d64d5379c879d6923a8456d0df5a7cd6fa66d559169d89f7c38da5b29cf7ce8"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-experiment.py",
+      "sha256": "23ed269ecf1d965e4af19b7459bd807416e1e8cb8f49a89c75b21225f976ca3e"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-controls.py",
+      "sha256": "2e3facce76b425f980cd273becff94e9d90906fec9894025ab68699f6989254a"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-routing-controls.py",
+      "sha256": "f3d5e58400dad0a7dfd2784bf9da07a730497c25f2c37b808f695185dd935a2b"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/auth-and-unbundled.py",
+      "sha256": "62a604c21eb2e1f5860b436e436f823a0eb59f1e4f0f067f5e9dba764628f968"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/results.json",
+      "sha256": "72cad4e71fd81c653474cdf46baa19dbc9f42bcc16a639db4401de086294f044"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-results.json",
+      "sha256": "2736949c5b64f703992b70db4b5e73bd69309e5d6387081db478fce23ed8a93d"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-controls-results.json",
+      "sha256": "e4c486505d9a132a04ec1d32bc1dcdcd8e4464bcd35b9eeeda23ca630a609b2f"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/bundled-routing-controls-results.json",
+      "sha256": "d71c3dc68e1d38d96ee1f26f8ad75be5338e48d942035b91dc12a94c6bbf2679"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/auth-and-unbundled-results.json",
+      "sha256": "cc0ace63ae256671557eef262266a997f23e66768a003a892b771821a4eb759d"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/npm-pack-controls.json",
+      "sha256": "b35a2843b3419fb5a02513bf1552e786daf6248bb4b9257992152fc173f4c285"
+    },
+    {
+      "path": "/var/tmp/airs-npm-shrinkwrap-experiment/real-installed-dependency-metadata.json",
+      "sha256": "3f19c81a08cb482534e752d4d04974e9d04562cf0bb60c1c836ca65d2b6f64c0"
+    }
+  ],
+  "retained_files": [
+    {
+      "name": "REPORT.md",
+      "sha256": "b474d4f31a65c9455b3596dddfe7c5c30a81f4d68c47f26a59809877061d76c4"
+    },
+    {
+      "name": "auth-and-unbundled.py.txt",
+      "sha256": "62a604c21eb2e1f5860b436e436f823a0eb59f1e4f0f067f5e9dba764628f968"
+    },
+    {
+      "name": "bundled-controls.py.txt",
+      "sha256": "2e3facce76b425f980cd273becff94e9d90906fec9894025ab68699f6989254a"
+    },
+    {
+      "name": "bundled-experiment.py.txt",
+      "sha256": "23ed269ecf1d965e4af19b7459bd807416e1e8cb8f49a89c75b21225f976ca3e"
+    },
+    {
+      "name": "bundled-routing-controls.py.txt",
+      "sha256": "f3d5e58400dad0a7dfd2784bf9da07a730497c25f2c37b808f695185dd935a2b"
+    },
+    {
+      "name": "experiment.py.txt",
+      "sha256": "9d64d5379c879d6923a8456d0df5a7cd6fa66d559169d89f7c38da5b29cf7ce8"
+    },
+    {
+      "name": "npm-pack-controls.ndjson",
+      "sha256": "c2b2737c37d41c30e4aecc26ac5fac7024734224e16ff21a9a0d7528655204b7"
+    },
+    {
+      "name": "real-installed-dependency-metadata.ndjson",
+      "sha256": "efa2601415be4bd6360671978a6d62314c3b54572fa5b49d3a3cd75be2fa5976"
+    },
+    {
+      "name": "receipts.ndjson",
+      "sha256": "213cd3fe4fa245c70b1b2e8c2e82887813e361efa4cd1c0d924bce50944e1c82"
+    },
+    {
+      "name": "tool-bootstrap.json",
+      "sha256": "cdaf740baa0e5c8b5da3bf89f6f0bb40590db3849c08435fc03788a5c1e07b9a"
+    }
+  ]
+}

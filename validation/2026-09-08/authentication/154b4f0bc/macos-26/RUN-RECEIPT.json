@@ -1,0 +1,67 @@
+{
+  "run_id": 34278615096,
+  "run_attempt": 1,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34278615096",
+  "conclusion": "success",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "tooling_source": "67976dfafdbe017918c8ab46db34a8b50eefc63f",
+  "compilation_run": "34272843528",
+  "compilation_artifact_id": "10076349913",
+  "compilation_performed": false,
+  "host": {
+    "selected_runner": "macos-26",
+    "machine": "arm64",
+    "macos_version": "26.6.2",
+    "owner_device": false
+  },
+  "native_suite": {
+    "methods": 39,
+    "passed": 37,
+    "skipped": 2,
+    "skip_reasons": [
+      "requires npm-managed CLI",
+      "Linux session-bus recovery"
+    ]
+  },
+  "installed_suite": {
+    "methods": 38,
+    "passed": 37,
+    "skipped": 1,
+    "skip_reasons": [
+      "Linux session-bus recovery"
+    ]
+  },
+  "native_store": {
+    "separate_process_phases_passed": 7,
+    "maximum_workspace_key_bytes": 16384
+  },
+  "native_and_installed_keychain_lifecycle": "passed using deterministic loopback Responses server",
+  "managed_prisma_cli_version": "5.2.0",
+  "published": false,
+  "developer_id_signed": false,
+  "notarized": false,
+  "live_gateway_e2e": false,
+  "artifacts": [
+    {
+      "id": 10076957421,
+      "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+      "digest": "sha256:34d9883682c3097c2c733321ae7dd73e8434413cc37b5d25a1c7ab6b2af96609",
+      "size_in_bytes": 694708
+    },
+    {
+      "id": 10076956165,
+      "name": "airs-harness-darwin-arm64-private-candidate-1",
+      "digest": "sha256:1c044a06652ad78402cd8faa870a8e7b667d171a3552f400c87253267874dbef",
+      "size_in_bytes": 226688388
+    }
+  ],
+  "job_times": [
+    {
+      "id": 102237682178,
+      "name": "acceptance",
+      "started_at": "2026-09-08T21:06:00Z",
+      "completed_at": "2026-09-08T21:13:13Z",
+      "conclusion": "success"
+    }
+  ]
+}

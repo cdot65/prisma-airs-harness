@@ -8,32 +8,26 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## Managed Prisma AIRS CLI — alpha.9 candidate
+## 0.1.0-alpha.9 — managed Prisma AIRS CLI
 
-The next release integrates CLI 5.2.0 as an exact npm dependency and embeds eight
-focused Prisma AIRS skills. See [CLI setup, credentials and upgrade policy](PRISMA-AIRS-CLI.md).
-Alpha.8 remains the published release until candidate acceptance completes.
+The npm package is `airs-harness`; its launcher runs a matching prebuilt Rust
+agent and requires `@cdot65/prisma-airs-cli@5.2.0` (SDK 0.28.0). Eight embedded
+skills cover setup/diagnosis and seven Prisma AIRS capability areas. Run
+`airs-harness airs doctor --output json` to check CLI credentials and reachability.
+See [CLI setup and upgrade policy](PRISMA-AIRS-CLI.md) and
+[publication status and evidence](PUBLICATION.md).
 
-## 0.1.0-alpha.8 — npm distribution
-
-The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped
-npm package is `airs-harness`; its launcher runs a matching prebuilt Rust binary.
-Version `0.1.0-alpha.8` is published to `https://npm.cdot.io` for Linux x64 and
-Apple Silicon macOS. Native execution, npm installation and macOS Keychain
-acceptance passed. See [PUBLICATION.md](PUBLICATION.md) for exact evidence and limits.
-
-Fresh state uses `~/.airs-harness`; existing state and credential bindings remain
-compatible. See [RENAME.md](RENAME.md) for the upgrade contract and remaining
-legacy identifiers, and [npm package instructions](npm/airs-harness/README.md).
-[VALIDATION.json](VALIDATION.json) records alpha.8 acceptance. [RELEASE.md](RELEASE.md)
-and the archived validation files retain historical release evidence.
+Linux x64 and Apple Silicon native/npm acceptance passed. Existing environments,
+credential bindings and history retain the [rename compatibility contract](RENAME.md).
+[VALIDATION.json](VALIDATION.json) records current acceptance; [RELEASE.md](RELEASE.md)
+and archived validation files retain historical evidence.
 
 ## Installation
 
-Connect to the organization's LAN/VPN, then use Node.js 22 or later:
+Connect to the organization's LAN/VPN, then use Node.js 22.13+ in the 22.x line, or 23.5+:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
 airs-harness --version
 ```
 

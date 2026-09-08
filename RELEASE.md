@@ -1,3 +1,26 @@
+# 0.1.0-alpha.9 — managed Prisma AIRS CLI
+
+The npm harness now requires CLI 5.2.0 (SDK 0.28.0) and embeds eight focused
+skills. `airs-harness airs ...` works before gateway setup; agent shell tools
+receive an absolute managed CLI path. Missing/mismatched dependencies fail
+explicitly. Project `.env` loading is disabled for managed CLI invocations.
+
+Linux passed 27 native tests plus one npm-only skip and 27 installed npm tests.
+Apple Silicon passed 26 native tests plus two platform/package skips and 26 npm
+tests plus one Linux-only skip. Both exercised the embedded CLI skills through
+the installed harness. Real CLI command/configuration/DLP generation checks
+passed on Linux, Apple Silicon and Windows; 53 scoped Rust tests passed.
+Live Linux checks exercised the new CLI skill, default/explicit inference,
+local edits/tests, remote MCP scans and resume. Read-only management/scanner
+preflight results are recorded separately from mutation and coverage claims.
+
+See [PUBLICATION.md](PUBLICATION.md) for current publication/Keychain status,
+[PRISMA-AIRS-CLI.md](PRISMA-AIRS-CLI.md) for authentication and upstream CLI limits,
+and [MACOS.md](MACOS.md) for installation. The DLP environment-only credential
+exception is documented in the guide; carry it into the next embedded skill
+update. Windows native distribution and broader Mac live enterprise acceptance
+remain separate milestones. Historical release evidence follows.
+
 # 0.1.0-alpha.8 — Prisma AIRS Harness npm release
 
 Prisma AIRS Harness is published as `airs-harness@0.1.0-alpha.8` at

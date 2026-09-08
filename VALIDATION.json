@@ -1,168 +1,43 @@
 {
-  "schema_version": 8,
+  "schema_version": 9,
   "date": "2026-09-08",
   "product": "Prisma AIRS Harness",
-  "product_version": "0.1.0-alpha.8",
-  "scope": "Standalone renamed internal-alpha distribution: Verdaccio npm publication for Linux x64 and Apple Silicon",
-  "status": "published_and_production_live_acceptance_passed",
-  "runtime_source_commit": "17624ca2761a0ca4217f54944b69a6436d7ec375",
-  "source_repository": "https://github.com/cdot65/airs-harness",
-  "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
-  "target": "x86_64-unknown-linux-musl",
-  "rust": "1.95.0",
-  "profile": "release; upstream optimization defaults; strip --strip-debug",
-  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
-  "binary_size_bytes": 317020528,
-  "context_default": 1000000,
-  "changes": [
-    "Prisma AIRS Harness product identity and airs-harness executable/package names",
-    "Fresh application and project home .airs-harness; legacy state reused in place",
-    "Current inference User-Agent and generated catalog greeting applied in memory without rewriting saved bindings/history",
-    "Stable native credential namespace and deployed authorization IDs",
-    "npm launcher and native-package provenance with isolated registry installation tooling"
-  ],
-  "affected_rust_library_tests": {
-    "passed": 7360,
-    "failed": 0,
-    "skipped": 4,
-    "log_sha256": "ec15a3d2f8d7df8050fc7f68cdf46de8f94e29182fea212bb93aae6d62964398"
-  },
-  "final_core_library_tests": {
-    "passed": 2436,
-    "failed": 0,
-    "skipped": 1,
-    "overlaps_previous_run": true,
-    "log_sha256": "5619a68ba3194b17f92b4d0a381d83a7359a0f52f0f1aa14ff6d72ea1595064f"
-  },
-  "scoped_clippy": {
-    "passed": true,
-    "final_core_passed": true,
-    "source_changed_by_final_lint": false
-  },
-  "optimized_executable_fixtures": {
+  "product_version": "0.1.0-alpha.9",
+  "status": "native_npm_live_linux_passed_publication_pending",
+  "scope": "Required managed CLI and eight embedded Prisma AIRS skills",
+  "runtime_source_commit": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+  "cli_version": "5.2.0",
+  "sdk_version": "0.28.0",
+  "linux_native": {
     "passed": 27,
-    "failed": 0,
-    "receipt": "validation/2026-09-08/rename/optimized-executable-tests.log"
+    "skipped": 1
   },
-  "optimized_live": {
-    "passed": true,
-    "turns": 7,
-    "real_scans": 3,
-    "receipt": "validation/2026-09-08/rename/optimized-live.json"
+  "linux_npm": {
+    "passed": 27,
+    "skipped": 0
   },
-  "installation": {
-    "passed": true,
-    "state_files_preserved": 11,
-    "legacy_command_alias": true,
-    "receipt": "validation/2026-09-08/rename/installation.json"
-  },
-  "installed_live": {
-    "passed": true,
-    "turns": 7,
-    "real_scans": 3,
-    "receipt": "validation/2026-09-08/rename/installed-live.json"
-  },
-  "platform_ci": {
-    "native_credential_stores": [
-      "Linux",
-      "macOS",
-      "Windows"
-    ],
-    "npm_launcher": [
-      "Linux",
-      "macOS",
-      "Windows"
-    ],
-    "receipt": "validation/2026-09-08/rename/platform-ci.json",
-    "scope": "Historical SDK credential-store and launcher checks; fresh full Apple Silicon acceptance is recorded under macos_distribution."
-  },
-  "auxiliary_source_tests": {
-    "scanner_passed": 4,
-    "gateway_identity_passed": 15,
-    "services_redeployed": false
-  },
-  "full_workspace_tests": {
-    "attempted": true,
-    "passed": false,
-    "reason": "V8 150.4.0 musl archive HTTP 404",
-    "code_mode_enabled": false,
-    "log_sha256": "9b788d74c0872d8205503fb1586e7153bd23d90f244976ae03cf48633881ddff"
-  },
-  "baseline": {
-    "version": "0.1.0-alpha.7",
-    "validation": "validation/2026-09-07/alpha7-validation.json",
-    "fresh_owner_oidc_e2e_this_release": false,
-    "native_credential_and_authorization_contracts_preserved": true
-  },
-  "npm_distribution": {
-    "name": "airs-harness",
-    "registry": "https://npm.cdot.io",
-    "published": true,
-    "status": "anonymous_download_and_fresh_production_install_verified",
-    "native_packages": [
-      "airs-harness-linux-x64",
-      "airs-harness-darwin-arm64"
-    ],
-    "native_packaging_source_commit": "b3486afcd3da6bcc27daf1bb4b02c56ebadb5739",
-    "launcher_source_commit": "bf024215bf6e0ea4cbedcb400641e310f7319461",
-    "receipt": "validation/2026-09-08/publication/PUBLICATION.json",
-    "installation_receipt": "validation/2026-09-08/publication/production-install.json",
-    "registry_upload_limit_mib": 256,
-    "reserved_names_proxy_public_npm": false,
-    "install_scripts": false
-  },
-  "deferred": [
-    "Mac live installed Keycloak/workspace-key and default/explicit route matrix, plus owner acceptance",
-    "Windows npm distribution",
-    "Guided first-run onboarding",
-    "Developer ID signing/notarization and managed-device certification",
-    "Optional Conjur activation",
-    "Dedicated Apple Silicon runner pending confirmed host access"
-  ],
-  "release_verification": "Published metadata, anonymous downloads, fresh production installation, and Apple Silicon acceptance receipts are in validation/2026-09-08/publication. Prior Linux and Rust evidence remains in rename/.",
-  "macos_distribution": {
-    "target": "aarch64-apple-darwin",
-    "os_version": "15.7.9",
-    "binary_sha256": "05f07fad0400e4415960153a41e5b38cdfc09a9b0dc79eae8703c9b7731a5ac0",
-    "native_tests": {
-      "passed": 26,
-      "skipped": 1,
-      "failed": 0
-    },
-    "npm_executable_tests": {
-      "passed": 25,
-      "skipped": 1,
-      "failed": 0
-    },
-    "skip_reason": "Linux session-bus recovery is Linux-only",
-    "launcher_tests_passed": 6,
-    "native_keychain_separate_processes": 3,
-    "npm_cli_keychain_lifecycle_passed": true,
-    "validation_run": 34183881120,
-    "cli_keychain_run": 34184222859,
-    "artifact_acceptance_duration_seconds": 285,
-    "rust_compilation_required_for_artifact_acceptance": false,
-    "mac_live_enterprise_e2e": false,
-    "receipt_directory": "validation/2026-09-08/publication/macos"
-  },
-  "production_npm_executable_tests": {
+  "macos_native": {
     "passed": 26,
-    "failed": 0,
-    "receipt": "validation/2026-09-08/publication/production-executable-tests.log"
+    "skipped": 2
   },
-  "production_npm_live": {
-    "passed": true,
-    "completed_turns": 7,
-    "real_scans": 3,
-    "local_tests": 4,
-    "route_switch": "default-explicit-default",
-    "receipt": "validation/2026-09-08/publication/production-live.json",
-    "self_description_review": "validation/2026-09-08/publication/self-description-review.json"
+  "macos_npm": {
+    "passed": 26,
+    "skipped": 1
   },
-  "independent_assessment": {
-    "score": 9,
-    "scale": 10,
-    "scope": "Internal alpha distribution only; broader MVP and owner acceptance remain open",
-    "receipt": "validation/2026-09-08/publication/independent-review.json"
-  }
+  "rust_scoped_tests_passed": 53,
+  "cross_platform_cli_contracts": [
+    "Linux",
+    "Apple Silicon",
+    "Windows"
+  ],
+  "live_built_in_cli_skill_passed": true,
+  "live_default_explicit_mcp_resume_passed": true,
+  "independent_candidate_score": 9,
+  "evidence": "validation/2026-09-08/managed-cli",
+  "limitations": [
+    "CLI 5.2.0 upstream limits and DLP environment credentials documented in PRISMA-AIRS-CLI.md",
+    "Windows native distribution not included",
+    "Mac enterprise live acceptance and owner hands-on review remain separate",
+    "Managed Developer ID signing/notarization and Conjur remain separate"
+  ]
 }

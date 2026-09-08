@@ -1,3 +1,18 @@
+# Alpha.9 managed CLI release
+
+Native/npm acceptance passed for Linux x64 and Apple Silicon. Publication and
+an additional npm-installed Mac CLI Keychain lifecycle check are pending.
+CLI 5.2.0 / SDK 0.28.0 are pinned. See
+[managed CLI evidence](validation/2026-09-08/managed-cli/REVIEW.md).
+
+Runtime source: `fae43287c8ddc11c37b6af60d9cd26ec48eb5a22`.
+Linux SHA256: `a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608`.
+Apple Silicon SHA256: `5968c0b9f84c24eb8632216060955392bfbdfa1bdb68ab7f8f2c450303522ab1`.
+The platform build receipts are snapshots taken before npm/live acceptance;
+the consolidated root validation records the current status.
+
+Historical alpha.8 publication evidence follows.
+
 # Alpha.8 npm publication
 
 Status: published. `airs-harness`, `airs-harness-linux-x64` and

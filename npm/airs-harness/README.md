@@ -8,12 +8,12 @@ run on your machine. This package has no PAH server or OpenAI CLI dependency.
 Install the approved release from your organization's Verdaccio registry:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
 airs-harness --version
 ```
 
 The registry requires the organization's LAN/VPN; downloads do not require npm
-login. Alpha.8 includes Linux x64 and macOS Apple Silicon packages. Intel Macs are unsupported.
+login. Alpha.9 includes Linux x64 and macOS Apple Silicon packages. Intel Macs are unsupported.
 See the [Mac installation and Keycloak runbook](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
 for prerequisites, sign-in, remote scanner setup and an end-to-end test. A copy
 ships with the installed package, so GitHub access is not required to read it:
@@ -48,7 +48,7 @@ build provenance ship with each native platform package.
 
 ## Managed Prisma AIRS CLI
 
-This alpha.9 candidate pins `@cdot65/prisma-airs-cli@5.2.0` and includes eight
+This release pins `@cdot65/prisma-airs-cli@5.2.0` and includes eight
 built-in Prisma AIRS skills. Run `airs-harness airs doctor --output json` before
 Prisma AIRS operations. Existing protected CLI configuration and explicit
 `PANW_AI_SEC_API_KEY`, `PANW_MGMT_CLIENT_ID`, `PANW_MGMT_CLIENT_SECRET`, and

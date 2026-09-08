@@ -1,6 +1,6 @@
 # Managed Prisma AIRS CLI and skills
 
-The alpha.9 release candidate requires `@cdot65/prisma-airs-cli@5.2.0`, whose
+The alpha.9 release requires `@cdot65/prisma-airs-cli@5.2.0`, whose
 manifest pins `@cdot65/prisma-airs-sdk@0.28.0`. npm installs the CLI with the
 harness. An existing global `airs` installation is left alone. The harness
 checks the exact CLI version before startup and reports a reinstall error if
@@ -111,5 +111,5 @@ requires additional provisioning; its installation is not an npm prerequisite.
 
 | Harness | CLI | SDK | Status |
 | --- | --- | --- | --- |
-| 0.1.0-alpha.9 | 5.2.0 | 0.28.0 | Candidate; release acceptance in progress |
+| 0.1.0-alpha.9 | 5.2.0 | 0.28.0 | Native/npm acceptance passed; publication pending |
 | 0.1.0-alpha.8 | None required | None required | Previously published |

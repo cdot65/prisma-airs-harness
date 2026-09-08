@@ -1,6 +1,6 @@
 # Prisma AIRS Harness on your Mac
 
-Use this runbook to install the prebuilt alpha.8 package on Apple Silicon.
+Use this runbook to install the prebuilt alpha.9 package on Apple Silicon.
 Current release availability and test evidence are recorded in the
 [publication report](https://github.com/cdot65/airs-harness/blob/main/PUBLICATION.md).
 
@@ -15,11 +15,11 @@ Current release availability and test evidence are recorded in the
 
    ```sh
    brew install node git ripgrep
-   npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+   npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
    airs-harness --version
    ```
 
-Node.js 22 or later is required. npm selects the native package for your Node
+Node.js 22.13+ in the 22.x line, or 23.5+ is required. npm selects the native package for your Node
 architecture automatically. This release supports Apple Silicon (`arm64`) Macs;
 Intel Macs are excluded by project policy. Use a native
 Terminal and Node installation on Apple Silicon, without Rosetta. You do not need
@@ -31,11 +31,25 @@ If npm reports `EACCES`, use a user-owned prefix instead of running npm as root:
 npm config set prefix "$HOME/.local"
 grep -qxF 'export PATH="$HOME/.local/bin:$PATH"' "$HOME/.zprofile" 2>/dev/null ||   echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zprofile"
 export PATH="$HOME/.local/bin:$PATH"
-npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
 ```
 
 This follows [npm's permissions guidance](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally/).
 Do not use `--omit=optional` or `--ignore-optional`.
+
+## Prisma AIRS CLI readiness
+
+The harness installs CLI 5.2.0 and its eight skills automatically. Check it with:
+
+```sh
+airs-harness airs --version
+airs-harness airs doctor --output json
+```
+
+Scanner and management credentials are separate from Keycloak sign-in. Follow
+[PRISMA-AIRS-CLI.md](PRISMA-AIRS-CLI.md) for the environment variables, trusted
+configuration, and the DLP management exception. Inside the harness, ask
+`$prisma-airs-cli` to diagnose readiness without revealing credential values.
 
 ## Sign in and connect the scanner
 

@@ -1,0 +1,105 @@
+{
+  "run_id": 34272843528,
+  "run_attempt": 1,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34272843528",
+  "conclusion": "success",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "tooling_source": "5b070fb349b5cbdecc42d49e842dcf030444625d",
+  "hosted_os": "macOS 15.7.9",
+  "architecture": "arm64",
+  "owner_device": false,
+  "published": false,
+  "developer_id_signed": false,
+  "notarized": false,
+  "live_gateway_e2e": false,
+  "build": {
+    "cli_seconds": 2851.3,
+    "fixture_seconds": 6.03,
+    "combined_build_step_seconds": 2862,
+    "cache_restore_seconds": 48,
+    "restored_cache_key": "airs-macos-v1-ARM64-6829d11afabd2f9b9e4d345b5a7a8535ee7c21136ca98d108367a51b3fe27cb2-f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+    "cache_save_outcomes": {
+      "build_cache": "success",
+      "dependency_source_cache": "success"
+    },
+    "LTO_note": "Original manifest records the CARGO_PROFILE_RELEASE_LTO=false override; effective per-crate LTO was not independently established."
+  },
+  "native_suite": {
+    "methods": 39,
+    "passed": 37,
+    "skipped": 2,
+    "skip_reasons": [
+      "requires npm-managed CLI",
+      "Linux session-bus recovery"
+    ]
+  },
+  "installed_suite": {
+    "methods": 38,
+    "passed": 37,
+    "skipped": 1,
+    "skip_reasons": [
+      "Linux session-bus recovery"
+    ]
+  },
+  "native_store": {
+    "separate_process_phases_passed": 7,
+    "maximum_workspace_key_bytes": 16384
+  },
+  "native_and_installed_keychain_lifecycle": "passed using deterministic loopback Responses server",
+  "managed_prisma_cli_version": "5.2.0",
+  "artifacts": [
+    {
+      "id": 10076630168,
+      "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+      "digest": "sha256:e93d55ee626c7c068286c384595927cc73bfbfd354eeabc427fe85dd58d6af58",
+      "size_in_bytes": 341761
+    },
+    {
+      "id": 10076629400,
+      "name": "airs-harness-darwin-arm64-private-candidate-1",
+      "digest": "sha256:b7cf25692055f193a92658c79aa653d7db77768c072303997360b7e6051d9fe4",
+      "size_in_bytes": 226687660
+    },
+    {
+      "id": 10076386445,
+      "name": "airs-harness-darwin-arm64-build-evidence-1",
+      "digest": "sha256:286fb51bba89db8ed2440d3a95cf3060ec6b3eca1b32ab107ce5302b69d0d5e5",
+      "size_in_bytes": 124432
+    },
+    {
+      "id": 10076349913,
+      "name": "airs-harness-darwin-arm64-unvalidated-executables-1",
+      "digest": "sha256:9dec4489393488456b1d637cd4a3761b09069a97f8a144d25e2018d28d1053e2",
+      "size_in_bytes": 110700048
+    },
+    {
+      "id": 10074505201,
+      "name": "airs-harness-darwin-arm64-preflight-1",
+      "digest": "sha256:eac0a1288e22f2b4db65d71ef5518b7910f3323c2b28f78f0f2d29a25e7276cf",
+      "size_in_bytes": 2185
+    }
+  ],
+  "job_times": [
+    {
+      "id": 102218500242,
+      "name": "preflight",
+      "started_at": "2026-09-08T20:06:28Z",
+      "completed_at": "2026-09-08T20:06:48Z",
+      "conclusion": "success"
+    },
+    {
+      "id": 102218634699,
+      "name": "build",
+      "started_at": "2026-09-08T20:06:55Z",
+      "completed_at": "2026-09-08T20:57:21Z",
+      "conclusion": "success"
+    },
+    {
+      "id": 102234959784,
+      "name": "acceptance",
+      "started_at": "2026-09-08T20:57:29Z",
+      "completed_at": "2026-09-08T21:04:13Z",
+      "conclusion": "success"
+    }
+  ]
+}

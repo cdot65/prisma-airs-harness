@@ -22,4 +22,13 @@ does not redeploy those services or reconfigure Keycloak.
 The optimized binary and installed command each passed a seven-turn live
 workflow with three real scans. The optimized executable passed 27 checks.
 The installation preserved all 11 checked state files; npm artifact acceptance
-is recorded separately after package construction. No new owner OIDC E2E is claimed from workspace-key tests.
+is recorded in `npm-package-acceptance.json`. It passed a real isolated npm
+install, native hash verification and 26 executable checks. The separate
+copy-native-binary PTY fixture remains covered by the native 27-test run. No new owner OIDC E2E is claimed from workspace-key tests.
+
+`native-package-integrity.json` verifies the native archive. `npm-packages.json`
+contains exact tarball hashes and the native-before-launcher publication order.
+`registry-prepublication.json` records the concrete upload-size prerequisite;
+no publication or registry reconfiguration occurred. The artifact source and
+runtime-build source commits differ only outside `codex-rs`; their relationship
+is explicit in the npm acceptance receipt.

@@ -1,0 +1,9 @@
+{
+  "reviewed": true,
+  "scope": "Sampled optimized live responses",
+  "underlying_default_model_not_claimed": true,
+  "inference_described_as_remote": true,
+  "repository_url": "https://github.com/cdot65/airs-harness",
+  "optional_scanner_described_separately": true,
+  "mcp_inventory_confirmed_by_real_calls": true
+}

@@ -10,7 +10,10 @@ Historical releases and validation receipts below retain their original names.
 The installed Linux binary passed 27 executable checks and seven-turn live
 workflows before and after installation, each with three real scans. Existing
 state files and a compatibility command are preserved. VALIDATION.json records
-current acceptance; npm packaging evidence follows as a separate verification.
+current acceptance. Both npm tarballs are prepared, and the isolated npm install
+passed native hash verification and 26 executable checks. Verdaccio publication
+is pending its upload-limit adjustment. Full macOS/Windows native packages
+remain a separate delivery milestone.
 
 # 0.1.0-alpha.7 — authentication workflow polish
 

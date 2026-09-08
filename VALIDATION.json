@@ -4,7 +4,7 @@
   "product": "Prisma AIRS Harness",
   "product_version": "0.1.0-alpha.8",
   "scope": "Full public rename with persisted identity compatibility; Linux native and npm package preparation before Verdaccio publication",
-  "status": "installed_and_live_acceptance_passed_npm_preparation_pending",
+  "status": "installed_and_npm_prepublication_acceptance_passed",
   "runtime_source_commit": "17624ca2761a0ca4217f54944b69a6436d7ec375",
   "source_repository": "https://github.com/cdot65/airs-harness",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
@@ -98,7 +98,14 @@
     "name": "airs-harness",
     "registry": "https://npm.cdot.io",
     "published": false,
-    "status": "preparing exact native artifact"
+    "status": "prepared_and_isolated_install_verified",
+    "native_packages": [
+      "airs-harness-linux-x64"
+    ],
+    "executable_checks_passed": 26,
+    "receipt": "validation/2026-09-08/rename/npm-package-acceptance.json",
+    "registry_upload_limit_change_required": true,
+    "package_directory": "/home/cdot/.local/share/airs-harness/candidates/0.1.0-alpha.8/npm"
   },
   "deferred": [
     "Verdaccio publication and required registry upload-limit adjustment",
@@ -106,5 +113,6 @@
     "Guided first-run onboarding",
     "Native artifact signing/attestation",
     "Optional Conjur activation"
-  ]
+  ],
+  "release_verification": "Native archive and npm tarball integrity/installation receipts are in validation/2026-09-08/rename; no registry publication occurred."
 }

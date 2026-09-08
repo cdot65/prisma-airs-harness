@@ -1,0 +1,23 @@
+{
+  "registry": "https://npm.cdot.io",
+  "published": false,
+  "verified_live_configmap": "verdaccio/verdaccio-config",
+  "current_max_body_size": "100mb",
+  "current_limit_bytes": 104857600,
+  "required_before_publication": "Increase max_body_size to 256mb and verify the ingress upload limit before publishing native then launcher packages",
+  "registry_configuration_changed": false,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "tarball_bytes": 115769358,
+      "npm_attachment_base64_bytes": 154359144,
+      "sha256": "2bdad4018ead9b225ed91ef2567b335c27d614da3114c57b0d49480692e9926c"
+    },
+    {
+      "name": "airs-harness",
+      "tarball_bytes": 6361,
+      "npm_attachment_base64_bytes": 8484,
+      "sha256": "956508cfa91403d74d60bb0451f8a50119c9eb1b46b0dd5a30a2725ed5478936"
+    }
+  ]
+}

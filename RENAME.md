@@ -95,3 +95,22 @@ airs-harness
 
 Node.js/npm are endpoint prerequisites for this distribution. Guided first-run
 setup and a graphical Mac installer are separate features, not part of the rename.
+
+## Alpha.8 acceptance and publication prerequisite
+
+The Linux binary is installed as `airs-harness`; the old local command is a
+compatibility alias. All 11 checked state files were preserved. The exact native
+binary passed 27 executable checks and two seven-turn live workflows, before
+and after installation, with three real scans in each.
+
+The prepared `airs-harness` launcher and `airs-harness-linux-x64` native tarballs
+passed a real npm installation through an isolated loopback registry. The
+installed native SHA matches the candidate, and 26 applicable executable checks
+passed through the npm command. See `validation/2026-09-08/rename/` for receipts.
+
+No package has been published. The live Verdaccio `max_body_size` is `100mb`.
+The native npm tarball is 115,769,358 bytes; its base64 upload attachment alone
+requires 154,359,144 bytes (about 147 MiB). Before publication, increase the
+registry limit to `256mb` and verify any ingress upload limit. Publish the native
+package before the launcher using the prepared manifest's order. This rename
+does not itself change the registry configuration.

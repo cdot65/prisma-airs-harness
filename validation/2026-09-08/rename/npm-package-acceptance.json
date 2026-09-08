@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "published": false,
+  "native_version": "0.1.0-alpha.8",
+  "native_binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "native_artifact_source_commit": "d7b944837706fce5abafc28b9cc82221784102a6",
+  "runtime_source_commit": "17624ca2761a0ca4217f54944b69a6436d7ec375",
+  "runtime_sources_identical_between_commits": true,
+  "npm_builder_source_commit": "1761378d8",
+  "acceptance_fixture_source_commit": "da09c1fbc7ffe9017c931d5c8224b1cc040bbac2",
+  "npm_version": "12.0.2",
+  "npm_executable_checks": 26,
+  "native_executable_checks": 27,
+  "npm_exclusion": "The separate native-binary-replacement PTY fixture copies an ELF executable; it is covered by the native run. Interactive PTY routing is covered in the npm run.",
+  "findings_corrected": [
+    "Owner review guide uses the existing administration/identity bundle location",
+    "npm 12 keyed JSON pack output supported alongside earlier array output",
+    "Missing-project-tools doctor fixture retains the npm Node prerequisite"
+  ],
+  "live_acceptance": "Exact same native SHA passed optimized and installed seven-turn workflows, each with three real scans",
+  "registry_receipt": "registry-prepublication.json"
+}

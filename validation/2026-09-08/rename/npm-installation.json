@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "source_commit": "d7b944837706fce5abafc28b9cc82221784102a6",
+  "published": false,
+  "version": "airs-harness 0.1.0-alpha.8",
+  "command": "/home/cdot/.local/share/airs-harness/candidates/0.1.0-alpha.8/npm-install/bin/airs-harness",
+  "registry_requests": [
+    "/npm",
+    "/npm",
+    "/airs-harness",
+    "/airs-harness-linux-x64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.8.tgz",
+    "/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.8.tgz"
+  ]
+}

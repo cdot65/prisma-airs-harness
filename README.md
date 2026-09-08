@@ -13,7 +13,8 @@ The terminal has no PAH application, SDK, proxy or web-service dependency.
 The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped
 npm package is `airs-harness`; its launcher runs a matching prebuilt Rust binary.
 The renamed Linux binary is installed and passed optimized and live acceptance; npm
-package preparation is being validated before publication to Verdaccio. This page does
+tarballs passed an isolated registry install and executable checks before publication
+to Verdaccio. This page does
 not announce a published alpha.8 package or a verified macOS distribution.
 
 Fresh state uses `~/.airs-harness`; existing state and credential bindings remain
@@ -24,7 +25,8 @@ and the archived validation files retain historical release evidence.
 
 ## Installation
 
-Until Verdaccio publication, build the reviewed source with the commands below.
+Until Verdaccio publication, use the verified Linux binary or build the reviewed
+source with the commands below.
 After publication, install the administrator-approved version of `airs-harness`
 from the organization's registry. Node.js 22 or later is needed for the npm
 launcher; endpoint users do not need Rust for a prebuilt package.

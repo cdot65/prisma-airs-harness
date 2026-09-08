@@ -1,0 +1,21 @@
+{
+  "published": false,
+  "source_commit": "d7b944837706fce5abafc28b9cc82221784102a6",
+  "registry": "https://npm.cdot.io",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.8",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.8.tgz",
+      "integrity": "sha512-yRZYH/jmbPjU0ME+8q8ueKX8PBdeCjG5nil8VYCijx8vrEXuu0sGGbWLEqZ+mYX0c8Es3Ot0ksR03W8P3Wrwow==",
+      "sha256": "2bdad4018ead9b225ed91ef2567b335c27d614da3114c57b0d49480692e9926c"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.8",
+      "filename": "airs-harness-0.1.0-alpha.8.tgz",
+      "integrity": "sha512-ggLQwFIswugamdrNsau9jQV7DDu25ARv68m/OKqQbIHV85deWZ3xwEFO3zCfJ96gJs2sTBeNvqLxncmca5Mp+w==",
+      "sha256": "956508cfa91403d74d60bb0451f8a50119c9eb1b46b0dd5a30a2725ed5478936"
+    }
+  ]
+}

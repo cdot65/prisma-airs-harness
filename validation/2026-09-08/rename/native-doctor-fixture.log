@@ -1,0 +1,6 @@
+test_doctor_json_is_redacted_and_reports_missing_credentials (test_airs_harness.TerminalIntegration.test_doctor_json_is_redacted_and_reports_missing_credentials) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.574s
+
+OK

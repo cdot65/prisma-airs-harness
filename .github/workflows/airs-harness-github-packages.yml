@@ -6,10 +6,18 @@ on:
         description: Release containing the verified original npm archives
         required: true
         default: airs-harness-v0.1.0-alpha.9
+      dist_tag:
+        description: Explicit review channel (production promotion is not supported)
+        type: choice
+        required: true
+        options: [auth-review, review, preview]
       receipt:
         description: Committed publication receipt for those archives
         required: true
         default: validation/2026-09-08/managed-cli/PUBLICATION.json
+defaults:
+  run:
+    shell: bash
 permissions:
   contents: read
 concurrency:
@@ -35,6 +43,8 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.13'
+      - name: Check copy publisher guards before registry access
+        run: python -m unittest discover -s scripts -p test_publish_airs_github_packages.py -v
       - name: Configure registry authentication without redirecting public dependencies
         run: echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$RUNNER_TEMP/github.npmrc"
       - name: Download released archives
@@ -49,8 +59,9 @@ jobs:
           NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github.npmrc
           GH_TOKEN: ${{ github.token }}
           RECEIPT: ${{ inputs.receipt }}
+          DIST_TAG: ${{ inputs.dist_tag }}
         run: |
-          python scripts/publish_airs_github_packages.py --receipt "$RECEIPT" --archives "$RUNNER_TEMP/original-npm" --output "$RUNNER_TEMP/github-publication"
+          python scripts/publish_airs_github_packages.py --dist-tag "$DIST_TAG" --receipt "$RECEIPT" --archives "$RUNNER_TEMP/original-npm" --output "$RUNNER_TEMP/github-publication"
           echo "launcher_url=$(cat "$RUNNER_TEMP/github-publication/launcher-url.txt")" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

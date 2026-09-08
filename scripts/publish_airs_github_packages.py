@@ -4,6 +4,8 @@
 Only package manifests change. Native dependencies use immutable GitHub tarball
 URLs so public CLI dependencies can resolve from npmjs without a scope collision.
 Requires an npm configuration authenticated to GitHub Packages; never reads tokens.
+This legacy copy path only accepts previously published releases and review tags.
+It does not authorize private candidate publication or production promotion.
 """
 
 import argparse
@@ -21,15 +23,53 @@ def npm(*args, cwd=None):
     return subprocess.check_output(["npm", *args], cwd=cwd, text=True).strip()
 
 
+def require_released_source(document):
+    """Reject explicit candidate/failure markers, including malformed booleans."""
+    if not isinstance(document, dict):
+        raise ValueError("Expected release metadata object")
+    if (
+        any(
+            field in document and document[field] is not False
+            for field in ("private", "private_candidate", "unsigned_candidate")
+        )
+        or any(
+            field in document and document[field] is not True
+            for field in ("publishable", "release_ready", "passed", "published")
+        )
+        or "release_status" in document
+        or (
+            "status" in document
+            and document["status"] not in ("published", "validated", "complete")
+        )
+    ):
+        raise ValueError(
+            "Private or unvalidated sources cannot be copied to a registry"
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--receipt", type=Path, required=True)
     parser.add_argument("--archives", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--dist-tag",
+        required=True,
+        choices=("auth-review", "review", "preview"),
+        help="Explicit review channel; this legacy publisher cannot promote latest",
+    )
     args = parser.parse_args()
     receipt = json.loads(args.receipt.read_text())
+    require_released_source(receipt)
     records = receipt["packages"]
-    if not receipt["complete"] or {r["name"] for r in records} != NAMES:
+    for record in records:
+        require_released_source(record)
+    if (
+        receipt["complete"] is not True
+        or receipt.get("published") is not True
+        or len(records) != len(NAMES)
+        or {r["name"] for r in records} != NAMES
+    ):
         raise ValueError("Expected a complete Linux x64 / Apple Silicon publication")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -46,6 +86,14 @@ def main():
             tar.extractall(directory, filter="data")
         package = directory / "package"
         manifest = json.loads((package / "package.json").read_text())
+        require_released_source(manifest)
+        provenance = package / "BUILD-INFO.json"
+        if provenance.exists():
+            require_released_source(json.loads(provenance.read_text()))
+        if record["name"] == "airs-harness" and manifest.get(
+            "optionalDependencies"
+        ) != {name: receipt["version"] for name in NAMES - {"airs-harness"}}:
+            raise ValueError("Native dependency set differs from publication")
         if (manifest["name"], manifest["version"]) != (
             record["name"],
             receipt["version"],
@@ -65,6 +113,7 @@ def main():
         staged.append((record, package, manifest))
     native_urls = {}
     published = []
+    existing_specs = []
     for record, package, manifest in sorted(
         staged, key=lambda item: (item[0]["name"] == "airs-harness", item[0]["name"])
     ):
@@ -123,6 +172,8 @@ def main():
                 "publish",
                 packed["filename"],
                 "--ignore-scripts",
+                "--tag",
+                args.dist_tag,
                 "--registry",
                 REGISTRY,
                 cwd=package,
@@ -168,6 +219,8 @@ def main():
         linked = (association.get("repository") or {}).get("full_name")
         if linked and linked != "cdot65/airs-harness":
             raise ValueError("Package is linked to an unexpected repository")
+        if existing.returncode == 0:
+            existing_specs.append(spec)
         published.append(
             {
                 "name": manifest["name"],
@@ -182,8 +235,21 @@ def main():
                 "declared_repository": manifest["repository"]["url"],
             }
         )
+    # Existing immutable versions are tagged only after every byte check passes.
+    for spec in existing_specs:
+        npm("dist-tag", "add", spec, args.dist_tag, "--registry", REGISTRY)
+    for record in published:
+        tags = json.loads(
+            npm("view", record["name"], "dist-tags", "--json", "--registry", REGISTRY)
+        )
+        if tags.get(args.dist_tag) != record["version"]:
+            raise ValueError("Registry review tag does not select the verified version")
     (output / "PUBLICATION.json").write_text(
-        json.dumps({"registry": REGISTRY, "packages": published}, indent=2) + "\n"
+        json.dumps(
+            {"registry": REGISTRY, "dist_tag": args.dist_tag, "packages": published},
+            indent=2,
+        )
+        + "\n"
     )
     print(json.dumps(published, indent=2))
 

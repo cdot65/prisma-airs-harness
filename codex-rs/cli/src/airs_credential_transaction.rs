@@ -1,0 +1,205 @@
+//! Track new OS entries until verified configuration owns them.
+use super::Binding;
+use super::SERVICE;
+use super::Source;
+use super::airs_environment;
+use anyhow::Context;
+use codex_keyring_store::DefaultKeyringStore;
+use codex_keyring_store::KeyringStore;
+use serde::Deserialize;
+use serde::Serialize;
+use std::io::Read;
+use std::path::Path;
+use uuid::Uuid;
+
+const JOURNAL: &str = "credential-pending-cleanup.json";
+
+/// Operations on workspace keys, with native errors already safely classified.
+pub(super) trait Store {
+    fn save(&self, account: Uuid, token: &str) -> anyhow::Result<()>;
+    fn load(&self, account: Uuid) -> anyhow::Result<Option<String>>;
+    fn delete(&self, account: Uuid) -> anyhow::Result<()>;
+}
+
+pub(super) struct NativeStore;
+
+impl Store for NativeStore {
+    fn save(&self, account: Uuid, token: &str) -> anyhow::Result<()> {
+        DefaultKeyringStore
+            .save(SERVICE, &account.to_string(), token)
+            .map_err(|error| super::super::airs_storage_error::report(error, "save"))
+    }
+    fn load(&self, account: Uuid) -> anyhow::Result<Option<String>> {
+        DefaultKeyringStore
+            .load(SERVICE, &account.to_string())
+            .map_err(|error| {
+                super::super::airs_storage_error::report(error, "verify saved credential")
+            })
+    }
+    fn delete(&self, account: Uuid) -> anyhow::Result<()> {
+        DefaultKeyringStore
+            .delete(SERVICE, &account.to_string())
+            .map(|_| ())
+            .map_err(|error| {
+                super::super::airs_storage_error::report(error, "clean up uncommitted credential")
+            })
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Pending {
+    schema_version: u32,
+    store: StoreKind,
+    account: Uuid,
+}
+
+#[derive(Serialize, Deserialize)]
+enum StoreKind {
+    #[serde(rename = "workspace-keyring-v1")]
+    WorkspaceKeyringV1,
+}
+
+fn optional_bytes(path: &Path) -> anyhow::Result<Option<Vec<u8>>> {
+    match std::fs::read(path) {
+        Ok(bytes) => Ok(Some(bytes)),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(error) => Err(error.into()),
+    }
+}
+
+fn restore_file(path: &Path, previous: Option<&[u8]>) -> anyhow::Result<()> {
+    if let Some(previous) = previous {
+        airs_environment::atomic_write(path, previous)
+    } else {
+        match std::fs::remove_file(path) {
+            Ok(()) => Ok(()),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+            Err(error) => Err(error.into()),
+        }
+    }
+}
+
+pub(super) fn read_cleanup<T: serde::de::DeserializeOwned>(
+    path: &Path,
+) -> anyhow::Result<Option<T>> {
+    let mut options = std::fs::OpenOptions::new();
+    options.read(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK);
+    }
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        // FILE_FLAG_OPEN_REPARSE_POINT: inspect the entry, never follow a link.
+        options.custom_flags(0x0020_0000);
+    }
+    let file = match options.open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error.into()),
+    };
+    let metadata = file.metadata()?;
+    anyhow::ensure!(
+        metadata.is_file() && metadata.len() <= 1024,
+        "Invalid credential cleanup journal"
+    );
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::MetadataExt;
+        // FILE_ATTRIBUTE_REPARSE_POINT also excludes non-symlink reparse files.
+        anyhow::ensure!(
+            metadata.file_attributes() & 0x0400 == 0,
+            "Invalid credential cleanup journal"
+        );
+    }
+    let mut bytes = Vec::new();
+    file.take(1025).read_to_end(&mut bytes)?;
+    anyhow::ensure!(bytes.len() <= 1024, "Invalid credential cleanup journal");
+    serde_json::from_slice(&bytes)
+        .map(Some)
+        .map_err(|_| anyhow::anyhow!("Invalid credential cleanup journal"))
+}
+
+pub(super) fn recover(home: &Path, store: &impl Store) -> anyhow::Result<()> {
+    let path = home.join(JOURNAL);
+    let Some(pending): Option<Pending> = read_cleanup(&path)? else {
+        return Ok(());
+    };
+    anyhow::ensure!(
+        pending.schema_version == 1,
+        "Unsupported credential cleanup journal"
+    );
+    let bound = optional_bytes(&home.join("credential-binding.json"))?
+        .map(|bytes| super::parse_binding(&bytes))
+        .transpose()?;
+    // A process may have stopped after installing the binding. Never remove
+    // its referenced key; a subsequent login can finish configuration safely.
+    if !bound.is_some_and(|binding| {
+        binding.id == pending.account && matches!(binding.source, Some(Source::Keyring))
+    }) {
+        store.delete(pending.account).context(
+            "Credential cleanup is pending; retry login or logout when secure storage is available",
+        )?;
+    }
+    std::fs::remove_file(path)?;
+    Ok(())
+}
+
+pub(super) fn persist(
+    home: &Path,
+    binding: &Binding,
+    token: &str,
+    store: &impl Store,
+    install: impl FnOnce() -> anyhow::Result<()>,
+) -> anyhow::Result<()> {
+    recover(home, store)?;
+    let previous = optional_bytes(&home.join("credential-binding.json"))?;
+    let previous_config = optional_bytes(&home.join("config.toml"))?;
+    let prior_binding = previous
+        .as_ref()
+        .map(|bytes| super::parse_binding(bytes))
+        .transpose()?;
+    let already_owned = prior_binding.is_some_and(|prior| {
+        prior.id == binding.id && matches!(prior.source, Some(Source::Keyring))
+    });
+    if !already_owned {
+        airs_environment::atomic_write(
+            &home.join(JOURNAL),
+            &serde_json::to_vec(&Pending {
+                schema_version: 1,
+                store: StoreKind::WorkspaceKeyringV1,
+                account: binding.id,
+            })?,
+        )?;
+    }
+    let result = (|| {
+        store.save(binding.id, token)?;
+        anyhow::ensure!(
+            store.load(binding.id)?.as_deref() == Some(token),
+            "Credential storage verification failed; sign-in was not completed"
+        );
+        if let Err(error) = install() {
+            // Restore both files even if the first restore fails. Snapshot bytes
+            // stay in memory; the durable cleanup journal never copies secrets.
+            let config_restore =
+                restore_file(&home.join("config.toml"), previous_config.as_deref());
+            let binding_restore =
+                restore_file(&home.join("credential-binding.json"), previous.as_deref());
+            config_restore.context("Credential configuration rollback failed; retry login after resolving the filesystem error")?;
+            binding_restore.context("Credential binding rollback failed; retry login after resolving the filesystem error")?;
+            return Err(error);
+        }
+        Ok(())
+    })();
+    if !already_owned {
+        recover(home, store)?;
+    }
+    result
+}
+
+#[cfg(test)]
+#[path = "airs_credential_transaction_tests.rs"]
+mod tests;

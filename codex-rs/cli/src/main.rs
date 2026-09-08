@@ -52,6 +52,7 @@ mod airs_mcp;
 mod airs_oidc;
 mod airs_secret_prompt;
 mod airs_session_binding;
+mod airs_storage_error;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
 mod cloud_config;

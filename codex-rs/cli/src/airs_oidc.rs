@@ -36,7 +36,7 @@ fn save(binding: &Binding, stored: &Stored) -> anyhow::Result<()> {
             &binding.id.to_string(),
             &serde_json::to_string(stored)?,
         )
-        .map_err(|_| super::airs_credentials::credential_store_error())
+        .map_err(|error| super::airs_storage_error::report(error, "save identity"))
 }
 
 pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
@@ -45,7 +45,7 @@ pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
     };
     let raw = CredentialStore
         .load(SERVICE, &binding.id.to_string())
-        .map_err(|_| super::airs_credentials::credential_store_error())?
+        .map_err(|error| super::airs_storage_error::report(error, "read identity"))?
         .context("OIDC credential missing; sign in again")?;
     anyhow::ensure!(raw.len() <= 131_072, "invalid stored identity record");
     let stored: Stored = serde_json::from_str(&raw)
@@ -92,6 +92,7 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
 
 pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Result<()> {
     let _lock = airs_environment::lock(home)?;
+    super::airs_credentials::recover_pending(home)?;
     let config = IdentityConfig {
         issuer: args
             .issuer_url
@@ -147,10 +148,10 @@ pub(super) async fn authenticate(
     let probe = format!("oidc-probe-{}", Uuid::new_v4());
     CredentialStore
         .save(SERVICE, &probe, "storage-availability-check")
-        .map_err(|_| super::airs_credentials::credential_store_error())?;
+        .map_err(|error| super::airs_storage_error::report(error, "check credential storage"))?;
     CredentialStore
         .delete(SERVICE, &probe)
-        .map_err(|_| anyhow::anyhow!("OS credential store cleanup failed"))?;
+        .map_err(|error| super::airs_storage_error::report(error, "clean up storage check"))?;
     let provider = Provider::discover(config).await?;
     let tokens = match flow {
         LoginFlow::Browser => {

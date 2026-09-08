@@ -17,17 +17,12 @@ use uuid::Uuid;
 // Changing it would orphan existing OS-store refresh tokens.
 pub(super) const SERVICE: &str = "io.cdot.airs-terminal";
 
-pub(super) fn credential_store_error() -> anyhow::Error {
-    let recovery = if cfg!(target_os = "linux") {
-        "Linux requires an unlocked Secret Service keyring on the current session D-Bus. Return to the shell where you unlocked the keyring. On a headless host, start `dbus-run-session -- bash`, unlock Secret Service with your existing keyring password, and run login/resume inside that same shell. See the README's Keycloak sign-in instructions."
-    } else if cfg!(target_os = "macos") {
-        "Unlock your login keychain in Keychain Access and allow AIRS Harness to access its credential item, then retry from the same macOS user account."
-    } else if cfg!(windows) {
-        "Run AIRS Harness from the same signed-in Windows user account and ensure Windows Credential Manager is available, then retry."
-    } else {
-        "Unlock the native credential store for your current user session, then retry."
-    };
-    anyhow::anyhow!("OS credential store unavailable. {recovery} No plaintext fallback is used.")
+#[path = "airs_credential_transaction.rs"]
+mod transaction;
+
+/// Retry owned pending entries while the caller holds the environment lock.
+pub(super) fn recover_pending(home: &Path) -> anyhow::Result<()> {
+    transaction::recover(home, &transaction::NativeStore)
 }
 
 #[derive(Debug, Default, clap::Args)]
@@ -128,7 +123,7 @@ pub(super) fn file_token(path: &Path) -> anyhow::Result<String> {
 }
 
 pub(super) fn read_binding(home: &Path) -> anyhow::Result<Binding> {
-    let binding: Binding = serde_json::from_slice(
+    let binding = parse_binding(
         &std::fs::read(home.join("credential-binding.json"))
             .context("no credential binding; run airs-harness login")?,
     )?;
@@ -143,6 +138,12 @@ pub(super) fn read_binding(home: &Path) -> anyhow::Result<Binding> {
     Ok(binding)
 }
 
+pub(super) fn parse_binding(bytes: &[u8]) -> anyhow::Result<Binding> {
+    serde_json::from_slice(bytes).map_err(|_| {
+        anyhow::anyhow!("Invalid credential binding; existing identity state was not changed")
+    })
+}
+
 fn resolve(binding: &Binding) -> anyhow::Result<String> {
     let token = match binding
         .source
@@ -155,7 +156,7 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
         }
         Source::Keyring => DefaultKeyringStore
             .load(SERVICE, &binding.id.to_string())
-            .map_err(|_| credential_store_error())?
+            .map_err(|error| super::airs_storage_error::report(error, "read"))?
             .context("credential is missing from the OS store; run login")?,
         Source::Oidc { .. } => anyhow::bail!("OIDC tokens require the identity credential helper"),
     };
@@ -173,6 +174,7 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
         !(stdin_key && (args.credential_file.is_some() || args.credential_env.is_some())),
         "choose exactly one credential source"
     );
+    recover_pending(home)?;
     let (source, token) = if let Some(path) = &args.credential_file {
         let token = file_token(path)?;
         (Source::File { path: path.clone() }, token)
@@ -192,11 +194,9 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
             },
             validate_token(&token)?.to_owned(),
         )
+    } else if std::io::stdin().is_terminal() {
+        (Source::Keyring, super::airs_secret_prompt::workspace_key()?)
     } else if stdin_key {
-        anyhow::ensure!(
-            !std::io::stdin().is_terminal(),
-            "pipe the key on stdin; never place it in arguments"
-        );
         let mut token = String::new();
         std::io::stdin().take(16_385).read_to_string(&mut token)?;
         (Source::Keyring, validate_token(&token)?.to_owned())
@@ -226,10 +226,12 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
         source: Some(source),
     };
     if matches!(binding.source, Some(Source::Keyring)) {
-        DefaultKeyringStore.save(SERVICE, &binding.id.to_string(), &token)
-            .map_err(|_| anyhow::anyhow!("OS credential store is unavailable; no plaintext fallback was written. Use an explicit credential-file or credential-env reference."))?;
+        transaction::persist(home, &binding, &token, &transaction::NativeStore, || {
+            install_binding(home, &binding)
+        })?;
+    } else {
+        install_binding(home, &binding)?;
     }
-    install_binding(home, &binding)?;
     println!(
         "Configured workspace credential for {}. No individual user identity is asserted.",
         binding.gateway_url

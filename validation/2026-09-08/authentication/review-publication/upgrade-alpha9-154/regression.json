@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "checks": [
+    "alpha9 created named environment and native workspace binding",
+    "alpha9 persistent session completed a real local tool loop"
+  ],
+  "old_binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "candidate_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade"
+  ],
+  "phase": "candidate-resume",
+  "protected_file_sha256": {
+    "environments.json": "524d283a292ec7f748f3a59df8b6dd81f83e903435bd9af5e58fb34d734656b8",
+    "environments/b6cc3512-a733-4142-a80b-0f8ca0041398/config.toml": "1caa14a9b67ca9e4ee3334987114db47468b8f97fe7a813a38edc02f0cdc5ad4",
+    "environments/b6cc3512-a733-4142-a80b-0f8ca0041398/models.json": "eb5f5a72937154cad97e6e749804145da8fd29e7c56a7a1d7cd17eaa41d4ed9d",
+    "environments/b6cc3512-a733-4142-a80b-0f8ca0041398/credential-binding.json": "545520153d25f8212602347ff24aa1157b969f6e20f9fd4aac886f5566e79e14",
+    "environments/b6cc3512-a733-4142-a80b-0f8ca0041398/session-binding.json": "776fde1cdf3f5f3c751c294319f8036d5a9b8e416c06232640108c7aef4ad420"
+  },
+  "history_prefix_sha256": {
+    "environments/b6cc3512-a733-4142-a80b-0f8ca0041398/sessions/2026/09/08/rollout-2026-09-08T23-50-22-01a0836e-0a55-7ae3-b0eb-6980610dfd21.jsonl": "150d276259ac5dcb793ec647a598a03c57d560e70a685475b7ba7f3c9e239f0f"
+  },
+  "failed_command": {
+    "binary": "candidate",
+    "command": [
+      "exec",
+      "resume",
+      "--json",
+      "--skip-git-repo-check",
+      "01a0836e-0a55-7ae3-b0eb-6980610dfd21",
+      "Confirm the remembered upgrade marker."
+    ],
+    "exit_code": 1,
+    "redacted_diagnostic": "{\"type\":\"thread.started\",\"thread_id\":\"01a0836e-0a55-7ae3-b0eb-6980610dfd21\"}\n{\"type\":\"turn.started\"}\n{\"type\":\"error\",\"message\":\"Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed\"}}\n2026-09-08T23:50:22.304258Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:50:22.304341Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:50:22.304407Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:50:22.349841Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:50:22.349911Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:50:22.349973Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n",
+    "request_count": 2,
+    "protected_files_unchanged": true,
+    "history_prefix_preserved": true
+  },
+  "failure_type": "AssertionError"
+}

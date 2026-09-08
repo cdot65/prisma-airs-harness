@@ -1,0 +1,15 @@
+# Alpha.9 to source154 Linux upgrade regression
+
+**Upgrade relocation fails on source154.** The old executable records an absolute inference credential-helper path in the environment configuration. The candidate can read the existing native credential directly, but `exec resume` still launches the saved old path. Removing that path produces `No such file or directory (os error 2)` before any new inference request.
+
+The reusable [fixture](../../../../../scripts/validate_airs_upgrade.py) verifies immutable input hashes, provisions its own D-Bus session and disposable Secret Service, and uses isolated HOME/XDG/harness directories plus a synthetic workspace key and loopback Responses gateway. It creates a named environment and native key binding using published alpha.9 bytes, runs a persistent local-tool session, then attempts candidate and relocated-candidate resume. Previous fixture executable paths are removed in sequence and restored only for the compatible downgrade check. No user stores, production APIs, source runtime, or published packages were changed.
+
+The initial limited run passed eight checks while every executable path remained present. That receipt is retained unchanged, but **does not prove relocation**: candidate inference could still call the old helper. Its initial fixture revision was not separately retained. The strengthened check failed reproducibly, and the final `regression.json` is bound to the current fixture file hashes.
+
+The final failure retained only the two original gateway requests. Configuration, capability catalog, environment registry, credential binding and session binding stayed byte-identical; original rollout bytes remained an unchanged prefix. Direct candidate credential retrieval and status succeeded before failed resume. The defect concerns helper-path resolution, rather than missing or corrupt native credentials. Diagnostics are bounded and redact the synthetic key and disposable root path.
+
+`airs_credentials::install_binding` persists `std::env::current_exe()` in `model_providers.airs.auth.command`. No effective relocation override applies in the source154 inference path. MCP helper configuration also embeds its originating executable path; the new runtime repair must preserve saved identity/history bindings while selecting the current managed helper. MCP relocation is not yet exercised by this fixture.
+
+The final fixture intentionally fails until that runtime repair is tested. Its later relocated-candidate and downgrade/logout phases are not credited after the earlier failure. The initial paths-present receipt supports only its stated limited observations. No version bump or Rust build occurred during this investigation.
+
+This is bounded Linux native compatibility evidence, not completed A18: actual published package replacement, a subsequent distinct build, OIDC credential migration, V2 reauthentication/downgrade, stable signing identity, macOS owner retest and desktop installation remain separate requirements. Existing source154 native success receipts do not waive this newly reproduced upgrade defect.

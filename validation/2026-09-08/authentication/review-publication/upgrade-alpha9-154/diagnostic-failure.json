@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "checks": [
+    "alpha9 created named environment and native workspace binding",
+    "alpha9 persistent session completed a real local tool loop"
+  ],
+  "old_binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "candidate_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade"
+  ],
+  "phase": "candidate-resume",
+  "failed_command": {
+    "binary": "candidate",
+    "command": [
+      "exec",
+      "resume",
+      "--json",
+      "--skip-git-repo-check",
+      "01a0836c-9db2-7571-8c97-9eb30cd7429a",
+      "Confirm the remembered upgrade marker."
+    ],
+    "exit_code": 1,
+    "redacted_diagnostic": "{\"type\":\"thread.started\",\"thread_id\":\"01a0836c-9db2-7571-8c97-9eb30cd7429a\"}\n{\"type\":\"turn.started\"}\n{\"type\":\"error\",\"message\":\"Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed\"}}\n2026-09-08T23:48:48.981504Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:48:48.981587Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:48:48.981720Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:48:49.025300Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:48:49.025376Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n2026-09-08T23:48:49.025439Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `[fixture-root]/old/bin/airs-harness` failed to start: No such file or directory (os error 2)\n",
+    "request_count": 2
+  },
+  "failure_type": "AssertionError"
+}

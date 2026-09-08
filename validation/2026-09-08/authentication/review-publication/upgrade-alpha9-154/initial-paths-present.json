@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": [
+    "alpha9 created named environment and native workspace binding",
+    "alpha9 persistent session completed a real local tool loop",
+    "candidate read same native credential and resumed original history without changing public bindings",
+    "relocated read same native credential and resumed original history without changing public bindings",
+    "gateway default omitted model on every captured request",
+    "alpha9 can still read and resume the unchanged legacy binding",
+    "candidate logout blocks alpha9 resume without deleting history",
+    "synthetic key absent from plaintext state, transcripts and inference bodies"
+  ],
+  "old_binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "candidate_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade"
+  ],
+  "phase": "complete",
+  "plaintext_files_inspected": 99,
+  "protected_file_sha256": {
+    "environments.json": "22b8fdc77d389f5a6706427d27dd444b11843fce8a241e6664da6364bd467537",
+    "environments/99bdee11-063c-4370-8444-27ba15f6ccad/config.toml": "3f5f00f6395c2233ed372b3ed30f1a12c3837414704b8aedc5dd7f0e3d8210a0",
+    "environments/99bdee11-063c-4370-8444-27ba15f6ccad/models.json": "eb5f5a72937154cad97e6e749804145da8fd29e7c56a7a1d7cd17eaa41d4ed9d",
+    "environments/99bdee11-063c-4370-8444-27ba15f6ccad/credential-binding.json": "f6a71a2bbf93f13e0b695d5d059038c6993131743824ea6bca851116a5af2b1b",
+    "environments/99bdee11-063c-4370-8444-27ba15f6ccad/session-binding.json": "6cc4e47a6fb4f6aab4416002c57e5f9035fd30004070c34ab118c4008a6c527d"
+  },
+  "history_prefix_sha256": {
+    "environments/99bdee11-063c-4370-8444-27ba15f6ccad/sessions/2026/09/08/rollout-2026-09-08T23-45-55-01a08369-f755-70f1-98aa-d6e737481145.jsonl": "f894f5c3ad5aa274a457494f2fe3e1fc0382cbbf194a043f5b03ef439edf60b3"
+  },
+  "inference_requests": 5
+}

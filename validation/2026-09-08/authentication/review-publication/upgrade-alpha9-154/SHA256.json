@@ -1,0 +1,36 @@
+{
+  "evidence": [
+    {
+      "file": "initial-paths-present.json",
+      "sha256": "779782936a0749d6caf5027d1b673ac7800dd32867af28766d6108c916aed0db"
+    },
+    {
+      "file": "old-path-absent-failure.json",
+      "sha256": "4fa7932d254b729cecdbabca9a9aeb341754543fe2b0d0c5374a361684e38dff"
+    },
+    {
+      "file": "diagnostic-failure.json",
+      "sha256": "1a8e42afe3eee81ed21add7416c778169fc3bbace3573b7794c27f9f6b6a3c14"
+    },
+    {
+      "file": "regression.json",
+      "sha256": "cd915767f59ced98147335898cb2818134374dfe7745811951f2e53904d7abea"
+    }
+  ],
+  "fixture_files_sha256": {
+    "scripts/validate_airs_upgrade.py": "c4f6da776673b1526af5592bd7f2af31c70798716544d20608f10fe5d97fbeee",
+    "scripts/test_airs_harness.py": "b631828a1434d6eecbda345bdf3b268fb6275c5d4af2b48dc4b71b750a213bc8",
+    "scripts/validate_workspace_login.py": "a6c253e0f539362658a67fb8773e65cb729b11735e376735cdea8941901943ad"
+  },
+  "native_references": {
+    "old_source": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+    "old_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+    "candidate_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+    "candidate_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad"
+  },
+  "initial_fixture_revision_retained": false,
+  "final_fixture_sha_bound_to_regression": true,
+  "a18_complete": false,
+  "gateway_fixture_revision": "3d0e01554e70cc0859c76fb558d90692cf944c49",
+  "gateway_fixture_note": "After execution, another agent updated only unrelated alpha.9 version assertions to alpha.10. This records the prior committed file used by the run; Gateway/setUp code was unchanged."
+}

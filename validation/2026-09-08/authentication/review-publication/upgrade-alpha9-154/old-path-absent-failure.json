@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "checks": [
+    "alpha9 created named environment and native workspace binding",
+    "alpha9 persistent session completed a real local tool loop"
+  ],
+  "old_binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "candidate_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade"
+  ],
+  "phase": "candidate-resume",
+  "failed_command": {
+    "binary": "candidate",
+    "command": [
+      "exec",
+      "resume",
+      "--json",
+      "--skip-git-repo-check",
+      "01a0836b-4d73-7331-a997-f0e4dfa35fd0",
+      "Confirm the remembered upgrade marker."
+    ],
+    "exit_code": 1
+  },
+  "failure_type": "AssertionError"
+}

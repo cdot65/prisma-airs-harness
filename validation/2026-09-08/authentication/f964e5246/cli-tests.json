@@ -1,0 +1,30 @@
+{
+  "source_commit": "f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+  "command": "just test --release -p codex-cli --bin airs-harness",
+  "passed": true,
+  "tests": 352,
+  "skipped": 0,
+  "junit_sha256": "0f2ba0efec6d940a5e9526c7f99c427cd878c350c85043adb396d1bb6dae9d7e",
+  "first_attempt": {
+    "tests": 352,
+    "passed": 351,
+    "failed": 1,
+    "reason": "New doctor help snapshot required explicit review and acceptance; nine probe and three namespace regressions passed."
+  },
+  "changes_before_final_run": [
+    "Reviewed and accepted doctor help snapshot.",
+    "Skipped duplicate unbounded native credential read before bounded doctor --verify-access helper."
+  ],
+  "scoped_clippy": {
+    "command": "just fix --release -p codex-cli --bin airs-harness",
+    "passed": true,
+    "runtime_changes_by_clippy": false,
+    "unrelated_import_fixes_reverted": true
+  },
+  "bazel_lock_update": {
+    "passed": true,
+    "changed": false
+  },
+  "release_ready": false,
+  "scope": "Linux CLI unit/fault tests; regular binary and installed/live probe validation still pending."
+}

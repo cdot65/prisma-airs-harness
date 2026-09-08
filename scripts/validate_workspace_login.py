@@ -135,6 +135,70 @@ def assert_private(roots, transcripts, token):
     return inspected
 
 
+def measure_warm_local_access(binary, env, work, home, binding_id, token, runs, run):
+    """Measure paired processes; helper output remains private and never escapes."""
+    samples = []
+    for _ in range(runs):
+        started = time.perf_counter()
+        run(["--version"], timeout=5)
+        baseline = (time.perf_counter() - started) * 1000
+        started = time.perf_counter()
+        run(["status"], timeout=5)
+        status = (time.perf_counter() - started) * 1000
+        started = time.perf_counter()
+        try:
+            # Deliberately bypass run(): its transcript collection must never
+            # receive the helper's successful secret-bearing stdout.
+            result = subprocess.run(
+                [
+                    str(binary),
+                    "credential",
+                    "--home",
+                    str(home),
+                    "--binding",
+                    binding_id,
+                ],
+                env=env,
+                cwd=work,
+                check=False,
+                capture_output=True,
+                timeout=5,
+            )
+        except (OSError, subprocess.SubprocessError):
+            raise AssertionError(
+                "Private credential helper measurement failed"
+            ) from None
+        elapsed = (time.perf_counter() - started) * 1000
+        valid = (
+            result.returncode == 0
+            and result.stdout == token + b"\n"
+            and result.stderr == b""
+        )
+        del result
+        if not valid:
+            raise AssertionError("Private credential helper measurement failed")
+        samples.append(
+            {
+                "version_ms": baseline,
+                "status_ms": status,
+                "credential_helper_ms": elapsed,
+            }
+        )
+    return samples
+
+
+def timing_summary(samples, field):
+    ordered = sorted(item[field] for item in samples)
+    p95 = ordered[(95 * len(ordered) + 99) // 100 - 1]
+    return {
+        "runs": len(samples),
+        "samples": samples,
+        "p95_ms": p95,
+        "target_ms": 500,
+        "target_met": p95 <= 500,
+    }
+
+
 def validate(args, receipt):
     token = credential(args.credential_file)
     transcripts = []
@@ -276,23 +340,19 @@ def validate(args, receipt):
 
             if args.warm_status_runs:
                 receipt["phase"] = "warm-local-status"
-                samples = []
-                for _ in range(args.warm_status_runs):
-                    started = time.perf_counter()
-                    run(["--version"], timeout=5)
-                    baseline = (time.perf_counter() - started) * 1000
-                    started = time.perf_counter()
-                    run(["status"], timeout=5)
-                    elapsed = (time.perf_counter() - started) * 1000
-                    samples.append({"version_ms": baseline, "status_ms": elapsed})
-                ordered = sorted(item["status_ms"] for item in samples)
-                p95 = ordered[(95 * len(ordered) + 99) // 100 - 1]
+                binding = json.loads((home / "credential-binding.json").read_text())
+                samples = measure_warm_local_access(
+                    args.binary,
+                    env,
+                    work,
+                    home,
+                    binding["id"],
+                    token,
+                    args.warm_status_runs,
+                    run,
+                )
                 receipt["warm_local_status"] = {
-                    "runs": len(samples),
-                    "samples": samples,
-                    "p95_ms": p95,
-                    "target_ms": 500,
-                    "target_met": p95 <= 500,
+                    **timing_summary(samples, "status_ms"),
                     "scope": (
                         "whole status process including startup and saved native-binding metadata; no native credential read or network"
                         if receipt["status_metadata_only"]
@@ -303,6 +363,16 @@ def validate(args, receipt):
                         "status_metadata_only"
                     ],
                 }
+                receipt["warm_credential_resolution"] = {
+                    **timing_summary(samples, "credential_helper_ms"),
+                    "scope": "whole trusted credential helper process including startup, binding validation and native credential resolution; no network",
+                    "credential_resolution_isolated": False,
+                    "native_credential_resolution_measured": True,
+                    "exact_token_and_newline_verified": True,
+                    "helper_output_retained": False,
+                    "timeout_seconds_per_process": 5,
+                }
+                receipt["checks"].append("paired-private-native-credential-resolution")
 
             receipt["phase"] = "live-exec"
             proof = "WORKSPACE_OK_" + secrets.token_hex(8)

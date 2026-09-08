@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "registry": "https://npm.cdot.io",
+  "version": "airs-harness 0.1.0-alpha.9",
+  "fresh_cache": true,
+  "empty_user_and_global_npm_config": true,
+  "registry_credentials_supplied": false,
+  "binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "native_source_revision": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "5.2.0"
+  },
+  "optional_dependencies": {
+    "airs-harness-linux-x64": "0.1.0-alpha.9",
+    "airs-harness-darwin-arm64": "0.1.0-alpha.9"
+  },
+  "bundled_mac_runbook": true,
+  "command": "/home/cdot/.local/share/airs-harness/releases/0.1.0-alpha.9/bin/airs-harness"
+}

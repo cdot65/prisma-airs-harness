@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "cli_version": "5.2.0",
+  "live_inference": true,
+  "management_mutations": false,
+  "doctor_fixture_checks": {
+    "Node.js version": "pass",
+    "Config file": "pass",
+    "Scanner credentials": "fail",
+    "Management credentials": "fail",
+    "Scanner API": "warn",
+    "Management OAuth": "warn",
+    "AI Gateway API": "warn"
+  },
+  "built_in_skill_installed": true
+}

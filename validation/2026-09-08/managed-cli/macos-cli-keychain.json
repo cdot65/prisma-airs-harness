@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "platform": "darwin",
+  "cli_secure_login": true,
+  "new_process_credential_access": true,
+  "authenticated_local_tool_loop": true,
+  "plaintext_state_absent": true,
+  "logout_blocks_inference": true,
+  "gateway": "deterministic loopback Responses server",
+  "version": "airs-harness 0.1.0-alpha.9"
+}

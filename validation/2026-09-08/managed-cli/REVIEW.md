@@ -5,7 +5,16 @@ fae43287c plus Mac fixture correction b26a013dd. No source blocker found.
 Verified 12 Node tests, real CLI command/configuration/DLP behavior, Python
 compilation and whitespace. Native, installed-package and live acceptance were
 explicitly uncredited at that review; subsequent Linux evidence is adjacent.
-Mac acceptance and publication remain pending.
+Mac acceptance subsequently passed: 26 native checks plus two expected skips,
+26 npm checks plus one Linux-only skip, actual CLI/DLP behavior and three-process
+Keychain persistence. The reviewer independently verified all 1,837 Mac payload
+checksums and the shared runtime revision. Candidate score remained 9/10.
+
+The extra installed-CLI Keychain lifecycle and fresh production install/live
+skill checks also passed. Publication is complete; receipts are adjacent.
+Platform validation pending flags are historical pre-package snapshots; the root
+VALIDATION.json records consolidated current status. Broad Mac enterprise live
+acceptance, notarization, Windows native distribution and Conjur remain separate.
 
 Independent skill forward testing corrected topic upsert-by-name, full profile
 rollback capture, partial multi-write failures, CSV semantics, aggregate topic

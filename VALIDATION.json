@@ -3,7 +3,7 @@
   "date": "2026-09-08",
   "product": "Prisma AIRS Harness",
   "product_version": "0.1.0-alpha.9",
-  "status": "native_npm_live_linux_passed_publication_pending",
+  "status": "published_and_fresh_production_acceptance_passed",
   "scope": "Required managed CLI and eight embedded Prisma AIRS skills",
   "runtime_source_commit": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
   "cli_version": "5.2.0",
@@ -39,5 +39,20 @@
     "Windows native distribution not included",
     "Mac enterprise live acceptance and owner hands-on review remain separate",
     "Managed Developer ID signing/notarization and Conjur remain separate"
-  ]
+  ],
+  "publication": {
+    "registry": "https://npm.cdot.io",
+    "version": "0.1.0-alpha.9",
+    "packages": [
+      "airs-harness",
+      "airs-harness-linux-x64",
+      "airs-harness-darwin-arm64"
+    ],
+    "anonymous_download_integrity_verified": true,
+    "fresh_anonymous_install_verified": true
+  },
+  "macos_installed_cli_keychain_passed": true,
+  "production_live_cli_skill_passed": true,
+  "local_command_activated": true,
+  "independent_release_score": 9
 }

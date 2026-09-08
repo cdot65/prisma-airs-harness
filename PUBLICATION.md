@@ -1,7 +1,12 @@
 # Alpha.9 managed CLI release
 
-Native/npm acceptance passed for Linux x64 and Apple Silicon. Publication and
-an additional npm-installed Mac CLI Keychain lifecycle check are pending.
+Published `airs-harness@0.1.0-alpha.9` and its Linux x64/Apple Silicon packages
+to `https://npm.cdot.io`. Anonymous downloads match staged SHA256/SHA512
+integrity. A fresh install with an empty cache and no registry credentials passed
+managed CLI/version, document generation and a live built-in skill workflow.
+Native/npm acceptance and the additional npm-installed Mac CLI Keychain lifecycle
+check passed. The local `airs-harness` command now runs the published package;
+existing configuration/binding files and the global CLI 3.3.0 were preserved.
 CLI 5.2.0 / SDK 0.28.0 are pinned. See
 [managed CLI evidence](validation/2026-09-08/managed-cli/REVIEW.md).
 

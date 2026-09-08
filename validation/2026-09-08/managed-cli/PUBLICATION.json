@@ -1,0 +1,46 @@
+{
+  "published": true,
+  "version": "0.1.0-alpha.9",
+  "source_commit": "fae43287c8ddc11c37b6af60d9cd26ec48eb5a22",
+  "registry": "https://npm.cdot.io",
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.9",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-1CJl+dlyM8PMyIWMbBmTgkDlptScTA5t9/WeXda3/BxVWXSOm4cpkroTEwGM9XKZJTHDdGtBqPbkQsTuJsVCgQ==",
+      "sha256": "1beaeb29d0fa49855a9506a89210018d6c3d994b4a2931bb8df158e22b91a5ed",
+      "action": "published",
+      "tarball_url": "https://npm.cdot.io/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.9.tgz",
+      "anonymous_download_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.9",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-bVc5wYNVT/fuqguC35lWH04PanOswVVy1y73LjCUHE/7b4V82QeWSs454ImhmAxMn/bbLt1FNjRMKxx2KFElfQ==",
+      "sha256": "fb20d58340175241a602fbbcb7b293a9f73445a8b729d3d8136908250e20b94b",
+      "action": "published",
+      "tarball_url": "https://npm.cdot.io/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.9.tgz",
+      "anonymous_download_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.9",
+      "filename": "airs-harness-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-69UX8zj7Qqiblx2BEKGNGPUHkw0ZUh7n7mWqor6HOdFeA2d7EZjCb+4EbvIWThoMe6rTFn9HLde4N3AHBxf18w==",
+      "sha256": "d9e9bf6b1b6455d24b3f0d8639de711fd720e0a7cf2f1051c883430bad3b5422",
+      "action": "published",
+      "tarball_url": "https://npm.cdot.io/airs-harness/-/airs-harness-0.1.0-alpha.9.tgz",
+      "anonymous_download_verified": true,
+      "optional_dependencies": {
+        "airs-harness-linux-x64": "0.1.0-alpha.9",
+        "airs-harness-darwin-arm64": "0.1.0-alpha.9"
+      },
+      "required_dependencies": {
+        "@cdot65/prisma-airs-cli": "5.2.0"
+      }
+    }
+  ],
+  "complete": true
+}

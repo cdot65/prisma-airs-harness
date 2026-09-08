@@ -1,0 +1,39 @@
+{
+  "run_id": 34284444779,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34284444779",
+  "run_attempt": 1,
+  "tooling_source": "cebe62589afc89ae513ccc882c62d09713688a98",
+  "conclusion": "failure",
+  "requested_runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "requested_native_artifact_id": 10076349913,
+  "native_artifact_opened": false,
+  "preserved_native_executed": false,
+  "rust_compilation": false,
+  "bundled_package_install_attempted": false,
+  "npm12_tool_install_step_passed": true,
+  "launcher_tests": {
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0
+  },
+  "bundle_tests": {
+    "methods": 17,
+    "passed": 16,
+    "failed": 1,
+    "skipped": 0
+  },
+  "failed_case": "test_windows_reparse_metadata_rejected_before_enumeration_or_read",
+  "evidence_artifact": {
+    "id": 10078902277,
+    "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+    "digest": "sha256:2a836593c1c4267c2e20d69cd6dcc66af869a298c0304cbcacade89737153974",
+    "size_in_bytes": 2160
+  },
+  "failed_steps": [
+    {
+      "name": "Check acceptance tooling before opening the preserved artifact",
+      "started_at": "2026-09-08T22:10:10Z",
+      "completed_at": "2026-09-08T22:10:12Z"
+    }
+  ]
+}

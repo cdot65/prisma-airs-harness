@@ -1,0 +1,8 @@
+{
+  "scope": "synthetic Linux symlinked-TMPDIR reproduction of Mac fixture mismatch",
+  "test_source_sha256": "d5dba793e95b30b7a2effe1e658988aa2a6b67ce01a718b098a7b7ddf8b1a29f",
+  "returncode": 1,
+  "expected_windows_reparse_exception_not_injected": true,
+  "native_executed": false,
+  "network_used": false
+}

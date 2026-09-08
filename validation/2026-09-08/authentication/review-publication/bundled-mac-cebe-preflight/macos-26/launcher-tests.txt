@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: unsupported platform is actionable
+ok 1 - unsupported platform is actionable
+  ---
+  duration_ms: 0.842375
+  type: 'test'
+  ...
+# Subtest: missing platform dependency fails without fetching a replacement
+ok 2 - missing platform dependency fails without fetching a replacement
+  ---
+  duration_ms: 73.877125
+  type: 'test'
+  ...
+# Subtest: incomplete native package reports a reinstall
+ok 3 - incomplete native package reports a reinstall
+  ---
+  duration_ms: 59.493166
+  type: 'test'
+  ...
+# Subtest: Windows PATH variants cannot override the managed CLI directory
+ok 4 - Windows PATH variants cannot override the managed CLI directory
+  ---
+  duration_ms: 0.614042
+  type: 'test'
+  ...
+# Subtest: native launch requires the pinned dependency before executing anything
+ok 5 - native launch requires the pinned dependency before executing anything
+  ---
+  duration_ms: 132.04825
+  type: 'test'
+  ...
+# Subtest: native login-shell tools use the pinned CLI even after PATH is replaced
+ok 6 - native login-shell tools use the pinned CLI even after PATH is replaced
+  ---
+  duration_ms: 201.014167
+  type: 'test'
+  ...
+# Subtest: launcher preserves arguments, cwd, stdin and exit code
+ok 7 - launcher preserves arguments, cwd, stdin and exit code
+  ---
+  duration_ms: 68.851459
+  type: 'test'
+  ...
+# Subtest: termination reaches the native process
+ok 8 - termination reaches the native process
+  ---
+  duration_ms: 70.636
+  type: 'test'
+  ...
+# Subtest: termination still forwards after the native process handles an interrupt
+ok 9 - termination still forwards after the native process handles an interrupt
+  ---
+  duration_ms: 129.8075
+  type: 'test'
+  ...
+# Subtest: declared keys select scoped natives without inferring from the launcher name
+ok 10 - declared keys select scoped natives without inferring from the launcher name
+  ---
+  duration_ms: 2.427917
+  type: 'test'
+  ...
+# Subtest: scoped and historical alias layouts launch the declared native
+ok 11 - scoped and historical alias layouts launch the declared native
+  ---
+  duration_ms: 128.913458
+  type: 'test'
+  ...
+# Subtest: native identity or version mismatch fails before execution
+ok 12 - native identity or version mismatch fails before execution
+  ---
+  duration_ms: 95.697167
+  type: 'test'
+  ...
+# Subtest: managed CLI preserves arguments and exit status while excluding project dotenv loading
+ok 13 - managed CLI preserves arguments and exit status while excluding project dotenv loading
+  ---
+  duration_ms: 121.294792
+  type: 'test'
+  ...
+# Subtest: missing or mismatched managed CLI fails instead of selecting a global airs
+ok 14 - missing or mismatched managed CLI fails instead of selecting a global airs
+  ---
+  duration_ms: 121.940625
+  type: 'test'
+  ...
+# Subtest: dotenv argv cannot redirect managed credential discovery
+ok 15 - dotenv argv cannot redirect managed credential discovery
+  ---
+  duration_ms: 54.425375
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1037.749625

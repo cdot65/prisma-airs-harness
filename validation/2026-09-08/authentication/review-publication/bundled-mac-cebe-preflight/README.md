@@ -1,0 +1,9 @@
+# Bundled npm12 Mac preflight failures preserved
+
+Runs [34284444779](https://github.com/cdot65/airs-harness/actions/runs/34284444779) and [34284447185](https://github.com/cdot65/airs-harness/actions/runs/34284447185) used tooling `cebe62589afc89ae513ccc882c62d09713688a98` on hosted Apple Silicon macOS 15.7.9 and 26.6.2 respectively. Both failed during the cheap tooling checks before downloading or executing the preserved native artifact. No Rust compilation occurred.
+
+Both runs passed all 15 Node launcher tests. Both passed 16 of 17 bundle/archive test methods, failing only the synthetic Windows reparse-metadata test. The mock compared an unresolved temporary path with the verifier's resolved path, so the intended synthetic reparse attribute was never injected on the Mac path alias. This failure does not establish a production Windows reparse defect or a successful bundled Mac install.
+
+The identical failure was independently reproduced on Linux by running the same test under a symlinked TMPDIR, without network access or a native build. The unchanged reproduction log and source-hash receipt are retained alongside both GitHub evidence logs. The fixture correction is committed separately in `71902b53362833125cf4f0b3d10d257d40c8f7c7`; its added symlinked-TMPDIR regression and 18-method suite passed according to the implementing agent. At this record's cutoff, replacement Mac runs `34284909851` and `34284911571` are pending; these original failures remain recorded regardless of later outcomes.
+
+The run receipts distinguish the requested source154/artifact10076349913 from a verified or executed native artifact: the workflow stopped before that verification step. GitHub evidence ZIP digests were independently checked before these logs were copied. Owner-device testing, signing, live APIs, GitHub package installation and publication receive no credit from these runs.

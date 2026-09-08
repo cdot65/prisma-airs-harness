@@ -1,0 +1,31 @@
+test_build_is_deterministic_and_preserves_pins_licenses_and_private (test_airs_bundle.BundleTests.test_build_is_deterministic_and_preserves_pins_licenses_and_private) ... ok
+test_generated_bin_link_has_exact_target (test_airs_bundle.BundleTests.test_generated_bin_link_has_exact_target) ... ok
+test_locked_name_integrity_budget_and_peer_fail_closed (test_airs_bundle.BundleTests.test_locked_name_integrity_budget_and_peer_fail_closed) ... ok
+test_missing_modified_and_optional_source_files (test_airs_bundle.BundleTests.test_missing_modified_and_optional_source_files) ... ok
+test_only_declared_bin_shebang_is_normalized_with_reversible_provenance (test_airs_bundle.BundleTests.test_only_declared_bin_shebang_is_normalized_with_reversible_provenance) ... ok
+test_rejects_added_files_and_intel_payload (test_airs_bundle.BundleTests.test_rejects_added_files_and_intel_payload) ... ok
+test_target_closure_and_unsupported_target (test_airs_bundle.BundleTests.test_target_closure_and_unsupported_target) ... ok
+test_unstable_or_non_utf8_shebang_transforms_fail_closed (test_airs_bundle.BundleTests.test_unstable_or_non_utf8_shebang_transforms_fail_closed) ... ok
+test_windows_generated_shim_fails_explicitly (test_airs_bundle.BundleTests.test_windows_generated_shim_fails_explicitly) ... ok
+test_windows_reparse_metadata_rejected_before_enumeration_or_read (test_airs_bundle.BundleTests.test_windows_reparse_metadata_rejected_before_enumeration_or_read) ... FAIL
+test_duplicates_case_collisions_and_file_directory_conflicts_are_rejected (test_airs_bundle_archive.ArchiveValidation.test_duplicates_case_collisions_and_file_directory_conflicts_are_rejected) ... ok
+test_integrity_identity_member_and_aggregate_bounds_fail_before_writes (test_airs_bundle_archive.ArchiveValidation.test_integrity_identity_member_and_aggregate_bounds_fail_before_writes) ... ok
+test_links_devices_and_multiple_roots_are_rejected (test_airs_bundle_archive.ArchiveValidation.test_links_devices_and_multiple_roots_are_rejected) ... ok
+test_paths_rejected_before_extraction_on_all_platforms (test_airs_bundle_archive.ArchiveValidation.test_paths_rejected_before_extraction_on_all_platforms) ... ok
+test_verified_nonstandard_single_root_retains_license_and_runtime_hashes (test_airs_bundle_archive.ArchiveValidation.test_verified_nonstandard_single_root_retains_license_and_runtime_hashes) ... ok
+test_redirect_and_download_bounds (test_airs_bundle_archive.DownloadValidation.test_redirect_and_download_bounds) ... ok
+test_untrusted_urls_never_open_network (test_airs_bundle_archive.DownloadValidation.test_untrusted_urls_never_open_network) ... ok
+
+======================================================================
+FAIL: test_windows_reparse_metadata_rejected_before_enumeration_or_read (test_airs_bundle.BundleTests.test_windows_reparse_metadata_rejected_before_enumeration_or_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/runner/work/airs-harness/airs-harness/scripts/test_airs_bundle.py", line 228, in test_windows_reparse_metadata_rejected_before_enumeration_or_read
+    with self.assertRaisesRegex(ValueError, "directories cannot"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.182s
+
+FAILED (failures=1)

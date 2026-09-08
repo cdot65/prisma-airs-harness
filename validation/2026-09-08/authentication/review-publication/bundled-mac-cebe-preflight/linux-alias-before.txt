@@ -1,0 +1,15 @@
+test_windows_reparse_metadata_rejected_before_enumeration_or_read (test_airs_bundle.BundleTests.test_windows_reparse_metadata_rejected_before_enumeration_or_read) ... FAIL
+
+======================================================================
+FAIL: test_windows_reparse_metadata_rejected_before_enumeration_or_read (test_airs_bundle.BundleTests.test_windows_reparse_metadata_rejected_before_enumeration_or_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-harness/scripts/test_airs_bundle.py", line 228, in test_windows_reparse_metadata_rejected_before_enumeration_or_read
+    with self.assertRaisesRegex(ValueError, "directories cannot"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (failures=1)

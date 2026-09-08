@@ -10,7 +10,7 @@ FROM gcr.io/distroless/nodejs22-debian13:nonroot@sha256:4e4fb0ce55fd73901600796e
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist/main.js /app/dist/server.js ./dist/
+COPY --from=build /app/dist/main.js /app/dist/server.js /app/dist/failure.js ./dist/
 COPY mcp-scanner/package.json mcp-scanner/package-lock.json LICENSE NOTICE ./
 USER 10001:10001
 EXPOSE 8080

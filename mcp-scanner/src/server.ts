@@ -4,6 +4,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
 import { ListResourcesRequestSchema, ListResourceTemplatesRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { exceptionRecord, failureRecord, type ScanFailure } from './failure.js';
 
 export interface ScanInput {
   prompt?: string;
@@ -24,6 +25,7 @@ export function createApp(options: {
   gatewayKey: string;
   profile: string;
   scan: (input: ScanInput) => Promise<ScanVerdict>;
+  logFailure?: (failure: ScanFailure) => void;
 }) {
   if (options.gatewayKey.length < 32 || !options.profile.trim()) {
     throw new Error('A private gateway key and fixed scanner profile are required');
@@ -64,6 +66,11 @@ export function createApp(options: {
         }).strict().refine(value => Boolean(value.prompt || value.response), 'Provide prompt or response text'),
       },
     }, async ({ scan_request }, extra) => {
+      const failed = (failure: ScanFailure) => {
+        // A diagnostic sink failure must not change the fail-closed tool result.
+        try { (options.logFailure ?? (record => console.warn(JSON.stringify(record))))(failure); } catch { /* no raw logging fallback */ }
+        return { isError: true, content: [{ type: 'text' as const, text: 'Prisma AIRS scan unavailable or incomplete; no allow verdict was produced.' }] };
+      };
       try {
         const result = await options.scan({
           prompt: scan_request.prompt,
@@ -71,9 +78,9 @@ export function createApp(options: {
           appName: scan_request.app_name ?? 'prisma-airs-harness',
           signal: extra.signal,
         });
-        if (result.error || result.timeout || !result.scan_id || !['allow', 'block'].includes(result.action)) {
-          throw new Error('Scanner did not return a complete verdict');
-        }
+        if (result.timeout) return failed(failureRecord('timeout', extra.requestId));
+        if (result.error) return failed(failureRecord('scanner-error', extra.requestId));
+        if (!result.scan_id || !['allow', 'block'].includes(result.action)) return failed(failureRecord('incomplete-verdict', extra.requestId));
         const results = {
           action: result.action,
           scan_id: result.scan_id,
@@ -84,9 +91,9 @@ export function createApp(options: {
           content: [{ type: 'text' as const, text: JSON.stringify({ results }) }],
           structuredContent: { results },
         };
-      } catch {
+      } catch (error) {
         // Never echo SDK errors: upstream errors can contain request details.
-        return { isError: true, content: [{ type: 'text' as const, text: 'Prisma AIRS scan unavailable or incomplete; no allow verdict was produced.' }] };
+        return failed(exceptionRecord(error, extra.requestId));
       }
     });
     const transport = new StreamableHTTPServerTransport({

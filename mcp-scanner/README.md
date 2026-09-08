@@ -54,6 +54,22 @@ timeouts are bounded. Missing scan IDs, scan errors/timeouts and unknown decisio
 return an MCP error, never an allow result. The SDK error is replaced with a
 bounded generic message to avoid reflecting request or credential data.
 
+Failed tool calls emit one bounded JSON warning with `event=airs_scan_failure`.
+Its fields are restricted to a fixed failure category, a validated HTTP status,
+a numeric DOM exception code when available, and a numeric or UUID MCP request
+correlation ID when provided. Messages, stacks, causes, bodies, prompts, keys and
+JWTs are never passed to this logger. Diagnostic sink failure preserves the
+generic MCP error. SDK-wrapped transport timeouts may be reported as `network`;
+the service does not guess a more specific cause from an error message.
+
+The classifier is included in the runtime image by `mcp-scanner/Dockerfile`.
+After its tests and image checks pass, an operator can build that Dockerfile
+from the repository root, push the reviewed image to the private Harbor scanner
+repository, and update the digest in the infrastructure repository's
+`airs-terminal-scanner/deployment.yaml`. Apply that manifest and verify both
+replicas before running fresh authenticated scanner acceptance. Source changes
+alone do not update the deployed image or explain earlier unclassified failures.
+
 ## Deployed pilot
 
 Harbor artifact:

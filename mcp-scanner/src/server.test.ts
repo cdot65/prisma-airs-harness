@@ -5,17 +5,21 @@ import type { AddressInfo } from 'node:net';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { createApp, type ScanInput, type ScanVerdict } from './server.js';
+import { AISecSDKException, ErrorType } from '@cdot65/prisma-airs-sdk';
+import { exceptionRecord, type ScanFailure } from './failure.js';
 
 const key = 'test-only-gateway-key-with-at-least-32-characters';
 const profile = 'Prisma AIRS Terminal';
 
-async function fixture(scan: (input: ScanInput) => Promise<ScanVerdict>) {
-  const server = createApp({ gatewayKey: key, profile, scan }).listen(0, '127.0.0.1');
+async function fixture(scan: (input: ScanInput) => Promise<ScanVerdict>, onFailure?: (failure: ScanFailure) => void) {
+  const failures: ScanFailure[] = [];
+  const server = createApp({ gatewayKey: key, profile, scan, logFailure: failure => { failures.push(failure); onFailure?.(failure); } }).listen(0, '127.0.0.1');
   await once(server, 'listening');
   const url = new URL(`http://127.0.0.1:${(server.address() as AddressInfo).port}/terminal-scanner/mcp`);
   const clients: Client[] = [];
   return {
     url,
+    failures,
     async connect() {
       const client = new Client({ name: 'acceptance', version: '1' });
       clients.push(client);
@@ -67,6 +71,7 @@ test('unauthorized HTTP requests do not invoke the scanner or disclose keys', as
       assert.deepEqual(await response.json(), { error: 'Unauthorized' });
     }
     assert.equal(calls, 0);
+    assert.deepEqual(f.failures, []);
   } finally { await f.close(); }
 });
 
@@ -85,6 +90,9 @@ test('upstream errors, timeouts and incomplete verdicts fail without hidden retr
       assert.equal(calls, 1);
       assert.equal(JSON.stringify(result).includes('sensitive-upstream-request'), false);
       assert.equal(result.structuredContent, undefined);
+      assert.equal(f.failures.length, 1);
+      assert.equal(f.failures[0].category, ({ exception: 'unknown-error', timeout: 'timeout', error: 'scanner-error', 'missing-id': 'incomplete-verdict', 'unknown-action': 'incomplete-verdict' })[outcome]);
+      assert.equal(JSON.stringify(f.failures).includes('sensitive-upstream-request'), false);
     } finally { await f.close(); }
   }
 });
@@ -97,5 +105,57 @@ test('independent concurrent clients preserve their own results', async () => {
       const result = await client.callTool({ name: 'pan_inline_scan', arguments: { scan_request: { prompt: `scan-${index}` } } });
       assert.deepEqual(result.structuredContent, { results: { action: 'block', scan_id: `scan-${index}`, profile_name: profile } });
     }));
+  } finally { await f.close(); }
+});
+
+test('typed upstream failures log safe metadata once and never return sensitive errors', async () => {
+  const canary = 'PRIVATE-SCANNER-KEY-PROMPT-JWT-CANARY';
+  for (const [error, expected] of [
+    [new DOMException(canary, 'TimeoutError'), { category: 'timeout', native_code: 23 }],
+    [new DOMException(canary, 'AbortError'), { category: 'cancelled', native_code: 20 }],
+    [new AISecSDKException(canary, ErrorType.SERVER_SIDE_ERROR, { failureKind: 'http', statusCode: 503 }), { category: 'http', http_status: 503 }],
+    [new AISecSDKException(canary, ErrorType.CLIENT_SIDE_ERROR, { failureKind: 'http', statusCode: 401 }), { category: 'http', http_status: 401 }],
+    [new AISecSDKException(canary, ErrorType.CLIENT_SIDE_ERROR, { failureKind: 'network' }), { category: 'network' }],
+    [new AISecSDKException(canary, ErrorType.RESPONSE_VALIDATION), { category: 'response-validation' }],
+  ] as const) {
+    let calls = 0;
+    const f = await fixture(async () => { calls++; throw error; });
+    try {
+      const client = await f.connect();
+      const result = await client.callTool({ name: 'pan_inline_scan', arguments: { scan_request: { prompt: canary } } });
+      assert.equal(result.isError, true);
+      assert.equal(calls, 1);
+      assert.equal(f.failures.length, 1);
+      const { request_id, ...record } = f.failures[0];
+      assert.equal(typeof request_id, 'number');
+      assert.deepEqual(record, { event: 'airs_scan_failure', ...expected });
+      assert.equal(JSON.stringify([result, f.failures]).includes(canary), false);
+      assert.ok(JSON.stringify(f.failures[0]).length < 256);
+    } finally { await f.close(); }
+  }
+});
+
+test('diagnostics reject arbitrary correlations and never serialize unknown errors', () => {
+  const canary = 'PRIVATE-SCANNER-KEY-PROMPT-JWT-CANARY';
+  const malicious = {
+    message: canary, body: canary, code: canary, statusCode: canary,
+    toJSON() { throw new Error('must not serialize unknown errors'); },
+    toString() { throw new Error('must not format unknown errors'); },
+  };
+  assert.deepEqual(exceptionRecord(malicious, canary), { event: 'airs_scan_failure', category: 'unknown-error' });
+  assert.deepEqual(exceptionRecord(new AISecSDKException(canary, ErrorType.CLIENT_SIDE_ERROR, { failureKind: 'http', statusCode: Number.NaN }), 'c00cd6d0-5ac2-451d-ab4d-5126814dd818'), {
+    event: 'airs_scan_failure', category: 'http', request_id: 'c00cd6d0-5ac2-451d-ab4d-5126814dd818',
+  });
+});
+
+test('a failed diagnostic sink preserves the original fail-closed tool result', async () => {
+  const f = await fixture(async () => { throw new Error('private-upstream'); }, () => { throw new Error('private-logger'); });
+  try {
+    const client = await f.connect();
+    const result = await client.callTool({ name: 'pan_inline_scan', arguments: { scan_request: { prompt: 'hello' } } });
+    assert.equal(result.isError, true);
+    assert.equal(result.structuredContent, undefined);
+    assert.equal(f.failures.length, 1);
+    assert.equal(JSON.stringify(result).includes('private-'), false);
   } finally { await f.close(); }
 });

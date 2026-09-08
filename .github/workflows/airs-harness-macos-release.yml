@@ -1,10 +1,15 @@
 name: Prisma AIRS Harness macOS release
 on:
   workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Runtime source revision (empty uses this workflow revision)
+        required: false
+        default: ""
 permissions:
   contents: read
 concurrency:
-  group: airs-harness-macos-release-${{ github.ref }}
+  group: airs-harness-macos-arm64-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   native:
@@ -29,6 +34,12 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
+      - name: Check out the immutable runtime source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          path: runtime
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
@@ -43,10 +54,10 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git/db
-            codex-rs/target
-          key: airs-macos-v1-${{ runner.arch }}-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-${{ github.sha }}
+            runtime/codex-rs/target
+          key: airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-${{ github.sha }}
           restore-keys: |
-            airs-macos-v1-${{ runner.arch }}-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-
+            airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-
       - name: Native prerequisites and runner identity
         run: |
           brew install cmake pkgconf ripgrep
@@ -56,7 +67,7 @@ jobs:
           test "$(rustc -vV | sed -n 's/^host: //p')" = "$AIRS_RELEASE_TARGET"
           mkdir -p "$RUNNER_TEMP/airs-evidence"
       - name: Build optimized native agent and Keychain fixture
-        working-directory: codex-rs
+        working-directory: runtime/codex-rs
         run: |
           cargo build --locked --release -p codex-cli --bin airs-harness
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
@@ -68,24 +79,35 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git/db
-            codex-rs/target
+            runtime/codex-rs/target
           key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
       - name: Prepare and verify macOS executable
         run: |
-          cp codex-rs/target/release/airs-harness "$RUNNER_TEMP/airs-harness"
+          cp runtime/codex-rs/target/release/airs-harness "$RUNNER_TEMP/airs-harness"
           strip -S "$RUNNER_TEMP/airs-harness"
           codesign --force --sign - "$RUNNER_TEMP/airs-harness"
           codesign --verify --strict --verbose=2 "$RUNNER_TEMP/airs-harness"
           otool -L "$RUNNER_TEMP/airs-harness" | tee "$RUNNER_TEMP/airs-evidence/libraries.log"
           "$RUNNER_TEMP/airs-harness" --version
+      - name: Preserve executable for diagnosing acceptance failures
+        run: |
+          cp runtime/codex-rs/target/release/examples/store_acceptance "$RUNNER_TEMP/store_acceptance"
+          git -C runtime rev-parse HEAD > "$RUNNER_TEMP/runtime-source.txt"
+          tar -czf "$RUNNER_TEMP/unvalidated-macos-executables.tar.gz" -C "$RUNNER_TEMP" airs-harness store_acceptance runtime-source.txt
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: airs-harness-${{ matrix.suffix }}-unvalidated-executables
+          path: ${{ runner.temp }}/unvalidated-macos-executables.tar.gz
+          compression-level: 0
+          retention-days: 7
       - name: Native execution, sandbox and Keychain acceptance
         run: |
           AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-harness" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$RUNNER_TEMP/airs-evidence/native-tests.log" 2>&1
-          python3 scripts/validate_native_credentials.py --binary codex-rs/target/release/examples/store_acceptance --output "$RUNNER_TEMP/airs-evidence/keychain.json"
-          python3 scripts/record_airs_macos_validation.py --binary "$RUNNER_TEMP/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence" --target "$AIRS_RELEASE_TARGET"
+          python3 scripts/validate_native_credentials.py --binary runtime/codex-rs/target/release/examples/store_acceptance --output "$RUNNER_TEMP/airs-evidence/keychain.json"
+          python3 scripts/record_airs_macos_validation.py --binary "$RUNNER_TEMP/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence" --target "$AIRS_RELEASE_TARGET" --source-directory runtime
       - name: Package native release and npm candidate
         run: |
-          python3 scripts/package_airs_harness.py --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          python3 runtime/scripts/package_airs_harness.py --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
           python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io

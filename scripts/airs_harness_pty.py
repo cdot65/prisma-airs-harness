@@ -73,8 +73,9 @@ class TerminalSession:
     def start(self):
         self.wait_for(b"Yes, continue")
         time.sleep(0.35)
+        offset = len(self.transcript)
         os.write(self.master, b"\r")
-        self.wait_for(b"Prisma AIRS Harness")
+        self.wait_for(b"permissions:", offset)
         time.sleep(0.35)
 
     def choose_model(self, direction, expected):

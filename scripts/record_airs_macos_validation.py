@@ -14,6 +14,7 @@ def main():
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--target", required=True)
+    parser.add_argument("--source-directory", type=Path, default=Path.cwd())
     args = parser.parse_args()
     tests = (args.evidence / "native-tests.log").read_text()
     if not re.search(r"^OK(?: \(skipped=\d+\))?$", tests, re.MULTILINE):
@@ -44,7 +45,7 @@ def main():
         ).strip(),
         "live_gateway_e2e": False,
         "source_commit": subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], text=True
+            ["git", "rev-parse", "HEAD"], cwd=args.source_directory, text=True
         ).strip(),
     }
     (args.evidence / "VALIDATION.json").write_text(json.dumps(receipt, indent=2) + "\n")

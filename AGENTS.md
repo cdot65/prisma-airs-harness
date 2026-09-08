@@ -5,7 +5,7 @@
 - Inherited upstream workflows are disabled. Keep them disabled; use the owned
   `airs-harness-*` workflows for this fork.
 - Reuse successful Rust compilation caches for iteration. A dedicated Mac runner
-  must have confirmed operator-provided access before changing runner selection.
+  must be confirmed reachable and appropriately configured before changing runner selection.
 
 # Rust/codex-rs
 

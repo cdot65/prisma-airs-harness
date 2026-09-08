@@ -1,0 +1,40 @@
+{
+  "timestamp_utc": "2026-09-08T19:46:54.170667+00:00",
+  "binary": "/tmp/airs-auth-final-154b-29ip7b5g/airs-harness",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "original_receipt_sha256": "1b0e2d23e02ff4b028cbc9d7ea45e8f74d06a5bf85b92d96fedb34828b170e2a",
+  "original_failure_preserved": true,
+  "cause": "Measurement fixture required empty helper stderr but created AIRS_HARNESS_HOME below system temporary directory; release arg0 initialization deliberately rejects PATH alias creation there and prints a startup warning. Native credential resolution itself succeeded.",
+  "source_location": "codex-rs/arg0/src/lib.rs:344",
+  "diagnostic_credential": "disposable synthetic key; no real gateway request",
+  "before": {
+    "helper_exit": 0,
+    "exact_token_and_lf": true,
+    "stdout_bytes": 44,
+    "expected_bytes": 44,
+    "stderr_bytes": 202,
+    "stderr_contains_token": false,
+    "stderr_category": "path-alias-startup-warning"
+  },
+  "after": {
+    "helper_exit": 0,
+    "exact_token_and_lf": true,
+    "stdout_bytes": 44,
+    "expected_bytes": 44,
+    "stderr_bytes": 0,
+    "stderr_contains_token": false,
+    "fixture_root_permissions": "0700",
+    "fixture_under_user_home": true
+  },
+  "fix": "Unique TemporaryDirectory beneath Path.home() with automatic cleanup; no warning allowlist; strict helper checks unchanged.",
+  "native_logout_and_fixture_cleanup": true,
+  "fixture_tests": {
+    "command": "python3 -m unittest discover -s scripts -p test_validate_workspace_login.py -v",
+    "passed": 7,
+    "failed": 0
+  },
+  "live_lifecycle_and_30_measurement_rerun": "pending parent execution",
+  "raw_helper_output_retained": false,
+  "runtime_changed": false,
+  "release_ready": false
+}

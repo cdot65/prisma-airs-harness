@@ -202,7 +202,13 @@ def timing_summary(samples, field):
 def validate(args, receipt):
     token = credential(args.credential_file)
     transcripts = []
-    with tempfile.TemporaryDirectory(prefix="airs-workspace-login-") as temporary:
+    # Release executables intentionally refuse helper aliases beneath the OS
+    # temporary directory. Use a private, automatically removed home directory
+    # so the fixture exercises the normal supported runtime layout without
+    # accepting warning output from the trusted credential helper.
+    with tempfile.TemporaryDirectory(
+        prefix=".airs-workspace-login-", dir=Path.home()
+    ) as temporary:
         root = Path(temporary)
         work = root / "work"
         work.mkdir(mode=0o700)

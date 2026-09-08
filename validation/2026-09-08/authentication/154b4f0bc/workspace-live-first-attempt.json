@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "platform": "linux",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "gateway": "https://airs.cdot.io/v1",
+  "checks": [
+    "guided-hidden-login",
+    "native-keyring-binding",
+    "separate-process-status-configuration",
+    "bounded-authenticated-login-probe"
+  ],
+  "phase": "warm-local-status",
+  "credential_mode": "workspace-native-keyring",
+  "fixture_store": "disposable-dbus-secret-service",
+  "raw_logs_retained": false,
+  "mcp_tested": false,
+  "live_process_logout_invalidation_tested": false,
+  "model_route": "gateway-default",
+  "model_field_wire_inspected": false,
+  "plaintext_scan_excludes": [
+    "encrypted-native-keyring-records"
+  ],
+  "started_at_unix": 1788896615,
+  "gateway_login_verification": {
+    "required": true,
+    "disclosed_probes": 1,
+    "verified_probes": 1,
+    "max_output_tokens_per_probe": 16,
+    "captured_output_limit_bytes": 262144,
+    "wire_inspected": false
+  },
+  "status_metadata_only": true,
+  "failure_class": "AssertionError",
+  "finished_at_unix": 1788896618
+}

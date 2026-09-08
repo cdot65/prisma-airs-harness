@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-08T20:43:06.846691+00:00",
+  "execution_timestamp_retained": false,
+  "scope": "Local validation of planned Windows checkpoint; no native compile or dispatch.",
+  "workflow_commit": "6f6927c53",
+  "workflow_sha256": "f4c028ec820015bf654e42bae8e98ba4d84fd303cc06bcfbc55bcbe808b3241d",
+  "commands": [
+    {
+      "command": "python3 -m unittest discover -s scripts -p test_airs_windows_artifact.py -v",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 0.025
+    },
+    {
+      "command": "python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 1.47
+    }
+  ],
+  "yaml_validation": {
+    "parser": "js-yaml from installed Prisma AIRS CLI dependencies",
+    "passed": true,
+    "assertions": [
+      "library < optional library cache < binary < immutable executable upload < final cache",
+      "build timeout remains 180 minutes and CARGO_BUILD_JOBS remains 2",
+      "library cache requires successful library outcome and is continue-on-error",
+      "library cache key ends -lib",
+      "both compile steps use fingerprint=info and matching CLIopt1/release/locked flags",
+      "library command selects --lib, binary command selects --bin airs-harness",
+      "both compile steps explicitly check native LASTEXITCODE"
+    ]
+  },
+  "formatting": {
+    "command": "just fmt",
+    "passed": true
+  },
+  "diff_check_passed": true,
+  "native_powershell_executed": false,
+  "rust_build_executed": false,
+  "cache_save_executed": false,
+  "workflow_dispatched": false,
+  "published": false,
+  "release_ready": false,
+  "evidence_limitation": "Summary of completed local tool output; no raw TAP log retained. Actual PowerShell, cache saving/restoration, and timing await an authorized native run."
+}

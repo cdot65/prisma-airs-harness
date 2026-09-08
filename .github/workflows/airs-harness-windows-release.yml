@@ -55,6 +55,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Launcher fixture tests failed' }
           python -m unittest discover -s scripts -p test_package_airs_harness.py -v *> "$env:RUNNER_TEMP/airs-preflight/packaging-tests.txt"
           if ($LASTEXITCODE -ne 0) { throw 'Private packaging contracts failed' }
+          python -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v *> "$env:RUNNER_TEMP/airs-preflight/bundle-tests.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Locked bundle contracts failed' }
+          python -m unittest discover -s scripts -p test_airs_npm_registry.py -v *> "$env:RUNNER_TEMP/airs-preflight/npm-registry-tests.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Isolated npm registry contracts failed' }
           python -m unittest discover -s scripts -p test_airs_windows_artifact.py -v *> "$env:RUNNER_TEMP/airs-preflight/artifact-tests.txt"
           if ($LASTEXITCODE -ne 0) { throw 'Preserved artifact contracts failed' }
           $airsTooling = Get-Content npm/airs-harness/package.json | ConvertFrom-Json

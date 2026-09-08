@@ -10,6 +10,22 @@ on:
           - macos-15
           - macos-26
         required: true
+      packaging:
+        description: Private npm package layout to validate
+        type: choice
+        default: legacy
+        options:
+          - legacy
+          - scoped-bundled
+        required: true
+      npm_version:
+        description: Exact npm consumer version
+        type: choice
+        default: '10.9.8'
+        options:
+          - '10.9.8'
+          - '12.0.2'
+        required: true
       build_run:
         description: Run containing the compiled Apple Silicon executable artifact
         required: true
@@ -40,6 +56,8 @@ jobs:
     timeout-minutes: 45
     env:
       AIRS_ACCEPTANCE_RUNNER: ${{ inputs.runner }}
+      AIRS_ACCEPTANCE_PACKAGING: ${{ inputs.packaging }}
+      AIRS_ACCEPTANCE_NPM: ${{ inputs.npm_version }}
       AIRS_COMPILATION_RUN: ${{ inputs.build_run }}
       AIRS_SELECTED_ARTIFACT: ${{ inputs.artifact_id }}
       AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
@@ -76,10 +94,22 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.13'
+      - name: Select exact npm consumer without changing the native artifact
+        run: |
+          case "$AIRS_ACCEPTANCE_NPM" in
+            10.9.8) test "$(npm --version)" = 10.9.8 ;;
+            12.0.2)
+              npm install --prefix "$RUNNER_TEMP/airs-npm-tool" --ignore-scripts --no-audit --no-fund --registry https://registry.npmjs.org npm@12.0.2
+              echo "$RUNNER_TEMP/airs-npm-tool/node_modules/.bin" >> "$GITHUB_PATH"
+              ;;
+            *) exit 1 ;;
+          esac
       - name: Check acceptance tooling before opening the preserved artifact
         run: |
           python3 -m compileall -q scripts
           node --test npm/airs-harness/*.test.js > "$RUNNER_TEMP/airs-evidence/launcher-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v > "$RUNNER_TEMP/airs-evidence/bundle-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_airs_npm_registry.py -v > "$RUNNER_TEMP/airs-evidence/npm-registry-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_airs_macos_artifact.py -v > "$RUNNER_TEMP/airs-evidence/artifact-tests.log" 2>&1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -136,13 +166,27 @@ jobs:
           AIRS_BUILD_COMMAND: ${{ steps.restore.outputs.build_command }}
           AIRS_BUILD_PROFILE: ${{ steps.restore.outputs.profile }}
         run: |
+          test "$(npm --version)" = "$AIRS_ACCEPTANCE_NPM"
+          node --version > "$RUNNER_TEMP/airs-evidence/node-version.txt"
+          npm --version > "$RUNNER_TEMP/airs-evidence/npm-version.txt"
+          printf '%s\n' "$AIRS_ACCEPTANCE_PACKAGING" > "$RUNNER_TEMP/airs-evidence/npm-layout.txt"
+          AIRS_PACKAGE_OPTIONS=()
+          case "$AIRS_ACCEPTANCE_PACKAGING" in
+            legacy) AIRS_LAUNCHER_PACKAGE=airs-harness; AIRS_PACKAGE_REGISTRY=https://npm.cdot.io ;;
+            scoped-bundled)
+              AIRS_LAUNCHER_PACKAGE=@cdot65/prisma-airs-harness
+              AIRS_PACKAGE_REGISTRY=https://npm.pkg.github.com
+              AIRS_PACKAGE_OPTIONS=(--scoped --bundle-cli)
+              ;;
+            *) exit 1 ;;
+          esac
           python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --unvalidated-candidate --build-command "$AIRS_BUILD_COMMAND" --profile "$AIRS_BUILD_PROFILE" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
-          python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
+          python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry "$AIRS_PACKAGE_REGISTRY" "${AIRS_PACKAGE_OPTIONS[@]}"
           python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/airs-npm-install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
-          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/airs-npm-install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/airs-npm-install/lib/node_modules/$AIRS_LAUNCHER_PACKAGE/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
           AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/npm-fixtures" AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-npm-install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
       - name: Keychain acceptance through the exact installed npm candidate
         run: python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-npm-install/bin/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/cli-keychain.json"

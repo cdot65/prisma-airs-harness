@@ -63,6 +63,13 @@ checks. Hosted macOS 26 acceptance does not replace the owner's Mac review.
 Rerunning an old workflow uses its original tooling revision; it does not pick up
 a fixture fix. Runtime changes still require a new build.
 
+For npm packaging changes, artifact-only acceptance also selects the exact npm
+consumer (`10.9.8` or `12.0.2`) and package layout. `legacy` preserves the existing
+unscoped layout; `scoped-bundled` stages the scoped harness and native packages
+with the locked managed CLI included. The receipt records the npm version and
+layout separately from runtime provenance. These options do not publish packages
+or establish real GitHub package access by themselves.
+
 Both workflows create **private, non-publishable candidates**, even when native
 acceptance passes. They do not promote ad-hoc signatures to production signing or
 claim owner-device acceptance. Older artifacts with unrecorded compiler settings
@@ -83,9 +90,10 @@ The local Linux 154 build took 9m 20s while rebuilding essentially the CLI only,
 with different optimization settings and hardware. It is not a comparable Mac
 benchmark. See the [timing and cache review](validation/2026-09-08/authentication/ci-build-performance/REPORT.md).
 
-During the next planned build, retain Cargo fingerprint diagnostics alongside
-build timings and the actual cache key/profile. Do not trigger another long build
-solely to collect diagnostics. Artifact-only acceptance retries already avoid
+The next planned build will retain Cargo fingerprint diagnostics and separate
+CLI/fixture timing reports. Its workflow enables the compiler fingerprint info
+log to identify why Cargo invalidates cached crates. Do not trigger another long
+build solely to collect diagnostics. Artifact-only acceptance retries already avoid
 compilation; persistent-workspace or compiler-cache changes need separate
 measurements before claiming a speed improvement.
 
@@ -97,6 +105,12 @@ See the [Mac15 build and acceptance receipt](validation/2026-09-08/authenticatio
 and [Mac26 artifact-only evidence](validation/2026-09-08/authentication/154b4f0bc/macos-26/README.md).
 This verifies build/acceptance separation; it establishes no compiler speedup or
 owner-device/signing approval.
+
+The reported `unused_mut` in app-server and two unused cloud-tasks imports occur
+because their uses are behind `cfg(debug_assertions)` while release builds omit
+those branches. They were warnings, not the acceptance failure. Their cleanup is
+deferred to the next runtime revision so these verified executable bytes remain
+unchanged during fixture and packaging validation.
 
 ## Dedicated Mac requirements
 

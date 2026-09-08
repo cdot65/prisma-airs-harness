@@ -23,6 +23,10 @@ tags:
 
 # Cross-platform authentication release
 
+The implemented candidate command flow is documented in
+[Private candidate setup and sign-in](AUTHENTICATION-ONBOARDING.md). That guide
+does not establish release acceptance or completion of this plan.
+
 ## 1. Outcome and authority
 
 A teammate installs Prisma AIRS Harness, runs `airs-harness`, follows its setup

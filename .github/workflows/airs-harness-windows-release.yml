@@ -152,12 +152,66 @@ jobs:
         run: |
           just test -p codex-keyring-store -p codex-airs-identity --locked
           if ($LASTEXITCODE -ne 0) { throw 'Native identity contract tests failed' }
+      - name: Complete optimized CLI library and dependencies before executable compilation
+        id: library
+        working-directory: runtime/codex-rs
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
+        run: |
+          $airsLibraryStarted = [DateTime]::UtcNow.ToString('o')
+          cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --lib --timings 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/airs-build-evidence/library-build.log"
+          $airsLibraryExit = $LASTEXITCODE
+          if ($airsLibraryExit -ne 0) { throw 'CLI library checkpoint compilation failed' }
+          if (Test-Path target/cargo-timings/cargo-timing.html) {
+            Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-build-evidence/library-build-timing.html"
+          }
+          @{
+            runtime_source = $env:AIRS_RUNTIME_SOURCE
+            build_run = $env:GITHUB_RUN_ID
+            compile_attempt = $env:GITHUB_RUN_ATTEMPT
+            target = $env:AIRS_RELEASE_TARGET
+            cli_opt_level = '1'
+            library_completed = $true
+            executable_completed = $false
+            published = $false
+            release_ready = $false
+            started_at = $airsLibraryStarted
+            completed_at = [DateTime]::UtcNow.ToString('o')
+            log_sha256 = (Get-FileHash "$env:RUNNER_TEMP/airs-build-evidence/library-build.log" -Algorithm SHA256).Hash.ToLowerInvariant()
+          } | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-build-evidence/LIBRARY-CHECKPOINT.json"
+      - name: Save completed library checkpoint before starting another compiler
+        id: library_cache
+        if: steps.library.outcome == 'success'
+        continue-on-error: true
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: ${{ steps.cargo_cache.outputs.cache-primary-key }}-lib
+      - name: Record optional library cache outcome
+        if: always() && steps.library.outcome == 'success'
+        env:
+          AIRS_LIBRARY_CACHE_KEY: ${{ steps.cargo_cache.outputs.cache-primary-key }}-lib
+          AIRS_LIBRARY_CACHE_OUTCOME: ${{ steps.library_cache.outcome }}
+        run: |
+          $airsCheckpoint = Get-Content "$env:RUNNER_TEMP/airs-build-evidence/LIBRARY-CHECKPOINT.json" | ConvertFrom-Json -AsHashtable
+          $airsCheckpoint.cache_key = $env:AIRS_LIBRARY_CACHE_KEY
+          $airsCheckpoint.cache_action_outcome = $env:AIRS_LIBRARY_CACHE_OUTCOME
+          $airsCheckpoint.cache_restore_verified = $false
+          $airsCheckpoint | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-build-evidence/LIBRARY-CHECKPOINT.json"
       - name: Build optimized unsigned Windows executable
         working-directory: runtime/codex-rs
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
         run: |
-          cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings
-          if ($LASTEXITCODE -ne 0) { throw 'Harness compilation failed' }
-          Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-build-evidence/cli-build-timing.html"
+          cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/airs-build-evidence/cli-build.log"
+          $airsExecutableExit = $LASTEXITCODE
+          if ($airsExecutableExit -ne 0) { throw 'Harness compilation failed' }
+          if (Test-Path target/cargo-timings/cargo-timing.html) {
+            Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-build-evidence/cli-build-timing.html"
+          }
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
           if ($LASTEXITCODE -ne 0) { throw 'Credential fixture compilation failed' }
       - name: Preserve exact unsigned executables before acceptance

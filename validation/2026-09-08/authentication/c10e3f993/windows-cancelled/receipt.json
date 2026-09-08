@@ -1,0 +1,50 @@
+{
+  "run_id": 34259921603,
+  "job_id": 102175027283,
+  "runtime_source": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "conclusion": "cancelled",
+  "job_started_at": "2026-09-08T17:54:57Z",
+  "job_completed_at": "2026-09-08T20:31:29Z",
+  "job_duration_seconds": 9392,
+  "configured_job_timeout_minutes": 180,
+  "compile_started_at": "2026-09-08T18:01:11Z",
+  "compile_cancelled_at": "2026-09-08T20:31:15Z",
+  "compile_duration_seconds": 9004,
+  "cancellation_evidence": [
+    "The run was canceled by @cdot65.",
+    "The operation was canceled."
+  ],
+  "initiator_detail": "GitHub attributes cancellation to account cdot65; UI/API/person cannot be distinguished from this evidence.",
+  "timeout_or_oom_established": false,
+  "cold_cache_miss": true,
+  "cache_save_step": "skipped",
+  "matching_cache_count_at_review": 0,
+  "last_compile_progress": [
+    "2026-09-08T19:43:18.2522867Z    Compiling codex-cloud-tasks v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\cloud-tasks)",
+    "2026-09-08T19:48:46.2865627Z    Compiling codex-airs-identity v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\airs-identity)",
+    "2026-09-08T19:48:56.8720585Z    Compiling codex-exec v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\exec)",
+    "2026-09-08T20:01:10.5840967Z    Compiling codex-app-server-daemon v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\app-server-daemon)",
+    "2026-09-08T20:01:29.5959246Z    Compiling codex-mcp-server v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\mcp-server)",
+    "2026-09-08T20:04:02.1089053Z    Compiling codex-app-server-test-client v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\app-server-test-client)",
+    "2026-09-08T20:04:41.1425461Z    Compiling codex-stdio-to-uds v0.153.4 (D:\\a\\airs-harness\\airs-harness\\runtime\\codex-rs\\stdio-to-uds)",
+    "2026-09-08T20:04:42.4107039Z    Compiling clap_complete v4.5.65"
+  ],
+  "last_warning_at": "2026-09-08T20:07:25Z",
+  "warning": "unused_mut in cli/src/airs_secret_terminal.rs:25; not an error",
+  "successful_release_build_line_present": false,
+  "raw_log_sha256": "4819d7914333ac3af24ab2659ee412acc18c90755270fea11b05d45aaab748e8",
+  "raw_log_bytes": 281482,
+  "raw_executable_artifact_present": false,
+  "acceptance_passed": false,
+  "published": false,
+  "artifacts": [
+    {
+      "id": 10075432872,
+      "name": "airs-harness-windows-x64-candidate-evidence",
+      "size_in_bytes": 273,
+      "digest": "sha256:2f1d74eee12407a5fa7edde50af6f5f5f67009aca35aa5939281446ffc7451e7",
+      "expired": false
+    }
+  ],
+  "evidence_scope": "Completed-job API, check annotations, privately retained complete compiler log, and cache inventory; no runtime acceptance."
+}

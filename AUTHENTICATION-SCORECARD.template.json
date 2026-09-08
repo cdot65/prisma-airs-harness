@@ -1,7 +1,7 @@
 {
   "status": "template-not-evidence",
   "plan": "AUTHENTICATION-PLAN.md",
-  "plan_version": "0.1",
+  "plan_version": "0.2",
   "candidate": {
     "package_version": null,
     "source_commit": null,

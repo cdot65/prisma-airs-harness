@@ -10,8 +10,10 @@ The reviewer authored the guard implementation; root performed its separate revi
 ## Plan interpretation and remaining work
 
 AUTHENTICATION-PLAN P5 explicitly permits immutable prerelease publication for P6.
-P7 production promotion remains contingent on mandatory acceptance. P5 also requires
-signed Apple Silicon/Windows and verified Linux packages. Existing source154 private
+P7 production promotion remains contingent on mandatory acceptance. The owner
+subsequently deferred native Windows in plan v0.2. Current P5 requires signed
+Apple Silicon and verified Linux packages; Windows evidence is retained for a
+later milestone and does not block this release. Existing source154 private
 artifacts embed alpha.9 and must not overwrite the published alpha.9 versions.
 Current ad-hoc/unsigned private artifacts cannot become publishable by deleting flags.
 
@@ -24,7 +26,7 @@ The remaining path is:
    source, and rebuild every included target from it. Keep CLI 5.2.0 and SDK 0.28.0.
    Repackaging the current binaries would not change their reported alpha.9 identity.
 3. Establish required signing access and verify final extracted bytes. Developer ID,
-   notarization, stable upgrade identity and Windows signing remain unverified.
+   notarization and stable upgrade identity remain unverified. Windows signing is deferred.
    Hosted ad-hoc Keychain success is not the owner's Mac incident reproduction or fix.
    A proposed unsigned public diagnostic tier would need a separate explicit plan
    decision; the current guards and P5 do not provide one.
@@ -44,8 +46,8 @@ The remaining path is:
    Windows command-wrapper validation now has a constrained, byte-exact
    implementation with retained upstream templates and local negative tests;
    see [its separate source-stage evidence](windows-command-wrappers/REPORT.md).
-   Actual Windows installed execution remains unverified, as do real GitHub
-   access, signing and migration.
+   Actual Windows installed execution remains unverified and deferred. Real GitHub
+   access, Mac signing and migration remain current release gates.
    The [earlier synthetic experiment](install-feasibility/REPORT.md) is historical
    feasibility evidence, and the shrinkwrap proposal remains superseded.
 5. Test fresh package-name/tag installation with an empty cache and intended scope

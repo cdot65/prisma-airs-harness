@@ -1,7 +1,7 @@
 ---
 title: Prisma AIRS Harness cross-platform authentication release plan
 description: Guided authentication, native credential lifecycle, platform acceptance, and evidence-based release scoring.
-plan_version: 0.1
+plan_version: 0.2
 status: implementing-with-open-decisions
 created: 2026-09-08
 updated: 2026-09-08
@@ -32,6 +32,23 @@ ledger](validation/2026-09-08/authentication/154b4f0bc/ACCEPTANCE.md) records th
 current installed Linux and live gateway evidence. Unanswered D1–D5 decisions
 and mandatory platform gates remain open; implementation approval does not
 convert those unknowns into confirmed requirements or successful tests.
+
+## Owner scope revision — native Windows deferred
+
+On 2026-09-08 the owner explicitly deferred Windows: “don't worry about windows
+for now, we'll suggest running as a container for a workaround.” This changes the
+current release matrix to Apple Silicon macOS and Linux x64. Native Windows
+builds, packaging, Authenticode signing, desktop trials and platform scoring are
+deferred; do not schedule them for this release. Retain their source and historical
+evidence for a later Windows milestone. This owner decision supersedes native
+Windows obligations elsewhere in this document; it does not turn missing Windows
+evidence into a pass or waive any applicable Mac/Linux gate.
+
+The proposed Windows-host alternative is a Linux container. It is not yet a
+validated distribution and does not inherit native Windows credential access.
+See [container delivery scope](CONTAINERS.md). Adding it as a supported route
+requires its own installed authentication, persistence, sandbox and live task
+acceptance. Container delivery does not currently block the Mac/Linux release.
 
 ## 1. Outcome and authority
 
@@ -81,8 +98,8 @@ Source locations: [credentials](codex-rs/cli/src/airs_credentials.rs),
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | D1: Linux SSH/headless scope | Include a first-class headless track, with its persistence contract selected at P0.                                                         | Owner interview pending; do not declare headless delivered from desktop tests.                                                   |
 | D2: Organization onboarding  | Organization-provided nonsecret connection profile, plus custom setup.                                                                      | Owner interview pending; use this as the draft UX assumption.                                                                    |
-| D3: Distribution trust       | Apple Developer ID/notarization and Windows Authenticode signing with protected release credentials.                                        | Access availability unknown; collect availability only, never secrets in chat or source.                                         |
-| D4: Platform baseline        | Apple Silicon macOS 15 and 26; Windows 11 x64; Ubuntu 24.04 LTS x64 GNOME and KDE sessions.                                                 | Freeze exact OS builds, terminal versions, Node versions and Linux service implementations at P0.                                |
+| D3: Distribution trust       | Apple Developer ID/notarization with protected release credentials; Windows signing deferred by owner.                                        | Access availability unknown; collect availability only, never secrets in chat or source.                                         |
+| D4: Platform baseline        | Apple Silicon macOS 15 and 26; Ubuntu 24.04 LTS x64 GNOME and KDE sessions; native Windows deferred.                                                 | Freeze exact OS builds, terminal versions, Node versions and Linux service implementations at P0.                                |
 | D5: Headless persistence     | Prefer an organization-provisioned secure service when present; otherwise evaluate a maintained encrypted store with an in-app unlock flow. | Security/design review at P0 must select a concrete implementation before P3. No custom cryptographic format or silent fallback. |
 
 Intel Mac builds and packages remain prohibited. Windows ARM64, Linux ARM64,
@@ -322,9 +339,9 @@ its ability to create fresh credentials under a new path/signature.
 | P0: Resolve design and reproduce          | Resolve D1-D5; inspect macOS error without secrets; inventory release signing access; freeze platform matrix, profile schema, headless mechanism, test subcases and ownership.                                                                                       | Decision records, incident reproduction/cause or explicitly unresolved status, evidence inventory. Do not guess the Mac fix. |
 | P1: Credential lifecycle and diagnostics  | Add typed platform errors, safe probes and atomic replacement/readback; preserve namespaces/chunks; add failure fixtures. Can start independently of signing access after baseline capture.                                                                          | A06, A16, A17, A21 focused evidence and reviewed error UX.                                                                   |
 | P2: Guided setup and login                | Add profile/custom wizard, hidden input, persisted nonsecret IdP settings, browser/device UI, cancellation and honest resource status. Depends on P0 contracts and P1 outcomes.                                                                                      | A02-A04, A19, A24 fixtures, help/snapshots and accessibility review.                                                         |
-| P3: Platform adapters and incident repair | Repair evidenced Mac failure; complete Windows native integration; Linux prompt handling; implement selected headless flow. Platform tasks may run independently after P1 contract stabilizes.                                                                       | A05-A07, A17, A26, A30 on real target sessions.                                                                              |
+| P3: Platform adapters and incident repair | Repair evidenced Mac failure; defer native Windows integration; Linux prompt handling; implement selected headless flow. Platform tasks may run independently after P1 contract stabilizes.                                                                       | A05-A07, A17, A26, A30 on real target sessions.                                                                              |
 | P4: Identity lifecycle and integration    | Wire refresh concurrency, resume, logout invalidation, MCP status, identity isolation and bounded access validation into actual runtime.                                                                                                                             | A08-A15, A25 plus leak checks through local tools.                                                                           |
-| P5: Distribution and migration            | Produce signed Apple Silicon/Windows and verified Linux packages, maintain CLI pin, migration and docs; resolve package inheritance. Publish immutable candidates under a prerelease channel for P6. May prepare alongside P2-P4; package final tested runtime only. | A01, A18, A27, A28 with immutable artifact receipts.                                                                         |
+| P5: Distribution and migration            | Produce signed Apple Silicon and verified Linux packages (native Windows deferred), maintain CLI pin, migration and docs; resolve package inheritance. Publish immutable candidates under a prerelease channel for P6. May prepare alongside P2-P4; package final tested runtime only. | A01, A18, A27, A28 with immutable artifact receipts.                                                                         |
 | P6: Acceptance and remediation            | Run platform matrix, timed unfamiliar-user trials, repeatability/performance checks; independent reviewer assesses exact published candidate.                                                                                                                        | All applicable catalog cases, scorecards and defect resolution; >=9 per platform with no mandatory failures.                 |
 | P7: Promotion and observation             | After P6 promote the same immutable version/bytes, perform fresh production smoke tests and record owner review.                                                                                                                                                     | Production version/digests, verification timestamps, handoff and rollback instructions.                                      |
 
@@ -353,8 +370,9 @@ only on the D1 decision recorded at P0. A22's unassisted completion requirement
 is also mandatory; its timing targets and A23 are scored quality targets.
 Zero credential disclosure, zero authentication/authorization bypasses, no broken
 gateway/MCP/local-tool integration, and resolution of the reported Mac incident
-are unconditional gates. Missing signing, missing full Windows packaging, or
-missing actual desktop validation cannot be replaced by a passing unit test.
+are unconditional gates. Missing signing or actual desktop validation for an
+in-scope platform cannot be replaced by a passing unit test. Native Windows is
+deferred under the owner scope revision and earns no passing score.
 
 | Dimension                                         | Maximum points | Case IDs           |
 | ------------------------------------------------- | -------------: | ------------------ |

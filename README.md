@@ -15,7 +15,10 @@ unpublished candidates. Installing alpha.9 does not install those changes, and
 the reported owner-Mac Keychain incident remains open. See the
 [acceptance ledger](validation/2026-09-08/authentication/154b4f0bc/ACCEPTANCE.md)
 and [independent readiness review](validation/2026-09-08/authentication/154b4f0bc/REVIEW.md)
-for verified results and remaining release gates.
+for verified results and remaining release gates. The current authentication
+release targets Apple Silicon and Linux x64. Native Windows delivery is deferred
+by the owner; the proposed [Linux container route](CONTAINERS.md) for Windows
+hosts is not yet validated.
 
 ## Published 0.1.0-alpha.9 — managed Prisma AIRS CLI
 

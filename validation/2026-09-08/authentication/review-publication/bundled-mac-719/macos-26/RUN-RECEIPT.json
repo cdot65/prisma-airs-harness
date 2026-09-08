@@ -1,0 +1,68 @@
+{
+  "run_id": 34284911571,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34284911571",
+  "run_attempt": 1,
+  "conclusion": "success",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "tooling_source": "71902b53362833125cf4f0b3d10d257d40c8f7c7",
+  "compilation_performed": false,
+  "compilation_run": 34272843528,
+  "compilation_artifact_id": 10076349913,
+  "artifact_zip_download_hash_verified": true,
+  "candidate_zip_independently_downloaded": false,
+  "package_source_file_hashes_independently_checked": 13,
+  "native_binary_matches_original_independently_retained_bytes": true,
+  "cheap_checks": {
+    "launcher": 15,
+    "bundle_archive": 18,
+    "registry": 4,
+    "artifact": 3,
+    "failures": 0
+  },
+  "native_suite": {
+    "methods": 39,
+    "passed": 37,
+    "skipped": 2,
+    "skip_reasons": [
+      "requires npm-managed CLI",
+      "Linux session-bus recovery"
+    ]
+  },
+  "installed_suite": {
+    "methods": 38,
+    "passed": 37,
+    "skipped": 1,
+    "skip_reasons": [
+      "Linux session-bus recovery"
+    ]
+  },
+  "published": false,
+  "owner_device": false,
+  "developer_id_signed": false,
+  "notarized": false,
+  "live_gateway_e2e": false,
+  "github_package_authentication_tested": false,
+  "artifacts": [
+    {
+      "id": 10079457717,
+      "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+      "digest": "sha256:1831007718ccf63120fd091cb03543456ab4d82e79ead2b28a2fe7cc18b2762c",
+      "size_in_bytes": 695416
+    },
+    {
+      "id": 10079456616,
+      "name": "airs-harness-darwin-arm64-private-candidate-1",
+      "digest": "sha256:e10d6ed8ff0731f6d452dc3d1a5668725aa84c897aae2c61a7d0754cca226594",
+      "size_in_bytes": 244682215
+    }
+  ],
+  "job_times": [
+    {
+      "id": 102258129918,
+      "name": "acceptance",
+      "started_at": "2026-09-08T22:15:10Z",
+      "completed_at": "2026-09-08T22:27:13Z",
+      "conclusion": "success"
+    }
+  ]
+}

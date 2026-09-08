@@ -1,5 +1,15 @@
 # GitHub Packages distribution
 
+Version `0.1.0-alpha.9` is published privately under
+[`@cdot65/prisma-airs-harness`](https://github.com/users/cdot65/packages/npm/package/prisma-airs-harness),
+with Linux x64 and Apple Silicon packages. All three published downloads match
+the staged archives. Fresh GitHub installs passed the executable suite on Linux
+(27/27) and Apple Silicon (26 passed, one Linux-only check skipped).
+[Acceptance run](https://github.com/cdot65/airs-harness/actions/runs/34228673532).
+[Publication receipt](validation/2026-09-08/github-packages/PUBLICATION.json).
+GitHub returned no repository association, so the packages are available on the
+account Packages page; repository-sidebar linking remains a GitHub UI step below.
+
 The owned `airs-harness-github-packages.yml` workflow publishes scoped copies of
 an existing verified npm release to GitHub Packages. GitHub does not index
 Verdaccio packages automatically. The three packages are `@cdot65/prisma-airs-harness`,
@@ -43,6 +53,12 @@ npm install -g "$airs_harness_url" --registry=https://registry.npmjs.org
 airs-harness --version
 airs-harness airs doctor --output json
 ```
+
+If the previous unscoped package is installed globally in the same npm prefix,
+run `npm uninstall -g airs-harness` before installing the scoped package; both
+packages provide the same command. This removes the old npm launcher, while
+environments and credentials remain in their existing harness configuration and
+OS credential store. Authenticate and resolve the new download URL first.
 
 The native dependencies still download from GitHub with the same authentication.
 Verdaccio's existing anonymous LAN/VPN installation remains supported. For npm

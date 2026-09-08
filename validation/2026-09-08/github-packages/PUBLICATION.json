@@ -1,0 +1,41 @@
+{
+  "registry": "https://npm.pkg.github.com",
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.9",
+      "integrity": "sha512-rLtNMDsG1phW8UHgyIQMVQMTL1otYBqEKmqlCM++2dgbE1Sw+slLHGs121sB1qCADXsHDotSJoIc4bE7OnxzLQ==",
+      "tarball": "https://npm.pkg.github.com/download/@cdot65/prisma-airs-harness-darwin-arm64/0.1.0-alpha.9/23c8e705cbdd1a73bc51c5907688c8cf3d9fa1c4",
+      "source_sha256": "fb20d58340175241a602fbbcb7b293a9f73445a8b729d3d8136908250e20b94b",
+      "download_verified": true,
+      "html_url": "https://github.com/users/cdot65/packages/npm/package/prisma-airs-harness-darwin-arm64",
+      "visibility": "private",
+      "repository": null,
+      "declared_repository": "https://github.com/cdot65/airs-harness.git"
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.9",
+      "integrity": "sha512-ekmPmEgu/AVukT8AWKJh0ZISVviuz314JeVyqMsdoNV86WwE3DtocEvjpCQarTboU/y4/KgU7CJMCk/hODd9jA==",
+      "tarball": "https://npm.pkg.github.com/download/@cdot65/prisma-airs-harness-linux-x64/0.1.0-alpha.9/9e82a5f1e9b57681bd1e37fae22503b6551896a6",
+      "source_sha256": "1beaeb29d0fa49855a9506a89210018d6c3d994b4a2931bb8df158e22b91a5ed",
+      "download_verified": true,
+      "html_url": "https://github.com/users/cdot65/packages/npm/package/prisma-airs-harness-linux-x64",
+      "visibility": "private",
+      "repository": null,
+      "declared_repository": "git+https://github.com/cdot65/airs-harness.git"
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.9",
+      "integrity": "sha512-51blcO36ck7xoJGrvZ9hukAdJpbuSrffKbaN3+KeRxIUFWIPUEjUtZ+B6w4Hb4x7yuge/5ykjDcTwRfNqRT2kw==",
+      "tarball": "https://npm.pkg.github.com/download/@cdot65/prisma-airs-harness/0.1.0-alpha.9/5d2dd84eca08549653d1fb8cae51ce57411495d0",
+      "source_sha256": "d9e9bf6b1b6455d24b3f0d8639de711fd720e0a7cf2f1051c883430bad3b5422",
+      "download_verified": true,
+      "html_url": "https://github.com/users/cdot65/packages/npm/package/prisma-airs-harness",
+      "visibility": "private",
+      "repository": null,
+      "declared_repository": "https://github.com/cdot65/airs-harness.git"
+    }
+  ]
+}

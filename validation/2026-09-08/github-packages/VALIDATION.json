@@ -1,0 +1,26 @@
+{
+  "run": "https://github.com/cdot65/airs-harness/actions/runs/34228673532",
+  "commit": "ac4a99244ed746c132ffe567745cd7348d68be4d",
+  "status": "published_and_installation_acceptance_passed",
+  "jobs": [
+    {
+      "name": "publish",
+      "conclusion": "success",
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34228673532/job/102069011725"
+    },
+    {
+      "name": "acceptance (ubuntu-24.04)",
+      "conclusion": "success",
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34228673532/job/102069510616"
+    },
+    {
+      "name": "acceptance (macos-15)",
+      "conclusion": "success",
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34228673532/job/102069510629"
+    }
+  ],
+  "repository_sidebar_linked": false,
+  "command": "airs-harness",
+  "package": "@cdot65/prisma-airs-harness",
+  "version": "0.1.0-alpha.9"
+}

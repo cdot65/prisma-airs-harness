@@ -1,5 +1,15 @@
 # Prisma AIRS Harness delivery plan
 
+## Current authentication release contract
+
+The owner requested a cross-platform plan after alpha.9 failed native credential
+storage on an unlocked Mac. [AUTHENTICATION-PLAN.md](AUTHENTICATION-PLAN.md) defines
+guided login, native storage and session behavior, full Windows distribution,
+measurable acceptance, and a minimum 9/10 score per supported platform with
+mandatory release gates. Interview decisions remain explicitly pending.
+Older Linux-first fallback criteria below are historical and do not establish
+completion of this release. This planning update makes no runtime changes.
+
 ## Next distribution release — naming contract
 
 Owner direction, reaffirmed for full implementation: product name **Prisma AIRS Harness**, executable `airs-harness`.
@@ -87,7 +97,6 @@ separate milestones. The full upstream V8-dependent suite cannot build on this
 musl host; the feature is disabled in the supported runtime.
 
 No credential values belong in this document, source control, artifacts or vault.
-
 
 ## Authentication workflow polish (alpha.7)
 

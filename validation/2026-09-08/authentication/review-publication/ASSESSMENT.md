@@ -2,7 +2,7 @@
 
 Date: 2026-09-08. Reviewer: `/root/release_review`.
 Scope: P5/P6 release-path assessment, legacy publisher guard work, and a
-22:18 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
+22:36 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
 The reviewer authored the guard implementation; root performed its separate review.
 
 ## Plan interpretation and remaining work
@@ -32,8 +32,12 @@ The remaining path is:
    passed on npm10 and npm12, including actual CLI diagnostics and image/document
    generation. The bundle selects Sharp payloads from supplied native targets,
    preserves licenses, and verifies installed files against recorded hashes and
-   the documented npm shebang normalization. Hosted Mac bundled acceptance is
-   underway; Windows generated command-shim validation explicitly remains
+   the documented npm shebang normalization. Hosted bundled npm12 acceptance
+   passed on [macOS 15](bundled-mac-719/macos-15/README.md) and
+   [macOS 26](bundled-mac-719/macos-26/README.md), including installed native
+   Keychain lifecycles and actual managed CLI document/image generation.
+   Those trials reused the original source154 native artifact without compilation.
+   Windows generated command-shim validation explicitly remains
    unsupported. Real GitHub access, signing and migration are still unverified.
    The [earlier synthetic experiment](install-feasibility/REPORT.md) is historical
    feasibility evidence, and the shrinkwrap proposal remains superseded.
@@ -84,4 +88,6 @@ latest and literal CLI pin, plus the failing Bash pipeline boundary. YAML parsed
 locally. This proves mocked command behavior, not live registry tag preservation.
 
 No publication, version bump, runtime build, remote dispatch or signing change was
-performed for this stage. Full authentication release readiness remains FAIL.
+performed for the legacy publisher guard stage. The separately recorded bundle
+acceptance used hosted artifact-only dispatches. Full authentication release
+readiness remains FAIL.

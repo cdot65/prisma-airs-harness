@@ -1,0 +1,184 @@
+{
+  "recorded_at_utc": "2026-09-08T23:28:46.486202+00:00",
+  "source_hashes": {
+    "scripts/airs_bundle_shims.py": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+    "scripts/airs_bundle_tree.py": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+    "scripts/airs_bundle.py": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+    "scripts/fixtures/npm-command-shims/node.json": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+    "scripts/validate_airs_npm.py": "f70ff0945a7a719f21e7755ed685fc841253a630c29afa526c40a9b99ab62bea"
+  },
+  "host": "linux",
+  "runtime": "Node22.23.2 Linux; generated wrappers never executed",
+  "source_bundle": "/var/tmp/airs-maintained-scoped-bundle-fixed-1ttr2o9o/packages/@cdot65/prisma-airs-harness",
+  "source_inventory_sha256": "974672dce73399147fa9d73d7906e95381a87511692eb9862e30a76849345485",
+  "cases": [
+    {
+      "kind": "all_five_real_bundle_bins",
+      "cmd_shim": "7.0.0",
+      "source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+      "full_bundle_verification": true,
+      "require_windows_wrappers": true,
+      "wrappers": [
+        {
+          "command": "node_modules/.bin/airs",
+          "target": "node_modules/@cdot65/prisma-airs-cli/dist/cli/index.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/.bin/airs": "3d3b5c1825268343131db591f4e1e3519a9d1bc82d8d49ded570771042ba528e",
+            "node_modules/.bin/airs.cmd": "def516e4d9122f92af3e915ae82e767b63fe43439e035fb65da7f1c694c8cf1a",
+            "node_modules/.bin/airs.ps1": "b3d72fa9f5fd9e0a72d42cb55ec10f39e0529117c8a7679a2d15045d1fdbd5a6"
+          }
+        },
+        {
+          "command": "node_modules/.bin/js-yaml",
+          "target": "node_modules/js-yaml/bin/js-yaml.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/.bin/js-yaml": "c46b44b3bd9b2331fe4f659e672d453b88bcb3e04b4a214d19f91de0b3891b3e",
+            "node_modules/.bin/js-yaml.cmd": "6189e86d86dd0fe97fbe0ce650d65f2eec04ab6ccc3e5efbce89acc9741049e4",
+            "node_modules/.bin/js-yaml.ps1": "d5a6132c4b32e855a2c1f239b2d69b389320cbd10f890ee5069fe5f550e52882"
+          }
+        },
+        {
+          "command": "node_modules/.bin/nanoid",
+          "target": "node_modules/nanoid/bin/nanoid.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/.bin/nanoid": "a2c96fc5f66d5e7fdab2f05772fc3fcc72f44a10ff431f5163ff72d5987f184c",
+            "node_modules/.bin/nanoid.cmd": "e0cff3b0a20154820df9084f50e98c7bf0fd4f2c3e5f9696a1c9d0dae14bf42f",
+            "node_modules/.bin/nanoid.ps1": "2d318be8fc40257863a2b046d1b401b83c6a6e639bd9625053435ddd35545141"
+          }
+        },
+        {
+          "command": "node_modules/.bin/semver",
+          "target": "node_modules/semver/bin/semver.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/.bin/semver": "77ef070b2790156c37dd77efd5d0cf54fbff85d9c1adabc890948192cd2b2639",
+            "node_modules/.bin/semver.cmd": "3fa2710c6522669c2253edbd465ccf4c58d0d29e0eff3337d7900cd4e5cec7ac",
+            "node_modules/.bin/semver.ps1": "1e1355d1aaf2a75275f9d884dbcd2f1c713d4ada1782fe8370bc21db6aedbc31"
+          }
+        },
+        {
+          "command": "node_modules/.bin/xml-js",
+          "target": "node_modules/xml-js/bin/cli.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/.bin/xml-js": "3ee61a6d10b70bff868ae828dbecd53c3d6556fe089b46b08f36d0e6f4911906",
+            "node_modules/.bin/xml-js.cmd": "7f810b6ebdfa1b3cf4ba443f5d52c341ef8be19d5fb0a00eb95d4788d465215c",
+            "node_modules/.bin/xml-js.ps1": "07be0f968cc75f261b14b354121a3bfa74ce9e864cdd3ecdb9363accda55213e"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "nested_scoped_layout",
+      "cmd_shim": "7.0.0",
+      "target_sha256": "00f584784f36a195945e0c29ae8c615cb39f5d5a0f02d98adbb59a2482150432",
+      "wrapper_verification": [
+        {
+          "command": "node_modules/parent/node_modules/.bin/child",
+          "target": "node_modules/parent/node_modules/@synthetic/child/bin/cli.js",
+          "template_cmd_shim": "7.0.0",
+          "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+          "files": {
+            "node_modules/parent/node_modules/.bin/child": "95b2f514418bd6bfe3487e78ac5a1f0857411cd011de410d9be6f4cb5d7dc2ff",
+            "node_modules/parent/node_modules/.bin/child.cmd": "1da0f799cbe7fcf7668b90caac0f75eef9bf4f804e390a492149f84c8cc80c0d",
+            "node_modules/parent/node_modules/.bin/child.ps1": "ea2b34f1fc370bf98f507baf040ddbd833d283d48b7a951ff32284cd4a0aa680"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "all_five_real_bundle_bins",
+      "cmd_shim": "9.0.2",
+      "source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+      "full_bundle_verification": true,
+      "require_windows_wrappers": true,
+      "wrappers": [
+        {
+          "command": "node_modules/.bin/airs",
+          "target": "node_modules/@cdot65/prisma-airs-cli/dist/cli/index.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/.bin/airs": "6f2cd2aad0d2ce357d336d9fd109718ebcee76d26bfbe24f2c9f13230304794b",
+            "node_modules/.bin/airs.cmd": "1f59bb732f3cff71a90c86abad26e37889b10a93c1d878855a18721c99abced8",
+            "node_modules/.bin/airs.ps1": "b3d72fa9f5fd9e0a72d42cb55ec10f39e0529117c8a7679a2d15045d1fdbd5a6"
+          }
+        },
+        {
+          "command": "node_modules/.bin/js-yaml",
+          "target": "node_modules/js-yaml/bin/js-yaml.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/.bin/js-yaml": "f00c1c33404149bf9b6a1c45a9ed0d2b0fc218e5f51ff3632cac9254decccc2a",
+            "node_modules/.bin/js-yaml.cmd": "c752bb73a59f02c688cac74e048132d6ec1af00f2318bbe036b4e55a2b386cbd",
+            "node_modules/.bin/js-yaml.ps1": "d5a6132c4b32e855a2c1f239b2d69b389320cbd10f890ee5069fe5f550e52882"
+          }
+        },
+        {
+          "command": "node_modules/.bin/nanoid",
+          "target": "node_modules/nanoid/bin/nanoid.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/.bin/nanoid": "94ff308fa38ba84d51f8ec863a28a7198fe8fa87099a922048906fb95343b547",
+            "node_modules/.bin/nanoid.cmd": "c4f8911ca909e8fac5cc839016045ae49a568cb790b86d6032a39bfa05794f34",
+            "node_modules/.bin/nanoid.ps1": "2d318be8fc40257863a2b046d1b401b83c6a6e639bd9625053435ddd35545141"
+          }
+        },
+        {
+          "command": "node_modules/.bin/semver",
+          "target": "node_modules/semver/bin/semver.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/.bin/semver": "060ce88b470f3cc13bf82185f1c9ec7261ded9df77345eb2deb36823e3f5e8d2",
+            "node_modules/.bin/semver.cmd": "0fd99ca07944dc778a4e14172565524a636f7ab3fa8a8eefa595db7c914e6f67",
+            "node_modules/.bin/semver.ps1": "1e1355d1aaf2a75275f9d884dbcd2f1c713d4ada1782fe8370bc21db6aedbc31"
+          }
+        },
+        {
+          "command": "node_modules/.bin/xml-js",
+          "target": "node_modules/xml-js/bin/cli.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/.bin/xml-js": "e3cbaeb058137daa7bcaab1c62ce7737c37e32f6fe10ce05c727926ed1ea0c95",
+            "node_modules/.bin/xml-js.cmd": "ba68466f658c1537c17b3e4ccea91764daa0ab4603fdff68fcffff7fd610506c",
+            "node_modules/.bin/xml-js.ps1": "07be0f968cc75f261b14b354121a3bfa74ce9e864cdd3ecdb9363accda55213e"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "nested_scoped_layout",
+      "cmd_shim": "9.0.2",
+      "target_sha256": "00f584784f36a195945e0c29ae8c615cb39f5d5a0f02d98adbb59a2482150432",
+      "wrapper_verification": [
+        {
+          "command": "node_modules/parent/node_modules/.bin/child",
+          "target": "node_modules/parent/node_modules/@synthetic/child/bin/cli.js",
+          "template_cmd_shim": "9.0.2",
+          "template_source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+          "files": {
+            "node_modules/parent/node_modules/.bin/child": "1207b4edaf36c637a9485c696f54036cfb7d3abe5b6bffce450890665c97cace",
+            "node_modules/parent/node_modules/.bin/child.cmd": "f5680a0b15735b4695d2a2db59f91b14c572ab3cba2e27742a3a018da6baf0d9",
+            "node_modules/parent/node_modules/.bin/child.ps1": "ea2b34f1fc370bf98f507baf040ddbd833d283d48b7a951ff32284cd4a0aa680"
+          }
+        }
+      ]
+    }
+  ],
+  "published": false,
+  "windows_execution": false,
+  "source_hashes_unchanged": true,
+  "passed": true
+}

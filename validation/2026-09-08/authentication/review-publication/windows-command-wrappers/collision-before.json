@@ -1,0 +1,20 @@
+{
+  "case": "case-aliased declared command names Tool/tool with different targets",
+  "verifier_accepted": true,
+  "wrappers": [
+    {
+      "command": "node_modules/.bin/Tool",
+      "target": "node_modules/fixture/a.js",
+      "template_cmd_shim": "7.0.0",
+      "template_source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+      "files": {
+        "node_modules/.bin/Tool": "7522f0e4d52e5f9b22132838ffb1885140d85ce98e2a670e35e999d0d9194471",
+        "node_modules/.bin/Tool.cmd": "8126741fa7680dce6e6898602126282cf30838e99e233af6af39ad7f342a46fa",
+        "node_modules/.bin/Tool.ps1": "8e420ebfca0656451d32b34e2f358f3362b43af2006892d5ab70bda09175154b"
+      }
+    }
+  ],
+  "source_sha256": "5701594e542759c501764a388bbc2ff83c31bc54740b75fcd4110fed995afc33",
+  "host": "linux",
+  "windows_execution": false
+}

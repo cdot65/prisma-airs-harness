@@ -1,0 +1,11 @@
+{
+  "recorded_at_utc": "2026-09-08T23:29:03.330733+00:00",
+  "original_receipt": "/var/tmp/airs-shim-case-conflict-kzgxtvc0/receipt.json",
+  "counterexample_unchanged": true,
+  "require_windows_wrappers": true,
+  "rejected": true,
+  "error": "Bundled command wrapper paths conflict",
+  "source_sha256": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+  "host": "linux",
+  "windows_execution": false
+}

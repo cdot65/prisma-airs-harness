@@ -2,7 +2,9 @@
 
 Date: 2026-09-08. Reviewer: `/root/release_review`.
 Scope: P5/P6 release-path assessment, legacy publisher guard work, and a
-22:40 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
+22:40 UTC update reflecting separately implemented private bundle acceptance,
+followed by the Windows command-wrapper source-stage implementation. This is not
+a publication receipt or release approval.
 The reviewer authored the guard implementation; root performed its separate review.
 
 ## Plan interpretation and remaining work
@@ -39,8 +41,11 @@ The remaining path is:
    The final [macOS 26 npm10.9.8 baseline](bundled-mac-719/macos-26-npm10/README.md)
    also passed, matching the npm version shown in the owner's installation transcript.
    Those trials reused the original source154 native artifact without compilation.
-   Windows generated command-shim validation explicitly remains
-   unsupported. Real GitHub access, signing and migration are still unverified.
+   Windows command-wrapper validation now has a constrained, byte-exact
+   implementation with retained upstream templates and local negative tests;
+   see [its separate source-stage evidence](windows-command-wrappers/REPORT.md).
+   Actual Windows installed execution remains unverified, as do real GitHub
+   access, signing and migration.
    The [earlier synthetic experiment](install-feasibility/REPORT.md) is historical
    feasibility evidence, and the shrinkwrap proposal remains superseded.
 5. Test fresh package-name/tag installation with an empty cache and intended scope

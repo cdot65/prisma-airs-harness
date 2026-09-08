@@ -93,6 +93,7 @@ def main():
             "version": manifest["version"],
             "description": f"Prisma AIRS Harness native executable for {platform}/{arch}",
             "license": manifest["license"],
+            "repository": manifest["repository"],
             "os": [platform],
             "cpu": [arch],
             "files": [

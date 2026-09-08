@@ -204,6 +204,7 @@ def main():
             "product": "Prisma AIRS Harness",
             "version": version,
             "source_commit": commit,
+            "source_repository": "https://github.com/cdot65/airs-harness",
             "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
             "target": "x86_64-unknown-linux-musl",
             "profile": "release; upstream defaults",

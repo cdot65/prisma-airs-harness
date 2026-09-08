@@ -27,6 +27,9 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: "3.13"
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: airs-harness-${{ matrix.suffix }}
@@ -40,7 +43,9 @@ jobs:
           brew install ripgrep
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/integrity.json"
-          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX/airs-harness" --receipt "$RUNNER_TEMP/cli-keychain.json"
+          python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
+          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/airs-npm-install" > "$RUNNER_TEMP/npm-install.json"
+          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-npm-install/bin/airs-harness" --receipt "$RUNNER_TEMP/cli-keychain.json"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:
@@ -48,5 +53,6 @@ jobs:
           path: |
             ${{ runner.temp }}/cli-keychain.json
             ${{ runner.temp }}/integrity.json
+            ${{ runner.temp }}/npm-install.json
           if-no-files-found: warn
           retention-days: 30

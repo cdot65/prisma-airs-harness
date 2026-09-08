@@ -45,6 +45,19 @@ def main():
         result = fixture.execute()
         if result.returncode or len(fixture.requests) != 2:
             raise RuntimeError("Keychain-authenticated local tool loop failed")
+        if (fixture.work / "result.txt").read_text() != "local tool worked\n":
+            raise RuntimeError("Local shell tool did not create the expected file")
+        outputs = [
+            item
+            for item in fixture.requests[1][2]["input"]
+            if item.get("type") == "function_call_output"
+        ]
+        if (
+            len(outputs) != 1
+            or "local tool worked" not in outputs[0]["output"]
+            or "Process exited with code 0" not in outputs[0]["output"]
+        ):
+            raise RuntimeError("Gateway did not receive successful local tool output")
         for _, headers, _ in fixture.requests:
             headers = {name.lower(): value for name, value in headers.items()}
             if headers.get("authorization") != "Bearer " + key:

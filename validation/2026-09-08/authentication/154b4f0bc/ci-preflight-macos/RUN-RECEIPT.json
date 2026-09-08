@@ -1,0 +1,28 @@
+{
+  "run_id": 34272402139,
+  "run_attempt": 1,
+  "job_id": 102216997185,
+  "artifact_id": 10074337535,
+  "artifact_sha256": "e63ba3321824475bf313841158bc60740e16c97910cd17ee82ffaa3cbcb3f275",
+  "tooling_source": "5b070fb349b5cbdecc42d49e842dcf030444625d",
+  "result": "success",
+  "job_seconds": 22,
+  "build": "skipped",
+  "native_acceptance": "skipped",
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34272402139",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "test_counts": {
+    "launcher": 12,
+    "packaging": 5,
+    "immutable_artifact": 3,
+    "workflow_boundary": 1,
+    "total_passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "additional_checks": [
+    "Python compileall",
+    "Runtime/tooling manifest version alignment"
+  ],
+  "scope": "offline preflight only; no native runtime acceptance or compilation"
+}

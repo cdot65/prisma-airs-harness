@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "scope": "offline preflight only",
+  "native_acceptance": false,
+  "rust_build": false,
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "validation_tooling_source": "5b070fb349b5cbdecc42d49e842dcf030444625d"
+}

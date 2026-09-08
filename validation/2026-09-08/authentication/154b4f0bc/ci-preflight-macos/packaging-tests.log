@@ -1,0 +1,10 @@
+test_explicit_build_command_is_literal_metadata_and_preserves_binary (test_package_airs_harness.NativePackaging.test_explicit_build_command_is_literal_metadata_and_preserves_binary) ... ok
+test_unix_archives_keep_existing_binary_and_release_semantics (test_package_airs_harness.NativePackaging.test_unix_archives_keep_existing_binary_and_release_semantics) ... ok
+test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable (test_package_airs_harness.NativePackaging.test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable) ... ok
+test_windows_requires_explicit_nonrelease_mode (test_package_airs_harness.NativePackaging.test_windows_requires_explicit_nonrelease_mode) ... ok
+test_candidate_tarballs_block_publication_and_keep_exact_cli_dependency (test_package_airs_harness.NpmCandidatePackaging.test_candidate_tarballs_block_publication_and_keep_exact_cli_dependency) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.603s
+
+OK

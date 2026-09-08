@@ -100,6 +100,13 @@ jobs:
             ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/signature.json"
           python scripts/validate_native_credentials.py --binary runtime/codex-rs/target/release/examples/store_acceptance.exe --output "$env:RUNNER_TEMP/airs-evidence/native-store.json"
           if ($LASTEXITCODE -ne 0) { throw 'Native credential persistence failed' }
+      - name: Validate hidden credential input through native ConPTY
+        timeout-minutes: 5
+        run: |
+          python -m pip install --only-binary=:all: pywinpty==3.0.5
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY fixture dependency installation failed' }
+          python scripts/test_airs_secret_windows.py --binary runtime/codex-rs/target/release/airs-harness.exe --output-directory "$env:RUNNER_TEMP/airs-evidence/conpty"
+          if ($LASTEXITCODE -ne 0) { throw 'Native hidden prompt ConPTY acceptance failed' }
       - name: Package private candidate and verify local npm installation
         run: |
           python scripts/package_airs_harness.py --source-directory runtime --binary runtime/codex-rs/target/release/airs-harness.exe --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --output-directory "$env:RUNNER_TEMP/airs-package"

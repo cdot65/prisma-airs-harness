@@ -13,16 +13,22 @@ def main():
     parser.add_argument("--directory", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args()
-    roots = list(args.directory.glob("airs-harness-*-linux-x86_64-musl"))
+    roots = [
+        p
+        for p in args.directory.glob("airs-harness-*")
+        if (p / "BUILD-INFO.json").is_file()
+    ]
     if len(roots) != 1:
         raise ValueError("Expected exactly one extracted release directory")
     root = roots[0].resolve()
-    subprocess.run(
-        ["sha256sum", "-c", "SHA256SUMS"],
-        cwd=root,
-        check=True,
-        stdout=subprocess.DEVNULL,
-    )
+    for row in (root / "SHA256SUMS").read_text().splitlines():
+        expected, name = row.split("  ", 1)
+        path = (root / name).resolve(strict=True)
+        if not path.is_relative_to(root):
+            raise ValueError("Checksum path escapes the release directory")
+        with path.open("rb") as stream:
+            if hashlib.file_digest(stream, "sha256").hexdigest() != expected:
+                raise ValueError(f"Checksum mismatch: {name}")
     info = json.loads((root / "BUILD-INFO.json").read_text())
     with (root / "airs-harness").open("rb") as stream:
         digest = hashlib.file_digest(stream, "sha256").hexdigest()

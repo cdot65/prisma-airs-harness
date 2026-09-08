@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package an AIRS Linux binary with locked dependency and license provenance.
+"""Package an AIRS native binary with locked dependency and license provenance.
 
 Generate metadata with cargo metadata --locked --filter-platform
 x86_64-unknown-linux-musl --format-version 1. The inventory is the resolved normal
@@ -28,8 +28,20 @@ def main():
     parser.add_argument("--metadata", type=Path, required=True)
     parser.add_argument("--output-directory", type=Path, required=True)
     parser.add_argument(
-        "--binary-processing", default="none", choices=["none", "strip --strip-debug"]
+        "--binary-processing",
+        default="none",
+        choices=["none", "strip --strip-debug", "strip -S; codesign --force --sign -"],
     )
+    targets = {
+        "x86_64-unknown-linux-musl": "linux-x86_64-musl",
+        "aarch64-apple-darwin": "darwin-arm64",
+        "x86_64-apple-darwin": "darwin-x64",
+    }
+    parser.add_argument(
+        "--target", choices=targets, default="x86_64-unknown-linux-musl"
+    )
+    parser.add_argument("--validation", type=Path)
+    parser.add_argument("--profile", default="release; upstream defaults")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
     binary = args.binary.resolve(strict=True)
@@ -65,7 +77,7 @@ def main():
     if source_status.strip():
         raise ValueError("Commit the reviewed source before packaging")
     args.output_directory.mkdir(parents=True, exist_ok=True)
-    name = f"airs-harness-{version}-linux-x86_64-musl"
+    name = f"airs-harness-{version}-{targets[args.target]}"
     archive = args.output_directory / (name + ".tar.gz")
     if archive.exists():
         raise FileExistsError(archive)
@@ -90,6 +102,15 @@ def main():
             "PLAN.md",
         ]:
             shutil.copy2(repo / filename, root / filename)
+        if args.validation:
+            validation = json.loads(args.validation.read_text())
+            if (
+                validation["binary_sha256"] != digest(binary)
+                or validation["target"] != args.target
+                or validation["product_version"] != version
+            ):
+                raise ValueError("Validation does not match the packaged binary/target")
+            shutil.copy2(args.validation, root / "VALIDATION.json")
         # Ignored local files can contain secrets. Bundle only reviewed source.
         tracked = subprocess.check_output(
             [
@@ -191,7 +212,7 @@ def main():
         (root / "DEPENDENCIES.json").write_text(
             json.dumps(
                 {
-                    "scope": "resolved Linux normal/build dependency closure; includes build-only packages",
+                    "scope": f"resolved {args.target} normal/build dependency closure; includes build-only packages",
                     "rust_distribution_notices": "licenses/rust-toolchain; includes standard-library and build-tool notices",
                     "packages": inventory,
                 },
@@ -205,8 +226,8 @@ def main():
             "source_commit": commit,
             "source_repository": "https://github.com/cdot65/airs-harness",
             "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
-            "target": "x86_64-unknown-linux-musl",
-            "profile": "release; upstream defaults",
+            "target": args.target,
+            "profile": args.profile,
             "binary_processing": args.binary_processing,
             "binary_sha256": digest(root / "airs-harness"),
             "cargo_lock_sha256": digest(repo / "codex-rs/Cargo.lock"),

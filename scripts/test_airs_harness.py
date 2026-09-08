@@ -209,7 +209,7 @@ class TerminalIntegration(unittest.TestCase):
         config = self.home / "config.toml"
         config.write_text(
             config.read_text().replace(
-                "airs-harness/0.1.0-alpha.9", "airs-terminal/0.1.0-alpha.7"
+                "airs-harness/0.1.0-alpha.10", "airs-terminal/0.1.0-alpha.7"
             )
         )
         original = tomllib.loads(config.read_text())
@@ -218,7 +218,7 @@ class TerminalIntegration(unittest.TestCase):
         self.assertTrue(self.requests)
         for _, headers, _ in self.requests:
             headers = {key.lower(): value for key, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.9")
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.10")
         actual = tomllib.loads(config.read_text())
         actual.pop("projects", None)
         self.assertEqual(actual, original)
@@ -353,7 +353,7 @@ class TerminalIntegration(unittest.TestCase):
         config = self.home / "config.toml"
         config.write_text(
             config.read_text().replace(
-                "airs-harness/0.1.0-alpha.9", "airs-terminal/0.1.0-alpha.7"
+                "airs-harness/0.1.0-alpha.10", "airs-terminal/0.1.0-alpha.7"
             )
         )
         prompts = {
@@ -410,7 +410,7 @@ class TerminalIntegration(unittest.TestCase):
             self.assertNotIn("effort", body.get("reasoning") or {})
             self.assertEqual(
                 {key.lower(): value for key, value in headers.items()}["user-agent"],
-                "airs-harness/0.1.0-alpha.9",
+                "airs-harness/0.1.0-alpha.10",
             )
 
     def test_gateway_ignores_stale_reasoning_and_has_runtime_context(self):
@@ -458,7 +458,7 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-harness",
                 "title": "Prisma AIRS Harness",
-                "version": "0.1.0-alpha.9",
+                "version": "0.1.0-alpha.10",
             },
         )
         self.assertTrue(
@@ -471,7 +471,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.9")
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.10")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")

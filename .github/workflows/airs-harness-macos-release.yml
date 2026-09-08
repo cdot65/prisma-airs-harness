@@ -37,7 +37,8 @@ jobs:
         with:
           node-version: 22.23.2
       - name: Reuse native Rust build outputs
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        id: cargo_cache
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: |
             ~/.cargo/registry
@@ -60,6 +61,15 @@ jobs:
           cargo build --locked --release -p codex-cli --bin airs-harness
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
           cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
+      - name: Preserve successful compilation before acceptance tests
+        if: steps.cargo_cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            codex-rs/target
+          key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
       - name: Prepare and verify macOS executable
         run: |
           cp codex-rs/target/release/airs-harness "$RUNNER_TEMP/airs-harness"

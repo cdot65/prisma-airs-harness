@@ -60,7 +60,9 @@ The owner ruled out future Intel Mac builds on September 8. The already-running
 Intel build is allowed to finish, but its artifact will not be published. Active
 release and Keychain workflows now target Apple Silicon only. Inherited upstream
 workflows remain disabled. A source/dependency-keyed Cargo cache is configured for
-future builds; the current cold build cannot acquire that cache retroactively.
+future builds and saved immediately after successful compilation, so a later
+acceptance failure retains compiled outputs. The current cold build cannot acquire
+that cache retroactively.
 A dedicated Apple Silicon runner is being considered, pending host access.
 
 An independent agent's provisional review identified registry namespace isolation

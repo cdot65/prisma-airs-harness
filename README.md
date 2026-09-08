@@ -8,14 +8,13 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
-## 0.1.0-alpha.8 — product rename (publication pending)
+## 0.1.0-alpha.8 — npm distribution
 
 The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped
 npm package is `airs-harness`; its launcher runs a matching prebuilt Rust binary.
-The renamed Linux binary is installed and passed optimized and live acceptance; npm
-tarballs passed an isolated registry install and executable checks before publication
-to Verdaccio. This page does
-not announce a published alpha.8 package or a verified macOS distribution.
+Version `0.1.0-alpha.8` is published to `https://npm.cdot.io` for Linux x64 and
+Apple Silicon macOS. Native execution, npm installation and macOS Keychain
+acceptance passed. See [PUBLICATION.md](PUBLICATION.md) for exact evidence and limits.
 
 Fresh state uses `~/.airs-harness`; existing state and credential bindings remain
 compatible. See [RENAME.md](RENAME.md) for the upgrade contract and remaining
@@ -25,11 +24,16 @@ and the archived validation files retain historical release evidence.
 
 ## Installation
 
-Until Verdaccio publication, use the verified Linux binary or build the reviewed
-source with the commands below.
-After publication, install the administrator-approved version of `airs-harness`
-from the organization's registry. Node.js 22 or later is needed for the npm
-launcher; endpoint users do not need Rust for a prebuilt package.
+Connect to the organization's LAN/VPN, then use Node.js 22 or later:
+
+```sh
+npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+airs-harness --version
+```
+
+Downloads are anonymous; no npm login or Rust compiler is required. Mac users
+should follow [MACOS.md](MACOS.md) for prerequisites, Keycloak sign-in, scanner
+setup and an end-to-end task. Intel Macs are unsupported.
 
 The standalone native binary needs Git, ripgrep and your project tools. Linux
 also requires Bubblewrap and a kernel/container policy allowing its namespaces.

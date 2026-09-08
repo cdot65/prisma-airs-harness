@@ -1,0 +1,12 @@
+{
+  "reviewed": true,
+  "model_identity_invented": false,
+  "remote_inference_described": true,
+  "configured_mcp_server_identified": true,
+  "local_tool_and_scanner_results_match_receipts": true,
+  "remaining_prose_limits": [
+    "The codebase reply heading No Inference On-Prem overgeneralizes: inference is remote from the client but the gateway/provider may itself be on premises.",
+    "Source licensing does not imply anonymous access to the private GitHub repository.",
+    "Conversational prose is model-generated and is not operational proof; native/tool receipts establish behavior."
+  ]
+}

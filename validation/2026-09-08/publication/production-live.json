@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "mcp_credential_helper_status_displayed": true,
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "5cdfa34c-0c2c-4231-9bbb-a6fd9115993c",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "cce42918-3662-4aa1-9a96-802e023910da",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "1cdf3ff5-6307-4f33-b5e0-1a50d66c5827",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": false,
+  "launcher_entrypoint": "/home/cdot/.local/share/airs-harness/candidates/0.1.0-alpha.8/production-npm-install/lib/node_modules/airs-harness/bin/airs-harness.js",
+  "launcher_entrypoint_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+  "native_binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "self_description_review": "self-description-review.json"
+}

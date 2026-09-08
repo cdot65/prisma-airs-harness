@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "binary_sha256": "05f07fad0400e4415960153a41e5b38cdfc09a9b0dc79eae8703c9b7731a5ac0",
+  "source_commit": "b3486afcd3da6bcc27daf1bb4b02c56ebadb5739",
+  "published": false,
+  "version": "airs-harness 0.1.0-alpha.8",
+  "command": "/Users/runner/work/_temp/airs-npm-install/bin/airs-harness",
+  "registry_requests": [
+    "/airs-harness",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.8.tgz",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.8.tgz"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "run": "34184222859",
+  "conclusion": "success",
+  "source_commit": "bf024215bf6e0ea4cbedcb400641e310f7319461",
+  "artifacts": [
+    {
+      "name": "airs-harness-darwin-arm64-cli-keychain",
+      "id": 10039972832,
+      "zip_sha256": "6c5e64aa97416f38bc1087b53c7f1724207d25a09de11cb34284a95c320bf7df"
+    }
+  ]
+}

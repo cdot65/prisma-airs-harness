@@ -1,19 +1,26 @@
-# 0.1.0-alpha.8 — Prisma AIRS Harness rename (unpublished)
+# 0.1.0-alpha.8 — Prisma AIRS Harness npm release
 
-Product UI, CLI, request identity, executable and owned build tooling are renamed
-for `airs-harness`. The npm distribution is the unscoped `airs-harness` package,
-prepared for Verdaccio. Native platform packages contain the compiled binary,
-build provenance and dependency license notices. See [RENAME.md](RENAME.md).
+Prisma AIRS Harness is published as `airs-harness@0.1.0-alpha.8` at
+`https://npm.cdot.io`, with prebuilt Linux x64 and Apple Silicon packages.
+Downloads are anonymous on the LAN/VPN. See [MACOS.md](MACOS.md) for installation,
+Keycloak sign-in, scanner setup and hands-on testing.
 
-Existing credential namespaces and deployed auth resource IDs remain compatible.
-Historical releases and validation receipts below retain their original names.
-The installed Linux binary passed 27 executable checks and seven-turn live
-workflows before and after installation, each with three real scans. Existing
-state files and a compatibility command are preserved. VALIDATION.json records
-current acceptance. Both npm tarballs are prepared, and the isolated npm install
-passed native hash verification and 26 executable checks. Verdaccio publication
-is pending its upload-limit adjustment. Full macOS/Windows native packages
-remain a separate delivery milestone.
+The rename preserves existing environments, native credential namespaces,
+deployed auth IDs and session history. The npm launcher forwards arguments and
+signals to the native executable without install scripts or source compilation.
+It now forwards subsequent signals after an interrupt and rejects Intel Macs.
+
+Mac acceptance passed 26 native tests plus one Linux-only skip, 25 npm-installed
+tests plus one Linux-only skip, six launcher checks, native Keychain persistence,
+and the installed CLI secure-login/tool/logout lifecycle. Published tarballs match
+staged integrity values. A clean unauthenticated production-registry install
+verified the Linux native hash and bundled Mac guide. [PUBLICATION.md](PUBLICATION.md)
+and [VALIDATION.json](VALIDATION.json) separate new distribution evidence from
+prior Linux live/Rust checks and remaining Mac enterprise hands-on acceptance.
+
+The validated Mac executable was reused for a 4m45s acceptance/packaging job;
+no Rust rebuild was needed. Future Mac builds and packages are Apple Silicon-only.
+Historical releases below retain their original names and evidence.
 
 # 0.1.0-alpha.7 — authentication workflow polish
 

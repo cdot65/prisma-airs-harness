@@ -1,0 +1,27 @@
+{
+  "reviewer": "Independent release_review agent",
+  "score": 9,
+  "scale": 10,
+  "scope": "Internal alpha rename and Verdaccio distribution for Linux x64 and Apple Silicon",
+  "release_blockers": [],
+  "independently_verified": [
+    "Anonymous metadata and SRI for all three published packages",
+    "Downloaded launcher SHA256/SHA512, exact native dependencies, bundled Mac guide, Intel rejection and signal forwarding",
+    "Launcher suite 6/6",
+    "Mac native/npm and installed CLI Keychain evidence",
+    "Fresh Linux production install, 26 executable checks and seven-turn/three-scan live receipts"
+  ],
+  "remediated": [
+    "Reserved registry namespaces no longer proxy to public npm",
+    "CLI Keychain gate validates actual file/tool effects",
+    "Launcher forwards signals after a handled interrupt",
+    "Mac path, request-purpose and PTY teardown fixture assumptions corrected"
+  ],
+  "not_certified": [
+    "Full MVP live matrix across two OSes, two authentication methods and two routing modes",
+    "Owner Mac hands-on acceptance",
+    "Managed-device signing/notarization",
+    "Windows npm distribution",
+    "Conjur activation"
+  ]
+}

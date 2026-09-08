@@ -108,9 +108,9 @@ passed a real npm installation through an isolated loopback registry. The
 installed native SHA matches the candidate, and 26 applicable executable checks
 passed through the npm command. See `validation/2026-09-08/rename/` for receipts.
 
-No package has been published. The live Verdaccio `max_body_size` is `100mb`.
-The native npm tarball is 115,769,358 bytes; its base64 upload attachment alone
-requires 154,359,144 bytes (about 147 MiB). Before publication, increase the
-registry limit to `256mb` and verify any ingress upload limit. Publish the native
-package before the launcher using the prepared manifest's order. This rename
-does not itself change the registry configuration.
+Publication is complete for `airs-harness`, `airs-harness-linux-x64` and
+`airs-harness-darwin-arm64` at version `0.1.0-alpha.8`. Verdaccio's upload limit
+is now 256 MiB; reserved package names do not proxy to public npm. Native
+packages were published before the launcher, and anonymous downloads match
+staged integrity values. Mac native execution and Keychain acceptance passed.
+See [PUBLICATION.md](PUBLICATION.md) for the publication receipts and limits.

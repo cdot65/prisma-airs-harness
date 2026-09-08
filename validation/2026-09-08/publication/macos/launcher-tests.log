@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: unsupported platform is actionable
+ok 1 - unsupported platform is actionable
+  ---
+  duration_ms: 0.901125
+  type: 'test'
+  ...
+# Subtest: missing platform dependency fails without fetching a replacement
+ok 2 - missing platform dependency fails without fetching a replacement
+  ---
+  duration_ms: 36.80375
+  type: 'test'
+  ...
+# Subtest: incomplete native package reports a reinstall
+ok 3 - incomplete native package reports a reinstall
+  ---
+  duration_ms: 32.4255
+  type: 'test'
+  ...
+# Subtest: launcher preserves arguments, cwd, stdin and exit code
+ok 4 - launcher preserves arguments, cwd, stdin and exit code
+  ---
+  duration_ms: 41.4325
+  type: 'test'
+  ...
+# Subtest: termination reaches the native process
+ok 5 - termination reaches the native process
+  ---
+  duration_ms: 51.683667
+  type: 'test'
+  ...
+# Subtest: termination still forwards after the native process handles an interrupt
+ok 6 - termination still forwards after the native process handles an interrupt
+  ---
+  duration_ms: 60.263625
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 277.114041

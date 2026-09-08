@@ -1,0 +1,9 @@
+test_add (test_calculator.CalculatorTests.test_add) ... ok
+test_multiply_negative (test_calculator.CalculatorTests.test_multiply_negative) ... ok
+test_multiply_positive (test_calculator.CalculatorTests.test_multiply_positive) ... ok
+test_multiply_zero (test_calculator.CalculatorTests.test_multiply_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK

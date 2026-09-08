@@ -1,0 +1,44 @@
+[
+  {
+    "namespace": "airs-gw",
+    "name": "airs-gw",
+    "ready": 2,
+    "desired": 2
+  },
+  {
+    "namespace": "airs-gw",
+    "name": "airs-terminal-compatibility",
+    "ready": 2,
+    "desired": 2
+  },
+  {
+    "namespace": "airs-gw",
+    "name": "airs-terminal-scanner",
+    "ready": 2,
+    "desired": 2
+  },
+  {
+    "namespace": "openclaw",
+    "name": "openclaw-airs",
+    "ready": 1,
+    "desired": 1
+  },
+  {
+    "namespace": "verdaccio",
+    "name": "verdaccio",
+    "ready": 1,
+    "desired": 1
+  },
+  {
+    "namespace": "airs-gw",
+    "name": "airs-gw-redis",
+    "ready": 1,
+    "desired": 1
+  },
+  {
+    "namespace": "keycloak",
+    "name": "keycloak",
+    "ready": 2,
+    "desired": 2
+  }
+]

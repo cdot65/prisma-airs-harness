@@ -1,0 +1,8 @@
+{
+  "issuer": "https://auth.dev.cdot.io/realms/truffles",
+  "authorization_endpoint": "https://auth.dev.cdot.io/realms/truffles/protocol/openid-connect/auth",
+  "token_endpoint": "https://auth.dev.cdot.io/realms/truffles/protocol/openid-connect/token",
+  "jwks_uri": "https://auth.dev.cdot.io/realms/truffles/protocol/openid-connect/certs",
+  "jwks_key_count": 2,
+  "https_discovery_passed": true
+}

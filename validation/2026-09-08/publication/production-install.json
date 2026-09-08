@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "registry": "https://npm.cdot.io",
+  "version": "airs-harness 0.1.0-alpha.8",
+  "fresh_cache": true,
+  "empty_user_and_global_npm_config": true,
+  "registry_credentials_supplied": false,
+  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "native_source_revision": "b3486afcd3da6bcc27daf1bb4b02c56ebadb5739",
+  "optional_dependencies": {
+    "airs-harness-linux-x64": "0.1.0-alpha.8",
+    "airs-harness-darwin-arm64": "0.1.0-alpha.8"
+  },
+  "bundled_mac_runbook": true,
+  "command": "/home/cdot/.local/share/airs-harness/candidates/0.1.0-alpha.8/production-npm-install/bin/airs-harness"
+}

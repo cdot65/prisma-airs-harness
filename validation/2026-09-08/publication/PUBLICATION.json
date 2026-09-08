@@ -1,0 +1,44 @@
+{
+  "published": true,
+  "version": "0.1.0-alpha.8",
+  "registry": "https://npm.cdot.io",
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.8",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.8.tgz",
+      "integrity": "sha512-pfCKi8gYdBHB7704E4Mijkaib/LKv1uT+DsokrcfUKPpeHcWcBO5FtNtheMu1B0afeqTTxBd8qiC1nYoXRbnCw==",
+      "sha256": "18a3ef794dbe328a80bec3ee45d6d976e61b99deab279a2e4028325ed5aa7269",
+      "action": "already published; integrity matches",
+      "tarball_url": "https://npm.cdot.io/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.8.tgz",
+      "anonymous_download_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.8",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.8.tgz",
+      "integrity": "sha512-CpaBEwsJosXIYqtTjlNMSG1cEQ7lvJmmK2XW15yq+xxLE7yohgxp7A/5wE4XyMisw/ahrEwebQ0GSPlvkjd74Q==",
+      "sha256": "166c2dc76e235d418eec9883222f8de34cdf3590d691308571b185670c244191",
+      "action": "published",
+      "tarball_url": "https://npm.cdot.io/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.8.tgz",
+      "anonymous_download_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.8",
+      "filename": "airs-harness-0.1.0-alpha.8.tgz",
+      "integrity": "sha512-rAsTxe2MrUOq82j/EWDSEX/DRUyk2CiR76KHtMiRl97Kh1OsdpsUTKpPMKpvgoBST3PUqDSg3WsWbiCN89VSYQ==",
+      "sha256": "ec7bdeaf0a52b8f0f9bd120cc05a11b8dae5b2806175e22d98aa50b17a7b4122",
+      "action": "published",
+      "tarball_url": "https://npm.cdot.io/airs-harness/-/airs-harness-0.1.0-alpha.8.tgz",
+      "anonymous_download_verified": true,
+      "optional_dependencies": {
+        "airs-harness-linux-x64": "0.1.0-alpha.8",
+        "airs-harness-darwin-arm64": "0.1.0-alpha.8"
+      }
+    }
+  ],
+  "complete": true,
+  "native_packaging_source_commit": "b3486afcd3da6bcc27daf1bb4b02c56ebadb5739",
+  "launcher_source_commit": "bf024215bf6e0ea4cbedcb400641e310f7319461"
+}

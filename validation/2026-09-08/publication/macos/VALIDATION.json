@@ -1,0 +1,34 @@
+{
+  "product": "Prisma AIRS Harness",
+  "compilation_run": "34178828451",
+  "validation_run": "34183881120",
+  "validation_tooling_commit": "bf024215bf6e0ea4cbedcb400641e310f7319461",
+  "product_version": "0.1.0-alpha.8",
+  "target": "aarch64-apple-darwin",
+  "binary_sha256": "05f07fad0400e4415960153a41e5b38cdfc09a9b0dc79eae8703c9b7731a5ac0",
+  "native_tests": "27",
+  "sandbox": "workspace-write; native macOS Seatbelt",
+  "keychain": {
+    "passed": true,
+    "platform": "darwin",
+    "separate_processes": 3,
+    "cases": [
+      {
+        "passed": true,
+        "phase": "write"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-pend"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-delete"
+      }
+    ]
+  },
+  "signing": "ad-hoc signature verified; no Developer ID notarization",
+  "macos_version": "15.7.9",
+  "live_gateway_e2e": false,
+  "source_commit": "b3486afcd3da6bcc27daf1bb4b02c56ebadb5739"
+}

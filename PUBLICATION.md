@@ -1,7 +1,11 @@
 # Alpha.8 npm publication
 
-Status: in progress. The Linux native package is published; the root launcher is
-held until the Apple Silicon build and credential acceptance pass.
+Status: published. `airs-harness`, `airs-harness-linux-x64` and
+`airs-harness-darwin-arm64` version `0.1.0-alpha.8` are available from Verdaccio.
+Anonymous downloads match the staged SHA256 and SHA512 integrity values. A fresh
+production-registry install with empty npm configuration/cache passed.
+[Publication receipt](validation/2026-09-08/publication/PUBLICATION.json),
+[installation receipt](validation/2026-09-08/publication/production-install.json).
 
 ## Release identity
 
@@ -16,6 +20,7 @@ held until the Apple Silicon build and credential acceptance pass.
 - Apple Silicon compilation uses `b3486afcd` directly. Packaging source and
   original compilation receipts are distinct evidence, not a claim that the
   existing Linux executable was recompiled during publication.
+- npm launcher/tooling revision: `bf024215bf6e0ea4cbedcb400641e310f7319461`.
 - Targets: Linux x64 musl and macOS Apple Silicon. Intel Macs are excluded by owner policy.
 - [Mac user runbook](MACOS.md).
 
@@ -49,13 +54,37 @@ A fresh install from production Verdaccio then exercises the actual npm command.
   Native archives retain source-era fixture copies;
   current acceptance uses the separately identified workflow tooling. Published
   npm packages contain the executable, licenses and provenance, not those fixtures.
-- [Artifact-only acceptance and packaging](https://github.com/cdot65/airs-harness/actions/runs/34183332079):
-  reuses the compiled ARM executable without rebuilding; checks source revision,
-  architecture, signature, native execution, Keychain and npm installation. Validation
-  tooling revision: `f309144dae5555943925e02bcbc17a280809070c`.
+- [Successful artifact acceptance and packaging](https://github.com/cdot65/airs-harness/actions/runs/34183881120):
+  reused the compiled ARM executable without rebuilding. Native tests: 26 pass,
+  one Linux-only skip. Through npm: 25 pass, one Linux-only skip. Six launcher
+  checks pass. The complete job took **4m45s**. [Mac evidence](validation/2026-09-08/publication/macos/VALIDATION.json).
+- [Installed CLI Keychain lifecycle](https://github.com/cdot65/airs-harness/actions/runs/34184222859):
+  secure login, new-process credential retrieval, authenticated local tool effects,
+  absence of plaintext credentials in application state, and logout all pass.
+  [Receipt](validation/2026-09-08/publication/macos/cli-keychain/cli-keychain.json).
+- Earlier npm acceptance exposed a teardown timeout after successful interaction.
+  The PTY fixture now drains output during bounded shutdown and handles EOF/reaping
+  correctly. Independent review also found a launcher bug where a handled interrupt
+  suppressed later signals; exit-state checks and a SIGINT→SIGTERM regression test
+  corrected it. The successful run above includes both fixes.
 - Linux native executable SHA256: `0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400`.
 - Existing Linux optimized/installed live checks: seven turns and three real
   scanner calls each, recorded in [VALIDATION.json](VALIDATION.json).
+
+## Fresh production install and live workflow
+
+The published npm command passed all 26 Linux executable checks, then a seven-turn
+live gateway/scanner workflow. It edited the calculator, passed four project tests
+and independent assertions, switched default → explicit → default, and completed
+three real `pan_inline_scan` calls with `allow` actions.
+[Executable log](validation/2026-09-08/publication/production-executable-tests.log),
+[live receipt](validation/2026-09-08/publication/production-live.json).
+
+The live receipt distinguishes the npm JavaScript entrypoint hash from the native
+executable hash. Replies correctly describe remote inference and configured MCP;
+some free-form wording still overgeneralizes on-premises deployment and source
+availability. [Prose review](validation/2026-09-08/publication/self-description-review.json)
+records those limits; actual tool results establish the integration behavior.
 
 ## Registry controls
 
@@ -88,6 +117,14 @@ future builds and saved immediately after successful compilation, so a later
 acceptance failure retains compiled outputs. The successful ARM compilation cache and executable have now been saved.
 A dedicated Apple Silicon runner is being considered, pending host access.
 
-An independent agent's provisional review identified registry namespace isolation
-and a weak local-tool assertion. Both are remediated before final publication.
-A final evidence-based reassessment follows completed release gates.
+The original MVP verification matrix also requires live installed checks across
+both operating systems, authentication modes and routing choices, plus owner
+acceptance. This internal-alpha distribution release does not claim that broader
+matrix is complete.
+
+Independent review scored this **9/10 for the internal alpha distribution release**,
+with no remaining release blocker. The reviewer independently fetched production
+metadata, downloaded and verified the launcher, checked its packaged behavior,
+reran six launcher tests and reviewed the platform/live receipts.
+[Assessment](validation/2026-09-08/publication/independent-review.json).
+This score excludes the broader MVP and owner acceptance listed above.

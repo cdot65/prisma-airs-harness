@@ -1,0 +1,20 @@
+{
+  "gitops_revision": "9af3ef88a246a7b3afaec95cc303705ce2ce6fa2",
+  "live_config_no_proxy": true,
+  "metadata": {
+    "airs-harness-linux-x64": {
+      "versions": [
+        "0.1.0-alpha.8"
+      ],
+      "dist_tags": {
+        "latest": "0.1.0-alpha.8"
+      }
+    },
+    "airs-harness": {
+      "status": 404
+    },
+    "airs-harness-nonexistent-validation-target": {
+      "status": 404
+    }
+  }
+}

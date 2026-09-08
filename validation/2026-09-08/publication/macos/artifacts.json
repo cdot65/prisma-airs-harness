@@ -1,0 +1,17 @@
+{
+  "run": "34183881120",
+  "conclusion": "success",
+  "source_commit": "bf024215bf6e0ea4cbedcb400641e310f7319461",
+  "artifacts": [
+    {
+      "name": "airs-harness-darwin-arm64-evidence",
+      "id": 10039918146,
+      "zip_sha256": "53720a00e2db79af64ef716d474e4c91beefcd6b5db1b95386add1ec7b44e529"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "id": 10039917769,
+      "zip_sha256": "8d9e6dad7f7e9f365d9083078bc3a3842577dfadd2197c0e0295390975e85985"
+    }
+  ]
+}

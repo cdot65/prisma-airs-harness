@@ -116,6 +116,7 @@ def main():
         shutil.copytree(template / name, launcher / name)
     for name in ["LICENSE", "NOTICE", "README.md"]:
         shutil.copy2(template / name, launcher / name)
+    shutil.copy2(root / "MACOS.md", launcher / "MACOS.md")
     manifest.pop("private", None)
     manifest["optionalDependencies"] = dependencies
     manifest["publishConfig"] = {"registry": args.registry}

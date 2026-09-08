@@ -15,7 +15,12 @@ airs-harness --version
 The registry requires the organization's LAN/VPN; downloads do not require npm
 login. Alpha.8 includes Linux x64, macOS Apple Silicon and macOS Intel packages.
 See the [Mac installation and Keycloak runbook](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
-for prerequisites, sign-in, remote scanner setup and an end-to-end test.
+for prerequisites, sign-in, remote scanner setup and an end-to-end test. A copy
+ships with the installed package, so GitHub access is not required to read it:
+
+```sh
+less "$(npm root -g)/airs-harness/MACOS.md"
+```
 
 Only platforms included in that release are installable. Do not disable optional
 dependencies: they carry the platform binary. The launcher does not download or

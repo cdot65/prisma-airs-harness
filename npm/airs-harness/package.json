@@ -7,7 +7,7 @@
   "type": "module",
   "bin": { "airs-harness": "bin/airs-harness.js" },
   "engines": { "node": ">=22" },
-  "files": ["bin/", "lib/", "README.md", "LICENSE", "NOTICE"],
+  "files": ["bin/", "lib/", "README.md", "MACOS.md", "LICENSE", "NOTICE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cdot65/airs-harness.git",

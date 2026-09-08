@@ -1,0 +1,20 @@
+{
+  "source_commit": "3acf1f0455751734eb41772bf6a7b116a8d5857f",
+  "command": "just test --release -p codex-cli --bin airs-harness",
+  "passed": false,
+  "tests": 359,
+  "passed_tests": 358,
+  "failed_tests": 1,
+  "skipped": 0,
+  "run_uuid": "deaac886-e433-458c-a2c8-169900c76253",
+  "timestamp": "2026-09-08T19:16:45.644+00:00",
+  "failure_test": "airs_status::tests::native_metadata_does_not_require_any_stored_secret",
+  "failure_reason": "The same inline snapshot assertion is executed for both native formats; Insta rejects it without allow_duplicates. This is an actual failed run, not a pass.",
+  "test_only_fix_commit": "bdd553b465be73b00a11855231ff55a0d1a493e9",
+  "fix_result": "not credited in this checkpoint",
+  "original_junit_local_path": "/var/tmp/airs-auth-3acf-snapshot-failure/cli-junit.xml",
+  "original_junit_sha256": "5a052e5eb04dc27bae176140f1187b1faff8207bebedd76eff88f9a0eaa89f1d",
+  "sanitized_junit_sha256": "8a30f1c6b30728ab91f97c2a82daa891696131f95a8c6f68a25455a22af69167",
+  "sanitization": "Removed system output/error and properties; retained test names, durations and statuses; replaced failure text with exact bounded framework reason.",
+  "release_ready": false
+}

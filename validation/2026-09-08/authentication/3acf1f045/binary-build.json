@@ -1,0 +1,47 @@
+{
+  "source_commit": "3acf1f0455751734eb41772bf6a7b116a8d5857f",
+  "binary": "/tmp/airs-auth-3acf-0__bvld4/airs-harness",
+  "sha256": "39d238e30af3ef0398abacfc3bac6efdde6404dca0cf49eb0a876c72f2c50eda",
+  "profile": "release; codex-cli opt-level=1; other packages use existing release settings; lto=false; codegen-units=16; debug=0",
+  "build_wall_seconds": 711,
+  "includes_cargo_lock_wait": true,
+  "release_ready": false,
+  "binary_hash_independently_verified": true,
+  "timing_report": {
+    "path": "/var/tmp/airs-harness-alpha9-target/cargo-timings/cargo-timing-20260908T191415584Z-2159cec5af3a814d.html",
+    "sha256": "bacbaa02bc02e40b3228a19eed7a6524a8f575c000a073bd85857b67fa855895",
+    "bytes": 661516,
+    "reported_duration_seconds": 712,
+    "cli_units": [
+      {
+        "name": "codex-cli",
+        "version": "0.153.4",
+        "target": " build-script (run)",
+        "start": 0.0,
+        "duration": 0.0
+      },
+      {
+        "name": "codex-cli",
+        "version": "0.153.4",
+        "target": " build-script",
+        "start": 0.0,
+        "duration": 0.0
+      },
+      {
+        "name": "codex-cli",
+        "version": "0.153.4",
+        "target": "",
+        "start": 150.19,
+        "duration": 58.97
+      },
+      {
+        "name": "codex-cli",
+        "version": "0.153.4",
+        "target": " airs-harness \"bin\"",
+        "start": 209.16,
+        "duration": 502.84
+      }
+    ]
+  },
+  "timing_limit": "Wall711s includes Cargo lock wait; lock wait was not isolated. No speedup claim."
+}

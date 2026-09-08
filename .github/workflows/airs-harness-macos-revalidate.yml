@@ -74,6 +74,7 @@ jobs:
         run: cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
       - name: Package preserved native release and npm candidate
         run: |
+          node --test npm/airs-harness/launcher.test.js > "$RUNNER_TEMP/airs-evidence/launcher-tests.log"
           python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"

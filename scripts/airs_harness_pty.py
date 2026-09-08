@@ -4,6 +4,7 @@ import fcntl
 import os
 import pty
 import select
+import signal
 import struct
 import subprocess
 import termios
@@ -40,10 +41,36 @@ class TerminalSession:
         return self
 
     def __exit__(self, *_args):
-        if self.process.poll() is None:
-            self.process.terminate()
-            self.process.wait(timeout=10)
-        os.close(self.master)
+        try:
+            if self.process.poll() is None:
+                self.process.terminate()
+                # Keep consuming terminal output during shutdown. In particular,
+                # an npm launcher must reap its child before it can exit; a full
+                # PTY buffer must not block the child's terminal restoration.
+                deadline = time.monotonic() + 10
+                while self.process.poll() is None and time.monotonic() < deadline:
+                    ready, _, _ = select.select([self.master], [], [], 0.1)
+                    if ready:
+                        try:
+                            chunk = os.read(self.master, 65536)
+                        except OSError:
+                            break
+                        if not chunk:
+                            break
+                        self.transcript.extend(chunk)
+                try:
+                    self.process.wait(timeout=max(0.1, deadline - time.monotonic()))
+                except subprocess.TimeoutExpired as error:
+                    raise AssertionError(
+                        self.transcript.decode(errors="replace")[-5000:]
+                    ) from error
+        finally:
+            if self.process.poll() is None:
+                # This driver creates a dedicated process group for its fixture.
+                # Reap failed fixtures, including the npm launcher's native child.
+                os.killpg(self.process.pid, signal.SIGKILL)
+                self.process.wait(timeout=5)
+            os.close(self.master)
 
     def wait_until(self, predicate, timeout=30):
         deadline = time.monotonic() + timeout

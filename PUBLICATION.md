@@ -77,7 +77,7 @@ Mac enterprise Keycloak/gateway/scanner hands-on acceptance must run on the LAN/
 public hosted build runners cannot reach those private endpoints. Native macOS
 15 local execution and Keychain fixtures are recorded separately from Linux live
 checks. Windows npm distribution, guided onboarding, and managed-device signing
-remain follow-up work. The full upstream Rust suite has a pre-existing missing
+remain follow-up work. Conjur integration is prepared but not activated. The full upstream Rust suite has a pre-existing missing
 V8 musl dependency archive; code mode remains disabled.
 
 The owner ruled out future Intel Mac builds on September 8. The original

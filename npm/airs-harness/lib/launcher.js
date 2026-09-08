@@ -46,7 +46,9 @@ export function run() {
   const child = spawn(binary, process.argv.slice(2), { stdio: "inherit" });
   const handlers = new Map();
   for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-    const handler = () => { if (!child.killed) child.kill(signal); };
+    const handler = () => {
+      if (child.exitCode === null && child.signalCode === null) child.kill(signal);
+    };
     handlers.set(signal, handler);
     process.on(signal, handler);
   }

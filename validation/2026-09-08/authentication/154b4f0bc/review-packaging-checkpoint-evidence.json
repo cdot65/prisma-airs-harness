@@ -1,0 +1,30 @@
+{
+  "reviewer": "/root/guided_login",
+  "reviewed_at_utc": "2026-09-08T22:40:17.843481+00:00",
+  "runtime_compilation_performed": false,
+  "full_release_decision": "FAIL",
+  "formal_weighted_score": "NOT ESTABLISHED",
+  "sha256": {
+    "review-publication/bundled-mac-719/macos-15/RUN-RECEIPT.json": "f084f813febf437705399a681d6f1ae456b5f8f0ef7014603fd25e6adab42d37",
+    "review-publication/bundled-mac-719/macos-15/acceptance-evidence.zip": "dc01b35ab4eb36aa60b492a8d090436befab84fe4811825b951062224933f768",
+    "review-publication/bundled-mac-719/macos-15/npm-install.json": "aee22ff224cd1b30ee5822a372c7f2279e429667dbae4531c87edf33cbcc6f97",
+    "review-publication/bundled-mac-719/macos-15/artifact-selection.json": "12a2109f1377d53d30429d83dfe4c9abea4cc61b0946bd87010274d64d0e43e9",
+    "review-publication/bundled-mac-719/macos-15/managed-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "review-publication/bundled-mac-719/macos-15/native-tests.txt": "ad3f67aefaa46140268fae47b24ace7ddc4e8594a7a0748488811d12c4ee87c5",
+    "review-publication/bundled-mac-719/macos-15/installed-tests.txt": "caa1df6e70076c982e04f320a9959eaffb8b7a12075ee87a4bb5e6d2922f0af7",
+    "review-publication/bundled-mac-719/macos-26/RUN-RECEIPT.json": "6ad8ee1f0dced95d316b3d47bc06b1b5498cf6942b5236b747714c6d47505f27",
+    "review-publication/bundled-mac-719/macos-26/acceptance-evidence.zip": "1831007718ccf63120fd091cb03543456ab4d82e79ead2b28a2fe7cc18b2762c",
+    "review-publication/bundled-mac-719/macos-26/npm-install.json": "aee22ff224cd1b30ee5822a372c7f2279e429667dbae4531c87edf33cbcc6f97",
+    "review-publication/bundled-mac-719/macos-26/artifact-selection.json": "bd4e9a63321a3e7ac2692a68f15b625343c3727dd7bc990a9dfe78d1518edfe5",
+    "review-publication/bundled-mac-719/macos-26/managed-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "review-publication/bundled-mac-719/macos-26/native-tests.txt": "49ab2026f3fe30f69de5a03a2f8d7a19632e5752a3b7604b43b8fc5e006a71e8",
+    "review-publication/bundled-mac-719/macos-26/installed-tests.txt": "4f7a57a86317fa085c6d7aeec967fafd907c55b35fbc5f4c3466a4227117a7d4",
+    "review-publication/bundled-mac-719/macos-26-npm10/RUN-RECEIPT.json": "938ae7446215cf5b7b3041805c9e15c815e1d69f5388ff009a8b384dc320fc36",
+    "review-publication/bundled-mac-719/macos-26-npm10/acceptance-evidence.zip": "4290bf40ade899990ce9afef5b9969eceb89115e1b43a513bf57b9d85c839b7c",
+    "review-publication/bundled-mac-719/macos-26-npm10/npm-install.json": "e64d3bc87366c4d30641256676605950419d1b9a3a009691c793708f9100d5c2",
+    "review-publication/bundled-mac-719/macos-26-npm10/artifact-selection.json": "8df057c861f60374bcb970f8d400152cfd819569ecf907707e472f8985ffc6da",
+    "review-publication/bundled-mac-719/macos-26-npm10/managed-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "review-publication/bundled-mac-719/macos-26-npm10/native-tests.txt": "8143fc6f6e31b4879f375fe53167b58fde5e3798e9224d903e77de4edd885ea1",
+    "review-publication/bundled-mac-719/macos-26-npm10/installed-tests.txt": "403b7fce132652a9853791511fb589005607dcfc5d83ac947c49881634c97a14"
+  }
+}

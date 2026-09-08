@@ -152,3 +152,85 @@ full desktop/user trials, Windows or publication gates. See
 [Linux two-expiry evidence](linux-binary/oidc-two-expiry-evidence.json),
 [Mac15 receipt](macos-15/RUN-RECEIPT.json), [Mac26 receipt](macos-26/RUN-RECEIPT.json) and
 [historical Windows contracts](../c10e3f993/windows-cancelled/native-contracts.json).
+
+## Addendum: scoped CLI bundle and immutable Mac acceptance checkpoint
+
+Reviewed 2026-09-08 by `/root/guided_login` after the final npm10 baseline run completed successfully at 22:38:22 UTC.
+**This packaging/CI checkpoint passes its recorded cases. Full authentication
+release readiness remains FAIL; the formal weighted score remains NOT
+ESTABLISHED.** Existing scoring denominators and mandatory platform/owner gates
+are unchanged. This review does not award the user's >=9/10 delivery threshold.
+
+The maintained packaging implementation was independently reviewed across scoped
+native resolution, archive extraction, exact dependency pins, full installed-tree
+verification and npm's permitted first-shebang normalization. It now stages the
+real Prisma AIRS CLI 5.2.0 and SDK 0.28.0 with locked archive integrity, preserved
+licenses and target-specific image dependencies. Added files, omitted required
+optional packages, Intel-Mac payloads and license tampering have explicit
+rejection evidence. Declared optional source files which npm legitimately omits
+remain separately inventoried. The source review and recorded tests do not prove
+absence of other defects.
+
+The earlier npm12 negative URL fixture was a false-positive attribution: unrelated
+npm update-notifier traffic supplied the denied request. The retained
+[correction](../review-publication/npm-registry-fixture-correction/ADDENDUM.md)
+withdraws that claim. Corrected npm10 cases prove specific forbidden request
+rejection. Corrected npm12 URL cases make no external request and instead fail
+on the exact omitted package's byte-bound installed inventory. Both controls
+matter; they establish different behavior. Real maintained Linux npm10/npm12
+installs subsequently passed with four staged requests and zero unexpected/public
+dependency redirects; their actual native image generation also passed.
+
+The hosted Mac matrix reuses source154's immutable Apple Silicon binary
+`f9ca78fccf5e16a18055b05b655e2fb1c5523362bf353d99c0de0daa2c19850b` and
+artifact `10076349913`. No Rust compilation occurred in these acceptance runs:
+
+| Host | npm | Run | Result |
+| --- | --- | --- | --- |
+| macOS 15.7.9 ARM64 | 12.0.2 | 34284909851 | Passed |
+| macOS 26.6.2 ARM64 | 12.0.2 | 34284911571 | Passed |
+| macOS 26.6.2 ARM64 | 10.9.8 | 34285996453 | Passed |
+
+Each passing run verifies the scoped-name install and exact CLI pin; native
+integrity is checked before the first native invocation. Mac bundles contain 68 exact-version packages, 66 licenses
+and only the two Darwin ARM64 Sharp native payload packages. Successful install
+receipts record exactly four staged registry requests, zero unexpected requests
+and zero public dependency redirects. Node is 22.23.2. The full native suite
+records 37 passes and two explicit skips from 39 methods; installed acceptance
+records 37 passes and one Linux-only skip from 38 methods. Seven separate-process
+store phases, native and installed CLI Keychain lifecycles, 20 managed CLI command
+contracts and real PDF/PNG/JPEG/SVG/DOCX generation pass. These are deterministic
+loopback authentication and offline corpus generation, not live Mac gateway/MCP
+or document scanning.
+
+The first bundled Mac attempts failed in cheap checks on a symlinked temporary
+path mock. Their [original failure evidence](../review-publication/bundled-mac-cebe-preflight/README.md)
+and independent Linux alias reproduction remain retained. Correcting the fixture
+and adding its regression required neither native source changes nor rebuilding
+the artifact. The split build/acceptance workflow and explicit artifact IDs kept
+the previous compile usable through all retries. This establishes retry behavior;
+it does not show faster Rust compilation. Newer workflow collection retains npm
+failure diagnostics without modifying candidate bytes.
+
+Original evidence ZIPs were independently checked against GitHub digests. All
+13 packaging source-file hashes were compared with their recorded Git commits,
+and native hashes match the independently retained original artifact. The larger
+private candidate ZIPs are referenced by GitHub metadata; this review did not
+independently download them. See [Mac15 npm12](../review-publication/bundled-mac-719/macos-15/RUN-RECEIPT.json),
+[Mac26 npm12](../review-publication/bundled-mac-719/macos-26/RUN-RECEIPT.json),
+[Mac26 npm10](../review-publication/bundled-mac-719/macos-26-npm10/RUN-RECEIPT.json)
+and [maintained Linux bundle acceptance](../review-publication/maintained-bundle-d0c/REPORT.md).
+The reviewer authored earlier Mac workflow splitting and some evidence tooling;
+root reviewed those changes separately. This is not an independent review of
+all self-authored implementation.
+
+The next delivery gates remain actual authenticated GitHub Packages installation
+with a read-only teammate account, a new publishable version with upgrade/session
+and credential migration checks, required signing/notarization, and the affected
+owner's unassisted Mac workflow. Windows native/installed authentication and
+ConPTY acceptance remain open; installed Windows npm shim verification currently
+fails closed and earns no bundled-Windows pass. Trusted profiles, frozen platform
+subcases, required desktop sessions, complete live auth/policy/MCP negatives and
+user trials retain their earlier dispositions. Private alpha.9 candidates were
+not published or promoted by these tests. Hosted Macs, synthetic credentials and
+loopback registry authorization cannot substitute for those outstanding gates.

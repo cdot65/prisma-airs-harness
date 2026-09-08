@@ -1,0 +1,70 @@
+{
+  "run_id": 34285996453,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34285996453",
+  "run_attempt": 1,
+  "conclusion": "success",
+  "runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "tooling_source": "5644244f9b2b5a09af64600843b61a78cfcb0543",
+  "compilation_performed": false,
+  "compilation_run": 34272843528,
+  "compilation_artifact_id": 10076349913,
+  "artifact_zip_download_hash_verified": true,
+  "candidate_zip_independently_downloaded": false,
+  "package_source_file_hashes_independently_checked": 13,
+  "native_binary_matches_original_independently_retained_bytes": true,
+  "cheap_checks": {
+    "launcher": 15,
+    "bundle_archive": 18,
+    "registry": 4,
+    "artifact": 3,
+    "failures": 0
+  },
+  "native_suite": {
+    "methods": 39,
+    "passed": 37,
+    "skipped": 2,
+    "skip_reasons": [
+      "requires npm-managed CLI",
+      "Linux session-bus recovery"
+    ]
+  },
+  "installed_suite": {
+    "methods": 38,
+    "passed": 37,
+    "skipped": 1,
+    "skip_reasons": [
+      "Linux session-bus recovery"
+    ]
+  },
+  "published": false,
+  "owner_device": false,
+  "developer_id_signed": false,
+  "notarized": false,
+  "live_gateway_e2e": false,
+  "github_package_authentication_tested": false,
+  "artifacts": [
+    {
+      "id": 10079808609,
+      "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+      "digest": "sha256:4290bf40ade899990ce9afef5b9969eceb89115e1b43a513bf57b9d85c839b7c",
+      "size_in_bytes": 698243
+    },
+    {
+      "id": 10079807654,
+      "name": "airs-harness-darwin-arm64-private-candidate-1",
+      "digest": "sha256:4f61def6f14fbe69926bdfd8ddf76ca81606857b63a6a9768d5cc37c26cf4ded",
+      "size_in_bytes": 244682159
+    }
+  ],
+  "job_times": [
+    {
+      "id": 102261620700,
+      "name": "acceptance",
+      "started_at": "2026-09-08T22:27:39Z",
+      "completed_at": "2026-09-08T22:38:22Z",
+      "conclusion": "success"
+    }
+  ],
+  "npm_failure_diagnostics_collection_exercised_on_success": true,
+  "retained_install_diagnostics_match_success_receipt": true
+}

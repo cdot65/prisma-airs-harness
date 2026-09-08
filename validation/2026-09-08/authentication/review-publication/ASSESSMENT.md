@@ -2,7 +2,7 @@
 
 Date: 2026-09-08. Reviewer: `/root/release_review`.
 Scope: P5/P6 release-path assessment, legacy publisher guard work, and a
-22:36 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
+22:40 UTC update reflecting separately implemented private bundle acceptance. This is not a publication receipt or release approval.
 The reviewer authored the guard implementation; root performed its separate review.
 
 ## Plan interpretation and remaining work
@@ -36,6 +36,8 @@ The remaining path is:
    passed on [macOS 15](bundled-mac-719/macos-15/README.md) and
    [macOS 26](bundled-mac-719/macos-26/README.md), including installed native
    Keychain lifecycles and actual managed CLI document/image generation.
+   The final [macOS 26 npm10.9.8 baseline](bundled-mac-719/macos-26-npm10/README.md)
+   also passed, matching the npm version shown in the owner's installation transcript.
    Those trials reused the original source154 native artifact without compilation.
    Windows generated command-shim validation explicitly remains
    unsupported. Real GitHub access, signing and migration are still unverified.

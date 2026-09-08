@@ -7,14 +7,14 @@ tests registry dependency resolution and npm's command link, not just npm pack.
 
 import argparse
 import hashlib
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import threading
-from urllib.parse import quote, unquote, urlsplit
+from airs_npm_registry import install_environment, registry_handler
 
 
 def main():
@@ -39,43 +39,20 @@ def main():
     archives = {}
     requests = []
 
-    class Registry(BaseHTTPRequestHandler):
-        def log_message(self, *_args):
-            pass
-
-        def do_GET(self):
-            path = unquote(urlsplit(self.path).path)
-            requests.append(path)
-            if path in archives:
-                archive = archives[path]
-                self.send_response(200)
-                self.send_header("Content-Type", "application/octet-stream")
-                self.send_header("Content-Length", str(archive.stat().st_size))
-                self.end_headers()
-                with archive.open("rb") as source:
-                    shutil.copyfileobj(source, self.wfile)
-                return
-            if path not in metadata:
-                # First-party names must resolve only to this candidate. Real
-                # CLI/transitive dependencies come from the public npm registry.
-                if path.startswith(("/airs-harness", "/@cdot65/prisma-airs-harness")):
-                    self.send_error(404)
-                else:
-                    self.send_response(302)
-                    self.send_header(
-                        "Location",
-                        "https://registry.npmjs.org" + quote(path, safe="/@"),
-                    )
-                    self.end_headers()
-                return
-            body = json.dumps(metadata[path]).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
-
-    server = ThreadingHTTPServer(("127.0.0.1", 0), Registry)
+    staged_launcher = packages / launcher_record["name"]
+    staged_manifest = json.loads((staged_launcher / "package.json").read_text())
+    bundled = (
+        "cli_bundle" in package_receipt
+        or (staged_launcher / "BUNDLE-INVENTORY.json").exists()
+        or bool(staged_manifest.get("bundleDependencies"))
+        or bool(staged_manifest.get("bundledDependencies"))
+    )
+    unexpected = []
+    redirects = []
+    handler = registry_handler(
+        metadata, archives, requests, unexpected, redirects, bundled
+    )
+    server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     registry_url = f"http://127.0.0.1:{server.server_port}"
     for record in records:
         name, version = record["name"], record["version"]
@@ -94,20 +71,16 @@ def main():
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
-        config = prefix / "empty.npmrc"
-        config.write_text("")
-        global_config = prefix / "empty-global.npmrc"
-        global_config.write_text("")
-        env = {
-            key: value
-            for key, value in os.environ.items()
-            if not key.upper().startswith(("NPM_", "NODE_AUTH_TOKEN"))
-        }
-        env.update(
-            NPM_CONFIG_USERCONFIG=str(config),
-            NPM_CONFIG_GLOBALCONFIG=str(global_config),
-            NPM_CONFIG_CACHE=str(prefix / "npm-cache"),
-        )
+        env = install_environment(prefix, registry_url, bundled)
+        npm_version = subprocess.check_output(
+            [shutil.which("npm") or "npm", "--version"], env=env, text=True, timeout=10
+        ).strip()
+        node_version = subprocess.check_output(
+            [shutil.which("node") or "node", "--version"],
+            env=env,
+            text=True,
+            timeout=10,
+        ).strip()
         result = subprocess.run(
             [
                 shutil.which("npm") or "npm",
@@ -129,8 +102,46 @@ def main():
             timeout=300,
         )
         (prefix / "npm-install.log").write_text(result.stdout + result.stderr)
+        network_receipt = {
+            "bundled": bundled,
+            "registry_requests": requests,
+            "unexpected_requests": unexpected,
+            "public_dependency_redirects": redirects,
+            "npm_version": npm_version,
+            "node_version": node_version,
+            "npm_exit_code": result.returncode,
+        }
+        (prefix / "INSTALL-NETWORK.json").write_text(
+            json.dumps(network_receipt, indent=2) + "\n"
+        )
+        if bundled and (unexpected or redirects):
+            raise ValueError(
+                "Bundled installation attempted an unstaged dependency request"
+            )
         if result.returncode:
             raise RuntimeError("npm installation failed; inspect npm-install.log")
+        modules = prefix / ("node_modules" if os.name == "nt" else "lib/node_modules")
+        launcher_directory = modules / launcher_record["name"]
+        bundle_verification = None
+        if bundled:
+            from airs_bundle import verify_bundle
+
+            staged_inventory = (
+                packages / launcher_record["name"] / "BUNDLE-INVENTORY.json"
+            )
+            installed_inventory = launcher_directory / "BUNDLE-INVENTORY.json"
+            inventory_bytes = installed_inventory.read_bytes()
+            if (
+                inventory_bytes != staged_inventory.read_bytes()
+                or hashlib.sha256(inventory_bytes).hexdigest()
+                != package_receipt["cli_bundle"]["inventory_sha256"]
+            ):
+                raise ValueError(
+                    "Installed bundle inventory differs from its staging receipt"
+                )
+            bundle_verification = verify_bundle(
+                launcher_directory, json.loads(inventory_bytes)
+            )
         command = prefix / (
             "airs-harness.cmd" if os.name == "nt" else "bin/airs-harness"
         )
@@ -142,8 +153,6 @@ def main():
             raise ValueError(
                 "Installed command did not launch the expected native version"
             )
-        modules = prefix / ("node_modules" if os.name == "nt" else "lib/node_modules")
-        launcher_directory = modules / launcher_record["name"]
         native_manifest = subprocess.check_output(
             [
                 shutil.which("node") or "node",
@@ -191,6 +200,8 @@ console.log(require.resolve(platformPackage(process.platform, process.arch, mani
                     "Installed package tooling differs from its staging receipt"
                 )
         receipt = {
+            **network_receipt,
+            "bundle_verification": bundle_verification,
             "launcher_package": launcher_record["name"],
             "native_package": json.loads(Path(native_manifest).read_text())["name"],
             "package_tooling": package_tooling,

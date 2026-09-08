@@ -101,7 +101,7 @@ def main():
         )
         result = subprocess.run(
             [
-                "npm",
+                shutil.which("npm") or "npm",
                 "install",
                 "--global",
                 "--prefix",

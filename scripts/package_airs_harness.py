@@ -38,13 +38,29 @@ def main():
     targets = {
         "x86_64-unknown-linux-musl": "linux-x86_64-musl",
         "aarch64-apple-darwin": "darwin-arm64",
+        "x86_64-pc-windows-msvc": "windows-x86_64-msvc",
     }
     parser.add_argument(
         "--target", choices=targets, default="x86_64-unknown-linux-musl"
     )
     parser.add_argument("--validation", type=Path)
+    parser.add_argument(
+        "--unvalidated-candidate",
+        action="store_true",
+        help="Create a non-publishable unsigned candidate, not a validated release",
+    )
     parser.add_argument("--profile", default="release; upstream defaults")
     args = parser.parse_args()
+    windows = args.target == "x86_64-pc-windows-msvc"
+    if windows and not args.unvalidated_candidate:
+        parser.error(
+            "Windows requires --unvalidated-candidate until signing and acceptance are implemented"
+        )
+    if args.unvalidated_candidate and args.validation:
+        parser.error(
+            "An unvalidated candidate cannot include a release validation receipt"
+        )
+    binary_name = "airs-harness.exe" if windows else "airs-harness"
     repo = args.source_directory.resolve(strict=True)
     binary = args.binary.resolve(strict=True)
     metadata = json.loads(args.metadata.read_text())
@@ -86,8 +102,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix="airs-package-") as temporary:
         root = Path(temporary) / name
         root.mkdir()
-        shutil.copy2(binary, root / "airs-harness")
-        (root / "airs-harness").chmod(0o755)
+        shutil.copy2(binary, root / binary_name)
+        (root / binary_name).chmod(0o755)
         for filename in [
             "LICENSE",
             "NOTICE",
@@ -114,6 +130,26 @@ def main():
             ):
                 raise ValueError("Validation does not match the packaged binary/target")
             shutil.copy2(args.validation, root / "VALIDATION.json")
+        if args.unvalidated_candidate:
+            (root / "VALIDATION.json").write_text(
+                json.dumps(
+                    {
+                        "passed": False,
+                        "release_ready": False,
+                        "status": "unsigned-unvalidated-candidate",
+                        "target": args.target,
+                        "product_version": version,
+                        "binary_sha256": digest(binary),
+                        "remaining": [
+                            "production signing",
+                            "consumer-platform authentication E2E",
+                            "independent release review",
+                        ],
+                    },
+                    indent=2,
+                )
+                + "\n"
+            )
         # Ignored local files can contain secrets. Bundle only reviewed source.
         tracked = subprocess.check_output(
             [
@@ -210,7 +246,7 @@ def main():
                         destination = root / relative
                         destination.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copyfile(source, destination)
-                        record["notices"].append(str(relative))
+                        record["notices"].append(relative.as_posix())
             inventory.append(record)
         (root / "DEPENDENCIES.json").write_text(
             json.dumps(
@@ -232,17 +268,23 @@ def main():
             "target": args.target,
             "profile": args.profile,
             "binary_processing": args.binary_processing,
-            "binary_sha256": digest(root / "airs-harness"),
+            "binary_sha256": digest(root / binary_name),
             "cargo_lock_sha256": digest(repo / "codex-rs/Cargo.lock"),
             "rust": subprocess.check_output(
                 ["rustc", "--version"], cwd=repo / "codex-rs", text=True
             ).strip(),
             "build_command": "cargo build --locked --release -p codex-cli --bin airs-harness",
         }
+        if args.unvalidated_candidate:
+            provenance["release_status"] = "unsigned-unvalidated-candidate"
+            provenance["publishable"] = False
         (root / "BUILD-INFO.json").write_text(json.dumps(provenance, indent=2) + "\n")
         files = sorted(path for path in root.rglob("*") if path.is_file())
         (root / "SHA256SUMS").write_text(
-            "".join(f"{digest(path)}  {path.relative_to(root)}\n" for path in files)
+            "".join(
+                f"{digest(path)}  {path.relative_to(root).as_posix()}\n"
+                for path in files
+            )
         )
         with tarfile.open(archive, "w:gz") as tar:
             tar.add(root, arcname=name)

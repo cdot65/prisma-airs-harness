@@ -58,9 +58,20 @@ def main():
     packages = []
     dependencies = {}
     source_commit = None
-    for release in args.release_directory:
-        release = release.resolve(strict=True)
-        info = json.loads((release / "BUILD-INFO.json").read_text())
+    releases = [
+        (
+            release.resolve(strict=True),
+            json.loads((release / "BUILD-INFO.json").read_text()),
+        )
+        for release in args.release_directory
+    ]
+    # A mixed candidate/release set must not publish even an earlier native
+    # package before discovering that a later package is private.
+    candidate = any(
+        info.get("publishable") is False or "release_status" in info
+        for _, info in releases
+    )
+    for release, info in releases:
         if (
             info["version"] != manifest["version"]
             or info["product"] != "Prisma AIRS Harness"
@@ -105,6 +116,8 @@ def main():
             ],
             "publishConfig": {"registry": args.registry},
         }
+        if candidate:
+            native_manifest["private"] = True
         (package / "package.json").write_text(
             json.dumps(native_manifest, indent=2) + "\n"
         )
@@ -118,6 +131,8 @@ def main():
     for name in ["MACOS.md", "PRISMA-AIRS-CLI.md"]:
         shutil.copy2(root / name, launcher / name)
     manifest.pop("private", None)
+    if candidate:
+        manifest["private"] = True
     manifest["optionalDependencies"] = dependencies
     manifest["publishConfig"] = {"registry": args.registry}
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -128,7 +143,7 @@ def main():
     for package in packages:
         result = subprocess.check_output(
             [
-                "npm",
+                shutil.which("npm") or "npm",
                 "pack",
                 "--ignore-scripts",
                 "--json",
@@ -168,6 +183,9 @@ def main():
         "registry": args.registry,
         "publish_order": receipts,
     }
+    if candidate:
+        receipt["release_status"] = "unsigned-unvalidated-candidate"
+        receipt["publishable"] = False
     (output / "NPM-PACKAGES.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt, indent=2))
 

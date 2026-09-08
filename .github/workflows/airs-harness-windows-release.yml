@@ -1,0 +1,145 @@
+name: Prisma AIRS Harness Windows unsigned candidate
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Runtime source revision (empty uses this workflow revision)
+        required: false
+        default: ""
+permissions:
+  contents: read
+concurrency:
+  group: airs-harness-windows-x64-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: windows-2025
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+      CARGO_PROFILE_RELEASE_DEBUG: 0
+      CARGO_PROFILE_RELEASE_LTO: "false"
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
+      AIRS_RELEASE_TARGET: x86_64-pc-windows-msvc
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          path: runtime
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+        with:
+          components: rust-docs
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
+        with:
+          tool: just@1.51.0,cargo-nextest
+      - name: Reuse successful Windows compilation
+        id: cargo_cache
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-${{ github.run_id }}
+          restore-keys: |
+            airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-
+            airs-windows-x64-v1-
+      - name: Record runner and build prerequisites
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-evidence" | Out-Null
+          rustc -vV
+          if ($LASTEXITCODE -ne 0) { throw 'rustc unavailable' }
+          if ((rustc -vV | Select-String '^host:').Line -ne "host: $env:AIRS_RELEASE_TARGET") { throw 'Expected Windows x64 Rust host' }
+          Get-Command cmake
+          Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture |
+            ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/runner.json"
+      - name: Test native diagnostics and token persistence contracts
+        working-directory: runtime
+        run: |
+          just test -p codex-keyring-store -p codex-airs-identity --locked
+          if ($LASTEXITCODE -ne 0) { throw 'Native identity contract tests failed' }
+      - name: Build optimized unsigned Windows executable
+        working-directory: runtime/codex-rs
+        run: |
+          cargo build --locked --release -p codex-cli --bin airs-harness
+          if ($LASTEXITCODE -ne 0) { throw 'Harness compilation failed' }
+          cargo build --locked --release -p codex-airs-identity --example store_acceptance
+          if ($LASTEXITCODE -ne 0) { throw 'Credential fixture compilation failed' }
+          cargo metadata --locked --filter-platform $env:AIRS_RELEASE_TARGET --format-version 1 > "$env:RUNNER_TEMP/airs-metadata.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Cargo metadata failed' }
+      - name: Preserve successful compilation before acceptance checks
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
+      - name: Check candidate execution and native credential persistence
+        run: |
+          $airsBinary = (Resolve-Path runtime/codex-rs/target/release/airs-harness.exe).Path
+          & $airsBinary --version
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate did not launch' }
+          Get-AuthenticodeSignature $airsBinary | Select-Object Status, StatusMessage |
+            ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/signature.json"
+          python scripts/validate_native_credentials.py --binary runtime/codex-rs/target/release/examples/store_acceptance.exe --output "$env:RUNNER_TEMP/airs-evidence/native-store.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Native credential persistence failed' }
+      - name: Package private candidate and verify local npm installation
+        run: |
+          python scripts/package_airs_harness.py --source-directory runtime --binary runtime/codex-rs/target/release/airs-harness.exe --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --output-directory "$env:RUNNER_TEMP/airs-package"
+          if ($LASTEXITCODE -ne 0) { throw 'Native candidate packaging failed' }
+          $airsVersion = (Get-Content npm/airs-harness/package.json | ConvertFrom-Json).version
+          $airsDirectory = "$env:RUNNER_TEMP/airs-package/airs-harness-$airsVersion-windows-x86_64-msvc"
+          tar -xzf "$airsDirectory.tar.gz" -C "$env:RUNNER_TEMP/airs-package"
+          if ($LASTEXITCODE -ne 0) { throw 'Native candidate extraction failed' }
+          python scripts/package_airs_npm.py --release-directory $airsDirectory --output-directory "$env:RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
+          if ($LASTEXITCODE -ne 0) { throw 'Private npm candidate packaging failed' }
+          python scripts/validate_airs_npm.py --packages "$env:RUNNER_TEMP/airs-npm" --prefix "$env:RUNNER_TEMP/AIRS Candidate Install" > "$env:RUNNER_TEMP/airs-evidence/npm-install.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Local npm candidate installation failed' }
+          python scripts/validate_prisma_cli.py --launcher "$env:RUNNER_TEMP/AIRS Candidate Install/node_modules/airs-harness/bin/airs-harness.js" --receipt "$env:RUNNER_TEMP/airs-evidence/prisma-cli.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned management CLI validation failed' }
+          @{
+            release_ready = $false
+            published = $false
+            status = 'unsigned-unvalidated-candidate'
+            target = $env:AIRS_RELEASE_TARGET
+            consumer_os = 'Windows 11 x64'
+            tested_runner = 'windows-2025'
+            remaining = @('Windows 11 desktop authentication E2E', 'production signing', 'independent release score of at least 9/10')
+          } | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/CANDIDATE.json"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: success()
+        with:
+          name: airs-harness-windows-x64-unsigned-unvalidated-candidate
+          path: |
+            ${{ runner.temp }}/airs-package/*.tar.gz
+            ${{ runner.temp }}/airs-package/*.sha256
+            ${{ runner.temp }}/airs-npm/tarballs/*.tgz
+            ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
+          compression-level: 0
+          retention-days: 7
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-windows-x64-candidate-evidence
+          path: |
+            ${{ runner.temp }}/airs-evidence/
+            ${{ runner.temp }}/AIRS Candidate Install/npm-install.log
+          if-no-files-found: warn
+          retention-days: 30

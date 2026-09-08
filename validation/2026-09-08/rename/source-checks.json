@@ -1,0 +1,92 @@
+{
+  "rust-final": {
+    "log_sha256": "ec15a3d2f8d7df8050fc7f68cdf46de8f94e29182fea212bb93aae6d62964398",
+    "tail": [
+      "        SLOW [> 30.000s] (\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500) codex-core image_preparation::tests::detail_policies_apply_the_expected_budgets",
+      "        PASS [  34.222s] (7360/7360) codex-core image_preparation::tests::detail_policies_apply_the_expected_budgets",
+      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+      "     Summary [  38.198s] 7360 tests run: 7360 passed (1 slow, 1 flaky), 4 skipped",
+      "   FLAKY 2/2 [   6.007s] (5038/7360) codex-core unified_exec::tests::stdin_approval_preserves_the_reviewed_terminal"
+    ]
+  },
+  "catalog-core-tests": {
+    "log_sha256": "5619a68ba3194b17f92b4d0a381d83a7359a0f52f0f1aa14ff6d72ea1595064f",
+    "tail": [
+      "        PASS [   9.961s] (2434/2436) codex-core unified_exec::tests::multi_unified_exec_sessions",
+      "        PASS [  17.675s] (2435/2436) codex-core unified_exec::tests::unified_exec_timeouts",
+      "        PASS [  29.550s] (2436/2436) codex-core image_preparation::tests::detail_policies_apply_the_expected_budgets",
+      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+      "     Summary [  32.814s] 2436 tests run: 2436 passed, 1 skipped"
+    ]
+  },
+  "clippy": {
+    "log_sha256": "ea4ae9ba0a9c201f5b30d3617691142af28c613affa8a5d3b1e52fb98231883b",
+    "tail": [
+      "    Checking codex-app-server-client v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/app-server-client)",
+      "    Checking codex-tui v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/tui)",
+      "    Checking codex-exec v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/exec)",
+      "    Checking codex-cloud-tasks v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/cloud-tasks)",
+      "    Finished `dev` profile [unoptimized] target(s) in 6m 53s"
+    ]
+  },
+  "catalog-clippy": {
+    "log_sha256": "c33e1677bdd6fd3d67c3e0fc27b91662fef10856e472867c1e3201e0b2658158",
+    "tail": [
+      "    Checking codex-core v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/core)",
+      "    Checking codex-web-search-extension v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/ext/web-search)",
+      "    Checking codex-image-generation-extension v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/ext/image-generation)",
+      "    Checking core_test_support v0.153.4 (/home/cdot/development/cdot65/prisma-airs-terminal/codex-rs/core/tests/common)",
+      "    Finished `dev` profile [unoptimized] target(s) in 4m 36s"
+    ]
+  },
+  "workspace-complete": {
+    "log_sha256": "9b788d74c0872d8205503fb1586e7153bd23d90f244976ae03cf48633881ddff",
+    "tail": [
+      "  This is usually because no prebuilt archive is published for your target, in which case you should compile V8 from source by setting V8_FROM_SOURCE=1. It can also indicate a network connectivity problem.",
+      "  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+      "warning: build failed, waiting for other jobs to finish...",
+      "error: command `/home/cdot/.rustup/toolchains/1.95.0-x86_64-unknown-linux-musl/bin/cargo test --no-run --message-format json-render-diagnostics --workspace --locked` exited with code 101",
+      "error: recipe `test` failed on line 88 with exit code 101"
+    ]
+  },
+  "npm-tests": {
+    "log_sha256": "a88ab9d3254459e27428e1de623a584e0c9a9b2382b68552dba548411fd9ffb3",
+    "tail": [
+      "# fail 0",
+      "# cancelled 0",
+      "# skipped 0",
+      "# todo 0",
+      "# duration_ms 242.414723"
+    ]
+  },
+  "scanner-tests": {
+    "log_sha256": "8d4bb6bccba2deb3392ae253ebe53a6d8779d0aa0d37fa6ca13e3fc6c5a06eaf",
+    "tail": [
+      "# fail 0",
+      "# cancelled 0",
+      "# skipped 0",
+      "# todo 0",
+      "# duration_ms 745.519558"
+    ]
+  },
+  "gateway-tests": {
+    "log_sha256": "d3197bbae246062a2d19171153acedefa7cb7c67e4ffb23cedd564abf03c3c97",
+    "tail": [
+      "# fail 0",
+      "# cancelled 0",
+      "# skipped 0",
+      "# todo 0",
+      "# duration_ms 157.038607"
+    ]
+  },
+  "catalog-executable-tests": {
+    "log_sha256": "8e59f679e993486cf8994f465a4feca5dbb19ff7b2bdefe350e4735a6d68a554",
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 27 tests in 26.392s",
+      "",
+      "OK"
+    ]
+  }
+}

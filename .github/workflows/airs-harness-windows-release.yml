@@ -86,7 +86,7 @@ jobs:
       archive_sha256: ${{ steps.identity.outputs.archive_sha256 }}
       compile_attempt: ${{ github.run_attempt }}
       build_run: ${{ github.run_id }}
-      source_cache_key: airs-windows-sources-v1-${{ needs.preflight.outputs.runtime_source }}-${{ github.run_id }}-${{ github.run_attempt }}
+      source_cache_key: ${{ steps.sources_cache.outputs.cache-primary-key }}
     env:
       CARGO_BUILD_JOBS: 2
       CARGO_INCREMENTAL: 0
@@ -127,6 +127,15 @@ jobs:
           restore-keys: |
             airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-
             airs-windows-x64-v1-
+      - name: Look up immutable dependency source inventory
+        id: sources_cache
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: airs-windows-sources-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}
+          lookup-only: true
       - name: Record native runner and build prerequisites
         run: |
           New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-build-evidence" | Out-Null
@@ -189,13 +198,14 @@ jobs:
             runtime/codex-rs/target
           key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
       - name: Preserve only dependency sources for license inventory
+        if: steps.sources_cache.outputs.cache-hit != 'true'
         continue-on-error: true
         uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git/db
-          key: airs-windows-sources-v1-${{ needs.preflight.outputs.runtime_source }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: ${{ steps.sources_cache.outputs.cache-primary-key }}
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:

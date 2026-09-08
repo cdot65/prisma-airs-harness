@@ -9,7 +9,8 @@ macOS endpoint support alongside Linux, and provide guided first-run setup.
 Use the selected names throughout new onboarding, CLI help, UI and package metadata.
 Preserve existing environments, encrypted credential bindings and session history
 during the rename; do not blindly rename persisted identifiers or Keycloak clients.
-The installed alpha.7 release and historical receipts still use `airs-terminal`.
+The installed alpha.8 executable uses `airs-harness`. Historical receipts retain
+`airs-terminal`; the old local command remains a compatibility alias.
 The checkout and hosted PAH remain separate projects.
 
 ## Historical Linux MVP scope

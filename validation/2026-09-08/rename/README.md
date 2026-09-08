@@ -19,5 +19,7 @@ returns HTTP 404. The product disables code mode. This is not a full workspace
 pass. Scanner and gateway-identity tests cover source compatibility; this rename
 does not redeploy those services or reconfigure Keycloak.
 
-Optimized binary, installation and npm artifact evidence will be added after
-their checks complete. No new owner OIDC E2E is claimed from workspace-key tests.
+The optimized binary and installed command each passed a seven-turn live
+workflow with three real scans. The optimized executable passed 27 checks.
+The installation preserved all 11 checked state files; npm artifact acceptance
+is recorded separately after package construction. No new owner OIDC E2E is claimed from workspace-key tests.

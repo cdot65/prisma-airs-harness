@@ -12,14 +12,15 @@ The terminal has no PAH application, SDK, proxy or web-service dependency.
 
 The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped
 npm package is `airs-harness`; its launcher runs a matching prebuilt Rust binary.
-The rename is being validated before publication to Verdaccio. This page does
+The renamed Linux binary is installed and passed optimized and live acceptance; npm
+package preparation is being validated before publication to Verdaccio. This page does
 not announce a published alpha.8 package or a verified macOS distribution.
 
 Fresh state uses `~/.airs-harness`; existing state and credential bindings remain
 compatible. See [RENAME.md](RENAME.md) for the upgrade contract and remaining
 legacy identifiers, and [npm package instructions](npm/airs-harness/README.md).
-[RELEASE.md](RELEASE.md) and [VALIDATION.json](VALIDATION.json) retain historical
-release evidence; alpha.7 test results are not evidence for alpha.8.
+[VALIDATION.json](VALIDATION.json) records alpha.8 acceptance. [RELEASE.md](RELEASE.md)
+and the archived validation files retain historical release evidence.
 
 ## Installation
 

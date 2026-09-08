@@ -1,101 +1,110 @@
 {
-  "schema_version": 6,
-  "date": "2026-09-07",
-  "product_version": "0.1.0-alpha.7",
-  "scope": "Linux authentication workflow polish; gateway/IdP policy and native identity implementation unchanged",
-  "status": "installed_and_live_acceptance_passed",
-  "runtime_source_commit": "72101fa4341972155d1ec8c0dcb21f296d4bca16",
-  "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
+  "schema_version": 7,
+  "date": "2026-09-08",
+  "product": "Prisma AIRS Harness",
+  "product_version": "0.1.0-alpha.8",
+  "scope": "Full public rename with persisted identity compatibility; Linux native and npm package preparation before Verdaccio publication",
+  "status": "installed_and_live_acceptance_passed_npm_preparation_pending",
+  "runtime_source_commit": "17624ca2761a0ca4217f54944b69a6436d7ec375",
+  "source_repository": "https://github.com/cdot65/airs-harness",
   "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
   "target": "x86_64-unknown-linux-musl",
   "rust": "1.95.0",
   "profile": "release; upstream optimization defaults; strip --strip-debug",
-  "binary_sha256": "0f9adce534747216b577dfa31b1dbff2975c690c06bdb8da221277a9ce4d9623",
-  "binary_size_bytes": 316580632,
+  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "binary_size_bytes": 317020528,
   "context_default": 1000000,
   "changes": [
-    "Platform-specific native credential-store recovery guidance",
-    "MCP Credential helper status without executing the helper; explicit Authorization headers retain Bearer token status",
-    "Repeated logout reports Already logged out locally while retaining cleanup",
-    "Doctor avoids mislabeling OIDC as workspace identity",
-    "Stable and experimental schema exports include credentialHelper"
+    "Prisma AIRS Harness product identity and airs-harness executable/package names",
+    "Fresh application and project home .airs-harness; legacy state reused in place",
+    "Current inference User-Agent and generated catalog greeting applied in memory without rewriting saved bindings/history",
+    "Stable native credential namespace and deployed authorization IDs",
+    "npm launcher and native-package provenance with isolated registry installation tooling"
   ],
-  "affected_rust_tests": {
-    "passed": 5914,
+  "affected_rust_library_tests": {
+    "passed": 7360,
     "failed": 0,
-    "skipped": 14,
-    "packages": [
-      "codex-cli",
-      "codex-tui",
-      "codex-mcp",
-      "codex-rmcp-client",
-      "codex-protocol",
-      "codex-app-server-protocol",
-      "codex-utils-home-dir"
-    ],
-    "color_fixture_environment": {
-      "NO_COLOR": "unset",
-      "TERM": "xterm-256color",
-      "COLORTERM": "truecolor"
-    },
-    "log_sha256": "b8f00f0aa9352e91833a17dab336663eb5d6568937a79059cfc0f2038057b205"
+    "skipped": 4,
+    "log_sha256": "ec15a3d2f8d7df8050fc7f68cdf46de8f94e29182fea212bb93aae6d62964398"
+  },
+  "final_core_library_tests": {
+    "passed": 2436,
+    "failed": 0,
+    "skipped": 1,
+    "overlaps_previous_run": true,
+    "log_sha256": "5619a68ba3194b17f92b4d0a381d83a7359a0f52f0f1aa14ff6d72ea1595064f"
   },
   "scoped_clippy": {
     "passed": true,
-    "runtime_source_changed": false,
-    "existing_warning": "rmcp-client/src/utils.rs uses expect for its static product User-Agent; no new lint warnings introduced by this change"
+    "final_core_passed": true,
+    "source_changed_by_final_lint": false
   },
   "optimized_executable_fixtures": {
-    "passed": 21,
+    "passed": 27,
     "failed": 0,
-    "receipt": "validation/2026-09-07/auth-polish/optimized-executable-fixtures.log"
+    "receipt": "validation/2026-09-08/rename/optimized-executable-tests.log"
   },
   "optimized_live": {
     "passed": true,
     "turns": 7,
     "real_scans": 3,
-    "helper_status_displayed": true,
-    "receipt": "validation/2026-09-07/auth-polish/optimized-live.json"
+    "receipt": "validation/2026-09-08/rename/optimized-live.json"
   },
   "installation": {
     "passed": true,
-    "receipt": "validation/2026-09-07/auth-polish/installation.json"
+    "state_files_preserved": 11,
+    "legacy_command_alias": true,
+    "receipt": "validation/2026-09-08/rename/installation.json"
   },
   "installed_live": {
     "passed": true,
     "turns": 7,
     "real_scans": 3,
-    "helper_status_displayed": true,
-    "receipt": "validation/2026-09-07/auth-polish/installed-live.json"
+    "receipt": "validation/2026-09-08/rename/installed-live.json"
+  },
+  "platform_ci": {
+    "native_credential_stores": [
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "npm_launcher": [
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "receipt": "validation/2026-09-08/rename/platform-ci.json",
+    "scope": "Store and launcher checks; full macOS/Windows native terminal distribution remains deferred"
+  },
+  "auxiliary_source_tests": {
+    "scanner_passed": 4,
+    "gateway_identity_passed": 15,
+    "services_redeployed": false
   },
   "full_workspace_tests": {
     "attempted": true,
     "passed": false,
     "reason": "V8 150.4.0 musl archive HTTP 404",
-    "code_mode_enabled_in_terminal": false,
-    "log_sha256": "9be7a1dd73f5c09fe08486e1e9c02f8c2703fb4470cde3f9358d6571a046bf5a"
-  },
-  "native_identity_baseline": {
-    "native_identity_source_unchanged": true,
-    "platforms_passed": [
-      "Linux Secret Service",
-      "macOS Keychain",
-      "Windows Credential Manager"
-    ],
-    "workflow_url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219",
-    "scope": "Carried forward from unchanged alpha.6 identity source; full macOS/Windows executables are not distributed"
+    "code_mode_enabled": false,
+    "log_sha256": "9b788d74c0872d8205503fb1586e7153bd23d90f244976ae03cf48633881ddff"
   },
   "baseline": {
-    "version": "0.1.0-alpha.6",
-    "owner_e2e": "User confirmed complete E2E after recovering the Linux keyring session",
-    "validation": "validation/2026-09-07/alpha6-validation.json",
-    "oidc_live_checks": 27,
-    "scope": "Historical authentication acceptance; not counted as a fresh alpha.7 OIDC run"
+    "version": "0.1.0-alpha.7",
+    "validation": "validation/2026-09-07/alpha7-validation.json",
+    "fresh_owner_oidc_e2e_this_release": false,
+    "native_credential_and_authorization_contracts_preserved": true
+  },
+  "npm_distribution": {
+    "name": "airs-harness",
+    "registry": "https://npm.cdot.io",
+    "published": false,
+    "status": "preparing exact native artifact"
   },
   "deferred": [
-    "Full macOS/Windows terminal distribution and E2E",
+    "Verdaccio publication and required registry upload-limit adjustment",
+    "Full macOS/Windows native distribution and E2E",
+    "Guided first-run onboarding",
     "Native artifact signing/attestation",
-    "Optional Conjur workload-secret activation"
-  ],
-  "release_verification": "See RELEASE-VERIFICATION.json asset for post-publication verification"
+    "Optional Conjur activation"
+  ]
 }

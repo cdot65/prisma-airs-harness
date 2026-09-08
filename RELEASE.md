@@ -7,8 +7,10 @@ build provenance and dependency license notices. See [RENAME.md](RENAME.md).
 
 Existing credential namespaces and deployed auth resource IDs remain compatible.
 Historical releases and validation receipts below retain their original names.
-Alpha.8 validation is recorded separately when its checks finish; previous
-release results must not be presented as results for this renamed binary.
+The installed Linux binary passed 27 executable checks and seven-turn live
+workflows before and after installation, each with three real scans. Existing
+state files and a compatibility command are preserved. VALIDATION.json records
+current acceptance; npm packaging evidence follows as a separate verification.
 
 # 0.1.0-alpha.7 — authentication workflow polish
 

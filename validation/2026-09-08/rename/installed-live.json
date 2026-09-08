@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "binary": "/home/cdot/.local/bin/airs-harness",
+  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "mcp_credential_helper_status_displayed": true,
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "bd1596f8-e19f-4844-b9f1-7a2339c2db42",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "48fad662-1280-4643-8aa8-f10952102cda",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "131b1776-355e-4e3d-8198-95c8c6d3a5f5",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": 6,
+  "date": "2026-09-07",
+  "product_version": "0.1.0-alpha.7",
+  "scope": "Linux authentication workflow polish; gateway/IdP policy and native identity implementation unchanged",
+  "status": "installed_and_live_acceptance_passed",
+  "runtime_source_commit": "72101fa4341972155d1ec8c0dcb21f296d4bca16",
+  "source_repository": "https://github.com/cdot65/prisma-airs-terminal",
+  "upstream": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+  "target": "x86_64-unknown-linux-musl",
+  "rust": "1.95.0",
+  "profile": "release; upstream optimization defaults; strip --strip-debug",
+  "binary_sha256": "0f9adce534747216b577dfa31b1dbff2975c690c06bdb8da221277a9ce4d9623",
+  "binary_size_bytes": 316580632,
+  "context_default": 1000000,
+  "changes": [
+    "Platform-specific native credential-store recovery guidance",
+    "MCP Credential helper status without executing the helper; explicit Authorization headers retain Bearer token status",
+    "Repeated logout reports Already logged out locally while retaining cleanup",
+    "Doctor avoids mislabeling OIDC as workspace identity",
+    "Stable and experimental schema exports include credentialHelper"
+  ],
+  "affected_rust_tests": {
+    "passed": 5914,
+    "failed": 0,
+    "skipped": 14,
+    "packages": [
+      "codex-cli",
+      "codex-tui",
+      "codex-mcp",
+      "codex-rmcp-client",
+      "codex-protocol",
+      "codex-app-server-protocol",
+      "codex-utils-home-dir"
+    ],
+    "color_fixture_environment": {
+      "NO_COLOR": "unset",
+      "TERM": "xterm-256color",
+      "COLORTERM": "truecolor"
+    },
+    "log_sha256": "b8f00f0aa9352e91833a17dab336663eb5d6568937a79059cfc0f2038057b205"
+  },
+  "scoped_clippy": {
+    "passed": true,
+    "runtime_source_changed": false,
+    "existing_warning": "rmcp-client/src/utils.rs uses expect for its static product User-Agent; no new lint warnings introduced by this change"
+  },
+  "optimized_executable_fixtures": {
+    "passed": 21,
+    "failed": 0,
+    "receipt": "validation/2026-09-07/auth-polish/optimized-executable-fixtures.log"
+  },
+  "optimized_live": {
+    "passed": true,
+    "turns": 7,
+    "real_scans": 3,
+    "helper_status_displayed": true,
+    "receipt": "validation/2026-09-07/auth-polish/optimized-live.json"
+  },
+  "installation": {
+    "passed": true,
+    "receipt": "validation/2026-09-07/auth-polish/installation.json"
+  },
+  "installed_live": {
+    "passed": true,
+    "turns": 7,
+    "real_scans": 3,
+    "helper_status_displayed": true,
+    "receipt": "validation/2026-09-07/auth-polish/installed-live.json"
+  },
+  "full_workspace_tests": {
+    "attempted": true,
+    "passed": false,
+    "reason": "V8 150.4.0 musl archive HTTP 404",
+    "code_mode_enabled_in_terminal": false,
+    "log_sha256": "9be7a1dd73f5c09fe08486e1e9c02f8c2703fb4470cde3f9358d6571a046bf5a"
+  },
+  "native_identity_baseline": {
+    "native_identity_source_unchanged": true,
+    "platforms_passed": [
+      "Linux Secret Service",
+      "macOS Keychain",
+      "Windows Credential Manager"
+    ],
+    "workflow_url": "https://github.com/cdot65/prisma-airs-terminal/actions/runs/34147583219",
+    "scope": "Carried forward from unchanged alpha.6 identity source; full macOS/Windows executables are not distributed"
+  },
+  "baseline": {
+    "version": "0.1.0-alpha.6",
+    "owner_e2e": "User confirmed complete E2E after recovering the Linux keyring session",
+    "validation": "validation/2026-09-07/alpha6-validation.json",
+    "oidc_live_checks": 27,
+    "scope": "Historical authentication acceptance; not counted as a fresh alpha.7 OIDC run"
+  },
+  "deferred": [
+    "Full macOS/Windows terminal distribution and E2E",
+    "Native artifact signing/attestation",
+    "Optional Conjur workload-secret activation"
+  ],
+  "release_verification": "See RELEASE-VERIFICATION.json asset for post-publication verification"
+}

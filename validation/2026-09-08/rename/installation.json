@@ -1,0 +1,9 @@
+{
+  "installed": "/home/cdot/.local/bin/airs-harness",
+  "version": "0.1.0-alpha.8",
+  "binary_sha256": "0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400",
+  "legacy_alias": "/home/cdot/.local/bin/airs-terminal",
+  "rollback": "/home/cdot/.local/share/airs-harness/rollback/airs-terminal-alpha7-before-rename",
+  "state_files_preserved": 11,
+  "state_root": "/home/cdot/.airs-terminal"
+}

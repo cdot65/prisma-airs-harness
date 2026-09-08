@@ -16,15 +16,33 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 import uuid
-
-from test_airs_harness import TerminalIntegration
-from validate_workspace_login import assert_private, daemon_ready, events
 
 
 def digest(path):
     with path.open("rb") as source:
         return hashlib.file_digest(source, "sha256").hexdigest()
+
+
+def assert_preserved_state(protected, config_path, helper, rollouts):
+    """Permit only the owned executable field to change, never identity/history."""
+    expected = tomllib.loads(protected[config_path].decode())
+    expected["model_providers"]["airs"]["auth"]["command"] = str(helper)
+    if tomllib.loads(config_path.read_text()) != expected:
+        raise AssertionError(
+            "Unexpected configuration change beyond the owned helper executable"
+        )
+    if not all(
+        path.read_bytes() == original
+        for path, original in protected.items()
+        if path != config_path
+    ):
+        raise AssertionError("Credential, environment or session binding changed")
+    if not all(
+        path.read_bytes().startswith(original) for path, original in rollouts.items()
+    ):
+        raise AssertionError("Existing session history was rewritten")
 
 
 def arguments():
@@ -38,6 +56,9 @@ def arguments():
 
 
 def exercise(args, receipt):
+    from test_airs_harness import TerminalIntegration
+    from validate_workspace_login import assert_private, daemon_ready, events
+
     with ExitStack() as cleanup:
         fixture = TerminalIntegration()
         cleanup.callback(fixture.doCleanups)
@@ -237,6 +258,9 @@ def exercise(args, receipt):
                     "alpha9 persistent session completed a real local tool loop"
                 )
 
+                config_path = home / "config.toml"
+                previous_config_hash = digest(config_path)
+                receipt["expected_configuration_migrations"] = []
                 absent_old = binaries["old"].with_name("offline-original")
                 binaries["old"].rename(absent_old)
                 for label in ("candidate", "relocated"):
@@ -262,17 +286,27 @@ def exercise(args, receipt):
                         "UPGRADE_CONTEXT_CANARY" in json.dumps(body)
                         for _, _, body in fixture.requests[before:]
                     )
-                    assert all(
-                        path.read_bytes() == original
-                        for path, original in protected.items()
+                    assert_preserved_state(
+                        protected, config_path, binaries[label], rollouts
                     )
-                    assert all(
-                        path.read_bytes().startswith(original)
-                        for path, original in rollouts.items()
+                    current_config_hash = digest(config_path)
+                    receipt["expected_configuration_migrations"].append(
+                        {
+                            "stage": label,
+                            "only_changed_field": "model_providers.airs.auth.command",
+                            "expected_helper_relative_to_fixture_root": binaries[label]
+                            .relative_to(root)
+                            .as_posix(),
+                            "previous_config_sha256": previous_config_hash,
+                            "config_sha256": current_config_hash,
+                            "all_other_configuration_values_identical": True,
+                            "credential_and_session_bindings_byte_identical": True,
+                        }
                     )
+                    previous_config_hash = current_config_hash
                     receipt["checks"].append(
                         label
-                        + " read same native credential and resumed original history without changing public bindings"
+                        + " read same native credential and resumed original history with only the expected owned helper path migrated"
                     )
                 absent_old.rename(binaries["old"])
                 binaries["candidate"].with_name("offline-candidate").rename(
@@ -286,29 +320,39 @@ def exercise(args, receipt):
                     "gateway default omitted model on every captured request"
                 )
 
-                # Compatible downgrade before a storage-format change must preserve
-                # the same identity and existing history, too.
-                receipt["phase"] = "compatible-downgrade"
+                # Do not mistake old-client/new-helper coexistence for downgrade.
+                receipt["phase"] = "old-client-with-newer-helper-absent"
                 private_read("old")
-                run(
+                for label in ("candidate", "relocated"):
+                    binaries[label].rename(binaries[label].with_name("offline-newer"))
+                count = len(fixture.requests)
+                downgraded = run(
                     "old",
                     "exec",
                     "resume",
                     "--json",
                     "--skip-git-repo-check",
                     thread_id,
-                    "Confirm the same history after a compatible downgrade.",
+                    "The old client must not depend on a hidden newer helper.",
+                    success=False,
                 )
-                assert all(
-                    path.read_bytes() == original
-                    for path, original in protected.items()
+                assert b"No such file or directory" in downgraded.stderr
+                assert str(binaries["relocated"]).encode() in downgraded.stderr
+                assert len(fixture.requests) == count
+                assert_preserved_state(
+                    protected, config_path, binaries["relocated"], rollouts
                 )
-                assert all(
-                    path.read_bytes().startswith(original)
-                    for path, original in rollouts.items()
-                )
+                receipt["old_client_without_newer_helper"] = {
+                    "exit_code": downgraded.returncode,
+                    "new_inference_requests": 0,
+                    "saved_helper_missing": True,
+                    "identity_and_history_preserved": True,
+                    "independent_downgrade_compatibility": False,
+                }
+                for label in ("candidate", "relocated"):
+                    binaries[label].with_name("offline-newer").rename(binaries[label])
                 receipt["checks"].append(
-                    "alpha9 can still read and resume the unchanged legacy binding"
+                    "old client fails without the newer helper and preserves identity/history"
                 )
 
                 receipt["phase"] = "candidate-logout"
@@ -416,6 +460,7 @@ def main():
             "workspace key only; no OIDC migration",
             "same candidate bytes relocated, not a subsequent distinct release",
             "no signing or published package upgrade",
+            "old-client failure is missing-helper evidence, not version-policy or V2 downgrade proof",
         ],
     }
     try:

@@ -1,5 +1,4 @@
 //! Bounded, redacted diagnostics for the standalone gateway environment.
-use super::airs_credentials;
 use super::airs_environment;
 use anyhow::Context;
 use serde::Serialize;
@@ -81,12 +80,12 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
         Ok((gateway, config)) => {
             checks.push(Check { name: "configuration", passed: true, detail: gateway.clone() });
             if !args.verify_access {
-                let credential = airs_credentials::check(home);
+                let credential = super::airs_status::inspect(home);
                 checks.push(Check {
-                    name: "credential",
+                    name: "credential_configuration",
                     passed: credential.is_ok(),
                     detail: match credential {
-                        Ok(()) => "Available locally; use status to inspect the authentication method and identity".into(),
+                        Ok(inspection) => inspection.detail.into(),
                         Err(error) => error.to_string(),
                     },
                 });

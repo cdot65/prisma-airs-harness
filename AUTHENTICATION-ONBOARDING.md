@@ -120,12 +120,21 @@ For support, run these application commands:
 
 ```text
 airs-harness --version
+airs-harness status
 airs-harness doctor
 airs-harness doctor --json
 ```
 
-Plain `doctor` checks local configuration, tools, credential availability, and
-unauthenticated gateway health. Add `--verify-access` for the disclosed inference
+`status` shows the selected environment and saved authentication configuration.
+For OS-stored credentials, it does not open the native credential store or refresh
+tokens, and it reports **availability and gateway access not checked**. Saved OIDC
+identity information is not a fresh authentication result. Status makes no network
+requests. Explicit file/environment references are still checked locally.
+
+Plain `doctor` checks local configuration, tools, credential configuration, and
+unauthenticated gateway health. It also avoids native credential reads. Its JSON
+`credential_configuration` result describes configuration, not verified access.
+Add `--verify-access` for the disclosed inference
 check; add `--json` if support needs a machine-readable report. The access check
 allows 10 seconds to connect and 30 seconds overall, including credential-helper
 resolution. Its response is limited to 64 KiB, and credentials never follow a

@@ -41,7 +41,20 @@ def verify_login_output(output, token, require_gateway_verification):
     disclosed = GATEWAY_DISCLOSURE in output
     verified = GATEWAY_VERIFIED in output
     if require_gateway_verification and not (disclosed and verified):
-        raise AssertionError("Guided login did not disclose and verify gateway access")
+        reasons = {
+            b"selected gateway or model configuration is invalid": "configuration",
+            b"saved credential could not be read or refreshed": "credential",
+            b"Authentication changed or this environment was signed out": "signed-out",
+            b"gateway connection failed": "connection",
+            b"access check reached its time limit": "timeout",
+            b"gateway denied access": "denied",
+            b"gateway requested a redirect": "redirect",
+            b"gateway rejected the probe": "rejected",
+            b"gateway did not return a successful Responses API result": "invalid-response",
+            b"response exceeded the 64 KiB": "oversized-response",
+        }
+        category = next((label for text, label in reasons.items() if text in output), "unclassified")
+        raise AssertionError(f"Gateway verification failed: disclosed={disclosed}, verified={verified}, category={category}")
     return disclosed, verified
 
 
@@ -238,7 +251,10 @@ def validate(args, receipt):
                     raise AssertionError(
                         "Workspace key was not bound to native storage"
                     )
-                run(["status"])
+                status_output = run(["status"])
+                receipt["status_metadata_only"] = (
+                    b"availability and gateway access not checked" in status_output
+                )
 
             lifecycle_started = time.monotonic()
             guided_login()
@@ -246,7 +262,9 @@ def validate(args, receipt):
                 [
                     "guided-hidden-login",
                     "native-keyring-binding",
-                    "separate-process-status",
+                    "separate-process-status-configuration"
+                    if receipt["status_metadata_only"]
+                    else "separate-process-status-legacy-local-read",
                 ]
             )
             if args.require_gateway_verification:
@@ -271,8 +289,15 @@ def validate(args, receipt):
                     "p95_ms": p95,
                     "target_ms": 500,
                     "target_met": p95 <= 500,
-                    "scope": "whole status process including startup and configuration; no network",
+                    "scope": (
+                        "whole status process including startup and saved native-binding metadata; no native credential read or network"
+                        if receipt["status_metadata_only"]
+                        else "whole legacy status process including startup, configuration and native credential access; no network"
+                    ),
                     "credential_resolution_isolated": False,
+                    "native_credential_resolution_measured": not receipt[
+                        "status_metadata_only"
+                    ],
                 }
 
             receipt["phase"] = "live-exec"
@@ -476,6 +501,8 @@ def main():
         # TerminalSession and subprocess errors can carry complete output/keys.
         # Retain only the safe phase and exception class, never their messages.
         receipt["failure_class"] = type(error).__name__
+        if isinstance(error, AssertionError) and str(error).startswith("Gateway verification failed:"):
+            receipt["verification_failure"] = str(error)
     receipt["finished_at_unix"] = int(time.time())
     args.output.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     descriptor = os.open(

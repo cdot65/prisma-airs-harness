@@ -84,7 +84,7 @@ pub(super) fn fingerprint(token: &str) -> String {
     format!("{:x}", Sha256::digest(token.as_bytes()))
 }
 
-fn validate_token(token: &str) -> anyhow::Result<&str> {
+pub(super) fn validate_token(token: &str) -> anyhow::Result<&str> {
     let token = token.trim();
     anyhow::ensure!(
         !token.is_empty() && token.len() <= 16_384 && token.bytes().all(|c| c.is_ascii_graphic()),
@@ -148,7 +148,7 @@ pub(super) fn parse_binding(bytes: &[u8]) -> anyhow::Result<Binding> {
     })
 }
 
-fn resolve(binding: &Binding) -> anyhow::Result<String> {
+pub(super) fn resolve(binding: &Binding) -> anyhow::Result<String> {
     let token = match binding
         .source
         .as_ref()
@@ -415,50 +415,13 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
 }
 
 pub fn status(home: &Path) -> anyhow::Result<()> {
+    let inspection = super::airs_status::inspect(home)?;
     println!("Prisma AIRS Harness {}", super::airs_harness::version());
     println!("State: {}", home.display());
-    println!("Gateway: {}", airs_environment::gateway(home)?);
-    anyhow::ensure!(
-        !home.join("logged-out").exists(),
-        "logged out; run airs-harness login"
-    );
-    codex_utils_home_dir::airs_session::AirsSessionGuard::capture(home)?;
-    if home.join("credential-binding.json").exists() {
-        let binding = read_binding(home)?;
-        if let Some(Source::Oidc { identity }) = &binding.source {
-            super::airs_oidc::load_active(&binding)?;
-            println!("Authentication: OIDC; issuer {}", identity.config.issuer);
-            println!("Subject: {}", identity.subject);
-            println!("Audience: {}", identity.config.audience);
-            println!("Credential: available in OS store (local check)");
-            return Ok(());
-        }
-        println!(
-            "Authentication: workspace credential; binding {}",
-            binding.id
-        );
-        resolve(&binding)?;
-        println!("Credential: available (local check; not an inference test)");
-    } else {
-        let config: toml::Value =
-            toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
-        let variable = config
-            .get("model_providers")
-            .and_then(|v| v.get("airs"))
-            .and_then(|v| v.get("env_http_headers"))
-            .and_then(|v| v.get("x-portkey-api-key"))
-            .and_then(toml::Value::as_str)
-            .context("run airs-harness login to configure credentials")?;
-        println!("Authentication: workspace credential from {variable}");
-        let token = std::env::var(variable).context("credential is missing; use login --credential-file PATH or login --credential-env NAME")?;
-        validate_token(&token)?;
-        println!("Credential: available from environment (local check)");
-    }
+    println!("Gateway: {}", inspection.gateway);
+    println!("Authentication: {}", inspection.authentication);
+    println!("Credential configuration: {}", inspection.detail);
     Ok(())
-}
-
-pub(super) fn check(home: &Path) -> anyhow::Result<()> {
-    identity(home).map(|_| ())
 }
 
 pub(super) fn identity(home: &Path) -> anyhow::Result<String> {

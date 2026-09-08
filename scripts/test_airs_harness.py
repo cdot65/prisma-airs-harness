@@ -646,6 +646,14 @@ class TerminalIntegration(unittest.TestCase):
         self,
     ):
         self.configure()
+        config = self.home / "config.toml"
+        # Setup advertises --model in the catalog; choose it explicitly for
+        # the first probe, then return to the gateway default for the second.
+        config.write_text(
+            config.read_text().replace(
+                'model = "airs-gateway-default"', f'model = "{EXPLICIT}"', 1
+            )
+        )
         for bound in (False, True):
             with self.subTest(bound=bound):
                 if bound:
@@ -692,6 +700,46 @@ class TerminalIntegration(unittest.TestCase):
                 if not bound:
                     expected["model"] = EXPLICIT
                 self.assertEqual(body, expected)
+                self.assertEqual(self.mcp_requests, [])
+
+    def test_native_status_and_plain_doctor_inspect_configuration_without_store_access(
+        self,
+    ):
+        self.configure()
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        path = self.home / "credential-binding.json"
+        binding = json.loads(path.read_text())
+        # No native entry exists for this reference binding. Native resolution
+        # would fail; metadata inspection must succeed without prompting.
+        self.env["DBUS_SESSION_BUS_ADDRESS"] = "unix:path=/nonexistent/airs-status-test"
+        for kind in ("keyring", "keyring-v2"):
+            with self.subTest(kind=kind):
+                binding["source"] = {"kind": kind}
+                path.write_text(json.dumps(binding))
+                before = path.read_bytes()
+                for arguments in (("status",), ("login", "status")):
+                    status = self.run_cli(*arguments)
+                    self.assertEqual(status.returncode, 0, status.stderr)
+                    self.assertIn(
+                        "availability and gateway access not checked", status.stdout
+                    )
+                    self.assertNotIn(
+                        "test-only-credential", status.stdout + status.stderr
+                    )
+                doctor = self.run_cli("doctor", "--json")
+                self.assertEqual(doctor.returncode, 0, doctor.stderr)
+                row = next(
+                    item
+                    for item in json.loads(doctor.stdout)["checks"]
+                    if item["name"] == "credential_configuration"
+                )
+                self.assertTrue(row["passed"])
+                self.assertIn(
+                    "availability and gateway access not checked", row["detail"]
+                )
+                self.assertEqual(path.read_bytes(), before)
+                self.assertEqual(self.requests, [])
                 self.assertEqual(self.mcp_requests, [])
 
     def test_doctor_verify_access_denial_preserves_binding_and_redacts_response(self):

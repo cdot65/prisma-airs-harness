@@ -180,7 +180,7 @@ def validate(args, receipt):
                 if terminal.process.returncode:
                     raise AssertionError("Guided workspace login failed")
             binding = json.loads((home / "credential-binding.json").read_text())
-            if binding["source"] != {"kind": "keyring"}:
+            if binding["source"] != {"kind": "keyring-v2"}:
                 raise AssertionError("Workspace key was not bound to native storage")
             run(["status"])
             receipt["checks"].extend(

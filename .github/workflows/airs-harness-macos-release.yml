@@ -6,6 +6,11 @@ on:
         description: Runtime source revision (empty uses this workflow revision)
         required: false
         default: ""
+      private_candidate:
+        description: Produce non-publishable candidate artifacts only
+        type: boolean
+        required: true
+        default: true
 permissions:
   contents: read
 concurrency:
@@ -30,7 +35,13 @@ jobs:
       CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
       AIRS_RELEASE_TARGET: ${{ matrix.target }}
       AIRS_RELEASE_SUFFIX: ${{ matrix.suffix }}
+      AIRS_PRIVATE_CANDIDATE: ${{ inputs.private_candidate }}
     steps:
+      - name: Require Apple Silicon before installing build tools
+        run: |
+          test "$(uname -m)" = arm64
+          test "$RUNNER_ARCH" = ARM64
+          test "$AIRS_RELEASE_TARGET" = aarch64-apple-darwin
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
@@ -88,8 +99,24 @@ jobs:
           strip -S "$RUNNER_TEMP/airs-harness"
           codesign --force --sign - "$RUNNER_TEMP/airs-harness"
           codesign --verify --strict --verbose=2 "$RUNNER_TEMP/airs-harness"
+          test "$(lipo -archs "$RUNNER_TEMP/airs-harness")" = arm64
+          codesign -dvv "$RUNNER_TEMP/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
           otool -L "$RUNNER_TEMP/airs-harness" | tee "$RUNNER_TEMP/airs-evidence/libraries.log"
           "$RUNNER_TEMP/airs-harness" --version
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          temporary = pathlib.Path(os.environ["RUNNER_TEMP"])
+          receipt = {
+              "private_candidate": os.environ["AIRS_PRIVATE_CANDIDATE"] == "true",
+              "published": False,
+              "release_ready": False,
+              "runtime_source": subprocess.check_output(["git", "-C", "runtime", "rev-parse", "HEAD"], text=True).strip(),
+              "binary_sha256": hashlib.sha256((temporary / "airs-harness").read_bytes()).hexdigest(),
+              "signing": {"ad_hoc": True, "developer_id": False, "notarized": False},
+              "remaining": ["production signing", "consumer Mac authentication E2E", "independent release review"],
+          }
+          (temporary / "airs-evidence" / "CANDIDATE.json").write_text(json.dumps(receipt, indent=2) + "\n")
+          PY
       - name: Preserve executable for diagnosing acceptance failures
         run: |
           cp runtime/codex-rs/target/release/examples/store_acceptance "$RUNNER_TEMP/store_acceptance"
@@ -108,21 +135,31 @@ jobs:
           python3 scripts/record_airs_macos_validation.py --binary "$RUNNER_TEMP/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence" --target "$AIRS_RELEASE_TARGET" --source-directory runtime
       - name: Package native release and npm candidate
         run: |
-          python3 runtime/scripts/package_airs_harness.py --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          if [ "$AIRS_PRIVATE_CANDIDATE" = true ]; then
+            validation_args=(--unvalidated-candidate)
+          else
+            validation_args=(--validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json")
+          fi
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" "${validation_args[@]}" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
           python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
-          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/airs-npm-install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
-          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/airs-npm-install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
-          AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-npm-install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
+          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/AIRS Candidate Install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/AIRS Candidate Install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
+          AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
+      - name: Exercise Keychain through the exact installed npm candidate
+        run: |
+          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/cli-keychain.json"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: success()
         with:
-          name: airs-harness-${{ matrix.suffix }}
+          name: airs-harness-${{ matrix.suffix }}${{ inputs.private_candidate && '-private-candidate' || '' }}
           path: |
             ${{ runner.temp }}/airs-package/*.tar.gz
             ${{ runner.temp }}/airs-package/*.sha256
+            ${{ runner.temp }}/airs-npm/tarballs/*.tgz
+            ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           compression-level: 0
           retention-days: 30
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f

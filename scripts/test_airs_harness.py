@@ -32,6 +32,71 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    @unittest.skipIf(sys.platform == "win32", "POSIX subprocess lock/PTY acceptance")
+    def test_running_client_stays_revoked_after_subprocess_logout_and_relogin(self):
+        import fcntl
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        self.phase_replies = {"Create result.txt. Warm this client.": "Client warmed."}
+        with TerminalSession(BINARY, self.env, self.work) as terminal:
+            self.terminal_transcript = terminal.transcript
+            terminal.start()
+            terminal.send_line("Create result.txt. Warm this client.")
+            terminal.wait_for(b"Client warmed.")
+            self.assertTrue(self.requests)
+            self.assertEqual(
+                (self.work / "result.txt").read_text(), "local tool worked\n"
+            )
+            # Simulate another process holding a long refresh/configuration lock.
+            # Logout must invalidate the warm client before it can acquire this lock.
+            with (self.home / ".configuration.lock").open("r+") as lock:
+                fcntl.flock(lock, fcntl.LOCK_EX)
+                logout = subprocess.Popen(
+                    [str(BINARY), "logout"],
+                    cwd=self.work,
+                    env=self.env,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                try:
+                    terminal.wait_until(
+                        lambda: (
+                            (self.home / "auth-generation")
+                            .read_text()
+                            .startswith("v1 revoked ")
+                        ),
+                        timeout=5,
+                    )
+                    self.assertIsNone(
+                        logout.poll(), "cleanup should still wait for the lock"
+                    )
+                    count = len(self.requests)
+                    offset = len(terminal.transcript)
+                    terminal.send_line("Try another request after sign-out.")
+                    terminal.wait_for(b"authentication changed", offset, timeout=5)
+                    self.assertEqual(len(self.requests), count)
+                finally:
+                    fcntl.flock(lock, fcntl.LOCK_UN)
+                    stdout, stderr = logout.communicate(timeout=10)
+                self.assertEqual(logout.returncode, 0, stdout + stderr)
+            login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+            self.assertEqual(login.returncode, 0, login.stderr)
+            offset = len(terminal.transcript)
+            terminal.send_line("Try again after another process signed in.")
+            terminal.wait_for(b"authentication changed", offset, timeout=5)
+            self.assertEqual(len(self.requests), count)
+            self.assertEqual(
+                (self.work / "result.txt").read_text(), "local tool worked\n"
+            )
+        # A fresh process may use the newly activated epoch and the same identity.
+        fresh = self.execute()
+        self.assertEqual(fresh.returncode, 0, fresh.stderr)
+        self.assertGreater(len(self.requests), count)
+
     def test_invalid_binding_errors_do_not_echo_record_contents(self):
         self.configure()
         canary = "private-invalid-binding-value"

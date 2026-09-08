@@ -40,8 +40,7 @@ An architecture-matching fallback
 allows reuse after validation-only workflow edits; Cargo still validates the
 lockfile, compiler options and source fingerprints. Cache restoration never skips
 compilation checks or acceptance. Only manual trusted release workflows use this
-cache. The revised build profile still needs a measured result; earlier cache-restored
-builds are recorded below.
+cache. The revised source154 build and earlier cache-restored builds are recorded below.
 
 Acceptance restores a separate dependency-source cache for license inventory,
 without downloading the large Rust build-output tree. A miss can fetch locked
@@ -89,6 +88,15 @@ build timings and the actual cache key/profile. Do not trigger another long buil
 solely to collect diagnostics. Artifact-only acceptance retries already avoid
 compilation; persistent-workspace or compiler-cache changes need separate
 measurements before claiming a speed improvement.
+
+The source154 split run completed successfully: CLI compilation took **47m31s**
+after a 48-second restore, and both build/source cache saves succeeded. Native
+and installed-package acceptance passed on macOS 15.7.9. The same immutable
+executable then passed macOS 26.6.2 acceptance in **7m13s without compiling**.
+See the [Mac15 build and acceptance receipt](validation/2026-09-08/authentication/154b4f0bc/macos-15/RUN-RECEIPT.json)
+and [Mac26 artifact-only evidence](validation/2026-09-08/authentication/154b4f0bc/macos-26/README.md).
+This verifies build/acceptance separation; it establishes no compiler speedup or
+owner-device/signing approval.
 
 ## Dedicated Mac requirements
 

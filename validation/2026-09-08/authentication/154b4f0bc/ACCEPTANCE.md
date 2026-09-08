@@ -1,7 +1,7 @@
 ---
-title: Authentication 154 Linux candidate acceptance ledger
+title: Authentication 154 candidate acceptance ledger
 date: 2026-09-08
-status: linux-evidence-retained-platform-acceptance-pending
+status: linux-and-hosted-macos-evidence-retained-release-gates-pending
 source_commit: 154b4f0bcef7528844e85177d7e4dce611982044
 binary_sha256: 2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad
 release_ready: false
@@ -10,7 +10,7 @@ supported_platform_score: null
 tags: [authentication, acceptance, evidence, private-candidate]
 ---
 
-# Linux candidate evidence; platform acceptance pending
+# Candidate evidence; full release acceptance pending
 
 The final-source Linux CLI suite passed **359 of 359 tests**, with zero failures
 or skips. The original JUnit hash was checked; the [sanitized JUnit](cli-junit-sanitized.xml)
@@ -57,12 +57,32 @@ verified proof file. The original 28-check receipt is byte-for-byte unchanged.
 The installed native remains source154 with SHA-256 2fcb93d5...e3ad; only operator
 fixtures changed. This does not resolve the earlier scanner failure cause.
 
+## Observed hosted Apple Silicon results
+
+The same source154 native executable passed both hosted operating systems with
+SHA-256 `f9ca78fccf5e16a18055b05b655e2fb1c5523362bf353d99c0de0daa2c19850b`.
+The Mac15 workflow compiled it once, preserved its artifact before cache saves,
+and ran acceptance in a separate job. Mac26 reused that exact artifact and all
+verified source/archive/CLI/fixture identities without compiling.
+
+| Host | Native suite | Installed npm suite | Additional native evidence |
+| --- | --- | --- | --- |
+| [macOS 15.7.9 ARM64](macos-15/RUN-RECEIPT.json) | 37 passed, 2 explicit skips, 39 methods | 37 passed, 1 Linux-only skip, 38 methods | Both CLI Keychain lifecycles and all 7 store phases passed; managed CLI 5.2.0 and corpus checks passed |
+| [macOS 26.6.2 ARM64](macos-26/README.md) | 37 passed, 2 explicit skips, 39 methods | 37 passed, 1 Linux-only skip, 38 methods | Same native bytes and matching lifecycle/store/managed-CLI checks; artifact-only job took 7m13s |
+
+The native-suite skips are the npm-managed skill (covered in installed acceptance)
+and Linux session-bus recovery. These receipts establish hosted private-candidate
+behavior against deterministic loopback Responses servers. They do not establish
+Mac live gateway/Keycloak/MCP authorization, owner-device resolution, Developer ID
+signing/notarization, production publication, upgrades or desktop/user trials.
+CLI compilation still took 47m31s; no compiler speedup is claimed.
+
 ## Score interpretation
 
 | Assessment | Current evidence | Score/status |
 | --- | --- | --- |
 | Bounded source implementation | 359 passing Linux CLI tests; scoped fix passed; independent source review recorded separately | No numeric score assigned by this evidence recorder; source evidence only |
-| Apple Silicon macOS delivery | No final 154 published/installed desktop and owner-incident acceptance in this ledger | FAIL / mandatory evidence missing |
+| Apple Silicon macOS delivery | Hosted Mac15/26 native and private npm acceptance passed; published/signing, live gateway, desktop and owner-incident gates remain missing | FAIL / mandatory evidence missing |
 | Windows11 x64 delivery | No final 154 signed package and installed desktop acceptance in this ledger | FAIL / mandatory evidence missing |
 | Linux delivery | Private candidate installed 38/38; original OIDC 28/28 and new two-expiry continuation 29/29; workspace 20/20 and helper timing target met; GNOME/KDE and selected headless contract evidence pending | FAIL / mandatory evidence missing |
 | Whole supported-platform delivery | Minimum platform result under the plan; unknown hard gates cannot be waived | FAIL; no defensible >=9 score |

@@ -10,35 +10,60 @@ This is a measured cold-build baseline, not a warm-cache performance estimate.
 
 ## Current pipeline
 
-The owned `airs-harness-macos-release.yml` workflow uses native Apple Silicon,
-Rust 1.95, two compiler jobs, release optimization, no LTO, 16 codegen units and
-no debug information. Build provenance records these choices.
+The owned `airs-harness-macos-release.yml` workflow separates three jobs:
+
+1. **Preflight:** Python syntax, packaging contracts, immutable-artifact checks,
+   and Node launcher tests run on Linux before allocating a compiler runner.
+2. **Build:** Apple Silicon compiles the CLI and native Keychain fixture, signs
+   them ad hoc, and uploads their immutable artifact. Candidate CLI optimization
+   is level 1; dependencies retain release settings, with no LTO, 16 codegen
+   units and no debug information. Provenance records the actual settings.
+3. **Acceptance:** A fresh Apple Silicon job downloads that exact artifact ID,
+   verifies runtime source, archive and both executable hashes, architecture and
+   signatures, then runs native, Keychain, packaging and npm acceptance. It does
+   not invoke a Rust build or test command.
+
+Set `preflight_only` to true when checking workflow or fixture changes first.
+This runs only the cheap job; its receipt explicitly excludes Rust compilation
+and native acceptance. Leave it false for a full build and acceptance run.
 
 The workflow checks out validation tooling separately from its runtime source.
-The optional `source_ref` input allows corrected acceptance tooling to validate
-the same immutable runtime revision. Normal future builds can leave it empty.
+The optional `source_ref` input resolves once during preflight; the build checks
+out that exact commit. Normal future builds can leave it empty.
 Compilation and native package provenance use the runtime checkout; fixture
 execution uses the workflow checkout. Record both revisions in release evidence.
 
 Cargo dependency and build-output caches are restored before compilation and
-saved immediately after successful compilation. An architecture-matching fallback
+saved after the mandatory immutable-artifact upload. Cache saves are best effort;
+an unavailable cache must not turn successful compilation into a failed build.
+An architecture-matching fallback
 allows reuse after validation-only workflow edits; Cargo still validates the
 lockfile, compiler options and source fingerprints. Cache restoration never skips
 compilation checks or acceptance. Only manual trusted release workflows use this
 cache. Warm-build duration remains to be measured.
 
-The executable and Keychain fixture are also uploaded as explicitly **unvalidated**
-diagnostic artifacts before acceptance. They are not release packages. Successful
-native and npm checks produce the separate validated archive. Later credential
-checks download that archive and require no Rust rebuild.
+Acceptance restores a separate dependency-source cache for license inventory,
+without downloading the large Rust build-output tree. A miss can fetch locked
+dependency metadata without compiling.
 
-`airs-harness-macos-revalidate.yml` can promote the preserved executable only after
-checking its runtime source revision, Mach-O architecture, ad-hoc signature and
-hash, then rerunning native, Keychain and npm acceptance. It regenerates locked
-license metadata without invoking a Rust build. Receipts identify both the
-compilation run and validation tooling revision. The first artifact-only diagnostic
-run completed its 27 native checks in 58.5 seconds; this is test time, not the
-whole packaging pipeline.
+For a transient acceptance failure, choose **Re-run failed jobs** in GitHub.
+The successful build job stays complete and acceptance reuses its immutable
+artifact. Artifact and evidence names include the run attempt; selection receipts
+record the artifact ID, compilation attempt and acceptance attempt. Artifacts are
+retained for 30 days. [GitHub rerun behavior](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs)
+
+If fixture code changes, use `airs-harness-macos-revalidate.yml` from the corrected
+tooling revision. Supply the original build run, exact artifact ID, runtime commit,
+and independently verified archive/CLI/fixture SHA-256 values from build evidence.
+This workflow runs the full acceptance scope on preserved bytes without compiling.
+Rerunning an old workflow uses its original tooling revision; it does not pick up
+a fixture fix. Runtime changes still require a new build.
+
+Both workflows create **private, non-publishable candidates**, even when native
+acceptance passes. They do not promote ad-hoc signatures to production signing or
+claim owner-device acceptance. Older artifacts with unrecorded compiler settings
+retain that uncertainty. Cheap checks reduce avoidable failures but do not replace
+native acceptance or prove runtime/fixture compatibility on every platform.
 
 ## Dedicated Mac requirements
 

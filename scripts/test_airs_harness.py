@@ -642,6 +642,82 @@ class TerminalIntegration(unittest.TestCase):
         self.assertFalse(json.loads(missing.stdout)["passed"])
         self.assertEqual(self.requests, [], "doctor must not submit inference")
 
+    def test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route(
+        self,
+    ):
+        self.configure()
+        for bound in (False, True):
+            with self.subTest(bound=bound):
+                if bound:
+                    login = self.run_cli(
+                        "login", "--credential-env", "AIRS_TEST_CREDENTIAL"
+                    )
+                    self.assertEqual(login.returncode, 0, login.stderr)
+                    config = self.home / "config.toml"
+                    config.write_text(
+                        config.read_text().replace(
+                            f'model = "{EXPLICIT}"', 'model = "airs-gateway-default"', 1
+                        )
+                    )
+                self.requests.clear()
+                doctor = self.run_cli("doctor", "--verify-access", "--json")
+                self.assertEqual(doctor.returncode, 0, doctor.stderr)
+                access = next(
+                    item
+                    for item in json.loads(doctor.stdout)["checks"]
+                    if item["name"] == "gateway_access"
+                )
+                self.assertTrue(access["passed"])
+                self.assertIn("Gateway access verified", access["detail"])
+                self.assertIn("MCP permissions were not tested", access["detail"])
+                self.assertIn("one minimal inference request", doctor.stderr)
+                self.assertNotIn("test-only-credential", doctor.stdout + doctor.stderr)
+                self.assertEqual(len(self.requests), 1)
+                path, headers, body = self.requests[0]
+                headers = {name.lower(): value for name, value in headers.items()}
+                self.assertEqual(path, "/prefix/v1/responses")
+                self.assertEqual(
+                    headers.get("authorization" if bound else "x-portkey-api-key"),
+                    "Bearer test-only-credential" if bound else "test-only-credential",
+                )
+                self.assertNotIn(
+                    "x-portkey-api-key" if bound else "authorization", headers
+                )
+                expected = {
+                    "input": "Reply only with OK. This is a Prisma AIRS Harness connectivity check.",
+                    "max_output_tokens": 16,
+                    "store": False,
+                    "stream": False,
+                }
+                if not bound:
+                    expected["model"] = EXPLICIT
+                self.assertEqual(body, expected)
+                self.assertEqual(self.mcp_requests, [])
+
+    def test_doctor_verify_access_denial_preserves_binding_and_redacts_response(self):
+        self.configure()
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        binding = (self.home / "credential-binding.json").read_bytes()
+        self.probe_response = (
+            403,
+            {"error": "PRIVATE-DENIAL-CANARY test-only-credential"},
+        )
+        doctor = self.run_cli("doctor", "--verify-access", "--json")
+        self.assertNotEqual(doctor.returncode, 0)
+        access = next(
+            item
+            for item in json.loads(doctor.stdout)["checks"]
+            if item["name"] == "gateway_access"
+        )
+        self.assertFalse(access["passed"])
+        self.assertIn("Gateway access not yet verified", access["detail"])
+        self.assertNotIn("PRIVATE-DENIAL-CANARY", doctor.stdout + doctor.stderr)
+        self.assertNotIn("test-only-credential", doctor.stdout + doctor.stderr)
+        self.assertEqual((self.home / "credential-binding.json").read_bytes(), binding)
+        self.assertEqual(len(self.requests), 1)
+        self.assertEqual(self.mcp_requests, [])
+
     def test_named_environments_and_file_credential_without_export(self):
         for name in ("work", "second"):
             setup = self.run_cli(
@@ -799,6 +875,35 @@ class TerminalIntegration(unittest.TestCase):
                     self.send_response(307)
                     self.send_header("Location", owner.redirect)
                     self.end_headers()
+                    return
+                if body.get("stream") is False:
+                    status, response = getattr(
+                        owner,
+                        "probe_response",
+                        (
+                            200,
+                            {
+                                "object": "response",
+                                "status": "completed",
+                                "error": None,
+                                "output": [
+                                    {
+                                        "type": "message",
+                                        "role": "assistant",
+                                        "content": [
+                                            {"type": "output_text", "text": "OK"}
+                                        ],
+                                    }
+                                ],
+                            },
+                        ),
+                    )
+                    data = json.dumps(response).encode()
+                    self.send_response(status)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
                     return
                 number = len(owner.requests)
                 events = [

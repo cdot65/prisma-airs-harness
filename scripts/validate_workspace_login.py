@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import secrets
+import select
 import stat
 import subprocess
 import sys
@@ -22,6 +23,26 @@ from urllib.parse import urlsplit
 
 import tomllib
 from airs_harness_pty import TerminalSession
+
+MAX_LOGIN_OUTPUT_BYTES = 256 * 1024
+GATEWAY_VERIFIED = b"Gateway access verified by one inference response. MCP permissions were not tested."
+GATEWAY_DISCLOSURE = b"Checking gateway access with one minimal inference request (up to 16 output tokens)."
+
+
+class LoginTranscript(bytearray):
+    def extend(self, value):
+        if len(self) + len(value) > MAX_LOGIN_OUTPUT_BYTES:
+            raise AssertionError("Guided login output exceeded its capture limit")
+        super().extend(value)
+
+
+def verify_login_output(output, token, require_gateway_verification):
+    assert_private([], [output], token)
+    disclosed = GATEWAY_DISCLOSURE in output
+    verified = GATEWAY_VERIFIED in output
+    if require_gateway_verification and not (disclosed and verified):
+        raise AssertionError("Guided login did not disclose and verify gateway access")
+    return disclosed, verified
 
 
 def credential(path):
@@ -168,11 +189,20 @@ def validate(args, receipt):
                     "Fixture is not configured for gateway default routing"
                 )
             receipt["phase"] = "guided-login"
+            receipt["gateway_login_verification"] = {
+                "required": args.require_gateway_verification,
+                "disclosed_probes": 0,
+                "verified_probes": 0,
+                "max_output_tokens_per_probe": 16,
+                "captured_output_limit_bytes": MAX_LOGIN_OUTPUT_BYTES,
+                "wire_inspected": False,
+            }
 
             def guided_login():
                 with TerminalSession(
                     args.binary, env, work, arguments=["login"]
                 ) as terminal:
+                    terminal.transcript = LoginTranscript()
                     terminal.wait_for(b"Choose 1 or 2", timeout=30)
                     os.write(terminal.master, b"2\n")
                     terminal.wait_for(b"Workspace API key (input hidden", timeout=30)
@@ -180,7 +210,27 @@ def validate(args, receipt):
                     terminal.wait_until(
                         lambda: terminal.process.poll() is not None, timeout=90
                     )
-                    transcripts.append(bytes(terminal.transcript))
+                    # The process can exit before the driver's predicate reads
+                    # its final message. Drain queued PTY bytes with the same cap.
+                    while select.select([terminal.master], [], [], 0.1)[0]:
+                        try:
+                            remaining = os.read(terminal.master, 65536)
+                        except OSError:
+                            break
+                        if not remaining:
+                            break
+                        terminal.transcript.extend(remaining)
+                    output = bytes(terminal.transcript)
+                    disclosed, verified = verify_login_output(
+                        output, token, args.require_gateway_verification
+                    )
+                    transcripts.append(output)
+                    receipt["gateway_login_verification"]["disclosed_probes"] += int(
+                        disclosed
+                    )
+                    receipt["gateway_login_verification"]["verified_probes"] += int(
+                        verified
+                    )
                     if terminal.process.returncode:
                         raise AssertionError("Guided workspace login failed")
                 binding = json.loads((home / "credential-binding.json").read_text())
@@ -199,6 +249,8 @@ def validate(args, receipt):
                     "separate-process-status",
                 ]
             )
+            if args.require_gateway_verification:
+                receipt["checks"].append("bounded-authenticated-login-probe")
 
             if args.warm_status_runs:
                 receipt["phase"] = "warm-local-status"
@@ -315,6 +367,14 @@ def validate(args, receipt):
                 receipt["credential_lifecycle"]["durations_seconds"].append(
                     time.monotonic() - started
                 )
+            receipt["credential_lifecycle"][
+                "repeat_runs_include_inference_or_refresh"
+            ] = receipt["gateway_login_verification"]["disclosed_probes"] > 1
+            receipt["credential_lifecycle"]["repeat_inference_scope"] = (
+                "one disclosed fixed connectivity probe per guided login; no conversation or refresh"
+                if receipt["gateway_login_verification"]["disclosed_probes"] > 1
+                else "no repeated inference observed"
+            )
             receipt["phase"] = "plaintext-inspection"
             receipt["files_inspected"] = assert_private(
                 [state, work], transcripts, token
@@ -338,6 +398,11 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--warm-status-runs", type=int, choices=range(101), default=0)
     parser.add_argument("--lifecycle-runs", type=int, choices=range(1, 101), default=1)
+    parser.add_argument(
+        "--require-gateway-verification",
+        action="store_true",
+        help="Require a disclosed successful bounded probe on every login; 20 lifecycle runs make 20 minimal inference requests",
+    )
     parser.add_argument("--inside-dbus", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     os.umask(0o077)
@@ -377,6 +442,11 @@ def main():
                 str(args.warm_status_runs),
                 "--lifecycle-runs",
                 str(args.lifecycle_runs),
+                *(
+                    ["--require-gateway-verification"]
+                    if args.require_gateway_verification
+                    else []
+                ),
                 "--inside-dbus",
             ]
         )

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "commit": "8f7de9f75",
+  "archive_stage_commit": "eff054c80",
+  "validation_scope": "Maintained locked-bundle source unit checks; historical real-package proof is separately indexed. No production publication or supported-platform release acceptance.",
+  "commands": [
+    {
+      "command": "python3 -m unittest -v test_airs_bundle_archive test_airs_bundle",
+      "cwd": "scripts",
+      "methods": 15,
+      "passed": 15,
+      "seconds": 0.146
+    },
+    {
+      "command": "python3 -m unittest -v test_package_airs_harness.NpmCandidatePackaging",
+      "cwd": "scripts",
+      "methods": 1,
+      "candidate_scoped_combinations": 4,
+      "passed": 1,
+      "seconds": 2.925
+    },
+    {
+      "command": "just fmt",
+      "cwd": "codex-rs",
+      "passed": true
+    }
+  ],
+  "files": {
+    "scripts/airs_bundle.py": "36133c78fc2defc3a579e199dcb75ac99a73ae9dafa7fddd9062be0228f9e1a9",
+    "scripts/airs_bundle_archive.py": "c0c9a575a180708a2e9af7b85e2ec582154acefcbe3da80bc4d1af8c7ac8f294",
+    "scripts/airs_bundle_tree.py": "5f63230dc9008ca0f1f0922dbe90ed6fa87dd1b9f771c58e02f4c5bf552baf98",
+    "scripts/test_airs_bundle.py": "934c672daa82649895ae764b9bb765dd60641df3b7c546a54f9cb1061245f124",
+    "scripts/test_airs_bundle_archive.py": "745049d847095b9a0c2f60051b781d6df1e08a4549771b5601bb2cff11dafc16",
+    "scripts/package_airs_npm.py": "6dadbb6532d6ba3af5fb201495b70983881a8057fef4f5d478d7fe1b6ea106c0"
+  },
+  "installed_candidate_validation": "Independent npm10/npm12 run pending at this checkpoint",
+  "windows_shim_validation": "Explicit unsupported-validation failure for generated regular .bin files; POSIX symlink targets verified exactly",
+  "private_markers_preserved": true,
+  "published": false,
+  "rust_rebuilt": false
+}

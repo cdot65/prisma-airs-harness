@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-08T22:00:02.186416+00:00",
+  "archive": "prototype-evidence.tar.gz",
+  "archive_sha256": "bf112b923180526b0d8c72bc7521da01ad134077104e02b5c8dc1385bb612eed",
+  "files": [
+    {
+      "path": "REPORT.md",
+      "bytes": 5202,
+      "sha256": "ade5fb18da1e1bd93402de8d18eb92410935f9046bf4ab01854d51003f978904"
+    },
+    {
+      "path": "SUMMARY.json",
+      "bytes": 8848,
+      "sha256": "5f97516bb2af22e6dc90b84970d1ffb801e0fec00f5377fea740e9918ead34e4"
+    },
+    {
+      "path": "build.py",
+      "bytes": 5760,
+      "sha256": "6b2798a1e6d1e9fe813fb7f4ff07747d758e87be2f4a1d6aa84da1496c49c649"
+    },
+    {
+      "path": "independent-prototype-review.json",
+      "bytes": 1256,
+      "sha256": "1a403b3b5731758f84661693dbb6be51a28259e98ee1f891ad92cb11d4c0cdc1"
+    },
+    {
+      "path": "install-results.json",
+      "bytes": 7761,
+      "sha256": "7b05f0f0f11f23b1b0fb537c109ba6269ab94c6b2cf9e7aa42958a141fd9634e"
+    },
+    {
+      "path": "install.py",
+      "bytes": 7192,
+      "sha256": "1dbf2c376c37e23f945707d3abf7d1831eedd5f360fcd1298923a7bbb6c77b8e"
+    },
+    {
+      "path": "npm-pack.json",
+      "bytes": 361340,
+      "sha256": "6ee08152cd29be3d46110c6d84552ca78733aa167843e8d70114820f5edbf185"
+    },
+    {
+      "path": "pack-summary.json",
+      "bytes": 482,
+      "sha256": "6bbfeb0db1f79c8da7044b2dc869c4f5aa7d65376fc1c5446bb946b6c3d91f71"
+    },
+    {
+      "path": "package/lib/launcher.js",
+      "bytes": 3832,
+      "sha256": "0a6e58ae9fe26a4ad7bef26516fe3d4263b1c1274ef22364933be9ef8c490f40"
+    },
+    {
+      "path": "package/package.json",
+      "bytes": 886,
+      "sha256": "3aac09b400b918dd72a57d0c6ee90f246763a494cf18955da1c132fe88da9502"
+    },
+    {
+      "path": "preparation.json",
+      "bytes": 53993,
+      "sha256": "5199a531a5800d7b18afe20f9822bbc2a09060fe0d565b940d31e77e9642045c"
+    },
+    {
+      "path": "source-package-lock.json",
+      "bytes": 49133,
+      "sha256": "ecdea12f521cce1fb852294df5c3284214f4da2e77b1ab0adfb0dc5709135f6c"
+    },
+    {
+      "path": "validate_prisma_cli.py.txt",
+      "bytes": 6610,
+      "sha256": "afbcfa58dba6490b2b0442586c9c1e8e590f41ff7245c3287d36c7ae25798536"
+    },
+    {
+      "path": "verifier-additive-after.json",
+      "bytes": 435,
+      "sha256": "0bec87003bd94bdab74916d7d7b2a5b951b62132c46c27a0b8fcbc285237da04"
+    },
+    {
+      "path": "verifier-additive-before.json",
+      "bytes": 508,
+      "sha256": "e108c55c4580672ad083855026a8bd992f57cf4d00518eb707998b81dc774550"
+    }
+  ],
+  "contains_real_credentials": false,
+  "raw_private_runtime_logs_included": false,
+  "binary_archives_included": false
+}

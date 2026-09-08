@@ -1,0 +1,189 @@
+{
+  "recorded_at_utc": "2026-09-08T21:31:49.712368+00:00",
+  "status": "local-only real-package feasibility passed; not release acceptance",
+  "runtime_platform": {
+    "os": "linux",
+    "arch": "x64",
+    "libc": "musl",
+    "node": "v22.23.2"
+  },
+  "bundle_archive": {
+    "archive": "/var/tmp/airs-real-cli-bundle-prototype/packed/cdot65-prisma-airs-harness-0.1.0-alpha.9.tgz",
+    "sha256": "163222209bc2f89f1babd6ec9d1e04bae58751b629937fc08a1796e9e9b84283",
+    "archive_bytes": 43089708,
+    "npm_unpacked_bytes": 139024179,
+    "bundled_package_count": 73,
+    "all_locked_packages_bundled": true,
+    "license_files_verified": 69,
+    "all_source_license_bytes_preserved": true,
+    "intel_mac_package_present": false,
+    "private": true,
+    "published": false
+  },
+  "limits": {
+    "single_dependency_download_bytes": 67108864,
+    "single_dependency_extracted_bytes": 134217728,
+    "total_dependencies_extracted_bytes": 268435456,
+    "launcher_archive_bytes": 67108864,
+    "native_archive_bytes": 268435456
+  },
+  "native_archive_actual_bytes": 150127860,
+  "source_lock_sha256": "ecdea12f521cce1fb852294df5c3284214f4da2e77b1ab0adfb0dc5709135f6c",
+  "literal_pins": {
+    "@cdot65/prisma-airs-cli": "5.2.0",
+    "@cdot65/prisma-airs-sdk": "0.28.0"
+  },
+  "source_dependency_archives_all_sha512_verified": true,
+  "dependency_count": 73,
+  "recognized_license_files_unchanged": 69,
+  "native_payloads": [
+    {
+      "path": "node_modules/@img/sharp-win32-x64/lib/libvips-42.dll",
+      "sha256": "e6cc51bbc763e7deda536c6f56ce96b4c51ea769690ce4f4ed07607527b81dae",
+      "format": "PE32+ executable for MS Windows 6.00 (DLL), x86-64, 7 sections"
+    },
+    {
+      "path": "node_modules/@img/sharp-win32-x64/lib/libvips-cpp-8.18.6.dll",
+      "sha256": "4f458afdb7b8a4290dbda3f287d7db037b239b8a9d21f0b87333f92192cdee76",
+      "format": "PE32+ executable for MS Windows 6.00 (DLL), x86-64, 7 sections"
+    },
+    {
+      "path": "node_modules/@img/sharp-win32-x64/lib/sharp-win32-x64-0.35.4.node",
+      "sha256": "d5347c1c88194ea56164e5e420de4628da5f07ce0f220795c875147630e0657c",
+      "format": "PE32+ executable for MS Windows 6.00 (DLL), x86-64, 7 sections"
+    },
+    {
+      "path": "node_modules/@img/sharp-linuxmusl-x64/lib/sharp-linuxmusl-x64-0.35.4.node",
+      "sha256": "3153a2d204875e8f5d660bb5c6bcd291e4f70c7f608e558c59469281f99712e4",
+      "format": "ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=91a584b601e1f5ddf1b60b53db223ca3ac43eb51, stripped"
+    },
+    {
+      "path": "node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.4.node",
+      "sha256": "649fd3c3f98401061963aa496976c21b120a67c382657d9a26a60df251a317e2",
+      "format": "ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=b247ca1460baf060552f21bfa593cb502d38831a, stripped"
+    },
+    {
+      "path": "node_modules/@img/sharp-libvips-linuxmusl-x64/lib/libvips-cpp.so.8.18.6",
+      "sha256": "f332e7ef5bea4f9cda6a0cfda81d1917e83b3415d50f76d87ca967583c55cf4b",
+      "format": "ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=e7f120e1d2a8a7935f8385885e9eb68e97a98bae, stripped"
+    },
+    {
+      "path": "node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.6",
+      "sha256": "536cee19ab906cb5185ad519bf87647693f5d7b55e608c92eb28607f89ca5125",
+      "format": "ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=6e42550c8277f0bb9a2511a2a5a2df8135709a48, stripped"
+    },
+    {
+      "path": "node_modules/@img/sharp-libvips-darwin-arm64/lib/libvips-cpp.8.18.6.dylib",
+      "sha256": "bba7a98f1c4b10f4c31f92e12264e5d41a7ab484b864feae535ac8919c548d01",
+      "format": "Mach-O 64-bit arm64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|WEAK_DEFINES|BINDS_TO_WEAK|NO_REEXPORTED_DYLIBS|HAS_TLV_DESCRIPTORS>"
+    },
+    {
+      "path": "node_modules/@img/sharp-darwin-arm64/lib/sharp-darwin-arm64-0.35.4.node",
+      "sha256": "389121ae6516bd89e92fa81b68d94b09e0b084cc53d57919e2140a73d9e3ca4c",
+      "format": "Mach-O 64-bit arm64 bundle, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|WEAK_DEFINES|BINDS_TO_WEAK>"
+    }
+  ],
+  "install_results": [
+    {
+      "npm": "10.9.8",
+      "passed": true,
+      "install_seconds_local_loopback": 2.7269945200532675,
+      "native_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+      "public_registry_requests": 0,
+      "registry_requests": 4,
+      "all_73_locked_package_versions_verified": true,
+      "all_69_license_files_byte_preserved": true,
+      "real_cli_contract": {
+        "passed": true,
+        "cli_version": "5.2.0",
+        "checks": [
+          "exact managed CLI version",
+          "trusted config and explicit env precedence; project dotenv excluded",
+          "doctor diagnoses missing scanner and management credentials without probes",
+          "20 capability command contracts",
+          "real PDF/PNG/JPEG/SVG/DOCX corpus generation including optional native image dependency"
+        ],
+        "live_api_operations": false,
+        "document_detection_tested": false
+      }
+    },
+    {
+      "npm": "12.0.2",
+      "passed": true,
+      "install_seconds_local_loopback": 2.7960313779767603,
+      "native_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+      "public_registry_requests": 0,
+      "registry_requests": 4,
+      "all_73_locked_package_versions_verified": true,
+      "all_69_license_files_byte_preserved": true,
+      "real_cli_contract": {
+        "passed": true,
+        "cli_version": "5.2.0",
+        "checks": [
+          "exact managed CLI version",
+          "trusted config and explicit env precedence; project dotenv excluded",
+          "doctor diagnoses missing scanner and management credentials without probes",
+          "20 capability command contracts",
+          "real PDF/PNG/JPEG/SVG/DOCX corpus generation including optional native image dependency"
+        ],
+        "live_api_operations": false,
+        "document_detection_tested": false
+      }
+    }
+  ],
+  "private_package_markers": true,
+  "publication_performed": false,
+  "rust_rebuilt": false,
+  "credential_hosts": "Synthetic tokens only; private received4requests perinstall, public received0; no real registry credentials used",
+  "limitations": [
+    "No actual GitHub Packages upload or teammate authorization test",
+    "Only Linux musl executes; darwin-arm64, win32-x64 and Linux glibc Sharp payload formats and integrity checked but not executed",
+    "Only a Linux Rust package was served; universal launcher includes requested Sharp payloads, not claimed Mac/Windows Rust install readiness",
+    "Install times include loopback transfer and unpacking, not real network/desktop speed",
+    "Existing alpha.9 private native bytes remain non-publishable and cannot overwrite an existing public version",
+    "Production bundler not implemented; uses release-review agent in-progress scoped launcher copy whose exact hash is recorded"
+  ],
+  "initial_prototype_corrections": [
+    "Stopped before downloads when old-launcher text assertion met newer scoped implementation; used exact new copied module",
+    "Stopped on npm @types/node archive using node v25.9 as root; corrected bounded extraction to accept one validated safe root, reused SRI-reverified archives"
+  ],
+  "files": [
+    {
+      "path": "build.py",
+      "sha256": "6b2798a1e6d1e9fe813fb7f4ff07747d758e87be2f4a1d6aa84da1496c49c649"
+    },
+    {
+      "path": "install.py",
+      "sha256": "1dbf2c376c37e23f945707d3abf7d1831eedd5f360fcd1298923a7bbb6c77b8e"
+    },
+    {
+      "path": "preparation.json",
+      "sha256": "5199a531a5800d7b18afe20f9822bbc2a09060fe0d565b940d31e77e9642045c"
+    },
+    {
+      "path": "pack-summary.json",
+      "sha256": "6bbfeb0db1f79c8da7044b2dc869c4f5aa7d65376fc1c5446bb946b6c3d91f71"
+    },
+    {
+      "path": "install-results.json",
+      "sha256": "7b05f0f0f11f23b1b0fb537c109ba6269ab94c6b2cf9e7aa42958a141fd9634e"
+    },
+    {
+      "path": "package/lib/launcher.js",
+      "sha256": "0a6e58ae9fe26a4ad7bef26516fe3d4263b1c1274ef22364933be9ef8c490f40"
+    },
+    {
+      "path": "package/package.json",
+      "sha256": "3aac09b400b918dd72a57d0c6ee90f246763a494cf18955da1c132fe88da9502"
+    },
+    {
+      "path": "source-package-lock.json",
+      "sha256": "ecdea12f521cce1fb852294df5c3284214f4da2e77b1ab0adfb0dc5709135f6c"
+    },
+    {
+      "path": "validate_prisma_cli.py.txt",
+      "sha256": "afbcfa58dba6490b2b0442586c9c1e8e590f41ff7245c3287d36c7ae25798536"
+    }
+  ],
+  "implementation_matrix_requirement": "Derive Sharp payloads from every supplied native target (both Linux libcs) or reject unsupported targets; prototype covered linux-x64/darwin-arm64/win32-x64 only, not Linux/Windows ARM64."
+}

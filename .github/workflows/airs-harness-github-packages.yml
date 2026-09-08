@@ -77,6 +77,18 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.13'
+      - name: Install local tool prerequisites on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y bubblewrap ripgrep
+          if sysctl kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          bwrap --ro-bind / / --unshare-user --unshare-pid /bin/true
+      - name: Install local tool prerequisites on Apple Silicon
+        if: runner.os == 'macOS'
+        run: brew install ripgrep
       - name: Install from GitHub with public CLI dependency resolution
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}

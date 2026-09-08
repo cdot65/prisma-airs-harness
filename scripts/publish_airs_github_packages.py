@@ -120,11 +120,20 @@ def main():
             native_urls[record["name"]] = dist["tarball"]
         else:
             (output / "launcher-url.txt").write_text(dist["tarball"] + "\n")
-        association = json.loads(subprocess.check_output(
-            ["gh", "api", "users/cdot65/packages/npm/" + manifest["name"].split("/")[1]], text=True
-        ))
+        association = json.loads(
+            subprocess.check_output(
+                [
+                    "gh",
+                    "api",
+                    "users/cdot65/packages/npm/" + manifest["name"].split("/")[1],
+                ],
+                text=True,
+            )
+        )
         if association.get("repository", {}).get("full_name") != "cdot65/airs-harness":
-            raise ValueError("Published package is not associated with the harness repository")
+            raise ValueError(
+                "Published package is not associated with the harness repository"
+            )
         published.append(
             {
                 "name": manifest["name"],

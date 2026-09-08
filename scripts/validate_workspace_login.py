@@ -10,17 +10,17 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
 import secrets
 import stat
 import subprocess
 import sys
 import tempfile
 import time
-import tomllib
-from urllib.parse import urlsplit
 import uuid
+from pathlib import Path
+from urllib.parse import urlsplit
 
+import tomllib
 from airs_harness_pty import TerminalSession
 
 
@@ -53,6 +53,7 @@ def daemon_ready(env, daemon):
                 "string:org.freedesktop.secrets",
             ],
             env=env,
+            check=False,
             capture_output=True,
             timeout=5,
         )
@@ -133,13 +134,14 @@ def validate(args, receipt):
             daemon.stdin.close()
             daemon_ready(env, daemon)
 
-            def run(arguments, *, success=True):
+            def run(arguments, *, success=True, timeout=240):
                 result = subprocess.run(
                     [str(args.binary), *arguments],
                     env=env,
                     cwd=work,
+                    check=False,
                     capture_output=True,
-                    timeout=240,
+                    timeout=timeout,
                 )
                 transcripts.extend([result.stdout, result.stderr])
                 if (result.returncode == 0) != success:
@@ -166,23 +168,30 @@ def validate(args, receipt):
                     "Fixture is not configured for gateway default routing"
                 )
             receipt["phase"] = "guided-login"
-            with TerminalSession(
-                args.binary, env, work, arguments=["login"]
-            ) as terminal:
-                terminal.wait_for(b"Choose 1 or 2", timeout=30)
-                os.write(terminal.master, b"2\n")
-                terminal.wait_for(b"Workspace API key (input hidden", timeout=30)
-                terminal.send_line(token.decode())
-                terminal.wait_until(
-                    lambda: terminal.process.poll() is not None, timeout=90
-                )
-                transcripts.append(bytes(terminal.transcript))
-                if terminal.process.returncode:
-                    raise AssertionError("Guided workspace login failed")
-            binding = json.loads((home / "credential-binding.json").read_text())
-            if binding["source"] != {"kind": "keyring-v2"}:
-                raise AssertionError("Workspace key was not bound to native storage")
-            run(["status"])
+
+            def guided_login():
+                with TerminalSession(
+                    args.binary, env, work, arguments=["login"]
+                ) as terminal:
+                    terminal.wait_for(b"Choose 1 or 2", timeout=30)
+                    os.write(terminal.master, b"2\n")
+                    terminal.wait_for(b"Workspace API key (input hidden", timeout=30)
+                    terminal.send_line(token.decode())
+                    terminal.wait_until(
+                        lambda: terminal.process.poll() is not None, timeout=90
+                    )
+                    transcripts.append(bytes(terminal.transcript))
+                    if terminal.process.returncode:
+                        raise AssertionError("Guided workspace login failed")
+                binding = json.loads((home / "credential-binding.json").read_text())
+                if binding["source"] != {"kind": "keyring-v2"}:
+                    raise AssertionError(
+                        "Workspace key was not bound to native storage"
+                    )
+                run(["status"])
+
+            lifecycle_started = time.monotonic()
+            guided_login()
             receipt["checks"].extend(
                 [
                     "guided-hidden-login",
@@ -190,6 +199,29 @@ def validate(args, receipt):
                     "separate-process-status",
                 ]
             )
+
+            if args.warm_status_runs:
+                receipt["phase"] = "warm-local-status"
+                samples = []
+                for _ in range(args.warm_status_runs):
+                    started = time.perf_counter()
+                    run(["--version"], timeout=5)
+                    baseline = (time.perf_counter() - started) * 1000
+                    started = time.perf_counter()
+                    run(["status"], timeout=5)
+                    elapsed = (time.perf_counter() - started) * 1000
+                    samples.append({"version_ms": baseline, "status_ms": elapsed})
+                ordered = sorted(item["status_ms"] for item in samples)
+                p95 = ordered[(95 * len(ordered) + 99) // 100 - 1]
+                receipt["warm_local_status"] = {
+                    "runs": len(samples),
+                    "samples": samples,
+                    "p95_ms": p95,
+                    "target_ms": 500,
+                    "target_met": p95 <= 500,
+                    "scope": "whole status process including startup and configuration; no network",
+                    "credential_resolution_isolated": False,
+                }
 
             receipt["phase"] = "live-exec"
             proof = "WORKSPACE_OK_" + secrets.token_hex(8)
@@ -201,10 +233,12 @@ def validate(args, receipt):
                     "--sandbox",
                     "workspace-write",
                     "--json",
-                    f"Write workspace-proof.txt containing exactly {proof} using one local shell "
-                    f"command, then verify the file with one shell command. Remember the session-only "
-                    f"marker {memory}; do not write that marker to project files. "
-                    "Finish with the marker and actual verification result. Do not call MCP tools.",
+                    (
+                        f"Write workspace-proof.txt containing exactly {proof} using one local shell "
+                        f"command, then verify the file with one shell command. Remember the session-only "
+                        f"marker {memory}; do not write that marker to project files. "
+                        "Finish with the marker and actual verification result. Do not call MCP tools."
+                    ),
                 ]
             )
             proof_path = work / "workspace-proof.txt"
@@ -263,6 +297,24 @@ def validate(args, receipt):
                     "post-logout-new-process-exec-blocked",
                 ]
             )
+            receipt["credential_lifecycle"] = {
+                "auth_mode": "workspace-key",
+                "requested_runs": args.lifecycle_runs,
+                "completed_runs": 1,
+                "first_run_included_live_inference_and_resume": True,
+                "repeat_runs_include_inference_or_refresh": False,
+                "durations_seconds": [time.monotonic() - lifecycle_started],
+            }
+            for index in range(1, args.lifecycle_runs):
+                receipt["phase"] = f"native-lifecycle-{index + 1}"
+                started = time.monotonic()
+                guided_login()
+                run(["logout"], timeout=10)
+                run(["status"], success=False, timeout=5)
+                receipt["credential_lifecycle"]["completed_runs"] += 1
+                receipt["credential_lifecycle"]["durations_seconds"].append(
+                    time.monotonic() - started
+                )
             receipt["phase"] = "plaintext-inspection"
             receipt["files_inspected"] = assert_private(
                 [state, work], transcripts, token
@@ -284,6 +336,8 @@ def main():
     parser.add_argument("--gateway-url", required=True)
     parser.add_argument("--credential-file", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--warm-status-runs", type=int, choices=range(101), default=0)
+    parser.add_argument("--lifecycle-runs", type=int, choices=range(1, 101), default=1)
     parser.add_argument("--inside-dbus", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     os.umask(0o077)
@@ -319,6 +373,10 @@ def main():
                 str(args.credential_file),
                 "--output",
                 str(args.output),
+                "--warm-status-runs",
+                str(args.warm_status_runs),
+                "--lifecycle-runs",
+                str(args.lifecycle_runs),
                 "--inside-dbus",
             ]
         )
@@ -344,7 +402,7 @@ def main():
     }
     try:
         validate(args, receipt)
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001 — redact potentially secret-bearing tool errors
         # TerminalSession and subprocess errors can carry complete output/keys.
         # Retain only the safe phase and exception class, never their messages.
         receipt["failure_class"] = type(error).__name__

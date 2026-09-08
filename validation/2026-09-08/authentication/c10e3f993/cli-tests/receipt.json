@@ -1,0 +1,33 @@
+{
+  "evidence_layer": "cli-unit-and-fault-tests",
+  "source_commit": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "source_attribution": "Runtime files compiled from the working tree and committed at this revision; documentation commits do not change this tested runtime.",
+  "run_id": "04cead8e-874a-424c-8675-bf8afd543520",
+  "result": {
+    "passed": 339,
+    "failed": 0,
+    "skipped": 0
+  },
+  "command": "just test --release -p codex-cli --bin airs-harness",
+  "raw_junit_sha256": "7df0dd640bf223dc4cccf4ecdd2efc41d8a3f71ec4a542cf83a126c1e4fae7d6",
+  "junit_attributes": {
+    "name": "nextest-run",
+    "tests": "339",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "04cead8e-874a-424c-8675-bf8afd543520",
+    "timestamp": "2026-09-08T18:07:05.646+00:00",
+    "time": "1.028"
+  },
+  "clippy": {
+    "command": "just fix --release -p codex-cli -p codex-api -p codex-rmcp-client -p codex-utils-home-dir -p codex-keyring-store -p codex-airs-identity --bin airs-harness",
+    "exit_code": 0,
+    "runtime_source_fixes": 0,
+    "note": "Two unused-import removals in unrelated cli/tests/update.rs were reverted; existing upstream unused/dead-code warnings remain."
+  },
+  "limits": [
+    "Not installed executable acceptance",
+    "Not native Windows/macOS desktop validation"
+  ]
+}

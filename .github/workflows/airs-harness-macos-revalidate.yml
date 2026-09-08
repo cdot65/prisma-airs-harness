@@ -1,0 +1,44 @@
+name: Prisma AIRS Harness macOS artifact acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Run containing the compiled Apple Silicon executable artifact
+        required: true
+        default: '34178828451'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  acceptance:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: airs-harness-darwin-arm64-unvalidated-executables
+          path: ${{ runner.temp }}/compiled
+          run-id: ${{ inputs.build_run }}
+          github-token: ${{ github.token }}
+      - name: Validate preserved Apple Silicon executable without compiling
+        run: |
+          test "$(uname -m)" = arm64
+          brew install ripgrep
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+          tar -xzf "$RUNNER_TEMP/compiled/unvalidated-macos-executables.tar.gz" -C "$RUNNER_TEMP/compiled"
+          codesign --verify --strict --verbose=2 "$RUNNER_TEMP/compiled/airs-harness"
+          cat "$RUNNER_TEMP/compiled/runtime-source.txt"
+          shasum -a 256 "$RUNNER_TEMP/compiled/airs-harness" > "$RUNNER_TEMP/airs-evidence/executable-sha256.txt"
+          AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/fixtures" AIRS_HARNESS_BIN="$RUNNER_TEMP/compiled/airs-harness" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$RUNNER_TEMP/airs-evidence/native-tests.log" 2>&1
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-darwin-arm64-evidence
+          path: ${{ runner.temp }}/airs-evidence/
+          retention-days: 30

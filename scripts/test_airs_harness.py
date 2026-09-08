@@ -126,16 +126,19 @@ class TerminalIntegration(unittest.TestCase):
             )
         )
         with TerminalSession(BINARY, self.env, self.work) as terminal:
+            self.terminal_transcript = terminal.transcript
             terminal.start()
             terminal.send_line("Create result.txt using a local shell tool.")
             terminal.wait_for(b"Local tool complete.")
             default_count = len(self.requests)
+            self.phase_counts = {"default_count": default_count}
             self.assertGreaterEqual(default_count, 2)
             terminal.choose_model("down", EXPLICIT)
             offset = len(terminal.transcript)
             terminal.send_line("Review the changes and run the tests again.")
             terminal.wait_for(b"Local tool complete.", offset)
             explicit_count = len(self.requests)
+            self.phase_counts["explicit_count"] = explicit_count
             self.assertGreater(explicit_count, default_count)
             terminal.choose_model("up", "airs-gateway-default")
             offset = len(terminal.transcript)
@@ -614,6 +617,41 @@ class TerminalIntegration(unittest.TestCase):
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
         self.url = f"http://127.0.0.1:{self.server.server_port}/prefix/v1"
+
+    def tearDown(self):
+        evidence = os.environ.get("AIRS_HARNESS_TEST_EVIDENCE")
+        if evidence:
+            directory = Path(evidence)
+            directory.mkdir(parents=True, exist_ok=True)
+            # Only synthetic fixture bodies and the public User-Agent are recorded.
+            # Never include credential-bearing request headers.
+            (directory / f"{self._testMethodName}.json").write_text(
+                json.dumps(
+                    {
+                        "requests": [
+                            {
+                                "path": path,
+                                "body": body,
+                                "user_agent": next(
+                                    (
+                                        v
+                                        for k, v in headers.items()
+                                        if k.lower() == "user-agent"
+                                    ),
+                                    None,
+                                ),
+                            }
+                            for path, headers, body in self.requests
+                        ],
+                        "phase_counts": getattr(self, "phase_counts", {}),
+                        "transcript": getattr(self, "terminal_transcript", b"").decode(
+                            errors="replace"
+                        ),
+                    },
+                    indent=2,
+                )
+                + "\n"
+            )
 
     def run_cli(self, *args):
         return subprocess.run(

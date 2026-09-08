@@ -116,7 +116,7 @@ class InteractiveTerminal(unittest.TestCase):
                         except OSError:
                             break
                 self.assertEqual(
-                    process.wait(timeout=5),
+                    process.poll(),
                     0,
                     transcript.decode(errors="replace")[-2500:],
                 )
@@ -141,6 +141,10 @@ class InteractiveTerminal(unittest.TestCase):
                 )
                 self.assertNotIn(b"synthetic-interactive-test-key", transcript)
             finally:
+                evidence = os.environ.get("AIRS_HARNESS_TEST_EVIDENCE")
+                if evidence:
+                    Path(evidence).mkdir(parents=True, exist_ok=True)
+                    (Path(evidence) / "logout-transcript.log").write_bytes(transcript)
                 if process.poll() is None:
                     process.terminate()
                     process.wait(timeout=10)

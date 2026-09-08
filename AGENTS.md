@@ -1,3 +1,12 @@
+# Prisma AIRS Harness release policy
+
+- Mac builds and distributions target Apple Silicon (`aarch64-apple-darwin`) only.
+  Do not schedule Intel Mac builds or publish Intel Mac packages.
+- Inherited upstream workflows are disabled. Keep them disabled; use the owned
+  `airs-harness-*` workflows for this fork.
+- Reuse successful Rust compilation caches for iteration. A dedicated Mac runner
+  must have confirmed operator-provided access before changing runner selection.
+
 # Rust/codex-rs
 
 In the codex-rs folder where the rust code lives:

@@ -22,7 +22,9 @@ substituted relative slot. All three regular, bounded, non-reparse files must
 match a single generator family. Altered bytes, partial sets, mixed families
 and unsupported shebangs fail verification. Existing POSIX symbolic-link
 verification remains separate. Staged bundles need not contain generated wrappers;
-once any regular wrapper is found, its complete triplet is mandatory.
+once any regular wrapper is found, its complete triplet is mandatory. The npm
+validator additionally requires every declared command's triplet after Windows
+installation, so deleting all wrappers cannot pass installed acceptance.
 
 To update a reference, inspect the exact npm dependency source, retain its license
 and source hash, generate all three files through that real implementation, and

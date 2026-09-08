@@ -253,6 +253,16 @@ class BundleTests(unittest.TestCase):
                 },
             )
 
+    def test_installed_windows_requires_wrappers_even_if_all_are_absent(self):
+        inventory = self.windows_bundle()
+        bundle.verify_bundle(self.launcher, inventory)
+        with self.assertRaisesRegex(ValueError, "missing declared command wrappers"):
+            bundle.verify_bundle(
+                self.launcher, inventory, require_windows_wrappers=True
+            )
+        self.windows_wrappers()
+        bundle.verify_bundle(self.launcher, inventory, require_windows_wrappers=True)
+
     def test_windows_wrapper_mutations_and_partial_sets_rejected(self):
         inventory = self.windows_bundle()
         for version in (0, 1):

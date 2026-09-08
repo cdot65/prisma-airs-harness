@@ -161,7 +161,7 @@ def bundle_cli(lock_path, launcher, targets):
     return inventory
 
 
-def verify_bundle(directory, inventory):
+def verify_bundle(directory, inventory, *, require_windows_wrappers=False):
     """Check actual packed/installed manifests, runtime files, native payloads and licenses."""
     if (
         inventory.get("schema_version") != 1
@@ -243,7 +243,13 @@ def verify_bundle(directory, inventory):
                     raise ValueError("Bundle shebang normalization provenance differs")
             files += 1
         licenses += len(package["license_files"])
-    windows_wrappers = verify_tree(root, inventory, found, read_file)
+    windows_wrappers = verify_tree(
+        root,
+        inventory,
+        found,
+        read_file,
+        require_windows_wrappers=require_windows_wrappers,
+    )
     actual_names = {p["name"] for p in found.values()}
     if not wanted.issubset(actual_names) or any(
         name.startswith("@img/sharp-") and name not in wanted for name in actual_names

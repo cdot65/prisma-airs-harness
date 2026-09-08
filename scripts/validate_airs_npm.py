@@ -140,7 +140,9 @@ def main():
                     "Installed bundle inventory differs from its staging receipt"
                 )
             bundle_verification = verify_bundle(
-                launcher_directory, json.loads(inventory_bytes)
+                launcher_directory,
+                json.loads(inventory_bytes),
+                require_windows_wrappers=os.name == "nt",
             )
         command = prefix / (
             "airs-harness.cmd" if os.name == "nt" else "bin/airs-harness"

@@ -11,7 +11,9 @@ from airs_bundle_archive import safe_path
 from airs_bundle_shims import EXTENSIONS, verify_shims
 
 
-def verify_tree(root, inventory, manifests, read_file):
+def verify_tree(
+    root, inventory, manifests, read_file, *, require_windows_wrappers=False
+):
     expected, bins = set(), {}
     for package in inventory["packages"]:
         base = PurePosixPath(package["path"])
@@ -115,4 +117,8 @@ def verify_tree(root, inventory, manifests, read_file):
                     continue
                 else:
                     raise ValueError("Unexpected installed bundle entry: " + relative)
+    if require_windows_wrappers and generated.keys() != bins.keys():
+        raise ValueError(
+            "Installed Windows bundle is missing declared command wrappers"
+        )
     return verify_shims(root, generated, read_file) if generated else []

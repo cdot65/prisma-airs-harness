@@ -1,0 +1,79 @@
+{
+  "scope": "Linux installed private candidate, same-terminal continuation across two resource-token expiries; not full A12/platform acceptance",
+  "passed": true,
+  "invocation": {
+    "started_at_utc": "2026-09-08T20:57:38.732191+00:00",
+    "finished_at_utc": "2026-09-08T21:02:20.506139+00:00",
+    "exit_code": 0,
+    "fixture_source_commit": "67976dfaf",
+    "command": [
+      "dbus-run-session",
+      "--",
+      "uv",
+      "run",
+      "--script",
+      "/home/cdot/development/cdot65/airs-harness/scripts/validate_auth_cli.py",
+      "--binary",
+      "/tmp/airs-auth-final-154b-29ip7b5g/AIRS Candidate Install/bin/airs-harness",
+      "--infrastructure-root",
+      "/home/cdot/development/cdot65/airs-terminal-infrastructure",
+      "--output",
+      "/var/tmp/airs-auth-154b-two-expiry-67976.json",
+      "--verify-gateway-access",
+      "--expected-native-sha256",
+      "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad"
+    ],
+    "receipt_path": "/var/tmp/airs-auth-154b-two-expiry-67976.json"
+  },
+  "fixture_source_commit": "67976dfafdbe017918c8ab46db34a8b50eefc63f",
+  "fixture_files": [
+    {
+      "path": "scripts/validate_auth_cli.py",
+      "sha256": "60c70d09cd6400704a47de067dd3daf21a86987520c411d1244c6b09cf6ef7de"
+    },
+    {
+      "path": "scripts/airs_oidc_interactive.py",
+      "sha256": "7e0bcb3980215ada1c906a7a5e0cdb8fdfbfba46660585d79e51391688ac1618"
+    },
+    {
+      "path": "scripts/airs_oidc_evidence.py",
+      "sha256": "9b3bc356908276b07d7148532cd28aa28e4cb4acec85d227cb07c8ef53f8a15e"
+    },
+    {
+      "path": "scripts/test_airs_oidc_evidence.py",
+      "sha256": "349de3fa246fdcca4a7374f0d136c22b3d011a07f9020f4bb12175e19ff777aa"
+    },
+    {
+      "path": "scripts/test_airs_oidc_cycles.py",
+      "sha256": "70671370aa5b305e8d7dfb4e12c677475c18d28a86890e0b0b33dbce03d26e64"
+    },
+    {
+      "path": "scripts/test_airs_oidc_interactive.py",
+      "sha256": "3042767a725f11a679f10ff096d5915e8a6f14b2f4a2798d15405155982ab98b"
+    }
+  ],
+  "unit_verification": {
+    "command": "PYTHONPATH=scripts python3 -m unittest -v test_airs_oidc_evidence test_airs_oidc_cycles test_airs_oidc_interactive",
+    "tests": 9,
+    "passed": 9,
+    "failures": 0,
+    "skips": 0,
+    "seconds": 0.035,
+    "executed_before_final_format": true,
+    "just_fmt_passed": true
+  },
+  "live_receipt_sha256": "de6e62325d9071867b61ba50642300268d460f5a28c916841c3f39a12afcd8c6",
+  "original_28_check_receipt_sha256": "cd32c8dcb2ce671228f8ac0a17e127153a14334ba167c883255d687eed87fbc7",
+  "original_receipt_unchanged": true,
+  "native_hash_verified_before_live": true,
+  "retries": 0,
+  "shared_client_availability_changed": false,
+  "realm_token_lifetimes_changed": false,
+  "production_gateway_routing_changed": false,
+  "raw_transcripts_committed": false,
+  "limitations": [
+    "Isolated Linux Secret Service, not desktop/headless onboarding acceptance",
+    "Credential helper observations may rotate near-expiry records before each wait; helpers do not run during the wait or ensuing terminal task",
+    "No refresh concurrency, interruption, crash, exact server rotation count or cross-platform acceptance claim"
+  ]
+}

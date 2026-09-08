@@ -37,6 +37,7 @@ non-publishable. See the [Linux artifact receipt](linux-binary/receipt.json).
 | Installed executable tests | 38/38 passed, zero skips, 33.709 seconds | [Installed receipt](linux-binary/installed-tests.json); includes catalog size/FIFO rejection, managed skill, local tool loop, routing and cross-process logout against deterministic loopback |
 | Managed Prisma AIRS CLI | Pinned 5.2.0; command contracts and corpus generation pass | [Managed CLI receipt](linux-binary/managed-cli.json); no live management API operation or document detection claimed |
 | Live OIDC and MCP | 28/28 checks pass, including browser/device flows, identity separation, local filesystem work, actual allow scan IDs, model switch and continued interactive use after initial token expiry | [OIDC receipt](linux-binary/oidc-live.json); exact tested binary hash matches installed package, but invocation path is not recorded in this receipt; does not prove every two-expiry/concurrency/server-audit subcase |
+| Continuous OIDC across two resource-token expiries | New first-attempt run passes 29/29 checks; same installed npm TUI performs two successful local shell commands and a real allow scan after each of two observed inference/MCP expiry boundaries; model switching preserved | [Live receipt](linux-binary/oidc-two-expiry-live.json) and [fixture/provenance evidence](linux-binary/oidc-two-expiry-evidence.json); exact installed command and native2fcb hash recorded. Private helper observations may rotate near-expiry records before each wait; no helpers run during the idle/turn interval. This covers Linux continuation, not refresh concurrency/crash or full A12. |
 | Workspace first attempt | Guided login and bounded gateway probe passed; measurement phase failed on fixture startup warning | [Failed receipt](workspace-live-first-attempt.json) and [diagnosis](workspace-fixture-diagnosis.json); native key read succeeded, fixture root corrected without relaxing secret checks; first failure remains preserved |
 | Workspace rerun | 20/20 credential lifecycles, 20 disclosed and verified gateway probes; initial live file task and new-process resume pass | [Rerun receipt](linux-binary/workspace-live-rerun.json); same binary hash as first attempt and installed native; repeat cycles use a fixed 16-token-maximum connectivity probe, not a conversation or refresh test |
 | Local performance | 30 paired launches: native credential-helper whole-process p95 **23.2635 ms**, status p95 **10.5001 ms**; <=500 ms target met | Secret output privately matched exactly and not retained; helper includes startup/configuration/native resolution; status is metadata-only; no isolated backend or desktop-wide timing claim |
@@ -49,6 +50,13 @@ comparison or evidence of a speedup. The workspace rerun finished at **2026-09-0
 binary hashes match. This isolated Secret Service session does not substitute
 for GNOME/KDE desktop or selected headless onboarding acceptance.
 
+The additional two-expiry run completed at **2026-09-08 21:02:20 UTC** with 29/29
+checks and no retries. Both post-expiry scans returned distinct real scan IDs and
+allow actions; each phase recorded two successful local shell commands and its
+verified proof file. The original 28-check receipt is byte-for-byte unchanged.
+The installed native remains source154 with SHA-256 2fcb93d5...e3ad; only operator
+fixtures changed. This does not resolve the earlier scanner failure cause.
+
 ## Score interpretation
 
 | Assessment | Current evidence | Score/status |
@@ -56,7 +64,7 @@ for GNOME/KDE desktop or selected headless onboarding acceptance.
 | Bounded source implementation | 359 passing Linux CLI tests; scoped fix passed; independent source review recorded separately | No numeric score assigned by this evidence recorder; source evidence only |
 | Apple Silicon macOS delivery | No final 154 published/installed desktop and owner-incident acceptance in this ledger | FAIL / mandatory evidence missing |
 | Windows11 x64 delivery | No final 154 signed package and installed desktop acceptance in this ledger | FAIL / mandatory evidence missing |
-| Linux delivery | Private candidate installed 38/38 and live OIDC 28/28; workspace 20/20 and helper timing target met; GNOME/KDE and selected headless contract evidence pending | FAIL / mandatory evidence missing |
+| Linux delivery | Private candidate installed 38/38; original OIDC 28/28 and new two-expiry continuation 29/29; workspace 20/20 and helper timing target met; GNOME/KDE and selected headless contract evidence pending | FAIL / mandatory evidence missing |
 | Whole supported-platform delivery | Minimum platform result under the plan; unknown hard gates cannot be waived | FAIL; no defensible >=9 score |
 
 The plan caps any platform with an unknown or failed hard gate at 8.9. **8.9 is a
@@ -76,7 +84,7 @@ Earlier-source receipts provide history, not automatic passes for changed bytes.
 | A02-A04, A19 | Both guided authentication flows, profile-driven browser/device behavior, protocol rejection/cancel coverage, trusted profile and destination-change protection. |
 | A05-A07, A17 | Both credential modes across separate processes, OS-user separation, lock/denial/corruption/interruption cases, maximum native records; diagnose and resolve the actual unlocked-Mac incident with safe OS status and owner retest. |
 | A08-A11, A25 | Both modes against live gateway, negative authorization and persisted audit, default/explicit routing, separate MCP authorization, real skill/file/test/scan effects and restart/resume on the same published bytes. |
-| A12-A15 | Two access-token expiries, refresh concurrency/interruption, identity-safe history/resume, cross-process logout within 5 seconds, remote/offline revocation semantics. |
+| A12-A15 | Linux same-terminal two-expiry continuation now passes on installed native154. Refresh concurrency/interruption, remaining identity-safe history/resume, cross-process logout within 5 seconds, remote/offline revocation and supported-platform cases still require their specified evidence. |
 | A16, A21, A24 | Linux installed catalog regression and 20-trial Ctrl-C/SIGTERM subsets now pass; remaining leak/diagnostic/deadline subcases and required Mac/Windows/desktop/ConPTY sessions still need their own evidence. |
 | A20, A22 | Unfamiliar-user guide trial and five participants per OS family completing both methods unassisted; report timing separately from mandatory completion. |
 | A23, A29 | Thirty warm credential resolutions per platform with p95 <= 500 ms; twenty installed credential lifecycles with zero unexplained failures and first attempts preserved. Whole-helper timing includes startup and is not isolated backend latency. |

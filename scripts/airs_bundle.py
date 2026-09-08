@@ -243,7 +243,7 @@ def verify_bundle(directory, inventory):
                     raise ValueError("Bundle shebang normalization provenance differs")
             files += 1
         licenses += len(package["license_files"])
-    verify_tree(root, inventory, found, read_file)
+    windows_wrappers = verify_tree(root, inventory, found, read_file)
     actual_names = {p["name"] for p in found.values()}
     if not wanted.issubset(actual_names) or any(
         name.startswith("@img/sharp-") and name not in wanted for name in actual_names
@@ -262,4 +262,5 @@ def verify_bundle(directory, inventory):
         "license_files": licenses,
         "native_payload_packages": sorted(wanted),
         "source_lock_sha256": inventory["source_lock_sha256"],
+        "windows_command_wrappers": windows_wrappers,
     }

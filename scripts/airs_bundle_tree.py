@@ -8,6 +8,7 @@ import stat
 import unicodedata
 
 from airs_bundle_archive import safe_path
+from airs_bundle_shims import EXTENSIONS, verify_shims
 
 
 def verify_tree(root, inventory, manifests, read_file):
@@ -51,6 +52,17 @@ def verify_tree(root, inventory, manifests, read_file):
                     )
                 excluded.add("node_modules/" + name)
 
+    wrappers = {}
+    wrapper_names = {unicodedata.normalize("NFC", path).casefold() for path in expected}
+    for command, target in bins.items():
+        for suffix in EXTENSIONS:
+            path = command + suffix
+            canonical = unicodedata.normalize("NFC", path).casefold()
+            if canonical in wrapper_names:
+                raise ValueError("Bundled command wrapper paths conflict")
+            wrapper_names.add(canonical)
+            wrappers[path] = (command, target)
+    generated = {}
     seen, count, path_bytes = set(), 0, 0
     pending = [root / "node_modules"]
     while pending:
@@ -83,24 +95,24 @@ def verify_tree(root, inventory, manifests, read_file):
                             "Harness native dependency must be a real directory"
                         )
                     continue
-                if stat.S_ISDIR(mode):
-                    pending.append(path)
-                elif stat.S_ISLNK(mode) and relative in bins:
+                if stat.S_ISLNK(mode) and relative in bins:
                     if path.resolve(strict=True) != (root / bins[relative]).resolve(
                         strict=True
                     ):
                         raise ValueError(
                             "Generated bundled command link differs from declared target"
                         )
+                elif relative in wrappers:
+                    if not stat.S_ISREG(mode):
+                        raise ValueError(
+                            "Generated bundled command wrapper must be a regular file"
+                        )
+                    command, target = wrappers[relative]
+                    generated[command] = target
+                elif stat.S_ISDIR(mode):
+                    pending.append(path)
                 elif stat.S_ISREG(mode) and relative in expected:
                     continue
-                elif relative in bins or any(
-                    relative == name + extension
-                    for name in bins
-                    for extension in (".cmd", ".ps1")
-                ):
-                    raise ValueError(
-                        "Windows generated command shim validation is unsupported in this private stage"
-                    )
                 else:
                     raise ValueError("Unexpected installed bundle entry: " + relative)
+    return verify_shims(root, generated, read_file) if generated else []

@@ -7,6 +7,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -16,6 +17,7 @@ import unittest
 from unittest.mock import patch
 
 import airs_bundle as bundle
+from airs_bundle_shims import EXTENSIONS, TEMPLATES
 
 
 class BundleTests(unittest.TestCase):
@@ -205,14 +207,149 @@ class BundleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "declared target"):
             bundle.verify_bundle(self.launcher, inventory)
 
+    def windows_wrappers(self, version=0, target="../@cdot65/prisma-airs-cli/run.js"):
+        templates = json.loads(TEMPLATES.read_text())["variants"][version]["templates"]
+        paths = {}
+        for suffix in EXTENSIONS:
+            path = self.launcher / ("node_modules/.bin/airs" + suffix)
+            path.parent.mkdir(exist_ok=True)
+            path.write_bytes(
+                templates[suffix]
+                .replace(
+                    "{{TARGET}}",
+                    target.replace("/", "\\") if suffix == ".cmd" else target,
+                )
+                .encode()
+            )
+            paths[suffix] = path
+        return paths
+
+    def windows_bundle(self, script=b"#!/usr/bin/env node\nconsole.log('test');\n"):
+        self.add_package(
+            bundle.CLI,
+            "5.2.0",
+            {bundle.SDK: "0.28.0", "sharp": "1.0.0"},
+            bin={"airs": "run.js"},
+            contents={"run.js": script},
+        )
+        return self.build()
+
+    def test_windows_complete_wrapper_families_and_receipts(self):
+        inventory = self.windows_bundle()
+        for version, expected in enumerate(("7.0.0", "9.0.2")):
+            paths = self.windows_wrappers(version)
+            receipt = bundle.verify_bundle(self.launcher, inventory)[
+                "windows_command_wrappers"
+            ]
+            self.assertEqual(len(receipt), 1)
+            self.assertEqual(receipt[0]["template_cmd_shim"], expected)
+            self.assertEqual(
+                receipt[0]["files"],
+                {
+                    str(p.relative_to(self.launcher)): hashlib.sha256(
+                        p.read_bytes()
+                    ).hexdigest()
+                    for p in paths.values()
+                },
+            )
+
+    def test_windows_wrapper_mutations_and_partial_sets_rejected(self):
+        inventory = self.windows_bundle()
+        for version in (0, 1):
+            for suffix in EXTENSIONS:
+                paths = self.windows_wrappers(version)
+                original = paths[suffix].read_bytes()
+                mutations = (
+                    original + b"\necho injected\n",
+                    original[:-1],
+                    b"\xef\xbb\xbf" + original,
+                    original.replace(b"run.js", b"other.js"),
+                    original.replace(b"node", b"evil", 1),
+                )
+                for payload in mutations:
+                    with self.subTest(
+                        version=version, suffix=suffix, payload=payload[-30:]
+                    ):
+                        paths[suffix].write_bytes(payload)
+                        with self.assertRaisesRegex(ValueError, "wrappers differ"):
+                            bundle.verify_bundle(self.launcher, inventory)
+                paths[suffix].unlink()
+                with self.assertRaisesRegex(ValueError, "Incomplete Windows"):
+                    bundle.verify_bundle(self.launcher, inventory)
+
+    def test_windows_mixed_families_and_nonregular_members_rejected(self):
+        inventory = self.windows_bundle()
+        older = self.windows_wrappers(0)[".cmd"].read_bytes()
+        paths = self.windows_wrappers(1)
+        paths[".cmd"].write_bytes(older)
+        with self.assertRaisesRegex(ValueError, "wrappers differ"):
+            bundle.verify_bundle(self.launcher, inventory)
+        paths = self.windows_wrappers()
+        paths[".cmd"].unlink()
+        paths[".cmd"].mkdir()
+        with self.assertRaisesRegex(ValueError, "regular file"):
+            bundle.verify_bundle(self.launcher, inventory)
+
+    def test_windows_unsupported_shebang_rejected(self):
+        inventory = self.windows_bundle(b"#!/usr/bin/env node --inspect\nbody\n")
+        self.windows_wrappers()
+        with self.assertRaisesRegex(ValueError, "Unsupported bundled command shebang"):
+            bundle.verify_bundle(self.launcher, inventory)
+
+    def test_declared_wrapper_namespace_collisions_rejected_during_staging(self):
+        for names in (("Tool", "tool"), ("airs", "airs.cmd"), ("é", "e\u0301")):
+            with self.subTest(names=names):
+                self.add_package(
+                    bundle.CLI,
+                    "5.2.0",
+                    {bundle.SDK: "0.28.0", "sharp": "1.0.0"},
+                    bin={name: "run.js" for name in names},
+                )
+                with self.assertRaisesRegex(ValueError, "wrapper paths conflict"):
+                    self.build()
+                self.assertFalse((self.launcher / "node_modules").exists())
+
+    def test_windows_target_metacharacters_and_wrapper_bounds_rejected(self):
+        self.add_package(
+            bundle.CLI,
+            "5.2.0",
+            {bundle.SDK: "0.28.0", "sharp": "1.0.0"},
+            bin={"airs": "run$bad.js"},
+            contents={"run$bad.js": b"#!/usr/bin/env node\nbody\n"},
+        )
+        inventory = self.build()
+        self.windows_wrappers(target="../@cdot65/prisma-airs-cli/run$bad.js")
+        with self.assertRaisesRegex(ValueError, "Unsupported bundled command path"):
+            bundle.verify_bundle(self.launcher, inventory)
+        # Restore a supported hashed target before isolating the wrapper size check.
+        for path in (self.launcher / "node_modules/.bin").iterdir():
+            path.unlink()
+        shutil.rmtree(self.launcher / "node_modules")
+        inventory = self.windows_bundle()
+        paths = self.windows_wrappers()
+        paths[".cmd"].write_bytes(b"x" * (16 * 1024 + 1))
+        with self.assertRaises(ValueError):
+            bundle.verify_bundle(self.launcher, inventory)
+
+    @unittest.skipIf(os.name == "nt", "POSIX synthetic symlink/FIFO wrapper rejection")
+    def test_windows_wrapper_symlink_and_fifo_rejected_without_read(self):
+        inventory = self.windows_bundle()
+        paths = self.windows_wrappers()
+        paths[".cmd"].unlink()
+        paths[".cmd"].symlink_to("airs.ps1")
+        with self.assertRaisesRegex(ValueError, "regular file"):
+            bundle.verify_bundle(self.launcher, inventory)
+        paths[".cmd"].unlink()
+        os.mkfifo(paths[".cmd"])
+        with self.assertRaisesRegex(ValueError, "regular file"):
+            bundle.verify_bundle(self.launcher, inventory)
+
     def test_windows_generated_shim_fails_explicitly(self):
         inventory = self.build()
         path = self.launcher / "node_modules/.bin/airs.cmd"
         path.parent.mkdir()
         path.write_text("unverified generated executable")
-        with self.assertRaisesRegex(
-            ValueError, "Windows generated command shim validation is unsupported"
-        ):
+        with self.assertRaisesRegex(ValueError, "Unsupported bundled command shebang"):
             bundle.verify_bundle(self.launcher, inventory)
 
     def test_windows_reparse_metadata_rejected_before_enumeration_or_read(self):

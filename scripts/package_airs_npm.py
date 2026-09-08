@@ -176,8 +176,10 @@ def main():
                     "airs_bundle.py",
                     "airs_bundle_archive.py",
                     "airs_bundle_tree.py",
+                    "airs_bundle_shims.py",
                 )
             ),
+            *sorted((root / "scripts/fixtures/npm-command-shims").iterdir()),
         ]
     tooling = {
         "packaging_commit": subprocess.check_output(

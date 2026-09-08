@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "shebang": "#!/usr/bin/env node",
+  "variants": [
+    {
+      "npm": "10.9.8",
+      "cmd_shim": "7.0.0",
+      "source_sha256": "ec89ec47d22e7012336aa41cea1216b497aecd36f7802b30eebf3b8e6a298b12",
+      "templates": {
+        "": "#!/bin/sh\nbasedir=$(dirname \"$(echo \"$0\" | sed -e 's,\\\\,/,g')\")\n\ncase `uname` in\n    *CYGWIN*|*MINGW*|*MSYS*)\n        if command -v cygpath > /dev/null 2>&1; then\n            basedir=`cygpath -w \"$basedir\"`\n        fi\n    ;;\nesac\n\nif [ -x \"$basedir/node\" ]; then\n  exec \"$basedir/node\"  \"$basedir/{{TARGET}}\" \"$@\"\nelse \n  exec node  \"$basedir/{{TARGET}}\" \"$@\"\nfi\n",
+        ".cmd": "@ECHO off\r\nGOTO start\r\n:find_dp0\r\nSET dp0=%~dp0\r\nEXIT /b\r\n:start\r\nSETLOCAL\r\nCALL :find_dp0\r\n\r\nIF EXIST \"%dp0%\\node.exe\" (\r\n  SET \"_prog=%dp0%\\node.exe\"\r\n) ELSE (\r\n  SET \"_prog=node\"\r\n  SET PATHEXT=%PATHEXT:;.JS;=;%\r\n)\r\n\r\nendLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & \"%_prog%\"  \"%dp0%\\{{TARGET}}\" %*\r\n",
+        ".ps1": "#!/usr/bin/env pwsh\n$basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent\n\n$exe=\"\"\nif ($PSVersionTable.PSVersion -lt \"6.0\" -or $IsWindows) {\n  # Fix case when both the Windows and Linux builds of Node\n  # are installed in the same directory\n  $exe=\".exe\"\n}\n$ret=0\nif (Test-Path \"$basedir/node$exe\") {\n  # Support pipeline input\n  if ($MyInvocation.ExpectingInput) {\n    $input | & \"$basedir/node$exe\"  \"$basedir/{{TARGET}}\" $args\n  } else {\n    & \"$basedir/node$exe\"  \"$basedir/{{TARGET}}\" $args\n  }\n  $ret=$LASTEXITCODE\n} else {\n  # Support pipeline input\n  if ($MyInvocation.ExpectingInput) {\n    $input | & \"node$exe\"  \"$basedir/{{TARGET}}\" $args\n  } else {\n    & \"node$exe\"  \"$basedir/{{TARGET}}\" $args\n  }\n  $ret=$LASTEXITCODE\n}\nexit $ret\n"
+      }
+    },
+    {
+      "npm": "12.0.2",
+      "cmd_shim": "9.0.2",
+      "source_sha256": "47ccea08e5db69d0fc274ce0a0db9c360bb13264c4a9b315cc608e0833bae247",
+      "templates": {
+        "": "#!/bin/sh\nbasedir=$(dirname \"$(echo \"$0\" | sed -e 's,\\\\,/,g')\")\nbasedir_win=\"$basedir\"\n\ncase `uname -a` in\n  *CYGWIN*|*MINGW*|*MSYS*)\n    if command -v cygpath > /dev/null 2>&1; then\n      basedir_win=`cygpath -w \"$basedir\"`\n    fi\n  ;;\n  *WSL2*)\n    if command -v wslpath > /dev/null 2>&1; then\n      basedir_win=\"$(wslpath -w \"$basedir\" 2> /dev/null)\"\n      if [ $? -ne 0 ] || [ -z \"$basedir_win\" ]; then\n        echo \"Error: wslpath failed to convert path. WSL environment may be misconfigured.\" >&2\n        exit 1\n      fi\n    fi\n  ;;\nesac\n\nPROG_EXE=\"$basedir/node.exe\"\nif ! [ -x \"$PROG_EXE\" ]; then\n  PROG_EXE=\"$basedir/node\"\n  if ! [ -x \"$PROG_EXE\" ]; then\n    PROG_EXE=node\n    if ! [ -x \"$PROG_EXE\" ]; then\n      PROG_EXE=node.exe\n    fi\n  fi\nfi\n\nexec \"$PROG_EXE\"  \"$basedir_win/{{TARGET}}\" \"$@\"\n",
+        ".cmd": "@ECHO off\r\nGOTO start\r\n:find_dp0\r\nSET dp0=%~dp0\r\nEXIT /b\r\n:start\r\nSETLOCAL\r\nCALL :find_dp0\r\n\r\nIF EXIST \"%dp0%\\node.exe\" (\r\n  SET \"_prog=%dp0%\\node.exe\"\r\n) ELSE (\r\n  SET \"_prog=node\"\r\n)\r\n\r\nendLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & set PATHEXT=%PATHEXT:;.JS;=;% & \"%_prog%\"  \"%dp0%\\{{TARGET}}\" %*\r\n",
+        ".ps1": "#!/usr/bin/env pwsh\n$basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent\n\n$exe=\"\"\nif ($PSVersionTable.PSVersion -lt \"6.0\" -or $IsWindows) {\n  # Fix case when both the Windows and Linux builds of Node\n  # are installed in the same directory\n  $exe=\".exe\"\n}\n$ret=0\nif (Test-Path \"$basedir/node$exe\") {\n  # Support pipeline input\n  if ($MyInvocation.ExpectingInput) {\n    $input | & \"$basedir/node$exe\"  \"$basedir/{{TARGET}}\" $args\n  } else {\n    & \"$basedir/node$exe\"  \"$basedir/{{TARGET}}\" $args\n  }\n  $ret=$LASTEXITCODE\n} else {\n  # Support pipeline input\n  if ($MyInvocation.ExpectingInput) {\n    $input | & \"node$exe\"  \"$basedir/{{TARGET}}\" $args\n  } else {\n    & \"node$exe\"  \"$basedir/{{TARGET}}\" $args\n  }\n  $ret=$LASTEXITCODE\n}\nexit $ret\n"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "run": "https://github.com/cdot65/airs-harness/actions/runs/34245620760",
+  "source_commit": "db3ddb2f33dcdba0d84e0c8f9f6da448c2935276",
+  "package": "@cdot65/prisma-airs-harness@0.1.0-alpha.9",
+  "jobs": [
+    {
+      "name": "storage (macos-15)",
+      "conclusion": "success",
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34245620760/job/102126720072"
+    },
+    {
+      "name": "storage (macos-26)",
+      "conclusion": "success",
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34245620760/job/102126720461"
+    }
+  ],
+  "user_machine_failure_reproduced": false,
+  "user_machine_failure_resolved": false,
+  "remaining_evidence": "User default keychain, binary signature status, and desktop versus SSH session"
+}

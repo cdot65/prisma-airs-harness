@@ -438,6 +438,28 @@ notarization and older macOS acceptance remain separate work. Follow your
 organization's endpoint policy if installation is blocked; do not disable
 Gatekeeper to install this alpha.
 
+### Keychain is unlocked but login still fails
+
+Opening and unlocking the login keychain does not establish that the harness's
+process can use the **default user keychain** selected by macOS. Alpha.9 reports
+a generic storage error and does not expose the underlying OS status. If the
+same error persists, stop reinstalling or repeating the unlock step and collect
+these read-only diagnostics:
+
+```zsh
+security default-keychain -d user
+security list-keychains -d user
+sw_vers -productVersion
+codesign --verify --strict --verbose=2 "$(npm root -g)/@cdot65/prisma-airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness"
+```
+
+The signature path above is for the scoped GitHub npm installation. These commands
+report paths, OS version and signature validity, not saved passwords. Include
+whether the failing command runs in a desktop Terminal, over SSH, or another
+remote session. If using SSH, compare the same login in Terminal opened inside
+the signed-in macOS desktop session. Do not reset the keychain or change its
+access rules to work around an unidentified error.
+
 ## Administrator setup for GitHub package access
 
 Do this once before distributing the GitHub instructions to teammates:

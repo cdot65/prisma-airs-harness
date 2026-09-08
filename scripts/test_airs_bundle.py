@@ -7,6 +7,8 @@ import io
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tarfile
 import tempfile
 from types import SimpleNamespace
@@ -20,7 +22,7 @@ class BundleTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name).resolve()
         self.launcher = self.root / "launcher"
         self.launcher.mkdir()
         self.manifest = {
@@ -231,6 +233,28 @@ class BundleTests(unittest.TestCase):
         with patch.object(Path, "lstat", reparse):
             with self.assertRaisesRegex(ValueError, "regular files"):
                 bundle.read_file(target, 1024 * 1024)
+
+    @unittest.skipIf(os.name == "nt", "POSIX temporary-directory alias regression")
+    def test_reparse_fixture_handles_aliased_temporary_directory(self):
+        directory = self.root / "actual-temp"
+        directory.mkdir()
+        alias = self.root / "aliased-temp"
+        alias.symlink_to(directory, target_is_directory=True)
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "unittest",
+                "test_airs_bundle.BundleTests.test_windows_reparse_metadata_rejected_before_enumeration_or_read",
+            ],
+            cwd=Path(__file__).resolve().parent,
+            env=os.environ
+            | {"TMPDIR": str(alias), "TMP": str(alias), "TEMP": str(alias)},
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_locked_name_integrity_budget_and_peer_fail_closed(self):
         original = copy.deepcopy(self.packages)

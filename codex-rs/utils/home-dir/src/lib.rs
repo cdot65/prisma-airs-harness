@@ -5,7 +5,7 @@ use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 /// Standalone product version, distinct from the pinned upstream crate versions.
-pub const AIRS_HARNESS_VERSION: &str = "0.1.0-alpha.8";
+pub const AIRS_HARNESS_VERSION: &str = "0.1.0-alpha.9";
 static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 
 /// Select one independent AIRS environment before loading runtime configuration.

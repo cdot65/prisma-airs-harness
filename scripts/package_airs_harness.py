@@ -95,6 +95,7 @@ def main():
             "RELEASE.md",
             "RENAME.md",
             "MACOS.md",
+            "PRISMA-AIRS-CLI.md",
             "UPSTREAM.md",
             "BASELINE.json",
             "VALIDATION.json",

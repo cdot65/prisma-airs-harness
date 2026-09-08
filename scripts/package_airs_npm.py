@@ -111,11 +111,12 @@ def main():
         packages.append(package)
     launcher = output / "airs-harness"
     launcher.mkdir()
-    for name in ["bin", "lib"]:
+    for name in ["bin", "lib", "managed-cli"]:
         shutil.copytree(template / name, launcher / name)
     for name in ["LICENSE", "NOTICE", "README.md"]:
         shutil.copy2(template / name, launcher / name)
-    shutil.copy2(root / "MACOS.md", launcher / "MACOS.md")
+    for name in ["MACOS.md", "PRISMA-AIRS-CLI.md"]:
+        shutil.copy2(root / name, launcher / name)
     manifest.pop("private", None)
     manifest["optionalDependencies"] = dependencies
     manifest["publishConfig"] = {"registry": args.registry}

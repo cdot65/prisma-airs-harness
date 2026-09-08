@@ -8,6 +8,12 @@ servers are configured and authenticated separately.
 
 The terminal has no PAH application, SDK, proxy or web-service dependency.
 
+## Managed Prisma AIRS CLI — alpha.9 candidate
+
+The next release integrates CLI 5.2.0 as an exact npm dependency and embeds eight
+focused Prisma AIRS skills. See [CLI setup, credentials and upgrade policy](PRISMA-AIRS-CLI.md).
+Alpha.8 remains the published release until candidate acceptance completes.
+
 ## 0.1.0-alpha.8 — npm distribution
 
 The product is **Prisma AIRS Harness**, invoked as `airs-harness`. The unscoped

@@ -14,7 +14,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import threading
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 
 
 def main():
@@ -47,7 +47,17 @@ def main():
                     shutil.copyfileobj(source, self.wfile)
                 return
             if path not in metadata:
-                self.send_error(404)
+                # First-party names must resolve only to this candidate. Real
+                # CLI/transitive dependencies come from the public npm registry.
+                if path.startswith("/airs-harness"):
+                    self.send_error(404)
+                else:
+                    self.send_response(302)
+                    self.send_header(
+                        "Location",
+                        "https://registry.npmjs.org" + quote(path, safe="/@"),
+                    )
+                    self.end_headers()
                 return
             body = json.dumps(metadata[path]).encode()
             self.send_response(200)
@@ -99,7 +109,7 @@ def main():
             env=env,
             capture_output=True,
             text=True,
-            timeout=180,
+            timeout=300,
         )
         (prefix / "npm-install.log").write_text(result.stdout + result.stderr)
         if result.returncode:
@@ -134,7 +144,16 @@ def main():
             native_digest = hashlib.file_digest(stream, "sha256").hexdigest()
         if native_digest != provenance["binary_sha256"]:
             raise ValueError("Installed native binary differs from build provenance")
+        cli_version = subprocess.check_output(
+            [str(command), "airs", "--version"], text=True
+        ).strip()
+        launcher_manifest = json.loads(
+            (modules / "airs-harness/package.json").read_text()
+        )
+        if cli_version != launcher_manifest["dependencies"]["@cdot65/prisma-airs-cli"]:
+            raise ValueError("Installed Prisma AIRS CLI differs from its exact pin")
         receipt = {
+            "prisma_airs_cli_version": cli_version,
             "passed": True,
             "binary_sha256": native_digest,
             "source_commit": provenance["source_commit"],

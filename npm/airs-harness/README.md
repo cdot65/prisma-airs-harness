@@ -1,7 +1,7 @@
 # Prisma AIRS Harness
 
 The `airs-harness` package launches the matching prebuilt native Rust agent.
-Node.js 22 or later is required. No Rust compiler is needed on the endpoint.
+Node.js 22.13+ in the 22.x line, or 23.5+ is required. No Rust compiler is needed on the endpoint.
 Inference uses your configured Prisma AIRS AI Gateway; local files and tools
 run on your machine. This package has no PAH server or OpenAI CLI dependency.
 
@@ -45,3 +45,13 @@ Do not delete an old executable that stored credential-helper paths still use.
 Update by installing an administrator-approved version from the same registry.
 Configuration and history are outside the npm package. License notices and
 build provenance ship with each native platform package.
+
+## Managed Prisma AIRS CLI
+
+This alpha.9 candidate pins `@cdot65/prisma-airs-cli@5.2.0` and includes eight
+built-in Prisma AIRS skills. Run `airs-harness airs doctor --output json` before
+Prisma AIRS operations. Existing protected CLI configuration and explicit
+`PANW_AI_SEC_API_KEY`, `PANW_MGMT_CLIENT_ID`, `PANW_MGMT_CLIENT_SECRET`, and
+`PANW_MGMT_TSG_ID` environment settings are supported. Keycloak sign-in does not
+supply management credentials. See the bundled `PRISMA-AIRS-CLI.md` for setup,
+capabilities, known CLI limits and the compatibility policy.

@@ -68,7 +68,7 @@ class TerminalIntegration(unittest.TestCase):
         config = self.home / "config.toml"
         config.write_text(
             config.read_text().replace(
-                "airs-harness/0.1.0-alpha.8", "airs-terminal/0.1.0-alpha.7"
+                "airs-harness/0.1.0-alpha.9", "airs-terminal/0.1.0-alpha.7"
             )
         )
         original = tomllib.loads(config.read_text())
@@ -77,7 +77,7 @@ class TerminalIntegration(unittest.TestCase):
         self.assertTrue(self.requests)
         for _, headers, _ in self.requests:
             headers = {key.lower(): value for key, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.8")
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.9")
         actual = tomllib.loads(config.read_text())
         actual.pop("projects", None)
         self.assertEqual(actual, original)
@@ -129,7 +129,7 @@ class TerminalIntegration(unittest.TestCase):
         config = self.home / "config.toml"
         config.write_text(
             config.read_text().replace(
-                "airs-harness/0.1.0-alpha.8", "airs-terminal/0.1.0-alpha.7"
+                "airs-harness/0.1.0-alpha.9", "airs-terminal/0.1.0-alpha.7"
             )
         )
         prompts = {
@@ -186,7 +186,7 @@ class TerminalIntegration(unittest.TestCase):
             self.assertNotIn("effort", body.get("reasoning") or {})
             self.assertEqual(
                 {key.lower(): value for key, value in headers.items()}["user-agent"],
-                "airs-harness/0.1.0-alpha.8",
+                "airs-harness/0.1.0-alpha.9",
             )
 
     def test_gateway_ignores_stale_reasoning_and_has_runtime_context(self):
@@ -234,7 +234,7 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-harness",
                 "title": "Prisma AIRS Harness",
-                "version": "0.1.0-alpha.8",
+                "version": "0.1.0-alpha.9",
             },
         )
         self.assertTrue(
@@ -247,7 +247,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.8")
+            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.9")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
@@ -586,6 +586,7 @@ class TerminalIntegration(unittest.TestCase):
                         "exec_command" if "exec_command" in names else "shell_command"
                     )
                     command = "printf 'local tool worked\\n' > result.txt && test -z \"${AIRS_TEST_CREDENTIAL+x}\" && cat result.txt"
+                    command = getattr(owner, "tool_command", command)
                     args = (
                         {"cmd": command}
                         if name == "exec_command"
@@ -722,7 +723,11 @@ class TerminalIntegration(unittest.TestCase):
             "-s",
             os.environ.get("AIRS_HARNESS_TEST_SANDBOX", "workspace-write"),
             *extra,
-            "Create result.txt using a local shell tool and verify its contents.",
+            getattr(
+                self,
+                "prompt",
+                "Create result.txt using a local shell tool and verify its contents.",
+            ),
         )
 
     def assert_tool_loop(self, model):
@@ -765,6 +770,51 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(len(outputs), 1)
         self.assertIn("local tool worked", outputs[0]["output"])
         self.assertIn("Process exited with code 0", outputs[0]["output"])
+
+    @unittest.skipUnless(
+        os.environ.get("AIRS_MANAGED_CLI_ACCEPTANCE"), "requires npm-managed CLI"
+    )
+    def test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell(self):
+        for key in list(self.env):
+            if key.startswith(("PANW_", "PRISMA_AIRS_", "DOTENV_")):
+                del self.env[key]
+        config = self.work / "trusted-cli.json"
+        config.write_text("{}")
+        self.env["PRISMA_AIRS_CONFIG_PATH"] = str(config)
+        (self.work / ".env").write_text("PANW_AI_SEC_API_KEY=untrusted-project-key\n")
+        self.prompt = "$prisma-airs-cli Check the managed CLI version and diagnose missing credentials."
+        self.tool_command = (
+            '"$AIRS_MANAGED_CLI" --version > managed-version.txt && '
+            '("$AIRS_MANAGED_CLI" doctor --output json > managed-doctor.json; test $? -eq 1)'
+        )
+        self.configure()
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            (self.work / "managed-version.txt").read_text().strip(), "5.2.0"
+        )
+        statuses = {
+            row["name"]: row["status"]
+            for row in json.loads((self.work / "managed-doctor.json").read_text())
+        }
+        self.assertEqual(statuses["Scanner credentials"], "fail")
+        self.assertEqual(statuses["Management credentials"], "fail")
+        self.assertEqual(statuses["Scanner API"], "warn")
+        context = json.dumps(self.requests[0][2]["input"])
+        for name in [
+            "prisma-airs-cli",
+            "prisma-airs-runtime",
+            "prisma-airs-guardrails",
+            "prisma-airs-redteam",
+            "prisma-airs-gateway",
+            "prisma-airs-model-security",
+            "prisma-airs-dlp-testing",
+            "prisma-airs-dlp-management",
+        ]:
+            self.assertIn(name, context)
+        self.assertIn(
+            "Doctor is a preflight", context, "invoked skill body must reach the agent"
+        )
 
     def test_gateway_default_local_tool_and_continuation(self):
         self.assert_tool_loop(None)

@@ -1,4 +1,5 @@
-import { spawn } from "node:child_process";
+import { runChild } from "./child.js";
+import { managedCliDirectory, resolvePrismaCli, runPrismaCli } from "./prisma-cli.js";
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -17,7 +18,28 @@ export function platformPackage(platform, arch) {
   return `airs-harness-${platform}-${arch}`;
 }
 
+export function managedEnvironment(environment, platform = process.platform) {
+  const env = { ...environment };
+  let inheritedPath = env.PATH || "";
+  if (platform === "win32") {
+    // Match Node's selection when Windows receives duplicate case variants,
+    // then pass one key so a stale variant cannot override the managed path.
+    const pathKeys = Object.keys(env).filter((key) => key.toUpperCase() === "PATH").sort();
+    inheritedPath = env[pathKeys[0]] || "";
+    for (const key of pathKeys) delete env[key];
+  }
+  env.AIRS_MANAGED_CLI = path.join(managedCliDirectory, platform === "win32" ? "airs.cmd" : "airs");
+  env.PATH = inheritedPath
+    ? `${managedCliDirectory}${platform === "win32" ? ";" : ":"}${inheritedPath}`
+    : managedCliDirectory;
+  return env;
+}
+
 export function run() {
+  if (process.argv[2] === "airs") {
+    runPrismaCli(process.argv.slice(3));
+    return;
+  }
   let binary;
   try {
     const name = platformPackage(process.platform, process.arch);
@@ -41,28 +63,12 @@ export function run() {
     return;
   }
 
-  // Preserve the terminal, argument boundaries, credentials and working directory.
-  // Never interpolate user arguments into a shell command.
-  const child = spawn(binary, process.argv.slice(2), { stdio: "inherit" });
-  const handlers = new Map();
-  for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
-    const handler = () => {
-      if (child.exitCode === null && child.signalCode === null) child.kill(signal);
-    };
-    handlers.set(signal, handler);
-    process.on(signal, handler);
-  }
-  const cleanup = () => {
-    for (const [signal, handler] of handlers) process.removeListener(signal, handler);
-  };
-  child.on("error", (error) => {
-    cleanup();
-    process.stderr.write(`Cannot start Prisma AIRS Harness: ${error.message}\n`);
+  try {
+    resolvePrismaCli();
+  } catch (error) {
+    process.stderr.write(`${error.message}\n`);
     process.exitCode = 1;
-  });
-  child.on("exit", (code, signal) => {
-    cleanup();
-    if (signal) process.kill(process.pid, signal);
-    else process.exitCode = code ?? 1;
-  });
+    return;
+  }
+  runChild(binary, process.argv.slice(2), managedEnvironment(process.env));
 }

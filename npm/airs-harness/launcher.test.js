@@ -1,24 +1,31 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, mkdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { platformPackage } from "./lib/launcher.js";
+import { managedEnvironment, platformPackage } from "./lib/launcher.js";
+import { managedCliDirectory } from "./lib/prisma-cli.js";
 
 function fixture(t, native) {
-  const root = mkdtempSync(path.join(os.tmpdir(), "airs-harness-launcher-"));
+  const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), "airs-harness-launcher-")));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const module = path.join(root, "node_modules", "airs-harness");
-  cpSync(path.dirname(fileURLToPath(import.meta.url)), module, { recursive: true });
+  cpSync(path.dirname(fileURLToPath(import.meta.url)), module, { recursive: true, filter: (source) => path.basename(source) !== "node_modules" });
+  const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
+  mkdirSync(cli, { recursive: true });
+  writeFileSync(path.join(cli, "package.json"), JSON.stringify({
+    name: "@cdot65/prisma-airs-cli", version: "5.2.0", bin: { airs: "index.js" },
+  }));
+  writeFileSync(path.join(cli, "index.js"), "console.log('5.2.0')");
   if (native !== undefined) {
     const target = path.join(root, "node_modules", platformPackage(process.platform, process.arch));
     mkdirSync(path.join(target, "bin"), { recursive: true });
     writeFileSync(path.join(target, "package.json"), JSON.stringify({ name: path.basename(target) }));
     if (native !== null) {
-      writeFileSync(path.join(target, "bin", "airs-harness"), native, { mode: 0o755 });
+      writeFileSync(path.join(target, "bin", process.platform === "win32" ? "airs-harness.exe" : "airs-harness"), native, { mode: 0o755 });
     }
   }
   return path.join(module, "bin", "airs-harness.js");
@@ -39,6 +46,65 @@ test("incomplete native package reports a reinstall", (t) => {
   const result = spawnSync(process.execPath, [fixture(t, null)], { encoding: "utf8" });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /native executable is missing/);
+});
+
+test("Windows PATH variants cannot override the managed CLI directory", () => {
+  const original = { Path: "stale-path", PATH: "selected-path", path: "another-path", KEEP: "value" };
+  const env = managedEnvironment(original, "win32");
+  assert.equal(env.PATH, `${managedCliDirectory};selected-path`);
+  assert.equal(env.AIRS_MANAGED_CLI, path.join(managedCliDirectory, "airs.cmd"));
+  assert.equal(env.KEEP, "value");
+  assert.deepEqual(Object.keys(env).filter((key) => key.toUpperCase() === "PATH"), ["PATH"]);
+  assert.equal(original.Path, "stale-path");
+  const mixedCase = managedEnvironment({ Path: "windows-path" }, "win32");
+  assert.equal(mixedCase.PATH, `${managedCliDirectory};windows-path`);
+});
+
+test("native launch requires the pinned dependency before executing anything", (t) => {
+  for (const version of [null, "3.3.0"]) {
+    const entry = fixture(t, '#!/bin/sh\nprintf "native must not run\\n"\n');
+    const root = path.resolve(path.dirname(entry), "../../..");
+    const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
+    if (version === null) rmSync(cli, { recursive: true });
+    else writeFileSync(path.join(cli, "package.json"), JSON.stringify({ version, bin: { airs: "index.js" } }));
+    const result = spawnSync(process.execPath, [entry, "--version"], { encoding: "utf8" });
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /missing|version mismatch/);
+    assert.equal(result.stdout, "");
+  }
+});
+
+test("native login-shell tools use the pinned CLI even after PATH is replaced", { skip: process.platform === "win32" }, (t) => {
+  const entry = fixture(t, `#!${process.execPath}
+const {spawnSync}=require("node:child_process");
+const result=spawnSync("/bin/sh", ["-lc", 'PATH="$AIRS_TEST_RESET_PATH"; export PATH; exec "$AIRS_MANAGED_CLI" "$@"', "fixture", ...process.argv.slice(2)], {encoding:"utf8"});
+if(result.error) throw result.error;
+process.stdout.write(JSON.stringify({managed:process.env.AIRS_MANAGED_CLI,nativePath:process.env.PATH,decoyPath:process.env.Path,nested:JSON.parse(result.stdout)}));
+process.stderr.write(result.stderr);
+process.exitCode=result.status;
+`);
+  const root = path.resolve(path.dirname(entry), "../../..");
+  const cliEntry = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli", "index.js");
+  writeFileSync(cliEntry, "console.log(JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),entry:__filename}));process.exitCode=7;\n");
+  const resetPath = path.join(root, "global-bin");
+  mkdirSync(resetPath);
+  symlinkSync(process.execPath, path.join(resetPath, "node"));
+  writeFileSync(path.join(resetPath, "airs"), '#!/bin/sh\nprintf "unmanaged CLI must not run\\n"\nexit 99\n', { mode: 0o755 });
+  const literal = "spaces ; $(literal)";
+  const inherited = Object.fromEntries(Object.entries(process.env).filter(([key]) => key.toUpperCase() !== "PATH"));
+  const result = spawnSync(process.execPath, [entry, "doctor", literal], {
+    cwd: root, encoding: "utf8", env: {
+      ...inherited, Path: "unix-decoy", PATH: process.env.PATH,
+      AIRS_TEST_RESET_PATH: resetPath, AIRS_MANAGED_CLI: path.join(resetPath, "airs"),
+    },
+  });
+  assert.equal(result.status, 7, result.stderr);
+  const output = JSON.parse(result.stdout);
+  const managed = path.resolve(path.dirname(entry), "../managed-cli");
+  assert.equal(output.managed, path.join(managed, "airs"));
+  assert.equal(output.nativePath, `${managed}:${process.env.PATH}`);
+  assert.equal(output.decoyPath, "unix-decoy");
+  assert.deepEqual(output.nested, { args: ["doctor", literal], cwd: root, entry: cliEntry });
 });
 
 test("launcher preserves arguments, cwd, stdin and exit code", { skip: process.platform === "win32" }, (t) => {

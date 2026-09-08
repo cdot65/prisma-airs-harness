@@ -81,7 +81,6 @@ def main():
             "RELEASE.md",
             "RENAME.md",
             "MACOS.md",
-            "OWNER-REVIEW.md",
             "UPSTREAM.md",
             "BASELINE.json",
             "VALIDATION.json",

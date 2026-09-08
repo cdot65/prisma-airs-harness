@@ -1,0 +1,33 @@
+{
+  "baseline_verified": {
+    "packages": 5,
+    "files": 10,
+    "license_files": 5,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64"
+    ],
+    "source_lock_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "omitted_package": "airs-bundle-missing-fixture",
+  "network": {
+    "bundled": true,
+    "registry_requests": [
+      "/@cdot65/prisma-airs-harness",
+      "CONNECT [external target]",
+      "CONNECT [external target]",
+      "/@cdot65/prisma-airs-harness/-/launcher.tgz"
+    ],
+    "unexpected_requests": [
+      "CONNECT [external target]",
+      "CONNECT [external target]"
+    ],
+    "public_dependency_redirects": [],
+    "npm_version": "10.9.8",
+    "node_version": "v22.23.2",
+    "npm_exit_code": 0
+  },
+  "failed_as_required": true,
+  "failure_stage": "network",
+  "native_executed": false
+}

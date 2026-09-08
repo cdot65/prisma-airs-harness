@@ -1,0 +1,57 @@
+{
+  "reviewed_at_utc": "2026-09-08T22:08:13.345300+00:00",
+  "corrected_source_commit": "c15a6af2073fb82d9c708a846f36dba2b53fedf8",
+  "earlier_validator_source": "f6bb7db09f74db8a1a11e5b596c28e829aa76557",
+  "review_mode": "independent source and retained receipt reconciliation; no test rerun or native build",
+  "case_count": 8,
+  "npm_versions": [
+    "10.9.8",
+    "12.0.2"
+  ],
+  "earlier_npm12_proxy_url_denial_proof": "withdrawn; generic assertion did not identify the causal request",
+  "corrected_npm10_cases": "four specifically identified network denials",
+  "corrected_npm12_cases": "registry metadata denial; three URL omissions rejected by byte-bound installed inventory with no external request",
+  "full_real_bundle_acceptance_at_cutoff": false,
+  "receipts": [
+    {
+      "receipt": "npm10.9.8-http.json",
+      "sha256": "fad0c76192dba368adef9bde80c1a914a12f03ad498c04ee1cc6de6126243cb0",
+      "stage": "network"
+    },
+    {
+      "receipt": "npm10.9.8-https.json",
+      "sha256": "bb2f725992af514dde94e87dacbadd10aae8de886eb6b5ecd5e8ffb4f856d028",
+      "stage": "network"
+    },
+    {
+      "receipt": "npm10.9.8-npm-url.json",
+      "sha256": "7f58141807f11d4fa201d4007f3ee2420fc8973f91b73c69dfa3535ddd107b48",
+      "stage": "network"
+    },
+    {
+      "receipt": "npm10.9.8-registry.json",
+      "sha256": "aac53b22abdf9ed05e5d3cec4fd4d3bfdfd14a24db60a08d21878453acda526b",
+      "stage": "network"
+    },
+    {
+      "receipt": "npm12.0.2-http.json",
+      "sha256": "25a8cd12cdedf1a1b705ba29d7f4cb4f39d7f1e3cf1d0c74d520a4ac32b6d8b5",
+      "stage": "installed-inventory"
+    },
+    {
+      "receipt": "npm12.0.2-https.json",
+      "sha256": "25a8cd12cdedf1a1b705ba29d7f4cb4f39d7f1e3cf1d0c74d520a4ac32b6d8b5",
+      "stage": "installed-inventory"
+    },
+    {
+      "receipt": "npm12.0.2-npm-url.json",
+      "sha256": "25a8cd12cdedf1a1b705ba29d7f4cb4f39d7f1e3cf1d0c74d520a4ac32b6d8b5",
+      "stage": "installed-inventory"
+    },
+    {
+      "receipt": "npm12.0.2-registry.json",
+      "sha256": "03a2f1d1292b8e94c21b434956111857e3a3a635f87caf2604fd2017a0dfc082",
+      "stage": "network"
+    }
+  ]
+}

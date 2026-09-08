@@ -204,6 +204,15 @@ def verify_bundle(directory, inventory):
             for name in optional
         ):
             raise ValueError("Invalid optional bundle file evidence")
+        transforms = {item["path"]: item for item in package.get("normalizations", [])}
+        commands = actual.get("bin", {})
+        declared_bins = (
+            [commands] if isinstance(commands, str) else list(commands.values())
+        )
+        if len(transforms) != len(package.get("normalizations", [])) or not set(
+            transforms
+        ).issubset({value.removeprefix("./") for value in declared_bins}):
+            raise ValueError("Normalization requires a unique declared executable")
         for relative, expected in {**package["files"], **optional}.items():
             file = base.joinpath(*safe_path(relative).parts)
             if not file.resolve().is_relative_to(base.resolve()) or not re.fullmatch(
@@ -212,10 +221,26 @@ def verify_bundle(directory, inventory):
                 raise ValueError("Invalid bundle file evidence")
             if relative in optional and not file.exists() and not file.is_symlink():
                 continue
-            if hashlib.sha256(read_file(file, MAX_EXTRACTED)).hexdigest() != expected:
+            payload = read_file(file, MAX_EXTRACTED)
+            if hashlib.sha256(payload).hexdigest() != expected:
                 raise ValueError(
                     "Installed bundle file differs: " + str(path / relative)
                 )
+            if relative in transforms:
+                change = transforms[relative]
+                newline = payload.find(b"\n")
+                if (
+                    change.get("transform") != "npm-bin-shebang-crlf-to-lf-v1"
+                    or change.get("normalized_sha256") != expected
+                    or not payload.startswith(b"#!")
+                    or newline < 0
+                    or payload[newline - 1 : newline] == b"\r"
+                    or hashlib.sha256(
+                        payload[:newline] + b"\r" + payload[newline:]
+                    ).hexdigest()
+                    != change.get("original_sha256")
+                ):
+                    raise ValueError("Bundle shebang normalization provenance differs")
             files += 1
         licenses += len(package["license_files"])
     verify_tree(root, inventory, found, read_file)

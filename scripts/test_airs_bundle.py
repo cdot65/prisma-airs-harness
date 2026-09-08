@@ -49,7 +49,7 @@ class BundleTests(unittest.TestCase):
             self.add_package(name, "1.0.0")
         self.lock = self.root / "package-lock.json"
 
-    def add_package(self, name, version, dependencies=None, **extra):
+    def add_package(self, name, version, dependencies=None, contents=None, **extra):
         manifest = {"name": name, "version": version, **extra}
         if dependencies:
             manifest["dependencies"] = dependencies
@@ -60,6 +60,7 @@ class BundleTests(unittest.TestCase):
                 "LICENSE": b"synthetic license",
                 "run.js": b"console.log('test')",
                 "CHANGELOG.md": b"source history",
+                **(contents or {}),
             }.items():
                 member = tarfile.TarInfo("package/" + relative)
                 member.size = len(content)
@@ -130,6 +131,63 @@ class BundleTests(unittest.TestCase):
         (self.launcher / "node_modules/@img/sharp-darwin-arm64/run.js").unlink()
         with self.assertRaises(FileNotFoundError):
             bundle.verify_bundle(self.launcher, inventory)
+
+    def test_only_declared_bin_shebang_is_normalized_with_reversible_provenance(self):
+        original = b"#!/usr/bin/env node\r\nconsole.log('body');\r\n"
+        canonical = b"#!/usr/bin/env node\nconsole.log('body');\r\n"
+        self.add_package(
+            bundle.CLI,
+            "5.2.0",
+            {bundle.SDK: "0.28.0", "sharp": "1.0.0"},
+            bin={"airs": "./run.js"},
+            contents={"run.js": original, "other.js": original, "LICENSE": original},
+        )
+        inventory = self.build()
+        base = self.launcher / "node_modules" / bundle.CLI
+        self.assertEqual((base / "run.js").read_bytes(), canonical)
+        self.assertEqual((base / "other.js").read_bytes(), original)
+        self.assertEqual((base / "LICENSE").read_bytes(), original)
+        package = next(
+            record for record in inventory["packages"] if record["name"] == bundle.CLI
+        )
+        self.assertEqual(
+            package["normalizations"],
+            [
+                {
+                    "path": "run.js",
+                    "transform": "npm-bin-shebang-crlf-to-lf-v1",
+                    "original_sha256": hashlib.sha256(original).hexdigest(),
+                    "normalized_sha256": hashlib.sha256(canonical).hexdigest(),
+                }
+            ],
+        )
+        bundle.verify_bundle(self.launcher, inventory)
+        for changed in (
+            original,
+            canonical.replace(b"body", b"tampered"),
+            canonical.replace(b";\r\n", b";\n"),
+        ):
+            (base / "run.js").write_bytes(changed)
+            with self.assertRaisesRegex(ValueError, "Installed bundle file differs"):
+                bundle.verify_bundle(self.launcher, inventory)
+        (base / "run.js").write_bytes(canonical)
+        package["normalizations"][0]["original_sha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "normalization provenance differs"):
+            bundle.verify_bundle(self.launcher, inventory)
+
+    def test_unstable_or_non_utf8_shebang_transforms_fail_closed(self):
+        for script in (b"#!/usr/bin/node\r\r\nbody\n", b"#!/usr/bin/node\r\n\xff"):
+            with self.subTest(script=repr(script)):
+                self.add_package(
+                    bundle.CLI,
+                    "5.2.0",
+                    {bundle.SDK: "0.28.0", "sharp": "1.0.0"},
+                    bin={"airs": "run.js"},
+                    contents={"run.js": script},
+                )
+                with self.assertRaises(ValueError):
+                    self.build()
+                self.assertFalse((self.launcher / "node_modules").exists())
 
     @unittest.skipIf(
         os.name == "nt", "POSIX symlink acceptance; Windows shim rejects separately"

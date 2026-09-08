@@ -165,8 +165,14 @@ def unpack(
             manifest.get("version"),
         ) != (name, version):
             raise ValueError("Dependency manifest name/version differs from lock")
+        declared_bins = manifest.get("bin", {})
+        if isinstance(declared_bins, str):
+            declared_bins = {name.split("/")[-1]: declared_bins}
+        bin_paths = {
+            str(safe_path(value.removeprefix("./"))) for value in declared_bins.values()
+        }
         destination.mkdir(parents=True, exist_ok=False)
-        hashes, optional_hashes, licenses = {}, {}, []
+        hashes, optional_hashes, licenses, normalizations = {}, {}, [], []
         for member, path in members:
             relative = PurePosixPath(*path.parts[1:])
             target = destination.joinpath(*relative.parts)
@@ -177,13 +183,38 @@ def unpack(
             payload = archive.extractfile(member).read(member.size + 1)
             if len(payload) != member.size:
                 raise ValueError("Truncated dependency member")
-            target.write_bytes(payload)
-            target.chmod(member.mode & 0o755)
             label = str(relative)
             is_license = any(
                 term in label.lower()
                 for term in ("license", "licence", "notice", "copying", "copyright")
             )
+            # npm bin-links changes only a declared executable's shebang CRLF.
+            # Stage that exact transformation so installation has one expected hash.
+            newline = payload.find(b"\n")
+            if (
+                label in bin_paths
+                and not is_license
+                and payload.startswith(b"#!")
+                and 4 <= newline < 2048
+                and payload[newline - 1 : newline] == b"\r"
+            ):
+                if payload[newline - 2 : newline] == b"\r\r":
+                    raise ValueError(
+                        "Repeated shebang carriage returns cannot be normalized deterministically"
+                    )
+                payload.decode("utf-8", errors="strict")
+                original_sha256 = hashlib.sha256(payload).hexdigest()
+                payload = payload[: newline - 1] + payload[newline:]
+                normalizations.append(
+                    {
+                        "path": label,
+                        "transform": "npm-bin-shebang-crlf-to-lf-v1",
+                        "original_sha256": original_sha256,
+                        "normalized_sha256": hashlib.sha256(payload).hexdigest(),
+                    }
+                )
+            target.write_bytes(payload)
+            target.chmod(member.mode & 0o755)
             # npm pack omits these non-runtime source files in the locked tree.
             if relative.name not in ("CHANGELOG.md", "yarn.lock") or is_license:
                 hashes[label] = hashlib.sha256(payload).hexdigest()
@@ -200,6 +231,7 @@ def unpack(
         "files": dict(sorted(hashes.items())),
         "optional_files": dict(sorted(optional_hashes.items())),
         "license_files": sorted(licenses),
+        "normalizations": sorted(normalizations, key=lambda record: record["path"]),
         "unpacked_bytes": size,
         "member_count": len(members),
         "path_bytes": path_bytes,

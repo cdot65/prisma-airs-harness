@@ -1,0 +1,47 @@
+{
+  "recorded_at_utc": "2026-09-08T22:06:23.461196+00:00",
+  "source_package": "xml-js",
+  "version": "1.6.11",
+  "archive_sri": "sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==",
+  "normalizations": [
+    {
+      "path": "bin/cli.js",
+      "transform": "npm-bin-shebang-crlf-to-lf-v1",
+      "original_sha256": "aa72cc9d9db04bf268fdc06d1ff3d1e71306ec477855c494d01c18de64872b2e",
+      "normalized_sha256": "5c6cd92f9d5642d61029a93c2755a007a75eb42d0a16a15a8d07563defdfaae5"
+    }
+  ],
+  "checks": [
+    {
+      "npm": "12.0.2",
+      "bin_links": "7.0.0",
+      "fix_bin_source_sha256": "b1036f2acb267c12751485a7daf9f3cc793f8447e344ac7030a97fcff5388145",
+      "source_path": "/usr/local/lib/node_modules/npm/node_modules/bin-links/lib/fix-bin.js",
+      "actual_output_equals_staged_normalization": true,
+      "original_bytes": 5361,
+      "canonical_bytes": 5360
+    },
+    {
+      "npm": "10.9.8",
+      "bin_links": "5.0.0",
+      "fix_bin_source_sha256": "eed383d9cb6529244f5f5c29ee8258d141f3231b06db4a453d1181dac3f83f1b",
+      "source_path": "/var/tmp/airs-npm-shrinkwrap-experiment/npm10/package/node_modules/bin-links/lib/fix-bin.js",
+      "actual_output_equals_staged_normalization": true,
+      "original_bytes": 5361,
+      "canonical_bytes": 5360
+    }
+  ],
+  "behavior": "Only the declared bin first shebang CRLF is canonicalized. npm10/12 fix-bin.js inspects the first2048bytes then changes the initial shebang CRLF only. All remaining bytes and licenses remain strictly hashed. Repeated CR and invalidUTF8 fail closed when transformation is needed.",
+  "published": false,
+  "focused_tests": {
+    "command": "python3 -m unittest -v test_airs_bundle_archive test_airs_bundle",
+    "passed": 17,
+    "methods": 17,
+    "seconds": 0.17,
+    "first_added_negative_run": {
+      "passed": 16,
+      "methods": 17,
+      "failure": "Non-UTF8 shebang test initially exposed missing strict decode check; corrected before final17/17 run."
+    }
+  }
+}

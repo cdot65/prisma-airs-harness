@@ -74,7 +74,12 @@ pub(super) fn needs_login(
     // Parse an existing binding before the logout marker: damaged identity state
     // must never be mistaken for a fresh account that can overwrite it.
     let binding = existing_binding(home)?;
-    if home.join("logged-out").try_exists()? {
+    let generation = codex_utils_home_dir::airs_session::read_auth_generation(home)?;
+    if home.join("logged-out").try_exists()?
+        || generation.is_some_and(|generation| {
+            generation.state == codex_utils_home_dir::airs_session::AuthGenerationState::Revoked
+        })
+    {
         return Ok(true);
     }
     if let Some(binding) = binding {

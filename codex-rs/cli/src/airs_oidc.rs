@@ -91,6 +91,7 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
 }
 
 pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Result<()> {
+    let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
     let _lock = airs_environment::lock(home)?;
     super::airs_credentials::recover_pending(home)?;
     let config = IdentityConfig {
@@ -132,8 +133,12 @@ pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Re
             identity: tokens.identity.clone(),
         }),
     };
-    save(&binding, &Stored::Active { tokens })?;
-    super::airs_credentials::install_binding(home, &binding)?;
+    super::airs_credentials::persist_oidc_binding(
+        home,
+        &binding,
+        &serde_json::to_string(&Stored::Active { tokens })?,
+        || attempt.commit(|| super::airs_credentials::install_binding(home, &binding)),
+    )?;
     println!(
         "Signed in through {issuer}. Verified subject: {subject}. Credentials stored in the OS store."
     );

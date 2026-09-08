@@ -52,6 +52,7 @@ fn deletion_failure_preserves_typed_journal_for_workspace_and_oidc_retries() {
     })).unwrap();
     for (source, kind) in [
         (Source::Keyring, StoreKind::WorkspaceKeyringV1),
+        (Source::KeyringV2, StoreKind::WorkspaceKeyringV2),
         (Source::Oidc { identity }, StoreKind::OidcIdentityV1),
     ] {
         let (home, binding) = home(source);

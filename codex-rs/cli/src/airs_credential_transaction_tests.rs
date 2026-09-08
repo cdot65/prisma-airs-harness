@@ -35,7 +35,7 @@ fn malformed_binding_does_not_leak_values_in_recovery_or_persistence_errors() {
 
 #[derive(Default)]
 struct FakeStore {
-    values: RefCell<BTreeMap<Uuid, String>>,
+    values: RefCell<BTreeMap<(StoreKind, Uuid), String>>,
     fail_save: Cell<bool>,
     fail_read: Cell<bool>,
     wrong_read: Cell<bool>,
@@ -43,21 +43,23 @@ struct FakeStore {
 }
 
 impl Store for FakeStore {
-    fn save(&self, account: Uuid, token: &str) -> anyhow::Result<()> {
-        self.values.borrow_mut().insert(account, token.into());
+    fn save(&self, kind: StoreKind, account: Uuid, token: &str) -> anyhow::Result<()> {
+        self.values
+            .borrow_mut()
+            .insert((kind, account), token.into());
         anyhow::ensure!(!self.fail_save.get(), "Injected ambiguous write failure");
         Ok(())
     }
-    fn load(&self, account: Uuid) -> anyhow::Result<Option<String>> {
+    fn load(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<Option<String>> {
         anyhow::ensure!(!self.fail_read.get(), "Injected read failure");
         if self.wrong_read.get() {
             return Ok(Some("wrong-value".into()));
         }
-        Ok(self.values.borrow().get(&account).cloned())
+        Ok(self.values.borrow().get(&(kind, account)).cloned())
     }
-    fn delete(&self, account: Uuid) -> anyhow::Result<()> {
+    fn delete(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<()> {
         anyhow::ensure!(!self.fail_delete.get(), "Injected delete failure");
-        self.values.borrow_mut().remove(&account);
+        self.values.borrow_mut().remove(&(kind, account));
         Ok(())
     }
 }
@@ -138,10 +140,10 @@ fn partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key()
     desired.source = Some(Source::Keyring);
     let store = FakeStore::default();
     let unrelated = Uuid::new_v4();
-    store
-        .values
-        .borrow_mut()
-        .insert(unrelated, "unrelated-key".into());
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, unrelated),
+        "unrelated-key".into(),
+    );
     assert!(
         persist(home.path(), &desired, "fixture-key", &store, || {
             std::fs::write(
@@ -163,7 +165,10 @@ fn partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key()
     );
     assert_eq!(
         *store.values.borrow(),
-        BTreeMap::from([(unrelated, "unrelated-key".into())])
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, unrelated),
+            "unrelated-key".into()
+        )])
     );
     assert!(!home.path().join(JOURNAL).exists());
 }
@@ -175,10 +180,10 @@ fn failed_verification_never_deletes_an_existing_working_keyring_binding() {
     let previous = serde_json::to_vec(&binding).unwrap();
     std::fs::write(home.path().join("credential-binding.json"), &previous).unwrap();
     let store = FakeStore::default();
-    store
-        .values
-        .borrow_mut()
-        .insert(binding.id, "fixture-key".into());
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, binding.id),
+        "fixture-key".into(),
+    );
     store.fail_read.set(true);
     assert!(
         persist(home.path(), &binding, "fixture-key", &store, || panic!(
@@ -188,7 +193,10 @@ fn failed_verification_never_deletes_an_existing_working_keyring_binding() {
     );
     assert_eq!(
         *store.values.borrow(),
-        BTreeMap::from([(binding.id, "fixture-key".into())])
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, binding.id),
+            "fixture-key".into()
+        )])
     );
     assert_eq!(
         std::fs::read(home.path().join("credential-binding.json")).unwrap(),
@@ -229,10 +237,10 @@ fn interrupted_install_with_bound_account_remains_recoverable() {
     let home = tempfile::tempdir().unwrap();
     let binding = binding(Source::Keyring);
     let store = FakeStore::default();
-    store
-        .values
-        .borrow_mut()
-        .insert(binding.id, "fixture-key".into());
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, binding.id),
+        "fixture-key".into(),
+    );
     std::fs::write(
         home.path().join(JOURNAL),
         serde_json::to_vec(&Pending {
@@ -257,7 +265,10 @@ fn interrupted_install_with_bound_account_remains_recoverable() {
     assert!(installed.get());
     assert_eq!(
         *store.values.borrow(),
-        BTreeMap::from([(binding.id, "fixture-key".into())])
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, binding.id),
+            "fixture-key".into()
+        )])
     );
     assert!(!home.path().join(JOURNAL).exists());
 }
@@ -267,16 +278,196 @@ fn oversized_cleanup_journal_cannot_trigger_deletion() {
     let home = tempfile::tempdir().unwrap();
     let store = FakeStore::default();
     let account = Uuid::new_v4();
-    store
-        .values
-        .borrow_mut()
-        .insert(account, "existing-key".into());
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, account),
+        "existing-key".into(),
+    );
     std::fs::write(home.path().join(JOURNAL), vec![b'x'; 1025]).unwrap();
     assert!(recover(home.path(), &store).is_err());
     assert_eq!(
         *store.values.borrow(),
-        BTreeMap::from([(account, "existing-key".into())])
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, account),
+            "existing-key".into()
+        )])
     );
+}
+
+#[test]
+fn same_uuid_in_legacy_binding_does_not_own_pending_v2_entry() {
+    let home = tempfile::tempdir().unwrap();
+    let binding = binding(Source::Keyring);
+    std::fs::write(
+        home.path().join("credential-binding.json"),
+        serde_json::to_vec(&binding).unwrap(),
+    )
+    .unwrap();
+    let store = FakeStore::default();
+    store.values.borrow_mut().extend([
+        (
+            (StoreKind::WorkspaceKeyringV1, binding.id),
+            "legacy-key".into(),
+        ),
+        (
+            (StoreKind::WorkspaceKeyringV2, binding.id),
+            "uncommitted-v2-key".into(),
+        ),
+    ]);
+    std::fs::write(
+        home.path().join(JOURNAL),
+        serde_json::to_vec(&Pending {
+            schema_version: 1,
+            store: StoreKind::WorkspaceKeyringV2,
+            account: binding.id,
+        })
+        .unwrap(),
+    )
+    .unwrap();
+    recover(home.path(), &store).unwrap();
+    assert_eq!(
+        *store.values.borrow(),
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, binding.id),
+            "legacy-key".into()
+        ),])
+    );
+}
+
+#[test]
+fn failed_v2_install_preserves_legacy_namespace_and_binding() {
+    let home = tempfile::tempdir().unwrap();
+    let mut desired = binding(Source::Keyring);
+    let previous = serde_json::to_vec(&desired).unwrap();
+    std::fs::write(home.path().join("credential-binding.json"), &previous).unwrap();
+    let store = FakeStore::default();
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, desired.id),
+        "legacy-key".into(),
+    );
+    desired.source = Some(Source::KeyringV2);
+    assert!(
+        persist(home.path(), &desired, "v2-key", &store, || anyhow::bail!(
+            "Injected install failure"
+        ))
+        .is_err()
+    );
+    assert_eq!(
+        *store.values.borrow(),
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, desired.id),
+            "legacy-key".into()
+        ),])
+    );
+    assert_eq!(
+        std::fs::read(home.path().join("credential-binding.json")).unwrap(),
+        previous
+    );
+    assert!(!home.path().join(JOURNAL).exists());
+}
+
+#[test]
+fn interrupted_v2_commit_recovers_without_deleting_owned_credential() {
+    let home = tempfile::tempdir().unwrap();
+    let desired = binding(Source::KeyringV2);
+    let store = FakeStore::default();
+    store.fail_read.set(true);
+    store.fail_delete.set(true);
+    assert!(
+        persist(home.path(), &desired, "v2-key", &store, || panic!(
+            "must not install"
+        ))
+        .is_err()
+    );
+    let pending: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(home.path().join(JOURNAL)).unwrap()).unwrap();
+    assert_eq!(
+        pending,
+        serde_json::json!({"schema_version":1,"store":"workspace-keyring-v2","account":desired.id})
+    );
+    std::fs::write(
+        home.path().join("credential-binding.json"),
+        serde_json::to_vec(&desired).unwrap(),
+    )
+    .unwrap();
+    recover(home.path(), &store).unwrap();
+    assert_eq!(
+        *store.values.borrow(),
+        BTreeMap::from([((StoreKind::WorkspaceKeyringV2, desired.id), "v2-key".into()),])
+    );
+    assert!(!home.path().join(JOURNAL).exists());
+}
+
+fn oidc_binding() -> Binding {
+    let identity = serde_json::from_value(serde_json::json!({
+        "config":{"issuer":"https://idp.example/realms/test","client_id":"client","audience":"gateway"},
+        "subject":"user", "display_name":null
+    })).unwrap();
+    binding(Source::Oidc { identity })
+}
+
+#[test]
+fn fresh_oidc_save_read_and_cancelled_commit_failures_leave_no_unowned_token() {
+    for failure in ["save", "read", "commit"] {
+        let home = tempfile::tempdir().unwrap();
+        let desired = oidc_binding();
+        let store = FakeStore::default();
+        store.fail_save.set(failure == "save");
+        store.fail_read.set(failure == "read");
+        let error = persist(
+            home.path(),
+            &desired,
+            "private-encoded-oidc-bundle",
+            &store,
+            || {
+                assert_eq!(failure, "commit");
+                anyhow::bail!("Login was cancelled by a newer logout epoch")
+            },
+        )
+        .unwrap_err();
+        assert!(!format!("{error:#}").contains("private-encoded-oidc-bundle"));
+        assert_eq!(*store.values.borrow(), BTreeMap::new());
+        assert!(!home.path().join(JOURNAL).exists());
+        assert!(!home.path().join("credential-binding.json").exists());
+    }
+}
+
+#[test]
+fn failed_oidc_cleanup_retries_only_the_recorded_native_format() {
+    let home = tempfile::tempdir().unwrap();
+    let desired = oidc_binding();
+    let store = FakeStore::default();
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV2, desired.id),
+        "separate-workspace-key".into(),
+    );
+    store.fail_read.set(true);
+    store.fail_delete.set(true);
+    assert!(
+        persist(
+            home.path(),
+            &desired,
+            "private-encoded-oidc-bundle",
+            &store,
+            || panic!("must not install")
+        )
+        .is_err()
+    );
+    let pending: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(home.path().join(JOURNAL)).unwrap()).unwrap();
+    assert_eq!(
+        pending,
+        serde_json::json!({"schema_version":1,"store":"oidc-identity-v1","account":desired.id})
+    );
+    store.fail_delete.set(false);
+    recover(home.path(), &store).unwrap();
+    assert_eq!(
+        *store.values.borrow(),
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV2, desired.id),
+            "separate-workspace-key".into()
+        ),])
+    );
+    assert!(!home.path().join(JOURNAL).exists());
 }
 
 #[cfg(unix)]
@@ -285,10 +476,10 @@ fn cleanup_rejects_symlinks_without_touching_the_referenced_account() {
     let home = tempfile::tempdir().unwrap();
     let store = FakeStore::default();
     let account = Uuid::new_v4();
-    store
-        .values
-        .borrow_mut()
-        .insert(account, "existing-key".into());
+    store.values.borrow_mut().insert(
+        (StoreKind::WorkspaceKeyringV1, account),
+        "existing-key".into(),
+    );
     let target = home.path().join("another-journal");
     let bytes = serde_json::to_vec(&Pending {
         schema_version: 1,
@@ -302,6 +493,9 @@ fn cleanup_rejects_symlinks_without_touching_the_referenced_account() {
     assert_eq!(std::fs::read(target).unwrap(), bytes);
     assert_eq!(
         *store.values.borrow(),
-        BTreeMap::from([(account, "existing-key".into())])
+        BTreeMap::from([(
+            (StoreKind::WorkspaceKeyringV1, account),
+            "existing-key".into()
+        )])
     );
 }

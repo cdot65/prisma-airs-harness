@@ -1,8 +1,8 @@
 //! Endpoint-bound workspace credentials. Secret values never enter configuration.
 use super::airs_environment;
 use anyhow::Context;
-use codex_keyring_store::DefaultKeyringStore;
-use codex_keyring_store::KeyringStore;
+use codex_airs_identity::WorkspaceCredentialFormat;
+use codex_airs_identity::WorkspaceCredentialStore;
 use serde::Deserialize;
 use serde::Serialize;
 use sha2::Digest;
@@ -64,6 +64,7 @@ pub(super) enum Source {
         variable: String,
     },
     Keyring,
+    KeyringV2,
     Oidc {
         identity: codex_airs_identity::Identity,
     },
@@ -157,8 +158,16 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
         Source::Environment { variable } => {
             std::env::var(variable).context("credential environment variable is unavailable")?
         }
-        Source::Keyring => DefaultKeyringStore
-            .load(SERVICE, &binding.id.to_string())
+        Source::Keyring | Source::KeyringV2 => WorkspaceCredentialStore
+            .load(
+                SERVICE,
+                if matches!(binding.source, Some(Source::KeyringV2)) {
+                    WorkspaceCredentialFormat::ChunkedV2
+                } else {
+                    WorkspaceCredentialFormat::LegacyRaw
+                },
+                binding.id,
+            )
             .map_err(|error| super::airs_storage_error::report(error, "read"))?
             .context("credential is missing from the OS store; run login")?,
         Source::Oidc { .. } => anyhow::bail!("OIDC tokens require the identity credential helper"),
@@ -172,13 +181,14 @@ fn resolve(binding: &Binding) -> anyhow::Result<String> {
 }
 
 pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<()> {
+    let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
     let _lock = airs_environment::lock(home)?;
     anyhow::ensure!(
         !(stdin_key && (args.credential_file.is_some() || args.credential_env.is_some())),
         "choose exactly one credential source"
     );
     recover_pending(home)?;
-    let (source, token) = if let Some(path) = &args.credential_file {
+    let (mut source, token) = if let Some(path) = &args.credential_file {
         let token = file_token(path)?;
         (Source::File { path: path.clone() }, token)
     } else if let Some(variable) = &args.credential_env {
@@ -198,11 +208,14 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
             validate_token(&token)?.to_owned(),
         )
     } else if std::io::stdin().is_terminal() {
-        (Source::Keyring, super::airs_secret_prompt::workspace_key()?)
+        (
+            Source::KeyringV2,
+            super::airs_secret_prompt::workspace_key()?,
+        )
     } else if stdin_key {
         let mut token = String::new();
         std::io::stdin().take(16_385).read_to_string(&mut token)?;
-        (Source::Keyring, validate_token(&token)?.to_owned())
+        (Source::KeyringV2, validate_token(&token)?.to_owned())
     } else {
         anyhow::bail!(
             "use --credential-file PATH, --credential-env NAME, or pipe a key to login --with-api-key for OS credential storage"
@@ -220,6 +233,11 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
             previous.credential_fingerprint == credential_fingerprint,
             "a different credential requires a new environment; existing sessions must not change identity"
         );
+        // Existing raw bindings retain their format. A future migration must
+        // explicitly verify V2 before changing ownership or retiring V1.
+        if matches!(source, Source::KeyringV2) && matches!(previous.source, Some(Source::Keyring)) {
+            source = Source::Keyring;
+        }
     }
     let binding = Binding {
         schema_version: 1,
@@ -228,18 +246,31 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
         credential_fingerprint,
         source: Some(source),
     };
-    if matches!(binding.source, Some(Source::Keyring)) {
+    if matches!(binding.source, Some(Source::Keyring | Source::KeyringV2)) {
         transaction::persist(home, &binding, &token, &transaction::NativeStore, || {
-            install_binding(home, &binding)
+            attempt.commit(|| install_binding(home, &binding))
         })?;
     } else {
-        install_binding(home, &binding)?;
+        attempt.commit(|| install_binding(home, &binding))?;
     }
     println!(
         "Configured workspace credential for {}. No individual user identity is asserted.",
         binding.gateway_url
     );
     Ok(())
+}
+
+pub(super) fn persist_oidc_binding(
+    home: &Path,
+    binding: &Binding,
+    encoded: &str,
+    install: impl FnOnce() -> anyhow::Result<()>,
+) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        matches!(binding.source, Some(Source::Oidc { .. })),
+        "Expected an OIDC credential binding"
+    );
+    transaction::persist(home, binding, encoded, &transaction::NativeStore, install)
 }
 
 pub(super) fn install_binding(home: &Path, binding: &Binding) -> anyhow::Result<()> {
@@ -298,6 +329,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         "credential helper may only write to a pipe"
     );
     anyhow::ensure!(args.home.is_absolute(), "credential home must be absolute");
+    let session = codex_utils_home_dir::airs_session::AirsSessionGuard::capture(&args.home)?;
     let _lock = airs_environment::lock(&args.home)?;
     let binding = read_binding(&args.home)?;
     anyhow::ensure!(
@@ -308,21 +340,22 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         !args.home.join("logged-out").exists(),
         "logged out; run airs-harness login"
     );
+    session.check()?;
     let token = if matches!(binding.source, Some(Source::Oidc { .. })) {
         super::airs_oidc::credential(&binding).await?
     } else {
         resolve(&binding)?
     };
+    session.check()?;
     println!("{token}");
     Ok(())
 }
 
 pub async fn logout(home: &Path) -> anyhow::Result<()> {
+    super::airs_auth_lifecycle::revoke(home)?;
     let _lock = airs_environment::lock(home)?;
-    airs_environment::atomic_write(
-        &home.join("logged-out"),
-        b"Local credentials disabled. Run login to reauthenticate.\n",
-    )?;
+    // A queued login may have completed before this configuration lock was acquired.
+    super::airs_auth_lifecycle::revoke(home)?;
     let mcp_logout = super::airs_mcp::logout(home).await;
     recover_pending(home)?;
     if !home.join("credential-binding.json").exists() {
@@ -389,6 +422,7 @@ pub fn status(home: &Path) -> anyhow::Result<()> {
         !home.join("logged-out").exists(),
         "logged out; run airs-harness login"
     );
+    codex_utils_home_dir::airs_session::AirsSessionGuard::capture(home)?;
     if home.join("credential-binding.json").exists() {
         let binding = read_binding(home)?;
         if let Some(Source::Oidc { identity }) = &binding.source {
@@ -432,6 +466,7 @@ pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
         !home.join("logged-out").exists(),
         "logged out; run airs-harness login"
     );
+    codex_utils_home_dir::airs_session::AirsSessionGuard::capture(home)?;
     if home.join("credential-binding.json").exists() {
         let binding = read_binding(home)?;
         if matches!(binding.source, Some(Source::Oidc { .. })) {

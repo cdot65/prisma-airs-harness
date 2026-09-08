@@ -243,6 +243,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         "MCP credential helper may only write to a pipe"
     );
     anyhow::ensure!(args.home.is_absolute(), "state directory must be absolute");
+    let session = codex_utils_home_dir::airs_session::AirsSessionGuard::capture(&args.home)?;
     let _lock = airs_environment::lock(&args.home)?;
     anyhow::ensure!(
         !args.home.join("logged-out").exists(),
@@ -303,6 +304,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         );
         token
     };
+    session.check()?;
     println!("{}", serde_json::json!({"x-portkey-api-key": token}));
     Ok(())
 }

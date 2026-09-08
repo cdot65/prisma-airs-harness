@@ -4,6 +4,8 @@ use super::SERVICE;
 use super::Source;
 use super::airs_environment;
 use anyhow::Context;
+use codex_airs_identity::WorkspaceCredentialFormat;
+use codex_airs_identity::WorkspaceCredentialStore;
 use codex_keyring_store::DefaultKeyringStore;
 use codex_keyring_store::KeyringStore;
 use serde::Deserialize;
@@ -14,35 +16,68 @@ use uuid::Uuid;
 
 const JOURNAL: &str = "credential-pending-cleanup.json";
 
-/// Operations on workspace keys, with native errors already safely classified.
+/// Operations on native credentials, with errors already safely classified.
 pub(super) trait Store {
-    fn save(&self, account: Uuid, token: &str) -> anyhow::Result<()>;
-    fn load(&self, account: Uuid) -> anyhow::Result<Option<String>>;
-    fn delete(&self, account: Uuid) -> anyhow::Result<()>;
+    fn save(&self, kind: StoreKind, account: Uuid, token: &str) -> anyhow::Result<()>;
+    fn load(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<Option<String>>;
+    fn delete(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<()>;
 }
 
 pub(super) struct NativeStore;
 
 impl Store for NativeStore {
-    fn save(&self, account: Uuid, token: &str) -> anyhow::Result<()> {
-        DefaultKeyringStore
-            .save(SERVICE, &account.to_string(), token)
-            .map_err(|error| super::super::airs_storage_error::report(error, "save"))
+    fn save(&self, kind: StoreKind, account: Uuid, token: &str) -> anyhow::Result<()> {
+        match kind {
+            StoreKind::WorkspaceKeyringV1 => {
+                DefaultKeyringStore.save(SERVICE, &account.to_string(), token)
+            }
+            StoreKind::WorkspaceKeyringV2 => {
+                WorkspaceCredentialStore.save_new(SERVICE, account, token)
+            }
+            StoreKind::OidcIdentityV1 => {
+                codex_airs_identity::CredentialStore.save(SERVICE, &account.to_string(), token)
+            }
+        }
+        .map_err(|error| super::super::airs_storage_error::report(error, "save"))
     }
-    fn load(&self, account: Uuid) -> anyhow::Result<Option<String>> {
-        DefaultKeyringStore
-            .load(SERVICE, &account.to_string())
-            .map_err(|error| {
-                super::super::airs_storage_error::report(error, "verify saved credential")
-            })
+    fn load(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<Option<String>> {
+        match kind {
+            StoreKind::WorkspaceKeyringV1 => WorkspaceCredentialStore.load(
+                SERVICE,
+                WorkspaceCredentialFormat::LegacyRaw,
+                account,
+            ),
+            StoreKind::WorkspaceKeyringV2 => WorkspaceCredentialStore.load(
+                SERVICE,
+                WorkspaceCredentialFormat::ChunkedV2,
+                account,
+            ),
+            StoreKind::OidcIdentityV1 => {
+                codex_airs_identity::CredentialStore.load(SERVICE, &account.to_string())
+            }
+        }
+        .map_err(|error| super::super::airs_storage_error::report(error, "verify saved credential"))
     }
-    fn delete(&self, account: Uuid) -> anyhow::Result<()> {
-        DefaultKeyringStore
-            .delete(SERVICE, &account.to_string())
-            .map(|_| ())
-            .map_err(|error| {
-                super::super::airs_storage_error::report(error, "clean up uncommitted credential")
-            })
+    fn delete(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<()> {
+        match kind {
+            StoreKind::WorkspaceKeyringV1 => WorkspaceCredentialStore.delete(
+                SERVICE,
+                WorkspaceCredentialFormat::LegacyRaw,
+                account,
+            ),
+            StoreKind::WorkspaceKeyringV2 => WorkspaceCredentialStore.delete(
+                SERVICE,
+                WorkspaceCredentialFormat::ChunkedV2,
+                account,
+            ),
+            StoreKind::OidcIdentityV1 => {
+                codex_airs_identity::CredentialStore.delete(SERVICE, &account.to_string())
+            }
+        }
+        .map(|_| ())
+        .map_err(|error| {
+            super::super::airs_storage_error::report(error, "clean up uncommitted credential")
+        })
     }
 }
 
@@ -54,10 +89,23 @@ struct Pending {
     account: Uuid,
 }
 
-#[derive(Serialize, Deserialize)]
-enum StoreKind {
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Serialize, Deserialize)]
+pub(super) enum StoreKind {
     #[serde(rename = "workspace-keyring-v1")]
     WorkspaceKeyringV1,
+    #[serde(rename = "workspace-keyring-v2")]
+    WorkspaceKeyringV2,
+    #[serde(rename = "oidc-identity-v1")]
+    OidcIdentityV1,
+}
+
+fn store_kind(source: &Source) -> Option<StoreKind> {
+    match source {
+        Source::Keyring => Some(StoreKind::WorkspaceKeyringV1),
+        Source::KeyringV2 => Some(StoreKind::WorkspaceKeyringV2),
+        Source::Oidc { .. } => Some(StoreKind::OidcIdentityV1),
+        Source::File { .. } | Source::Environment { .. } => None,
+    }
 }
 
 fn optional_bytes(path: &Path) -> anyhow::Result<Option<Vec<u8>>> {
@@ -138,9 +186,10 @@ pub(super) fn recover(home: &Path, store: &impl Store) -> anyhow::Result<()> {
     // A process may have stopped after installing the binding. Never remove
     // its referenced key; a subsequent login can finish configuration safely.
     if !bound.is_some_and(|binding| {
-        binding.id == pending.account && matches!(binding.source, Some(Source::Keyring))
+        binding.id == pending.account
+            && binding.source.as_ref().and_then(store_kind) == Some(pending.store)
     }) {
-        store.delete(pending.account).context(
+        store.delete(pending.store, pending.account).context(
             "Credential cleanup is pending; retry login or logout when secure storage is available",
         )?;
     }
@@ -156,6 +205,11 @@ pub(super) fn persist(
     install: impl FnOnce() -> anyhow::Result<()>,
 ) -> anyhow::Result<()> {
     recover(home, store)?;
+    let kind = binding
+        .source
+        .as_ref()
+        .and_then(store_kind)
+        .context("Expected a native credential binding")?;
     let previous = optional_bytes(&home.join("credential-binding.json"))?;
     let previous_config = optional_bytes(&home.join("config.toml"))?;
     let prior_binding = previous
@@ -163,22 +217,22 @@ pub(super) fn persist(
         .map(|bytes| super::parse_binding(bytes))
         .transpose()?;
     let already_owned = prior_binding.is_some_and(|prior| {
-        prior.id == binding.id && matches!(prior.source, Some(Source::Keyring))
+        prior.id == binding.id && prior.source.as_ref().and_then(store_kind) == Some(kind)
     });
     if !already_owned {
         airs_environment::atomic_write(
             &home.join(JOURNAL),
             &serde_json::to_vec(&Pending {
                 schema_version: 1,
-                store: StoreKind::WorkspaceKeyringV1,
+                store: kind,
                 account: binding.id,
             })?,
         )?;
     }
     let result = (|| {
-        store.save(binding.id, token)?;
+        store.save(kind, binding.id, token)?;
         anyhow::ensure!(
-            store.load(binding.id)?.as_deref() == Some(token),
+            store.load(kind, binding.id)?.as_deref() == Some(token),
             "Credential storage verification failed; sign-in was not completed"
         );
         if let Err(error) = install() {

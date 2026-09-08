@@ -16,6 +16,7 @@ const JOURNAL: &str = "credential-pending-logout.json";
 #[serde(rename_all = "kebab-case")]
 pub(super) enum StoreKind {
     WorkspaceKeyringV1,
+    WorkspaceKeyringV2,
     OidcIdentityV1,
 }
 
@@ -40,6 +41,11 @@ impl Store for NativeStore {
             StoreKind::WorkspaceKeyringV1 => {
                 codex_keyring_store::DefaultKeyringStore.delete(SERVICE, &account.to_string())
             }
+            StoreKind::WorkspaceKeyringV2 => codex_airs_identity::WorkspaceCredentialStore.delete(
+                SERVICE,
+                codex_airs_identity::WorkspaceCredentialFormat::ChunkedV2,
+                account,
+            ),
             // This store owns OIDC's native chunk manifest/tombstone protocol.
             StoreKind::OidcIdentityV1 => {
                 codex_airs_identity::CredentialStore.delete(SERVICE, &account.to_string())
@@ -55,6 +61,7 @@ impl Store for NativeStore {
 fn store_kind(source: &Source) -> Option<StoreKind> {
     match source {
         Source::Keyring => Some(StoreKind::WorkspaceKeyringV1),
+        Source::KeyringV2 => Some(StoreKind::WorkspaceKeyringV2),
         Source::Oidc { .. } => Some(StoreKind::OidcIdentityV1),
         Source::File { .. } | Source::Environment { .. } => None,
     }

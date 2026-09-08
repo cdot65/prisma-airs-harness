@@ -28,7 +28,16 @@ After native packages pass, they are published before the launcher. Published
 metadata and anonymous downloads must match the staged SHA/integrity values.
 A fresh install from production Verdaccio then exercises the actual npm command.
 
-- [Native Mac build run](https://github.com/cdot65/airs-harness/actions/runs/34175596384).
+- [Initial native Mac build run](https://github.com/cdot65/airs-harness/actions/runs/34175596384):
+  compilation/signature checks passed; three Mac fixture checks failed. Temporary
+  paths used `/var` while the CLI used `/private/var`, and the PTY driver submitted
+  before session initialization. Assertions and sandbox permissions are unchanged.
+- [Apple Silicon retry](https://github.com/cdot65/airs-harness/actions/runs/34178828451):
+  runtime source remains `b3486afcd`; validation tooling is
+  `78233a21861175a14369e03d06eb3c3be014b314`. The three corrected fixtures passed on
+  Linux before this retry. Native archives retain source-era fixture copies;
+  current acceptance uses the separately identified workflow tooling. Published
+  npm packages contain the executable, licenses and provenance, not those fixtures.
 - Linux native executable SHA256: `0cfc270b0a5560fba0180557ce6fd8a94c34b86625e7c632b0ccd88dd312e400`.
 - Existing Linux optimized/installed live checks: seven turns and three real
   scanner calls each, recorded in [VALIDATION.json](VALIDATION.json).

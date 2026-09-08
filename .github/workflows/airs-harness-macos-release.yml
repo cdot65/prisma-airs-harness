@@ -58,6 +58,7 @@ jobs:
           key: airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-${{ github.sha }}
           restore-keys: |
             airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-
+            airs-macos-v1-${{ runner.arch }}-
       - name: Native prerequisites and runner identity
         run: |
           brew install cmake pkgconf ripgrep

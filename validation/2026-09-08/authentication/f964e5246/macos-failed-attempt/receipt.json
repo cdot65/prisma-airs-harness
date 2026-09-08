@@ -40,5 +40,8 @@
   },
   "retained_native_log": "native-tests.txt",
   "retained_native_log_sha256": "8676f199f4366274b0b6e54188e7ff18ce2e8891705914259ec52e5bcb8b3c1b",
-  "retained_native_log_normalization": "Removed trailing line whitespace only; native_log_sha256 identifies original artifact member"
+  "retained_native_log_normalization": "Removed trailing line whitespace only; native_log_sha256 identifies original artifact member",
+  "inner_archive_sha256": "5303ba01e5f7985edcba57eb812e0600b5fdbe3fa5d37c371d1d940ca953191c",
+  "store_acceptance_sha256": "1c6ae946dc8422239103a6699c7830584d84192788cfea6bfceb3872382a4307",
+  "member_digests_independently_verified": true
 }

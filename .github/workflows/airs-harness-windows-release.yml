@@ -3,30 +3,29 @@ on:
   workflow_dispatch:
     inputs:
       source_ref:
-        description: Runtime source revision (empty uses this workflow revision)
+        description: Runtime source revision (resolved once before compilation)
         required: false
         default: ""
+      preflight_only:
+        description: Validate cheap Windows prerequisites and fixtures without compiling
+        type: boolean
+        required: true
+        default: false
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: airs-harness-windows-x64-${{ github.ref }}
+  group: airs-harness-windows-x64-${{ github.ref }}${{ inputs.preflight_only && '-preflight' || '' }}
   cancel-in-progress: false
+defaults:
+  run:
+    shell: pwsh
 jobs:
-  candidate:
+  preflight:
     runs-on: windows-2025
-    timeout-minutes: 180
-    defaults:
-      run:
-        shell: pwsh
-    env:
-      CARGO_BUILD_JOBS: 2
-      CARGO_INCREMENTAL: 0
-      CARGO_PROFILE_DEV_DEBUG: 0
-      CARGO_PROFILE_TEST_DEBUG: 0
-      CARGO_PROFILE_RELEASE_DEBUG: 0
-      CARGO_PROFILE_RELEASE_LTO: "false"
-      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
-      AIRS_RELEASE_TARGET: x86_64-pc-windows-msvc
+    timeout-minutes: 15
+    outputs:
+      runtime_source: ${{ steps.source.outputs.sha }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
@@ -36,15 +35,83 @@ jobs:
           ref: ${{ inputs.source_ref || github.sha }}
           path: runtime
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
-        with:
-          components: rust-docs
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: "3.13"
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: 22.23.2
+      - name: Check fixture syntax and contracts before native compilation
+        id: source
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-preflight" | Out-Null
+          $airsSource = git -C runtime rev-parse HEAD
+          if ($LASTEXITCODE -ne 0 -or $airsSource -notmatch '^[0-9a-f]{40}$') { throw 'Cannot resolve runtime source' }
+          "sha=$airsSource" | Add-Content $env:GITHUB_OUTPUT
+          python -m compileall -q scripts
+          if ($LASTEXITCODE -ne 0) { throw 'Python fixture syntax failed' }
+          $airsNodeTests = @(Get-ChildItem npm/airs-harness/*.test.js | ForEach-Object { $_.FullName })
+          node --test @airsNodeTests *> "$env:RUNNER_TEMP/airs-preflight/launcher-tests.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Launcher fixture tests failed' }
+          python -m unittest discover -s scripts -p test_package_airs_harness.py -v *> "$env:RUNNER_TEMP/airs-preflight/packaging-tests.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Private packaging contracts failed' }
+          python -m unittest discover -s scripts -p test_airs_windows_artifact.py -v *> "$env:RUNNER_TEMP/airs-preflight/artifact-tests.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Preserved artifact contracts failed' }
+          $airsTooling = Get-Content npm/airs-harness/package.json | ConvertFrom-Json
+          $airsRuntime = Get-Content runtime/npm/airs-harness/package.json | ConvertFrom-Json
+          if ($airsTooling.version -ne $airsRuntime.version) { throw 'Runtime and packaging versions differ' }
+      - name: Confirm pinned native ConPTY wheel before compiling Rust
+        run: |
+          python -m pip install --only-binary=:all: pywinpty==3.0.5
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY dependency unavailable' }
+          python -c "from winpty import PtyProcess; from importlib.metadata import version; assert version('pywinpty') == '3.0.5'"
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY dependency import failed' }
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-windows-x64-preflight-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/airs-preflight/
+          retention-days: 30
+
+  build:
+    needs: preflight
+    if: inputs.preflight_only != true
+    runs-on: windows-2025
+    timeout-minutes: 180
+    outputs:
+      artifact_id: ${{ steps.executables.outputs.artifact-id }}
+      runtime_source: ${{ steps.identity.outputs.runtime_source }}
+      binary_sha256: ${{ steps.identity.outputs.binary_sha256 }}
+      fixture_sha256: ${{ steps.identity.outputs.fixture_sha256 }}
+      archive_sha256: ${{ steps.identity.outputs.archive_sha256 }}
+      compile_attempt: ${{ github.run_attempt }}
+      build_run: ${{ github.run_id }}
+      source_cache_key: airs-windows-sources-v1-${{ needs.preflight.outputs.runtime_source }}-${{ github.run_id }}-${{ github.run_attempt }}
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+      CARGO_PROFILE_RELEASE_DEBUG: 0
+      CARGO_PROFILE_RELEASE_LTO: "false"
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
+      AIRS_RELEASE_TARGET: x86_64-pc-windows-msvc
+      AIRS_RUNTIME_SOURCE: ${{ needs.preflight.outputs.runtime_source }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ needs.preflight.outputs.runtime_source }}
+          path: runtime
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+        with:
+          components: rust-docs
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.13"
       - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
         with:
           tool: just@1.51.0,cargo-nextest
@@ -56,19 +123,21 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
             runtime/codex-rs/target
-          key: airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-${{ github.run_id }}
+          key: airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             airs-windows-x64-v1-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}-
             airs-windows-x64-v1-
-      - name: Record runner and build prerequisites
+      - name: Record native runner and build prerequisites
         run: |
-          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-evidence" | Out-Null
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-build-evidence" | Out-Null
+          $airsCheckedSource = git -C runtime rev-parse HEAD
+          if ($LASTEXITCODE -ne 0 -or $airsCheckedSource -ne $env:AIRS_RUNTIME_SOURCE) { throw 'Runtime checkout differs from resolved source' }
           rustc -vV
           if ($LASTEXITCODE -ne 0) { throw 'rustc unavailable' }
           if ((rustc -vV | Select-String '^host:').Line -ne "host: $env:AIRS_RELEASE_TARGET") { throw 'Expected Windows x64 Rust host' }
           Get-Command cmake
           Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture |
-            ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/runner.json"
+            ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-build-evidence/runner.json"
       - name: Test native diagnostics and token persistence contracts
         working-directory: runtime
         run: |
@@ -79,12 +148,39 @@ jobs:
         run: |
           cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings
           if ($LASTEXITCODE -ne 0) { throw 'Harness compilation failed' }
-          Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-evidence/cli-build-timing.html"
+          Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-build-evidence/cli-build-timing.html"
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
           if ($LASTEXITCODE -ne 0) { throw 'Credential fixture compilation failed' }
-          cargo metadata --locked --filter-platform $env:AIRS_RELEASE_TARGET --format-version 1 > "$env:RUNNER_TEMP/airs-metadata.json"
-          if ($LASTEXITCODE -ne 0) { throw 'Cargo metadata failed' }
-      - name: Preserve successful compilation before acceptance checks
+      - name: Preserve exact unsigned executables before acceptance
+        id: identity
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/compiled" | Out-Null
+          Copy-Item runtime/codex-rs/target/release/airs-harness.exe "$env:RUNNER_TEMP/compiled/airs-harness.exe"
+          Copy-Item runtime/codex-rs/target/release/examples/store_acceptance.exe "$env:RUNNER_TEMP/compiled/store_acceptance.exe"
+          foreach ($airsName in @('airs-harness.exe', 'store_acceptance.exe')) {
+            if ((Get-AuthenticodeSignature "$env:RUNNER_TEMP/compiled/$airsName").Status -ne 'NotSigned') { throw 'Expected an unsigned private executable' }
+          }
+          python scripts/airs_windows_artifact.py create --directory "$env:RUNNER_TEMP/compiled" --source-commit "$env:AIRS_RUNTIME_SOURCE" --cli-opt-level 1
+          if ($LASTEXITCODE -ne 0) { throw 'Preserved executable manifest failed' }
+          Copy-Item "$env:RUNNER_TEMP/compiled/ARTIFACT-VERIFIED.json" "$env:RUNNER_TEMP/airs-build-evidence/"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        id: executables
+        with:
+          name: airs-harness-windows-x64-unvalidated-executables-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/compiled/unvalidated-windows-executables.tar.gz
+          compression-level: 0
+          retention-days: 30
+      - name: Retain immutable artifact selection before acceptance
+        env:
+          AIRS_ARTIFACT_ID: ${{ steps.executables.outputs.artifact-id }}
+        run: |
+          $airsSelection = Get-Content "$env:RUNNER_TEMP/compiled/ARTIFACT-VERIFIED.json" | ConvertFrom-Json -AsHashtable
+          $airsSelection.build_run = $env:GITHUB_RUN_ID
+          $airsSelection.compile_attempt = $env:GITHUB_RUN_ATTEMPT
+          $airsSelection.artifact_id = $env:AIRS_ARTIFACT_ID
+          $airsSelection | ConvertTo-Json -Depth 5 | Set-Content "$env:RUNNER_TEMP/airs-build-evidence/ARTIFACT-SELECTION.json"
+      - name: Preserve compilation cache after immutable artifact upload
+        continue-on-error: true
         uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: |
@@ -92,25 +188,123 @@ jobs:
             ~/.cargo/git/db
             runtime/codex-rs/target
           key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
+      - name: Preserve only dependency sources for license inventory
+        continue-on-error: true
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: airs-windows-sources-v1-${{ needs.preflight.outputs.runtime_source }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-windows-x64-build-evidence-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/airs-build-evidence/
+          if-no-files-found: warn
+          retention-days: 30
+
+  acceptance:
+    needs: build
+    runs-on: windows-2025
+    timeout-minutes: 45
+    env:
+      AIRS_RELEASE_TARGET: x86_64-pc-windows-msvc
+      AIRS_RUNTIME_SOURCE: ${{ needs.build.outputs.runtime_source }}
+      AIRS_ARCHIVE_SHA256: ${{ needs.build.outputs.archive_sha256 }}
+      AIRS_BINARY_SHA256: ${{ needs.build.outputs.binary_sha256 }}
+      AIRS_FIXTURE_SHA256: ${{ needs.build.outputs.fixture_sha256 }}
+      AIRS_ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+      AIRS_BUILD_RUN: ${{ needs.build.outputs.build_run }}
+      AIRS_COMPILE_ATTEMPT: ${{ needs.build.outputs.compile_attempt }}
+    steps:
+      - name: Retain selected build identity before download or acceptance
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-evidence" | Out-Null
+          @{
+            build_run = $env:AIRS_BUILD_RUN
+            compile_attempt = $env:AIRS_COMPILE_ATTEMPT
+            acceptance_attempt = $env:GITHUB_RUN_ATTEMPT
+            artifact_id = $env:AIRS_ARTIFACT_ID
+            runtime_source = $env:AIRS_RUNTIME_SOURCE
+            archive_sha256 = $env:AIRS_ARCHIVE_SHA256
+            binary_sha256 = $env:AIRS_BINARY_SHA256
+            fixture_sha256 = $env:AIRS_FIXTURE_SHA256
+            artifact_verified = $false
+            release_ready = $false
+            published = $false
+          } | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/ARTIFACT-SELECTION.json"
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ needs.build.outputs.runtime_source }}
+          path: runtime
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+        with:
+          components: rust-docs
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          artifact-ids: ${{ needs.build.outputs.artifact_id }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/download
+      - name: Verify immutable inputs before any candidate execution
+        id: restore
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/airs-evidence" | Out-Null
+          python scripts/airs_windows_artifact.py restore --archive "$env:RUNNER_TEMP/download/unvalidated-windows-executables.tar.gz" --directory "$env:RUNNER_TEMP/compiled" --source-commit "$env:AIRS_RUNTIME_SOURCE" --archive-sha256 "$env:AIRS_ARCHIVE_SHA256" --binary-sha256 "$env:AIRS_BINARY_SHA256" --fixture-sha256 "$env:AIRS_FIXTURE_SHA256"
+          if ($LASTEXITCODE -ne 0) { throw 'Preserved artifact identity failed' }
+          if ((git -C runtime rev-parse HEAD) -ne $env:AIRS_RUNTIME_SOURCE) { throw 'Runtime checkout differs from artifact' }
+          Copy-Item "$env:RUNNER_TEMP/compiled/ARTIFACT-VERIFIED.json" "$env:RUNNER_TEMP/airs-evidence/"
+          $airsSelection = Get-Content "$env:RUNNER_TEMP/airs-evidence/ARTIFACT-SELECTION.json" | ConvertFrom-Json -AsHashtable
+          $airsSelection.artifact_verified = $true
+          $airsSelection | ConvertTo-Json -Depth 5 | Set-Content "$env:RUNNER_TEMP/airs-evidence/ARTIFACT-SELECTION.json"
+          git rev-parse HEAD | Set-Content "$env:RUNNER_TEMP/airs-evidence/test-tooling-source.txt"
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot record acceptance tooling revision' }
+          foreach ($airsName in @('airs-harness.exe', 'store_acceptance.exe')) {
+            $airsSignature = Get-AuthenticodeSignature "$env:RUNNER_TEMP/compiled/$airsName"
+            $airsSignature | Select-Object Status, StatusMessage | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/$airsName-signature.json"
+            if ($airsSignature.Status -ne 'NotSigned') { throw 'Unexpected signature state for unsigned candidate' }
+          }
       - name: Check candidate execution and native credential persistence
         run: |
-          $airsBinary = (Resolve-Path runtime/codex-rs/target/release/airs-harness.exe).Path
-          & $airsBinary --version
+          & "$env:RUNNER_TEMP/compiled/airs-harness.exe" --version
           if ($LASTEXITCODE -ne 0) { throw 'Candidate did not launch' }
-          Get-AuthenticodeSignature $airsBinary | Select-Object Status, StatusMessage |
-            ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/signature.json"
-          python scripts/validate_native_credentials.py --binary runtime/codex-rs/target/release/examples/store_acceptance.exe --output "$env:RUNNER_TEMP/airs-evidence/native-store.json"
+          python scripts/validate_native_credentials.py --binary "$env:RUNNER_TEMP/compiled/store_acceptance.exe" --output "$env:RUNNER_TEMP/airs-evidence/native-store.json"
           if ($LASTEXITCODE -ne 0) { throw 'Native credential persistence failed' }
       - name: Validate hidden credential input through native ConPTY
         timeout-minutes: 5
         run: |
           python -m pip install --only-binary=:all: pywinpty==3.0.5
           if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY fixture dependency installation failed' }
-          python scripts/test_airs_secret_windows.py --binary runtime/codex-rs/target/release/airs-harness.exe --output-directory "$env:RUNNER_TEMP/airs-evidence/conpty"
+          python scripts/test_airs_secret_windows.py --binary "$env:RUNNER_TEMP/compiled/airs-harness.exe" --output-directory "$env:RUNNER_TEMP/airs-evidence/conpty"
           if ($LASTEXITCODE -ne 0) { throw 'Native hidden prompt ConPTY acceptance failed' }
-      - name: Package private candidate and verify local npm installation
+      - name: Restore only dependency sources for license inventory
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: ${{ needs.build.outputs.source_cache_key }}
+      - name: Resolve locked license metadata without compiling
+        working-directory: runtime/codex-rs
         run: |
-          python scripts/package_airs_harness.py --source-directory runtime --binary runtime/codex-rs/target/release/airs-harness.exe --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --build-command 'cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings' --profile 'release; codex-cli opt-level=1; other packages use existing release settings; lto=false; codegen-units=16; debug=0' --output-directory "$env:RUNNER_TEMP/airs-package"
+          cargo metadata --locked --filter-platform $env:AIRS_RELEASE_TARGET --format-version 1 > "$env:RUNNER_TEMP/airs-metadata.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Cargo metadata failed' }
+      - name: Package private candidate and verify local npm installation
+        env:
+          AIRS_BUILD_COMMAND: ${{ steps.restore.outputs.build_command }}
+          AIRS_BUILD_PROFILE: ${{ steps.restore.outputs.profile }}
+        run: |
+          python scripts/package_airs_harness.py --source-directory runtime --binary "$env:RUNNER_TEMP/compiled/airs-harness.exe" --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --build-command "$env:AIRS_BUILD_COMMAND" --profile "$env:AIRS_BUILD_PROFILE" --output-directory "$env:RUNNER_TEMP/airs-package"
           if ($LASTEXITCODE -ne 0) { throw 'Native candidate packaging failed' }
           $airsVersion = (Get-Content npm/airs-harness/package.json | ConvertFrom-Json).version
           $airsDirectory = "$env:RUNNER_TEMP/airs-package/airs-harness-$airsVersion-windows-x86_64-msvc"
@@ -127,14 +321,15 @@ jobs:
             published = $false
             status = 'unsigned-unvalidated-candidate'
             target = $env:AIRS_RELEASE_TARGET
+            runtime_source = $env:AIRS_RUNTIME_SOURCE
             consumer_os = 'Windows 11 x64'
             tested_runner = 'windows-2025'
-            remaining = @('Windows 11 desktop authentication E2E', 'production signing', 'independent release score of at least 9/10')
+            full_broad_suite_executed = $false
+            remaining = @('Full Windows application integration suite', 'Windows 11 desktop authentication E2E', 'production signing', 'independent release score of at least 9/10')
           } | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/CANDIDATE.json"
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
-        if: success()
         with:
-          name: airs-harness-windows-x64-unsigned-unvalidated-candidate
+          name: airs-harness-windows-x64-unsigned-unvalidated-candidate-${{ github.run_attempt }}
           path: |
             ${{ runner.temp }}/airs-package/*.tar.gz
             ${{ runner.temp }}/airs-package/*.sha256
@@ -145,7 +340,7 @@ jobs:
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:
-          name: airs-harness-windows-x64-candidate-evidence
+          name: airs-harness-windows-x64-acceptance-evidence-${{ github.run_attempt }}
           path: |
             ${{ runner.temp }}/airs-evidence/
             ${{ runner.temp }}/AIRS Candidate Install/npm-install.log

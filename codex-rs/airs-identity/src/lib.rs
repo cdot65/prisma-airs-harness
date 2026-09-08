@@ -14,3 +14,5 @@ pub use tokens::Tokens;
 
 mod storage;
 pub use storage::CredentialStore;
+pub use storage::WorkspaceCredentialFormat;
+pub use storage::WorkspaceCredentialStore;

@@ -11,7 +11,6 @@ import json
 import os
 from pathlib import Path
 import secrets
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -92,7 +91,15 @@ def main():
                     raise RuntimeError("Isolated Secret Service did not start")
             account = str(uuid.uuid4())
             rows = []
-            for phase in ["write", "read-and-pend", "read-and-delete"]:
+            for phase in [
+                "write",
+                "read-and-pend",
+                "read-and-delete",
+                "workspace-legacy-write",
+                "workspace-read-and-write-v2",
+                "workspace-read-both-delete-legacy",
+                "workspace-read-and-delete-v2",
+            ]:
                 result = subprocess.run(
                     [str(binary), phase, account],
                     env=env,
@@ -108,7 +115,8 @@ def main():
             receipt = {
                 "passed": True,
                 "platform": sys.platform,
-                "separate_processes": 3,
+                "separate_processes": len(rows),
+                "workspace_v2_max_token_bytes": 16_384,
                 "cases": rows,
             }
             args.output.parent.mkdir(parents=True, exist_ok=True)

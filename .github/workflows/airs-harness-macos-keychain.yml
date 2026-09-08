@@ -1,0 +1,52 @@
+name: Prisma AIRS Harness macOS CLI Keychain
+on:
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Validated macOS release workflow run
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  keychain:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            suffix: darwin-arm64
+          - runner: macos-15-intel
+            suffix: darwin-x64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.13"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: airs-harness-${{ matrix.suffix }}
+          path: ${{ runner.temp }}/airs-package
+          run-id: ${{ inputs.build_run }}
+          github-token: ${{ github.token }}
+      - name: Verify native CLI Keychain lifecycle
+        env:
+          AIRS_RELEASE_SUFFIX: ${{ matrix.suffix }}
+        run: |
+          brew install ripgrep
+          tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
+          python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/integrity.json"
+          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-package/airs-harness-0.1.0-alpha.8-$AIRS_RELEASE_SUFFIX/airs-harness" --receipt "$RUNNER_TEMP/cli-keychain.json"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-${{ matrix.suffix }}-cli-keychain
+          path: |
+            ${{ runner.temp }}/cli-keychain.json
+            ${{ runner.temp }}/integrity.json
+          if-no-files-found: warn
+          retention-days: 30

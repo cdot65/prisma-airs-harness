@@ -50,6 +50,11 @@ def main():
         help="Create a non-publishable unsigned candidate, not a validated release",
     )
     parser.add_argument("--profile", default="release; upstream defaults")
+    parser.add_argument(
+        "--build-command",
+        default="cargo build --locked --release -p codex-cli --bin airs-harness",
+        help="Nonsecret build command recorded as provenance text only; never executed",
+    )
     args = parser.parse_args()
     windows = args.target == "x86_64-pc-windows-msvc"
     if windows and not args.unvalidated_candidate:
@@ -273,7 +278,7 @@ def main():
             "rust": subprocess.check_output(
                 ["rustc", "--version"], cwd=repo / "codex-rs", text=True
             ).strip(),
-            "build_command": "cargo build --locked --release -p codex-cli --bin airs-harness",
+            "build_command": args.build_command,
         }
         if args.unvalidated_candidate:
             provenance["release_status"] = "unsigned-unvalidated-candidate"

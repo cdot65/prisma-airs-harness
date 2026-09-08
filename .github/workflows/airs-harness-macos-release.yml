@@ -145,7 +145,7 @@ jobs:
           else
             validation_args=(--validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json")
           fi
-          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" "${validation_args[@]}" --profile "release; codex-cli opt-level=$AIRS_CLI_OPT_LEVEL; other packages use existing release settings; lto=false; codegen-units=16; debug=0" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" "${validation_args[@]}" --build-command "cargo --config profile.release.package.codex-cli.opt-level=$AIRS_CLI_OPT_LEVEL build --locked --release -p codex-cli --bin airs-harness --timings" --profile "release; codex-cli opt-level=$AIRS_CLI_OPT_LEVEL; other packages use existing release settings; lto=false; codegen-units=16; debug=0" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"

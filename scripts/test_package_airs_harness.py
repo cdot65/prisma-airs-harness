@@ -22,7 +22,7 @@ SPEC.loader.exec_module(PACKAGER)
 
 
 class NativePackaging(unittest.TestCase):
-    def package(self, directory, target, candidate=False):
+    def package(self, directory, target, candidate=False, build_command=None):
         root = directory / "source"
         root.mkdir()
         (root / "codex-rs").mkdir()
@@ -104,6 +104,8 @@ class NativePackaging(unittest.TestCase):
         ]
         if candidate:
             args.append("--unvalidated-candidate")
+        if build_command is not None:
+            args.extend(["--build-command", build_command])
         with (
             patch.object(sys, "argv", args),
             patch.object(PACKAGER.subprocess, "check_output", command),
@@ -152,6 +154,30 @@ class NativePackaging(unittest.TestCase):
                     info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
                     self.assertNotIn("release_status", info)
                     self.assertNotIn("publishable", info)
+                    self.assertEqual(
+                        info["build_command"],
+                        "cargo build --locked --release -p codex-cli --bin airs-harness",
+                    )
+
+    def test_explicit_build_command_is_literal_metadata_and_preserves_binary(self):
+        command = (
+            "cargo --config profile.release.package.codex-cli.opt-level=1 "
+            "build --locked --release -p codex-cli --bin airs-harness --timings "
+            "# literal $(metadata-only); `metadata-only`"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            archive, binary = self.package(
+                Path(directory),
+                "x86_64-unknown-linux-musl",
+                candidate=True,
+                build_command=command,
+            )
+            with tarfile.open(archive) as tar:
+                root = tar.getnames()[0]
+                info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
+                self.assertEqual(info["build_command"], command)
+                self.assertEqual(tar.extractfile(root + "/airs-harness").read(), binary)
+                self.assertFalse(info["publishable"])
 
     def test_windows_requires_explicit_nonrelease_mode(self):
         with (

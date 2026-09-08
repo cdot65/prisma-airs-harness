@@ -67,12 +67,8 @@ fn display_field(value: &str) -> anyhow::Result<&str> {
     Ok(value)
 }
 
-pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
-    anyhow::ensure!(
-        !home.join("logged-out").exists(),
-        "logged out; run airs-harness login"
-    );
-    let session = AirsSessionGuard::capture(home)?;
+/// Validate public configuration before any diagnostic display or health request.
+pub(super) fn configuration(home: &Path) -> anyhow::Result<(String, toml::Value)> {
     let config: toml::Value = toml::from_str(&public_file(&home.join("config.toml"))?)
         .map_err(|_| anyhow::anyhow!("Invalid saved environment configuration"))?;
     let provider = config
@@ -105,6 +101,16 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
             && parsed.fragment().is_none(),
         "Invalid saved gateway URL"
     );
+    Ok((gateway.to_owned(), config))
+}
+
+pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
+    anyhow::ensure!(
+        !home.join("logged-out").exists(),
+        "logged out; run airs-harness login"
+    );
+    let session = AirsSessionGuard::capture(home)?;
+    let (gateway, config) = configuration(home)?;
     let binding_path = home.join("credential-binding.json");
     let binding_exists = match std::fs::symlink_metadata(&binding_path) {
         Ok(_) => true,
@@ -142,12 +148,14 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
                 "Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.",
             ),
             Source::Oidc { identity } => {
+                super::airs_login::validate_identity(&identity.config)
+                    .map_err(|_| anyhow::anyhow!("Invalid saved identity connection settings"))?;
                 let issuer = display_field(&identity.config.issuer)?;
                 let subject = display_field(&identity.subject)?;
                 let audience = display_field(&identity.config.audience)?;
                 display_field(&identity.config.client_id)?;
                 anyhow::ensure!(
-                    super::airs_oidc::fingerprint(gateway, identity)?
+                    super::airs_oidc::fingerprint(&gateway, identity)?
                         == binding.credential_fingerprint,
                     "Invalid saved identity binding"
                 );
@@ -167,7 +175,10 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
             }
         }
     } else {
-        let variable = provider
+        let variable = config
+            .get("model_providers")
+            .and_then(|value| value.get("airs"))
+            .context("Missing AIRS gateway configuration")?
             .get("env_http_headers")
             .and_then(|value| value.get("x-portkey-api-key"))
             .and_then(toml::Value::as_str)
@@ -190,7 +201,7 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
     };
     session.check()?;
     Ok(Inspection {
-        gateway: gateway.to_owned(),
+        gateway,
         authentication,
         detail,
     })

@@ -35,12 +35,13 @@ fn native_metadata_does_not_require_any_stored_secret() {
         let home = environment(json!({"kind":kind}));
         let before = std::fs::read(home.path().join("credential-binding.json")).unwrap();
         let result = inspect(home.path()).unwrap();
-        assert!(result.authentication.contains("saved OS-store binding"));
-        assert!(
-            result
-                .detail
-                .contains("availability and gateway access not checked")
-        );
+        let binding = airs_credentials::parse_binding(&before).unwrap();
+        insta::assert_snapshot!(format!("{}\n{}\n{}", result.gateway,
+            result.authentication.replace(&binding.id.to_string(), "<binding-id>"), result.detail), @r"
+        https://gateway.example/v1
+        Workspace credential; saved OS-store binding <binding-id>
+        Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
+        ");
         assert_eq!(
             std::fs::read(home.path().join("credential-binding.json")).unwrap(),
             before
@@ -66,8 +67,11 @@ fn oidc_saved_identity_is_bounded_and_never_claims_authentication() {
         )
     });
     let result = inspect(home.path()).unwrap();
-    assert!(result.authentication.contains("not freshly authenticated"));
-    assert!(result.authentication.contains("saved-user"));
+    insta::assert_snapshot!(format!("{}\n{}\n{}", result.gateway, result.authentication, result.detail), @r#"
+    https://gateway.example/v1
+    OIDC; saved identity metadata (not freshly authenticated): issuer "https://identity.example/realm"; subject "saved-user"; audience "inference"
+    Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
+    "#);
     for subject in [
         "injected\u{1b}[2J".to_owned(),
         "a".repeat(2049),
@@ -78,6 +82,27 @@ fn oidc_saved_identity_is_bounded_and_never_claims_authentication() {
         });
         let error = inspect(home.path()).unwrap_err().to_string();
         assert_eq!(error, "Invalid saved authentication metadata");
+    }
+    for issuer in [
+        "https://user:OIDC-URL-CANARY@identity.example/realm",
+        "https://identity.example/realm?token=OIDC-URL-CANARY",
+        "https://identity.example/realm#OIDC-URL-CANARY",
+    ] {
+        let mut unsafe_identity = identity.clone();
+        unsafe_identity.config.issuer = issuer.into();
+        update_binding(home.path(), |value| {
+            value["source"]["identity"] = json!(unsafe_identity);
+            value["credential_fingerprint"] = json!(
+                super::super::airs_oidc::fingerprint(
+                    "https://gateway.example/v1",
+                    &unsafe_identity
+                )
+                .unwrap()
+            );
+        });
+        let error = inspect(home.path()).unwrap_err().to_string();
+        assert_eq!(error, "Invalid saved identity connection settings");
+        assert!(!error.contains("OIDC-URL-CANARY"));
     }
 }
 

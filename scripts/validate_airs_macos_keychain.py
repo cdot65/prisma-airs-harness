@@ -58,11 +58,24 @@ def main():
                 "Native CLI Keychain login failed: "
                 + login.stderr.replace(key, "[REDACTED]")[-4000:]
             )
+        binding = json.loads((fixture.home / "credential-binding.json").read_text())
+        helper_args = (
+            "credential",
+            "--home",
+            str(fixture.home),
+            "--binding",
+            binding["id"],
+        )
+        # Capture the trusted helper privately. Metadata status/doctor cannot
+        # establish native persistence, and this output must never be logged.
+        credential = fixture.run_cli(*helper_args)
+        if credential.returncode or credential.stdout != key + "\n":
+            raise RuntimeError(
+                "A new CLI process could not read its Keychain credential"
+            )
         doctor = fixture.run_cli("doctor", "--json")
         if doctor.returncode or not json.loads(doctor.stdout)["passed"]:
-            raise RuntimeError(
-                "A new CLI process could not use its Keychain credential"
-            )
+            raise RuntimeError("Native CLI doctor configuration check failed")
         result = fixture.execute()
         if result.returncode or len(fixture.requests) != 2:
             raise RuntimeError("Keychain-authenticated local tool loop failed")
@@ -92,6 +105,9 @@ def main():
         logout = fixture.run_cli("logout")
         if logout.returncode:
             raise RuntimeError("Native CLI logout failed")
+        removed = fixture.run_cli(*helper_args)
+        if removed.returncode == 0 or removed.stdout:
+            raise RuntimeError("Logout did not disable credential helper output")
         after_logout = fixture.execute()
         if not after_logout.returncode or len(fixture.requests) != 2:
             raise RuntimeError("Logout did not disable subsequent inference")
@@ -103,6 +119,8 @@ def main():
                     "cli_secure_login": True,
                     "oidc_native_store_preflight": True,
                     "new_process_credential_access": True,
+                    "credential_access_proof": "trusted native credential helper exact private readback",
+                    "logout_rejects_credential_helper": True,
                     "authenticated_local_tool_loop": True,
                     "plaintext_state_absent": True,
                     "logout_blocks_inference": True,

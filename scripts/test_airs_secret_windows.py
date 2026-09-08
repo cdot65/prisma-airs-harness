@@ -228,6 +228,7 @@ def acceptance(binary, output):
                     env,
                 )
                 secret = "fixture-hidden-key-" + name
+                helper_args = None
                 try:
                     terminal.wait_for(PROMPT)
                     if success:
@@ -268,6 +269,27 @@ def acceptance(binary, output):
                             raise AssertionError(
                                 "ConPTY submission changed the credential"
                             )
+                        helper_args = [
+                            str(binary),
+                            "credential",
+                            "--home",
+                            str(bindings[0].parent),
+                            "--binding",
+                            binding["id"],
+                        ]
+                        credential = subprocess.run(
+                            helper_args,
+                            env=env,
+                            cwd=work,
+                            capture_output=True,
+                            text=True,
+                            timeout=15,
+                        )
+                        if credential.returncode or credential.stdout != secret + "\n":
+                            raise AssertionError(
+                                "Native Credential Manager readback failed"
+                            )
+                        receipt["native_credential_readback"] = True
                     elif bindings:
                         raise AssertionError(
                             "Rejected input created a credential binding"
@@ -306,6 +328,20 @@ def acceptance(binary, output):
                                 raise AssertionError(
                                     "Fixture credential cleanup failed"
                                 )
+                            if helper_args is not None:
+                                removed = subprocess.run(
+                                    helper_args,
+                                    env=env,
+                                    cwd=work,
+                                    capture_output=True,
+                                    text=True,
+                                    timeout=15,
+                                )
+                                if removed.returncode == 0 or removed.stdout:
+                                    raise AssertionError(
+                                        "Logout did not disable credential helper output"
+                                    )
+                                receipt["logout_rejects_credential_helper"] = True
         receipt["passed"] = True
         receipt.pop("active_case", None)
     except Exception as error:

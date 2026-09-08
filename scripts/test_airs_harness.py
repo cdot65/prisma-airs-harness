@@ -766,6 +766,43 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(len(self.requests), 1)
         self.assertEqual(self.mcp_requests, [])
 
+    def test_doctor_rejects_unsafe_gateway_before_display_or_any_request(self):
+        self.configure()
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        binding_path = self.home / "credential-binding.json"
+        binding = binding_path.read_bytes()
+        path = self.home / "config.toml"
+        original = path.read_text()
+        for gateway in (
+            self.url.replace("http://", "http://user:GATEWAY-URL-CANARY@"),
+            self.url + "?token=GATEWAY-URL-CANARY",
+            self.url + "#GATEWAY-URL-CANARY",
+        ):
+            for options in ((), ("--verify-access",)):
+                with self.subTest(
+                    gateway_type=gateway.split("CANARY")[0][-8:], options=options
+                ):
+                    path.write_text(original.replace(self.url, gateway))
+                    doctor = self.run_cli("doctor", "--json", *options)
+                    self.assertNotEqual(doctor.returncode, 0)
+                    self.assertNotIn(
+                        "GATEWAY-URL-CANARY", doctor.stdout + doctor.stderr
+                    )
+                    self.assertNotIn(
+                        "test-only-credential", doctor.stdout + doctor.stderr
+                    )
+                    row = next(
+                        item
+                        for item in json.loads(doctor.stdout)["checks"]
+                        if item["name"] == "configuration"
+                    )
+                    self.assertFalse(row["passed"])
+                    self.assertEqual(binding_path.read_bytes(), binding)
+                    self.assertEqual(self.health_requests, [])
+                    self.assertEqual(self.requests, [])
+                    self.assertEqual(self.mcp_requests, [])
+
     def test_named_environments_and_file_credential_without_export(self):
         for name in ("work", "second"):
             setup = self.run_cli(
@@ -871,6 +908,7 @@ class TerminalIntegration(unittest.TestCase):
         self.work = self.root / "work"
         self.work.mkdir()
         self.requests = []
+        self.health_requests = []
         self.mcp_requests = []
         self.redirect = None
         self.force_compaction = False
@@ -887,6 +925,7 @@ class TerminalIntegration(unittest.TestCase):
                 pass
 
             def do_GET(self):
+                owner.health_requests.append(self.path)
                 self.send_response(200 if self.path == "/prefix/v1/health" else 404)
                 self.send_header("Content-Length", "0")
                 self.end_headers()

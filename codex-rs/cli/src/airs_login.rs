@@ -40,7 +40,7 @@ fn public_field(value: &str) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn validate_identity(config: &IdentityConfig) -> anyhow::Result<()> {
+pub(super) fn validate_identity(config: &IdentityConfig) -> anyhow::Result<()> {
     public_field(&config.issuer)?;
     public_field(&config.client_id)?;
     public_field(&config.audience)?;

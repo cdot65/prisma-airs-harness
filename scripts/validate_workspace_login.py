@@ -53,8 +53,12 @@ def verify_login_output(output, token, require_gateway_verification):
             b"gateway did not return a successful Responses API result": "invalid-response",
             b"response exceeded the 64 KiB": "oversized-response",
         }
-        category = next((label for text, label in reasons.items() if text in output), "unclassified")
-        raise AssertionError(f"Gateway verification failed: disclosed={disclosed}, verified={verified}, category={category}")
+        category = next(
+            (label for text, label in reasons.items() if text in output), "unclassified"
+        )
+        raise AssertionError(
+            f"Gateway verification failed: disclosed={disclosed}, verified={verified}, category={category}"
+        )
     return disclosed, verified
 
 
@@ -501,7 +505,9 @@ def main():
         # TerminalSession and subprocess errors can carry complete output/keys.
         # Retain only the safe phase and exception class, never their messages.
         receipt["failure_class"] = type(error).__name__
-        if isinstance(error, AssertionError) and str(error).startswith("Gateway verification failed:"):
+        if isinstance(error, AssertionError) and str(error).startswith(
+            "Gateway verification failed:"
+        ):
             receipt["verification_failure"] = str(error)
     receipt["finished_at_unix"] = int(time.time())
     args.output.parent.mkdir(mode=0o700, parents=True, exist_ok=True)

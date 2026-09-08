@@ -1,5 +1,4 @@
 //! Bounded, redacted diagnostics for the standalone gateway environment.
-use super::airs_environment;
 use anyhow::Context;
 use serde::Serialize;
 use std::path::Path;
@@ -71,11 +70,7 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
             },
         });
     }
-    let configuration = (|| -> anyhow::Result<(String, toml::Value)> {
-        let gateway = airs_environment::gateway(home)?;
-        let config = toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
-        Ok((gateway, config))
-    })();
+    let configuration = super::airs_status::configuration(home);
     match configuration {
         Ok((gateway, config)) => {
             checks.push(Check { name: "configuration", passed: true, detail: gateway.clone() });

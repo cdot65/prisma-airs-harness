@@ -1,0 +1,129 @@
+{
+  "evidence_layer": "scoped-rust-library-tests-with-localhost-http-regressions",
+  "source_commit": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "source_attribution": "The tests ran against uncommitted implementation sources subsequently committed and present at this revision; this is not a claim that all files in this revision were tested.",
+  "run_id": "83158cb9-62ce-4492-9425-caf2bf138b18",
+  "timestamp": "2026-09-08T17:52:43.114+00:00",
+  "command": "just test --release -p codex-utils-home-dir -p codex-api -p codex-rmcp-client -p codex-keyring-store --lib",
+  "working_directory": "codex-rs",
+  "environment": {
+    "CARGO_TARGET_DIR": "/var/tmp/airs-harness-alpha9-target",
+    "CARGO_BUILD_JOBS": "12",
+    "CARGO_PROFILE_RELEASE_DEBUG": "0",
+    "CARGO_PROFILE_RELEASE_LTO": "false",
+    "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": "16",
+    "NEXTEST_PROFILE": "local",
+    "RUST_MIN_STACK": "8388608"
+  },
+  "result": {
+    "passed": 363,
+    "failed": 0,
+    "excluded_ignored_tests": 1,
+    "duration_seconds": 7.004,
+    "binaries_reported_by_console": 4,
+    "suites_in_junit": 3
+  },
+  "per_crate_executed_tests": {
+    "codex-api": 168,
+    "codex-rmcp-client": 187,
+    "codex-utils-home-dir": 8
+  },
+  "keyring_store_scope": "Included in compilation/test selection; no Linux unit cases appear in the JUnit report. Native credential-store validation is separate.",
+  "excluded_test": {
+    "crate": "codex-rmcp-client",
+    "test": "oauth::store_lock::tests::store_lock_is_released_when_holder_process_exits_child",
+    "reason": "child process for store_lock_is_released_when_holder_process_exits",
+    "source": "codex-rs/rmcp-client/src/oauth/tests/store_lock_tests.rs:250",
+    "explanation": "This intentionally ignored child entry point is invoked explicitly by the passing parent test store_lock_is_released_when_holder_process_exits. It is not independently scheduled. The console reports one skipped test; JUnit omits this excluded test and reports skipped=0."
+  },
+  "raw_artifact": {
+    "file": "nextest-junit.xml",
+    "original_path": "codex-rs/target/nextest/local/junit.xml",
+    "sha256": "c271af167b9e782ee126d1379fd8fccebeb36e888711d73647360e89b1012afc",
+    "kind": "Unmodified machine-generated JUnit copied from nextest output; run UUID verified before copying."
+  },
+  "console_summary": {
+    "kind": "Transcription from completed tool output, not a saved raw console log",
+    "text": "Summary [   7.004s] 363 tests run: 363 passed, 1 skipped",
+    "build_duration": "4m 17s"
+  },
+  "new_revocation_regressions": [
+    {
+      "crate": "codex-api",
+      "test": "endpoint::session::tests::previously_opened_inference_stream_stops_delivering_after_logout",
+      "duration_seconds": "0.018",
+      "passed": true
+    },
+    {
+      "crate": "codex-api",
+      "test": "endpoint::session::tests::retryable_remote_failure_cannot_retry_after_logout",
+      "duration_seconds": "0.018",
+      "passed": true
+    },
+    {
+      "crate": "codex-api",
+      "test": "endpoint::session::tests::retained_inference_client_stops_sending_after_logout_and_relogin",
+      "duration_seconds": "0.036",
+      "passed": true
+    },
+    {
+      "crate": "codex-api",
+      "test": "endpoint::session::tests::pending_inference_headers_cancel_within_logout_deadline",
+      "duration_seconds": "0.270",
+      "passed": true
+    },
+    {
+      "crate": "codex-rmcp-client",
+      "test": "airs_http::tests::static_header_mcp_and_oauth_requests_stop_after_logout",
+      "duration_seconds": "0.032",
+      "passed": true
+    },
+    {
+      "crate": "codex-rmcp-client",
+      "test": "http_headers::revocation_tests::mcp_authentication_retry_is_blocked_when_logout_races_response",
+      "duration_seconds": "0.031",
+      "passed": true
+    },
+    {
+      "crate": "codex-rmcp-client",
+      "test": "http_headers::revocation_tests::cached_mcp_headers_never_send_after_logout_or_relogin",
+      "duration_seconds": "0.047",
+      "passed": true
+    },
+    {
+      "crate": "codex-rmcp-client",
+      "test": "http_headers::revocation_tests::pending_mcp_headers_cancel_within_logout_deadline",
+      "duration_seconds": "0.265",
+      "passed": true
+    },
+    {
+      "crate": "codex-utils-home-dir",
+      "test": "airs_session::tests::legacy_clients_stop_on_first_epoch_and_missing_records_fail_closed",
+      "duration_seconds": "0.006",
+      "passed": true
+    },
+    {
+      "crate": "codex-utils-home-dir",
+      "test": "airs_session::tests::logout_then_login_never_resurrects_existing_guard",
+      "duration_seconds": "0.006",
+      "passed": true
+    },
+    {
+      "crate": "codex-utils-home-dir",
+      "test": "airs_session::tests::logout_marker_and_invalid_records_are_fail_closed",
+      "duration_seconds": "0.006",
+      "passed": true
+    },
+    {
+      "crate": "codex-utils-home-dir",
+      "test": "airs_session::tests::round_trip_and_other_environment_isolation",
+      "duration_seconds": "0.006",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Localhost transport and library tests do not establish installed two-process logout acceptance.",
+    "No macOS or Windows acceptance is established by this Linux run.",
+    "Already-open MCP response bodies are outside the bounded new-request revocation stage."
+  ]
+}

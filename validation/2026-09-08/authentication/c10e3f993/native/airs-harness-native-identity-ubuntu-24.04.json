@@ -1,0 +1,42 @@
+{
+  "source_commit": "c10e3f99393f7d79dbe48fa228a9a18e548953e1",
+  "workflow_run": 34259890077,
+  "artifact_id": 10069530526,
+  "evidence_layer": "native-storage-fixture",
+  "receipt": {
+    "passed": true,
+    "platform": "linux",
+    "separate_processes": 7,
+    "workspace_v2_max_token_bytes": 16384,
+    "cases": [
+      {
+        "passed": true,
+        "phase": "write"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-pend"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-delete"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-legacy-write"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-and-write-v2"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-both-delete-legacy"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-and-delete-v2"
+      }
+    ]
+  }
+}

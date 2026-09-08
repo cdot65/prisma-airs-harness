@@ -35,7 +35,12 @@ def main():
     )
     parser.add_argument("--output-directory", type=Path, required=True)
     parser.add_argument(
-        "--registry", required=True, help="Destination Verdaccio HTTPS URL"
+        "--registry", required=True, help="Destination registry HTTPS URL"
+    )
+    parser.add_argument(
+        "--scoped",
+        action="store_true",
+        help="Stage @cdot65/prisma-airs-harness packages with exact scoped native dependencies",
     )
     args = parser.parse_args()
     registry = urlparse(args.registry)
@@ -53,6 +58,8 @@ def main():
     root = Path(__file__).resolve().parents[1]
     template = root / "npm/airs-harness"
     manifest = json.loads((template / "package.json").read_text())
+    if args.scoped:
+        manifest["name"] = "@cdot65/prisma-airs-harness"
     output = args.output_directory.resolve()
     output.mkdir(parents=True, exist_ok=False)
     packages = []
@@ -86,6 +93,8 @@ def main():
         source_commit = info["source_commit"]
         platform, arch = TARGETS[info["target"]]
         name = f"airs-harness-{platform}-{arch}"
+        if args.scoped:
+            name = "@cdot65/prisma-" + name
         if name in dependencies:
             raise ValueError("Duplicate native target")
         dependencies[name] = manifest["version"]
@@ -122,8 +131,8 @@ def main():
             json.dumps(native_manifest, indent=2) + "\n"
         )
         packages.append(package)
-    launcher = output / "airs-harness"
-    launcher.mkdir()
+    launcher = output / manifest["name"]
+    launcher.mkdir(parents=True)
     for name in ["bin", "lib", "managed-cli"]:
         shutil.copytree(template / name, launcher / name)
     for name in ["LICENSE", "NOTICE", "README.md"]:
@@ -135,6 +144,26 @@ def main():
         manifest["private"] = True
     manifest["optionalDependencies"] = dependencies
     manifest["publishConfig"] = {"registry": args.registry}
+    (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    tooling = {
+        "packaging_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=root, text=True
+        ).strip(),
+        "native_source_commit": source_commit,
+        "files": {
+            str(path.relative_to(root)): digest(path)
+            for path in [
+                Path(__file__).resolve(),
+                template / "package.json",
+                *sorted((template / "lib").glob("*.js")),
+                *sorted((template / "bin").glob("*.js")),
+                *sorted((template / "managed-cli").iterdir()),
+            ]
+            if path.is_file()
+        },
+    }
+    (launcher / "PACKAGE-TOOLING.json").write_text(json.dumps(tooling, indent=2) + "\n")
+    manifest["files"].append("PACKAGE-TOOLING.json")
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
     packages.append(launcher)
     tarballs = output / "tarballs"
@@ -160,7 +189,8 @@ def main():
             not isinstance(records, list)
             or len(records) != 1
             or not isinstance(records[0], dict)
-            or records[0].get("name") != package.name
+            or records[0].get("name")
+            != json.loads((package / "package.json").read_text())["name"]
         ):
             raise ValueError("npm pack did not return the expected single package")
         record = records[0]
@@ -176,9 +206,8 @@ def main():
     receipt = {
         "published": False,
         "source_commit": source_commit,
-        "packaging_commit": subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=root, text=True
-        ).strip(),
+        "package_tooling": tooling,
+        "packaging_commit": tooling["packaging_commit"],
         "required_dependencies": manifest["dependencies"],
         "registry": args.registry,
         "publish_order": receipts,

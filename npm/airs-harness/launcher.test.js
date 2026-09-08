@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, mkdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
@@ -9,11 +9,19 @@ import test from "node:test";
 import { managedEnvironment, platformPackage } from "./lib/launcher.js";
 import { managedCliDirectory } from "./lib/prisma-cli.js";
 
-function fixture(t, native) {
+function fixture(t, native, layout = "legacy") {
   const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), "airs-harness-launcher-")));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const module = path.join(root, "node_modules", "airs-harness");
   cpSync(path.dirname(fileURLToPath(import.meta.url)), module, { recursive: true, filter: (source) => path.basename(source) !== "node_modules" });
+  const launcherManifestPath = path.join(module, "package.json");
+  const manifest = JSON.parse(readFileSync(launcherManifestPath, "utf8"));
+  const legacy = platformPackage(process.platform, process.arch);
+  const scoped = `@cdot65/prisma-${legacy}`;
+  const dependency = layout === "scoped" ? scoped : legacy;
+  if (layout !== "legacy") manifest.name = "@cdot65/prisma-airs-harness";
+  manifest.optionalDependencies = { [dependency]: layout === "legacy-alias" ? "https://npm.pkg.github.com/download/native" : manifest.version };
+  writeFileSync(launcherManifestPath, JSON.stringify(manifest));
   const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
   mkdirSync(cli, { recursive: true });
   writeFileSync(path.join(cli, "package.json"), JSON.stringify({
@@ -21,9 +29,9 @@ function fixture(t, native) {
   }));
   writeFileSync(path.join(cli, "index.js"), "console.log('5.2.0')");
   if (native !== undefined) {
-    const target = path.join(root, "node_modules", platformPackage(process.platform, process.arch));
+    const target = path.join(root, "node_modules", dependency);
     mkdirSync(path.join(target, "bin"), { recursive: true });
-    writeFileSync(path.join(target, "package.json"), JSON.stringify({ name: path.basename(target) }));
+    writeFileSync(path.join(target, "package.json"), JSON.stringify({ name: layout === "legacy" ? legacy : scoped, version: manifest.version }));
     if (native !== null) {
       writeFileSync(path.join(target, "bin", process.platform === "win32" ? "airs-harness.exe" : "airs-harness"), native, { mode: 0o755 });
     }
@@ -150,4 +158,47 @@ setInterval(() => {}, 1000);
   const closed = once(child, "close");
   child.kill("SIGTERM");
   assert.deepEqual(await closed, [null, "SIGTERM"]);
+});
+
+
+test("declared keys select scoped natives without inferring from the launcher name", () => {
+  const version = "0.1.0-alpha.9";
+  for (const [platform, arch] of [["linux", "x64"], ["darwin", "arm64"], ["win32", "x64"]]) {
+    const legacy = platformPackage(platform, arch);
+    const scoped = `@cdot65/prisma-${legacy}`;
+    assert.equal(platformPackage(platform, arch, { name: "airs-harness", version,
+      optionalDependencies: { [scoped]: version } }), scoped);
+    assert.equal(platformPackage(platform, arch, { name: "@cdot65/prisma-airs-harness", version,
+      optionalDependencies: { [legacy]: "https://npm.pkg.github.com/download/native" } }), legacy);
+    for (const dependencies of [{}, { [scoped]: false }, { [scoped]: "another-version" },
+      { [scoped]: version, [legacy]: version }, { [`@other/prisma-${legacy}`]: version }]) {
+      assert.throws(() => platformPackage(platform, arch, { version, optionalDependencies: dependencies }),
+        /declared native package|Invalid native dependency/);
+    }
+  }
+  assert.throws(() => platformPackage("darwin", "x64", { optionalDependencies: {
+    "@cdot65/prisma-airs-harness-darwin-x64": version,
+  }, version }), /Apple Silicon Macs only/);
+});
+
+test("scoped and historical alias layouts launch the declared native", { skip: process.platform === "win32" }, (t) => {
+  for (const layout of ["scoped", "legacy-alias"]) {
+    const entry = fixture(t, '#!/bin/sh\nprintf "declared native\\n"\n', layout);
+    const result = spawnSync(process.execPath, [entry], { encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout.trim(), "declared native");
+  }
+});
+
+test("native identity or version mismatch fails before execution", (t) => {
+  for (const mutation of [{ name: "@other/native" }, { version: "0.0.0" }]) {
+    const entry = fixture(t, '#!/bin/sh\nprintf "must not execute\\n"\n', "scoped");
+    const root = path.resolve(path.dirname(entry), "../../..");
+    const file = path.join(root, "node_modules", `@cdot65/prisma-${platformPackage(process.platform, process.arch)}`, "package.json");
+    writeFileSync(file, JSON.stringify({ ...JSON.parse(readFileSync(file, "utf8")), ...mutation }));
+    const result = spawnSync(process.execPath, [entry], { encoding: "utf8" });
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /identity\/version mismatch/);
+    assert.equal(result.stdout, "");
+  }
 });

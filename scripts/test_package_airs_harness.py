@@ -4,6 +4,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import itertools
 from pathlib import Path
 import shutil
 import subprocess
@@ -198,9 +199,9 @@ class NativePackaging(unittest.TestCase):
 class NpmCandidatePackaging(unittest.TestCase):
     def test_candidate_tarballs_block_publication_and_keep_exact_cli_dependency(self):
         template = json.loads((ROOT / "npm/airs-harness/package.json").read_text())
-        for candidate in [False, True]:
+        for candidate, scoped in itertools.product([False, True], repeat=2):
             with (
-                self.subTest(candidate=candidate),
+                self.subTest(candidate=candidate, scoped=scoped),
                 tempfile.TemporaryDirectory() as directory,
             ):
                 root = Path(directory)
@@ -239,12 +240,18 @@ class NpmCandidatePackaging(unittest.TestCase):
                     (earlier / "BUILD-INFO.json").write_text(json.dumps(earlier_info))
                     release_args = ["--release-directory", str(earlier), *release_args]
                     dependencies["airs-harness-linux-x64"] = template["version"]
+                if scoped:
+                    dependencies = {
+                        "@cdot65/prisma-" + name: version
+                        for name, version in dependencies.items()
+                    }
                 output = root / "npm"
                 result = subprocess.run(
                     [
                         sys.executable,
                         str(ROOT / "scripts/package_airs_npm.py"),
                         *release_args,
+                        *(["--scoped"] if scoped else []),
                         "--output-directory",
                         str(output),
                         "--registry",
@@ -263,20 +270,39 @@ class NpmCandidatePackaging(unittest.TestCase):
                     with tarfile.open(archive) as tar:
                         manifest = json.load(tar.extractfile("package/package.json"))
                         self.assertEqual(manifest.get("private", False), candidate)
-                        if manifest["name"] == "airs-harness":
+                        if manifest["name"] == (
+                            "@cdot65/prisma-airs-harness" if scoped else "airs-harness"
+                        ):
                             self.assertEqual(
                                 manifest["dependencies"], template["dependencies"]
+                            )
+                            tooling = json.load(
+                                tar.extractfile("package/PACKAGE-TOOLING.json")
+                            )
+                            self.assertEqual(tooling, receipt["package_tooling"])
+                            self.assertEqual(tooling["native_source_commit"], "a" * 40)
+                            self.assertEqual(
+                                tooling["files"]["npm/airs-harness/lib/launcher.js"],
+                                PACKAGER.digest(
+                                    ROOT / "npm/airs-harness/lib/launcher.js"
+                                ),
                             )
                             self.assertEqual(
                                 manifest["optionalDependencies"],
                                 dependencies,
                             )
                         else:
-                            self.assertIn(
+                            binary_member = (
                                 "package/bin/airs-harness.exe"
                                 if manifest["os"] == ["win32"]
-                                else "package/bin/airs-harness",
-                                tar.getnames(),
+                                else "package/bin/airs-harness"
+                            )
+                            self.assertEqual(
+                                tar.extractfile(binary_member).read(),
+                                binary.read_bytes(),
+                            )
+                            self.assertEqual(
+                                manifest["name"].startswith("@cdot65/prisma-"), scoped
                             )
 
 

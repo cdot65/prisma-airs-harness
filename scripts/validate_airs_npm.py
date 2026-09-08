@@ -25,7 +25,16 @@ def main():
     packages = args.packages.resolve(strict=True)
     prefix = args.prefix.resolve()
     prefix.mkdir(parents=True, exist_ok=False)
-    records = json.loads((packages / "NPM-PACKAGES.json").read_text())["publish_order"]
+    package_receipt = json.loads((packages / "NPM-PACKAGES.json").read_text())
+    records = package_receipt["publish_order"]
+    launchers = [
+        r
+        for r in records
+        if r["name"] in ("airs-harness", "@cdot65/prisma-airs-harness")
+    ]
+    if len(launchers) != 1:
+        raise ValueError("Expected exactly one declared harness launcher")
+    launcher_record = launchers[0]
     metadata = {}
     archives = {}
     requests = []
@@ -49,7 +58,7 @@ def main():
             if path not in metadata:
                 # First-party names must resolve only to this candidate. Real
                 # CLI/transitive dependencies come from the public npm registry.
-                if path.startswith("/airs-harness"):
+                if path.startswith(("/airs-harness", "/@cdot65/prisma-airs-harness")):
                     self.send_error(404)
                 else:
                     self.send_response(302)
@@ -111,7 +120,7 @@ def main():
                 "--no-fund",
                 "--registry",
                 registry_url,
-                "airs-harness@" + records[-1]["version"],
+                launcher_record["name"] + "@" + launcher_record["version"],
             ],
             env=env,
             cwd=prefix,
@@ -128,20 +137,33 @@ def main():
         version = subprocess.check_output(
             [str(command), "--version"], text=True
         ).strip()
-        expected = "airs-harness " + records[-1]["version"]
+        expected = "airs-harness " + launcher_record["version"]
         if version != expected:
             raise ValueError(
                 "Installed command did not launch the expected native version"
             )
         modules = prefix / ("node_modules" if os.name == "nt" else "lib/node_modules")
-        native_infos = list(
-            (modules / "airs-harness/node_modules").glob(
-                "airs-harness-*/BUILD-INFO.json"
-            )
-        )
-        if len(native_infos) != 1:
-            raise ValueError("Expected exactly one installed native package")
-        native_info = native_infos[0]
+        launcher_directory = modules / launcher_record["name"]
+        native_manifest = subprocess.check_output(
+            [
+                shutil.which("node") or "node",
+                "--input-type=module",
+                "-e",
+                """
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import path from 'node:path';
+const require = createRequire(process.argv[1]);
+const manifest = require(process.argv[1]);
+const { platformPackage } = await import(pathToFileURL(path.join(path.dirname(process.argv[1]), 'lib/launcher.js')));
+console.log(require.resolve(platformPackage(process.platform, process.arch, manifest) + '/package.json'));
+""",
+                str(launcher_directory / "package.json"),
+            ],
+            text=True,
+            timeout=10,
+        ).strip()
+        native_info = Path(native_manifest).parent / "BUILD-INFO.json"
         provenance = json.loads(native_info.read_text())
         native = (
             native_info.parent
@@ -156,11 +178,22 @@ def main():
             [str(command), "airs", "--version"], text=True
         ).strip()
         launcher_manifest = json.loads(
-            (modules / "airs-harness/package.json").read_text()
+            (launcher_directory / "package.json").read_text()
         )
         if cli_version != launcher_manifest["dependencies"]["@cdot65/prisma-airs-cli"]:
             raise ValueError("Installed Prisma AIRS CLI differs from its exact pin")
+        tooling_file = launcher_directory / "PACKAGE-TOOLING.json"
+        package_tooling = None
+        if "package_tooling" in package_receipt or tooling_file.exists():
+            package_tooling = json.loads(tooling_file.read_text())
+            if package_tooling != package_receipt.get("package_tooling"):
+                raise ValueError(
+                    "Installed package tooling differs from its staging receipt"
+                )
         receipt = {
+            "launcher_package": launcher_record["name"],
+            "native_package": json.loads(Path(native_manifest).read_text())["name"],
+            "package_tooling": package_tooling,
             "prisma_airs_cli_version": cli_version,
             "passed": True,
             "binary_sha256": native_digest,

@@ -67,7 +67,8 @@ import path from 'node:path';
 const url = pathToFileURL(process.argv[1]);
 const { platformPackage } = await import(url.href);
 const require = createRequire(url);
-const manifest = require.resolve(platformPackage(process.platform, process.arch) + '/package.json');
+const launcher = require('../package.json');
+const manifest = require.resolve(platformPackage(process.platform, process.arch, launcher) + '/package.json');
 console.log(path.join(path.dirname(manifest), 'bin', process.platform === 'win32' ? 'airs-harness.exe' : 'airs-harness'));
 """
         result = subprocess.run(

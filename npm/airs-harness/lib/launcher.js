@@ -6,7 +6,7 @@ import path from "node:path";
 
 const require = createRequire(import.meta.url);
 
-export function platformPackage(platform, arch) {
+export function platformPackage(platform, arch, manifest) {
   if (platform === "darwin" && arch === "x64") {
     throw new Error("Prisma AIRS Harness supports Apple Silicon Macs only. " +
       "On Apple Silicon, use an arm64 Node.js installation outside Rosetta.");
@@ -15,7 +15,21 @@ export function platformPackage(platform, arch) {
       !["arm64", "x64"].includes(arch)) {
     throw new Error(`Prisma AIRS Harness does not support ${platform}/${arch}.`);
   }
-  return `airs-harness-${platform}-${arch}`;
+  const legacy = `airs-harness-${platform}-${arch}`;
+  if (manifest === undefined) return legacy;
+  const scoped = `@cdot65/prisma-${legacy}`;
+  const dependencies = manifest.optionalDependencies;
+  const declared = [legacy, scoped].filter((name) =>
+    dependencies && Object.hasOwn(dependencies, name));
+  if (declared.length !== 1) {
+    throw new Error(`Expected one declared native package for ${platform}/${arch}; reinstall airs-harness with optional dependencies enabled.`);
+  }
+  const name = declared[0];
+  if (typeof dependencies[name] !== "string" || !dependencies[name].trim() ||
+      (name === scoped && dependencies[name] !== manifest.version)) {
+    throw new Error("Invalid native dependency version; reinstall airs-harness.");
+  }
+  return name;
 }
 
 export function managedEnvironment(environment, platform = process.platform) {
@@ -42,7 +56,8 @@ export function run() {
   }
   let binary;
   try {
-    const name = platformPackage(process.platform, process.arch);
+    const launcherManifest = require("../package.json");
+    const name = platformPackage(process.platform, process.arch, launcherManifest);
     let manifest;
     try {
       manifest = require.resolve(`${name}/package.json`);
@@ -51,6 +66,11 @@ export function run() {
         `The native package ${name} is unavailable. Install a release that supports ` +
         `this platform from your organization's registry with optional dependencies enabled.`,
       );
+    }
+    const nativeManifest = require(manifest);
+    const allowedNames = name.startsWith("@") ? [name] : [name, `@cdot65/prisma-${name}`];
+    if (!allowedNames.includes(nativeManifest.name) || nativeManifest.version !== launcherManifest.version) {
+      throw new Error("Native package identity/version mismatch; reinstall airs-harness.");
     }
     binary = path.join(path.dirname(manifest), "bin",
       process.platform === "win32" ? "airs-harness.exe" : "airs-harness");

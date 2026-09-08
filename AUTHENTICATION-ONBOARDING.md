@@ -16,14 +16,14 @@ registry installation instructions describe the historical release and do not
 install these changes. A version label alone does not identify a candidate;
 retain the administrator's artifact or build reference.
 
-Apple Silicon Mac, Linux desktop, and Windows are the candidate validation
-targets. Native acceptance is still in progress. The owner's reported Mac
-storage failure has **not been proven fixed**. Developer ID/notarization,
-Windows signing, headless onboarding, and an organization-profile wizard are
-not delivered by this guide.
+Apple Silicon Mac and Linux desktop are the current candidate validation
+targets; native Windows was deferred by the owner in plan v0.2. Native acceptance
+is still in progress. The owner's reported Mac storage failure has **not been
+proven fixed**. Developer ID/notarization, headless onboarding, and an
+organization-profile wizard are not delivered by this guide.
 
-Open Terminal on your Mac, your Linux desktop terminal, or PowerShell in Windows
-Terminal, using your normal signed-in account. After the candidate is installed:
+Open Terminal on your Mac or your Linux desktop terminal, using your normal
+signed-in account. After the candidate is installed:
 
 ```text
 airs-harness

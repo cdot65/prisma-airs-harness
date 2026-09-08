@@ -1,0 +1,15 @@
+{
+  "run_id": 34292142979,
+  "url": "https://github.com/cdot65/airs-harness/actions/runs/34292142979",
+  "conclusion": "success",
+  "source": "3d0e01554e70cc0859c76fb558d90692cf944c49",
+  "artifact_id": 10081737634,
+  "artifact_sha256": "8069d17c09b9dd65012fff51f402ed52c3caefeaf760930a8f58eb210090a0fe",
+  "artifact_digest_independently_verified": true,
+  "permissions": [
+    "contents:read",
+    "packages:read"
+  ],
+  "compilation_performed": false,
+  "publication_performed": false
+}

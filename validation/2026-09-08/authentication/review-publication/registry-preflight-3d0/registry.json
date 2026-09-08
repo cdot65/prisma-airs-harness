@@ -1,0 +1,31 @@
+{
+  "recorded_at_utc": "2026-09-08T23:46:55.545654+00:00",
+  "candidate_version": "0.1.0-alpha.10",
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "http_status": 200,
+      "published_version_count": 1,
+      "published_alpha9_present": true,
+      "candidate_version_present": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "http_status": 200,
+      "published_version_count": 1,
+      "published_alpha9_present": true,
+      "candidate_version_present": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "http_status": 200,
+      "published_version_count": 1,
+      "published_alpha9_present": true,
+      "candidate_version_present": false
+    }
+  ],
+  "passed": true,
+  "published": false,
+  "version_reserved": false,
+  "teammate_access_tested": false
+}

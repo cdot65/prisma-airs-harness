@@ -1,0 +1,42 @@
+{
+  "published": false,
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "package_tooling": {
+    "packaging_commit": "7044c43641f4d6591b9f860f6e383a923b807cfe",
+    "native_source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+    "files": {
+      "scripts/package_airs_npm.py": "a9d1ef984d99b50480252f254c8b04ace56583dace974338ec05130a732c165a",
+      "npm/airs-harness/package.json": "277e161a663be16850be1c2f3b516e5fd2e4f68f0e0b70117d8ecdec18583aec",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/launcher.js": "0a6e58ae9fe26a4ad7bef26516fe3d4263b1c1274ef22364933be9ef8c490f40",
+      "npm/airs-harness/lib/prisma-cli.js": "ab6b6014d16c4dde69d0039df608a7f188984d7300a3455b508d8c37bad3f1ce",
+      "npm/airs-harness/bin/airs-harness.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs.cmd": "79831f7170216addea28593d15ac859eb6ff7ad4e96a42f353a13237de921617",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    }
+  },
+  "packaging_commit": "7044c43641f4d6591b9f860f6e383a923b807cfe",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "5.2.0"
+  },
+  "registry": "https://npm.pkg.github.com",
+  "publish_order": [
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.9",
+      "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-nLbLEy22N5lA4ur4fmzH85ETd4AaP7EPIwJRBcJdwg+LaCjG9TF/rT2CQLGCxZKXo5A4ADCNAL6ZkHocma6x1A==",
+      "sha256": "b14ef6a9ca6d4a43e18883b1fea9d3b0e6881ca8cf4678ced87da82db2d0801f"
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.9",
+      "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-H5mpSDRy7RffaPv4cJ0x7xfFr5KS9RyEEOjj9+DwPXvrvJAjMFDuyBg3KSCP56A6bjOZQ39VXdxuJEzAU+CkpQ==",
+      "sha256": "44b777effda0ee1f634bc334eac2eb8c71e7210c88fe4dfece68f038ca843b13"
+    }
+  ],
+  "release_status": "unsigned-unvalidated-candidate",
+  "publishable": false
+}

@@ -1,0 +1,8 @@
+{
+  "invocation_path": "/var/tmp/airs-scoped-native-7044-1vbg7f1u/Scoped Candidate Install/bin/airs-harness",
+  "invocation_resolved_path": "/var/tmp/airs-scoped-native-7044-1vbg7f1u/Scoped Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/bin/airs-harness.js",
+  "invocation_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+  "native_path": "/var/tmp/airs-scoped-native-7044-1vbg7f1u/Scoped Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/node_modules/@cdot65/prisma-airs-harness-linux-x64/bin/airs-harness",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044"
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "scoped-install.json",
+    "sha256": "a0502b25607ad29597c9712ff834b1bcb2d62c1254a15b1ee50c03509e1b5da6"
+  },
+  {
+    "file": "historical-unscoped-install.json",
+    "sha256": "2da9d1f0f1815c6c425e9a8bbe40a39cf9329c7bf5d9e3388fb1a08287a7543c"
+  },
+  {
+    "file": "staged-packages.json",
+    "sha256": "191f973c045258781fe3e46e87dd7e93206af5dbf630487ed43a6bf9f639a82d"
+  },
+  {
+    "file": "PACKAGE-TOOLING.json",
+    "sha256": "caa9eba59a9be3d6af681507c51502524557bc7e6af1e2ef6cb73bf115ee3238"
+  },
+  {
+    "file": "scoped-invocation.json",
+    "sha256": "548cb81afeaa70d78d27fd8a86444900b096a72e7abec58acb203c25383a626b"
+  }
+]

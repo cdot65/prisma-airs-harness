@@ -36,7 +36,10 @@ def main():
             timeout=60,
         )
         if login.returncode:
-            raise RuntimeError("Native CLI Keychain login failed")
+            raise RuntimeError(
+                "Native CLI Keychain login failed: "
+                + login.stderr.replace(key, "[REDACTED]")[-4000:]
+            )
         doctor = fixture.run_cli("doctor", "--json")
         if doctor.returncode or not json.loads(doctor.stdout)["passed"]:
             raise RuntimeError(
@@ -63,8 +66,8 @@ def main():
             if headers.get("authorization") != "Bearer " + key:
                 raise RuntimeError("Inference did not receive the Keychain credential")
         for path in fixture.home.rglob("*"):
-            if path.is_file() and path.suffix in {".json", ".jsonl", ".toml"}:
-                if key in path.read_text(errors="replace"):
+            if path.is_file() and not path.is_symlink():
+                if key.encode() in path.read_bytes():
                     raise RuntimeError(
                         "Credential appeared in plaintext application state"
                     )

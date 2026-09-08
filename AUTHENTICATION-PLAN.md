@@ -2,7 +2,7 @@
 title: Prisma AIRS Harness cross-platform authentication release plan
 description: Guided authentication, native credential lifecycle, platform acceptance, and evidence-based release scoring.
 plan_version: 0.1
-status: draft-interview-pending
+status: implementing-with-open-decisions
 created: 2026-09-08
 updated: 2026-09-08
 baseline: 0.1.0-alpha.9
@@ -26,6 +26,12 @@ tags:
 The implemented candidate command flow is documented in
 [Private candidate setup and sign-in](AUTHENTICATION-ONBOARDING.md). That guide
 does not establish release acceptance or completion of this plan.
+
+Implementation has been authorized and is underway. The [154 runtime acceptance
+ledger](validation/2026-09-08/authentication/154b4f0bc/ACCEPTANCE.md) records the
+current installed Linux and live gateway evidence. Unanswered D1–D5 decisions
+and mandatory platform gates remain open; implementation approval does not
+convert those unknowns into confirmed requirements or successful tests.
 
 ## 1. Outcome and authority
 

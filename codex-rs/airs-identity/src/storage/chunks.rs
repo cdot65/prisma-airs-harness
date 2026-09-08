@@ -36,7 +36,9 @@ impl Manifest {
             return Err(invalid());
         }
         let value: Self = serde_json::from_str(raw).map_err(|_| invalid())?;
-        if value.version != 1
+        // Version 1 is active; version 2 is a deleting tombstone with the same
+        // bounded enumeration fields. Older readers reject version 2 safely.
+        if !matches!(value.version, 1 | 2)
             || !(1..=MAX_BYTES / CHUNK_BYTES).contains(&value.chunks)
             || value.sha256.len() != 64
         {
@@ -56,6 +58,9 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
             return Ok(None);
         };
         let manifest = Manifest::parse(&raw)?;
+        if manifest.version == 2 {
+            return Ok(None);
+        }
         let mut bytes = Vec::new();
         for index in 0..manifest.chunks {
             let hex = self
@@ -84,11 +89,19 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
         if value.is_empty() || value.len() > MAX_BYTES {
             return Err(invalid());
         }
-        let previous = self
+        let mut previous = self
             .0
             .load(service, account)?
             .map(|raw| Manifest::parse(&raw))
             .transpose()?;
+        if previous
+            .as_ref()
+            .is_some_and(|manifest| manifest.version == 2)
+        {
+            // Never overwrite the only enumeration record for pending cleanup.
+            self.delete(service, account)?;
+            previous = None;
+        }
         let manifest = Manifest {
             version: 1,
             generation: Uuid::new_v4(),
@@ -124,12 +137,20 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
         let Some(raw) = self.0.load(service, account)? else {
             return Ok(false);
         };
-        // Disable reads even if a corrupt manifest prevents chunk enumeration.
-        self.0.delete(service, account)?;
-        let manifest = Manifest::parse(&raw)?;
+        // Parse before modifying anything: corrupt metadata may be the last
+        // evidence available for repair, and must not be silently destroyed.
+        let mut manifest = Manifest::parse(&raw)?;
+        if manifest.version == 1 {
+            manifest.version = 2;
+            let tombstone = serde_json::to_string(&manifest).map_err(|_| invalid())?;
+            self.0.save(service, account, &tombstone)?;
+        }
         for index in 0..manifest.chunks {
             self.0.delete(service, &manifest.account(account, index))?;
         }
+        // Keep the tombstone until every chunk deletion succeeded. Missing
+        // chunks are harmless when retrying after an interrupted operation.
+        self.0.delete(service, account)?;
         Ok(true)
     }
 }

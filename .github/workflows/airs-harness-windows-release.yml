@@ -77,8 +77,9 @@ jobs:
       - name: Build optimized unsigned Windows executable
         working-directory: runtime/codex-rs
         run: |
-          cargo build --locked --release -p codex-cli --bin airs-harness
+          cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings
           if ($LASTEXITCODE -ne 0) { throw 'Harness compilation failed' }
+          Copy-Item target/cargo-timings/cargo-timing.html "$env:RUNNER_TEMP/airs-evidence/cli-build-timing.html"
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
           if ($LASTEXITCODE -ne 0) { throw 'Credential fixture compilation failed' }
           cargo metadata --locked --filter-platform $env:AIRS_RELEASE_TARGET --format-version 1 > "$env:RUNNER_TEMP/airs-metadata.json"
@@ -109,7 +110,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Native hidden prompt ConPTY acceptance failed' }
       - name: Package private candidate and verify local npm installation
         run: |
-          python scripts/package_airs_harness.py --source-directory runtime --binary runtime/codex-rs/target/release/airs-harness.exe --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --output-directory "$env:RUNNER_TEMP/airs-package"
+          python scripts/package_airs_harness.py --source-directory runtime --binary runtime/codex-rs/target/release/airs-harness.exe --metadata "$env:RUNNER_TEMP/airs-metadata.json" --target $env:AIRS_RELEASE_TARGET --unvalidated-candidate --profile 'release; codex-cli opt-level=1; other packages use existing release settings; lto=false; codegen-units=16; debug=0' --output-directory "$env:RUNNER_TEMP/airs-package"
           if ($LASTEXITCODE -ne 0) { throw 'Native candidate packaging failed' }
           $airsVersion = (Get-Content npm/airs-harness/package.json | ConvertFrom-Json).version
           $airsDirectory = "$env:RUNNER_TEMP/airs-package/airs-harness-$airsVersion-windows-x86_64-msvc"

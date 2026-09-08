@@ -36,6 +36,7 @@ jobs:
       AIRS_RELEASE_TARGET: ${{ matrix.target }}
       AIRS_RELEASE_SUFFIX: ${{ matrix.suffix }}
       AIRS_PRIVATE_CANDIDATE: ${{ inputs.private_candidate }}
+      AIRS_CLI_OPT_LEVEL: ${{ inputs.private_candidate && '1' || '3' }}
     steps:
       - name: Require Apple Silicon before installing build tools
         run: |
@@ -81,7 +82,8 @@ jobs:
       - name: Build optimized native agent and Keychain fixture
         working-directory: runtime/codex-rs
         run: |
-          cargo build --locked --release -p codex-cli --bin airs-harness
+          cargo --config "profile.release.package.codex-cli.opt-level=$AIRS_CLI_OPT_LEVEL" build --locked --release -p codex-cli --bin airs-harness --timings
+          cp target/cargo-timings/cargo-timing.html "$RUNNER_TEMP/airs-evidence/cli-build-timing.html"
           cargo build --locked --release -p codex-airs-identity --example store_acceptance
           cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
       - name: Preserve successful compilation before acceptance tests
@@ -140,7 +142,7 @@ jobs:
           else
             validation_args=(--validation "$RUNNER_TEMP/airs-evidence/VALIDATION.json")
           fi
-          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" "${validation_args[@]}" --profile 'release; opt-level=3; lto=false; codegen-units=16; debug=0' --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" "${validation_args[@]}" --profile "release; codex-cli opt-level=$AIRS_CLI_OPT_LEVEL; other packages use existing release settings; lto=false; codegen-units=16; debug=0" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"

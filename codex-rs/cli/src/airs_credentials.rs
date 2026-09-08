@@ -17,11 +17,14 @@ use uuid::Uuid;
 // Changing it would orphan existing OS-store refresh tokens.
 pub(super) const SERVICE: &str = "io.cdot.airs-terminal";
 
+#[path = "airs_logout_cleanup.rs"]
+mod logout_cleanup;
 #[path = "airs_credential_transaction.rs"]
 mod transaction;
 
 /// Retry owned pending entries while the caller holds the environment lock.
 pub(super) fn recover_pending(home: &Path) -> anyhow::Result<()> {
+    logout_cleanup::recover(home, &logout_cleanup::NativeStore)?;
     transaction::recover(home, &transaction::NativeStore)
 }
 
@@ -321,6 +324,7 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
         b"Local credentials disabled. Run login to reauthenticate.\n",
     )?;
     let mcp_logout = super::airs_mcp::logout(home).await;
+    recover_pending(home)?;
     if !home.join("credential-binding.json").exists() {
         println!(
             "Logged out locally. New inference and MCP credential use is disabled until login; stop running sessions to discard cached credentials."
@@ -337,30 +341,19 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
         return Ok(());
     }
     let oidc = matches!(binding.source, Some(Source::Oidc { .. }));
-    let keyring = matches!(binding.source, Some(Source::Keyring | Source::Oidc { .. }));
     let revoke = if oidc {
         super::airs_oidc::load_active(&binding).ok()
     } else {
         None
     };
+    // Publish only nonsecret cleanup metadata before forgetting the store type.
+    logout_cleanup::prepare(home, &binding)?;
     binding.source = None;
     airs_environment::atomic_write(
         &home.join("credential-binding.json"),
         &serde_json::to_vec_pretty(&binding)?,
     )?;
-    if oidc {
-        codex_airs_identity::CredentialStore
-            .delete(SERVICE, &binding.id.to_string())
-            .map_err(|_| {
-                anyhow::anyhow!("local binding disabled, but OS credential-store deletion failed")
-            })?;
-    } else if keyring {
-        DefaultKeyringStore
-            .delete(SERVICE, &binding.id.to_string())
-            .map_err(|_| {
-                anyhow::anyhow!("local binding disabled, but OS credential-store deletion failed")
-            })?;
-    }
+    logout_cleanup::recover(home, &logout_cleanup::NativeStore)?;
     if oidc {
         if let Some(tokens) = revoke {
             let provider =

@@ -166,7 +166,7 @@ def unpack(
         ) != (name, version):
             raise ValueError("Dependency manifest name/version differs from lock")
         destination.mkdir(parents=True, exist_ok=False)
-        hashes, licenses = {}, []
+        hashes, optional_hashes, licenses = {}, {}, []
         for member, path in members:
             relative = PurePosixPath(*path.parts[1:])
             target = destination.joinpath(*relative.parts)
@@ -187,6 +187,8 @@ def unpack(
             # npm pack omits these non-runtime source files in the locked tree.
             if relative.name not in ("CHANGELOG.md", "yarn.lock") or is_license:
                 hashes[label] = hashlib.sha256(payload).hexdigest()
+            else:
+                optional_hashes[label] = hashlib.sha256(payload).hexdigest()
             if is_license:
                 licenses.append(label)
     return {
@@ -196,6 +198,7 @@ def unpack(
         "archive_sha256": hashlib.sha256(blob).hexdigest(),
         "license": manifest.get("license"),
         "files": dict(sorted(hashes.items())),
+        "optional_files": dict(sorted(optional_hashes.items())),
         "license_files": sorted(licenses),
         "unpacked_bytes": size,
         "member_count": len(members),

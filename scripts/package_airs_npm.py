@@ -42,6 +42,11 @@ def main():
         action="store_true",
         help="Stage @cdot65/prisma-airs-harness packages with exact scoped native dependencies",
     )
+    parser.add_argument(
+        "--bundle-cli",
+        action="store_true",
+        help="Bundle the exact locked Prisma AIRS CLI/SDK dependency tree (no publication)",
+    )
     args = parser.parse_args()
     registry = urlparse(args.registry)
     if (
@@ -145,6 +150,35 @@ def main():
     manifest["optionalDependencies"] = dependencies
     manifest["publishConfig"] = {"registry": args.registry}
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    cli_bundle = None
+    bundle_sources = []
+    if args.bundle_cli:
+        from airs_bundle import bundle_cli, verify_bundle
+
+        inventory = bundle_cli(
+            template / "package-lock.json",
+            launcher,
+            [info["target"] for _, info in releases],
+        )
+        manifest["bundleDependencies"] = ["@cdot65/prisma-airs-cli"]
+        manifest["files"].append("BUNDLE-INVENTORY.json")
+        cli_bundle = {
+            "inventory_sha256": digest(launcher / "BUNDLE-INVENTORY.json"),
+            "targets": inventory["targets"],
+            "required_pins": inventory["required_pins"],
+            **verify_bundle(launcher, inventory),
+        }
+        bundle_sources = [
+            template / "package-lock.json",
+            *(
+                root / "scripts" / name
+                for name in (
+                    "airs_bundle.py",
+                    "airs_bundle_archive.py",
+                    "airs_bundle_tree.py",
+                )
+            ),
+        ]
     tooling = {
         "packaging_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=root, text=True
@@ -154,6 +188,7 @@ def main():
             str(path.relative_to(root)): digest(path)
             for path in [
                 Path(__file__).resolve(),
+                *bundle_sources,
                 template / "package.json",
                 *sorted((template / "lib").glob("*.js")),
                 *sorted((template / "bin").glob("*.js")),
@@ -162,6 +197,8 @@ def main():
             if path.is_file()
         },
     }
+    if cli_bundle is not None:
+        tooling["cli_bundle"] = cli_bundle
     (launcher / "PACKAGE-TOOLING.json").write_text(json.dumps(tooling, indent=2) + "\n")
     manifest["files"].append("PACKAGE-TOOLING.json")
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -194,6 +231,12 @@ def main():
         ):
             raise ValueError("npm pack did not return the expected single package")
         record = records[0]
+        if (
+            args.bundle_cli
+            and package == launcher
+            and (tarballs / record["filename"]).stat().st_size > 64 * 1024 * 1024
+        ):
+            raise ValueError("Bundled launcher archive exceeds 64 MiB limit")
         receipts.append(
             {
                 "name": record["name"],
@@ -212,6 +255,8 @@ def main():
         "registry": args.registry,
         "publish_order": receipts,
     }
+    if cli_bundle is not None:
+        receipt["cli_bundle"] = cli_bundle
     if candidate:
         receipt["release_status"] = "unsigned-unvalidated-candidate"
         receipt["publishable"] = False

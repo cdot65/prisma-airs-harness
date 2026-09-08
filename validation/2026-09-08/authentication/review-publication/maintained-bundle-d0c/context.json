@@ -1,0 +1,21 @@
+{
+  "root": "/var/tmp/airs-maintained-scoped-bundle-fixed-1ttr2o9o",
+  "package_command": [
+    "python3",
+    "scripts/package_airs_npm.py",
+    "--release-directory",
+    "/tmp/airs-auth-final-154b-29ip7b5g/native/airs-harness-0.1.0-alpha.9-linux-x86_64-musl",
+    "--output-directory",
+    "/var/tmp/airs-maintained-scoped-bundle-fixed-1ttr2o9o/packages",
+    "--registry",
+    "https://npm.pkg.github.com",
+    "--scoped",
+    "--bundle-cli"
+  ],
+  "source_at_start": "d0c682c5f57bedfe60807744e604ab1d334e777f",
+  "validation_script_sha256": {
+    "validate_airs_npm.py": "5348ac574d206c9df84f1848e70222ea9bb5f58b6b5e4756683afcdf53be26b7",
+    "airs_npm_registry.py": "8e8b44bcfbf190ff127d8c41fa1da3b225439a5d8822091888fe9f8173e858ce",
+    "validate_prisma_cli.py": "afbcfa58dba6490b2b0442586c9c1e8e590f41ff7245c3287d36c7ae25798536"
+  }
+}

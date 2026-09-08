@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-09-08T22:10:36.987771+00:00",
+  "packaging_commit": "d0c682c5f57bedfe60807744e604ab1d334e777f",
+  "native_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "checks": [
+    {
+      "artifact": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.9.tgz",
+      "size": 133037660,
+      "sha256": "b14ef6a9ca6d4a43e18883b1fea9d3b0e6881ca8cf4678ced87da82db2d0801f"
+    },
+    {
+      "artifact": "cdot65-prisma-airs-harness-0.1.0-alpha.9.tgz",
+      "size": 26312591,
+      "sha256": "ce3a730b25d60f6d008311774e56e1cf891cc6a116c59b8063cb7273cc661667"
+    },
+    {
+      "installation": "npm12",
+      "npm_version": "12.0.2",
+      "native_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+      "inventory_sha256": "974672dce73399147fa9d73d7906e95381a87511692eb9862e30a76849345485",
+      "license_files": 67
+    },
+    {
+      "installation": "npm10",
+      "npm_version": "10.9.8",
+      "native_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+      "inventory_sha256": "974672dce73399147fa9d73d7906e95381a87511692eb9862e30a76849345485",
+      "license_files": 67
+    }
+  ],
+  "package_tooling_files_match_commit": true,
+  "full_release_ready": false
+}

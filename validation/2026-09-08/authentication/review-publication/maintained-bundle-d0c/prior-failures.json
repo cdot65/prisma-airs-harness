@@ -1,0 +1,48 @@
+{
+  "first_attempt_network": {
+    "bundled": true,
+    "registry_requests": [
+      "/npm",
+      "/npm",
+      "/@cdot65/prisma-airs-harness",
+      "/@cdot65/prisma-airs-harness-linux-x64",
+      "/@cdot65/prisma-airs-harness/-/cdot65-prisma-airs-harness-0.1.0-alpha.9.tgz",
+      "/@cdot65/prisma-airs-harness-linux-x64/-/cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.9.tgz"
+    ],
+    "unexpected_requests": [
+      "/npm",
+      "/npm"
+    ],
+    "public_dependency_redirects": [],
+    "npm_version": "12.0.2",
+    "node_version": "v22.23.2",
+    "npm_exit_code": 0
+  },
+  "second_attempt_network": {
+    "bundled": true,
+    "registry_requests": [
+      "/@cdot65/prisma-airs-harness",
+      "/@cdot65/prisma-airs-harness-linux-x64",
+      "/@cdot65/prisma-airs-harness/-/cdot65-prisma-airs-harness-0.1.0-alpha.9.tgz",
+      "/@cdot65/prisma-airs-harness-linux-x64/-/cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.9.tgz"
+    ],
+    "unexpected_requests": [],
+    "public_dependency_redirects": [],
+    "npm_version": "12.0.2",
+    "node_version": "v22.23.2",
+    "npm_exit_code": 0
+  },
+  "second_attempt_failure": {
+    "stage": "installed bundle inventory",
+    "path": "node_modules/xml-js/bin/cli.js",
+    "source_sha256": "aa72cc9d9db04bf268fdc06d1ff3d1e71306ec477855c494d01c18de64872b2e",
+    "installed_sha256": "5c6cd92f9d5642d61029a93c2755a007a75eb42d0a16a15a8d07563defdfaae5",
+    "transformation": "npm changed the declared executable shebang CRLF to LF; other bytes identical"
+  },
+  "initial_package_receipt_sha256": "48b7fb0056e62eb9fd436a9859db1e0ea06e3c13f449073806dc355f12d8fc7b",
+  "initial_log_sha256": {
+    "npm12-install.log": "e3ffc05ff65685ccd54cb3121cd480e060a4f45374a01ff5bc61c10cbe180dce",
+    "npm12-rerun-install.log": "2cd216da06fadc9f7e92ccde34dd08b18425ebcae98321b416468b057ddbabd9"
+  },
+  "superseded_by_fixed_candidate": true
+}

@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "baseline": {
+    "packages": 70,
+    "files": 3091,
+    "license_files": 67,
+    "native_payload_packages": [
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "ecdea12f521cce1fb852294df5c3284214f4da2e77b1ab0adfb0dc5709135f6c"
+  },
+  "checks": [
+    {
+      "case": "missing optional native image package",
+      "expected_missing_path": "node_modules/@img/sharp-linuxmusl-x64/package.json",
+      "rejected": true,
+      "native_executed": false
+    },
+    {
+      "case": "changed license bytes",
+      "expected_changed_path": "node_modules/@cdot65/prisma-airs-sdk/LICENSE",
+      "original_sha256": "74d40b08180cb36e2e38104d764e33b3b63016d5b063c20bceb4df4e09258b4e",
+      "rejected": true,
+      "native_executed": false
+    }
+  ],
+  "restored_verified": {
+    "packages": 70,
+    "files": 3091,
+    "license_files": 67,
+    "native_payload_packages": [
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "ecdea12f521cce1fb852294df5c3284214f4da2e77b1ab0adfb0dc5709135f6c"
+  }
+}

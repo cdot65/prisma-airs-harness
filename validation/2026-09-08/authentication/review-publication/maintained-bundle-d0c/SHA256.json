@@ -1,0 +1,42 @@
+[
+  {
+    "file": "staged-packages.json",
+    "sha256": "0c06e0da8a88843c5b2e2d9f8e2ce7661aa2b4668f17dbed3fc92e9ebe6aa005"
+  },
+  {
+    "file": "npm12-install.json",
+    "sha256": "9174566e567c45f2090d0e73edc25d566eb59fe8824f71816add9e1cd72a9b81"
+  },
+  {
+    "file": "npm10-install.json",
+    "sha256": "31c0947b24280123c225beb558c29172dc01942b85c4e873d6dbde1e6d7ea9a1"
+  },
+  {
+    "file": "npm12-cli-contract.json",
+    "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+  },
+  {
+    "file": "npm10-cli-contract.json",
+    "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+  },
+  {
+    "file": "negative-installed-inventory.json",
+    "sha256": "2c7525edd5a849813c6a2bb2f6c064c89c0874c749a5cc27c39c676954091db3"
+  },
+  {
+    "file": "independent-hash-check.json",
+    "sha256": "081e742ac5055f0bb6cc4aa02a41be72390c076b1516fcfe997845361490d082"
+  },
+  {
+    "file": "context.json",
+    "sha256": "69b3ad825d2a9797c4a0ada810384dceb44ada3cf1b3b3855ac06fc22fb7d4ef"
+  },
+  {
+    "file": "dependency-inventory.ndjson",
+    "sha256": "c1e15eedf14550655340db9d0c9f7b8446df5e0ef654cb681adaf82ef52748a5"
+  },
+  {
+    "file": "prior-failures.json",
+    "sha256": "731a9620e7e1475f96b06be9a0ef88e673cad0f57a8425c51545a0cf1aa960aa"
+  }
+]

@@ -20,7 +20,8 @@ are recorded in [PUBLICATION.md](PUBLICATION.md).
    ```
 
 Node.js 22 or later is required. npm selects the native package for your Node
-architecture automatically: Apple Silicon (`arm64`) or Intel (`x64`). Use a native
+architecture automatically. This release supports Apple Silicon (`arm64`) Macs;
+Intel Macs are excluded by project policy. Use a native
 Terminal and Node installation on Apple Silicon, without Rosetta. You do not need
 Rust or an npm login. Keep optional dependencies enabled; they contain the executable.
 
@@ -171,8 +172,7 @@ Mac. This deliberately builds the terminal binary rather than the whole upstream
 workspace or its optional V8 code-mode host.
 
 On Apple Silicon, `uname -m` should print `arm64`, and `rustup show active-toolchain`
-should identify `aarch64-apple-darwin`. On Intel, the corresponding architecture
-is `x86_64-apple-darwin`. Use a native Terminal and matching Rust installation if
+should identify `aarch64-apple-darwin`. Use a native Terminal and matching Rust installation if
 you inadvertently started under Rosetta.
 
 ## Test locally without a live gateway key

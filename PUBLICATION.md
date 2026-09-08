@@ -1,7 +1,7 @@
 # Alpha.8 npm publication
 
 Status: in progress. The Linux native package is published; the root launcher is
-held until both native Mac builds and credential acceptance pass.
+held until the Apple Silicon build and credential acceptance pass.
 
 ## Release identity
 
@@ -9,13 +9,13 @@ held until both native Mac builds and credential acceptance pass.
 - Version: `0.1.0-alpha.8`.
 - Registry: `https://npm.cdot.io`, LAN/VPN, anonymous downloads.
 - Native release provenance: `b3486afcd3da6bcc27daf1bb4b02c56ebadb5739`.
-- Targets: Linux x64 musl, macOS Apple Silicon, macOS Intel.
+- Targets: Linux x64 musl and macOS Apple Silicon. Intel Macs are excluded by owner policy.
 - [Mac user runbook](MACOS.md).
 
 ## Acceptance gates
 
-The native Mac release workflow compiles optimized executables on both native
-macOS 15 architectures, checks ad-hoc signatures and dynamic-library dependencies,
+The native Mac release workflow compiles optimized executables on native Apple Silicon
+macOS 15, checks ad-hoc signatures and dynamic-library dependencies,
 runs local execution and sandbox tests, exercises Keychain, packages native
 archives with licenses and provenance, and installs/tests through npm.
 
@@ -55,6 +55,13 @@ public hosted build runners cannot reach those private endpoints. Native macOS
 checks. Windows npm distribution, guided onboarding, and managed-device signing
 remain follow-up work. The full upstream Rust suite has a pre-existing missing
 V8 musl dependency archive; code mode remains disabled.
+
+The owner ruled out future Intel Mac builds on September 8. The already-running
+Intel build is allowed to finish, but its artifact will not be published. Active
+release and Keychain workflows now target Apple Silicon only. Inherited upstream
+workflows remain disabled. A source/dependency-keyed Cargo cache is configured for
+future builds; the current cold build cannot acquire that cache retroactively.
+A dedicated Apple Silicon runner is being considered, pending host access.
 
 An independent agent's provisional review identified registry namespace isolation
 and a weak local-tool assertion. Both are remediated before final publication.

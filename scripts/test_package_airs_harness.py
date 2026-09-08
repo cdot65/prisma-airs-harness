@@ -140,7 +140,10 @@ class NativePackaging(unittest.TestCase):
                 self.assertFalse(validation["release_ready"])
                 self.assertEqual(validation["binary_sha256"], info["binary_sha256"])
                 sums = tar.extractfile(root + "/SHA256SUMS").read().decode()
+                self.assertNotIn("\r", sums)
                 self.assertIn(info["binary_sha256"] + "  airs-harness.exe\n", sums)
+                checksum = archive.with_suffix(archive.suffix + ".sha256").read_bytes()
+                self.assertNotIn(b"\r", checksum)
 
     def test_unix_archives_keep_existing_binary_and_release_semantics(self):
         for target in ["x86_64-unknown-linux-musl", "aarch64-apple-darwin"]:

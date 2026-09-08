@@ -289,12 +289,13 @@ def main():
             "".join(
                 f"{digest(path)}  {path.relative_to(root).as_posix()}\n"
                 for path in files
-            )
+            ),
+            newline="\n",
         )
         with tarfile.open(archive, "w:gz") as tar:
             tar.add(root, arcname=name)
     archive.with_suffix(archive.suffix + ".sha256").write_text(
-        f"{digest(archive)}  {archive.name}\n"
+        f"{digest(archive)}  {archive.name}\n", newline="\n"
     )
     print(
         json.dumps(

@@ -4,12 +4,23 @@ status: source-reviewed-release-not-ready
 reviewed: 2026-09-08
 source_commit: f964e5246dec3b8d98ab8ba6920c060a2aeb176c
 reviewer: release_review
-source_scope_score: 9
+source_scope_score: 8
+initial_source_scope_score: 9
+assessment_state: interim-score-superseded-by-confirmed-finding
 release_ready: false
 tags: [authentication, source-review, regression, private-candidate]
 ---
 
-# Bounded source assessment: 9/10
+# Bounded source assessment: 8/10; initial 9/10 superseded
+
+**Amendment, 2026-09-08:** the initial 9/10 below is superseded by **8/10**.
+Subsequent review confirmed that doctor uses an unsafe configured gateway URL
+before the access probe validates it. This falls within the reviewed probe
+wiring and is a source-stage blocker pending repair and regression evidence.
+The authentication release remains **FAIL / not ready**. The initial assessment
+and its passing test evidence are retained below as history, not current approval.
+
+## Initial assessment, superseded
 
 The corrected namespace protection, login/logout lifecycle integration, and
 disclosed authenticated access probe meet a **9/10 source-stage assessment**.
@@ -66,11 +77,42 @@ results, not evidence of a native desktop or published executable.
   skips the earlier synchronous native credential read; the bounded helper owns
   resolution. Ordinary doctor behavior is a separate unfinished contract.
 
-No additional blocker was found in this bounded source review. The nine probe
+At the initial review, no additional blocker had been found. That conclusion is
+superseded by the finding below. The nine probe
 tests cover request shape/routing, unsafe destinations, denial/soft failure,
 redirect non-forwarding, oversized responses, revocation before send, helper
 output/termination, messages, and token size. They do not establish every
 possible live deadline or cancellation scenario.
+
+## Confirmed finding and required repair
+
+In the reviewed doctor wiring, `airs_doctor.rs` reads the gateway string through
+the ordinary configuration path, copies it into the configuration check's
+displayed detail, and constructs its health GET before running the stricter
+access-probe validation. A malformed URL containing user information or a secret
+query can therefore reach diagnostic output. URL user information also risks
+being interpreted as HTTP credentials by the health request. Rejecting the URL
+later in the authenticated probe does not protect these earlier operations.
+
+Use a shared, bounded configuration reader that validates the gateway before
+any doctor display or health request. Require regressions through the actual
+doctor path that inject URL secret canaries, assert safe diagnostics, and prove
+that an invalid destination receives no HTTP request. Preserve credential
+bindings on rejection. Until the fix and those checks pass, the current bounded
+source assessment is 8/10.
+
+The later metadata-only status changes in `958cbc8e3` and `2922bb36c` expose a
+related display gap: a saved OIDC issuer is checked as display text but not as
+an issuer URL. Recomputing its unkeyed identity fingerprint does not make URL
+user information or secret query parameters safe to print. Validate the issuer
+URI before rendering it and test canary-bearing metadata with a matching
+recomputed fingerprint. This later finding is recorded for the next review;
+it is not attributed retroactively to f964's status implementation.
+
+The f964 352-test receipt remains valid evidence of what ran. The parent also
+reports 359 passing CLI tests for the later status stage. Neither set establishes
+coverage of these newly identified unsafe URL paths. The repair is in progress;
+no unexecuted fix or pending regression has been credited here.
 
 ## Conditions that remain open
 
@@ -91,4 +133,4 @@ All other unresolved hard gates in the
 [authentication plan](../../../../AUTHENTICATION-PLAN.md) remain open, including
 the owner's Mac incident, desktop/terminal matrix, signatures and upgrades,
 profile trust, final live authorization and refresh, teammate installation, and
-unfamiliar-user trials. A source-stage 9 does not waive any of them.
+unfamiliar-user trials. The superseded source-stage 9 never waived any of them.

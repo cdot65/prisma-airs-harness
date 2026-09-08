@@ -1,0 +1,14 @@
+{
+  "original_receipt_sha256": "f5d95795390fe84c0a3e3795fc94f5ad2c5609aae0c3fd579197c79525d2c8d8",
+  "binary_sha256": "85c9944117c006f01d4494459720f2060e12829b19e59ddb0a8187c95dea6dc9",
+  "original_passed_flag": false,
+  "observed_checks": 28,
+  "all_observed_checks_passed": true,
+  "final_logout_recorded": true,
+  "fixtures_removed": true,
+  "bookkeeping_defect": "Optional authenticated probe added a 28th check; receipt retained its old exact27 expected count. Original receipt is unmodified.",
+  "validator_fix_commit": "f08031f1c",
+  "full_release_ready": false,
+  "next_action": "Repeat with corrected validator on final native-status candidate; source/status changes are not covered by this older binary.",
+  "scanner_image": "sha256:6827fd405957ec740f274d1080d0106c834380e7789b297d472038ab7346185c"
+}

@@ -1,0 +1,176 @@
+{
+  "passed": false,
+  "scope": "full-cli-and-mcp",
+  "binary_sha256": "85c9944117c006f01d4494459720f2060e12829b19e59ddb0a8187c95dea6dc9",
+  "checks": [
+    {
+      "test": "setup",
+      "passed": true
+    },
+    {
+      "test": "browser-login",
+      "passed": true
+    },
+    {
+      "test": "verified-subject",
+      "passed": true
+    },
+    {
+      "test": "bounded-authenticated-oidc-probe",
+      "passed": true,
+      "client_correlation_id": "84c16722-2a87-4823-ae1b-f2f1afedc116",
+      "mcp_permissions_tested": false
+    },
+    {
+      "test": "credential-helper",
+      "passed": true
+    },
+    {
+      "test": "original-resource-jwt",
+      "passed": true
+    },
+    {
+      "test": "different-mcp-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "mcp-login",
+      "passed": true
+    },
+    {
+      "test": "mcp-credential-helper",
+      "passed": true
+    },
+    {
+      "test": "separate-mcp-audience",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/list",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/templates/list",
+      "passed": true
+    },
+    {
+      "test": "exec-local-filesystem",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "test": "bounded-simple-task",
+      "passed": true,
+      "shell_commands": 4
+    },
+    {
+      "test": "exec-remote-mcp",
+      "passed": true,
+      "tool_calls": 2,
+      "scan": {
+        "action": "allow",
+        "scan_id": "148cb7a1-c985-4579-b99a-f675b0ce2fbe",
+        "profile_name": "Prisma AIRS Terminal",
+        "category": "benign"
+      }
+    },
+    {
+      "test": "interactive-expired-token-refresh",
+      "passed": true,
+      "evidence": {
+        "passed": true,
+        "same_terminal_process": true,
+        "continued_after_initial_token_expiry": true,
+        "model_switch_passed": true,
+        "model_sequence": [
+          "gateway default",
+          "@openai-terminal-auth/gpt-4.1",
+          "gateway default"
+        ],
+        "turns": [
+          {
+            "phase": "before token expiry",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "65cf0727-9d24-4f45-9aa3-5eb5a12058af",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "phase": "explicit route",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "c9127c5f-26e7-4f8f-bab4-19da3ce6f25e",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "phase": "after token expiry",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "6a51ebf8-2418-4599-9ae9-8ba3d828015b",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "test": "interactive-oidc-model-switch",
+      "passed": true
+    },
+    {
+      "test": "refresh-after-expiry-window",
+      "passed": true
+    },
+    {
+      "test": "refresh-preserves-identity",
+      "passed": true
+    },
+    {
+      "test": "logout",
+      "passed": true
+    },
+    {
+      "test": "logout-disables-both-helpers",
+      "passed": true
+    },
+    {
+      "test": "different-inference-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-user-history-binding",
+      "passed": true
+    },
+    {
+      "test": "mcp-remains-logged-out",
+      "passed": true
+    },
+    {
+      "test": "mcp-device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-mcp-binding",
+      "passed": true
+    },
+    {
+      "test": "final-logout",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true,
+  "client_availability_mutated": false,
+  "scanner_access_policy": "unchanged"
+}

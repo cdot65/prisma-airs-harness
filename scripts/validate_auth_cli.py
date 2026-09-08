@@ -606,8 +606,14 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             daemon.terminate()
             daemon.wait(timeout=10)
         out = args.output.resolve()
-        expected_checks = (21 if args.credentials_only else 27) + int(args.verify_gateway_access)
-        passed = completed and len(rows) == expected_checks and all(r["passed"] for r in rows)
+        expected_checks = (21 if args.credentials_only else 27) + int(
+            args.verify_gateway_access
+        )
+        passed = (
+            completed
+            and len(rows) == expected_checks
+            and all(r["passed"] for r in rows)
+        )
         out.write_text(
             json.dumps(
                 {

@@ -36,12 +36,14 @@ fn native_metadata_does_not_require_any_stored_secret() {
         let before = std::fs::read(home.path().join("credential-binding.json")).unwrap();
         let result = inspect(home.path()).unwrap();
         let binding = airs_credentials::parse_binding(&before).unwrap();
-        insta::assert_snapshot!(format!("{}\n{}\n{}", result.gateway,
-            result.authentication.replace(&binding.id.to_string(), "<binding-id>"), result.detail), @r"
-        https://gateway.example/v1
-        Workspace credential; saved OS-store binding <binding-id>
-        Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
-        ");
+        insta::allow_duplicates! {
+            insta::assert_snapshot!(format!("{}\n{}\n{}", result.gateway,
+                result.authentication.replace(&binding.id.to_string(), "<binding-id>"), result.detail), @r"
+            https://gateway.example/v1
+            Workspace credential; saved OS-store binding <binding-id>
+            Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
+            ");
+        }
         assert_eq!(
             std::fs::read(home.path().join("credential-binding.json")).unwrap(),
             before

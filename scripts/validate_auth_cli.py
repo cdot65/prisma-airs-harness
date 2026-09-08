@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--binary", type=Path, required=True)
 parser.add_argument("--infrastructure-root", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument("--expected-native-sha256")
 parser.add_argument(
     "--observe-tools",
     action="store_true",
@@ -37,6 +38,14 @@ root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root / "scripts"))
 from validate_rust_oidc import Form
 from airs_oidc_interactive import verify_interactive_refresh
+from airs_oidc_evidence import invocation_provenance, observe_expiries
+
+provenance = invocation_provenance(args.binary)
+if args.expected_native_sha256:
+    assert provenance["binary_sha256"] == args.expected_native_sha256, (
+        "Native candidate checksum mismatch"
+    )
+binary = args.binary.absolute()
 
 p = args.infrastructure_root.resolve() / "keycloak/stacks/terminal/validate-refresh.py"
 spec = importlib.util.spec_from_file_location("protocol", p)
@@ -44,9 +53,6 @@ protocol = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(protocol)
 op = protocol.Operator()
 issuer = protocol.ISSUER
-binary = args.binary.resolve()
-with binary.open("rb") as stream:
-    binary_digest = hashlib.file_digest(stream, "sha256").hexdigest()
 completed = False
 clients = [
     op.api("/clients?clientId=" + name)[0]
@@ -532,16 +538,13 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             )
             check("exec-remote-mcp", scan is not None, tool_calls=len(calls), scan=scan)
         if not args.credentials_only:
-            current_tokens = [
-                run(*credential).stdout.strip(),
-                json.loads(run(*helper).stdout)["x-portkey-api-key"],
-            ]
-            expiry = max(
-                json.loads(base64.urlsafe_b64decode(t.split(".")[1] + "=="))["exp"]
-                for t in current_tokens
-            )
             interactive = verify_interactive_refresh(
-                binary, env, work, home, expiry, args.output.resolve()
+                binary,
+                env,
+                work,
+                home,
+                lambda: observe_expiries(run, credential, helper, claims["sub"]),
+                args.output.resolve(),
             )
             check(
                 "interactive-expired-token-refresh",
@@ -549,6 +552,15 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                 evidence=interactive,
             )
             check("interactive-oidc-model-switch", interactive["model_switch_passed"])
+            check(
+                "interactive-two-resource-expiry-cycles",
+                interactive["completed_expiry_cycles"] == 2
+                and all(
+                    cycle["after_both_expiries"] and cycle["local_file_verified"]
+                    for cycle in interactive["expiry_cycles"]
+                ),
+                completed_expiry_cycles=interactive["completed_expiry_cycles"],
+            )
         # Real expiration interval: validate persisted rotation across two helper processes.
         while time.time() < claims["exp"] - 25:
             time.sleep(min(2, claims["exp"] - 25 - time.time()))
@@ -606,7 +618,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             daemon.terminate()
             daemon.wait(timeout=10)
         out = args.output.resolve()
-        expected_checks = (21 if args.credentials_only else 27) + int(
+        expected_checks = (21 if args.credentials_only else 28) + int(
             args.verify_gateway_access
         )
         passed = (
@@ -622,7 +634,7 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
                     "scope": "credential-lifecycle-and-inference"
                     if args.credentials_only
                     else "full-cli-and-mcp",
-                    "binary_sha256": binary_digest,
+                    **provenance,
                     "checks": rows,
                     "fixtures_removed": True,
                     "client_availability_mutated": False,

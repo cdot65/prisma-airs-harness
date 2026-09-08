@@ -28,10 +28,14 @@ def write_private_transcript(path, transcript):
             pass
 
 
-def verify_interactive_refresh(binary, env, work, home, expiry, output):
+def verify_interactive_refresh(binary, env, work, home, observe_expiries, output):
+    initial_sessions = set((home / "sessions").rglob("*.jsonl"))
+
     def events():
         rows = []
         for path in (home / "sessions").rglob("*.jsonl"):
+            if path in initial_sessions:
+                continue
             for line in path.read_text().splitlines():
                 try:
                     rows.append(json.loads(line).get("payload", {}))
@@ -64,6 +68,8 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
         return result
 
     observed = []
+    expiry_evidence = []
+    current_expiries = None
     with TerminalSession(binary, env, work) as terminal:
         try:
             terminal.wait_until(
@@ -80,16 +86,45 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
             for label in [
                 "before token expiry",
                 "explicit route",
-                "after token expiry",
+                "after expiry cycle 1",
+                "after expiry cycle 2",
             ]:
                 if label == "explicit route":
                     terminal.choose_model("down", "@openai-terminal-auth/gpt-4.1")
                 if label.startswith("after"):
-                    terminal.choose_model("up", "airs-gateway-default")
-                    terminal.wait_until(lambda: time.time() >= expiry + 5, timeout=150)
+                    if not expiry_evidence:
+                        terminal.choose_model("up", "airs-gateway-default")
+                    current_expiries = observe_expiries()
+                    if expiry_evidence:
+                        assert all(
+                            current_expiries[name]
+                            > expiry_evidence[-1]["resource_expiries"][name]
+                            for name in ["inference", "mcp"]
+                        ), "Both resource tokens must have renewed"
+                    boundary = max(current_expiries.values()) + 5
+                    # No credential helper runs after this snapshot until the
+                    # post-expiry terminal task has completed successfully.
+                    terminal.wait_until(
+                        lambda: time.time() >= boundary,
+                        timeout=max(1, boundary - time.time()) + 15,
+                    )
                 before_turn, before_scan = len(completed()), len(scans())
+                before_events = len(events())
+                local_prompt = ""
+                cycle = len(expiry_evidence) + 1
+                if label.startswith("after"):
+                    filename = f"oidc-expiry-{cycle}.txt"
+                    expected = f"OIDC_EXPIRY_{cycle}_LOCAL_OK"
+                    assert not (work / filename).exists(), "Proof file already exists"
+                    local_prompt = (
+                        f"First use one shell command to write {filename} containing "
+                        f"exactly {expected}, then read it back with one shell command. "
+                        "Use at most four shell commands. "
+                    )
+                submitted_at = time.time()
                 terminal.send_line(
-                    "Call the executable mcp__security.pan_inline_scan tool now with "
+                    local_prompt
+                    + "Call the executable mcp__security.pan_inline_scan tool now with "
                     'scan_request.profile "Prisma AIRS Terminal" and scan_request.response '
                     f'"Hello {label}". Use tools/call, not resource functions. '
                     "Report the actual scan action and scan_id."
@@ -99,16 +134,51 @@ def verify_interactive_refresh(binary, env, work, home, expiry, output):
                 assert fresh and all(
                     s["profile_name"] == "Prisma AIRS Terminal" for s in fresh
                 ), "Missing successful real MCP scan"
+                assert (
+                    len(set((home / "sessions").rglob("*.jsonl")) - initial_sessions)
+                    == 1
+                ), "Expected one continuous terminal session"
                 observed.append({"phase": label, "scans": fresh})
+                if label.startswith("after"):
+                    local_commands = [
+                        row["item"]
+                        for row in events()[before_events:]
+                        if row.get("type") == "item_completed"
+                        and row.get("item", {}).get("type") == "CommandExecution"
+                    ]
+                    assert (
+                        1 <= len(local_commands) <= 4
+                        and all(item.get("exit_code") == 0 for item in local_commands)
+                        and (work / filename).read_text().strip() == expected
+                    ), "Missing successful bounded local file tool execution"
+                    expiry_evidence.append(
+                        {
+                            "cycle": cycle,
+                            "resource_expiries": current_expiries,
+                            "turn_submitted_at": submitted_at,
+                            "after_both_expiries": all(
+                                submitted_at > value
+                                for value in current_expiries.values()
+                            ),
+                            "local_file": filename,
+                            "local_file_verified": True,
+                            "successful_local_commands": len(local_commands),
+                            "scans": fresh,
+                        }
+                    )
                 print("PASS interactive OIDC scan " + label, flush=True)
             return {
                 "passed": True,
                 "same_terminal_process": True,
                 "continued_after_initial_token_expiry": True,
                 "model_switch_passed": True,
+                "completed_expiry_cycles": len(expiry_evidence),
+                "expiry_cycles": expiry_evidence,
+                "expiry_observation": "Private inference and MCP credential helper JWT exp; helpers may rotate near-expiry records before each wait, never during the wait or following task",
                 "model_sequence": [
                     "gateway default",
                     "@openai-terminal-auth/gpt-4.1",
+                    "gateway default",
                     "gateway default",
                 ],
                 "turns": observed,

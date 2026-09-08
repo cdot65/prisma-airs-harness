@@ -89,8 +89,11 @@ def main():
         config.write_text("")
         global_config = prefix / "empty-global.npmrc"
         global_config.write_text("")
-        env = {key: value for key, value in os.environ.items()
-               if not key.upper().startswith(("NPM_", "NODE_AUTH_TOKEN"))}
+        env = {
+            key: value
+            for key, value in os.environ.items()
+            if not key.upper().startswith(("NPM_", "NODE_AUTH_TOKEN"))
+        }
         env.update(
             NPM_CONFIG_USERCONFIG=str(config),
             NPM_CONFIG_GLOBALCONFIG=str(global_config),

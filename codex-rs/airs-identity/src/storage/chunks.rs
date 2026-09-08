@@ -11,10 +11,13 @@ use uuid::Uuid;
 const CHUNK_BYTES: usize = 512;
 const MAX_BYTES: usize = 131_072;
 
+#[path = "generation_journal.rs"]
+mod generation_journal;
+
 #[derive(Debug)]
 pub(super) struct ChunkedStore<S>(pub(super) S);
 
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct Manifest {
     version: u32,
@@ -38,13 +41,17 @@ impl Manifest {
         let value: Self = serde_json::from_str(raw).map_err(|_| invalid())?;
         // Version 1 is active; version 2 is a deleting tombstone with the same
         // bounded enumeration fields. Older readers reject version 2 safely.
-        if !matches!(value.version, 1 | 2)
-            || !(1..=MAX_BYTES / CHUNK_BYTES).contains(&value.chunks)
-            || value.sha256.len() != 64
-        {
+        if !value.valid() {
             return Err(invalid());
         }
         Ok(value)
+    }
+
+    fn valid(&self) -> bool {
+        matches!(self.version, 1 | 2)
+            && (1..=MAX_BYTES / CHUNK_BYTES).contains(&self.chunks)
+            && self.sha256.len() == 64
+            && self.sha256.bytes().all(|byte| byte.is_ascii_hexdigit())
     }
 
     fn account(&self, root: &str, index: usize) -> String {
@@ -52,15 +59,13 @@ impl Manifest {
     }
 }
 
-impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
-    fn load(&self, service: &str, account: &str) -> Result<Option<String>, CredentialStoreError> {
-        let Some(raw) = self.0.load(service, account)? else {
-            return Ok(None);
-        };
-        let manifest = Manifest::parse(&raw)?;
-        if manifest.version == 2 {
-            return Ok(None);
-        }
+impl<S: KeyringStore> ChunkedStore<S> {
+    fn read_generation(
+        &self,
+        service: &str,
+        account: &str,
+        manifest: &Manifest,
+    ) -> Result<String, CredentialStoreError> {
         let mut bytes = Vec::new();
         for index in 0..manifest.chunks {
             let hex = self
@@ -82,13 +87,27 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
         if format!("{:x}", Sha256::digest(&bytes)) != manifest.sha256 {
             return Err(invalid());
         }
-        String::from_utf8(bytes).map(Some).map_err(|_| invalid())
+        String::from_utf8(bytes).map_err(|_| invalid())
+    }
+}
+
+impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
+    fn load(&self, service: &str, account: &str) -> Result<Option<String>, CredentialStoreError> {
+        let Some(raw) = self.0.load(service, account)? else {
+            return Ok(None);
+        };
+        let manifest = Manifest::parse(&raw)?;
+        if manifest.version == 2 {
+            return Ok(None);
+        }
+        self.read_generation(service, account, &manifest).map(Some)
     }
 
     fn save(&self, service: &str, account: &str, value: &str) -> Result<(), CredentialStoreError> {
         if value.is_empty() || value.len() > MAX_BYTES {
             return Err(invalid());
         }
+        self.recover_generations(service, account)?;
         let mut previous = self
             .0
             .load(service, account)?
@@ -108,33 +127,28 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
             chunks: value.len().div_ceil(CHUNK_BYTES),
             sha256: format!("{:x}", Sha256::digest(value.as_bytes())),
         };
+        self.journal_generations(service, account, previous.as_ref(), &manifest)?;
         for (index, chunk) in value.as_bytes().chunks(CHUNK_BYTES).enumerate() {
             let hex: String = chunk.iter().map(|byte| format!("{byte:02x}")).collect();
-            if let Err(error) = self
-                .0
-                .save(service, &manifest.account(account, index), &hex)
-            {
-                // The old manifest is still authoritative. Remove only the new generation.
-                for written in 0..=index {
-                    let _ = self.0.delete(service, &manifest.account(account, written));
-                }
-                return Err(error);
-            }
+            self.0
+                .save(service, &manifest.account(account, index), &hex)?;
+        }
+        if self.read_generation(service, account, &manifest)? != value {
+            return Err(invalid());
         }
         let raw = serde_json::to_string(&manifest).map_err(|_| invalid())?;
-        // If this call has an ambiguous outcome, retain the new chunks: the
-        // manifest may have committed. Readers use exactly one complete generation.
+        // A failed/ambiguous commit leaves both generations journaled. Recovery
+        // checks the actual root, never guesses whether this write committed.
         self.0.save(service, account, &raw)?;
-        if let Some(previous) = previous {
-            for index in 0..previous.chunks {
-                let _ = self.0.delete(service, &previous.account(account, index));
-            }
+        if self.0.load(service, account)?.as_deref() != Some(raw.as_str()) {
+            return Err(invalid());
         }
-        Ok(())
+        self.recover_generations(service, account)
     }
 
     fn delete(&self, service: &str, account: &str) -> Result<bool, CredentialStoreError> {
         let Some(raw) = self.0.load(service, account)? else {
+            self.recover_generations(service, account)?;
             return Ok(false);
         };
         // Parse before modifying anything: corrupt metadata may be the last
@@ -145,6 +159,7 @@ impl<S: KeyringStore> KeyringStore for ChunkedStore<S> {
             let tombstone = serde_json::to_string(&manifest).map_err(|_| invalid())?;
             self.0.save(service, account, &tombstone)?;
         }
+        self.recover_generations(service, account)?;
         for index in 0..manifest.chunks {
             self.0.delete(service, &manifest.account(account, index))?;
         }

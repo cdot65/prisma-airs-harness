@@ -95,6 +95,84 @@ class RegistryContracts(unittest.TestCase):
             self.assertEqual(env["NPM_CONFIG_HTTPS_PROXY"], "http://127.0.0.1:1234")
             self.assertNotIn("no_proxy", env)
 
+    def test_tampered_native_is_rejected_before_any_native_execution(self):
+        import validate_airs_npm
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            packages = root / "packages"
+            launcher = packages / "airs-harness"
+            launcher.mkdir(parents=True)
+            manifest = {"name": "airs-harness", "version": "0.0.0-fixture"}
+            (launcher / "package.json").write_text(json.dumps(manifest))
+            (packages / "NPM-PACKAGES.json").write_text(
+                json.dumps(
+                    {
+                        "publish_order": [
+                            {
+                                **manifest,
+                                "filename": "unused.tgz",
+                                "integrity": "fixture",
+                            }
+                        ]
+                    }
+                )
+            )
+            native = root / "installed-native"
+            (native / "bin").mkdir(parents=True)
+            executable = (
+                native
+                / "bin"
+                / ("airs-harness.exe" if os.name == "nt" else "airs-harness")
+            )
+            executable.write_bytes(b"tampered bytes must not execute")
+            (native / "BUILD-INFO.json").write_text(
+                json.dumps({"binary_sha256": "0" * 64})
+            )
+            (native / "package.json").write_text('{"name":"airs-harness-linux-x64"}')
+            calls = []
+
+            def check_output(command, **_kwargs):
+                calls.append(command)
+                if command[1:] == ["--version"] and Path(command[0]).name.lower() in (
+                    "node",
+                    "node.exe",
+                    "npm",
+                    "npm.cmd",
+                ):
+                    return "fixture-version\n"
+                if "--input-type=module" in command:
+                    return str(native / "package.json") + "\n"
+                raise AssertionError("Native command ran before verification")
+
+            with (
+                patch.object(
+                    sys,
+                    "argv",
+                    [
+                        "validate",
+                        "--packages",
+                        str(packages),
+                        "--prefix",
+                        str(root / "install"),
+                    ],
+                ),
+                patch.object(
+                    validate_airs_npm.subprocess,
+                    "run",
+                    return_value=subprocess.CompletedProcess([], 0, "", ""),
+                ),
+                patch.object(
+                    validate_airs_npm.subprocess, "check_output", check_output
+                ),
+            ):
+                with self.assertRaisesRegex(
+                    ValueError, "differs from build provenance"
+                ):
+                    validate_airs_npm.main()
+            self.assertEqual(len(calls), 3)
+            self.assertFalse((root / "install/INSTALL-VERIFICATION.json").exists())
+
     @unittest.skipUnless(shutil.which("npm"), "npm is required for install contracts")
     def test_missing_optional_and_direct_url_dependency_fail_without_public_fetch(self):
         for specification in (

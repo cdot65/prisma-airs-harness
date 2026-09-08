@@ -145,14 +145,6 @@ def main():
         command = prefix / (
             "airs-harness.cmd" if os.name == "nt" else "bin/airs-harness"
         )
-        version = subprocess.check_output(
-            [str(command), "--version"], text=True
-        ).strip()
-        expected = "airs-harness " + launcher_record["version"]
-        if version != expected:
-            raise ValueError(
-                "Installed command did not launch the expected native version"
-            )
         native_manifest = subprocess.check_output(
             [
                 shutil.which("node") or "node",
@@ -183,6 +175,14 @@ console.log(require.resolve(platformPackage(process.platform, process.arch, mani
             native_digest = hashlib.file_digest(stream, "sha256").hexdigest()
         if native_digest != provenance["binary_sha256"]:
             raise ValueError("Installed native binary differs from build provenance")
+        version = subprocess.check_output(
+            [str(command), "--version"], text=True
+        ).strip()
+        expected = "airs-harness " + launcher_record["version"]
+        if version != expected:
+            raise ValueError(
+                "Installed command did not launch the expected native version"
+            )
         cli_version = subprocess.check_output(
             [str(command), "airs", "--version"], text=True
         ).strip()

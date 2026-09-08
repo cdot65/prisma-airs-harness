@@ -1,0 +1,31 @@
+{
+  "source_commit": "f964e5246dec3b8d98ab8ba6920c060a2aeb176c",
+  "binary_sha256": "85c9944117c006f01d4494459720f2060e12829b19e59ddb0a8187c95dea6dc9",
+  "release_ready": false,
+  "build_profile": "release; opt-level=3; lto=false; codegen-units=16; debug=0",
+  "build_wall_seconds_including_test_build_lock_wait": 853,
+  "executable_first_attempt": {
+    "tests": 35,
+    "passed": 33,
+    "failed": 1,
+    "skipped": "Managed CLI test requires installed package.",
+    "failure": "Fixture assumed setup --model selected the advertised route; actual setup keeps default. Corrected fixture explicitly selects route, then restores default."
+  },
+  "focused_doctor_wire_rerun": {
+    "passed": true,
+    "duration_seconds": 0.589,
+    "assertions": "Unbound explicit route and bound gateway default; exactly one request each; no MCP; correct credential header and default model omission."
+  },
+  "workspace_first_attempt": {
+    "passed": false,
+    "phase": "guided-login",
+    "cause": "Unclassified verification assertion; original fixture did not retain safe failure category. Cannot infer a cause retrospectively."
+  },
+  "workspace_rerun": {
+    "passed": true,
+    "runtime_unchanged": true,
+    "guided_probe_disclosed_and_verified": true,
+    "scope": "One full live workspace login/inference/file/resume/logout cycle, not 20-cycle reliability acceptance."
+  },
+  "additional_diagnostic": "One direct authenticated Responses probe returned HTTP200 with completed response, no error and message output; no credential or response text retained."
+}

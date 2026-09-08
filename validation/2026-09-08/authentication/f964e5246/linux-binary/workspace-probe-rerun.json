@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "platform": "linux",
+  "binary_sha256": "85c9944117c006f01d4494459720f2060e12829b19e59ddb0a8187c95dea6dc9",
+  "gateway": "https://airs.cdot.io/v1",
+  "checks": [
+    "guided-hidden-login",
+    "native-keyring-binding",
+    "separate-process-status-legacy-local-read",
+    "bounded-authenticated-login-probe",
+    "live-default-route-inference",
+    "local-file-effect",
+    "new-process-resume-memory",
+    "logout",
+    "post-logout-status-blocked",
+    "post-logout-new-process-exec-blocked",
+    "no-plaintext-key-in-state-or-transcripts"
+  ],
+  "phase": "completed",
+  "credential_mode": "workspace-native-keyring",
+  "fixture_store": "disposable-dbus-secret-service",
+  "raw_logs_retained": false,
+  "mcp_tested": false,
+  "live_process_logout_invalidation_tested": false,
+  "model_route": "gateway-default",
+  "model_field_wire_inspected": false,
+  "plaintext_scan_excludes": [
+    "encrypted-native-keyring-records"
+  ],
+  "started_at_unix": 1788894084,
+  "gateway_login_verification": {
+    "required": true,
+    "disclosed_probes": 1,
+    "verified_probes": 1,
+    "max_output_tokens_per_probe": 16,
+    "captured_output_limit_bytes": 262144,
+    "wire_inspected": false
+  },
+  "status_metadata_only": false,
+  "credential_lifecycle": {
+    "auth_mode": "workspace-key",
+    "requested_runs": 1,
+    "completed_runs": 1,
+    "first_run_included_live_inference_and_resume": true,
+    "repeat_runs_include_inference_or_refresh": false,
+    "durations_seconds": [
+      9.691841477062553
+    ],
+    "repeat_inference_scope": "no repeated inference observed"
+  },
+  "files_inspected": 101,
+  "finished_at_unix": 1788894094
+}

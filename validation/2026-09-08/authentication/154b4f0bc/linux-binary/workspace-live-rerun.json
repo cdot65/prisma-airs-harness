@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "platform": "linux",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "gateway": "https://airs.cdot.io/v1",
+  "checks": [
+    "guided-hidden-login",
+    "native-keyring-binding",
+    "separate-process-status-configuration",
+    "bounded-authenticated-login-probe",
+    "paired-private-native-credential-resolution",
+    "live-default-route-inference",
+    "local-file-effect",
+    "new-process-resume-memory",
+    "logout",
+    "post-logout-status-blocked",
+    "post-logout-new-process-exec-blocked",
+    "no-plaintext-key-in-state-or-transcripts"
+  ],
+  "phase": "completed",
+  "credential_mode": "workspace-native-keyring",
+  "fixture_store": "disposable-dbus-secret-service",
+  "raw_logs_retained": false,
+  "mcp_tested": false,
+  "live_process_logout_invalidation_tested": false,
+  "model_route": "gateway-default",
+  "model_field_wire_inspected": false,
+  "plaintext_scan_excludes": [
+    "encrypted-native-keyring-records"
+  ],
+  "started_at_unix": 1788896858,
+  "gateway_login_verification": {
+    "required": true,
+    "disclosed_probes": 20,
+    "verified_probes": 20,
+    "max_output_tokens_per_probe": 16,
+    "captured_output_limit_bytes": 262144,
+    "wire_inspected": false
+  },
+  "status_metadata_only": true,
+  "warm_local_status": {
+    "runs": 30,
+    "samples": [
+      {
+        "version_ms": 9.834783151745796,
+        "status_ms": 9.859399870038033,
+        "credential_helper_ms": 21.11150906421244
+      },
+      {
+        "version_ms": 8.953872136771679,
+        "status_ms": 9.217686951160431,
+        "credential_helper_ms": 21.72539010643959
+      },
+      {
+        "version_ms": 8.37587914429605,
+        "status_ms": 9.133227868005633,
+        "credential_helper_ms": 22.193327080458403
+      },
+      {
+        "version_ms": 8.669720031321049,
+        "status_ms": 9.37880901619792,
+        "credential_helper_ms": 21.863789996132255
+      },
+      {
+        "version_ms": 8.117333985865116,
+        "status_ms": 9.64282383210957,
+        "credential_helper_ms": 23.99859088473022
+      },
+      {
+        "version_ms": 8.7437080219388,
+        "status_ms": 10.50009997561574,
+        "credential_helper_ms": 19.795804051682353
+      },
+      {
+        "version_ms": 8.180081844329834,
+        "status_ms": 9.851895971223712,
+        "credential_helper_ms": 21.969467168673873
+      },
+      {
+        "version_ms": 8.13227309845388,
+        "status_ms": 10.609375080093741,
+        "credential_helper_ms": 21.392056019976735
+      },
+      {
+        "version_ms": 8.485473925247788,
+        "status_ms": 10.343888076022267,
+        "credential_helper_ms": 21.484588971361518
+      },
+      {
+        "version_ms": 8.342996938154101,
+        "status_ms": 9.012942900881171,
+        "credential_helper_ms": 23.263492854312062
+      },
+      {
+        "version_ms": 10.333338053897023,
+        "status_ms": 9.55491908825934,
+        "credential_helper_ms": 22.417447064071894
+      },
+      {
+        "version_ms": 8.543432923033834,
+        "status_ms": 9.400219190865755,
+        "credential_helper_ms": 17.28456700220704
+      },
+      {
+        "version_ms": 7.454853039234877,
+        "status_ms": 9.020747849717736,
+        "credential_helper_ms": 19.80209583416581
+      },
+      {
+        "version_ms": 7.471693912521005,
+        "status_ms": 8.252677973359823,
+        "credential_helper_ms": 17.18104211613536
+      },
+      {
+        "version_ms": 7.897243136540055,
+        "status_ms": 8.805013028904796,
+        "credential_helper_ms": 18.592437962070107
+      },
+      {
+        "version_ms": 7.682569092139602,
+        "status_ms": 9.842579020187259,
+        "credential_helper_ms": 18.27404205687344
+      },
+      {
+        "version_ms": 8.034247905015945,
+        "status_ms": 8.811685955151916,
+        "credential_helper_ms": 18.94329604692757
+      },
+      {
+        "version_ms": 7.505177054554224,
+        "status_ms": 9.767506970092654,
+        "credential_helper_ms": 18.621972994878888
+      },
+      {
+        "version_ms": 7.683530915528536,
+        "status_ms": 9.282347979024053,
+        "credential_helper_ms": 18.73369188979268
+      },
+      {
+        "version_ms": 7.64109194278717,
+        "status_ms": 10.011295089498162,
+        "credential_helper_ms": 20.262938924133778
+      },
+      {
+        "version_ms": 8.32804897800088,
+        "status_ms": 8.189059095457196,
+        "credential_helper_ms": 16.620632028207183
+      },
+      {
+        "version_ms": 7.038602838292718,
+        "status_ms": 9.273722069337964,
+        "credential_helper_ms": 17.728067934513092
+      },
+      {
+        "version_ms": 8.297823136672378,
+        "status_ms": 9.593670954927802,
+        "credential_helper_ms": 16.83648698963225
+      },
+      {
+        "version_ms": 8.545306045562029,
+        "status_ms": 9.01909382082522,
+        "credential_helper_ms": 16.792384209111333
+      },
+      {
+        "version_ms": 7.595116039738059,
+        "status_ms": 8.768525905907154,
+        "credential_helper_ms": 18.9841128885746
+      },
+      {
+        "version_ms": 7.51790008507669,
+        "status_ms": 9.509122930467129,
+        "credential_helper_ms": 17.49269710853696
+      },
+      {
+        "version_ms": 8.204547921195626,
+        "status_ms": 9.145652176812291,
+        "credential_helper_ms": 17.74808601476252
+      },
+      {
+        "version_ms": 7.384730968624353,
+        "status_ms": 8.441942045465112,
+        "credential_helper_ms": 17.240202985703945
+      },
+      {
+        "version_ms": 7.414588006213307,
+        "status_ms": 8.77084000967443,
+        "credential_helper_ms": 17.92843290604651
+      },
+      {
+        "version_ms": 7.985216798260808,
+        "status_ms": 7.785973139107227,
+        "credential_helper_ms": 19.430619198828936
+      }
+    ],
+    "p95_ms": 10.50009997561574,
+    "target_ms": 500,
+    "target_met": true,
+    "scope": "whole status process including startup and saved native-binding metadata; no native credential read or network",
+    "credential_resolution_isolated": false,
+    "native_credential_resolution_measured": false
+  },
+  "warm_credential_resolution": {
+    "runs": 30,
+    "samples": [
+      {
+        "version_ms": 9.834783151745796,
+        "status_ms": 9.859399870038033,
+        "credential_helper_ms": 21.11150906421244
+      },
+      {
+        "version_ms": 8.953872136771679,
+        "status_ms": 9.217686951160431,
+        "credential_helper_ms": 21.72539010643959
+      },
+      {
+        "version_ms": 8.37587914429605,
+        "status_ms": 9.133227868005633,
+        "credential_helper_ms": 22.193327080458403
+      },
+      {
+        "version_ms": 8.669720031321049,
+        "status_ms": 9.37880901619792,
+        "credential_helper_ms": 21.863789996132255
+      },
+      {
+        "version_ms": 8.117333985865116,
+        "status_ms": 9.64282383210957,
+        "credential_helper_ms": 23.99859088473022
+      },
+      {
+        "version_ms": 8.7437080219388,
+        "status_ms": 10.50009997561574,
+        "credential_helper_ms": 19.795804051682353
+      },
+      {
+        "version_ms": 8.180081844329834,
+        "status_ms": 9.851895971223712,
+        "credential_helper_ms": 21.969467168673873
+      },
+      {
+        "version_ms": 8.13227309845388,
+        "status_ms": 10.609375080093741,
+        "credential_helper_ms": 21.392056019976735
+      },
+      {
+        "version_ms": 8.485473925247788,
+        "status_ms": 10.343888076022267,
+        "credential_helper_ms": 21.484588971361518
+      },
+      {
+        "version_ms": 8.342996938154101,
+        "status_ms": 9.012942900881171,
+        "credential_helper_ms": 23.263492854312062
+      },
+      {
+        "version_ms": 10.333338053897023,
+        "status_ms": 9.55491908825934,
+        "credential_helper_ms": 22.417447064071894
+      },
+      {
+        "version_ms": 8.543432923033834,
+        "status_ms": 9.400219190865755,
+        "credential_helper_ms": 17.28456700220704
+      },
+      {
+        "version_ms": 7.454853039234877,
+        "status_ms": 9.020747849717736,
+        "credential_helper_ms": 19.80209583416581
+      },
+      {
+        "version_ms": 7.471693912521005,
+        "status_ms": 8.252677973359823,
+        "credential_helper_ms": 17.18104211613536
+      },
+      {
+        "version_ms": 7.897243136540055,
+        "status_ms": 8.805013028904796,
+        "credential_helper_ms": 18.592437962070107
+      },
+      {
+        "version_ms": 7.682569092139602,
+        "status_ms": 9.842579020187259,
+        "credential_helper_ms": 18.27404205687344
+      },
+      {
+        "version_ms": 8.034247905015945,
+        "status_ms": 8.811685955151916,
+        "credential_helper_ms": 18.94329604692757
+      },
+      {
+        "version_ms": 7.505177054554224,
+        "status_ms": 9.767506970092654,
+        "credential_helper_ms": 18.621972994878888
+      },
+      {
+        "version_ms": 7.683530915528536,
+        "status_ms": 9.282347979024053,
+        "credential_helper_ms": 18.73369188979268
+      },
+      {
+        "version_ms": 7.64109194278717,
+        "status_ms": 10.011295089498162,
+        "credential_helper_ms": 20.262938924133778
+      },
+      {
+        "version_ms": 8.32804897800088,
+        "status_ms": 8.189059095457196,
+        "credential_helper_ms": 16.620632028207183
+      },
+      {
+        "version_ms": 7.038602838292718,
+        "status_ms": 9.273722069337964,
+        "credential_helper_ms": 17.728067934513092
+      },
+      {
+        "version_ms": 8.297823136672378,
+        "status_ms": 9.593670954927802,
+        "credential_helper_ms": 16.83648698963225
+      },
+      {
+        "version_ms": 8.545306045562029,
+        "status_ms": 9.01909382082522,
+        "credential_helper_ms": 16.792384209111333
+      },
+      {
+        "version_ms": 7.595116039738059,
+        "status_ms": 8.768525905907154,
+        "credential_helper_ms": 18.9841128885746
+      },
+      {
+        "version_ms": 7.51790008507669,
+        "status_ms": 9.509122930467129,
+        "credential_helper_ms": 17.49269710853696
+      },
+      {
+        "version_ms": 8.204547921195626,
+        "status_ms": 9.145652176812291,
+        "credential_helper_ms": 17.74808601476252
+      },
+      {
+        "version_ms": 7.384730968624353,
+        "status_ms": 8.441942045465112,
+        "credential_helper_ms": 17.240202985703945
+      },
+      {
+        "version_ms": 7.414588006213307,
+        "status_ms": 8.77084000967443,
+        "credential_helper_ms": 17.92843290604651
+      },
+      {
+        "version_ms": 7.985216798260808,
+        "status_ms": 7.785973139107227,
+        "credential_helper_ms": 19.430619198828936
+      }
+    ],
+    "p95_ms": 23.263492854312062,
+    "target_ms": 500,
+    "target_met": true,
+    "scope": "whole trusted credential helper process including startup, binding validation and native credential resolution; no network",
+    "credential_resolution_isolated": false,
+    "native_credential_resolution_measured": true,
+    "exact_token_and_newline_verified": true,
+    "helper_output_retained": false,
+    "timeout_seconds_per_process": 5
+  },
+  "credential_lifecycle": {
+    "auth_mode": "workspace-key",
+    "requested_runs": 20,
+    "completed_runs": 20,
+    "first_run_included_live_inference_and_resume": true,
+    "repeat_runs_include_inference_or_refresh": true,
+    "durations_seconds": [
+      9.327799160033464,
+      2.0426270270254463,
+      1.9745699369814247,
+      1.6092137729283422,
+      1.9722957049962133,
+      1.7085965778678656,
+      1.6446028840728104,
+      1.7643784920219332,
+      2.057329626986757,
+      2.792966917157173,
+      1.6441931761801243,
+      1.7102034208364785,
+      1.654734935844317,
+      1.7045917438808829,
+      1.5615342881064862,
+      1.6585859030019492,
+      1.5038640450220555,
+      1.5166431178804487,
+      1.7306305889505893,
+      1.6230742339976132
+    ],
+    "repeat_inference_scope": "one disclosed fixed connectivity probe per guided login; no conversation or refresh"
+  },
+  "files_inspected": 99,
+  "finished_at_unix": 1788896902
+}

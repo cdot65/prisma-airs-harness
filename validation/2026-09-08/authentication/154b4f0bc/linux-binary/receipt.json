@@ -1,0 +1,39 @@
+{
+  "recorded_utc": "2026-09-08T19:49:11.929744+00:00",
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "original_binary": "/tmp/airs-auth-final-154b-29ip7b5g/airs-harness",
+  "installed_native_binary": "/tmp/airs-auth-final-154b-29ip7b5g/AIRS Candidate Install/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+  "original_and_installed_binary_hashes_independently_verified": true,
+  "native_archive": {
+    "archive": "/tmp/airs-auth-final-154b-29ip7b5g/native/airs-harness-0.1.0-alpha.9-linux-x86_64-musl.tar.gz",
+    "sha256": "b9c1ba58f60e171585ee2a15fa858a4619a96b5485f54bbb105b13c1c6023b4f",
+    "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044"
+  },
+  "npm_tarball_hashes_independently_verified": true,
+  "installed_tests": "38/38 passed; zero skips",
+  "managed_cli_version": "5.2.0",
+  "live_oidc_checks": "28/28 passed",
+  "oidc_invocation_path": "Not recorded in OIDC receipt; exact native bytes identified by SHA256 match installed package.",
+  "workspace_live_first_attempt": "Failed fixture warning condition; preserved in ../workspace-live-first-attempt.json",
+  "workspace_live_rerun": {
+    "passed": true,
+    "completed_lifecycle_runs": 20,
+    "disclosed_verified_probes": 20,
+    "max_output_tokens_per_probe": 16,
+    "credential_helper_runs": 30,
+    "credential_helper_whole_process_p95_ms": 23.263492854312062,
+    "status_whole_process_p95_ms": 10.50009997561574,
+    "target_ms": 500,
+    "target_met": true,
+    "started_utc": "2026-09-08T19:47:38+00:00",
+    "finished_utc": "2026-09-08T19:48:22+00:00",
+    "first_rerun_and_installed_binary_hashes_match": true,
+    "scope": "Workspace20lifecycles; first includes live task/resume, each includes disclosed minimal inference probe. Helper timing includes whole process startup. No workspace MCP or already-running-process logout proof in this fixture."
+  },
+  "published": false,
+  "publishable": false,
+  "release_ready": false,
+  "scope": "Linux private candidate evidence only; no final macOS/Windows or full platform gate credit.",
+  "prior_scanner_failure": "Earlier failure preserved; this later OIDC run has real allow scan IDs without proving the earlier cause."
+}

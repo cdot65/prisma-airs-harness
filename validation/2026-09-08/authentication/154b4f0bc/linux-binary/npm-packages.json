@@ -1,0 +1,27 @@
+{
+  "published": false,
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "packaging_commit": "43a4a0199f20c1c32e1549de9024ff79f8dd0412",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "5.2.0"
+  },
+  "registry": "https://npm.cdot.io",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.9",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-hcx47VIsemRlz3YbTCvDT0Gnh3ckmacfO4xWTxpEHLbtH4wQO7PTA/34z3HApsA9oqWEkcyGZMOFHWMwFIEehA==",
+      "sha256": "494e121cceebfc01555e2d724123b86a59332cd30749007dadab20c1fc3c5e7a"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.9",
+      "filename": "airs-harness-0.1.0-alpha.9.tgz",
+      "integrity": "sha512-cpw1pq6GWCxpf4MRfzairYNxD8nPblUe6TccgNjU8LMgrYxoukgLmYAKBLFof1mTDq7c5ndMuTrBYJ0y7szrAg==",
+      "sha256": "fd988754a54ac5a862622079b62e2bedea699a86de5c07ebe1ffad873c4f76e2"
+    }
+  ],
+  "release_status": "unsigned-unvalidated-candidate",
+  "publishable": false
+}

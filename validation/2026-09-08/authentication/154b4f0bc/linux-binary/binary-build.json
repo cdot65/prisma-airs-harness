@@ -1,0 +1,12 @@
+{
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "binary": "/tmp/airs-auth-final-154b-29ip7b5g/airs-harness",
+  "sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "profile": "release; codex-cli opt-level=1; other packages use existing release settings; lto=false; codegen-units=16; debug=0",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --manifest-path codex-rs/Cargo.toml --timings",
+  "build_wall_seconds": 560,
+  "timing_report": "/var/tmp/airs-harness-alpha9-target/cargo-timings/cargo-timing-20260908T193153206Z-2159cec5af3a814d.html",
+  "timing_report_sha256": "45e51bdb5ed39ca179a7616209dfbf88b33231a014b89d2e6743021730541905",
+  "release_ready": false,
+  "timing_scope": "Observed560second build wall time; not an isolated cache/optimization comparison and not a speedup claim."
+}

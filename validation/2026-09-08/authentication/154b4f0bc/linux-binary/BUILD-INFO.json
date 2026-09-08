@@ -1,0 +1,16 @@
+{
+  "product": "Prisma AIRS Harness",
+  "version": "0.1.0-alpha.9",
+  "source_commit": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "source_repository": "https://github.com/cdot65/airs-harness",
+  "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+  "target": "x86_64-unknown-linux-musl",
+  "profile": "release; codex-cli opt-level=1; other packages use existing release settings; lto=false; codegen-units=16; debug=0",
+  "binary_processing": "none",
+  "binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "cargo_lock_sha256": "5790fd0c32d4a8d12227a800384f5767a27a1d4a2c2a0ba0d0838db15ee65077",
+  "rust": "rustc 1.95.0 (59807616e 2026-04-14)",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --manifest-path codex-rs/Cargo.toml --timings",
+  "release_status": "unsigned-unvalidated-candidate",
+  "publishable": false
+}

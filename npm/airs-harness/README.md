@@ -5,9 +5,18 @@ Node.js 22 or later is required. No Rust compiler is needed on the endpoint.
 Inference uses your configured Prisma AIRS AI Gateway; local files and tools
 run on your machine. This package has no PAH server or OpenAI CLI dependency.
 
-This package is prepared for Verdaccio and has not yet been published. After
-your administrator publishes a supported release, install it from the provided
-registry with `npm install -g airs-harness --registry <registry-url>`.
+Install the approved release from your organization's Verdaccio registry:
+
+```sh
+npm install -g airs-harness@0.1.0-alpha.8 --registry https://npm.cdot.io
+airs-harness --version
+```
+
+The registry requires the organization's LAN/VPN; downloads do not require npm
+login. Alpha.8 includes Linux x64, macOS Apple Silicon and macOS Intel packages.
+See the [Mac installation and Keycloak runbook](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
+for prerequisites, sign-in, remote scanner setup and an end-to-end test.
+
 Only platforms included in that release are installable. Do not disable optional
 dependencies: they carry the platform binary. The launcher does not download or
 compile code at startup and has no install scripts.

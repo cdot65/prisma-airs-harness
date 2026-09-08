@@ -108,6 +108,30 @@ fn store_kind(source: &Source) -> Option<StoreKind> {
     }
 }
 
+// Legacy raw credentials and OIDC manifests share SERVICE + UUID. A kind
+// mismatch cannot authorize cleanup or replacement within that same namespace.
+fn ensure_unambiguous_native_owner(
+    bound: Option<&Binding>,
+    account: Uuid,
+    kind: StoreKind,
+) -> anyhow::Result<()> {
+    let conflict = bound
+        .filter(|binding| binding.id == account)
+        .and_then(|binding| binding.source.as_ref().and_then(store_kind))
+        .is_some_and(|owner| {
+            matches!(
+                (kind, owner),
+                (StoreKind::WorkspaceKeyringV1, StoreKind::OidcIdentityV1)
+                    | (StoreKind::OidcIdentityV1, StoreKind::WorkspaceKeyringV1)
+            )
+        });
+    anyhow::ensure!(
+        !conflict,
+        "Credential metadata conflicts across legacy native formats; existing credentials were not changed"
+    );
+    Ok(())
+}
+
 fn optional_bytes(path: &Path) -> anyhow::Result<Option<Vec<u8>>> {
     match std::fs::read(path) {
         Ok(bytes) => Ok(Some(bytes)),
@@ -183,6 +207,7 @@ pub(super) fn recover(home: &Path, store: &impl Store) -> anyhow::Result<()> {
     let bound = optional_bytes(&home.join("credential-binding.json"))?
         .map(|bytes| super::parse_binding(&bytes))
         .transpose()?;
+    ensure_unambiguous_native_owner(bound.as_ref(), pending.account, pending.store)?;
     // A process may have stopped after installing the binding. Never remove
     // its referenced key; a subsequent login can finish configuration safely.
     if !bound.is_some_and(|binding| {
@@ -204,7 +229,6 @@ pub(super) fn persist(
     store: &impl Store,
     install: impl FnOnce() -> anyhow::Result<()>,
 ) -> anyhow::Result<()> {
-    recover(home, store)?;
     let kind = binding
         .source
         .as_ref()
@@ -216,6 +240,8 @@ pub(super) fn persist(
         .as_ref()
         .map(|bytes| super::parse_binding(bytes))
         .transpose()?;
+    ensure_unambiguous_native_owner(prior_binding.as_ref(), binding.id, kind)?;
+    recover(home, store)?;
     let already_owned = prior_binding.is_some_and(|prior| {
         prior.id == binding.id && prior.source.as_ref().and_then(store_kind) == Some(kind)
     });
@@ -257,3 +283,7 @@ pub(super) fn persist(
 #[cfg(test)]
 #[path = "airs_credential_transaction_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "airs_credential_namespace_tests.rs"]
+mod namespace_tests;

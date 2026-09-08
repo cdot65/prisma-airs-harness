@@ -31,8 +31,10 @@ GitHub release, commit the publication receipt, then dispatch the workflow on
 Packages are published privately. The receipt distinguishes declared repository
 metadata from the repository association returned by GitHub. If GitHub returns
 no association, the owner can select **Connect repository** on the package page
-and choose `cdot65/airs-harness` to populate the repository sidebar and configure
-permission inheritance. Publication does not make the repository public.
+and choose `cdot65/airs-harness`. Then explicitly enable **Inherit access from
+repository** under Package settings so repository readers can download it.
+Connecting an already-published package alone does not enable inheritance.
+Publication does not make the repository public.
 
 ## Install from GitHub Packages
 

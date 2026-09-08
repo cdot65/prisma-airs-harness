@@ -23,6 +23,7 @@ def install_environment(prefix, registry_url, bundled):
         NPM_CONFIG_USERCONFIG=str(prefix / "empty.npmrc"),
         NPM_CONFIG_GLOBALCONFIG=str(prefix / "empty-global.npmrc"),
         NPM_CONFIG_CACHE=str(prefix / "npm-cache"),
+        NPM_CONFIG_UPDATE_NOTIFIER="false",
         NPM_CONFIG_FETCH_RETRIES="0",
         NPM_CONFIG_FETCH_TIMEOUT="15000",
     )

@@ -178,6 +178,7 @@ class RegistryContracts(unittest.TestCase):
         for specification in (
             "1.0.0",
             "https://registry.npmjs.org/airs-bundle-missing-fixture/-/fixture.tgz",
+            "https://outside.invalid/fixture.tgz",
             "http://127.0.0.1:9/fixture.tgz",
         ):
             with (
@@ -188,21 +189,72 @@ class RegistryContracts(unittest.TestCase):
                 packages = root / "packages"
                 launcher = packages / "@cdot65/prisma-airs-harness"
                 launcher.mkdir(parents=True)
+                from airs_bundle import CLI, SDK, sharp_packages, verify_bundle
+
+                targets = ["aarch64-apple-darwin"]
+                versions = {
+                    CLI: "5.2.0",
+                    SDK: "0.28.0",
+                    **{name: "1.0.0" for name in sharp_packages(targets)},
+                }
+                missing = "airs-bundle-missing-fixture"
                 manifest = {
                     "name": "@cdot65/prisma-airs-harness",
                     "version": "0.0.0-fixture",
-                    "optionalDependencies": {
-                        "airs-bundle-missing-fixture": specification
-                    },
+                    "dependencies": versions,
+                    "bundleDependencies": list(versions),
+                    "optionalDependencies": {missing: specification},
                 }
                 (launcher / "package.json").write_text(json.dumps(manifest))
+                inventory = {
+                    "schema_version": 1,
+                    "source_lock_sha256": "a" * 64,
+                    "targets": targets,
+                    "required_pins": {CLI: "5.2.0", SDK: "0.28.0"},
+                    "packages": [],
+                }
+                for name, version in {**versions, missing: "1.0.0"}.items():
+                    directory = launcher / "node_modules" / name
+                    directory.mkdir(parents=True)
+                    files = {
+                        "package.json": json.dumps(
+                            {"name": name, "version": version}
+                        ).encode(),
+                        "LICENSE": b"fixture license",
+                    }
+                    for relative, body in files.items():
+                        (directory / relative).write_bytes(body)
+                    inventory["packages"].append(
+                        {
+                            "path": "node_modules/" + name,
+                            "name": name,
+                            "version": version,
+                            "files": {
+                                relative: hashlib.sha256(body).hexdigest()
+                                for relative, body in files.items()
+                            },
+                            "license_files": ["LICENSE"],
+                        }
+                    )
+                baseline = verify_bundle(launcher, inventory)
+                self.assertEqual(baseline["packages"], len(versions) + 1)
+                # The complete source bundle is valid. Only this optional package
+                # is omitted from the tarball; every other byte is preserved.
+                inventory_bytes = json.dumps(inventory).encode()
+                (launcher / "BUNDLE-INVENTORY.json").write_bytes(inventory_bytes)
                 (packages / "tarballs").mkdir()
                 archive = packages / "tarballs/launcher.tgz"
                 with tarfile.open(archive, "w:gz") as tar:
-                    body = json.dumps(manifest).encode()
-                    entry = tarfile.TarInfo("package/package.json")
-                    entry.size = len(body)
-                    tar.addfile(entry, io.BytesIO(body))
+                    for file in sorted(launcher.rglob("*")):
+                        if (
+                            not file.is_file()
+                            or missing in file.relative_to(launcher).parts
+                        ):
+                            continue
+                        tar.add(
+                            file,
+                            arcname="package/" + file.relative_to(launcher).as_posix(),
+                        )
                 import base64
 
                 integrity = (
@@ -214,7 +266,11 @@ class RegistryContracts(unittest.TestCase):
                 (packages / "NPM-PACKAGES.json").write_text(
                     json.dumps(
                         {
-                            "cli_bundle": {},
+                            "cli_bundle": {
+                                "inventory_sha256": hashlib.sha256(
+                                    inventory_bytes
+                                ).hexdigest()
+                            },
                             "publish_order": [
                                 {
                                     "name": manifest["name"],
@@ -240,13 +296,70 @@ class RegistryContracts(unittest.TestCase):
                     timeout=60,
                 )
                 self.assertNotEqual(result.returncode, 0)
-                self.assertIn("attempted an unstaged dependency request", result.stderr)
                 receipt = json.loads(
                     (root / "install/INSTALL-NETWORK.json").read_text()
                 )
-                self.assertTrue(receipt["unexpected_requests"])
+                if receipt["unexpected_requests"]:
+                    self.assertIn(
+                        "attempted an unstaged dependency request", result.stderr
+                    )
+                    expected_denial = (
+                        "/" + missing
+                        if specification == "1.0.0"
+                        else "/airs-bundle-missing-fixture/-/fixture.tgz"
+                        if specification.startswith("https://registry.npmjs.org")
+                        else "CONNECT [external target]"
+                        if specification.startswith("https")
+                        else "GET [external or queried target]"
+                    )
+                    self.assertEqual(
+                        set(receipt["unexpected_requests"]), {expected_denial}
+                    )
+                else:
+                    # npm12 rejects optional remote URLs before fetching and can
+                    # still exit0. The required inventory catches the omission.
+                    self.assertTrue(specification.startswith("http"))
+                    self.assertGreaterEqual(
+                        int(receipt["npm_version"].split(".")[0]), 12
+                    )
+                    self.assertEqual(receipt["npm_exit_code"], 0)
+                    self.assertIn("FileNotFoundError", result.stderr)
+                    self.assertIn("node_modules", result.stderr)
+                    self.assertIn("airs-bundle-missing-fixture", result.stderr)
+                    self.assertIn("package.json", result.stderr)
                 self.assertEqual(receipt["public_dependency_redirects"], [])
                 self.assertFalse((root / "install/INSTALL-VERIFICATION.json").exists())
+                if evidence_directory := os.environ.get("AIRS_NPM_FIXTURE_EVIDENCE"):
+                    evidence = Path(evidence_directory)
+                    evidence.mkdir(parents=True, exist_ok=True)
+                    category = (
+                        "registry"
+                        if specification == "1.0.0"
+                        else "npm-url"
+                        if "registry.npmjs.org" in specification
+                        else "https"
+                        if specification.startswith("https")
+                        else "http"
+                    )
+                    (
+                        evidence
+                        / ("npm" + receipt["npm_version"] + "-" + category + ".json")
+                    ).write_text(
+                        json.dumps(
+                            {
+                                "baseline_verified": baseline,
+                                "omitted_package": missing,
+                                "network": receipt,
+                                "failed_as_required": True,
+                                "failure_stage": "network"
+                                if receipt["unexpected_requests"]
+                                else "installed-inventory",
+                                "native_executed": False,
+                            },
+                            indent=2,
+                        )
+                        + "\n"
+                    )
 
 
 if __name__ == "__main__":

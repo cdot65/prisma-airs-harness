@@ -4,7 +4,7 @@ description: First launch, secure sign-in, resume, logout, and support diagnosti
 status: private-candidate
 created: 2026-09-08
 updated: 2026-09-08
-source_commit: pending-gateway-verification-stage
+source_commit: 154b4f0bcef7528844e85177d7e4dce611982044
 tags: [prisma-airs-harness, authentication, onboarding, macos, linux, windows]
 ---
 
@@ -38,8 +38,10 @@ actual limits still apply.
 
 Choose **1, Company sign-in**, or **2, Workspace API key**:
 
-- Company sign-in asks for the public issuer URL, client ID, and gateway
-  audience supplied by your administrator. It opens your browser; if opening
+- Company sign-in initially asks for the public issuer URL, client ID, and
+  gateway audience supplied by your administrator. Later attempts show the
+  saved settings: press **Enter** to reuse them or **2** to enter changes.
+  It opens your browser; if opening
   fails, open the displayed sign-in URL yourself. Enter your company password
   only on the identity provider's browser page. Public connection settings are
   remembered for subsequent login attempts.
@@ -52,6 +54,13 @@ Choose **1, Company sign-in**, or **2, Workspace API key**:
 Credentials use macOS Keychain, the Linux credential service, or Windows
 Credential Manager. Follow any operating-system authorization prompt. A storage
 failure stops sign-in; the application does not silently save plaintext.
+
+Linux desktop testing uses Secret Service on your existing desktop session.
+The candidate does not install or start the service. A missing service or an
+unlock failure is a limitation to report to your administrator; the complete
+in-app recovery flow is still pending. SSH/headless onboarding is outside this
+guide.
+
 After guided sign-in saves your credential, the harness announces one small
 connectivity request. It sends a fixed message, allows up to 16 output tokens,
 and sends no local files or tools. The request asks the provider not to store
@@ -60,7 +69,8 @@ the response; your gateway's logging policy still applies.
 **Gateway access verified** means that this inference check succeeded. It does
 not verify MCP authorization. If the check fails, you see **Credential saved;
 gateway access not yet verified** with a safe reason and retry instructions.
-Your saved credential remains available. A client correlation ID identifies
+The check does not delete your saved credential; it does not guarantee that the
+OS store remains accessible. A client correlation ID identifies
 the check; it is not a provider-issued response ID.
 
 To retry without signing in again:
@@ -82,8 +92,8 @@ airs-harness login
 ```
 
 To add another environment without replacing an existing one, run
-`airs-harness setup` and choose a new name. Changing the user, workspace key, or
-gateway must respect the existing environment's history boundary.
+`airs-harness setup` and choose a new name. For a different company identity,
+workspace key, or gateway, create a new environment so histories stay separated.
 
 ## Return in a new terminal
 

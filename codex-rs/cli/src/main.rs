@@ -53,6 +53,7 @@ mod airs_mcp;
 mod airs_oidc;
 mod airs_secret_prompt;
 mod airs_session_binding;
+mod airs_setup;
 mod airs_storage_error;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
@@ -1114,6 +1115,10 @@ async fn cli_main(
                 return airs_environment::run(root.as_path(), command);
             }
             Some(Subcommand::Setup(args)) => {
+                if args.gateway_url.is_empty() {
+                    return airs_setup::interactive(root.as_path(), environment.as_deref(), args)
+                        .await;
+                }
                 return if let Some(name) = environment.as_deref() {
                     airs_environment::setup(root.as_path(), name, args)
                 } else {
@@ -1126,8 +1131,29 @@ async fn cli_main(
             }
             _ => {}
         }
-        airs_environment::select(root.as_path(), environment.as_deref())?;
+        if subcommand.is_none()
+            && !root.join("config.toml").exists()
+            && !root.join("environments.json").exists()
+        {
+            airs_setup::interactive(
+                root.as_path(),
+                environment.as_deref(),
+                &airs_harness::SetupArgs::default(),
+            )
+            .await?;
+        } else {
+            airs_environment::select(root.as_path(), environment.as_deref())?;
+        }
         let home = codex_core::config::find_codex_home()?;
+        if matches!(
+            &subcommand,
+            None | Some(Subcommand::Resume(_) | Subcommand::Fork(_))
+        ) && std::io::stdin().is_terminal()
+            && std::io::stderr().is_terminal()
+            && airs_login::needs_login(home.as_path(), |name| std::env::var_os(name).is_some())?
+        {
+            airs_login::interactive(home.as_path(), airs_oidc::LoginFlow::Browser).await?;
+        }
         match &subcommand {
             Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args).await,
             Some(Subcommand::Login(args)) => {

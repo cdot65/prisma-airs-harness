@@ -38,10 +38,10 @@ pub fn usage() -> &'static str {
     }
 }
 
-#[derive(Debug, Args)]
+#[derive(Clone, Debug, Args)]
 pub struct SetupArgs {
-    /// AIRS inference API root, including the deployment's /v1 prefix.
-    #[arg(long)]
+    /// AIRS inference API root. Omit to open guided setup.
+    #[arg(long, default_value = "", hide_default_value = true)]
     pub gateway_url: String,
     /// Environment variable containing the workspace credential (not its value).
     #[arg(long, default_value = "AIRS_API_KEY")]
@@ -57,7 +57,25 @@ pub struct SetupArgs {
     pub allow_http_loopback: bool,
 }
 
+impl Default for SetupArgs {
+    fn default() -> Self {
+        Self {
+            gateway_url: String::new(),
+            credential_env: "AIRS_API_KEY".to_owned(),
+            context_window: 1_000_000,
+            model: Vec::new(),
+            allow_http_loopback: false,
+        }
+    }
+}
+
 fn configuration(args: &SetupArgs, home: &Path) -> anyhow::Result<(String, String)> {
+    anyhow::ensure!(
+        !args.gateway_url.is_empty()
+            && args.gateway_url.len() <= 2_048
+            && args.gateway_url.bytes().all(|byte| byte.is_ascii_graphic()),
+        "gateway URL must be nonempty text without whitespace or control characters (maximum 2048 bytes)"
+    );
     let input = if args.gateway_url.contains("://") {
         args.gateway_url.clone()
     } else {
@@ -208,13 +226,7 @@ pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {
         return Err(error.into());
     }
     println!("Configured Prisma AIRS Harness in {}", home.display());
-    println!(
-        "Supply the workspace credential through {} before starting.",
-        args.credential_env
-    );
-    println!(
-        "Default routing omits model; explicit choices come from the local capability catalog."
-    );
+    println!("Run airs-harness login to sign in with your company account or workspace API key.");
     Ok(())
 }
 

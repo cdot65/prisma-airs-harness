@@ -5,11 +5,11 @@ expression: help
 ---
 Configure a direct AIRS gateway connection for this standalone terminal
 
-Usage: setup [OPTIONS] --gateway-url <GATEWAY_URL>
+Usage: setup [OPTIONS]
 
 Options:
       --gateway-url <GATEWAY_URL>
-          AIRS inference API root, including the deployment's /v1 prefix
+          AIRS inference API root. Omit to open guided setup
 
       --credential-env <CREDENTIAL_ENV>
           Environment variable containing the workspace credential (not its value)

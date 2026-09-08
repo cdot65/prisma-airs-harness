@@ -57,7 +57,10 @@ def main():
         ):
             raise ValueError("Unexpected repository association")
         manifest["name"] = "@cdot65/prisma-" + record["name"]
-        manifest["repository"] = {"type": "git", "url": "https://github.com/cdot65/airs-harness.git"}
+        manifest["repository"] = {
+            "type": "git",
+            "url": "https://github.com/cdot65/airs-harness.git",
+        }
         manifest["publishConfig"] = {"registry": REGISTRY}
         staged.append((record, package, manifest))
     native_urls = {}
@@ -69,11 +72,6 @@ def main():
             if set(manifest["optionalDependencies"]) != set(native_urls):
                 raise ValueError("Native dependency set differs from publication")
             manifest["optionalDependencies"] = native_urls
-        (package / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
-        packed = json.loads(npm("pack", "--ignore-scripts", "--json", cwd=package))
-        packed = next(iter(packed.values())) if isinstance(packed, dict) else packed[0]
-        if packed["size"] >= 256 * 1024 * 1024:
-            raise ValueError("Package exceeds GitHub npm archive size limit")
         spec = manifest["name"] + "@" + manifest["version"]
         # A retry may encounter an already published immutable version. Accept
         # it only if its integrity equals the exact staged artifact.
@@ -82,9 +80,45 @@ def main():
             text=True,
             capture_output=True,
         )
+        if existing.returncode and "E404" not in existing.stderr:
+            raise RuntimeError("Cannot establish whether package version exists")
+        if existing.returncode == 0:
+            # Preserve an existing version's exact repository URL spelling.
+            # npm accepts both https and git+https; neither changes repository
+            # identity. Every other field/file is still checked by full SRI.
+            prior = output / (record["name"] + "-prior")
+            prior.mkdir()
+            fetched = json.loads(
+                npm(
+                    "pack",
+                    spec,
+                    "--ignore-scripts",
+                    "--json",
+                    "--registry",
+                    REGISTRY,
+                    cwd=prior,
+                )
+            )
+            fetched = (
+                next(iter(fetched.values()))
+                if isinstance(fetched, dict)
+                else fetched[0]
+            )
+            with tarfile.open(prior / fetched["filename"]) as tar:
+                old = json.load(tar.extractfile("package/package.json"))["repository"]
+            if (
+                old.get("type") != "git"
+                or old.get("url", "").removeprefix("git+")
+                != "https://github.com/cdot65/airs-harness.git"
+            ):
+                raise ValueError("Existing package declares another repository")
+            manifest["repository"] = old
+        (package / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
+        packed = json.loads(npm("pack", "--ignore-scripts", "--json", cwd=package))
+        packed = next(iter(packed.values())) if isinstance(packed, dict) else packed[0]
+        if packed["size"] >= 256 * 1024 * 1024:
+            raise ValueError("Package exceeds GitHub npm archive size limit")
         if existing.returncode:
-            if "E404" not in existing.stderr:
-                raise RuntimeError("Cannot establish whether package version exists")
             npm(
                 "publish",
                 packed["filename"],
@@ -131,8 +165,9 @@ def main():
                 text=True,
             )
         )
-        if association.get("repository", {}).get("full_name") != "cdot65/airs-harness":
-            raise ValueError("Published repository association: " + json.dumps(association.get("repository")))
+        linked = (association.get("repository") or {}).get("full_name")
+        if linked and linked != "cdot65/airs-harness":
+            raise ValueError("Package is linked to an unexpected repository")
         published.append(
             {
                 "name": manifest["name"],
@@ -143,7 +178,8 @@ def main():
                 "download_verified": True,
                 "html_url": association["html_url"],
                 "visibility": association["visibility"],
-                "repository": association["repository"]["full_name"],
+                "repository": linked,
+                "declared_repository": manifest["repository"]["url"],
             }
         )
     (output / "PUBLICATION.json").write_text(

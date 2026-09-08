@@ -3,7 +3,7 @@
 The owned `airs-harness-github-packages.yml` workflow publishes scoped copies of
 an existing verified npm release to GitHub Packages. GitHub does not index
 Verdaccio packages automatically. The three packages are `@cdot65/prisma-airs-harness`,
-`@cdot65/prisma-airs-harness-linux-x64`, and `@cdot65/prisma-airs-harness-darwin-arm64`, linked to
+`@cdot65/prisma-airs-harness-linux-x64`, and `@cdot65/prisma-airs-harness-darwin-arm64`, with repository metadata pointing to
 this repository. The executable command remains `airs-harness`.
 
 Only the package manifests change: names are scoped, the destination registry is
@@ -18,8 +18,11 @@ To publish a future validated release, attach its original npm tarballs to its
 GitHub release, commit the publication receipt, then dispatch the workflow on
 `main` with that release tag and receipt path. It uses the repository's temporary
 `GITHUB_TOKEN` with `packages: write`; acceptance jobs use `packages: read`.
-Packages initially inherit this private repository's access; publication does
-not make the source repository or packages public.
+Packages are published privately. The receipt distinguishes declared repository
+metadata from the repository association returned by GitHub. If GitHub returns
+no association, the owner can select **Connect repository** on the package page
+and choose `cdot65/airs-harness` to populate the repository sidebar and configure
+permission inheritance. Publication does not make the repository public.
 
 ## Install from GitHub Packages
 

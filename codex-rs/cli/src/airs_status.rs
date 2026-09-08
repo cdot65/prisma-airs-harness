@@ -15,7 +15,7 @@ pub(super) struct Inspection {
     pub(super) detail: &'static str,
 }
 
-fn public_file(path: &Path) -> anyhow::Result<String> {
+pub(super) fn public_file(path: &Path) -> anyhow::Result<String> {
     let mut options = std::fs::OpenOptions::new();
     options.read(true);
     #[cfg(unix)]

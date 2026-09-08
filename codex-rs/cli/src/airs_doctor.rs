@@ -91,7 +91,10 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
             let capabilities = (|| -> anyhow::Result<()> {
                 let path = config.get("model_catalog_json").and_then(toml::Value::as_str)
                     .context("missing model capability catalog")?;
-                let _: serde_json::Value = serde_json::from_slice(&std::fs::read(path)?)?;
+                let catalog = super::airs_status::public_file(Path::new(path))
+                    .map_err(|_| anyhow::anyhow!("Capability catalog must be readable, regular UTF-8 JSON of at most 1 MiB"))?;
+                let _: serde_json::Value = serde_json::from_str(&catalog)
+                    .map_err(|_| anyhow::anyhow!("Invalid capability catalog JSON"))?;
                 anyhow::ensure!(config.get("model_context_window").and_then(toml::Value::as_integer).is_some_and(|v| v > 0), "invalid context window");
                 Ok(())
             })();

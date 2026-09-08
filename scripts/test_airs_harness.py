@@ -803,6 +803,48 @@ class TerminalIntegration(unittest.TestCase):
                     self.assertEqual(self.requests, [])
                     self.assertEqual(self.mcp_requests, [])
 
+    def test_doctor_rejects_oversized_or_fifo_catalog_without_blocking(self):
+        self.configure()
+        catalog = Path(
+            tomllib.loads((self.home / "config.toml").read_text())["model_catalog_json"]
+        )
+        cases = ["oversized"] + (["fifo"] if hasattr(os, "mkfifo") else [])
+        for kind in cases:
+            with self.subTest(kind=kind):
+                catalog.unlink()
+                if kind == "fifo":
+                    os.mkfifo(catalog, 0o600)
+                else:
+                    catalog.write_text(
+                        json.dumps(
+                            {"padding": "CATALOG-PRIVATE-CANARY" + "x" * (1024 * 1024)}
+                        )
+                    )
+                self.health_requests.clear()
+                doctor = subprocess.run(
+                    [str(BINARY), "doctor", "--json"],
+                    env=self.env,
+                    cwd=self.work,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
+                self.assertNotEqual(doctor.returncode, 0)
+                checks = {
+                    row["name"]: row for row in json.loads(doctor.stdout)["checks"]
+                }
+                self.assertTrue(checks["configuration"]["passed"])
+                self.assertFalse(checks["capabilities"]["passed"])
+                self.assertIn("at most 1 MiB", checks["capabilities"]["detail"])
+                self.assertTrue(checks["gateway_health"]["passed"])
+                self.assertEqual(self.health_requests, ["/prefix/v1/health"])
+                self.assertEqual(self.requests, [])
+                self.assertEqual(self.mcp_requests, [])
+                self.assertNotIn(
+                    "CATALOG-PRIVATE-CANARY", doctor.stdout + doctor.stderr
+                )
+                self.assertNotIn("test-only-credential", doctor.stdout + doctor.stderr)
+
     def test_named_environments_and_file_credential_without_export(self):
         for name in ("work", "second"):
             setup = self.run_cli(

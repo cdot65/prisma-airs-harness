@@ -1,0 +1,11 @@
+{
+  "build_run": "34378437580",
+  "source_ref": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "artifact_id": "10116550695",
+  "archive_sha256": "f767b3df65fe08fd782a2a19a431f85221af6f583f8814d92860cb6440ebd644",
+  "binary_sha256": "7e9cc48289d2dd46061c47d496c4354115d6bcb2e0c0ac68a118ee3a24d4e036",
+  "fixture_sha256": "1f2dcce342d01a6de6698bc94e09d95155cb6ec59bed649df72aa6539c465757",
+  "unsigned_zip_sha256": "5269e015c3b595de18bb7f694c2d89835743b887a21186cb2f8434ea29794ab5",
+  "unsigned_zip": "prisma-airs-harness-alpha11-unsigned.zip",
+  "published": false
+}

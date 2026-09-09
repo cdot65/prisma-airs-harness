@@ -1,0 +1,19 @@
+{
+  "id": 34382986822,
+  "status": "completed",
+  "conclusion": "success",
+  "head_sha": "6c7113a72b9c2a6528fed6de831eaec925483dae",
+  "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34382986822",
+  "artifact_id": 10116977995,
+  "evidence_sha256": "479ff8790af0a47c9f82e79ff5d67cb897cae433e08c2ba820d286241721cf06",
+  "published": false,
+  "developer_id_signing": false,
+  "native-tests.log": [
+    "Ran 40 tests in 69.728s",
+    "OK (skipped=2)"
+  ],
+  "npm-tests.log": [
+    "Ran 39 tests in 72.506s",
+    "OK (skipped=1)"
+  ]
+}

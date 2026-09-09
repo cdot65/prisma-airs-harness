@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_review",
+  "reviewed_at": "2026-09-09T17:20:50.427416+00:00",
+  "scope": "signed-prerelease-distribution",
+  "platform_scope": "Linux x64 candidate only",
+  "verdict": "pass",
+  "score": 9,
+  "passed": true,
+  "ready_for_review_attestation": true,
+  "release_ready": false,
+  "full_authentication_release_ready": false,
+  "published": false,
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "product_version": "0.1.0-alpha.11",
+  "target": "x86_64-unknown-linux-musl",
+  "binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+  "packaging_commit": "c4f6d4206b1c86a7122d15c8838d28dd96c28fe5",
+  "signing_disposition": {
+    "kind": "linux-provenance-checksums",
+    "cryptographic_code_signature_claimed": false
+  },
+  "assessment": "The exact Linux candidate supports review-channel preparation: the bounded reasoning-only probe fix passes deterministic native and installed regressions plus live workspace-key use; package identity, pinned CLI inventory and forward native-store migration are verified. This score does not authorize relabeling private archives, bypassing final registry gates, or claiming macOS/full-authentication readiness.",
+  "independently_verified": {
+    "matching_native_copies": [
+      "optimized build",
+      "staged npm native",
+      "installed npm native"
+    ],
+    "npm_archives_sha256_and_sha512_sri": [
+      {
+        "name": "@cdot65/prisma-airs-harness-linux-x64",
+        "version": "0.1.0-alpha.11",
+        "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.11.tgz",
+        "integrity": "sha512-jBk6kRsdD9TjMrif+JGNkoDEa6ZEYvwmZBH5CjMF/s6p+Y4NW9SX0249U5RmOs2JFPOPrS0zIBYkru5zyLh8pQ==",
+        "sha256": "581504d090e9a680a3af5a8b23cb9860601ede8ea141a8190716aeded1c89199"
+      },
+      {
+        "name": "@cdot65/prisma-airs-harness",
+        "version": "0.1.0-alpha.11",
+        "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz",
+        "integrity": "sha512-DBwERjL2hTh+oH7k6CzlQRvX4SKIlEuw1KN2aZAMmJ8o6CQQYvVhlhHxudAOU5Cl3hNRTIU9df3KzViGxstI5w==",
+        "sha256": "e2f267bd225854b9eb2fcdbe1d523b6448dff7829ed09b368f0c9964a5a4191a"
+      }
+    ],
+    "native_archive_sha256": "3604f6d8a756cb7ee57eab73bd702a0f57aea23de7749939ea53ffc3c6e252d5",
+    "packaging_source_file_hashes": 17,
+    "installed_bundle_inventory": {
+      "packages": 70,
+      "files": 3091,
+      "license_files": 67,
+      "native_payload_packages": [
+        "@img/sharp-libvips-linux-x64",
+        "@img/sharp-libvips-linuxmusl-x64",
+        "@img/sharp-linux-x64",
+        "@img/sharp-linuxmusl-x64"
+      ],
+      "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+      "windows_command_wrappers": []
+    },
+    "bundle_inventory_sha256": "1f8722c339e2fa31d8479fdfb7ae79882acb2a3b7b79ee3d0e82f3511ce1c559",
+    "native_source_delta_from_alpha10": "Only bounded probe response acceptance, its tests, and the product version constant differ in codex-rs; no OIDC runtime files changed.",
+    "existing_candidate_markers_preserved": true
+  },
+  "observed_acceptance": {
+    "native": {
+      "passed": 39,
+      "skipped": 1,
+      "skip_reason": "requires npm-managed CLI; covered by installed suite"
+    },
+    "installed": {
+      "passed": 39,
+      "skipped": 0
+    },
+    "fresh_scoped_install": {
+      "npm": "12.0.2",
+      "node": "v22.23.2",
+      "staged_registry_requests": 4,
+      "unexpected_requests": 0,
+      "public_dependency_redirects": 0
+    },
+    "live_workspace": {
+      "checks_passed": 11,
+      "native_keyring": true,
+      "real_default_gateway_probe_and_inference": true,
+      "resume_and_logout": true,
+      "files_inspected": 101,
+      "model_wire_inspected": false,
+      "mcp_tested": false
+    },
+    "forward_upgrade": {
+      "checks_passed": 8,
+      "old_version": "alpha.10",
+      "candidate_version": "alpha.11",
+      "old_binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+      "native_store": "keyring-v2",
+      "previous_executable_paths_absent": true,
+      "only_helper_executable_config_change": true,
+      "credential_session_bindings_byte_identical": true,
+      "history_prefix_preserved": true,
+      "downgrade_tested": false
+    },
+    "managed_cli": {
+      "version": "5.2.0",
+      "contracts": 20,
+      "corpus_formats": [
+        "PDF",
+        "PNG",
+        "JPEG",
+        "SVG",
+        "DOCX"
+      ],
+      "live_scanner_detection_tested": false
+    }
+  },
+  "remaining_gates": [
+    "Create new evidence-bound Linux review archive and final aggregate npm packages; current staged candidate manifests remain publishable:false.",
+    "Verify immutable final registry downloads and intended review dist-tag after any authorized publication; this run used an isolated loopback registry, not actual teammate package-read authorization.",
+    "Apple Silicon alpha.11 compilation, signing/notarization and native/installed acceptance are separate and uncredited here.",
+    "No current alpha.11 live Keycloak/OIDC or remote MCP run; no OIDC runtime code changed, but inherited tests do not constitute new live coverage.",
+    "Affected-owner Mac consent/Keychain recovery, full authentication concurrency/crash and downgrade matrix, and full production readiness are not established."
+  ],
+  "evidence": [
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/BUILD.json",
+      "sha256": "0f6036a91fbb9dd57efa72bceeffb493e486165c06eca7316ca80ceca163af51"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/NATIVE-INTEGRITY.json",
+      "sha256": "d9050b6ea9f841bbcfc9a81da03e4a8e6860b65f22a546cf215f8e1d05d564d9"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/NATIVE-TESTS.txt",
+      "sha256": "2b26c8e55da7ae90730e90b5fb27eb2423e82a5f0673c40d41f55c0b4ac6597d"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/NPM-INSTALL.json",
+      "sha256": "8528c11c22649c48ce28c246037375f6d450d824efe1ad58f4742b97f4d6d118"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/NPM-TESTS.txt",
+      "sha256": "205c5f21a5d5e7ba0e6cfe878bbb2f8fea04fdec7a9189aaabe7384eed634b40"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/LIVE-WORKSPACE.json",
+      "sha256": "b24cc64d833eeb59e59bb7a57ea16082870dd9a446dce03f8fae41b0a68b376c"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/UPGRADE-CURRENT.json",
+      "sha256": "cf808c6a455eeddd53f76dde9f1660ff1e6271bbf945edf93f4fe1c40c2ba521"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/PRISMA-CLI.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/native-tests.log",
+      "sha256": "2b26c8e55da7ae90730e90b5fb27eb2423e82a5f0673c40d41f55c0b4ac6597d"
+    },
+    {
+      "path": "validation/2026-09-09/workspace-reasoning-probe/alpha11-linux/npm-tests.log",
+      "sha256": "205c5f21a5d5e7ba0e6cfe878bbb2f8fea04fdec7a9189aaabe7384eed634b40"
+    }
+  ]
+}

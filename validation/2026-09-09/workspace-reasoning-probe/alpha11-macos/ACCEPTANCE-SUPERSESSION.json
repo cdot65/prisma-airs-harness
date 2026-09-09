@@ -1,0 +1,24 @@
+{
+  "build_run": "34378437580",
+  "build_job_completed_successfully": true,
+  "compilation_cancelled": false,
+  "original_acceptance_superseded": true,
+  "reason": "Original acceptance pins stale alpha.10 fixture assertions; corrected artifact-only acceptance is active",
+  "replacement_acceptance_run": "34382986822",
+  "artifact_id": "10116550695",
+  "build_cache_and_artifact_preserved": true,
+  "build_steps": [
+    {
+      "name": "Build native agent and Keychain fixture",
+      "conclusion": "success",
+      "started_at": "2026-09-09T16:46:19Z",
+      "completed_at": "2026-09-09T17:25:31Z"
+    },
+    {
+      "name": "Preserve successful compilation before acceptance tests",
+      "conclusion": "success",
+      "started_at": "2026-09-09T17:26:07Z",
+      "completed_at": "2026-09-09T17:27:14Z"
+    }
+  ]
+}

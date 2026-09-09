@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_review",
+  "reviewed_at": "2026-09-09T17:41:25.096961+00:00",
+  "scope": "owner-signing-handoff",
+  "verdict": "pass",
+  "score": 9,
+  "ready_for_owner_signing": true,
+  "signed_release_ready": false,
+  "full_authentication_release_ready": false,
+  "published": false,
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "product_version": "0.1.0-alpha.11",
+  "target": "aarch64-apple-darwin",
+  "unsigned_binary_sha256": "7e9cc48289d2dd46061c47d496c4354115d6bcb2e0c0ac68a118ee3a24d4e036",
+  "build_run": "34378437580",
+  "build_artifact_id": "10116550695",
+  "acceptance_run": 34382986822,
+  "acceptance_tooling": "6c7113a72b9c2a6528fed6de831eaec925483dae",
+  "unsigned_intake": {
+    "draft_asset_id": 553235858,
+    "zip_sha256": "5269e015c3b595de18bb7f694c2d89835743b887a21186cb2f8434ea29794ab5",
+    "exact_member": "prisma-airs-harness-signing/airs-harness",
+    "embedded_binary_matches_accepted_candidate": true,
+    "remote_asset_id_source": "parent-provided identity; local bytes independently verified"
+  },
+  "evidence_zip": {
+    "artifact_id": 10116977995,
+    "sha256": "479ff8790af0a47c9f82e79ff5d67cb897cae433e08c2ba820d286241721cf06",
+    "digest_verified": true,
+    "selected_original_files_byte_verified": true
+  },
+  "independent_checks": [
+    "Native executable, raw source archive and Keychain fixture hashes match artifact-selection receipt",
+    "Unsigned ZIP checksum and exact embedded native bytes match the guide and accepted candidate",
+    "All17 packaging source hashes match recorded Git revision",
+    "Selected receipts/logs match original evidence ZIP",
+    "Guide uses fixed source and unsigned checksum, existing owner Developer ID identity and notary Keychain profile, timestamp and hardened runtime signing, Accepted-status prerequisite, explicit online notarization requirement, and signed output checksum upload",
+    "No source rebuild, re-signing or publication performed by reviewer"
+  ],
+  "observed_acceptance": {
+    "host": "macOS26.6.2 ARM64 hosted runner",
+    "native": {
+      "passed": 38,
+      "skipped": 2,
+      "skip_reasons": [
+        "requires npm-managed CLI",
+        "Linux session-bus recovery"
+      ]
+    },
+    "installed": {
+      "passed": 38,
+      "skipped": 1,
+      "skip_reasons": [
+        "Linux session-bus recovery"
+      ]
+    },
+    "native_and_installed_cli_keychain": "passed hidden login, separate-process exact credential readback, local tool loop, logout rejection and plaintext absence",
+    "raw_store_fixture_phases_passed": 7,
+    "managed_cli": "5.2.0;20 capability contracts and PDF/PNG/JPEG/SVG/DOCX generation passed",
+    "scoped_npm": {
+      "version": "10.9.8",
+      "node": "v22.23.2",
+      "registry_requests": 4,
+      "unexpected_requests": 0,
+      "public_dependency_redirects": 0,
+      "installed_inventory": {
+        "packages": 68,
+        "files": 3080,
+        "license_files": 66,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      }
+    }
+  },
+  "blockers_for_owner_signing": [],
+  "remaining_after_handoff": [
+    "Owner must use the private Developer ID identity to sign these exact bytes and obtain Apple notarization acceptance; no signed alpha.11 upload exists in reviewed evidence.",
+    "Independently validate the returned signed archive, expected team, hardened runtime and online Apple notarization, then rerun signed native/installed Keychain and npm acceptance.",
+    "Final evidence-gated aggregate packages, registry upload/download verification and intended review tag remain separate.",
+    "Hosted unsigned candidate acceptance does not establish affected-owner Keychain recovery, live Mac Keycloak/MCP access, or full authentication release readiness."
+  ],
+  "guide": {
+    "path": "administration/releases/alpha11-signing.md",
+    "sha256": "1df650237c6d95fbca0cd30c040908a3979b0abe30dd3c7ecc120a3b96ca7297",
+    "review_note": "Use the stated new download directory. Commands are a maintainer signing procedure; subsequent CI trust gates remain mandatory."
+  },
+  "receipt_hashes": {
+    "ACCEPTANCE.json": "d9757fff58bf1e9f3432026a26fc85476447d4121d049daa4016fecabd8104e2",
+    "EVIDENCE.zip": "479ff8790af0a47c9f82e79ff5d67cb897cae433e08c2ba820d286241721cf06",
+    "VALIDATION.json": "cc59f95979431e576370c313355fc3622048bdd4c063693d7e4abf032451d7ae",
+    "acceptance-host.json": "915916dab7505375c02d5d69a5840aa673af524158b583f7081717abdb136cf6",
+    "artifact-selection.json": "0416425ceb132268bf2604ba22728ce5ddca9ab4a19bf831ffd3c1e2a9ae868c",
+    "cli-keychain.json": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3",
+    "keychain.json": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed",
+    "native-cli-keychain.json": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3",
+    "native-integrity.json": "ea2c6ec636ff864a40f4e72decbf0c372fa8bc30a0ebe3b9b790653acb92ca3b",
+    "native-tests.log": "b0ea74faecae75c0a8509746904c5ac4ac243b7807a2d87a6c94b153c16b0a17",
+    "npm-install.json": "58a4c9902d27b46f149e2b068091a6622b5fdf2302f5522747a3288868dbab5e",
+    "npm-tests.log": "e0395172e26d96b6d4459a7b24e37f312a4bd78da225875b951ba6388fb9ec1f",
+    "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+  }
+}

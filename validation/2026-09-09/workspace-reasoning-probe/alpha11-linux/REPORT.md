@@ -14,10 +14,13 @@ The new reasoning-only executable regression was also run against the published 
 
 ## Scope and remaining gates
 
-This is Linux candidate acceptance, not publication or macOS acceptance. The native candidate archive and npm packages remain marked unpublishable until release attestation is assembled. Apple Silicon build run `34378437580` is still pending. New Mac bytes must be signed, notarized and tested before the GitHub Packages review channel is updated. No gateway configuration was changed.
+This is Linux candidate acceptance, not publication or macOS acceptance. The native candidate archive and npm packages remain marked unpublishable until release attestation is assembled. Apple Silicon build run `34378437580` completed; corrected artifact-only acceptance `34382986822` passed (see the sibling `alpha11-macos` record). New Mac bytes must be signed, notarized and tested before the GitHub Packages review channel is updated. No gateway configuration was changed.
 
 The independent 9/10 assessment covers reviewed tooling only. It does not claim the pending release is ready.
 
 ## Corrected operator checks
 
 An initial upgrade invocation accidentally supplied the npm JavaScript launcher with the native binary hash; the hash guard rejected it before execution. Retrying with the actual native executable exposed the fixture's alpha.9-only keyring assertion. A reviewed `--upgrade-only` scenario now requires native keyring-v2 and retains strict identity/history preservation checks. Its actual alpha.10-to-alpha.11 run passed. An initial packaging invocation lacked rustc in PATH; the final candidate was generated with the Rust toolchain available. Neither issue changed the executable bytes.
+
+
+The independent Linux distribution review subsequently scored the exact candidate 9/10 for review preparation. Fresh reviewed native packaging passed integrity validation without changing the executable. Its archive SHA256 is `16eb9ed329416f647cdb87a0082a889180818d240056e4e0e8249edbaa5de25a`, retained as private release asset `553248776` (`prisma-airs-harness-alpha11-linux-reviewed.tar.gz`). Final aggregate npm packaging and registry publication remain pending Mac signing.

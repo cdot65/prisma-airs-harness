@@ -19,6 +19,9 @@ on:
       source_ref:
         description: Exact original runtime source commit
         required: true
+      submission_id:
+        description: Owner-reported accepted Apple notarization submission UUID
+        required: true
       review_validation:
         description: Optional committed review-release receipt; empty keeps packages unpublishable
         default: ''
@@ -45,6 +48,7 @@ jobs:
       AIRS_ARCHIVE_SHA: ${{ inputs.archive_sha256 }}
       AIRS_BINARY_SHA: ${{ inputs.binary_sha256 }}
       AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
+      AIRS_SUBMISSION_ID: ${{ inputs.submission_id }}
       AIRS_RUNNER: ${{ inputs.runner }}
       AIRS_REVIEW_VALIDATION: ${{ inputs.review_validation }}
     steps:
@@ -75,8 +79,11 @@ jobs:
           test "$(git -C runtime rev-parse HEAD)" = "$AIRS_RUNTIME_SOURCE"
           test "$(npm --version)" = 10.9.8
           python3 - <<'REVIEW'
-          import os, subprocess
+          import json, os, subprocess, uuid
           from pathlib import Path
+          submission = os.environ['AIRS_SUBMISSION_ID']
+          if str(uuid.UUID(submission)) != submission:
+              raise ValueError('Expected canonical notarization submission UUID')
           value = os.environ['AIRS_REVIEW_VALIDATION']
           if value:
               path = Path(value)
@@ -85,6 +92,9 @@ jobs:
               subprocess.run(['git', 'ls-files', '--error-unmatch', '--', value], check=True)
               if path.is_symlink() or not path.is_file():
                   raise ValueError('Review receipt must be a regular file')
+              review = json.loads(path.read_text())
+              if review['signing']['notarization']['submission_id'] != submission:
+                  raise ValueError('Review and intake notarization submissions differ')
           REVIEW
           python3 - <<'HOST'
           import json, os, platform
@@ -99,7 +109,7 @@ jobs:
       - name: Verify exact signed intake, Developer ID, hardened runtime and notarization
         run: |
           python3 scripts/airs_signed_macos_artifact.py restore --asset-id "$AIRS_ASSET_ID" --archive "$RUNNER_TEMP/signed-intake.zip" --directory "$RUNNER_TEMP/signed-native" --archive-sha256 "$AIRS_ARCHIVE_SHA" --binary-sha256 "$AIRS_BINARY_SHA" --source-commit "$AIRS_RUNTIME_SOURCE"
-          python3 scripts/airs_signed_macos_artifact.py verify --asset-id "$AIRS_ASSET_ID" --binary "$RUNNER_TEMP/signed-native/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/SIGNING.json" --archive-sha256 "$AIRS_ARCHIVE_SHA" --binary-sha256 "$AIRS_BINARY_SHA" --source-commit "$AIRS_RUNTIME_SOURCE"
+          python3 scripts/airs_signed_macos_artifact.py verify --asset-id "$AIRS_ASSET_ID" --binary "$RUNNER_TEMP/signed-native/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/SIGNING.json" --archive-sha256 "$AIRS_ARCHIVE_SHA" --binary-sha256 "$AIRS_BINARY_SHA" --source-commit "$AIRS_RUNTIME_SOURCE" --submission "$AIRS_SUBMISSION_ID"
           "$RUNNER_TEMP/signed-native/airs-harness" --version > "$RUNNER_TEMP/airs-evidence/native-version.txt"
           brew install ripgrep
       - name: Exercise the signed native CLI and its actual Keychain integration
@@ -134,7 +144,7 @@ jobs:
         run: |
           AIRS_LAUNCHER="$RUNNER_TEMP/airs-npm-install/lib/node_modules/@cdot65/prisma-airs-harness"
           AIRS_INSTALLED_NATIVE="$(node --input-type=module -e 'import {createRequire} from "node:module"; import path from "node:path"; const require=createRequire(process.argv[1]); console.log(path.join(path.dirname(require.resolve("@cdot65/prisma-airs-harness-darwin-arm64/package.json")),"bin/airs-harness"));' "$AIRS_LAUNCHER/package.json")"
-          python3 scripts/airs_signed_macos_artifact.py verify --asset-id "$AIRS_ASSET_ID" --binary "$AIRS_INSTALLED_NATIVE" --receipt "$RUNNER_TEMP/airs-evidence/INSTALLED-SIGNING.json" --archive-sha256 "$AIRS_ARCHIVE_SHA" --binary-sha256 "$AIRS_BINARY_SHA" --source-commit "$AIRS_RUNTIME_SOURCE"
+          python3 scripts/airs_signed_macos_artifact.py verify --asset-id "$AIRS_ASSET_ID" --binary "$AIRS_INSTALLED_NATIVE" --receipt "$RUNNER_TEMP/airs-evidence/INSTALLED-SIGNING.json" --archive-sha256 "$AIRS_ARCHIVE_SHA" --binary-sha256 "$AIRS_BINARY_SHA" --source-commit "$AIRS_RUNTIME_SOURCE" --submission "$AIRS_SUBMISSION_ID"
           python3 scripts/validate_prisma_cli.py --launcher "$AIRS_LAUNCHER/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
           AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/npm-fixtures" AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-npm-install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
           python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-npm-install/bin/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/cli-keychain.json"

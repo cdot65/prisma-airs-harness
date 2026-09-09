@@ -1,0 +1,8 @@
+{
+  "run": 34298115142,
+  "artifact_id": 10084989446,
+  "name": "airs-harness-darwin-arm64-build-evidence-1",
+  "zip_sha256": "a08466e1842ce4e0e48ee08745535585c0a061a9443970a597cafcec39b09190",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "browser_url": "https://github.com/cdot65/airs-harness/actions/runs/34298115142/artifacts/10084989446"
+}

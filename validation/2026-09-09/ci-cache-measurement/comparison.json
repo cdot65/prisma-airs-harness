@@ -1,0 +1,19 @@
+{
+  "identical_runtime_and_identity_tooling_objects": {
+    "33c89f40346776961a53c430c9f985567d5599ca": {
+      "codex-rs": "ea00aded70cccdcd86d4af8a85ecf6dc6c2e84cd",
+      ".github/workflows/airs-harness-identity.yml": "c18b33cd4f4988a0f100a4e7b2167486ce08da8d",
+      "scripts/airs_ci_cache_key.py": "97e2e993cde77cdd122c6f151af6d466ea69e8b9"
+    },
+    "e5b1d529b8ce3aedefb7521d5df001437584daad": {
+      "codex-rs": "ea00aded70cccdcd86d4af8a85ecf6dc6c2e84cd",
+      ".github/workflows/airs-harness-identity.yml": "c18b33cd4f4988a0f100a4e7b2167486ce08da8d",
+      "scripts/airs_ci_cache_key.py": "97e2e993cde77cdd122c6f151af6d466ea69e8b9"
+    }
+  },
+  "same_compiler_sdk_profile_receipt_on_each_platform": true,
+  "comparison_type": "Compatible target-cache restore prefix across documentation/npm-lint-only main revision; not identical primary key",
+  "release_build_speedup_established": false,
+  "standalone_sccache_speedup_established": false,
+  "first_run_write_error_cause": "Not present in retained job logs; aggregate errors only. No rate-limit or quota attribution."
+}

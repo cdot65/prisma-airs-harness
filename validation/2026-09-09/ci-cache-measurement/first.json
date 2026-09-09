@@ -1,0 +1,171 @@
+{
+  "id": 34300224313,
+  "head_sha": "33c89f40346776961a53c430c9f985567d5599ca",
+  "status": "completed",
+  "conclusion": "success",
+  "created_at": "2026-09-09T01:41:46Z",
+  "updated_at": "2026-09-09T01:46:25Z",
+  "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34300224313",
+  "jobs": [
+    {
+      "job_id": 102305366716,
+      "platform": "macos-15",
+      "conclusion": "success",
+      "duration_seconds": 151.0,
+      "artifact_id": 10084698549,
+      "artifact_sha256": "0a09bea18bb8eaf8dac386d087c7bd7a110ddc6690df669e1a9d6bab3cd2e0bd",
+      "private_job_log_sha256": "aeef35b4a05f98ac513392076da4248a7f0874a1cd4b3ac373f98a20eaf87aaa",
+      "cache_log_summary": [
+        "Cache not found for input keys: airs-identity-sources-v1-macOS-ARM64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2, airs-identity-sources-v1-macOS-ARM64-",
+        "Cache not found for input keys: airs-identity-target-v1-macOS-ARM64-a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a-33c89f40346776961a53c430c9f985567d5599ca, airs-identity-target-v1-macOS-ARM64-a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a-",
+        "Cache saved with key: airs-identity-sources-v1-macOS-ARM64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2",
+        "Cache saved with key: airs-identity-target-v1-macOS-ARM64-a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a-33c89f40346776961a53c430c9f985567d5599ca"
+      ],
+      "test_summaries": [
+        "     Summary [   0.165s] 29 tests run: 29 passed, 0 skipped"
+      ],
+      "compiler_counters": {
+        "compile_requests": 308,
+        "requests_not_cacheable": 62,
+        "cache_hits": {
+          "counts": {},
+          "adv_counts": {}
+        },
+        "cache_misses": {
+          "counts": {
+            "Assembler": 11,
+            "C/C++": 13,
+            "Rust": 216
+          },
+          "adv_counts": {
+            "assemblerToPreprocess [clang]": 11,
+            "rust": 216,
+            "c [clang]": 13
+          }
+        },
+        "cache_writes": 179,
+        "cache_write_errors": 61,
+        "cache_read_errors": 0,
+        "cache_timeouts": 0
+      },
+      "critical_step_seconds": [
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 1.0
+        },
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 0.0
+        },
+        {
+          "name": "Fetch locked dependencies before native checks",
+          "seconds": 32.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 14.0
+        },
+        {
+          "name": "Verify identity and interrupted credential writes",
+          "seconds": 72.0
+        },
+        {
+          "name": "Build native persistence fixture",
+          "seconds": 1.0
+        },
+        {
+          "name": "Exercise separate native credential-store processes",
+          "seconds": 1.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 3.0
+        }
+      ],
+      "native_store_separate_processes": 7,
+      "compiler_cache_identity": "a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a",
+      "cache_identity_receipt_sha256": "99dd1bf4dbc12bf3e8c275360526a204867d90b748323c3d1ffa12b88cd1e497",
+      "retained_artifact": "first-macos-15.zip"
+    },
+    {
+      "job_id": 102305366855,
+      "platform": "ubuntu-24.04",
+      "conclusion": "success",
+      "duration_seconds": 274.0,
+      "artifact_id": 10084743443,
+      "artifact_sha256": "3cc89955a441f53fb4588df4a1d4c1bb66fb87891697b85a28ab28e5085e9247",
+      "private_job_log_sha256": "c00dcd0f2dcb3d2fadbd947f8bf8b5d4acce1a5658185d86eae3d522d524228a",
+      "cache_log_summary": [
+        "Cache not found for input keys: airs-identity-sources-v1-Linux-X64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2, airs-identity-sources-v1-Linux-X64-",
+        "Cache not found for input keys: airs-identity-target-v1-Linux-X64-8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61-33c89f40346776961a53c430c9f985567d5599ca, airs-identity-target-v1-Linux-X64-8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61-",
+        "Cache saved with key: airs-identity-sources-v1-Linux-X64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2",
+        "Cache saved with key: airs-identity-target-v1-Linux-X64-8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61-33c89f40346776961a53c430c9f985567d5599ca"
+      ],
+      "test_summaries": [
+        "     Summary [   0.844s] 25 tests run: 25 passed, 0 skipped"
+      ],
+      "compiler_counters": {
+        "compile_requests": 372,
+        "requests_not_cacheable": 76,
+        "cache_hits": {
+          "counts": {},
+          "adv_counts": {}
+        },
+        "cache_misses": {
+          "counts": {
+            "C/C++": 16,
+            "Assembler": 14,
+            "Rust": 258
+          },
+          "adv_counts": {
+            "c [gcc]": 16,
+            "assemblerToPreprocess [gcc]": 14,
+            "rust": 258
+          }
+        },
+        "cache_writes": 238,
+        "cache_write_errors": 50,
+        "cache_read_errors": 0,
+        "cache_timeouts": 0
+      },
+      "critical_step_seconds": [
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 0.0
+        },
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 0.0
+        },
+        {
+          "name": "Fetch locked dependencies before native checks",
+          "seconds": 28.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 9.0
+        },
+        {
+          "name": "Verify identity and interrupted credential writes",
+          "seconds": 156.0
+        },
+        {
+          "name": "Build native persistence fixture",
+          "seconds": 0.0
+        },
+        {
+          "name": "Exercise separate native credential-store processes",
+          "seconds": 29.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 5.0
+        }
+      ],
+      "native_store_separate_processes": 7,
+      "compiler_cache_identity": "8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61",
+      "cache_identity_receipt_sha256": "5a8965e90806593e31a8415c305bc726bf2ac382c6ebf84227aa4655d4d71c61",
+      "retained_artifact": "first-ubuntu-24.04.zip"
+    }
+  ]
+}

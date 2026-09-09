@@ -1,0 +1,153 @@
+{
+  "id": 34300606150,
+  "head_sha": "e5b1d529b8ce3aedefb7521d5df001437584daad",
+  "status": "completed",
+  "conclusion": "success",
+  "created_at": "2026-09-09T01:47:33Z",
+  "updated_at": "2026-09-09T01:49:19Z",
+  "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34300606150",
+  "jobs": [
+    {
+      "job_id": 102306505453,
+      "platform": "ubuntu-24.04",
+      "conclusion": "success",
+      "duration_seconds": 94.0,
+      "artifact_id": 10084806241,
+      "artifact_sha256": "fd437c49064c3be770c0eaf87764e58dd4c66d0c8f291836412a57cfe047c1bb",
+      "private_job_log_sha256": "959d8be02592a8df23dd2d6a2937ea899e7dea67e0968203f884df540483ff65",
+      "cache_log_summary": [
+        "Cache restored from key: airs-identity-sources-v1-Linux-X64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2",
+        "Cache restored from key: airs-identity-target-v1-Linux-X64-8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61-33c89f40346776961a53c430c9f985567d5599ca",
+        "Cache saved with key: airs-identity-target-v1-Linux-X64-8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61-e5b1d529b8ce3aedefb7521d5df001437584daad"
+      ],
+      "test_summaries": [
+        "     Summary [   0.840s] 25 tests run: 25 passed, 0 skipped"
+      ],
+      "compiler_counters": {
+        "compile_requests": 10,
+        "requests_not_cacheable": 8,
+        "cache_hits": {
+          "counts": {
+            "Rust": 2
+          },
+          "adv_counts": {
+            "rust": 2
+          }
+        },
+        "cache_misses": {
+          "counts": {},
+          "adv_counts": {}
+        },
+        "cache_writes": 0,
+        "cache_write_errors": 0,
+        "cache_read_errors": 0,
+        "cache_timeouts": 0
+      },
+      "critical_step_seconds": [
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 10.0
+        },
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 4.0
+        },
+        {
+          "name": "Fetch locked dependencies before native checks",
+          "seconds": 3.0
+        },
+        {
+          "name": "Verify identity and interrupted credential writes",
+          "seconds": 6.0
+        },
+        {
+          "name": "Build native persistence fixture",
+          "seconds": 1.0
+        },
+        {
+          "name": "Exercise separate native credential-store processes",
+          "seconds": 29.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 5.0
+        }
+      ],
+      "native_store_separate_processes": 7,
+      "compiler_cache_identity": "8b50ba605a0c9b9bcd6e07ef0050a85c54d52d6cd452c04f62cd5564a0879a61",
+      "cache_identity_receipt_sha256": "5a8965e90806593e31a8415c305bc726bf2ac382c6ebf84227aa4655d4d71c61",
+      "retained_artifact": "warm-ubuntu-24.04.zip"
+    },
+    {
+      "job_id": 102306505613,
+      "platform": "macos-15",
+      "conclusion": "success",
+      "duration_seconds": 93.0,
+      "artifact_id": 10084807838,
+      "artifact_sha256": "8bfc42c6584dedcede3b22c6537f2905888b34e7ed6b246bb1b275a884a20fef",
+      "private_job_log_sha256": "46cd4819f4b3e2f7345c20712a1f552376437113b5dd0050f1c1010e8c93b1fa",
+      "cache_log_summary": [
+        "Cache restored from key: airs-identity-sources-v1-macOS-ARM64-d1fb1d1e9d1463b359e8940576cbf0893a2502dd57c1e72905bc1f383c9891a2",
+        "Cache restored from key: airs-identity-target-v1-macOS-ARM64-a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a-33c89f40346776961a53c430c9f985567d5599ca",
+        "Cache saved with key: airs-identity-target-v1-macOS-ARM64-a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a-e5b1d529b8ce3aedefb7521d5df001437584daad"
+      ],
+      "test_summaries": [
+        "     Summary [   0.252s] 29 tests run: 29 passed, 0 skipped"
+      ],
+      "compiler_counters": {
+        "compile_requests": 10,
+        "requests_not_cacheable": 8,
+        "cache_hits": {
+          "counts": {
+            "Rust": 2
+          },
+          "adv_counts": {
+            "rust": 2
+          }
+        },
+        "cache_misses": {
+          "counts": {},
+          "adv_counts": {}
+        },
+        "cache_writes": 0,
+        "cache_write_errors": 0,
+        "cache_read_errors": 0,
+        "cache_timeouts": 0
+      },
+      "critical_step_seconds": [
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 28.0
+        },
+        {
+          "name": "Run actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 6.0
+        },
+        {
+          "name": "Fetch locked dependencies before native checks",
+          "seconds": 6.0
+        },
+        {
+          "name": "Verify identity and interrupted credential writes",
+          "seconds": 9.0
+        },
+        {
+          "name": "Build native persistence fixture",
+          "seconds": 1.0
+        },
+        {
+          "name": "Exercise separate native credential-store processes",
+          "seconds": 2.0
+        },
+        {
+          "name": "Run actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7",
+          "seconds": 6.0
+        }
+      ],
+      "native_store_separate_processes": 7,
+      "compiler_cache_identity": "a37a40af95a301a499e937bc064b12d75ff0fb5aed75063b5b69bd1939495b9a",
+      "cache_identity_receipt_sha256": "99dd1bf4dbc12bf3e8c275360526a204867d90b748323c3d1ffa12b88cd1e497",
+      "retained_artifact": "warm-macos-15.zip"
+    }
+  ]
+}

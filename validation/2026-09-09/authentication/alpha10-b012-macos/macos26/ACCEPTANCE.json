@@ -1,0 +1,82 @@
+{
+  "run": {
+    "id": 34301272838,
+    "head_sha": "9e21c6bc1313f08af6e5dcd9ff9f045fe291f3b5",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-09-09T01:57:39Z",
+    "updated_at": "2026-09-09T02:08:06Z",
+    "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34301272838",
+    "run_attempt": 1
+  },
+  "artifact": {
+    "id": 10085235552,
+    "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+    "size_in_bytes": 697162,
+    "digest": "sha256:bb606c4bb09eb45fc60966d898af0dbd585e31b88fbe4e1c144ee4190c870c85",
+    "created_at": "2026-09-09T02:07:59Z",
+    "workflow_run": {
+      "id": 34301272838,
+      "repository_id": 1359793173,
+      "head_repository_id": 1359793173,
+      "head_branch": "main",
+      "head_sha": "9e21c6bc1313f08af6e5dcd9ff9f045fe291f3b5"
+    }
+  },
+  "acceptance_job": {
+    "id": 102308501070,
+    "name": "acceptance",
+    "conclusion": "success",
+    "started_at": "2026-09-09T01:57:49Z",
+    "completed_at": "2026-09-09T02:08:05Z"
+  },
+  "scope": "Hosted Apple Silicon preserved-artifact acceptance; no compilation or publication",
+  "version": "0.1.0-alpha.10",
+  "native_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "validation_tooling_source": "9e21c6bc1313f08af6e5dcd9ff9f045fe291f3b5",
+  "native_sha256": "3393285d9230f53cfd63702881b253e56f2f864e58acd7c407266167c875c5f0",
+  "source_package_tooling_hashes_independently_verified": 17,
+  "checks": {
+    "native": {
+      "methods": 39,
+      "passed": 37,
+      "skipped": 2,
+      "skips": [
+        "requires npm-managed CLI",
+        "Linux session-bus recovery"
+      ]
+    },
+    "installed": {
+      "methods": 38,
+      "passed": 37,
+      "skipped": 1,
+      "skips": [
+        "Linux session-bus recovery"
+      ]
+    },
+    "raw_store_separate_process_phases": 7,
+    "native_cli_keychain": true,
+    "installed_cli_keychain": true,
+    "real_managed_cli_contract_and_document_generation": true,
+    "live_api_operations": false
+  },
+  "owner_device": false,
+  "developer_id_signed": false,
+  "notarized": false,
+  "published": false,
+  "full_release_ready": false,
+  "files": {
+    "artifact-selection.json": "25fb92fa3267ca6a9e8ab3d5f59894f51917b6839ec8864ab3507bd0c286bf47",
+    "acceptance-host.json": "915916dab7505375c02d5d69a5840aa673af524158b583f7081717abdb136cf6",
+    "npm-install.json": "5694632e2bb2e641f9274ca61b309c2c7d203472533885a065b73b72ec76d0b0",
+    "native-cli-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+    "cli-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+    "keychain.json": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed",
+    "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "native-tests.log": "a20c4a0c1fd4197ebec22cad93d446a92b7e98106239eb33d35fd39267fd37a9",
+    "npm-tests.log": "ff8c8fb3d0be3213def23955b20d4001c3e3c65608ffd0bbb79a758c50efae15",
+    "airs-harness-signing.log": "a7a9f4fd4ca9920a66c4152a9a95dc5bbd71c520d7f9a47b04f14b543fd25a72",
+    "store_acceptance-signing.log": "8c9ed276cac367a4d29761449ef6c76ec645da5bd8af52ba29269b6f22116674",
+    "evidence.zip": "bb606c4bb09eb45fc60966d898af0dbd585e31b88fbe4e1c144ee4190c870c85"
+  }
+}

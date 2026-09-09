@@ -204,6 +204,25 @@ def plan_publication(packages, dist_tag):
                 source_commit=receipt["source_commit"],
                 evidence_root=directory / "validation-evidence",
             )
+            if target == "aarch64-apple-darwin":
+                signing = read_json(directory / "SIGNING.json")
+                declared = validation["signing"]
+                require(
+                    observed.get("SIGNING.json") == info.get("signing_receipt_sha256")
+                    and observed.get("SIGNING.json") is not None
+                    and signing.get("binary_sha256") == info["binary_sha256"]
+                    and signing.get("source_commit") == receipt["source_commit"]
+                    and signing.get("target") == target
+                    and signing.get("team_id") == declared["team_identifier"]
+                    and signing.get("codesign_verified") is True
+                    and signing.get("hardened_runtime") is True
+                    and signing.get("notarization_verified") is True
+                    and signing.get("archive_sha256")
+                    == declared["notarization"]["archive_sha256"]
+                    and signing.get("owner_reported_submission_id")
+                    == declared["notarization"]["submission_id"],
+                    "Archived native signing verification differs from release attestation",
+                )
             for evidence in validation["evidence"]:
                 require(
                     observed.get("validation-evidence/" + evidence["path"])

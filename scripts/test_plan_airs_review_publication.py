@@ -99,6 +99,29 @@ class ReviewPublicationPlan(unittest.TestCase):
                     )[0],
                 },
             )
+            if platform == "darwin":
+                signing = document["signing"]
+                self.write(
+                    directory / "SIGNING.json",
+                    {
+                        "binary_sha256": native_hash,
+                        "source_commit": self.source,
+                        "target": target,
+                        "team_id": signing["team_identifier"],
+                        "codesign_verified": True,
+                        "hardened_runtime": True,
+                        "notarization_verified": True,
+                        "archive_sha256": signing["notarization"]["archive_sha256"],
+                        "owner_reported_submission_id": signing["notarization"][
+                            "submission_id"
+                        ],
+                    },
+                )
+                info = json.loads((directory / "BUILD-INFO.json").read_text())
+                info["signing_receipt_sha256"] = planner.regular_digest(
+                    directory / "SIGNING.json"
+                )[0]
+                self.write(directory / "BUILD-INFO.json", info)
             manifest = self.manifest(name)
             manifest.update(os=[platform], cpu=[arch])
             self.write(directory / "package.json", manifest)
@@ -266,6 +289,20 @@ class ReviewPublicationPlan(unittest.TestCase):
         self.write(path, manifest)
         (path.parent / "bin/airs-harness.js").write_text("unreviewed launcher")
         self.pack(planner.LAUNCHER)
+        self.save_receipt()
+        with self.assertRaises(ValueError):
+            self.plan()
+
+    def test_mac_native_signing_receipt_must_match_even_when_repacked(self):
+        name = planner.LAUNCHER + "-darwin-arm64"
+        path = self.root / name / "SIGNING.json"
+        signing = json.loads(path.read_text())
+        signing["notarization_verified"] = False
+        self.write(path, signing)
+        provenance = json.loads((path.parent / "BUILD-INFO.json").read_text())
+        provenance["signing_receipt_sha256"] = planner.regular_digest(path)[0]
+        self.write(path.parent / "BUILD-INFO.json", provenance)
+        self.pack(name)
         self.save_receipt()
         with self.assertRaises(ValueError):
             self.plan()

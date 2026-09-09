@@ -1,0 +1,32 @@
+{
+  "run": 34300262634,
+  "status": "completed",
+  "conclusion": "success",
+  "workflow_source": "33c89f40346776961a53c430c9f985567d5599ca",
+  "jobs": [
+    {
+      "name": "preflight",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "acceptance",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "artifact_metadata": [
+    {
+      "id": 10085146429,
+      "name": "airs-harness-darwin-arm64-preflight-1",
+      "digest": "sha256:62db529831f321b231a447b849fd13297fdc76a284ac66e25c7fc7c544b1cccf"
+    }
+  ],
+  "artifact_content_independently_downloaded": false,
+  "rust_compilation": false
+}

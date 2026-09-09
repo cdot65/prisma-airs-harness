@@ -1,0 +1,8 @@
+{
+  "run": 34298115142,
+  "artifact_id": 10084962634,
+  "name": "airs-harness-darwin-arm64-unvalidated-executables-1",
+  "zip_sha256": "6ddf03a78464c20f8ef894fec04a3391f87765bfe3b3a2f680e9c989aca6222a",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "browser_url": "https://github.com/cdot65/airs-harness/actions/runs/34298115142/artifacts/10084962634"
+}

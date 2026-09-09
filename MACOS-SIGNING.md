@@ -35,3 +35,8 @@ Apple's [Developer ID guidance](https://developer.apple.com/developer-id/) descr
 distribution outside the Mac App Store. Its [notarization workflow](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow)
 documents `notarytool` and Keychain credential profiles. This checklist records
 required verification; none of the pending checks is asserted as completed.
+
+The [alpha10 signing handoff](validation/2026-09-09/authentication/alpha10-b012-macos/SIGNING-HANDOFF.md)
+now identifies the immutable Apple Silicon download and both expected hashes.
+It includes commands for the owner's prepared signing identity and local
+notarization profile. Native Mac acceptance results are recorded separately.

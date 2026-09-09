@@ -58,6 +58,7 @@ jobs:
           fi
           git -C runtime rev-parse HEAD | sed 's/^/sha=/' >> "$GITHUB_OUTPUT"
           python3 -m compileall -q scripts
+          python3 -m unittest discover -s scripts -p test_airs_ci_cache_key.py -v > "$RUNNER_TEMP/airs-preflight/cache-identity-tests.log" 2>&1
           node --test npm/airs-harness/*.test.js > "$RUNNER_TEMP/airs-preflight/launcher-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v > "$RUNNER_TEMP/airs-preflight/packaging-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v > "$RUNNER_TEMP/airs-preflight/bundle-tests.log" 2>&1
@@ -96,6 +97,9 @@ jobs:
     env:
       CARGO_BUILD_JOBS: 2
       CARGO_INCREMENTAL: 0
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_VERSION: airs-harness-rust-v1
       CARGO_PROFILE_RELEASE_DEBUG: 0
       CARGO_PROFILE_RELEASE_LTO: "false"
       CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
@@ -120,7 +124,14 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: "3.13"
-      - name: Look up the dependency-source cache for acceptance license inventory
+      - uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11, peeled commit
+        id: sccache
+        with:
+          version: v0.16.0
+      - name: Record actual compiler SDK and profile cache identity
+        id: cache_identity
+        run: python3 scripts/airs_ci_cache_key.py --root runtime/codex-rs --receipt "$RUNNER_TEMP/airs-evidence/cache-identity.json"
+      - name: Restore dependency downloads independently of compiled outputs
         id: sources_cache
         uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
@@ -128,7 +139,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
           key: airs-macos-sources-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}
-          lookup-only: true
+          restore-keys: airs-macos-sources-v1-${{ runner.arch }}-
       - name: Reuse native Rust build outputs
         id: cargo_cache
         uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
@@ -137,9 +148,9 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
             runtime/codex-rs/target
-          key: airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-${{ github.sha }}
+          key: airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ needs.preflight.outputs.runtime_source }}
           restore-keys: |
-            airs-macos-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml', '.github/workflows/airs-harness-macos-release.yml') }}-
+            airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
             airs-macos-v1-${{ runner.arch }}-
       - name: Native build prerequisites and runner identity
         run: |
@@ -148,6 +159,19 @@ jobs:
           sw_vers
           df -h .
           test "$(rustc -vV | sed -n 's/^host: //p')" = "$AIRS_RELEASE_TARGET"
+      - name: Fetch locked dependency sources before native compilation
+        working-directory: runtime/codex-rs
+        run: cargo fetch --locked --target "$AIRS_RELEASE_TARGET"
+      - name: Preserve dependency sources without copying build outputs to acceptance
+        id: save_source_cache
+        continue-on-error: true
+        if: steps.sources_cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: ${{ steps.sources_cache.outputs.cache-primary-key }}
       - name: Build native agent and Keychain fixture
         working-directory: runtime/codex-rs
         env:
@@ -202,24 +226,29 @@ jobs:
             ~/.cargo/git/db
             runtime/codex-rs/target
           key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
-      - name: Preserve dependency sources without copying build outputs to acceptance
-        id: save_source_cache
-        continue-on-error: true
-        if: steps.sources_cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git/db
-          key: ${{ steps.sources_cache.outputs.cache-primary-key }}
+      - name: Retain compiler-cache counters even after a failed build
+        if: always() && steps.sccache.outcome == 'success'
+        run: |
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+          if ! "$SCCACHE_PATH" --show-stats --stats-format=json > "$RUNNER_TEMP/airs-evidence/sccache-stats.json"; then
+            echo '{"available":false}' > "$RUNNER_TEMP/airs-evidence/sccache-stats.json"
+          fi
       - name: Record cache outcomes without discarding the immutable artifact
         if: always()
         env:
           AIRS_BUILD_CACHE: ${{ steps.save_build_cache.outcome }}
           AIRS_SOURCE_CACHE: ${{ steps.save_source_cache.outcome }}
+          AIRS_PRIMARY_CACHE_KEY: ${{ steps.cargo_cache.outputs.cache-primary-key }}
+          AIRS_MATCHED_CACHE_KEY: ${{ steps.cargo_cache.outputs.cache-matched-key }}
         run: |
           mkdir -p "$RUNNER_TEMP/airs-evidence"
-          printf '{"build_cache":"%s","dependency_source_cache":"%s"}\n' "$AIRS_BUILD_CACHE" "$AIRS_SOURCE_CACHE" > "$RUNNER_TEMP/airs-evidence/cache-status.json"
+          python3 - <<'CACHE'
+          import json, os
+          from pathlib import Path
+          matched = os.environ['AIRS_MATCHED_CACHE_KEY']
+          value = {'build_cache': os.environ['AIRS_BUILD_CACHE'], 'dependency_source_cache': os.environ['AIRS_SOURCE_CACHE'], 'primary_key': os.environ['AIRS_PRIMARY_CACHE_KEY'], 'matched_key': matched, 'legacy_fallback': matched.startswith('airs-macos-v1-'), 'cache_hit_is_build_proof': False}
+          (Path(os.environ['RUNNER_TEMP'])/'airs-evidence/cache-status.json').write_text(json.dumps(value, indent=2)+'\n')
+          CACHE
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:

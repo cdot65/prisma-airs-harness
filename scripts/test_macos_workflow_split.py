@@ -37,9 +37,15 @@ class MacWorkflowBoundary(unittest.TestCase):
                         build.index("id: executables"),
                         build.index("id: save_build_cache"),
                     )
+                    # Downloads can survive a later compiler failure. Compiled
+                    # outputs still follow immutable executable preservation.
                     self.assertLess(
-                        build.index("id: executables"),
+                        build.index("run: cargo fetch --locked"),
                         build.index("id: save_source_cache"),
+                    )
+                    self.assertLess(
+                        build.index("id: save_source_cache"),
+                        build.index("name: Build native agent"),
                     )
                     self.assertEqual(build.count("continue-on-error: true"), 2)
                 else:

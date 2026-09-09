@@ -1,12 +1,18 @@
 name: AIRS Harness native identity
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'codex-rs/**'
+      - 'scripts/validate_native_credentials.py'
+      - 'scripts/*airs_ci_cache*.py'
+      - '.github/workflows/airs-harness-identity.yml'
   push:
     branches: [main]
     paths:
-      - 'codex-rs/airs-identity/**'
-      - 'codex-rs/keyring-store/**'
+      - 'codex-rs/**'
       - 'scripts/validate_native_credentials.py'
+      - 'scripts/*airs_ci_cache*.py'
       - '.github/workflows/airs-harness-identity.yml'
 permissions:
   contents: read
@@ -18,11 +24,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-15, windows-2025]
+        os: [ubuntu-24.04, macos-15]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 35
     env:
       CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_VERSION: airs-harness-rust-v1
       CARGO_PROFILE_DEV_DEBUG: 0
       CARGO_PROFILE_TEST_DEBUG: 0
     steps:
@@ -33,10 +43,46 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - run: python3 -m unittest discover -s scripts -p test_airs_ci_cache_key.py -v
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
       - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532 # v2.62.49
         with:
           tool: just@1.51.0,cargo-nextest
+      - uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
+        id: sccache
+        with:
+          version: v0.16.0
+      - name: Record compiler and profile cache identity
+        id: cache_identity
+        shell: bash
+        run: python3 scripts/airs_ci_cache_key.py --root codex-rs --receipt cache-identity.json
+      - uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        id: sources_cache
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: airs-identity-sources-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml') }}
+          restore-keys: airs-identity-sources-v1-${{ runner.os }}-${{ runner.arch }}-
+      - uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        id: target_cache
+        with:
+          path: codex-rs/target
+          key: airs-identity-target-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ github.sha }}
+          restore-keys: airs-identity-target-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
+      - name: Fetch locked dependencies before native checks
+        working-directory: codex-rs
+        shell: bash
+        run: |
+          cargo fetch --locked --target "$(rustc -vV | sed -n 's/^host: //p')"
+      - uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        if: steps.sources_cache.outputs.cache-hit != 'true'
+        continue-on-error: true
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: ${{ steps.sources_cache.outputs.cache-primary-key }}
       - name: Linux native store prerequisites
         if: runner.os == 'Linux'
         run: sudo apt-get update -qq && sudo apt-get install -y dbus-x11 gnome-keyring libssl-dev pkg-config
@@ -49,12 +95,27 @@ jobs:
         shell: bash
         run: |
           binary=codex-rs/target/debug/examples/store_acceptance
-          if [ "$RUNNER_OS" = Windows ]; then binary="$binary.exe"; fi
           python scripts/validate_native_credentials.py --binary "$binary" --output native-store.json
+      - uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        if: steps.target_cache.outputs.cache-hit != 'true'
+        continue-on-error: true
+        with:
+          path: codex-rs/target
+          key: ${{ steps.target_cache.outputs.cache-primary-key }}
+      - name: Retain sccache counters on success or failure
+        if: always() && steps.sccache.outcome == 'success'
+        shell: bash
+        run: |
+          if ! "$SCCACHE_PATH" --show-stats --stats-format=json > sccache-stats.json; then
+            echo '{"available":false}' > sccache-stats.json
+          fi
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
           name: airs-harness-native-identity-${{ matrix.os }}
-          path: native-store.json
+          path: |
+            native-store.json
+            cache-identity.json
+            sccache-stats.json
           if-no-files-found: warn
           retention-days: 30

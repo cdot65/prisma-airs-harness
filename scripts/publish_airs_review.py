@@ -21,6 +21,16 @@ from airs_review_release import require
 from plan_airs_review_publication import REGISTRY, plan_publication, regular_digest
 
 
+def metadata_object(raw):
+    """npm 10 emits an object; npm 12 wraps one view result in a list."""
+    value = json.loads(raw)
+    if isinstance(value, list):
+        require(len(value) == 1, "Expected one exact npm metadata result")
+        value = value[0]
+    require(isinstance(value, dict), "Expected npm metadata object")
+    return value
+
+
 class Registry:
     def __init__(self, cache):
         self.environment = dict(
@@ -64,7 +74,7 @@ class Registry:
             ["npm", "view", spec, "dist", "--json", "--registry", REGISTRY],
             allow_missing=True,
         )
-        return None if result is None else json.loads(result)
+        return None if result is None else metadata_object(result)
 
     def download(self, spec, directory):
         value = json.loads(
@@ -113,7 +123,7 @@ class Registry:
         self.command(["npm", "dist-tag", "add", spec, tag, "--registry", REGISTRY])
 
     def tags(self, name):
-        return json.loads(
+        return metadata_object(
             self.command(
                 ["npm", "view", name, "dist-tags", "--json", "--registry", REGISTRY]
             )

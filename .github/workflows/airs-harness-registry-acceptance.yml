@@ -44,6 +44,18 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.13'
+      - name: Install Linux sandbox and search prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y bubblewrap ripgrep
+          # Disposable CI host only; the application sandbox remains enabled.
+          if sysctl kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+      - name: Install Mac search prerequisite
+        if: runner.os == 'macOS'
+        run: brew install ripgrep
       - name: Record host and enforce supported architectures
         run: |
           [[ "$AIRS_PLAN_SHA" =~ ^[0-9a-f]{64}$ ]]

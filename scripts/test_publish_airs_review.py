@@ -175,6 +175,20 @@ class ReviewPublisher(unittest.TestCase):
             self.publish()
         self.assertEqual(self.registry.mutations, [])
 
+    def test_npm_metadata_object_and_singleton_list_are_equivalent(self):
+        registry = publisher.Registry(self.root / "cache")
+        for record in [
+            {"auth-review": "0.1.0-alpha.10"},
+            {"integrity": "sha512-fixture"},
+        ]:
+            for shape in [record, [record]]:
+                with patch.object(registry, "command", return_value=json.dumps(shape)):
+                    self.assertEqual(registry.tags("fixture"), record)
+                    self.assertEqual(registry.view("fixture@1"), record)
+        for value in [[], [{}, {}], [None], "unexpected"]:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                publisher.metadata_object(json.dumps(value))
+
     def test_registry_commands_require_explicit_missing_error_and_never_run_scripts(
         self,
     ):

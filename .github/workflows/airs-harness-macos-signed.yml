@@ -23,6 +23,10 @@ on:
         description: Exact original runtime source commit
         default: b012ba55e1404b498ad513cd15efa52a9a60530f
         required: true
+      review_validation:
+        description: Optional committed review-release receipt; empty keeps packages unpublishable
+        default: ''
+        required: false
 permissions:
   contents: read
 defaults:
@@ -46,6 +50,7 @@ jobs:
       AIRS_BINARY_SHA: ${{ inputs.binary_sha256 }}
       AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
       AIRS_RUNNER: ${{ inputs.runner }}
+      AIRS_REVIEW_VALIDATION: ${{ inputs.review_validation }}
     steps:
       - name: Require Apple Silicon before tooling or artifact execution
         run: |
@@ -73,6 +78,18 @@ jobs:
           node --test npm/airs-harness/*.test.js > "$RUNNER_TEMP/airs-evidence/launcher-tests.log" 2>&1
           test "$(git -C runtime rev-parse HEAD)" = "$AIRS_RUNTIME_SOURCE"
           test "$(npm --version)" = 10.9.8
+          python3 - <<'REVIEW'
+          import os, subprocess
+          from pathlib import Path
+          value = os.environ['AIRS_REVIEW_VALIDATION']
+          if value:
+              path = Path(value)
+              if path.is_absolute() or '..' in path.parts or not path.parts or path.parts[0] != 'validation':
+                  raise ValueError('Review receipt must be a committed validation path')
+              subprocess.run(['git', 'ls-files', '--error-unmatch', '--', value], check=True)
+              if path.is_symlink() or not path.is_file():
+                  raise ValueError('Review receipt must be a regular file')
+          REVIEW
           python3 - <<'HOST'
           import json, os, platform
           from pathlib import Path
@@ -105,9 +122,13 @@ jobs:
       - name: Resolve locked metadata without building
         working-directory: runtime/codex-rs
         run: cargo metadata --locked --filter-platform aarch64-apple-darwin --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
-      - name: Package unchanged signed bytes as a private scoped candidate
+      - name: Package unchanged signed bytes with explicit candidate or review evidence
         run: |
-          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/signed-native/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target aarch64-apple-darwin --unvalidated-candidate --signing-receipt "$RUNNER_TEMP/airs-evidence/SIGNING.json" --binary-processing none --profile 'release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0' --build-command 'cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings' --output-directory "$RUNNER_TEMP/airs-package"
+          AIRS_REVIEW_OPTIONS=(--unvalidated-candidate)
+          if [[ -n "$AIRS_REVIEW_VALIDATION" ]]; then
+            AIRS_REVIEW_OPTIONS=(--validation "$GITHUB_WORKSPACE/$AIRS_REVIEW_VALIDATION" --validation-evidence-root "$(dirname "$GITHUB_WORKSPACE/$AIRS_REVIEW_VALIDATION")")
+          fi
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/signed-native/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target aarch64-apple-darwin "${AIRS_REVIEW_OPTIONS[@]}" --signing-receipt "$RUNNER_TEMP/airs-evidence/SIGNING.json" --binary-processing none --profile 'release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0' --build-command 'cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings' --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_VERSION-darwin-arm64.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"

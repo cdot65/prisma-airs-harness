@@ -1,0 +1,8 @@
+{
+  "run": 34298115142,
+  "artifact_id": 10085134055,
+  "name": "airs-harness-darwin-arm64-acceptance-evidence-1",
+  "zip_sha256": "e732e1ae364b5a59249a340a86c347b2e74392427500953902bd1c91b2c50b7a",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "browser_url": "https://github.com/cdot65/airs-harness/actions/runs/34298115142/artifacts/10085134055"
+}

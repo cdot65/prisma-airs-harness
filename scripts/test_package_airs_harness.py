@@ -23,7 +23,8 @@ SPEC.loader.exec_module(PACKAGER)
 
 
 class NativePackaging(unittest.TestCase):
-    def package(self, directory, target, candidate=False, build_command=None):
+    def package(self, directory, target, candidate=False, build_command=None,
+                signing_overrides=None):
         root = directory / "source"
         root.mkdir()
         (root / "codex-rs").mkdir()
@@ -110,6 +111,20 @@ class NativePackaging(unittest.TestCase):
             args.append("--unvalidated-candidate")
         if build_command is not None:
             args.extend(["--build-command", build_command])
+        if signing_overrides is not None:
+            signing = {
+                "binary_sha256": PACKAGER.digest(binary),
+                "target": "aarch64-apple-darwin",
+                "source_commit": "a" * 40,
+                "team_id": "G5QLZ5A8TA",
+                "codesign_verified": True,
+                "hardened_runtime": True,
+                "notarization_verified": True,
+            }
+            signing.update(signing_overrides)
+            receipt = directory / "signing.json"
+            receipt.write_text(json.dumps(signing))
+            args.extend(["--signing-receipt", str(receipt)])
         with (
             patch.object(sys, "argv", args),
             patch.object(PACKAGER.subprocess, "check_output", command),
@@ -117,6 +132,36 @@ class NativePackaging(unittest.TestCase):
         ):
             PACKAGER.main()
         return next((directory / "output").glob("*.tar.gz")), binary.read_bytes()
+
+    def test_verified_signature_is_preserved_without_claiming_release_acceptance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive, binary = self.package(
+                Path(directory), "aarch64-apple-darwin", candidate=True,
+                signing_overrides={},
+            )
+            with tarfile.open(archive) as tar:
+                root = tar.getnames()[0]
+                self.assertEqual(tar.extractfile(root + "/airs-harness").read(), binary)
+                info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
+                validation = json.load(tar.extractfile(root + "/VALIDATION.json"))
+                signing = tar.extractfile(root + "/SIGNING.json").read()
+                self.assertEqual(info["signing_receipt_sha256"],
+                                 PACKAGER.hashlib.sha256(signing).hexdigest())
+                self.assertEqual(info["release_status"], "signed-unvalidated-candidate")
+                self.assertFalse(info["publishable"])
+                self.assertFalse(validation["release_ready"])
+                self.assertNotIn("production signing", validation["remaining"])
+
+    def test_signing_proof_must_match_binary_source_team_and_success(self):
+        for field, value in [
+            ("binary_sha256", "0" * 64), ("source_commit", "b" * 40),
+            ("team_id", "OTHERTEAM"), ("codesign_verified", False),
+            ("hardened_runtime", 1), ("notarization_verified", "true"),
+        ]:
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                with self.assertRaisesRegex(ValueError, "Signing receipt"):
+                    self.package(Path(directory), "aarch64-apple-darwin",
+                                 candidate=True, signing_overrides={field: value})
 
     def test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable(
         self,

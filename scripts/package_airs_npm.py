@@ -111,6 +111,10 @@ def main():
         shutil.copy2(release / binary_name, package / "bin" / binary_name)
         for filename in ["LICENSE", "NOTICE", "DEPENDENCIES.json", "BUILD-INFO.json"]:
             shutil.copy2(release / filename, package / filename)
+        if "signing_receipt_sha256" in info:
+            if digest(release / "SIGNING.json") != info["signing_receipt_sha256"]:
+                raise ValueError("Signing receipt differs from native provenance")
+            shutil.copy2(release / "SIGNING.json", package / "SIGNING.json")
         shutil.copytree(release / "licenses", package / "licenses")
         native_manifest = {
             "name": name,
@@ -127,6 +131,7 @@ def main():
                 "NOTICE",
                 "BUILD-INFO.json",
                 "DEPENDENCIES.json",
+                "SIGNING.json",
             ],
             "publishConfig": {"registry": args.registry},
         }
@@ -260,7 +265,7 @@ def main():
     if cli_bundle is not None:
         receipt["cli_bundle"] = cli_bundle
     if candidate:
-        receipt["release_status"] = "unsigned-unvalidated-candidate"
+        receipt["release_status"] = "unvalidated-candidate"
         receipt["publishable"] = False
     (output / "NPM-PACKAGES.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt, indent=2))

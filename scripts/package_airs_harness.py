@@ -45,9 +45,13 @@ def main():
     )
     parser.add_argument("--validation", type=Path)
     parser.add_argument(
+        "--signing-receipt", type=Path,
+        help="Mac verification receipt bound to these exact signed executable bytes",
+    )
+    parser.add_argument(
         "--unvalidated-candidate",
         action="store_true",
-        help="Create a non-publishable unsigned candidate, not a validated release",
+        help="Create a non-publishable candidate, not a validated release",
     )
     parser.add_argument("--profile", default="release; upstream defaults")
     parser.add_argument(
@@ -99,6 +103,28 @@ def main():
     )
     if source_status.strip():
         raise ValueError("Commit the reviewed source before packaging")
+    signing = None
+    if args.signing_receipt:
+        signing = json.loads(args.signing_receipt.read_text())
+        required = {
+            "binary_sha256": digest(binary),
+            "target": "aarch64-apple-darwin",
+            "source_commit": commit,
+            "team_id": "G5QLZ5A8TA",
+            "codesign_verified": True,
+            "hardened_runtime": True,
+            "notarization_verified": True,
+        }
+        if (
+            args.target != "aarch64-apple-darwin"
+            or args.binary_processing != "none"
+            or any(type(signing.get(k)) is not type(v) or signing[k] != v
+                   for k, v in required.items())
+        ):
+            raise ValueError("Signing receipt does not verify this unchanged Mac binary/source")
+    candidate_status = (
+        "signed-unvalidated-candidate" if signing else "unsigned-unvalidated-candidate"
+    )
     args.output_directory.mkdir(parents=True, exist_ok=True)
     name = f"airs-harness-{version}-{targets[args.target]}"
     archive = args.output_directory / (name + ".tar.gz")
@@ -109,6 +135,8 @@ def main():
         root.mkdir()
         shutil.copy2(binary, root / binary_name)
         (root / binary_name).chmod(0o755)
+        if signing is not None:
+            shutil.copy2(args.signing_receipt, root / "SIGNING.json")
         for filename in [
             "LICENSE",
             "NOTICE",
@@ -141,12 +169,12 @@ def main():
                     {
                         "passed": False,
                         "release_ready": False,
-                        "status": "unsigned-unvalidated-candidate",
+                        "status": candidate_status,
                         "target": args.target,
                         "product_version": version,
                         "binary_sha256": digest(binary),
                         "remaining": [
-                            "production signing",
+                            *([] if signing else ["production signing"]),
                             "consumer-platform authentication E2E",
                             "independent release review",
                         ],
@@ -281,8 +309,10 @@ def main():
             "build_command": args.build_command,
         }
         if args.unvalidated_candidate:
-            provenance["release_status"] = "unsigned-unvalidated-candidate"
+            provenance["release_status"] = candidate_status
             provenance["publishable"] = False
+        if signing is not None:
+            provenance["signing_receipt_sha256"] = digest(root / "SIGNING.json")
         (root / "BUILD-INFO.json").write_text(json.dumps(provenance, indent=2) + "\n")
         files = sorted(path for path in root.rglob("*") if path.is_file())
         (root / "SHA256SUMS").write_text(

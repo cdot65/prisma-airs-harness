@@ -118,7 +118,7 @@ readiness remains FAIL.
 
 The [fresh executable results](../../../2026-09-09/authentication/alpha10-b012-linux/REPORT.md)
 close the known stale-helper failure on Linux: published-alpha9 upgrade and
-relocation pass with old executable paths absent; 38 native tests (one Mac skip),
+relocation pass with old executable paths absent; 38 native tests (one npm-managed CLI skip, covered by installed tests),
 38 installed tests, four helper recovery tests, and 29 live Keycloak/MCP checks
 pass. The workspace-native-keyring flow also passes real inference/resume/logout.
 Signed Mac owner acceptance remains pending, so this does not establish a full

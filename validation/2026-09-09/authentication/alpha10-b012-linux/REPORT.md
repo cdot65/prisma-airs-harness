@@ -6,7 +6,7 @@ Native SHA-256: a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff
 
 The release build completed in 19m42s using the recorded profile. 388 scoped Rust
 tests passed before compilation. The native integration suite passed 38 tests
-with one macOS-only skip. Four managed-helper executable tests passed. The
+with one npm-managed CLI test skipped (it passed in the installed suite). Four managed-helper executable tests passed. The
 published-alpha9 upgrade fixture passed all nine checks with old helper
 executables absent, preserving credential bindings and existing history.
 MCP relocation fixtures exercise the actual saved helper but disable remote

@@ -58,8 +58,11 @@ hits/misses, non-cacheable compilations, download/restore/save time, compilation
 and linking time separately. Missing counters are recorded as unavailable,
 never as zero misses or successful reuse.
 
-Local cache-key and workflow-boundary tests do not validate GitHub backend
-access. Run the existing Mac workflow with `preflight_only=true` after merging
+The npm lane runs pinned actionlint 1.7.12 for these three workflows using an
+already approved installation action. Semantic linting does not validate a
+repository action allowlist: review that policy separately before introducing a
+new external action pin. Local cache-key and workflow-boundary tests do not
+validate GitHub backend access. Run the existing Mac workflow with `preflight_only=true` after merging
 this tooling, without dispatching a native build. The next authorized native
 run establishes actual sccache/backend behavior; retain failures and counters
 before claiming an improvement. No current run should be cancelled for this

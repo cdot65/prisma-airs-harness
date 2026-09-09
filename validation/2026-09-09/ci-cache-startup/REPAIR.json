@@ -1,0 +1,64 @@
+{
+  "observed_at": "2026-09-09T01:41:46.336574+00:00",
+  "repository": "cdot65/airs-harness",
+  "before": {
+    "github_owned_allowed": true,
+    "patterns_allowed": [
+      "dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582",
+      "taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532"
+    ],
+    "verified_allowed": false
+  },
+  "after": {
+    "github_owned_allowed": true,
+    "patterns_allowed": [
+      "dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582",
+      "taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532",
+      "mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba"
+    ],
+    "verified_allowed": false
+  },
+  "exact_added_pattern": "mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba",
+  "readback_matches_exact_expected": true,
+  "workflow_dispatch": {
+    "workflow": "airs-harness-identity.yml",
+    "ref": "main",
+    "observed_ref_sha": "33c89f40346776961a53c430c9f985567d5599ca",
+    "previous_run_ids": [
+      34300072622,
+      34299928521,
+      34259890077,
+      34258521158,
+      34257266743,
+      34255837734,
+      34252854613,
+      34170779572
+    ],
+    "native_release_dispatch": false,
+    "id": 34300224313,
+    "status": "in_progress",
+    "conclusion": null,
+    "head_sha": "33c89f40346776961a53c430c9f985567d5599ca",
+    "created_at": "2026-09-09T01:41:46Z",
+    "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34300224313",
+    "jobs_created": 2
+  },
+  "review": {
+    "action_source_commit": "fc920bf0ec8de6ee65d409111f7ec508035751ba",
+    "reviewed_files": {
+      "src_setup.ts": "f523b1f45e2edaa4c413a222f9882fb2fbe1bd915dea683fae5a5db190a7e9ca",
+      "src_show_stats.ts": "23f0fe0449e136ea5597c9e465baa8860035d382ae193ce0e1ab78c206fec6bf"
+    },
+    "findings": "Pinned version download from Mozilla GitHub release; compares release SHA256 before extraction; adds tool path and exports existing Actions cache credentials to subsequent job environment; post hook reports compiler counters. No new broad action patterns or verified-publisher trust enabled. Bundled dependency code not exhaustively audited."
+  },
+  "additional_pre_repair_failure": {
+    "id": 34299940480,
+    "head_sha": "33c89f40346776961a53c430c9f985567d5599ca",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "startup_failure",
+    "created_at": "2026-09-09T01:37:21Z",
+    "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34299940480",
+    "jobs_created": 0
+  }
+}

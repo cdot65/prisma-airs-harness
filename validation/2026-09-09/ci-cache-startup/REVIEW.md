@@ -22,3 +22,21 @@ repair is to add only the reviewed immutable Mozilla action pin to the existing
 allowlist while preserving all other settings, then observe a fresh identity
 run. The alternative is to redesign setup around already approved actions;
 that does not make an unverified backend or speedup a passing result.
+
+## Authorized policy repair
+
+The owner-authorized repair appended only the immutable Mozilla action pin.
+Readback matched the complete expected before/after policy; GitHub-owned and
+verified-publisher settings and both pre-existing pins were preserved. The
+first explicit identity dispatch after the change created both Linux and Apple
+Silicon jobs, which confirms the startup blocker was removed. Completion and
+compiler-cache performance are separate, pending gates at this checkpoint.
+The earlier preflight-only startup failure is also retained in
+[REPAIR.json](REPAIR.json). Its replacement dispatch is owned by the parent
+agent; no additional release build was started here.
+
+The npm lane now runs pinned actionlint through the already approved install
+action. The three modified workflows pass it locally. Source review covered
+Mozilla's setup and statistics entrypoints at the permitted commit, including
+release SHA256 comparison and existing Actions cache credential export; this
+was not an exhaustive audit of its bundled dependencies.

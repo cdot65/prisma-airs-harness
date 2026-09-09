@@ -1,7 +1,7 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the app, sign in, and start your first conversation.
-release: 0.1.0-alpha.10
+release_channel: auth-review
 updated: 2026-09-09
 audience: end-users
 platform: macos-arm64
@@ -50,7 +50,7 @@ your GitHub password. It is normal for nothing to appear while you paste.
 After login succeeds, install the signed review release:
 
 ```sh
-npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.10 --include=optional --registry=https://npm.pkg.github.com
+npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
 ```
 
 Check the installation:
@@ -59,7 +59,7 @@ Check the installation:
 airs-harness --version
 ```
 
-You should see `airs-harness 0.1.0-alpha.10`.
+You should see `airs-harness` followed by the installed version.
 
 ## 3. Create your environment and sign in
 

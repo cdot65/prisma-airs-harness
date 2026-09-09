@@ -1,0 +1,240 @@
+{
+  "passed": true,
+  "expected_checks": 29,
+  "scope": "full-cli-and-mcp",
+  "invocation_path": "/var/tmp/airs-alpha10-b012-e9oguhih/airs-harness",
+  "invocation_resolved_path": "/var/tmp/airs-alpha10-b012-e9oguhih/airs-harness",
+  "invocation_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+  "native_path": "/var/tmp/airs-alpha10-b012-e9oguhih/airs-harness",
+  "binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+  "source_commit": null,
+  "checks": [
+    {
+      "test": "setup",
+      "passed": true
+    },
+    {
+      "test": "browser-login",
+      "passed": true
+    },
+    {
+      "test": "verified-subject",
+      "passed": true
+    },
+    {
+      "test": "bounded-authenticated-oidc-probe",
+      "passed": true,
+      "client_correlation_id": "498903cd-275b-4d57-81fb-b405da1f4ca9",
+      "mcp_permissions_tested": false
+    },
+    {
+      "test": "credential-helper",
+      "passed": true
+    },
+    {
+      "test": "original-resource-jwt",
+      "passed": true
+    },
+    {
+      "test": "different-mcp-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "mcp-login",
+      "passed": true
+    },
+    {
+      "test": "mcp-credential-helper",
+      "passed": true
+    },
+    {
+      "test": "separate-mcp-audience",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/list",
+      "passed": true
+    },
+    {
+      "test": "empty-resources/templates/list",
+      "passed": true
+    },
+    {
+      "test": "exec-local-filesystem",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "test": "bounded-simple-task",
+      "passed": true,
+      "shell_commands": 4
+    },
+    {
+      "test": "exec-remote-mcp",
+      "passed": true,
+      "tool_calls": 2,
+      "scan": {
+        "action": "allow",
+        "scan_id": "9de39968-53ba-4cae-8e3f-ea96f8cb7160",
+        "profile_name": "Prisma AIRS Terminal",
+        "category": "benign"
+      }
+    },
+    {
+      "test": "interactive-expired-token-refresh",
+      "passed": true,
+      "evidence": {
+        "passed": true,
+        "same_terminal_process": true,
+        "continued_after_initial_token_expiry": true,
+        "model_switch_passed": true,
+        "completed_expiry_cycles": 2,
+        "expiry_cycles": [
+          {
+            "cycle": 1,
+            "resource_expiries": {
+              "inference": 1788917719,
+              "mcp": 1788917721
+            },
+            "turn_submitted_at": 1788917726.039464,
+            "after_both_expiries": true,
+            "local_file": "oidc-expiry-1.txt",
+            "local_file_verified": true,
+            "successful_local_commands": 2,
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "38631e01-150d-40f0-9c17-a7a293db4b48",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "cycle": 2,
+            "resource_expiries": {
+              "inference": 1788917846,
+              "mcp": 1788917851
+            },
+            "turn_submitted_at": 1788917856.0420322,
+            "after_both_expiries": true,
+            "local_file": "oidc-expiry-2.txt",
+            "local_file_verified": true,
+            "successful_local_commands": 2,
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "a3890ce6-7efb-424a-b577-c26b9572ea86",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          }
+        ],
+        "expiry_observation": "Private inference and MCP credential helper JWT exp; helpers may rotate near-expiry records before each wait, never during the wait or following task",
+        "model_sequence": [
+          "gateway default",
+          "@openai-terminal-auth/gpt-4.1",
+          "gateway default",
+          "gateway default"
+        ],
+        "turns": [
+          {
+            "phase": "before token expiry",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "d08cbd52-82d1-40b6-ae10-ba9f5be0188d",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "phase": "explicit route",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "861db97e-8218-420c-8da8-3b4816bf208e",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "phase": "after expiry cycle 1",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "38631e01-150d-40f0-9c17-a7a293db4b48",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          },
+          {
+            "phase": "after expiry cycle 2",
+            "scans": [
+              {
+                "action": "allow",
+                "scan_id": "a3890ce6-7efb-424a-b577-c26b9572ea86",
+                "profile_name": "Prisma AIRS Terminal"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "test": "interactive-oidc-model-switch",
+      "passed": true
+    },
+    {
+      "test": "interactive-two-resource-expiry-cycles",
+      "passed": true,
+      "completed_expiry_cycles": 2
+    },
+    {
+      "test": "refresh-after-expiry-window",
+      "passed": true
+    },
+    {
+      "test": "refresh-preserves-identity",
+      "passed": true
+    },
+    {
+      "test": "logout",
+      "passed": true
+    },
+    {
+      "test": "logout-disables-both-helpers",
+      "passed": true
+    },
+    {
+      "test": "different-inference-user-rejected",
+      "passed": true
+    },
+    {
+      "test": "device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-user-history-binding",
+      "passed": true
+    },
+    {
+      "test": "mcp-remains-logged-out",
+      "passed": true
+    },
+    {
+      "test": "mcp-device-reauthentication",
+      "passed": true
+    },
+    {
+      "test": "same-mcp-binding",
+      "passed": true
+    },
+    {
+      "test": "final-logout",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true,
+  "client_availability_mutated": false,
+  "scanner_access_policy": "unchanged"
+}

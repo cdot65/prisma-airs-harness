@@ -30,8 +30,12 @@ separately. No failed attempt is counted as passing.
 
 All 38 installed-runtime tests passed. The managed Prisma AIRS CLI contract
 passed, including real corpus generation; no live CLI management operation or
-document-detection claim is made by that fixture. Keycloak token-refresh
-results will be added when complete.
+document-detection claim is made by that fixture. The live Keycloak/MCP fixture passed all 29 checks, including two interactive
+token-expiry cycles, resource-bound identities, local tools, actual remote
+scanner calls, logout and device reauthentication. Its temporary users were
+removed; shared client availability and scanner policy were unchanged. The
+receipt identifies exact native bytes; its null source field is resolved by
+the independently recorded BUILD.json provenance, not rewritten in place.
 Apple Silicon compilation, owner signing/notarization, and installed signed
 Mac acceptance remain separate requirements. No native Windows or Intel Mac
 acceptance is claimed.

@@ -3,8 +3,8 @@ title: Prisma AIRS Harness candidate setup and sign-in
 description: First launch, secure sign-in, resume, logout, and support diagnostics for the private authentication candidate.
 status: private-candidate
 created: 2026-09-08
-updated: 2026-09-08
-source_commit: 154b4f0bcef7528844e85177d7e4dce611982044
+updated: 2026-09-09
+source_commit: b012ba55e1404b498ad513cd15efa52a9a60530f
 tags: [prisma-airs-harness, authentication, onboarding, macos, linux, windows]
 ---
 
@@ -19,8 +19,11 @@ retain the administrator's artifact or build reference.
 Apple Silicon Mac and Linux desktop are the current candidate validation
 targets; native Windows was deferred by the owner in plan v0.2. Native acceptance
 is still in progress. The owner's reported Mac storage failure has **not been
-proven fixed**. Developer ID/notarization, headless onboarding, and an
-organization-profile wizard are not delivered by this guide.
+proven fixed** on the owner's device. The owner has returned the Developer ID
+signed alpha10 binary and an Accepted notarization result; signed-package
+acceptance and publication are tracked in [the signing record](MACOS-SIGNING.md).
+Headless onboarding and an organization-profile wizard are not delivered by
+this guide.
 
 Open Terminal on your Mac or your Linux desktop terminal, using your normal
 signed-in account. After the candidate is installed:

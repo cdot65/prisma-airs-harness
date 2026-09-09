@@ -2,6 +2,7 @@
 title: Install Prisma AIRS Harness on your Mac
 description: Install the app, sign in, and start your first conversation.
 release_channel: auth-review
+verified_version: 0.1.0-alpha.11
 updated: 2026-09-09
 audience: end-users
 platform: macos-arm64
@@ -14,6 +15,10 @@ Check **Apple menu → About This Mac** if you are unsure. Intel Macs are unsupp
 
 You will need access to the private GitHub package and either your company
 sign-in or a workspace API key from your administrator.
+
+Version **0.1.0-alpha.11** has passed Mac installation and Keychain checks,
+and workspace API key access has been confirmed on the user's Mac.
+If you already have the harness, go to [Update an existing installation](#update-an-existing-installation).
 
 ## 1. Open Terminal and prepare your Mac
 
@@ -47,19 +52,48 @@ npm login --auth-type=legacy --registry=https://npm.pkg.github.com
 Enter your **GitHub username**. At the **Password** prompt, paste the token—not
 your GitHub password. It is normal for nothing to appear while you paste.
 
-After login succeeds, install the signed review release:
+After login succeeds, choose either installation method below.
+
+### Install directly (recommended)
+
+Install the signed review release:
 
 ```sh
 npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
 ```
 
-Check the installation:
+### Download first, then install the saved file
+
+After the same npm login above, download the verified version into your Downloads folder:
+
+```sh
+cd ~/Downloads
+npm pack @cdot65/prisma-airs-harness@0.1.0-alpha.11 --registry=https://npm.pkg.github.com
+```
+
+This saves `cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz`. Keep it compressed.
+Install that file:
+
+```sh
+npm install -g ./cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz --include=optional --registry=https://npm.pkg.github.com
+```
+
+The saved file contains the launcher and bundled Prisma AIRS CLI. Installation
+still downloads the matching Mac native package, so keep internet access and
+your npm login available. Copying this file to another Mac does not replace that
+Mac's GitHub package access. This is a download-first installation, not an offline installer.
+
+These commands use npm's supported [package download](https://docs.npmjs.com/cli/v10/commands/npm-pack/)
+and [local archive installation](https://docs.npmjs.com/cli/v10/commands/npm-install/) features.
+
+### Check the installation
 
 ```sh
 airs-harness --version
 ```
 
-You should see `airs-harness` followed by the installed version.
+For the saved-file method, you should see `airs-harness 0.1.0-alpha.11`.
+The `auth-review` channel may install a newer review release.
 
 ## 3. Create your environment and sign in
 
@@ -124,6 +158,20 @@ You do not need to install or sign in every time.
 
 If you used a different environment name, substitute that name for `work`.
 To work on files, open Terminal in your project folder before starting the harness.
+
+## Update an existing installation
+
+Keep your existing environment and sign-in. Install the latest review release:
+
+```sh
+npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
+airs-harness --version
+airs-harness doctor --verify-access
+```
+
+You can also use the saved-file method above to install version `0.1.0-alpha.11`.
+There is no need to repeat `setup` when updating. The doctor command checks access
+using one small inference request; look for `PASS gateway_access`.
 
 ## Need help?
 

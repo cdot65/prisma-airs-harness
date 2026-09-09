@@ -1,0 +1,9 @@
+{
+  "run_id": 34334568020,
+  "artifact_id": 10097154898,
+  "artifact_digest": "sha256:b2c88ed4e0948047d1676dc73c27e9bff7b76c3892949f4c14147aaa8f5bb319",
+  "download_digest_verified": true,
+  "published": false,
+  "blocker": "All three existing private packages have repository=null; owner must connect repository and enable permission inheritance via GitHub package settings.",
+  "source": "https://docs.github.com/en/packages/learn-github-packages/connecting-a-repository-to-a-package"
+}

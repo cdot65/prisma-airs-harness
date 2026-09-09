@@ -1,0 +1,25 @@
+{
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "query_succeeded": true,
+      "repository": null,
+      "visibility": "private"
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "query_succeeded": true,
+      "repository": null,
+      "visibility": "private"
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "query_succeeded": true,
+      "repository": null,
+      "visibility": "private"
+    }
+  ],
+  "mutation_performed": false,
+  "teammate_install_verified": false,
+  "passed": false
+}

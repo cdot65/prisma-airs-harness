@@ -1,0 +1,21 @@
+{
+  "scope": "release-tooling-only",
+  "score": 9,
+  "reviewer": "release_review",
+  "reviewed_tooling_commit": "38e995c26",
+  "runtime_source": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "blocking_findings": [],
+  "checks": [
+    "Version-aware executable fixtures",
+    "Legacy user-agent injection verified",
+    "Bounded reasoning-only Responses regression",
+    "Signed intake exact paths and hashes",
+    "Stale signing defaults removed"
+  ],
+  "release_ready": false,
+  "pending": [
+    "Optimized native acceptance",
+    "Mac Developer ID signing and notarization",
+    "Fresh npm package acceptance and publication"
+  ]
+}

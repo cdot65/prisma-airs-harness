@@ -1,0 +1,9 @@
+{
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "version": "airs-harness 0.1.0-alpha.11",
+  "sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+  "binary": "/var/tmp/airs-alpha11-release/linux/airs-harness",
+  "target": "x86_64-unknown-linux-musl",
+  "build_seconds": 1188,
+  "published": false
+}

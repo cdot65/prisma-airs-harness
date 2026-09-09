@@ -16,7 +16,8 @@ For the latest instructions, use [this guide on GitHub](https://github.com/cdot6
 
 **Signed authentication review release:** `0.1.0-alpha.10` is published to
 GitHub Packages under `auth-review`, with the signed and notarized Apple Silicon
-executable. Install the exact review version:
+executable. First [prepare Node.js, Git, and ripgrep](#1-prepare-your-mac),
+then install the exact review version:
 
 ```zsh
 npm login --auth-type=legacy --registry=https://npm.pkg.github.com

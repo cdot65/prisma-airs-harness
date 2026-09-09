@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "scope": "signed-prerelease-distribution",
+  "registry": "https://npm.pkg.github.com",
+  "dist_tag": "auth-review",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "version": "0.1.0-alpha.10",
+  "approved_plan_sha256": "0661946b1c3174464b255306cabce8000cbd5e74617bf420ec9a6220fbf29583",
+  "published": true,
+  "complete": true,
+  "phase": "complete",
+  "mutation_attempted": true,
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.10",
+      "filename": "cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.10.tgz",
+      "sha256": "afb335528129d76242aa61fafffbcb2c906a318283741263e36c306c312f3c3b",
+      "integrity": "sha512-I8tgupcZb1fokxuGZaQXNrXKdmSHGv/01gXiMo3/I5ncrRQAFMpBhklk1RLXCi2Fu2cN3ZtRqLuWez0rB5I4Fw==",
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "download_verified": true,
+      "already_existed": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.10",
+      "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.10.tgz",
+      "sha256": "086fc7a93351873be90f6a3546550e2ec08f0c9e0029e3da55f5d6e950824e73",
+      "integrity": "sha512-VX3HkDuePuI6IyEZjQreRjplZ8SX+pwPFYOTzvKbZN/Zqbgsiytf6Zk6DFtbK8EPzPt6Iuv1Xqwknie437+enQ==",
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "download_verified": true,
+      "already_existed": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.10",
+      "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.10.tgz",
+      "sha256": "cfec6a53f4bc54038292384d2e6e92c5e9bb05f9a160b892e053dc386e9a8a67",
+      "integrity": "sha512-jfgNdkHt5mrL50VMKYm42saGgzDdAET2kBR35mBJe40cQDmaxdHxg6VYVcGAFcbNPI9psPVfhZRxSK40HmsUdA==",
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "download_verified": true,
+      "already_existed": false
+    }
+  ],
+  "full_authentication_release_ready": false,
+  "teammate_read_only_install_verified": false
+}

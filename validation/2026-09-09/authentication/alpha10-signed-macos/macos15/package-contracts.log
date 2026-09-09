@@ -1,0 +1,15 @@
+test_explicit_build_command_is_literal_metadata_and_preserves_binary (test_package_airs_harness.NativePackaging.test_explicit_build_command_is_literal_metadata_and_preserves_binary) ... ok
+test_missing_validation_cannot_inherit_historical_release_claim (test_package_airs_harness.NativePackaging.test_missing_validation_cannot_inherit_historical_release_claim) ... ok
+test_review_archive_retains_bound_evidence_without_full_release_claim (test_package_airs_harness.NativePackaging.test_review_archive_retains_bound_evidence_without_full_release_claim) ... ok
+test_signing_proof_must_match_binary_source_team_and_success (test_package_airs_harness.NativePackaging.test_signing_proof_must_match_binary_source_team_and_success) ... ok
+test_unix_candidates_keep_existing_binary_and_block_publication (test_package_airs_harness.NativePackaging.test_unix_candidates_keep_existing_binary_and_block_publication) ... ok
+test_verified_signature_is_preserved_without_claiming_release_acceptance (test_package_airs_harness.NativePackaging.test_verified_signature_is_preserved_without_claiming_release_acceptance) ... ok
+test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable (test_package_airs_harness.NativePackaging.test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable) ... ok
+test_windows_requires_explicit_nonrelease_mode (test_package_airs_harness.NativePackaging.test_windows_requires_explicit_nonrelease_mode) ... ok
+test_candidate_tarballs_block_publication_and_keep_exact_cli_dependency (test_package_airs_harness.NpmCandidatePackaging.test_candidate_tarballs_block_publication_and_keep_exact_cli_dependency) ... ok
+test_signed_npm_candidate_preserves_evidence_and_rejects_tampering (test_package_airs_harness.NpmCandidatePackaging.test_signed_npm_candidate_preserves_evidence_and_rejects_tampering) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.744s
+
+OK

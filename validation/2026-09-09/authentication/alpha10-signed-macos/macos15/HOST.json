@@ -1,0 +1,11 @@
+{
+  "runner": "macos-15",
+  "machine": "arm64",
+  "macos_version": "15.7.9",
+  "runtime_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "validation_tooling_source": "3f9f4d30f636971454e8bded83b320ebc70644fc",
+  "owner_device": false,
+  "rust_compilation": false,
+  "published": false,
+  "release_ready": false
+}

@@ -1,0 +1,97 @@
+{
+  "publication_run": 34339198627,
+  "acceptance_run": 34339734562,
+  "passed": true,
+  "source": "ad2960882",
+  "registry": "https://npm.pkg.github.com",
+  "version": "0.1.0-alpha.10",
+  "dist_tag": "auth-review",
+  "approved_plan_sha256": "0661946b1c3174464b255306cabce8000cbd5e74617bf420ec9a6220fbf29583",
+  "jobs": [
+    {
+      "job": "registry-install-macos-26-npm10.9.8-1",
+      "artifact": {
+        "id": 10099318900,
+        "name": "registry-install-macos-26-npm10.9.8-1",
+        "digest": "sha256:82ad1ec5ceafed23ce357369aa7ad71aa3bf59b37410c7f7ac94a93d0ac43e87",
+        "size_in_bytes": 357363
+      },
+      "passed": true,
+      "npm_version": "10.9.8",
+      "binary_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b",
+      "tests": [
+        "Ran 38 tests in 71.924s",
+        "",
+        "OK (skipped=1)"
+      ],
+      "keychain_passed": true,
+      "signing": {
+        "team_id": "G5QLZ5A8TA",
+        "codesign_verified": true,
+        "notarization_verified": true,
+        "binary_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b"
+      }
+    },
+    {
+      "job": "registry-install-macos-26-npm12.0.2-1",
+      "artifact": {
+        "id": 10099313579,
+        "name": "registry-install-macos-26-npm12.0.2-1",
+        "digest": "sha256:f18a9f9661871f80e64d22a16190690dcf7d28c6c7d6302bbcf70793b31d0661",
+        "size_in_bytes": 358251
+      },
+      "passed": true,
+      "npm_version": "12.0.2",
+      "binary_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b",
+      "tests": [
+        "Ran 38 tests in 71.190s",
+        "",
+        "OK (skipped=1)"
+      ],
+      "keychain_passed": true,
+      "signing": {
+        "team_id": "G5QLZ5A8TA",
+        "codesign_verified": true,
+        "notarization_verified": true,
+        "binary_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b"
+      }
+    },
+    {
+      "job": "registry-install-ubuntu-24.04-npm10.9.8-1",
+      "artifact": {
+        "id": 10099276257,
+        "name": "registry-install-ubuntu-24.04-npm10.9.8-1",
+        "digest": "sha256:1c439703d5d234f652dc81009e6ef5c61130ccd4e205f5d592575aeb4cd1b519",
+        "size_in_bytes": 353880
+      },
+      "passed": true,
+      "npm_version": "10.9.8",
+      "binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+      "tests": [
+        "Ran 38 tests in 37.760s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "job": "registry-install-ubuntu-24.04-npm12.0.2-1",
+      "artifact": {
+        "id": 10099278042,
+        "name": "registry-install-ubuntu-24.04-npm12.0.2-1",
+        "digest": "sha256:dd7caafd0c6ce6e3e786e08afed8673f9cca139fb572b6ac27a0f0111237894b",
+        "size_in_bytes": 353837
+      },
+      "passed": true,
+      "npm_version": "12.0.2",
+      "binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+      "tests": [
+        "Ran 38 tests in 37.532s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "owner_device_tested": false,
+  "teammate_read_only_install_verified": false,
+  "full_authentication_release_ready": false
+}

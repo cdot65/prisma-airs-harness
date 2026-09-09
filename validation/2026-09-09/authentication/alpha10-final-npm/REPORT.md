@@ -5,7 +5,10 @@ The earlier blocker below was caused by treating omitted REST metadata as null.
 The corrected publisher records owner confirmation separately from API evidence.
 Publication run34339198627 succeeded: all three exact alpha10 archives are now
 published under auth-review and downloaded registry bytes match SHA256/SRI.
-Fresh real-registry acceptance is running; no full-authentication completion claim. This is an owner-test distribution, not completion of
+Fresh real-registry run34339734562 passed all four Linux/Mac × npm10/npm12 jobs.
+Linux38/38 tests pass per npm; Mac37 pass with one Linux-only skip per npm, plus
+installed Keychain lifecycle, signature and online notarization pass. This proves
+workflow-token access, not a non-owner identity or full-authentication completion. This is an owner-test distribution, not completion of
 the full authentication release.
 
 ## Verified

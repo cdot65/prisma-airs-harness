@@ -62,9 +62,33 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
-      - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
-        with:
-          tool: actionlint@1.7.12
+      - name: Install checksum-pinned actionlint binary
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib, io, os, platform, tarfile, urllib.request
+          from pathlib import Path
+          targets = {
+              ('Linux', 'x86_64'): ('linux_amd64', '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8'),
+              ('Darwin', 'arm64'): ('darwin_arm64', 'aba9ced2dee8d27fecca3dc7feb1a7f9a52caefa1eb46f3271ea66b6e0e6953f'),
+          }
+          target, digest = targets[(platform.system(), platform.machine())]
+          url = 'https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_' + target + '.tar.gz'
+          with urllib.request.urlopen(url, timeout=60) as response:
+              archive = response.read(32 * 1024 * 1024)
+          if hashlib.sha256(archive).hexdigest() != digest:
+              raise SystemExit('actionlint archive checksum mismatch')
+          directory = Path(os.environ['RUNNER_TEMP'])/'actionlint-pinned'
+          directory.mkdir()
+          with tarfile.open(fileobj=io.BytesIO(archive), mode='r:gz') as bundle:
+              member = bundle.getmember('actionlint')
+              if not member.isfile() or member.size > 32 * 1024 * 1024:
+                  raise SystemExit('Invalid actionlint executable member')
+              executable = directory/'actionlint'
+              executable.write_bytes(bundle.extractfile(member).read())
+              executable.chmod(0o755)
+          with open(os.environ['GITHUB_PATH'], 'a') as path:
+              path.write(str(directory) + '\n')
+          PYTHON
       - name: Validate owned cache and PR workflow semantics
         run: actionlint -shellcheck= -pyflakes= .github/workflows/airs-harness-identity.yml .github/workflows/airs-harness-macos-release.yml .github/workflows/airs-harness-npm-check.yml .github/workflows/airs-harness-macos-signed.yml .github/workflows/airs-harness-review-publish.yml .github/workflows/airs-harness-registry-acceptance.yml
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f

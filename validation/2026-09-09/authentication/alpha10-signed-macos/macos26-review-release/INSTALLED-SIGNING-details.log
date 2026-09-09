@@ -1,0 +1,28 @@
+Executable=/Users/runner/work/_temp/airs-npm-install/lib/node_modules/@cdot65/prisma-airs-harness/node_modules/@cdot65/prisma-airs-harness-darwin-arm64/bin/airs-harness
+Identifier=airs-harness
+Format=Mach-O thin (arm64)
+CodeDirectory v=20500 size=603800 flags=0x10000(runtime) hashes=18863+2 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=984320
+Hash type=sha256 size=32
+CandidateCDHash sha256=fd51cbb02ac823091b3a168543e21f1c32cc420d
+CandidateCDHashFull sha256=fd51cbb02ac823091b3a168543e21f1c32cc420d26da8ae151c9e5d991e5d103
+Hash choices=sha256
+CMSDigest=fd51cbb02ac823091b3a168543e21f1c32cc420d26da8ae151c9e5d991e5d103
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=245186560
+Executable Segment flags=0x1
+Page size=16384
+CDHash=fd51cbb02ac823091b3a168543e21f1c32cc420d
+Signature size=8979
+Authority=Developer ID Application: Calvin Remsburg (G5QLZ5A8TA)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Sep 9, 2026 at 8:41:33 AM
+Info.plist=not bound
+TeamIdentifier=G5QLZ5A8TA
+Runtime Version=15.5.0
+Sealed Resources=none
+Internal requirements count=1 size=172

@@ -1,0 +1,96 @@
+{
+  "run": {
+    "id": 34336173227,
+    "head_sha": "fcfb3714107a472bf9ead44144c0a7cb5b663f2d",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-09-09T09:42:01Z",
+    "updated_at": "2026-09-09T09:49:36Z",
+    "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34336173227"
+  },
+  "host": {
+    "runner": "macos-26",
+    "machine": "arm64",
+    "macos_version": "26.6.2",
+    "runtime_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+    "validation_tooling_source": "fcfb3714107a472bf9ead44144c0a7cb5b663f2d",
+    "owner_device": false,
+    "rust_compilation": false,
+    "published": false,
+    "release_ready": false
+  },
+  "artifacts": [
+    {
+      "id": 10098052897,
+      "name": "airs-harness-signed-evidence-macos-26-1",
+      "size_in_bytes": 699561,
+      "digest": "sha256:35f23dd1848058a43d892200e60f470ba83470f5396c58ad63acb7d5334eacaa",
+      "created_at": "2026-09-09T09:49:29Z",
+      "updated_at": "2026-09-09T09:49:29Z"
+    },
+    {
+      "id": 10098051611,
+      "name": "airs-harness-signed-private-packages-macos-26-1",
+      "size_in_bytes": 243487460,
+      "digest": "sha256:82c454b283805fdbc2e547bbf0e0392feb03feea252cec41e1fe5f18b9f3c3c8",
+      "created_at": "2026-09-09T09:49:26Z",
+      "updated_at": "2026-09-09T09:49:26Z"
+    }
+  ],
+  "native_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "tooling_source": "fcfb3714107a472bf9ead44144c0a7cb5b663f2d",
+  "native_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b",
+  "native_tests": {
+    "total": 39,
+    "passed": 37,
+    "skipped": 2
+  },
+  "installed_tests": {
+    "total": 38,
+    "passed": 37,
+    "skipped": 1
+  },
+  "signature_log_hashes_verified": 8,
+  "package_tooling_file_hashes_verified": 17,
+  "native_and_npm_signature_bytes_preserved": true,
+  "package_sha256": {
+    "airs-package/airs-harness-0.1.0-alpha.10-darwin-arm64.tar.gz": "e4c5c82c2aa320563ff03226c010b4a3e49f5fc4da3ca6f41d1489848a639708",
+    "airs-npm/tarballs/cdot65-prisma-airs-harness-0.1.0-alpha.10.tgz": "55ddc8becd98b3c467020506320f398ba7496a30dfbade72eb8997bd6f21c672",
+    "airs-npm/tarballs/cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.10.tgz": "afb335528129d76242aa61fafffbcb2c906a318283741263e36c306c312f3c3b"
+  },
+  "published": false,
+  "release_ready": false,
+  "files": {
+    "HOST.json": "fee1421b46893d2dec07a631547ef97fb15b8616cc8e85abd5d5bfcbf99c3ac2",
+    "INSTALLED-SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+    "INSTALLED-SIGNING-codesign.log": "42769b78f96ad08059c2dc256eba3c9a6e285608b5ee4fcc7a1af0cbc4d73c5b",
+    "INSTALLED-SIGNING-details.log": "275a17515acb390a0fde4f8f2e1f5684e311879970aefa36f4300f957d112292",
+    "INSTALLED-SIGNING-notarization.log": "42769b78f96ad08059c2dc256eba3c9a6e285608b5ee4fcc7a1af0cbc4d73c5b",
+    "INSTALLED-SIGNING.json": "c62939dbc6b712c1e4ebfa54da4c6624eba780aa9b32f5b7a8a757de324a363a",
+    "SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+    "SIGNING-codesign.log": "2b2e247ff2e01ae5aba79fba00339aaf4b355aeefd8ebe1b25c4f7a0194566e6",
+    "SIGNING-details.log": "0b70a60df533d007a658033955cc1e7acfbfc98034f801b53f69cab79119a33f",
+    "SIGNING-notarization.log": "2b2e247ff2e01ae5aba79fba00339aaf4b355aeefd8ebe1b25c4f7a0194566e6",
+    "SIGNING.json": "778cfb2c489be8c1845106441c6bee2ab239bce873e70c9319c56fca95b334ef",
+    "cli-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+    "evidence.zip": "35f23dd1848058a43d892200e60f470ba83470f5396c58ad63acb7d5334eacaa",
+    "launcher-tests.log": "f266dd6e092bd4d292c2d7fefb9159d53d86bac208665c5dccf567cd0e059c11",
+    "native-cli-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+    "native-integrity.json": "3eb459c24d85dfdf15c1793ebb9f5089d8e72fe0370081ee4ecedd47a78890c5",
+    "native-tests.log": "8578eb0bdce7e441afcc4b2d065b04d19e2bd851b0ec1f263d404e653a7d6bfd",
+    "native-version.txt": "dd8d61124a9be6013c63cae9cdfe1411094fd5a8a64f6bc797934954448c71a0",
+    "npm-install.json": "3ee6ac109205041f39f6da776f2ddd3b541edbbc4fb0617582fca6e194081470",
+    "npm-tests.log": "291dc4289d7e7dfd7bc24d8ce40de453df2a2fc42ee8a84103c0163683a0b6e1",
+    "package-contracts.log": "0bb393636b9ff1c42ade497e21ca70723746160226529c741832a5c49265f5a7",
+    "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "run.json": "41fa32851b82b4bac304cb3e8d2c64b5626a276c4905df34b5065adce6077626",
+    "signed-contracts.log": "6eca1a4faf8c8fd2bc995a641ba27366fa865f778ab95150d4f0697226e2de59",
+    "FINAL-BUILD-INFO.json": "f062425f097bf85581ade190caa00f17188907abc4c27954aa0cdb48435ea8aa",
+    "FINAL-VALIDATION.json": "18752bb532c7f0557565e288bb8e0e31655de4abba82db5e3f7e7fcabe235862"
+  },
+  "release_scope": "signed-prerelease-distribution",
+  "review_package_acceptance_passed": true,
+  "full_authentication_release_ready": false,
+  "release_ready_scope": "full-authentication-release",
+  "bound_validation_evidence_hashes_verified": 11
+}

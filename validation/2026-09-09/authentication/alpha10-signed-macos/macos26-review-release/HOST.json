@@ -1,0 +1,11 @@
+{
+  "runner": "macos-26",
+  "machine": "arm64",
+  "macos_version": "26.6.2",
+  "runtime_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "validation_tooling_source": "fcfb3714107a472bf9ead44144c0a7cb5b663f2d",
+  "owner_device": false,
+  "rust_compilation": false,
+  "published": false,
+  "release_ready": false
+}

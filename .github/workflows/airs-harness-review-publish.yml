@@ -1,0 +1,110 @@
+name: Prisma AIRS Harness signed review publication
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [inspect, publish]
+        default: inspect
+        required: true
+      release_tag:
+        description: Private intake release containing exact reviewed package assets
+        default: airs-harness-alpha10-signing-intake
+        required: true
+      approved_plan_sha256:
+        description: SHA256 of reviewed PUBLICATION-PLAN.json (required for publish)
+        required: false
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: airs-harness-review-publication
+  cancel-in-progress: false
+jobs:
+  inspect:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      packages: read
+      contents: read
+    steps:
+      - name: Inspect existing package visibility and repository association
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/registry-evidence"
+          python3 - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          rows = []
+          for suffix in ['', '-linux-x64', '-darwin-arm64']:
+              name = 'prisma-airs-harness' + suffix
+              result = subprocess.run(['gh', 'api', 'users/cdot65/packages/npm/' + name], capture_output=True, text=True, timeout=30)
+              row = {'name': '@cdot65/' + name, 'query_succeeded': result.returncode == 0}
+              if result.returncode == 0:
+                  data = json.loads(result.stdout)
+                  row.update(repository=(data.get('repository') or {}).get('full_name'), visibility=data.get('visibility'))
+              rows.append(row)
+          receipt = {'packages': rows, 'mutation_performed': False, 'teammate_install_verified': False,
+                     'passed': all(row.get('repository') == 'cdot65/airs-harness' and row.get('visibility') == 'private' for row in rows)}
+          (Path(os.environ['RUNNER_TEMP'])/'registry-evidence/ASSOCIATION.json').write_text(json.dumps(receipt, indent=2)+'\n')
+          print(json.dumps(receipt, indent=2))
+          if not receipt['passed']: raise SystemExit(1)
+          PY
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: review-registry-association-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/registry-evidence/
+  publish:
+    if: inputs.mode == 'publish'
+    needs: inspect
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: write # Draft release asset visibility requires push access.
+      packages: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Verify publication contracts before registry mutation
+        run: |
+          python3 -m unittest discover -s scripts -p test_airs_review_release.py -v
+          python3 -m unittest discover -s scripts -p test_plan_airs_review_publication.py -v
+          python3 -m unittest discover -s scripts -p test_publish_airs_review.py -v
+          python3 -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
+      - name: Download exact reviewed package assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AIRS_RELEASE_TAG: ${{ inputs.release_tag }}
+          AIRS_PLAN_SHA: ${{ inputs.approved_plan_sha256 }}
+        run: |
+          [[ "$AIRS_PLAN_SHA" =~ ^[0-9a-f]{64}$ ]]
+          gh release download "$AIRS_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.tgz' --pattern NPM-PACKAGES.json --pattern PUBLICATION-PLAN.json --dir "$RUNNER_TEMP/review-download"
+          printf '%s  %s\n' "$AIRS_PLAN_SHA" "$RUNNER_TEMP/review-download/PUBLICATION-PLAN.json" | sha256sum -c -
+          python3 scripts/restore_airs_review_stage.py --download "$RUNNER_TEMP/review-download" --output "$RUNNER_TEMP/review-stage"
+      - name: Publish only the approved immutable review bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github.npmrc
+          AIRS_PLAN_SHA: ${{ inputs.approved_plan_sha256 }}
+        run: |
+          printf '%s\n' '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
+          chmod 600 "$NPM_CONFIG_USERCONFIG"
+          python3 scripts/publish_airs_review.py --packages "$RUNNER_TEMP/review-stage" --approved-plan "$RUNNER_TEMP/review-download/PUBLICATION-PLAN.json" --approved-plan-sha256 "$AIRS_PLAN_SHA" --output "$RUNNER_TEMP/publication"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: signed-review-publication-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication/PUBLICATION.json

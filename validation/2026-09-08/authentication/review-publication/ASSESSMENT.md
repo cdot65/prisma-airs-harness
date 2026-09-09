@@ -17,6 +17,19 @@ later milestone and does not block this release. Existing source154 private
 artifacts embed alpha.9 and must not overwrite the published alpha.9 versions.
 Current ad-hoc/unsigned private artifacts cannot become publishable by deleting flags.
 
+The read-only [registry preflight](registry-preflight-3d0/README.md) now confirms
+repository workflow access to all three scoped packages and alpha10 absence at
+its recorded time. Local operator access remains restricted; teammate access is
+not proven. Product/npm alpha10 identity is prepared in source, but no new binary
+or package is claimed from that version edit. A real two-binary upgrade test
+[found a stale helper-path defect](upgrade-alpha9-154/REPORT.md) in source154;
+repair and fresh executable acceptance are required before declaring it test-ready.
+The owner supplied macOS 26.6.2 arm64 output confirming a valid Developer ID
+Application identity and successfully validated local notarization credentials.
+The owner will sign locally; final artifact signing and notarization remain pending.
+The managed-helper repair is committed as ae5811821; 388 scoped Rust tests pass.
+Fresh executable upgrade acceptance and an alpha10 Apple Silicon build remain required.
+
 The remaining path is:
 
 1. Define a distinct review-publication manifest for a new, unused prerelease version.

@@ -1,0 +1,35 @@
+{
+  "recorded_at_utc": "2026-09-09T00:16:52.491281+00:00",
+  "command": "just test -p codex-cli -p codex-utils-home-dir --locked --bin airs-harness --lib",
+  "passed": 388,
+  "skipped": 0,
+  "execution_seconds": 1.073,
+  "log": "/var/tmp/airs-helper-relocation-final-tests.log",
+  "junit": "/var/tmp/airs-helper-relocation-unit-results/final-junit.xml",
+  "scoped_clippy_fix_passed": true,
+  "clippy_seconds": 205,
+  "clippy_log": "/var/tmp/airs-helper-relocation-clippy.log",
+  "rust_release_build_performed": false,
+  "formatted_source_sha256": {
+    "codex-rs/cli/src/airs_helper_relocation.rs": "865c546dba79f1ce8396ed978f4a0313f47a133a62b39659b325f3173cd40bb0",
+    "codex-rs/cli/src/airs_helper_relocation_tests.rs": "c17a1d0cd0b4193f17ba664604ff76e3dfb8b8d297d2951ba459942e3351428d",
+    "codex-rs/cli/src/airs_mcp_relocation.rs": "0ae10bd48bd614d80b35d86ee61a1a00a0f088ebbd9d861a1473fc4062c62be9",
+    "codex-rs/cli/src/airs_mcp.rs": "c124baefef58e4e2a3279a52d68a769ac87e2d4d19888c9dc044c999f55eb806",
+    "codex-rs/cli/src/airs_session_binding.rs": "507ed6885863f410df85848acc519957a3f49096a26a002e81ba69e280362ea4",
+    "codex-rs/cli/src/main.rs": "9839bdbeddd9ee57a9279c87adb1ed161e6818ad1d89bcda35c3ee194e69dec1"
+  },
+  "source_base_commit": "ee36b3b7e7477296fb74b509bceb754c770deaac",
+  "source_was_uncommitted_at_recording": true,
+  "format_passed": true,
+  "junit_sha256": "25647d301691939f5b0f97adf396397adc00e0189130abb71bb8759b45b96fba",
+  "junit_summary": {
+    "name": "nextest-run",
+    "tests": "388",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "95da79b1-248a-4a06-a990-898dffe4b0c8",
+    "timestamp": "2026-09-09T00:15:12.876+00:00",
+    "time": "1.073"
+  }
+}

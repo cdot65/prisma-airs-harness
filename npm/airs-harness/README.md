@@ -1,40 +1,45 @@
 # Prisma AIRS Harness
 
-The `airs-harness` package launches the matching prebuilt native Rust agent.
+The `@cdot65/prisma-airs-harness` package launches the matching prebuilt native Rust agent.
 Node.js 22.13+ in the 22.x line, or 23.5+ is required. No Rust compiler is needed on the endpoint.
 Inference uses your configured Prisma AIRS AI Gateway; local files and tools
 run on your machine. This package has no PAH server or OpenAI CLI dependency.
 
-Install the approved release from your organization's Verdaccio registry:
+Install the private review release from GitHub Packages. Your GitHub account needs
+package access. At the password prompt, use a classic personal access token with
+`read:packages` permission:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
+npm login --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
 airs-harness --version
 ```
 
-The registry requires the organization's LAN/VPN; downloads do not require npm
-login. Alpha.9 includes Linux x64 and macOS Apple Silicon packages. Intel Macs are unsupported.
-See the [Mac installation and Keycloak runbook](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
-for prerequisites, sign-in, remote scanner setup and an end-to-end test. A copy
-ships with the installed package, so GitHub access is not required to read it:
-
-```sh
-less "$(npm root -g)/airs-harness/MACOS.md"
-```
+The `auth-review` tag selects the published prerelease for hands-on review.
+Linux x64 and macOS Apple Silicon packages are provided; Intel Macs and native
+Windows packages are not. See the [Mac installation guide](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
+for the complete first-time setup. A copy also ships inside this package.
 
 Only platforms included in that release are installable. Do not disable optional
 dependencies: they carry the platform binary. The launcher does not download or
 compile code at startup and has no install scripts.
 
-Start with `airs-harness setup --gateway-url https://your-gateway.example/v1`.
-Use `airs-harness login --help` to choose Keycloak sign-in or a workspace key.
-Guided first-run onboarding is a separate upcoming feature. Run `airs-harness`
-in your project directory; `airs-harness resume` opens existing conversations.
+Replace the gateway URL with the address supplied by your organization:
 
-macOS uses Keychain, Windows uses Credential Manager, and Linux requires an
-unlocked Secret Service for native credential storage. Installing through npm
-does not provision a Linux desktop/keyring session. Git, ripgrep and any project
-tools remain runtime prerequisites; Linux also requires usable Bubblewrap.
+```sh
+airs-harness setup --environment work --gateway-url https://your-gateway.example/v1
+airs-harness --environment work login
+airs-harness --environment work
+```
+
+Choose company sign-in or enter a workspace API key at the hidden-input prompt.
+Your administrator supplies the company issuer URL, public client ID, and gateway
+audience. `airs-harness resume` opens existing conversations.
+
+macOS uses Keychain, and Linux requires an unlocked Secret Service for native
+credential storage. Installing through npm does not provision a Linux keyring
+session. Git, ripgrep, and your project's tools remain separate prerequisites;
+Linux also requires usable Bubblewrap.
 
 Fresh state uses `~/.airs-harness`. Existing `~/.airs-terminal` state is reused
 when the new directory is absent. `AIRS_HARNESS_HOME` overrides either default;

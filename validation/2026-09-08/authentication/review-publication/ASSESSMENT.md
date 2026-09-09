@@ -113,3 +113,20 @@ No publication, version bump, runtime build, remote dispatch or signing change w
 performed for the legacy publisher guard stage. The separately recorded bundle
 acceptance used hosted artifact-only dispatches. Full authentication release
 readiness remains FAIL.
+
+## Alpha10 Linux follow-up — 2026-09-09
+
+The [fresh executable results](../../../2026-09-09/authentication/alpha10-b012-linux/REPORT.md)
+close the known stale-helper failure on Linux: published-alpha9 upgrade and
+relocation pass with old executable paths absent; 38 native tests (one Mac skip),
+38 installed tests, four helper recovery tests, and 29 live Keycloak/MCP checks
+pass. The workspace-native-keyring flow also passes real inference/resume/logout.
+Signed Mac owner acceptance remains pending, so this does not establish a full
+release score or supersede that gate.
+
+CI strategy changes now separate download/compiler/output cache evidence and
+add scoped PR checks. Their local tests passed, but an identity workflow startup
+failure exposed the repository's selected-action policy blocking the new pinned
+sccache action. The failure is retained. Adding only the exact reviewed action commit to the
+existing allowlist allowed both platform jobs to start. Actual cache performance
+is not yet claimed.

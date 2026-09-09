@@ -119,7 +119,9 @@ def main():
             if digest(release / "VALIDATION.json") != info["validation_receipt_sha256"]:
                 raise ValueError("Validation receipt differs from native provenance")
             shutil.copy2(release / "VALIDATION.json", package / "VALIDATION.json")
-            shutil.copytree(release / "validation-evidence", package / "validation-evidence")
+            shutil.copytree(
+                release / "validation-evidence", package / "validation-evidence"
+            )
         shutil.copytree(release / "licenses", package / "licenses")
         native_manifest = {
             "name": name,

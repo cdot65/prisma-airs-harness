@@ -48,7 +48,8 @@ def main():
     parser.add_argument("--validation", type=Path)
     parser.add_argument("--validation-evidence-root", type=Path)
     parser.add_argument(
-        "--signing-receipt", type=Path,
+        "--signing-receipt",
+        type=Path,
         help="Mac verification receipt bound to these exact signed executable bytes",
     )
     parser.add_argument(
@@ -125,10 +126,14 @@ def main():
         if (
             args.target != "aarch64-apple-darwin"
             or args.binary_processing != "none"
-            or any(type(signing.get(k)) is not type(v) or signing[k] != v
-                   for k, v in required.items())
+            or any(
+                type(signing.get(k)) is not type(v) or signing[k] != v
+                for k, v in required.items()
+            )
         ):
-            raise ValueError("Signing receipt does not verify this unchanged Mac binary/source")
+            raise ValueError(
+                "Signing receipt does not verify this unchanged Mac binary/source"
+            )
     candidate_status = (
         "signed-unvalidated-candidate" if signing else "unsigned-unvalidated-candidate"
     )
@@ -164,8 +169,11 @@ def main():
         if args.validation:
             validation = json.loads(args.validation.read_text())
             validate_release(
-                validation, binary_sha256=digest(binary), target=args.target,
-                version=version, source_commit=commit,
+                validation,
+                binary_sha256=digest(binary),
+                target=args.target,
+                version=version,
+                source_commit=commit,
                 evidence_root=args.validation_evidence_root,
             )
             if args.target == "aarch64-apple-darwin" and signing is None:
@@ -174,7 +182,9 @@ def main():
             for record in validation["evidence"]:
                 destination = root / "validation-evidence" / record["path"]
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(args.validation_evidence_root / record["path"], destination)
+                shutil.copyfile(
+                    args.validation_evidence_root / record["path"], destination
+                )
                 if digest(destination) != record["sha256"]:
                     raise ValueError("Release evidence changed during packaging")
         if args.unvalidated_candidate:

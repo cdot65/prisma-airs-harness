@@ -23,8 +23,15 @@ SPEC.loader.exec_module(PACKAGER)
 
 
 class NativePackaging(unittest.TestCase):
-    def package(self, directory, target, candidate=False, build_command=None,
-                signing_overrides=None, validated=False):
+    def package(
+        self,
+        directory,
+        target,
+        candidate=False,
+        build_command=None,
+        signing_overrides=None,
+        validated=False,
+    ):
         root = directory / "source"
         root.mkdir()
         (root / "codex-rs").mkdir()
@@ -113,28 +120,46 @@ class NativePackaging(unittest.TestCase):
             evidence = directory / "evidence"
             evidence.mkdir()
             records = []
-            for role in ["installed-runtime", "package-integrity",
-                         "independent-review", "native-provenance"]:
+            for role in [
+                "installed-runtime",
+                "package-integrity",
+                "independent-review",
+                "native-provenance",
+            ]:
                 path = evidence / (role + ".txt")
                 path.write_text("Disposable packaging test evidence, not a real review")
-                records.append({"role": role, "path": path.name,
-                                "sha256": PACKAGER.digest(path)})
+                records.append(
+                    {"role": role, "path": path.name, "sha256": PACKAGER.digest(path)}
+                )
             validation = {
-                "schema_version": 1, "scope": "signed-prerelease-distribution",
-                "passed": True, "release_ready": True,
+                "schema_version": 1,
+                "scope": "signed-prerelease-distribution",
+                "passed": True,
+                "release_ready": True,
                 "full_authentication_release_ready": False,
-                "binary_sha256": PACKAGER.digest(binary), "target": target,
-                "product_version": "0.1.0-alpha.10", "source_commit": "a" * 40,
-                "independent_review": {"scope": "signed-prerelease-distribution",
-                                       "reviewer": "unit fixture", "verdict": "pass",
-                                       "score": 9},
+                "binary_sha256": PACKAGER.digest(binary),
+                "target": target,
+                "product_version": "0.1.0-alpha.10",
+                "source_commit": "a" * 40,
+                "independent_review": {
+                    "scope": "signed-prerelease-distribution",
+                    "reviewer": "unit fixture",
+                    "verdict": "pass",
+                    "score": 9,
+                },
                 "evidence": records,
                 "signing": {"kind": "linux-provenance-checksums"},
             }
             receipt = directory / "validation.json"
             receipt.write_text(json.dumps(validation))
-            args.extend(["--validation", str(receipt),
-                         "--validation-evidence-root", str(evidence)])
+            args.extend(
+                [
+                    "--validation",
+                    str(receipt),
+                    "--validation-evidence-root",
+                    str(evidence),
+                ]
+            )
         if build_command is not None:
             args.extend(["--build-command", build_command])
         if signing_overrides is not None:
@@ -161,25 +186,36 @@ class NativePackaging(unittest.TestCase):
 
     def test_review_archive_retains_bound_evidence_without_full_release_claim(self):
         with tempfile.TemporaryDirectory() as directory:
-            archive, binary = self.package(Path(directory),
-                                           "x86_64-unknown-linux-musl", validated=True)
+            archive, binary = self.package(
+                Path(directory), "x86_64-unknown-linux-musl", validated=True
+            )
             with tarfile.open(archive) as tar:
                 root = tar.getnames()[0]
                 info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
                 validation_bytes = tar.extractfile(root + "/VALIDATION.json").read()
-                self.assertEqual(info["validation_receipt_sha256"],
-                                 PACKAGER.hashlib.sha256(validation_bytes).hexdigest())
+                self.assertEqual(
+                    info["validation_receipt_sha256"],
+                    PACKAGER.hashlib.sha256(validation_bytes).hexdigest(),
+                )
                 validation = json.loads(validation_bytes)
                 self.assertFalse(validation["full_authentication_release_ready"])
-                self.assertEqual(info["release_scope"], "signed-prerelease-distribution")
+                self.assertEqual(
+                    info["release_scope"], "signed-prerelease-distribution"
+                )
                 for record in validation["evidence"]:
-                    data = tar.extractfile(root + "/validation-evidence/" + record["path"]).read()
-                    self.assertEqual(PACKAGER.hashlib.sha256(data).hexdigest(), record["sha256"])
+                    data = tar.extractfile(
+                        root + "/validation-evidence/" + record["path"]
+                    ).read()
+                    self.assertEqual(
+                        PACKAGER.hashlib.sha256(data).hexdigest(), record["sha256"]
+                    )
 
     def test_verified_signature_is_preserved_without_claiming_release_acceptance(self):
         with tempfile.TemporaryDirectory() as directory:
             archive, binary = self.package(
-                Path(directory), "aarch64-apple-darwin", candidate=True,
+                Path(directory),
+                "aarch64-apple-darwin",
+                candidate=True,
                 signing_overrides={},
             )
             with tarfile.open(archive) as tar:
@@ -188,8 +224,10 @@ class NativePackaging(unittest.TestCase):
                 info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
                 validation = json.load(tar.extractfile(root + "/VALIDATION.json"))
                 signing = tar.extractfile(root + "/SIGNING.json").read()
-                self.assertEqual(info["signing_receipt_sha256"],
-                                 PACKAGER.hashlib.sha256(signing).hexdigest())
+                self.assertEqual(
+                    info["signing_receipt_sha256"],
+                    PACKAGER.hashlib.sha256(signing).hexdigest(),
+                )
                 self.assertEqual(info["release_status"], "signed-unvalidated-candidate")
                 self.assertFalse(info["publishable"])
                 self.assertFalse(validation["release_ready"])
@@ -197,14 +235,21 @@ class NativePackaging(unittest.TestCase):
 
     def test_signing_proof_must_match_binary_source_team_and_success(self):
         for field, value in [
-            ("binary_sha256", "0" * 64), ("source_commit", "b" * 40),
-            ("team_id", "OTHERTEAM"), ("codesign_verified", False),
-            ("hardened_runtime", 1), ("notarization_verified", "true"),
+            ("binary_sha256", "0" * 64),
+            ("source_commit", "b" * 40),
+            ("team_id", "OTHERTEAM"),
+            ("codesign_verified", False),
+            ("hardened_runtime", 1),
+            ("notarization_verified", "true"),
         ]:
             with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
                 with self.assertRaisesRegex(ValueError, "Signing receipt"):
-                    self.package(Path(directory), "aarch64-apple-darwin",
-                                 candidate=True, signing_overrides={field: value})
+                    self.package(
+                        Path(directory),
+                        "aarch64-apple-darwin",
+                        candidate=True,
+                        signing_overrides={field: value},
+                    )
 
     def test_windows_archive_preserves_exe_and_marks_inherited_validation_unusable(
         self,
@@ -247,7 +292,9 @@ class NativePackaging(unittest.TestCase):
                         tar.extractfile(root + "/airs-harness").read(), binary
                     )
                     info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
-                    self.assertEqual(info["release_status"], "unsigned-unvalidated-candidate")
+                    self.assertEqual(
+                        info["release_status"], "unsigned-unvalidated-candidate"
+                    )
                     self.assertFalse(info["publishable"])
                     self.assertEqual(
                         info["build_command"],
@@ -285,9 +332,11 @@ class NativePackaging(unittest.TestCase):
 
     def test_missing_validation_cannot_inherit_historical_release_claim(self):
         for target in ["x86_64-unknown-linux-musl", "aarch64-apple-darwin"]:
-            with (self.subTest(target=target),
-                  tempfile.TemporaryDirectory() as directory,
-                  contextlib.redirect_stderr(io.StringIO())):
+            with (
+                self.subTest(target=target),
+                tempfile.TemporaryDirectory() as directory,
+                contextlib.redirect_stderr(io.StringIO()),
+            ):
                 with self.assertRaises(SystemExit) as error:
                     self.package(Path(directory), target)
                 self.assertEqual(error.exception.code, 2)
@@ -317,25 +366,40 @@ class NpmCandidatePackaging(unittest.TestCase):
                 "release_status": "signed-unvalidated-candidate",
             }
             (release / "BUILD-INFO.json").write_text(json.dumps(info))
+
             def package(output):
                 return subprocess.run(
-                    [sys.executable, str(ROOT / "scripts/package_airs_npm.py"),
-                     "--release-directory", str(release), "--scoped",
-                     "--output-directory", str(output),
-                     "--registry", "https://npm.pkg.github.com"],
-                    capture_output=True, text=True, timeout=60,
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/package_airs_npm.py"),
+                        "--release-directory",
+                        str(release),
+                        "--scoped",
+                        "--output-directory",
+                        str(output),
+                        "--registry",
+                        "https://npm.pkg.github.com",
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
                 )
+
             output = root / "valid"
             result = package(output)
             self.assertEqual(result.returncode, 0, result.stderr)
             for archive in (output / "tarballs").glob("*darwin*.tgz"):
                 with tarfile.open(archive) as tar:
-                    self.assertEqual(tar.extractfile("package/SIGNING.json").read(),
-                                     signing.read_bytes())
+                    self.assertEqual(
+                        tar.extractfile("package/SIGNING.json").read(),
+                        signing.read_bytes(),
+                    )
                     manifest = json.load(tar.extractfile("package/package.json"))
                     self.assertTrue(manifest["private"])
-                    self.assertEqual(tar.extractfile("package/bin/airs-harness").read(),
-                                     (release / "airs-harness").read_bytes())
+                    self.assertEqual(
+                        tar.extractfile("package/bin/airs-harness").read(),
+                        (release / "airs-harness").read_bytes(),
+                    )
             self.assertEqual(len(list((output / "tarballs").glob("*darwin*.tgz"))), 1)
             signing.write_text('{"tampered":true}\n')
             result = package(root / "tampered")

@@ -32,6 +32,19 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        result = subprocess.run(
+            [str(BINARY), "--version"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=True,
+        )
+        product, cls.version = result.stdout.strip().split()
+        if product != "airs-harness":
+            raise ValueError("Expected a Prisma AIRS Harness executable")
+
     @unittest.skipIf(sys.platform == "win32", "POSIX subprocess lock/PTY acceptance")
     def test_running_client_stays_revoked_after_subprocess_logout_and_relogin(self):
         import fcntl
@@ -207,18 +220,21 @@ class TerminalIntegration(unittest.TestCase):
     def test_saved_legacy_user_agent_uses_current_wire_branding(self):
         self.configure()
         config = self.home / "config.toml"
+        before = config.read_text()
+        self.assertIn(f"airs-harness/{self.version}", before)
         config.write_text(
-            config.read_text().replace(
-                "airs-harness/0.1.0-alpha.10", "airs-terminal/0.1.0-alpha.7"
+            before.replace(
+                f"airs-harness/{self.version}", "airs-terminal/0.1.0-alpha.7"
             )
         )
+        self.assertNotEqual(config.read_text(), before)
         original = tomllib.loads(config.read_text())
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(self.requests)
         for _, headers, _ in self.requests:
             headers = {key.lower(): value for key, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.10")
+            self.assertEqual(headers["user-agent"], f"airs-harness/{self.version}")
         actual = tomllib.loads(config.read_text())
         actual.pop("projects", None)
         self.assertEqual(actual, original)
@@ -351,11 +367,14 @@ class TerminalIntegration(unittest.TestCase):
 
         self.configure()
         config = self.home / "config.toml"
+        before = config.read_text()
+        self.assertIn(f"airs-harness/{self.version}", before)
         config.write_text(
-            config.read_text().replace(
-                "airs-harness/0.1.0-alpha.10", "airs-terminal/0.1.0-alpha.7"
+            before.replace(
+                f"airs-harness/{self.version}", "airs-terminal/0.1.0-alpha.7"
             )
         )
+        self.assertNotEqual(config.read_text(), before)
         prompts = {
             "Create result.txt using a local shell tool. Phase one.": (
                 None,
@@ -410,7 +429,7 @@ class TerminalIntegration(unittest.TestCase):
             self.assertNotIn("effort", body.get("reasoning") or {})
             self.assertEqual(
                 {key.lower(): value for key, value in headers.items()}["user-agent"],
-                "airs-harness/0.1.0-alpha.10",
+                f"airs-harness/{self.version}",
             )
 
     def test_gateway_ignores_stale_reasoning_and_has_runtime_context(self):
@@ -458,7 +477,7 @@ class TerminalIntegration(unittest.TestCase):
             {
                 "name": "airs-harness",
                 "title": "Prisma AIRS Harness",
-                "version": "0.1.0-alpha.10",
+                "version": self.version,
             },
         )
         self.assertTrue(
@@ -471,7 +490,7 @@ class TerminalIntegration(unittest.TestCase):
 
         for headers, _ in self.mcp_requests:
             headers = {name.lower(): value for name, value in headers.items()}
-            self.assertEqual(headers["user-agent"], "airs-harness/0.1.0-alpha.10")
+            self.assertEqual(headers["user-agent"], f"airs-harness/{self.version}")
             self.assertEqual(headers["x-portkey-api-key"], "mcp-only-test-credential")
             self.assertNotIn("authorization", headers)
         self.assertEqual((self.work / "result.txt").read_text(), "local tool worked\n")
@@ -701,6 +720,37 @@ class TerminalIntegration(unittest.TestCase):
                     expected["model"] = EXPLICIT
                 self.assertEqual(body, expected)
                 self.assertEqual(self.mcp_requests, [])
+
+    def test_doctor_accepts_reasoning_only_bounded_probe(self):
+        self.configure()
+        login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(login.returncode, 0, login.stderr)
+        for status in ("completed", "incomplete"):
+            with self.subTest(status=status):
+                self.probe_response = (
+                    200,
+                    {
+                        "object": "response",
+                        "status": status,
+                        "error": None,
+                        "output": [{"type": "reasoning", "summary": []}],
+                    },
+                )
+                self.requests.clear()
+                result = self.run_cli("doctor", "--verify-access", "--json")
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                access = next(
+                    item
+                    for item in json.loads(result.stdout)["checks"]
+                    if item["name"] == "gateway_access"
+                )
+                self.assertTrue(access["passed"])
+                self.assertEqual(len(self.requests), 1)
+                path, _, body = self.requests[0]
+                self.assertEqual(path, "/prefix/v1/responses")
+                self.assertEqual(body["max_output_tokens"], 16)
+                self.assertNotIn("model", body)
+                self.assertFalse(body["store"])
 
     def test_native_status_and_plain_doctor_inspect_configuration_without_store_access(
         self,

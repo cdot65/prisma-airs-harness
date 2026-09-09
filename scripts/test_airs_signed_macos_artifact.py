@@ -50,6 +50,24 @@ class SignedIntakeTests(unittest.TestCase):
                     archive, root / "out", signed.digest(archive), signed.digest(binary)
                 )
 
+    def test_metadata_free_and_legacy_archives_preserve_exact_binary(self):
+        for member in (signed.MEMBER, signed.LEGACY_MEMBER):
+            with (
+                self.subTest(member=member),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                archive = self.archive(
+                    root, [(member, b"signed binary", stat.S_IFREG | 0o700)]
+                )
+                binary = signed.restore(
+                    archive,
+                    root / "out",
+                    signed.digest(archive),
+                    hashlib.sha256(b"signed binary").hexdigest(),
+                )
+                self.assertEqual(binary.read_bytes(), b"signed binary")
+
     def test_hash_archive_layout_and_link_rejections_precede_execution(self):
         base = [
             (signed.MEMBER, b"binary", stat.S_IFREG | 0o700),

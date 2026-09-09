@@ -13,8 +13,9 @@ import urllib.request
 import zipfile
 
 TEAM = "G5QLZ5A8TA"
-MEMBER = "prisma-airs-harness-alpha10-signing/airs-harness"
-SIDECAR = "prisma-airs-harness-alpha10-signing/._airs-harness"
+MEMBER = "prisma-airs-harness-signing/airs-harness"
+SIDECAR = "prisma-airs-harness-signing/._airs-harness"
+LEGACY_MEMBER = "prisma-airs-harness-alpha10-signing/airs-harness"
 MAX_ARCHIVE = 200 * 1024 * 1024
 MAX_BINARY = 400 * 1024 * 1024
 
@@ -76,16 +77,19 @@ def restore(archive, directory, archive_sha256, binary_sha256):
         raise ValueError("Signed archive hash or size mismatch")
     with zipfile.ZipFile(archive) as source:
         items = source.infolist()
-        if len(items) != 2 or {item.filename for item in items} != {MEMBER, SIDECAR}:
+        names = {item.filename for item in items}
+        member = MEMBER if MEMBER in names else LEGACY_MEMBER
+        sidecar = member.rsplit("/", 1)[0] + "/._airs-harness"
+        if len(names) != len(items) or names not in ({member}, {member, sidecar}):
             raise ValueError("Unexpected signed archive members")
         for item in items:
             kind = stat.S_IFMT(item.external_attr >> 16)
-            limit = MAX_BINARY if item.filename == MEMBER else 1024 * 1024
+            limit = MAX_BINARY if item.filename == member else 1024 * 1024
             if kind not in (0, stat.S_IFREG) or not 0 < item.file_size <= limit:
                 raise ValueError("Invalid signed archive member type or size")
         directory.mkdir(parents=True, exist_ok=False)
         binary = directory / "airs-harness"
-        with source.open(MEMBER) as stream, binary.open("xb") as output:
+        with source.open(member) as stream, binary.open("xb") as output:
             size = 0
             while chunk := stream.read(1024 * 1024):
                 size += len(chunk)
@@ -185,7 +189,7 @@ def verify(
         "source_commit": source_commit,
         "asset_id": asset_id,
         "archive_sha256": archive_sha256,
-        "archive_member": MEMBER,
+        "accepted_archive_members": [MEMBER, LEGACY_MEMBER],
         "owner_reported_submission_id": submission,
         "submission_api_queried": False,
         "verification_log_sha256": logs,
@@ -207,7 +211,7 @@ def main():
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--source-commit", required=True)
-    parser.add_argument("--submission", default="dc835ddf-8841-49bc-a7ee-2f370dcb3457")
+    parser.add_argument("--submission")
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{40}", args.source_commit) or any(
         not re.fullmatch(r"[0-9a-f]{64}", value)

@@ -31,6 +31,9 @@ jobs:
       packages: read
       contents: read
     steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - name: Inspect existing package visibility and repository association
         env:
           GH_TOKEN: ${{ github.token }}
@@ -39,11 +42,9 @@ jobs:
           python3 - <<'PY'
           import json, os, subprocess
           from pathlib import Path
-          probe = subprocess.run(['gh', 'api', 'graphql', '-f', 'query=query { repository(owner:"cdot65", name:"airs-harness") { nameWithOwner packages(first:100, packageType:NPM) { nodes { name id } } } }'], capture_output=True, text=True, timeout=30)
-          if probe.returncode == 0:
-              print(json.dumps(json.loads(probe.stdout), indent=2))
-          else:
-              print('Repository package GraphQL query unavailable')
+          import sys
+          sys.path.insert(0, 'scripts')
+          from airs_package_access import association_from_metadata, association_accepted
           rows = []
           for suffix in ['', '-linux-x64', '-darwin-arm64']:
               name = 'prisma-airs-harness' + suffix
@@ -51,10 +52,12 @@ jobs:
               row = {'name': '@cdot65/' + name, 'query_succeeded': result.returncode == 0}
               if result.returncode == 0:
                   data = json.loads(result.stdout)
-                  row.update(repository=(data.get('repository') or {}).get('full_name'), visibility=data.get('visibility'), repository_field_present='repository' in data, repository_metadata={key: (data.get('repository') or {}).get(key) for key in ['id', 'name', 'full_name', 'html_url']}, package_url=data.get('html_url'))
+                  row.update(association_from_metadata('@cdot65/' + name, data))
+                  row['accepted'] = association_accepted({key: value for key, value in row.items() if key not in ['name', 'query_succeeded']})
+                  row['repository_field_present'] = 'repository' in data
               rows.append(row)
           receipt = {'packages': rows, 'mutation_performed': False, 'teammate_install_verified': False,
-                     'passed': all(row.get('repository') == 'cdot65/airs-harness' and row.get('visibility') == 'private' for row in rows)}
+                     'passed': all(row.get('accepted') is True for row in rows)}
           (Path(os.environ['RUNNER_TEMP'])/'registry-evidence/ASSOCIATION.json').write_text(json.dumps(receipt, indent=2)+'\n')
           print(json.dumps(receipt, indent=2))
           if not receipt['passed']: raise SystemExit(1)
@@ -87,6 +90,7 @@ jobs:
           python3 -m unittest discover -s scripts -p test_airs_review_release.py -v
           python3 -m unittest discover -s scripts -p 'test_plan_airs_review*.py' -v
           python3 -m unittest discover -s scripts -p test_publish_airs_review.py -v
+          python3 -m unittest discover -s scripts -p test_airs_package_access.py -v
           python3 -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
       - name: Download exact reviewed package assets
         env:

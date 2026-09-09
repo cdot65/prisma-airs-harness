@@ -13,6 +13,7 @@ import shutil
 import subprocess
 from urllib.parse import urlsplit
 
+from airs_package_access import association_accepted
 from airs_bundle import verify_bundle
 from airs_review_release import require
 from plan_airs_review_publication import (
@@ -58,8 +59,7 @@ def fetch_review(evidence, plan_sha256, output, registry):
         require(version == plan["version"], "Package versions disagree")
         association = registry.association(name)
         require(
-            association
-            == {"repository": "cdot65/airs-harness", "visibility": "private"},
+            association_accepted(association),
             "Package is not private and associated with the intended repository",
         )
         require(registry.tags(name).get("auth-review") == version, "Review tag differs")

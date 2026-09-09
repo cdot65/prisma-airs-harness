@@ -16,6 +16,7 @@ import subprocess
 import tempfile
 from urllib.parse import urlsplit
 
+from airs_package_access import association_accepted, association_from_metadata
 from airs_review_release import require
 from plan_airs_review_publication import REGISTRY, plan_publication, regular_digest
 
@@ -126,10 +127,7 @@ class Registry:
         if result is None:
             return None
         data = json.loads(result)
-        return {
-            "repository": (data.get("repository") or {}).get("full_name"),
-            "visibility": data.get("visibility"),
-        }
+        return association_from_metadata(name, data)
 
 
 def save(path, value):
@@ -219,8 +217,7 @@ def publish_review(
             )
             association = registry.association(record["name"])
             require(
-                association
-                == {"repository": "cdot65/airs-harness", "visibility": "private"},
+                association_accepted(association),
                 "GitHub package must be private and associated with the intended repository",
             )
             return association
@@ -230,9 +227,7 @@ def publish_review(
             for record in plan["packages"]:
                 association = registry.association(record["name"])
                 require(
-                    association is None
-                    or association
-                    == {"repository": "cdot65/airs-harness", "visibility": "private"},
+                    association is None or association_accepted(association),
                     "Existing GitHub package must be private and linked to cdot65/airs-harness before publication; configure its package repository connection",
                 )
             # Detect every immutable-version collision before the first registry mutation.

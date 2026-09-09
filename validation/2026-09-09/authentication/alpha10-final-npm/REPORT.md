@@ -1,7 +1,9 @@
 # Alpha10 combined signed review distribution
 
-Status: exact private draft archives uploaded; npm publication blocked by package
-repository association. This is an owner-test distribution, not completion of
+Status update: owner confirmed all three repository associations already exist.
+The earlier blocker below was caused by treating omitted REST metadata as null.
+The corrected publisher records owner confirmation separately from API evidence.
+Exact private draft archives are uploaded; publication verification is proceeding. This is an owner-test distribution, not completion of
 the full authentication release.
 
 ## Verified
@@ -24,9 +26,9 @@ the full authentication release.
 
 ## Remaining publication prerequisite
 
-Read-only run34337733343 reports all three existing packages private with
-repository=null. Open each GitHub package, choose Connect repository and select
-cdot65/airs-harness; enable repository permission inheritance in package settings:
+Historical read-only run34337733343 incorrectly rendered omitted repository
+metadata as repository=null. Diagnostic34338874564 proves the field is absent.
+The owner subsequently confirmed all three are already bound to cdot65/airs-harness:
 
 - @cdot65/prisma-airs-harness
 - @cdot65/prisma-airs-harness-linux-x64
@@ -34,7 +36,9 @@ cdot65/airs-harness; enable repository permission inheritance in package setting
 
 The repository field in package.json does not prove the registry association.
 No npm publish was attempted, no dist-tag was changed, and no non-owner install
-is claimed. The publisher checks this prerequisite before its first mutation.
+is claimed. The publisher now checks exact API package identity and private visibility, rejects
+contradictory repository metadata, and explicitly records owner confirmation when
+the REST field is omitted. Actual publishing and downloads verify workflow access.
 
 ## Exact operator continuation
 

@@ -10,6 +10,7 @@ on:
       - 'scripts/package_airs_harness.py'
       - 'scripts/*airs_review*.py'
       - 'scripts/*airs_registry_install.py'
+      - 'scripts/*airs_package_access.py'
       - 'scripts/format.py'
       - 'scripts/test_format.py'
       - 'scripts/*airs_signed_macos_artifact.py'
@@ -30,6 +31,7 @@ on:
       - 'scripts/package_airs_harness.py'
       - 'scripts/*airs_review*.py'
       - 'scripts/*airs_registry_install.py'
+      - 'scripts/*airs_package_access.py'
       - 'scripts/format.py'
       - 'scripts/test_format.py'
       - 'scripts/*airs_signed_macos_artifact.py'
@@ -83,6 +85,7 @@ jobs:
       - run: python -m unittest discover -s scripts -p test_airs_signed_macos_artifact.py -v
       - run: python -m unittest discover -s scripts -p 'test_plan_airs_review*.py' -v
       - run: python -m unittest discover -s scripts -p test_publish_airs_review.py -v
+      - run: python -m unittest discover -s scripts -p test_airs_package_access.py -v
       - run: python -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
       - run: python -m unittest discover -s scripts -p test_validate_airs_registry_install.py -v
       - run: python -m unittest discover -s scripts -p test_format.py -v

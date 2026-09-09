@@ -70,7 +70,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY dependency unavailable' }
           python -c "from winpty import PtyProcess; from importlib.metadata import version; assert version('pywinpty') == '3.0.5'"
           if ($LASTEXITCODE -ne 0) { throw 'Pinned ConPTY dependency import failed' }
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-windows-x64-preflight-${{ github.run_attempt }}
@@ -230,7 +230,7 @@ jobs:
           python scripts/airs_windows_artifact.py create --directory "$env:RUNNER_TEMP/compiled" --source-commit "$env:AIRS_RUNTIME_SOURCE" --cli-opt-level 1
           if ($LASTEXITCODE -ne 0) { throw 'Preserved executable manifest failed' }
           Copy-Item "$env:RUNNER_TEMP/compiled/ARTIFACT-VERIFIED.json" "$env:RUNNER_TEMP/airs-build-evidence/"
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         id: executables
         with:
           name: airs-harness-windows-x64-unvalidated-executables-${{ github.run_attempt }}
@@ -264,7 +264,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
           key: ${{ steps.sources_cache.outputs.cache-primary-key }}
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-windows-x64-build-evidence-${{ github.run_attempt }}
@@ -395,7 +395,7 @@ jobs:
             full_broad_suite_executed = $false
             remaining = @('Full Windows application integration suite', 'Windows 11 desktop authentication E2E', 'production signing', 'independent release score of at least 9/10')
           } | ConvertTo-Json | Set-Content "$env:RUNNER_TEMP/airs-evidence/CANDIDATE.json"
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: airs-harness-windows-x64-unsigned-unvalidated-candidate-${{ github.run_attempt }}
           path: |
@@ -405,7 +405,7 @@ jobs:
             ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           compression-level: 0
           retention-days: 7
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-windows-x64-acceptance-evidence-${{ github.run_attempt }}

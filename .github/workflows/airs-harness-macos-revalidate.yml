@@ -204,7 +204,7 @@ jobs:
               if source.is_file() and not source.is_symlink() and source.stat().st_size <= 5 * 1024 * 1024:
                   shutil.copyfile(source, destination / name)
           DIAGNOSTICS
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: airs-harness-darwin-arm64-private-candidate-${{ github.run_attempt }}
           path: |
@@ -214,7 +214,7 @@ jobs:
             ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           compression-level: 0
           retention-days: 30
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-darwin-arm64-acceptance-evidence-${{ github.run_attempt }}

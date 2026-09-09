@@ -75,7 +75,7 @@ jobs:
           receipt = {'passed': True, 'scope': 'offline preflight only', 'native_acceptance': False, 'rust_build': False, 'runtime_source': subprocess.check_output(['git', '-C', 'runtime', 'rev-parse', 'HEAD'], text=True).strip(), 'validation_tooling_source': os.environ['GITHUB_SHA']}
           (Path(os.environ['RUNNER_TEMP']) / 'airs-preflight/PREFLIGHT.json').write_text(json.dumps(receipt, indent=2) + '\n')
           CHECK
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-darwin-arm64-preflight-${{ github.run_attempt }}
@@ -196,7 +196,7 @@ jobs:
           codesign -dvv "$RUNNER_TEMP/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
           python3 scripts/airs_macos_artifact.py create --directory "$RUNNER_TEMP" --source-commit "$AIRS_RUNTIME_SOURCE" --cli-opt-level "$AIRS_CLI_OPT_LEVEL"
           cp "$RUNNER_TEMP/CANDIDATE.json" "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/airs-evidence/"
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         id: executables
         with:
           name: airs-harness-darwin-arm64-unvalidated-executables-${{ github.run_attempt }}
@@ -249,7 +249,7 @@ jobs:
           value = {'build_cache': os.environ['AIRS_BUILD_CACHE'], 'dependency_source_cache': os.environ['AIRS_SOURCE_CACHE'], 'primary_key': os.environ['AIRS_PRIMARY_CACHE_KEY'], 'matched_key': matched, 'legacy_fallback': matched.startswith('airs-macos-v1-'), 'cache_hit_is_build_proof': False}
           (Path(os.environ['RUNNER_TEMP'])/'airs-evidence/cache-status.json').write_text(json.dumps(value, indent=2)+'\n')
           CACHE
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-darwin-arm64-build-evidence-${{ github.run_attempt }}
@@ -367,7 +367,7 @@ jobs:
               if source.is_file() and not source.is_symlink() and source.stat().st_size <= 5 * 1024 * 1024:
                   shutil.copyfile(source, destination / name)
           DIAGNOSTICS
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: airs-harness-darwin-arm64-private-candidate-${{ github.run_attempt }}
           path: |
@@ -377,7 +377,7 @@ jobs:
             ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           compression-level: 0
           retention-days: 30
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-darwin-arm64-acceptance-evidence-${{ github.run_attempt }}

@@ -45,7 +45,7 @@ jobs:
           python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
           python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/airs-npm-install" > "$RUNNER_TEMP/npm-install.json"
           python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/airs-npm-install/bin/airs-harness" --receipt "$RUNNER_TEMP/cli-keychain.json"
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-${{ matrix.suffix }}-cli-keychain

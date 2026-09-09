@@ -59,7 +59,7 @@ jobs:
         timeout-minutes: 8
         run: |
           python3 scripts/validate_macos_artifact_keychain.py --archive "$RUNNER_TEMP/compiled/unvalidated-macos-executables.tar.gz" --source-commit "$AIRS_DIAGNOSTIC_SOURCE" --binary-sha256 "$AIRS_DIAGNOSTIC_BINARY_SHA256" --build-run "$AIRS_DIAGNOSTIC_BUILD_RUN" --artifact-id "$AIRS_DIAGNOSTIC_ARTIFACT_ID" --receipt "$RUNNER_TEMP/airs-keychain-evidence/diagnostic.json"
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: airs-harness-darwin-arm64-cli-keychain-diagnostic

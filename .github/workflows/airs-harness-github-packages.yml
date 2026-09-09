@@ -63,7 +63,7 @@ jobs:
         run: |
           python scripts/publish_airs_github_packages.py --dist-tag "$DIST_TAG" --receipt "$RECEIPT" --archives "$RUNNER_TEMP/original-npm" --output "$RUNNER_TEMP/github-publication"
           echo "launcher_url=$(cat "$RUNNER_TEMP/github-publication/launcher-url.txt")" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: github-packages-publication
           path: ${{ runner.temp }}/github-publication/PUBLICATION.json
@@ -112,7 +112,7 @@ jobs:
           "$RUNNER_TEMP/installed/bin/airs-harness" --version
           "$RUNNER_TEMP/installed/bin/airs-harness" airs --version
           AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/installed/bin/airs-harness" python -m unittest discover -s scripts -p test_airs_harness.py -v 2>&1 | tee "$RUNNER_TEMP/acceptance.log"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
           name: github-packages-${{ matrix.os }}-acceptance

@@ -1,0 +1,143 @@
+"""Read-only, two-artifact Mach-O provenance check; not a trust verifier."""
+import datetime
+import hashlib
+import json
+import mmap
+from pathlib import Path
+import struct
+import sys
+
+
+def require(value, message):
+    if not value:
+        raise ValueError(message)
+
+
+def digest(data, start=0, end=None):
+    return hashlib.sha256(memoryview(data)[start:end]).hexdigest()
+
+
+def parse(data):
+    header = struct.unpack_from('<8I', data)
+    require(header[:4] == (0xFEEDFACF, 0x100000C, 0, 2), 'Expected thin arm64 executable')
+    require(header[4] < 1024 and 32 + header[5] <= len(data), 'Invalid command bounds')
+    commands, sections = [], []
+    offset = 32
+    for index in range(header[4]):
+        command, size = struct.unpack_from('<II', data, offset)
+        require(size >= 8 and size % 8 == 0 and offset + size <= 32 + header[5], 'Invalid command')
+        item = dict(index=index, offset=offset, command=hex(command), size=size,
+                    sha256=digest(data, offset, offset + size))
+        if command == 0x19:
+            values = struct.unpack_from('<II16s4Q4I', data, offset)
+            name = values[2].rstrip(b'\0').decode('ascii')
+            item.update(segment=name, vmaddr=values[3], vmsize=values[4], fileoff=values[5],
+                        filesize=values[6], maxprot=values[7], initprot=values[8], nsects=values[9])
+            require(size == 72 + values[9] * 80, 'Invalid segment sections')
+            require(values[5] + values[6] <= len(data), 'Invalid segment bounds')
+            for number in range(values[9]):
+                section = struct.unpack_from('<16s16s2Q8I', data, offset + 72 + number * 80)
+                # Zero-fill sections have memory size, but no corresponding file payload.
+                if section[8] & 0xFF in (1, 0xC, 0x12):
+                    continue
+                start, length = section[4], section[3]
+                require(start + length <= len(data), 'Invalid section bounds')
+                sections.append(dict(segment=name, section=section[0].rstrip(b'\0').decode('ascii'),
+                                     offset=start, size=length, flags=hex(section[8]),
+                                     sha256=digest(data, start, start + length)))
+        if command == 0x1D:
+            item['dataoff'], item['datasize'] = struct.unpack_from('<II', data, offset + 8)
+            require(item['dataoff'] + item['datasize'] == len(data), 'Signature must occupy file tail')
+        commands.append(item)
+        offset += size
+    require(offset == 32 + header[5], 'Command extent mismatch')
+    return dict(header=list(header), commands=commands, file_sections=sections)
+
+
+def signature(data, command):
+    start, allocation = command['dataoff'], command['datasize']
+    magic, length, count = struct.unpack_from('>III', data, start)
+    require(magic == 0xFADE0CC0 and 12 + count * 8 <= length <= allocation, 'Invalid SuperBlob')
+    blobs = []
+    for index in range(count):
+        slot, relative = struct.unpack_from('>II', data, start + 12 + index * 8)
+        require(relative + 8 <= length, 'Invalid blob offset')
+        base = start + relative
+        blob_magic, blob_length = struct.unpack_from('>II', data, base)
+        require(8 <= blob_length <= length - relative, 'Invalid blob length')
+        item = dict(slot=slot, magic=hex(blob_magic), length=blob_length,
+                    sha256=digest(data, base, base + blob_length))
+        if blob_magic == 0xFADE0C02:
+            values = struct.unpack_from('>9I4BI', data, base)
+            _, _, version, flags, hash_offset, _, special, slots, limit, hash_size, hash_type, _, exponent, _ = values
+            require(hash_size == 32 and hash_type == 2 and exponent in (12, 14), 'Unexpected hash format')
+            page = 1 << exponent
+            require(limit == start and slots == (limit + page - 1) // page, 'Unexpected code coverage')
+            require(hash_offset + slots * hash_size <= blob_length, 'Invalid code hash bounds')
+            for number in range(slots):
+                expected = data[base + hash_offset + number * 32:base + hash_offset + (number + 1) * 32]
+                actual = hashlib.sha256(memoryview(data)[number * page:min((number + 1) * page, limit)]).digest()
+                require(expected == actual, 'CodeDirectory page hash mismatch')
+            item.update(version=hex(version), flags=hex(flags), hash_type=hash_type, hash_size=hash_size,
+                        page_bytes=page, code_slots=slots, special_slots=special, code_limit=limit,
+                        all_code_page_hashes_match=True)
+        blobs.append(item)
+    return dict(offset=start, allocated_bytes=allocation, superblob_bytes=length,
+                trailing_allocation_bytes=allocation-length, trailing_allocation_is_zero=not any(data[start + length:]),
+                trailing_allocation_sha256=digest(data, start + length),
+                sha256=digest(data, start), blobs=blobs)
+
+
+def main():
+    original, signed, output = map(Path, sys.argv[1:])
+    with original.open('rb') as first, signed.open('rb') as second:
+        with mmap.mmap(first.fileno(), 0, access=mmap.ACCESS_READ) as a, mmap.mmap(second.fileno(), 0, access=mmap.ACCESS_READ) as b:
+            left, right = parse(a), parse(b)
+            require(left['header'] == right['header'], 'Changed Mach-O header')
+            require(left['file_sections'] == right['file_sections'], 'Changed section metadata or hashes')
+            differences, ignored = [], []
+            require(len(left['commands']) == len(right['commands']), 'Changed command count')
+            for old, new in zip(left['commands'], right['commands']):
+                if old == new:
+                    continue
+                allowed = ('vmsize', 'filesize') if old.get('segment') == '__LINKEDIT' else ('datasize',)
+                require(old.get('segment') == '__LINKEDIT' or old['command'] == '0x1d', 'Unexpected command change')
+                require({k:v for k,v in old.items() if k not in (*allowed, 'sha256')} ==
+                        {k:v for k,v in new.items() if k not in (*allowed, 'sha256')}, 'Unexpected command field')
+                for field in allowed:
+                    relative, width = {'vmsize': (32, 8), 'filesize': (48, 8), 'datasize': (12, 4)}[field]
+                    begin = old['offset'] + relative
+                    ignored.append((begin, begin + width))
+                    differences.append(dict(field=old.get('segment', 'LC_CODE_SIGNATURE') + '.' + field,
+                                            offset=begin, width=width, original=old[field], signed=new[field]))
+            old_sig = next(c for c in left['commands'] if c['command'] == '0x1d')
+            new_sig = next(c for c in right['commands'] if c['command'] == '0x1d')
+            require(old_sig['dataoff'] == new_sig['dataoff'], 'Signature offset changed')
+            boundary = old_sig['dataoff']
+            cursor, equal_ranges = 0, []
+            for begin, end in sorted(ignored) + [(boundary, boundary)]:
+                require(a[cursor:begin] == b[cursor:begin], 'Unexpected bytes outside signature metadata')
+                equal_ranges.append(dict(start=cursor, end_exclusive=begin, size=begin-cursor,
+                                         sha256=digest(a, cursor, begin)))
+                cursor = end
+            report = dict(schema=1, observed_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                          method='Read-only mmap, struct parsing, byte comparison and SHA-256; Linux host',
+                          original=dict(path=str(original), size=len(a), sha256=digest(a), signature=signature(a, old_sig)),
+                          signed=dict(path=str(signed), size=len(b), sha256=digest(b), signature=signature(b, new_sig)),
+                          header_identical=True, architecture='thin arm64', load_command_count=len(left['commands']),
+                          changed_load_commands=2, changed_fields=differences, equal_prefix_ranges=equal_ranges,
+                          file_sections_identical=left['file_sections'],
+                          all_bytes_after_load_commands_before_signature_identical=True,
+                          size_reduction_bytes=len(a)-len(b),
+                          conclusion='All differences are within signature allocation or its three size fields; code and data unchanged',
+                          trust_limit='No CMS certificate-chain, macOS codesign, Gatekeeper, notarization, or runtime verification',
+                          user_reported_notary_submission='dc835ddf-8841-49bc-a7ee-2f370dcb3457',
+                          notary_submission_independently_verified=False,
+                          script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+            output.write_text(json.dumps(report, indent=2) + '\n')
+            print(json.dumps(dict(passed=True, receipt=str(output), original_sha256=report['original']['sha256'],
+                                  signed_sha256=report['signed']['sha256'], sections=len(left['file_sections']))))
+
+
+if __name__ == '__main__':
+    main()

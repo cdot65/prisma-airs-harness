@@ -110,8 +110,20 @@ jobs:
           printf '%s\n' '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
           chmod 600 "$NPM_CONFIG_USERCONFIG"
           python3 scripts/publish_airs_review.py --packages "$RUNNER_TEMP/review-stage" --approved-plan "$RUNNER_TEMP/review-download/PUBLICATION-PLAN.json" --approved-plan-sha256 "$AIRS_PLAN_SHA" --output "$RUNNER_TEMP/publication"
+      - name: Retain exact approval and staging receipts for read-only acceptance
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/publication"
+          for name in PUBLICATION-PLAN.json NPM-PACKAGES.json; do
+            if [[ -f "$RUNNER_TEMP/review-download/$name" ]]; then
+              cp "$RUNNER_TEMP/review-download/$name" "$RUNNER_TEMP/publication/$name"
+            fi
+          done
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:
           name: signed-review-publication-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/publication/PUBLICATION.json
+          path: |
+            ${{ runner.temp }}/publication/PUBLICATION.json
+            ${{ runner.temp }}/publication/PUBLICATION-PLAN.json
+            ${{ runner.temp }}/publication/NPM-PACKAGES.json

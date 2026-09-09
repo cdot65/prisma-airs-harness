@@ -80,7 +80,7 @@ jobs:
       - name: Verify publication contracts before registry mutation
         run: |
           python3 -m unittest discover -s scripts -p test_airs_review_release.py -v
-          python3 -m unittest discover -s scripts -p test_plan_airs_review_publication.py -v
+          python3 -m unittest discover -s scripts -p 'test_plan_airs_review*.py' -v
           python3 -m unittest discover -s scripts -p test_publish_airs_review.py -v
           python3 -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
       - name: Download exact reviewed package assets

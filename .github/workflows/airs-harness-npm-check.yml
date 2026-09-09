@@ -81,7 +81,7 @@ jobs:
       - run: python -m unittest discover -s scripts -p test_package_airs_harness.py -v
       - run: python -m unittest discover -s scripts -p test_airs_review_release.py -v
       - run: python -m unittest discover -s scripts -p test_airs_signed_macos_artifact.py -v
-      - run: python -m unittest discover -s scripts -p test_plan_airs_review_publication.py -v
+      - run: python -m unittest discover -s scripts -p 'test_plan_airs_review*.py' -v
       - run: python -m unittest discover -s scripts -p test_publish_airs_review.py -v
       - run: python -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
       - run: python -m unittest discover -s scripts -p test_validate_airs_registry_install.py -v

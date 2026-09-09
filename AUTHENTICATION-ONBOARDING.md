@@ -1,17 +1,17 @@
 ---
 title: Prisma AIRS Harness candidate setup and sign-in
 description: First launch, secure sign-in, resume, logout, and support diagnostics for the private authentication candidate.
-status: private-candidate
+status: authentication-review
 created: 2026-09-08
 updated: 2026-09-09
 source_commit: b012ba55e1404b498ad513cd15efa52a9a60530f
 tags: [prisma-airs-harness, authentication, onboarding, macos, linux, windows]
 ---
 
-# Try the private authentication candidate
+# Try the authentication review build
 
-This guide describes an **unpublished private candidate**. Use the candidate
-executable or package supplied by your project administrator. Existing alpha.9
+This guide applies to **0.1.0-alpha.10 authentication review builds**. Use the
+exact executable or package approved by your project administrator. Existing alpha.9
 registry installation instructions describe the historical release and do not
 install these changes. A version label alone does not identify a candidate;
 retain the administrator's artifact or build reference.
@@ -21,7 +21,7 @@ targets; native Windows was deferred by the owner in plan v0.2. Native acceptanc
 is still in progress. The owner's reported Mac storage failure has **not been
 proven fixed** on the owner's device. The owner has returned the Developer ID
 signed alpha10 binary and an Accepted notarization result; signed-package
-acceptance and publication are tracked in [the signing record](MACOS-SIGNING.md).
+acceptance and publication are tracked in [the signing record](https://github.com/cdot65/airs-harness/blob/main/MACOS-SIGNING.md).
 Headless onboarding and an organization-profile wizard are not delivered by
 this guide.
 
@@ -163,4 +163,4 @@ local paths before sharing. Never include a workspace key, JWT, company password
 credential file, or browser callback URL.
 
 The remaining release requirements are tracked in
-[the authentication plan](AUTHENTICATION-PLAN.md).
+[the authentication plan](https://github.com/cdot65/airs-harness/blob/main/AUTHENTICATION-PLAN.md).

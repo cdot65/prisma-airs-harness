@@ -15,8 +15,8 @@ No Rust compiler or source checkout is needed for the npm installation.
 For the latest instructions, use [this guide on GitHub](https://github.com/cdot65/airs-harness/blob/main/MACOS.md); a bundled copy reflects the release that included it.
 
 **Authentication review:** alpha.10 uses a signed and notarized Apple Silicon
-executable. Its publication is still being prepared. If your administrator
-supplied that candidate, follow [guided setup and sign-in](AUTHENTICATION-ONBOARDING.md).
+executable. If your administrator supplied that review build, follow
+[guided setup and sign-in](AUTHENTICATION-ONBOARDING.md).
 The alpha.9 installation commands below remain the existing published baseline.
 
 **Supported:** Apple Silicon Macs using native `arm64` Terminal and Node.js.

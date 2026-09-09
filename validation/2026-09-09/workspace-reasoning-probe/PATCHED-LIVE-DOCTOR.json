@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "product": "Prisma AIRS Harness",
+  "version": "0.1.0-alpha.10",
+  "state_directory": "/var/tmp/airs-patched-probe-44_yw2ry/state/environments/8a426686-a34b-4e58-b662-16454d87be8b",
+  "passed": true,
+  "checks": [
+    {
+      "name": "local_tools",
+      "passed": true,
+      "detail": "Required local executables found; this does not exercise kernel sandbox support"
+    },
+    {
+      "name": "linux_user_namespaces",
+      "passed": true,
+      "detail": "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution"
+    },
+    {
+      "name": "configuration",
+      "passed": true,
+      "detail": "https://airs.cdot.io/v1"
+    },
+    {
+      "name": "capabilities",
+      "passed": true,
+      "detail": "Local catalog readable; backend limits still apply"
+    },
+    {
+      "name": "gateway_health",
+      "passed": true,
+      "detail": "HTTPS/HTTP health response successful; inference and policy not exercised"
+    },
+    {
+      "name": "mcp_configuration",
+      "passed": true,
+      "detail": "0 configured server(s); use /mcp and invoke a tool to verify remote authorization"
+    },
+    {
+      "name": "gateway_access",
+      "passed": true,
+      "detail": "Gateway access verified by one inference response. MCP permissions were not tested.\nClient correlation ID: 0623206c-7fc0-4001-b2df-296114eaf82a"
+    }
+  ]
+}

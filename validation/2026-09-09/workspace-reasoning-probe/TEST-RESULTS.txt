@@ -1,0 +1,21 @@
+        PASS [   0.014s] ( 1/20) codex-cli::bin/airs-harness airs_access::tests::workspace_credential_limit_is_preserved_for_probe_headers
+        PASS [   0.015s] ( 2/20) codex-cli::bin/airs-harness airs_access::tests::unlisted_routes_and_unsafe_destinations_fail_before_credential_resolution
+        PASS [   0.018s] ( 3/20) codex-cli::bin/codex airs_access::tests::workspace_credential_limit_is_preserved_for_probe_headers
+        PASS [   0.029s] ( 4/20) codex-cli::bin/codex airs_access::tests::unlisted_routes_and_unsafe_destinations_fail_before_credential_resolution
+        PASS [   0.056s] ( 5/20) codex-cli::bin/airs-harness airs_access::tests::redirects_never_forward_credentials_or_send_second_request
+        PASS [   0.057s] ( 6/20) codex-cli::bin/airs-harness airs_access::tests::oversized_response_fails_without_echoing_body
+        PASS [   0.059s] ( 7/20) codex-cli::bin/airs-harness airs_access::tests::logout_before_send_never_uses_resolved_credential
+        PASS [   0.069s] ( 8/20) codex-cli::bin/airs-harness airs_access::tests::helper_output_is_bounded_and_failed_helpers_never_disclose_tokens
+        PASS [   0.075s] ( 9/20) codex-cli::bin/codex airs_access::tests::logout_before_send_never_uses_resolved_credential
+        PASS [   0.075s] (10/20) codex-cli::bin/codex airs_access::tests::helper_output_is_bounded_and_failed_helpers_never_disclose_tokens
+        PASS [   0.083s] (11/20) codex-cli::bin/codex airs_access::tests::oversized_response_fails_without_echoing_body
+        PASS [   0.085s] (12/20) codex-cli::bin/codex airs_access::tests::redirects_never_forward_credentials_or_send_second_request
+        PASS [   0.086s] (13/20) codex-cli::bin/airs-harness airs_access::tests::reasoning_only_probe_verifies_access_without_requiring_final_text
+        PASS [   0.103s] (14/20) codex-cli::bin/airs-harness airs_access::tests::default_and_catalog_routes_send_exact_bounded_probe
+        PASS [   0.112s] (15/20) codex-cli::bin/codex airs_access::tests::reasoning_only_probe_verifies_access_without_requiring_final_text
+        PASS [   0.136s] (16/20) codex-cli::bin/codex airs_access::tests::default_and_catalog_routes_send_exact_bounded_probe
+        PASS [   0.173s] (17/20) codex-cli::bin/airs-harness airs_access::tests::honest_verification_messages_have_snapshot_coverage
+        PASS [   0.184s] (18/20) codex-cli::bin/codex airs_access::tests::honest_verification_messages_have_snapshot_coverage
+        PASS [   0.362s] (19/20) codex-cli::bin/codex airs_access::tests::denial_offline_and_soft_denial_are_not_verified
+        PASS [   0.365s] (20/20) codex-cli::bin/airs-harness airs_access::tests::denial_offline_and_soft_denial_are_not_verified
+     Summary [   0.369s] 20 tests run: 20 passed, 849 skipped

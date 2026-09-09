@@ -1,0 +1,12 @@
+{
+  "source_commit": "37b18d523521f8c2fc1645400966381c08edf814",
+  "binary_sha256": "b740959b65bb99aed7648a6c12e81c23e25ff30454d9781e1f76d0325ccfa168",
+  "unreleased_local_build": true,
+  "published": false,
+  "platform": "linux-x64",
+  "tests_passed": 20,
+  "tests_not_selected": 849,
+  "live_doctor_passed": true,
+  "credential_mode": "environment reference; secret retrieved privately from authorized management API",
+  "gateway_configuration_changed": false
+}

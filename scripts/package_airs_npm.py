@@ -115,6 +115,11 @@ def main():
             if digest(release / "SIGNING.json") != info["signing_receipt_sha256"]:
                 raise ValueError("Signing receipt differs from native provenance")
             shutil.copy2(release / "SIGNING.json", package / "SIGNING.json")
+        if "validation_receipt_sha256" in info:
+            if digest(release / "VALIDATION.json") != info["validation_receipt_sha256"]:
+                raise ValueError("Validation receipt differs from native provenance")
+            shutil.copy2(release / "VALIDATION.json", package / "VALIDATION.json")
+            shutil.copytree(release / "validation-evidence", package / "validation-evidence")
         shutil.copytree(release / "licenses", package / "licenses")
         native_manifest = {
             "name": name,
@@ -132,6 +137,8 @@ def main():
                 "BUILD-INFO.json",
                 "DEPENDENCIES.json",
                 "SIGNING.json",
+                "VALIDATION.json",
+                "validation-evidence/",
             ],
             "publishConfig": {"registry": args.registry},
         }

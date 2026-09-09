@@ -16,6 +16,8 @@ import subprocess
 import tarfile
 import tempfile
 
+from airs_review_release import validate_release
+
 
 def digest(path):
     with path.open("rb") as stream:
@@ -44,6 +46,7 @@ def main():
         "--target", choices=targets, default="x86_64-unknown-linux-musl"
     )
     parser.add_argument("--validation", type=Path)
+    parser.add_argument("--validation-evidence-root", type=Path)
     parser.add_argument(
         "--signing-receipt", type=Path,
         help="Mac verification receipt bound to these exact signed executable bytes",
@@ -69,6 +72,10 @@ def main():
         parser.error(
             "An unvalidated candidate cannot include a release validation receipt"
         )
+    if not args.unvalidated_candidate and not args.validation:
+        parser.error("Provide bound review validation or --unvalidated-candidate")
+    if bool(args.validation) != bool(args.validation_evidence_root):
+        parser.error("Validation requires --validation-evidence-root")
     binary_name = "airs-harness.exe" if windows else "airs-harness"
     repo = args.source_directory.resolve(strict=True)
     binary = args.binary.resolve(strict=True)
@@ -156,13 +163,20 @@ def main():
             shutil.copy2(repo / filename, root / filename)
         if args.validation:
             validation = json.loads(args.validation.read_text())
-            if (
-                validation["binary_sha256"] != digest(binary)
-                or validation["target"] != args.target
-                or validation["product_version"] != version
-            ):
-                raise ValueError("Validation does not match the packaged binary/target")
+            validate_release(
+                validation, binary_sha256=digest(binary), target=args.target,
+                version=version, source_commit=commit,
+                evidence_root=args.validation_evidence_root,
+            )
+            if args.target == "aarch64-apple-darwin" and signing is None:
+                raise ValueError("Mac review release requires verified signing receipt")
             shutil.copy2(args.validation, root / "VALIDATION.json")
+            for record in validation["evidence"]:
+                destination = root / "validation-evidence" / record["path"]
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(args.validation_evidence_root / record["path"], destination)
+                if digest(destination) != record["sha256"]:
+                    raise ValueError("Release evidence changed during packaging")
         if args.unvalidated_candidate:
             (root / "VALIDATION.json").write_text(
                 json.dumps(
@@ -313,6 +327,9 @@ def main():
             provenance["publishable"] = False
         if signing is not None:
             provenance["signing_receipt_sha256"] = digest(root / "SIGNING.json")
+        if args.validation:
+            provenance["validation_receipt_sha256"] = digest(root / "VALIDATION.json")
+            provenance["release_scope"] = validation["scope"]
         (root / "BUILD-INFO.json").write_text(json.dumps(provenance, indent=2) + "\n")
         files = sorted(path for path in root.rglob("*") if path.is_file())
         (root / "SHA256SUMS").write_text(

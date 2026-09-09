@@ -1,0 +1,127 @@
+name: Prisma AIRS Harness published review install acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      publication_run:
+        description: Successful signed review publication run ID
+        required: true
+      publication_artifact_id:
+        description: Exact immutable publication evidence artifact ID
+        required: true
+      approved_plan_sha256:
+        description: Previously approved PUBLICATION-PLAN.json SHA256
+        required: true
+permissions:
+  contents: read
+  actions: read
+  packages: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  install:
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, macos-26]
+        npm: ['10.9.8', '12.0.2']
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    env:
+      AIRS_PLAN_SHA: ${{ inputs.approved_plan_sha256 }}
+      AIRS_PUBLICATION_RUN: ${{ inputs.publication_run }}
+      AIRS_PUBLICATION_ARTIFACT: ${{ inputs.publication_artifact_id }}
+      AIRS_ACCEPTANCE_NPM: ${{ matrix.npm }}
+      AIRS_ACCEPTANCE_RUNNER: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+      - name: Record host and enforce supported architectures
+        run: |
+          [[ "$AIRS_PLAN_SHA" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$AIRS_PUBLICATION_RUN" =~ ^[0-9]+$ ]]
+          [[ "$AIRS_PUBLICATION_ARTIFACT" =~ ^[0-9]+$ ]]
+          mkdir -p "$RUNNER_TEMP/registry-evidence"
+          python3 - <<'PY'
+          import json, os, platform
+          from pathlib import Path
+          host = (platform.system(), platform.machine())
+          if host not in {('Linux', 'x86_64'), ('Darwin', 'arm64')}:
+              raise SystemExit('Only Linux x64 and Apple Silicon runners are permitted')
+          receipt = {'system': host[0], 'machine': host[1], 'macos_version': platform.mac_ver()[0],
+                     'runner': os.environ['AIRS_ACCEPTANCE_RUNNER'], 'owner_device': False,
+                     'publication_run': os.environ['AIRS_PUBLICATION_RUN'],
+                     'publication_artifact_id': os.environ['AIRS_PUBLICATION_ARTIFACT'],
+                     'approved_plan_sha256': os.environ['AIRS_PLAN_SHA'],
+                     'acceptance_run': os.environ['GITHUB_RUN_ID'],
+                     'acceptance_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+                     'acceptance_tooling_source': os.environ['GITHUB_SHA'],
+                     'credential_principal': 'GitHub Actions repository token',
+                     'teammate_read_only_install_verified': False}
+          (Path(os.environ['RUNNER_TEMP'])/'registry-evidence/HOST.json').write_text(json.dumps(receipt, indent=2)+'\n')
+          PY
+      - name: Select pinned npm and verify install validator
+        run: |
+          npm install --prefix "$RUNNER_TEMP/npm-tool" --ignore-scripts --no-audit --no-fund --registry https://registry.npmjs.org "npm@$AIRS_ACCEPTANCE_NPM"
+          export PATH="$RUNNER_TEMP/npm-tool/node_modules/.bin:$PATH"
+          printf '%s\n' "$RUNNER_TEMP/npm-tool/node_modules/.bin" >> "$GITHUB_PATH"
+          test "$(npm --version)" = "$AIRS_ACCEPTANCE_NPM"
+          python3 -m unittest discover -s scripts -p test_validate_airs_registry_install.py -v
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          artifact-ids: ${{ inputs.publication_artifact_id }}
+          run-id: ${{ inputs.publication_run }}
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/publication-evidence
+      - name: Download and install exact published packages by scoped name
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/github-readonly.npmrc
+        run: |
+          printf '%s\n' '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
+          chmod 600 "$NPM_CONFIG_USERCONFIG"
+          python3 scripts/validate_airs_registry_install.py --evidence "$RUNNER_TEMP/publication-evidence" --approved-plan-sha256 "$AIRS_PLAN_SHA" --output "$RUNNER_TEMP/registry-install"
+      - name: Exercise installed managed CLI and deterministic harness integration
+        run: |
+          export AIRS_HARNESS_BIN="$RUNNER_TEMP/registry-install/fresh-prefix/bin/airs-harness"
+          export AIRS_MANAGED_CLI_ACCEPTANCE=1
+          export AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/registry-evidence/fixtures"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/registry-install/fresh-prefix/lib/node_modules/@cdot65/prisma-airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/registry-evidence/prisma-cli.json"
+          python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/registry-evidence/installed-tests.log" 2>&1
+      - name: Verify installed Apple Silicon Keychain lifecycle
+        if: runner.os == 'macOS'
+        run: |
+          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/registry-install/fresh-prefix/bin/airs-harness" --receipt "$RUNNER_TEMP/registry-evidence/installed-keychain.json"
+      - name: Retain bounded nonsecret install and signing receipts
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os, shutil
+          from pathlib import Path
+          source = Path(os.environ['RUNNER_TEMP'])/'registry-install'
+          target = Path(os.environ['RUNNER_TEMP'])/'registry-evidence'
+          target.mkdir(exist_ok=True)
+          names = ['REGISTRY-DOWNLOAD.json', 'INSTALL-ATTEMPT.json', 'REGISTRY-INSTALL.json',
+                   'INSTALLED-SIGNING.json', 'INSTALLED-SIGNING-architecture.log',
+                   'INSTALLED-SIGNING-codesign.log', 'INSTALLED-SIGNING-details.log',
+                   'INSTALLED-SIGNING-notarization.log']
+          for name in names:
+              path = source/name
+              if path.is_file() and not path.is_symlink() and path.stat().st_size <= 4*1024*1024:
+                  shutil.copyfile(path, target/name)
+          PY
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: registry-install-${{ matrix.runner }}-npm${{ matrix.npm }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/registry-evidence/

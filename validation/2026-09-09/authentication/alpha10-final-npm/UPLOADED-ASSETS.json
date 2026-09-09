@@ -1,0 +1,32 @@
+[
+  {
+    "id": 552487644,
+    "name": "cdot65-prisma-airs-harness-0.1.0-alpha.10.tgz",
+    "size": 34727206,
+    "digest": "sha256:cfec6a53f4bc54038292384d2e6e92c5e9bb05f9a160b892e053dc386e9a8a67"
+  },
+  {
+    "id": 552487723,
+    "name": "cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.10.tgz",
+    "size": 113138136,
+    "digest": "sha256:afb335528129d76242aa61fafffbcb2c906a318283741263e36c306c312f3c3b"
+  },
+  {
+    "id": 552487958,
+    "name": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.10.tgz",
+    "size": 133073448,
+    "digest": "sha256:086fc7a93351873be90f6a3546550e2ec08f0c9e0029e3da55f5d6e950824e73"
+  },
+  {
+    "id": 552488110,
+    "name": "NPM-PACKAGES.json",
+    "size": 5087,
+    "digest": "sha256:60ea31467dfc994d5d77065b123d28c215ab93eb0e8876220f73479462f18e52"
+  },
+  {
+    "id": 552491715,
+    "name": "PUBLICATION-PLAN.json",
+    "size": 3458,
+    "digest": "sha256:0661946b1c3174464b255306cabce8000cbd5e74617bf420ec9a6220fbf29583"
+  }
+]

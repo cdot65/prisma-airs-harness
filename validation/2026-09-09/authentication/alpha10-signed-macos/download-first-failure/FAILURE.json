@@ -1,0 +1,24 @@
+{
+  "run": {
+    "id": 34333627583,
+    "head_sha": "42c1beca45838512cbc57f49fd16125b14377400",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-09-09T09:14:53Z",
+    "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34333627583"
+  },
+  "artifact_id": 10096793189,
+  "artifact_sha256": "30d385c0ca80d0bb1c8fa80ecee9f5533450501b6a8ed10cc4baa1d768e23c31",
+  "private_original_job_log_sha256": "5aaa46248d6501b6221a7d1e65fe9fa50a294548ca9d1e54bc7f3a126b84743b",
+  "failure_step": "Download exact draft release asset without forwarding API credentials",
+  "observed_error": "GitHub asset download returned HTTP 403",
+  "configured_permission": "contents:read",
+  "signed_asset_id": 552394938,
+  "intake_release_draft": true,
+  "native_execution": false,
+  "signing_or_notarization_verified": false,
+  "root_cause_assessment": "Draft visibility requires push access; successful operator download and CI token HTTP403 support scoped contents:write repair. Detailed GitHub error body was not retained by initial downloader.",
+  "repair": "contents:write on explicit acceptance job; token env on download step, no publication or repository content writes",
+  "documentation": "https://docs.github.com/en/rest/releases/releases#list-releases",
+  "replacement_run_pending": true
+}

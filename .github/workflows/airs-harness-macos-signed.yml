@@ -33,6 +33,10 @@ concurrency:
   cancel-in-progress: false
 jobs:
   acceptance:
+    # GitHub restricts draft release visibility to push access. The download
+    # step alone receives this ephemeral token; no repository write is made.
+    permissions:
+      contents: write
     runs-on: ${{ inputs.runner }}
     timeout-minutes: 45
     env:

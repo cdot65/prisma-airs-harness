@@ -39,6 +39,11 @@ jobs:
           python3 - <<'PY'
           import json, os, subprocess
           from pathlib import Path
+          probe = subprocess.run(['gh', 'api', 'graphql', '-f', 'query=query { repository(owner:"cdot65", name:"airs-harness") { nameWithOwner packages(first:100, packageType:NPM) { nodes { name id } } } }'], capture_output=True, text=True, timeout=30)
+          if probe.returncode == 0:
+              print(json.dumps(json.loads(probe.stdout), indent=2))
+          else:
+              print('Repository package GraphQL query unavailable')
           rows = []
           for suffix in ['', '-linux-x64', '-darwin-arm64']:
               name = 'prisma-airs-harness' + suffix

@@ -1,0 +1,34 @@
+{
+  "run_id": 34334314233,
+  "job_id": 102410015779,
+  "tooling_source": "c1562950f37564c615cc3d97763c5d6e871a9afe",
+  "runtime_source": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "artifact": {
+    "id": 10097072778,
+    "name": "airs-harness-signed-evidence-macos-26-1",
+    "digest": "sha256:7acae18a67141895375e92dedf6cda410fe44f2231b29e68ab283fe86a0d2a4d",
+    "size_in_bytes": 3798
+  },
+  "conclusion": "failure",
+  "passed": [
+    "signed archive and binary hashes",
+    "ARM64 architecture",
+    "strict Developer ID signature and required team",
+    "hardened runtime and secure timestamp"
+  ],
+  "failed_command": [
+    "codesign",
+    "--verify",
+    "--strict",
+    "--verbose=4",
+    "-R",
+    "=notarized"
+  ],
+  "failure": "test-requirement: code failed to satisfy specified code requirement(s)",
+  "online_lookup_explicitly_requested": false,
+  "native_acceptance_executed": false,
+  "published": false,
+  "release_ready": false,
+  "repair_commit": "84e271ce8",
+  "repair_native_result": "pending"
+}

@@ -61,21 +61,23 @@ airs-harness --version
 
 You should see `airs-harness 0.1.0-alpha.10`.
 
-## 3. Start and sign in
+## 3. Create your environment and sign in
+
+Create a saved connection named **work**:
 
 ```sh
-airs-harness
+airs-harness setup --environment work --gateway-url https://airs.cdot.io/v1
 ```
 
-On first launch, use **work** for the environment name and enter this gateway URL
-when asked:
+This creates and selects the environment. Run it once, including when starting
+over after removing all environments. `--environment` alone selects an existing
+environment; it does not create one.
 
-```text
-https://airs.cdot.io/v1
+Now sign in:
+
+```sh
+airs-harness --environment work login
 ```
-
-An environment is a saved connection with its own sign-in and conversations.
-One environment is enough to get started.
 
 Choose one sign-in method:
 
@@ -99,7 +101,13 @@ Choose **2**, paste the workspace key supplied by your administrator, and press
 **Return**. The input is hidden. This is a different credential from your GitHub token.
 
 The harness saves your sign-in in macOS Keychain. Allow access if macOS asks.
-Look for **Gateway access verified**, then type your first message.
+Look for **Gateway access verified**. Then start the harness:
+
+```sh
+airs-harness --environment work
+```
+
+Type your first message when the conversation opens.
 
 ## 4. Use it again
 

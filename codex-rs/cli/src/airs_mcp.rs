@@ -15,6 +15,9 @@ use std::path::Path;
 use std::path::PathBuf;
 use uuid::Uuid;
 
+#[path = "airs_mcp_relocation.rs"]
+pub(super) mod relocation;
+
 #[derive(Debug, Args)]
 pub struct SetupArgs {
     /// Local server name, used by /mcp and mcp remove.
@@ -100,6 +103,16 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
     let _lock = airs_environment::lock(home)?;
     let mut config: toml::Value =
         toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
+    if config
+        .get("mcp_servers")
+        .and_then(|servers| servers.get(&args.name))
+        .is_some()
+        && home.join("session-binding.json").try_exists()?
+    {
+        super::airs_session_binding::validate_locked(home)?;
+        super::airs_helper_relocation::rewrite_locked(home, &std::env::current_exe()?)?;
+        config = toml::from_str(&std::fs::read_to_string(home.join("config.toml"))?)?;
+    }
     let servers = config
         .as_table_mut()
         .context("invalid configuration")?
@@ -323,7 +336,7 @@ fn read_binding(path: &Path) -> anyhow::Result<Binding> {
     Ok(binding)
 }
 
-fn helper_command(executable: &Path, home: &Path, id: Uuid) -> anyhow::Result<String> {
+pub(super) fn helper_command(executable: &Path, home: &Path, id: Uuid) -> anyhow::Result<String> {
     let executable = executable
         .to_str()
         .context("executable path is not UTF-8")?;

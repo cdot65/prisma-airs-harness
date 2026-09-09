@@ -50,6 +50,7 @@ mod airs_doctor;
 mod airs_environment;
 mod airs_harness;
 mod airs_help;
+mod airs_helper_relocation;
 mod airs_login;
 mod airs_mcp;
 mod airs_oidc;
@@ -1212,7 +1213,7 @@ async fn cli_main(
                     | Subcommand::Fork(_)
             )
         ) {
-            airs_session_binding::validate(home.as_path())?;
+            airs_helper_relocation::refresh(home.as_path())?;
             codex_utils_home_dir::airs_session::pin_current_airs_session()?;
         }
         match &subcommand {

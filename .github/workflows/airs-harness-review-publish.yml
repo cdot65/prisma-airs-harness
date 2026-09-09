@@ -92,7 +92,7 @@ jobs:
           [[ "$AIRS_PLAN_SHA" =~ ^[0-9a-f]{64}$ ]]
           gh release download "$AIRS_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.tgz' --pattern NPM-PACKAGES.json --pattern PUBLICATION-PLAN.json --dir "$RUNNER_TEMP/review-download"
           printf '%s  %s\n' "$AIRS_PLAN_SHA" "$RUNNER_TEMP/review-download/PUBLICATION-PLAN.json" | sha256sum -c -
-          python3 scripts/restore_airs_review_stage.py --download "$RUNNER_TEMP/review-download" --output "$RUNNER_TEMP/review-stage"
+          python3 scripts/restore_airs_review_stage.py --archives "$RUNNER_TEMP/review-download" --receipt "$RUNNER_TEMP/review-download/NPM-PACKAGES.json" --directory "$RUNNER_TEMP/review-stage"
       - name: Publish only the approved immutable review bytes
         env:
           GH_TOKEN: ${{ github.token }}

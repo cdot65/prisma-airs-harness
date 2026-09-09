@@ -433,9 +433,14 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
             .get("output")
             .and_then(Value::as_array)
             .is_some_and(|output| {
-                output
-                    .iter()
-                    .any(|item| item.get("type").and_then(Value::as_str) == Some("message"))
+                output.iter().any(|item| {
+                    // A bounded probe can exhaust its budget before a reasoning
+                    // model emits a user-facing message. This still proves access.
+                    matches!(
+                        item.get("type").and_then(Value::as_str),
+                        Some("message" | "reasoning")
+                    )
+                })
             })
     {
         return Err(Failure::InvalidResponse);

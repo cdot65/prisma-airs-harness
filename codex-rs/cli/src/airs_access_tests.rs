@@ -75,6 +75,36 @@ async fn default_and_catalog_routes_send_exact_bounded_probe() {
     }
 }
 
+#[tokio::test]
+async fn reasoning_only_probe_verifies_access_without_requiring_final_text() {
+    for status in ["completed", "incomplete"] {
+        let home = TempDir::new().unwrap();
+        let server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
+                "object": "response", "status": status, "error": null,
+                "output": [{"type": "reasoning", "id": "rs_fixture", "summary": []}],
+                "usage": {"output_tokens": 16}
+            })))
+            .mount(&server)
+            .await;
+        assert_eq!(
+            probe(
+                prepared(home.path(), &server.uri(), "airs-gateway-default"),
+                Uuid::new_v4()
+            )
+            .await,
+            Ok(())
+        );
+        let requests = server.received_requests().await.unwrap();
+        assert_eq!(requests.len(), 1);
+        assert_eq!(
+            requests[0].body_json::<Value>().unwrap()["max_output_tokens"],
+            16
+        );
+    }
+}
+
 #[test]
 fn unlisted_routes_and_unsafe_destinations_fail_before_credential_resolution() {
     for (url, selected) in [
@@ -125,6 +155,21 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
         (
             200,
             serde_json::json!({"object":"response","status":"failed","output":[]}),
+            Failure::InvalidResponse,
+        ),
+        (
+            200,
+            serde_json::json!({"object":"response","status":"completed","output":[]}),
+            Failure::InvalidResponse,
+        ),
+        (
+            200,
+            serde_json::json!({"object":"response","status":"failed","output":[{"type":"reasoning"}]}),
+            Failure::InvalidResponse,
+        ),
+        (
+            200,
+            serde_json::json!({"object":"response","status":"completed","error":{"code":"denied"},"output":[{"type":"reasoning"}]}),
             Failure::InvalidResponse,
         ),
     ] {

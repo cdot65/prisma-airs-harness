@@ -1,7 +1,7 @@
 # Owned CI lanes
 
 This change improves future runs. It does not change an active build, publish an
-artifact, or establish a measured speedup. Windows remains deferred to 0.2;
+artifact, or establish a measured speedup. Windows remains deferred by the owner;
 macOS jobs require Apple Silicon before installing build tools. Inherited
 upstream workflows remain disabled.
 
@@ -39,7 +39,8 @@ Compiled release caches are saved only after immutable executable upload.
 Cache-save failure is visible but cannot discard a completed candidate. Source
 cache entries are content keyed; target entries may grow per source revision,
 so storage eviction and restore time must be monitored. Concurrency groups keep
-existing runs active and prevent duplicate builds in the same lane/ref.
+existing runs active and serialize runs in the same lane/ref. They do not
+deduplicate queued builds by runtime SHA.
 
 sccache cannot cache Rust outputs that invoke the system linker, including the
 final binary and procedural macro libraries. It also documents limitations for

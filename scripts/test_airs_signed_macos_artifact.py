@@ -175,6 +175,7 @@ class SignedIntakeTests(unittest.TestCase):
                         "--verify",
                         "--strict",
                         "--verbose=4",
+                        "--check-notarization",
                         "-R",
                         "=notarized",
                         str(binary),
@@ -188,7 +189,7 @@ class SignedIntakeTests(unittest.TestCase):
                     self.assertTrue(receipt["notarization_verified"])
                     self.assertEqual(
                         receipt["notarization_method"],
-                        "codesign-explicit-notarized-requirement",
+                        "codesign-online-explicit-notarized-requirement",
                     )
                     self.assertEqual(
                         receipt["gatekeeper_app_assessment"], "not-applicable-raw-cli"

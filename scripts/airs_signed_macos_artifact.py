@@ -155,6 +155,7 @@ def verify(
     check_details(details)
     # Apple WWDC2019 session703 prescribes an explicit notarized requirement
     # for non-app code. spctl's app assessment rejects standalone Mach-O tools.
+    # codesign(1) --check-notarization forces ticket lookup on this fresh host.
     # Exit status is authoritative; successful codesign can produce no output.
     run(
         "notarization",
@@ -163,6 +164,7 @@ def verify(
             "--verify",
             "--strict",
             "--verbose=4",
+            "--check-notarization",
             "-R",
             "=notarized",
             str(binary),
@@ -178,7 +180,7 @@ def verify(
         "codesign_verified": True,
         "hardened_runtime": True,
         "notarization_verified": True,
-        "notarization_method": "codesign-explicit-notarized-requirement",
+        "notarization_method": "codesign-online-explicit-notarized-requirement",
         "gatekeeper_app_assessment": "not-applicable-raw-cli",
         "source_commit": source_commit,
         "asset_id": asset_id,

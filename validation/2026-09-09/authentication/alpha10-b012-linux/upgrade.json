@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": [
+    "alpha9 created named environment and native workspace binding",
+    "alpha9 persistent session completed a real local tool loop",
+    "candidate read same native credential and resumed original history with only the expected owned helper path migrated",
+    "relocated read same native credential and resumed original history with only the expected owned helper path migrated",
+    "candidate and relocation work with previous fixture executable paths absent",
+    "gateway default omitted model on every captured request",
+    "old client fails without the newer helper and preserves identity/history",
+    "candidate logout blocks alpha9 resume without deleting history",
+    "synthetic key absent from plaintext state, transcripts and inference bodies"
+  ],
+  "old_binary_sha256": "a2126c876b79491ad4fb054de172bc3fbe012d1b6612dd9495a57c7bdeacd608",
+  "candidate_binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade",
+    "old-client failure is missing-helper evidence, not version-policy or V2 downgrade proof"
+  ],
+  "phase": "complete",
+  "protected_file_sha256": {
+    "environments.json": "cc5cf75faa90f9b278c4e1e9fedf7811fae4d00e8cee87e3b75bf97c10f90b6a",
+    "environments/a0b114d1-1d63-425e-9e00-c80ddb9b682b/config.toml": "70e5fd4c79c64eaf999735bc0f80e1c516a215d1d73b360ad0ae9a7e0fa46716",
+    "environments/a0b114d1-1d63-425e-9e00-c80ddb9b682b/models.json": "eb5f5a72937154cad97e6e749804145da8fd29e7c56a7a1d7cd17eaa41d4ed9d",
+    "environments/a0b114d1-1d63-425e-9e00-c80ddb9b682b/credential-binding.json": "8f2a352eeedd3872210ddeb2e50538da26c7a5dc1b497d0a9501998a9c8d9302",
+    "environments/a0b114d1-1d63-425e-9e00-c80ddb9b682b/session-binding.json": "3ee5989b208e309e1df51bc742ba9f0963765a83f0f87d76180f323238d4761b"
+  },
+  "history_prefix_sha256": {
+    "environments/a0b114d1-1d63-425e-9e00-c80ddb9b682b/sessions/2026/09/09/rollout-2026-09-09T01-31-37-01a083ca-beb8-7ab1-ab6c-6e3c406ea6c5.jsonl": "1911581d98cf32c487b792988aa56bcf0cc77d922c8895b77be1157c193460f4"
+  },
+  "expected_configuration_migrations": [
+    {
+      "stage": "candidate",
+      "only_changed_field": "model_providers.airs.auth.command",
+      "expected_helper_relative_to_fixture_root": "candidate/bin/airs-harness",
+      "previous_config_sha256": "70e5fd4c79c64eaf999735bc0f80e1c516a215d1d73b360ad0ae9a7e0fa46716",
+      "config_sha256": "a02ca03f8099ad7b9a82c597700b791601c8fcb1d710f1423b50014d896508f8",
+      "all_other_configuration_values_identical": true,
+      "credential_and_session_bindings_byte_identical": true
+    },
+    {
+      "stage": "relocated",
+      "only_changed_field": "model_providers.airs.auth.command",
+      "expected_helper_relative_to_fixture_root": "relocated/bin/airs-harness",
+      "previous_config_sha256": "a02ca03f8099ad7b9a82c597700b791601c8fcb1d710f1423b50014d896508f8",
+      "config_sha256": "ecfbe0d680969874ca976e29d7768c117be271124b539ab5a9f5e38e695680d3",
+      "all_other_configuration_values_identical": true,
+      "credential_and_session_bindings_byte_identical": true
+    }
+  ],
+  "old_client_without_newer_helper": {
+    "exit_code": 1,
+    "new_inference_requests": 0,
+    "saved_helper_missing": true,
+    "identity_and_history_preserved": true,
+    "independent_downgrade_compatibility": false
+  },
+  "plaintext_files_inspected": 101,
+  "inference_requests": 4
+}

@@ -1,0 +1,12 @@
+{
+  "root": "/var/tmp/airs-alpha10-b012-e9oguhih",
+  "binary": "/var/tmp/airs-alpha10-b012-e9oguhih/airs-harness",
+  "sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "version": "airs-harness 0.1.0-alpha.10",
+  "build_seconds": 1182,
+  "build_log": "/var/tmp/airs-alpha10-build.log",
+  "profile": "release; codex-cli opt-level=1; lto=false; codegen-units=16; debug=0",
+  "build_jobs": 12,
+  "target": "x86_64-unknown-linux-musl"
+}

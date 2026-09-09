@@ -1,0 +1,12 @@
+{
+  "old_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "candidate_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "checks_completed": {
+    "old_saved_mcp_helper_unavailable_before_startup": true
+  },
+  "mcp_transport_tested": false,
+  "actual_process_crash_tested": false,
+  "native_credential_store_tested": false,
+  "live_services_used": false,
+  "synthetic_saved_mcp_helper_executed": true
+}

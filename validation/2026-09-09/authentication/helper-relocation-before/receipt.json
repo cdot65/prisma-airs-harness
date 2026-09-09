@@ -1,0 +1,14 @@
+{
+  "recorded_at_utc": "2026-09-09T00:01:40.545827+00:00",
+  "baseline_runtime_source": "154b4f0bcef7528844e85177d7e4dce611982044",
+  "baseline_binary_sha256": "2fcb93d5b11e5c81f2851b94a200bf81da4adba0ecb9d60b20ab8b206e81e3ad",
+  "fixture_sha256": "0a0cb5979580492f629fde1ab85ed0df939790364d440918380208c5bc76619c",
+  "fixture_source_commit": "uncommitted fixture bytes retained in the same commit as this receipt",
+  "expected_regression_failure": true,
+  "methods_run": 1,
+  "failed": 1,
+  "candidate_repair_tested": false,
+  "mcp_transport_tested": false,
+  "native_store_tested": false,
+  "rust_compilation_performed": false
+}

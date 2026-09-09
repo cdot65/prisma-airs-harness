@@ -1,0 +1,41 @@
+test_owned_helpers_relocate_with_old_executable_absent (test_airs_helper_relocation.ManagedHelperRelocation.test_owned_helpers_relocate_with_old_executable_absent) ... FAIL
+
+======================================================================
+FAIL: test_owned_helpers_relocate_with_old_executable_absent (test_airs_helper_relocation.ManagedHelperRelocation.test_owned_helpers_relocate_with_old_executable_absent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-harness/scripts/test_airs_helper_relocation.py", line 199, in test_owned_helpers_relocate_with_old_executable_absent
+    self.assert_migration()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cdot/development/cdot65/airs-harness/scripts/test_airs_helper_relocation.py", line 178, in assert_migration
+    self.assertEqual(result.returncode, 0, result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "/tmp" (codex_home: AbsolutePathBuf("/tmp/airs-harness-test-zm8c_h61/state"))
+Reading additional input from stdin...
+2026-09-09T00:01:07.245883Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+2026-09-09T00:01:07.246029Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+2026-09-09T00:01:07.246192Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+Prisma AIRS Harness v0.1.0-alpha.9
+--------
+workdir: /tmp/airs-harness-test-zm8c_h61/work
+model: airs-gateway-default
+provider: airs
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: none
+reasoning summaries: none
+session id: 01a08377-e2a6-7b93-8bd1-e9aed9056a4e
+--------
+user
+Create result.txt using a local shell tool and verify its contents.
+2026-09-09T00:01:07.316452Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+2026-09-09T00:01:07.316657Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+2026-09-09T00:01:07.316830Z ERROR codex_login::auth::manager: Failed to resolve external auth: provider auth command `/tmp/airs-harness-test-zm8c_h61/Old install 'quoted'/airs-harness` failed to start: No such file or directory (os error 2)
+ERROR: Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed
+ERROR: Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed
+
+
+----------------------------------------------------------------------
+Ran 1 test in 1.505s
+
+FAILED (failures=1)

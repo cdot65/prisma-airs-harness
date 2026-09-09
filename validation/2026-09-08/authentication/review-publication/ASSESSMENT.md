@@ -130,3 +130,22 @@ failure exposed the repository's selected-action policy blocking the new pinned
 sccache action. The failure is retained. Adding only the exact reviewed action commit to the
 existing allowlist allowed both platform jobs to start. Actual cache performance
 is not yet claimed.
+
+## Apple Silicon candidate handoff — 2026-09-09
+
+Alpha10 runtime b012ba55e is compiled and its immutable Apple Silicon signing
+input is verified. macOS15 run34298115142 and macOS26.6.2 ARM64 artifact-only
+run34301272838 both completed successfully; the latter validates the scoped
+bundled npm10 package. Both exercised native and installed CLI Keychain access.
+The [signing handoff](../../../2026-09-09/authentication/alpha10-b012-macos/SIGNING-HANDOFF.md)
+contains the exact download and checksums. Owner-operated Developer ID signing
+and notarization remain pending. Nothing here promotes or publishes the ad-hoc
+candidate, closes owner-device acceptance, or awards a full-release9/10.
+
+CI improvement is now measured for debug identity checks: Linux274→94seconds
+and AppleSilicon151→93seconds on compatible cached runs with unchanged runtime
+and compiler/profile inputs. Most reuse came from Cargo outputs; two sccache
+hits per warm platform do not establish a standalone compiler-cache speedup.
+The first cache-write errors remain disclosed. Hosted preflight-only run
+34300262634 passed with build/acceptance skipped. Full-release compilation
+speedup is unproven.

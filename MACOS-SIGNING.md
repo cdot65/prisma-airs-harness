@@ -5,7 +5,10 @@ release `airs-harness-alpha10-signing-intake`. The downloaded ZIP and extracted
 executable match both GitHub's asset digest and the owner's checksum receipt.
 The owner reports Apple notarization **Accepted** for submission
 `dc835ddf-8841-49bc-a7ee-2f370dcb3457` (created 2026-09-09T08:41:42.493Z).
-Direct Mac signature, Gatekeeper and installed package acceptance remain pending.
+Hosted Mac26 run [34334951573](https://github.com/cdot65/airs-harness/actions/runs/34334951573)
+has independently passed strict Developer ID/team verification, hardened runtime
+checks and online notarization verification of these exact bytes. Native and
+installed package acceptance are still running.
 
 The ZIP SHA-256 is
 `8db8ef853c00cb6994040a5652cf1f77717d2765ceefb04dc5429428382ce129`;
@@ -15,7 +18,7 @@ Its uploaded signing report identifies Developer ID Application team G5QLZ5A8TA
 with hardened runtime enabled. Signing credentials remain on the owner's Mac;
 SSH access and private-key export are not required.
 
-Before declaring the release signed, verify:
+For each signed release, verify:
 
 
 1. Apple Silicon architecture and installed Apple command-line signing tools.
@@ -29,6 +32,15 @@ Before declaring the release signed, verify:
    extracted signature and byte verification before packaging acceptance.
 5. Installed secure-login, restart/resume, upgrade, gateway and MCP checks on the
    exact signed package. Hosted ad-hoc acceptance does not replace these results.
+
+For the raw command-line executable, verify notarization using
+`codesign --verify --strict --verbose=4 --check-notarization -R '=notarized' ./airs-harness`.
+The online option retrieves the ticket on a fresh machine. App-bundle assessment
+with `spctl --type execute` is not the acceptance method for this raw CLI: it
+rejected this valid signature because the file is not an app bundle. Keep strict
+Developer ID/team verification as a separate mandatory check. The failed
+app-assessment and offline-ticket attempts are retained with the successful
+run's evidence; they are not counted as passes.
 
 Do not rebuild solely to move signing between machines: retain the verified
 compiled artifact and record signing as a separate transformation. A new product

@@ -1,15 +1,19 @@
 # Apple Silicon release signing
 
-Status: owner-operated signing host prepared on 2026-09-09. The owner supplied
-Terminal output from macOS 26.6.2 arm64 showing a valid Developer ID Application
-identity for team G5QLZ5A8TA and successfully validated notarization credentials
-stored in the local Keychain profile `prisma-airs-harness-notary`. This is
-owner-reported evidence; no final artifact has been signed or notarized yet.
+Status: signed alpha10 executable received on 2026-09-09 in private draft
+release `airs-harness-alpha10-signing-intake`. The downloaded ZIP and extracted
+executable match both GitHub's asset digest and the owner's checksum receipt.
+The owner reports Apple notarization **Accepted** for submission
+`dc835ddf-8841-49bc-a7ee-2f370dcb3457` (created 2026-09-09T08:41:42.493Z).
+Direct Mac signature, Gatekeeper and installed package acceptance remain pending.
 
-The owner will run the signing workflow locally. SSH access and private-key
-export are not required for this handoff. Supply an immutable Apple Silicon
-artifact and checksum, and retain the resulting signed bytes, signature details,
-notarization submission ID and result before packaging acceptance.
+The ZIP SHA-256 is
+`8db8ef853c00cb6994040a5652cf1f77717d2765ceefb04dc5429428382ce129`;
+the signed executable SHA-256 is
+`2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b`.
+Its uploaded signing report identifies Developer ID Application team G5QLZ5A8TA
+with hardened runtime enabled. Signing credentials remain on the owner's Mac;
+SSH access and private-key export are not required.
 
 Before declaring the release signed, verify:
 
@@ -34,7 +38,7 @@ The alpha10 version preparation is not a publication or a reserved version.
 Apple's [Developer ID guidance](https://developer.apple.com/developer-id/) describes
 distribution outside the Mac App Store. Its [notarization workflow](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow)
 documents `notarytool` and Keychain credential profiles. This checklist records
-required verification; none of the pending checks is asserted as completed.
+required verification; receipt of signed bytes does not establish release readiness.
 
 The [alpha10 signing handoff](validation/2026-09-09/authentication/alpha10-b012-macos/SIGNING-HANDOFF.md)
 now identifies the immutable Apple Silicon download and both expected hashes.

@@ -14,7 +14,7 @@ The new reasoning-only executable regression was also run against the published 
 
 ## Scope and remaining gates
 
-This is Linux candidate acceptance, not publication or macOS acceptance. The native candidate archive and npm packages remain marked unpublishable until release attestation is assembled. Apple Silicon build run34378437580 is still pending. New Mac bytes must be signed, notarized and tested before the GitHub Packages review channel is updated. No gateway configuration was changed.
+This is Linux candidate acceptance, not publication or macOS acceptance. The native candidate archive and npm packages remain marked unpublishable until release attestation is assembled. Apple Silicon build run `34378437580` is still pending. New Mac bytes must be signed, notarized and tested before the GitHub Packages review channel is updated. No gateway configuration was changed.
 
 The independent 9/10 assessment covers reviewed tooling only. It does not claim the pending release is ready.
 

@@ -34,7 +34,8 @@ concurrency:
 jobs:
   acceptance:
     # GitHub restricts draft release visibility to push access. The download
-    # step alone receives this ephemeral token; no repository write is made.
+    # step alone exports GH_TOKEN; checkouts do not persist credentials, and
+    # this workflow makes no repository content or release publication writes.
     permissions:
       contents: write
     runs-on: ${{ inputs.runner }}

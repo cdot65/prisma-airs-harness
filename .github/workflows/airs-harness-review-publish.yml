@@ -46,7 +46,7 @@ jobs:
               row = {'name': '@cdot65/' + name, 'query_succeeded': result.returncode == 0}
               if result.returncode == 0:
                   data = json.loads(result.stdout)
-                  row.update(repository=(data.get('repository') or {}).get('full_name'), visibility=data.get('visibility'))
+                  row.update(repository=(data.get('repository') or {}).get('full_name'), visibility=data.get('visibility'), repository_field_present='repository' in data, repository_metadata={key: (data.get('repository') or {}).get(key) for key in ['id', 'name', 'full_name', 'html_url']}, package_url=data.get('html_url'))
               rows.append(row)
           receipt = {'packages': rows, 'mutation_performed': False, 'teammate_install_verified': False,
                      'passed': all(row.get('repository') == 'cdot65/airs-harness' and row.get('visibility') == 'private' for row in rows)}

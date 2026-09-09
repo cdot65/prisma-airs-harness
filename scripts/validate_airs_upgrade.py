@@ -51,6 +51,11 @@ def arguments():
         parser.add_argument(f"--{name}-binary", type=Path, required=True)
         parser.add_argument(f"--{name}-sha256", required=True)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument(
+        "--upgrade-only",
+        action="store_true",
+        help="Test current native-store upgrades without the alpha.9 missing-helper rollback scenario",
+    )
     parser.add_argument("--inside-dbus", action="store_true", help=argparse.SUPPRESS)
     return parser.parse_args()
 
@@ -185,10 +190,13 @@ def exercise(args, receipt):
                 run("old", "login", "--with-api-key", input_bytes=token + b"\n")
                 binding_path = home / "credential-binding.json"
                 binding = json.loads(binding_path.read_text())
-                assert binding["source"]["kind"] == "keyring"
+                assert binding["source"]["kind"] == (
+                    "keyring-v2" if args.upgrade_only else "keyring"
+                )
+                receipt["original_store_kind"] = binding["source"]["kind"]
                 binding_id = binding["id"]
                 receipt["checks"].append(
-                    "alpha9 created named environment and native workspace binding"
+                    "old binary created named environment and native workspace binding"
                 )
 
                 def private_read(label):
@@ -255,7 +263,7 @@ def exercise(args, receipt):
                     for path, data in rollouts.items()
                 }
                 receipt["checks"].append(
-                    "alpha9 persistent session completed a real local tool loop"
+                    "old binary persistent session completed a real local tool loop"
                 )
 
                 config_path = home / "config.toml"
@@ -320,40 +328,50 @@ def exercise(args, receipt):
                     "gateway default omitted model on every captured request"
                 )
 
-                # Do not mistake old-client/new-helper coexistence for downgrade.
-                receipt["phase"] = "old-client-with-newer-helper-absent"
-                private_read("old")
-                for label in ("candidate", "relocated"):
-                    binaries[label].rename(binaries[label].with_name("offline-newer"))
-                count = len(fixture.requests)
-                downgraded = run(
-                    "old",
-                    "exec",
-                    "resume",
-                    "--json",
-                    "--skip-git-repo-check",
-                    thread_id,
-                    "The old client must not depend on a hidden newer helper.",
-                    success=False,
-                )
-                assert b"No such file or directory" in downgraded.stderr
-                assert str(binaries["relocated"]).encode() in downgraded.stderr
-                assert len(fixture.requests) == count
-                assert_preserved_state(
-                    protected, config_path, binaries["relocated"], rollouts
-                )
-                receipt["old_client_without_newer_helper"] = {
-                    "exit_code": downgraded.returncode,
-                    "new_inference_requests": 0,
-                    "saved_helper_missing": True,
-                    "identity_and_history_preserved": True,
-                    "independent_downgrade_compatibility": False,
-                }
-                for label in ("candidate", "relocated"):
-                    binaries[label].with_name("offline-newer").rename(binaries[label])
-                receipt["checks"].append(
-                    "old client fails without the newer helper and preserves identity/history"
-                )
+                if args.upgrade_only:
+                    receipt["old_client_without_newer_helper"] = {
+                        "tested": False,
+                        "reason": "upgrade-only scenario",
+                    }
+                else:
+                    # Do not mistake old-client/new-helper coexistence for downgrade.
+                    receipt["phase"] = "old-client-with-newer-helper-absent"
+                    private_read("old")
+                    for label in ("candidate", "relocated"):
+                        binaries[label].rename(
+                            binaries[label].with_name("offline-newer")
+                        )
+                    count = len(fixture.requests)
+                    downgraded = run(
+                        "old",
+                        "exec",
+                        "resume",
+                        "--json",
+                        "--skip-git-repo-check",
+                        thread_id,
+                        "The old client must not depend on a hidden newer helper.",
+                        success=False,
+                    )
+                    assert b"No such file or directory" in downgraded.stderr
+                    assert str(binaries["relocated"]).encode() in downgraded.stderr
+                    assert len(fixture.requests) == count
+                    assert_preserved_state(
+                        protected, config_path, binaries["relocated"], rollouts
+                    )
+                    receipt["old_client_without_newer_helper"] = {
+                        "exit_code": downgraded.returncode,
+                        "new_inference_requests": 0,
+                        "saved_helper_missing": True,
+                        "identity_and_history_preserved": True,
+                        "independent_downgrade_compatibility": False,
+                    }
+                    for label in ("candidate", "relocated"):
+                        binaries[label].with_name("offline-newer").rename(
+                            binaries[label]
+                        )
+                    receipt["checks"].append(
+                        "old client fails without the newer helper and preserves identity/history"
+                    )
 
                 receipt["phase"] = "candidate-logout"
                 run("candidate", "logout")
@@ -374,7 +392,7 @@ def exercise(args, receipt):
                     for path, original in rollouts.items()
                 )
                 receipt["checks"].append(
-                    "candidate logout blocks alpha9 resume without deleting history"
+                    "candidate logout blocks old-binary resume without deleting history"
                 )
                 receipt["plaintext_files_inspected"] = assert_private(
                     [state, work], transcripts, token
@@ -435,6 +453,7 @@ def main():
             "--receipt",
             str(args.receipt),
             "--inside-dbus",
+            *(["--upgrade-only"] if args.upgrade_only else []),
         ]
         return subprocess.call(command, env=env)
     if (
@@ -455,12 +474,15 @@ def main():
         "loopback_gateway": True,
         "published": False,
         "a18_complete": False,
+        "scenario": "current-native-upgrade"
+        if args.upgrade_only
+        else "legacy-helper-rollback",
         "limitations": [
             "Linux fixture, not desktop onboarding",
             "workspace key only; no OIDC migration",
             "same candidate bytes relocated, not a subsequent distinct release",
             "no signing or published package upgrade",
-            "old-client failure is missing-helper evidence, not version-policy or V2 downgrade proof",
+            "Downgrade compatibility is not claimed; the optional legacy scenario checks missing-helper failure only",
         ],
     }
     try:

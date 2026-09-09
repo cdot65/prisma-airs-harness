@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-09-09T01:40:47.981449+00:00",
+  "repository": "cdot65/airs-harness",
+  "runs": [
+    {
+      "id": 34299928521,
+      "head_sha": "33c89f40346776961a53c430c9f985567d5599ca",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "startup_failure",
+      "created_at": "2026-09-09T01:37:10Z",
+      "updated_at": "2026-09-09T01:37:10Z",
+      "check_suite_id": 92917131545,
+      "run_attempt": 1,
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34299928521",
+      "jobs": 0,
+      "check_runs": 0
+    },
+    {
+      "id": 34300072622,
+      "head_sha": "6385842c154d7f9d455c39720ab1776210a924e2",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "startup_failure",
+      "created_at": "2026-09-09T01:39:25Z",
+      "updated_at": "2026-09-09T01:39:25Z",
+      "check_suite_id": 92917504806,
+      "run_attempt": 1,
+      "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34300072622",
+      "jobs": 0,
+      "check_runs": 0
+    }
+  ],
+  "policy": {
+    "github_owned_allowed": true,
+    "patterns_allowed": [
+      "dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582",
+      "taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532"
+    ],
+    "verified_allowed": false
+  },
+  "validator": {
+    "version": "1.7.12",
+    "linux_archive_sha256": "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8",
+    "binary_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "command": "actionlint -shellcheck= -pyflakes= identity.yml macos-release.yml npm-check.yml",
+    "exit_code": 0,
+    "scope": "GitHub Actions workflow syntax, expressions, action metadata; optional shellcheck/pyflakes integrations disabled"
+  },
+  "unapproved_action": "mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba",
+  "policy_mutation_performed": false,
+  "native_build_performed": false,
+  "startup_error_annotation_available": false
+}

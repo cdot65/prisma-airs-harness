@@ -3,7 +3,9 @@
 Status update: owner confirmed all three repository associations already exist.
 The earlier blocker below was caused by treating omitted REST metadata as null.
 The corrected publisher records owner confirmation separately from API evidence.
-Exact private draft archives are uploaded; publication verification is proceeding. This is an owner-test distribution, not completion of
+Publication run34339198627 succeeded: all three exact alpha10 archives are now
+published under auth-review and downloaded registry bytes match SHA256/SRI.
+Fresh real-registry acceptance is running; no full-authentication completion claim. This is an owner-test distribution, not completion of
 the full authentication release.
 
 ## Verified
@@ -35,8 +37,9 @@ The owner subsequently confirmed all three are already bound to cdot65/airs-harn
 - @cdot65/prisma-airs-harness-darwin-arm64
 
 The repository field in package.json does not prove the registry association.
-No npm publish was attempted, no dist-tag was changed, and no non-owner install
-is claimed. The publisher now checks exact API package identity and private visibility, rejects
+The earlier inspection made no mutations. Publication subsequently succeeded
+after the metadata correction, with auth-review as the only requested dist-tag.
+No non-owner install is claimed. The publisher now checks exact API package identity and private visibility, rejects
 contradictory repository metadata, and explicitly records owner confirmation when
 the REST field is omitted. Actual publishing and downloads verify workflow access.
 

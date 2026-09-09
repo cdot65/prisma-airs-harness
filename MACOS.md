@@ -1,7 +1,7 @@
 ---
 title: Prisma AIRS Harness for macOS
 description: Install on Apple Silicon, choose workspace API key or Keycloak authentication, and verify your first session.
-release: 0.1.0-alpha.9
+release: 0.1.0-alpha.10-auth-review
 updated: 2026-09-09
 audience: [users, administrators]
 platform: macos-arm64
@@ -14,10 +14,29 @@ start working in a local folder. The terminal command is **`airs-harness`**.
 No Rust compiler or source checkout is needed for the npm installation.
 For the latest instructions, use [this guide on GitHub](https://github.com/cdot65/airs-harness/blob/main/MACOS.md); a bundled copy reflects the release that included it.
 
-**Authentication review:** alpha.10 uses a signed and notarized Apple Silicon
-executable. If your administrator supplied that review build, follow
-[guided setup and sign-in](AUTHENTICATION-ONBOARDING.md).
-The alpha.9 installation commands below remain the existing published baseline.
+**Signed authentication review release:** `0.1.0-alpha.10` is published to
+GitHub Packages under `auth-review`, with the signed and notarized Apple Silicon
+executable. Install the exact review version:
+
+```zsh
+npm login --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.10 --include=optional --registry=https://npm.pkg.github.com
+airs-harness --version
+airs-harness
+```
+
+For npm login, use your GitHub username and a token with `read:packages` and
+access to this private package. Skip that first command if already logged in.
+The expected version is `airs-harness 0.1.0-alpha.10`. First launch guides new
+users through gateway setup and company sign-in or a hidden workspace-key prompt.
+Existing users can run `airs-harness login` to sign in again. Follow
+[guided setup and sign-in](AUTHENTICATION-ONBOARDING.md) for verification,
+resume, logout, and diagnostics. Credentials stay in the native Keychain.
+
+This is an authentication review release, not full production acceptance. The
+owner's affected Mac still needs hands-on retesting. The alpha.9 commands below
+remain historical baseline/alternative-registry instructions; they do not install
+this signed review release.
 
 **Supported:** Apple Silicon Macs using native `arm64` Terminal and Node.js.
 **Tested baseline:** macOS 15. Intel Macs are unsupported.

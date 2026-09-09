@@ -1,0 +1,13 @@
+test_exact_nested_binary_preserved_sidecar_not_installed (test_airs_signed_macos_artifact.SignedIntakeTests.test_exact_nested_binary_preserved_sidecar_not_installed) ... ok
+test_hash_archive_layout_and_link_rejections_precede_execution (test_airs_signed_macos_artifact.SignedIntakeTests.test_hash_archive_layout_and_link_rejections_precede_execution) ... /usr/lib/python3.14/zipfile/__init__.py:1730: UserWarning: Duplicate name: 'prisma-airs-harness-signing/airs-harness'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+ok
+test_metadata_free_and_legacy_archives_preserve_exact_binary (test_airs_signed_macos_artifact.SignedIntakeTests.test_metadata_free_and_legacy_archives_preserve_exact_binary) ... ok
+test_no_apple_tool_runs_before_native_digest_matches (test_airs_signed_macos_artifact.SignedIntakeTests.test_no_apple_tool_runs_before_native_digest_matches) ... ok
+test_notarization_exit_controls_receipt_even_without_success_prose (test_airs_signed_macos_artifact.SignedIntakeTests.test_notarization_exit_controls_receipt_even_without_success_prose) ... ok
+test_wrong_team_adhoc_and_missing_runtime_fail (test_airs_signed_macos_artifact.SignedIntakeTests.test_wrong_team_adhoc_and_missing_runtime_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.010s
+
+OK

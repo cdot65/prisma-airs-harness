@@ -1,0 +1,19 @@
+{
+  "id": 34414804362,
+  "head_sha": "563c32d3e8a54a8d28f0961bd81cf7b545319705",
+  "status": "completed",
+  "conclusion": "success",
+  "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34414804362",
+  "artifacts": [
+    {
+      "id": 10128843887,
+      "name": "airs-harness-signed-evidence-macos-26-1",
+      "sha256": "7f64f69993d61b47f80c4a05608755d5fc980d97d6c8a693ec31d411775f3dc3"
+    },
+    {
+      "id": 10128843112,
+      "name": "airs-harness-signed-private-packages-macos-26-1",
+      "sha256": "1fae92871af6638cd056b0269df156e131c47d736645a7ab74e550eb4ac6886b"
+    }
+  ]
+}

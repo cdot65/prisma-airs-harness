@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "scope": "signed-prerelease-distribution",
+  "passed": true,
+  "published": false,
+  "registry_preflight_required": true,
+  "registry": "https://npm.pkg.github.com",
+  "dist_tag": "auth-review",
+  "version": "0.1.0-alpha.11",
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.11.tgz",
+      "sha256": "cf463001a6aaf896dfbe793c4eec2741fbba96b388905ed0002ae56d10dce936",
+      "integrity": "sha512-Su7Z752aCu4UKQFveePzylysutIYHMYI9j8/x6zRVRfwbh/dLLDwdHuLeZyVgeEMo60UGhvquSsJHQELvvTL8Q=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.11.tgz",
+      "sha256": "7a4f40d454c8cce9a6219dbbeac3d12c66707f7db7e28f6cc3bcde15e2d4fca9",
+      "integrity": "sha512-RuOVOzEisDInpZ89517g5ArnCmCPw92D5I9BhfH6bb7Rg9JDc11XyFod3eol/ixknyr7QoT05N5SAVM2YOUASw=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz",
+      "sha256": "ae030cdd0f9f69a7bb32c44e4ce131c69dc9d8be2918b71f622014773c6e0ab6",
+      "integrity": "sha512-dde8IjvWBih+XA33zNJihtDHD0crLVHYMYRPQPpLBgT36DW9rBETtTJiaGsdPtMZ4DJP40Nv2VAvZWNwTKaB+A=="
+    }
+  ],
+  "native_validation": {
+    "x86_64-unknown-linux-musl": {
+      "scope": "signed-prerelease-distribution",
+      "passed": true,
+      "binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+      "target": "x86_64-unknown-linux-musl",
+      "product_version": "0.1.0-alpha.11",
+      "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+      "evidence_roles_verified": [
+        "independent-review",
+        "installed-runtime",
+        "installed-tests",
+        "live-workspace",
+        "managed-cli",
+        "native-provenance",
+        "native-tests",
+        "package-integrity",
+        "upgrade"
+      ],
+      "full_authentication_release_ready": false
+    },
+    "aarch64-apple-darwin": {
+      "scope": "signed-prerelease-distribution",
+      "passed": true,
+      "binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+      "target": "aarch64-apple-darwin",
+      "product_version": "0.1.0-alpha.11",
+      "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+      "evidence_roles_verified": [
+        "apple-notarization",
+        "ci-evidence",
+        "ci-run",
+        "developer-id-signature",
+        "independent-review",
+        "installed-keychain",
+        "installed-runtime",
+        "installed-tests",
+        "managed-cli",
+        "native-keychain",
+        "native-provenance",
+        "native-tests",
+        "owner-notarization",
+        "package-integrity"
+      ],
+      "full_authentication_release_ready": false
+    }
+  },
+  "bundle_verification": {
+    "packages": 72,
+    "files": 3102,
+    "license_files": 68,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+    "windows_command_wrappers": []
+  },
+  "full_authentication_release_ready": false
+}

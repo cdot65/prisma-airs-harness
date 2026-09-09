@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_review",
+  "reviewed_at": "2026-09-09T23:09:42.939353+00:00",
+  "scope": "signed-prerelease-distribution",
+  "assessment_stage": "publication-preparation",
+  "verdict": "pass",
+  "score": 9,
+  "passed": true,
+  "ready_for_review_channel_publication_preparation": true,
+  "published": false,
+  "registry_preflight_required": true,
+  "full_authentication_release_ready": false,
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "product_version": "0.1.0-alpha.11",
+  "packaging_commit": "563c32d3e8a54a8d28f0961bd81cf7b545319705",
+  "registry": "https://npm.pkg.github.com",
+  "dist_tag": "auth-review",
+  "publication_plan_sha256": "f237b39f60362c567266205bcd2f7d653b28c43938b0058ddc358731803ceb38",
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.11.tgz",
+      "sha256": "cf463001a6aaf896dfbe793c4eec2741fbba96b388905ed0002ae56d10dce936",
+      "integrity": "sha512-Su7Z752aCu4UKQFveePzylysutIYHMYI9j8/x6zRVRfwbh/dLLDwdHuLeZyVgeEMo60UGhvquSsJHQELvvTL8Q=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.11.tgz",
+      "sha256": "7a4f40d454c8cce9a6219dbbeac3d12c66707f7db7e28f6cc3bcde15e2d4fca9",
+      "integrity": "sha512-RuOVOzEisDInpZ89517g5ArnCmCPw92D5I9BhfH6bb7Rg9JDc11XyFod3eol/ixknyr7QoT05N5SAVM2YOUASw=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz",
+      "sha256": "ae030cdd0f9f69a7bb32c44e4ce131c69dc9d8be2918b71f622014773c6e0ab6",
+      "integrity": "sha512-dde8IjvWBih+XA33zNJihtDHD0crLVHYMYRPQPpLBgT36DW9rBETtTJiaGsdPtMZ4DJP40Nv2VAvZWNwTKaB+A=="
+    }
+  ],
+  "assessment": "The final immutable three-package aggregate is internally consistent and suitable for the authorized auth-review publication process, subject to mandatory registry preflight and post-publication byte/tag/consumer verification. This is a preparation assessment, not evidence that registry publication or teammate access has already succeeded.",
+  "independently_verified": {
+    "exact_three_scoped_packages": true,
+    "no_Intel_Mac_or_Windows_package": true,
+    "native_before_launcher_plan_order": true,
+    "all_package_versions_alpha11": true,
+    "recomputed_complete_publication_plan_matches": true,
+    "restored_publication_plan_byte_identical": true,
+    "all_three_archives_sha256_and_sha512_sri_match": true,
+    "archive_payloads_match_staged_files": true,
+    "restored_tarball_hashes_and_native_bytes_match": true,
+    "no_top_level_private_or_unvalidated_candidate_markers": true,
+    "all_embedded_native_release_evidence_hashes_match": true,
+    "release_attestations_are_review_scope_only": true,
+    "linux_native_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+    "mac_native_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+    "linux_signing_disposition": "linux-provenance-checksums",
+    "mac_signing_disposition": "Developer ID G5QLZ5A8TA, hardened runtime and actual online notarization verified",
+    "mac_submission_id_consistent": "3ca32781-36e0-4626-b196-17578b95b850",
+    "required_pins": {
+      "@cdot65/prisma-airs-cli": "5.2.0",
+      "@cdot65/prisma-airs-sdk": "0.28.0"
+    },
+    "native_dependencies": "actual scoped package names with exact0.1.0-alpha.11 versions; no remote dependency URLs",
+    "package_source_file_hashes_verified": 17,
+    "bundle_verification": {
+      "packages": 72,
+      "files": 3102,
+      "license_files": 68,
+      "native_payload_packages": [
+        "@img/sharp-darwin-arm64",
+        "@img/sharp-libvips-darwin-arm64",
+        "@img/sharp-libvips-linux-x64",
+        "@img/sharp-libvips-linuxmusl-x64",
+        "@img/sharp-linux-x64",
+        "@img/sharp-linuxmusl-x64"
+      ],
+      "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+      "windows_command_wrappers": []
+    }
+  },
+  "acceptance_basis": {
+    "linux": "Previously independently reviewed exacteb919 native/installed39pass, live workspace-key11checks and forward native-store upgrade8checks; no new liveOIDC claim",
+    "reviewed_mac_run": 34414804362,
+    "mac_native": {
+      "passed": 38,
+      "skipped": 2
+    },
+    "mac_installed": {
+      "passed": 38,
+      "skipped": 1
+    },
+    "mac_keychain_and_managed_cli": "Both actual native/installed Keychain and managedCLI validation passed",
+    "mac_corrected_signing_receipts": "Both native and installed include matching owner submission UUID;8 signature-log hashes independently checked",
+    "artifact_digests": [
+      {
+        "id": 10128843887,
+        "name": "airs-harness-signed-evidence-macos-26-1",
+        "sha256": "7f64f69993d61b47f80c4a05608755d5fc980d97d6c8a693ec31d411775f3dc3"
+      },
+      {
+        "id": 10128843112,
+        "name": "airs-harness-signed-private-packages-macos-26-1",
+        "sha256": "1fae92871af6638cd056b0269df156e131c47d736645a7ab74e550eb4ac6886b"
+      }
+    ]
+  },
+  "corrected_blocker": {
+    "initial_plan_rejected": true,
+    "reason": "Signing receipt omitted submission UUID declared by release attestation",
+    "repair": "Required canonical submission ID now checked against attestation before intake and passed to native/installed verifiers; fresh successful Macrun and aggregate replaced rejected artifacts",
+    "publisher_gate_relaxed": false
+  },
+  "remaining_gates": [
+    "Publisher must revalidate this exact plan and immutable versions/registry permissions before any mutation; use auth-review, not latest.",
+    "Verify actual registry tarball SHA256/SRI, expected tag and fresh consumer installation after authorized publication. Final aggregate installation is not independently executed by this review; prior platform-specific candidates passed.",
+    "No new signed alpha.11 macOS15 result, live Mac Keycloak/MCP, affected-owner consent/Keychain incident resolution, or current Linux liveOIDC coverage is claimed.",
+    "Full authentication concurrency/crash, signed upgrade/downgrade, unassisted onboarding and production promotion remain outside this scoped assessment."
+  ],
+  "evidence_root": "/var/tmp/airs-alpha11-release",
+  "evidence": [
+    {
+      "path": "PUBLICATION-PLAN.json",
+      "sha256": "f237b39f60362c567266205bcd2f7d653b28c43938b0058ddc358731803ceb38"
+    },
+    {
+      "path": "RESTORED-PUBLICATION-PLAN.json",
+      "sha256": "f237b39f60362c567266205bcd2f7d653b28c43938b0058ddc358731803ceb38"
+    },
+    {
+      "path": "final-npm/NPM-PACKAGES.json",
+      "sha256": "53a5d95d8e2e47f7fa41a80704f42b80d815286c5cf9a0c62ab978c8ac72cbf3"
+    },
+    {
+      "path": "INDEPENDENT-PLAN-CHECK.json",
+      "sha256": "a2a041ef43b3dbc71b4fc6f82e34be4befe9c1951a420e3a3e00b61b4fa77876"
+    },
+    {
+      "path": "reviewed-mac-final/RUN.json",
+      "sha256": "3f92f0d3a64461b8a97db64655681462b1c272c86d2cd0596f96d23e2568a50d"
+    },
+    {
+      "path": "REJECTED-ASSEMBLY.log",
+      "sha256": "3fddf378df80ad9bff775c904055e99582e1ab8e99bb3022af0ab37b5592f3f6"
+    }
+  ]
+}

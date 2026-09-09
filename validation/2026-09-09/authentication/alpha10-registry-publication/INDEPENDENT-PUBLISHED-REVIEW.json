@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-09T10:26:37.938046+00:00",
+  "reviewer": "/root/credential_review",
+  "scope": "signed-prerelease-distribution",
+  "score": 9,
+  "verdict": "pass-for-owner-hands-on-testing",
+  "owner_test_blockers": [],
+  "full_authentication_release_ready": false,
+  "published_version": "0.1.0-alpha.10",
+  "dist_tag": "auth-review",
+  "approved_plan_sha256": "0661946b1c3174464b255306cabce8000cbd5e74617bf420ec9a6220fbf29583",
+  "publication_artifact_sha256": "7ea3551090a67776da6ce5b9727ffe306f7cf71c2e38205594d58497d996e465",
+  "publication_receipt_sha256": "ddea383f7c07097f0c7a3963d9363bdbded0d1b28abebefea9458677783be8e7",
+  "publication_packages_match_independently_reviewed_archives": true,
+  "association_correction_commit": "9a80b102338cc8a63b3b5b6f20173b1090f459d4",
+  "association_evidence": "Exact three identities/private visibility observed; association from explicit owner confirmation when REST field omitted. Explicit null/conflicting repository rejected. No association mutation by correction.",
+  "association_boundary_checks": 15,
+  "registry_acceptance_run": "34339734562",
+  "credential_principal": "GitHub Actions repository token",
+  "teammate_read_only_install_verified": false,
+  "owner_incident_resolution_verified": false,
+  "review_method": "Read-only source/receipt review; rehashed five evidence ZIPs and individual retained files, compared registry archive identities to approved plan; no repeat install/publication or runtime build by reviewer",
+  "acceptance": [
+    {
+      "artifact_id": 10099318900,
+      "artifact_name": "registry-install-macos-26-npm10.9.8-1",
+      "artifact_sha256": "82ad1ec5ceafed23ce357369aa7ad71aa3bf59b37410c7f7ac94a93d0ac43e87",
+      "system": "Darwin",
+      "machine": "arm64",
+      "npm_version": "10.9.8",
+      "installed_tests": {
+        "passed": 37,
+        "skipped": 1,
+        "total": 38
+      },
+      "native_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b",
+      "fresh_scoped_registry_install": true,
+      "exact_registry_archive_downloads_verified": 3,
+      "managed_cli_contract_passed": true,
+      "native_keychain_passed": true,
+      "native_signature_and_online_notarization_passed": true,
+      "receipt_sha256": {
+        "HOST.json": "564790fc510ac959943ec4b1a8e1e8e58a88a475352411684da1ba0edcaf0f10",
+        "REGISTRY-INSTALL.json": "9c9af9e0da1d8b6685caecff3024412c4f11ad883836c791fb53d168ecd6ec8f",
+        "REGISTRY-DOWNLOAD.json": "88518a2e9f7b66e7bef5c2fab947cfaf4fcc37e80089cf241f41493693c0b4f1",
+        "INSTALL-ATTEMPT.json": "33f0e9d4d094002d33fbe737cc27a1435edfcdcdf944622bdf1d85e8e8c98231",
+        "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+        "installed-tests.log": "bd6bb279a110493dd79cfd7291caf40e0d84336a43b63591ccbf80d4392455ad",
+        "installed-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+        "INSTALLED-SIGNING.json": "996ebe11a0d2659fe3d4023c393564c31b965fb62270d52fbdf54d7a44fecf15",
+        "INSTALLED-SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+        "INSTALLED-SIGNING-codesign.log": "1623c31adb597b4dd9df49a22629e9721691087f62ecb253e944ce039abcf045",
+        "INSTALLED-SIGNING-details.log": "742fa011df02fa21b3eb135d9e5e326c6afbd96dfbbef463b9c7bdc7da1db2a7",
+        "INSTALLED-SIGNING-notarization.log": "1623c31adb597b4dd9df49a22629e9721691087f62ecb253e944ce039abcf045"
+      }
+    },
+    {
+      "artifact_id": 10099313579,
+      "artifact_name": "registry-install-macos-26-npm12.0.2-1",
+      "artifact_sha256": "f18a9f9661871f80e64d22a16190690dcf7d28c6c7d6302bbcf70793b31d0661",
+      "system": "Darwin",
+      "machine": "arm64",
+      "npm_version": "12.0.2",
+      "installed_tests": {
+        "passed": 37,
+        "skipped": 1,
+        "total": 38
+      },
+      "native_sha256": "2099b66324eef6d1c63a6ba06da681163f60031767081833888e34626a4dee2b",
+      "fresh_scoped_registry_install": true,
+      "exact_registry_archive_downloads_verified": 3,
+      "managed_cli_contract_passed": true,
+      "native_keychain_passed": true,
+      "native_signature_and_online_notarization_passed": true,
+      "receipt_sha256": {
+        "HOST.json": "564790fc510ac959943ec4b1a8e1e8e58a88a475352411684da1ba0edcaf0f10",
+        "REGISTRY-INSTALL.json": "7ed64d786fb967430e8eb1051cd6bd6c25005ed57cef513ea64302ac0f2c2a87",
+        "REGISTRY-DOWNLOAD.json": "88518a2e9f7b66e7bef5c2fab947cfaf4fcc37e80089cf241f41493693c0b4f1",
+        "INSTALL-ATTEMPT.json": "33f0e9d4d094002d33fbe737cc27a1435edfcdcdf944622bdf1d85e8e8c98231",
+        "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+        "installed-tests.log": "2f6a2105afaa347579d743670a95b62a129f08a886b737e3c23e432283552790",
+        "installed-keychain.json": "50262bb642b107909465ac56e3706b03891dea4fe61a6938cb119fba75a840bf",
+        "INSTALLED-SIGNING.json": "996ebe11a0d2659fe3d4023c393564c31b965fb62270d52fbdf54d7a44fecf15",
+        "INSTALLED-SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+        "INSTALLED-SIGNING-codesign.log": "1623c31adb597b4dd9df49a22629e9721691087f62ecb253e944ce039abcf045",
+        "INSTALLED-SIGNING-details.log": "742fa011df02fa21b3eb135d9e5e326c6afbd96dfbbef463b9c7bdc7da1db2a7",
+        "INSTALLED-SIGNING-notarization.log": "1623c31adb597b4dd9df49a22629e9721691087f62ecb253e944ce039abcf045"
+      }
+    },
+    {
+      "artifact_id": 10099276257,
+      "artifact_name": "registry-install-ubuntu-24.04-npm10.9.8-1",
+      "artifact_sha256": "1c439703d5d234f652dc81009e6ef5c61130ccd4e205f5d592575aeb4cd1b519",
+      "system": "Linux",
+      "machine": "x86_64",
+      "npm_version": "10.9.8",
+      "installed_tests": {
+        "passed": 38,
+        "skipped": 0,
+        "total": 38
+      },
+      "native_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+      "fresh_scoped_registry_install": true,
+      "exact_registry_archive_downloads_verified": 3,
+      "managed_cli_contract_passed": true,
+      "native_keychain_passed": null,
+      "native_signature_and_online_notarization_passed": null,
+      "receipt_sha256": {
+        "HOST.json": "dd6a00e9d1a3f16061954f4c3fd9654066c58a6b017390f8c94b2eac77ddd5f9",
+        "REGISTRY-INSTALL.json": "80dfcbaf9f4be1f7a2a5d7aa51ad7bc9e2da1ca2c158504ed269a41899ada812",
+        "REGISTRY-DOWNLOAD.json": "88518a2e9f7b66e7bef5c2fab947cfaf4fcc37e80089cf241f41493693c0b4f1",
+        "INSTALL-ATTEMPT.json": "33f0e9d4d094002d33fbe737cc27a1435edfcdcdf944622bdf1d85e8e8c98231",
+        "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+        "installed-tests.log": "69a83a9053a86958d42fff43c5ab756ac85ee60f1d44c80c4041901dae7034ca"
+      }
+    },
+    {
+      "artifact_id": 10099278042,
+      "artifact_name": "registry-install-ubuntu-24.04-npm12.0.2-1",
+      "artifact_sha256": "dd7caafd0c6ce6e3e786e08afed8673f9cca139fb572b6ac27a0f0111237894b",
+      "system": "Linux",
+      "machine": "x86_64",
+      "npm_version": "12.0.2",
+      "installed_tests": {
+        "passed": 38,
+        "skipped": 0,
+        "total": 38
+      },
+      "native_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+      "fresh_scoped_registry_install": true,
+      "exact_registry_archive_downloads_verified": 3,
+      "managed_cli_contract_passed": true,
+      "native_keychain_passed": null,
+      "native_signature_and_online_notarization_passed": null,
+      "receipt_sha256": {
+        "HOST.json": "dd6a00e9d1a3f16061954f4c3fd9654066c58a6b017390f8c94b2eac77ddd5f9",
+        "REGISTRY-INSTALL.json": "a5a8df88efaa272ae46bbbeb9ae5c04ecfad1696a01c5aa56819abbb72a2ac72",
+        "REGISTRY-DOWNLOAD.json": "88518a2e9f7b66e7bef5c2fab947cfaf4fcc37e80089cf241f41493693c0b4f1",
+        "INSTALL-ATTEMPT.json": "33f0e9d4d094002d33fbe737cc27a1435edfcdcdf944622bdf1d85e8e8c98231",
+        "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+        "installed-tests.log": "afb0c5c2038681ab618357b5adcf17892c505a5d933c7bed9e4d6888287cfe3c"
+      }
+    }
+  ],
+  "remaining_full_release_gates": [
+    "Affected-owner signed package Keychain/consent and real Keycloak/MCP retest",
+    "Actual nonowner repository/package-read authorization trial",
+    "Full refresh concurrency/crash, signed migration/downgrade, unassisted onboarding and P6/P7 scorecard"
+  ],
+  "grade_rationale": "Narrow9/10 distribution score retained: final reviewed bytes are published and fresh Linux/Mac scoped installs pass npm10/12; withheld point and separate full-auth gates cover owner/user/migration coverage. No blocker found to beginning owner hands-on testing."
+}

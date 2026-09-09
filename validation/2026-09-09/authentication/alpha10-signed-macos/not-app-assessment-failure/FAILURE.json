@@ -1,0 +1,30 @@
+{
+  "run": 34333869673,
+  "source_commit": "7fb3e195f312660e41a547815b629271d2ed7c96",
+  "artifact": {
+    "id": 10096885112,
+    "name": "airs-harness-signed-evidence-macos-26-1",
+    "digest": "sha256:1fd406bdfc55e142ec6e5b552c842ba54f891b7552349724af675bbf936b09dc",
+    "size_in_bytes": 3752
+  },
+  "private_job_log_sha256": "8667e4c9af31489c6299cc067e1fa121b83357d2efdb05c31d72b08c3ccf499b",
+  "signed_archive_download": "passed",
+  "native_architecture": "arm64",
+  "strict_signature_and_explicit_apple_team_requirement": "passed",
+  "team_observed": "G5QLZ5A8TA",
+  "hardened_runtime_observed": true,
+  "spctl_result": "rejected (the code is valid but does not seem to be an app)",
+  "notarization_gate_passed": false,
+  "native_cli_executed": false,
+  "repair": "Use successful codesign --verify --strict --verbose=4 -R =notarized for raw CLI. Never describe prior spctl app assessment as a pass.",
+  "primary_guidance": "https://developer.apple.com/videos/play/wwdc2019/703/",
+  "local_tests": {
+    "passed": 5,
+    "notarization_requirement_exit_status_cases": [
+      0,
+      1
+    ],
+    "empty_success_output_accepted": true
+  },
+  "native_apple_replacement_check": "pending"
+}

@@ -101,7 +101,7 @@ def restore(archive, directory, archive_sha256, binary_sha256):
         return binary
 
 
-def check_details(details, assessment):
+def check_details(details):
     flags = re.search(r"\bflags=0x([0-9a-fA-F]+)\(", details)
     if not flags or not int(flags[1], 16) & 0x10000:
         raise ValueError("Hardened runtime is absent")
@@ -113,8 +113,6 @@ def check_details(details, assessment):
         raise ValueError("Developer ID Application certificate is absent")
     if not re.search(r"^Timestamp=.+$", details, re.MULTILINE):
         raise ValueError("Secure signing timestamp is absent")
-    if not re.search(r"^source=Notarized Developer ID$", assessment, re.MULTILINE):
-        raise ValueError("Gatekeeper did not verify notarization")
 
 
 def verify(
@@ -154,18 +152,22 @@ def verify(
         ],
     )
     details = run("details", ["/usr/bin/codesign", "-d", "--verbose=4", str(binary)])
-    assessment = run(
-        "gatekeeper",
+    check_details(details)
+    # Apple WWDC2019 session703 prescribes an explicit notarized requirement
+    # for non-app code. spctl's app assessment rejects standalone Mach-O tools.
+    # Exit status is authoritative; successful codesign can produce no output.
+    run(
+        "notarization",
         [
-            "/usr/sbin/spctl",
-            "--assess",
-            "--type",
-            "execute",
+            "/usr/bin/codesign",
+            "--verify",
+            "--strict",
             "--verbose=4",
+            "-R",
+            "=notarized",
             str(binary),
         ],
     )
-    check_details(details, assessment)
     if digest(binary) != binary_sha256:
         raise ValueError("Signed executable changed during verification")
     result = {
@@ -176,6 +178,8 @@ def verify(
         "codesign_verified": True,
         "hardened_runtime": True,
         "notarization_verified": True,
+        "notarization_method": "codesign-explicit-notarized-requirement",
+        "gatekeeper_app_assessment": "not-applicable-raw-cli",
         "source_commit": source_commit,
         "asset_id": asset_id,
         "archive_sha256": archive_sha256,

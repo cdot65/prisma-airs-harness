@@ -12,7 +12,6 @@ import airs_signed_macos_artifact as signed
 
 
 DETAILS = "CodeDirectory v=20500 flags=0x10000(runtime)\nAuthority=Developer ID Application: Example (G5QLZ5A8TA)\nTeamIdentifier=G5QLZ5A8TA\nTimestamp=Sep 9, 2026\n"
-ASSESSMENT = "airs-harness: accepted\nsource=Notarized Developer ID\n"
 
 
 class SignedIntakeTests(unittest.TestCase):
@@ -87,31 +86,19 @@ class SignedIntakeTests(unittest.TestCase):
                 )
             self.assertFalse((root / "wrong-native/airs-harness").exists())
 
-    def test_unnotarized_wrong_team_adhoc_and_missing_runtime_fail(self):
-        signed.check_details(DETAILS, ASSESSMENT)
-        for details, assessment in [
-            (DETAILS.replace("G5QLZ5A8TA", "OTHERTTEAM"), ASSESSMENT),
-            (DETAILS.replace("0x10000(runtime)", "0x0(none)"), ASSESSMENT),
-            (
-                DETAILS.replace(
-                    "Authority=Developer ID Application: Example (G5QLZ5A8TA)",
-                    "Signature=adhoc",
-                ),
-                ASSESSMENT,
+    def test_wrong_team_adhoc_and_missing_runtime_fail(self):
+        signed.check_details(DETAILS)
+        for details in [
+            DETAILS.replace("G5QLZ5A8TA", "OTHERTTEAM"),
+            DETAILS.replace("0x10000(runtime)", "0x0(none)"),
+            DETAILS.replace(
+                "Authority=Developer ID Application: Example (G5QLZ5A8TA)",
+                "Signature=adhoc",
             ),
-            (DETAILS.replace("Timestamp=Sep 9, 2026", ""), ASSESSMENT),
-            (
-                DETAILS,
-                ASSESSMENT.replace(
-                    "Notarized Developer ID", "Unnotarized Developer ID"
-                ),
-            ),
+            DETAILS.replace("Timestamp=Sep 9, 2026", ""),
         ]:
-            with (
-                self.subTest(details=details, assessment=assessment),
-                self.assertRaises(ValueError),
-            ):
-                signed.check_details(details, assessment)
+            with self.subTest(details=details), self.assertRaises(ValueError):
+                signed.check_details(details)
 
     def test_no_apple_tool_runs_before_native_digest_matches(self):
         with (
@@ -134,38 +121,78 @@ class SignedIntakeTests(unittest.TestCase):
             run.assert_not_called()
             self.assertFalse((root / "SIGNING.json").exists())
 
-    def test_failed_gatekeeper_never_produces_signing_receipt(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            binary = root / "airs-harness"
-            binary.write_bytes(b"exact")
+    def test_notarization_exit_controls_receipt_even_without_success_prose(self):
+        for status in [0, 1]:
+            with (
+                self.subTest(status=status),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                binary = root / "airs-harness"
+                binary.write_bytes(b"exact")
+                commands = []
 
-            def native(command, **kwargs):
-                name = Path(command[0]).name
-                output = (
-                    "arm64\n"
-                    if name == "lipo"
-                    else DETAILS
-                    if "-d" in command
-                    else ASSESSMENT
-                )
-                return signed.subprocess.CompletedProcess(
-                    command, 1 if name == "spctl" else 0, output, ""
-                )
-
-            with patch.object(signed.subprocess, "run", side_effect=native):
-                with self.assertRaisesRegex(ValueError, "gatekeeper"):
-                    signed.verify(
-                        binary,
-                        signed.digest(binary),
-                        root / "SIGNING.json",
-                        "a" * 40,
-                        "1",
-                        "b" * 64,
-                        "reported",
+                def native(command, **kwargs):
+                    commands.append(command)
+                    output = (
+                        "arm64\n"
+                        if Path(command[0]).name == "lipo"
+                        else DETAILS
+                        if "-d" in command
+                        else ""
                     )
-            self.assertFalse((root / "SIGNING.json").exists())
-            self.assertTrue((root / "SIGNING-gatekeeper.log").exists())
+                    return signed.subprocess.CompletedProcess(
+                        command, status if "=notarized" in command else 0, output, ""
+                    )
+
+                with patch.object(signed.subprocess, "run", side_effect=native):
+                    if status:
+                        with self.assertRaisesRegex(ValueError, "notarization"):
+                            signed.verify(
+                                binary,
+                                signed.digest(binary),
+                                root / "SIGNING.json",
+                                "a" * 40,
+                                "1",
+                                "b" * 64,
+                                "reported",
+                            )
+                    else:
+                        signed.verify(
+                            binary,
+                            signed.digest(binary),
+                            root / "SIGNING.json",
+                            "a" * 40,
+                            "1",
+                            "b" * 64,
+                            "reported",
+                        )
+                self.assertEqual((root / "SIGNING.json").exists(), status == 0)
+                self.assertEqual(
+                    commands[-1],
+                    [
+                        "/usr/bin/codesign",
+                        "--verify",
+                        "--strict",
+                        "--verbose=4",
+                        "-R",
+                        "=notarized",
+                        str(binary),
+                    ],
+                )
+                self.assertTrue((root / "SIGNING-notarization.log").exists())
+                if status == 0:
+                    import json
+
+                    receipt = json.loads((root / "SIGNING.json").read_text())
+                    self.assertTrue(receipt["notarization_verified"])
+                    self.assertEqual(
+                        receipt["notarization_method"],
+                        "codesign-explicit-notarized-requirement",
+                    )
+                    self.assertEqual(
+                        receipt["gatekeeper_app_assessment"], "not-applicable-raw-cli"
+                    )
 
 
 if __name__ == "__main__":

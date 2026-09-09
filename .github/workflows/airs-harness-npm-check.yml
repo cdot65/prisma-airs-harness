@@ -7,6 +7,10 @@ on:
       - 'scripts/*airs*npm*.py'
       - 'scripts/*airs*bundle*.py'
       - 'scripts/test_package_airs_harness.py'
+      - 'scripts/package_airs_harness.py'
+      - 'scripts/*airs_review_release.py'
+      - 'scripts/*airs_signed_macos_artifact.py'
+      - '.github/workflows/airs-harness-macos-signed.yml'
       - 'scripts/validate_prisma_cli.py'
       - '.github/workflows/airs-harness-npm-check.yml'
       - '.github/workflows/airs-harness-identity.yml'
@@ -18,6 +22,10 @@ on:
       - 'scripts/*airs*npm*.py'
       - 'scripts/*airs*bundle*.py'
       - 'scripts/test_package_airs_harness.py'
+      - 'scripts/package_airs_harness.py'
+      - 'scripts/*airs_review_release.py'
+      - 'scripts/*airs_signed_macos_artifact.py'
+      - '.github/workflows/airs-harness-macos-signed.yml'
       - 'scripts/validate_prisma_cli.py'
       - '.github/workflows/airs-harness-npm-check.yml'
       - '.github/workflows/airs-harness-identity.yml'
@@ -46,7 +54,7 @@ jobs:
         with:
           tool: actionlint@1.7.12
       - name: Validate owned cache and PR workflow semantics
-        run: actionlint -shellcheck= -pyflakes= .github/workflows/airs-harness-identity.yml .github/workflows/airs-harness-macos-release.yml .github/workflows/airs-harness-npm-check.yml
+        run: actionlint -shellcheck= -pyflakes= .github/workflows/airs-harness-identity.yml .github/workflows/airs-harness-macos-release.yml .github/workflows/airs-harness-npm-check.yml .github/workflows/airs-harness-macos-signed.yml
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: 22.23.2
@@ -60,3 +68,6 @@ jobs:
       - run: python scripts/validate_prisma_cli.py
       - run: python -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v
       - run: python -m unittest discover -s scripts -p test_airs_npm_registry.py -v
+      - run: python -m unittest discover -s scripts -p test_package_airs_harness.py -v
+      - run: python -m unittest discover -s scripts -p test_airs_review_release.py -v
+      - run: python -m unittest discover -s scripts -p test_airs_signed_macos_artifact.py -v

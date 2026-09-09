@@ -1,0 +1,19 @@
+{
+  "id": 34415694911,
+  "head_sha": "563c32d3e8a54a8d28f0961bd81cf7b545319705",
+  "status": "completed",
+  "conclusion": "success",
+  "html_url": "https://github.com/cdot65/airs-harness/actions/runs/34415694911",
+  "artifacts": [
+    {
+      "id": 10129017477,
+      "name": "signed-review-publication-1",
+      "sha256": "2f84b0c13a169b75c1faae9c1a7a896745698a7a4afaefa973c64caac82acc27"
+    },
+    {
+      "id": 10128967146,
+      "name": "review-registry-association-1",
+      "sha256": "2e2ffd992aa4a761cb3687dff5f43c2b43a1b0d73b37b8ed927fc0c6a8d14257"
+    }
+  ]
+}

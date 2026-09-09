@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_review",
+  "reviewed_at": "2026-09-09T23:19:36.503892+00:00",
+  "scope": "signed-prerelease-distribution",
+  "assessment_stage": "delivered-review-channel-release",
+  "verdict": "pass",
+  "score": 9,
+  "passed": true,
+  "distribution_release_ready": true,
+  "full_authentication_release_ready": false,
+  "published": true,
+  "registry": "https://npm.pkg.github.com",
+  "dist_tag": "auth-review",
+  "product_version": "0.1.0-alpha.11",
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "approved_plan_sha256": "f237b39f60362c567266205bcd2f7d653b28c43938b0058ddc358731803ceb38",
+  "publication_run": 34415694911,
+  "registry_acceptance_run": 34415883459,
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-darwin-arm64-0.1.0-alpha.11.tgz",
+      "sha256": "cf463001a6aaf896dfbe793c4eec2741fbba96b388905ed0002ae56d10dce936",
+      "integrity": "sha512-Su7Z752aCu4UKQFveePzylysutIYHMYI9j8/x6zRVRfwbh/dLLDwdHuLeZyVgeEMo60UGhvquSsJHQELvvTL8Q=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.11.tgz",
+      "sha256": "7a4f40d454c8cce9a6219dbbeac3d12c66707f7db7e28f6cc3bcde15e2d4fca9",
+      "integrity": "sha512-RuOVOzEisDInpZ89517g5ArnCmCPw92D5I9BhfH6bb7Rg9JDc11XyFod3eol/ixknyr7QoT05N5SAVM2YOUASw=="
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "version": "0.1.0-alpha.11",
+      "filename": "cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz",
+      "sha256": "ae030cdd0f9f69a7bb32c44e4ce131c69dc9d8be2918b71f622014773c6e0ab6",
+      "integrity": "sha512-dde8IjvWBih+XA33zNJihtDHD0crLVHYMYRPQPpLBgT36DW9rBETtTJiaGsdPtMZ4DJP40Nv2VAvZWNwTKaB+A=="
+    }
+  ],
+  "assessment": "The exact approved three-package alpha.11 review release is published and passes actual GitHub registry download and fresh scoped-name installation on Linux x64 and Apple Silicon macOS26 with npm10.9.8 and12.0.2. The four installed suites and both installed Mac trust/Keychain checks pass. This is a distribution-release grade, not a full authentication-release or affected-owner incident-resolution grade.",
+  "independently_verified": [
+    "Publication and acceptance runs report success through read-only GitHub API",
+    "All6 original artifact ZIP hashes match retained receipts and GitHub immutable artifact digests",
+    "Selected extracted receipts/logs are byte-identical to original ZIP members",
+    "Published plan is byte-identical to the previously approved f237 plan, and all3 package SHA256/SHA512SRI records match it",
+    "All4 registry-download receipts verify all3 actual registry archives and auth-review metadata against that exact plan",
+    "All4 fresh-cache scoped-name installs preserve expected Linuxeb919/Mac171220 native identity and72-package/3102-file/68-license bundled inventory",
+    "All4 installed test logs include a passing reasoning-only bounded probe regression",
+    "Both installed Mac signatures meet exact teamG5QLZ5A8TA, hardened runtime and online notarized requirement;8 retained Apple log hashes independently verified",
+    "Both installed Mac actual CLI Keychain lifecycle receipts and all4 managed CLI5.2.0/corpus receipts passed"
+  ],
+  "consumer_matrix": [
+    {
+      "artifact": "registry-install-macos-26-npm10.9.8-1",
+      "platform": "Darwin",
+      "machine": "arm64",
+      "npm": "10.9.8",
+      "installed_tests": {
+        "passed": 38,
+        "skipped": 1,
+        "skip_reason": "Linux session-bus recovery"
+      },
+      "binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+      "fresh_cache_and_scoped_name_install": true,
+      "approved_archive_downloads_verified": 3,
+      "bundle_inventory": {
+        "packages": 72,
+        "files": 3102,
+        "license_files": 68,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64",
+          "@img/sharp-libvips-linux-x64",
+          "@img/sharp-libvips-linuxmusl-x64",
+          "@img/sharp-linux-x64",
+          "@img/sharp-linuxmusl-x64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      },
+      "managed_cli_contract_and_corpus": "passed CLI5.2.0",
+      "reasoning_only_probe_regression": "passed",
+      "apple_signature_notarization_and_keychain": "passed"
+    },
+    {
+      "artifact": "registry-install-macos-26-npm12.0.2-1",
+      "platform": "Darwin",
+      "machine": "arm64",
+      "npm": "12.0.2",
+      "installed_tests": {
+        "passed": 38,
+        "skipped": 1,
+        "skip_reason": "Linux session-bus recovery"
+      },
+      "binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+      "fresh_cache_and_scoped_name_install": true,
+      "approved_archive_downloads_verified": 3,
+      "bundle_inventory": {
+        "packages": 72,
+        "files": 3102,
+        "license_files": 68,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64",
+          "@img/sharp-libvips-linux-x64",
+          "@img/sharp-libvips-linuxmusl-x64",
+          "@img/sharp-linux-x64",
+          "@img/sharp-linuxmusl-x64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      },
+      "managed_cli_contract_and_corpus": "passed CLI5.2.0",
+      "reasoning_only_probe_regression": "passed",
+      "apple_signature_notarization_and_keychain": "passed"
+    },
+    {
+      "artifact": "registry-install-ubuntu-24.04-npm10.9.8-1",
+      "platform": "Linux",
+      "machine": "x86_64",
+      "npm": "10.9.8",
+      "installed_tests": {
+        "passed": 39,
+        "skipped": 0,
+        "skip_reason": null
+      },
+      "binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+      "fresh_cache_and_scoped_name_install": true,
+      "approved_archive_downloads_verified": 3,
+      "bundle_inventory": {
+        "packages": 72,
+        "files": 3102,
+        "license_files": 68,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64",
+          "@img/sharp-libvips-linux-x64",
+          "@img/sharp-libvips-linuxmusl-x64",
+          "@img/sharp-linux-x64",
+          "@img/sharp-linuxmusl-x64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      },
+      "managed_cli_contract_and_corpus": "passed CLI5.2.0",
+      "reasoning_only_probe_regression": "passed",
+      "apple_signature_notarization_and_keychain": "not applicable"
+    },
+    {
+      "artifact": "registry-install-ubuntu-24.04-npm12.0.2-1",
+      "platform": "Linux",
+      "machine": "x86_64",
+      "npm": "12.0.2",
+      "installed_tests": {
+        "passed": 39,
+        "skipped": 0,
+        "skip_reason": null
+      },
+      "binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+      "fresh_cache_and_scoped_name_install": true,
+      "approved_archive_downloads_verified": 3,
+      "bundle_inventory": {
+        "packages": 72,
+        "files": 3102,
+        "license_files": 68,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64",
+          "@img/sharp-libvips-linux-x64",
+          "@img/sharp-libvips-linuxmusl-x64",
+          "@img/sharp-linux-x64",
+          "@img/sharp-linuxmusl-x64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      },
+      "managed_cli_contract_and_corpus": "passed CLI5.2.0",
+      "reasoning_only_probe_regression": "passed",
+      "apple_signature_notarization_and_keychain": "not applicable"
+    }
+  ],
+  "authorization_and_association_limits": {
+    "credential_principal": "GitHub Actions repository token",
+    "teammate_read_only_install_verified": false,
+    "owner_device_tested": false,
+    "repository_association": "owner-confirmed; GitHub REST repository field omitted, not independently inferred from omission",
+    "registry_packages_private": true
+  },
+  "remaining_outside_this_score": [
+    "Affected-owner Mac live Keychain/consent/authentication incident still requires that device and real endpoint retest.",
+    "No new live alpha.11 OIDC/Keycloak or remote MCP run in this registry acceptance; deterministic loopback integration must not be described as live gateway authentication.",
+    "No alpha.11 signed macOS15 acceptance is established by this four-way matrix; both Mac jobs used hosted26.6.2ARM64.",
+    "Individual teammate package-read authorization, full authentication refresh concurrency/crash and signed upgrade/downgrade matrix, and unassisted onboarding remain separate.",
+    "No latest/production-promotion or full authentication-release completion claim; this verified publication targets auth-review."
+  ],
+  "evidence_root": "/var/tmp/airs-alpha11-release",
+  "evidence": [
+    {
+      "path": "publication/RUN.json",
+      "sha256": "720bb474b58739660941b47ac0c561788dd29adc11f80da53823847d21d7d46d"
+    },
+    {
+      "path": "registry-acceptance/RUN.json",
+      "sha256": "d1481fcbe0eeee81c2b1bef18f2b3f9a4e8c904c521f3688ddd2f292871b3d62"
+    },
+    {
+      "path": "publication/signed-review-publication-1/PUBLICATION.json",
+      "sha256": "c1c03c9ea8674b5e0716e083a2ddfa010564820ec4199c57626922f928060e13"
+    },
+    {
+      "path": "publication/signed-review-publication-1/PUBLICATION-PLAN.json",
+      "sha256": "f237b39f60362c567266205bcd2f7d653b28c43938b0058ddc358731803ceb38"
+    },
+    {
+      "path": "publication/signed-review-publication-1/NPM-PACKAGES.json",
+      "sha256": "53a5d95d8e2e47f7fa41a80704f42b80d815286c5cf9a0c62ab978c8ac72cbf3"
+    },
+    {
+      "path": "publication/review-registry-association-1/ASSOCIATION.json",
+      "sha256": "90c0fd12217a8a5903354f7f2bf889a42130dab219b739d1d8d90620b4971175"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/HOST.json",
+      "sha256": "3ebe216f2d179da1445a85a65ebc0fc4bb3866e3b1867c88c36176c341402bc1"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/INSTALL-ATTEMPT.json",
+      "sha256": "6ca333c16ad62ea73c1d08af8393dc71262af6dc11f5d563e73ace4c8418ce3b"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/REGISTRY-DOWNLOAD.json",
+      "sha256": "b63a247ff986060f9b5e0c5261a521fe1444f56179f986e6a8f37a7d702498e8"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/REGISTRY-INSTALL.json",
+      "sha256": "b16179dd4b53f33eeb6557b3895f566eb84fe923265160314fe2112abf60657a"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/installed-tests.log",
+      "sha256": "8a5ffb8616963af9349eee1f9ff2d18a14605860b560227a2dbcb093fc8abd7c"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/INSTALLED-SIGNING.json",
+      "sha256": "20ae97db8a488355cc27b26dea024f79e0669a96be097bc49c7fe1fada1ce1a3"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm10.9.8-1/installed-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/HOST.json",
+      "sha256": "3ebe216f2d179da1445a85a65ebc0fc4bb3866e3b1867c88c36176c341402bc1"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/INSTALL-ATTEMPT.json",
+      "sha256": "6ca333c16ad62ea73c1d08af8393dc71262af6dc11f5d563e73ace4c8418ce3b"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/REGISTRY-DOWNLOAD.json",
+      "sha256": "b63a247ff986060f9b5e0c5261a521fe1444f56179f986e6a8f37a7d702498e8"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/REGISTRY-INSTALL.json",
+      "sha256": "8621ce6dd56c148ee6ed6bbaef84ec8f11e0ac73c633b3ad6ab796d02150ebe2"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/installed-tests.log",
+      "sha256": "36ad89eaf0c5790e4ef6044c2ba7c171dffdf51f0305d34bbcb3eb2fd4ec773f"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/INSTALLED-SIGNING.json",
+      "sha256": "20ae97db8a488355cc27b26dea024f79e0669a96be097bc49c7fe1fada1ce1a3"
+    },
+    {
+      "path": "registry-acceptance/registry-install-macos-26-npm12.0.2-1/installed-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/HOST.json",
+      "sha256": "d0f766ef56c76cc1fc5aa6b641709e445e896fee5365ac53145d726a5bdc8821"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/INSTALL-ATTEMPT.json",
+      "sha256": "6ca333c16ad62ea73c1d08af8393dc71262af6dc11f5d563e73ace4c8418ce3b"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/REGISTRY-DOWNLOAD.json",
+      "sha256": "b63a247ff986060f9b5e0c5261a521fe1444f56179f986e6a8f37a7d702498e8"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/REGISTRY-INSTALL.json",
+      "sha256": "f6423a62ae3920f7d9468fe3dd6217aa12c359689c447ca0cd3407a736655d8a"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/installed-tests.log",
+      "sha256": "dbea4c710e38ec6f6988ca4f3531fd1efe7e55fdbebbedc89d01903cc30cf2d3"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm10.9.8-1/prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/HOST.json",
+      "sha256": "d0f766ef56c76cc1fc5aa6b641709e445e896fee5365ac53145d726a5bdc8821"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/INSTALL-ATTEMPT.json",
+      "sha256": "6ca333c16ad62ea73c1d08af8393dc71262af6dc11f5d563e73ace4c8418ce3b"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/REGISTRY-DOWNLOAD.json",
+      "sha256": "b63a247ff986060f9b5e0c5261a521fe1444f56179f986e6a8f37a7d702498e8"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/REGISTRY-INSTALL.json",
+      "sha256": "c43641920b9c67125b4bf8c2aacb7ce0d20404e64a4dfca18628f6e05c714b79"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/installed-tests.log",
+      "sha256": "a1d7d7869db0f9643f0a93829df92d473d30b9c4dd8efc44ba0f56c48380e323"
+    },
+    {
+      "path": "registry-acceptance/registry-install-ubuntu-24.04-npm12.0.2-1/prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    }
+  ]
+}

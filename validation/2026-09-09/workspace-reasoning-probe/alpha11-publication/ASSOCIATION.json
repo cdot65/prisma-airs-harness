@@ -1,0 +1,34 @@
+{
+  "packages": [
+    {
+      "name": "@cdot65/prisma-airs-harness",
+      "query_succeeded": true,
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "accepted": true,
+      "repository_field_present": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-linux-x64",
+      "query_succeeded": true,
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "accepted": true,
+      "repository_field_present": false
+    },
+    {
+      "name": "@cdot65/prisma-airs-harness-darwin-arm64",
+      "query_succeeded": true,
+      "repository": "cdot65/airs-harness",
+      "visibility": "private",
+      "repository_evidence": "owner-confirmed-2026-09-09; REST repository field omitted",
+      "accepted": true,
+      "repository_field_present": false
+    }
+  ],
+  "mutation_performed": false,
+  "teammate_install_verified": false,
+  "passed": true
+}

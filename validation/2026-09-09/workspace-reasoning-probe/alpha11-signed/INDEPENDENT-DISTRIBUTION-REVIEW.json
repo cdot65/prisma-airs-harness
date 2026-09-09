@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/release_review",
+  "reviewed_at": "2026-09-09T22:48:00.601314+00:00",
+  "scope": "signed-prerelease-distribution",
+  "platform_scope": "Apple Silicon macOS26 signed alpha.11 candidate",
+  "verdict": "pass",
+  "score": 9,
+  "passed": true,
+  "ready_for_review_attestation": true,
+  "full_authentication_release_ready": false,
+  "published": false,
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "product_version": "0.1.0-alpha.11",
+  "target": "aarch64-apple-darwin",
+  "binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+  "signed_archive_sha256": "8369a0cd35ce9af2ce81876b9593cbb367004f44fea80d6006970eb5d2d7e53a",
+  "acceptance_run": 34413172870,
+  "tooling_source": "b2aa190793c72128748c55ad4b714d4bfc515a40",
+  "assessment": "The exact signed Apple Silicon candidate meets the bounded owner-test distribution threshold. Actual native and installed Apple trust, reasoning-only probe regression, Keychain lifecycle and scoped npm acceptance passed. This assessment supports creation of new evidence-gated review packages; existing candidate archives remain unpublishable and must not be relabeled.",
+  "independently_verified": {
+    "github_run_success": true,
+    "github_artifact_digests": [
+      {
+        "id": 10128203964,
+        "name": "airs-harness-signed-evidence-macos-26-1",
+        "sha256": "3c472b00a4607b41029c4afd9ecb84a8ccede44e2ba22b42b04ece0d86ee31a7"
+      },
+      {
+        "id": 10128203418,
+        "name": "airs-harness-signed-private-packages-macos-26-1",
+        "sha256": "7396918463f21dcdaa9736f5f9ad1c68b94f46c77433d1daf69f89c1f93977ce"
+      }
+    ],
+    "signed_intake_zip_and_native_hashes": true,
+    "selected_receipts_match_original_evidence_zip": true,
+    "apple_signature_log_hashes": 8,
+    "packaging_git_source_hashes": 17,
+    "native_archive_and_npm_binary_hash_match": true,
+    "native_archive_and_npm_signing_receipt_bytes_match": true,
+    "candidate_markers_preserved": true,
+    "macho_comparison": {
+      "method": "Independent read-only Mach-O load-command parsing and byte comparison of original and signed files",
+      "thin_arm64": true,
+      "header_identical": true,
+      "all_pre_signature_bytes_identical_except_allowed_size_fields": true,
+      "allowed_fields": [
+        "__LINKEDIT.vmsize",
+        "__LINKEDIT.filesize",
+        "LC_CODE_SIGNATURE.datasize"
+      ],
+      "code_and_data_unchanged": true,
+      "signature_allocations_terminate_at_file_end": true
+    }
+  },
+  "apple_trust": {
+    "developer_id_team": "G5QLZ5A8TA",
+    "strict_signature_verified_native_and_installed": true,
+    "hardened_runtime": true,
+    "notarization_verified_native_and_installed": true,
+    "method": "codesign-online-explicit-notarized-requirement",
+    "spctl_app_assessment_claimed": false,
+    "submission_id": "3ca32781-36e0-4626-b196-17578b95b850",
+    "submission_status": "Accepted",
+    "submission_status_source": "owner uploaded notarytool JSON",
+    "submission_api_queried": false
+  },
+  "observed_acceptance": {
+    "host": "macOS26.6.2 ARM64 hosted runner",
+    "native": {
+      "passed": 38,
+      "skipped": 2,
+      "skip_reasons": [
+        "requires npm-managed CLI",
+        "Linux session-bus recovery"
+      ]
+    },
+    "installed": {
+      "passed": 38,
+      "skipped": 1,
+      "skip_reasons": [
+        "Linux session-bus recovery"
+      ]
+    },
+    "reasoning_only_probe_regression": "passed native and installed, completed and incomplete response cases",
+    "native_and_installed_cli_keychain": "hidden login, separate-process exact credential readback, local tool loop, logout rejection and plaintext absence passed",
+    "managed_cli": "5.2.0;20 command contracts;PDF/PNG/JPEG/SVG/DOCX generation passed",
+    "scoped_install": {
+      "npm": "10.9.8",
+      "node": "v22.23.2",
+      "staged_registry_requests": 4,
+      "unexpected_requests": 0,
+      "public_redirects": 0,
+      "bundle_inventory": {
+        "packages": 68,
+        "files": 3080,
+        "license_files": 66,
+        "native_payload_packages": [
+          "@img/sharp-darwin-arm64",
+          "@img/sharp-libvips-darwin-arm64"
+        ],
+        "source_lock_sha256": "fa8ebd5d78e127b56667c8f4d12ff88f8ef0ef274638c17927ecab549dc37d19",
+        "windows_command_wrappers": []
+      }
+    }
+  },
+  "remaining_gates": [
+    "Create reviewed Mac release metadata around these identical signed native bytes and rerun the evidence-gated package acceptance; current artifacts remain signed-unvalidated-candidate/publishable:false.",
+    "Validate final aggregate Linux/Mac npm packages, authorized review-channel publication and immutable registry downloads; current install was an isolated rejecting registry fixture, not actual teammate authorization.",
+    "No alpha.11 signed macOS15 acceptance in these reviewed receipts; macOS26 execution does not substitute for a separate baseline result.",
+    "No live Mac Keycloak/OIDC or remote MCP execution in this run; current gateway fixture is deterministic loopback.",
+    "Affected-owner consent/Keychain incident, signed upgrade/downgrade and full authentication concurrency/crash matrix remain unproven; no full-release score awarded."
+  ],
+  "evidence_root": "/var/tmp/airs-alpha11-release",
+  "evidence": [
+    {
+      "path": "signed/INTAKE.json",
+      "sha256": "04c2085e67ac283383783f4bef9e4953697c15dd16cf90c1a41a8597b94cdb48"
+    },
+    {
+      "path": "signed/MACHO-SIGNING-DIFF.json",
+      "sha256": "1893e46ef59a7ceb3a22fad7bbe0f83f1e1267805d835ad698adee5180f52444"
+    },
+    {
+      "path": "signed/notarization-alpha11.json",
+      "sha256": "32a0fdfc9e4df5d85f8cc2276e11e598a9de926269944b491120ca355d0cbcec"
+    },
+    {
+      "path": "signed-check/RUN.json",
+      "sha256": "cf43d1a781c58d24cae09b3cc72c96c3ca746c469d8cbca11c27069f3db8b92f"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/HOST.json",
+      "sha256": "a211fb0cb6c62c66914fe7fe519cc33aad1ba2bbb44e9fa5e015450f9b5006de"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/SIGNING.json",
+      "sha256": "23ad668bcde2433a6ba9b1e49e755787e2b542a5716c3b21df794f3ae72ca4a5"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/INSTALLED-SIGNING.json",
+      "sha256": "8271bcc3580d8ee30c25bcd38030bfad3051aef05b831905892bceb1209175aa"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/native-tests.log",
+      "sha256": "0ffcf755f76472b4a7b3edbd8901307cd72661187545abd2fd72664f76060b8b"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/npm-tests.log",
+      "sha256": "4afb838941028caca5f40eef39530862dd586274eaa69110b733b3727c0f0f43"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/native-cli-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/cli-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/npm-install.json",
+      "sha256": "09a5fc205e2e8b49208a6f6fef51830f698456543daaff12e5bb0ed6a712cc4b"
+    },
+    {
+      "path": "signed-check/airs-harness-signed-evidence-macos-26-1/native-integrity.json",
+      "sha256": "ce71d41738dc83c9ea61c1af351ae98dde0d8785be2561d2e2ae7a85c7c8da6e"
+    }
+  ]
+}

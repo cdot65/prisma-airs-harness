@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "scope": "signed-prerelease-distribution",
+  "passed": true,
+  "release_ready": true,
+  "full_authentication_release_ready": false,
+  "binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+  "target": "aarch64-apple-darwin",
+  "product_version": "0.1.0-alpha.11",
+  "source_commit": "ff5e337e4250771933ad012f0b89109ee9a22568",
+  "independent_review": {
+    "scope": "signed-prerelease-distribution",
+    "reviewer": "/root/release_review",
+    "verdict": "pass",
+    "score": 9
+  },
+  "signing": {
+    "kind": "developer-id-application",
+    "verified": true,
+    "hardened_runtime": true,
+    "signed_binary_sha256": "1712209b6b0e814d2a3c0237b2dc49fc9f35a5d0fb54bd2093afc5e8c0a0cf75",
+    "team_identifier": "G5QLZ5A8TA",
+    "notarization": {
+      "status": "Accepted",
+      "archive_sha256": "8369a0cd35ce9af2ce81876b9593cbb367004f44fea80d6006970eb5d2d7e53a",
+      "submission_id": "3ca32781-36e0-4626-b196-17578b95b850"
+    }
+  },
+  "evidence": [
+    {
+      "role": "installed-runtime",
+      "path": "npm-install.json",
+      "sha256": "09a5fc205e2e8b49208a6f6fef51830f698456543daaff12e5bb0ed6a712cc4b"
+    },
+    {
+      "role": "package-integrity",
+      "path": "native-integrity.json",
+      "sha256": "ce71d41738dc83c9ea61c1af351ae98dde0d8785be2561d2e2ae7a85c7c8da6e"
+    },
+    {
+      "role": "independent-review",
+      "path": "INDEPENDENT-DISTRIBUTION-REVIEW.json",
+      "sha256": "878dc057409723924aa58dbe98b285bf40b51489b702288076afe5d822955b32"
+    },
+    {
+      "role": "native-provenance",
+      "path": "MACHO-SIGNING-DIFF.json",
+      "sha256": "1893e46ef59a7ceb3a22fad7bbe0f83f1e1267805d835ad698adee5180f52444"
+    },
+    {
+      "role": "developer-id-signature",
+      "path": "SIGNING.json",
+      "sha256": "23ad668bcde2433a6ba9b1e49e755787e2b542a5716c3b21df794f3ae72ca4a5"
+    },
+    {
+      "role": "apple-notarization",
+      "path": "INSTALLED-SIGNING.json",
+      "sha256": "8271bcc3580d8ee30c25bcd38030bfad3051aef05b831905892bceb1209175aa"
+    },
+    {
+      "role": "owner-notarization",
+      "path": "notarization-alpha11.json",
+      "sha256": "32a0fdfc9e4df5d85f8cc2276e11e598a9de926269944b491120ca355d0cbcec"
+    },
+    {
+      "role": "native-keychain",
+      "path": "native-cli-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "role": "installed-keychain",
+      "path": "cli-keychain.json",
+      "sha256": "2eada174ce7a4c8de9bed616ec85275ad51a04a6ccf342e4ba97fc6aba2973b3"
+    },
+    {
+      "role": "native-tests",
+      "path": "native-tests.txt",
+      "sha256": "0ffcf755f76472b4a7b3edbd8901307cd72661187545abd2fd72664f76060b8b"
+    },
+    {
+      "role": "installed-tests",
+      "path": "npm-tests.txt",
+      "sha256": "4afb838941028caca5f40eef39530862dd586274eaa69110b733b3727c0f0f43"
+    },
+    {
+      "role": "managed-cli",
+      "path": "prisma-cli.json",
+      "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+    },
+    {
+      "role": "ci-run",
+      "path": "RUN.json",
+      "sha256": "cf43d1a781c58d24cae09b3cc72c96c3ca746c469d8cbca11c27069f3db8b92f"
+    },
+    {
+      "role": "ci-evidence",
+      "path": "MAC-EVIDENCE.zip",
+      "sha256": "3c472b00a4607b41029c4afd9ecb84a8ccede44e2ba22b42b04ece0d86ee31a7"
+    }
+  ],
+  "remaining": [
+    "Fresh reviewed packaging and registry publication/installation must pass before announcing availability",
+    "Current live Mac OIDC and remote MCP acceptance are not claimed by these deterministic gateway fixtures",
+    "Owner hands-on review remains separate from signed prerelease distribution acceptance"
+  ]
+}

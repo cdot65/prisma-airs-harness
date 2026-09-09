@@ -287,12 +287,20 @@ def plan_publication(packages, dist_tag):
         )
     inventory = read_json(launcher / "BUNDLE-INVENTORY.json")
     bundle_result = verify_bundle(launcher, inventory)
+    archived_bundle_files = set()
     for package in inventory["packages"]:
         for item in package["files"]:
             require(
                 package["path"] + "/" + item in snapshots[LAUNCHER],
                 "Required bundled dependency file missing from archive",
             )
+        for item in {**package["files"], **package.get("optional_files", {})}:
+            path = package["path"] + "/" + item
+            if path in snapshots[LAUNCHER]:
+                archived_bundle_files.add(path)
+    # npm can omit declared optional changelogs/lockfiles. Keep strict staging
+    # verification above, but bind the plan count to the exact archived payload.
+    bundle_result = {**bundle_result, "files": len(archived_bundle_files)}
     return {
         "schema_version": 1,
         "scope": SCOPE,

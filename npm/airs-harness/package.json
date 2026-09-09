@@ -16,6 +16,7 @@
     "lib/",
     "README.md",
     "MACOS.md",
+    "AUTHENTICATION-ONBOARDING.md",
     "LICENSE",
     "NOTICE",
     "managed-cli/",

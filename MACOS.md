@@ -2,7 +2,7 @@
 title: Prisma AIRS Harness for macOS
 description: Install on Apple Silicon, choose workspace API key or Keycloak authentication, and verify your first session.
 release: 0.1.0-alpha.9
-updated: 2026-09-08
+updated: 2026-09-09
 audience: [users, administrators]
 platform: macos-arm64
 ---
@@ -13,6 +13,11 @@ Install the prebuilt application, connect to your organization's AI Gateway, and
 start working in a local folder. The terminal command is **`airs-harness`**.
 No Rust compiler or source checkout is needed for the npm installation.
 For the latest instructions, use [this guide on GitHub](https://github.com/cdot65/airs-harness/blob/main/MACOS.md); a bundled copy reflects the release that included it.
+
+**Authentication review:** alpha.10 uses a signed and notarized Apple Silicon
+executable. Its publication is still being prepared. If your administrator
+supplied that candidate, follow [guided setup and sign-in](AUTHENTICATION-ONBOARDING.md).
+The alpha.9 installation commands below remain the existing published baseline.
 
 **Supported:** Apple Silicon Macs using native `arm64` Terminal and Node.js.
 **Tested baseline:** macOS 15. Intel Macs are unsupported.

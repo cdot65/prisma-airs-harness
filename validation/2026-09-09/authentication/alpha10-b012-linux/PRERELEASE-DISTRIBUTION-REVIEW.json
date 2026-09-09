@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-09T09:17:16.264445+00:00",
+  "reviewer": "/root/credential_review",
+  "scope": "signed-prerelease-distribution",
+  "target": "x86_64-unknown-linux-musl",
+  "source_commit": "b012ba55e1404b498ad513cd15efa52a9a60530f",
+  "product_version": "0.1.0-alpha.10",
+  "binary_sha256": "a9166568623ce602da606a668359003e1f0a1380a202790da77f0a83dd1dc6ff",
+  "score": 9,
+  "verdict": "pass",
+  "full_authentication_release_ready": false,
+  "review_method": "Independent read-only retained-evidence review, fresh native/installed/inventory hashes, packaging source hashes against git source and JUnit parsing; no rerun of live fixtures",
+  "native_and_installed_bytes_rehashed": true,
+  "bundle_inventory_rehashed": true,
+  "packaging_source_files_verified": 17,
+  "scoped_junit": {
+    "tests": 388,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "platform_signing_disposition": {
+    "kind": "linux-provenance-checksums"
+  },
+  "scope_limit": "Suitable exact Linux runtime for immutable P5 owner-test prerelease distribution, not proof of published package installation or complete authentication-plan acceptance",
+  "evidence_sha256": {
+    "BUILD.json": "c44ae4e701be1f1103a4c3659e1d2cdff6935b9a1cdd529888127063f7e5ee23",
+    "native-integrity.json": "964f605d869acc0fc24ffac612fb27fbcef76314e54eef1447890231943bb249",
+    "installed.json": "facbb078fad01c992213dcc5798608830beca593fc38ea4f7b4b645a38c5533d",
+    "upgrade.json": "0d576189b876771794ff15d9886759cc81da3724b8b1e540a41a0e0081c912ff",
+    "live-workspace.json": "906808c0b481a32e355369553b77e5317da8278faefe652f8cd7fc0cbefeb2b9",
+    "live-oidc.json": "88bc9910a4aed8f179604a271a20438e44dccf12a50a8e09cd3b717994482cb0",
+    "prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "INDEPENDENT-REVIEW.md": "34e834e15135012752bab0efa98f00d1062fd9314fa72d89fc045340b8bcecc6",
+    "installed-tests.log.gz": "5771e3d23d2aeb508e16aee327d037703e2d1aa7305981dd6d8af6fc9de9b544",
+    "native-tests.log.gz": "08ae434b228ed8dc4a406f87c604ca9c47abc7437d88e32117e7d6624cbceadd",
+    "helper-tests.log.gz": "521bd1878bc8e516d15ea5bbc8383c62c65b3b8a992beabb9dacaa139d076035"
+  },
+  "remaining_distribution_actions": [
+    "Package without changing reviewed native bytes; validate new package metadata and inventory",
+    "Publish only immutable prerelease channel after remaining platform-specific gates",
+    "Validate final registry download and nonowner read-only package authorization"
+  ],
+  "remaining_full_release_gates": [
+    "Affected-owner signed macOS authentication and Keychain incident retest",
+    "Linux ordinary desktop and approved headless onboarding and user trials",
+    "Full refresh concurrency/crash and selected-session negative matrix",
+    "Broader migration/downgrade matrix and final scorecard",
+    "P6 acceptance and P7 promotion; Windows and containers retain owner-deferred scope"
+  ]
+}

@@ -1,7 +1,7 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the app, sign in, and start your first conversation.
-release_channel: auth-review
+package_version: 0.1.0-alpha.11
 verified_version: 0.1.0-alpha.11
 updated: 2026-09-10
 audience: end-users
@@ -56,10 +56,10 @@ After login succeeds, choose either installation method below.
 
 ### Install directly (recommended)
 
-Install the signed review release:
+Install version **0.1.0-alpha.11**:
 
 ```sh
-npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
+npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.11 --include=optional --registry=https://npm.pkg.github.com
 ```
 
 ### Download first, then install the saved file
@@ -92,8 +92,7 @@ and [local archive installation](https://docs.npmjs.com/cli/v10/commands/npm-ins
 airs-harness --version
 ```
 
-For the saved-file method, you should see `airs-harness 0.1.0-alpha.11`.
-The `auth-review` channel may install a newer review release.
+For either method, you should see `airs-harness 0.1.0-alpha.11`.
 
 ## 3. Create your environment and sign in
 
@@ -168,10 +167,10 @@ To work on files, open Terminal in your project folder before starting the harne
 
 ## Update an existing installation
 
-Keep your existing environment and sign-in. Install the latest review release:
+Keep your existing environment and sign-in. Install the version covered by this guide:
 
 ```sh
-npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
+npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.11 --include=optional --registry=https://npm.pkg.github.com
 airs-harness --version
 airs-harness doctor --verify-access
 ```

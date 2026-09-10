@@ -3,7 +3,7 @@ title: Install Prisma AIRS Harness on your Mac
 description: Install the app, sign in, and start your first conversation.
 release_channel: auth-review
 verified_version: 0.1.0-alpha.11
-updated: 2026-09-09
+updated: 2026-09-10
 audience: end-users
 platform: macos-arm64
 ---
@@ -115,19 +115,26 @@ airs-harness --environment work login
 
 Choose one sign-in method:
 
-### Company sign-in
+### Company sign-in (SSO)
 
-Choose **1** and enter these values when prompted:
+Use your organization's compatible OpenID Connect (OIDC) sign-in provider.
+Ask your administrator for the three settings below, then choose **1**.
+You do not need to know which SSO product your organization uses.
 
-| Prompt | Enter |
+| Prompt | What to enter |
 | --- | --- |
-| Company issuer URL | `https://auth.dev.cdot.io/realms/truffles` |
-| Public client ID | `airs-terminal-pilot` |
-| Gateway audience | `airs-terminal-inference` |
+| Company issuer URL | The exact HTTPS issuer URL supplied by your administrator. It may include a tenant or organization path. |
+| Public client ID | The public application/client ID registered for the harness. |
+| Gateway audience | The audience identifier your organization uses for AI Gateway access. |
 
 Complete sign-in in your browser. If it does not open automatically, open the
-URL shown in Terminal. These settings are for our deployment; use your
-administrator's values if your organization supplied different ones.
+URL shown in Terminal. Follow your organization's usual sign-in and multi-factor
+authentication prompts. Enter your company password only in the browser; the
+harness does not ask for it or for a client secret.
+
+Your administrator must configure the SSO application and gateway to work together.
+Use the supplied issuer URL rather than a general company login page. Direct
+SAML-only sign-in is not supported; your administrator can provide an OIDC connection.
 
 ### Workspace API key
 

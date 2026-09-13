@@ -1,6 +1,7 @@
 """Check cache invalidation without invoking a compiler or network client."""
 
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
 
@@ -70,6 +71,31 @@ class CacheIdentityTests(unittest.TestCase):
                     self.assertNotEqual(current()["cache_key"], baseline["cache_key"])
                     (root / name).write_text(name)
             self.assertEqual(current(), baseline)
+
+    def test_command_line_tools_without_full_xcode(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for name in ("Cargo.lock", "Cargo.toml", "rust-toolchain.toml", ".cargo/config.toml"):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(name)
+            version = "version: 26.0"
+
+            def output(command):
+                if command[0] == "xcodebuild":
+                    raise subprocess.CalledProcessError(1, command)
+                if command[0] == "pkgutil":
+                    return version
+                return " ".join(command)
+
+            baseline = identity(root, {"RUNNER_OS": "macOS"}, output)
+            self.assertEqual(baseline["inputs"]["command_line_tools"], version)
+            self.assertNotIn("xcode", baseline["inputs"])
+            version = "version: 26.1"
+            self.assertNotEqual(
+                identity(root, {"RUNNER_OS": "macOS"}, output)["cache_key"],
+                baseline["cache_key"],
+            )
 
 
 if __name__ == "__main__":

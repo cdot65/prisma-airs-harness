@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
+          ref: ef2baaaefb96440b50213799edd078cc14022af4
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -35,6 +36,7 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
+          ref: ef2baaaefb96440b50213799edd078cc14022af4
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:

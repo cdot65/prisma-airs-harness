@@ -1,0 +1,28 @@
+name: AIRS Harness frozen Apple Silicon acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      tooling_ref:
+        description: Reviewed validation tooling revision
+        default: integrate/codex-0.154-candidate
+        required: true
+jobs:
+  native-acceptance:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.tooling_ref }}
+      - name: Validate frozen native and Verdaccio candidates
+        run: bash scripts/airs_forgejo_macos_acceptance.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-macos-frozen-acceptance
+          path: ${{ runner.temp }}/airs-mac-acceptance/
+          if-no-files-found: error

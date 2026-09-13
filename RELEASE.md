@@ -1,3 +1,16 @@
+# 0.1.0-alpha.12 — Codex 0.154 integration and signed Mac distribution
+
+Published to Verdaccio as `airs-harness@latest` for Linux x64 and Apple Silicon.
+Codex 0.154 is integrated while retaining the AIRS gateway, separate MCP
+authorization, credential/environment isolation, CLI 5.2.0 / SDK 0.28.0 and
+eight embedded Prisma skills. Deferred upstream services remain constrained.
+
+The Mac package is Developer ID signed and Apple notarized. Forgejo build/signing
+and package E2E passed; fresh production-registry installations passed 43 Linux
+and 42 Mac executable checks (one Linux-only skip on Mac). See [PUBLICATION.md](PUBLICATION.md)
+for artifact provenance and the pending full-suite/independent-review gates that
+the owner acknowledged before authorizing this alpha publication.
+
 # 0.1.0-alpha.9 — managed Prisma AIRS CLI
 
 The npm harness now requires CLI 5.2.0 (SDK 0.28.0) and embeds eight focused

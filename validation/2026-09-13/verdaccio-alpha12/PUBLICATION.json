@@ -1,0 +1,64 @@
+{
+  "registry": "https://npm.cdot.io",
+  "version": "0.1.0-alpha.12",
+  "channel": "latest",
+  "packages": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.12",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.12.tgz",
+      "integrity": "sha512-OMsac8P9eqfERxvIUWnYjNS98ZwcjvuBT7d1SkYtHCuxvwOC0mqLRjiG94ypi6pmo8wcA5IJKu2zH8iT8kMSLw==",
+      "sha256": "44fcca43bb940f2b81a004b9b86e5a8914f031ba716765274e2a1fbff9adcbad",
+      "download_verified": true,
+      "tarball": "https://npm.cdot.io/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.12.tgz",
+      "latest_verified": true
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.12",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.12.tgz",
+      "integrity": "sha512-aqw/L/ec9DAlsZt9ymUKKzQmM0CNtE5dY7D0rlQRixscQdKbZyjrCvJd5Ga+2yDNUBckrmyJgHETz+pphiyKzQ==",
+      "sha256": "50340d25eab94b7559f0b01bd8a938cef61c8b7ae6c4ae368a83efd508de6644",
+      "download_verified": true,
+      "tarball": "https://npm.cdot.io/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.12.tgz",
+      "latest_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.12",
+      "filename": "airs-harness-0.1.0-alpha.12.tgz",
+      "integrity": "sha512-YKhHTBwm2uN4wJo/qTKSOW0l82miKxRBqeql3gczydlZ1F7Tyzf8o7+aIpf9R6uNrJhtg/D/VOPn0LgNXBfpUQ==",
+      "sha256": "cf69a18a9a6badbfa3fecbb7599554d99673b434f4208a85a3cd39268c24a785",
+      "download_verified": true,
+      "tarball": "https://npm.cdot.io/airs-harness/-/airs-harness-0.1.0-alpha.12.tgz",
+      "latest_verified": true
+    }
+  ],
+  "owner_authorized": true,
+  "full_suite_and_independent_review": "pending",
+  "authorization": {
+    "request": "publish baby come on!!!",
+    "scope": "Publish alpha.12 to Verdaccio and promote latest after registry verification",
+    "known_pending_gates": [
+      "Full GNU Rust suite",
+      "Independent review",
+      "Owner hands-on acceptance"
+    ]
+  },
+  "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+  "forgejo_e2e": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/79",
+  "published": true,
+  "complete": true,
+  "timestamp": "2026-09-13T18:38:17.039660+00:00",
+  "registry_install_tests": {
+    "linux": {
+      "passed": 43,
+      "skipped": 0
+    },
+    "mac": {
+      "passed": 42,
+      "skipped": 1
+    }
+  },
+  "full_integration_release_approval": false
+}

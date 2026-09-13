@@ -1,0 +1,30 @@
+{
+  "changes": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "original_sha256": "491a1190cdd530ebf00c54a51e92e9a10e10e576eb94c54a9b96d51de2f1c629",
+      "changed_members": [
+        "package/package.json"
+      ],
+      "other_members_byte_identical": true
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "original_sha256": "e8f665a79c03de7e5cd544b20c9602b1312ce88971efaa52fd3f1ee52ead070c",
+      "changed_members": [
+        "package/package.json"
+      ],
+      "other_members_byte_identical": true
+    },
+    {
+      "name": "airs-harness",
+      "original_sha256": "d94c82ab958d372cac4485871459b72dabbef2b88b880c08ed4a808cdb199583",
+      "changed_members": [
+        "package/package.json"
+      ],
+      "other_members_byte_identical": true
+    }
+  ],
+  "runtime_changed": false,
+  "full_suite_and_independent_review": "pending"
+}

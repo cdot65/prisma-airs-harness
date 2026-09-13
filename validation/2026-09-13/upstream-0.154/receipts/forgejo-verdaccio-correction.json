@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-09-13T11:28:45.155731+00:00",
+  "owner_direction": "Use Forgejo for CI and Verdaccio for package distribution. GitHub budget is not a required dependency.",
+  "forgejo": {
+    "url": "https://git.cdot.io",
+    "version": "15.0.6+gitea-1.22.0",
+    "runner": "talos-forgejo-runner",
+    "pod": "forgejo-runner-7559b759f7-dr9xv",
+    "node": "talos7",
+    "ready": "2/2",
+    "available_labels": [
+      "ubuntu-latest",
+      "ubuntu-22.04",
+      "docker",
+      "android",
+      "node",
+      "python"
+    ],
+    "job_container_privileged": false,
+    "dind_memory_limit": "12Gi",
+    "available_docker_disk": "3.1T",
+    "rust_repository": "pending owner location; cdot65/airs-harness returns 404 for both available credentials",
+    "accessible_repository": "cdot65/prisma-airs-harness is the separate TypeScript @cdot65/pah-root 0.1.2-pah.28; not modified",
+    "full_suite_dispatched": false
+  },
+  "verdaccio": {
+    "registry": "https://npm.cdot.io",
+    "current_latest": "0.1.0-alpha.9",
+    "candidate_staging": "/var/tmp/airs-alpha12-candidate/npm-verdaccio",
+    "packages": [
+      "airs-harness",
+      "airs-harness-linux-x64",
+      "airs-harness-darwin-arm64"
+    ],
+    "candidate_version": "0.1.0-alpha.12",
+    "published": false,
+    "acceptance": {
+      "registry_install": "passed; isolated loopback registry serving exact staged Verdaccio packages",
+      "linux_native_tests": 43,
+      "linux_native_passed": 43,
+      "linux_native_skipped": 0,
+      "production_install": false,
+      "mac_repackaged_acceptance": "not rerun on Mac; prior exact-native acceptance preserved"
+    }
+  },
+  "score_change": 0
+}

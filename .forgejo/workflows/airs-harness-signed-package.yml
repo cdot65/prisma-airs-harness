@@ -21,7 +21,13 @@ jobs:
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         with:
           name: airs-signed-npm-${{ github.run_id }}
-          path: ${{ runner.temp }}/airs-signed-package/npm/
+          path: |
+            ${{ runner.temp }}/airs-signed-package/npm/tarballs/*.tgz
+            ${{ runner.temp }}/airs-signed-package/npm/NPM-PACKAGES.json
+            ${{ runner.temp }}/airs-signed-package/npm/airs-harness/package.json
+            ${{ runner.temp }}/airs-signed-package/npm/airs-harness/BUNDLE-INVENTORY.json
+            ${{ runner.temp }}/airs-signed-package/npm/airs-harness-linux-x64/package.json
+            ${{ runner.temp }}/airs-signed-package/npm/airs-harness-darwin-arm64/package.json
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         if: always()
         with:

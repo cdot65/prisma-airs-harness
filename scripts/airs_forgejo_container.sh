@@ -16,6 +16,7 @@ docker run -d --name "$name" --cpus=2 --memory=8g \
   -v airs-gnu-cargo-v1:/home/airs-ci/.cargo \
   -v airs-gnu-rustup-v1:/home/airs-ci/.rustup \
   -v airs-gnu-target-v1:/airs-target \
+  -v airs-gnu-native-v1:/airs-native \
   -e CARGO_BUILD_JOBS=2 -e CARGO_INCREMENTAL=0 \
   -e CARGO_PROFILE_DEV_DEBUG=0 -e CARGO_PROFILE_TEST_DEBUG=0 \
   -e CARGO_TARGET_DIR=/airs-target -e RUNNER_TEMP=/tmp \
@@ -28,10 +29,10 @@ tar --exclude=./codex-rs/target --exclude=./node_modules --exclude=./npm/airs-ha
 docker exec -i "$name" bash -s <<'BOOTSTRAP'
 set -euo pipefail
 apt-get update -qq
-apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config zsh dbus-x11 gnome-keyring tini
+apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config cmake libasound2-dev zsh dbus-x11 gnome-keyring tini
 useradd --create-home --uid 10001 airs-ci
 mkdir -p /tmp/airs-evidence /tmp/airs-test-tmp
-chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /tmp/airs-evidence /tmp/airs-test-tmp
+chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airs-test-tmp
 runuser -u airs-ci -- unshare -Ur true
 BOOTSTRAP
 docker exec -i -w /workspace "$name" runuser -u airs-ci -- bash -s <<'VALIDATE'

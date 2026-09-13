@@ -23,4 +23,6 @@ for key, value in resolve_codex_v8_cargo_env(TARGET_SPECS['x86_64-unknown-linux-
 PY
 source "$RUNNER_TEMP/airs-v8.env"
 (cd codex-rs && cargo build --locked -p codex-cli -p codex-linux-sandbox -p codex-rmcp-client -p codex-code-mode-host --bins)
+python3 scripts/airs_forgejo_native_deps.py
+source "$RUNNER_TEMP/airs-native.env"
 just test --locked --features codex-v8-poc/sandbox

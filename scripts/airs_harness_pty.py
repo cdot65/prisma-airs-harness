@@ -77,15 +77,22 @@ class TerminalSession:
 
     def wait_until(self, predicate, timeout=30):
         deadline = time.monotonic() + timeout
+        stream_closed = False
         while not predicate() and time.monotonic() < deadline:
+            if stream_closed:
+                # A PTY can reach EOF just before waitpid observes process exit.
+                # Keep polling the requested condition within the same deadline.
+                time.sleep(0.01)
+                continue
             ready, _, _ = select.select([self.master], [], [], 0.1)
             if ready:
                 try:
                     chunk = os.read(self.master, 65536)
                 except OSError:
-                    break
+                    chunk = b""
                 if not chunk:
-                    break
+                    stream_closed = True
+                    continue
                 self.transcript.extend(chunk)
         if not predicate():
             raise AssertionError(self.transcript.decode(errors="replace")[-5000:])

@@ -1,3 +1,32 @@
+# Current Verdaccio release — alpha.12
+
+`airs-harness@0.1.0-alpha.12` is published to `https://npm.cdot.io` as `latest`,
+with Linux x64 and Apple Silicon native packages. Install or update with:
+
+```sh
+npm install -g airs-harness@latest --registry=https://npm.cdot.io
+airs-harness --version
+```
+
+The Mac executable was compiled on Jadzia, Developer ID signed and notarized by
+Apple. Forgejo package E2E run 79 passed. Fresh anonymous Verdaccio installs
+verified both native hashes and the bundled CLI; the downloaded Mac signature
+and online notarization ticket passed again. Published-package acceptance passed
+43 Linux tests and 42 Mac tests with one Linux-only skip. CLI 5.2.0, SDK 0.28.0
+and eight AIRS skills remain intact.
+
+The owner explicitly authorized publication after disclosure of pending full
+GNU Rust validation and independent/owner review. Publication is not a claim that
+those gates passed. Only package manifests changed from the tested tarballs:
+the private flag was removed and repository links now point to Forgejo. All other
+archive members, including signed executable bytes, were verified unchanged.
+[Publication receipt](validation/2026-09-13/verdaccio-alpha12/PUBLICATION.json)
+and [promotion evidence](validation/2026-09-13/verdaccio-alpha12/PROMOTION.json)
+retain the exact published archive hashes and authorization scope.
+
+The GitHub Packages channel below remains at alpha.9. Its workflow instructions
+are historical; GitHub Actions is disabled and GitHub is now a source mirror.
+
 # GitHub Packages distribution
 
 Version `0.1.0-alpha.9` is published privately under

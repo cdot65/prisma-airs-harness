@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "registry": "https://npm.cdot.io",
+  "version": "airs-harness 0.1.0-alpha.12",
+  "platform": "linux-x64",
+  "binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "managed_cli": "5.2.0",
+  "bundle": {
+    "packages": 72,
+    "files": 3102,
+    "license_files": 68,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "7a67503c4312e7b847f5d873890d4de6a02200e3e5db93bb997dd6bb603263e1",
+    "windows_command_wrappers": []
+  },
+  "mac_online_notarization": false
+}

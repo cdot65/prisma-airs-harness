@@ -76,7 +76,7 @@ installed npm signature verification and Mac/Linux installed acceptance.
 | `airs-harness-macos-acceptance.yml` | Frozen native, Keychain and staged Verdaccio acceptance; passed |
 | `airs-harness-macos-build.yml` | Fresh native compilation and artifact acceptance; passed on run 52 |
 | `airs-harness-macos-signing.yml` | Frozen artifact signing, notarization and native acceptance; passed on run 50 |
-| `airs-harness-signed-package.yml` | Fresh build artifact signing/notarization, npm packaging and installed Mac/Linux E2E |
+| `airs-harness-signed-package.yml` | Fresh build artifact signing/notarization, npm packaging and installed Mac/Linux E2E; passed on run 79 |
 | `airs-harness-windows-identity.yml` | Native Credential Manager checks; needs runner label `airs-windows-x64` |
 
 The old npm, deployment and release-check contracts are covered by the package

@@ -11,6 +11,10 @@ import os
 import sys
 
 child_env = dict(os.environ)
+# The wrapper belongs to nextest, not helper processes spawned by a test.
+# assert_cmd otherwise returns this wrapper as the helper executable, and
+# callers retaining only get_program() lose the actual binary argument.
+child_env.pop("CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER", None)
 for name in ("SSL_CERT_FILE", "SSL_CERT_DIR", "CODEX_CA_CERTIFICATE"):
     child_env.pop(name, None)
 os.execve(sys.argv[1], sys.argv[1:], child_env)

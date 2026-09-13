@@ -4,6 +4,7 @@ pub(crate) mod common;
 pub(crate) mod endpoint;
 pub(crate) mod error;
 pub(crate) mod files;
+mod flat_tools;
 pub(crate) mod images;
 pub(crate) mod provider;
 pub(crate) mod rate_limits;
@@ -121,3 +122,5 @@ pub use crate::telemetry::SseTelemetry;
 pub use crate::telemetry::WebsocketTelemetry;
 pub use codex_protocol::protocol::RealtimeAudioFrame;
 pub use codex_protocol::protocol::RealtimeEvent;
+
+pub use crate::provider::ResponseToolFormat;

@@ -3,7 +3,9 @@ use crate::common::ResponseStream;
 use crate::common::ResponsesApiRequest;
 use crate::endpoint::session::EndpointSession;
 use crate::error::ApiError;
+use crate::flat_tools::FlatTools;
 use crate::provider::Provider;
+use crate::provider::ResponseToolFormat;
 use crate::requests::Compression;
 use crate::requests::headers::build_session_headers;
 use crate::requests::headers::insert_header;
@@ -112,8 +114,18 @@ impl<T: HttpTransport> ResponsesClient<T> {
             compression,
             turn_state,
         } = options;
-        let body = EncodedJsonBody::encode(&request)
-            .map_err(|e| ApiError::Stream(format!("failed to encode responses request: {e}")))?;
+
+        let (body, flat_tools) =
+            if self.session.provider().response_tool_format == ResponseToolFormat::FlatFunctions {
+                let mut value =
+                    serde_json::to_value(&request).map_err(|e| ApiError::Stream(e.to_string()))?;
+                let flat_tools = FlatTools::prepare(&mut value)?;
+                (EncodedJsonBody::encode(&value), flat_tools)
+            } else {
+                (EncodedJsonBody::encode(&request), FlatTools::default())
+            };
+        let body =
+            body.map_err(|e| ApiError::Stream(format!("failed to encode responses request: {e}")))?;
 
         let mut headers = extra_headers;
         if let Some(ref thread_id) = thread_id {
@@ -124,7 +136,7 @@ impl<T: HttpTransport> ResponsesClient<T> {
             insert_header(&mut headers, "x-openai-subagent", &subagent);
         }
 
-        self.stream_encoded(body, headers, compression, turn_state)
+        self.stream_encoded(body, headers, compression, turn_state, flat_tools)
             .await
     }
 
@@ -141,14 +153,20 @@ impl<T: HttpTransport> ResponsesClient<T> {
     )]
     pub async fn stream(
         &self,
-        body: Value,
+        mut body: Value,
         extra_headers: HeaderMap,
         compression: Compression,
         turn_state: Option<Arc<OnceLock<String>>>,
     ) -> Result<ResponseStream, ApiError> {
+        let flat_tools =
+            if self.session.provider().response_tool_format == ResponseToolFormat::FlatFunctions {
+                FlatTools::prepare(&mut body)?
+            } else {
+                FlatTools::default()
+            };
         let body = EncodedJsonBody::encode(&body)
             .map_err(|e| ApiError::Stream(format!("failed to encode responses request: {e}")))?;
-        self.stream_encoded(body, extra_headers, compression, turn_state)
+        self.stream_encoded(body, extra_headers, compression, turn_state, flat_tools)
             .await
     }
 
@@ -158,6 +176,7 @@ impl<T: HttpTransport> ResponsesClient<T> {
         extra_headers: HeaderMap,
         compression: Compression,
         turn_state: Option<Arc<OnceLock<String>>>,
+        flat_tools: FlatTools,
     ) -> Result<ResponseStream, ApiError> {
         let request_compression = match compression {
             Compression::None => RequestCompression::None,
@@ -181,11 +200,11 @@ impl<T: HttpTransport> ResponsesClient<T> {
             )
             .await?;
 
-        Ok(spawn_response_stream(
+        Ok(flat_tools.restore_stream(spawn_response_stream(
             stream_response,
             self.session.provider().stream_idle_timeout,
             self.sse_telemetry.clone(),
             turn_state,
-        ))
+        )))
     }
 }

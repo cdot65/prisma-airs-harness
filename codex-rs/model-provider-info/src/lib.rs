@@ -370,6 +370,11 @@ impl ModelProviderInfo {
             headers,
             retry,
             stream_idle_timeout: self.stream_idle_timeout(),
+            response_tool_format: if self.gateway.is_some() {
+                codex_api::ResponseToolFormat::FlatFunctions
+            } else {
+                codex_api::ResponseToolFormat::Namespaced
+            },
         })
     }
 

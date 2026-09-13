@@ -382,6 +382,7 @@ mod tests {
                 retry_transport: true,
             },
             stream_idle_timeout: Duration::from_secs(1),
+            response_tool_format: Default::default(),
         }
     }
 

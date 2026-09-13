@@ -53,6 +53,7 @@ fn client(url: String, home: &Path) -> EndpointSession<ReqwestTransport> {
             retry_transport: true,
         },
         stream_idle_timeout: Duration::from_secs(10),
+        response_tool_format: Default::default(),
     };
     let mut client = EndpointSession::new(transport, provider, Arc::new(RetainedAuth));
     client.guard.session = Ok(Some(AirsSessionGuard::capture(home).unwrap()));

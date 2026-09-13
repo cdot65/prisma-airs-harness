@@ -150,6 +150,7 @@ fn provider(name: &str) -> Provider {
             retry_transport: true,
         },
         stream_idle_timeout: Duration::from_millis(10),
+        response_tool_format: Default::default(),
     }
 }
 
@@ -629,3 +630,6 @@ async fn azure_store_sends_ids_and_headers() -> Result<()> {
 
     Ok(())
 }
+
+#[path = "clients/flat_tools_tests.rs"]
+mod flat_tools_client_tests;

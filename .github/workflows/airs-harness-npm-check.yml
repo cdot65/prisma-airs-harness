@@ -61,9 +61,12 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
-      - uses: bazel-contrib/setup-bazel@c5acdfb288317d0b5c0bbd7a396a3dc868bb0f86
-        with:
-          bazelisk-version: 1.28.1
+      - name: Install checksum-pinned Bazelisk
+        run: |
+          curl --fail --location --retry 3 https://github.com/bazelbuild/bazelisk/releases/download/v1.28.1/bazelisk-linux-amd64 --output "$RUNNER_TEMP/bazel"
+          echo "22e7d3a188699982f661cf4687137ee52d1f24fec1ec893d91a6c4d791a75de8  $RUNNER_TEMP/bazel" | sha256sum --check
+          chmod 755 "$RUNNER_TEMP/bazel"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
       - name: Refresh and verify dependency lock
         run: |
           bazel mod deps --lockfile_mode=update

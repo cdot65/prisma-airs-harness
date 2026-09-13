@@ -444,16 +444,15 @@ class TerminalIntegration(unittest.TestCase):
                 counts[prompt] += 1
                 model = prompts[prompt][0]
             else:
-                # Session naming is a separate background request based on the
-                # original turn. Arrival order does not define its model route.
+                # An untitled session may retry naming on a later user turn.
+                # The originating prompt, not arrival order, determines its route.
                 self.assertTrue(
                     prompt.startswith("Generate a concise, single-line task title"),
                     prompt,
                 )
-                self.assertTrue(
-                    prompt.endswith("User prompt:\n" + next(iter(prompts))), prompt
-                )
-                model = None
+                source_prompt = prompt.partition("User prompt:\n")[2]
+                self.assertIn(source_prompt, prompts)
+                model = prompts[source_prompt][0]
             if model is None:
                 self.assertNotIn("model", body)
             else:

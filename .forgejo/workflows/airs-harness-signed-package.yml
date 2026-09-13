@@ -4,11 +4,11 @@ on:
 jobs:
   mac-package:
     runs-on: airs-macos-arm64
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ef2baaaefb96440b50213799edd078cc14022af4
+          ref: 2dc4768a782bc1f1c3deafd231452c19fb93b186
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -17,7 +17,7 @@ jobs:
           persist-credentials: false
       - name: Package and verify signed candidate through npm installation
         shell: bash
-        run: bash scripts/airs_forgejo_signed_package.sh
+        run: bash scripts/airs_forgejo_sign_and_package.sh
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         with:
           name: airs-signed-npm-${{ github.run_id }}
@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ef2baaaefb96440b50213799edd078cc14022af4
+          ref: 2dc4768a782bc1f1c3deafd231452c19fb93b186
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:

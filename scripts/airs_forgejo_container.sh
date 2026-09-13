@@ -29,7 +29,7 @@ tar --exclude=./codex-rs/target --exclude=./node_modules --exclude=./npm/airs-ha
 docker exec -i "$name" bash -s <<'BOOTSTRAP'
 set -euo pipefail
 apt-get update -qq
-apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config cmake libasound2-dev libcap-dev zsh dbus-x11 gnome-keyring tini
+apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config cmake libasound2-dev libcap-dev bubblewrap zsh dbus-x11 gnome-keyring tini
 useradd --create-home --uid 10001 airs-ci
 mkdir -p /tmp/airs-evidence /tmp/airs-test-tmp
 chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airs-test-tmp

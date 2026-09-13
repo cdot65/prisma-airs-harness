@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "airs-harness 0.1.0-alpha.12",
+  "binary_sha256": "397f8a02f73e7512d19537f27fd73baa7bc9c8c9c95a13064a411c19347eec8d",
+  "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+  "checksums_verified": true,
+  "required_notices_present": true,
+  "scope": "extracted package integrity; executable fixtures are a separate check"
+}

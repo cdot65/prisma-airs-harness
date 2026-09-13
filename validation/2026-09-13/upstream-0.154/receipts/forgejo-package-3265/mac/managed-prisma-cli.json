@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "cli_version": "5.2.0",
+  "checks": [
+    "exact managed CLI version",
+    "trusted config and explicit env precedence; project dotenv excluded",
+    "doctor diagnoses missing scanner and management credentials without probes",
+    "20 capability command contracts",
+    "real PDF/PNG/JPEG/SVG/DOCX corpus generation including optional native image dependency"
+  ],
+  "live_api_operations": false,
+  "document_detection_tested": false
+}

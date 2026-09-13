@@ -54,13 +54,17 @@ Apple Silicon architecture, existing ad hoc signatures, native credential
 storage, Keychain lifecycle, executable contracts and staged Verdaccio install.
 It does not establish Developer ID signing or notarization.
 
-Fresh compilation requires at least 100 GiB free before starting; Jadzia had
-only 15 GiB free at setup. Provide a sufficiently sized build volume or reclaim
-space before dispatching the full build. No owner files were deleted. The
-ported build workflow passed its preflight-only run 29; compilation remains
-unvalidated on this runner. No Developer ID signing identity is installed.
-Signing also requires the notary profile documented in the candidate's
-`validation/2026-09-13/upstream-0.154/SIGNING-HANDOFF.md`.
+Fresh compilation requires at least 100 GiB free before starting. Owner-authorized
+cleanup recovered enough space; approximately 243–250 GiB remained during the
+build. Forgejo run 52 (internal ID 3232) compiled the alpha.12 source and passed
+native/package acceptance on Jadzia.
+
+The Developer ID Application identity for team `G5QLZ5A8TA` is installed in the
+login Keychain. The notarization profile is `prisma-airs-harness-notary` in that
+same Keychain. Credentials remain on the Mac. Forgejo run 50 validated signing,
+Apple notarization, online ticket verification and native Keychain acceptance.
+The signed-package workflow extends this to the freshly compiled artifact,
+installed npm signature verification and Mac/Linux installed acceptance.
 
 ## Workflow migration inventory
 
@@ -70,7 +74,9 @@ Signing also requires the notary profile documented in the candidate's
 | `airs-harness-linux.yml` | GNU build and complete Rust suite; validation in progress |
 | `airs-harness-macos-preflight.yml` | Native runner/tool/artifact wiring; passed |
 | `airs-harness-macos-acceptance.yml` | Frozen native, Keychain and staged Verdaccio acceptance; passed |
-| `airs-harness-macos-build.yml` | Native build and artifact acceptance port; preflight passed, fresh build needs disk space |
+| `airs-harness-macos-build.yml` | Fresh native compilation and artifact acceptance; passed on run 52 |
+| `airs-harness-macos-signing.yml` | Frozen artifact signing, notarization and native acceptance; passed on run 50 |
+| `airs-harness-signed-package.yml` | Fresh build artifact signing/notarization, npm packaging and installed Mac/Linux E2E; passed on run 79 |
 | `airs-harness-windows-identity.yml` | Native Credential Manager checks; needs runner label `airs-windows-x64` |
 
 The old npm, deployment and release-check contracts are covered by the package
@@ -79,7 +85,7 @@ native acceptance. The old Mac release build is ported separately. Windows
 identity checks are prepared, but no Windows runner is registered and Windows
 distribution remains outside the authorized targets.
 
-Release publication, managed Mac signing, review-registry and optional GitHub
+Release publication, review-registry and optional GitHub
 Packages publication automation have not been validated or activated on Forgejo.
 Their old GitHub workflows remain disabled migration inputs. Routine source
 pushes run validation and mirror Git refs; they do not publish packages or sign

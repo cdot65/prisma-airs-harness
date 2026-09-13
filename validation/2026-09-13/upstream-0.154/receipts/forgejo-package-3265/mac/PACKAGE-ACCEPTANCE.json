@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "scope": "combined signed Mac and Linux npm tarballs; fresh Mac install, signatures, notarization, managed CLI and Keychain acceptance",
+  "tarball_sha256": {
+    "airs-harness-0.1.0-alpha.12.tgz": "d94c82ab958d372cac4485871459b72dabbef2b88b880c08ed4a808cdb199583",
+    "airs-harness-darwin-arm64-0.1.0-alpha.12.tgz": "491a1190cdd530ebf00c54a51e92e9a10e10e576eb94c54a9b96d51de2f1c629",
+    "airs-harness-linux-x64-0.1.0-alpha.12.tgz": "e8f665a79c03de7e5cd544b20c9602b1312ce88971efaa52fd3f1ee52ead070c"
+  },
+  "signed_binary_sha256": "397f8a02f73e7512d19537f27fd73baa7bc9c8c9c95a13064a411c19347eec8d",
+  "signing_run": "forgejo-run-3265",
+  "runtime_source": "19ce13981e92079ec29889896836d58d070cf106",
+  "published": false,
+  "linux_installed_acceptance": "separate dependent job",
+  "release_ready": false
+}

@@ -36,9 +36,15 @@ Native/package records are under [receipts](receipts). Local private artifacts a
 - Linux, Apple Silicon and Windows seven-process native-store checks pass. Windows also passes 26 identity/keyring tests; no Windows distribution was added.
 - Configuration and stable/experimental app-server schemas were regenerated. The authentic owned GNU-host Bazel refresh matches Cargo.lock. Owned npm platform checks pass. No inherited workflow file was activated; the preexisting platform-managed Dependabot entry is distinguished in [OWNED-WORKFLOWS.json](OWNED-WORKFLOWS.json).
 
-The initial **complete musl workspace run** finished with **17,989 passed, 156 failed, 34 skipped**. All failures remain recorded in [RUNS.json](RUNS.json): 146 execution-server cases depend on constructor-based test dispatch, one bundled zsh fixture needs GNU shared libraries, six TLS cases inherited CA settings from test-runner startup, one ancestry case encountered an existing `/tmp/.git`, one V8 test needed its feature aligned with the pinned sandbox-enabled archive, and one skill-budget expectation omitted the eight AIRS skills. The last nine cases are resolved: all 92 HTTP-client tests pass with immediate child-environment isolation, and the ancestry/V8/skill-budget cases pass. The execution-server and GNU-zsh cases still require the **owned GNU complete workspace run**, which remains blocked by the GitHub Actions budget. A passing affected suite is not substituted for that missing full-suite result.
+The initial **complete musl workspace run** finished with **17,989 passed, 156 failed, 34 skipped**. All failures remain recorded in [RUNS.json](RUNS.json): 146 execution-server cases depend on constructor-based test dispatch, one bundled zsh fixture needs GNU shared libraries, six TLS cases inherited CA settings from test-runner startup, one ancestry case encountered an existing `/tmp/.git`, one V8 test needed its feature aligned with the pinned sandbox-enabled archive, and one skill-budget expectation omitted the eight AIRS skills. The last nine cases are resolved: all 92 HTTP-client tests pass with immediate child-environment isolation, and the ancestry/V8/skill-budget cases pass. The execution-server and GNU-zsh cases still require the **owned GNU complete workspace run**, which is now running on Forgejo. A passing affected suite is not substituted for that missing full-suite result.
 
-The first GNU run reached full-suite compilation but lacked GLib development headers. The workflow prerequisite is corrected. GitHub then refused the follow-up and PR checks with **“The job was not started because an Actions budget is preventing further use.”** No budget or billing settings were changed. See [the recorded blocker](receipts/gnu-ci-blocker.json). The owner subsequently confirmed GitHub source/CI and Verdaccio distribution, superseding the brief Forgejo detour. The repository is renamed to `cdot65/prisma-airs-harness` (same repository ID `1359793173`). No permission update is required: available credentials have repository admin access. Increase the applicable GitHub Actions budget, then rerun corrected GNU validation `34741952791`. The earlier [infrastructure correction](receipts/forgejo-verdaccio-correction.json) is retained as historical evidence; it no longer describes the CI destination.
+The original GitHub GNU retry was blocked by the Actions budget. The owner then
+moved canonical source and CI to Forgejo; GitHub is a private mirror with Actions
+disabled. GNU run 3201 executed 18,180 cases but failed (17,772 passed, 407
+failed, one timeout). The runner lacked bubblewrap. Run 3244 includes that
+prerequisite and is executing; helper-process failures also exposed inherited
+Cargo test-runner configuration, now corrected for follow-up run 3269. No
+complete GNU suite pass is claimed.
 
 ## Evaluation and remaining gates
 
@@ -57,7 +63,12 @@ G1–G7 currently have implementer evidence; G8 remains blocked. Maintenance cre
 
 The current RustSec audit is **not clean**: RSA 0.9.10 remains in the unchanged OIDC dependency chain. The AIRS client uses public-key signature verification; no application RSA private-key signing or decryption was found. The scc 2.4.0 workspace warning is outside the Linux CLI normal/build closure. Both findings and their scope are retained in [DEPENDENCY-SCOPE.json](DEPENDENCY-SCOPE.json); this assessment does not suppress the audit result.
 
-Required Mac Developer ID signing/notarization is unavailable in the configured build setup. Repository secrets and the developer vault did not supply Apple signing material. The current ad hoc signature must not be represented as notarization. A concrete [signing handoff](SIGNING-HANDOFF.md) identifies the frozen archive, checksums and subsequent verification commands. Independent review and owner hands-on acceptance also remain pending. Even a future numerical score above 90 does not override these gates.
+Mac Developer ID signing and Apple notarization are now available and verified
+on Jadzia. The fresh Forgejo build and signed-package receipts supplement the
+historical frozen-artifact ledger below. That ledger still binds the original
+unsigned Mac hash; its score must not be promoted by silently substituting newly
+compiled or signed bytes into historical evidence. Full GNU validation,
+independent review and owner hands-on acceptance remain pending.
 
 Reproduce the current gate decision from the repository root:
 
@@ -71,4 +82,25 @@ Owner infrastructure correction: candidate packages are now staged together for 
 
 ## Forgejo cutover
 
-The owner moved source and CI to [cdot/prisma-airs-harness](https://git.cdot.io/cdot/prisma-airs-harness). GitHub is now a private push mirror with Actions disabled. All 13 branch heads and five tags matched before mirror setup; dedicated SSH mirroring has succeeded. Forgejo package contracts pass on main and the candidate. The full GNU suite is running on Forgejo; Jadzia runner 74 is online and its frozen native/Keychain/Verdaccio acceptance passed (run 30). Fresh Mac compilation needs additional disk space, signing needs a Developer ID identity, and the prepared Windows identity workflow needs a Windows runner. Earlier budget and namespace blockers above are historical. See [the cutover receipt](receipts/forgejo-cutover.json) and [runner operations](../../../../FORGEJO.md). No new runtime score or release acceptance is claimed.
+The owner moved source and CI to [cdot/prisma-airs-harness](https://git.cdot.io/cdot/prisma-airs-harness). GitHub is now a private push mirror with Actions disabled. All 13 branch heads and five tags matched before mirror setup; dedicated SSH mirroring has succeeded. Forgejo package contracts pass on main and the candidate. The full GNU suite is running on Forgejo; Jadzia runner 74 is online and its frozen native/Keychain/Verdaccio acceptance passed (run 30). Fresh Mac compilation and native acceptance passed on run 52; Developer ID signing and notarization passed on run 50. The prepared Windows identity workflow still needs a Windows runner. Earlier budget and namespace blockers above are historical. See [the cutover receipt](receipts/forgejo-cutover.json) and [runner operations](../../../../FORGEJO.md). No new runtime score or release acceptance is claimed.
+
+## Fresh Forgejo signed-package acceptance
+
+Forgejo [build 52](https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/52)
+compiled the same alpha.12 runtime source on Jadzia and passed native acceptance.
+[Package E2E run 79](https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/79)
+then signed that compilation with Developer ID team `G5QLZ5A8TA`, received Apple
+notarization acceptance, built bundled npm tarballs and passed fresh installed
+acceptance on both platforms. Mac passed 42 of 43 tests with one Linux-only skip;
+Linux passed all 43. Managed Prisma CLI acceptance passed on both platforms;
+installed Mac signature/online notarization and Keychain lifecycle passed.
+
+The signed Mac binary is
+`397f8a02f73e7512d19537f27fd73baa7bc9c8c9c95a13064a411c19347eec8d`.
+Linux reuses the verified source-matched musl artifact above. No new live gateway
+campaign or registry publication was performed by this package workflow.
+[The final receipt](receipts/forgejo-package-e2e.json) binds build/signing provenance,
+all three tarball hashes and both platform logs. This closes the package signing
+and installation task; the complete GNU suite and independent/owner review gates
+remain open. The historical ledger is not rebound to new bytes without reviewing
+its artifact-specific evidence.

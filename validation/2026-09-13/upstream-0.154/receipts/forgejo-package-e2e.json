@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0-alpha.12",
+  "status": "passed",
+  "timestamp": "2026-09-13T18:26:12.724568+00:00",
+  "runtime_source": "19ce13981e92079ec29889896836d58d070cf106",
+  "build": {
+    "run_id": 3232,
+    "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/52",
+    "status": "success",
+    "platform": "Apple Silicon"
+  },
+  "package_e2e": {
+    "run_id": 3265,
+    "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/79",
+    "status": "success"
+  },
+  "signing": {
+    "schema_version": 1,
+    "binary_sha256": "397f8a02f73e7512d19537f27fd73baa7bc9c8c9c95a13064a411c19347eec8d",
+    "target": "aarch64-apple-darwin",
+    "team_id": "G5QLZ5A8TA",
+    "codesign_verified": true,
+    "hardened_runtime": true,
+    "notarization_verified": true,
+    "notarization_method": "codesign-online-explicit-notarized-requirement",
+    "gatekeeper_app_assessment": "not-applicable-raw-cli",
+    "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+    "asset_id": "forgejo-run-3265",
+    "archive_sha256": "387bff5d38f4ebde30ebd867fdd2c81e2346b46bdeea058c2eef4ac76ffeb340",
+    "accepted_archive_members": [
+      "prisma-airs-harness-signing/airs-harness",
+      "prisma-airs-harness-alpha10-signing/airs-harness"
+    ],
+    "owner_reported_submission_id": "4df97e8f-40e4-4dfd-b726-6735e5a9bca7",
+    "submission_api_queried": false,
+    "verification_log_sha256": {
+      "INSTALLED-SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+      "INSTALLED-SIGNING-codesign.log": "6a4529a06aec0c1eb739f17b9503e4b9914e21b93282138bf39a1e3f45726ceb",
+      "INSTALLED-SIGNING-details.log": "a4756f0d0fb8c4177fb39219e5917c1437cc4303f542276e072b3ef40074b708",
+      "INSTALLED-SIGNING-notarization.log": "6a4529a06aec0c1eb739f17b9503e4b9914e21b93282138bf39a1e3f45726ceb"
+    },
+    "published": false,
+    "release_ready": false
+  },
+  "notarization": {
+    "id": "4df97e8f-40e4-4dfd-b726-6735e5a9bca7",
+    "message": "Processing complete",
+    "status": "Accepted"
+  },
+  "tests": {
+    "mac": {
+      "run": 43,
+      "passed": 42,
+      "skipped": 1,
+      "skip_reason": "Linux-only sandbox assertion"
+    },
+    "linux": {
+      "run": 43,
+      "passed": 43,
+      "skipped": 0
+    },
+    "managed_cli_both_platforms": true,
+    "mac_keychain": true,
+    "fresh_live_gateway_calls": false
+  },
+  "tarball_sha256": {
+    "airs-harness-0.1.0-alpha.12.tgz": "d94c82ab958d372cac4485871459b72dabbef2b88b880c08ed4a808cdb199583",
+    "airs-harness-darwin-arm64-0.1.0-alpha.12.tgz": "491a1190cdd530ebf00c54a51e92e9a10e10e576eb94c54a9b96d51de2f1c629",
+    "airs-harness-linux-x64-0.1.0-alpha.12.tgz": "e8f665a79c03de7e5cd544b20c9602b1312ce88971efaa52fd3f1ee52ead070c"
+  },
+  "linux_binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "published": false,
+  "release_ready": false,
+  "remaining_gates": [
+    "Complete GNU workspace suite",
+    "Independent review including RSA advisory applicability",
+    "Owner hands-on acceptance"
+  ],
+  "evidence_sha256": {
+    "linux/INSTALL-NETWORK.json": "e77169c8edf1287cd08af572c390fe8dda84ba8f4969c53fbe20ff0631efc9d4",
+    "linux/INSTALL-VERIFICATION.json": "b8889925167f6430ac2ad2413a3791ba21a69f03ff5e32c016e0d7cba9f415d4",
+    "linux/installed-tests.log": "1ed56ff2d8acc3ceafda5ac24d0420fde882c7a15f90aba5bb461fe5166fd3f1",
+    "linux/managed-prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "mac/FORGEJO-BUILD-3232.json": "cd616e50fc5c8a6d4d21362933285bf9e3de029958b4df833f7661d28e2d7ebf",
+    "mac/INSTALL-NETWORK.json": "6999d73adee71affa71901a4f3383ebd9806c7d5d8aa2462a2cee54e5d8db6e2",
+    "mac/INSTALL-VERIFICATION.json": "adb542fade0e007c6d999305f0bc97cc38c58095c9b4620eb4bda46dcc0a300e",
+    "mac/INSTALLED-SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+    "mac/INSTALLED-SIGNING-codesign.log": "6a4529a06aec0c1eb739f17b9503e4b9914e21b93282138bf39a1e3f45726ceb",
+    "mac/INSTALLED-SIGNING-details.log": "a4756f0d0fb8c4177fb39219e5917c1437cc4303f542276e072b3ef40074b708",
+    "mac/INSTALLED-SIGNING-notarization.log": "6a4529a06aec0c1eb739f17b9503e4b9914e21b93282138bf39a1e3f45726ceb",
+    "mac/INSTALLED-SIGNING.json": "911fc0d0cc9c6151f4b4922b5d035dc6d53e3bb874340bba16613e43a0a6e72c",
+    "mac/NOTARIZATION.json": "e0e96ac4271bdd21c151e8dbcf0847a18336ca58a12118de3662f341173d5397",
+    "mac/PACKAGE-ACCEPTANCE.json": "d9bc3df81d5f297fe6d916e9d1518c3d9fee78882609657371eb3dbb64edc975",
+    "mac/SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+    "mac/SIGNING-codesign.log": "bab67d57017847e139a9ae6b69f6c5bc80465dad5ddabdd16137beb3e4712bd5",
+    "mac/SIGNING-details.log": "08607e83a8e782f8394c02cbd022ad11ba72e09947b31aee77dfee7943d6f14d",
+    "mac/SIGNING-notarization.log": "bab67d57017847e139a9ae6b69f6c5bc80465dad5ddabdd16137beb3e4712bd5",
+    "mac/SIGNING.json": "41469d5b34aeed4bcbda46d0c92a02efcdea69b9dbf519290b0d72440f8587d3",
+    "mac/installed-keychain.json": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8",
+    "mac/installed-tests.log": "2dbebabf2d2b0b7e2ed52283f656cd4119bfa4f66438f63eea336caaa23876d0",
+    "mac/managed-prisma-cli.json": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa",
+    "mac/native-package-integrity.json": "977dac286c9aaf4affa6c163e05a186a6d48b244da5d199e065406e092d2cb38",
+    "mac/packaging.log": "b3b15506743f379fecc77922043e9271ba1abafd923a5f2cc09cddbd1a7ba30d"
+  }
+}

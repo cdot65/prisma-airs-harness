@@ -1,0 +1,15 @@
+{
+  "bundled": true,
+  "registry_requests": [
+    "/airs-harness",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness-linux-x64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.12.tgz",
+    "/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.12.tgz"
+  ],
+  "unexpected_requests": [],
+  "public_dependency_redirects": [],
+  "npm_version": "10.9.8",
+  "node_version": "v22.23.2",
+  "npm_exit_code": 0
+}

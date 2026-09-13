@@ -42,7 +42,8 @@ jobs:
       - uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba
         with:
           version: v0.16.0
-      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+      - uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        id: rust_cache
         with:
           path: |
             ~/.cargo/registry
@@ -54,6 +55,10 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y libssl-dev pkg-config zsh
+          sudo sysctl -w kernel.unprivileged_userns_clone=1
+          if sysctl kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
           mkdir -p "$RUNNER_TEMP/airs-test-tmp" "$RUNNER_TEMP/airs-rust-evidence"
           echo "TMPDIR=$RUNNER_TEMP/airs-test-tmp" >> "$GITHUB_ENV"
           CODEX_REPO_ROOT="$PWD" PYTHONPATH=scripts python3 - <<'PY'
@@ -76,6 +81,15 @@ jobs:
           # The pinned V8 archive has its sandbox enabled. Align the standalone
           # V8 proof-of-concept test feature with the workspace's linked library.
           just test --locked --features codex-v8-poc/sandbox 2>&1 | tee "$RUNNER_TEMP/airs-rust-evidence/full-workspace.log"
+      - uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        if: always() && steps.rust_cache.outputs.cache-hit != 'true'
+        continue-on-error: true
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            codex-rs/target
+          key: ${{ steps.rust_cache.outputs.cache-primary-key }}
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:

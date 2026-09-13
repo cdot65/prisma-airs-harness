@@ -1,0 +1,40 @@
+name: AIRS Harness Apple Silicon runner preflight
+on:
+  workflow_dispatch:
+jobs:
+  native-runner:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Verify native Apple Silicon and required tools
+        run: |
+          set -euo pipefail
+          test "$(uname -s)" = Darwin
+          test "$(uname -m)" = arm64
+          mkdir -p "$RUNNER_TEMP/airs-mac-preflight"
+          {
+            sw_vers
+            uname -m
+            id -un
+            xcode-select -p
+            clang --version
+            node --version
+            python3 --version
+            rustup --version
+            just --version
+            security list-keychains -d user
+          } > "$RUNNER_TEMP/airs-mac-preflight/host.txt" 2>&1
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check package launcher on the actual Mac
+        run: node --test npm/airs-harness/*.test.js > "$RUNNER_TEMP/airs-mac-preflight/launcher.txt" 2>&1
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-macos-runner-preflight
+          path: ${{ runner.temp }}/airs-mac-preflight/
+          if-no-files-found: error

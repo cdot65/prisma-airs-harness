@@ -22,6 +22,8 @@ jobs:
       run:
         shell: bash
     env:
+      CARGO_HOME: /opt/airs-cargo
+      RUSTUP_HOME: /opt/airs-rustup
       CARGO_BUILD_JOBS: 2
       CARGO_INCREMENTAL: 0
       CARGO_PROFILE_DEV_DEBUG: 0
@@ -41,7 +43,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
           chown -R airs-ci:airs-ci "$GITHUB_WORKSPACE" "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
           runuser -u airs-ci -- unshare -Ur true
-      - uses: https://github.com/dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+      - uses: https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
       - uses: https://github.com/taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
         with:
           tool: just@1.51.0,cargo-nextest

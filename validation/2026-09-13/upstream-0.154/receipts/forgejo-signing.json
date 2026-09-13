@@ -1,0 +1,17 @@
+{
+  "forgejo_run": 3230,
+  "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/50",
+  "status": "success",
+  "source": "19ce13981e92079ec29889896836d58d070cf106",
+  "original_binary_sha256": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d",
+  "signed_binary_sha256": "bf9f36b5919502d2922550ab903556151762502bd3404a6e76a5ea935c060d66",
+  "signed_zip_sha256": "5e368838f5f8ed43d2185679e8149931ef47c57473a35a24fabeb1b656decce9",
+  "notarization_submission": "fe77f685-7323-4c55-b62f-9f2b1a868c72",
+  "notarization_status": "Accepted",
+  "team": "G5QLZ5A8TA",
+  "online_notarization_verification": true,
+  "signed_native_keychain": true,
+  "signed_executable_acceptance": true,
+  "signed_npm_acceptance": "pending",
+  "published": false
+}

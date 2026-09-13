@@ -48,11 +48,18 @@ jobs:
         run: |
           just test -p codex-airs-identity -p codex-keyring-store --locked 2>&1 | Tee-Object -FilePath windows-identity.log
           exit $LASTEXITCODE
+      - name: Build Windows native credential fixture
+        working-directory: codex-rs
+        run: cargo build --locked -p codex-airs-identity --example store_acceptance
+      - name: Verify Windows Credential Manager across separate processes
+        run: python scripts/validate_native_credentials.py --binary codex-rs/target/debug/examples/store_acceptance.exe --output windows-native-store.json
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: always()
         with:
           name: airs-harness-windows-identity-tests
-          path: windows-identity.log
+          path: |
+            windows-identity.log
+            windows-native-store.json
   native-store:
     strategy:
       fail-fast: false

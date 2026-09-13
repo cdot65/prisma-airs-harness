@@ -26,6 +26,6 @@ AIRS product candidate version is 0.1.0-alpha.12; Prisma CLI 5.2.0 and SDK 0.28.
 
 ## Evidence status
 
-This ledger records implementation decisions, not completed independent review. Logs are candidate-specific except explicitly named alpha.11 control logs. Hosted dependency refresh and platform validation are pending. The local Alpine host cannot execute rules_rs GNU cargo; this must be resolved with a real GNU-host refresh, not a manually invented Bazel lock.
+This ledger records implementation decisions, not completed independent review. Logs are candidate-specific except explicitly named alpha.11 control logs. Hosted GNU dependency refresh completed in owned workflow run 34737616233; its source-bound MODULE.bazel.lock was imported and committed. The local Alpine GNU-loader limitation remains documented as an environment issue. Linux, Apple Silicon and Windows native-store validation passed in owned run 34738783078. Final Apple Silicon executable acceptance remains pending. The expanded affected Rust suite passed 10,418 tests (24 skipped; two passed on retry); the full workspace suite is still running. These counts do not credit skipped platform behavior.
 
 All eight mandatory gates, live service correlations, exact installed artifacts, independent review and owner acceptance must be evaluated before any 9/10 claim. Skips and unavailable tests receive no behavior credit.

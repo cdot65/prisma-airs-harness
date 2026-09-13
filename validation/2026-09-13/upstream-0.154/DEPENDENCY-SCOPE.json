@@ -8,5 +8,35 @@
     "chacha20": "0.10.2",
     "spin": "0.9.9"
   },
-  "workspace_scc_warning_retained": true
+  "workspace_scc_warning_retained": true,
+  "audit_database": {
+    "advisory-count": 1243,
+    "last-commit": "b50980aad8b8f14f77e25a97b32dd94bf008b0af",
+    "last-updated": "2026-09-09T12:49:52+02:00"
+  },
+  "audit_command": "cargo-audit 0.22.2 audit --json",
+  "audit_exit_status": 1,
+  "audit_sha256": "20169b97475e1431013551b8919aeee6335fe5c5009f937d0eab3e5b5c01df7d",
+  "rsa_advisory": {
+    "id": "RUSTSEC-2023-0071",
+    "version": "0.9.10",
+    "cli_dependency_path": [
+      "codex-cli",
+      "codex-airs-identity",
+      "openidconnect 4.0.1",
+      "rsa 0.9.10"
+    ],
+    "disposition": "Public-key RS256 verification only in the AIRS OIDC client. No RSA private key generation, signing or decryption in this application path. Existing dependency and tokens.rs unchanged from alpha.11. No patched crate version in current advisory database. Applicability conclusion requires independent review; audit is not clean.",
+    "evidence": [
+      "codex-rs/airs-identity/src/tokens.rs:69",
+      "codex-rs/airs-identity/src/tokens.rs:84"
+    ],
+    "new_in_upstream_integration": false
+  },
+  "scc_advisory": {
+    "id": "RUSTSEC-2026-0205",
+    "version": "2.4.0",
+    "linux_cli_closure": false,
+    "disposition": "Workspace test/development exposure retained for reviewer; not part of Linux CLI normal/build closure."
+  }
 }

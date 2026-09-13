@@ -329,10 +329,41 @@ def exercise(args, receipt):
                 )
 
                 if args.upgrade_only:
+                    receipt["phase"] = (
+                        "current-client-rollback-with-newer-helpers-absent"
+                    )
+                    for label in ("candidate", "relocated"):
+                        binaries[label].rename(
+                            binaries[label].with_name("offline-newer")
+                        )
+                    count = len(fixture.requests)
+                    run(
+                        "old",
+                        "exec",
+                        "resume",
+                        "--json",
+                        "--skip-git-repo-check",
+                        thread_id,
+                        "Resume the original session after rolling back the executable.",
+                    )
+                    assert len(fixture.requests) > count
+                    assert_preserved_state(
+                        protected, config_path, binaries["old"], rollouts
+                    )
                     receipt["old_client_without_newer_helper"] = {
-                        "tested": False,
-                        "reason": "upgrade-only scenario",
+                        "tested": True,
+                        "exit_code": 0,
+                        "new_inference_requests": len(fixture.requests) - count,
+                        "identity_and_history_preserved": True,
+                        "independent_downgrade_compatibility": True,
                     }
+                    for label in ("candidate", "relocated"):
+                        binaries[label].with_name("offline-newer").rename(
+                            binaries[label]
+                        )
+                    receipt["checks"].append(
+                        "current native-store baseline resumes with both newer helpers absent"
+                    )
                 else:
                     # Do not mistake old-client/new-helper coexistence for downgrade.
                     receipt["phase"] = "old-client-with-newer-helper-absent"
@@ -482,7 +513,7 @@ def main():
             "workspace key only; no OIDC migration",
             "same candidate bytes relocated, not a subsequent distinct release",
             "no signing or published package upgrade",
-            "Downgrade compatibility is not claimed; the optional legacy scenario checks missing-helper failure only",
+            "Current native-store rollback is bounded to this exact binary pair; the legacy scenario checks missing-helper failure only",
         ],
     }
     try:

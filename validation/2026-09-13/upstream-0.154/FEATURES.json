@@ -24,7 +24,7 @@
     "code_mode_prewarm",
     "code_mode_host",
     "realtime_conversation",
-    "guardian_v2"
+    "guardianv2"
   ],
   "pending_boundary_review": [],
   "note": "Feature existence and opt-in fixture success are not default enablement or full feature acceptance."

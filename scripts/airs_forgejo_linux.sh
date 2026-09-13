@@ -7,7 +7,7 @@ unset NO_COLOR SSL_CERT_FILE SSL_CERT_DIR CODEX_CA_CERTIFICATE
 exec > >(tee "$RUNNER_TEMP/airs-evidence/validation.log") 2>&1
 git rev-parse HEAD > "$RUNNER_TEMP/airs-evidence/source.txt"
 uname -a
-ldd --version | head -1
+ldd --version
 node --test npm/airs-harness/*.test.js
 npm ci --prefix npm/airs-harness --ignore-scripts --no-audit --no-fund
 python3 scripts/validate_prisma_cli.py

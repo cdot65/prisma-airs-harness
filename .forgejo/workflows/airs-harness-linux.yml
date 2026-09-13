@@ -15,7 +15,7 @@ on:
       - 'scripts/airs_rust_test_runner.py'
       - 'codex-rs/**'
 concurrency:
-  group: airs-linux-${{ github.ref }}
+  group: airs-linux-validation
   cancel-in-progress: false
 jobs:
   workspace:

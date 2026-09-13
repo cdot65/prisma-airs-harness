@@ -33,6 +33,44 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_active_writer_rejects_second_process_then_allows_resume(self):
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        self.phase_replies = {
+            "Keep this session open.": "Writer ready.",
+            "Resume after the first writer exits.": "Writer resumed.",
+        }
+        denied_prompt = "A second writer must not send this prompt."
+        with TerminalSession(BINARY, self.env, self.work) as terminal:
+            self.terminal_transcript = terminal.transcript
+            terminal.start()
+            terminal.send_line("Keep this session open.")
+            terminal.wait_for(b"Writer ready.")
+            histories = [
+                json.loads(line)["payload"]
+                for path in (self.home / "sessions").rglob("*.jsonl")
+                for line in path.read_text().splitlines()
+                if json.loads(line).get("type") == "session_meta"
+            ]
+            self.assertEqual(len(histories), 1)
+            thread_id = histories[0]["id"]
+            denied = self.run_cli(
+                "exec", "resume", "--skip-git-repo-check", thread_id, denied_prompt
+            )
+            self.assertNotEqual(denied.returncode, 0)
+            self.assertIn("already has an active writer", denied.stderr)
+            self.assertFalse(any(
+                denied_prompt in json.dumps(body)
+                for _, _, body in self.requests
+            ))
+        resumed = self.run_cli(
+            "exec", "resume", "--skip-git-repo-check", thread_id,
+            "Resume after the first writer exits.",
+        )
+        self.assertEqual(resumed.returncode, 0, resumed.stderr)
+        self.assertIn("Writer resumed.", resumed.stdout)
+
     def test_inline_question_preserves_draft_and_gateway_route(self):
         from airs_harness_pty import TerminalSession
 

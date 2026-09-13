@@ -1,6 +1,11 @@
 name: AIRS Harness Linux validation
 on:
   workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Rust source branch or commit to validate
+        default: integrate/codex-0.154-candidate
+        required: true
   push:
     branches: [integrate/codex-0.154-candidate]
     paths:
@@ -35,6 +40,7 @@ jobs:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ inputs.source_ref || github.ref }}
       - name: Prepare GNU Linux and unprivileged test user
         run: |
           apt-get update -qq

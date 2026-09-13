@@ -1,0 +1,16 @@
+{
+  "repository_id": 1359793173,
+  "canonical_repository": "cdot65/prisma-airs-harness",
+  "previous_repository": "cdot65/airs-harness",
+  "old_url_resolves_to_same_id": true,
+  "source_and_ci": "GitHub",
+  "package_registry": "https://npm.cdot.io",
+  "git_origin": "https://github.com/cdot65/prisma-airs-harness.git",
+  "local_checkout": "/home/cdot/development/cdot65/airs-harness",
+  "shared_worktree_config_updated": true,
+  "separate_forgejo_typescript_project_unchanged": true,
+  "permission_change_required": false,
+  "ci_annotation": "The job was not started because an Actions budget is preventing further use.",
+  "required_owner_action": "Increase applicable GitHub Actions budget; no new runner needed for current workflow",
+  "resume_gnu_run": 34741952791
+}

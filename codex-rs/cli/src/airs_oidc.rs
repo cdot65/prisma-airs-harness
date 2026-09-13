@@ -26,6 +26,7 @@ enum Stored {
 
 pub enum LoginFlow {
     Browser,
+    BrowserManual,
     Device,
 }
 
@@ -161,10 +162,12 @@ pub(super) async fn authenticate(
         .map_err(|error| super::airs_storage_error::report(error, "clean up storage check"))?;
     let provider = Provider::discover(config).await?;
     let tokens = match flow {
-        LoginFlow::Browser => {
+        LoginFlow::Browser | LoginFlow::BrowserManual => {
             let login = provider.browser_login().await?;
             eprintln!("Open this URL to sign in:\n{}", login.authorization_url());
-            let _ = webbrowser::open(login.authorization_url().as_str());
+            if matches!(flow, LoginFlow::Browser) {
+                let _ = webbrowser::open(login.authorization_url().as_str());
+            }
             tokio::select! {
                 result = login.complete(&provider) => result?,
                 _ = tokio::signal::ctrl_c() => anyhow::bail!("login cancelled"),

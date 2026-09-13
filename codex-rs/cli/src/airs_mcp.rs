@@ -49,6 +49,9 @@ pub struct SetupArgs {
     /// Use a device code instead of a local browser callback.
     #[arg(long, requires = "issuer_url")]
     pub device_auth: bool,
+    /// Print the login URL without opening the desktop browser.
+    #[arg(long, requires = "issuer_url", conflicts_with = "device_auth")]
+    pub no_browser: bool,
     /// Restrict the local tool catalog to these names. Repeat for more tools.
     #[arg(long)]
     pub tool: Vec<String>,
@@ -201,6 +204,8 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
         );
         let flow = if args.device_auth {
             airs_oidc::LoginFlow::Device
+        } else if args.no_browser {
+            airs_oidc::LoginFlow::BrowserManual
         } else {
             airs_oidc::LoginFlow::Browser
         };

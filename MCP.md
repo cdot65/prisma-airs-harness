@@ -31,3 +31,15 @@ For development, use `prisma-airs-mcp-dev.cdot.io` and client
 `prisma-airs-harness-mcp-dev` in the command above. Permissions come from the MCP
 server's human role and resource policy; registering a public client alone does
 not grant workspace or profile access.
+
+For a remote terminal or automated browser driver, add `--no-browser` to both
+company `login` and OAuth `setup-mcp`. The harness prints the authorization URL
+and retains the loopback callback, PKCE and state/nonce checks without opening
+the desktop browser. This option requires an explicit issuer and excludes device
+login. If signing in from another machine, forward the printed loopback port.
+
+Configured AIRS gateway providers send namespace tools as flat function names at
+the Responses HTTP boundary, then restore their namespace before local routing.
+This includes MCP tools: gateways that only support function declarations can
+now expose them to the model. Ambiguous aliases or names exceeding 128 ASCII
+characters fail before inference; native namespace-capable providers are unchanged.

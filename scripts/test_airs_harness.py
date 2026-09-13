@@ -8,6 +8,7 @@ PAH service, network beyond loopback, or Python third-party package is required.
 
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -32,6 +33,41 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_saved_environment_cannot_enable_unvalidated_upstream_services(self):
+        self.configure()
+        blocked = [
+            "apps",
+            "plugins",
+            "recommended_plugins",
+            "image_generation",
+            "remote_control",
+            "code_mode",
+            "code_mode_only",
+            "code_mode_prewarm",
+            "code_mode_host",
+            "realtime_conversation",
+        ]
+        # Omit setup's feature defaults to represent an older environment, then
+        # request each unsupported capability through the public CLI overrides.
+        config_path = self.home / "config.toml"
+        original = config_path.read_text()
+        config_path.write_text(
+            re.sub(r"(?ms)^\[features\]\n.*?(?=^\[|\Z)", "", original)
+        )
+        args = []
+        for feature in blocked:
+            args.extend(["-c", f"features.{feature}=true"])
+        result = self.run_cli(*args, "features", "list")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        states = {
+            line.split()[0]: line.split()[-1] for line in result.stdout.splitlines()
+        }
+        self.assertEqual(
+            {feature: states[feature] for feature in blocked},
+            {feature: "false" for feature in blocked},
+        )
+        self.assertFalse(self.requests)
+
     @classmethod
     def setUpClass(cls):
         result = subprocess.run(

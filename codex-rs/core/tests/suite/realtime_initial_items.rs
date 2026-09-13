@@ -1,5 +1,6 @@
 use anyhow::Result;
 use codex_config::config_toml::RealtimeWsVersion;
+use codex_model_provider_info::GatewayRouting;
 use codex_protocol::protocol::CodexResponseHandoffMode;
 use codex_protocol::protocol::ConversationStartParams;
 use codex_protocol::protocol::ConversationTextParams;
@@ -20,6 +21,39 @@ use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::time::Duration;
 use tokio::time::timeout;
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn gateway_rejects_realtime_before_connecting_to_override_endpoint() -> Result<()> {
+    let api_server = start_mock_server().await;
+    let forbidden_server = start_mock_server().await;
+    let endpoint = forbidden_server.uri();
+    let test = test_codex()
+        .with_config(move |config| {
+            config.model_provider.gateway = Some(GatewayRouting {
+                default_route: "gpt-5.2".to_string(),
+            });
+            config.experimental_realtime_ws_base_url = Some(endpoint);
+        })
+        .build_with_auto_env(&api_server)
+        .await?;
+    test.codex
+        .submit(Op::RealtimeConversationStart(start_params(
+            RealtimeConversationVersion::V3,
+        )))
+        .await?;
+    let error = wait_for_event_match(&test.codex, |msg| match msg {
+        EventMsg::RealtimeConversationRealtime(RealtimeConversationRealtimeEvent {
+            payload: RealtimeEvent::Error(message),
+        }) => Some(message.clone()),
+        _ => None,
+    })
+    .await;
+    assert!(
+        error.contains("Realtime conversations are not supported through the Prisma AIRS gateway")
+    );
+    assert_eq!(forbidden_server.received_requests().await.unwrap().len(), 0);
+    Ok(())
+}
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn frameless_v3_sends_initial_items_in_session_bootstrap() -> Result<()> {

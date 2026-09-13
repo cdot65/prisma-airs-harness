@@ -1179,6 +1179,11 @@ async fn prepare_realtime_start(
     params: ConversationStartParams,
 ) -> CodexResult<PreparedRealtimeConversationStart> {
     let provider = sess.provider().await;
+    if provider.gateway.is_some() {
+        return Err(CodexErr::InvalidRequest(
+            "Realtime conversations are not supported through the Prisma AIRS gateway".to_string(),
+        ));
+    }
     let auth_manager = sess
         .services
         .model_client

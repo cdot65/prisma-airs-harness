@@ -1,0 +1,14 @@
+{
+  "source": "1cdc152631d4c1e960435f1630373fef29d34a64",
+  "upstream": "6b9826e3aa83b1a5947db50f4332cb9c65f1b340",
+  "baseline_binary": "/var/tmp/airs-alpha11-release/linux/airs-harness",
+  "baseline_version": "0.1.0-alpha.11",
+  "baseline_binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+  "backports": [
+    "ec84e692611d50d9c79c4bdad0a5785013975a72",
+    "885113aa1d68ccbc567b83698feac3cd42163088"
+  ],
+  "github_cli_authenticated": true,
+  "release_score": null,
+  "release_status": "implementation_in_progress"
+}

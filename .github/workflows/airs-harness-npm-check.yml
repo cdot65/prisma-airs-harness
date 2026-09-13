@@ -1,6 +1,11 @@
 name: Prisma AIRS Harness npm launcher
 on:
   workflow_dispatch:
+    inputs:
+      refresh_bazel_lock:
+        description: Refresh the dependency lock on a GNU Linux host and upload it for review
+        type: boolean
+        default: false
   pull_request:
     paths:
       - 'npm/airs-harness/**'
@@ -48,6 +53,31 @@ concurrency:
   group: airs-harness-npm-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  dependency-lock:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.refresh_bazel_lock }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: bazel-contrib/setup-bazel@c5acdfb288317d0b5c0bbd7a396a3dc868bb0f86
+        with:
+          bazelisk-version: 1.28.1
+      - name: Refresh and verify dependency lock
+        run: |
+          bazel mod deps --lockfile_mode=update
+          bazel mod deps --lockfile_mode=error
+          git rev-parse HEAD > dependency-lock-source.txt
+          sha256sum codex-rs/Cargo.lock MODULE.bazel.lock > dependency-lock-sha256.txt
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: airs-harness-dependency-lock
+          path: |
+            MODULE.bazel.lock
+            dependency-lock-source.txt
+            dependency-lock-sha256.txt
+          if-no-files-found: error
   launcher:
     strategy:
       fail-fast: false

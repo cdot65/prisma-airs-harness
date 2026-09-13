@@ -67,7 +67,7 @@ impl ManagedFeatures {
         feature_requirements: Option<Sourced<FeatureRequirementsToml>>,
         startup_warnings: Option<&mut Vec<String>>,
     ) -> std::io::Result<Self> {
-        let (pinned_features, source) = match feature_requirements {
+        let (mut pinned_features, source) = match feature_requirements {
             Some(Sourced {
                 value: feature_requirements,
                 source,
@@ -78,6 +78,17 @@ impl ManagedFeatures {
             None => (BTreeMap::new(), None),
         };
 
+        if codex_utils_home_dir::is_airs_harness() {
+            for feature in super::airs_boundary::DISABLED_FEATURES {
+                if pinned_features.get(feature) == Some(&true) {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::InvalidInput,
+                        format!("{} is not supported by Prisma AIRS Harness", feature.key()),
+                    ));
+                }
+                pinned_features.insert(*feature, false);
+            }
+        }
         let normalized_features = normalize_candidate(configured_features, &pinned_features);
         validate_pinned_features(&normalized_features, &pinned_features, source.as_ref())?;
         Ok(Self {

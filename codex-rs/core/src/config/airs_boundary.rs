@@ -5,6 +5,23 @@ use codex_model_provider_info::ModelProviderInfo;
 use std::collections::HashMap;
 use std::path::Path;
 
+// These capabilities require a separate AIRS integration contract. Keep the
+// runtime restriction independent of setup defaults so saved environments and
+// per-turn feature changes cannot opt into an unvalidated service path.
+pub(super) const DISABLED_FEATURES: &[codex_features::Feature] = &[
+    codex_features::Feature::Apps,
+    codex_features::Feature::Plugins,
+    codex_features::Feature::RecommendedPlugins,
+    codex_features::Feature::ImageGeneration,
+    codex_features::Feature::RemoteControl,
+    codex_features::Feature::RemoteModels,
+    codex_features::Feature::CodeMode,
+    codex_features::Feature::CodeModeOnly,
+    codex_features::Feature::CodeModePrewarm,
+    codex_features::Feature::CodeModeHost,
+    codex_features::Feature::RealtimeConversation,
+];
+
 pub(super) fn developer_instructions(
     existing: Option<String>,
     servers: &HashMap<String, McpServerConfig>,

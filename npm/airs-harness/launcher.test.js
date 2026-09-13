@@ -128,9 +128,16 @@ test("launcher preserves arguments, cwd, stdin and exit code", { skip: process.p
 });
 
 test("termination reaches the native process", { skip: process.platform === "win32", timeout: 5000 }, async (t) => {
-  const entry = fixture(t, '#!/bin/sh\nprintf "ready\\n"\nexec sleep 30\n');
-  const child = spawn(process.execPath, [entry], { stdio: ["ignore", "pipe", "pipe"] });
-  t.after(() => { if (child.exitCode === null && child.signalCode === null) child.kill("SIGKILL"); });
+  // Announce readiness from the final process, without a shell-to-sleep exec race.
+  const entry = fixture(t, `#!${process.execPath}
+process.stdout.write("ready\\n");
+setInterval(() => {}, 1000);
+`);
+  const child = spawn(process.execPath, [entry], { detached: true, stdio: ["ignore", "pipe", "pipe"] });
+  t.after(() => {
+    try { process.kill(-child.pid, "SIGKILL"); }
+    catch (error) { if (error.code !== "ESRCH") throw error; }
+  });
   await once(child.stdout, "data");
   const closed = once(child, "close");
   child.kill("SIGTERM");

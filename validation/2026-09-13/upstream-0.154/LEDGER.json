@@ -1,0 +1,274 @@
+{
+  "source_commit": "3e44d61d311eb3e6f6c1f243a6a32ed40a81371b",
+  "artifacts": {
+    "linux-x64": "",
+    "darwin-arm64": ""
+  },
+  "implementer": "Codex primary implementation agent",
+  "receipts": {
+    "active_writer": {
+      "status": "pending",
+      "expected": "active writer",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "affected_and_full_tests": {
+      "status": "pending",
+      "expected": "affected and full tests",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "agent_cli_workflow": {
+      "status": "pending",
+      "expected": "agent cli workflow",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "apple_silicon_install": {
+      "status": "pending",
+      "expected": "apple silicon install",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "artifact_lineage": {
+      "status": "pending",
+      "expected": "artifact lineage",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "authority_isolation": {
+      "status": "pending",
+      "expected": "authority isolation",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "concurrent_revocation": {
+      "status": "pending",
+      "expected": "concurrent revocation",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "dependency_schemas": {
+      "status": "pending",
+      "expected": "dependency schemas",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "doctor_probe": {
+      "status": "pending",
+      "expected": "doctor probe",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "eight_skills": {
+      "status": "pending",
+      "expected": "eight skills",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "endpoint_inventory": {
+      "status": "pending",
+      "expected": "endpoint inventory",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "inference_boundaries": {
+      "status": "pending",
+      "expected": "inference boundaries",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "inline_questions": {
+      "status": "pending",
+      "expected": "inline questions",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "interactive_routes": {
+      "status": "pending",
+      "expected": "interactive routes",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "linux_install": {
+      "status": "pending",
+      "expected": "linux install",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "live_gateway_allow_deny": {
+      "status": "pending",
+      "expected": "live gateway allow deny",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "live_mcp_scan": {
+      "status": "pending",
+      "expected": "live mcp scan",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "mac_signing": {
+      "status": "pending",
+      "expected": "mac signing",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "managed_cli_isolation": {
+      "status": "pending",
+      "expected": "managed cli isolation",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "managed_cli_pins": {
+      "status": "pending",
+      "expected": "managed cli pins",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "mcp_authorization": {
+      "status": "pending",
+      "expected": "mcp authorization",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "mcp_no_replay": {
+      "status": "pending",
+      "expected": "mcp no replay",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "mcp_refresh_reconnect": {
+      "status": "pending",
+      "expected": "mcp refresh reconnect",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "merge_review": {
+      "status": "pending",
+      "expected": "merge review",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "native_stores": {
+      "status": "pending",
+      "expected": "native stores",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "oidc_lifecycle": {
+      "status": "pending",
+      "expected": "oidc lifecycle",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "old_state_upgrade": {
+      "status": "pending",
+      "expected": "old state upgrade",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "optional_features": {
+      "status": "pending",
+      "expected": "optional features",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "override_spoof_denials": {
+      "status": "pending",
+      "expected": "override spoof denials",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "owned_workflows": {
+      "status": "pending",
+      "expected": "owned workflows",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "reasoning_capabilities": {
+      "status": "pending",
+      "expected": "reasoning capabilities",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "redirect_redaction": {
+      "status": "pending",
+      "expected": "redirect redaction",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "resume_fork": {
+      "status": "pending",
+      "expected": "resume fork",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "rollback": {
+      "status": "pending",
+      "expected": "rollback",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "scan_correlations": {
+      "status": "pending",
+      "expected": "scan correlations",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "tools_and_compaction": {
+      "status": "pending",
+      "expected": "tools and compaction",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "windows_identity": {
+      "status": "pending",
+      "expected": "windows identity",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "workspace_lifecycle": {
+      "status": "pending",
+      "expected": "workspace lifecycle",
+      "actual": "Final source/artifact-bound acceptance pending"
+    },
+    "worktrees": {
+      "status": "pending",
+      "expected": "worktrees",
+      "actual": "Final source/artifact-bound acceptance pending"
+    }
+  },
+  "scores": {
+    "routing": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "scans": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "failure_boundaries": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "identity_lifecycle": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "identity_isolation": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "mcp_scanning": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "mcp_credentials": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "mcp_safety": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "managed_invocation": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "skill_contracts": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "agent_integration": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "session_state": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "inline_questions": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "maintenance": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    },
+    "release": {
+      "points": 0,
+      "reason": "Final evidence not yet credited"
+    }
+  },
+  "independent_review": {
+    "status": "pending"
+  },
+  "owner_acceptance": {
+    "status": "pending"
+  },
+  "findings": []
+}

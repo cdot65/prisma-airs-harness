@@ -1,0 +1,12 @@
+{
+  "scope": "Linux CLI normal/build dependency closure, not a vulnerability scan",
+  "scc_2_4_0_in_cli_closure": false,
+  "preserved_versions": {
+    "quinn-proto": "0.11.15",
+    "event-listener": "5.4.2",
+    "memmap2": "0.9.11",
+    "chacha20": "0.10.2",
+    "spin": "0.9.9"
+  },
+  "workspace_scc_warning_retained": true
+}

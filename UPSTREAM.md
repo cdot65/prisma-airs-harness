@@ -5,6 +5,8 @@
 - Baseline tag: `rust-v0.153.4`.
 - Baseline commit: `3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`.
 - Fork started: 2026-09-07.
+- Integrated stable source: `rust-v0.154.0`, commit
+  `6b9826e3aa83b1a5947db50f4332cb9c65f1b340` (alpha.12 candidate, not published).
 - Rust toolchain: 1.95.0, as pinned by upstream.
 - Runtime dependency on PAH: none.
 
@@ -13,6 +15,14 @@ changes from mechanical branding. Before updating upstream, review reintroduced
 service endpoints, login behavior, application-home resolution, request model
 serialization, auth handling and platform packaging. Run the affected integration
 checks against the installed executable, including real gateway/tool traffic.
+
+The 0.154 merge decisions, endpoint inventory and acceptance evidence are in
+[`validation/2026-09-13/upstream-0.154/`](validation/2026-09-13/upstream-0.154/).
+The fixed evaluation is run with `python3 scripts/evaluate_airs_upstream.py LEDGER.json`.
+It requires at least 90/100 plus every mandatory gate, artifact-bound evidence,
+independent review and owner acceptance. An absent gate cannot be averaged away.
+Worktrees and inline questions remain opt-in; unsupported service features are
+pinned off at runtime for existing environments as well as new setup output.
 
 ## Delta ledger
 

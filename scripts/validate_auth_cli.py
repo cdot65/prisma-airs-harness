@@ -376,20 +376,28 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
         check(
             "verified-subject",
             binding["source"]["identity"]["subject"] == users[0]["id"],
+            synthetic_subject=users[0]["id"],
         )
         if args.verify_gateway_access:
-            probe = run("doctor", "--verify-access", "--json", timeout=50)
-            report = json.loads(probe.stdout)
-            access = next(
-                row for row in report["checks"] if row["name"] == "gateway_access"
-            )
-            correlation = re.search(
-                r"Client correlation ID: ([0-9a-f-]{36})", access["detail"]
-            )
+            correlations = []
+            successful = True
+            for _ in range(2):
+                probe = run("doctor", "--verify-access", "--json", timeout=50)
+                report = json.loads(probe.stdout)
+                access = next(
+                    row for row in report["checks"] if row["name"] == "gateway_access"
+                )
+                correlation = re.search(
+                    r"Client correlation ID: ([0-9a-f-]{36})", access["detail"]
+                )
+                successful = successful and access["passed"] and correlation is not None
+                if correlation:
+                    correlations.append(correlation.group(1))
             check(
                 "bounded-authenticated-oidc-probe",
-                access["passed"] and correlation is not None,
-                client_correlation_id=correlation.group(1) if correlation else None,
+                successful and len(set(correlations)) == 2,
+                client_correlation_id=correlations[0] if correlations else None,
+                client_correlation_ids=correlations,
                 mcp_permissions_tested=False,
             )
         credential = ["credential", "--home", str(home), "--binding", binding["id"]]

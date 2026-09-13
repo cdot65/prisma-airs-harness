@@ -1,0 +1,63 @@
+name: AIRS Harness Linux validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [integrate/codex-0.154-candidate]
+    paths:
+      - '.forgejo/workflows/airs-harness-linux.yml'
+      - 'scripts/airs_forgejo_linux.sh'
+      - 'scripts/airs_rust_test_runner.py'
+      - 'codex-rs/**'
+concurrency:
+  group: airs-linux-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
+      options: --cpus=2 --memory=8g --security-opt seccomp=unconfined
+    timeout-minutes: 175
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+      TERM: xterm-256color
+      COLORTERM: truecolor
+      NPM_CONFIG_REGISTRY: https://npm.cdot.io
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Prepare GNU Linux and unprivileged test user
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config zsh dbus-x11 gnome-keyring tini
+          useradd --create-home --uid 10001 airs-ci
+          mkdir -p "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
+          chown -R airs-ci:airs-ci "$GITHUB_WORKSPACE" "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
+          runuser -u airs-ci -- unshare -Ur true
+      - uses: https://github.com/dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+      - uses: https://github.com/taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
+        with:
+          tool: just@1.51.0,cargo-nextest
+      - uses: https://github.com/actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - name: Validate contracts and complete Rust workspace
+        run: |
+          # The job starts as root for package installation. Tests run as a
+          # regular user; retain the installed, job-local toolchain locations.
+          chown -R airs-ci:airs-ci "$CARGO_HOME" "$RUSTUP_HOME"
+          chmod o+x /root
+          tini -s -- runuser -u airs-ci -- env PATH="$PATH" CARGO_HOME="$CARGO_HOME" RUSTUP_HOME="$RUSTUP_HOME" bash scripts/airs_forgejo_linux.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-linux-validation
+          path: ${{ runner.temp }}/airs-evidence/
+          if-no-files-found: error

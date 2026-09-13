@@ -61,6 +61,7 @@ jobs:
           fi
           mkdir -p "$RUNNER_TEMP/airs-test-tmp" "$RUNNER_TEMP/airs-rust-evidence"
           echo "TMPDIR=$RUNNER_TEMP/airs-test-tmp" >> "$GITHUB_ENV"
+          echo "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=$PWD/scripts/airs_rust_test_runner.py" >> "$GITHUB_ENV"
           CODEX_REPO_ROOT="$PWD" PYTHONPATH=scripts python3 - <<'PY'
           import os
           from pathlib import Path

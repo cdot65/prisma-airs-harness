@@ -65,7 +65,8 @@ def main():
         try:
             terminal.start()
             terminal.send_line(
-                "Use request_user_input_async to ask one question titled 'Choose the fixture color' "
+                "From the root agent, directly call request_user_input_async; do not delegate this task. "
+                "Ask one question titled 'Choose the fixture color' "
                 "with options Blue and Green. While waiting, use a local tool to write WAITING "
                 "into question-waiting.txt. After I answer, write the chosen color into "
                 "chosen-color.txt. Do not guess an answer, ask another question or change configuration."

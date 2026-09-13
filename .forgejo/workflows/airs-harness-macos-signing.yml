@@ -39,7 +39,7 @@ jobs:
           import subprocess
           subprocess.run(['codesign', '--force', '--timestamp', '--options', 'runtime', '--keychain', '/Users/cdot/Library/Keychains/login.keychain-db', '--sign', '9E9F6E0D92526D725FABC1BBDC2F1757049F1805', 'prisma-airs-harness-signing/airs-harness'], check=True, timeout=120)
           PY
-          codesign --verify --strict --verbose=4 -R 'anchor apple generic and certificate leaf[subject.OU] = "G5QLZ5A8TA" and certificate leaf[field.1.2.840.113635.100.6.1.13] exists' prisma-airs-harness-signing/airs-harness
+          codesign --verify --strict --verbose=4 -R '=anchor apple generic and certificate leaf[subject.OU] = "G5QLZ5A8TA" and certificate leaf[field.1.2.840.113635.100.6.1.13] exists' prisma-airs-harness-signing/airs-harness
           codesign -dvv prisma-airs-harness-signing/airs-harness 2> signing-details.txt
           zip -X prisma-airs-harness-alpha12-signed.zip prisma-airs-harness-signing/airs-harness
           xcrun notarytool submit prisma-airs-harness-alpha12-signed.zip --keychain-profile prisma-airs-harness-notary --keychain "$HOME/Library/Keychains/login.keychain-db" --wait --timeout 30m --output-format json > notarization.json

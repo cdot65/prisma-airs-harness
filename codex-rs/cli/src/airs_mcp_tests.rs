@@ -29,6 +29,8 @@ async fn setup_rejects_insecure_or_credential_bearing_destinations() {
             oidc_client_id: None,
             audience: None,
             device_auth: false,
+            resource: None,
+            scope: Vec::new(),
             tool: Vec::new(),
             required: false,
         };

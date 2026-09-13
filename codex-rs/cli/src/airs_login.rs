@@ -135,6 +135,8 @@ fn read_settings(home: &Path) -> anyhow::Result<Option<IdentityConfig>> {
 /// Persist only public connection inputs before authentication so retries need no flags.
 pub(super) fn remember_settings(home: &Path, args: &LoginArgs) -> anyhow::Result<()> {
     let identity = IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: args
             .issuer_url
             .clone()
@@ -242,6 +244,8 @@ fn company_settings(
         "\nUse the public sign-in settings supplied by your organization.\nYour company password is entered only in your browser."
     )?;
     let config = IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: prompt(input, output, "Company issuer URL (HTTPS): ")?,
         client_id: prompt(input, output, "Public client ID: ")?,
         audience: prompt(input, output, "Gateway audience: ")?,

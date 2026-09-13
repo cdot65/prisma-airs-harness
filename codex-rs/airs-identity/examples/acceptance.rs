@@ -7,6 +7,8 @@ use std::io::Write;
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> anyhow::Result<()> {
     let provider = Provider::discover(IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: "https://auth.dev.cdot.io/realms/truffles".into(),
         client_id: "airs-terminal-pilot".into(),
         audience: "airs-terminal-inference".into(),

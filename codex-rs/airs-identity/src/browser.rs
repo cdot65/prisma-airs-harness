@@ -34,16 +34,25 @@ impl Provider {
         let nonce = Nonce::new_random();
         let (challenge, verifier) = PkceCodeChallenge::new_random_sha256();
         let mut authorization_url = self.discovery.authorization_endpoint.clone();
+        let scope = std::iter::once("openid")
+            .chain(self.config.scopes.iter().map(String::as_str))
+            .collect::<Vec<_>>()
+            .join(" ");
         authorization_url.query_pairs_mut().extend_pairs([
             ("client_id", self.config.client_id.as_str()),
             ("redirect_uri", redirect.as_str()),
             ("response_type", "code"),
-            ("scope", "openid"),
+            ("scope", scope.as_str()),
             ("state", state.secret()),
             ("nonce", nonce.secret()),
             ("code_challenge", challenge.as_str()),
             ("code_challenge_method", "S256"),
         ]);
+        if let Some(resource) = &self.config.resource {
+            authorization_url
+                .query_pairs_mut()
+                .append_pair("resource", resource);
+        }
         Ok(BrowserLogin {
             config: self.config.clone(),
             listener,

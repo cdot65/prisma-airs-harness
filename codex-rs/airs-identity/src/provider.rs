@@ -11,6 +11,11 @@ pub struct IdentityConfig {
     pub issuer: String,
     pub client_id: String,
     pub audience: String,
+    /// RFC 8707 resource for direct MCP; omitted for existing gateway bindings.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub scopes: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -72,10 +77,43 @@ impl Provider {
                 && !config.audience.is_empty(),
             "issuer, client and resource audience are required"
         );
+        anyhow::ensure!(
+            config.scopes.len() <= 16
+                && config.scopes.iter().all(|scope| !scope.is_empty()
+                    && scope.len() <= 128
+                    && scope != "openid"
+                    && scope
+                        .bytes()
+                        .all(|c| matches!(c, 0x21 | 0x23..=0x5b | 0x5d..=0x7e))),
+            "invalid OAuth scopes"
+        );
         let http = reqwest::Client::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(Duration::from_secs(15))
             .build()?;
+        if let Some(resource) = &config.resource {
+            let endpoint = Url::parse(resource).context("invalid OAuth resource")?;
+            secure_url(&endpoint)?;
+            anyhow::ensure!(
+                resource == &config.audience,
+                "OAuth resource must match audience"
+            );
+            let mut metadata_url = endpoint.clone();
+            metadata_url.set_path(&format!(
+                "/.well-known/oauth-protected-resource{}",
+                endpoint.path().trim_end_matches('/')
+            ));
+            let response = http
+                .get(metadata_url)
+                .send()
+                .await
+                .map_err(|_| anyhow::anyhow!("MCP resource discovery unavailable"))?;
+            anyhow::ensure!(
+                response.status().is_success(),
+                "MCP resource discovery rejected"
+            );
+            super::resource::validate(&bounded_json(response).await?, &config)?;
+        }
         let response = http
             .get(format!(
                 "{}/.well-known/openid-configuration",
@@ -136,10 +174,14 @@ impl Provider {
         &self,
         fields: &[(&str, &str)],
     ) -> anyhow::Result<openidconnect::core::CoreTokenResponse> {
+        let mut fields = fields.to_vec();
+        if let Some(resource) = &self.config.resource {
+            fields.push(("resource", resource));
+        }
         let response = self
             .http
             .post(self.discovery.token_endpoint.clone())
-            .form(fields)
+            .form(&fields)
             .send()
             .await
             .map_err(|_| anyhow::anyhow!("token exchange interrupted; sign in again"))?;

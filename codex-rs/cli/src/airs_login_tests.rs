@@ -14,6 +14,8 @@ fn home() -> tempfile::TempDir {
 
 fn config() -> IdentityConfig {
     IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: "https://identity.example/realms/company".to_owned(),
         client_id: "harness-desktop".to_owned(),
         audience: "gateway-inference".to_owned(),
@@ -204,6 +206,8 @@ fn explicit_settings_change_requires_keyboard_choice() {
     assert_eq!(
         company_settings(home.path(), &mut input, &mut Vec::new()).unwrap(),
         IdentityConfig {
+            resource: None,
+            scopes: Vec::new(),
             issuer: "https://other.example/company".to_owned(),
             client_id: "other-client".to_owned(),
             audience: "other-audience".to_owned(),
@@ -228,6 +232,8 @@ fn established_oidc_binding_takes_precedence_over_public_settings() {
     let home = home();
     remember_settings(home.path(), &args()).unwrap();
     let binding_config = IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: "https://bound.example/company".to_owned(),
         client_id: "bound-client".to_owned(),
         audience: "bound-audience".to_owned(),

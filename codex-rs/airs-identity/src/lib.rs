@@ -3,6 +3,7 @@
 mod browser;
 mod device;
 mod provider;
+mod resource;
 mod tokens;
 
 pub use browser::BrowserLogin;

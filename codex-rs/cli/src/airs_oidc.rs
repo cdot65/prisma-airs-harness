@@ -95,6 +95,8 @@ pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Re
     let _lock = airs_environment::lock(home)?;
     super::airs_credentials::recover_pending(home)?;
     let config = IdentityConfig {
+        resource: None,
+        scopes: Vec::new(),
         issuer: args
             .issuer_url
             .clone()

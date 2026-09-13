@@ -40,6 +40,12 @@ pub struct SetupArgs {
     pub oidc_client_id: Option<String>,
     #[arg(long, requires = "issuer_url")]
     pub audience: Option<String>,
+    /// Direct OAuth resource URL, matching --url and --audience. Enables Bearer auth.
+    #[arg(long, requires = "issuer_url", conflicts_with = "device_auth")]
+    pub resource: Option<String>,
+    /// Requested OAuth permission. Repeat for each scope.
+    #[arg(long, requires = "resource")]
+    pub scope: Vec<String>,
     /// Use a device code instead of a local browser callback.
     #[arg(long, requires = "issuer_url")]
     pub device_auth: bool,
@@ -99,6 +105,12 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
             && url.query().is_none()
             && url.fragment().is_none(),
         "MCP requires HTTPS without URL credentials, query parameters or fragments"
+    );
+    anyhow::ensure!(
+        args.resource.as_ref().is_none_or(
+            |resource| resource == url.as_str() && args.audience.as_ref() == Some(resource)
+        ),
+        "direct OAuth resource must match the MCP URL and audience"
     );
     let _lock = airs_environment::lock(home)?;
     let mut config: toml::Value =
@@ -164,6 +176,13 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
             anyhow::bail!("MCP OIDC requires an OIDC inference identity in this environment");
         };
         let config = IdentityConfig {
+            resource: args.resource.clone(),
+            scopes: {
+                let mut scopes = args.scope.clone();
+                scopes.sort();
+                scopes.dedup();
+                scopes
+            },
             issuer: issuer.clone(),
             client_id: args
                 .oidc_client_id
@@ -246,7 +265,7 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
         "Configured MCP server {} at {} with a separate resource credential.",
         args.name, binding.url
     );
-    println!("Use mcp list or /mcp to inspect it. The gateway controls remote authorization.");
+    println!("Use mcp list or /mcp to inspect it. The MCP resource controls remote authorization.");
     Ok(())
 }
 
@@ -318,7 +337,14 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
         token
     };
     session.check()?;
-    println!("{}", serde_json::json!({"x-portkey-api-key": token}));
+    let direct = binding.oidc.as_ref().and_then(|identity| identity.source.as_ref())
+        .is_some_and(|source| matches!(source, Source::Oidc { identity } if identity.config.resource.as_deref() == Some(binding.url.as_str())));
+    let headers = if direct {
+        serde_json::json!({"Authorization": format!("Bearer {token}")})
+    } else {
+        serde_json::json!({"x-portkey-api-key": token})
+    };
+    println!("{headers}");
     Ok(())
 }
 

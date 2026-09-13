@@ -55,6 +55,8 @@ fn native_metadata_does_not_require_any_stored_secret() {
 fn oidc_saved_identity_is_bounded_and_never_claims_authentication() {
     let identity = codex_airs_identity::Identity {
         config: codex_airs_identity::IdentityConfig {
+            resource: None,
+            scopes: Vec::new(),
             issuer: "https://identity.example/realm".into(),
             client_id: "harness".into(),
             audience: "inference".into(),

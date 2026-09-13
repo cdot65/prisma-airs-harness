@@ -27,6 +27,10 @@ struct DeviceDetails {
 
 impl Provider {
     pub async fn device_login(&self) -> anyhow::Result<DeviceLogin> {
+        anyhow::ensure!(
+            self.config.resource.is_none() && self.config.scopes.is_empty(),
+            "direct MCP OAuth requires browser PKCE login"
+        );
         let endpoint = self
             .discovery
             .device_authorization_endpoint

@@ -1,0 +1,65 @@
+name: AIRS Harness frozen Apple Silicon signing
+on:
+  workflow_dispatch:
+jobs:
+  signing:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check notarization authentication in the runner session
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = arm64
+          mkdir -p "$RUNNER_TEMP/airs-signing"
+          security find-identity -v -p codesigning "$HOME/Library/Keychains/login.keychain-db"
+          xcrun notarytool history --keychain-profile prisma-airs-harness-notary --keychain "$HOME/Library/Keychains/login.keychain-db" --output-format json > "$RUNNER_TEMP/airs-signing/notary-history.json"
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 22376733d17444b5b2623ea814a4395c5ea4768d
+          persist-credentials: false
+      - name: Verify frozen source and executable before signing
+        run: |
+          python3 scripts/airs_macos_artifact.py restore \
+            --archive "$HOME/.local/share/airs-forgejo-runner/frozen-alpha12/unvalidated-macos-executables.tar.gz" \
+            --directory "$RUNNER_TEMP/airs-signing/original" \
+            --source-commit 19ce13981e92079ec29889896836d58d070cf106 \
+            --archive-sha256 8bbb1ec231dddb8f6dbd397a98a753c8e7ff1461b6617bc760a550fee1dea447 \
+            --binary-sha256 63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d \
+            --fixture-sha256 f6533ba7d2514b6ca1766d8aa7b65493c965a4322a51d1a1937d667708f3fb24
+      - name: Developer ID sign and submit frozen executable
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/airs-signing"
+          mkdir prisma-airs-harness-signing
+          cp original/airs-harness prisma-airs-harness-signing/airs-harness
+          python3 - <<'PY'
+          import subprocess
+          subprocess.run(['codesign', '--force', '--timestamp', '--options', 'runtime', '--keychain', '/Users/cdot/Library/Keychains/login.keychain-db', '--sign', '9E9F6E0D92526D725FABC1BBDC2F1757049F1805', 'prisma-airs-harness-signing/airs-harness'], check=True, timeout=120)
+          PY
+          codesign --verify --strict --verbose=4 -R 'anchor apple generic and certificate leaf[subject.OU] = "G5QLZ5A8TA" and certificate leaf[field.1.2.840.113635.100.6.1.13] exists' prisma-airs-harness-signing/airs-harness
+          codesign -dvv prisma-airs-harness-signing/airs-harness 2> signing-details.txt
+          zip -X prisma-airs-harness-alpha12-signed.zip prisma-airs-harness-signing/airs-harness
+          xcrun notarytool submit prisma-airs-harness-alpha12-signed.zip --keychain-profile prisma-airs-harness-notary --keychain "$HOME/Library/Keychains/login.keychain-db" --wait --timeout 30m --output-format json > notarization.json
+          python3 -c 'import json; r=json.load(open("notarization.json")); assert r["status"] == "Accepted", r'
+          codesign --verify --strict --verbose=4 --check-notarization -R '=notarized' prisma-airs-harness-signing/airs-harness
+          shasum -a 256 prisma-airs-harness-signing/airs-harness prisma-airs-harness-alpha12-signed.zip > signed.sha256
+      - name: Validate signed executable and Keychain lifecycle
+        run: |
+          export AIRS_HARNESS_BIN="$RUNNER_TEMP/airs-signing/prisma-airs-harness-signing/airs-harness"
+          python3 scripts/validate_airs_macos_keychain.py --binary "$AIRS_HARNESS_BIN" --receipt "$RUNNER_TEMP/airs-signing/signed-keychain.json"
+          python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$RUNNER_TEMP/airs-signing/signed-acceptance.log" 2>&1
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-signed-alpha12-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/airs-signing/prisma-airs-harness-alpha12-signed.zip
+            ${{ runner.temp }}/airs-signing/notarization.json
+            ${{ runner.temp }}/airs-signing/signed.sha256
+            ${{ runner.temp }}/airs-signing/signing-details.txt
+            ${{ runner.temp }}/airs-signing/signed-keychain.json
+            ${{ runner.temp }}/airs-signing/signed-acceptance.log
+            ${{ runner.temp }}/airs-signing/original/ARTIFACT-VERIFIED.json

@@ -1,0 +1,56 @@
+name: AIRS Harness signed package E2E
+on:
+  workflow_dispatch:
+jobs:
+  mac-package:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 45
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 19ce13981e92079ec29889896836d58d070cf106
+          path: runtime
+          persist-credentials: false
+      - name: Package and verify signed candidate through npm installation
+        shell: bash
+        run: bash scripts/airs_forgejo_signed_package.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        with:
+          name: airs-signed-npm-${{ github.run_id }}
+          path: ${{ runner.temp }}/airs-signed-package/npm/
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-signed-package-mac-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/airs-signed-package/evidence/
+  linux-install:
+    needs: mac-package
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
+    timeout-minutes: 20
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
+        with:
+          name: airs-signed-npm-${{ github.run_id }}
+          path: ${{ runner.temp }}/signed-npm
+      - name: Fresh Linux npm installation and managed CLI acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/linux-evidence"
+          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/signed-npm" --prefix "$RUNNER_TEMP/Signed Candidate Install"
+          cp "$RUNNER_TEMP/Signed Candidate Install/INSTALL-VERIFICATION.json" "$RUNNER_TEMP/Signed Candidate Install/INSTALL-NETWORK.json" "$RUNNER_TEMP/linux-evidence/"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/Signed Candidate Install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/linux-evidence/managed-prisma-cli.json"
+          AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/Signed Candidate Install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/linux-evidence/installed-tests.log" 2>&1
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-signed-package-linux-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/linux-evidence/

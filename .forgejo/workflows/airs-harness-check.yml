@@ -8,7 +8,9 @@ on:
   workflow_dispatch:
 jobs:
   contracts:
-    runs-on: node
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
     timeout-minutes: 15
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262

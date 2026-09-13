@@ -1,0 +1,21 @@
+{
+  "runtime_source": "19ce13981e92079ec29889896836d58d070cf106",
+  "validation_tooling_source": "8b6dab68f88c2787273a22642e9a3fa2da296141",
+  "changed_paths_after_runtime_freeze": [
+    ".github/workflows/airs-harness-identity.yml",
+    ".github/workflows/airs-harness-rust-integration.yml",
+    "codex-rs/app-server/tests/suite/v2/turn_start.rs",
+    "scripts/airs_rust_test_runner.py",
+    "scripts/test_airs_harness.py",
+    "scripts/validate_airs_upgrade.py",
+    "scripts/validate_live_inline_questions.py",
+    "scripts/validate_live_model_switch.py",
+    "scripts/validate_live_prisma_cli.py",
+    "validation/2026-09-13/upstream-0.154/DEPENDENCY-SCOPE.json",
+    "validation/2026-09-13/upstream-0.154/FEATURES.json",
+    "validation/2026-09-13/upstream-0.154/MERGE.md"
+  ],
+  "production_rust_changes": [],
+  "rust_test_only_change": "app-server skill warning count includes eight retained Prisma skills",
+  "scope": "All post-freeze changes are validation scripts, tests, owned workflows and review records. Cargo, Bazel locks, runtime Rust, embedded assets and npm launcher implementation are unchanged."
+}

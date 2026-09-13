@@ -1,0 +1,41 @@
+{
+  "status": "NO-GO",
+  "score": 89,
+  "maximum": 100,
+  "threshold": 90,
+  "gates": {
+    "G1": "passed",
+    "G2": "passed",
+    "G3": "passed",
+    "G4": "passed",
+    "G5": "passed",
+    "G6": "passed",
+    "G7": "passed",
+    "G8": "blocked"
+  },
+  "components": {
+    "routing": 10,
+    "scans": 10,
+    "failure_boundaries": 10,
+    "identity_lifecycle": 10,
+    "identity_isolation": 10,
+    "mcp_scanning": 5,
+    "mcp_credentials": 5,
+    "mcp_safety": 5,
+    "managed_invocation": 5,
+    "skill_contracts": 5,
+    "agent_integration": 5,
+    "session_state": 5,
+    "inline_questions": 4,
+    "maintenance": 0,
+    "release": 0
+  },
+  "problems": [
+    "Missing, failed, stale or incomplete case: affected_and_full_tests",
+    "Missing, failed, stale or incomplete case: mac_signing",
+    "Pending independent_review",
+    "Pending owner_acceptance",
+    "Blocking finding: MAC-DEVELOPER-ID-NOTARIZATION"
+  ],
+  "publication_authorized": false
+}

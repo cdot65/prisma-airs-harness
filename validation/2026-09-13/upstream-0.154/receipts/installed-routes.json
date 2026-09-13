@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "binary": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/bin/airs-harness.js",
+  "invocation_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/bin/airs-harness",
+  "invocation_resolved_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/bin/airs-harness.js",
+  "invocation_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+  "native_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/node_modules/@cdot65/prisma-airs-harness-linux-x64/bin/airs-harness",
+  "binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+  "mcp_credential_helper_status_displayed": true,
+  "completed_turns": 7,
+  "local_tests_passed": true,
+  "independent_assertions_passed": true,
+  "mcp_calls": [
+    {
+      "action": "allow",
+      "scan_id": "da605a85-4545-479d-a785-253b8879fe58",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "f411359e-6f8c-43e0-ad63-4b636fe58fed",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    },
+    {
+      "action": "allow",
+      "scan_id": "c81cea5a-2f26-41bf-9d60-5a2fe878d2e1",
+      "profile_name": "Prisma AIRS Terminal",
+      "category": "benign"
+    }
+  ],
+  "default_explicit_default_switch_passed": true,
+  "self_description_replies_require_review": true
+}

@@ -1,0 +1,79 @@
+{
+  "runtime_source": "19ce13981e92079ec29889896836d58d070cf106",
+  "runs": [
+    {
+      "log": "affected-rust-complete.log",
+      "sha256": "e99327fe453d90d5de6ead48a0fd2b00db708c3ed1ccfea113edb0015c016eae",
+      "result": "10418 passed; 24 skipped; two passed on retry",
+      "invocation": "Affected packages via just test",
+      "log_last_write_utc": "2026-09-13T04:55:18.260304+00:00",
+      "command": "just test --locked -p codex-core -p codex-cli -p codex-tui -p codex-app-server-protocol -p codex-hooks -p codex-airs-identity -p codex-rmcp-client -p codex-mcp -p codex-worktree (with prepared subprocess helpers, pinned V8 archive, TERM=xterm-256color and NO_COLOR unset)"
+    },
+    {
+      "log": "full-rust-tests.log",
+      "sha256": "732b0147377c702c0eb4e7cc916edfa97b9e3a795123109aae5891145dc3a77a",
+      "result": "17989 passed; 156 failed; 34 skipped; one passed on retry",
+      "invocation": "Initial complete workspace via just test on musl",
+      "log_last_write_utc": "2026-09-13T05:27:14.173905+00:00",
+      "command": "just test (initial musl workspace run; CARGO_TARGET_DIR=/var/tmp/airs-auth-target)"
+    },
+    {
+      "log": "full-suite-environment-retry.log",
+      "sha256": "48cbbb26d9c68b1b16a6cd55844452d3c57f4c6cbbc5e7fb24f88b00cf573192",
+      "result": "267 passed; six TLS failures; other cases filtered",
+      "invocation": "Isolated temporary root, V8 sandbox feature alignment and corrected eight-skill count",
+      "log_last_write_utc": "2026-09-13T05:36:40.752836+00:00",
+      "command": "just test --locked --features codex-v8-poc/sandbox -E 'package(codex-http-client) | package(codex-skills-extension) | package(codex-v8-poc) | test(turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills)'"
+    },
+    {
+      "log": "tls-child-environment-retry.log",
+      "sha256": "4a654f04b34f12773e3f8afc09eea228438dbbc60a968881421eb5f325bbbaca",
+      "result": "92 passed; zero skipped",
+      "invocation": "HTTP-client suite with CA environment cleared immediately before each test process",
+      "log_last_write_utc": "2026-09-13T05:40:48.812367+00:00",
+      "command": "CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER=/tmp/airs-tls-test-runner.py just test --locked --features codex-v8-poc/sandbox -E 'package(codex-http-client)' (runner implementation preserved in scripts/airs_rust_test_runner.py)"
+    },
+    {
+      "log": "native-final-corrected.log",
+      "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c",
+      "result": "42 passed; zero skipped",
+      "invocation": "Frozen Linux native binary and managed CLI acceptance",
+      "log_last_write_utc": "2026-09-13T05:13:12.403495+00:00",
+      "command": "AIRS_HARNESS_BIN=/var/tmp/airs-alpha12-candidate/linux/airs-harness AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_MANAGED_CLI=$PWD/npm/airs-harness/managed-cli/airs python3 -m unittest discover -s scripts -p test_airs_harness.py -v"
+    },
+    {
+      "log": "installed-native-final.log",
+      "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1",
+      "result": "42 passed; zero skipped",
+      "invocation": "Installed Linux bundled npm acceptance",
+      "log_last_write_utc": "2026-09-13T05:16:32.887116+00:00",
+      "command": "AIRS_HARNESS_BIN='/var/tmp/airs-alpha12-candidate/Linux Candidate Install/bin/airs-harness' AIRS_MANAGED_CLI_ACCEPTANCE=1 python3 -m unittest discover -s scripts -p test_airs_harness.py -v (42-case tooling revision before the separate active-writer test was added)"
+    },
+    {
+      "log": "installed-active-writer.log",
+      "sha256": "b2adc6dd7d8ed891d4e82672ea2cffdf7e71e2b409334efd2682bac709468881",
+      "result": "1 passed; zero skipped",
+      "invocation": "Additional installed concurrent-writer and subsequent resume acceptance",
+      "log_last_write_utc": "2026-09-13T05:19:27.670786+00:00",
+      "command": "AIRS_HARNESS_BIN='/var/tmp/airs-alpha12-candidate/Linux Candidate Install/bin/airs-harness' PYTHONPATH=scripts python3 -m unittest test_airs_harness.TerminalIntegration.test_active_writer_rejects_second_process_then_allows_resume -v"
+    },
+    {
+      "log": "mac-native-tests.log",
+      "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e",
+      "result": "45 run: 43 passed, two platform/managed-dependent skips",
+      "invocation": "Owned Apple Silicon native acceptance, including controlling-terminal injection",
+      "log_last_write_utc": "2026-09-13T05:49:08.874160+00:00",
+      "command": "Exact command in .github/workflows/airs-harness-macos-revalidate.yml at owned run 34740660670; immutable artifact selected from run 34739344591"
+    },
+    {
+      "log": "mac-npm-tests.log",
+      "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990",
+      "result": "43 run: 42 passed, one Linux-only skip",
+      "invocation": "Owned Apple Silicon installed bundled npm acceptance",
+      "log_last_write_utc": "2026-09-13T05:49:08.874231+00:00",
+      "command": "Exact command in .github/workflows/airs-harness-macos-revalidate.yml at owned run 34740660670; immutable artifact selected from run 34739344591"
+    }
+  ],
+  "pending_complete_gnu_workspace": true,
+  "platform_skips_never_credited_as_passes": true
+}

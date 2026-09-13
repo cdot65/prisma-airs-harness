@@ -1,0 +1,46 @@
+{
+  "cli": "5.2.0",
+  "sdk": "0.28.0",
+  "eight_skills": [
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-cli/SKILL.md",
+      "sha256": "6fe841744862951b47e26c065b3d4e86e133b758645ffe14225ce2451386cc42",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-dlp-management/SKILL.md",
+      "sha256": "4765be1eea730fefc7de575a4b4e535a3098371968cb4e47184e3d2657ab76c6",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-dlp-testing/SKILL.md",
+      "sha256": "1e9733355a35a16d8122d7938389a00537096cf0fda3582d64eb619d778e8e40",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-gateway/SKILL.md",
+      "sha256": "42e160787fcb300a2338320edadb74d1b5a135d99a723f40f9b262376164fe00",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-guardrails/SKILL.md",
+      "sha256": "df1c1ce9f0dbbcbb4f72633d0b5d66acf2f71e7b237cb5629d777afb31577d55",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-model-security/SKILL.md",
+      "sha256": "a153955c64a440662f1f410869f6e6cd85ab0c0dbaa3d1d4d821dae1657a97f4",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-redteam/SKILL.md",
+      "sha256": "b31107c395077e4e2a4af475347a9fcc0f985a2a9504fa06a34d390d83bb9a9f",
+      "unchanged_from_alpha11": true
+    },
+    {
+      "path": "codex-rs/skills/src/assets/samples/prisma-airs-runtime/SKILL.md",
+      "sha256": "3b2790bdd320d5e9c446ca8fb5c2cf4eed6a58b5e971e3f94ad3710bc8a8b121",
+      "unchanged_from_alpha11": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "gateway": "https://airs.cdot.io/v1",
+  "scope": "Opt-in default-route inline question and preserved draft",
+  "default_enablement": false,
+  "model_field_wire_inspected": false,
+  "invocation_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/bin/airs-harness",
+  "invocation_resolved_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/bin/airs-harness.js",
+  "invocation_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+  "native_path": "/var/tmp/airs-alpha12-candidate/Linux Candidate Install/lib/node_modules/@cdot65/prisma-airs-harness/node_modules/@cdot65/prisma-airs-harness-linux-x64/bin/airs-harness",
+  "binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "source_commit": "19ce13981e92079ec29889896836d58d070cf106"
+}

@@ -1,0 +1,14 @@
+{
+  "bundled": true,
+  "registry_requests": [
+    "/@cdot65/prisma-airs-harness",
+    "/@cdot65/prisma-airs-harness-linux-x64",
+    "/@cdot65/prisma-airs-harness/-/cdot65-prisma-airs-harness-0.1.0-alpha.12.tgz",
+    "/@cdot65/prisma-airs-harness-linux-x64/-/cdot65-prisma-airs-harness-linux-x64-0.1.0-alpha.12.tgz"
+  ],
+  "unexpected_requests": [],
+  "public_dependency_redirects": [],
+  "npm_version": "12.0.2",
+  "node_version": "v22.23.2",
+  "npm_exit_code": 0
+}

@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-09-13T05:17:05.316426+00:00",
+  "native_oidc_receipt_sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420",
+  "binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "synthetic_subject": "7433f306-92c3-4c88-963e-8ddbb53e1832",
+  "persisted_records": 125,
+  "complete_session_count": 7,
+  "selected_sessions": [
+    "1ee96c7f-9af1-4ba0-998f-e355ccbae546",
+    "5c706db2-ad5d-434b-bfc7-0f0abb5690e5"
+  ],
+  "selection": "First two lexically sorted complete sessions for the fresh disposable subject used exclusively by the full native CLI/MCP fixture. The full fixture has no direct raw inference call. Persisted AIApplicationUserName must match that subject on every fetched record.",
+  "limitation": "These are gateway SessionID values discovered via the isolated subject, not the doctor x-client-request-id values. No claim of direct client-ID to scan-ID mapping."
+}

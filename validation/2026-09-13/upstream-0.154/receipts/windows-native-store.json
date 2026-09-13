@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "platform": "win32",
+  "separate_processes": 7,
+  "workspace_v2_max_token_bytes": 16384,
+  "cases": [
+    {
+      "passed": true,
+      "phase": "write"
+    },
+    {
+      "passed": true,
+      "phase": "read-and-pend"
+    },
+    {
+      "passed": true,
+      "phase": "read-and-delete"
+    },
+    {
+      "passed": true,
+      "phase": "workspace-legacy-write"
+    },
+    {
+      "passed": true,
+      "phase": "workspace-read-and-write-v2"
+    },
+    {
+      "passed": true,
+      "phase": "workspace-read-both-delete-legacy"
+    },
+    {
+      "passed": true,
+      "phase": "workspace-read-and-delete-v2"
+    }
+  ]
+}

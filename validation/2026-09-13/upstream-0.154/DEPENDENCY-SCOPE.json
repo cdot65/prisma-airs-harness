@@ -1,5 +1,5 @@
 {
-  "scope": "Linux CLI normal/build dependency closure, not a vulnerability scan",
+  "scope": "Current workspace RustSec audit with Linux CLI normal/build applicability review",
   "scc_2_4_0_in_cli_closure": false,
   "preserved_versions": {
     "quinn-proto": "0.11.15",

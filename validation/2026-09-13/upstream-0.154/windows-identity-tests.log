@@ -1,0 +1,39 @@
+$env:RUST_MIN_STACK = "8388608"; $env:NEXTEST_PROFILE = "local"; cargo nextest run --no-fail-fast @($args | Select-Object -Skip 1)
+info: syncing channel updates for 1.95.0-x86_64-pc-windows-msvc
+info: latest update on 2026-04-16 for version 1.95.0 (59807616e 2026-04-14)
+info: downloading 3 components
+warning: in config file .config/nextest.toml, ignoring unknown configuration keys:  profile.local.inherits
+   Compiling codex-keyring-store v0.154.0 (D:\a\airs-harness\airs-harness\codex-rs\keyring-store)
+   Compiling codex-airs-identity v0.154.0 (D:\a\airs-harness\airs-harness\codex-rs\airs-identity)
+    Finished `test` profile [unoptimized] target(s) in 11.82s
+────────────
+ Nextest run ID 04d2eefb-1c62-4e20-842d-381898b65ee4 with nextest profile: local
+    Starting 26 tests across 3 binaries
+        PASS [   0.016s] ( 1/26) codex-airs-identity browser::tests::callback_binds_host_state_issuer_and_unique_fields
+        PASS [   0.021s] ( 2/26) codex-airs-identity storage::chunks::tests::ambiguous_journal_write_prevents_any_new_chunk_and_can_be_retried
+        PASS [   0.016s] ( 3/26) codex-airs-identity storage::chunks::tests::ambiguous_manifest_commit_preserves_both_generations_until_next_save
+        PASS [   0.016s] ( 4/26) codex-airs-identity storage::chunks::tests::corrupt_active_generation_blocks_retirement_but_explicit_delete_cleans_all
+        PASS [   0.016s] ( 5/26) codex-airs-identity storage::chunks::tests::corrupt_manifest_is_retained_when_deletion_cannot_enumerate_chunks
+        PASS [   0.016s] ( 6/26) codex-airs-identity storage::chunks::tests::corrupt_pending_journal_preserves_generation_evidence
+        PASS [   0.016s] ( 7/26) codex-airs-identity storage::chunks::tests::failed_old_generation_cleanup_is_retried_by_delete
+        PASS [   0.017s] ( 8/26) codex-airs-identity storage::chunks::tests::failed_tombstone_write_preserves_the_active_credential_and_all_chunks
+        PASS [   0.017s] ( 9/26) codex-airs-identity storage::chunks::tests::interrupted_chunk_or_manifest_write_never_exposes_partial_replacement
+        PASS [   0.016s] (10/26) codex-airs-identity storage::chunks::tests::interrupted_chunk_write_blocks_new_generation_until_cleanup_succeeds
+        PASS [   0.019s] (11/26) codex-airs-identity storage::chunks::tests::interrupted_deletion_disables_reads_and_retains_enumeration_until_retry_finishes
+        PASS [   0.015s] (12/26) codex-airs-identity storage::chunks::tests::intervening_legacy_writer_current_generation_survives_recovery
+        PASS [   0.014s] (13/26) codex-airs-identity storage::chunks::tests::missing_or_changed_chunk_fails_closed
+        PASS [   0.069s] (14/26) codex-airs-identity storage::chunks::tests::large_unicode_bundle_fits_windows_entries_and_round_trips
+        PASS [   0.056s] (15/26) codex-airs-identity storage::chunks::tests::new_chunk_readback_failure_keeps_previous_commit_and_cleanup_evidence
+        PASS [   0.017s] (16/26) codex-airs-identity storage::chunks::tests::replacement_waits_for_pending_deletion_to_finish
+        PASS [   0.015s] (17/26) codex-airs-identity storage::workspace::tests::invalid_new_token_never_changes_either_native_namespace
+        PASS [   0.033s] (18/26) codex-airs-identity storage::workspace::tests::full_workspace_token_fits_windows_entries_and_does_not_replace_legacy_record
+        PASS [   0.017s] (19/26) codex-airs-identity storage::workspace::tests::missing_or_corrupt_v2_never_falls_back_to_legacy_and_read_never_migrates
+        PASS [   0.045s] (20/26) codex-airs-identity tokens::tests::refresh_allows_missing_nonce_but_rejects_a_changed_nonce
+        PASS [   0.033s] (21/26) codex-airs-identity tokens::tests::validates_both_tokens_and_retains_original_access_jwt
+        PASS [   0.117s] (22/26) codex-airs-identity tokens::tests::rejects_signed_identity_substitution_and_wrong_resource
+        PASS [   0.012s] (23/26) codex-keyring-store::diagnostics captures_typed_windows_status
+        PASS [   0.063s] (24/26) codex-airs-identity tokens::tests::verifies_access_token_hash_and_device_nonce_absence
+        PASS [   0.011s] (25/26) codex-keyring-store::diagnostics status_looking_backend_text_is_not_treated_as_native_evidence
+        PASS [   0.012s] (26/26) codex-keyring-store::diagnostics diagnostic_classification_does_not_render_sensitive_error_payloads
+────────────
+     Summary [   0.361s] 26 tests run: 26 passed, 0 skipped

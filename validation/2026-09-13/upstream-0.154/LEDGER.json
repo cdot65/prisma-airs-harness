@@ -1,267 +1,1347 @@
 {
-  "source_commit": "3e44d61d311eb3e6f6c1f243a6a32ed40a81371b",
+  "schema_version": 1,
+  "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
   "artifacts": {
-    "linux-x64": "",
-    "darwin-arm64": ""
+    "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+    "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
   },
-  "implementer": "Codex primary implementation agent",
+  "implementer": "Codex implementation session",
   "receipts": {
     "active_writer": {
-      "status": "pending",
-      "expected": "active writer",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Reject a second writer; permit resume after the original writer exits.",
+      "actual": "Installed native writer fixture passes; TUI read-only handling is covered by affected tests.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "installed-active-writer.log",
+          "sha256": "b2adc6dd7d8ed891d4e82672ea2cffdf7e71e2b409334efd2682bac709468881"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        }
+      ]
     },
     "affected_and_full_tests": {
       "status": "pending",
-      "expected": "affected and full tests",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "reason": "Owned GNU complete workspace validation still running"
     },
     "agent_cli_workflow": {
-      "status": "pending",
-      "expected": "agent cli workflow",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Actual gateway-backed agent invokes the embedded managed Prisma CLI skill.",
+      "actual": "Installed live agent runs CLI doctor against an empty trusted fixture and reports missing service credentials truthfully; no management mutation claimed.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/installed-cli-workflow.json",
+          "sha256": "3924cc43bed14d2495045bb7a729f78c15e63b7de9f852c0addede05e0bf7790"
+        },
+        {
+          "path": "receipts/installed-cli-contract.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        }
+      ]
     },
     "apple_silicon_install": {
-      "status": "pending",
-      "expected": "apple silicon install",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Apple Silicon private package installs and uses the same verified native bytes.",
+      "actual": "Owned revalidation run 34740660670 passes native/npm/Keychain and package integrity checks; Linux-only skips are not credited as Mac behavior.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/mac-npm-install.json",
+          "sha256": "501308e9ab7fe8f21be593d527d65edb7d4ed0aba31fb4721e0e124164ccef28"
+        },
+        {
+          "path": "receipts/mac-install-verification.json",
+          "sha256": "501308e9ab7fe8f21be593d527d65edb7d4ed0aba31fb4721e0e124164ccef28"
+        },
+        {
+          "path": "receipts/mac-cli-keychain.json",
+          "sha256": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        }
+      ]
     },
     "artifact_lineage": {
-      "status": "pending",
-      "expected": "artifact lineage",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Both supported artifacts and packages have immutable source/hash provenance.",
+      "actual": "Both runtime builds are from the frozen 19ce13981 commit; archive/binary hashes verified, with later changes restricted to test/review tooling.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/linux-build-info.json",
+          "sha256": "34f88ab183d13bc9f2b9132315d2dd15a7102d4e8fbd49bf0ed7132be9deac74"
+        },
+        {
+          "path": "receipts/mac-immutable-artifact.json",
+          "sha256": "5f8430ec8070f4bafcc41ca90c151337c38c1e7a98a7767e729e0264ce6a9466"
+        },
+        {
+          "path": "receipts/linux-package-integrity.json",
+          "sha256": "ef278c129d21260c428206401642cedf356598fe3c0ac1289526254523623512"
+        },
+        {
+          "path": "RUNTIME-EQUIVALENCE.json",
+          "sha256": "bb4bf1e354b50f539aee1ce585be6e15c58d7f24f05ac7367efdb1813a6b0057"
+        }
+      ]
     },
     "authority_isolation": {
-      "status": "pending",
-      "expected": "authority isolation",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Repository, profile, user and resource changes cannot borrow authority.",
+      "actual": "Native environment/binding negatives and live OIDC cross-user/cross-audience checks pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        }
+      ]
     },
     "concurrent_revocation": {
-      "status": "pending",
-      "expected": "concurrent revocation",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "An existing process remains revoked after logout and subsequent login.",
+      "actual": "Native running-client revocation fixture passes; affected Rust transaction/refresh lock cases pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        }
+      ]
     },
     "dependency_schemas": {
-      "status": "pending",
-      "expected": "dependency schemas",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Regenerate schemas and reconcile Cargo/Bazel locks without losing security pins.",
+      "actual": "Schemas and protocol tests pass; hosted GNU lock refresh is verified. Current RustSec advisory scope is retained for review.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "MERGE.md",
+          "sha256": "69cf3ff9fd7fa5cb6e60ebb406dbfe201670e941a45b4c064a775236854d52bd"
+        },
+        {
+          "path": "DEPENDENCY-SCOPE.json",
+          "sha256": "4bf09cecad6e621ef29f2b8ec23cfd3705e83fd49c5269cc008a6b1bc8ca5c0d"
+        },
+        {
+          "path": "receipts/rustsec-audit.json",
+          "sha256": "20169b97475e1431013551b8919aeee6335fe5c5009f937d0eab3e5b5c01df7d"
+        },
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        }
+      ]
     },
     "doctor_probe": {
-      "status": "pending",
-      "expected": "doctor probe",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Bounded authenticated probe preserves route, redaction and reasoning-only success.",
+      "actual": "Native positive/negative probe cases pass; frozen OIDC and workspace binaries verify real gateway access.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        },
+        {
+          "path": "receipts/native-workspace.json",
+          "sha256": "b9b1a02a857f393f1f57d5f7a219119a3954115635ba31edc165b6a64dc94f89"
+        }
+      ]
     },
     "eight_skills": {
-      "status": "pending",
-      "expected": "eight skills",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Preserve all eight Prisma capability skills and their executable contract.",
+      "actual": "All eight files are byte-identical to alpha.11; CLI/SDK pins and installed contracts are verified.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "SKILLS.json",
+          "sha256": "d1e93f9b448c8d3ccda53a836a87a30353b9884a76af7d4554bd1c89f3a09630"
+        },
+        {
+          "path": "receipts/installed-cli-contract.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        }
+      ]
     },
     "endpoint_inventory": {
-      "status": "pending",
-      "expected": "endpoint inventory",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Every enabled inference caller remains inside the AIRS provider contract.",
+      "actual": "Endpoint inventory covers Responses, titles, compaction, memories, optional services and separate authorized identity/MCP/CLI paths.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "ENDPOINTS.md",
+          "sha256": "e6d71b0add358130685969d8a6a0f2ee84d062f98fa98ec29fa22ee4270ef6b9"
+        },
+        {
+          "path": "MERGE.md",
+          "sha256": "69cf3ff9fd7fa5cb6e60ebb406dbfe201670e941a45b4c064a775236854d52bd"
+        },
+        {
+          "path": "OVERLAP.json",
+          "sha256": "90873d33a2d27493a9a5de5b303628c37c3c9ad660f2b28f126fd7e3cf04754f"
+        }
+      ]
     },
     "inference_boundaries": {
-      "status": "pending",
-      "expected": "inference boundaries",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "No direct-provider fallback or unauthorized destination override.",
+      "actual": "Native request assertions cover defaults, qualified routes, compaction, continuations, rejected overrides and redirect refusal.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "ENDPOINTS.md",
+          "sha256": "e6d71b0add358130685969d8a6a0f2ee84d062f98fa98ec29fa22ee4270ef6b9"
+        }
+      ]
     },
     "inline_questions": {
-      "status": "pending",
-      "expected": "inline questions",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Opt-in root question submission preserves draft, route and local work.",
+      "actual": "Deterministic native tests and installed root-agent live workflow pass. One model-delegation attempt failed and is retained; root-only capability is explicit.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/installed-inline-question.json",
+          "sha256": "dc7fceccf115f6ea4f9094ba0a4320753e1830257e6ef3f0e7dacbe776420e63"
+        },
+        {
+          "path": "receipts/inline-delegation-attempt.json",
+          "sha256": "4428b056dba3c07ffb5a127e088f652df7a0c07f29c88c7f325b5f8227f69b68"
+        },
+        {
+          "path": "FEATURES.json",
+          "sha256": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487"
+        }
+      ]
     },
     "interactive_routes": {
-      "status": "pending",
-      "expected": "interactive routes",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Default -> qualified explicit -> default preserves serialized model semantics.",
+      "actual": "Both platform native fixtures assert requests; installed live seven-turn workflow completes local tests and three MCP scans.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/installed-routes.json",
+          "sha256": "67e186d2862c6bf602926aae5d07a93192559497161c85677076b2a90e9ced5b"
+        }
+      ]
     },
     "linux_install": {
-      "status": "pending",
-      "expected": "linux install",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Clean isolated Linux npm installation resolves the intended native/CLI dependencies.",
+      "actual": "Bundled npm install and 42+1 installed executable cases pass; no unstaged requests or public dependency redirects.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/linux-install-verification.json",
+          "sha256": "e819d63ed5f18db843d3429ebbbe4fd359ae352a395e12e67e06d99da63c7cf2"
+        },
+        {
+          "path": "receipts/linux-install-network.json",
+          "sha256": "f2d32962af09b7b2527291016a3526bd8d4bec286631d7791e52da3835bee6e8"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "installed-active-writer.log",
+          "sha256": "b2adc6dd7d8ed891d4e82672ea2cffdf7e71e2b409334efd2682bac709468881"
+        }
+      ]
     },
     "live_gateway_allow_deny": {
-      "status": "pending",
-      "expected": "live gateway allow deny",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Real allow and policy-deny responses include applicable completed scanner evidence.",
+      "actual": "Fresh 20-case service probe requires nonempty scan/profile IDs; input-blocked responses do not invent output scans.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/live-gateway.json",
+          "sha256": "7fcd0ebdcff82751c90e841ed53b3ed7e0a2b935db3c01577d94bcb0131d2093"
+        }
+      ]
     },
     "live_mcp_scan": {
-      "status": "pending",
-      "expected": "live mcp scan",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Authorized discovery and scan return completed scan identifiers/profile.",
+      "actual": "Native OIDC and installed workspace flows complete real scans with separate inference/MCP credentials.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        },
+        {
+          "path": "receipts/installed-routes.json",
+          "sha256": "67e186d2862c6bf602926aae5d07a93192559497161c85677076b2a90e9ced5b"
+        },
+        {
+          "path": "receipts/live-gateway.json",
+          "sha256": "7fcd0ebdcff82751c90e841ed53b3ed7e0a2b935db3c01577d94bcb0131d2093"
+        }
+      ]
     },
     "mac_signing": {
       "status": "pending",
-      "expected": "mac signing",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "reason": "Developer ID signing/notarization unavailable"
     },
     "managed_cli_isolation": {
-      "status": "pending",
-      "expected": "managed cli isolation",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Use an absolute managed CLI and trusted configuration, without global or project dotenv fallback.",
+      "actual": "Installed CLI contract suite and isolated bundled install checks pass on both supported targets.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/installed-cli-contract.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        },
+        {
+          "path": "receipts/mac-prisma-cli.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        },
+        {
+          "path": "receipts/linux-install-network.json",
+          "sha256": "f2d32962af09b7b2527291016a3526bd8d4bec286631d7791e52da3835bee6e8"
+        },
+        {
+          "path": "receipts/mac-install-network.json",
+          "sha256": "0d4bc1f34e70345883ecb278251ac5337fd03a72ee35daff0e3f5557279a9293"
+        }
+      ]
     },
     "managed_cli_pins": {
-      "status": "pending",
-      "expected": "managed cli pins",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Require CLI 5.2.0 and SDK 0.28.0, including version mismatch behavior.",
+      "actual": "Installed CLI contract suites and both platform package acceptance pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "SKILLS.json",
+          "sha256": "d1e93f9b448c8d3ccda53a836a87a30353b9884a76af7d4554bd1c89f3a09630"
+        },
+        {
+          "path": "receipts/installed-cli-contract.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        },
+        {
+          "path": "receipts/mac-prisma-cli.json",
+          "sha256": "dc2af5ed1661977653ec902afa82928746839144605882e7c08cf90bd061e0fa"
+        },
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        }
+      ]
     },
     "mcp_authorization": {
-      "status": "pending",
-      "expected": "mcp authorization",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Reject wrong resource credentials and unlisted tools; report empty resources accurately.",
+      "actual": "Live service authorization/discovery cases and full OIDC empty-resource checks pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/live-gateway.json",
+          "sha256": "7fcd0ebdcff82751c90e841ed53b3ed7e0a2b935db3c01577d94bcb0131d2093"
+        },
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        },
+        {
+          "path": "receipts/installed-routes.json",
+          "sha256": "67e186d2862c6bf602926aae5d07a93192559497161c85677076b2a90e9ced5b"
+        }
+      ]
     },
     "mcp_no_replay": {
-      "status": "pending",
-      "expected": "mcp no replay",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Auth rejection never replays a rejected side-effecting tool call.",
+      "actual": "Affected core agent-event and streamable HTTP 401 no-replay regressions pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "AIRS-REGRESSION-CASES.json",
+          "sha256": "8d55d82d6e23fc26a44dcb347b899bc6e74d2fff35df6b34b72bbcd080b46d67"
+        }
+      ]
     },
     "mcp_refresh_reconnect": {
-      "status": "pending",
-      "expected": "mcp refresh reconnect",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Two-resource token expiry and reconnect preserve bound authority.",
+      "actual": "Full OIDC terminal survives two expiry cycles; affected MCP reconciliation/reconnect/cancellation tests pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        },
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        }
+      ]
     },
     "merge_review": {
-      "status": "pending",
-      "expected": "merge review",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Reconcile conflicts and review overlapping AIRS/network/configuration surfaces.",
+      "actual": "Implementer inventory records all 21 resolutions and 47 overlapping paths; independent review remains a separate mandatory approval.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "MERGE.md",
+          "sha256": "69cf3ff9fd7fa5cb6e60ebb406dbfe201670e941a45b4c064a775236854d52bd"
+        },
+        {
+          "path": "OVERLAP.json",
+          "sha256": "90873d33a2d27493a9a5de5b303628c37c3c9ad660f2b28f126fd7e3cf04754f"
+        },
+        {
+          "path": "ENDPOINTS.md",
+          "sha256": "e6d71b0add358130685969d8a6a0f2ee84d062f98fa98ec29fa22ee4270ef6b9"
+        }
+      ]
     },
     "native_stores": {
-      "status": "pending",
-      "expected": "native stores",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Linux and Apple Silicon native stores persist across processes.",
+      "actual": "Actual Linux product lifecycle and Mac native/npm Keychain checks pass; seven-process storage fixtures supplement them.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-workspace.json",
+          "sha256": "b9b1a02a857f393f1f57d5f7a219119a3954115635ba31edc165b6a64dc94f89"
+        },
+        {
+          "path": "receipts/mac-native-cli-keychain.json",
+          "sha256": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8"
+        },
+        {
+          "path": "receipts/mac-cli-keychain.json",
+          "sha256": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8"
+        },
+        {
+          "path": "receipts/linux-native-store.json",
+          "sha256": "3489bc2a927b392eaaf0d6642987f2392c2c2a75b6d38df857a0408d84687678"
+        },
+        {
+          "path": "receipts/mac-native-store.json",
+          "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed"
+        }
+      ]
     },
     "oidc_lifecycle": {
-      "status": "pending",
-      "expected": "oidc lifecycle",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Browser/device login, two resource audiences, expiry, logout and reauthentication preserve identity.",
+      "actual": "All 29 full native OIDC/MCP checks pass, including two real expiry cycles; disposable identities removed.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        }
+      ]
     },
     "old_state_upgrade": {
-      "status": "pending",
-      "expected": "old state upgrade",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Alpha.11 environment, credentials and history survive upgrade.",
+      "actual": "Two-binary native fixture passes with exact old/candidate hashes, original identity and append-only history.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-upgrade-rollback.json",
+          "sha256": "685d18274ac10f4ca47c8a020d5455a288ec04608cec4e1f9c2b5cdcd0679e22"
+        }
+      ]
     },
     "optional_features": {
-      "status": "pending",
-      "expected": "optional features",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Old and new homes cannot enable deferred service paths.",
+      "actual": "Native override case confirms canonical guardianv2 and other deferred features remain disabled; core realtime regression rejects before transport.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "FEATURES.json",
+          "sha256": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487"
+        }
+      ]
     },
     "override_spoof_denials": {
-      "status": "pending",
-      "expected": "override spoof denials",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Wrong keys, crossed resources and supported override attempts fail closed.",
+      "actual": "Fresh live boundary cases deny credential crossing and unsupported overrides; native destination overrides produce no inference.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/live-gateway.json",
+          "sha256": "7fcd0ebdcff82751c90e841ed53b3ed7e0a2b935db3c01577d94bcb0131d2093"
+        }
+      ]
     },
     "owned_workflows": {
-      "status": "pending",
-      "expected": "owned workflows",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Only owned AIRS workflows run; no Intel Mac target or inherited updater/publication activation.",
+      "actual": "Owned platform and identity checks pass; workflow inventory and source review retain disabled inherited workflows.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "MERGE.md",
+          "sha256": "69cf3ff9fd7fa5cb6e60ebb406dbfe201670e941a45b4c064a775236854d52bd"
+        },
+        {
+          "path": "ENDPOINTS.md",
+          "sha256": "e6d71b0add358130685969d8a6a0f2ee84d062f98fa98ec29fa22ee4270ef6b9"
+        },
+        {
+          "path": "OWNED-WORKFLOWS.json",
+          "sha256": "0a596712782727d0fb54490175c315dce81ce48a0791e40fa1c1bfe17dec8ca5"
+        },
+        {
+          "path": "receipts/mac-artifact-selection.json",
+          "sha256": "1d85a782393d3accc10e639b981eac83434041252b4ae2f1cb8c4a339b5b57e5"
+        },
+        {
+          "path": "RUNTIME-EQUIVALENCE.json",
+          "sha256": "bb4bf1e354b50f539aee1ce585be6e15c58d7f24f05ac7367efdb1813a6b0057"
+        }
+      ]
     },
     "reasoning_capabilities": {
-      "status": "pending",
-      "expected": "reasoning capabilities",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Omit unsupported effort and retain advertised effort.",
+      "actual": "Stale-effort, advertised-effort and interactive request cases pass on native and installed artifacts.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        }
+      ]
     },
     "redirect_redaction": {
-      "status": "pending",
-      "expected": "redirect redaction",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Do not follow credential-bearing inference redirects or expose secrets on failures.",
+      "actual": "Both artifact fixtures pass redirect, invalid binding, credential paste and doctor redaction checks.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        }
+      ]
     },
     "resume_fork": {
-      "status": "pending",
-      "expected": "resume fork",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Resume and fork preserve environment, route and session authority.",
+      "actual": "Native worktree create/resume/fork and legacy history/environment revision cases pass.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        }
+      ]
     },
     "rollback": {
-      "status": "pending",
-      "expected": "rollback",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Preserved alpha.11 binary resumes without borrowing newer helpers.",
+      "actual": "Native rollback passes with both newer fixture executables absent, verified old helper migration, unchanged identity and original history. Installed launchers resolve to the same verified candidate bytes.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-upgrade-rollback.json",
+          "sha256": "685d18274ac10f4ca47c8a020d5455a288ec04608cec4e1f9c2b5cdcd0679e22"
+        },
+        {
+          "path": "receipts/linux-install-verification.json",
+          "sha256": "e819d63ed5f18db843d3429ebbbe4fd359ae352a395e12e67e06d99da63c7cf2"
+        }
+      ]
     },
     "scan_correlations": {
-      "status": "pending",
-      "expected": "scan correlations",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Persisted input/output records correlate to the candidate synthetic run.",
+      "actual": "Two gateway sessions are verified against the disposable native-only OIDC subject and exact native hash. Doctor client IDs are explicitly not treated as gateway SessionIDs.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-oidc.json",
+          "sha256": "3fb4fee10b54cc94ffed2e3c7de9399095f13a1d44c174c79fdf4343846c7420"
+        },
+        {
+          "path": "receipts/scan-discovery.json",
+          "sha256": "1f0c206a711859ecd15ae397d070c60e7711b6334df1faae625d50cdba07febc"
+        },
+        {
+          "path": "receipts/persisted-scans.json",
+          "sha256": "2884f1a25d8a2adb70b72f9572e8c0f8c9f123143a6e6b1fbd7f5853396321f1"
+        },
+        {
+          "path": "receipts/client-id-correlation-attempt.json",
+          "sha256": "795ea48a2be7a3bcdbfa2fa07b4903c57e9348648fcf9e92638fa2b4bf47d9f1"
+        }
+      ]
     },
     "tools_and_compaction": {
-      "status": "pending",
-      "expected": "tools and compaction",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Local tool continuation and forced local compaction retain AIRS routing.",
+      "actual": "Native loopback assertions pass; live installed local calculator tests independently verify the tool effects.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "receipts/installed-routes.json",
+          "sha256": "67e186d2862c6bf602926aae5d07a93192559497161c85677076b2a90e9ced5b"
+        }
+      ]
     },
     "windows_identity": {
-      "status": "pending",
-      "expected": "windows identity",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Affected identity behavior and Credential Manager persistence work without a Windows distribution.",
+      "actual": "Owned Windows run passes 26 identity/keyring tests and seven separate native-store processes.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/windows-native-store.json",
+          "sha256": "0e9dc4170f1d40ee0bb875e3f0a36f16980143de9bb02bb456f78566534262f9"
+        },
+        {
+          "path": "windows-identity-tests.log",
+          "sha256": "4469fc07d32a0cba4f281ba385fcd05c86303d183858ee786f006177aee94528"
+        },
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        }
+      ]
     },
     "workspace_lifecycle": {
-      "status": "pending",
-      "expected": "workspace lifecycle",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Native workspace credentials survive login, restart and logout safely.",
+      "actual": "Frozen Linux product completes isolated Secret Service lifecycle; exact Mac native and npm products pass Keychain acceptance.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "receipts/native-workspace.json",
+          "sha256": "b9b1a02a857f393f1f57d5f7a219119a3954115635ba31edc165b6a64dc94f89"
+        },
+        {
+          "path": "receipts/mac-native-cli-keychain.json",
+          "sha256": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8"
+        },
+        {
+          "path": "receipts/mac-cli-keychain.json",
+          "sha256": "7e0c202206bb0c9b52fdf5ca2d764bed24b06c9785d6a2dd4e13c95d35071ed8"
+        }
+      ]
     },
     "worktrees": {
-      "status": "pending",
-      "expected": "worktrees",
-      "actual": "Final source/artifact-bound acceptance pending"
+      "status": "passed",
+      "source_commit": "19ce13981e92079ec29889896836d58d070cf106",
+      "artifacts": {
+        "linux-x64": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+        "darwin-arm64": "63500ffa8d3c7d47833242dc7dee908e626d85df2ebe88eec7d74f617a94138d"
+      },
+      "expected": "Opt-in worktrees isolate local edits while retaining AIRS binding.",
+      "actual": "Native create/resume/fork fixture verifies worktree roots, unchanged provider/credential configuration and qualified permissions.",
+      "invocation": "See referenced native/installed receipts and RUNS.json for exact fixture suite and retained raw-log hashes.",
+      "timestamp": "2026-09-13T05:59:25.878762+00:00",
+      "platform": "Linux x64 and Apple Silicon where applicable; Windows identity is fixture-only; live OIDC and upgrade/rollback are explicitly Linux evidence.",
+      "configuration_fingerprint": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487",
+      "fixture_provenance": "Pinned source plus isolated loopback fixtures/disposable native stores; live synthetic identities and scan IDs are retained in the referenced receipts. See RUNTIME-EQUIVALENCE.json for validation-tooling differences.",
+      "reviewer_disposition": "Implementer assessment; requires independent review and owner acceptance. No skipped platform behavior is credited.",
+      "evidence": [
+        {
+          "path": "RUNS.json",
+          "sha256": "4a800242616cc4ca343c067d08618beb68a2ae1d8e0d93f5fda619e81ddd08f1"
+        },
+        {
+          "path": "native-final-corrected.log",
+          "sha256": "1ee1e5d97db14a8cd38baa52d253b6426d2b2da4b504fde6831cf78f8e80c54c"
+        },
+        {
+          "path": "installed-native-final.log",
+          "sha256": "80298dbc555932aa8a31f5619fc9fe71937699a9420e5e4b431b63322ee5d5a1"
+        },
+        {
+          "path": "mac-native-tests.log",
+          "sha256": "4b0b6afdb9697c333e06447063947bde0e3415ae86836f3b9279c99f1345bf6e"
+        },
+        {
+          "path": "mac-npm-tests.log",
+          "sha256": "621af3fe65526dd5f1aed7b41f174093bd30a7795c3a24b3b26b55cce5eaa990"
+        },
+        {
+          "path": "FEATURES.json",
+          "sha256": "bb0564abe74a3be1df7c9c005c1fbef593796f276ac26b114055c7bb757fd487"
+        }
+      ]
     }
   },
   "scores": {
     "routing": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 10,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "scans": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 10,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "failure_boundaries": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 10,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "identity_lifecycle": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 10,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "identity_isolation": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 10,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "mcp_scanning": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "mcp_credentials": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "mcp_safety": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "managed_invocation": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "skill_contracts": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "agent_integration": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "session_state": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 5,
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     },
     "inline_questions": {
-      "points": 0,
-      "reason": "Final evidence not yet credited"
+      "points": 4,
+      "reason": "One point withheld for model delegation friction in a root-only live question workflow."
     },
     "maintenance": {
       "points": 0,
-      "reason": "Final evidence not yet credited"
+      "reason": "One point reserved for independent applicability review of the existing RSA advisory; full-suite evidence is also required."
     },
     "release": {
       "points": 0,
-      "reason": "Final evidence not yet credited"
+      "reason": "Full scoped evidence supplied for required cases; any missing mandatory case receives zero component credit."
     }
   },
   "independent_review": {
@@ -270,5 +1350,51 @@
   "owner_acceptance": {
     "status": "pending"
   },
-  "findings": []
+  "findings": [
+    {
+      "id": "MAC-DEVELOPER-ID-NOTARIZATION",
+      "status": "blocked",
+      "severity": "high",
+      "airs_boundary": false,
+      "owner": "Release owner",
+      "disposition": "Private artifact is ad hoc signed, not Developer ID signed or notarized. No signing material was available in configured repository secrets or the developer vault.",
+      "score_effect": "G8 blocked; release component receives zero."
+    },
+    {
+      "id": "GNU-FULL-WORKSPACE",
+      "status": "open",
+      "severity": "medium",
+      "airs_boundary": false,
+      "owner": "Implementer",
+      "disposition": "Initial full musl run retains constructor/GNU-zsh fixture failures. Owned GNU complete suite remains in progress; no complete-suite pass claimed.",
+      "score_effect": "Maintenance component receives zero until complete-suite proof."
+    },
+    {
+      "id": "RSA-APPLICABILITY",
+      "status": "triaged",
+      "severity": "medium",
+      "airs_boundary": false,
+      "owner": "Independent reviewer",
+      "disposition": "Unchanged OIDC public-key verification dependency contains RUSTSEC-2023-0071; no application private-key operation found. Current audit is not clean and applicability review is pending.",
+      "score_effect": "Reserve one maintenance point after full-suite closure."
+    },
+    {
+      "id": "INLINE-ROOT-SCOPE",
+      "status": "triaged",
+      "severity": "low",
+      "airs_boundary": false,
+      "owner": "Implementer / model-capability reviewer",
+      "disposition": "A model delegated a root-only asynchronous question operation. Direct root fixture and deterministic terminal tests pass; no subagent question capability claimed.",
+      "score_effect": "Inline-question component reduced from 5 to 4."
+    },
+    {
+      "id": "CLIENT-SCAN-ID-DISTINCTION",
+      "status": "triaged",
+      "severity": "low",
+      "airs_boundary": false,
+      "owner": "Observability owner",
+      "disposition": "Doctor x-client-request-id is not gateway SessionID. Persisted scan proof is explicitly linked through the disposable native-only signed subject; failed direct-ID correlation is retained.",
+      "score_effect": "No deduction for preserved API semantics; no direct-ID correlation capability claimed."
+    }
+  ]
 }

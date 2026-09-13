@@ -1,0 +1,6 @@
+test_active_writer_rejects_second_process_then_allows_resume (test_airs_harness.TerminalIntegration.test_active_writer_rejects_second_process_then_allows_resume) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.208s
+
+OK

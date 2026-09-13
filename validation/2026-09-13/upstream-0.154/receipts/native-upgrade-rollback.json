@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": [
+    "old binary created named environment and native workspace binding",
+    "old binary persistent session completed a real local tool loop",
+    "candidate read same native credential and resumed original history with only the expected owned helper path migrated",
+    "relocated read same native credential and resumed original history with only the expected owned helper path migrated",
+    "candidate and relocation work with previous fixture executable paths absent",
+    "gateway default omitted model on every captured request",
+    "current native-store baseline resumes with both newer helpers absent",
+    "candidate logout blocks old-binary resume without deleting history",
+    "synthetic key absent from plaintext state, transcripts and inference bodies"
+  ],
+  "old_binary_sha256": "eb919c76b3fe4129bff2a389b6dcf2a77952914b68f32091bfe64a4ab67079bb",
+  "candidate_binary_sha256": "41301da84a0e9917077809e2fb48062f841c376fe58043545866b58bf7d00c89",
+  "synthetic_credentials": true,
+  "private_secret_service": true,
+  "loopback_gateway": true,
+  "published": false,
+  "a18_complete": false,
+  "scenario": "current-native-upgrade",
+  "limitations": [
+    "Linux fixture, not desktop onboarding",
+    "workspace key only; no OIDC migration",
+    "same candidate bytes relocated, not a subsequent distinct release",
+    "no signing or published package upgrade",
+    "Current native-store rollback is bounded to this exact binary pair; the legacy scenario checks missing-helper failure only"
+  ],
+  "phase": "complete",
+  "original_store_kind": "keyring-v2",
+  "protected_file_sha256": {
+    "environments.json": "32be4d8fdc53c6a354210a6ab585764d5648d538b5ec73804a28e5f7f42b6c82",
+    "environments/a5f1b8c0-5fd1-4cda-9636-fd6384e5135d/config.toml": "661da259de9f0ea86ec499c41b7a27be0d47290de990523b371bd8bc509f998c",
+    "environments/a5f1b8c0-5fd1-4cda-9636-fd6384e5135d/models.json": "eb5f5a72937154cad97e6e749804145da8fd29e7c56a7a1d7cd17eaa41d4ed9d",
+    "environments/a5f1b8c0-5fd1-4cda-9636-fd6384e5135d/credential-binding.json": "2cfb906cc17a85a20e6748b1bb966d86abbc705d14665de11cc9886f298c9c35",
+    "environments/a5f1b8c0-5fd1-4cda-9636-fd6384e5135d/session-binding.json": "440802cf1bd6283695008c028c1d3d9d02e6e72377a837275713a1604727ad10"
+  },
+  "history_prefix_sha256": {
+    "environments/a5f1b8c0-5fd1-4cda-9636-fd6384e5135d/sessions/2026/09/13/rollout-2026-09-13T05-11-34-01a0992d-8e96-70a3-894e-99bf0a607fbb.jsonl": "6e47d8424f41629dcdcd3f49aa106f3da3d60299c05d8e81396f19fc3ec501da"
+  },
+  "expected_configuration_migrations": [
+    {
+      "stage": "candidate",
+      "only_changed_field": "model_providers.airs.auth.command",
+      "expected_helper_relative_to_fixture_root": "candidate/bin/airs-harness",
+      "previous_config_sha256": "661da259de9f0ea86ec499c41b7a27be0d47290de990523b371bd8bc509f998c",
+      "config_sha256": "3dfb7e6384252e26d676ec83617855984fc6f7cebe051b3444ee320b0561aa2f",
+      "all_other_configuration_values_identical": true,
+      "credential_and_session_bindings_byte_identical": true
+    },
+    {
+      "stage": "relocated",
+      "only_changed_field": "model_providers.airs.auth.command",
+      "expected_helper_relative_to_fixture_root": "relocated/bin/airs-harness",
+      "previous_config_sha256": "3dfb7e6384252e26d676ec83617855984fc6f7cebe051b3444ee320b0561aa2f",
+      "config_sha256": "c7295b3034b8681666a6daa88785163bb18085aa891f98a0e7aea4d8f0ac5ac8",
+      "all_other_configuration_values_identical": true,
+      "credential_and_session_bindings_byte_identical": true
+    }
+  ],
+  "old_client_without_newer_helper": {
+    "tested": true,
+    "exit_code": 0,
+    "new_inference_requests": 1,
+    "identity_and_history_preserved": true,
+    "independent_downgrade_compatibility": true
+  },
+  "plaintext_files_inspected": 99,
+  "inference_requests": 5
+}

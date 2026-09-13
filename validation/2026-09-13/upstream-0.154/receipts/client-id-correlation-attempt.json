@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-09-13T05:11:24.693517+00:00",
+  "passed": false,
+  "source": "Existing AIRS security-log export persisted in Elasticsearch airs-logs-*",
+  "attribution_field": "AIApplicationUserName",
+  "correlation_field": "SessionID",
+  "scope": "Signed-user attribution in persisted input/output security scans; does not certify the management usage/cost dashboard",
+  "checks": [
+    {
+      "subject": "7433f306-92c3-4c88-963e-8ddbb53e1832",
+      "trace_id": "1241b74e-f691-48df-a817-393e38e3ed49",
+      "passed": false,
+      "persisted_records": 0,
+      "scan_ids": [],
+      "both_input_and_output_observed": false
+    },
+    {
+      "subject": "7433f306-92c3-4c88-963e-8ddbb53e1832",
+      "trace_id": "14ac0479-1fb1-42d0-a327-eda9059fdd16",
+      "passed": false,
+      "persisted_records": 0,
+      "scan_ids": [],
+      "both_input_and_output_observed": false
+    }
+  ]
+}

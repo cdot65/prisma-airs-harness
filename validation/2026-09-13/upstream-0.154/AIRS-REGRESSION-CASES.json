@@ -1,0 +1,56 @@
+{
+  "source_log": "affected-rust-complete.log",
+  "source_log_sha256": "e99327fe453d90d5de6ead48a0fd2b00db708c3ed1ccfea113edb0015c016eae",
+  "cases": [
+    {
+      "test": "revocation_does_not_wait_for_a_refresh_configuration_lock",
+      "passed_lines": [
+        "PASS [   0.026s] (  443/10418) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::revocation_does_not_wait_for_a_refresh_configuration_lock",
+        "PASS [   0.042s] (  823/10418) codex-cli::bin/codex airs_auth_lifecycle::tests::revocation_does_not_wait_for_a_refresh_configuration_lock"
+      ]
+    },
+    {
+      "test": "cancelled_mcp_refresh_remains_pending",
+      "passed_lines": [
+        "PASS [   0.089s] ( 2785/10418) codex-core session::tests::cancelled_mcp_refresh_remains_pending"
+      ]
+    },
+    {
+      "test": "mcp_refresh_detects_shared_auth_manager_changes",
+      "passed_lines": [
+        "PASS [   0.089s] ( 2838/10418) codex-core session::tests::mcp_refresh_detects_shared_auth_manager_changes"
+      ]
+    },
+    {
+      "test": "gateway_rejects_realtime_before_connecting_to_override_endpoint",
+      "passed_lines": [
+        "PASS [   0.297s] ( 4706/10418) codex-core::all suite::realtime_initial_items::gateway_rejects_realtime_before_connecting_to_override_endpoint"
+      ]
+    },
+    {
+      "test": "http_auth_challenge_reaches_agent_tool_call_events_without_replay",
+      "passed_lines": [
+        "PASS [   0.614s] ( 4911/10418) codex-core::all suite::rmcp_client::oauth_refresh_tests::http_auth_challenge_reaches_agent_tool_call_events_without_replay"
+      ]
+    },
+    {
+      "test": "reconciliation_reconnects_when_connection_identity_changes",
+      "passed_lines": [
+        "PASS [   0.013s] ( 5614/10418) codex-mcp connection_manager::tests::reconciliation_reconnects_when_connection_identity_changes"
+      ]
+    },
+    {
+      "test": "streamable_http_401_challenge_is_a_tool_error_without_replay",
+      "passed_lines": [
+        "PASS [   0.519s] ( 6065/10418) codex-rmcp-client::streamable_http_recovery streamable_http_401_challenge_is_a_tool_error_without_replay"
+      ]
+    },
+    {
+      "test": "only_active_writer_failures_offer_read_only_view",
+      "passed_lines": [
+        "PASS [   0.036s] ( 6647/10418) codex-tui app_server_session::rollout_history::tests::only_active_writer_failures_offer_read_only_view"
+      ]
+    }
+  ],
+  "scope": "Exact positive lines extracted from the complete affected run; source and test assertions remain independently reviewable."
+}

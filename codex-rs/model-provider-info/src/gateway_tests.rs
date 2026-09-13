@@ -58,3 +58,19 @@ fn gateway_header_debug_redacts_credentials_without_changing_wire_value() {
         "test-only-credential"
     );
 }
+
+#[test]
+fn only_gateway_routing_selects_flat_function_tools() {
+    let mut provider = crate::ModelProviderInfo::default();
+    assert_eq!(
+        provider.to_api_provider(None).unwrap().response_tool_format,
+        codex_api::ResponseToolFormat::Namespaced
+    );
+    provider.gateway = Some(GatewayRouting {
+        default_route: "default".to_owned(),
+    });
+    assert_eq!(
+        provider.to_api_provider(None).unwrap().response_tool_format,
+        codex_api::ResponseToolFormat::FlatFunctions
+    );
+}

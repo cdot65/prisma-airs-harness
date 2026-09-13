@@ -35,6 +35,14 @@ impl RetryConfig {
     }
 }
 
+/// Tool representation accepted by a Responses deployment.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ResponseToolFormat {
+    #[default]
+    Namespaced,
+    FlatFunctions,
+}
+
 /// HTTP endpoint configuration used to talk to a concrete API deployment.
 ///
 /// Encapsulates base URL, default headers, query params, retry policy, and
@@ -47,6 +55,7 @@ pub struct Provider {
     pub headers: HeaderMap,
     pub retry: RetryConfig,
     pub stream_idle_timeout: Duration,
+    pub response_tool_format: ResponseToolFormat,
 }
 
 impl Provider {

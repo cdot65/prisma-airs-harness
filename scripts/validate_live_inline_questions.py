@@ -2,7 +2,7 @@
 """Exercise opt-in inline questions through AIRS using disposable local state."""
 
 import argparse
-import hashlib
+from airs_oidc_evidence import invocation_provenance
 import json
 import os
 from pathlib import Path
@@ -58,9 +58,8 @@ def main():
         "scope": "Opt-in default-route inline question and preserved draft",
         "default_enablement": False,
         "model_field_wire_inspected": False,
+        **invocation_provenance(args.binary),
     }
-    with binary.open("rb") as stream:
-        receipt["binary_sha256"] = hashlib.file_digest(stream, "sha256").hexdigest()
     draft = "Write exactly DRAFT_RETAINED into draft-retained.txt using a local tool."
     with TerminalSession(binary, env, work) as terminal:
         try:

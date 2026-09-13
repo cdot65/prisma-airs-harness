@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+from airs_oidc_evidence import invocation_provenance
 
 
 def main():
@@ -95,6 +96,7 @@ def main():
         "management_mutations": False,
         "doctor_fixture_checks": checks,
         "built_in_skill_installed": True,
+        **invocation_provenance(args.binary),
     }
     (root / "VALIDATION.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps(receipt, indent=2))

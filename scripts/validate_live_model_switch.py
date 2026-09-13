@@ -8,7 +8,7 @@ model identity. Credential values are read only by the terminal's file helpers.
 """
 
 import argparse
-import hashlib
+from airs_oidc_evidence import invocation_provenance
 import json
 import os
 from pathlib import Path
@@ -114,7 +114,7 @@ def main():
     receipt = {
         "passed": False,
         "binary": str(binary),
-        "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
+        **invocation_provenance(args.binary),
     }
     with TerminalSession(binary, env, work) as terminal:
         try:

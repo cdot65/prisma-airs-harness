@@ -1,0 +1,76 @@
+name: Prisma AIRS Harness upstream Rust integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: airs-harness-rust-integration-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  full-workspace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_VERSION: airs-harness-rust-v1
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+      - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
+        with:
+          tool: just@1.51.0,cargo-nextest
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba
+        with:
+          version: v0.16.0
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            codex-rs/target
+          key: airs-gnu-workspace-v1-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml') }}-${{ github.sha }}
+          restore-keys: airs-gnu-workspace-v1-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml') }}-
+      - name: Prepare isolated fixtures and verified V8 test assets
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libssl-dev pkg-config zsh
+          mkdir -p "$RUNNER_TEMP/airs-test-tmp" "$RUNNER_TEMP/airs-rust-evidence"
+          echo "TMPDIR=$RUNNER_TEMP/airs-test-tmp" >> "$GITHUB_ENV"
+          CODEX_REPO_ROOT="$PWD" PYTHONPATH=scripts python3 - <<'PY'
+          import os
+          from pathlib import Path
+          from codex_package.targets import TARGET_SPECS
+          from codex_package.v8 import resolve_codex_v8_cargo_env
+          with Path(os.environ['GITHUB_ENV']).open('a') as output:
+              for key, value in resolve_codex_v8_cargo_env(TARGET_SPECS['x86_64-unknown-linux-gnu']).items():
+                  output.write(f'{key}={value}\n')
+          PY
+          git rev-parse HEAD > "$RUNNER_TEMP/airs-rust-evidence/source.txt"
+      - name: Build subprocess helpers with the workspace profile
+        working-directory: codex-rs
+        run: |
+          cargo build --locked -p codex-cli -p codex-linux-sandbox -p codex-rmcp-client -p codex-code-mode-host --bins 2>&1 | tee "$RUNNER_TEMP/airs-rust-evidence/helpers.log"
+      - name: Run the complete workspace on GNU Linux
+        run: |
+          unset NO_COLOR SSL_CERT_FILE SSL_CERT_DIR
+          # The pinned V8 archive has its sandbox enabled. Align the standalone
+          # V8 proof-of-concept test feature with the workspace's linked library.
+          just test --locked --features codex-v8-poc/sandbox 2>&1 | tee "$RUNNER_TEMP/airs-rust-evidence/full-workspace.log"
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-gnu-workspace-evidence
+          path: ${{ runner.temp }}/airs-rust-evidence/
+          retention-days: 30

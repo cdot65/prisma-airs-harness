@@ -832,9 +832,11 @@ async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills(
     let warning: WarningNotification =
         timeout(DEFAULT_READ_TIMEOUT, mcp.read_notification("warning")).await??;
     assert_eq!(warning.thread_id.as_deref(), Some(thread.id.as_str()));
+    // AIRS retains eight embedded Prisma capability skills in addition to the
+    // upstream system skills and the two skills created by this fixture.
     assert_eq!(
         warning.message,
-        "Exceeded skills context budget. All skill descriptions were removed and 7 additional skills were not included in the model-visible skills list."
+        "Exceeded skills context budget. All skill descriptions were removed and 15 additional skills were not included in the model-visible skills list."
     );
 
     timeout(

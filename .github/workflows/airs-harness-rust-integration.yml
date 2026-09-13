@@ -1,6 +1,11 @@
 name: Prisma AIRS Harness upstream Rust integration
 on:
   workflow_dispatch:
+  push:
+    branches: [integrate/codex-0.154-candidate]
+    paths:
+      - '.github/workflows/airs-harness-rust-integration.yml'
+      - 'codex-rs/**'
 permissions:
   contents: read
 defaults:

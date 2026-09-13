@@ -75,5 +75,6 @@
     }
   ],
   "pending_complete_gnu_workspace": true,
-  "platform_skips_never_credited_as_passes": true
+  "platform_skips_never_credited_as_passes": true,
+  "gnu_workspace_status": "blocked by Actions budget; first-run missing GLib prerequisite corrected"
 }

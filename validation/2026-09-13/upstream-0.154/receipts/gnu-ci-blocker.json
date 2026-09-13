@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-09-13T06:04:57.079584+00:00",
+  "initial_run": 34740591769,
+  "initial_failure": "Full GNU suite compilation stopped because glib-2.0 >= 2.56 development files were missing. Workflow now installs libglib2.0-dev and libsecret-1-dev.",
+  "followup_run": 34740936143,
+  "followup_job": 103681929562,
+  "github_annotation": "The job was not started because an Actions budget is preventing further use.",
+  "full_suite_passed": false,
+  "budget_changed": false,
+  "required_next_action": "Re-enable the account Actions budget or supply an approved GNU runner; rerun the owned airs-harness-rust-integration.yml workflow on the candidate branch."
+}

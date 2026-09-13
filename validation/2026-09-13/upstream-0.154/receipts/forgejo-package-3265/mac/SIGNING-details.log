@@ -1,0 +1,28 @@
+Executable=/Users/cdot/.local/share/airs-forgejo-runner/jobs/f57969e102f59080/tmp/airs-signed-package/signed/airs-harness
+Identifier=airs-harness
+Format=Mach-O thin (arm64)
+CodeDirectory v=20500 size=605464 flags=0x10000(runtime) hashes=18915+2 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1705216
+Hash type=sha256 size=32
+CandidateCDHash sha256=6865374a5530a150a7e00a33535e3972c4d27e9d
+CandidateCDHashFull sha256=6865374a5530a150a7e00a33535e3972c4d27e9dab0c532c2d6b89512e730ee4
+Hash choices=sha256
+CMSDigest=6865374a5530a150a7e00a33535e3972c4d27e9dab0c532c2d6b89512e730ee4
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=245940224
+Executable Segment flags=0x1
+Page size=16384
+CDHash=6865374a5530a150a7e00a33535e3972c4d27e9d
+Signature size=8980
+Authority=Developer ID Application: Calvin Remsburg (G5QLZ5A8TA)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Sep 13, 2026 at 13:19:30
+Info.plist=not bound
+TeamIdentifier=G5QLZ5A8TA
+Runtime Version=26.5.0
+Sealed Resources=none
+Internal requirements count=1 size=172

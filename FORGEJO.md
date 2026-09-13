@@ -51,3 +51,24 @@ the Developer ID identity and notary profile documented in the frozen candidate'
 `validation/2026-09-13/upstream-0.154/SIGNING-HANDOFF.md`. Runner registration alone
 does not satisfy signing or release gates. Windows-native identity validation
 also needs a Windows Forgejo runner; no Windows distribution is authorized.
+
+Run this on Jadzia to identify the SSH account and correct setup permissions:
+
+```sh
+whoami
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+```
+
+Once SSH access is available, install prerequisites in that account:
+
+```sh
+xcode-select --install # only if command-line tools are absent
+brew install forgejo-runner node@22 python@3.13 rustup just
+```
+
+Register only against `cdot/prisma-airs-harness` using its repository-scoped
+registration token, then run `forgejo-runner daemon --config config.yaml` in
+its dedicated state directory. `airs-harness-macos-preflight.yml` is manual-only
+and targets `airs-macos-arm64`; its pass verifies runner/tool/artifact wiring,
+not full Keychain lifecycle, native compilation or notarization acceptance.

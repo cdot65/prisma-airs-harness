@@ -49,7 +49,15 @@ def identity(root, environment, output):
         inputs["sdk_version"] = output(
             ["xcrun", "--sdk", "macosx", "--show-sdk-version"]
         )
-        inputs["xcode"] = output(["xcodebuild", "-version"])
+        try:
+            inputs["xcode"] = output(["xcodebuild", "-version"])
+        except subprocess.CalledProcessError:
+            # Native runners may use Apple's standalone Command Line Tools.
+            # Keep their package and compiler identities in the cache key.
+            inputs["command_line_tools"] = output(
+                ["pkgutil", "--pkg-info", "com.apple.pkg.CLTools_Executables"]
+            )
+            inputs["clang"] = output(["xcrun", "clang", "--version"])
     encoded = json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()
     return {"cache_key": hashlib.sha256(encoded).hexdigest(), "inputs": inputs}
 

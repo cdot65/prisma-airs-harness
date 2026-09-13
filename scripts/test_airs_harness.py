@@ -33,6 +33,69 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_worktree_preserves_gateway_binding_and_isolates_local_edits(self):
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        for args in (
+            ["init", "-q"],
+            [
+                "-c",
+                "user.name=AIRS fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "Fixture baseline",
+            ],
+        ):
+            subprocess.run(
+                ["git", *args], cwd=self.work, check=True, capture_output=True
+            )
+        protected = tomllib.loads((self.home / "config.toml").read_text())
+        with TerminalSession(
+            BINARY,
+            self.env,
+            self.work,
+            arguments=[
+                "--no-alt-screen",
+                "--enable",
+                "worktrees",
+                "--worktree",
+                "-s",
+                "workspace-write",
+            ],
+        ) as terminal:
+            self.terminal_transcript = terminal.transcript
+            terminal.start()
+            terminal.send_line("Create result.txt using a local shell tool.")
+            terminal.wait_for(b"Local tool complete.")
+        listing = subprocess.check_output(
+            ["git", "worktree", "list", "--porcelain"],
+            cwd=self.work,
+            text=True,
+        )
+        paths = [
+            Path(line.removeprefix("worktree "))
+            for line in listing.splitlines()
+            if line.startswith("worktree ")
+        ]
+        managed = [path for path in paths if path != self.work]
+        self.assertEqual(len(managed), 1, listing)
+        self.assertEqual((managed[0] / "result.txt").read_text(), "local tool worked\n")
+        self.assertFalse((self.work / "result.txt").exists())
+        current = tomllib.loads((self.home / "config.toml").read_text())
+        trust = current.pop("projects")
+        self.assertEqual(trust, {str(self.work): {"trust_level": "trusted"}})
+        self.assertEqual(current, protected)
+        self.assertGreaterEqual(len(self.requests), 2)
+        for path, headers, body in self.requests:
+            self.assertEqual(path, "/prefix/v1/responses")
+            self.assertNotIn("model", body)
+            normalized = {key.lower(): value for key, value in headers.items()}
+            self.assertEqual(normalized["x-portkey-api-key"], "test-only-credential")
+
     def test_saved_environment_cannot_enable_unvalidated_upstream_services(self):
         self.configure()
         blocked = [

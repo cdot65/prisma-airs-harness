@@ -305,6 +305,7 @@ fn helper_authentication_does_not_imply_connection_success() {
             plugin_id: None,
             server_info: None,
             tools: HashMap::new(),
+            tools_error: None,
             resources: Vec::new(),
             resource_templates: Vec::new(),
             auth_status: McpAuthStatus::CredentialHelper,

@@ -18,6 +18,18 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
+def completed_scan(scan, phase, action):
+    return (
+        scan.get("phase") == phase
+        and scan.get("action") == action
+        and scan.get("verdict") is (action == "allow")
+        and isinstance(scan.get("scan_id"), str)
+        and bool(scan["scan_id"].strip())
+        and isinstance(scan.get("profile_id"), str)
+        and bool(scan["profile_id"].strip())
+    )
+
+
 def request(url, body, key, extra=None):
     headers = {
         "Content-Type": "application/json",
@@ -159,13 +171,18 @@ def main():
         if expected == 200:
             receipt["passed"] = (
                 receipt["passed"]
-                and {scan["phase"] for scan in receipt["scans"]}
-                == {"before_request_hooks", "after_request_hooks"}
-                and all(scan["verdict"] for scan in receipt["scans"])
+                and all(
+                    any(
+                        completed_scan(scan, phase, "allow")
+                        for scan in receipt["scans"]
+                    )
+                    for phase in ("before_request_hooks", "after_request_hooks")
+                )
+                and all(scan["verdict"] is True for scan in receipt["scans"])
             )
         if expected == 446:
             receipt["passed"] = receipt["passed"] and any(
-                scan["action"] == "block" and scan["verdict"] is False
+                completed_scan(scan, "before_request_hooks", "block")
                 for scan in receipt["scans"]
             )
         receipts.append(receipt)

@@ -60,12 +60,14 @@ class TerminalIntegration(unittest.TestCase):
             )
             self.assertNotEqual(denied.returncode, 0)
             self.assertIn("already has an active writer", denied.stderr)
-            self.assertFalse(any(
-                denied_prompt in json.dumps(body)
-                for _, _, body in self.requests
-            ))
+            self.assertFalse(
+                any(denied_prompt in json.dumps(body) for _, _, body in self.requests)
+            )
         resumed = self.run_cli(
-            "exec", "resume", "--skip-git-repo-check", thread_id,
+            "exec",
+            "resume",
+            "--skip-git-repo-check",
+            thread_id,
             "Resume after the first writer exits.",
         )
         self.assertEqual(resumed.returncode, 0, resumed.stderr)

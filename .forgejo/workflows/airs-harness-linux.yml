@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
-      options: --cpus=2 --memory=8g --security-opt seccomp=unconfined
+      options: --cpus=2 --memory=8g --security-opt seccomp=unconfined --security-opt apparmor=unconfined
     timeout-minutes: 175
     defaults:
       run:
@@ -42,6 +42,7 @@ jobs:
           useradd --create-home --uid 10001 airs-ci
           mkdir -p "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
           chown -R airs-ci:airs-ci "$GITHUB_WORKSPACE" "$RUNNER_TEMP/airs-evidence" "$RUNNER_TEMP/airs-test-tmp"
+          uname -a > "$RUNNER_TEMP/airs-evidence/runner.txt"
           runuser -u airs-ci -- unshare -Ur true
       - uses: https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
       - uses: https://github.com/taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532

@@ -68,3 +68,7 @@ python3 scripts/evaluate_airs_upstream.py validation/2026-09-13/upstream-0.154/L
 The expected current result is nonzero exit status and `NO-GO`. [LEDGER.json](LEDGER.json) binds evidence references and artifact hashes; [EVALUATION.json](EVALUATION.json) records the computed result. Receipt integrity is not a substitute for independently reviewing whether the evidence proves each claim.
 
 Owner infrastructure correction: candidate packages are now staged together for Verdaccio (`https://npm.cdot.io`) under the unscoped `airs-harness` name. The isolated registry installation and all 43 Linux native acceptance checks pass. Both native payload hashes remain unchanged; Apple Silicon acceptance of this newly combined npm staging has not been rerun. No publication occurred. See the adjacent `receipts/verdaccio-candidate-*` evidence.
+
+## Forgejo cutover
+
+The owner moved source and CI to [cdot/prisma-airs-harness](https://git.cdot.io/cdot/prisma-airs-harness). GitHub is now a private push mirror with Actions disabled. All 13 branch heads and five tags matched before mirror setup; dedicated SSH mirroring has succeeded. Forgejo package contracts pass on main and the candidate. The full GNU suite is running on Forgejo; native Mac setup on Jadzia awaits SSH authentication, and Windows runner migration remains pending. Earlier budget and namespace blockers above are historical. See [the cutover receipt](receipts/forgejo-cutover.json) and [runner operations](../../../../FORGEJO.md). No new runtime score or release acceptance is claimed.

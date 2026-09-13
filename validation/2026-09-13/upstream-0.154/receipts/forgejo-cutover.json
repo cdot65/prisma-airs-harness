@@ -1,0 +1,32 @@
+{
+  "source": "https://git.cdot.io/cdot/prisma-airs-harness",
+  "forgejo_id": 95,
+  "github_mirror": "https://github.com/cdot65/prisma-airs-harness",
+  "github_private": true,
+  "github_actions_enabled": false,
+  "branch_heads_compared": 13,
+  "tags_compared": 5,
+  "mirror": {
+    "remote_name": "remote_mirror_NB5Aw8eLt7Z",
+    "last_update": "2026-09-13T14:22:25Z",
+    "last_error": "",
+    "sync_on_commit": true,
+    "interval": "1h0m0s"
+  },
+  "deploy_key_id": 163156237,
+  "credential_kind": "dedicated SSH deploy key; no general GitHub PAT stored in Forgejo",
+  "workspace_access": "existing Forgejo bot granted write; existing SSH key verified",
+  "main_runtime_integration_merged": false,
+  "linux_contract_runs": [
+    3170,
+    3172,
+    3173
+  ],
+  "linux_contract_status": "passed",
+  "full_gnu_run": 3171,
+  "full_gnu_status": "running; compilation tools bootstrapping",
+  "mac_host": "10.0.1.121",
+  "mac_runner_status": "pending SSH account authentication and native setup",
+  "windows_runner_status": "not provisioned",
+  "workflow_migration_complete": false
+}

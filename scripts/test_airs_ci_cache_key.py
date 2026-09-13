@@ -75,7 +75,12 @@ class CacheIdentityTests(unittest.TestCase):
     def test_command_line_tools_without_full_xcode(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            for name in ("Cargo.lock", "Cargo.toml", "rust-toolchain.toml", ".cargo/config.toml"):
+            for name in (
+                "Cargo.lock",
+                "Cargo.toml",
+                "rust-toolchain.toml",
+                ".cargo/config.toml",
+            ):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(name)

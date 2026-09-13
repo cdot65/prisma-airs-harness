@@ -34,41 +34,54 @@ Host: `10.0.1.121` (`jadzia.local` on the owner's LAN). The runner makes outboun
 HTTPS connections to `https://git.cdot.io` to poll and execute jobs. No inbound
 connection from Forgejo to the Mac is needed. SSH is only for setup/maintenance.
 
-Setup requires the correct Mac short username and its authorized SSH setup key.
-Verify `uname -m` returns `arm64`, Xcode command-line tools are installed, and
-there is sufficient disk space for the Rust build/cache. Install the official
-Homebrew `forgejo-runner` formula plus required build tools. Register a
-**repository-scoped** runner from this repository's Settings → Actions → Runners,
-with the unique label `airs-macos-arm64:host` and capacity one. Keep the
-registration file and token private. Use a user LaunchAgent so native Keychain
-checks execute in the intended user's session; verify login/Keychain availability
-before claiming unattended acceptance. Do not attach shared owner signing
-credentials to untrusted pull-request jobs.
+The account is `cdot`. Repository-scoped runner **74**, `jadzia-airs-arm64`,
+is registered with label `airs-macos-arm64:host` and capacity one. Its state is
+`/Users/cdot/.local/share/airs-forgejo-runner`; registration/configuration files
+are private. The user LaunchAgent is
+`~/Library/LaunchAgents/io.cdot.airs-forgejo-runner.plist`. It starts in the
+user's GUI login session, so a reboot requires that session before jobs resume.
 
-Native Mac compilation, Keychain tests and signing remain pending until this
-runner is online and the migrated workflows pass. Signing additionally requires
-the Developer ID identity and notary profile documented in the frozen candidate's
-`validation/2026-09-13/upstream-0.154/SIGNING-HANDOFF.md`. Runner registration alone
-does not satisfy signing or release gates. Windows-native identity validation
-also needs a Windows Forgejo runner; no Windows distribution is authorized.
-
-Run this on Jadzia to identify the SSH account and correct setup permissions:
+Check service status over SSH:
 
 ```sh
-whoami
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
+ssh cdot@10.0.1.121 'launchctl list io.cdot.airs-forgejo-runner'
 ```
 
-Once SSH access is available, install prerequisites in that account:
+The runner uses Homebrew Node 22 and Python 3.13 through its own PATH. Xcode
+command-line tools are installed. Forgejo preflight run 20 and frozen native
+acceptance run 30 passed. Acceptance verifies the frozen executable hashes,
+Apple Silicon architecture, existing ad hoc signatures, native credential
+storage, Keychain lifecycle, executable contracts and staged Verdaccio install.
+It does not establish Developer ID signing or notarization.
 
-```sh
-xcode-select --install # only if command-line tools are absent
-brew install forgejo-runner node@22 python@3.13 rustup just
-```
+Fresh compilation requires at least 100 GiB free before starting; Jadzia had
+only 15 GiB free at setup. Provide a sufficiently sized build volume or reclaim
+space before dispatching the full build. No owner files were deleted. The
+ported build workflow passed its preflight-only run 29; compilation remains
+unvalidated on this runner. No Developer ID signing identity is installed.
+Signing also requires the notary profile documented in the candidate's
+`validation/2026-09-13/upstream-0.154/SIGNING-HANDOFF.md`.
 
-Register only against `cdot/prisma-airs-harness` using its repository-scoped
-registration token, then run `forgejo-runner daemon --config config.yaml` in
-its dedicated state directory. `airs-harness-macos-preflight.yml` is manual-only
-and targets `airs-macos-arm64`; its pass verifies runner/tool/artifact wiring,
-not full Keychain lifecycle, native compilation or notarization acceptance.
+## Workflow migration inventory
+
+| Forgejo workflow | Purpose and validation |
+| --- | --- |
+| `airs-harness-check.yml` | npm/packaging contracts; passes on main and candidate |
+| `airs-harness-linux.yml` | GNU build and complete Rust suite; validation in progress |
+| `airs-harness-macos-preflight.yml` | Native runner/tool/artifact wiring; passed |
+| `airs-harness-macos-acceptance.yml` | Frozen native, Keychain and staged Verdaccio acceptance; passed |
+| `airs-harness-macos-build.yml` | Native build and artifact acceptance port; preflight passed, fresh build needs disk space |
+| `airs-harness-windows-identity.yml` | Native Credential Manager checks; needs runner label `airs-windows-x64` |
+
+The old npm, deployment and release-check contracts are covered by the package
+and GNU jobs. Mac revalidation, storage and Keychain checks are consolidated in
+native acceptance. The old Mac release build is ported separately. Windows
+identity checks are prepared, but no Windows runner is registered and Windows
+distribution remains outside the authorized targets.
+
+Release publication, managed Mac signing, review-registry and optional GitHub
+Packages publication automation have not been validated or activated on Forgejo.
+Their old GitHub workflows remain disabled migration inputs. Routine source
+pushes run validation and mirror Git refs; they do not publish packages or sign
+releases. Migration is not complete until the required remaining workflows and
+runner-dependent checks pass.

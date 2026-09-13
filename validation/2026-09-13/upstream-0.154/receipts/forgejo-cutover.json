@@ -23,10 +23,16 @@
     3173
   ],
   "linux_contract_status": "passed",
-  "full_gnu_run": 3171,
-  "full_gnu_status": "running; compilation tools bootstrapping",
+  "full_gnu_run": 3194,
+  "full_gnu_status": "failed compilation: missing libcap-dev; prerequisite corrected for next run",
   "mac_host": "10.0.1.121",
-  "mac_runner_status": "pending SSH account authentication and native setup",
-  "windows_runner_status": "not provisioned",
-  "workflow_migration_complete": false
+  "mac_runner_status": "online; repo-scoped runner 74, capacity 1, airs-macos-arm64",
+  "windows_runner_status": "not provisioned; workflow prepared for airs-windows-x64",
+  "workflow_migration_complete": false,
+  "mac_preflight_run": 3182,
+  "mac_acceptance_run": 3192,
+  "mac_acceptance_status": "success; frozen native, Keychain and staged Verdaccio installation",
+  "mac_build_preflight_run": 3191,
+  "mac_fresh_build_status": "pending; 15 GiB available, 100 GiB required by build guard",
+  "mac_signing_status": "pending; no valid signing identities installed"
 }

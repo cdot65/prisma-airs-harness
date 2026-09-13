@@ -18,6 +18,9 @@ on:
       - 'scripts/*airs_package_access.py'
       - 'scripts/format.py'
       - 'scripts/test_format.py'
+      - 'scripts/*airs_upstream.py'
+      - 'scripts/test_live_gateway_evidence.py'
+      - 'scripts/validate_live_gateway.py'
       - 'scripts/*airs_signed_macos_artifact.py'
       - '.github/workflows/airs-harness-macos-signed.yml'
       - '.github/workflows/airs-harness-review-publish.yml'
@@ -39,6 +42,9 @@ on:
       - 'scripts/*airs_package_access.py'
       - 'scripts/format.py'
       - 'scripts/test_format.py'
+      - 'scripts/*airs_upstream.py'
+      - 'scripts/test_live_gateway_evidence.py'
+      - 'scripts/validate_live_gateway.py'
       - 'scripts/*airs_signed_macos_artifact.py'
       - '.github/workflows/airs-harness-macos-signed.yml'
       - '.github/workflows/airs-harness-review-publish.yml'
@@ -146,3 +152,5 @@ jobs:
       - run: python -m unittest discover -s scripts -p test_restore_airs_review_stage.py -v
       - run: python -m unittest discover -s scripts -p test_validate_airs_registry_install.py -v
       - run: python -m unittest discover -s scripts -p test_format.py -v
+      - run: python -m unittest discover -s scripts -p test_evaluate_airs_upstream.py -v
+      - run: python -m unittest discover -s scripts -p test_live_gateway_evidence.py -v

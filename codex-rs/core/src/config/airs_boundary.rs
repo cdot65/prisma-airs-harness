@@ -20,6 +20,7 @@ pub(super) const DISABLED_FEATURES: &[codex_features::Feature] = &[
     codex_features::Feature::CodeModePrewarm,
     codex_features::Feature::CodeModeHost,
     codex_features::Feature::RealtimeConversation,
+    codex_features::Feature::GuardianV2,
 ];
 
 pub(super) fn developer_instructions(

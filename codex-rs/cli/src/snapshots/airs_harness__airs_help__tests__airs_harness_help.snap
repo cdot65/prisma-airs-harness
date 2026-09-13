@@ -1,6 +1,6 @@
 ---
 source: cli/src/airs_help_tests.rs
-assertion_line: 19
+assertion_line: 26
 expression: command.render_help().to_string()
 ---
 AIRS Harness CLI
@@ -75,6 +75,8 @@ Options:
           DANGEROUS. Intended only for automation that already vets hook sources
   -C, --cd <DIR>
           Tell the agent to use the specified directory as its working root
+      --worktree
+          Run the session in a new managed Git worktree
       --add-dir <DIR>
           Additional directories that should be writable alongside the primary workspace
   -a, --ask-for-approval <APPROVAL_POLICY>

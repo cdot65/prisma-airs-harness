@@ -1,0 +1,39 @@
+---
+source: cli/src/airs_help_tests.rs
+assertion_line: 8
+expression: login.render_long_help().to_string()
+---
+Manage login
+
+Usage: login [OPTIONS] [COMMAND]
+
+Commands:
+  status  Show login status
+  help    Print this message or the help of the given subcommand(s)
+
+Options:
+      --issuer-url <ISSUER_URL>
+          HTTPS issuer for a public-client OIDC login
+
+      --oidc-client-id <OIDC_CLIENT_ID>
+          
+
+      --audience <AUDIENCE>
+          Resource audience required in the signed gateway access token
+
+      --credential-file <CREDENTIAL_FILE>
+          Reference an existing owner-only credential file (explicit headless mode)
+
+      --credential-env <CREDENTIAL_ENV>
+          Reference a credential environment variable; nothing secret is persisted
+
+      --with-api-key
+          Enter a workspace API key at a hidden terminal prompt and save it in the OS credential
+          store. Automation may supply the key through stdin. The key is never saved in a plaintext
+          configuration file.
+
+      --device-auth
+          
+
+  -h, --help
+          Print help (see a summary with '-h')

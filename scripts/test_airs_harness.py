@@ -33,6 +33,53 @@ def latest_user_text(body):
 
 
 class TerminalIntegration(unittest.TestCase):
+    def test_inline_question_preserves_draft_and_gateway_route(self):
+        from airs_harness_pty import TerminalSession
+
+        self.configure()
+        catalog_path = Path(
+            tomllib.loads((self.home / "config.toml").read_text())["model_catalog_json"]
+        )
+        catalog = json.loads(catalog_path.read_text())
+        for model in catalog["models"]:
+            model["experimental_supported_tools"] = ["request_user_input_async"]
+        catalog_path.write_text(json.dumps(catalog))
+        self.initial_function_call = (
+            "request_user_input_async",
+            {
+                "questions": [
+                    {"title": "Choose the fixture color", "options": ["Blue", "Green"]}
+                ]
+            },
+        )
+        prompt = "Ask me to choose the fixture color."
+        draft = "Preserve this independent draft."
+        self.phase_replies = {prompt: "Question queued.", draft: "Draft preserved."}
+        with TerminalSession(BINARY, self.env, self.work) as terminal:
+            self.terminal_transcript = terminal.transcript
+            terminal.start()
+            terminal.send_line(prompt)
+            terminal.wait_for(b"Question queued.")
+            os.write(terminal.master, b"\x1b[200~" + draft.encode() + b"\x1b[201~")
+            terminal.wait_for(draft.encode())
+            offset = len(terminal.transcript)
+            os.write(terminal.master, b"\x1b[1;3A")
+            terminal.wait_for(b"enter submit", offset)
+            offset = len(terminal.transcript)
+            os.write(terminal.master, b"\r")
+            terminal.wait_for(draft.encode(), offset)
+            os.write(terminal.master, b"\r")
+            terminal.wait_for(b"Draft preserved.", offset)
+        self.assertTrue(
+            any(latest_user_text(body) == draft for _, _, body in self.requests)
+        )
+        self.assertTrue(
+            any("Blue" in json.dumps(body["input"]) for _, _, body in self.requests[1:])
+        )
+        for path, _, body in self.requests:
+            self.assertEqual(path, "/prefix/v1/responses")
+            self.assertNotIn("model", body)
+
     def test_worktree_preserves_gateway_binding_and_isolates_local_edits(self):
         from airs_harness_pty import TerminalSession
 
@@ -89,6 +136,41 @@ class TerminalIntegration(unittest.TestCase):
         trust = current.pop("projects")
         self.assertEqual(trust, {str(self.work): {"trust_level": "trusted"}})
         self.assertEqual(current, protected)
+        histories = [
+            json.loads(line)["payload"]
+            for path in (self.home / "sessions").rglob("*.jsonl")
+            for line in path.read_text().splitlines()
+            if json.loads(line).get("type") == "session_meta"
+        ]
+        parent = next(row for row in histories if row.get("cwd") == str(managed[0]))
+        resumed = self.run_cli(
+            "exec",
+            "resume",
+            "--skip-git-repo-check",
+            parent["id"],
+            "Review the worktree result again.",
+        )
+        self.assertEqual(resumed.returncode, 0, resumed.stderr)
+        self.assertIn(str(managed[0]), json.dumps(self.requests[-1][2]["input"]))
+        forked = self.run_cli(
+            "--enable",
+            "worktrees",
+            "exec",
+            "fork",
+            "--worktree",
+            "--skip-git-repo-check",
+            parent["id"],
+            "Review this isolated fork.",
+        )
+        self.assertEqual(forked.returncode, 0, forked.stderr)
+        final_listing = subprocess.check_output(
+            ["git", "worktree", "list", "--porcelain"],
+            cwd=self.work,
+            text=True,
+        )
+        self.assertEqual(
+            sum(line.startswith("worktree ") for line in final_listing.splitlines()), 3
+        )
         self.assertGreaterEqual(len(self.requests), 2)
         for path, headers, body in self.requests:
             self.assertEqual(path, "/prefix/v1/responses")
@@ -109,6 +191,7 @@ class TerminalIntegration(unittest.TestCase):
             "code_mode_prewarm",
             "code_mode_host",
             "realtime_conversation",
+            "guardian_v2",
         ]
         # Omit setup's feature defaults to represent an older environment, then
         # request each unsupported capability through the public CLI overrides.
@@ -1198,6 +1281,7 @@ class TerminalIntegration(unittest.TestCase):
                         if name == "exec_command"
                         else {"command": command}
                     )
+                    name, args = getattr(owner, "initial_function_call", (name, args))
                     events.append(
                         {
                             "type": "response.output_item.done",

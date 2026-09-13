@@ -20,6 +20,39 @@ concurrency:
   group: airs-harness-identity-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  windows-identity:
+    runs-on: windows-2025
+    timeout-minutes: 35
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582
+      - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532
+        with:
+          tool: just@1.51.0,cargo-nextest
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            codex-rs/target
+          key: airs-identity-windows-v1-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml') }}-${{ github.sha }}
+          restore-keys: airs-identity-windows-v1-${{ hashFiles('codex-rs/Cargo.lock', 'codex-rs/rust-toolchain.toml') }}-
+      - name: Test Windows identity without building a distribution
+        shell: pwsh
+        run: |
+          just test -p codex-airs-identity -p codex-keyring-store --locked 2>&1 | Tee-Object -FilePath windows-identity.log
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: airs-harness-windows-identity-tests
+          path: windows-identity.log
   native-store:
     strategy:
       fail-fast: false

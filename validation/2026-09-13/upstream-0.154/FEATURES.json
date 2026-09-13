@@ -1,0 +1,31 @@
+{
+  "scope": "Codex 0.154 AIRS candidate",
+  "worktrees": {
+    "default": false,
+    "enable": "--enable worktrees --worktree",
+    "native_create_route_and_local_isolation": "passed",
+    "fork_resume_permissions": "native fork/resume passed; inherited permission behavior covered by affected Rust cases"
+  },
+  "inline_questions": {
+    "default_advertised": false,
+    "enable": "Owner-controlled AIRS model catalog experimental_supported_tools includes request_user_input_async",
+    "native_submit_and_draft_preservation": "passed",
+    "live_gateway_model_acceptance": "passed with isolated opt-in catalog"
+  },
+  "runtime_pinned_off": [
+    "apps",
+    "plugins",
+    "recommended_plugins",
+    "image_generation",
+    "remote_control",
+    "remote_models",
+    "code_mode",
+    "code_mode_only",
+    "code_mode_prewarm",
+    "code_mode_host",
+    "realtime_conversation",
+    "guardian_v2"
+  ],
+  "pending_boundary_review": [],
+  "note": "Feature existence and opt-in fixture success are not default enablement or full feature acceptance."
+}

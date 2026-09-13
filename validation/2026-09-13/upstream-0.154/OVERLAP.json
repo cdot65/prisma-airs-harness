@@ -1,0 +1,289 @@
+{
+  "upstream": "6b9826e3aa83b1a5947db50f4332cb9c65f1b340",
+  "airs_baseline": "1cdc152631d4c1e960435f1630373fef29d34a64",
+  "scope": "47 previously overlapping paths; hashes bind the files supplied to review, not a claim of independent review",
+  "paths": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ff84cdb447d4dd3e0fa14881ca298c8dbf57a032f2e8d83efd8a0aa971db7bfa",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "MODULE.bazel.lock",
+      "sha256": "75bf069158ed576fb0f1154075f85bffaf6836abe42145c263b565f5ae3cb316",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/Cargo.lock",
+      "sha256": "6f2b8a76a01fe14f8173532ab3a9d2d0735aa9a2d7c82df9d7a195d80929ef79",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/Cargo.toml",
+      "sha256": "af380a858e4c1db863b6c6f313b74af1cb25bac5e25dd4db9d8f773521a97382",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.schemas.json",
+      "sha256": "fb41314a947cf5249602bd706453136d9d66bc47ba0c1a5dc29095b35122b09c",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.v2.schemas.json",
+      "sha256": "0ae72d80f5df65c0832ad4c197adb21d642828e29db44b261fa076c0af42d9ae",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/v2/ListMcpServerStatusResponse.json",
+      "sha256": "ec09abc5c6a38e66e5af9e6253fb8346b0b33507390a8677cd6ad8e94d0497ea",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-experimental.json.zst",
+      "sha256": "c0f9de7204e5778ee375f381b7373751d7cb4e0cba8f4ced808e6ea18430142d",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-stable.json.zst",
+      "sha256": "dc88ae4ff3fa2b7e3fee419d9ca36f1d3d17014efa8ef26d416424f79fa41656",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/v2/mcp.rs",
+      "sha256": "74f285478f9b05d251cb52dc9cfe7bc8e88a17835c26eaa0a16628ed30d71c81",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server/README.md",
+      "sha256": "ed851de03d7b5e33d53a4d47e778c1925a1c53f44acf9deb1228a64444737fc1",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/thread_processor_tests.rs",
+      "sha256": "cf35ab35b847398cc2bbbb0422bfcd24c4bd936756649e4187d86657d2e0332b",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/cli/Cargo.toml",
+      "sha256": "40e7045d9228774033f9d99314790dc11dd5c64de0ed87d47d05e169fab1ccb1",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/cli/src/doctor.rs",
+      "sha256": "94120acee413afa0d7a1dd8ba57811e09ef3a7ae343058e30e3c4caafd33214f",
+      "review_group": "G1,G4/standalone startup and authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/cli/src/main.rs",
+      "sha256": "0579bdcfe69511a7ef608672b3f96c54cb57bce991f26bfc3a95d2cf15624094",
+      "review_group": "G1,G4/standalone startup and authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/codex-api/src/common.rs",
+      "sha256": "765fc72c74952993db7792386761e1efcb14fba0a153f5abaaad752c699ce37f",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/rmcp_client.rs",
+      "sha256": "efb69eb7a2378e06768b7578d8e374558158b920c39f202fb6f65002a81ff49e",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/config.schema.json",
+      "sha256": "ea02f29c0e5ec1c7e79e9f65ef2db8c9d51252917b10882dec5c597735410030",
+      "review_group": "G5/schema regeneration",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/src/client.rs",
+      "sha256": "976ee1885fe4bb1bb71061935e23f3062d060c0c16e449e83544cdeafc8b3a39",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/src/config/mod.rs",
+      "sha256": "1cdc49fb4ed17490a85cff92f00c0cf9abad1b7960892e938945136519c41a9d",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/tests/common/test_codex.rs",
+      "sha256": "eaaf603b6c6e26a13941b24812c8e0c1de5e09168da2bc1514a618ef4832a313",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/tests/suite/client.rs",
+      "sha256": "d28493adaf2ccb2105a9e51f5e12eaa04433a5f1599f2948df878e2e57557ab1",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/tests/suite/hooks.rs",
+      "sha256": "7ac14578e615c5eff6fa27269051816446b0860f6f60e253561db8258cf64f30",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/core/tests/suite/mod.rs",
+      "sha256": "f5deaca20fb6819b4e43f746e3c93c50da3bc04548522203e3ddd728e0d3b01e",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/exec/Cargo.toml",
+      "sha256": "a71ced81c1a630b6682316998fe67001a5ec0623f9ecae26cd11c976d9208849",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/ext/guardian-v2/src/async_scorer/sampler.rs",
+      "sha256": "062e8cac0dccc249ed8ad75209c4b5f9492602a3a6c79cb30fe74385f2ee9e3a",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/protocol/src/protocol.rs",
+      "sha256": "e31fc594e185d5bd6b37d7e3f5bad145c6ec907db72f6ea2e0460e4a9ae0ed9d",
+      "review_group": "G1,G3,G4/request, protocol and config authority",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/rmcp-client/src/http_client_adapter.rs",
+      "sha256": "5c32b9f6097623a8aaa09e99804833375abcf627574f2027abfecf5c25bedab4",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/rmcp-client/src/lib.rs",
+      "sha256": "04cc687378e9a50e6775fb40e3da4fca5604638c62c8ef75a20bb201f6d00b8b",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/rmcp-client/src/oauth_http_client.rs",
+      "sha256": "5068842a17832b37705eb30d729589a7820c909dc6abacef766fa91144fe25c8",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/app/background_requests.rs",
+      "sha256": "07e7ce889f5c0c35c3df0bbe0883b8d7beef1bda739975f9abcc6214461cb5a6",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/app/event_dispatch.rs",
+      "sha256": "cdcf1ad7df62e21f48e5d4ab7e886bbbe4ac197e469c1d055ed6ffd951a50115",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget.rs",
+      "sha256": "05776a614ea8c24025fc7ccf28267f3aac62caa3286b485cc6a7341628bd345f",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget/constructor.rs",
+      "sha256": "82dd273cdc906f7f645006a55145d29203efec02f360f6029c74fb2b1b9a6cd3",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget/model_popups.rs",
+      "sha256": "af62a60ce533b7a157b3d0b26a34bd6b61158e88cec813d156f4e8908dff2e2e",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget/status_surfaces.rs",
+      "sha256": "266e50f601fa3d5039fd59d1bdcdb9e7985d1a7fb5f6e6b6c61c9513994b105f",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget/tests/popups_and_settings.rs",
+      "sha256": "83dfa6f03af7ce1a72beaeba377d93c00d810d0231f30f020c61bfd771d3c104",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/history_cell/mcp.rs",
+      "sha256": "a231825a75b6bf7b1acc92964f6e057b4b7c9d28a7477f38698a2fc1fb0e7211",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/history_cell/mcp_tests.rs",
+      "sha256": "d3e1a9e45aa5b661473b64500ebf992b3352ea01b6d6f2440226c513d5184628",
+      "review_group": "G5/MCP credential helper and catalog",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/history_cell/session.rs",
+      "sha256": "8949d07d2b76b16d98cd7b2012530b999ba7b7649c735071d992ba7064a8a51e",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/lib.rs",
+      "sha256": "aff27cc9f5f1805a8ff2062ab18f7dd587ce6e369ff3b4cc377cbf7954a8a52c",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/onboarding/onboarding_screen.rs",
+      "sha256": "465188f6379068a1a1ee3bc39da03100cd3ea5ec6c0703c6d00e85ad0ab64607",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/slash_command.rs",
+      "sha256": "f306567c51b2dcb9a28e487b343a14d5d426d9fd633c30a3476cc242c47e51bc",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/startup_draft.rs",
+      "sha256": "49b4b3d280c6155c74884acacffb212fe6c3061ea772b32eb9431e6971f48021",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "codex-rs/tui/src/status/card.rs",
+      "sha256": "6d4ebd8437a985125455c0f5f3e32e2b68880f90429ab37bc86af647fe9379b8",
+      "review_group": "G3,G7/AIRS presentation, route and state transitions",
+      "independent_review": "pending"
+    },
+    {
+      "path": "defs.bzl",
+      "sha256": "467083f5ca973d1d98f8d68ab6a39138784b9cf06058360a22bf436fc65a07ec",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    },
+    {
+      "path": "justfile",
+      "sha256": "620b77e32f7a3867f9b3e10eb5f136906ef8fc25dcf18e3af02b051a70f8f2fc",
+      "review_group": "G8/build and provenance",
+      "independent_review": "pending"
+    }
+  ]
+}

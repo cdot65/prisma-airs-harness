@@ -1,6 +1,19 @@
 name: AIRS Harness signed package E2E
 on:
   workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Exact compiled runtime commit
+        required: true
+      archive_sha256:
+        description: Verified native build archive SHA256
+        required: true
+      binary_sha256:
+        description: Verified compiled executable SHA256
+        required: true
+      fixture_sha256:
+        description: Verified native store fixture SHA256
+        required: true
 jobs:
   mac-package:
     runs-on: airs-macos-arm64
@@ -8,49 +21,26 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 785c283b24e155cf6f533059ef91ff21ee20b372
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 19ce13981e92079ec29889896836d58d070cf106
+          ref: ${{ inputs.source_ref }}
           path: runtime
           persist-credentials: false
-      - name: Package and verify signed candidate through npm installation
+      - name: Sign exact native build and test built-in MCP with disposable identity
         shell: bash
-        run: bash scripts/airs_forgejo_sign_and_package.sh
+        env:
+          AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
+          AIRS_ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
+          AIRS_BINARY_SHA256: ${{ inputs.binary_sha256 }}
+          AIRS_FIXTURE_SHA256: ${{ inputs.fixture_sha256 }}
+        run: bash scripts/airs_forgejo_mcp_release.sh
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
         with:
-          name: airs-signed-npm-${{ github.run_id }}
+          name: airs-mcp-release-${{ github.run_id }}
           path: |
-            ${{ runner.temp }}/airs-signed-package/npm/tarballs/*.tgz
-            ${{ runner.temp }}/airs-signed-package/npm/NPM-PACKAGES.json
-            ${{ runner.temp }}/airs-signed-package/npm/airs-harness/package.json
-            ${{ runner.temp }}/airs-signed-package/npm/airs-harness/BUNDLE-INVENTORY.json
-            ${{ runner.temp }}/airs-signed-package/npm/airs-harness-linux-x64/package.json
-            ${{ runner.temp }}/airs-signed-package/npm/airs-harness-darwin-arm64/package.json
-      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
-        if: always()
-        with:
-          name: airs-signed-package-mac-evidence-${{ github.run_id }}
-          path: ${{ runner.temp }}/airs-signed-package/evidence/
-  linux-install:
-    needs: mac-package
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          ref: 785c283b24e155cf6f533059ef91ff21ee20b372
-          persist-credentials: false
-      - uses: https://code.forgejo.org/actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
-        with:
-          name: airs-signed-npm-${{ github.run_id }}
-          path: ${{ runner.temp }}/signed-npm
-      - name: Fresh Linux npm installation and managed CLI acceptance
-        shell: bash
-        run: bash scripts/airs_forgejo_linux_package.sh
-      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
-        if: always()
-        with:
-          name: airs-signed-package-linux-evidence-${{ github.run_id }}
-          path: ${{ runner.temp }}/linux-evidence/
+            ${{ runner.temp }}/airs-mcp-release/evidence/*.json
+            ${{ runner.temp }}/airs-mcp-release/evidence/SIGNING-*.log
+            ${{ runner.temp }}/airs-mcp-release/mac-release/*.tar.gz
+            ${{ runner.temp }}/airs-mcp-release/signed.zip

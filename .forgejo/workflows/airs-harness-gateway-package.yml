@@ -1,0 +1,47 @@
+name: AIRS Harness signed gateway candidate package
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Exact compiled runtime commit
+        required: true
+      archive_sha256:
+        description: Verified native build archive SHA256
+        required: true
+      binary_sha256:
+        description: Verified compiled executable SHA256
+        required: true
+      fixture_sha256:
+        description: Verified native store fixture SHA256
+        required: true
+jobs:
+  mac-package:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 60
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.source_ref }}
+          path: runtime
+          persist-credentials: false
+      - name: Sign exact native build and verify native candidate
+        shell: bash
+        env:
+          AIRS_RUNTIME_SOURCE: ${{ inputs.source_ref }}
+          AIRS_ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
+          AIRS_BINARY_SHA256: ${{ inputs.binary_sha256 }}
+          AIRS_FIXTURE_SHA256: ${{ inputs.fixture_sha256 }}
+        run: bash scripts/airs_forgejo_gateway_package.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-gateway-package-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/airs-gateway-package/evidence/*.json
+            ${{ runner.temp }}/airs-gateway-package/evidence/SIGNING-*.log
+            ${{ runner.temp }}/airs-gateway-package/evidence/native-tests.log
+            ${{ runner.temp }}/airs-gateway-package/mac-release/*.tar.gz
+            ${{ runner.temp }}/airs-gateway-package/signed.zip

@@ -317,7 +317,12 @@ def main():
                 offset = len(terminal.transcript)
                 terminal.send_line("/mcp")
                 terminal.wait_for(b"MCP Tools", offset, timeout=60)
-                terminal.wait_for(b"list_workspaces", offset, timeout=60)
+                terminal.wait_for(b"(8 tools)", offset, timeout=60)
+                assert b"prisma-airs" in terminal.transcript[offset:]
+                offset = len(terminal.transcript)
+                terminal.send_line("/mcp verbose")
+                for tool in sorted(TOOLS):
+                    terminal.wait_for(tool.encode(), offset, timeout=60)
                 terminal.wait_for(b"OAuth", offset, timeout=60)
                 screen = terminal.transcript[offset:]
                 assert (

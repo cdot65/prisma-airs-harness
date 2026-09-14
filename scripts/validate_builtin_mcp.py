@@ -194,6 +194,8 @@ def main():
                 "--skip-git-repo-check",
                 "-c",
                 "features.shell_tool=false",
+                "-c",
+                "features.multi_agent=false",
                 "--json",
                 prompt,
             ],
@@ -353,7 +355,9 @@ def main():
             def refresh(index):
                 return model(
                     f"refresh_{cycle + 1}_{index}",
-                    "Call prisma-airs list_workspaces and report the workspace name.",
+                    "Use the prisma-airs MCP list_workspaces TOOL and report the workspace name. "
+                    "Call that advertised tool directly. Do not use MCP resources, templates, "
+                    "other tools, shell commands or sub-agents.",
                     {"list_workspaces"},
                 )
 

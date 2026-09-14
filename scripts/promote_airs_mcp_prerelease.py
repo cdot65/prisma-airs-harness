@@ -11,6 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+from urllib.parse import urlsplit
 
 TOOLS = {
     "list_workspaces",
@@ -31,6 +32,28 @@ def digest(path):
 def validate(info, e2e, upgrade, signing):
     if not info["version"].startswith("0.1.0-alpha."):
         raise ValueError("This promotion is limited to the internal alpha channel")
+    routing = e2e.get("routing", {})
+    gateway = urlsplit(routing.get("gateway_endpoint", ""))
+    upstream = urlsplit(routing.get("upstream_endpoint", ""))
+    if (
+        routing.get("mode") != "gateway-proxied-mcp"
+        or routing.get("gateway_endpoint") != e2e.get("endpoint")
+        or gateway.scheme != "https"
+        or not gateway.hostname
+        or upstream.scheme != "https"
+        or not upstream.hostname
+        or gateway.netloc == upstream.netloc
+        or gateway.username is not None
+        or upstream.username is not None
+        or gateway.query
+        or upstream.query
+        or gateway.fragment
+        or upstream.fragment
+    ):
+        raise ValueError(
+            "MCP acceptance must identify the gateway destination and separate upstream; "
+            "direct-server receipts do not satisfy the required architecture"
+        )
     if (
         e2e.get("passed") is not True
         or e2e.get("binary_sha256") != info["binary_sha256"]
@@ -52,6 +75,12 @@ def validate(info, e2e, upgrade, signing):
         "mcp_list_after_logout",
         "inference_after_mcp_logout",
         "inference_logout",
+        "gateway_cas_browser_login",
+        "gateway_mcp_request_observed",
+        "gateway_upstream_request_observed",
+        "gateway_mcp_denial",
+        "gateway_managed_upstream_oauth",
+        "gateway_managed_upstream_refresh",
     }
     if any(row.get("passed") is not True for row in rows) or not required <= {
         row["case"] for row in rows

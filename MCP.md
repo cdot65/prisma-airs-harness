@@ -1,133 +1,85 @@
-# Read-only Prisma AIRS MCP
+# Prisma AIRS MCP through AI Gateway
 
-The harness uses its existing Codex Streamable HTTP MCP client and browser OAuth
-flow. The AI Gateway carries inference and model tool declarations. MCP requests
-travel directly from the harness to the authenticated MCP resource server.
+Both inference and remote MCP must target Prisma AIRS AI Gateway. The existing
+Codex MCP client runs inside the normal `airs-harness` executable. The gateway
+proxies upstream MCP servers and owns their upstream OAuth tokens. CAS/Keycloak
+provides gateway-facing organizational login.
 
-## Connect an existing environment
+Alpha.13 is the published baseline and used a direct upstream route. That
+onboarding is withdrawn. The correction targets **alpha.14**; installing
+`airs-harness@latest` currently does not install this remediation. See
+[GATEWAY_MCP_REMEDIATION.md](GATEWAY_MCP_REMEDIATION.md) for outstanding deployment
+and live acceptance work.
 
-Update the normal command through the owned registry:
+## Onboarding prerequisites
 
-```sh
-npm install -g airs-harness@latest --registry=https://npm.cdot.io
-airs-harness --version
-```
+Provision a gateway MCP integration scoped to the harness workspace, configure
+its separate upstream OAuth client, and verify CAS/CIE identity and workspace
+access. The native client must use the connection URL supplied by that gateway
+integration. An upstream resource URL is not a valid substitute.
 
-If this host still has a manually installed `airs-harness` symlink outside npm,
-use `--force` for this one-time handover. npm replaces the command link and leaves
-its old target executable intact. Subsequent npm-managed updates need neither
-`--force` nor an uninstall. Use the same npm prefix that is on your PATH; inspect
-`command -v airs-harness` and `npm prefix -g` if an older command still wins.
-If a known legacy `~/.local/bin/airs-harness` link shadows a different npm prefix,
-retarget that link once after installation:
-
-```sh
-ln -sfn "$(npm prefix -g)/bin/airs-harness" ~/.local/bin/airs-harness
-```
-
-Only use that handover when the two command paths differ and the old path is the
-legacy symlink. It preserves the old executable and makes future normal npm
-updates visible through the same command.
-
-Keep the existing `work-calvin` inference environment. Add the server there:
+Keep the existing named inference environment. Once the alpha.14 candidate and
+gateway integration are ready, add the verified gateway URL with native `mcp add`.
+For example, using a fictional deployment:
 
 ```sh
-airs-harness --environment work-calvin mcp add prisma-airs \
-  --url https://prisma-airs-mcp.cdot.io/mcp \
-  --oauth-client-id prisma-airs-harness-mcp \
-  --scopes airs.gateway.read,airs.profiles.read
+airs-harness --environment work mcp add prisma-airs \
+  --url https://mcp-gateway.example.com/workspace/prisma-airs/mcp
 ```
 
-Sign in as `calvin` (`calvin@cdot.io`) in Redtail. Protected-resource discovery
-provides the resource indicator. Do not also supply `--oauth-resource`: this
-registration otherwise receives duplicate resource parameters. Explicit scopes
-avoid requesting unrelated realm permissions.
+Native OAuth discovery handles gateway client registration and browser login.
+Use gateway scopes supported by its discovery document. Do not supply the old
+upstream Keycloak client ID, upstream read scopes or an upstream resource override
+to this gateway-facing registration. The gateway requests `airs.gateway.read`
+and `airs.profiles.read` separately using its own upstream client.
 
-For native-storage-only behavior set `mcp_oauth_credentials_store = "keyring"`
-at the top level of this environment's `config.toml`. The upstream `auto` mode
-may fall back to a file if the OS store is unavailable. macOS requires an unlocked
-login Keychain; Linux requires an unlocked Secret Service session.
+The intended human must have gateway workspace access and upstream resource
+permissions. A shared SSO browser session does not make the tokens interchangeable.
+The stock MCP client does not compare its identity with the inference identity.
 
-```sh
-airs-harness --environment work-calvin mcp list
-airs-harness --environment work-calvin doctor --verify-access
-airs-harness --environment work-calvin
-```
+Set `mcp_oauth_credentials_store = "keyring"` at the top level of the environment's
+`config.toml` when file fallback is prohibited. macOS requires an unlocked login
+Keychain; Linux requires an unlocked Secret Service session. Native `mcp login`,
+`mcp list`, `/mcp` and `/mcp verbose` remain the connection controls.
+`--no-browser` prints the authorization URL for manual opening; the browser still
+needs access to the process's loopback callback port.
 
-In the interactive harness, `/mcp` should show `prisma-airs: connected (8 tools)`.
-Use `/mcp verbose` to see the OAuth status and individual tool names. Ask it to list the
-AIRS workspaces, gateway configurations, guardrails and security profiles. These
-are eight bounded read-only tools; the server enforces roles, scopes and explicit
-subject-to-workspace/profile permissions on every request.
+`mcp logout` removes the local gateway-facing credential. It does not sign out
+inference or revoke gateway-managed upstream tokens and Keycloak sessions.
 
-To repeat MCP login, use `mcp login prisma-airs --scopes
-airs.gateway.read,airs.profiles.read` with the same environment selection.
-`--no-browser` on `mcp add` or `mcp login` prints the URL for manual opening; a
-remote browser still needs access to the process's loopback callback port.
-`mcp logout prisma-airs` removes only local MCP OAuth credentials. It does not
-revoke Keycloak sessions or sign out inference.
-
-## Architecture
+## Request path
 
 ```mermaid
 flowchart LR
-  User[Calvin] --> Harness[airs-harness with built-in Codex MCP]
-  Harness -->|Browser authorization code with PKCE| Keycloak[Redtail Keycloak]
-  Keycloak -->|Separate inference and MCP tokens| Harness
-  Harness <-->|Persist independent credentials| Store[OS credential store]
-  Harness -->|Inference token and flat tool declarations| Gateway[Prisma AIRS AI Gateway]
-  Gateway <--> Model[Authorized model route]
-  Harness -->|MCP bearer token| MCP[prisma-airs-mcp]
-  Keycloak -->|Public JWKS| MCP
-  Policy[Subject and resource policy] --> MCP
+  User[Human] --> Harness[airs-harness with native Codex MCP client]
+  Harness -->|Inference credential and tool declarations| Gateway[Prisma AIRS AI Gateway]
+  Gateway --> Model[Authorized model route]
+  Harness -->|MCP requests with gateway-facing OAuth token| Gateway
+  Harness -->|Gateway browser authorization| CAS[CAS and Keycloak SSO]
+  CAS -->|Gateway-facing login| Harness
+  Gateway -->|Gateway-managed upstream OAuth| IdP[Upstream authorization server]
+  Gateway -->|MCP requests with upstream user token| MCP[prisma-airs-mcp upstream]
+  Policy[Human roles and resource bindings] --> MCP
   MCP -->|Dedicated backend read credentials| AIRS[AIRS management APIs]
 ```
 
-The gateway adapter flattens tool namespaces only on the inference wire copy,
-then restores them before existing MCP dispatch. Canonical history retains its
-namespaces. Adding native OAuth MCP configuration preserves the inference
-session binding; legacy helper/static credential configurations remain pinned.
-
-Inference and MCP are separate logins. The native MCP client does not compare
-an MCP ID token with the inference identity. Use Calvin for both browser flows;
-the MCP server authorizes the subject in its access token.
-
-```mermaid
-sequenceDiagram
-  actor Calvin
-  participant Harness
-  participant Browser
-  participant Keycloak
-  participant Store as OS credential store
-  participant Gateway as AI Gateway
-  participant MCP
-  Calvin->>Harness: Select existing work-calvin environment
-  Harness->>Gateway: Verify inference access with existing token
-  Calvin->>Harness: mcp add with URL, client ID and read scopes
-  Harness->>MCP: Discover protected resource
-  MCP-->>Harness: Resource and authorization server metadata
-  Harness->>Keycloak: Discover authorization endpoints
-  Harness->>Browser: Authorization URL with state, PKCE challenge and resource
-  Browser->>Keycloak: Login as Calvin or use existing SSO
-  Keycloak-->>Browser: Authorization code and state
-  Browser->>Harness: Loopback callback
-  Harness->>Keycloak: Redeem code using verifier
-  Keycloak-->>Harness: MCP access and refresh tokens
-  Harness->>Store: Save separate MCP OAuth credentials
-  Harness->>MCP: Initialize and list tools with bearer token
-  Harness->>Gateway: Send tool schemas with user request
-  Gateway-->>Harness: Model-selected tool call
-  Harness->>MCP: Execute authorized read
-  MCP-->>Harness: Bounded result
-  Harness->>Gateway: Continue inference with tool result
-  Gateway-->>Harness: Grounded answer
-```
+The inference adapter flattens tool namespaces on the wire and restores them
+before native dispatch. Canonical conversation history retains its namespaces.
+Alpha.14 fixes inference history preservation when native MCP uses dynamic client
+registration without an explicit OAuth client ID. Legacy helpers and explicit
+static credentials remain pinned to their existing session binding.
 
 ## Release acceptance
 
-`scripts/validate_builtin_mcp.py` drives the normal executable through real
-browser PKCE with a disposable authorized account, all eight model-selected
-reads, history preservation, concurrent post-expiry calls and separate logout.
-`scripts/validate_airs_npm_upgrade.py` exercises ordinary npm updates and the
-one-time legacy link handover while hashing preserved configuration and native
-bytes. Public receipts contain no tokens, authorization URLs or user passwords.
+The historical `scripts/validate_builtin_mcp.py` driver exercises the rejected
+direct route. Its receipts cannot pass the new gateway promotion gate. A gateway
+acceptance driver must observe native CAS login, gateway ingress, corresponding
+upstream requests, all eight model-selected reads, authorization denials and both
+OAuth lifecycles. Require the exact installed Linux and Apple Silicon candidates,
+two expiry cycles, history preservation, npm upgrades and Mac signing evidence.
+No alpha.14 gateway/CAS acceptance is claimed by source changes alone.
+
+Use the normal npm registry update after an accepted release is published. An
+older manual command symlink can shadow npm; inspect `command -v airs-harness`
+and `npm prefix -g`. Follow the existing installation handover procedure only for
+that known legacy layout. Preserve the inference environment and old executable.

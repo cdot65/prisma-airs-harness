@@ -282,48 +282,82 @@ fn malformed_binding_and_unbounded_metadata_are_rejected() {
 
 #[test]
 fn native_oauth_catalog_changes_preserve_inference_and_legacy_helper_history() {
-    for legacy_helper in [false, true] {
-        let fixture = Fixture::new();
-        if legacy_helper {
-            fixture.add_mcp();
-        }
-        crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
-        let revision = std::fs::read(fixture.home.join("session-binding.json")).unwrap();
-        let mut config = fixture.config();
-        config
-            .as_table_mut()
-            .unwrap()
-            .entry("mcp_servers")
-            .or_insert_with(|| toml::Value::Table(Default::default()))
-            .as_table_mut()
-            .unwrap()
-            .insert(
-                "native".into(),
-                toml::toml! {
-                    url = "https://native.example/mcp"
-                    scopes = ["read"]
-                    [oauth]
-                    client_id = "native-client"
-                    callback_url = "http://127.0.0.1/callback"
-                }
-                .into(),
+    for server in [
+        toml::toml! {
+            url = "https://gateway.example/workspace/prisma-airs/mcp"
+            scopes = ["mcp:tools:list", "mcp:tools:call"]
+        },
+        toml::toml! {
+            url = "https://gateway.example/workspace/prisma-airs/mcp"
+            auth = "oauth"
+        },
+        toml::toml! {
+            url = "https://native.example/mcp"
+            scopes = ["read"]
+            [oauth]
+            client_id = "native-client"
+            callback_url = "http://127.0.0.1/callback"
+        },
+    ] {
+        for legacy_helper in [false, true] {
+            let fixture = Fixture::new();
+            if legacy_helper {
+                fixture.add_mcp();
+            }
+            crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+            let revision = std::fs::read(fixture.home.join("session-binding.json")).unwrap();
+            let mut config = fixture.config();
+            config
+                .as_table_mut()
+                .unwrap()
+                .entry("mcp_servers")
+                .or_insert_with(|| toml::Value::Table(Default::default()))
+                .as_table_mut()
+                .unwrap()
+                .insert("native".into(), server.clone().into());
+            fixture.write(&config);
+            crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+            assert_eq!(
+                std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
+                revision
             );
-        fixture.write(&config);
+            config["mcp_servers"]
+                .as_table_mut()
+                .unwrap()
+                .remove("native");
+            fixture.write(&config);
+            crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+            assert_eq!(
+                std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
+                revision
+            );
+        }
+    }
+}
+
+#[test]
+fn explicit_mcp_credentials_remain_bound_to_inference_history() {
+    for authorization in [
+        toml::toml! { bearer_token_env_var = "MCP_TOKEN" },
+        toml::toml! { http_headers = { Authorization = "synthetic" } },
+        toml::toml! { env_http_headers = { Authorization = "MCP_TOKEN" } },
+        toml::toml! { auth = "chatgpt" },
+    ] {
+        let fixture = Fixture::new();
         crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
-        assert_eq!(
-            std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
-            revision
+        let mut config = fixture.config();
+        let mut server = authorization;
+        server.insert("url".into(), "https://gateway.example/mcp".into());
+        config.as_table_mut().unwrap().insert(
+            "mcp_servers".into(),
+            toml::Value::Table(
+                [(String::from("explicit"), server.into())]
+                    .into_iter()
+                    .collect(),
+            ),
         );
-        config["mcp_servers"]
-            .as_table_mut()
-            .unwrap()
-            .remove("native");
         fixture.write(&config);
-        crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
-        assert_eq!(
-            std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
-            revision
-        );
+        assert!(crate::airs_session_binding::validate_locked(&fixture.home).is_err());
     }
 }
 

@@ -1,5 +1,9 @@
 # 0.1.0-alpha.13 — built-in OAuth MCP and verified npm upgrades
 
+> **Acceptance correction:** This published release was tested against a direct
+> upstream MCP endpoint. It does not establish the required AI Gateway MCP proxy
+> and CAS integration. See [GATEWAY_MCP_REMEDIATION.md](GATEWAY_MCP_REMEDIATION.md).
+
 Published as `airs-harness@latest` on Verdaccio for Linux x64 and Apple Silicon.
 Use the normal command's existing `mcp add` and `mcp login` workflow. The gateway
 now receives callable flat tool declarations while canonical history retains

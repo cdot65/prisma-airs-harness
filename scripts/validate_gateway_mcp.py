@@ -23,6 +23,11 @@ import tomllib
 from urllib.parse import parse_qs, urlsplit
 
 from promote_airs_mcp_prerelease import TOOLS
+from airs_gateway_expiry import (
+    ACTIVITY_INTERVAL_SECONDS,
+    WAIT_SECONDS,
+    wait_with_active_session,
+)
 
 ISSUER = "https://auth.redtail.cdot.io/realms/redtail"
 GATEWAY_SCOPES = ["mcp:servers:read", "mcp:tools:list", "mcp:tools:call"]
@@ -379,19 +384,37 @@ def main():
         for cycle in range(1, args.refresh_cycles + 1):
             # Inspected gateway 2.22.0 issues one-hour gateway-facing tokens.
             # Wait real time: changing a local expiry field is not expiry acceptance.
-            deadline = time.monotonic() + 3605
             print(
                 json.dumps(
                     {
                         "case": "await_gateway_token_expiry",
                         "cycle": cycle,
-                        "seconds": 3605,
+                        "seconds": WAIT_SECONDS,
+                        "scenario": "active-user-session",
+                        "activity_interval_seconds": ACTIVITY_INTERVAL_SECONDS,
                     }
                 ),
                 flush=True,
             )
-            while time.monotonic() < deadline:
-                time.sleep(min(30, max(0, deadline - time.monotonic())))
+
+            def activity(index):
+                model(
+                    f"active_session_{cycle}_{index}",
+                    "Call the prisma-airs list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
+                    {"list_workspaces"},
+                )
+                credential = credential_metadata(
+                    f"gateway_credential_active_{cycle}_{index}"
+                )
+                if any(
+                    credential[key] != previous_credential[key]
+                    for key in ["access_token_sha256", "expires_at"]
+                ):
+                    raise ValueError(
+                        "Activity rotated the gateway token before the expiry check"
+                    )
+
+            wait_with_active_session(previous_credential["expires_at"], activity)
             with ThreadPoolExecutor(max_workers=2) as pool:
                 futures = [
                     pool.submit(
@@ -445,21 +468,23 @@ def main():
         passed = args.refresh_cycles == 2
     finally:
         try:
-            if mcp_added:
-                run("mcp_logout", ["mcp", "logout", "prisma-airs"])
-                listing = json.loads(
-                    run("mcp_list_after_logout", ["mcp", "list", "--json"])
-                )
-                if (
-                    next(s for s in listing if s["name"] == "prisma-airs")[
-                        "auth_status"
-                    ]
-                    == "o_auth"
-                ):
-                    raise ValueError("MCP logout left native OAuth credentials")
-                run("inference_after_mcp_logout", ["doctor", "--verify-access"])
-            if logged_in:
-                run("inference_logout", ["logout"])
+            try:
+                if mcp_added:
+                    run("mcp_logout", ["mcp", "logout", "prisma-airs"])
+                    listing = json.loads(
+                        run("mcp_list_after_logout", ["mcp", "list", "--json"])
+                    )
+                    if (
+                        next(s for s in listing if s["name"] == "prisma-airs")[
+                            "auth_status"
+                        ]
+                        == "o_auth"
+                    ):
+                        raise ValueError("MCP logout left native OAuth credentials")
+                    run("inference_after_mcp_logout", ["doctor", "--verify-access"])
+            finally:
+                if logged_in:
+                    run("inference_logout", ["logout"])
         except Exception:
             passed = False
             raise
@@ -476,6 +501,8 @@ def main():
                 },
                 "identity": "interactive human SSO; isolated native state",
                 "refresh_cycles": args.refresh_cycles,
+                "refresh_scenario": "active-user-session",
+                "activity_interval_seconds": ACTIVITY_INTERVAL_SECONDS,
                 "started_at": started_at,
                 "results": rows,
             }

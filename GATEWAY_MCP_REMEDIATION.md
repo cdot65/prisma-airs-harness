@@ -14,10 +14,12 @@ only their gateway-owned client. CIE group-to-workspace mapping was repaired and
 the owner confirmed membership. Both exact installed alpha.14 candidates now
 pass native production login, credential persistence and all eight tools with
 matching gateway/upstream logs. Signing, notarization, native tests and npm
-upgrades pass. Two real one-hour gateway refresh intervals are running.
-
-The dated review findings below describe the initial state. Alpha.14 remains an
-unpublished candidate until refresh and final registry acceptance complete.
+upgrades pass. The silent-wait runner exposed a 30-minute Keycloak refresh-grant idle limit.
+Its failed runs are preserved. The owner directed publication without another
+hour-long test. Hourly frontend refresh is unverified, with zero completed
+cycles; the package carries this explicit release exception. The active-session
+runner is available for future validation but is not a release blocker under
+the owner’s revised scope. The dated review findings below describe the initial state.
 
 ## Review findings — September 14, 2026
 

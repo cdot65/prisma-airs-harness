@@ -29,7 +29,7 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate(info, e2e, upgrade, signing):
+def validate(info, e2e, upgrade, signing, release_exception=None):
     if not info["version"].startswith("0.1.0-alpha."):
         raise ValueError("This promotion is limited to the internal alpha channel")
     routing = e2e.get("routing", {})
@@ -54,52 +54,60 @@ def validate(info, e2e, upgrade, signing):
             "MCP acceptance must identify the gateway destination and separate upstream; "
             "direct-server receipts do not satisfy the required architecture"
         )
-    if (
-        e2e.get("passed") is not True
-        or e2e.get("binary_sha256") != info["binary_sha256"]
-    ):
+    if (release_exception is None and e2e.get("passed") is not True) or e2e.get(
+        "binary_sha256"
+    ) != info["binary_sha256"]:
         raise ValueError("Live MCP acceptance must bind the exact executable")
     expected_platform = {
         "aarch64-apple-darwin": "Darwin",
         "x86_64-unknown-linux-musl": "Linux",
     }[info["target"]]
-    if e2e.get("platform") != expected_platform or e2e.get("refresh_cycles") != 2:
-        raise ValueError("Both native refresh cycles must pass on the target platform")
-    rows = e2e["results"]
-    required = {
-        "inference_browser_pkce",
-        "mcp_browser_pkce",
-        "doctor_after_mcp",
-        "inference_history_preserved",
-        "mcp_logout",
-        "mcp_list_after_logout",
-        "inference_after_mcp_logout",
-        "inference_logout",
-        "gateway_cas_browser_login",
-        "gateway_mcp_request_observed",
-        "gateway_upstream_request_observed",
-        "gateway_mcp_denial",
-        "gateway_managed_upstream_oauth",
-        "gateway_managed_upstream_refresh",
-    }
-    if any(row.get("passed") is not True for row in rows) or not required <= {
-        row["case"] for row in rows
-    }:
-        raise ValueError(
-            "Required native login/history/logout acceptance is incomplete"
-        )
-    tools = next(row for row in rows if row["case"] == "all_read_tools_tool_results")
-    if not TOOLS <= set(tools["tools"]):
-        raise ValueError("All eight model-selected reads must succeed")
-    for cycle in (1, 2):
-        for process in (0, 1):
-            row = next(
-                row
-                for row in rows
-                if row["case"] == f"refresh_{cycle}_{process}_tool_results"
+    if release_exception is not None:
+        from airs_alpha14_release_exception import validate_exception
+
+        validate_exception(info, e2e, release_exception)
+    else:
+        if e2e.get("platform") != expected_platform or e2e.get("refresh_cycles") != 2:
+            raise ValueError(
+                "Both native refresh cycles must pass on the target platform"
             )
-            if "list_workspaces" not in row["tools"]:
-                raise ValueError("Concurrent refreshed process did not call MCP")
+        rows = e2e["results"]
+        required = {
+            "inference_browser_pkce",
+            "mcp_browser_pkce",
+            "doctor_after_mcp",
+            "inference_history_preserved",
+            "mcp_logout",
+            "mcp_list_after_logout",
+            "inference_after_mcp_logout",
+            "inference_logout",
+            "gateway_cas_browser_login",
+            "gateway_mcp_request_observed",
+            "gateway_upstream_request_observed",
+            "gateway_mcp_denial",
+            "gateway_managed_upstream_oauth",
+            "gateway_managed_upstream_refresh",
+        }
+        if any(row.get("passed") is not True for row in rows) or not required <= {
+            row["case"] for row in rows
+        }:
+            raise ValueError(
+                "Required native login/history/logout acceptance is incomplete"
+            )
+        tools = next(
+            row for row in rows if row["case"] == "all_read_tools_tool_results"
+        )
+        if not TOOLS <= set(tools["tools"]):
+            raise ValueError("All eight model-selected reads must succeed")
+        for cycle in (1, 2):
+            for process in (0, 1):
+                row = next(
+                    row
+                    for row in rows
+                    if row["case"] == f"refresh_{cycle}_{process}_tool_results"
+                )
+                if "list_workspaces" not in row["tools"]:
+                    raise ValueError("Concurrent refreshed process did not call MCP")
     if (
         upgrade.get("passed") is not True
         or upgrade.get("version") != info["version"]
@@ -156,6 +164,11 @@ def main():
     parser.add_argument("--e2e", type=Path, required=True)
     parser.add_argument("--upgrade", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--release-exception",
+        type=Path,
+        help="Explicit owner-authorized alpha.14 scope and measured evidence",
+    )
     args = parser.parse_args()
     root = args.release.resolve(strict=True)
     info = json.loads((root / "BUILD-INFO.json").read_text())
@@ -169,12 +182,20 @@ def main():
         raise ValueError("Signing receipt changed after native packaging")
     e2e = json.loads(args.e2e.read_text())
     upgrade = json.loads(args.upgrade.read_text())
-    validate(info, e2e, upgrade, signing)
+    exception = (
+        json.loads(args.release_exception.read_text())
+        if args.release_exception
+        else None
+    )
+    validate(info, e2e, upgrade, signing, exception)
     shutil.copytree(root, args.output)
     evidence = args.output / "validation-evidence"
     evidence.mkdir(exist_ok=True)
     records = []
-    for role, path in [("native-mcp-e2e", args.e2e), ("npm-upgrade", args.upgrade)]:
+    inputs = [("native-mcp-e2e", args.e2e), ("npm-upgrade", args.upgrade)]
+    if args.release_exception:
+        inputs.append(("owner-release-exception", args.release_exception))
+    for role, path in inputs:
         destination = evidence / (role + ".json")
         shutil.copyfile(path, destination)
         records.append(
@@ -198,6 +219,13 @@ def main():
         "binary_sha256": info["binary_sha256"],
         "evidence": records,
     }
+    if exception is not None:
+        validation.update(
+            acceptance_mode="owner-authorized-limited-alpha",
+            full_gateway_lifecycle_passed=False,
+            frontend_refresh_cycles_completed=0,
+            limitations=exception["limitations"],
+        )
     (args.output / "VALIDATION.json").write_text(
         json.dumps(validation, indent=2) + "\n"
     )

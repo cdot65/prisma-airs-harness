@@ -14,10 +14,11 @@ not implement the native MCP connection.
 ## Release status
 
 Alpha.14 is the gateway correction. Both exact installed Linux x64 and signed
-Apple Silicon candidates have passed production browser login, native storage,
-all eight gateway-proxied tools, executable checks and npm upgrades. Two real
-one-hour token-expiry cycles are running. Alpha.13 remains published until the
-alpha.14 promotion gates pass; its direct-MCP onboarding is superseded.
+Apple Silicon packages have passed production browser login, native storage,
+all eight gateway-proxied tools, executable checks and npm upgrades. The owner
+authorized this internal alpha release without another hourly authentication
+run. Hourly frontend refresh remains unverified; inactivity beyond the deployed
+30-minute SSO idle limit can require fresh login.
 See [MCP.md](MCP.md) and [PUBLICATION.md](PUBLICATION.md) for current evidence.
 Native Windows distribution and independent release review are not claimed.
 
@@ -27,13 +28,12 @@ Connect to the organization's LAN/VPN, then use a supported Node.js installation
 Node.js 22.13+ in the 22.x line, or 23.5+.
 
 ```sh
-npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Downloads are anonymous; no npm login or Rust compiler is required. At this
-checkpoint `latest` is alpha.13; use the maintainer-provided alpha.14 candidate
-for gateway acceptance. After promotion, the same command updates to alpha.14.
+Downloads are anonymous; no npm login or Rust compiler is required.
+The exact version below installs the gateway integration.
 Existing npm installations need no uninstall or force. Inspect `command -v airs-harness` and `npm prefix -g` if an old manual command shadows npm; preserve
 old binaries referenced by existing credential bindings.
 

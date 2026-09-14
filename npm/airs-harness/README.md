@@ -10,7 +10,7 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
@@ -19,10 +19,10 @@ no npm login is required. Optional dependencies carry the matching native binary
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
 
-This package targets alpha.14. Until release acceptance and promotion finish,
-`latest` remains alpha.13. Only a maintainer-provided alpha.14 candidate contains
-the gateway remediation at that checkpoint. The published alpha.13 direct-MCP
-instructions are superseded.
+Alpha.14 includes the native gateway integration. Both platforms passed browser
+login, native storage and all eight production tools. The owner authorized this
+internal alpha release with hourly frontend refresh unverified. Inactivity beyond
+the deployed 30-minute SSO idle limit can require fresh inference and MCP login.
 
 Ordinary npm upgrades preserve configuration and history without uninstalling or
 using force. Fresh state uses `~/.airs-harness`; existing `~/.airs-terminal` state

@@ -32,23 +32,24 @@ inference and MCP. The 30-minute SSO idle policy is unchanged.
 original logs and receipts are retained at their listed private artifact paths.
 Apple Silicon build/acceptance is Forgejo run 125; signing is run 127.
 
-## Production acceptance in progress
+## Production expiry failures
 
-Linux completed browser inference login, gateway MCP consent, native credential
-persistence and all eight production tools. Its two real frontend expiry cycles
-are running with normal read activity and a quiet interval before expiry.
+Both exact installed candidates completed browser inference login, gateway MCP
+consent, native credential persistence and all eight production tools. Neither
+completed an accepted frontend expiry cycle. See `PRODUCTION-EXPIRY-FAILURES.json`.
 
-The first Mac login persisted correctly, but MCP initialization was challenged
-and no tools became available. That failed run was cleaned up and preserved;
-its cause is not established. The replacement Mac run passed all eight tools
-and is also running two real frontend expiry cycles. Credential-read diagnostics
-confirmed successful native Keychain reads without recording token values.
+Linux's first concurrent check reached the upstream MCP service, where one
+management workspace read returned HTTP 403 and another succeeded. The backend
+cause is unresolved. A transport HTTP 200 does not turn an MCP error into success.
 
-Each acceptance run uses a unique MCP server name. Isolated harness homes alone
-do not isolate the OS-user MCP keyring. Tests must not replace or log out the
-owner's `prisma-airs` credential. Gateway observations track only the acceptance
-clients and Calvin's existing production upstream binding; no session policy or
-credential state is changed by the observer.
+Linux failure cleanup then revoked the inference client session shared with Mac.
+Keycloak logged `Session doesn't have required client` for the Mac refresh.
+Mac MCP renewal and Keychain saves succeeded before inference failed. Unique MCP
+keyring names isolate local credentials, but not the browser's shared Keycloak
+client session. Parallel acceptance must defer issuer revocation until every peer
+has finished its workflow. No 30-minute idle-policy change is needed for this
+coordination defect.
 
-Production expiry results, correlated gateway/upstream renewal evidence and
-registry promotion are pending. The alpha.14 release exception does not apply.
+The original Mac startup-challenge failure is also preserved. Expiry acceptance,
+registry promotion and owner upgrades remain pending; alpha.15 is unpublished.
+The alpha.14 release exception does not apply.

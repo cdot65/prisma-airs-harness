@@ -1,0 +1,33 @@
+{
+  "published": false,
+  "runtime_source": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+  "results": [
+    {
+      "platform": "linux",
+      "binary_sha256": "2b2825a80d2013ea03feae06f495f7455eac0201144c519e17ef71c5efaec0bc",
+      "passed": false,
+      "completed_frontend_cycles": 0,
+      "initial_all_eight_tools_passed": true,
+      "source_receipt": "/home/cdot/.cache/airs-auth-recovery/production-linux/GATEWAY-MCP.json",
+      "failure": "Management API HTTP 403 for two tool calls, one concurrent tool call succeeded"
+    },
+    {
+      "platform": "mac",
+      "binary_sha256": "ff8a5666c1f9cef6f728bbb9c8e86e1522718e36b2a697a47e46ba85b6d56198",
+      "passed": false,
+      "completed_frontend_cycles": 0,
+      "initial_all_eight_tools_passed": true,
+      "source_receipt": "/home/cdot/.cache/airs-auth-recovery/production-mac-diagnostic/GATEWAY-MCP.json",
+      "failure": "Inference invalid_token after Linux cleanup revoked shared client session; MCP renewal Keychain saves succeeded"
+    }
+  ],
+  "keycloak": {
+    "version": "26.2.4",
+    "inference_error_at": "2026-09-14T22:51:40Z",
+    "reason": "Session doesn't have required client",
+    "source": "https://github.com/keycloak/keycloak/blob/26.2.4/services/src/main/java/org/keycloak/protocol/oidc/endpoints/TokenRevocationEndpoint.java",
+    "interpretation": "Revoking a refresh token removes its client session; parallel tests using the same browser SSO/client session must coordinate issuer cleanup"
+  },
+  "backend_cause": "unresolved",
+  "production_policy_changed": false
+}

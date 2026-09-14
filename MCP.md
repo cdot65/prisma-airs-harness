@@ -78,6 +78,21 @@ signing evidence. Separately collected gateway/CAS/upstream observations bind
 the route, client and run window. Each run needs a unique MCP server name because
 the OS-user keyring is shared across isolated harness homes.
 
+Parallel runs using the same browser also share a Keycloak client session.
+Revoking one inference refresh token removes that client session and interrupts
+the other run. Supply a distinct `--cleanup-barrier` directory to each peer.
+After every peer has written `ready.json`, the controller writes `release.json`
+containing only that peer's `nonce`. A failed peer must wait too. The runner
+performs native logout after release; an unreleased barrier fails acceptance and
+still cleans up after three hours. Keep the controller active until both peers
+finish cleanup. Credential metadata is collected even if a post-expiry tool call
+fails; it never substitutes for successful tool results.
+
+Run `scripts/coordinate_gateway_cleanup.py --local /linux/run/cleanup --remote
+/mac/run/cleanup --ssh-host user@mac` alongside both validators, using those
+paths for their respective `--cleanup-barrier` arguments. Add `--identity-file`
+when desktop SSH needs a file key instead of an agent.
+
 Use the normal npm registry update after an accepted release is published. An
 older manual command symlink can shadow npm; inspect `command -v airs-harness`
 and `npm prefix -g`. Follow the existing installation handover procedure only for

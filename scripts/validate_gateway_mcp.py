@@ -23,6 +23,7 @@ import tomllib
 from urllib.parse import parse_qs, urlsplit
 
 from airs_gateway_test_identity import GatewayTestIdentity
+from airs_gateway_cleanup import wait_for_cleanup_release
 from promote_airs_mcp_prerelease import TOOLS
 from airs_gateway_expiry import (
     ACTIVITY_INTERVAL_SECONDS,
@@ -56,7 +57,15 @@ def main():
     parser.add_argument("--browser-via-ssh")
     parser.add_argument("--gateway-evidence", type=Path, required=True)
     parser.add_argument("--refresh-cycles", type=int, choices=[0, 2], default=2)
+    parser.add_argument(
+        "--cleanup-barrier", type=Path,
+        help="New coordination directory: controller must release all SSO-sharing peers before issuer logout",
+    )
     args = parser.parse_args()
+    if args.cleanup_barrier and (
+        not args.cleanup_barrier.is_absolute() or args.cleanup_barrier.exists()
+    ):
+        parser.error("Cleanup coordination requires a new absolute directory")
     identity = GatewayTestIdentity(args.endpoint)
     gateway, upstream = urlsplit(args.endpoint), urlsplit(args.upstream)
     if (
@@ -411,21 +420,25 @@ def main():
                     )
 
             wait_with_active_session(previous_credential["expires_at"], activity)
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                futures = [
-                    pool.submit(
-                        model,
-                        f"refresh_{cycle}_{i}",
-                        f"Call the {identity.name} list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
-                        {"list_workspaces"},
-                    )
-                    for i in range(2)
-                ]
-                for future in futures:
-                    future.result()
-            current_credential = credential_metadata(
-                f"gateway_credential_refresh_{cycle}"
-            )
+            try:
+                with ThreadPoolExecutor(max_workers=2) as pool:
+                    futures = [
+                        pool.submit(
+                            model,
+                            f"refresh_{cycle}_{i}",
+                            f"Call the {identity.name} list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
+                            {"list_workspaces"},
+                        )
+                        for i in range(2)
+                    ]
+                    for future in futures:
+                        future.result()
+            finally:
+                # Preserve renewal evidence even if inference or a backend tool fails.
+                # Metadata alone never marks the workflow or expiry cycle passed.
+                current_credential = credential_metadata(
+                    f"gateway_credential_refresh_{cycle}"
+                )
             if (
                 time.time() * 1000 <= previous_credential["expires_at"]
                 or current_credential["expires_at"] <= previous_credential["expires_at"]
@@ -463,6 +476,13 @@ def main():
         rows.extend(observed)
         passed = args.refresh_cycles == 2
     finally:
+        cleanup_error = None
+        if args.cleanup_barrier:
+            try:
+                wait_for_cleanup_release(args.cleanup_barrier, workflow_passed=passed)
+            except BaseException as error:
+                passed = False
+                cleanup_error = error
         try:
             try:
                 if mcp_added:
@@ -503,6 +523,7 @@ def main():
                     for name in [
                         "validate_gateway_mcp.py",
                         "airs_gateway_test_identity.py",
+                        "airs_gateway_cleanup.py",
                     ]
                 },
                 "identity": "interactive human SSO; isolated native state",
@@ -513,6 +534,8 @@ def main():
                 "results": rows,
             }
             args.output.write_text(json.dumps(receipt, indent=2) + "\n")
+        if cleanup_error:
+            raise cleanup_error
     if not passed:
         raise SystemExit("Gateway smoke checks are not complete release acceptance")
 

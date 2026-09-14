@@ -264,7 +264,7 @@ pub(super) async fn interactive(
         let mut input = std::io::stdin().lock();
         let mut output = std::io::stderr().lock();
         let menu = match preferred_flow {
-            airs_oidc::LoginFlow::Browser => SIGN_IN_MENU,
+            airs_oidc::LoginFlow::Browser | airs_oidc::LoginFlow::BrowserManual => SIGN_IN_MENU,
             airs_oidc::LoginFlow::Device => DEVICE_SIGN_IN_MENU,
         };
         prompt(&mut input, &mut output, menu)?

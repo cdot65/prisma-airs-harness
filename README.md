@@ -1,91 +1,84 @@
 # Prisma AIRS Harness
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
-Inference goes directly to a configurable Prisma AIRS AI Gateway. Files, shell
-commands, skills, approvals and session history stay under the local runtime;
-selected file contents and tool results become inference context. Remote MCP
-servers are configured and authenticated separately.
+Both inference and remote MCP traffic target Prisma AIRS AI Gateway. The native
+Codex MCP client runs inside `airs-harness`; the gateway proxies upstream MCP
+servers and manages their OAuth credentials. Files, shell commands, skills,
+approvals and history remain under the local runtime. Selected file contents and
+tool results become inference context.
 
-The terminal has no PAH application, SDK, proxy or web-service dependency.
+The harness has no dependency on the hosted PAH application. Its npm launcher
+includes the managed Prisma AIRS CLI/SDK for administration; those packages do
+not implement the native MCP connection.
 
-## Authentication release status
+## Release status
 
-The guided sign-in and native credential-diagnostic changes are still private,
-unpublished candidates. Installing alpha.9 does not install those changes, and
-the reported owner-Mac Keychain incident remains open. See the
-[acceptance ledger](validation/2026-09-08/authentication/154b4f0bc/ACCEPTANCE.md)
-and [independent readiness review](validation/2026-09-08/authentication/154b4f0bc/REVIEW.md)
-for verified results and remaining release gates. The current authentication
-release targets Apple Silicon and Linux x64. Native Windows delivery is deferred
-by the owner; the proposed [Linux container route](CONTAINERS.md) for Windows
-hosts is not yet validated.
-
-## Published 0.1.0-alpha.9 — managed Prisma AIRS CLI
-
-The npm package is `airs-harness`; its launcher runs a matching prebuilt Rust
-agent and requires `@cdot65/prisma-airs-cli@5.2.0` (SDK 0.28.0). Eight embedded
-skills cover setup/diagnosis and seven Prisma AIRS capability areas. Run
-`airs-harness airs doctor --output json` to check CLI credentials and reachability.
-See [CLI setup and upgrade policy](PRISMA-AIRS-CLI.md) and
-[publication status and evidence](PUBLICATION.md).
-
-Linux x64 and Apple Silicon native/npm acceptance passed. Existing environments,
-credential bindings and history retain the [rename compatibility contract](RENAME.md).
-[VALIDATION.json](VALIDATION.json) records that published release's acceptance; [RELEASE.md](RELEASE.md)
-and archived validation files retain historical evidence.
+Alpha.14 is the gateway correction. Both exact installed Linux x64 and signed
+Apple Silicon candidates have passed production browser login, native storage,
+all eight gateway-proxied tools, executable checks and npm upgrades. Two real
+one-hour token-expiry cycles are running. Alpha.13 remains published until the
+alpha.14 promotion gates pass; its direct-MCP onboarding is superseded.
+See [MCP.md](MCP.md) and [PUBLICATION.md](PUBLICATION.md) for current evidence.
+Native Windows distribution and independent release review are not claimed.
 
 ## Installation
 
-Connect to the organization's LAN/VPN, then use Node.js 22.13+ in the 22.x line, or 23.5+:
+Connect to the organization's LAN/VPN, then use a supported Node.js installation:
+Node.js 22.13+ in the 22.x line, or 23.5+.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.9 --registry https://npm.cdot.io
+npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Downloads are anonymous; no npm login or Rust compiler is required. Mac users
-should follow [MACOS.md](MACOS.md) for prerequisites, Keycloak sign-in, scanner
-setup and an end-to-end task. Intel Macs are unsupported.
+Downloads are anonymous; no npm login or Rust compiler is required. At this
+checkpoint `latest` is alpha.13; use the maintainer-provided alpha.14 candidate
+for gateway acceptance. After promotion, the same command updates to alpha.14.
+Existing npm installations need no uninstall or force. Inspect `command -v airs-harness` and `npm prefix -g` if an old manual command shadows npm; preserve
+old binaries referenced by existing credential bindings.
 
-The standalone native binary needs Git, ripgrep and your project tools. Linux
-also requires Bubblewrap and a kernel/container policy allowing its namespaces.
-The runtime fails explicitly if it cannot establish its sandbox. Python is a
-validation/project prerequisite, not a dependency of the agent binary.
+The package supports Linux x64 and Apple Silicon. Intel Macs are unsupported.
+Git, ripgrep and project tools remain prerequisites. Linux also needs Bubblewrap
+and a kernel/container policy permitting its namespaces. The runtime fails
+explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac
+onboarding. The inherited `scripts/install/` tools install upstream Codex.
 
-macOS native builds and acceptance are described in [MACOS.md](MACOS.md).
-Guided first-run onboarding is a separate upcoming feature; current setup and
-sign-in commands follow. The inherited `scripts/install/` tools install upstream
-Codex and are not Prisma AIRS Harness installers.
+## Inference login and gateway MCP onboarding
 
-## Sign in with Keycloak
-
-Keep workspace-key and user-identity histories in separate environments. For the
-owner's deployment, connect through the LAN/VPN. The verified owner `cdot` has
-both Terminal roles; teammates need explicit operator grants. The deployment endpoints are not publicly reachable from
-an unrelated GitHub runner:
+Keep an existing inference environment. Create one only for a new connection,
+using the inference URL supplied by your administrator:
 
 ```sh
-airs-harness setup --environment work-sso --gateway-url https://airs.cdot.io/v1 \
-  --model '@openai-terminal-auth/gpt-4.1'
-airs-harness login \
-  --issuer-url https://auth.dev.cdot.io/realms/truffles \
-  --oidc-client-id airs-terminal-pilot --audience airs-terminal-inference
-
-airs-harness setup-mcp --name security \
-  --url https://mcp-airs.cdot.io/ws-prisma-ff3d74/airs-terminal-runtime-scanner/mcp \
-  --issuer-url https://auth.dev.cdot.io/realms/truffles \
-  --oidc-client-id airs-terminal-mcp --audience airs-terminal-security \
-  --tool pan_inline_scan --required
-
-airs-harness status
-airs-harness
+airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
+airs-harness --environment work login
+airs-harness --environment work doctor --verify-access
 ```
 
-Use `--device-auth` on `login` or `setup-mcp` when the browser is on another
-machine. The MCP login must use the same user/issuer, with its distinct client
-and audience. Configure MCP before the first coding session so history starts
-with its intended tool configuration. Repeat the same login/setup-mcp options
-after logout; reauthentication preserves the binding for the same user/resource.
+Company sign-in uses the supplied OIDC issuer, public client ID and inference
+audience. A workspace API key is a separate inference option; it is not a
+Keycloak JWT and does not authorize the gateway's user MCP flow.
+
+With alpha.14 and a provisioned gateway integration, add the **gateway MCP URL**:
+
+```sh
+airs-harness --environment work mcp add prisma-airs \
+  --url https://gateway-mcp.example.com/prisma-airs/mcp \
+  --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
+airs-harness --environment work mcp list
+airs-harness --environment work
+```
+
+The scopes above match this deployment's gateway discovery. Complete CAS/company
+SSO and any gateway-managed upstream consent. The gateway integration has its
+own confidential upstream OAuth client. Do not put its client secret, upstream
+client ID or upstream read scopes into the harness. CIE group membership must
+map to the selected gateway workspace; upstream roles and object grants are
+also required. Shared browser SSO does not make these credentials interchangeable.
+
+Set `mcp_oauth_credentials_store = "keyring"` at the top level of the selected
+environment's `config.toml` when native MCP file fallback is prohibited. Check
+both CLI login completion and an actual tool call. `/mcp` shows the tool inventory.
+See [MCP.md](MCP.md) for migration, refresh and separate logout behavior.
 
 OIDC tokens require an unlocked native credential store. Linux needs a session
 D-Bus and Secret Service (such as GNOME Keyring); installing a headless binary
@@ -118,9 +111,10 @@ refresh tokens remain encrypted on disk. This password is for your local keyring
 not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
 unlock their keyring through the OS login instead.
 
-`airs-harness logout` disables local credential helpers and revokes usable
-refresh tokens for inference and MCP. Stop running sessions to discard cached
-access tokens; issued JWTs can remain valid for their 120-second lifetime.
+`airs-harness logout` signs out inference. Use `mcp logout prisma-airs` separately
+for the native gateway MCP credential. Neither action proves immediate revocation
+of a gateway-held upstream grant. Stop running sessions to discard cached access
+tokens; issued credentials follow their own expiration and revocation policies.
 Interrupted refresh requires signing in again rather than retrying a possibly
 consumed token. A different user, issuer, gateway or resource needs a new
 environment to preserve history isolation.
@@ -190,41 +184,34 @@ unauthenticated API-root `/health` request (for example `/v1/health`) to the sel
 availability and, on Linux, actual Bubblewrap namespace creation. It does not
 submit inference, and distinguishes local availability from remote authorization.
 
-`logout` and interactive `/logout` disable new inference and MCP credential use
-in the selected environment until login. Referenced key files and external
+`logout` and interactive `/logout` disable new inference credential use in the
+selected environment until login. Native MCP has a separate `mcp logout` command. Referenced key files and external
 variables remain owned by the user. Stop other running sessions to discard their
 cached credentials. Revoke workspace keys through AIRS when server-side revocation
 is needed.
 
 The first agent startup pins the environment's destination, credential identity,
 capability catalog, context budget and MCP configuration. A changed key, catalog
-or MCP binding requires a new
-environment, so existing history cannot silently move to a different identity or
-capability revision. Model choices within the pinned catalog remain selectable.
+or explicit MCP credential binding requires a new environment, so existing
+history cannot silently move to a different identity or capability revision.
+Native HTTPS MCP OAuth configuration is excluded from the inference binding;
+adding a gateway connection preserves that inference history. Model choices within the pinned catalog remain selectable.
 A running process keeps its environment even when another process changes the
 default. Resume instructions include the environment name.
 
 ## Remote MCP
 
-Configure MCP before the environment's first agent session. Use a separately
-authorized MCP credential and the complete MCP server endpoint:
+Use the native gateway workflow above. The earlier `setup-mcp` header helper and
+separate MCP candidate executable are historical paths, not this integration.
+The gateway-facing MCP access token in the tested deployment is opaque and lasts
+one hour. The gateway separately holds the five-minute upstream Keycloak JWT and
+its refresh grant. All tool requests still pass through the gateway after refresh.
 
-```sh
-airs-harness setup-mcp --name security \
-  --url https://tools.example/workspace/security/mcp \
-  --credential-file /absolute/path/to/mcp-key \
-  --tool pan_inline_scan --required
-
-airs-harness mcp list
-```
-
-Workspace-key inference helpers use `Authorization: Bearer …`; OIDC inference
-and AIRS MCP helpers use the native `x-portkey-api-key` header. Inference and MCP
-are distinct credential bindings. MCP setup stores a private
-reference and supplies the header through the existing MCP helper mechanism.
-Changed destinations, changed keys and removed bindings fail closed. `/mcp` shows
-tool availability. `--tool` limits the local catalog; configure server-side
-permissions too. `--required` makes an unavailable server a startup error.
+`mcp login prisma-airs --no-browser` presents the native authorization URL. On a
+remote host, the browser must reach the login process's loopback callback through
+an explicitly forwarded port. The tested native callback expires after five
+minutes. Device authorization for inference is a separate feature; do not assume
+that the gateway MCP OAuth endpoint supports it.
 
 Local files and skills are accessed with local tools. Place a skill's `SKILL.md`
 in `.agents/skills/<name>/` in a project, or the selected environment's `skills`

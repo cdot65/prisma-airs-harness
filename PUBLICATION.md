@@ -1,4 +1,15 @@
-# Current Verdaccio release — alpha.13
+# Alpha.14 gateway release acceptance — September 14, 2026
+
+Both exact installed candidates have passed production gateway login, native
+credential persistence, all eight tools with gateway/upstream correlation,
+executable checks and in-place npm upgrades. Apple Silicon signing and Apple
+notarization also pass. Two real one-hour native expiry cycles are running.
+Alpha.14 is not yet published; `latest` and `alpha` remain alpha.13.
+
+Alpha.13's direct-MCP onboarding and its lifecycle receipts are historical.
+Use [MCP.md](MCP.md) for the required gateway architecture and candidate workflow.
+
+# Published baseline — alpha.13; direct MCP superseded
 
 `airs-harness@0.1.0-alpha.13` is published to `https://npm.cdot.io` as `latest`
 and `alpha`, with Linux x64 and Apple Silicon native packages. Install or update:

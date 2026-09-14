@@ -6,6 +6,19 @@ listener. The gateway proxies upstream servers and manages their OAuth tokens.
 CAS/Keycloak federation supports gateway-facing user login. These two OAuth legs
 have separate credentials and lifecycles.
 
+## Deployment and acceptance checkpoint — September 14, 12:55 UTC
+
+Development and production gateway integrations are deployed with dedicated
+confidential OAuth clients and explicit workspace access. Both upstreams accept
+only their gateway-owned client. CIE group-to-workspace mapping was repaired and
+the owner confirmed membership. Both exact installed alpha.14 candidates now
+pass native production login, credential persistence and all eight tools with
+matching gateway/upstream logs. Signing, notarization, native tests and npm
+upgrades pass. Two real one-hour gateway refresh intervals are running.
+
+The dated review findings below describe the initial state. Alpha.14 remains an
+unpublished candidate until refresh and final registry acceptance complete.
+
 ## Review findings — September 14, 2026
 
 - The September 13 plan explicitly replaced the earlier gateway-mediated design
@@ -32,8 +45,8 @@ focused session/relocation tests and eight promotion-gate tests pass.
 
 Companion infrastructure and MCP application branches prepare workspace-scoped
 OAuth Auto registrations, gateway-owned upstream clients, exact upstream-host
-allowlist entries and resource-server client allowlists. These changes are staged,
-not a deployed or accepted gateway flow.
+allowlist entries and resource-server client allowlists. Those changes are now deployed; measured package lifecycle results remain
+separate, as recorded in the checkpoint above.
 
 ## Concrete remediation sequence
 

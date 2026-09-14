@@ -24,7 +24,8 @@ For example, using a fictional deployment:
 
 ```sh
 airs-harness --environment work mcp add prisma-airs \
-  --url https://mcp-gateway.example.com/workspace/prisma-airs/mcp
+  --url https://mcp-gateway.example.com/workspace/prisma-airs/mcp \
+  --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 ```
 
 Native OAuth discovery handles gateway client registration and browser login.
@@ -101,5 +102,6 @@ boolean with no observation is insufficient.
 The inspected gateway 2.22.0 issues one-hour opaque MCP access tokens. The runner
 therefore waits two real one-hour expiry intervals for `--refresh-cycles 2`;
 upstream Keycloak tokens expire separately after five minutes. A zero-cycle smoke
-run is explicitly incomplete and cannot pass release promotion. This runner has
-syntax/help validation; live gateway acceptance remains outstanding.
+run is explicitly incomplete and cannot pass release promotion. Both exact installed alpha.14 candidates have passed production native login,
+credential storage and all eight tools with gateway/upstream correlation. Two
+real expiry cycles are running; publication remains gated on their results.

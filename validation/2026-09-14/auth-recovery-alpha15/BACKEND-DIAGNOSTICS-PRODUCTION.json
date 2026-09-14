@@ -1,0 +1,112 @@
+{
+  "passed": false,
+  "image": "registry.cdot.io/prisma-airs-mcp/server@sha256:0d4e83c1199d55ddcb329e03ef7c13257ef383996038d384c7e26799dd5e010a",
+  "pods": [
+    {
+      "pod": "prisma-airs-mcp-99cfd9f48-5wqjb",
+      "exit": 0,
+      "result": {
+        "kind": "in-pod backend diagnostic; not human OAuth acceptance",
+        "results": [
+          {
+            "name": "ready",
+            "passed": true
+          },
+          {
+            "name": "workspace",
+            "passed": true
+          },
+          {
+            "name": "configs",
+            "passed": true
+          },
+          {
+            "name": "config",
+            "passed": true
+          },
+          {
+            "name": "guardrails",
+            "passed": true
+          },
+          {
+            "name": "guardrail",
+            "passed": true
+          },
+          {
+            "name": "profiles",
+            "passed": true
+          },
+          {
+            "name": "concurrent_workspace_0",
+            "passed": true
+          },
+          {
+            "name": "concurrent_workspace_1",
+            "passed": true
+          },
+          {
+            "name": "bounded_denial_diagnostics",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "at": 1789428282312
+      }
+    },
+    {
+      "pod": "prisma-airs-mcp-99cfd9f48-7bxpg",
+      "exit": 0,
+      "result": {
+        "kind": "in-pod backend diagnostic; not human OAuth acceptance",
+        "results": [
+          {
+            "name": "ready",
+            "passed": true
+          },
+          {
+            "name": "workspace",
+            "passed": true
+          },
+          {
+            "name": "configs",
+            "passed": true
+          },
+          {
+            "name": "config",
+            "passed": true
+          },
+          {
+            "name": "guardrails",
+            "passed": true
+          },
+          {
+            "name": "guardrail",
+            "passed": false,
+            "code": "NOT_FOUND",
+            "status": 403,
+            "requestId": "6fde3a2c-b930-4af4-b096-7ffca1f81d9c",
+            "tokenExpiresInSeconds": 890
+          },
+          {
+            "name": "profiles",
+            "passed": true
+          },
+          {
+            "name": "concurrent_workspace_0",
+            "passed": true
+          },
+          {
+            "name": "concurrent_workspace_1",
+            "passed": true
+          },
+          {
+            "name": "bounded_denial_diagnostics",
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "at": 1789428281532
+      }
+    }
+  ]
+}

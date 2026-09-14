@@ -1,6 +1,6 @@
 # Authentication recovery implementation
 
-Status: implementation in progress for the next prerelease after alpha.14.
+Status: alpha.15 candidate implementation; native package acceptance is pending.
 This document records source findings and validation boundaries; it is not a
 claim that guided reauthentication or full gateway lifecycle acceptance shipped.
 
@@ -54,13 +54,21 @@ reuse exactly that returned generation. A timeout, response loss or process deat
 leaves no reusable predecessor. Pre-dispatch metadata/store failures preserve the
 unconsumed grant. Caller cancellation cannot abandon the proactive transaction's
 persistence task. The same retirement hook applies to RMCP-coordinated reactive
-refresh; AIRS selection of that mode and cross-home coordination remain separate
-implementation steps.
+refresh. AIRS selects coordinated mode and acquires a per-user binding lock before
+the legacy home lock, so different environment homes sharing a native credential
+serialize their exchanges.
 
 ## Remaining release gates
 
-Finish cross-home coordination, typed inference/MCP recovery, guided TUI actions
-and safe identity handling. Validate both gateway OAuth legs, idle return,
+The candidate adds typed inference failures, bounded helper completion, verified
+same-identity `login --restore-session`, and an explicit `/signin` terminal action.
+The draft and conversation remain in place; completed work is not replayed.
+MCP authentication failures stop the turn before model or code-mode fallback.
+Gateway MCP sign-in requires a fresh conversation until the gateway exposes a
+trusted identity continuity contract. Backend service-account renewal is separately
+deployed on both production MCP replicas (50 backend tests passed).
+
+Validate both gateway OAuth legs, idle return,
 cancellation, persistence failures and logout races. Run exact Linux and signed
 Apple Silicon package acceptance and registry upgrades, then publish the measured
 behavior in the canonical education lessons and Docusaurus site. Keep alpha.14

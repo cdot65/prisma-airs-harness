@@ -10,7 +10,7 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.15 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
@@ -19,10 +19,11 @@ no npm login is required. Optional dependencies carry the matching native binary
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
 
-Alpha.14 includes the native gateway integration. Both platforms passed browser
-login, native storage and all eight production tools. The owner authorized this
-internal alpha release with hourly frontend refresh unverified. Inactivity beyond
-the deployed 30-minute SSO idle limit can require fresh inference and MCP login.
+Alpha.15 adds coordinated native token renewal and guided inference sign-in.
+The deployed 30-minute SSO idle policy is preserved. Tokens renew during active
+use while their grants remain valid; leaving a terminal open does not request
+a longer session. Release evidence records which gateway lifecycle scenarios
+were actually verified.
 
 Ordinary npm upgrades preserve configuration and history without uninstalling or
 using force. Fresh state uses `~/.airs-harness`; existing `~/.airs-terminal` state
@@ -43,7 +44,7 @@ airs-harness --environment work doctor --verify-access
 
 Use your administrator's inference URL and company issuer/client/audience, or
 choose a workspace API key for inference. A workspace key is not the MCP user
-credential. With alpha.14 and a configured gateway integration:
+credential. With a configured gateway integration:
 
 ```sh
 airs-harness --environment work mcp add prisma-airs \
@@ -69,6 +70,26 @@ Use `/mcp` in the terminal for inventory, and `airs-harness resume` for history.
 `mcp logout prisma-airs` signs out native MCP separately from inference `logout`;
 it does not revoke the gateway's upstream user grant. Git, ripgrep and project
 tools remain prerequisites; Linux also requires usable Bubblewrap.
+
+## Renewing sign-in
+
+When inference needs fresh company sign-in, use `/signin` in the open terminal.
+The harness verifies the same issuer, client, audience and subject before saving
+credentials. It keeps your conversation and draft, and does not replay completed
+requests. Cancel leaves your work in place. In another terminal, the equivalent
+command is `airs-harness --environment work login --restore-session --no-browser`.
+Use the environment name shown by your running session.
+
+MCP authentication is separate. On an MCP authentication failure, the turn stops
+before an automatic alternate-credential attempt. Follow the displayed gateway
+MCP login command, then start a fresh conversation. The gateway's opaque token
+does not provide verified account continuity for automatic post-login resume.
+A backend management denial is not a reason to repeat human SSO.
+
+Unlock a locked native credential store and retry. A pre-exchange identity-service
+outage preserves the saved refresh grant. If an exchange may have consumed a
+rotating grant, the harness will require sign-in instead of blindly replaying it.
+Restart running terminals after upgrading so they use the new native client.
 
 ## Managed Prisma AIRS CLI
 

@@ -72,10 +72,9 @@ static credentials remain pinned to their existing session binding.
 ## Release acceptance
 
 The historical `scripts/validate_builtin_mcp.py` driver exercises the rejected
-direct route. Its receipts cannot pass the new gateway promotion gate. A gateway
-acceptance driver must observe native CAS login, gateway ingress, corresponding
-upstream requests, all eight model-selected reads, authorization denials and both
-OAuth lifecycles. Require the exact installed Linux and Apple Silicon candidates,
+direct route. Its receipts cannot pass the new gateway promotion gate. `scripts/validate_gateway_mcp.py` drives native interactive SSO and tool checks.
+It requires separately observed gateway/CAS/upstream evidence; it does not infer
+successful gateway routing from a model answer or manufacture receipt rows. Require the exact installed Linux and Apple Silicon candidates,
 two expiry cycles, history preservation, npm upgrades and Mac signing evidence.
 No alpha.14 gateway/CAS acceptance is claimed by source changes alone.
 
@@ -83,3 +82,24 @@ Use the normal npm registry update after an accepted release is published. An
 older manual command symlink can shadow npm; inspect `command -v airs-harness`
 and `npm prefix -g`. Follow the existing installation handover procedure only for
 that known legacy layout. Preserve the inference environment and old executable.
+
+
+The interactive runner takes an exact native executable, a new isolated state
+folder, the gateway and upstream URLs, an output receipt and a
+`--gateway-evidence` JSON file. On Linux, run it under `dbus-run-session` and use
+`--browser-via-ssh cdot@desktop-host` when the browser is on an SSH-reachable Mac;
+it forwards only the native loopback callback and terminates that tunnel afterward.
+The human completes the browser login; no password is collected by the runner.
+
+The observations file must bind `endpoint`, `upstream_endpoint`,
+`binary_sha256` and `started_at` to the printed run window. Its `results` must
+contain the gateway/CAS cases in the promotion contract, plus
+`gateway_native_refresh_observed`, each with a measured `evidence` reference.
+Preserve timestamped, redacted request/correlation evidence separately. A success
+boolean with no observation is insufficient.
+
+The inspected gateway 2.22.0 issues one-hour opaque MCP access tokens. The runner
+therefore waits two real one-hour expiry intervals for `--refresh-cycles 2`;
+upstream Keycloak tokens expire separately after five minutes. A zero-cycle smoke
+run is explicitly incomplete and cannot pass release promotion. This runner has
+syntax/help validation; live gateway acceptance remains outstanding.

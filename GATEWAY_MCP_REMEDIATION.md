@@ -76,3 +76,28 @@ do not add successful rows merely to satisfy the validator.
 Primary references: [SCM CAS](https://portkey.ai/docs/product/mcp-gateway/authentication/cas),
 [MCP authentication layers](https://portkey.ai/docs/product/mcp-gateway/authentication),
 and [CIE Directory Sync](https://portkey.ai/docs/product/enterprise-offering/org-management/directory-sync/cie-directory-sync).
+
+
+## Authorized rollout checkpoint
+
+The owner authorized rollout after source preparation. Harness PR13,
+infrastructure PR407 and application PR1 are merged. Gateway Helm revision 12
+adds both upstream hosts while preserving inference settings. Both dedicated
+OAuth Auto integrations and Keycloak upstream clients exist with explicit harness
+workspace access. Argo has cut over development to the gateway-owned upstream
+client; production resource-server cutover remains gated on development acceptance.
+
+CAS initially denied the owner access to the harness workspace. Redtail CIE
+readback confirmed the existing user and MCP group; the owner added the group
+mapping, ran Full Sync and confirmed the workspace member in SCM. The general
+workspace-detail API's `users` field is not a reliable check for those
+Directory Sync members. Upstream Keycloak now shows the owner's session on the
+gateway client. Native credential receipt and successful proxied tools still need
+verification; a browser login alone is not completed MCP acceptance.
+
+The first correction binaries compiled and passed native tests but retained the
+alpha.13 version constant. PR14 corrects that constant and rejects native/npm
+version mismatches before packaging. Frozen runtime `6195ca83e` is rebuilding for
+both platforms; do not promote the earlier mismatched artifacts. The interactive
+runner now exists, but independently correlated gateway observations and full
+live acceptance remain pending. Alpha.14 is not published yet.

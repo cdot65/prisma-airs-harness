@@ -91,7 +91,7 @@ async fn mutations_require_and_retain_the_transaction_guard() -> Result<()> {
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn save_publishes_only_persisted_credentials() -> Result<()> {
+async fn save_publishes_persisted_credentials_after_a_transient_write_failure() -> Result<()> {
     for fail_save in [false, true] {
         let _env = TempCodexHome::new();
         let initial = sample_tokens();
@@ -124,20 +124,16 @@ async fn save_publishes_only_persisted_credentials() -> Result<()> {
             .load(&keyring, &initial.server_name, &initial.url)?
             .expect("durable keyring credentials");
         let mut expected = initial.clone();
-        if fail_save {
-            assert!(matches!(result, Err(AuthError::CredentialStoreError(_))));
-        } else {
-            result?;
-            expected
-                .token_response
-                .0
-                .set_access_token(AccessToken::new("rotated-access".into()));
-            expected
-                .token_response
-                .0
-                .set_refresh_token(Some(RefreshToken::new("rotated-refresh".into())));
-            expected.expires_at = durable.expires_at;
-        }
+        result?;
+        expected
+            .token_response
+            .0
+            .set_access_token(AccessToken::new("rotated-access".into()));
+        expected
+            .token_response
+            .0
+            .set_refresh_token(Some(RefreshToken::new("rotated-refresh".into())));
+        expected.expires_at = durable.expires_at;
         assert_tokens_match_without_expiry(&durable, &expected);
         assert_eq!(
             store.stored_credentials().await,

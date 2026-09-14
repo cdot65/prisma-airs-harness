@@ -39,6 +39,8 @@ use super::StoredOAuthTokens;
 use super::WrappedOAuthTokenResponse;
 use super::normalized_oauth_credentials;
 use super::refresh_expires_in_from_timestamp;
+use super::refresh_intent::commit_returned_tokens;
+use super::refresh_intent::pending_tokens;
 use super::refresh_transaction::REFRESH_REQUEST_TIMEOUT;
 use super::restrict_refresh_scopes;
 use super::token_needs_refresh;
@@ -234,9 +236,7 @@ impl<K: KeyringStore + Clone + 'static> CredentialStore for OAuthCredentialStore
                 .map_err(credential_store_error)?;
             let tokens = tokio::task::spawn_blocking(move || -> Result<StoredOAuthTokens> {
                 let _guard = guard;
-                inner
-                    .store
-                    .save(&inner.keyring, &inner.server_name, &tokens)?;
+                commit_returned_tokens(inner.store, &inner.keyring, &tokens)?;
                 Ok(tokens)
             })
             .await
@@ -289,6 +289,30 @@ impl<K: KeyringStore + Clone + 'static> CredentialStore for OAuthCredentialStore
                 Some(guard) => Arc::clone(guard),
                 None => self.acquire_transaction_guard().await?,
             };
+            // RMCP invokes this hook only when it is about to exchange a refresh grant.
+            // Retain the live grant for that exchange, but retire its durable predecessor.
+            let tokens = self
+                .inner
+                .last_credentials
+                .lock()
+                .await
+                .clone()
+                .ok_or(AuthError::AuthorizationRequired)?;
+            if !tokens.has_refresh_token() {
+                return Err(AuthError::AuthorizationRequired);
+            }
+            let inner = Arc::clone(&self.inner);
+            let write_guard = Arc::clone(&guard);
+            tokio::task::spawn_blocking(move || {
+                let _guard = write_guard;
+                inner
+                    .store
+                    .save(&inner.keyring, &inner.server_name, &pending_tokens(&tokens))
+            })
+            .await
+            .context("OAuth refresh intent task failed")
+            .map_err(credential_store_error)?
+            .map_err(credential_store_error)?;
             Ok(Some(CredentialRefreshGuard::new(guard)))
         })
     }

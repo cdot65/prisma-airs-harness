@@ -24,6 +24,8 @@ use super::OAuthPersistorInner;
 use super::StoredOAuthTokens;
 use super::WrappedOAuthTokenResponse;
 use super::compute_expires_at_millis;
+use super::refresh_intent::commit_returned_tokens;
+use super::refresh_intent::pending_tokens;
 use super::refresh_lock::RefreshCredentialLock;
 use super::restrict_refresh_scopes;
 use super::token_needs_refresh;
@@ -56,9 +58,8 @@ impl OAuthPersistor {
         let keyring_store = keyring_store.clone();
         // Once the provider can consume a rotating token, caller cancellation must not cancel
         // persistence. The owned task continues with independently bounded lock and request waits.
-        // A provider timeout leaves the outcome unknown and permits a later serialized retry:
-        // provider grace may recover, otherwise reauthorization is unavoidable. This residual
-        // risk is preferred to holding the credential lock indefinitely.
+        // Durable intent prevents another process from replaying a possibly consumed grant
+        // after timeout or process death, even if the provider permits no refresh-token reuse.
         let transaction_task = tokio::spawn(async move {
             let result = persistor
                 .refresh_transaction(&keyring_store, refresh_request_timeout)
@@ -181,6 +182,12 @@ impl OAuthPersistor {
         install_tokens_in_manager(&mut guard, &latest)
             .await
             .context("failed to stage OAuth credentials for refresh")?;
+        let pending = pending_tokens(&latest);
+        self.inner
+            .credential_store
+            .save(keyring_store, &self.inner.server_name, &pending)
+            .context("failed to persist OAuth refresh intent; no exchange was dispatched")?;
+        *self.inner.last_credentials.lock().await = Some(pending.clone());
         // The owned task prevents caller deadlines from canceling after possible token rotation;
         // this timeout independently bounds the provider request.
         debug!(
@@ -192,67 +199,50 @@ impl OAuthPersistor {
                 debug!("received refreshed MCP OAuth credentials from the provider");
                 refreshed_tokens(token_response, &latest, &self.inner)
             }
-            Ok(Err(error @ AuthError::TokenRefreshRejected(_))) => {
-                // RMCP 3 distinguishes definitive refresh-token rejection from transient
-                // provider failures. Only a rejected token requires a fresh authorization.
-                warn!(
-                    error = %error,
-                    "MCP OAuth refresh token was rejected; reauthorization required"
-                );
+            Ok(Err(AuthError::TokenRefreshRejected(_))) => {
+                // Keep definitive rejection distinct from a dispatched exchange whose outcome
+                // cannot be established. Neither may replay the retired grant.
+                install_tokens_in_manager(&mut guard, &pending).await?;
                 return Err(AuthError::AuthorizationRequired).with_context(|| {
                     format!(
-                        "failed to refresh OAuth tokens for server {}: {error}",
+                        "OAuth refresh was rejected for server {}; sign in again",
                         self.inner.server_name
                     )
                 });
             }
-            Ok(Err(error)) => {
-                warn!(
-                    error = %error,
-                    "MCP OAuth provider refresh failed"
-                );
-                return Err(error).with_context(|| {
+            Ok(Err(_)) => {
+                install_tokens_in_manager(&mut guard, &pending).await?;
+                return Err(AuthError::AuthorizationRequired).with_context(|| {
                     format!(
-                        "failed to refresh OAuth tokens for server {}",
+                        "OAuth refresh outcome is unknown for server {}; sign in again. The previous grant will not be retried",
                         self.inner.server_name
                     )
                 });
             }
             Err(_) => {
-                warn!(
-                    timeout_ms = refresh_request_timeout.as_millis(),
-                    "MCP OAuth provider refresh timed out; the outcome is unknown and a later serialized retry is permitted"
-                );
-                anyhow::bail!(
-                    "timed out after {refresh_request_timeout:?} refreshing OAuth tokens for server {}",
+                install_tokens_in_manager(&mut guard, &pending).await?;
+                return Err(AuthError::AuthorizationRequired).context(format!(
+                    "timed out after {refresh_request_timeout:?} refreshing OAuth tokens for server {}; outcome unknown, sign in again",
                     self.inner.server_name
-                );
+                ));
             }
         };
 
-        // Persist to the pinned source before exposing the refreshed token. On failure, restore
-        // the prior in-process credential and return the error; serving an unpersisted token would
-        // hide the root cause until a later process restart. If the provider already consumed the
-        // prior token, the next refresh may require reauthorization. That is the deliberate
-        // fail-closed policy.
-        // TODO: Add a bounded persistence retry only if telemetry shows this is common; never
-        // silently switch stores or continue with an unpersisted credential.
+        // Persist the same returned generation before exposing it. Never restore the consumed
+        // predecessor, switch stores, or repeat the exchange to recover from a store failure.
         debug!("persisting refreshed MCP OAuth credentials to the resolved store");
-        if let Err(error) =
-            self.inner
-                .credential_store
-                .save(keyring_store, &self.inner.server_name, &refreshed)
-        {
-            warn!(
-                error = %error,
-                "failed to persist refreshed MCP OAuth credentials; returning the error and restoring the previous in-process credentials"
-            );
-            install_tokens_in_manager(&mut guard, &latest)
+        let store = self.inner.credential_store;
+        let keyring = keyring_store.clone();
+        let returned = refreshed.clone();
+        let persisted =
+            tokio::task::spawn_blocking(move || commit_returned_tokens(store, &keyring, &returned))
                 .await
-                .context(
-                    "failed to restore previous OAuth credentials after refresh persistence failed",
-                )?;
-            return Err(error);
+                .context("OAuth persistence task failed")?;
+        if let Err(error) = persisted {
+            install_tokens_in_manager(&mut guard, &pending)
+                .await
+                .context("failed to retire in-memory OAuth credentials after persistence failed")?;
+            return Err(error).context("could not save refreshed credentials; unlock the credential store and sign in again");
         }
 
         // This layer retains RMCP's legacy persistence hook. Install the same merged response

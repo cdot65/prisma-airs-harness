@@ -471,7 +471,23 @@ impl ChatWidget {
         message: String,
         codex_error_info: Option<AppServerCodexErrorInfo>,
     ) {
-        if codex_error_info == Some(AppServerCodexErrorInfo::MisalignmentPolicyViolation) {
+        if codex_utils_home_dir::is_airs_harness() && message.starts_with("MCP sign-in required:") {
+            self.input_queue.authentication_pending = true;
+            self.input_queue.submit_pending_steers_after_interrupt = false;
+            self.flush_answer_stream_with_separator();
+            self.finalize_turn();
+            self.add_to_history(history_cell::new_warning_event(message));
+            self.request_redraw();
+        } else if codex_utils_home_dir::is_airs_harness()
+            && codex_error_info == Some(AppServerCodexErrorInfo::Unauthorized)
+        {
+            self.input_queue.authentication_pending = true;
+            self.input_queue.submit_pending_steers_after_interrupt = false;
+            self.flush_answer_stream_with_separator();
+            self.finalize_turn();
+            self.add_to_history(history_cell::new_warning_event(message));
+            self.open_airs_sign_in();
+        } else if codex_error_info == Some(AppServerCodexErrorInfo::MisalignmentPolicyViolation) {
             self.on_misalignment_policy_violation();
         } else if codex_error_info
             .as_ref()

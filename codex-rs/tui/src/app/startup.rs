@@ -703,6 +703,7 @@ See the Codex keymap documentation for supported actions and examples."
             environment_manager,
             app_server_target,
             reconnect: Default::default(),
+            airs_recovery: Default::default(),
             pending_update_action: None,
             pending_shutdown_exit_thread_id: None,
             windows_sandbox: WindowsSandboxState::default(),

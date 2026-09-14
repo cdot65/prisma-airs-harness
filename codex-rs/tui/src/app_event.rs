@@ -536,6 +536,12 @@ pub(crate) enum AppEvent {
 
     /// Request app-server account logout, then exit after it succeeds.
     Logout,
+    AirsSignIn,
+    AirsSignInCancel,
+    AirsSignInCompleted {
+        attempt: u64,
+        result: Result<(), String>,
+    },
 
     /// Request to exit the application due to a fatal error.
     #[allow(dead_code)]

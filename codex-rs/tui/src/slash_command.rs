@@ -64,6 +64,7 @@ pub enum SlashCommand {
     Mcp,
     Apps,
     Plugins,
+    Signin,
     Logout,
     Quit,
     Exit,
@@ -88,6 +89,7 @@ impl SlashCommand {
     /// User-visible description shown in the popup.
     pub fn description(self) -> &'static str {
         match self {
+            SlashCommand::Signin => "restore company sign-in for this AIRS session",
             SlashCommand::Feedback => "send logs to maintainers",
             SlashCommand::New => "start a new chat during a conversation",
             SlashCommand::Init => "create an AGENTS.md file with instructions for Codex",
@@ -259,6 +261,7 @@ impl SlashCommand {
             | SlashCommand::Mcp
             | SlashCommand::Apps
             | SlashCommand::Plugins
+            | SlashCommand::Signin
             | SlashCommand::Title
             | SlashCommand::Statusline
             | SlashCommand::AutoReview
@@ -277,6 +280,7 @@ impl SlashCommand {
 
     fn is_visible(self) -> bool {
         match self {
+            SlashCommand::Signin => codex_utils_home_dir::is_airs_harness(),
             SlashCommand::SandboxReadRoot => cfg!(target_os = "windows"),
             SlashCommand::Copy => !cfg!(target_os = "android"),
             SlashCommand::App => cfg!(any(target_os = "macos", target_os = "windows")),

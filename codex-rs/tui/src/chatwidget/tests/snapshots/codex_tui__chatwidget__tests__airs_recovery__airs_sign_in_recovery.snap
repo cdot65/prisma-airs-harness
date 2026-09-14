@@ -1,0 +1,13 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: "lines.join(\"\\n\")"
+---
+
+
+  Restore company sign-in
+  Your conversation and draft stay here. Sign in as the same person.
+
+› 1. Sign in  Open your browser and save the verified credentials in the native store.
+  2. Cancel   Keep this conversation and draft; sign in later with /signin.
+
+  Press enter to confirm or esc to go back

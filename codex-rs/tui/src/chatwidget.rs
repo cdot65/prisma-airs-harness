@@ -438,6 +438,7 @@ mod tool_requests;
 mod transcript;
 mod transcript_export;
 use self::transcript::TranscriptState;
+mod airs_recovery;
 mod turn_lifecycle;
 mod turn_runtime;
 use self::turn_lifecycle::TurnLifecycleState;

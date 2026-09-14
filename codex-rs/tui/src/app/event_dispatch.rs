@@ -739,6 +739,13 @@ impl App {
                     }
                 }
             },
+            AppEvent::AirsSignIn => self.start_airs_sign_in(),
+            AppEvent::AirsSignInCancel => self.airs_recovery.cancel(),
+            AppEvent::AirsSignInCompleted { attempt, result } => {
+                if self.airs_recovery.finish(attempt) {
+                    self.chat_widget.airs_sign_in_completed(result);
+                }
+            }
             AppEvent::Logout => match if codex_utils_home_dir::is_airs_harness() {
                 crate::airs_branding::logout(&self.config.codex_home).await
             } else {

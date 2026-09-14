@@ -1,0 +1,94 @@
+//! Own the explicit browser attempt without blocking terminal input or losing drafts.
+use super::App;
+use crate::app_event::AppEvent;
+use tokio_util::sync::CancellationToken;
+
+#[derive(Default)]
+pub(super) struct AirsRecoveryState {
+    attempt: u64,
+    cancellation: Option<CancellationToken>,
+}
+
+impl AirsRecoveryState {
+    pub(super) fn cancel(&mut self) {
+        if let Some(token) = self.cancellation.take() {
+            token.cancel();
+        }
+        self.attempt = self.attempt.wrapping_add(1);
+    }
+
+    pub(super) fn finish(&mut self, attempt: u64) -> bool {
+        if attempt != self.attempt {
+            return false;
+        }
+        self.cancellation.take().is_some()
+    }
+}
+
+impl Drop for AirsRecoveryState {
+    fn drop(&mut self) {
+        self.cancel();
+    }
+}
+
+impl App {
+    pub(super) fn start_airs_sign_in(&mut self) {
+        if !codex_utils_home_dir::is_airs_harness() {
+            return;
+        }
+        if self.airs_recovery.cancellation.is_some() {
+            self.chat_widget.add_info_message(
+                "Sign-in is already open in your browser. Use /signin and Cancel to stop it."
+                    .into(),
+                None,
+            );
+            return;
+        }
+        let home = self.config.codex_home.to_path_buf();
+        let fallback = format!(
+            "AIRS_HARNESS_HOME={} airs-harness login --restore-session --no-browser",
+            shlex::try_quote(&home.to_string_lossy()).unwrap_or_default()
+        );
+        self.chat_widget.add_info_message("Opening company sign-in. Complete the browser flow and any native-store prompt within five minutes. Your draft remains here.".into(), Some(fallback));
+        self.airs_recovery.attempt = self.airs_recovery.attempt.wrapping_add(1);
+        let attempt = self.airs_recovery.attempt;
+        let cancellation = CancellationToken::new();
+        self.airs_recovery.cancellation = Some(cancellation.clone());
+        let tx = self.app_event_tx.clone();
+        tokio::spawn(async move {
+            let operation = async {
+                #[cfg(target_os = "linux")]
+                let executable = std::path::PathBuf::from("/proc/self/exe");
+                #[cfg(not(target_os = "linux"))]
+                let executable = std::env::current_exe()
+                    .map_err(|_| "Cannot locate the running harness".to_string())?;
+                let output = tokio::process::Command::new(executable)
+                    .args(["login", "--restore-session"])
+                    .env("AIRS_HARNESS_HOME", &home)
+                    .stdin(std::process::Stdio::null())
+                    .kill_on_drop(true)
+                    .output()
+                    .await
+                    .map_err(|_| {
+                        "Could not start sign-in; run the displayed command in another terminal"
+                            .to_string()
+                    })?;
+                if output.status.success() {
+                    Ok(())
+                } else {
+                    // The child is the same native executable, with bounded, sanitized identity errors.
+                    let message = String::from_utf8_lossy(&output.stderr);
+                    Err(format!(
+                        "Sign-in was not completed. {}",
+                        message.chars().take(4096).collect::<String>()
+                    ))
+                }
+            };
+            let result = tokio::select! {
+                _ = cancellation.cancelled() => return,
+                result = tokio::time::timeout(std::time::Duration::from_secs(330), operation) => result.unwrap_or_else(|_| Err("Sign-in expired. Use /signin when ready; your conversation is preserved.".into())),
+            };
+            tx.send(AppEvent::AirsSignInCompleted { attempt, result });
+        });
+    }
+}

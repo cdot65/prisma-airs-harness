@@ -428,6 +428,7 @@ impl ChatWidget {
             SlashCommand::Logout => {
                 self.app_event_tx.send(AppEvent::Logout);
             }
+            SlashCommand::Signin => self.open_airs_sign_in(),
             SlashCommand::Copy => {
                 self.show_copy_picker();
             }
@@ -1225,6 +1226,7 @@ impl ChatWidget {
             | SlashCommand::Quit
             | SlashCommand::Exit
             | SlashCommand::Logout
+            | SlashCommand::Signin
             | SlashCommand::Mention
             | SlashCommand::Skills
             | SlashCommand::Import

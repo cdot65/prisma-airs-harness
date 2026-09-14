@@ -214,9 +214,15 @@ def main():
             if p.is_file() and p.relative_to(state).parts[:2] != ("tmp", "arg0")
         }
         (args.output / "state-after.json").write_text(json.dumps(after, indent=2))
-        assert before == after, str({
-            "changed_state_files": sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
-        })
+        assert before == after, str(
+            {
+                "changed_state_files": sorted(
+                    k
+                    for k in before.keys() | after.keys()
+                    if before.get(k) != after.get(k)
+                )
+            }
+        )
         assert not unexpected and not redirects
         receipt = {
             "passed": True,

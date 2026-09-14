@@ -23,11 +23,13 @@ if BINARY.suffix == ".js":
     # npm JS entrypoint would detach it from its required sibling modules.
     manifest = subprocess.check_output(
         [
-            "node", "-e",
+            "node",
+            "-e",
             "const r=require('module').createRequire(process.argv[1]);"
             "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));",
             str(BINARY),
-        ], text=True,
+        ],
+        text=True,
     ).strip()
     BINARY = Path(manifest).parent / "bin/airs-harness"
 

@@ -22,6 +22,7 @@ import time
 import tomllib
 from urllib.parse import parse_qs, urlsplit
 
+from airs_gateway_test_identity import GatewayTestIdentity
 from promote_airs_mcp_prerelease import TOOLS
 from airs_gateway_expiry import (
     ACTIVITY_INTERVAL_SECONDS,
@@ -56,6 +57,7 @@ def main():
     parser.add_argument("--gateway-evidence", type=Path, required=True)
     parser.add_argument("--refresh-cycles", type=int, choices=[0, 2], default=2)
     args = parser.parse_args()
+    identity = GatewayTestIdentity(args.endpoint)
     gateway, upstream = urlsplit(args.endpoint), urlsplit(args.upstream)
     if (
         any(
@@ -217,7 +219,7 @@ def main():
             if (
                 isinstance(item, dict)
                 and item.get("type") == "mcp_tool_call"
-                and item.get("server") == "prisma-airs"
+                and item.get("server") == identity.name
                 and item.get("status") == "completed"
                 and not item.get("error")
                 and not (item.get("result") or {}).get("isError", False)
@@ -236,16 +238,9 @@ def main():
         )
 
     def credential_metadata(label):
-        # Read only this test endpoint's native record; never emit token values.
-        # serde_json feature unification can preserve insertion order or sort keys.
-        payloads = [
-            {"headers": {}, "type": "http", "url": args.endpoint},
-            {"type": "http", "url": args.endpoint, "headers": {}},
-        ]
+        # Homes share the OS keyring: read only this run's unique server account.
         result = None
-        for payload in payloads:
-            encoded = json.dumps(payload, separators=(",", ":"))
-            account = "prisma-airs|" + hashlib.sha256(encoded.encode()).hexdigest()[:16]
+        for account in identity.accounts():
             if os.uname().sysname == "Darwin":
                 command = [
                     "security",
@@ -273,7 +268,7 @@ def main():
                 "Native credential metadata lookup failed; no secret output emitted"
             )
         record = json.loads(result.stdout)
-        assert record["url"] == args.endpoint and record["server_name"] == "prisma-airs"
+        identity.verify_record(record)
         token = record["token_response"]
         row = {
             "case": label,
@@ -301,6 +296,7 @@ def main():
                 "started_at": started_at,
                 "binary_sha256": binary_sha,
                 "endpoint": args.endpoint,
+                "server_name": identity.name,
                 "upstream_endpoint": args.upstream,
             }
         ),
@@ -343,7 +339,7 @@ def main():
             [
                 "mcp",
                 "add",
-                "prisma-airs",
+                identity.name,
                 "--url",
                 args.endpoint,
                 "--scopes",
@@ -353,7 +349,7 @@ def main():
             login=True,
         )
         mcp_added = True
-        settings = tomllib.loads(config.read_text())["mcp_servers"]["prisma-airs"]
+        settings = tomllib.loads(config.read_text())["mcp_servers"][identity.name]
         if settings["url"] != args.endpoint or any(
             k in settings
             for k in [
@@ -372,7 +368,7 @@ def main():
         run("doctor_after_mcp", ["doctor", "--verify-access"])
         model(
             "all_read_tools",
-            "Use the prisma-airs MCP tools to inspect the authorized AIRS deployment. Call ALL eight tools: "
+            f"Use the {identity.name} MCP tools to inspect the authorized AIRS deployment. Call ALL eight tools: "
             + ", ".join(sorted(TOOLS))
             + ". Use IDs from list calls for detail calls. Report the names actually retrieved. "
             "Do not use shell commands, MCP resources or sub-agents.",
@@ -400,7 +396,7 @@ def main():
             def activity(index):
                 model(
                     f"active_session_{cycle}_{index}",
-                    "Call the prisma-airs list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
+                    f"Call the {identity.name} list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
                     {"list_workspaces"},
                 )
                 credential = credential_metadata(
@@ -420,7 +416,7 @@ def main():
                     pool.submit(
                         model,
                         f"refresh_{cycle}_{i}",
-                        "Call the prisma-airs list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
+                        f"Call the {identity.name} list_workspaces tool and report the returned workspace name. Do not use shell commands or sub-agents.",
                         {"list_workspaces"},
                     )
                     for i in range(2)
@@ -470,12 +466,12 @@ def main():
         try:
             try:
                 if mcp_added:
-                    run("mcp_logout", ["mcp", "logout", "prisma-airs"])
+                    run("mcp_logout", ["mcp", "logout", identity.name])
                     listing = json.loads(
                         run("mcp_list_after_logout", ["mcp", "list", "--json"])
                     )
                     if (
-                        next(s for s in listing if s["name"] == "prisma-airs")[
+                        next(s for s in listing if s["name"] == identity.name)[
                             "auth_status"
                         ]
                         == "o_auth"
@@ -494,10 +490,17 @@ def main():
                 "binary_sha256": binary_sha,
                 "platform": os.uname().sysname,
                 "endpoint": args.endpoint,
+                "server_name": identity.name,
                 "routing": {
                     "mode": "gateway-proxied-mcp",
                     "gateway_endpoint": args.endpoint,
                     "upstream_endpoint": args.upstream,
+                },
+                "validation_tooling_sha256": {
+                    name: hashlib.sha256(
+                        (Path(__file__).resolve().parent / name).read_bytes()
+                    ).hexdigest()
+                    for name in ["validate_gateway_mcp.py", "airs_gateway_test_identity.py"]
                 },
                 "identity": "interactive human SSO; isolated native state",
                 "refresh_cycles": args.refresh_cycles,

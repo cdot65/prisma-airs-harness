@@ -500,7 +500,10 @@ def main():
                     name: hashlib.sha256(
                         (Path(__file__).resolve().parent / name).read_bytes()
                     ).hexdigest()
-                    for name in ["validate_gateway_mcp.py", "airs_gateway_test_identity.py"]
+                    for name in [
+                        "validate_gateway_mcp.py",
+                        "airs_gateway_test_identity.py",
+                    ]
                 },
                 "identity": "interactive human SSO; isolated native state",
                 "refresh_cycles": args.refresh_cycles,

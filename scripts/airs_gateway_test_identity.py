@@ -9,9 +9,7 @@ import secrets
 @dataclass(frozen=True)
 class GatewayTestIdentity:
     endpoint: str
-    name: str = field(
-        default_factory=lambda: "airs-test-" + secrets.token_hex(12)
-    )
+    name: str = field(default_factory=lambda: "airs-test-" + secrets.token_hex(12))
 
     def accounts(self):
         # Match the native client's two serde_json map ordering configurations.

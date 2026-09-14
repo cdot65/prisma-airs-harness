@@ -67,6 +67,9 @@ fn auth_error_requires_authentication(error: &AuthError) -> bool {
         AuthError::AuthorizationRequired
             | AuthError::TokenExpired
             | AuthError::TokenRefreshRejected(_)
+            // RMCP emits this only after dispatching the token exchange. Our store
+            // has retired the predecessor, so the outcome cannot be blindly retried.
+            | AuthError::TokenRefreshFailed(_)
     )
 }
 

@@ -36,9 +36,9 @@ async fn gateway_preserves_auth_recovery_classification_before_dispatch() {
         CredentialRecovery::StoreUnavailable,
         CredentialRecovery::TemporarilyUnavailable,
     ] {
-        let manager = Arc::new(AuthManager::from_auth_for_testing(CodexAuth::from_api_key(
+        let manager = AuthManager::from_auth_for_testing(CodexAuth::from_api_key(
             "test-provider-token",
-        )));
+        ));
         manager
             .set_external_auth(Arc::new(RecoverableCredential {
                 first: AtomicBool::new(true),

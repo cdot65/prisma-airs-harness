@@ -18,3 +18,14 @@ fn gateway_upstream_auth_requires_the_measured_structured_contract() {
         assert_eq!(is_authentication_required_error(&error.into()), expected);
     }
 }
+
+#[test]
+fn dispatched_refresh_failure_requires_sign_in_but_store_failure_does_not() {
+    for (error, expected) in [
+        (AuthError::TokenRefreshFailed("response lost".into()), true),
+        (AuthError::TokenRefreshRejected("invalid_grant".into()), true),
+        (AuthError::CredentialStoreError("locked".into()), false),
+    ] {
+        assert_eq!(is_authentication_required_error(&error.into()), expected);
+    }
+}

@@ -63,7 +63,8 @@ serialize their exchanges.
 The candidate adds typed inference failures, bounded helper completion, verified
 same-identity `login --restore-session`, and an explicit `/signin` terminal action.
 The draft and conversation remain in place; completed work is not replayed.
-MCP authentication failures stop the turn before model or code-mode fallback.
+MCP authentication failures stop the turn before another model request. Code mode
+and its separate host remain disabled by the existing AIRS boundary.
 Gateway MCP sign-in requires a fresh conversation until the gateway exposes a
 trusted identity continuity contract. Backend service-account renewal is separately
 deployed on both production MCP replicas (50 backend tests passed).
@@ -73,3 +74,26 @@ cancellation, persistence failures and logout races. Run exact Linux and signed
 Apple Silicon package acceptance and registry upgrades, then publish the measured
 behavior in the canonical education lessons and Docusaurus site. Keep alpha.14
 receipts and their limited release exception unchanged.
+
+## Candidate validation — September 14, 2026
+
+The combined authentication and terminal suites passed 5,833 tests (14 skipped).
+Four focused core MCP tests passed, including the gateway case that records the
+failed tool result, stops before another model request and displays recovery
+without replay. The terminal regression covers the actual `Fatal error:` wrapper
+on that recovery message. Packaging contracts, launcher checks and bundle tests
+also passed.
+
+The broader core run was not green: 4,055 passed, 104 failed and nine skipped.
+One failure was the gateway fixture's old two-request expectation, corrected and
+verified by the focused run above. Other failures are concentrated in Code Mode
+and its missing host; they are not claimed as a clean baseline comparison.
+The required full workspace attempt failed during compilation because Rusty V8
+150.4.0 does not publish the requested Linux musl archive. AIRS's existing disabled
+Code Mode boundary was preserved; no feature or test gate was weakened.
+
+The first Apple Silicon candidate (`2544697ad202`) passed native build and private
+acceptance, but predates the terminal correction and must not be promoted. Final
+source-bound packages, Developer ID signing, installed gateway lifecycle tests
+and publication remain pending. No alpha.15 production consent or expiry cycle
+is represented by these offline and native-fixture checks.

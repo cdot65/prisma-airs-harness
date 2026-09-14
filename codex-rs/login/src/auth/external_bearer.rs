@@ -54,6 +54,10 @@ impl BearerTokenRefresher {
         Ok(CodexAuth::from_api_key(access_token.as_str()))
     }
 
+    #[expect(
+        clippy::await_holding_invalid_type,
+        reason = "reactive renewal shares the cache lock with resolution so their credential helpers cannot refresh concurrently"
+    )]
     async fn refresh(&self, _context: ExternalAuthRefreshContext) -> io::Result<CodexAuth> {
         let mut cached = self.state.cached_token.lock().await;
         let access_token = self.state.fetch().await?;

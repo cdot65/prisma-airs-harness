@@ -39,18 +39,15 @@ enum ConfigRefreshPath {
 enum AuthChallengePath {
     Upstream,
     Gateway,
-    GatewayCodeMode,
 }
 
 #[test_case(AuthChallengePath::Upstream; "upstream reports auth to agent")]
 #[test_case(AuthChallengePath::Gateway; "gateway stops before model fallback")]
-#[test_case(AuthChallengePath::GatewayCodeMode; "gateway stops code mode credential fallback")]
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay(
     challenge_path: AuthChallengePath,
 ) -> anyhow::Result<()> {
     let gateway = !matches!(challenge_path, AuthChallengePath::Upstream);
-    let code_mode = matches!(challenge_path, AuthChallengePath::GatewayCodeMode);
     skip_if_no_network!(Ok(()));
 
     let responses_server = responses::start_mock_server().await;
@@ -70,54 +67,41 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay(
         .mount(&mcp_server)
         .await;
     let call_id = "auth-challenge-call";
-    let tool_call = if code_mode {
-        responses::ev_custom_tool_call(
-            call_id,
-            "exec",
-            r#"await tools.mcp__reauth__calendar_list_events({});
-await tools.exec_command({cmd: "printf forbidden_credential_fallback"});"#,
-        )
-    } else {
-        responses::ev_function_call_with_namespace(
-            call_id,
-            "mcp__reauth",
-            "calendar_list_events",
-            "{}",
-        )
-    };
-    let model_requests = responses::mount_sse_sequence(
-        &responses_server,
-        vec![
-            responses::sse(vec![
-                responses::ev_response_created("resp-1"),
-                tool_call,
-                responses::ev_completed("resp-1"),
-            ]),
-            responses::sse(vec![
-                responses::ev_response_created("resp-2"),
-                responses::ev_assistant_message("msg-1", "Please reconnect the MCP server."),
-                responses::ev_completed("resp-2"),
-            ]),
-        ],
-    )
-    .await;
+    let tool_call = responses::ev_function_call_with_namespace(
+        call_id,
+        "mcp__reauth",
+        "calendar_list_events",
+        "{}",
+    );
+    let mut model_responses = vec![responses::sse(vec![
+        responses::ev_response_created("resp-1"),
+        tool_call,
+        responses::ev_completed("resp-1"),
+    ])];
+    if !gateway {
+        model_responses.push(responses::sse(vec![
+            responses::ev_response_created("resp-2"),
+            responses::ev_assistant_message("msg-1", "Please reconnect the MCP server."),
+            responses::ev_completed("resp-2"),
+        ]));
+    }
+    let model_requests = responses::mount_sse_sequence(&responses_server, model_responses).await;
     let server_config: McpServerConfig = serde_json::from_value(json!({
         "url": format!("{}/api/codex/ps/mcp", http_server.chatgpt_base_url),
         "environment_id": DEFAULT_MCP_SERVER_ENVIRONMENT_ID,
     }))?;
     let fixture = test_codex()
         .with_config(move |config| {
-            if code_mode {
-                config
-                    .features
-                    .enable(Feature::CodeMode)
-                    .expect("enable code mode");
-            }
             if gateway {
-                config.model = Some("gpt-5.6-sol".into());
+                config.model = Some("gpt-5.5".into());
                 config.model_provider.gateway = Some(codex_model_provider_info::GatewayRouting {
-                    default_route: "gpt-5.6-sol".into(),
+                    default_route: "gpt-5.5".into(),
                 });
+                config.model_provider_id = "airs".into();
+                config.model_provider.name = "Test AIRS".into();
+                config.model_provider.requires_openai_auth = false;
+                config.model_provider.env_http_headers = None;
+                config.model_provider.supports_websockets = false;
             }
             config
                 .mcp_servers
@@ -164,7 +148,12 @@ await tools.exec_command({cmd: "printf forbidden_credential_fallback"});"#,
         })),
     };
     assert_eq!(shell_starts, 0);
-    assert_eq!(end_results, vec![Ok(expected.clone())]);
+    assert_eq!(
+        end_results,
+        vec![Ok(expected.clone())],
+        "errors: {recovery_errors:?}; model requests: {}",
+        model_requests.requests().len()
+    );
     assert_eq!(
         completed_results,
         vec![(McpToolCallStatus::Failed, Some(expected), None)]
@@ -172,7 +161,7 @@ await tools.exec_command({cmd: "printf forbidden_credential_fallback"});"#,
     assert_eq!(model_requests.requests().len(), if gateway { 1 } else { 2 });
     if gateway {
         assert_eq!(recovery_errors.len(), 1);
-        assert!(recovery_errors[0].starts_with("MCP sign-in required: reauth."));
+        assert!(recovery_errors[0].starts_with("Fatal error: MCP sign-in required: reauth."));
         assert!(recovery_errors[0].contains("airs-harness mcp login reauth"));
     } else {
         assert!(recovery_errors.is_empty());

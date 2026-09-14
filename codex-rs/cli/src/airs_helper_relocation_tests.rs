@@ -106,6 +106,7 @@ fn inference_path_relocation_preserves_identity_and_session_bytes() {
     let mut expected = fixture.config();
     expected["model_providers"]["airs"]["auth"]["command"] =
         toml::Value::String(fixture.new.to_str().unwrap().into());
+    expected["model_providers"]["airs"]["auth"]["timeout_ms"] = toml::Value::Integer(30000);
     rewrite_locked(&fixture.home, &fixture.new).unwrap();
     crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
     assert_eq!(fixture.config(), expected);

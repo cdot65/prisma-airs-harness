@@ -56,3 +56,12 @@ pub(super) fn sign_in_view() -> SelectionViewParams {
         ..Default::default()
     }
 }
+
+/// The public error event includes CodexErr's fatal prefix; match the local recovery
+/// marker after that wrapper without interpreting arbitrary remote sign-in URLs.
+pub(super) fn mcp_sign_in_message(message: &str) -> Option<&str> {
+    let message = message.strip_prefix("Fatal error: ").unwrap_or(message);
+    message
+        .starts_with("MCP sign-in required:")
+        .then_some(message)
+}

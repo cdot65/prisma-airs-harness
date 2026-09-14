@@ -21,7 +21,7 @@ async fn recovery_view_preserves_a_draft_and_exposes_explicit_actions() {
         .chunks(usize::from(width))
         .map(|row| {
             row.iter()
-                .map(|cell| cell.symbol())
+                .map(ratatui::buffer::Cell::symbol)
                 .collect::<String>()
                 .trim_end()
                 .to_string()
@@ -37,5 +37,23 @@ async fn recovery_view_preserves_a_draft_and_exposes_explicit_actions() {
     assert_eq!(
         chat.bottom_pane.composer_text(),
         "Keep this unfinished request"
+    );
+}
+
+#[test]
+fn mcp_recovery_recognizes_the_core_error_wrapper() {
+    let message = "MCP sign-in required: prisma-airs. Sign in at the bound gateway.";
+    let wire = codex_protocol::error::CodexErr::Fatal(message.into()).to_string();
+    assert_eq!(
+        super::super::airs_recovery::mcp_sign_in_message(&wire),
+        Some(message)
+    );
+    assert_eq!(
+        super::super::airs_recovery::mcp_sign_in_message(message),
+        Some(message)
+    );
+    assert_eq!(
+        super::super::airs_recovery::mcp_sign_in_message("Fatal error: backend unavailable"),
+        None
     );
 }

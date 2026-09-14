@@ -36,9 +36,8 @@ async fn gateway_preserves_auth_recovery_classification_before_dispatch() {
         CredentialRecovery::StoreUnavailable,
         CredentialRecovery::TemporarilyUnavailable,
     ] {
-        let manager = AuthManager::from_auth_for_testing(CodexAuth::from_api_key(
-            "test-provider-token",
-        ));
+        let manager =
+            AuthManager::from_auth_for_testing(CodexAuth::from_api_key("test-provider-token"));
         manager
             .set_external_auth(Arc::new(RecoverableCredential {
                 first: AtomicBool::new(true),
@@ -74,7 +73,13 @@ async fn gateway_preserves_auth_recovery_classification_before_dispatch() {
                 CredentialRecovery::SignInRequired | CredentialRecovery::OutcomeUnknown
             )
         );
-        assert!(error.to_string().starts_with(&reason.to_string()));
+        let display = error.to_string();
+        assert!(
+            display
+                .strip_prefix("Fatal error: ")
+                .unwrap_or(&display)
+                .starts_with(&reason.to_string())
+        );
         if matches!(
             reason,
             CredentialRecovery::SignInRequired | CredentialRecovery::OutcomeUnknown

@@ -207,6 +207,13 @@ jobs:
           codesign -dvv "$RUNNER_TEMP/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
           python3 scripts/airs_macos_artifact.py create --directory "$RUNNER_TEMP" --source-commit "$AIRS_RUNTIME_SOURCE" --cli-opt-level "$AIRS_CLI_OPT_LEVEL"
           cp "$RUNNER_TEMP/CANDIDATE.json" "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/airs-evidence/"
+      - name: Retain exact alpha.15 signing intake on the native runner
+        run: |
+          umask 077
+          staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha15/$AIRS_RUNTIME_SOURCE"
+          mkdir -p "$staged"
+          cp "$RUNNER_TEMP/unvalidated-macos-executables.tar.gz" "$staged/intake.tar.gz"
+          cp "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/CANDIDATE.json" "$staged/"
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         id: executables
         with:

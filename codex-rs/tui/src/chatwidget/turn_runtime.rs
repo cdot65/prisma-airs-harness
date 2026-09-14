@@ -471,12 +471,14 @@ impl ChatWidget {
         message: String,
         codex_error_info: Option<AppServerCodexErrorInfo>,
     ) {
-        if codex_utils_home_dir::is_airs_harness() && message.starts_with("MCP sign-in required:") {
+        if codex_utils_home_dir::is_airs_harness()
+            && let Some(message) = super::airs_recovery::mcp_sign_in_message(&message)
+        {
             self.input_queue.authentication_pending = true;
             self.input_queue.submit_pending_steers_after_interrupt = false;
             self.flush_answer_stream_with_separator();
             self.finalize_turn();
-            self.add_to_history(history_cell::new_warning_event(message));
+            self.add_to_history(history_cell::new_warning_event(message.to_owned()));
             self.request_redraw();
         } else if codex_utils_home_dir::is_airs_harness()
             && codex_error_info == Some(AppServerCodexErrorInfo::Unauthorized)

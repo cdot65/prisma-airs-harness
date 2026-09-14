@@ -1752,7 +1752,9 @@ impl Config {
             apps_mcp_product_sku: self.apps_mcp_product_sku.clone(),
             codex_home: self.codex_home.to_path_buf(),
             mcp_oauth_credentials_store_mode: self.mcp_oauth_credentials_store_mode,
-            oauth_refresh_mode: if self.features.enabled(Feature::McpOAuthRefreshCoordination) {
+            oauth_refresh_mode: if codex_utils_home_dir::is_airs_harness()
+                || self.features.enabled(Feature::McpOAuthRefreshCoordination)
+            {
                 McpOAuthRefreshMode::Coordinated
             } else {
                 McpOAuthRefreshMode::Legacy

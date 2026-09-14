@@ -27,6 +27,7 @@ codex-utils-path-uri = { workspace = true }
 codex-utils-pty = { workspace = true }
 codex-utils-home-dir = { workspace = true }
 bytes = { workspace = true }
+dirs = { workspace = true }
 futures = { workspace = true, default-features = false, features = ["std"] }
 http = { workspace = true }
 keyring = { workspace = true, features = ["crypto-rust"] }

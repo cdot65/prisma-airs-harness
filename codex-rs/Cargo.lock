@@ -4342,6 +4342,7 @@ dependencies = [
  "codex-utils-home-dir",
  "codex-utils-path-uri",
  "codex-utils-pty",
+ "dirs",
  "futures",
  "http 1.4.0",
  "keyring",

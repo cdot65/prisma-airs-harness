@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "observed_at": 1789394421.1438904,
+  "version": "0.1.0-alpha.14",
+  "packages": [
+    {
+      "package": "airs-harness-linux-x64",
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "integrity": "sha512-djYaqevwAoWwU0Z2ZIHvc6nIVgos7SrxNSnk8W9/RdRFwIviib4OjctH6XnS/jKz2mGNjIobJ0XZXYiQVZbm1g=="
+    },
+    {
+      "package": "airs-harness-darwin-arm64",
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "integrity": "sha512-OcrNoDQ5HjwI/2/vly4fRhbfdo5xnC8vMlqzMgxqo9fU0+ix8OMQcLue4mZI0fMIpG/2eEFlCM4AZnNklI/Uxg=="
+    },
+    {
+      "package": "airs-harness",
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "integrity": "sha512-k8Gv/cHu6iAGEvetisZeHrDxhQzsnTPkxU5Pk6dFk7i3hq1em/BVALTEcchF8kmOVj4sIv0VdmVtgBCSuLsOCw=="
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "observed_at": 1789394469.2451358,
+  "previous_version": "airs-harness 0.1.0-alpha.13",
+  "version": "airs-harness 0.1.0-alpha.14",
+  "binary_sha256": "fa511e5d075ce0d5650ad0ce16a065e9c3c80b16aab16855ab4d9f62b73526b4",
+  "command": "/opt/homebrew/bin/airs-harness",
+  "preserved_state_files": 0,
+  "force_used": false,
+  "uninstall_used": false,
+  "configuration_and_history_preserved": true
+}

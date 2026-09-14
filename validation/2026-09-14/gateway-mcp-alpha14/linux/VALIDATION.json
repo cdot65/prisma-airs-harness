@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "scope": "authenticated-mcp-internal-alpha",
+  "passed": true,
+  "release_ready": true,
+  "full_authentication_release_ready": false,
+  "independent_review": "not performed; this receipt is measured acceptance, not an independent review",
+  "full_workspace_tests": "not claimed",
+  "source_commit": "6195ca83e75c9d94370396b0a30cbb999c48c046",
+  "product_version": "0.1.0-alpha.14",
+  "target": "x86_64-unknown-linux-musl",
+  "binary_sha256": "ec0d70b86a235ca256bc027ec14ba7c9db8788a5dcf248bd7bebc81e3af79d5b",
+  "evidence": [
+    {
+      "role": "native-mcp-e2e",
+      "path": "native-mcp-e2e.json",
+      "sha256": "4749b76cbec8b665a2b947c7593eb2bbbac5ea5779c4ed57caa2da2bd1c6ad85"
+    },
+    {
+      "role": "npm-upgrade",
+      "path": "npm-upgrade.json",
+      "sha256": "f2e0344abac8e1bdc06706a9442e5c0015e180737a80e41759254f0dda8ea4f9"
+    },
+    {
+      "role": "owner-release-exception",
+      "path": "owner-release-exception.json",
+      "sha256": "e6c7a4b3cae6ea10ca7f211baae70ac7f0be0b884c38f5333170fa88d756bc18"
+    }
+  ],
+  "acceptance_mode": "owner-authorized-limited-alpha",
+  "full_gateway_lifecycle_passed": false,
+  "frontend_refresh_cycles_completed": 0,
+  "limitations": [
+    "Hourly frontend MCP refresh and concurrent post-expiry recovery are unverified; zero cycles completed.",
+    "Silent-wait lifecycle runs failed: inference verification after MCP logout encountered an expired refresh grant; inference logout was not reached.",
+    "Keycloak SSO idle timeout and observed upstream refresh-grant lifetime are 1800 seconds; inactivity can require fresh login.",
+    "Full workspace validation and independent release review are not claimed."
+  ]
+}

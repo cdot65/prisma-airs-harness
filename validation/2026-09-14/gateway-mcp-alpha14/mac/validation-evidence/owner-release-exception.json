@@ -1,0 +1,270 @@
+{
+  "authorization": "Owner explicitly directed release without another hour-long authentication test on 2026-09-14",
+  "owner_instruction": "i am not about to have you wait ANOTHER hour just to test this. our release is waiting!",
+  "binary_sha256": "fa511e5d075ce0d5650ad0ce16a065e9c3c80b16aab16855ab4d9f62b73526b4",
+  "started_at": 1789390255.977508,
+  "frontend_refresh_cycles_completed": 0,
+  "limitations": [
+    "Hourly frontend MCP refresh and concurrent post-expiry recovery are unverified; zero cycles completed.",
+    "Silent-wait lifecycle runs failed: inference verification after MCP logout encountered an expired refresh grant; inference logout was not reached.",
+    "Keycloak SSO idle timeout and observed upstream refresh-grant lifetime are 1800 seconds; inactivity can require fresh login.",
+    "Full workspace validation and independent release review are not claimed."
+  ],
+  "gateway_observation": {
+    "observed_at": 1789390366.7713983,
+    "gateway_calls": [
+      {
+        "id": "561bc6ae-562f-402f-8a77-f9a04d66d1fa",
+        "trace_id": "4dd00f0d950f41e9a459a25c8dd58425",
+        "created_at": "2026-09-14T12:52:27.153Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "get_security_profile",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "d2c074df-b288-4639-ad39-9761ea6966f3",
+        "trace_id": "e75c6036988040a4a6a1d096da59c6d8",
+        "created_at": "2026-09-14T12:52:25.309Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "get_gateway_guardrail",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "f41f9ec6-f76d-4b4c-a4fa-8dffe3e8d035",
+        "trace_id": "fbc2cbad11b04b1e805ace2ecc04932d",
+        "created_at": "2026-09-14T12:52:21.125Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "get_gateway_guardrail",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "f7218a20-d89e-4b98-a497-7b5f7b83b896",
+        "trace_id": "b3fea6383aac4bdab33ef782cd9fcb31",
+        "created_at": "2026-09-14T12:52:15.513Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "list_gateway_guardrails",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "0ebdf3cf-6029-4722-a55d-de0c0cb91efd",
+        "trace_id": "1baa2c677d954e26aa0098ee89839e4a",
+        "created_at": "2026-09-14T12:52:11.620Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "get_gateway_config",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "5d8ff2c2-f856-4c87-81c8-5b89f7169dc9",
+        "trace_id": "bddfba5ee16443e1874689b7ca08449e",
+        "created_at": "2026-09-14T12:52:06.832Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "list_gateway_configs",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "754b8d39-6dc9-4445-af91-4fd9ac779e69",
+        "trace_id": "d9cfa066e091441fb4f67958f304600a",
+        "created_at": "2026-09-14T12:52:02.854Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "get_workspace",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "11049a35-fce2-4dd8-947f-3fddd4ff8c0f",
+        "trace_id": "0d876f8306b3435ebbb0b3c190be98ea",
+        "created_at": "2026-09-14T12:52:00.144Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "list_security_profiles",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      },
+      {
+        "id": "38cbc714-4968-4f81-8760-35d9845bad48",
+        "trace_id": "e643a5e73b86443eb1f4465f4406644c",
+        "created_at": "2026-09-14T12:51:54.729Z",
+        "mode": "mcp:tool_call",
+        "status": 200,
+        "server": "prisma-airs",
+        "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+        "tool": "list_workspaces",
+        "decision": "allow",
+        "scopes": "mcp:servers:read mcp:tools:list mcp:tools:call"
+      }
+    ],
+    "upstream_token_metadata": {
+      "server_id": "prisma-airs",
+      "access_token_sha256": "c694f786c67b01c811c9c6630abb29f0c02f60d66c5900910c32f9cb3549aac4",
+      "issuer": "https://auth.redtail.cdot.io/realms/redtail",
+      "audience": [
+        "https://prisma-airs-mcp.cdot.io/mcp",
+        "prisma-airs-mcp"
+      ],
+      "client_id": "prisma-airs-gateway-mcp",
+      "iat": 1789390298,
+      "exp": 1789390598,
+      "refresh_present": true
+    },
+    "correlated_requests": [
+      {
+        "gateway_trace": "4dd00f0d950f41e9a459a25c8dd58425",
+        "tool": "get_security_profile",
+        "upstream_request_ids": [
+          "5a85dd4e-204e-4c6d-92e7-f216b60626a2"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "e75c6036988040a4a6a1d096da59c6d8",
+        "tool": "get_gateway_guardrail",
+        "upstream_request_ids": [
+          "76c3b4cf-db45-4eba-acfb-66810145a885"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "fbc2cbad11b04b1e805ace2ecc04932d",
+        "tool": "get_gateway_guardrail",
+        "upstream_request_ids": [
+          "e3ccc385-2a8a-4ef7-83dc-751cf844f382"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "b3fea6383aac4bdab33ef782cd9fcb31",
+        "tool": "list_gateway_guardrails",
+        "upstream_request_ids": [
+          "8e2d1c27-2c24-4595-b434-924879771a30"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "1baa2c677d954e26aa0098ee89839e4a",
+        "tool": "get_gateway_config",
+        "upstream_request_ids": [
+          "346f0c72-f9c8-46f8-97db-40d41e5a602d"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "bddfba5ee16443e1874689b7ca08449e",
+        "tool": "list_gateway_configs",
+        "upstream_request_ids": [
+          "9d8732a8-f025-40b7-b31f-390bfd4d71ba"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "d9cfa066e091441fb4f67958f304600a",
+        "tool": "get_workspace",
+        "upstream_request_ids": [
+          "ad7f53be-9495-4aec-832e-116244a608b0"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "0d876f8306b3435ebbb0b3c190be98ea",
+        "tool": "list_security_profiles",
+        "upstream_request_ids": [
+          "847eecc7-2f09-4c89-aaab-8bbd0e5d378c"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      },
+      {
+        "gateway_trace": "e643a5e73b86443eb1f4465f4406644c",
+        "tool": "list_workspaces",
+        "upstream_request_ids": [
+          "2d3139f3-ea31-41b3-a50e-fbbca5ca1c3a"
+        ],
+        "correlation": "tool and timestamp within two seconds; no shared trace header claimed"
+      }
+    ],
+    "native_metadata": {
+      "case": "gateway_credential_initial",
+      "passed": true,
+      "observed_at": 1789390304.921327,
+      "client_id": "pk_1aa0e663715a51faf06394bb0e47ad55c49a26efc005d612ae13ca8fcf07df20",
+      "expires_at": 1789393898567,
+      "access_token_sha256": "945b41eee684b46f8c91eff271910cdbbff8ed243254a92201a9bc1a21a1eb53",
+      "refresh_token_sha256": "4282cc97920cc4f89c81706c8565728a1ac383ababfa7a4209f9d72771cad9f5"
+    },
+    "denial": {
+      "observed_at": 1789390366.9373093,
+      "endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+      "status": 401,
+      "oauth_challenge": true
+    }
+  },
+  "upstream_renewal": {
+    "server_id": "prisma-airs",
+    "access_token_sha256": "3180a229b6e18f198616f15efd9b8b920506bcaa1f11b79fe07e59b08afd5111",
+    "issuer": "https://auth.redtail.cdot.io/realms/redtail",
+    "audience": [
+      "https://prisma-airs-mcp.cdot.io/mcp",
+      "prisma-airs-mcp"
+    ],
+    "client_id": "prisma-airs-gateway-mcp",
+    "iat": 1789391229,
+    "exp": 1789391529,
+    "refresh_present": true
+  },
+  "tui": {
+    "passed": true,
+    "platform": "Darwin",
+    "observed_at": 1789391231.33451,
+    "binary_sha256": "fa511e5d075ce0d5650ad0ce16a065e9c3c80b16aab16855ab4d9f62b73526b4",
+    "gateway_endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+    "compact_inventory": true,
+    "verbose_inventory": true,
+    "native_oauth": true,
+    "tools": [
+      "get_gateway_config",
+      "get_gateway_guardrail",
+      "get_security_profile",
+      "get_workspace",
+      "list_gateway_configs",
+      "list_gateway_guardrails",
+      "list_security_profiles",
+      "list_workspaces"
+    ],
+    "inference_binding_preserved": true
+  },
+  "frontend_token_stability": {
+    "passed": true,
+    "platform": "Darwin",
+    "observed_at": 1789392159.176988,
+    "gateway_frontend_token_unchanged_after_tui": true,
+    "access_token_sha256": "945b41eee684b46f8c91eff271910cdbbff8ed243254a92201a9bc1a21a1eb53",
+    "expires_at": 1789393898567
+  }
+}

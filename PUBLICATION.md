@@ -1,4 +1,11 @@
-# Alpha.14 gateway release acceptance — September 14, 2026
+# Published alpha.14 gateway integration — September 14, 2026
+
+`airs-harness@latest` and `airs-harness@alpha` now resolve to
+`0.1.0-alpha.14` on Verdaccio, with Linux x64 and Apple Silicon native packages.
+Fresh anonymous registry installations passed archive/native/bundle verification
+and 44 executable checks on each platform (one skip each); the downloaded Mac
+binary also passed signing, notarization and Keychain checks. See
+[the publication report](validation/2026-09-14/gateway-mcp-alpha14/REPORT.md).
 
 Both exact installed candidates have passed production gateway login, native
 credential persistence, all eight tools with gateway/upstream correlation,

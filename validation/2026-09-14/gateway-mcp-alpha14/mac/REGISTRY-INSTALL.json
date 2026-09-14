@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "version": "0.1.0-alpha.14",
+  "binary_sha256": "fa511e5d075ce0d5650ad0ce16a065e9c3c80b16aab16855ab4d9f62b73526b4",
+  "source_commit": "6195ca83e75c9d94370396b0a30cbb999c48c046",
+  "anonymous_fresh_install": true,
+  "downloaded_archives": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "sha256": "82d6e4831672c7033a52ce53b78d4b21de48a8cb7ffb6ff3fe3095f6a3c66edc"
+    },
+    {
+      "name": "airs-harness",
+      "sha256": "1f9ea93a4ef0f4938081cb3a5fbd13499ed5fa0041053e9592cede59ef9c2c5e"
+    }
+  ],
+  "bundle": {
+    "packages": 72,
+    "files": 3102,
+    "license_files": 68,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "625c1a0e13185bfb1493eabe3a169564cc6adb84539efe7b06ac103214ca88c8",
+    "windows_command_wrappers": []
+  }
+}

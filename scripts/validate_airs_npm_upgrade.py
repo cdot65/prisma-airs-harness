@@ -100,6 +100,7 @@ def main():
         for p in state.rglob("*")
         if p.is_file()
     }
+    (args.output / "state-before.json").write_text(json.dumps(before, indent=2))
     old_link = os.readlink(command)
 
     # The legacy path intentionally points outside npm's package directory.
@@ -205,11 +206,15 @@ def main():
         )
         assert os.readlink(command) == old_link
         assert hashlib.sha256(preserved_binary.read_bytes()).hexdigest() == old_hash
-        assert before == {
+        after = {
             str(p.relative_to(state)): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in state.rglob("*")
             if p.is_file()
         }
+        (args.output / "state-after.json").write_text(json.dumps(after, indent=2))
+        assert before == after, str({
+            "changed_state_files": sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
+        })
         assert not unexpected and not redirects
         receipt = {
             "passed": True,

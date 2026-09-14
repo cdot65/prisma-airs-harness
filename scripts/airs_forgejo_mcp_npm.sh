@@ -6,6 +6,17 @@ test "$(uname -m)" = arm64
 staged="$HOME/.local/share/airs-forgejo-runner/mcp-alpha13"
 work="$RUNNER_TEMP/airs-mcp-npm"
 mkdir -p "$work/evidence" "$work/native"
+retain_diagnostics() {
+  outcome="$1"
+  if [ "$outcome" -ne 0 ]; then
+    private="$staged/private-npm-run-$GITHUB_RUN_ID"
+    mkdir -p -m 700 "$private"
+    cp -R "$work/upgrade" "$private/" 2>/dev/null || true
+    find "$work/evidence" -name '*.private.log' -exec cp {} "$private/" \;
+    find "$private" -type f -exec chmod 600 {} \;
+  fi
+}
+trap 'retain_diagnostics "$?"' EXIT
 tar -xzf "$staged/linux-release.tar.gz" -C "$work/native"
 tar -xzf "$staged/signed-output/airs-harness-0.1.0-alpha.13-darwin-arm64.tar.gz" -C "$work/native"
 python3 scripts/package_airs_npm.py --release-directory "$work/native/airs-harness-0.1.0-alpha.13-linux-x86_64-musl" --release-directory "$work/native/airs-harness-0.1.0-alpha.13-darwin-arm64" --output-directory "$work/candidate-npm" --registry https://npm.cdot.io --bundle-cli

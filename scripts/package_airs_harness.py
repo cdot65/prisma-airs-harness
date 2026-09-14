@@ -320,7 +320,7 @@ def main():
             "product": "Prisma AIRS Harness",
             "version": version,
             "source_commit": commit,
-            "source_repository": "https://github.com/cdot65/airs-harness",
+            "source_repository": "https://git.cdot.io/cdot/prisma-airs-harness",
             "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
             "target": args.target,
             "profile": args.profile,

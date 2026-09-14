@@ -161,6 +161,7 @@ def main():
     )
     info.pop("publishable", None)
     info.pop("release_status", None)
+    info["source_repository"] = "https://git.cdot.io/cdot/prisma-airs-harness"
     info["release_scope"] = validation["scope"]
     info["validation_receipt_sha256"] = digest(args.output / "VALIDATION.json")
     (args.output / "BUILD-INFO.json").write_text(json.dumps(info, indent=2) + "\n")

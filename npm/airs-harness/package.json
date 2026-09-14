@@ -24,7 +24,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cdot65/airs-harness.git",
+    "url": "git+https://git.cdot.io/cdot/prisma-airs-harness.git",
     "directory": "npm/airs-harness"
   },
   "dependencies": {

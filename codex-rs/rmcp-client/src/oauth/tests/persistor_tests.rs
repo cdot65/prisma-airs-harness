@@ -63,6 +63,9 @@ use crate::startup_error::is_authentication_required_error;
 const REFRESH_LOCK_CONTENTION_EVENT_TARGET: &str =
     "codex_rmcp_client::oauth::refresh_lock::contention";
 
+#[path = "refresh_intent_tests.rs"]
+mod refresh_intent_tests;
+
 #[tokio::test(flavor = "current_thread")]
 async fn login_and_logout_follow_the_completed_refresh() -> Result<()> {
     let (_env, _server, initial) = test_context().await?;
@@ -456,8 +459,12 @@ async fn rejected_refresh_token_requires_reauthorization() -> Result<()> {
         .expect_err("a provider-rejected refresh token should require reauthorization");
     assert!(is_authentication_required_error(&error));
     let stored = load_oauth_tokens_from_file(&initial.server_name, &initial.url)?
-        .expect("rejected refresh must preserve the durable credentials");
-    assert_tokens_match_without_expiry(&stored, &initial);
+        .expect("rejected refresh retains a tokenless binding");
+    assert!(!stored.has_refresh_token());
+    assert!(!stored.access_token_is_usable_without_refresh());
+    assert!(is_authentication_required_error(
+        &persistor.refresh_if_needed().await.unwrap_err()
+    ));
     server.verify().await;
     Ok(())
 }
@@ -533,7 +540,7 @@ async fn issuerless_newer_credentials_are_not_adopted_before_refresh() -> Result
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn transient_refresh_failure_does_not_require_reauthorization() -> Result<()> {
+async fn ambiguous_refresh_failure_cannot_replay_a_consumed_grant() -> Result<()> {
     let (_env, server, initial) = test_context().await?;
     Mock::given(method("POST"))
         .and(path("/oauth/token"))
@@ -552,15 +559,19 @@ async fn transient_refresh_failure_does_not_require_reauthorization() -> Result<
     let error = persistor
         .refresh_if_needed()
         .await
-        .expect_err("a transient provider failure should not erase valid credentials");
-    assert!(!is_authentication_required_error(&error));
-    assert!(error.chain().any(|source| matches!(
-        source.downcast_ref::<AuthError>(),
-        Some(AuthError::TokenRefreshFailed(_))
-    )));
+        .expect_err("a dispatched exchange can have an unknown outcome");
+    assert!(is_authentication_required_error(&error));
     let stored = load_oauth_tokens_from_file(&initial.server_name, &initial.url)?
-        .expect("a transient refresh failure must preserve durable credentials");
-    assert_tokens_match_without_expiry(&stored, &initial);
+        .expect("refresh intent retains the connection binding");
+    assert!(!stored.has_refresh_token());
+    assert!(!stored.access_token_is_usable_without_refresh());
+    assert!(is_authentication_required_error(
+        &persistor.refresh_if_needed().await.unwrap_err()
+    ));
+    let restarted = persistor_for(&initial).await?;
+    assert!(is_authentication_required_error(
+        &restarted.refresh_if_needed().await.unwrap_err()
+    ));
     server.verify().await;
     Ok(())
 }
@@ -639,7 +650,7 @@ async fn assert_caller_cancellation(mode: crate::McpOAuthRefreshMode) -> Result<
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn provider_timeout_releases_lock_and_preserves_durable_credentials() -> Result<()> {
+async fn provider_timeout_retires_grant_and_releases_lock() -> Result<()> {
     let (_env, server, initial) = test_context().await?;
     mount_delayed_refresh(&server, "late-access-token").await;
     save_oauth_tokens_to_file(&initial)?;
@@ -662,7 +673,12 @@ async fn provider_timeout_releases_lock_and_preserves_durable_credentials() -> R
     .context("provider timeout did not release the credential lock")??;
     let stored = load_oauth_tokens_from_file(&initial.server_name, &initial.url)?
         .expect("timed-out refresh must leave durable credentials present");
-    assert_tokens_match_without_expiry(&stored, &initial);
+    assert!(!stored.has_refresh_token());
+    assert!(!stored.access_token_is_usable_without_refresh());
+    drop(_lock);
+    assert!(is_authentication_required_error(
+        &persistor.refresh_if_needed().await.unwrap_err()
+    ));
     server.verify().await;
     Ok(())
 }
@@ -705,7 +721,8 @@ async fn coordinated_provider_timeout_excludes_lock_wait() -> Result<()> {
     )
     .await??;
     let stored = load_oauth_tokens_from_file(&initial.server_name, &initial.url)?.unwrap();
-    assert_tokens_match_without_expiry(&stored, &initial);
+    assert!(!stored.has_refresh_token());
+    assert!(!stored.access_token_is_usable_without_refresh());
     server.verify().await;
     Ok(())
 }

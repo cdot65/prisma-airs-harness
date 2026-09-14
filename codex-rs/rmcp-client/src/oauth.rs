@@ -19,6 +19,7 @@
 mod credential_store;
 mod ema_identity;
 mod issuer_binding;
+mod refresh_intent;
 mod refresh_lock;
 mod refresh_scopes;
 mod refresh_transaction;

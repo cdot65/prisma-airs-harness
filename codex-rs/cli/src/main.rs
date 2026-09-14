@@ -70,6 +70,9 @@ mod airs_storage_error;
 #[global_allocator]
 static ALLOCATOR: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
 
+#[cfg(test)]
+#[path = "airs_browser_args_tests.rs"]
+mod airs_browser_args_tests;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 mod app_cmd;
 mod cloud_config;
@@ -562,6 +565,10 @@ struct LoginCommand {
 
     #[arg(long = "device-auth")]
     use_device_code: bool,
+
+    /// Print the company login URL without opening the desktop browser.
+    #[arg(long, requires = "issuer_url", conflicts_with = "use_device_code")]
+    no_browser: bool,
 
     /// EXPERIMENTAL: Use custom OAuth issuer base URL (advanced)
     /// Override the OAuth issuer base URL (advanced)
@@ -1251,6 +1258,8 @@ async fn cli_main(
                 );
                 let flow = if args.use_device_code {
                     airs_oidc::LoginFlow::Device
+                } else if args.no_browser {
+                    airs_oidc::LoginFlow::BrowserManual
                 } else {
                     airs_oidc::LoginFlow::Browser
                 };

@@ -103,6 +103,11 @@ def main():
     if not version_output.startswith("airs-harness "):
         raise ValueError("Expected an AIRS Harness binary")
     version = version_output.removeprefix("airs-harness ")
+    package_version = json.loads((repo / "npm/airs-harness/package.json").read_text())[
+        "version"
+    ]
+    if version != package_version:
+        raise ValueError("Native executable and npm package versions differ")
     commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=repo, text=True
     ).strip()

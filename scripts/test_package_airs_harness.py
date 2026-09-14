@@ -31,12 +31,17 @@ class NativePackaging(unittest.TestCase):
         build_command=None,
         signing_overrides=None,
         validated=False,
+        package_version="0.1.0-alpha.10",
     ):
         root = directory / "source"
         root.mkdir()
         (root / "codex-rs").mkdir()
         (root / "codex-rs/Cargo.lock").write_text("fixture lock")
         (root / "scripts").mkdir()
+        (root / "npm/airs-harness").mkdir(parents=True)
+        (root / "npm/airs-harness/package.json").write_text(
+            json.dumps({"version": package_version})
+        )
         for name in [
             "LICENSE",
             "NOTICE",
@@ -183,6 +188,16 @@ class NativePackaging(unittest.TestCase):
         ):
             PACKAGER.main()
         return next((directory / "output").glob("*.tar.gz")), binary.read_bytes()
+
+    def test_mismatched_native_version_is_rejected_before_packaging(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaisesRegex(ValueError, "versions differ"):
+                self.package(
+                    Path(temporary),
+                    "aarch64-apple-darwin",
+                    candidate=True,
+                    package_version="0.1.0-alpha.14",
+                )
 
     def test_review_archive_retains_bound_evidence_without_full_release_claim(self):
         with tempfile.TemporaryDirectory() as directory:

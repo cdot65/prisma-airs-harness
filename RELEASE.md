@@ -1,3 +1,17 @@
+# 0.1.0-alpha.13 — built-in OAuth MCP and verified npm upgrades
+
+Published as `airs-harness@latest` on Verdaccio for Linux x64 and Apple Silicon.
+Use the normal command's existing `mcp add` and `mcp login` workflow. The gateway
+now receives callable flat tool declarations while canonical history retains
+namespaces. Explicit read scopes and grant-preserving refresh support Redtail's
+OAuth policy. Adding native MCP preserves inference history and credentials.
+
+Both platforms passed all eight production tools, native OAuth with two
+concurrent expiry cycles, npm upgrades, installed terminal inventory and fresh
+registry integrity checks. Mac Developer ID signing and Apple notarization passed
+again after registry installation. See [MCP.md](MCP.md) for onboarding and
+[PUBLICATION.md](PUBLICATION.md) for the evidence and bounded alpha release scope.
+
 # 0.1.0-alpha.12 — Codex 0.154 integration and signed Mac distribution
 
 Published to Verdaccio as `airs-harness@latest` for Linux x64 and Apple Silicon.

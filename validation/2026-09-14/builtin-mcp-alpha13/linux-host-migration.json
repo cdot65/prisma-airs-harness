@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "airs-harness 0.1.0-alpha.13",
+  "protected_files_preserved": 15,
+  "old_binary_preserved": true,
+  "command": "/home/cdot/.local/bin/airs-harness",
+  "target": "/home/cdot/.local/share/npm-global/bin/airs-harness",
+  "obsolete_mcp_alias_removed": true
+}

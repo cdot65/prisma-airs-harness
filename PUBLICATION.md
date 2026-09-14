@@ -1,4 +1,29 @@
-# Current Verdaccio release — alpha.12
+# Current Verdaccio release — alpha.13
+
+`airs-harness@0.1.0-alpha.13` is published to `https://npm.cdot.io` as `latest`
+and `alpha`, with Linux x64 and Apple Silicon native packages. Install or update:
+
+```sh
+npm install -g airs-harness@latest --registry=https://npm.cdot.io
+airs-harness --version
+```
+
+Existing npm installations upgrade without force, uninstalling or deleting a
+binary. Both legacy command layouts also passed a one-time handover that
+preserves the old target and persistent settings. See [MCP.md](MCP.md) for the
+handover and the built-in OAuth login in `work-calvin`.
+
+The Mac binary is Developer ID signed, hardened and Apple notarized. Fresh
+anonymous registry installs verified the exact archives, native bytes and bundled
+CLI on both platforms; the downloaded Mac signature/ticket passed again. Native
+and npm-installed OAuth acceptance covers all eight tools, two concurrent expiry
+cycles, history preservation, separate logout and interactive MCP inventory.
+
+[Release report](validation/2026-09-14/builtin-mcp-alpha13/REPORT.md) and
+[publication receipt](validation/2026-09-14/builtin-mcp-alpha13/publication.json)
+record the measured scope, corrected test fixtures and remaining review limits.
+
+# Historical Verdaccio release — alpha.12
 
 `airs-harness@0.1.0-alpha.12` is published to `https://npm.cdot.io` as `latest`,
 with Linux x64 and Apple Silicon native packages. Install or update with:

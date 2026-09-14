@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "temporary_user_deleted": true,
+  "local_fixture_credential_deleted": true,
+  "mac_fixture_credential_deleted": true,
+  "environments": [
+    {
+      "environment": "prisma-airs-mcp",
+      "sync": "Synced",
+      "health": "Healthy",
+      "only_owner_bindings": true,
+      "anonymous_mcp_status": 401,
+      "revision": "a69ee1056331283cc2fb0161f528e978425074d6"
+    },
+    {
+      "environment": "prisma-airs-mcp-dev",
+      "sync": "Synced",
+      "health": "Healthy",
+      "only_owner_bindings": true,
+      "anonymous_mcp_status": 401,
+      "revision": "a69ee1056331283cc2fb0161f528e978425074d6"
+    }
+  ]
+}

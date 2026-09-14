@@ -1,0 +1,132 @@
+{
+  "passed": true,
+  "binary_sha256": "823f9e73d7df721379ba2b1b0f8c68b12cdb457aac3acb3618f1e6c92a8bb412",
+  "platform": "Linux",
+  "launcher_sha256": null,
+  "endpoint": "https://prisma-airs-mcp.cdot.io/mcp",
+  "identity": "disposable human; native browser PKCE and OS credential store",
+  "refresh_cycles": 2,
+  "results": [
+    {
+      "case": "setup",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "history_before_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_list",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "doctor_after_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools_tool_results",
+      "passed": true,
+      "tools": [
+        "get_gateway_config",
+        "get_gateway_guardrail",
+        "get_security_profile",
+        "get_workspace",
+        "list_gateway_configs",
+        "list_gateway_guardrails",
+        "list_security_profiles",
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "inference_history_preserved",
+      "passed": true
+    },
+    {
+      "case": "refresh_1_0",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "refresh_1_0_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "refresh_1_1",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "refresh_1_1_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "refresh_2_0",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "refresh_2_1",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "refresh_2_0_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "refresh_2_1_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "mcp_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_list_after_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_after_mcp_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_logout",
+      "passed": true,
+      "exit_code": 0
+    }
+  ]
+}

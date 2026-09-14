@@ -1,0 +1,60 @@
+{
+  "version": "0.1.0-alpha.13",
+  "registry": "https://npm.cdot.io",
+  "tag": "latest",
+  "complete": true,
+  "packages": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.13",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.13.tgz",
+      "integrity": "sha512-ySb5GnLfuQNHDQwAh0Xfz7n8IrRH9yAxmY8XV3HICdWzzffUPMvSuqQoac5oWVlgJXugTGO3wO5kQgD/L0Laxg==",
+      "sha256": "77586e05a1c2c2d1668527324b28828732b47c4d13427135ffd65c1c4df7169e",
+      "published": true
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.13",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.13.tgz",
+      "integrity": "sha512-SXzVVu8jijsALOXxTZi2JmLEmuMqSL9Qwh7cdpSY88JeMRV8FfIGYqYZyNypNURoH85R7xpjrug5FRRGt9T8QQ==",
+      "sha256": "b88656ae1a63429d3f0e9e0b679ad4f4f2b523080ebd91913396a67961a72f10",
+      "published": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.13",
+      "filename": "airs-harness-0.1.0-alpha.13.tgz",
+      "integrity": "sha512-UUCIVlZEM4IY2R7QPHDYHUkTXNCk+noVNHajM4+q4LdyiQuEQEILpBr81O6GG+oOsan3Et/kV6uaviRDcec4zg==",
+      "sha256": "2ef653bbcb05a96ee9a74d84b59e61c6d3b2bd8ba04ea3db9ffe13052b102c73",
+      "published": true
+    }
+  ],
+  "dist_tags": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "dist_tags": {
+        "latest": "0.1.0-alpha.13",
+        "alpha": "0.1.0-alpha.13"
+      }
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "dist_tags": {
+        "latest": "0.1.0-alpha.13",
+        "alpha": "0.1.0-alpha.13"
+      }
+    },
+    {
+      "name": "airs-harness",
+      "dist_tags": {
+        "latest": "0.1.0-alpha.13",
+        "alpha": "0.1.0-alpha.13"
+      }
+    }
+  ],
+  "registry_verification": {
+    "Linux": true,
+    "Darwin": true,
+    "macos_signature_and_notarization": true
+  }
+}

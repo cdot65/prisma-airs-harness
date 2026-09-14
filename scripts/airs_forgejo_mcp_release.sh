@@ -6,6 +6,16 @@ test "$(uname -m)" = arm64
 staged="$HOME/.local/share/airs-forgejo-runner/mcp-alpha13"
 work="$RUNNER_TEMP/airs-mcp-release"
 mkdir -p "$work/evidence"
+retain_diagnostics() {
+  outcome="$1"
+  if [ "$outcome" -ne 0 ]; then
+    private="$staged/private-run-$GITHUB_RUN_ID"
+    mkdir -p -m 700 "$private"
+    find "$work/evidence" -name '*.private.log' -exec cp {} "$private/" \;
+    find "$private" -type f -exec chmod 600 {} \;
+  fi
+}
+trap 'retain_diagnostics "$?"' EXIT
 test "$(git -C runtime rev-parse HEAD)" = "$AIRS_RUNTIME_SOURCE"
 python3 scripts/airs_macos_artifact.py restore --archive "$staged/intake.tar.gz" --directory "$work/compiled" --source-commit "$AIRS_RUNTIME_SOURCE" --archive-sha256 "$AIRS_ARCHIVE_SHA256" --binary-sha256 "$AIRS_BINARY_SHA256" --fixture-sha256 "$AIRS_FIXTURE_SHA256"
 cp "$work/compiled/ARTIFACT-VERIFIED.json" "$work/evidence/NATIVE-BUILD.json"
@@ -24,7 +34,7 @@ archive_sha="$(shasum -a 256 "$work/signed.zip" | cut -d ' ' -f 1)"
 binary_sha="$(shasum -a 256 "$binary" | cut -d ' ' -f 1)"
 python3 scripts/airs_signed_macos_artifact.py verify --asset-id "forgejo-run-$GITHUB_RUN_ID" --binary "$binary" --receipt "$work/evidence/SIGNING.json" --archive-sha256 "$archive_sha" --binary-sha256 "$binary_sha" --source-commit "$AIRS_RUNTIME_SOURCE" --submission "$submission"
 python3 scripts/validate_airs_macos_keychain.py --binary "$binary" --receipt "$work/evidence/NATIVE-KEYCHAIN.json"
-python3 scripts/validate_builtin_mcp.py --binary "$binary" --fixture "$staged/acceptance-user.json" --state "$work/oauth-state" --output "$work/evidence/MCP-E2E.json" --refresh-cycles 2
+python3 scripts/validate_builtin_mcp.py --binary "$binary" --fixture "$staged/acceptance-user.json" --state "$work/oauth-state" --output "$work/evidence/MCP-E2E.json" --endpoint https://prisma-airs-mcp.cdot.io/mcp --client prisma-airs-harness-mcp --refresh-cycles 2
 (cd runtime/codex-rs && cargo metadata --locked --filter-platform aarch64-apple-darwin --format-version 1) > "$work/metadata.json"
 python3 scripts/package_airs_harness.py --source-directory runtime --binary "$binary" --metadata "$work/metadata.json" --target aarch64-apple-darwin --unvalidated-candidate --signing-receipt "$work/evidence/SIGNING.json" --output-directory "$work/mac-release" --profile 'release; CLI opt-level=1; lto=false; codegen-units=16; debug=0' --build-command 'cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness'
 # Retain exact signed intake and package for the subsequent combined npm checks.

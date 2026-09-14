@@ -18,6 +18,16 @@ use `--force` for this one-time handover. npm replaces the command link and leav
 its old target executable intact. Subsequent npm-managed updates need neither
 `--force` nor an uninstall. Use the same npm prefix that is on your PATH; inspect
 `command -v airs-harness` and `npm prefix -g` if an older command still wins.
+If a known legacy `~/.local/bin/airs-harness` link shadows a different npm prefix,
+retarget that link once after installation:
+
+```sh
+ln -sfn "$(npm prefix -g)/bin/airs-harness" ~/.local/bin/airs-harness
+```
+
+Only use that handover when the two command paths differ and the old path is the
+legacy symlink. It preserves the old executable and makes future normal npm
+updates visible through the same command.
 
 Keep the existing `work-calvin` inference environment. Add the server there:
 

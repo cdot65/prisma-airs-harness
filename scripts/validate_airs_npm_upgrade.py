@@ -110,6 +110,16 @@ def main():
     preserved_binary.chmod(0o755)
     (legacy / "bin/airs-harness").symlink_to(preserved_binary)
 
+    # Some hosts put ~/.local/bin before a separate npm global prefix. Hand
+    # that known legacy command to npm once, without changing the npm prefix.
+    front = args.output / "front-of-PATH"
+    front.mkdir()
+    visible_command = front / "airs-harness"
+    visible_command.symlink_to(preserved_binary)
+    replacement = front / ".airs-harness-npm-handover"
+    replacement.symlink_to(command)
+    os.replace(replacement, visible_command)
+
     metadata, archives, requests, unexpected, redirects = {}, {}, [], [], []
     server = ThreadingHTTPServer(
         ("127.0.0.1", 0),
@@ -177,6 +187,22 @@ def main():
                     "force_used": bool(flags),
                 }
             )
+        forwarded_version = run(
+            [str(visible_command), "--version"],
+            old_env,
+            args.output / "front-of-path-version.log",
+        )
+        assert forwarded_version == "airs-harness " + launcher["version"]
+        results.append(
+            {
+                "case": "legacy-command-before-separate-npm-prefix",
+                "passed": True,
+                "binary_sha256": native_info(prefix)[1]["binary_sha256"],
+                "uninstall_used": False,
+                "manual_command_removal": False,
+                "force_used": False,
+            }
+        )
         assert os.readlink(command) == old_link
         assert hashlib.sha256(preserved_binary.read_bytes()).hexdigest() == old_hash
         assert before == {

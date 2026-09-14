@@ -16,7 +16,7 @@ python3 scripts/validate_airs_npm_upgrade.py --packages "$work/candidate-npm" --
 cp "$work/upgrade/UPGRADE.json" "$work/evidence/"
 AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$prefix/bin/airs-harness" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$work/evidence/installed-tests.log" 2>&1
 python3 scripts/validate_airs_macos_keychain.py --binary "$prefix/bin/airs-harness" --receipt "$work/evidence/INSTALLED-KEYCHAIN.json"
-python3 scripts/validate_builtin_mcp.py --binary "$prefix/bin/airs-harness" --fixture "$staged/acceptance-user.json" --state "$work/oauth-state" --output "$work/evidence/INSTALLED-MCP-E2E.json"
+python3 scripts/validate_builtin_mcp.py --binary "$prefix/bin/airs-harness" --fixture "$staged/acceptance-user.json" --state "$work/oauth-state" --output "$work/evidence/INSTALLED-MCP-E2E.json" --endpoint https://prisma-airs-mcp.cdot.io/mcp --client prisma-airs-harness-mcp --check-tui
 # The next Linux validation uses these exact combined archives, never repacks them.
 mkdir -p "$staged/npm-output"
 tar -czf "$staged/npm-output/candidate-npm.tar.gz" -C "$work" candidate-npm

@@ -40,6 +40,9 @@ OBSERVED_CASES = {
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument(
+        "--launcher", type=Path, help="Installed npm command for managed CLI wiring"
+    )
     parser.add_argument("--state", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--endpoint", required=True)
@@ -81,7 +84,7 @@ def main():
 
     def run(label, command, login=False):
         child = subprocess.Popen(
-            [str(args.binary), *command],
+            [str(args.launcher or args.binary), *command],
             env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -160,6 +163,7 @@ def main():
                                 "case": label,
                                 "waiting_for_browser": True,
                                 "authorization_host": parsed.netloc,
+                                "client_id": query.get("client_id", [None])[0],
                             }
                         ),
                         flush=True,
@@ -225,6 +229,63 @@ def main():
                 "tools": sorted(completed),
             }
         )
+
+    def credential_metadata(label):
+        # Read only this test endpoint's native record; never emit token values.
+        # serde_json feature unification can preserve insertion order or sort keys.
+        payloads = [
+            {"headers": {}, "type": "http", "url": args.endpoint},
+            {"type": "http", "url": args.endpoint, "headers": {}},
+        ]
+        result = None
+        for payload in payloads:
+            encoded = json.dumps(payload, separators=(",", ":"))
+            account = "prisma-airs|" + hashlib.sha256(encoded.encode()).hexdigest()[:16]
+            if os.uname().sysname == "Darwin":
+                command = [
+                    "security",
+                    "find-generic-password",
+                    "-s",
+                    "Codex MCP Credentials",
+                    "-a",
+                    account,
+                    "-w",
+                ]
+            else:
+                command = [
+                    "secret-tool",
+                    "lookup",
+                    "service",
+                    "Codex MCP Credentials",
+                    "username",
+                    account,
+                ]
+            result = subprocess.run(command, env=env, capture_output=True)
+            if result.returncode == 0:
+                break
+        if result is None or result.returncode:
+            raise RuntimeError(
+                "Native credential metadata lookup failed; no secret output emitted"
+            )
+        record = json.loads(result.stdout)
+        assert record["url"] == args.endpoint and record["server_name"] == "prisma-airs"
+        token = record["token_response"]
+        row = {
+            "case": label,
+            "passed": True,
+            "observed_at": time.time(),
+            "client_id": record["client_id"],
+            "expires_at": record["expires_at"],
+            "access_token_sha256": hashlib.sha256(
+                token["access_token"].encode()
+            ).hexdigest(),
+            "refresh_token_sha256": hashlib.sha256(
+                token["refresh_token"].encode()
+            ).hexdigest(),
+        }
+        rows.append(row)
+        print(json.dumps(row), flush=True)
+        return row
 
     passed, logged_in, mcp_added = False, False, False
     started_at = time.time()
@@ -302,6 +363,7 @@ def main():
             raise ValueError("Expected native dynamic OAuth against the gateway only")
         if (args.state / ".credentials.json").exists():
             raise ValueError("Native credential storage fell back to a file")
+        previous_credential = credential_metadata("gateway_credential_initial")
         run("doctor_after_mcp", ["doctor", "--verify-access"])
         model(
             "all_read_tools",
@@ -342,8 +404,28 @@ def main():
                 ]
                 for future in futures:
                     future.result()
+            current_credential = credential_metadata(
+                f"gateway_credential_refresh_{cycle}"
+            )
+            if (
+                time.time() * 1000 <= previous_credential["expires_at"]
+                or current_credential["expires_at"] <= previous_credential["expires_at"]
+                or current_credential["access_token_sha256"]
+                == previous_credential["access_token_sha256"]
+            ):
+                raise ValueError(
+                    "Native gateway token did not rotate after actual expiration"
+                )
+            previous_credential = current_credential
             if binding.read_bytes() != pinned:
                 raise ValueError("Refresh changed the inference history binding")
+        # Allow the separate read-only collector to correlate the final refresh calls.
+        observation_deadline = time.monotonic() + 120
+        while (
+            not args.gateway_evidence.exists()
+            and time.monotonic() < observation_deadline
+        ):
+            time.sleep(2)
         observations = json.loads(args.gateway_evidence.read_text())
         if (
             observations["endpoint"] != args.endpoint

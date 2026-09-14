@@ -71,13 +71,12 @@ pub(super) fn mcp_revision(home: &Path, config: &toml::Value) -> anyhow::Result<
     // Built-in OAuth servers use Codex's mutable, endpoint-bound credential store.
     // Keep legacy credential helpers pinned without making adding/removing a native
     // OAuth server invalidate the inference identity or rewrite existing history.
+    // Dynamic registration (including the gateway) has no explicit oauth.client_id.
     let mut normalized = servers.clone();
     normalized.retain(|_, server| {
         let native_oauth = server
-            .get("oauth")
-            .and_then(|oauth| oauth.get("client_id"))
-            .and_then(toml::Value::as_str)
-            .is_some_and(|client| !client.trim().is_empty())
+            .get("auth")
+            .is_none_or(|auth| auth.as_str() == Some("oauth"))
             && server
                 .get("url")
                 .and_then(toml::Value::as_str)

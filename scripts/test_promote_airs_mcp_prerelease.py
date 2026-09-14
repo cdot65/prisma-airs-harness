@@ -22,6 +22,12 @@ class PromotionEvidence(unittest.TestCase):
             "mcp_list_after_logout",
             "inference_after_mcp_logout",
             "inference_logout",
+            "gateway_cas_browser_login",
+            "gateway_mcp_request_observed",
+            "gateway_upstream_request_observed",
+            "gateway_mcp_denial",
+            "gateway_managed_upstream_oauth",
+            "gateway_managed_upstream_refresh",
         ]
         rows = [{"case": case, "passed": True} for case in cases]
         rows.append(
@@ -41,6 +47,12 @@ class PromotionEvidence(unittest.TestCase):
             for p in (0, 1)
         )
         self.e2e = {
+            "endpoint": "https://mcp.gateway.example.com/workspace/read-tools/mcp",
+            "routing": {
+                "mode": "gateway-proxied-mcp",
+                "gateway_endpoint": "https://mcp.gateway.example.com/workspace/read-tools/mcp",
+                "upstream_endpoint": "https://upstream.example.com/mcp",
+            },
             "passed": True,
             "binary_sha256": "a" * 64,
             "platform": "Linux",
@@ -79,6 +91,39 @@ class PromotionEvidence(unittest.TestCase):
 
     def test_accepts_bound_linux_acceptance(self):
         validate(self.info, self.e2e, self.upgrade, None)
+
+    def test_rejects_historical_direct_receipt_despite_successful_tools_and_refresh(
+        self,
+    ):
+        direct = copy.deepcopy(self.e2e)
+        del direct["routing"]
+        direct["endpoint"] = "https://upstream.example.com/mcp"
+        direct["results"] = [
+            row for row in direct["results"] if not row["case"].startswith("gateway_")
+        ]
+        with self.assertRaisesRegex(ValueError, "direct-server receipts"):
+            validate(self.info, direct, self.upgrade, None)
+
+    def test_gateway_claim_cannot_cover_a_direct_destination(self):
+        direct = {**self.e2e, "endpoint": "https://upstream.example.com/mcp"}
+        with self.assertRaisesRegex(ValueError, "gateway destination"):
+            validate(self.info, direct, self.upgrade, None)
+
+    def test_requires_observed_gateway_path_and_both_authentication_legs(self):
+        for missing in [
+            "gateway_cas_browser_login",
+            "gateway_mcp_request_observed",
+            "gateway_upstream_request_observed",
+            "gateway_mcp_denial",
+            "gateway_managed_upstream_oauth",
+            "gateway_managed_upstream_refresh",
+        ]:
+            incomplete = copy.deepcopy(self.e2e)
+            incomplete["results"] = [
+                row for row in incomplete["results"] if row["case"] != missing
+            ]
+            with self.subTest(missing=missing), self.assertRaises(ValueError):
+                validate(self.info, incomplete, self.upgrade, None)
 
     def test_rejects_foreign_binary_or_incomplete_authentication(self):
         for field, value in [

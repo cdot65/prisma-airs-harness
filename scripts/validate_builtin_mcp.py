@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Exercise the installed Codex MCP client through real browser PKCE and gateway tools.
+"""Historical direct-upstream MCP experiment; not gateway-mediated acceptance.
+
+This driver authenticates directly to the upstream resource. Its successful
+receipt cannot satisfy the required gateway/CAS architecture or MCP promotion.
 
 Use a disposable identity authorized by the selected MCP service. Linux requires
 an isolated dbus-run-session. macOS requires the logged-in native runner session.
@@ -392,6 +395,7 @@ def main():
             except Exception:
                 passed = False
         receipt = {
+            "traffic_path": "direct-upstream-experiment",
             "passed": passed,
             "binary_sha256": hashlib.sha256(native_binary.read_bytes()).hexdigest(),
             "platform": os.uname().sysname,

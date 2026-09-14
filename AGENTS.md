@@ -1,5 +1,14 @@
 # Prisma AIRS Harness release policy
 
+- Both inference and remote MCP traffic must target Prisma AIRS AI Gateway.
+  The built-in Codex MCP client connects to the gateway MCP listener; the gateway
+  proxies upstream servers and owns upstream OAuth. CAS/organizational SSO is the
+  gateway-facing user login. A direct upstream connection is not an accepted
+  workaround for a gateway defect or missing configuration.
+- Direct-MCP alpha.13 receipts are historical functional tests, not gateway/CAS
+  acceptance. Future MCP promotion must prove both gateway routing and upstream
+  OAuth. Preserve the working inference environment during remediation.
+
 - Mac builds and distributions target Apple Silicon (`aarch64-apple-darwin`) only.
   Do not schedule Intel Mac builds or publish Intel Mac packages.
 - Inherited upstream workflows are disabled. Keep them disabled; use the owned

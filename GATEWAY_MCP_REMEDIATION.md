@@ -1,4 +1,4 @@
-# Required MCP route and outstanding acceptance
+# Gateway MCP route and release evidence
 
 Both inference and remote MCP must target Prisma AIRS AI Gateway. The built-in
 Codex MCP client stays in `airs-harness`; it connects to the gateway's MCP
@@ -6,7 +6,7 @@ listener. The gateway proxies upstream servers and manages their OAuth tokens.
 CAS/Keycloak federation supports gateway-facing user login. These two OAuth legs
 have separate credentials and lifecycles.
 
-## Deployment and acceptance checkpoint — September 14, 12:55 UTC
+## Deployment and publication — September 14, 2026
 
 Development and production gateway integrations are deployed with dedicated
 confidential OAuth clients and explicit workspace access. Both upstreams accept

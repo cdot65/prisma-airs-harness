@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "binary_sha256": "ec0d70b86a235ca256bc027ec14ba7c9db8788a5dcf248bd7bebc81e3af79d5b",
+  "tests_run": 44,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0,
+  "version": "0.1.0-alpha.14"
+}

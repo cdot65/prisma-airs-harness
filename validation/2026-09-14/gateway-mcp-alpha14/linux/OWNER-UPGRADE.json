@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "observed_at": 1789394455.7830465,
+  "previous_version": "airs-harness 0.1.0-alpha.13",
+  "version": "airs-harness 0.1.0-alpha.14",
+  "binary_sha256": "ec0d70b86a235ca256bc027ec14ba7c9db8788a5dcf248bd7bebc81e3af79d5b",
+  "command": "/home/cdot/.local/share/npm-global/bin/airs-harness",
+  "preserved_state_files": 327,
+  "force_used": false,
+  "uninstall_used": false,
+  "configuration_and_history_preserved": true
+}

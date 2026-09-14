@@ -1,0 +1,88 @@
+{
+  "passed": false,
+  "binary_sha256": "ec0d70b86a235ca256bc027ec14ba7c9db8788a5dcf248bd7bebc81e3af79d5b",
+  "platform": "Linux",
+  "endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+  "routing": {
+    "mode": "gateway-proxied-mcp",
+    "gateway_endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+    "upstream_endpoint": "https://prisma-airs-mcp.cdot.io/mcp"
+  },
+  "identity": "interactive human SSO; isolated native state",
+  "refresh_cycles": 2,
+  "started_at": 1789390366.6808898,
+  "results": [
+    {
+      "case": "setup",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "history_before_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "gateway_credential_initial",
+      "passed": true,
+      "observed_at": 1789390399.267443,
+      "client_id": "pk_a1366e4c8928ec87f89ac3f7708846ac08d1eaf8bd8f6b50a77ef62398ebf8d3",
+      "expires_at": 1789393999208,
+      "access_token_sha256": "c8467a58af13acdfbbb9511d2f0c7474a52b023e65357022fdbb58c89432ddeb",
+      "refresh_token_sha256": "e0348ccdc45997ab0335300800a84baa393cfce43121729332898a0253299200"
+    },
+    {
+      "case": "doctor_after_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools_tool_results",
+      "passed": true,
+      "tools": [
+        "get_gateway_config",
+        "get_gateway_guardrail",
+        "get_security_profile",
+        "get_workspace",
+        "list_gateway_configs",
+        "list_gateway_guardrails",
+        "list_security_profiles",
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "inference_history_preserved",
+      "passed": true
+    },
+    {
+      "case": "mcp_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_list_after_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_after_mcp_logout",
+      "passed": false,
+      "exit_code": 1
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "binary_sha256": "fa511e5d075ce0d5650ad0ce16a065e9c3c80b16aab16855ab4d9f62b73526b4",
+  "tests_run": 44,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0,
+  "version": "0.1.0-alpha.14"
+}

@@ -1,0 +1,33 @@
+{
+  "observed_at": 1789394239.7584088,
+  "version": "0.1.0-alpha.14",
+  "registry": "https://npm.cdot.io",
+  "tag": "gateway-validation",
+  "complete": true,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.14",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.14.tgz",
+      "integrity": "sha512-djYaqevwAoWwU0Z2ZIHvc6nIVgos7SrxNSnk8W9/RdRFwIviib4OjctH6XnS/jKz2mGNjIobJ0XZXYiQVZbm1g==",
+      "sha256": "216b9e75aeb60a7a4b11d8c9ff67237ad94e4a75be784fe692da37f823c2fc5f",
+      "published": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.14",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.14.tgz",
+      "integrity": "sha512-OcrNoDQ5HjwI/2/vly4fRhbfdo5xnC8vMlqzMgxqo9fU0+ix8OMQcLue4mZI0fMIpG/2eEFlCM4AZnNklI/Uxg==",
+      "sha256": "82d6e4831672c7033a52ce53b78d4b21de48a8cb7ffb6ff3fe3095f6a3c66edc",
+      "published": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.14",
+      "filename": "airs-harness-0.1.0-alpha.14.tgz",
+      "integrity": "sha512-k8Gv/cHu6iAGEvetisZeHrDxhQzsnTPkxU5Pk6dFk7i3hq1em/BVALTEcchF8kmOVj4sIv0VdmVtgBCSuLsOCw==",
+      "sha256": "1f9ea93a4ef0f4938081cb3a5fbd13499ed5fa0041053e9592cede59ef9c2c5e",
+      "published": true
+    }
+  ]
+}

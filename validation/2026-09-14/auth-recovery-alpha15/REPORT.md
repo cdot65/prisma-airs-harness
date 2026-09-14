@@ -22,7 +22,9 @@ inference and MCP. The 30-minute SSO idle policy is unchanged.
   core MCP authentication-boundary tests. Scoped Clippy and formatting passed.
 - Broad core validation reported 4,055 passes, 104 failures and nine skips. A
   gateway fixture expectation was corrected and the focused cases then passed.
-  No clean baseline comparison is claimed for the remaining failures.
+  A subsequent run against the published alpha.14 source reproduced all 103
+  remaining failures. The candidate-only gateway fixture now passes in the
+  focused rerun. See `CORE-BASELINE-COMPARISON.json`; full-suite success is not claimed.
 - Full workspace compilation failed because Rusty V8 150.4.0 has no available
   Linux musl archive. Full workspace success and independent review are not claimed.
 

@@ -1,0 +1,33 @@
+{
+  "baseline_source": "6195ca83e75c9d94370396b0a30cbb999c48c046",
+  "baseline_failures": 103,
+  "candidate_failures_before_final_fixture_correction": 104,
+  "shared_failures": 103,
+  "candidate_only": [
+    "codex-core::all suite::rmcp_client::oauth_refresh_tests::http_auth_challenge_reaches_agent_tool_call_events_without_replay::gateway_stops_before_model_fallback"
+  ],
+  "baseline_only": [],
+  "run_details": {
+    "alpha14-baseline-core.log": {
+      "final_failed": 103,
+      "passed_after_retry": []
+    },
+    "core-all-tests-r2.log": {
+      "final_failed": 104,
+      "passed_after_retry": [
+        "codex-core::all suite::subagent_notifications::grandchild_full_fork_preserves_context_baseline::legacy_last_turn"
+      ]
+    }
+  },
+  "log_sha256": {
+    "alpha14-baseline-core.log": "e433699af72f7a7216257fe8f512e88b3a4bad7ece6c0fe4e206fae1e8edf957",
+    "core-all-tests-r2.log": "966deed49cfeaca502f8943dd7236c90a6d5dd291ec456e5c25b1cd060f01be0"
+  },
+  "full_suite_passed": false,
+  "corrected_gateway_case": {
+    "passed": true,
+    "test": "suite::rmcp_client::oauth_refresh_tests::http_auth_challenge_reaches_agent_tool_call_events_without_replay::gateway_stops_before_model_fallback",
+    "focused_run_tests": 4,
+    "log_sha256": "3349283d2009fdfea5186507fe2bd36dc2ea7d5f64658507ed50b4212e2314d7"
+  }
+}

@@ -54,7 +54,8 @@ airs-harness --environment work-calvin doctor --verify-access
 airs-harness --environment work-calvin
 ```
 
-In the interactive harness, `/mcp` should show `prisma-airs`. Ask it to list the
+In the interactive harness, `/mcp` should show `prisma-airs: connected (8 tools)`.
+Use `/mcp verbose` to see the OAuth status and individual tool names. Ask it to list the
 AIRS workspaces, gateway configurations, guardrails and security profiles. These
 are eight bounded read-only tools; the server enforces roles, scopes and explicit
 subject-to-workspace/profile permissions on every request.

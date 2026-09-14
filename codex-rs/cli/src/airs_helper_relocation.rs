@@ -68,10 +68,40 @@ pub(super) fn mcp_revision(home: &Path, config: &toml::Value) -> anyhow::Result<
     if servers.is_empty() {
         return Ok(None);
     }
-    let raw = toml::to_string(servers)?;
+    // Built-in OAuth servers use Codex's mutable, endpoint-bound credential store.
+    // Keep legacy credential helpers pinned without making adding/removing a native
+    // OAuth server invalidate the inference identity or rewrite existing history.
     let mut normalized = servers.clone();
+    normalized.retain(|_, server| {
+        let native_oauth = server
+            .get("oauth")
+            .and_then(|oauth| oauth.get("client_id"))
+            .and_then(toml::Value::as_str)
+            .is_some_and(|client| !client.trim().is_empty())
+            && server
+                .get("url")
+                .and_then(toml::Value::as_str)
+                .is_some_and(|url| url.starts_with("https://"))
+            && [
+                "http_headers_helper",
+                "http_headers",
+                "env_http_headers",
+                "bearer_token_env_var",
+                "command",
+            ]
+            .iter()
+            .all(|key| server.get(key).is_none());
+        !native_oauth
+    });
+    if normalized.is_empty() {
+        return Ok(None);
+    }
+    let raw = toml::to_string(&normalized)?;
     let mut owned = false;
     for (name, server) in servers {
+        if !normalized.contains_key(name) {
+            continue;
+        }
         if let Some(binding) = airs_mcp::relocation::owned(home, name, server)? {
             // A typed value cannot collide with a valid raw shell-command string.
             normalized

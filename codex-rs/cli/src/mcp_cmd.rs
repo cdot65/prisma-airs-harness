@@ -167,6 +167,15 @@ pub struct AddMcpStreamableHttpArgs {
     /// Optional OAuth resource parameter to include during MCP login.
     #[arg(long = "oauth-resource", value_name = "RESOURCE", requires = "url")]
     pub oauth_resource: Option<String>,
+
+    /// OAuth scopes to request and retain for subsequent logins.
+    #[arg(
+        long,
+        value_delimiter = ',',
+        value_name = "SCOPE,SCOPE",
+        requires = "url"
+    )]
+    pub scopes: Vec<String>,
 }
 
 #[derive(Debug, Clone, Copy, clap::ValueEnum)]
@@ -353,60 +362,66 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
 
     let codex_home = find_codex_home().context("failed to resolve CODEX_HOME")?;
 
-    let (transport, oauth_client_id, client_registration, oauth_resource) = match transport_args {
-        AddMcpTransportArgs {
-            stdio: Some(stdio), ..
-        } => {
-            let mut command_parts = stdio.command.into_iter();
-            let command_bin = command_parts
-                .next()
-                .ok_or_else(|| anyhow!("command is required"))?;
-            let command_args: Vec<String> = command_parts.collect();
+    let (transport, oauth_client_id, client_registration, oauth_resource, scopes) =
+        match transport_args {
+            AddMcpTransportArgs {
+                stdio: Some(stdio), ..
+            } => {
+                let mut command_parts = stdio.command.into_iter();
+                let command_bin = command_parts
+                    .next()
+                    .ok_or_else(|| anyhow!("command is required"))?;
+                let command_args: Vec<String> = command_parts.collect();
 
-            let env_map = if stdio.env.is_empty() {
-                None
-            } else {
-                Some(stdio.env.into_iter().collect::<HashMap<_, _>>())
-            };
-            (
-                McpServerTransportConfig::Stdio {
-                    command: command_bin,
-                    args: command_args,
-                    env: env_map,
-                    env_vars: Vec::new(),
-                    cwd: None,
-                },
-                None,
-                McpOAuthClientRegistration::Auto,
-                None,
-            )
-        }
-        AddMcpTransportArgs {
-            streamable_http:
-                Some(AddMcpStreamableHttpArgs {
+                let env_map = if stdio.env.is_empty() {
+                    None
+                } else {
+                    Some(stdio.env.into_iter().collect::<HashMap<_, _>>())
+                };
+                (
+                    McpServerTransportConfig::Stdio {
+                        command: command_bin,
+                        args: command_args,
+                        env: env_map,
+                        env_vars: Vec::new(),
+                        cwd: None,
+                    },
+                    None,
+                    McpOAuthClientRegistration::Auto,
+                    None,
+                    None,
+                )
+            }
+            AddMcpTransportArgs {
+                streamable_http:
+                    Some(AddMcpStreamableHttpArgs {
+                        url,
+                        bearer_token_env_var,
+                        oauth_client_id,
+                        oauth_client_registration,
+                        oauth_resource,
+                        scopes,
+                    }),
+                ..
+            } => (
+                McpServerTransportConfig::StreamableHttp {
                     url,
                     bearer_token_env_var,
-                    oauth_client_id,
-                    oauth_client_registration,
-                    oauth_resource,
-                }),
-            ..
-        } => (
-            McpServerTransportConfig::StreamableHttp {
-                url,
-                bearer_token_env_var,
-                http_headers: None,
-                env_http_headers: None,
-                http_headers_helper: None,
-            },
-            oauth_client_id,
-            oauth_client_registration
-                .map(McpOAuthClientRegistration::from)
-                .unwrap_or_default(),
-            oauth_resource,
-        ),
-        AddMcpTransportArgs { .. } => bail!("exactly one of --command or --url must be provided"),
-    };
+                    http_headers: None,
+                    env_http_headers: None,
+                    http_headers_helper: None,
+                },
+                oauth_client_id,
+                oauth_client_registration
+                    .map(McpOAuthClientRegistration::from)
+                    .unwrap_or_default(),
+                oauth_resource,
+                (!scopes.is_empty()).then_some(scopes),
+            ),
+            AddMcpTransportArgs { .. } => {
+                bail!("exactly one of --command or --url must be provided")
+            }
+        };
 
     // Discover once before saving so a new registered client keeps the exact
     // callback its provider expects, including issuer-bound stable callbacks.
@@ -459,7 +474,7 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
         default_tools_approval_mode: None,
         enabled_tools: None,
         disabled_tools: None,
-        scopes: None,
+        scopes: scopes.clone(),
         oauth: oauth_client_id
             .clone()
             .map(|client_id| McpServerOAuthConfig {
@@ -492,7 +507,7 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
             println!("Detected OAuth support. Starting OAuth flow…");
             let resolved_scopes = resolve_oauth_scopes(
                 /*explicit_scopes*/ None,
-                /*configured_scopes*/ None,
+                scopes.as_deref(),
                 oauth_config.discovered_scopes.clone(),
             );
             perform_oauth_login_retry_without_scopes(

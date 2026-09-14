@@ -281,6 +281,53 @@ fn malformed_binding_and_unbounded_metadata_are_rejected() {
 }
 
 #[test]
+fn native_oauth_catalog_changes_preserve_inference_and_legacy_helper_history() {
+    for legacy_helper in [false, true] {
+        let fixture = Fixture::new();
+        if legacy_helper {
+            fixture.add_mcp();
+        }
+        crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+        let revision = std::fs::read(fixture.home.join("session-binding.json")).unwrap();
+        let mut config = fixture.config();
+        config
+            .as_table_mut()
+            .unwrap()
+            .entry("mcp_servers")
+            .or_insert_with(|| toml::Value::Table(Default::default()))
+            .as_table_mut()
+            .unwrap()
+            .insert(
+                "native".into(),
+                toml::toml! {
+                    url = "https://native.example/mcp"
+                    scopes = ["read"]
+                    [oauth]
+                    client_id = "native-client"
+                    callback_url = "http://127.0.0.1/callback"
+                }
+                .into(),
+            );
+        fixture.write(&config);
+        crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+        assert_eq!(
+            std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
+            revision
+        );
+        config["mcp_servers"]
+            .as_table_mut()
+            .unwrap()
+            .remove("native");
+        fixture.write(&config);
+        crate::airs_session_binding::validate_locked(&fixture.home).unwrap();
+        assert_eq!(
+            std::fs::read(fixture.home.join("session-binding.json")).unwrap(),
+            revision
+        );
+    }
+}
+
+#[test]
 fn typed_raw_helper_cannot_impersonate_owned_revision_metadata() {
     let fixture = Fixture::new();
     fixture.add_mcp();

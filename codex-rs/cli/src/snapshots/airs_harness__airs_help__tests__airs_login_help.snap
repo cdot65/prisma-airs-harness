@@ -1,5 +1,6 @@
 ---
 source: cli/src/airs_help_tests.rs
+assertion_line: 8
 expression: login.render_long_help().to_string()
 ---
 Manage login
@@ -33,6 +34,9 @@ Options:
 
       --device-auth
           
+
+      --no-browser
+          Print the company login URL without opening the desktop browser
 
   -h, --help
           Print help (see a summary with '-h')

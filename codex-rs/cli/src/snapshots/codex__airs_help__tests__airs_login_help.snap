@@ -35,5 +35,8 @@ Options:
       --device-auth
           
 
+      --no-browser
+          Print the company login URL without opening the desktop browser
+
   -h, --help
           Print help (see a summary with '-h')

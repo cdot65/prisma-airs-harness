@@ -18,6 +18,18 @@ import unittest
 BINARY = Path(
     os.environ.get("AIRS_HARNESS_BIN", "codex-rs/target/debug/airs-harness")
 ).resolve()
+if BINARY.suffix == ".js":
+    # This regression replaces a running native executable. Copying only the
+    # npm JS entrypoint would detach it from its required sibling modules.
+    manifest = subprocess.check_output(
+        [
+            "node", "-e",
+            "const r=require('module').createRequire(process.argv[1]);"
+            "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));",
+            str(BINARY),
+        ], text=True,
+    ).strip()
+    BINARY = Path(manifest).parent / "bin/airs-harness"
 
 
 class InteractiveTerminal(unittest.TestCase):

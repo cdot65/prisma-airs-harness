@@ -1,0 +1,396 @@
+name: AIRS Harness Apple Silicon build and acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      tooling_ref:
+        description: Reviewed validation tooling revision
+        required: true
+        default: integrate/codex-0.154-candidate
+      source_ref:
+        description: Runtime source revision (resolved once before compilation)
+        required: false
+        default: ""
+      private_candidate:
+        description: Must remain true until the separately approved signing release
+        type: boolean
+        required: true
+        default: true
+      preflight_only:
+        description: Run cheap contracts only; do not compile or claim native acceptance
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: read
+  actions: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: airs-harness-macos-arm64-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
+    timeout-minutes: 10
+    outputs:
+      runtime_source: ${{ steps.source.outputs.sha }}
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.tooling_ref }}
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.source_ref || inputs.tooling_ref }}
+          path: runtime
+          persist-credentials: false
+      - uses: https://github.com/actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.13"
+      - uses: https://github.com/actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - name: Check fixtures and private packaging contracts before native compilation
+        id: source
+        env:
+          AIRS_PRIVATE_CANDIDATE: ${{ inputs.private_candidate }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/airs-preflight"
+          if [ "$AIRS_PRIVATE_CANDIDATE" != true ]; then
+            echo 'Only private candidates are supported until the separately approved signing release.'
+            exit 1
+          fi
+          git -C runtime rev-parse HEAD | sed 's/^/sha=/' >> "$GITHUB_OUTPUT"
+          python3 -m compileall -q scripts
+          python3 -m unittest discover -s scripts -p test_airs_ci_cache_key.py -v > "$RUNNER_TEMP/airs-preflight/cache-identity-tests.log" 2>&1
+          node --test npm/airs-harness/*.test.js > "$RUNNER_TEMP/airs-preflight/launcher-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v > "$RUNNER_TEMP/airs-preflight/packaging-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v > "$RUNNER_TEMP/airs-preflight/bundle-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_airs_npm_registry.py -v > "$RUNNER_TEMP/airs-preflight/npm-registry-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_airs_macos_artifact.py -v > "$RUNNER_TEMP/airs-preflight/artifact-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_macos_workflow_split.py -v > "$RUNNER_TEMP/airs-preflight/workflow-contracts.log" 2>&1
+          python3 - <<'CHECK'
+          import json, os, subprocess
+          from pathlib import Path
+          tooling = json.loads(Path('npm/airs-harness/package.json').read_text())
+          runtime = json.loads(Path('runtime/npm/airs-harness/package.json').read_text())
+          if tooling['version'] != runtime['version']:
+              raise SystemExit('Runtime and packaging template versions differ')
+          receipt = {'passed': True, 'scope': 'offline preflight only', 'native_acceptance': False, 'rust_build': False, 'runtime_source': subprocess.check_output(['git', '-C', 'runtime', 'rev-parse', 'HEAD'], text=True).strip(), 'validation_tooling_source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()}
+          (Path(os.environ['RUNNER_TEMP']) / 'airs-preflight/PREFLIGHT.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          CHECK
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-harness-darwin-arm64-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/airs-preflight/
+          retention-days: 30
+
+  build:
+    if: ${{ !inputs.preflight_only }}
+    needs: preflight
+    runs-on: airs-macos-arm64
+    timeout-minutes: 180
+    outputs:
+      artifact_name: airs-harness-darwin-arm64-unvalidated-executables-${{ github.run_id }}-${{ github.run_attempt }}
+      runtime_source: ${{ steps.identity.outputs.runtime_source }}
+      binary_sha256: ${{ steps.identity.outputs.binary_sha256 }}
+      fixture_sha256: ${{ steps.identity.outputs.fixture_sha256 }}
+      archive_sha256: ${{ steps.identity.outputs.archive_sha256 }}
+      source_cache_key: ${{ steps.sources_cache.outputs.cache-primary-key }}
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: "false"
+      SCCACHE_GHA_VERSION: airs-harness-rust-v1
+      CARGO_PROFILE_RELEASE_DEBUG: 0
+      CARGO_PROFILE_RELEASE_LTO: "false"
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
+      AIRS_RELEASE_TARGET: aarch64-apple-darwin
+      AIRS_CLI_OPT_LEVEL: "1"
+      AIRS_RUNTIME_SOURCE: ${{ needs.preflight.outputs.runtime_source }}
+    steps:
+      - name: Require Apple Silicon before installing build tools
+        run: |
+          test "$(uname -m)" = arm64
+          # Refuse a fresh Rust build before consuming the owner's remaining disk.
+          python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 100 * 1024**3, "At least 100 GiB free is required for Mac Rust compilation/cache"'
+          test "$RUNNER_ARCH" = ARM64
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.tooling_ref }}
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ needs.preflight.outputs.runtime_source }}
+          path: runtime
+          persist-credentials: false
+      - uses: https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+      - name: Use provisioned native Python
+        run: |
+          echo /opt/homebrew/opt/python@3.13/libexec/bin >> "$GITHUB_PATH"
+          /opt/homebrew/opt/python@3.13/libexec/bin/python3 --version
+      - uses: https://github.com/mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11, peeled commit
+        id: sccache
+        with:
+          version: v0.16.0
+      - name: Record actual compiler SDK and profile cache identity
+        id: cache_identity
+        run: python3 scripts/airs_ci_cache_key.py --root runtime/codex-rs --receipt "$RUNNER_TEMP/airs-evidence/cache-identity.json"
+      - name: Restore dependency downloads independently of compiled outputs
+        id: sources_cache
+        uses: https://code.forgejo.org/actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: airs-macos-sources-v1-${{ runner.arch }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}
+          restore-keys: airs-macos-sources-v1-${{ runner.arch }}-
+      - name: Reuse native Rust build outputs
+        id: cargo_cache
+        uses: https://code.forgejo.org/actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ needs.preflight.outputs.runtime_source }}
+          restore-keys: |
+            airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
+            airs-macos-v1-${{ runner.arch }}-
+      - name: Native build prerequisites and runner identity
+        run: |
+          brew install cmake pkgconf
+          rustc -vV
+          sw_vers
+          df -h .
+          test "$(rustc -vV | sed -n 's/^host: //p')" = "$AIRS_RELEASE_TARGET"
+      - name: Fetch locked dependency sources before native compilation
+        working-directory: runtime/codex-rs
+        run: cargo fetch --locked --target "$AIRS_RELEASE_TARGET"
+      - name: Preserve dependency sources without copying build outputs to acceptance
+        id: save_source_cache
+        continue-on-error: true
+        if: steps.sources_cache.outputs.cache-hit != 'true'
+        uses: https://code.forgejo.org/actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: ${{ steps.sources_cache.outputs.cache-primary-key }}
+      - name: Build native agent and Keychain fixture
+        working-directory: runtime/codex-rs
+        env:
+          CARGO_LOG: cargo::core::compiler::fingerprint=info
+        run: |
+          cargo --config "profile.release.package.codex-cli.opt-level=$AIRS_CLI_OPT_LEVEL" build --locked --release -p codex-cli --bin airs-harness --timings 2>&1 | tee "$RUNNER_TEMP/airs-evidence/cli-build.log"
+          cp target/cargo-timings/cargo-timing.html "$RUNNER_TEMP/airs-evidence/cli-build-timing.html"
+          cargo build --locked --release -p codex-airs-identity --example store_acceptance --timings 2>&1 | tee "$RUNNER_TEMP/airs-evidence/fixture-build.log"
+          cp target/cargo-timings/cargo-timing.html "$RUNNER_TEMP/airs-evidence/fixture-build-timing.html"
+          cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
+      - name: Sign private executables and bind their immutable provenance
+        id: identity
+        run: |
+          cp runtime/codex-rs/target/release/airs-harness "$RUNNER_TEMP/airs-harness"
+          cp runtime/codex-rs/target/release/examples/store_acceptance "$RUNNER_TEMP/store_acceptance"
+          strip -S "$RUNNER_TEMP/airs-harness"
+          for binary in airs-harness store_acceptance; do
+            codesign --force --sign - "$RUNNER_TEMP/$binary"
+            codesign --verify --strict --verbose=2 "$RUNNER_TEMP/$binary"
+            test "$(lipo -archs "$RUNNER_TEMP/$binary")" = arm64
+          done
+          codesign -dvv "$RUNNER_TEMP/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
+          python3 scripts/airs_macos_artifact.py create --directory "$RUNNER_TEMP" --source-commit "$AIRS_RUNTIME_SOURCE" --cli-opt-level "$AIRS_CLI_OPT_LEVEL"
+          cp "$RUNNER_TEMP/CANDIDATE.json" "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/airs-evidence/"
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        id: executables
+        with:
+          name: airs-harness-darwin-arm64-unvalidated-executables-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/unvalidated-macos-executables.tar.gz
+          retention-days: 30
+      - name: Record immutable artifact selection
+        env:
+          AIRS_SELECTED_ARTIFACT: airs-harness-darwin-arm64-unvalidated-executables-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          python3 - <<'RECEIPT'
+          import json, os, subprocess
+          from pathlib import Path
+          directory = Path(os.environ['RUNNER_TEMP'])
+          receipt = json.loads((directory / 'ARTIFACT-VERIFIED.json').read_text())
+          receipt['artifact_name'] = os.environ['AIRS_SELECTED_ARTIFACT']
+          (directory / 'airs-evidence/artifact-selection.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          RECEIPT
+      - name: Preserve successful compilation before acceptance tests
+        id: save_build_cache
+        continue-on-error: true
+        if: steps.cargo_cache.outputs.cache-hit != 'true'
+        uses: https://code.forgejo.org/actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+            runtime/codex-rs/target
+          key: ${{ steps.cargo_cache.outputs.cache-primary-key }}
+      - name: Retain compiler-cache counters even after a failed build
+        if: always() && steps.sccache.outcome == 'success'
+        run: |
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+          if ! "$SCCACHE_PATH" --show-stats --stats-format=json > "$RUNNER_TEMP/airs-evidence/sccache-stats.json"; then
+            echo '{"available":false}' > "$RUNNER_TEMP/airs-evidence/sccache-stats.json"
+          fi
+      - name: Record cache outcomes without discarding the immutable artifact
+        if: always()
+        env:
+          AIRS_BUILD_CACHE: ${{ steps.save_build_cache.outcome }}
+          AIRS_SOURCE_CACHE: ${{ steps.save_source_cache.outcome }}
+          AIRS_PRIMARY_CACHE_KEY: ${{ steps.cargo_cache.outputs.cache-primary-key }}
+          AIRS_MATCHED_CACHE_KEY: ${{ steps.cargo_cache.outputs.cache-matched-key }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+          python3 - <<'CACHE'
+          import json, os, subprocess
+          from pathlib import Path
+          matched = os.environ['AIRS_MATCHED_CACHE_KEY']
+          value = {'build_cache': os.environ['AIRS_BUILD_CACHE'], 'dependency_source_cache': os.environ['AIRS_SOURCE_CACHE'], 'primary_key': os.environ['AIRS_PRIMARY_CACHE_KEY'], 'matched_key': matched, 'legacy_fallback': matched.startswith('airs-macos-v1-'), 'cache_hit_is_build_proof': False}
+          (Path(os.environ['RUNNER_TEMP'])/'airs-evidence/cache-status.json').write_text(json.dumps(value, indent=2)+'\n')
+          CACHE
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-harness-darwin-arm64-build-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/airs-evidence/
+          if-no-files-found: warn
+          retention-days: 30
+
+  acceptance:
+    needs: build
+    runs-on: airs-macos-arm64
+    timeout-minutes: 45
+    env:
+      AIRS_RELEASE_TARGET: aarch64-apple-darwin
+      AIRS_RELEASE_SUFFIX: darwin-arm64
+      AIRS_RUNTIME_SOURCE: ${{ needs.build.outputs.runtime_source }}
+      AIRS_ARCHIVE_SHA256: ${{ needs.build.outputs.archive_sha256 }}
+      AIRS_BINARY_SHA256: ${{ needs.build.outputs.binary_sha256 }}
+      AIRS_FIXTURE_SHA256: ${{ needs.build.outputs.fixture_sha256 }}
+      AIRS_SELECTED_ARTIFACT: ${{ needs.build.outputs.artifact_name }}
+      AIRS_COMPILATION_RUN: ${{ github.run_id }}
+    steps:
+      - name: Require Apple Silicon and initialize acceptance evidence
+        run: |
+          test "$(uname -m)" = arm64
+          test "$RUNNER_ARCH" = ARM64
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.tooling_ref }}
+          persist-credentials: false
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ needs.build.outputs.runtime_source }}
+          path: runtime
+          persist-credentials: false
+      - uses: https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+      - name: Use provisioned native Python
+        run: |
+          echo /opt/homebrew/opt/python@3.13/libexec/bin >> "$GITHUB_PATH"
+          /opt/homebrew/opt/python@3.13/libexec/bin/python3 --version
+      - uses: https://github.com/actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: 22.23.2
+      - uses: https://code.forgejo.org/actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+          path: ${{ runner.temp }}/download
+      - name: Verify immutable build inputs before executing acceptance
+        id: restore
+        run: |
+          python3 scripts/airs_macos_artifact.py restore --archive "$RUNNER_TEMP/download/unvalidated-macos-executables.tar.gz" --directory "$RUNNER_TEMP/compiled" --source-commit "$AIRS_RUNTIME_SOURCE" --archive-sha256 "$AIRS_ARCHIVE_SHA256" --binary-sha256 "$AIRS_BINARY_SHA256" --fixture-sha256 "$AIRS_FIXTURE_SHA256"
+          test "$(git -C runtime rev-parse HEAD)" = "$AIRS_RUNTIME_SOURCE"
+          cp "$RUNNER_TEMP/compiled/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/airs-evidence/"
+          git rev-parse HEAD > "$RUNNER_TEMP/airs-evidence/test-tooling-source.txt"
+          python3 - <<'RECEIPT'
+          import json, os, subprocess
+          from pathlib import Path
+          directory = Path(os.environ['RUNNER_TEMP'])
+          receipt = json.loads((directory / 'compiled/ARTIFACT-VERIFIED.json').read_text())
+          receipt.update(artifact_name=os.environ['AIRS_SELECTED_ARTIFACT'], compilation_run=os.environ['AIRS_COMPILATION_RUN'], acceptance_run=os.environ['GITHUB_RUN_ID'], acceptance_attempt=os.environ['GITHUB_RUN_ATTEMPT'], validation_tooling_source=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
+          (directory / 'airs-evidence/artifact-selection.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          RECEIPT
+          for binary in airs-harness store_acceptance; do
+            test "$(lipo -archs "$RUNNER_TEMP/compiled/$binary")" = arm64
+            codesign --verify --strict --verbose=2 "$RUNNER_TEMP/compiled/$binary"
+            codesign -dvv "$RUNNER_TEMP/compiled/$binary" 2> "$RUNNER_TEMP/airs-evidence/$binary-signing.log"
+            test "$(sed -n 's/^Signature=//p' "$RUNNER_TEMP/airs-evidence/$binary-signing.log")" = adhoc
+          done
+          codesign -dvv "$RUNNER_TEMP/compiled/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
+          otool -L "$RUNNER_TEMP/compiled/airs-harness" | tee "$RUNNER_TEMP/airs-evidence/libraries.log"
+          brew install ripgrep
+      - name: Exercise Keychain through the preserved native CLI
+        run: python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/compiled/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/native-cli-keychain.json"
+      - name: Native execution, sandbox and Keychain acceptance
+        run: |
+          AIRS_HARNESS_TEST_EVIDENCE="$RUNNER_TEMP/airs-evidence/fixtures" AIRS_HARNESS_BIN="$RUNNER_TEMP/compiled/airs-harness" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$RUNNER_TEMP/airs-evidence/native-tests.log" 2>&1
+          python3 scripts/validate_native_credentials.py --binary "$RUNNER_TEMP/compiled/store_acceptance" --output "$RUNNER_TEMP/airs-evidence/keychain.json"
+          python3 scripts/record_airs_macos_validation.py --binary "$RUNNER_TEMP/compiled/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence" --target "$AIRS_RELEASE_TARGET" --source-directory runtime
+      - name: Restore only dependency sources for license inventory
+        uses: https://code.forgejo.org/actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git/db
+          key: ${{ needs.build.outputs.source_cache_key }}
+      - name: Resolve locked license metadata without compiling
+        working-directory: runtime/codex-rs
+        run: cargo metadata --locked --filter-platform "$AIRS_RELEASE_TARGET" --format-version 1 > "$RUNNER_TEMP/airs-metadata.json"
+      - name: Package native release and npm candidate
+        env:
+          AIRS_BUILD_COMMAND: ${{ steps.restore.outputs.build_command }}
+          AIRS_BUILD_PROFILE: ${{ steps.restore.outputs.profile }}
+        run: |
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --unvalidated-candidate --build-command "$AIRS_BUILD_COMMAND" --profile "$AIRS_BUILD_PROFILE" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
+          tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
+          python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
+          python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
+          python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/AIRS Candidate Install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/AIRS Candidate Install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
+          AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
+      - name: Exercise Keychain through the exact installed npm candidate
+        run: |
+          python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/cli-keychain.json"
+      - name: Preserve npm installation diagnostics on success or failure
+        if: always()
+        run: |
+          python3 - <<'DIAGNOSTICS'
+          import os, shutil
+          from pathlib import Path
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          destination = temporary / 'airs-evidence/npm-diagnostics'
+          destination.mkdir(parents=True, exist_ok=True)
+          for name in ('npm-install.log', 'INSTALL-NETWORK.json', 'INSTALL-VERIFICATION.json'):
+              source = temporary / 'AIRS Candidate Install' / name
+              if source.is_file() and not source.is_symlink() and source.stat().st_size <= 5 * 1024 * 1024:
+                  shutil.copyfile(source, destination / name)
+          DIAGNOSTICS
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        with:
+          name: airs-harness-darwin-arm64-private-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/airs-package/*.tar.gz
+            ${{ runner.temp }}/airs-package/*.sha256
+            ${{ runner.temp }}/airs-npm/tarballs/*.tgz
+            ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
+          retention-days: 30
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-harness-darwin-arm64-acceptance-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/airs-evidence/
+          if-no-files-found: warn
+          retention-days: 30

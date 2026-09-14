@@ -1,0 +1,49 @@
+name: AIRS Harness Linux validation
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Rust source branch or commit to validate
+        default: integrate/codex-0.154-candidate
+        required: true
+  push:
+    branches: [integrate/codex-0.154-candidate]
+    paths:
+      - '.forgejo/workflows/airs-harness-linux.yml'
+      - 'scripts/airs_forgejo_linux.sh'
+      - 'scripts/airs_forgejo_container.sh'
+      - 'scripts/airs_rust_test_runner.py'
+      - 'codex-rs/**'
+concurrency:
+  group: airs-linux-validation
+  cancel-in-progress: false
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 175
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_HOME: /opt/airs-cargo
+      RUSTUP_HOME: /opt/airs-rustup
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+      TERM: xterm-256color
+      COLORTERM: truecolor
+      NPM_CONFIG_REGISTRY: https://npm.cdot.io
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.source_ref || github.ref }}
+      - name: Validate in a bounded GNU Linux container with persistent build caches
+        run: bash scripts/airs_forgejo_container.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-linux-validation
+          path: ${{ runner.temp }}/airs-evidence/
+          if-no-files-found: error

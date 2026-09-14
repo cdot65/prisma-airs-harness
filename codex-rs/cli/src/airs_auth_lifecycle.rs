@@ -69,6 +69,22 @@ impl LoginAttempt {
         })
     }
 
+    /// Complete an explicitly requested, verified same-identity restore. The caller holds
+    /// the environment lock and has persisted only tokens for the existing binding.
+    /// Logout and ordinary login still invalidate this attempt and all prior clients.
+    pub(super) fn complete_restore(self) -> anyhow::Result<()> {
+        let _lock = state_lock(&self.home)?;
+        anyhow::ensure!(
+            self.starting
+                .as_ref()
+                .is_some_and(|generation| generation.state == AuthGenerationState::Active)
+                && read_auth_generation(&self.home)? == self.starting
+                && !self.home.join("logged-out").try_exists()?,
+            "Authentication changed while restoring sign-in; start a new session after login"
+        );
+        Ok(())
+    }
+
     /// Install only local binding/configuration files while holding this lock.
     /// Native storage and all network/user interaction must happen beforehand.
     pub(super) fn commit(self, install: impl FnOnce() -> anyhow::Result<()>) -> anyhow::Result<()> {

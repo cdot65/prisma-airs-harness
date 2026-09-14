@@ -91,6 +91,54 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
     Ok(access)
 }
 
+/// Explicit recovery uses signed issuer/subject evidence and never changes the binding,
+/// route or logout epoch. Ordinary login remains a separate session boundary.
+pub(super) async fn restore_session(home: &Path, flow: LoginFlow) -> anyhow::Result<()> {
+    let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
+    let session = codex_utils_home_dir::airs_session::AirsSessionGuard::capture(home)?;
+    let _lock = airs_environment::lock(home)?;
+    session.check()?;
+    let binding = super::airs_credentials::read_binding(home)?;
+    let Some(Source::Oidc { identity }) = &binding.source else {
+        anyhow::bail!(
+            "This environment uses a workspace credential; inspect airs-harness status to repair its configured source"
+        );
+    };
+    let tokens = authenticate(identity.config.clone(), flow).await?;
+    ensure_restore_identity(&binding, &tokens.identity)?;
+    session.check()?;
+    super::airs_credentials::persist_oidc_binding(
+        home,
+        &binding,
+        &serde_json::to_string(&Stored::Active { tokens })?,
+        || {
+            session.check()?;
+            attempt.complete_restore()
+        },
+    )?;
+    println!(
+        "Sign-in restored for the same verified identity. Return to your open harness session and retry the paused request."
+    );
+    Ok(())
+}
+
+fn ensure_restore_identity(binding: &Binding, returned: &Identity) -> anyhow::Result<()> {
+    let Some(Source::Oidc { identity }) = &binding.source else {
+        anyhow::bail!("Expected an OIDC credential binding");
+    };
+    anyhow::ensure!(
+        returned.config == identity.config
+            && returned.subject == identity.subject
+            && fingerprint(&binding.gateway_url, returned)? == binding.credential_fingerprint,
+        "A different identity cannot restore this conversation. Use a separate environment; existing credentials were not changed"
+    );
+    Ok(())
+}
+
+#[cfg(test)]
+#[path = "airs_oidc_restore_tests.rs"]
+mod restore_tests;
+
 pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Result<()> {
     let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
     let _lock = airs_environment::lock(home)?;

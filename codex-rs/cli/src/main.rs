@@ -1265,6 +1265,8 @@ async fn cli_main(
                 };
                 return if args.action.is_some() {
                     airs_credentials::status(home.as_path())
+                } else if args.airs.restore_session {
+                    airs_oidc::restore_session(home.as_path(), flow).await
                 } else if args.airs.issuer_url.is_some() {
                     airs_login::remember_settings(home.as_path(), &args.airs)?;
                     airs_oidc::login(home.as_path(), &args.airs, flow).await

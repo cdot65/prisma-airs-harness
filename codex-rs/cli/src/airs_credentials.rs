@@ -30,6 +30,9 @@ pub(super) fn recover_pending(home: &Path) -> anyhow::Result<()> {
 
 #[derive(Debug, Default, clap::Args)]
 pub struct LoginArgs {
+    /// Restore the verified OIDC identity without invalidating this environment's open sessions.
+    #[arg(long, conflicts_with_all = ["issuer_url", "credential_file", "credential_env", "with_api_key"])]
+    pub restore_session: bool,
     /// HTTPS issuer for a public-client OIDC login.
     #[arg(long, requires_all = ["oidc_client_id", "audience"], conflicts_with_all = ["credential_file", "credential_env", "with_api_key"])]
     pub issuer_url: Option<String>,

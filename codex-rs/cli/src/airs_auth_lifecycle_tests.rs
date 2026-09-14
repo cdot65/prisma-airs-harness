@@ -5,6 +5,58 @@ use std::sync::mpsc;
 use tempfile::TempDir;
 
 #[test]
+fn verified_restore_preserves_the_active_session_epoch() {
+    let home = TempDir::new().unwrap();
+    LoginAttempt::begin(home.path())
+        .unwrap()
+        .commit(|| Ok(()))
+        .unwrap();
+    let client = AirsSessionGuard::capture(home.path()).unwrap();
+    let before = read_auth_generation(home.path()).unwrap();
+    LoginAttempt::begin(home.path())
+        .unwrap()
+        .complete_restore()
+        .unwrap();
+    assert_eq!(read_auth_generation(home.path()).unwrap(), before);
+    client.check().unwrap();
+}
+
+#[test]
+fn restore_cannot_reactivate_a_logged_out_or_replaced_session() {
+    let home = TempDir::new().unwrap();
+    assert!(
+        LoginAttempt::begin(home.path())
+            .unwrap()
+            .complete_restore()
+            .is_err()
+    );
+    LoginAttempt::begin(home.path())
+        .unwrap()
+        .commit(|| Ok(()))
+        .unwrap();
+    let attempt = LoginAttempt::begin(home.path()).unwrap();
+    revoke(home.path()).unwrap();
+    assert!(attempt.complete_restore().is_err());
+    assert!(
+        LoginAttempt::begin(home.path())
+            .unwrap()
+            .complete_restore()
+            .is_err()
+    );
+    let newer = TempDir::new().unwrap();
+    LoginAttempt::begin(newer.path())
+        .unwrap()
+        .commit(|| Ok(()))
+        .unwrap();
+    let attempt = LoginAttempt::begin(newer.path()).unwrap();
+    LoginAttempt::begin(newer.path())
+        .unwrap()
+        .commit(|| Ok(()))
+        .unwrap();
+    assert!(attempt.complete_restore().is_err());
+}
+
+#[test]
 fn logout_rejects_an_in_progress_login_before_it_installs() {
     let home = TempDir::new().unwrap();
     let attempt = LoginAttempt::begin(home.path()).unwrap();

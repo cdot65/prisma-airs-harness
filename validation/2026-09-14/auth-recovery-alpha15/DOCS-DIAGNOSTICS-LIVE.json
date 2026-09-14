@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "commit": "537430dd70ec1c7a32bb15ab8d7ff899f909540d",
+  "pages_run": 34910575030,
+  "observed_at": 1789429963.2740583,
+  "checks": [
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "expected_text_found": true,
+      "obsolete_banner_absent": true
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "expected_text_found": true,
+      "obsolete_banner_absent": true
+    }
+  ]
+}

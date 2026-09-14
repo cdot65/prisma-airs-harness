@@ -1,0 +1,57 @@
+{
+  "digest": "sha256:0d4e83c1199d55ddcb329e03ef7c13257ef383996038d384c7e26799dd5e010a",
+  "push_time": "2026-09-14T23:20:10.415Z",
+  "scan_overview": {
+    "application/vnd.security.vulnerability.report; version=1.1": {
+      "complete_percent": 100,
+      "duration": 2,
+      "end_time": "2026-09-14T23:20:12.000Z",
+      "report_id": "ec4ba89d-94d4-4e6b-bb88-98284867c4f9",
+      "scan_status": "Success",
+      "scanner": {
+        "name": "Trivy",
+        "vendor": "Aqua Security",
+        "version": "v0.72.0"
+      },
+      "severity": "Medium",
+      "start_time": "2026-09-14T23:20:10.000Z",
+      "summary": {
+        "fixable": 2,
+        "summary": {
+          "Low": 7,
+          "Medium": 14
+        },
+        "total": 21
+      }
+    }
+  },
+  "extra_attrs": null,
+  "references": [
+    {
+      "child_digest": "sha256:dc4c1265dc4f5f7b6d6abacc1ccdcac4a1759828baf11c3f32fa5e3275addc15",
+      "child_id": 2798,
+      "parent_id": 2800,
+      "platform": {
+        "OsFeatures": null,
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      "urls": null
+    },
+    {
+      "annotations": {
+        "vnd.docker.reference.digest": "sha256:dc4c1265dc4f5f7b6d6abacc1ccdcac4a1759828baf11c3f32fa5e3275addc15",
+        "vnd.docker.reference.type": "attestation-manifest"
+      },
+      "child_digest": "sha256:8fbfc349d3e2e78f69530b0a86b6fd9fbd7a65985ba18a49f8b229de0d1b0a74",
+      "child_id": 2799,
+      "parent_id": 2800,
+      "platform": {
+        "OsFeatures": null,
+        "architecture": "unknown",
+        "os": "unknown"
+      },
+      "urls": null
+    }
+  ]
+}

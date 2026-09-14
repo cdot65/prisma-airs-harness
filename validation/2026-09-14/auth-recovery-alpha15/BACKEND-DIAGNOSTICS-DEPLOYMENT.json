@@ -1,0 +1,30 @@
+{
+  "observed_at": 1789430133.4672027,
+  "runtime_source": "712b0c1adf37b1fbebaee612f071bd66cfa3fd47",
+  "production_manifest": "8f31117984517edaa7e5868b3571d694039f364e",
+  "image": "sha256:0d4e83c1199d55ddcb329e03ef7c13257ef383996038d384c7e26799dd5e010a",
+  "development_replicas": 1,
+  "production_replicas": 2,
+  "backend_tests_passed": 55,
+  "http_403_root_cause_resolved": false,
+  "new_operator_fields": [
+    "backendRequestId",
+    "backendProviderCode",
+    "backendTokenExpiresInSeconds"
+  ],
+  "retry_policy": "one authorized read retry after cached token HTTP401; no HTTP403 or HTTP404 refresh/retry",
+  "evidence": [
+    {
+      "file": "BACKEND-DIAGNOSTICS-IMAGE.json",
+      "sha256": "81f4ca613cb407b753f8ff27713cfac8bdd7fdf208e778719062d5bab523659a"
+    },
+    {
+      "file": "BACKEND-DIAGNOSTICS-DEV.json",
+      "sha256": "d30a3faf8f699d3cb590439efd05ea54e1329fbdc4043ff5c56d9e9aa8b94b12"
+    },
+    {
+      "file": "BACKEND-DIAGNOSTICS-PRODUCTION.json",
+      "sha256": "1517eb61e399e408d702ba024cee7b72981bd046fd9c73d84a1854c73e56d22b"
+    }
+  ]
+}

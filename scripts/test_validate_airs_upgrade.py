@@ -8,6 +8,35 @@ from validate_airs_upgrade import assert_preserved_state
 
 
 class UpgradeOracle(unittest.TestCase):
+    def test_bounded_timeout_migration_is_explicit_and_rejects_other_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "config.toml"
+            original = (
+                b'[model_providers.airs.auth]\ncommand = "/old"\ntimeout_ms = 60000\n'
+            )
+            protected = {path: original}
+            migrated = original.replace(b"/old", b"/new").replace(b"60000", b"30000")
+            path.write_bytes(migrated)
+            with self.assertRaisesRegex(AssertionError, "Unexpected configuration"):
+                assert_preserved_state(protected, path, "/new", {})
+            assert_preserved_state(
+                protected, path, "/new", {}, bounded_helper_timeout=True
+            )
+            for changed in [
+                migrated.replace(b"30000", b"1"),
+                migrated + b"extra = true\n",
+            ]:
+                path.write_bytes(changed)
+                with self.assertRaisesRegex(AssertionError, "Unexpected configuration"):
+                    assert_preserved_state(
+                        protected, path, "/new", {}, bounded_helper_timeout=True
+                    )
+            protected[path] = original.replace(b"60000", b"45000")
+            with self.assertRaisesRegex(AssertionError, "managed helper timeout"):
+                assert_preserved_state(
+                    protected, path, "/new", {}, bounded_helper_timeout=True
+                )
+
     def test_owned_helper_path_only_and_append_only_history_are_accepted(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

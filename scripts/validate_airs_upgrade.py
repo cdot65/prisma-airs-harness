@@ -25,13 +25,20 @@ def digest(path):
         return hashlib.file_digest(source, "sha256").hexdigest()
 
 
-def assert_preserved_state(protected, config_path, helper, rollouts):
-    """Permit only the owned executable field to change, never identity/history."""
+def assert_preserved_state(
+    protected, config_path, helper, rollouts, *, bounded_helper_timeout=False
+):
+    """Permit the owned helper path and an explicitly selected timeout migration."""
     expected = tomllib.loads(protected[config_path].decode())
     expected["model_providers"]["airs"]["auth"]["command"] = str(helper)
+    if bounded_helper_timeout:
+        auth = expected["model_providers"]["airs"]["auth"]
+        if auth.get("timeout_ms") not in [60000, 30000]:
+            raise AssertionError("Expected the managed helper timeout before migration")
+        auth["timeout_ms"] = 30000
     if tomllib.loads(config_path.read_text()) != expected:
         raise AssertionError(
-            "Unexpected configuration change beyond the owned helper executable"
+            "Unexpected configuration change beyond the selected managed helper migration"
         )
     if not all(
         path.read_bytes() == original
@@ -57,6 +64,11 @@ def arguments():
         help="Test current native-store upgrades without the alpha.9 missing-helper rollback scenario",
     )
     parser.add_argument("--inside-dbus", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--expect-bounded-helper-timeout",
+        action="store_true",
+        help="Expect the alpha.15 managed helper timeout migration from 60000 to 30000 ms",
+    )
     return parser.parse_args()
 
 
@@ -295,13 +307,27 @@ def exercise(args, receipt):
                         for _, _, body in fixture.requests[before:]
                     )
                     assert_preserved_state(
-                        protected, config_path, binaries[label], rollouts
+                        protected,
+                        config_path,
+                        binaries[label],
+                        rollouts,
+                        bounded_helper_timeout=args.expect_bounded_helper_timeout,
                     )
                     current_config_hash = digest(config_path)
                     receipt["expected_configuration_migrations"].append(
                         {
                             "stage": label,
-                            "only_changed_field": "model_providers.airs.auth.command",
+                            "permitted_changed_fields": [
+                                "model_providers.airs.auth.command",
+                                *(
+                                    ["model_providers.airs.auth.timeout_ms"]
+                                    if args.expect_bounded_helper_timeout
+                                    else []
+                                ),
+                            ],
+                            "expected_helper_timeout_ms": 30000
+                            if args.expect_bounded_helper_timeout
+                            else None,
                             "expected_helper_relative_to_fixture_root": binaries[label]
                             .relative_to(root)
                             .as_posix(),
@@ -314,7 +340,7 @@ def exercise(args, receipt):
                     previous_config_hash = current_config_hash
                     receipt["checks"].append(
                         label
-                        + " read same native credential and resumed original history with only the expected owned helper path migrated"
+                        + " read same native credential and resumed original history with only the expected managed helper settings migrated"
                     )
                 absent_old.rename(binaries["old"])
                 binaries["candidate"].with_name("offline-candidate").rename(
@@ -356,7 +382,11 @@ def exercise(args, receipt):
                     assert str(binaries["relocated"]).encode() in downgraded.stderr
                     assert len(fixture.requests) == count
                     assert_preserved_state(
-                        protected, config_path, binaries["relocated"], rollouts
+                        protected,
+                        config_path,
+                        binaries["relocated"],
+                        rollouts,
+                        bounded_helper_timeout=args.expect_bounded_helper_timeout,
                     )
                     receipt["old_client_without_newer_helper"] = {
                         "exit_code": downgraded.returncode,
@@ -454,6 +484,11 @@ def main():
             str(args.receipt),
             "--inside-dbus",
             *(["--upgrade-only"] if args.upgrade_only else []),
+            *(
+                ["--expect-bounded-helper-timeout"]
+                if args.expect_bounded_helper_timeout
+                else []
+            ),
         ]
         return subprocess.call(command, env=env)
     if (

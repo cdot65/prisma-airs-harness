@@ -3,15 +3,21 @@
 Both exact installed candidates have passed production gateway login, native
 credential persistence, all eight tools with gateway/upstream correlation,
 executable checks and in-place npm upgrades. Apple Silicon signing and Apple
-notarization also pass. Two real one-hour native expiry cycles are running.
-Alpha.14 is not yet published; `latest` and `alpha` remain alpha.13.
+notarization also pass. Gateway-held upstream JWT renewal was observed after
+actual expiry. The owner authorized alpha.14 publication without another timed
+authentication run on September 14. Hourly frontend refresh remains unverified
+(zero completed cycles). The interrupted idle-session receipts retain
+`passed: false`: inference verification after MCP logout failed after the
+refresh grant expired, and inference logout was not reached. Keycloak has a
+30-minute SSO idle limit. Full workspace validation and independent review are
+not claimed. The explicit exception is preserved in package validation evidence.
 
 Alpha.13's direct-MCP onboarding and its lifecycle receipts are historical.
 Use [MCP.md](MCP.md) for the required gateway architecture and candidate workflow.
 
 # Published baseline — alpha.13; direct MCP superseded
 
-`airs-harness@0.1.0-alpha.13` is published to `https://npm.cdot.io` as `latest`
+`airs-harness@0.1.0-alpha.13` was published to `https://npm.cdot.io` as `latest`
 and `alpha`, with Linux x64 and Apple Silicon native packages. Install or update:
 
 ```sh

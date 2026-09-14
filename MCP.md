@@ -18,7 +18,7 @@ its separate upstream OAuth client, and verify CAS/CIE identity and workspace
 access. The native client must use the connection URL supplied by that gateway
 integration. An upstream resource URL is not a valid substitute.
 
-Keep the existing named inference environment. Once the alpha.14 candidate and
+Keep the existing named inference environment. Once alpha.14 and
 gateway integration are ready, add the verified gateway URL with native `mcp add`.
 For example, using a fictional deployment:
 
@@ -102,6 +102,25 @@ boolean with no observation is insufficient.
 The inspected gateway 2.22.0 issues one-hour opaque MCP access tokens. The runner
 therefore waits two real one-hour expiry intervals for `--refresh-cycles 2`;
 upstream Keycloak tokens expire separately after five minutes. A zero-cycle smoke
-run is explicitly incomplete and cannot pass release promotion. Both exact installed alpha.14 candidates have passed production native login,
-credential storage and all eight tools with gateway/upstream correlation. Two
-real expiry cycles are running; publication remains gated on their results.
+run is incomplete and cannot pass the standard lifecycle promotion gate. Both
+exact installed alpha.14 packages passed production native login, credential
+storage and all eight tools with gateway/upstream correlation. For alpha.14 the
+owner explicitly authorized publication without another hourly test. The
+exception records zero completed frontend expiry cycles and preserves the failed
+idle-session receipts. See [PUBLICATION.md](PUBLICATION.md).
+
+
+## Active sessions and idle reauthentication
+
+The deployed Keycloak realm has a 30-minute SSO idle timeout. Observed upstream
+refresh grants expire after 30 minutes without renewal, even though a
+gateway-facing MCP access token lasts an hour. A valid frontend token alone
+does not ensure that the gateway can renew an expired upstream grant. Prolonged
+inactivity can require fresh inference and MCP login.
+
+The release driver tests active use across two real gateway expiries. It performs
+authorized reads every ten minutes while outside the final pre-expiry quiet
+window. Each read must leave the frontend token and expiry unchanged. Fresh
+concurrent processes then run after the actual one-hour expiry. This tests
+renewal under normal activity; it does not claim an hour of idle SSO continuity.
+The earlier silent-wait runs are failed receipts, not release acceptance.

@@ -11,9 +11,10 @@ platform: macos-arm64
 # Prisma AIRS Harness on your Mac
 
 Use an Apple Silicon Mac on the organization's LAN/VPN. Intel Macs are
-unsupported. The alpha.14 candidate has passed signing, Apple notarization,
-Keychain, npm upgrades and all eight production gateway tools. Two actual token
-expiry cycles remain in progress; `latest` stays alpha.13 until promotion.
+unsupported. Alpha.14 has passed signing, Apple notarization, Keychain, npm
+upgrades and all eight production gateway tools. Hourly frontend refresh remains
+unverified in this owner-authorized internal alpha release. Inactivity beyond
+the deployed 30-minute SSO idle limit can require fresh login.
 
 ## Install or update
 
@@ -22,13 +23,11 @@ ripgrep if needed, then install the harness:
 
 ```sh
 brew install node git ripgrep
-npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Downloads are anonymous. No GitHub token or npm login is required. At this
-checkpoint, use the maintainer-provided alpha.14 package for acceptance; the
-command above installs alpha.14 once it is promoted. An ordinary npm upgrade
+Downloads are anonymous. No GitHub token or npm login is required. An ordinary npm upgrade
 needs no uninstall, manual binary deletion or force. Keep existing environments
 and conversation history. If an old manual executable shadows npm, inspect
 `command -v airs-harness` and `npm prefix -g` before changing that legacy link.

@@ -5,11 +5,10 @@ Codex MCP client runs inside the normal `airs-harness` executable. The gateway
 proxies upstream MCP servers and owns their upstream OAuth tokens. CAS/Keycloak
 provides gateway-facing organizational login.
 
-Alpha.13 is the published baseline and used a direct upstream route. That
-onboarding is withdrawn. The correction targets **alpha.14**; installing
-`airs-harness@latest` currently does not install this remediation. See
-[GATEWAY_MCP_REMEDIATION.md](GATEWAY_MCP_REMEDIATION.md) for outstanding deployment
-and live acceptance work.
+Alpha.14 is published with native gateway MCP support on Linux x64 and Apple
+Silicon. Alpha.15 adds coordinated renewal and guided authentication recovery;
+its installed-package production expiry checks are in progress. See
+[PUBLICATION.md](PUBLICATION.md) for the published version and measured acceptance.
 
 ## Onboarding prerequisites
 
@@ -18,8 +17,8 @@ its separate upstream OAuth client, and verify CAS/CIE identity and workspace
 access. The native client must use the connection URL supplied by that gateway
 integration. An upstream resource URL is not a valid substitute.
 
-Keep the existing named inference environment. Once alpha.14 and
-gateway integration are ready, add the verified gateway URL with native `mcp add`.
+Keep the existing named inference environment. Add the verified gateway URL
+with native `mcp add` once your administrator has provisioned the integration.
 For example, using a fictional deployment:
 
 ```sh
@@ -72,12 +71,12 @@ static credentials remain pinned to their existing session binding.
 
 ## Release acceptance
 
-The historical `scripts/validate_builtin_mcp.py` driver exercises the rejected
-direct route. Its receipts cannot pass the new gateway promotion gate. `scripts/validate_gateway_mcp.py` drives native interactive SSO and tool checks.
-It requires separately observed gateway/CAS/upstream evidence; it does not infer
-successful gateway routing from a model answer or manufacture receipt rows. Require the exact installed Linux and Apple Silicon candidates,
-two expiry cycles, history preservation, npm upgrades and Mac signing evidence.
-No alpha.14 gateway/CAS acceptance is claimed by source changes alone.
+`scripts/validate_gateway_mcp.py` drives native interactive SSO and tool checks.
+The promotion gate requires the exact installed Linux and Apple Silicon packages,
+two real frontend expiry cycles, history preservation, npm upgrades and Mac
+signing evidence. Separately collected gateway/CAS/upstream observations bind
+the route, client and run window. Each run needs a unique MCP server name because
+the OS-user keyring is shared across isolated harness homes.
 
 Use the normal npm registry update after an accepted release is published. An
 older manual command symlink can shadow npm; inspect `command -v airs-harness`

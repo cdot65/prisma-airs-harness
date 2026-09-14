@@ -13,7 +13,7 @@ not implement the native MCP connection.
 
 ## Release status
 
-Alpha.14 is the gateway correction. Both exact installed Linux x64 and signed
+Alpha.14 is published on Verdaccio. Both exact installed Linux x64 and signed
 Apple Silicon packages have passed production browser login, native storage,
 all eight gateway-proxied tools, executable checks and npm upgrades. The owner
 authorized this internal alpha release without another hourly authentication
@@ -21,6 +21,10 @@ run. Hourly frontend refresh remains unverified; inactivity beyond the deployed
 30-minute SSO idle limit can require fresh login.
 See [MCP.md](MCP.md) and [PUBLICATION.md](PUBLICATION.md) for current evidence.
 Native Windows distribution and independent release review are not claimed.
+
+Alpha.15's coordinated renewal and guided sign-in implementation is merged.
+Both installed packages passed native and upgrade checks; production expiry
+acceptance is running. Alpha.15 remains unpublished until those checks pass.
 
 ## Installation
 

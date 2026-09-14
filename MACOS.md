@@ -16,6 +16,10 @@ upgrades and all eight production gateway tools. Hourly frontend refresh remains
 unverified in this owner-authorized internal alpha release. Inactivity beyond
 the deployed 30-minute SSO idle limit can require fresh login.
 
+Alpha.15 is an unpublished candidate with coordinated renewal and guided
+inference recovery. Its installed signed package passed native Keychain and
+upgrade checks; production expiry acceptance is running.
+
 ## Install or update
 
 Open Terminal in your normal signed-in desktop session. Install Node.js, Git and
@@ -80,6 +84,18 @@ workspaces. Browser success alone does not prove credential persistence or tool
 access. Native MCP onboarding preserves the existing inference history.
 
 ## Return, sign out and recover
+
+In alpha.15, `/signin` restores inference for the same verified company identity
+while preserving the conversation and draft. Complete browser sign-in and
+Keychain persistence, then explicitly retry the request. From another terminal,
+use `airs-harness --environment work login --restore-session --no-browser`,
+replacing `work` with the running session's environment name.
+
+MCP sign-in is separate: follow the displayed gateway MCP login command and
+start a fresh conversation afterward. The gateway's opaque token does not supply
+verified account continuity for automatic MCP conversation recovery. A locked
+Keychain calls for unlocking and retrying; an upstream management permission
+denial does not call for another human login.
 
 | Task | Command |
 | --- | --- |

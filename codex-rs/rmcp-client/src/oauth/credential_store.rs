@@ -40,6 +40,7 @@ use super::WrappedOAuthTokenResponse;
 use super::normalized_oauth_credentials;
 use super::refresh_expires_in_from_timestamp;
 use super::refresh_transaction::REFRESH_REQUEST_TIMEOUT;
+use super::restrict_refresh_scopes;
 use super::token_needs_refresh;
 use super::validate_refresh_token_issuer;
 
@@ -95,7 +96,7 @@ impl<K: KeyringStore + Clone + 'static> OAuthCredentialStore<K> {
         }
         let metadata = manager.resolve_metadata().await?.metadata;
         validate_refresh_token_issuer(&metadata, &tokens)?;
-        manager.set_metadata(metadata);
+        manager.set_metadata(restrict_refresh_scopes(metadata, &tokens));
         manager.configure_client_id(&tokens.client_id)?;
         // Reuse the guard for RMCP's exchange and save after the locked freshness check.
         manager.set_credential_store(Self {

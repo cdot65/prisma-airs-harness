@@ -25,6 +25,7 @@ use super::StoredOAuthTokens;
 use super::WrappedOAuthTokenResponse;
 use super::compute_expires_at_millis;
 use super::refresh_lock::RefreshCredentialLock;
+use super::restrict_refresh_scopes;
 use super::token_needs_refresh;
 use super::validate_refresh_token_issuer;
 
@@ -176,7 +177,7 @@ impl OAuthPersistor {
             .context("failed to resolve OAuth metadata before using stored refresh credentials")?
             .metadata;
         validate_refresh_token_issuer(&metadata, &latest)?;
-        guard.set_metadata(metadata);
+        guard.set_metadata(restrict_refresh_scopes(metadata, &latest));
         install_tokens_in_manager(&mut guard, &latest)
             .await
             .context("failed to stage OAuth credentials for refresh")?;

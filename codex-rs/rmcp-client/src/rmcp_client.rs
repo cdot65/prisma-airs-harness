@@ -88,6 +88,7 @@ use crate::oauth::ResolvedOAuthTokens;
 use crate::oauth::StoredOAuthTokens;
 use crate::oauth::install_tokens_in_manager;
 use crate::oauth::resolve_oauth_tokens_from_store_policy;
+use crate::oauth::restrict_refresh_scopes;
 use crate::oauth::validate_refresh_token_issuer;
 use crate::oauth_http_client::OAuthHttpClientAdapter;
 use crate::oauth_refresh_mode::McpOAuthRefreshMode;
@@ -1575,7 +1576,7 @@ async fn create_oauth_transport_and_runtime(
             Err(_error) if initial_tokens.access_token_is_usable_without_refresh() => true,
             Err(error) => return Err(error),
         };
-    manager.set_metadata(metadata);
+    manager.set_metadata(restrict_refresh_scopes(metadata, &initial_tokens));
     let mut runtime_tokens = initial_tokens.clone();
     if use_stored_access_token_only {
         runtime_tokens.token_response.0.set_refresh_token(None);

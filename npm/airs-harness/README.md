@@ -1,55 +1,74 @@
 # Prisma AIRS Harness
 
-The `@cdot65/prisma-airs-harness` package launches the matching prebuilt native Rust agent.
-Node.js 22.13+ in the 22.x line, or 23.5+ is required. No Rust compiler is needed on the endpoint.
-Inference uses your configured Prisma AIRS AI Gateway; local files and tools
-run on your machine. This package has no PAH server or OpenAI CLI dependency.
+The `airs-harness` command runs a native Codex terminal agent. Inference and
+remote MCP both use Prisma AIRS AI Gateway. Its built-in MCP client connects to
+the gateway listener; the gateway proxies upstream servers and owns upstream
+OAuth. No separate MCP executable is required.
 
-Install the private review release from GitHub Packages. Your GitHub account needs
-package access. At the password prompt, use a classic personal access token with
-`read:packages` permission:
+## Install or update
+
+On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm login --auth-type=legacy --registry=https://npm.pkg.github.com
-npm install -g @cdot65/prisma-airs-harness@auth-review --include=optional --registry=https://npm.pkg.github.com
+npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-The `auth-review` tag selects the published prerelease for hands-on review.
-Linux x64 and macOS Apple Silicon packages are provided; Intel Macs and native
-Windows packages are not. See the [Mac installation guide](https://github.com/cdot65/airs-harness/blob/main/MACOS.md)
-for the complete first-time setup. A copy also ships inside this package.
+Linux x64 and Apple Silicon are supported. The package uses anonymous downloads;
+no npm login is required. Optional dependencies carry the matching native binary.
+The launcher does not compile or download code at startup and has no install
+scripts. See the bundled [Mac guide](MACOS.md).
 
-Only platforms included in that release are installable. Do not disable optional
-dependencies: they carry the platform binary. The launcher does not download or
-compile code at startup and has no install scripts.
+This package targets alpha.14. Until release acceptance and promotion finish,
+`latest` remains alpha.13. Only a maintainer-provided alpha.14 candidate contains
+the gateway remediation at that checkpoint. The published alpha.13 direct-MCP
+instructions are superseded.
 
-Replace the gateway URL with the address supplied by your organization:
+Ordinary npm upgrades preserve configuration and history without uninstalling or
+using force. Fresh state uses `~/.airs-harness`; existing `~/.airs-terminal` state
+is reused when the new directory is absent. `AIRS_HARNESS_HOME` overrides the
+default, with `AIRS_TERMINAL_HOME` retained as a compatibility fallback. If an old
+manual executable shadows npm, inspect the resolved command and npm prefix;
+preserve old targets referenced by stored credential bindings.
+
+## Connect inference and MCP
+
+Keep an existing named inference environment. For a new connection:
 
 ```sh
-airs-harness setup --environment work --gateway-url https://your-gateway.example/v1
+airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
 airs-harness --environment work login
+airs-harness --environment work doctor --verify-access
+```
+
+Use your administrator's inference URL and company issuer/client/audience, or
+choose a workspace API key for inference. A workspace key is not the MCP user
+credential. With alpha.14 and a configured gateway integration:
+
+```sh
+airs-harness --environment work mcp add prisma-airs \
+  --url https://gateway-mcp.example.com/prisma-airs/mcp \
+  --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
+airs-harness --environment work mcp list
 airs-harness --environment work
 ```
 
-Choose company sign-in or enter a workspace API key at the hidden-input prompt.
-Your administrator supplies the company issuer URL, public client ID, and gateway
-audience. `airs-harness resume` opens existing conversations.
+Replace the example with the gateway-provided MCP URL and discovery-supported
+scopes. Complete gateway CAS/company SSO and any upstream consent. Your directory
+group needs the gateway workspace mapping, and your upstream identity needs the
+read permissions. Upstream OAuth client secrets stay at the gateway.
 
-macOS uses Keychain, and Linux requires an unlocked Secret Service for native
-credential storage. Installing through npm does not provision a Linux keyring
-session. Git, ripgrep, and your project's tools remain separate prerequisites;
-Linux also requires usable Bubblewrap.
+macOS uses Keychain; Linux requires an unlocked Secret Service session. Installing
+npm does not provision a Linux keyring. Set `mcp_oauth_credentials_store =
+"keyring"` at the top of the environment's `config.toml` to require native MCP
+storage. Confirm CLI completion and a tool call after browser consent. The
+callback expires after five minutes; headless tests require a tunnel from the
+browser's loopback port to the native process.
 
-Fresh state uses `~/.airs-harness`. Existing `~/.airs-terminal` state is reused
-when the new directory is absent. `AIRS_HARNESS_HOME` overrides either default;
-the legacy `AIRS_TERMINAL_HOME` override is still accepted. Existing credential
-store identifiers remain stable so the rename does not discard authentication.
-Do not delete an old executable that stored credential-helper paths still use.
-
-Update by installing an administrator-approved version from the same registry.
-Configuration and history are outside the npm package. License notices and
-build provenance ship with each native platform package.
+Use `/mcp` in the terminal for inventory, and `airs-harness resume` for history.
+`mcp logout prisma-airs` signs out native MCP separately from inference `logout`;
+it does not revoke the gateway's upstream user grant. Git, ripgrep and project
+tools remain prerequisites; Linux also requires usable Bubblewrap.
 
 ## Managed Prisma AIRS CLI
 

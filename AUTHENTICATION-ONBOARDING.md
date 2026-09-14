@@ -8,7 +8,11 @@ source_commit: b012ba55e1404b498ad513cd15efa52a9a60530f
 tags: [prisma-airs-harness, authentication, onboarding, macos, linux, windows]
 ---
 
-# Try the authentication review build
+# Historical authentication review guide
+
+This alpha.10 record is retained for provenance. Current gateway inference and
+native MCP onboarding is in [README.md](README.md) and [MACOS.md](MACOS.md).
+Its package versions and acceptance status below are historical.
 
 This guide applies to **0.1.0-alpha.10 authentication review builds**. Use the
 exact executable or package approved by your project administrator. Existing alpha.9

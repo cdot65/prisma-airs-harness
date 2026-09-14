@@ -1,200 +1,110 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
-description: Install the app, sign in, and start your first conversation.
-package_version: 0.1.0-alpha.11
-verified_version: 0.1.0-alpha.11
-updated: 2026-09-10
+description: Install the native harness and connect inference and MCP through AI Gateway.
+package_version: 0.1.0-alpha.14
+status: gateway-release-acceptance
+updated: 2026-09-14
 audience: end-users
 platform: macos-arm64
 ---
 
 # Prisma AIRS Harness on your Mac
 
-This guide is for **Apple Silicon Macs** (M1, M2, M3, M4, or newer).
-Check **Apple menu → About This Mac** if you are unsure. Intel Macs are unsupported.
+Use an Apple Silicon Mac on the organization's LAN/VPN. Intel Macs are
+unsupported. The alpha.14 candidate has passed signing, Apple notarization,
+Keychain, npm upgrades and all eight production gateway tools. Two actual token
+expiry cycles remain in progress; `latest` stays alpha.13 until promotion.
 
-You will need access to the private GitHub package and either your company
-sign-in or a workspace API key from your administrator.
+## Install or update
 
-Version **0.1.0-alpha.11** has passed Mac installation and Keychain checks,
-and workspace API key access has been confirmed on the user's Mac.
-If you already have the harness, go to [Update an existing installation](#update-an-existing-installation).
-
-## 1. Open Terminal and prepare your Mac
-
-Press **Command + Space**, type **Terminal**, and open it.
-Copy each command from its box into Terminal and press **Return**.
-
-If you already have Node.js, Git, and ripgrep installed, skip this step.
-Otherwise, install [Homebrew](https://brew.sh/), follow its setup instructions,
-and then run:
+Open Terminal in your normal signed-in desktop session. Install Node.js, Git and
+ripgrep if needed, then install the harness:
 
 ```sh
 brew install node git ripgrep
-```
-
-## 2. Download the harness
-
-GitHub requires a **personal access token (classic)** to download this private
-package. If you do not have one:
-
-1. Open [GitHub token settings](https://github.com/settings/tokens).
-2. Choose **Generate new token → Generate new token (classic)**.
-3. Give it a name and expiration, select **read:packages**, and generate it.
-4. Keep the token available for the next prompt. Do not share it in chat.
-
-Run this on **each Mac** where you install the harness:
-
-```sh
-npm login --auth-type=legacy --registry=https://npm.pkg.github.com
-```
-
-Enter your **GitHub username**. At the **Password** prompt, paste the token—not
-your GitHub password. It is normal for nothing to appear while you paste.
-
-After login succeeds, choose either installation method below.
-
-### Install directly (recommended)
-
-Install version **0.1.0-alpha.11**:
-
-```sh
-npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.11 --include=optional --registry=https://npm.pkg.github.com
-```
-
-### Download first, then install the saved file
-
-After the same npm login above, download the verified version into your Downloads folder:
-
-```sh
-cd ~/Downloads
-npm pack @cdot65/prisma-airs-harness@0.1.0-alpha.11 --registry=https://npm.pkg.github.com
-```
-
-This saves `cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz`. Keep it compressed.
-Install that file:
-
-```sh
-npm install -g ./cdot65-prisma-airs-harness-0.1.0-alpha.11.tgz --include=optional --registry=https://npm.pkg.github.com
-```
-
-The saved file contains the launcher and bundled Prisma AIRS CLI. Installation
-still downloads the matching Mac native package, so keep internet access and
-your npm login available. Copying this file to another Mac does not replace that
-Mac's GitHub package access. This is a download-first installation, not an offline installer.
-
-These commands use npm's supported [package download](https://docs.npmjs.com/cli/v10/commands/npm-pack/)
-and [local archive installation](https://docs.npmjs.com/cli/v10/commands/npm-install/) features.
-
-### Check the installation
-
-```sh
+npm install -g airs-harness@latest --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-For either method, you should see `airs-harness 0.1.0-alpha.11`.
+Downloads are anonymous. No GitHub token or npm login is required. At this
+checkpoint, use the maintainer-provided alpha.14 package for acceptance; the
+command above installs alpha.14 once it is promoted. An ordinary npm upgrade
+needs no uninstall, manual binary deletion or force. Keep existing environments
+and conversation history. If an old manual executable shadows npm, inspect
+`command -v airs-harness` and `npm prefix -g` before changing that legacy link.
 
-## 3. Create your environment and sign in
+## Sign in for inference
 
-Create a saved connection named **work**:
-
-```sh
-airs-harness setup --environment work --gateway-url https://airs.cdot.io/v1
-```
-
-This creates and selects the environment. Run it once, including when starting
-over after removing all environments. `--environment` alone selects an existing
-environment; it does not create one.
-
-Now sign in:
+For a new connection, create a named environment with your administrator's
+inference gateway URL. Keep an existing environment when upgrading:
 
 ```sh
+airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
 airs-harness --environment work login
 ```
 
-Choose one sign-in method:
+Company sign-in asks for the OIDC issuer, public client ID and inference audience.
+Enter your password only on your organization's browser page. A workspace API
+key is a separate inference option entered at the hidden-input prompt. It is not
+a Keycloak JWT and does not authorize the user MCP flow.
 
-### Company sign-in (SSO)
-
-Use your organization's compatible OpenID Connect (OIDC) sign-in provider.
-Ask your administrator for the three settings below, then choose **1**.
-You do not need to know which SSO product your organization uses.
-
-| Prompt | What to enter |
-| --- | --- |
-| Company issuer URL | The exact HTTPS issuer URL supplied by your administrator. It may include a tenant or organization path. |
-| Public client ID | The public application/client ID registered for the harness. |
-| Gateway audience | The audience identifier your organization uses for AI Gateway access. |
-
-Complete sign-in in your browser. If it does not open automatically, open the
-URL shown in Terminal. Follow your organization's usual sign-in and multi-factor
-authentication prompts. Enter your company password only in the browser; the
-harness does not ask for it or for a client secret.
-
-Your administrator must configure the SSO application and gateway to work together.
-Use the supplied issuer URL rather than a general company login page. Direct
-SAML-only sign-in is not supported; your administrator can provide an OIDC connection.
-
-### Workspace API key
-
-Choose **2**, paste the workspace key supplied by your administrator, and press
-**Return**. The input is hidden. This is a different credential from your GitHub token.
-
-The harness saves your sign-in in macOS Keychain. Allow access if macOS asks.
-Look for **Gateway access verified**. Then start the harness:
+Allow the macOS Keychain prompt when shown. Confirm successful CLI completion:
 
 ```sh
+airs-harness --environment work doctor --verify-access
+```
+
+`PASS gateway_access` proves the small inference check, not MCP authorization.
+
+## Connect the gateway MCP integration
+
+Your administrator must provision the integration and map your CIE directory
+group to its gateway workspace. Use the connection URL from that gateway:
+
+```sh
+airs-harness --environment work mcp add prisma-airs \
+  --url https://gateway-mcp.example.com/prisma-airs/mcp \
+  --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
+airs-harness --environment work mcp list
 airs-harness --environment work
 ```
 
-Type your first message when the conversation opens.
+The example scopes match this deployment's gateway discovery. Set
+`mcp_oauth_credentials_store = "keyring"` at the top level of the environment's
+`config.toml` when native storage is required. Complete gateway CAS/company SSO
+and any gateway-managed upstream consent. The gateway keeps the confidential
+upstream client secret and tokens. Do not configure a direct upstream URL or
+reuse the old upstream client ID in the native harness.
 
-## 4. Use it again
+Use `/mcp` to inspect the connection, then ask the agent to list your authorized
+workspaces. Browser success alone does not prove credential persistence or tool
+access. Native MCP onboarding preserves the existing inference history.
 
-You do not need to install or sign in every time.
+## Return, sign out and recover
 
-| What you want to do | Command |
+| Task | Command |
 | --- | --- |
-| Start the harness | `airs-harness` |
-| Continue an earlier conversation | `airs-harness resume` |
-| See your saved environments | `airs-harness env list` |
-| Select the environment named work | `airs-harness env use work` |
-| Sign out of the selected environment | `airs-harness logout` |
-| Sign back in | `airs-harness login` |
+| Open the selected environment | `airs-harness` |
+| Resume its history | `airs-harness resume` |
+| List saved environments | `airs-harness env list` |
+| Select work | `airs-harness env use work` |
+| Sign out native MCP | `airs-harness mcp logout prisma-airs` |
+| Sign back into native MCP | `airs-harness mcp login prisma-airs` |
+| Sign out inference | `airs-harness logout` |
+| Sign back into inference | `airs-harness login` |
 
-If you used a different environment name, substitute that name for `work`.
-To work on files, open Terminal in your project folder before starting the harness.
+Gateway MCP logout does not revoke the gateway-held upstream grant. If a browser
+says it cannot connect to localhost after five minutes, restart native login and
+complete the newest tab; the old callback listener has expired. If credential
+saving fails under SSH, run login in the signed-in desktop session and allow
+Keychain access. Headless Linux acceptance may use Safari here with a verified
+SSH reverse tunnel to its own loopback callback; its native credential store
+remains on Linux.
 
-## Update an existing installation
+For `access_denied` with missing workspace access, check the existing CIE group
+mapping, Full Sync and workspace Members tab. A successful inference login is
+not evidence of MCP workspace access. Share the error category and version with
+your administrator, never access tokens or client secrets.
 
-Keep your existing environment and sign-in. Install the version covered by this guide:
-
-```sh
-npm install -g @cdot65/prisma-airs-harness@0.1.0-alpha.11 --include=optional --registry=https://npm.pkg.github.com
-airs-harness --version
-airs-harness doctor --verify-access
-```
-
-You can also use the saved-file method above to install version `0.1.0-alpha.11`.
-There is no need to repeat `setup` when updating. The doctor command checks access
-using one small inference request; look for `PASS gateway_access`.
-
-## Need help?
-
-- **npm reports 401:** repeat npm login on this Mac using an unexpired **classic**
-  token with **read:packages**. If it still fails, ask your administrator to check
-  package access and send them the error text, without your token.
-- **Company sign-in, Keychain, or gateway access fails:** send your administrator
-  the error and the output of `airs-harness --version`. Do not send credentials.
-- **You want remote security tools:** ask your administrator to help connect MCP
-  after basic sign-in works. MCP requires separate authorization.
-
-To uninstall the application:
-
-```sh
-npm uninstall -g @cdot65/prisma-airs-harness
-```
-
-Uninstalling keeps your saved environments and conversations. Run
-`airs-harness logout` before uninstalling if you also want to sign out of the
-selected environment.
+Uninstalling with `npm uninstall -g airs-harness` preserves saved environments.
+Sign out inference and MCP separately first if you want local credentials removed.

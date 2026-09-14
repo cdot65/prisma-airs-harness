@@ -1,3 +1,16 @@
+# 0.1.0-alpha.14 — gateway-mediated native MCP (acceptance running)
+
+Both inference and native MCP target Prisma AIRS AI Gateway. The existing Codex
+MCP client connects to the gateway listener, CAS handles gateway-facing company
+SSO, and the gateway manages confidential upstream OAuth. Native dynamic client
+registration preserves the existing inference environment and history.
+
+Both exact installed platform candidates passed production native login,
+credential storage, all eight model-selected tools and correlated gateway and
+upstream observations. Native suites, npm upgrades and Apple signing/notarization
+pass. Two real one-hour token-expiry cycles remain in progress. This is not yet a
+published release; see [PUBLICATION.md](PUBLICATION.md).
+
 # 0.1.0-alpha.13 — built-in OAuth MCP and verified npm upgrades
 
 > **Acceptance correction:** This published release was tested against a direct

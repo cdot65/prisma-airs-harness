@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import tarfile
 
 
@@ -29,7 +30,11 @@ def describe(source, binary, fixture, opt_level):
         "published": False,
         "release_ready": False,
         "runtime_source": identity(source, 40),
-        "build_tooling_source": os.environ.get("GITHUB_SHA"),
+        "build_tooling_source": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=Path(__file__).resolve().parents[1],
+            text=True,
+        ).strip(),
         "compilation_run": os.environ.get("GITHUB_RUN_ID"),
         "compilation_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
         "binary_sha256": binary,

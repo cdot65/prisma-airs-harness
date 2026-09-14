@@ -114,6 +114,21 @@ def main():
             capture_output=True,
             check=True,
         )
+    native_binary = args.binary.resolve()
+    launcher_sha256 = None
+    if native_binary.suffix == ".js":
+        launcher_sha256 = hashlib.sha256(native_binary.read_bytes()).hexdigest()
+        manifest = subprocess.check_output(
+            [
+                "node",
+                "-e",
+                "const {createRequire}=require('module');const r=createRequire(process.argv[1]);"
+                "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));",
+                str(native_binary),
+            ],
+            text=True,
+        ).strip()
+        native_binary = Path(manifest).parent / "bin/airs-harness"
     rows = []
 
     def run(label, commands, authenticate=False, timeout=240):
@@ -354,6 +369,7 @@ def main():
                 args.binary.resolve().read_bytes()
             ).hexdigest(),
             "platform": os.uname().sysname,
+            "launcher_sha256": launcher_sha256,
             "endpoint": args.endpoint,
             "identity": "disposable human; native browser PKCE and OS credential store",
             "refresh_cycles": args.refresh_cycles,

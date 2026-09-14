@@ -191,7 +191,7 @@ class TerminalIntegration(unittest.TestCase):
             "code_mode_prewarm",
             "code_mode_host",
             "realtime_conversation",
-            "guardian_v2",
+            "guardianv2",
         ]
         # Omit setup's feature defaults to represent an older environment, then
         # request each unsupported capability through the public CLI overrides.

@@ -98,7 +98,9 @@ def main():
     before = {
         str(p.relative_to(state)): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in state.rglob("*")
-        if p.is_file()
+        # arg0 contains per-process command shims and locks, not persisted
+        # settings. Starting a later executable legitimately replaces them.
+        if p.is_file() and p.relative_to(state).parts[:2] != ("tmp", "arg0")
     }
     (args.output / "state-before.json").write_text(json.dumps(before, indent=2))
     old_link = os.readlink(command)
@@ -209,7 +211,7 @@ def main():
         after = {
             str(p.relative_to(state)): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in state.rglob("*")
-            if p.is_file()
+            if p.is_file() and p.relative_to(state).parts[:2] != ("tmp", "arg0")
         }
         (args.output / "state-after.json").write_text(json.dumps(after, indent=2))
         assert before == after, str({

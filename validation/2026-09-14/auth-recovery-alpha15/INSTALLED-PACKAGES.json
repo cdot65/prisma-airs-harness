@@ -1,0 +1,74 @@
+{
+  "runtime_source": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+  "version": "0.1.0-alpha.15",
+  "scope": "installed package and native fixture acceptance",
+  "passed": true,
+  "production_oauth_acceptance": false,
+  "published": false,
+  "platforms": {
+    "linux": {
+      "binary_sha256": "2b2825a80d2013ea03feae06f495f7455eac0201144c519e17ef71c5efaec0bc",
+      "installed_native_tests": {
+        "run": 44,
+        "skipped": 1,
+        "passed": true
+      },
+      "native_credentials": true,
+      "npm_upgrade_from_alpha14": true,
+      "evidence": [
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/LINUX-INSTALLED-ACCEPTANCE.json",
+          "sha256": "928a409746021798e223c2d4554adf3585d9aa3a236f89d8f50bfa420f4bf0e3"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/linux-final/NATIVE-UPGRADE-BOUNDED.json",
+          "sha256": "311e967c507cffa074ac15e33cf95d1d6b0a610ba761f851cce52999c0bc9315"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/linux-final/NATIVE-STORE.json",
+          "sha256": "3489bc2a927b392eaaf0d6642987f2392c2c2a75b6d38df857a0408d84687678"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/linux-npm-upgrade/UPGRADE.json",
+          "sha256": "4487ce6634a0fe139438f92e3f8152725d011a651a758eb6207963afca418a57"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/linux-final-installed-tests.log",
+          "sha256": "f6e717d825cbaf60776c406507a95c9db5922cd371ee6b4d1b6ad376da4a60f0"
+        }
+      ]
+    },
+    "mac": {
+      "binary_sha256": "ff8a5666c1f9cef6f728bbb9c8e86e1522718e36b2a697a47e46ba85b6d56198",
+      "installed_native_tests": {
+        "run": 44,
+        "skipped": 1,
+        "passed": true
+      },
+      "native_credentials": true,
+      "npm_upgrade_from_alpha14": true,
+      "evidence": [
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/mac-final/MAC-INSTALLED-DESKTOP.json",
+          "sha256": "ae3cba6fd2aebe624a799613b05ba4d6573f346cbdb5684fffe32a94daa2fd87"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/mac-final/MAC-DESKTOP-KEYCHAIN.json",
+          "sha256": "0c3faacfe2c070f33049dd84994d1bb77027ef690223765c4e7eef6af6abeb50"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/mac-final/NPM-UPGRADE.json",
+          "sha256": "5433affb8a71ad25a421e7f40f3d0d781f54dbabc8ad0a8ee9a8ceb5dd0ed5ce"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/mac-final/SIGNING.json",
+          "sha256": "b036737df429bbb9ea8ff219a7c66704351129d66e369f9f3d74c23301270b36"
+        },
+        {
+          "path": "/home/cdot/.cache/airs-auth-recovery/mac-final/mac-installed-tests.log",
+          "sha256": "d412463e1c18ac98f02bf662f24904ffbde3b5275cd8eea519642f077f5b9ea7"
+        }
+      ]
+    }
+  }
+}

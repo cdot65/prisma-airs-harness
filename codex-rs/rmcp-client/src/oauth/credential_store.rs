@@ -112,6 +112,12 @@ impl<K: KeyringStore + Clone + 'static> OAuthCredentialStore<K> {
         match result {
             Ok(_) => Ok(()),
             Err(AuthError::TokenRefreshRejected(_)) => Err(AuthError::AuthorizationRequired.into()),
+            Err(AuthError::TokenRefreshFailed(_)) => Err(anyhow::Error::from(
+                AuthError::AuthorizationRequired,
+            ))
+            .context(
+                "MCP refresh outcome is unknown; sign in again without retrying the previous grant",
+            ),
             Err(error) => Err(error.into()),
         }
     }

@@ -497,6 +497,17 @@ impl ToolRegistry {
         mut invocation: ToolInvocation,
         terminal_outcome_reached: Option<Arc<AtomicBool>>,
     ) -> Result<AnyToolResult, FunctionCallError> {
+        if let Some(message) = invocation
+            .step_context
+            .mcp_authentication_failure
+            .lock()
+            .map_err(|_| {
+                FunctionCallError::Fatal("MCP authentication recovery state is unavailable".into())
+            })?
+            .as_ref()
+        {
+            return Err(FunctionCallError::Fatal(message.clone()));
+        }
         let tool_name = invocation.tool_name.clone();
         let call_id_owned = invocation.call_id.clone();
         let otel = invocation.turn.session_telemetry.clone();

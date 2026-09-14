@@ -2877,6 +2877,14 @@ async fn try_run_sampling_request(
         }
     }
 
+    if let Some(message) = step_context
+        .mcp_authentication_failure
+        .lock()
+        .map_err(|_| CodexErr::Fatal("MCP authentication recovery state is unavailable".into()))?
+        .take()
+    {
+        return Err(CodexErr::Fatal(message));
+    }
     outcome
 }
 

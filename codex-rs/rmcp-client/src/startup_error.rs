@@ -32,12 +32,20 @@ pub fn is_authentication_required_error(error: &Error) -> bool {
                 })
             || source
                 .downcast_ref::<ClientOperationError>()
-                .is_some_and(|error| {
-                    matches!(
-                        error,
-                        ClientOperationError::Service(ServiceError::TransportSend(error))
-                            if transport_error_requires_authentication(error)
-                    )
+                .is_some_and(|error| match error {
+                    ClientOperationError::Service(ServiceError::TransportSend(error)) => {
+                        transport_error_requires_authentication(error)
+                    }
+                    ClientOperationError::Service(ServiceError::McpError(error)) => {
+                        error.code.0 == -32000
+                            && error
+                                .data
+                                .as_ref()
+                                .and_then(|data| data.get("type"))
+                                .and_then(serde_json::Value::as_str)
+                                == Some("upstream_auth_required")
+                    }
+                    _ => false,
                 })
     })
 }
@@ -56,6 +64,12 @@ fn transport_error_requires_authentication(error: &DynamicTransportError) -> boo
 fn auth_error_requires_authentication(error: &AuthError) -> bool {
     matches!(
         error,
-        AuthError::AuthorizationRequired | AuthError::TokenExpired
+        AuthError::AuthorizationRequired
+            | AuthError::TokenExpired
+            | AuthError::TokenRefreshRejected(_)
     )
 }
+
+#[cfg(test)]
+#[path = "startup_error_tests.rs"]
+mod tests;

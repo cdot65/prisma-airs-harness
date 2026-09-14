@@ -35,8 +35,22 @@ enum ConfigRefreshPath {
     Mcp,
 }
 
+#[derive(Clone, Copy)]
+enum AuthChallengePath {
+    Upstream,
+    Gateway,
+    GatewayCodeMode,
+}
+
+#[test_case(AuthChallengePath::Upstream; "upstream reports auth to agent")]
+#[test_case(AuthChallengePath::Gateway; "gateway stops before model fallback")]
+#[test_case(AuthChallengePath::GatewayCodeMode; "gateway stops code mode credential fallback")]
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay() -> anyhow::Result<()> {
+async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay(
+    challenge_path: AuthChallengePath,
+) -> anyhow::Result<()> {
+    let gateway = !matches!(challenge_path, AuthChallengePath::Upstream);
+    let code_mode = matches!(challenge_path, AuthChallengePath::GatewayCodeMode);
     skip_if_no_network!(Ok(()));
 
     let responses_server = responses::start_mock_server().await;
@@ -56,17 +70,27 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay() -> 
         .mount(&mcp_server)
         .await;
     let call_id = "auth-challenge-call";
+    let tool_call = if code_mode {
+        responses::ev_custom_tool_call(
+            call_id,
+            "exec",
+            r#"await tools.mcp__reauth__calendar_list_events({});
+await tools.exec_command({cmd: "printf forbidden_credential_fallback"});"#,
+        )
+    } else {
+        responses::ev_function_call_with_namespace(
+            call_id,
+            "mcp__reauth",
+            "calendar_list_events",
+            "{}",
+        )
+    };
     let model_requests = responses::mount_sse_sequence(
         &responses_server,
         vec![
             responses::sse(vec![
                 responses::ev_response_created("resp-1"),
-                responses::ev_function_call_with_namespace(
-                    call_id,
-                    "mcp__reauth",
-                    "calendar_list_events",
-                    "{}",
-                ),
+                tool_call,
                 responses::ev_completed("resp-1"),
             ]),
             responses::sse(vec![
@@ -83,6 +107,18 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay() -> 
     }))?;
     let fixture = test_codex()
         .with_config(move |config| {
+            if code_mode {
+                config
+                    .features
+                    .enable(Feature::CodeMode)
+                    .expect("enable code mode");
+            }
+            if gateway {
+                config.model = Some("gpt-5.6-sol".into());
+                config.model_provider.gateway = Some(codex_model_provider_info::GatewayRouting {
+                    default_route: "gpt-5.6-sol".into(),
+                });
+            }
             config
                 .mcp_servers
                 .set([("reauth".to_string(), server_config)].into())
@@ -99,15 +135,17 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay() -> 
 
     let mut end_results = Vec::new();
     let mut completed_results = Vec::new();
+    let mut recovery_errors = Vec::new();
+    let mut shell_starts = 0;
     wait_for_event(&fixture.codex, |event| {
         match event {
-            EventMsg::McpToolCallEnd(event) if event.call_id == call_id => {
+            EventMsg::Error(error) => recovery_errors.push(error.message.clone()),
+            EventMsg::ExecCommandBegin(_) => shell_starts += 1,
+            EventMsg::McpToolCallEnd(event) => {
                 end_results.push(event.result.clone());
             }
             EventMsg::ItemCompleted(event) => {
-                if let TurnItem::McpToolCall(item) = &event.item
-                    && item.id == call_id
-                {
+                if let TurnItem::McpToolCall(item) = &event.item {
                     completed_results.push((item.status, item.result.clone(), item.error.clone()));
                 }
             }
@@ -125,12 +163,20 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay() -> 
             "mcp/www_authenticate": [format!(r#"Basic realm="proxy, login", {challenge}"#)],
         })),
     };
+    assert_eq!(shell_starts, 0);
     assert_eq!(end_results, vec![Ok(expected.clone())]);
     assert_eq!(
         completed_results,
         vec![(McpToolCallStatus::Failed, Some(expected), None)]
     );
-    assert_eq!(model_requests.requests().len(), 2);
+    assert_eq!(model_requests.requests().len(), if gateway { 1 } else { 2 });
+    if gateway {
+        assert_eq!(recovery_errors.len(), 1);
+        assert!(recovery_errors[0].starts_with("MCP sign-in required: reauth."));
+        assert!(recovery_errors[0].contains("airs-harness mcp login reauth"));
+    } else {
+        assert!(recovery_errors.is_empty());
+    }
     mcp_server.verify().await;
     fixture.codex.shutdown_and_wait().await?;
     Ok(())

@@ -13,6 +13,8 @@ use codex_otel::SessionTelemetry;
 
 /// Request-scoped state that may change between model sampling requests.
 pub(crate) struct StepContext {
+    /// Stop automatic model continuation after preserving this step's failed MCP result.
+    pub(crate) mcp_authentication_failure: std::sync::Mutex<Option<String>>,
     pub(crate) turn: Arc<TurnContext>,
     /// One immutable settings version captured before request preparation.
     pub(crate) settings: Arc<ResolvedStepSettings>,

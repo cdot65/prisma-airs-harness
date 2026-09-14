@@ -3654,6 +3654,7 @@ impl Session {
             );
         }
         Ok(Arc::new(StepContext {
+            mcp_authentication_failure: Default::default(),
             settings,
             token_budget,
             session_telemetry,

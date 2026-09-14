@@ -55,7 +55,7 @@ impl RefreshCredentialLock {
     ) -> Result<Self> {
         timeout(acquire_timeout, async {
             let mut guard = Self::acquire_in(shared_home, store_key, acquire_timeout).await?;
-            if shared_home.canonicalize()? != codex_home {
+            if shared_home.canonicalize()? != codex_home.canonicalize()? {
                 let local = Self::acquire_in(codex_home, store_key, acquire_timeout).await?;
                 guard._files.extend(local._files);
             }

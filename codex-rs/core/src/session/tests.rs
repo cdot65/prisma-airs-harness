@@ -260,6 +260,7 @@ impl StepContext {
                 settings.model_info.as_ref(),
             ),
             settings: Arc::new(settings),
+            mcp_authentication_failure: Default::default(),
             session_telemetry: turn.session_telemetry.clone(),
             turn: Arc::clone(&turn),
             environments,

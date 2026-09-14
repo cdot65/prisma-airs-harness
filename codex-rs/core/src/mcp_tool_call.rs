@@ -452,7 +452,7 @@ async fn handle_approved_mcp_tool_call(
         .unwrap_or_else(|| JsonValue::Object(serde_json::Map::new()));
     let result = async {
         let result = async {
-            let mut result = prepared_call
+            let result = prepared_call
                 .call_with_preparation(/*requested_timeout*/ None, || async {
                     if let McpToolApprovalApplication::Apply { decision, policy } =
                         &approval_application
@@ -529,8 +529,9 @@ async fn handle_approved_mcp_tool_call(
                         mcp_call_trace.add_request_meta(request_meta),
                     ))
                 })
-                .await
-                .map_err(|error| format!("tool call error: {error:?}"))?;
+                .await;
+            crate::airs_mcp_recovery::observe(step_context, &server, &result);
+            let mut result = result.map_err(|error| format!("tool call error: {error:?}"))?;
             let mcp_tool = McpToolContext::from_prepared_call(
                 &prepared_call,
                 turn_context.config.mcp_servers.get().get(&server),

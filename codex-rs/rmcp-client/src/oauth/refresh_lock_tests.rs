@@ -5,6 +5,20 @@ use std::time::Duration;
 use tempfile::tempdir;
 
 #[tokio::test]
+async fn shared_and_environment_home_can_resolve_to_the_same_directory() -> Result<()> {
+    let home = tempdir()?;
+    let equivalent = home.path().join(".");
+    let _guard = RefreshCredentialLock::acquire_for_homes(
+        home.path(),
+        &equivalent,
+        "entry",
+        Duration::from_millis(100),
+    )
+    .await?;
+    Ok(())
+}
+
+#[tokio::test]
 async fn acquisition_times_out_without_stealing() -> Result<()> {
     let codex_home = tempdir()?;
     let store_key = "test-store-key";

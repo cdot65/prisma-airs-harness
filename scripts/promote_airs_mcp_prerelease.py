@@ -84,6 +84,15 @@ def validate(info, e2e, upgrade, signing):
         raise ValueError(
             "Upgrade must preserve configuration and the legacy executable"
         )
+    expected_cases = {
+        "npm-managed-in-place",
+        "legacy-one-time-migration",
+        "legacy-command-before-separate-npm-prefix",
+    }
+    if not expected_cases <= {case["case"] for case in upgrade["cases"]}:
+        raise ValueError(
+            "Both legacy command layouts and ordinary npm upgrades must be tested"
+        )
     for case in upgrade["cases"]:
         if (
             case.get("passed") is not True
@@ -125,6 +134,10 @@ def main():
         raise ValueError("Native bytes changed")
     signing_path = root / "SIGNING.json"
     signing = json.loads(signing_path.read_text()) if signing_path.exists() else None
+    if signing is not None and digest(signing_path) != info.get(
+        "signing_receipt_sha256"
+    ):
+        raise ValueError("Signing receipt changed after native packaging")
     e2e = json.loads(args.e2e.read_text())
     upgrade = json.loads(args.upgrade.read_text())
     validate(info, e2e, upgrade, signing)

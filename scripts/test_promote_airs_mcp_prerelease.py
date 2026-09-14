@@ -65,6 +65,18 @@ class PromotionEvidence(unittest.TestCase):
             ],
         }
 
+        for case in [
+            "legacy-one-time-migration",
+            "legacy-command-before-separate-npm-prefix",
+        ]:
+            self.upgrade["cases"].append(
+                {
+                    **self.upgrade["cases"][0],
+                    "case": case,
+                    "force_used": case == "legacy-one-time-migration",
+                }
+            )
+
     def test_accepts_bound_linux_acceptance(self):
         validate(self.info, self.e2e, self.upgrade, None)
 

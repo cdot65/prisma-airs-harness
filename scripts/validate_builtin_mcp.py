@@ -384,9 +384,7 @@ def main():
                 passed = False
         receipt = {
             "passed": passed,
-            "binary_sha256": hashlib.sha256(
-                args.binary.resolve().read_bytes()
-            ).hexdigest(),
+            "binary_sha256": hashlib.sha256(native_binary.read_bytes()).hexdigest(),
             "platform": os.uname().sysname,
             "launcher_sha256": launcher_sha256,
             "endpoint": args.endpoint,

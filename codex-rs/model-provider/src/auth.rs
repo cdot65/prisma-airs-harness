@@ -236,6 +236,33 @@ pub(crate) async fn resolve_provider_auth_for_scope(
     provider: &ModelProviderInfo,
     scope: ProviderAuthScope,
 ) -> codex_protocol::error::Result<ResolvedProviderAuth> {
+    if provider.gateway.is_some()
+        && provider.auth.is_some()
+        && auth.is_none()
+        && let Some(reason) = auth_manager
+            .as_ref()
+            .and_then(|manager| manager.credential_recovery())
+    {
+        use codex_login::auth::CredentialRecovery;
+        return Err(match reason {
+            CredentialRecovery::SignInRequired | CredentialRecovery::OutcomeUnknown => {
+                let home = provider
+                    .auth
+                    .as_ref()
+                    .map(|auth| auth.cwd.to_string_lossy().replace('\'', "'\\''"))
+                    .unwrap_or_default();
+                CodexErr::RefreshTokenFailed(codex_protocol::auth::RefreshTokenFailedError::new(
+                    codex_protocol::auth::RefreshTokenFailedReason::Other,
+                    format!(
+                        "{reason} For a terminal without browser access: AIRS_HARNESS_HOME='{home}' airs-harness login --restore-session --no-browser"
+                    ),
+                ))
+            }
+            CredentialRecovery::StoreUnavailable | CredentialRecovery::TemporarilyUnavailable => {
+                CodexErr::Fatal(reason.to_string())
+            }
+        });
+    }
     let ProviderAuthScope {
         agent_identity_policy,
         session_source,

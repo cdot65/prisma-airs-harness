@@ -9,6 +9,7 @@ pub use browser::BrowserLogin;
 pub use device::DeviceLogin;
 pub use provider::IdentityConfig;
 pub use provider::Provider;
+pub use provider::TokenExchangeError;
 pub use tokens::Identity;
 pub use tokens::Tokens;
 

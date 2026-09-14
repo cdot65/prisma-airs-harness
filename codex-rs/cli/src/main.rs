@@ -1201,7 +1201,16 @@ async fn cli_main(
     if airs_harness::is_standalone() {
         let root = codex_core::config::find_codex_home()?;
         match &subcommand {
-            Some(Subcommand::Credential(args)) => return airs_credentials::helper(args).await,
+            Some(Subcommand::Credential(args)) => {
+                let result = airs_credentials::helper(args).await;
+                if let Err(error) = &result
+                    && let Some(reason) =
+                        error.downcast_ref::<codex_login::auth::CredentialRecovery>()
+                {
+                    eprintln!("{}", reason.marker());
+                }
+                return result;
+            }
             Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args).await,
             Some(Subcommand::Env { command }) => {
                 return airs_environment::run(root.as_path(), command);

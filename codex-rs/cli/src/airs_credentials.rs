@@ -290,7 +290,7 @@ pub(super) fn install_binding(home: &Path, binding: &Binding) -> anyhow::Result<
     let helper = serde_json::json!({
         "command": std::env::current_exe()?,
         "args": ["credential", "--home", home, "--binding", binding.id],
-        "timeout_ms": 60000, "refresh_interval_ms": 1000, "cwd": home
+        "timeout_ms": 30000, "refresh_interval_ms": 1000, "cwd": home
     });
     provider.insert("auth".into(), serde_json::from_value(helper)?);
     if let Some(Source::Environment { variable }) = &binding.source {
@@ -333,7 +333,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     );
     anyhow::ensure!(args.home.is_absolute(), "credential home must be absolute");
     let session = codex_utils_home_dir::airs_session::AirsSessionGuard::capture(&args.home)?;
-    let _lock = airs_environment::lock(&args.home)?;
+    let _lock = airs_environment::credential_lock(&args.home).await?;
     let binding = read_binding(&args.home)?;
     anyhow::ensure!(
         binding.id == args.binding,

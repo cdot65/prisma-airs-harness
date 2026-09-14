@@ -156,11 +156,14 @@ pub(super) fn rewrite_locked(home: &Path, executable: &Path) -> anyhow::Result<(
                     && binding.gateway_url == airs_environment::gateway(home)?,
                 "invalid managed inference binding"
             );
-            let expected: toml::Value = serde_json::from_value(serde_json::json!({
+            let mut expected: toml::Value = serde_json::from_value(serde_json::json!({
                 "command": command, "args": ["credential", "--home", home, "--binding", binding.id],
                 "timeout_ms": 60000, "refresh_interval_ms": 1000, "cwd": home
             }))?;
-            if *auth == expected {
+            let legacy = *auth == expected;
+            expected["timeout_ms"] = toml::Value::Integer(30000);
+            if legacy || *auth == expected {
+                auth["timeout_ms"] = toml::Value::Integer(30000);
                 auth.as_table_mut()
                     .context("invalid helper configuration")?
                     .insert(

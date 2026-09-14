@@ -55,4 +55,5 @@ pub(super) fn report(error: CredentialStoreError, operation: &'static str) -> an
     anyhow::anyhow!(
         "Credential storage failed during {operation}: {backend} (category: {category}; OS status: {native_code}). {recovery} No plaintext credential was written."
     )
+    .context(codex_login::auth::CredentialRecovery::StoreUnavailable)
 }

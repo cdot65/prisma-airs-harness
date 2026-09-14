@@ -5,6 +5,23 @@ use serde::Serialize;
 use std::time::Duration;
 use url::Url;
 
+#[derive(Debug)]
+pub enum TokenExchangeError {
+    RefreshRejected,
+    OutcomeUnknown,
+}
+
+impl std::fmt::Display for TokenExchangeError {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.write_str(match self {
+            Self::RefreshRejected => "The issuer rejected the refresh grant; sign in again",
+            Self::OutcomeUnknown => "The token exchange outcome is unknown; sign in again without replaying the previous grant",
+        })
+    }
+}
+
+impl std::error::Error for TokenExchangeError {}
+
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct IdentityConfig {
@@ -142,11 +159,20 @@ impl Provider {
             .form(fields)
             .send()
             .await
-            .map_err(|_| anyhow::anyhow!("token exchange interrupted; sign in again"))?;
-        anyhow::ensure!(
-            response.status().is_success(),
-            "token exchange rejected; sign in again"
-        );
+            .map_err(|_| TokenExchangeError::OutcomeUnknown)?;
+        if !response.status().is_success() {
+            let body = bounded_json(response).await.ok();
+            if fields.contains(&("grant_type", "refresh_token"))
+                && body
+                    .as_ref()
+                    .and_then(|body| body.get("error"))
+                    .and_then(serde_json::Value::as_str)
+                    == Some("invalid_grant")
+            {
+                return Err(TokenExchangeError::RefreshRejected.into());
+            }
+            return Err(TokenExchangeError::OutcomeUnknown.into());
+        }
         serde_json::from_value(bounded_json(response).await?)
             .map_err(|_| anyhow::anyhow!("invalid token response; sign in again"))
     }

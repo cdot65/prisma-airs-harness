@@ -11,6 +11,7 @@ use codex_airs_identity::IdentityConfig;
 use codex_airs_identity::Provider;
 use codex_airs_identity::Tokens;
 use codex_keyring_store::KeyringStore;
+use codex_login::auth::CredentialRecovery;
 use serde::Deserialize;
 use serde::Serialize;
 use std::path::Path;
@@ -47,14 +48,12 @@ pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
     let raw = CredentialStore
         .load(SERVICE, &binding.id.to_string())
         .map_err(|error| super::airs_storage_error::report(error, "read identity"))?
-        .context("OIDC credential missing; sign in again")?;
+        .context(CredentialRecovery::SignInRequired)?;
     anyhow::ensure!(raw.len() <= 131_072, "invalid stored identity record");
     let stored: Stored = serde_json::from_str(&raw)
         .map_err(|_| anyhow::anyhow!("invalid stored identity record"))?;
     let Stored::Active { tokens } = stored else {
-        anyhow::bail!(
-            "previous refresh was interrupted; sign in again. The consumed token will not be retried"
-        );
+        return Err(CredentialRecovery::OutcomeUnknown.into());
     };
     anyhow::ensure!(
         tokens.identity.config == identity.config
@@ -81,13 +80,38 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
     }
     // Discovery does not consume the refresh token. Finish it before marking
     // pending so an IdP metadata outage can be retried without losing a session.
-    let provider = Provider::discover(previous.identity.config.clone()).await?;
+    let provider = tokio::time::timeout(
+        std::time::Duration::from_secs(5),
+        Provider::discover(previous.identity.config.clone()),
+    )
+    .await
+    .context(CredentialRecovery::TemporarilyUnavailable)?
+    .context(CredentialRecovery::TemporarilyUnavailable)?;
     // Durable pending state precedes the request. Cancellation, network failure,
     // or failed persistence requires login; never replay a possibly consumed token.
     save(binding, &Stored::RefreshPending)?;
-    let tokens = provider.refresh(&previous).await?;
+    let tokens = provider.refresh(&previous).await.map_err(|error| {
+        match error.downcast_ref::<codex_airs_identity::TokenExchangeError>() {
+            Some(codex_airs_identity::TokenExchangeError::RefreshRejected) => {
+                anyhow::Error::new(CredentialRecovery::SignInRequired)
+            }
+            Some(codex_airs_identity::TokenExchangeError::OutcomeUnknown) | None => {
+                anyhow::Error::new(CredentialRecovery::OutcomeUnknown)
+            }
+        }
+    })?;
     let access = tokens.access_token.clone();
-    save(binding, &Stored::Active { tokens })?;
+    let returned = Stored::Active { tokens };
+    // Retry persistence of this exact generation, never the consumed exchange.
+    let mut persisted = save(binding, &returned);
+    for delay in [100, 400] {
+        if persisted.is_ok() {
+            break;
+        }
+        tokio::time::sleep(std::time::Duration::from_millis(delay)).await;
+        persisted = save(binding, &returned);
+    }
+    persisted?;
     Ok(access)
 }
 

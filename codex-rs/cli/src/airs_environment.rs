@@ -75,15 +75,41 @@ pub fn atomic_write(path: &Path, contents: &[u8]) -> anyhow::Result<()> {
 }
 
 pub fn lock(home: &Path) -> anyhow::Result<File> {
+    let file = open_lock(home)?;
+    file.lock()?;
+    Ok(file)
+}
+
+/// Renewal waits briefly for an existing configuration owner without blocking the runtime.
+pub(super) async fn credential_lock(home: &Path) -> anyhow::Result<File> {
+    let file = open_lock(home)?;
+    tokio::time::timeout(std::time::Duration::from_secs(5), async {
+        loop {
+            match file.try_lock() {
+                Ok(()) => return Ok(file),
+                Err(std::fs::TryLockError::WouldBlock) => {
+                    tokio::time::sleep(std::time::Duration::from_millis(50)).await
+                }
+                Err(std::fs::TryLockError::Error(error)) => return Err(anyhow::Error::from(error)),
+            }
+        }
+    })
+    .await
+    .context("Authentication is busy in another process; retry when it finishes")?
+}
+
+fn open_lock(home: &Path) -> anyhow::Result<File> {
     let mut options = std::fs::OpenOptions::new();
     options.read(true).write(true).create(true).truncate(false);
     #[cfg(unix)]
     {
         use std::os::unix::fs::OpenOptionsExt;
-        options.mode(0o600).custom_flags(libc::O_NOFOLLOW);
+        options
+            .mode(0o600)
+            .custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK);
     }
     let file = options.open(home.join(".configuration.lock"))?;
-    file.lock()?;
+    anyhow::ensure!(file.metadata()?.is_file(), "invalid configuration lock");
     Ok(file)
 }
 

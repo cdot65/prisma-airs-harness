@@ -1,3 +1,4 @@
+use super::CredentialRecovery;
 use super::manager::CodexAuth;
 use super::manager::ExternalAuth;
 use super::manager::ExternalAuthFuture;
@@ -43,7 +44,7 @@ impl BearerTokenRefresher {
                 }
             }
 
-            let access_token = run_provider_auth_command(&self.state.config).await?;
+            let access_token = self.state.fetch().await?;
             *cached = Some(CachedExternalBearerToken {
                 access_token: access_token.clone(),
                 fetched_at: Instant::now(),
@@ -54,8 +55,8 @@ impl BearerTokenRefresher {
     }
 
     async fn refresh(&self, _context: ExternalAuthRefreshContext) -> io::Result<CodexAuth> {
-        let access_token = run_provider_auth_command(&self.state.config).await?;
         let mut cached = self.state.cached_token.lock().await;
+        let access_token = self.state.fetch().await?;
         *cached = Some(CachedExternalBearerToken {
             access_token: access_token.clone(),
             fetched_at: Instant::now(),
@@ -65,6 +66,13 @@ impl BearerTokenRefresher {
 }
 
 impl ExternalAuth for BearerTokenRefresher {
+    fn credential_recovery(&self) -> Option<CredentialRecovery> {
+        self.state
+            .last_failure
+            .read()
+            .ok()
+            .and_then(|failure| *failure)
+    }
     fn resolve(&self) -> ExternalAuthFuture<'_, CodexAuth> {
         Box::pin(BearerTokenRefresher::resolve(self))
     }
@@ -84,6 +92,7 @@ impl fmt::Debug for BearerTokenRefresher {
 struct ExternalBearerAuthState {
     config: ModelProviderAuthInfo,
     cached_token: Mutex<Option<CachedExternalBearerToken>>,
+    last_failure: std::sync::RwLock<Option<CredentialRecovery>>,
 }
 
 impl ExternalBearerAuthState {
@@ -91,7 +100,21 @@ impl ExternalBearerAuthState {
         Self {
             config,
             cached_token: Mutex::new(None),
+            last_failure: std::sync::RwLock::new(None),
         }
+    }
+
+    async fn fetch(&self) -> io::Result<String> {
+        let result = run_provider_auth_command(&self.config).await;
+        if let Ok(mut last) = self.last_failure.write() {
+            *last = result.as_ref().err().and_then(|error| {
+                error
+                    .get_ref()?
+                    .downcast_ref::<CredentialRecovery>()
+                    .copied()
+            });
+        }
+        result
     }
 }
 
@@ -101,6 +124,15 @@ struct CachedExternalBearerToken {
 }
 
 async fn run_provider_auth_command(config: &ModelProviderAuthInfo) -> io::Result<String> {
+    let config = config.clone();
+    // A cancelled inference turn must not kill a helper that may already have received
+    // a rotated token. The helper completes persistence within its command deadline.
+    tokio::spawn(async move { execute_provider_auth_command(&config).await })
+        .await
+        .map_err(io::Error::other)?
+}
+
+async fn execute_provider_auth_command(config: &ModelProviderAuthInfo) -> io::Result<String> {
     let program = resolve_provider_auth_program(&config.command, &config.cwd)?;
     let mut command = Command::new(&program);
     command
@@ -128,6 +160,9 @@ async fn run_provider_auth_command(config: &ModelProviderAuthInfo) -> io::Result
         })?;
 
     if !output.status.success() {
+        if let Some(reason) = CredentialRecovery::from_stderr(&output.stderr) {
+            return Err(io::Error::other(reason));
+        }
         let status = output.status;
         let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
         let stderr_suffix = if stderr.is_empty() {
@@ -170,3 +205,7 @@ fn resolve_provider_auth_program(command: &str, cwd: &Path) -> io::Result<PathBu
 
     Ok(PathBuf::from(command))
 }
+
+#[cfg(test)]
+#[path = "external_bearer_recovery_tests.rs"]
+mod recovery_tests;

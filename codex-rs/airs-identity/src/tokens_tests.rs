@@ -15,6 +15,51 @@ fn provider() -> Provider {
     }
 }
 
+#[tokio::test]
+async fn refresh_rejection_is_distinct_from_a_lost_or_invalid_provider_response() {
+    use wiremock::Mock;
+    use wiremock::MockServer;
+    use wiremock::ResponseTemplate;
+    use wiremock::matchers::method;
+    use wiremock::matchers::path;
+    for (status, body, rejected) in [
+        (
+            400,
+            json!({"error":"invalid_grant", "error_description":"private provider detail"}),
+            true,
+        ),
+        (503, json!({"error":"temporarily_unavailable"}), false),
+        (403, json!({"error":"access_denied"}), false),
+    ] {
+        let server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .and(path("/token"))
+            .respond_with(ResponseTemplate::new(status).set_body_json(body))
+            .expect(1)
+            .mount(&server)
+            .await;
+        let mut provider = provider();
+        provider.discovery.token_endpoint = format!("{}/token", server.uri()).parse().unwrap();
+        let error = provider
+            .token_request(&[
+                ("grant_type", "refresh_token"),
+                ("refresh_token", "fixture-only"),
+            ])
+            .await
+            .err()
+            .unwrap();
+        assert_eq!(
+            matches!(
+                error.downcast_ref::<crate::TokenExchangeError>(),
+                Some(crate::TokenExchangeError::RefreshRejected)
+            ),
+            rejected
+        );
+        assert!(!error.to_string().contains("private provider detail"));
+        server.verify().await;
+    }
+}
+
 fn signed(claims: &serde_json::Value) -> String {
     let key =
         jsonwebtoken::EncodingKey::from_rsa_pem(include_bytes!("fixtures/test-only-private.pem"))

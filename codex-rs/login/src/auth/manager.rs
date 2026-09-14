@@ -257,6 +257,10 @@ pub struct ExternalAuthRefreshContext {
 ///
 /// Implementations own the current auth value and any source-specific refresh mechanism.
 pub trait ExternalAuth: Send + Sync {
+    /// Last classified local credential failure, if this provider supports guided recovery.
+    fn credential_recovery(&self) -> Option<super::CredentialRecovery> {
+        None
+    }
     /// Returns the provider's current auth value.
     fn resolve(&self) -> ExternalAuthFuture<'_, CodexAuth>;
 
@@ -2369,6 +2373,10 @@ impl AuthManager {
             return Some(auth);
         }
         self.auth_cached()
+    }
+
+    pub fn credential_recovery(&self) -> Option<super::CredentialRecovery> {
+        self.external_auth_provider()?.credential_recovery()
     }
 
     pub async fn agent_identity_auth(

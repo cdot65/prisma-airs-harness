@@ -210,7 +210,7 @@ jobs:
       - name: Retain exact alpha.15 signing intake on the native runner
         run: |
           umask 077
-          staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha18/$AIRS_RUNTIME_SOURCE"
+          staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha19/$AIRS_RUNTIME_SOURCE"
           mkdir -p "$staged"
           cp "$RUNNER_TEMP/unvalidated-macos-executables.tar.gz" "$staged/intake.tar.gz"
           cp "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/CANDIDATE.json" "$staged/"

@@ -100,7 +100,8 @@ impl Provider {
             ))
             .send()
             .await
-            .map_err(|_| anyhow::anyhow!("issuer discovery unavailable"))?;
+            .map_err(reqwest::Error::without_url)
+            .context("issuer discovery unavailable")?;
         anyhow::ensure!(response.status().is_success(), "issuer discovery rejected");
         let discovery: Discovery = serde_json::from_value(bounded_json(response).await?)
             .map_err(|_| anyhow::anyhow!("invalid issuer metadata"))?;
@@ -134,7 +135,8 @@ impl Provider {
             .get(discovery.jwks_uri.clone())
             .send()
             .await
-            .map_err(|_| anyhow::anyhow!("issuer keys unavailable"))?;
+            .map_err(reqwest::Error::without_url)
+            .context("issuer keys unavailable")?;
         anyhow::ensure!(response.status().is_success(), "issuer keys rejected");
         let keys = bounded_json(response).await?;
         let oidc_keys =
@@ -177,3 +179,7 @@ impl Provider {
             .map_err(|_| anyhow::anyhow!("invalid token response; sign in again"))
     }
 }
+
+#[cfg(test)]
+#[path = "provider_tests.rs"]
+mod tests;

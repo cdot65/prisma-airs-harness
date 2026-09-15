@@ -30,3 +30,8 @@ wiremock = { workspace = true }
 
 [target.'cfg(target_os = "linux")'.dependencies]
 keyring = { workspace = true, features = ["async-secret-service", "crypto-rust"] }
+
+# musl's AF_UNSPEC lookup drops a valid A answer when AAAA returns NXDOMAIN.
+# Keep the host's DNS configuration and resolve the address families independently.
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+reqwest = { workspace = true, features = ["hickory-dns"] }

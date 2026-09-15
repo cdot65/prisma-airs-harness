@@ -58,7 +58,7 @@ if [ ! -x /airs-tools/zig/zig ] || [ "$(/airs-tools/zig/zig version)" != "$zig_v
 fi
 zig version
 cargo install --locked --version 0.23.4 cargo-zigbuild
-cargo zigbuild --version
+cargo-zigbuild --version
 rustc -vV
 cd codex-rs
 cargo fetch --locked --target "$target"

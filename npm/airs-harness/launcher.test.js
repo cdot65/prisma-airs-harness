@@ -180,7 +180,7 @@ test("declared keys select scoped natives without inferring from the launcher na
     for (const dependencies of [{}, { [scoped]: false }, { [scoped]: "another-version" },
       { [scoped]: version, [legacy]: version }, { [`@other/prisma-${legacy}`]: version }]) {
       assert.throws(() => platformPackage(platform, arch, { version, optionalDependencies: dependencies }),
-        /declared native package|Invalid native dependency/);
+        /does not include a native package|Multiple native packages|Invalid native dependency/);
     }
   }
   assert.throws(() => platformPackage("darwin", "x64", { optionalDependencies: {
@@ -208,4 +208,15 @@ test("native identity or version mismatch fails before execution", (t) => {
     assert.match(result.stderr, /identity\/version mismatch/);
     assert.equal(result.stdout, "");
   }
+});
+
+
+test("a release without the host architecture reports unsupported packaging", () => {
+  const manifest = {version: "0.1.0-alpha.17", optionalDependencies: {
+    "airs-harness-linux-x64": "0.1.0-alpha.17",
+    "airs-harness-darwin-arm64": "0.1.0-alpha.17",
+  }};
+  assert.throws(() => platformPackage("linux", "arm64", manifest), {
+    message: "This airs-harness release does not include a native package for linux/arm64. Install a release that supports this platform.",
+  });
 });

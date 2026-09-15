@@ -6,6 +6,7 @@ unused loopback address on UDP port 53 (the build containers allow this).
 """
 
 import argparse
+import ipaddress
 import hashlib
 import http.server
 import json
@@ -24,7 +25,10 @@ def main():
     parser.add_argument("--probe", type=Path, required=True)
     parser.add_argument("--emulator", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--dns-address", default="127.0.0.54")
     args = parser.parse_args()
+    if not ipaddress.ip_address(args.dns_address).is_loopback:
+        parser.error("DNS fixture address must be loopback")
     args.output.mkdir(parents=True, exist_ok=True)
     requests = []
 
@@ -45,9 +49,11 @@ def main():
         prefix = root / "prefix"
         (prefix / "etc").mkdir(parents=True)
         (prefix / "etc/resolv.conf").write_text(
-            "nameserver 127.0.0.54\noptions timeout:1 attempts:1\nsearch .\n"
+            f"nameserver {args.dns_address}\noptions timeout:1 attempts:1\nsearch .\n"
         )
         certificate, key = root / "ca.pem", root / "key.pem"
+        ca_key = root / "ca-key.pem"
+        server_certificate = root / "server.pem"
         subprocess.run(
             [
                 "openssl",
@@ -57,23 +63,67 @@ def main():
                 "rsa:2048",
                 "-nodes",
                 "-keyout",
-                str(key),
+                str(ca_key),
                 "-out",
                 str(certificate),
                 "-days",
                 "1",
                 "-subj",
-                "/CN=issuer.airs.invalid",
+                "/CN=issuer.airs.test",
                 "-addext",
-                "subjectAltName=DNS:issuer.airs.invalid",
+                "subjectAltName=DNS:issuer.airs.test",
             ],
             check=True,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
+        extensions = root / "leaf.ext"
+        extensions.write_text(
+            "subjectAltName=DNS:issuer.airs.test\nbasicConstraints=critical,CA:FALSE\nkeyUsage=digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\n"
+        )
+        for command in [
+            [
+                "openssl",
+                "req",
+                "-new",
+                "-newkey",
+                "rsa:2048",
+                "-nodes",
+                "-keyout",
+                str(key),
+                "-out",
+                str(root / "server.csr"),
+                "-subj",
+                "/CN=issuer.airs.test",
+            ],
+            [
+                "openssl",
+                "x509",
+                "-req",
+                "-in",
+                str(root / "server.csr"),
+                "-CA",
+                str(certificate),
+                "-CAkey",
+                str(ca_key),
+                "-CAcreateserial",
+                "-out",
+                str(server_certificate),
+                "-days",
+                "1",
+                "-extfile",
+                str(extensions),
+            ],
+        ]:
+            subprocess.run(
+                command,
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
         origin = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Origin)
         tls = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        tls.load_cert_chain(certificate, key)
+        tls.load_cert_chain(server_certificate, key)
         origin.socket = tls.wrap_socket(origin.socket, server_side=True)
         origin_thread = threading.Thread(target=origin.serve_forever, daemon=True)
         origin_thread.start()
@@ -81,7 +131,7 @@ def main():
         try:
             for case in ["aaaa-nxdomain", "aaaa-nodata", "both-nxdomain"]:
                 dns = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                dns.bind(("127.0.0.54", 53))
+                dns.bind((args.dns_address, 53))
                 dns.settimeout(0.1)
                 stop = threading.Event()
                 queries = []
@@ -136,7 +186,7 @@ def main():
                 env.update(
                     CODEX_CA_CERTIFICATE=str(certificate),
                     CODEX_CUSTOM_CA_PROBE_URL=(
-                        f"https://issuer.airs.invalid:{origin.server_port}/discovery"
+                        f"https://issuer.airs.test:{origin.server_port}/discovery"
                     ),
                 )
                 before = len(requests)

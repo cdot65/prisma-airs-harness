@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "source": "20f37e5e31c832f34123caaf7a255154987fbe33",
+  "host": "Darwin arm64",
+  "update_command": "just bazel-lock-update",
+  "check_command": "just bazel-lock-check",
+  "lockfile_unchanged": true,
+  "lockfile_sha256": "75bf069158ed576fb0f1154075f85bffaf6836abe42145c263b565f5ae3cb316",
+  "local_musl_bazel_toolchain_incompatible": true
+}

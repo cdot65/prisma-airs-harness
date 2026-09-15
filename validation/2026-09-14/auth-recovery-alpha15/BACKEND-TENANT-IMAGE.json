@@ -1,0 +1,28 @@
+{
+  "digest": "sha256:b57dbdebe53c9fa36b69fea8559a53ee92198a48dfc3595f84ff54e5125df77f",
+  "push_time": "2026-09-15T00:24:23.992Z",
+  "scan_overview": {
+    "application/vnd.security.vulnerability.report; version=1.1": {
+      "complete_percent": 100,
+      "duration": 3,
+      "end_time": "2026-09-15T00:24:26.000Z",
+      "report_id": "e213aa2e-d063-4e5a-9908-80b35f02ceb3",
+      "scan_status": "Success",
+      "scanner": {
+        "name": "Trivy",
+        "vendor": "Aqua Security",
+        "version": "v0.72.0"
+      },
+      "severity": "Medium",
+      "start_time": "2026-09-15T00:24:23.000Z",
+      "summary": {
+        "fixable": 2,
+        "summary": {
+          "Low": 7,
+          "Medium": 14
+        },
+        "total": 21
+      }
+    }
+  }
+}

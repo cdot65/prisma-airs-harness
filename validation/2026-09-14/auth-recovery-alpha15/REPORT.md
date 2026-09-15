@@ -54,27 +54,33 @@ The original Mac startup-challenge failure is also preserved. Expiry acceptance,
 registry promotion and owner upgrades remain pending; alpha.15 is unpublished.
 The alpha.14 release exception does not apply.
 
-## Backend diagnostics and coordinated restart
+## Backend policy-denial investigation
 
-The supplied Forgejo SSH key restored write access. The bounded backend denial
-diagnostics are deployed to development and both production replicas. All 55
-backend tests passed and the image scan reports zero High/Critical findings.
-See `BACKEND-DIAGNOSTICS-DEPLOYMENT.json` for image and evidence bindings.
-
-The production diagnostic observed a guardrail HTTP 403 with 890 seconds left
-on a service token; subsequent identical and concurrent reads passed. Its failed
-receipt is preserved. This does not establish a fixed backend denial or justify
-refreshing every HTTP 403. The operator log retains only a request UUID, an
-allowlisted IAM code when present, and remaining token lifetime.
+The supplied Forgejo SSH key restored write access. Bounded backend diagnostics
+and the SDK-aligned gateway tenant header are deployed to development and both
+production replicas. All 59 backend tests, type checking, build and image scan
+passed. The current image is
+`sha256:b57dbdebe53c9fa36b69fea8559a53ee92198a48dfc3595f84ff54e5125df77f`.
 
 A later Mac startup failure occurred after successful gateway-facing login and
 native persistence. Keycloak rejected the gateway-held upstream refresh grant
-as inactive. A fresh gateway/upstream consent flow obtained a new grant and
-restored all eight tools; no gateway runtime fix is claimed.
+as inactive. Fresh gateway/upstream consent obtained a new grant and restored
+all eight tools; no gateway runtime fix is claimed.
 
-Fresh coordinated Mac and Linux runs completed production sign-in, native
-persistence and all eight tool results. Their two real frontend expiry cycles
-remain pending. The gateway has renewed the shared upstream grant after actual
-expiry without another browser prompt. Issuer cleanup waits for both workflows
-to finish. Native tool-result checks are required in addition to process exit
-status and gateway transport telemetry.
+Fresh coordinated Mac and Linux runs passed sign-in, persistence, all eight tools
+and two activity intervals. Their third interval failed on management HTTP 403
+with 896 seconds remaining on a service token. Neither reached frontend expiry.
+Cleanup waited for both workflows, then passed both native MCP and inference
+logout checks. `COORDINATED-ACCEPTANCE-FAILURE.json` binds the failed receipts.
+
+The backend denial recurred after the tenant-header change, with
+`x-opa-decision: false` and 894 seconds remaining on the token. IAM readback
+confirmed the intended workspace scope and six read permissions. A stopped peer
+soak is preserved as incomplete, not passed. Paired header and coexisting-token
+diagnostics do not establish a token-expiry cause or a fixed policy decision.
+No broader permissions or blanket HTTP 403 retries were introduced.
+
+`BACKEND-POLICY-INCIDENT.md` is a prepared, unsent incident report containing
+request IDs and the SCM authorization trace needed next. Alpha.15 remains
+unpublished; exact native frontend lifecycle acceptance and owner upgrades are
+blocked by the unresolved backend denial. The alpha.14 exception does not apply.

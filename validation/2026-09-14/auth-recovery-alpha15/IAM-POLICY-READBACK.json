@@ -1,0 +1,111 @@
+{
+  "observed_at": 1789431571.8381324,
+  "tsg": "1001464285",
+  "scope": {
+    "name": "ws_prisma_airs_harness_lcc9nz",
+    "description": "Native Prisma AIRS Harness users authenticated by Redtail Keycloak",
+    "resources": [
+      {
+        "metadata": [],
+        "resource_id": "ws-prisma-7b25ac",
+        "resource_type": "workspace"
+      }
+    ],
+    "tsg_id": "1001464285",
+    "id": "ws_prisma_airs_harness_lcc9nz:1001464285"
+  },
+  "roles": {
+    "items": [
+      {
+        "name": "pmcp_dev_gw_ro",
+        "label": "pmcp_dev_gw_ro",
+        "permissions": [
+          "airs_gw.configs.list",
+          "airs_gw.configs.read",
+          "airs_gw.guardrails.list",
+          "airs_gw.guardrails.read",
+          "airs_gw.workspaces.list",
+          "airs_gw.workspaces.read"
+        ],
+        "permission_sets": [],
+        "description": "Dedicated Prisma AIRS MCP read permission",
+        "id": "pmcp_dev_gw_ro:1001464285",
+        "tsg_id": "1001464285",
+        "aggregated_permissions": [
+          "airs_gw.configs.list",
+          "airs_gw.configs.read",
+          "airs_gw.guardrails.list",
+          "airs_gw.guardrails.read",
+          "airs_gw.workspaces.list",
+          "airs_gw.workspaces.read"
+        ]
+      },
+      {
+        "name": "pmcp_dev_rt_ro",
+        "label": "pmcp_dev_rt_ro",
+        "permissions": [
+          "airs_api.ai_sec_profile.read"
+        ],
+        "permission_sets": [],
+        "description": "Dedicated Prisma AIRS MCP read permission",
+        "id": "pmcp_dev_rt_ro:1001464285",
+        "tsg_id": "1001464285",
+        "aggregated_permissions": [
+          "airs_api.ai_sec_profile.read"
+        ]
+      },
+      {
+        "name": "pmcp_prod_gw_ro",
+        "label": "pmcp_prod_gw_ro",
+        "permissions": [
+          "airs_gw.configs.list",
+          "airs_gw.configs.read",
+          "airs_gw.guardrails.list",
+          "airs_gw.guardrails.read",
+          "airs_gw.workspaces.list",
+          "airs_gw.workspaces.read"
+        ],
+        "permission_sets": [],
+        "description": "Dedicated Prisma AIRS MCP read permission",
+        "id": "pmcp_prod_gw_ro:1001464285",
+        "tsg_id": "1001464285",
+        "aggregated_permissions": [
+          "airs_gw.configs.list",
+          "airs_gw.configs.read",
+          "airs_gw.guardrails.list",
+          "airs_gw.guardrails.read",
+          "airs_gw.workspaces.list",
+          "airs_gw.workspaces.read"
+        ]
+      },
+      {
+        "name": "pmcp_prod_rt_ro",
+        "label": "pmcp_prod_rt_ro",
+        "permissions": [
+          "airs_api.ai_sec_profile.read"
+        ],
+        "permission_sets": [],
+        "description": "Dedicated Prisma AIRS MCP read permission",
+        "id": "pmcp_prod_rt_ro:1001464285",
+        "tsg_id": "1001464285",
+        "aggregated_permissions": [
+          "airs_api.ai_sec_profile.read"
+        ]
+      }
+    ]
+  },
+  "policies": {
+    "count": 1,
+    "items": [
+      {
+        "id": "8bc94267-568f-4fd1-b26e-9037294c3fc5",
+        "inherited_from": "1001464285",
+        "principal": "pmcp_prod_gw_ro@1001464285.iam.panserviceaccount.com",
+        "principal_display_name": "pmcp_prod_gw_ro",
+        "principal_type": "service_account",
+        "resource": "prn:1001464285::::ws_prisma_airs_harness_lcc9nz",
+        "role": "pmcp_prod_gw_ro:1001464285"
+      }
+    ]
+  }
+}

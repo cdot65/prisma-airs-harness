@@ -203,7 +203,7 @@ class NativePackaging(unittest.TestCase):
                     Path(temporary),
                     "aarch64-apple-darwin",
                     candidate=True,
-                    package_version="0.1.0-alpha.16",
+                    package_version="0.1.0-alpha.17",
                 )
 
     def test_review_archive_retains_bound_evidence_without_full_release_claim(self):

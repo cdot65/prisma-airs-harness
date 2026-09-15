@@ -1,0 +1,13 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  Sign in to mcp-server-1
+  Sign in in your browser, then choose a new conversation.
+
+› 1. Sign in  Open gateway sign-in and save credentials in the native store.
+  2. Cancel   Keep your conversation and draft. Use /signin when ready.
+
+  Press enter to confirm or esc to go back

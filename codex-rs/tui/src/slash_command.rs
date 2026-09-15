@@ -89,7 +89,7 @@ impl SlashCommand {
     /// User-visible description shown in the popup.
     pub fn description(self) -> &'static str {
         match self {
-            SlashCommand::Signin => "restore company sign-in for this AIRS session",
+            SlashCommand::Signin => "restore company or MCP sign-in for this AIRS session",
             SlashCommand::Feedback => "send logs to maintainers",
             SlashCommand::New => "start a new chat during a conversation",
             SlashCommand::Init => "create an AGENTS.md file with instructions for Codex",

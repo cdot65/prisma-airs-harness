@@ -210,6 +210,7 @@ mod agents_overview_details;
 mod agents_overview_threads;
 mod agents_overview_view;
 pub(crate) use agents_overview::AGENTS_OVERVIEW_VIEW_ID;
+mod airs_mcp_recovery;
 mod airs_recovery;
 mod app_server_event_targets;
 mod app_server_events;

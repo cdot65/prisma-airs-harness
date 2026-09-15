@@ -1,0 +1,13 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  mcp-server-1 is connected
+  Account continuity is unverified. Continue in a new conversation.
+
+› 1. Start new conversation  Keep your draft for review; nothing sends automatically.
+  2. Stay here               Keep viewing this conversation. Use /new when ready.
+
+  Press enter to confirm or esc to go back

@@ -10,7 +10,7 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.16 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.17 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
@@ -20,9 +20,9 @@ no npm login is required. Optional dependencies carry the matching native binary
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
 
-Alpha.16 fixes the missing automatic sign-in prompt after an inference credential
-can no longer be renewed. Alpha.15 introduced coordinated native token renewal
-and manual `/signin`; the normal provider path bypassed its recovery guidance.
+Alpha.17 adds guided gateway MCP sign-in inside the terminal and retains a definite
+expired/rejected inference grant classification across later credential reads.
+Alpha.16 fixed the normal inference provider path so it displays sign-in guidance.
 The deployed 30-minute SSO idle policy is preserved. The client attempts silent renewal during active
 use while grants remain valid; production active-expiry acceptance is incomplete; leaving a terminal open does not request
 a longer session. Release evidence records which gateway lifecycle scenarios
@@ -85,11 +85,17 @@ requests. Cancel leaves your work in place. In another terminal, the equivalent
 command is `airs-harness --environment work login --restore-session --no-browser`.
 Use the environment name shown by your running session.
 
-MCP authentication is separate. On an MCP authentication failure, the turn stops
-before an automatic alternate-credential attempt. Follow the displayed gateway
-MCP login command, then start a fresh conversation. The gateway's opaque token
-does not provide verified account continuity for automatic post-login resume.
-A backend management denial is not a reason to repeat human SSO.
+MCP authentication is separate. On an MCP authentication failure, choose **Sign
+in** in the terminal, or use `/signin` and select the affected connection. The
+harness opens gateway consent, saves native credentials and verifies MCP
+initialization and tool discovery before reporting a connected tool count.
+
+Choose **Start new conversation** afterward. Your previous conversation stays
+saved and your unsent draft carries over for review, without automatic submission
+or tool replay. The current gateway integration does not provide trusted account
+continuity for restoring the old MCP conversation. Cancel keeps your work in place;
+no separate terminal command is needed for the normal desktop flow. Headless
+terminals retain the displayed `mcp login --no-browser` fallback.
 
 Unlock a locked native credential store and retry. A pre-exchange identity-service
 outage preserves the saved refresh grant. If an exchange may have consumed a

@@ -11,14 +11,30 @@ impl ChatWidget {
         if !codex_utils_home_dir::is_airs_harness() {
             return;
         }
-        self.bottom_pane.show_selection_view(sign_in_view());
+        let mut view = sign_in_view();
+        if let Some(thread_id) = self.thread_id() {
+            for (name, server) in self.config.mcp_servers.get() {
+                if super::airs_mcp_recovery::supports_oauth(server) {
+                    let name = name.clone();
+                    view.items.insert(view.items.len() - 1, SelectionItem {
+                        name: format!("Sign in to {name} tools"),
+                        description: Some("Gateway consent, followed by a new conversation. Your current conversation stays saved.".into()),
+                        actions: vec![Box::new(move |tx| tx.send(AppEvent::AirsMcpSignIn { server: name.clone(), thread_id }))],
+                        dismiss_on_select: true,
+                        ..Default::default()
+                    });
+                }
+            }
+        }
+        self.bottom_pane.show_selection_view(view);
         self.request_redraw();
     }
 
     pub(crate) fn airs_sign_in_completed(&mut self, result: Result<(), String>) {
         match result {
             Ok(()) => {
-                self.input_queue.authentication_pending = false;
+                self.input_queue.authentication_pending =
+                    self.input_queue.mcp_authentication_pending.is_some();
                 self.add_info_message("Sign-in restored for the same verified identity. Your conversation and draft are preserved. Retry the request when ready.".into(), None);
             }
             Err(message) => self.add_error_message(message),

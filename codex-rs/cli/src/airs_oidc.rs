@@ -23,6 +23,7 @@ use uuid::Uuid;
 enum Stored {
     Active { tokens: Tokens },
     RefreshPending,
+    SignInRequired,
 }
 
 pub enum LoginFlow {
@@ -32,7 +33,11 @@ pub enum LoginFlow {
 }
 
 fn save(binding: &Binding, stored: &Stored) -> anyhow::Result<()> {
-    CredentialStore
+    save_in(binding, stored, &CredentialStore)
+}
+
+fn save_in(binding: &Binding, stored: &Stored, store: &impl KeyringStore) -> anyhow::Result<()> {
+    store
         .save(
             SERVICE,
             &binding.id.to_string(),
@@ -42,18 +47,24 @@ fn save(binding: &Binding, stored: &Stored) -> anyhow::Result<()> {
 }
 
 pub(super) fn load_active(binding: &Binding) -> anyhow::Result<Tokens> {
+    load_active_from(binding, &CredentialStore)
+}
+
+fn load_active_from(binding: &Binding, store: &impl KeyringStore) -> anyhow::Result<Tokens> {
     let Some(Source::Oidc { identity }) = &binding.source else {
         anyhow::bail!("not an OIDC binding");
     };
-    let raw = CredentialStore
+    let raw = store
         .load(SERVICE, &binding.id.to_string())
         .map_err(|error| super::airs_storage_error::report(error, "read identity"))?
         .context(CredentialRecovery::SignInRequired)?;
     anyhow::ensure!(raw.len() <= 131_072, "invalid stored identity record");
     let stored: Stored = serde_json::from_str(&raw)
         .map_err(|_| anyhow::anyhow!("invalid stored identity record"))?;
-    let Stored::Active { tokens } = stored else {
-        return Err(CredentialRecovery::OutcomeUnknown.into());
+    let tokens = match stored {
+        Stored::Active { tokens } => tokens,
+        Stored::RefreshPending => return Err(CredentialRecovery::OutcomeUnknown.into()),
+        Stored::SignInRequired => return Err(CredentialRecovery::SignInRequired.into()),
     };
     anyhow::ensure!(
         tokens.identity.config == identity.config
@@ -90,26 +101,39 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
     // Durable pending state precedes the request. Cancellation, network failure,
     // or failed persistence requires login; never replay a possibly consumed token.
     save(binding, &Stored::RefreshPending)?;
-    let tokens = provider.refresh(&previous).await.map_err(|error| {
-        match error.downcast_ref::<codex_airs_identity::TokenExchangeError>() {
-            Some(codex_airs_identity::TokenExchangeError::RefreshRejected) => {
-                anyhow::Error::new(CredentialRecovery::SignInRequired)
+    complete_refresh(binding, provider.refresh(&previous).await, &CredentialStore).await
+}
+
+async fn complete_refresh(
+    binding: &Binding,
+    refreshed: anyhow::Result<Tokens>,
+    store: &impl KeyringStore,
+) -> anyhow::Result<String> {
+    let tokens = match refreshed {
+        Ok(tokens) => tokens,
+        Err(error) => {
+            if matches!(
+                error.downcast_ref::<codex_airs_identity::TokenExchangeError>(),
+                Some(codex_airs_identity::TokenExchangeError::RefreshRejected)
+            ) {
+                // Retain a definitive rejection across later helper invocations.
+                // This record contains no predecessor that could be replayed.
+                save_in(binding, &Stored::SignInRequired, store)?;
+                return Err(CredentialRecovery::SignInRequired.into());
             }
-            Some(codex_airs_identity::TokenExchangeError::OutcomeUnknown) | None => {
-                anyhow::Error::new(CredentialRecovery::OutcomeUnknown)
-            }
+            return Err(CredentialRecovery::OutcomeUnknown.into());
         }
-    })?;
+    };
     let access = tokens.access_token.clone();
     let returned = Stored::Active { tokens };
     // Retry persistence of this exact generation, never the consumed exchange.
-    let mut persisted = save(binding, &returned);
+    let mut persisted = save_in(binding, &returned, store);
     for delay in [100, 400] {
         if persisted.is_ok() {
             break;
         }
         tokio::time::sleep(std::time::Duration::from_millis(delay)).await;
-        persisted = save(binding, &returned);
+        persisted = save_in(binding, &returned, store);
     }
     persisted?;
     Ok(access)
@@ -262,3 +286,7 @@ pub(super) async fn authenticate(
 pub(super) fn store_tokens(binding: &Binding, tokens: Tokens) -> anyhow::Result<()> {
     save(binding, &Stored::Active { tokens })
 }
+
+#[cfg(test)]
+#[path = "airs_oidc_refresh_tests.rs"]
+mod refresh_tests;

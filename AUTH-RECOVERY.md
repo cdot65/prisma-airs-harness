@@ -109,3 +109,32 @@ so the terminal can present its sign-in prompt. Other custom-provider paths are
 unchanged. A real helper integration test failed before the fix; all 78 provider
 tests and scoped Clippy pass afterward. This does not establish full active token
 renewal or post-login MCP acceptance.
+
+## Guided MCP sign-in — alpha.17 implementation
+
+`/signin` includes configured gateway OAuth connections. An MCP authentication
+failure offers browser sign-in directly in the terminal; native OAuth discovery,
+PKCE, callback handling and native credential storage remain the existing Codex
+flow. After login, the harness reloads MCP and checks OAuth status, initialized
+server identity and tool discovery before reporting a connected tool count.
+Provider output is not interpreted as a command or copied into the conversation.
+
+The current gateway does not advertise a userinfo/introspection identity contract
+for its opaque frontend token. This release does not invent such proof. A
+successful MCP login offers an explicit new-conversation action inside the TUI;
+the previous conversation stays saved and the current unsent draft is transferred
+for review without automatic submission or tool replay. In-place MCP continuation
+remains unsupported until trusted account continuity can be established. Cancelling
+sign-in preserves the current conversation; late callbacks cannot complete a newer
+attempt. Company sign-in does not clear a separate pending MCP authentication issue.
+
+A definite inference refresh rejection now persists a tokenless sign-in-required
+record. Later helper invocations retain that classification instead of reporting
+an unknown exchange outcome. Uncertain exchanges remain tokenless/pending and do
+not reuse the old refresh token. The 30-minute idle policy is unchanged. Rolling
+back after a sign-in-required record can require a fresh login; rollback never
+restores consumed tokens.
+
+The owner confirmed both alpha.16 inference prompts followed more than 30 minutes
+idle. These observations demonstrate idle recovery, not an active-use renewal
+failure. Docusaurus remains under the owner's Claude Code editorial workflow.

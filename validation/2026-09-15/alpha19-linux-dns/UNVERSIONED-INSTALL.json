@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "passed": true,
+      "architecture": "x64",
+      "version": "0.1.0-alpha.19",
+      "unversioned_anonymous_install": true,
+      "platform_override": false,
+      "native_package_installed": "airs-harness-linux-x64",
+      "binary_sha256": "a9d17bb7ce1e32374c1467dcb113c89d0914b23496955e5b5f76ec06efb3c3be",
+      "version_output": "airs-harness 0.1.0-alpha.19",
+      "version_probe_emulated": false,
+      "native_host_acceptance": true
+    },
+    {
+      "passed": true,
+      "architecture": "arm64",
+      "version": "0.1.0-alpha.19",
+      "unversioned_anonymous_install": true,
+      "platform_override": true,
+      "native_package_installed": "airs-harness-linux-arm64",
+      "binary_sha256": "790d04d28aea3ff312c1f1e784f935b1d8f94aad401bfffdbd5d941a8e3c6f03",
+      "version_output": "airs-harness 0.1.0-alpha.19",
+      "version_probe_emulated": true,
+      "native_host_acceptance": false
+    }
+  ]
+}

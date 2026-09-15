@@ -61,3 +61,22 @@ its integrity, embedded binary hash and launcher dependency were verified.
 
 Receipts distinguish original private candidates from the published candidate
 manifests. Native bytes and runtime source are unchanged by publication.
+
+## Default npm tag repair — September 15, 2026
+
+After publication, the owner again used an unversioned install and received
+alpha.14, which cannot select a Linux ARM64 native package. The `latest` and
+`alpha` tags now point to alpha.19 on the launcher and all three native packages.
+This corrects the normal install path within the existing owner authorization
+to publish the alpha for testing. No package bytes were republished or changed.
+
+Fresh anonymous unversioned installation passes on Linux x64 and with npm's
+Linux ARM64 platform selection. The selected ARM64 binary hash matches the
+published receipt and its version probe passes under QEMU. This is packaging
+verification, not native VM login acceptance; ARM64 host and full production
+OAuth acceptance remain pending. The earlier tag descriptions above and in
+original publication receipts document the state before this repair.
+
+The DNS repair is in `airs-harness@0.1.0-alpha.19`. The separate one-off
+`airs-harness-diagnostics` package remains alpha.18 and is no longer needed for
+this resolved DNS diagnosis.

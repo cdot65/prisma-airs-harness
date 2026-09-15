@@ -1,0 +1,58 @@
+{
+  "version": "0.1.0-alpha.16",
+  "registry": "https://npm.cdot.io",
+  "started_at": 1789465357.7071943,
+  "published": true,
+  "complete": true,
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.15"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.15"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.15"
+    }
+  },
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.16",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.16.tgz",
+      "integrity": "sha512-3MbISV0SJyl3Wz4HvvKUgnwNl2vH0VL9B7dyAfRQOMlXGHr4kRSHyAXpWpUlMpfWxTZhTxIpXAWv1f9soczIgw==",
+      "sha256": "1ec8113047328feb4eb32224d8fe003f11a52f830cb4e54b5f651e80bd05217c",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.16",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.16.tgz",
+      "integrity": "sha512-9Npcg+6rhJqO8D/BcrAYykC3w7cW++2jtE/dFLTvNZ+Df0KmCAOk1d1iWrRcFWvrVW0Itml0tN54YFssnMOOog==",
+      "sha256": "c956bfa86d660614d4cfd331772417a3bc597e3143bad51a294f7387ea603edf",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.16",
+      "filename": "airs-harness-0.1.0-alpha.16.tgz",
+      "integrity": "sha512-AEEiUe6IIcD+ZjL5rZiIZkvw7idc9x1SQ/om6vPqgFLKaR9MTx97aZ6OMR4PnH/YIRN68Ljq3NmIc8+0gm7zgQ==",
+      "sha256": "2b64cc78a522833f0e1aa5d2804f547908a85ede81b1429086348e2c1ae31570",
+      "registry_integrity_verified": true
+    }
+  ],
+  "dist_tag": "gateway-validation",
+  "completed_at": 1789465468.922916,
+  "scope": "owner-requested-alpha16-testing",
+  "full_gateway_lifecycle_passed": false,
+  "anonymous_installs_verified": [
+    "Linux",
+    "Darwin"
+  ]
+}

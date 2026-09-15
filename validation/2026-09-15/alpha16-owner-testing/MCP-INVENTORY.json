@@ -1,0 +1,41 @@
+{
+  "observed_at": 1789463570.5408106,
+  "display_name": "mcp server 1",
+  "replicas": [
+    {
+      "pod": "prisma-airs-mcp-9659c8766-d982c",
+      "image": "registry.cdot.io/prisma-airs-mcp/server@sha256:6541bc4fdb5cd71112a4868e990142d2155030cbbea81bca499b16d7e16e879a",
+      "tools": [
+        "calculate",
+        "format_json",
+        "transform_text",
+        "encode_base64",
+        "decode_base64",
+        "hash_text",
+        "generate_uuid",
+        "current_time"
+      ],
+      "scopes": [
+        "utilities.use"
+      ]
+    },
+    {
+      "pod": "prisma-airs-mcp-9659c8766-n87fr",
+      "image": "registry.cdot.io/prisma-airs-mcp/server@sha256:6541bc4fdb5cd71112a4868e990142d2155030cbbea81bca499b16d7e16e879a",
+      "tools": [
+        "calculate",
+        "format_json",
+        "transform_text",
+        "encode_base64",
+        "decode_base64",
+        "hash_text",
+        "generate_uuid",
+        "current_time"
+      ],
+      "scopes": [
+        "utilities.use"
+      ]
+    }
+  ],
+  "authenticated_call_acceptance": false
+}

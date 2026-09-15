@@ -1,0 +1,17 @@
+{
+  "airs-harness-linux-x64": {
+    "latest": "0.1.0-alpha.14",
+    "alpha": "0.1.0-alpha.14",
+    "gateway-validation": "0.1.0-alpha.16"
+  },
+  "airs-harness-darwin-arm64": {
+    "latest": "0.1.0-alpha.14",
+    "alpha": "0.1.0-alpha.14",
+    "gateway-validation": "0.1.0-alpha.16"
+  },
+  "airs-harness": {
+    "latest": "0.1.0-alpha.14",
+    "alpha": "0.1.0-alpha.14",
+    "gateway-validation": "0.1.0-alpha.16"
+  }
+}

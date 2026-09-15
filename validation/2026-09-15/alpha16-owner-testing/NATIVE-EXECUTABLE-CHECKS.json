@@ -1,0 +1,14 @@
+{
+  "linux": {
+    "passed": 43,
+    "skipped": 1,
+    "failed": 0,
+    "skip_reason": "requires macOS Seatbelt"
+  },
+  "mac": {
+    "passed": 43,
+    "skipped": 1,
+    "failed": 0,
+    "skip_reason": "Linux session-bus recovery"
+  }
+}

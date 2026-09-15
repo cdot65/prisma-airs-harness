@@ -1,0 +1,9 @@
+{
+  "linux-build.log": "65dc7fec7acf4e4729435220a26cb345fbed95d54fb89313b19f0df017417a51",
+  "linux-final/native-tests.log": "88a4b8553ffa137aa344315b5e443007afae23a4cda577f94d9738b6d9b0b866",
+  "registry-alpha16-linux/native-tests.log": "177b2a561ede7ecb293db3ed5915e8644c630646e40ba445910c5ea4a0d36b38",
+  "registry-alpha16-mac/native-tests.log": "d5d6f039ccb684b694b347ed97574d3f40fa6899d3529cdab2b5cc0bef424254",
+  "package-contract-tests.log": "b233497c45caadb8e1d4bba62c236a71e0b1e365ae8e47a354532047b20e7ffb",
+  "docs-check.log": "6f3c18105bc29252ea8cb830bc083f02a02bcf8b1665aae555f77447dfb88c4c",
+  "docs-voice-check.log": "d0d7ddc1d5484ca4559006da016eac0d5b28544c2204f47117df6fefb47648c5"
+}

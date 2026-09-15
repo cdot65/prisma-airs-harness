@@ -257,7 +257,10 @@ pub trait ModelProvider: fmt::Debug + Send + Sync {
         scope: ProviderAuthScope,
     ) -> ModelProviderFuture<'_, codex_protocol::error::Result<ResolvedProviderAuth>> {
         Box::pin(async move {
-            if !provider_uses_first_party_auth_path(self.info()) {
+            // AIRS command credentials also need the typed recovery path before
+            // a failed helper is reduced to a missing credential.
+            let gateway_command_auth = self.info().gateway.is_some() && self.info().auth.is_some();
+            if !gateway_command_auth && !provider_uses_first_party_auth_path(self.info()) {
                 return self.api_auth().await.map(ResolvedProviderAuth::new);
             }
             let auth = self.auth().await;

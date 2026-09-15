@@ -64,6 +64,11 @@ class ReviewReleaseContract(unittest.TestCase):
             self.document if document is None else document, **self.binding
         )
 
+    def test_linux_arm64_uses_the_linux_provenance_contract(self):
+        self.binding["target"] = "aarch64-unknown-linux-musl"
+        self.document["target"] = self.binding["target"]
+        self.validate()
+
     def mac(self):
         self.binding["target"] = "aarch64-apple-darwin"
         self.document["target"] = self.binding["target"]

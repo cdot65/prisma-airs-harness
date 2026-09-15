@@ -42,6 +42,9 @@ Existing npm installations need no uninstall or force. Inspect `command -v airs-
 old binaries referenced by existing credential bindings.
 
 The package supports Linux x64 and Apple Silicon. Intel Macs are unsupported.
+A Linux arm64 (`aarch64-unknown-linux-musl`) executable is cross-compiled by the
+`airs-harness-linux-arm64.yml` workflow as an unvalidated candidate; it is not
+published until installed acceptance passes on an arm64 host.
 Git, ripgrep and project tools remain prerequisites. Linux also needs Bubblewrap
 and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac

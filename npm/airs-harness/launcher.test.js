@@ -170,7 +170,7 @@ setInterval(() => {}, 1000);
 
 test("declared keys select scoped natives without inferring from the launcher name", () => {
   const version = "0.1.0-alpha.9";
-  for (const [platform, arch] of [["linux", "x64"], ["darwin", "arm64"], ["win32", "x64"]]) {
+  for (const [platform, arch] of [["linux", "x64"], ["linux", "arm64"], ["darwin", "arm64"], ["win32", "x64"]]) {
     const legacy = platformPackage(platform, arch);
     const scoped = `@cdot65/prisma-${legacy}`;
     assert.equal(platformPackage(platform, arch, { name: "airs-harness", version,

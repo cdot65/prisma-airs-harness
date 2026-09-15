@@ -11,6 +11,10 @@
 
 - Mac builds and distributions target Apple Silicon (`aarch64-apple-darwin`) only.
   Do not schedule Intel Mac builds or publish Intel Mac packages.
+- Linux arm64 (`aarch64-unknown-linux-musl`) is cross-compiled with Zig and a
+  QEMU version probe. Its packages are unvalidated candidates until the exact
+  installed bytes pass acceptance on an arm64 host; do not publish them as a
+  release before that.
 - Inherited upstream workflows are disabled. Keep them disabled; use the owned
   `airs-harness-*` workflows for this fork.
 - Reuse successful Rust compilation caches for iteration. A dedicated Mac runner

@@ -16,7 +16,11 @@ import uuid
 from airs_bundle_archive import safe_path
 
 SCOPE = "signed-prerelease-distribution"
-TARGETS = {"x86_64-unknown-linux-musl", "aarch64-apple-darwin"}
+TARGETS = {
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "aarch64-apple-darwin",
+}
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 COMMIT = re.compile(r"[0-9a-f]{40}\Z")
 PRERELEASE = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+-(?:alpha|beta|rc)\.[0-9]+\Z")

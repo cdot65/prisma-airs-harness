@@ -189,6 +189,8 @@ production-registry install with empty npm configuration/cache passed.
   existing Linux executable was recompiled during publication.
 - npm launcher/tooling revision: `bf024215bf6e0ea4cbedcb400641e310f7319461`.
 - Targets: Linux x64 musl and macOS Apple Silicon. Intel Macs are excluded by owner policy.
+  Linux arm64 musl is cross-compiled with Zig as an unvalidated candidate and joins a
+  release only after installed acceptance on an arm64 host.
 - [Mac user runbook](MACOS.md).
 
 ## Acceptance gates

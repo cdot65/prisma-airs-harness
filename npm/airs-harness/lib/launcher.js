@@ -21,8 +21,11 @@ export function platformPackage(platform, arch, manifest) {
   const dependencies = manifest.optionalDependencies;
   const declared = [legacy, scoped].filter((name) =>
     dependencies && Object.hasOwn(dependencies, name));
+  if (declared.length === 0) {
+    throw new Error(`This airs-harness release does not include a native package for ${platform}/${arch}. Install a release that supports this platform.`);
+  }
   if (declared.length !== 1) {
-    throw new Error(`Expected one declared native package for ${platform}/${arch}; reinstall airs-harness with optional dependencies enabled.`);
+    throw new Error(`Multiple native packages are declared for ${platform}/${arch}; reinstall a valid airs-harness release.`);
   }
   const name = declared[0];
   if (typeof dependencies[name] !== "string" || !dependencies[name].trim() ||

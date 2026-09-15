@@ -10,15 +10,17 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.17 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.18 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Linux x64 and Apple Silicon are supported; Linux arm64 is a build candidate that
-is published only once a release declares it. The package uses anonymous downloads;
+Alpha.18 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
+
+Alpha.18 adds the Linux arm64 package to the release and distinguishes an
+unsupported architecture from an omitted optional dependency.
 
 Alpha.17 adds guided gateway MCP sign-in inside the terminal and retains a definite
 expired/rejected inference grant classification across later credential reads.

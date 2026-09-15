@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "platform": "darwin",
+  "cli_secure_login": true,
+  "oidc_native_store_preflight": true,
+  "new_process_credential_access": true,
+  "credential_access_proof": "trusted native credential helper exact private readback",
+  "logout_rejects_credential_helper": true,
+  "authenticated_local_tool_loop": true,
+  "plaintext_state_absent": true,
+  "logout_blocks_inference": true,
+  "gateway": "deterministic loopback Responses server",
+  "version": "airs-harness 0.1.0-alpha.18"
+}

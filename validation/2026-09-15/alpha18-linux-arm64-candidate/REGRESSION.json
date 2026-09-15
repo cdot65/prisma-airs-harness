@@ -1,0 +1,17 @@
+{
+  "source_commit": "a7d03cb60275d91ffd46a67c3a1630e2d804db99",
+  "passed": true,
+  "checks": {
+    "launcher": 16,
+    "packaging": 13,
+    "home_directory": 8
+  },
+  "formatting_passed": true,
+  "rust_behavior_changes": "version constant only; alpha.17 authentication recovery unchanged",
+  "log_sha256": {
+    "launcher-tests.log": "bf066a3c12135174b22fb5e303462d23b1417b1fd70c7b29779018d7e32adcc1",
+    "package-tests.log": "e5f3c017438d9623d37527db27453be0bf3074b800f741caa52b67e4b2d0cb5c",
+    "home-dir-tests.log": "00493cb60ad9349c6589e2dc09c0f2a6bf87d18769c6e17eff99f40019bbffde",
+    "fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

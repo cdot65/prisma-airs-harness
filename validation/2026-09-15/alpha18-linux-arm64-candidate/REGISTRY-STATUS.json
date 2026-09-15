@@ -1,0 +1,14 @@
+{
+  "airs-harness": {
+    "tags": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.17"
+    },
+    "alpha18_published": false
+  },
+  "airs-harness-linux-arm64": {
+    "package_exists": false,
+    "alpha18_published": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.18",
+  "platform": "linux/arm64",
+  "anonymous_archive_download": true,
+  "archive_sha256": "4f5aaac0a22d94019e2a78e944dd4fb0a409ccfbb9bd2fbc70ea583b032315ee",
+  "installed_native_acceptance": false
+}

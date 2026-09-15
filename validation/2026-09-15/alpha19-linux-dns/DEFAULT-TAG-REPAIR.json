@@ -1,0 +1,52 @@
+{
+  "version": "0.1.0-alpha.19",
+  "before": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.18",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.14",
+      "alpha": "0.1.0-alpha.14",
+      "gateway-validation": "0.1.0-alpha.19"
+    }
+  },
+  "after": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    }
+  },
+  "completed": true,
+  "artifact_bytes_changed": false,
+  "arm64_native_acceptance": false,
+  "full_production_oauth_acceptance": false,
+  "authorization_basis": "Existing owner alpha publication authorization and reported failure of the normal unversioned install; default-tag repair within that scope.",
+  "completed_at": 1789509686.993841
+}

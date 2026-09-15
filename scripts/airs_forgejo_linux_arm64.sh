@@ -30,7 +30,7 @@ tar --exclude=./codex-rs/target --exclude=./node_modules --exclude=./npm/airs-ha
 docker exec -i "$name" bash -s <<'BOOTSTRAP'
 set -euo pipefail
 apt-get update -qq
-apt-get install -y --no-install-recommends build-essential cmake pkg-config curl ca-certificates xz-utils git python3 npm qemu-user-static
+apt-get install -y --no-install-recommends build-essential cmake pkg-config curl ca-certificates xz-utils git file python3 npm qemu-user-static
 useradd --create-home --uid 10001 airs-ci
 chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-tools /tmp/airs-arm64
 BOOTSTRAP

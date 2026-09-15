@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "scope": "owner-requested-alpha15-testing",
+  "passed": false,
+  "release_ready": false,
+  "publication_authorized": true,
+  "authorization": "publish alphas.15 so i can test on my remote mac",
+  "authorization_date": "2026-09-15",
+  "product_version": "0.1.0-alpha.15",
+  "source_commit": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+  "target": "x86_64-unknown-linux-musl",
+  "binary_sha256": "2b2825a80d2013ea03feae06f495f7455eac0201144c519e17ef71c5efaec0bc",
+  "full_gateway_lifecycle_passed": false,
+  "frontend_refresh_cycles_completed": 0,
+  "limitations": [
+    "Production frontend MCP expiry and concurrent renewal validation are incomplete; zero completed expiry cycles.",
+    "Graceful sign-in after the preserved 30-minute idle timeout still requires owner acceptance.",
+    "Previous native runs passed initial gateway login and eight former SCM tools, then stopped on backend API errors; failed receipts are preserved.",
+    "The upstream server now exposes local utility tools; authenticated acceptance against this replacement inventory is pending.",
+    "Full workspace validation and independent release review are not claimed."
+  ],
+  "evidence": [
+    {
+      "role": "native-mcp-e2e",
+      "path": "native-mcp-e2e.json",
+      "sha256": "c3ce20475dd93901afd6d11f384451e6bc73a55f6537ef160bfe13ffcee13a9b"
+    },
+    {
+      "role": "npm-upgrade",
+      "path": "npm-upgrade.json",
+      "sha256": "4487ce6634a0fe139438f92e3f8152725d011a651a758eb6207963afca418a57"
+    },
+    {
+      "role": "installed-acceptance",
+      "path": "installed-acceptance.json",
+      "sha256": "928a409746021798e223c2d4554adf3585d9aa3a236f89d8f50bfa420f4bf0e3"
+    },
+    {
+      "role": "original-validation",
+      "path": "original-validation.json",
+      "sha256": "6c011b4f56dde0306d0723dddedfc52e669593610f70235c6f29e799612528df"
+    }
+  ]
+}

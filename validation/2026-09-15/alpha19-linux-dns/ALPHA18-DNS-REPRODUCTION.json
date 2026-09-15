@@ -1,0 +1,24 @@
+[
+  {
+    "mode": "AAAA_NXDOMAIN",
+    "queries": [
+      1,
+      28,
+      1,
+      28
+    ],
+    "output": "AIRS discovery diagnostic: alpha.18 HTTP library, Linux ARM64\nresolver failed: failed to lookup address information: Name does not resolve\ntimeout=false connect=true request=true\nerror sending request\ncaused by: client error (Connect)\ncaused by: dns error\ncaused by: failed to lookup address information: Name does not resolve\n",
+    "exit_code": 1
+  },
+  {
+    "mode": "AAAA_NODATA",
+    "queries": [
+      1,
+      28,
+      1,
+      28
+    ],
+    "output": "AIRS discovery diagnostic: alpha.18 HTTP library, Linux ARM64\nresolver: 127.0.0.1:443\ntimeout=false connect=true request=true\nerror sending request\ncaused by: client error (Connect)\ncaused by: tcp connect error\ncaused by: Connection refused (os error 111)\n",
+    "exit_code": 1
+  }
+]

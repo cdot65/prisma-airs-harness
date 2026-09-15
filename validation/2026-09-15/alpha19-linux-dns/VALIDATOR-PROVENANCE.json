@@ -1,0 +1,8 @@
+{
+  "runtime_source": "20f37e5e31c832f34123caaf7a255154987fbe33",
+  "tested_validator_sha256": "418a795f6a63cdd113602ac975135e368d7b0a5f5948cee7e4600554d5f55006",
+  "committed_validator_sha256": "11a22ddd39101f9e997958e8a81b37441e58b15f1c8222e56e15fee8d1e2d534",
+  "formatted_ast_matches_tested_validator": true,
+  "runtime_changed_after_build": false,
+  "correction_scope": "DNS fixture domain, proper CA and server certificate, isolated loopback DNS address"
+}

@@ -65,10 +65,12 @@ cargo fetch --locked --target "$target"
 # aws-lc-sys jitter entropy does not build on musl cross toolchains (upstream release policy).
 export AWS_LC_SYS_NO_JITTER_ENTROPY=1 AWS_LC_SYS_NO_JITTER_ENTROPY_aarch64_unknown_linux_musl=1
 export CARGO_PROFILE_RELEASE_DEBUG=0 CARGO_PROFILE_RELEASE_LTO=false CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16
-cargo zigbuild --target "$target" --config profile.release.package.codex-cli.opt-level=1 --locked --release -p codex-cli --bin airs-harness
+cargo zigbuild --target "$target" --config profile.release.package.codex-cli.opt-level=1 --locked --release -p codex-cli --bin airs-harness -p codex-http-client --bin custom_ca_probe
 binary="$CARGO_TARGET_DIR/$target/release/airs-harness"
 file "$binary" | tee /tmp/airs-arm64/file.txt
 qemu-aarch64-static "$binary" --version | tee /tmp/airs-arm64/version.txt
+python3 ../scripts/validate_airs_musl_dns.py --probe "$CARGO_TARGET_DIR/$target/release/custom_ca_probe" \
+  --emulator qemu-aarch64-static --output /tmp/airs-arm64/dns
 cargo metadata --locked --filter-platform "$target" --format-version 1 > /tmp/airs-arm64/metadata.json
 cd /workspace
 python3 scripts/package_airs_harness.py --binary "$binary" --metadata /tmp/airs-arm64/metadata.json \

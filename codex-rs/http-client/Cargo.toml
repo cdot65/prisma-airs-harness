@@ -46,3 +46,8 @@ tracing-subscriber = { workspace = true }
 
 [lib]
 doctest = false
+
+# musl's AF_UNSPEC lookup drops a valid A answer when AAAA returns NXDOMAIN.
+# Keep the host's DNS configuration and resolve the address families independently.
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+reqwest = { workspace = true, features = ["hickory-dns"] }

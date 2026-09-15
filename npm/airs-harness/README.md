@@ -10,14 +10,18 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.18 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.19 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Alpha.18 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
+Alpha.19 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
+
+Alpha.19 fixes Linux musl DNS lookups when one address family resolves and the
+other returns NXDOMAIN. It uses the configured DNS servers, keeps IPv4 and IPv6
+available, and retains transport error details when issuer discovery fails.
 
 Alpha.18 adds the Linux arm64 package to the release and distinguishes an
 unsupported architecture from an omitted optional dependency.

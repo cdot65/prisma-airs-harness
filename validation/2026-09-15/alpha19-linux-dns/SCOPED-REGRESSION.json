@@ -1,0 +1,36 @@
+{
+  "source": "20f37e5e31c832f34123caaf7a255154987fbe33",
+  "baseline_source": "5f647803f5247de4273b94ffc42579538e34e9a8",
+  "no_additional_failures": true,
+  "candidate": {
+    "tests_run": 125,
+    "passed": 119,
+    "failed": 6,
+    "skipped": 0,
+    "failures": [
+      "codex-http-client route_aware_client_pool::tests::request_failures_classify_real_untrusted_certificate_handshakes",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::does_not_retry_a_non_replayable_streaming_request",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_failure_after_another_request_caches_rustls",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_protocol_failure_once_with_rustls",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_tls_protocol_failure_when_request_url_contains_certificate_markers",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::successful_rustls_fallback_replays_the_request_and_reuses_the_destination"
+    ]
+  },
+  "baseline": {
+    "tests_run": 124,
+    "passed": 118,
+    "failed": 6,
+    "skipped": 0,
+    "failures": [
+      "codex-http-client route_aware_client_pool::tests::request_failures_classify_real_untrusted_certificate_handshakes",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::does_not_retry_a_non_replayable_streaming_request",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_failure_after_another_request_caches_rustls",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_protocol_failure_once_with_rustls",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_tls_protocol_failure_when_request_url_contains_certificate_markers",
+      "codex-http-client route_aware_client_pool::tls_fallback_tests::successful_rustls_fallback_replays_the_request_and_reuses_the_destination"
+    ]
+  },
+  "launcher_tests_passed": 16,
+  "package_tests_passed": 13,
+  "new_discovery_error_test_passed": true
+}

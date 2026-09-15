@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "version": "0.1.0-alpha.19",
+  "binary_sha256": "a9d17bb7ce1e32374c1467dcb113c89d0914b23496955e5b5f76ec06efb3c3be",
+  "source_commit": "20f37e5e31c832f34123caaf7a255154987fbe33",
+  "anonymous_fresh_install": true,
+  "downloaded_archives": [
+    {
+      "name": "airs-harness-linux-x64",
+      "sha256": "541c8281a41ad3ab2dee7bd40ae953c67dac0c7413fcbf443193afece35d103d",
+      "integrity": "sha512-3tafMiGArTYOgYZF1u9lHNcVjqvfIs65lQA5TvvNEJBZ4VvJRgRT8b0S6079jv/dBV5T1dW2PLK8z8fAEdQROA=="
+    },
+    {
+      "name": "airs-harness",
+      "sha256": "a36200987d55c2f64eb14318c1febb828622c0f9d6bba40cfdea4a3fc61e458b",
+      "integrity": "sha512-0nHWwFB6JNr+s28n5qTfsNQDFm91zimY6mjDGhGurx5cIYm70HUXYJCT+l6OIlAHtrztz9RhcAUbVj+b38sC+g=="
+    }
+  ],
+  "bundle": {
+    "packages": 76,
+    "files": 3124,
+    "license_files": 70,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-arm64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-arm64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-arm64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "7405af54330904959445f4505c5eddddb0f08aa9cbd805c98e09e0cfebe7bcc0",
+    "windows_command_wrappers": []
+  },
+  "signing": null,
+  "observed_at": 1789508631.134353,
+  "prefix": "/home/cdot/.cache/airs-alpha19/registry-alpha19-linux/prefix"
+}

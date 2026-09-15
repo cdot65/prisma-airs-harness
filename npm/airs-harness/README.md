@@ -10,7 +10,7 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.15 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.16 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
@@ -19,9 +19,11 @@ no npm login is required. Optional dependencies carry the matching native binary
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
 
-Alpha.15 adds coordinated native token renewal and guided inference sign-in.
-The deployed 30-minute SSO idle policy is preserved. Tokens renew during active
-use while their grants remain valid; leaving a terminal open does not request
+Alpha.16 fixes the missing automatic sign-in prompt after an inference credential
+can no longer be renewed. Alpha.15 introduced coordinated native token renewal
+and manual `/signin`; the normal provider path bypassed its recovery guidance.
+The deployed 30-minute SSO idle policy is preserved. The client attempts silent renewal during active
+use while grants remain valid; production active-expiry acceptance is incomplete; leaving a terminal open does not request
 a longer session. Release evidence records which gateway lifecycle scenarios
 were actually verified.
 
@@ -47,8 +49,8 @@ choose a workspace API key for inference. A workspace key is not the MCP user
 credential. With a configured gateway integration:
 
 ```sh
-airs-harness --environment work mcp add prisma-airs \
-  --url https://gateway-mcp.example.com/prisma-airs/mcp \
+airs-harness --environment work mcp add mcp-server-1 \
+  --url https://gateway-mcp.example.com/mcp-server-1/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 airs-harness --environment work mcp list
 airs-harness --environment work
@@ -57,7 +59,9 @@ airs-harness --environment work
 Replace the example with the gateway-provided MCP URL and discovery-supported
 scopes. Complete gateway CAS/company SSO and any upstream consent. Your directory
 group needs the gateway workspace mapping, and your upstream identity needs the
-read permissions. Upstream OAuth client secrets stay at the gateway.
+`utilities.use` scope, invoke role and subject binding for mcp server 1.
+Its eight tools compute on the MCP server without calling management APIs.
+Upstream OAuth client secrets stay at the gateway.
 
 macOS uses Keychain; Linux requires an unlocked Secret Service session. Installing
 npm does not provision a Linux keyring. Set `mcp_oauth_credentials_store =
@@ -67,7 +71,7 @@ callback expires after five minutes; headless tests require a tunnel from the
 browser's loopback port to the native process.
 
 Use `/mcp` in the terminal for inventory, and `airs-harness resume` for history.
-`mcp logout prisma-airs` signs out native MCP separately from inference `logout`;
+`mcp logout mcp-server-1` signs out native MCP separately from inference `logout`;
 it does not revoke the gateway's upstream user grant. Git, ripgrep and project
 tools remain prerequisites; Linux also requires usable Bubblewrap.
 

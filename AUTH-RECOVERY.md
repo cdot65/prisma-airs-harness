@@ -1,6 +1,7 @@
 # Authentication recovery implementation
 
-Status: alpha.15 candidate implementation; native package acceptance is pending.
+Status: alpha.16 sign-in prompt correction; exact package publication evidence is
+recorded separately.
 This document records source findings and validation boundaries; it is not a
 claim that guided reauthentication or full gateway lifecycle acceptance shipped.
 
@@ -8,8 +9,8 @@ claim that guided reauthentication or full gateway lifecycle acceptance shipped.
 
 Both inference and native MCP target Prisma AIRS AI Gateway. The harness owns
 its inference OIDC credential and gateway-facing MCP credential. Gateway/CAS
-owns upstream MCP OAuth. The MCP service owns its separate management API
-service accounts. Device authorization changes initial login, not renewal.
+owns upstream MCP OAuth. mcp server 1 executes local utility tools and has no management API
+service-account dependency. Device authorization changes initial login, not renewal.
 
 The production SSO idle timeout remains 30 minutes. Renewal is demand-driven;
 an idle terminal must not send synthetic traffic or refresh on a keepalive timer.
@@ -66,8 +67,8 @@ The draft and conversation remain in place; completed work is not replayed.
 MCP authentication failures stop the turn before another model request. Code mode
 and its separate host remain disabled by the existing AIRS boundary.
 Gateway MCP sign-in requires a fresh conversation until the gateway exposes a
-trusted identity continuity contract. Backend service-account renewal is separately
-deployed on both production MCP replicas (50 backend tests passed).
+trusted identity continuity contract. The upstream server now exposes local utilities; SCM backend renewal is outside
+the current harness architecture.
 
 Validate both gateway OAuth legs, idle return,
 cancellation, persistence failures and logout races. Run exact Linux and signed
@@ -97,3 +98,14 @@ acceptance, but predates the terminal correction and must not be promoted. Final
 source-bound packages, Developer ID signing, installed gateway lifecycle tests
 and publication remain pending. No alpha.15 production consent or expiry cycle
 is represented by these offline and native-fixture checks.
+
+## Inference dispatch correction — September 15, 2026
+
+After about 30 minutes idle, alpha.15 showed a generic fatal helper error. Manual
+`/signin` restored the same verified identity and the next inference reply in the
+same conversation. The normal AIRS provider dispatch bypassed the typed recovery
+classifier. Alpha.16 routes gateway command credentials through that classifier
+so the terminal can present its sign-in prompt. Other custom-provider paths are
+unchanged. A real helper integration test failed before the fix; all 78 provider
+tests and scoped Clippy pass afterward. This does not establish full active token
+renewal or post-login MCP acceptance.

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "owner-requested-alpha17-testing",
+  "passed": false,
+  "release_ready": false,
+  "publication_authorized": true,
+  "authorization": "okay, do it.",
+  "authorization_date": "2026-09-15",
+  "product_version": "0.1.0-alpha.17",
+  "source_commit": "26bcae7799ae13c592236efa046a99dbe35e4f9b",
+  "target": "aarch64-apple-darwin",
+  "binary_sha256": "a2a7af475d930ea65b42c2ae1f04c4fdbc5ef107c293e46e20552f1726b794ea",
+  "full_gateway_lifecycle_passed": false,
+  "frontend_refresh_cycles_completed": 0,
+  "limitations": [
+    "Full production frontend renewal and concurrent expiry acceptance remains incomplete.",
+    "Guided MCP consent and definite refresh rejection persistence are covered by deterministic regression tests.",
+    "No fresh browser consent or authenticated utility acceptance is claimed for these alpha.17 binaries."
+  ],
+  "evidence": [
+    {
+      "role": "original-validation",
+      "path": "original-validation.json",
+      "sha256": "0bf93316100a27601a2a7f83aeaaf0f0168f5446a3b0c63997f9f52f26463519"
+    }
+  ]
+}

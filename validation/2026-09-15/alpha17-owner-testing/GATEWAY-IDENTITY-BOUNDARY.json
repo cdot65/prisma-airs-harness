@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-09-15T11:34:09.285668+00:00",
+  "authorization_metadata": [
+    {
+      "url": "https://mcp.redtail.cdot.io/.well-known/oauth-authorization-server",
+      "metadata": {
+        "issuer": "https://mcp.redtail.cdot.io",
+        "authorization_endpoint": "https://mcp.redtail.cdot.io/oauth/authorize",
+        "token_endpoint": "https://mcp.redtail.cdot.io/oauth/token",
+        "grant_types_supported": [
+          "authorization_code",
+          "refresh_token",
+          "client_credentials"
+        ]
+      }
+    },
+    {
+      "url": "https://mcp.redtail.cdot.io/.well-known/oauth-authorization-server/prisma-airs/mcp",
+      "metadata": {
+        "issuer": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+        "authorization_endpoint": "https://mcp.redtail.cdot.io/oauth/prisma-airs/authorize",
+        "token_endpoint": "https://mcp.redtail.cdot.io/oauth/token",
+        "grant_types_supported": [
+          "authorization_code",
+          "refresh_token"
+        ]
+      }
+    }
+  ],
+  "trusted_frontend_account_proof_established": false,
+  "implementation_behavior": "Guided native MCP browser login, verified reconnect, explicit new conversation with saved old transcript and unsent draft transfer. No automatic replay."
+}

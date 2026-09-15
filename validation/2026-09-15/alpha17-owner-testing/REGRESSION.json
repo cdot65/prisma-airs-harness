@@ -1,0 +1,44 @@
+{
+  "source_commit": "26bcae7799ae13c592236efa046a99dbe35e4f9b",
+  "passed": true,
+  "checks": {
+    "cli_login": {
+      "tests_passed": 1114,
+      "skipped": 0,
+      "log": "cli-login-tests.log",
+      "log_sha256": "1fb055ce92e1a9daadc1484be0161e5842a4357fbbc9c3bb2539ac6dda7cc12d"
+    },
+    "tui": {
+      "tests_passed": 4320,
+      "skipped": 6,
+      "log": "tui-final.log",
+      "environment": "NO_COLOR unset; original cursor snapshots unchanged",
+      "log_sha256": "4bca9a60cea4027fd52c574f2bebec68b9c4a292d4f2d518615613ce4c372b3e"
+    },
+    "recovery": {
+      "tests_passed": 11,
+      "log": "tui-recovery.log",
+      "log_sha256": "380ddec4da0a19b7153d809e40f4892a05f1f0c061ce50055bbc396c63d28b48"
+    },
+    "packaging": {
+      "tests_passed": 11,
+      "log": "package-contracts.log",
+      "log_sha256": "8dadfd3c36c54f9a41eca1fea14cdb234bcd074379f8ed831dc79f84268e2f23"
+    },
+    "clippy": {
+      "passed": true,
+      "log": "clippy.log",
+      "crates": [
+        "codex-cli",
+        "codex-login",
+        "codex-tui"
+      ],
+      "log_sha256": "bbd7ce3ba1260359cdecac832174b5529923d34e3ae31ec444297e591464ad0f"
+    }
+  },
+  "snapshots_reviewed": [
+    "airs_mcp_sign_in",
+    "airs_mcp_continue"
+  ],
+  "production_oauth_acceptance": false
+}

@@ -1,0 +1,11 @@
+{
+  "linux-build.log": "32b8614696b563775ca7390b28b83c371fb1f44c495be584150e52afc8db38b8",
+  "linux-final/native-tests.log": "48fb09e8f52fbb53c2d841479149b1d99b6fe29c2e6035a6655d327887d24c68",
+  "registry-alpha17-linux/native-tests.log": "96afc0f5b2e7abc92364319507fb893cb05178e590380632a0fe153ee4a219b0",
+  "registry-alpha17-mac/native-tests.log": "fdce38c3237ded13e8321dfe75892094aaa32742aac3e143abff4086dab18d15",
+  "package-contracts.log": "8dadfd3c36c54f9a41eca1fea14cdb234bcd074379f8ed831dc79f84268e2f23",
+  "cli-login-tests.log": "1fb055ce92e1a9daadc1484be0161e5842a4357fbbc9c3bb2539ac6dda7cc12d",
+  "tui-final.log": "4bca9a60cea4027fd52c574f2bebec68b9c4a292d4f2d518615613ce4c372b3e",
+  "tui-recovery.log": "380ddec4da0a19b7153d809e40f4892a05f1f0c061ce50055bbc396c63d28b48",
+  "clippy.log": "bbd7ce3ba1260359cdecac832174b5529923d34e3ae31ec444297e591464ad0f"
+}

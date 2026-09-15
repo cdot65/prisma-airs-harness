@@ -72,6 +72,7 @@ installed npm signature verification and Mac/Linux installed acceptance.
 | --- | --- |
 | `airs-harness-check.yml` | npm/packaging contracts; passes on main and candidate |
 | `airs-harness-linux.yml` | GNU build and complete Rust suite; validation in progress |
+| `airs-harness-linux-arm64.yml` | Zig cross-compiled `aarch64-unknown-linux-musl` candidate, QEMU version probe, native and npm candidate packaging; no installed acceptance |
 | `airs-harness-macos-preflight.yml` | Native runner/tool/artifact wiring; passed |
 | `airs-harness-macos-acceptance.yml` | Frozen native, Keychain and staged Verdaccio acceptance; passed |
 | `airs-harness-macos-build.yml` | Fresh native compilation and artifact acceptance; passed on run 52 |

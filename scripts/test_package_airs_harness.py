@@ -32,6 +32,7 @@ class NativePackaging(unittest.TestCase):
         signing_overrides=None,
         validated=False,
         package_version="0.1.0-alpha.10",
+        emulator=None,
     ):
         root = directory / "source"
         root.mkdir()
@@ -91,8 +92,12 @@ class NativePackaging(unittest.TestCase):
         metadata = directory / "metadata.json"
         metadata.write_text(json.dumps({"packages": [], "resolve": {"nodes": []}}))
 
+        probe = [str(binary), "--version"]
+        if emulator is not None:
+            probe.insert(0, emulator)
+
         def command(argv, **kwargs):
-            if argv == [str(binary), "--version"]:
+            if argv == probe:
                 return "airs-harness 0.1.0-alpha.10\n"
             if argv[:3] == ["git", "rev-parse", "HEAD"]:
                 return "a" * 40
@@ -121,6 +126,8 @@ class NativePackaging(unittest.TestCase):
         ]
         if candidate:
             args.append("--unvalidated-candidate")
+        if emulator is not None:
+            args.extend(["--emulator", emulator])
         if validated:
             evidence = directory / "evidence"
             evidence.mkdir()
@@ -295,7 +302,11 @@ class NativePackaging(unittest.TestCase):
                 self.assertNotIn(b"\r", checksum)
 
     def test_unix_candidates_keep_existing_binary_and_block_publication(self):
-        for target in ["x86_64-unknown-linux-musl", "aarch64-apple-darwin"]:
+        for target in [
+            "x86_64-unknown-linux-musl",
+            "aarch64-unknown-linux-musl",
+            "aarch64-apple-darwin",
+        ]:
             with (
                 self.subTest(target=target),
                 tempfile.TemporaryDirectory() as directory,
@@ -345,8 +356,39 @@ class NativePackaging(unittest.TestCase):
                 self.package(Path(directory), "x86_64-pc-windows-msvc")
             self.assertEqual(error.exception.code, 2)
 
+    def test_linux_arm64_candidate_records_emulated_version_probe(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive, binary = self.package(
+                Path(directory),
+                "aarch64-unknown-linux-musl",
+                candidate=True,
+                emulator="qemu-aarch64",
+            )
+            self.assertTrue(archive.name.endswith("-linux-aarch64-musl.tar.gz"))
+            with tarfile.open(archive) as tar:
+                root = tar.getnames()[0]
+                self.assertEqual(tar.extractfile(root + "/airs-harness").read(), binary)
+                info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
+                self.assertEqual(info["target"], "aarch64-unknown-linux-musl")
+                self.assertEqual(info["emulated_version_probe"], "qemu-aarch64")
+                self.assertFalse(info["publishable"])
+
+    def test_native_probe_records_no_emulator(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive, _ = self.package(
+                Path(directory), "x86_64-unknown-linux-musl", candidate=True
+            )
+            with tarfile.open(archive) as tar:
+                root = tar.getnames()[0]
+                info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
+                self.assertNotIn("emulated_version_probe", info)
+
     def test_missing_validation_cannot_inherit_historical_release_claim(self):
-        for target in ["x86_64-unknown-linux-musl", "aarch64-apple-darwin"]:
+        for target in [
+            "x86_64-unknown-linux-musl",
+            "aarch64-unknown-linux-musl",
+            "aarch64-apple-darwin",
+        ]:
             with (
                 self.subTest(target=target),
                 tempfile.TemporaryDirectory() as directory,

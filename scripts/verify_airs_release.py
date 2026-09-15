@@ -12,6 +12,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--directory", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument(
+        "--emulator",
+        help="User-mode emulator that runs a cross-compiled executable's --version probe",
+    )
     args = parser.parse_args()
     roots = [
         p
@@ -34,9 +38,10 @@ def main():
         digest = hashlib.file_digest(stream, "sha256").hexdigest()
     if digest != info["binary_sha256"]:
         raise ValueError("Binary differs from build provenance")
-    version = subprocess.check_output(
-        [str(root / "airs-harness"), "--version"], text=True
-    ).strip()
+    probe = [str(root / "airs-harness"), "--version"]
+    if args.emulator:
+        probe.insert(0, args.emulator)
+    version = subprocess.check_output(probe, text=True).strip()
     if version != "airs-harness " + info["version"]:
         raise ValueError("Executable version differs from provenance")
     required = [
@@ -57,6 +62,7 @@ def main():
                 "source_commit": info["source_commit"],
                 "checksums_verified": True,
                 "required_notices_present": True,
+                "emulated_version_probe": args.emulator,
                 "scope": "extracted package integrity; executable fixtures are a separate check",
             },
             indent=2,

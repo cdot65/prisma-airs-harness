@@ -1,0 +1,39 @@
+name: AIRS Harness Linux arm64 candidate build
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Rust source branch or commit to cross-compile
+        default: main
+        required: true
+concurrency:
+  group: airs-linux-arm64-candidate
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.source_ref || github.ref }}
+      - name: Cross-compile, probe under QEMU and stage candidate packages in a bounded container
+        run: bash scripts/airs_forgejo_linux_arm64.sh
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-harness-linux-arm64-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/airs-arm64/*.log
+            ${{ runner.temp }}/airs-arm64/*.txt
+            ${{ runner.temp }}/airs-arm64/*.json
+            ${{ runner.temp }}/airs-arm64/package/*.tar.gz
+            ${{ runner.temp }}/airs-arm64/package/*.sha256
+            ${{ runner.temp }}/airs-arm64/npm/tarballs/*.tgz
+            ${{ runner.temp }}/airs-arm64/npm/NPM-PACKAGES.json
+          if-no-files-found: error
+          retention-days: 30

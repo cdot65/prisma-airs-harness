@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Package an AIRS native binary with locked dependency and license provenance.
 
-Generate metadata with cargo metadata --locked --filter-platform
-x86_64-unknown-linux-musl --format-version 1. The inventory is the resolved normal
+Generate metadata with cargo metadata --locked --filter-platform <target>
+--format-version 1 for the packaged target. The inventory is the resolved normal
 and build dependency closure, not a claim that every package is linked at runtime.
+
+A cross-compiled executable cannot run on the packaging host. Pass --emulator
+(for example qemu-aarch64) so the version probe still executes the exact bytes
+being packaged; the emulator is recorded in BUILD-INFO.json.
 """
 
 import argparse
@@ -39,6 +43,7 @@ def main():
     )
     targets = {
         "x86_64-unknown-linux-musl": "linux-x86_64-musl",
+        "aarch64-unknown-linux-musl": "linux-aarch64-musl",
         "aarch64-apple-darwin": "darwin-arm64",
         "x86_64-pc-windows-msvc": "windows-x86_64-msvc",
     }
@@ -47,6 +52,11 @@ def main():
     )
     parser.add_argument("--validation", type=Path)
     parser.add_argument("--validation-evidence-root", type=Path)
+    parser.add_argument(
+        "--emulator",
+        help="User-mode emulator (for example qemu-aarch64) that runs a cross-compiled "
+        "executable's --version probe on this host",
+    )
     parser.add_argument(
         "--signing-receipt",
         type=Path,
@@ -97,9 +107,10 @@ def main():
             for dep in nodes[identifier]["deps"]
             if any(kind["kind"] != "dev" for kind in dep["dep_kinds"])
         )
-    version_output = subprocess.check_output(
-        [str(binary), "--version"], text=True
-    ).strip()
+    probe = [str(binary), "--version"]
+    if args.emulator:
+        probe.insert(0, args.emulator)
+    version_output = subprocess.check_output(probe, text=True).strip()
     if not version_output.startswith("airs-harness "):
         raise ValueError("Expected an AIRS Harness binary")
     version = version_output.removeprefix("airs-harness ")
@@ -337,6 +348,8 @@ def main():
             ).strip(),
             "build_command": args.build_command,
         }
+        if args.emulator:
+            provenance["emulated_version_probe"] = args.emulator
         if args.unvalidated_candidate:
             provenance["release_status"] = candidate_status
             provenance["publishable"] = False

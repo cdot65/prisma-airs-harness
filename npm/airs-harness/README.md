@@ -14,7 +14,8 @@ npm install -g airs-harness@0.1.0-alpha.16 --include=optional --registry=https:/
 airs-harness --version
 ```
 
-Linux x64 and Apple Silicon are supported. The package uses anonymous downloads;
+Linux x64 and Apple Silicon are supported; Linux arm64 is a build candidate that
+is published only once a release declares it. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).

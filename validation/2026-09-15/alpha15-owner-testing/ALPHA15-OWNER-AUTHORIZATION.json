@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0-alpha.15",
+  "scope": "owner-requested-alpha15-testing",
+  "authorization": "publish alphas.15 so i can test on my remote mac",
+  "date": "2026-09-15",
+  "registry": "https://npm.cdot.io",
+  "dist_tag": "gateway-validation",
+  "advance_alpha_latest": false,
+  "lifecycle_validation_passed": false,
+  "source_commit": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+  "files": {
+    "stage-alpha15-owner-test.py": "424e480e94e2de6ba703a4981dc8d6f51be6f2f8abfcbd14674cef843bfd388c",
+    "publish-alpha15-owner-test.py": "3807e944ee4529741f4986c36551cf5444b9bd9a2e211d02034263b0e837b3e0",
+    "verify-alpha15-registry.py": "170cc5935fb5af14ce817d16b3abff903a7853d0d6f1217f27fbba407afdff21"
+  }
+}

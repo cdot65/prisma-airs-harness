@@ -1,0 +1,103 @@
+{
+  "published": false,
+  "source_commit": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+  "package_tooling": {
+    "packaging_commit": "8437c009fc8d680b15f2f3e007d6c75f2231e13f",
+    "native_source_commit": "2f5a1ad306d379c23e21b60173b87876a79045c4",
+    "files": {
+      "scripts/package_airs_npm.py": "55a601088e790770b6edc43d51837f59c69a07c8c156a255dce747b006ec2704",
+      "npm/airs-harness/package-lock.json": "16efcadec46b22cdf5229d9a79b1d7fdfff19424c199e3b3d61efdcf7b12b149",
+      "scripts/airs_bundle.py": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+      "scripts/airs_bundle_archive.py": "5ba7f8d774b68b1b1b2abefa18eb15af20d382457f3c180f77f2ce77a0d98cb5",
+      "scripts/airs_bundle_tree.py": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+      "scripts/airs_bundle_shims.py": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+      "scripts/fixtures/npm-command-shims/LICENSE": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475",
+      "scripts/fixtures/npm-command-shims/README.md": "671a62c3ed988e45ca70b9b0d55ece8bd9690f9f8118241302ac3b4ef74d8a0d",
+      "scripts/fixtures/npm-command-shims/node.json": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+      "npm/airs-harness/package.json": "f18c07952e2a0481b9a86a9985a4e4cfccfc11e3436e4fbec3b1b51deeec7f7f",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/launcher.js": "0a6e58ae9fe26a4ad7bef26516fe3d4263b1c1274ef22364933be9ef8c490f40",
+      "npm/airs-harness/lib/prisma-cli.js": "ab6b6014d16c4dde69d0039df608a7f188984d7300a3455b508d8c37bad3f1ce",
+      "npm/airs-harness/bin/airs-harness.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs.cmd": "79831f7170216addea28593d15ac859eb6ff7ad4e96a42f353a13237de921617",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    },
+    "cli_bundle": {
+      "inventory_sha256": "c61b2dbdd99a338e7fb0300e7725e22c1acd667d4cb7cc44778ed27e63c4ccb9",
+      "targets": [
+        "aarch64-apple-darwin",
+        "x86_64-unknown-linux-musl"
+      ],
+      "required_pins": {
+        "@cdot65/prisma-airs-cli": "5.2.0",
+        "@cdot65/prisma-airs-sdk": "0.28.0"
+      },
+      "packages": 72,
+      "files": 3106,
+      "license_files": 68,
+      "native_payload_packages": [
+        "@img/sharp-darwin-arm64",
+        "@img/sharp-libvips-darwin-arm64",
+        "@img/sharp-libvips-linux-x64",
+        "@img/sharp-libvips-linuxmusl-x64",
+        "@img/sharp-linux-x64",
+        "@img/sharp-linuxmusl-x64"
+      ],
+      "source_lock_sha256": "16efcadec46b22cdf5229d9a79b1d7fdfff19424c199e3b3d61efdcf7b12b149",
+      "windows_command_wrappers": []
+    }
+  },
+  "packaging_commit": "8437c009fc8d680b15f2f3e007d6c75f2231e13f",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "5.2.0"
+  },
+  "registry": "https://npm.cdot.io",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.15",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.15.tgz",
+      "integrity": "sha512-HFBR2bpx8rwHDO7svopSwD68bAcs9DHkNUQUYjNKxTJ6BCDQke/3sIprsm05RksFtRRhpPjHJZ33oZCiZgovwg==",
+      "sha256": "e9cf25faa2bd4863b803438343d2aebc06bd4f7c06ad94aa09a673ece075686f"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.15",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.15.tgz",
+      "integrity": "sha512-dUA1PmO1qAEiKfOmpE91bAV63X+RH+z/2QNTbCiu7j2tOy8X7CqzGZedPm7Ak9lxfHkRwH3ZvUHPePsyhU0N0g==",
+      "sha256": "12e042327f1ec5c15667a58c928ba9e99628fcb6c15b24c7f6968820c86f9fce"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.15",
+      "filename": "airs-harness-0.1.0-alpha.15.tgz",
+      "integrity": "sha512-RAleLN7yza1p2eiP56RdbdSq8GJbSuqoyWBu2AZeNZ3vMA4y7hQ18UVk4m6ehTTvm0lQ8G+YKCtpyBOQLOMZdw==",
+      "sha256": "927890103b05df65ea445bbc9be5cbce5e0d1a58aec686961eff2bf4813a8768"
+    }
+  ],
+  "cli_bundle": {
+    "inventory_sha256": "c61b2dbdd99a338e7fb0300e7725e22c1acd667d4cb7cc44778ed27e63c4ccb9",
+    "targets": [
+      "aarch64-apple-darwin",
+      "x86_64-unknown-linux-musl"
+    ],
+    "required_pins": {
+      "@cdot65/prisma-airs-cli": "5.2.0",
+      "@cdot65/prisma-airs-sdk": "0.28.0"
+    },
+    "packages": 72,
+    "files": 3106,
+    "license_files": 68,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "16efcadec46b22cdf5229d9a79b1d7fdfff19424c199e3b3d61efdcf7b12b149",
+    "windows_command_wrappers": []
+  }
+}

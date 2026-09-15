@@ -5,11 +5,11 @@ use thiserror::Error;
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Error)]
 pub enum CredentialRecovery {
     #[error(
-        "Your work sign-in is no longer renewable. Use /signin to continue; your conversation is preserved."
+        "Your work session has ended. Use /signin to continue. Your conversation and draft are preserved."
     )]
     SignInRequired,
     #[error(
-        "The last token renewal could not be confirmed. Use /signin to continue safely; the previous refresh token will not be retried."
+        "Your sign-in needs to be restored. Use /signin to continue. Your conversation and draft are preserved."
     )]
     OutcomeUnknown,
     #[error(

@@ -1,0 +1,84 @@
+{
+  "exit": 0,
+  "records": [
+    {
+      "kind": "in-pod backend diagnostic; not human OAuth acceptance",
+      "results": [
+        {
+          "name": "ready",
+          "passed": true
+        },
+        {
+          "name": "workspace",
+          "passed": true
+        },
+        {
+          "name": "configs",
+          "passed": true
+        },
+        {
+          "name": "config",
+          "passed": true
+        },
+        {
+          "name": "guardrails",
+          "passed": true
+        },
+        {
+          "name": "guardrail",
+          "passed": true
+        },
+        {
+          "name": "profiles",
+          "passed": true
+        },
+        {
+          "name": "concurrent_workspace_0",
+          "passed": true
+        },
+        {
+          "name": "concurrent_workspace_1",
+          "passed": true
+        },
+        {
+          "name": "bounded_denial_diagnostics",
+          "passed": true
+        },
+        {
+          "name": "repeat_guardrail_0",
+          "passed": true
+        },
+        {
+          "name": "repeat_workspace_0",
+          "passed": true
+        },
+        {
+          "name": "repeat_workspace_1",
+          "passed": true
+        },
+        {
+          "name": "repeat_guardrail_1",
+          "passed": true
+        },
+        {
+          "name": "repeat_workspace_2",
+          "passed": true
+        },
+        {
+          "name": "repeat_guardrail_2",
+          "passed": true
+        },
+        {
+          "name": "repeat_guardrail_3",
+          "passed": true
+        },
+        {
+          "name": "repeat_workspace_3",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "at": 1789432168650
+    }
+  ]
+}

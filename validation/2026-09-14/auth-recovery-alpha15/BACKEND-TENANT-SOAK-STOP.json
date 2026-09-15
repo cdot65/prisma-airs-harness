@@ -1,0 +1,7 @@
+{
+  "observed_at": 1789432664.273991,
+  "pod": "prisma-airs-mcp-86448b69f5-jcqx5",
+  "pid": 15,
+  "reason": "Peer reproduced backend policy denial on the corrected image; further soak cannot pass aggregate acceptance",
+  "completed": false
+}

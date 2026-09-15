@@ -1,0 +1,22 @@
+{
+  "passed": false,
+  "image": "sha256:b57dbdebe53c9fa36b69fea8559a53ee92198a48dfc3595f84ff54e5125df77f",
+  "scope": "In-pod backend service credentials only; not native human OAuth acceptance",
+  "completed_at": 1789432664.2148361,
+  "results": [
+    {
+      "pod": "prisma-airs-mcp-86448b69f5-jcqx5",
+      "exit_code": 143,
+      "summary": null,
+      "log": "/home/cdot/.cache/airs-auth-recovery/prisma-airs-mcp-86448b69f5-jcqx5-tenant-soak.jsonl",
+      "passed": false
+    },
+    {
+      "pod": "prisma-airs-mcp-86448b69f5-kmn6w",
+      "exit_code": 1,
+      "summary": null,
+      "log": "/home/cdot/.cache/airs-auth-recovery/prisma-airs-mcp-86448b69f5-kmn6w-tenant-soak.jsonl",
+      "passed": false
+    }
+  ]
+}

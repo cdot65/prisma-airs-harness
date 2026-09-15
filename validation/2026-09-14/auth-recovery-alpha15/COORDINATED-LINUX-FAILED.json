@@ -1,0 +1,148 @@
+{
+  "passed": false,
+  "binary_sha256": "2b2825a80d2013ea03feae06f495f7455eac0201144c519e17ef71c5efaec0bc",
+  "platform": "Linux",
+  "endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+  "server_name": "airs-test-ee220706629f3e087e36fa94",
+  "routing": {
+    "mode": "gateway-proxied-mcp",
+    "gateway_endpoint": "https://mcp.redtail.cdot.io/prisma-airs/mcp",
+    "upstream_endpoint": "https://prisma-airs-mcp.cdot.io/mcp"
+  },
+  "validation_tooling_sha256": {
+    "validate_gateway_mcp.py": "f258552c4f9eb5b83679f011fc29b9daf0e904e779db6f8979decfe7bbcbf954",
+    "airs_gateway_test_identity.py": "4e8d2b3767437417c7334360ab522a3b005372423d305e7267caead4eb2d08e3",
+    "airs_gateway_cleanup.py": "87ef295bb5dedcedfda928f6a8e370702d5121a3618391e984a1e62c6d6d6606"
+  },
+  "identity": "interactive human SSO; isolated native state",
+  "refresh_cycles": 2,
+  "refresh_scenario": "active-user-session",
+  "activity_interval_seconds": 600,
+  "started_at": 1789429352.017921,
+  "results": [
+    {
+      "case": "setup",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "history_before_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_browser_pkce",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "gateway_credential_initial",
+      "passed": true,
+      "observed_at": 1789429367.1961637,
+      "client_id": "pk_0707410868a2108714fdd24cf243ffa20cb34ef433f2d292398acaefd0876dfa",
+      "expires_at": 1789432967148,
+      "access_token_sha256": "75aaeaff671a384c9a8bdd3864e131f09de2b1954055a9ad4c2d8986774c9604",
+      "refresh_token_sha256": "f394aaa98dcbb8f236cd580e69489f2964a6a5c6ac024a8406f3118a86bea475"
+    },
+    {
+      "case": "doctor_after_mcp",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "all_read_tools_tool_results",
+      "passed": true,
+      "tools": [
+        "get_gateway_config",
+        "get_gateway_guardrail",
+        "get_security_profile",
+        "get_workspace",
+        "list_gateway_configs",
+        "list_gateway_guardrails",
+        "list_security_profiles",
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "inference_history_preserved",
+      "passed": true
+    },
+    {
+      "case": "active_session_1_1",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "active_session_1_1_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "gateway_credential_active_1_1",
+      "passed": true,
+      "observed_at": 1789430024.2549388,
+      "client_id": "pk_0707410868a2108714fdd24cf243ffa20cb34ef433f2d292398acaefd0876dfa",
+      "expires_at": 1789432967148,
+      "access_token_sha256": "75aaeaff671a384c9a8bdd3864e131f09de2b1954055a9ad4c2d8986774c9604",
+      "refresh_token_sha256": "f394aaa98dcbb8f236cd580e69489f2964a6a5c6ac024a8406f3118a86bea475"
+    },
+    {
+      "case": "active_session_1_2",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "active_session_1_2_tool_results",
+      "passed": true,
+      "tools": [
+        "list_workspaces"
+      ]
+    },
+    {
+      "case": "gateway_credential_active_1_2",
+      "passed": true,
+      "observed_at": 1789430624.7642417,
+      "client_id": "pk_0707410868a2108714fdd24cf243ffa20cb34ef433f2d292398acaefd0876dfa",
+      "expires_at": 1789432967148,
+      "access_token_sha256": "75aaeaff671a384c9a8bdd3864e131f09de2b1954055a9ad4c2d8986774c9604",
+      "refresh_token_sha256": "f394aaa98dcbb8f236cd580e69489f2964a6a5c6ac024a8406f3118a86bea475"
+    },
+    {
+      "case": "active_session_1_3",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "mcp_list_after_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_after_mcp_logout",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "case": "inference_logout",
+      "passed": true,
+      "exit_code": 0
+    }
+  ]
+}

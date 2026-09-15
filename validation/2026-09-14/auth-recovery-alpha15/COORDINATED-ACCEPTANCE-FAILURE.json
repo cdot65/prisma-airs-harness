@@ -1,0 +1,42 @@
+{
+  "observed_at": 1789432769.5062935,
+  "native_runs_passed": false,
+  "coordinated_cleanup_passed": true,
+  "frontend_cycles_completed": 0,
+  "backend_policy_denial_reproduced_with_tenant_header": true,
+  "published_alpha15": false,
+  "records": [
+    {
+      "file": "COORDINATED-LINUX-FAILED.json",
+      "sha256": "c3ce20475dd93901afd6d11f384451e6bc73a55f6537ef160bfe13ffcee13a9b"
+    },
+    {
+      "file": "COORDINATED-MAC-FAILED.json",
+      "sha256": "4049fdb72813a4b2ab2915106d4850c9e1d0d55dc0cf0abf40b31e1bd36ca0ec"
+    },
+    {
+      "file": "BACKEND-TENANT-IMAGE.json",
+      "sha256": "32d86c47390c1427a559e119af1ba847ff114af171fbbcc1854fa741194a5f73"
+    },
+    {
+      "file": "BACKEND-TENANT-DEV.json",
+      "sha256": "13fc516048d399767d71a1ed9633f1a6fde37e11779d5bb9c153fade9f951633"
+    },
+    {
+      "file": "BACKEND-TENANT-DEV-RECHECK.json",
+      "sha256": "982d7a02ca1cdd3a3d3affdfdb2da2a9e03f29c86ba7f2394813dd049ec0a960"
+    },
+    {
+      "file": "BACKEND-TENANT-SOAK.json",
+      "sha256": "5e72f54f9c2b3364b1612f9c31dfd8ab39fd1a96f5ab4464b8b583a868e4819b"
+    },
+    {
+      "file": "BACKEND-TENANT-SOAK-STOP.json",
+      "sha256": "a2262cc2f27f3c8fad6fe1eaeb446a37b67df31f87768f751740f46b304e06e3"
+    },
+    {
+      "file": "IAM-POLICY-READBACK.json",
+      "sha256": "91010fd243ae5036202b783675b289e36499d28d6c20bc03547437f85c5f1ad5"
+    }
+  ]
+}

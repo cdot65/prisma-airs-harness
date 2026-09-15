@@ -542,6 +542,19 @@ pub(crate) enum AppEvent {
         attempt: u64,
         result: Result<(), String>,
     },
+    AirsMcpSignIn {
+        server: String,
+        thread_id: ThreadId,
+    },
+    AirsMcpSignInCompleted {
+        attempt: u64,
+        server: String,
+        thread_id: ThreadId,
+        result: Result<usize, String>,
+    },
+    AirsMcpNewConversation {
+        thread_id: ThreadId,
+    },
 
     /// Request to exit the application due to a fatal error.
     #[allow(dead_code)]

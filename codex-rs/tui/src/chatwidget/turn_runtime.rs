@@ -478,8 +478,7 @@ impl ChatWidget {
             self.input_queue.submit_pending_steers_after_interrupt = false;
             self.flush_answer_stream_with_separator();
             self.finalize_turn();
-            self.add_to_history(history_cell::new_warning_event(message.to_owned()));
-            self.request_redraw();
+            self.open_airs_mcp_recovery(message);
         } else if codex_utils_home_dir::is_airs_harness()
             && codex_error_info == Some(AppServerCodexErrorInfo::Unauthorized)
         {

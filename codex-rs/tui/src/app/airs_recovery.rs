@@ -10,6 +10,16 @@ pub(super) struct AirsRecoveryState {
 }
 
 impl AirsRecoveryState {
+    pub(super) fn begin(&mut self) -> Option<(u64, CancellationToken)> {
+        if self.cancellation.is_some() {
+            return None;
+        }
+        self.attempt = self.attempt.wrapping_add(1);
+        let cancellation = CancellationToken::new();
+        self.cancellation = Some(cancellation.clone());
+        Some((self.attempt, cancellation))
+    }
+
     pub(super) fn cancel(&mut self) {
         if let Some(token) = self.cancellation.take() {
             token.cancel();
@@ -36,24 +46,20 @@ impl App {
         if !codex_utils_home_dir::is_airs_harness() {
             return;
         }
-        if self.airs_recovery.cancellation.is_some() {
+        let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
             self.chat_widget.add_info_message(
                 "Sign-in is already open in your browser. Use /signin and Cancel to stop it."
                     .into(),
                 None,
             );
             return;
-        }
+        };
         let home = self.config.codex_home.to_path_buf();
         let fallback = format!(
             "AIRS_HARNESS_HOME={} airs-harness login --restore-session --no-browser",
             shlex::try_quote(&home.to_string_lossy()).unwrap_or_default()
         );
         self.chat_widget.add_info_message("Opening company sign-in. Complete the browser flow and any native-store prompt within five minutes. Your draft remains here.".into(), Some(fallback));
-        self.airs_recovery.attempt = self.airs_recovery.attempt.wrapping_add(1);
-        let attempt = self.airs_recovery.attempt;
-        let cancellation = CancellationToken::new();
-        self.airs_recovery.cancellation = Some(cancellation.clone());
         let tx = self.app_event_tx.clone();
         tokio::spawn(async move {
             let operation = async {

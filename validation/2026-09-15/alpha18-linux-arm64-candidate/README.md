@@ -1,4 +1,4 @@
-# Alpha.18 Linux ARM64 candidate — September 15, 2026
+# Alpha.18 Linux ARM64 owner testing — September 15, 2026
 
 The owner reported that an unversioned install from `https://npm.cdot.io` fails on
 an Omarchy Linux ARM64 VM hosted on Apple Silicon. The registry default was
@@ -28,13 +28,24 @@ probe. This is not installed ARM64 acceptance. The Mac binary is signed with
 hardened runtime and notarized. Attached receipts bind the native bytes to their
 source commit; the npm receipt records all four candidate tarballs.
 
-## Outstanding host acceptance
+## Owner-requested npm publication
 
-The target VM is `10.0.3.148`. SSH access has not succeeded, so its existing global
-installation has not been changed. The exact ARM64 npm candidate must pass native
-installed acceptance before publication under the repository release policy.
-All candidate packages remain private/unpublishable. No registry publication or
-tag promotion is recorded here.
+Alpha.18 is published at `https://npm.cdot.io` under `gateway-validation`, with
+Linux x64, Linux ARM64 and Apple Silicon optional native dependencies. Install
+with `npm install -g airs-harness@0.1.0-alpha.18 --registry=https://npm.cdot.io`.
+The `latest` and `alpha` launcher tags remain at alpha.14.
+
+The owner elected to test the ARM64 VM personally and explicitly requested npm
+publication before that host check. This authorizes the candidate distribution;
+native ARM64 acceptance remains pending. No SSH installation was performed on
+`10.0.3.148`, and no successful ARM64 native execution is claimed.
+
+The original build and candidate receipts remain unchanged. Published manifests
+remove the npm private flag and explicitly identify the pending ARM64 owner test.
+Native binary bytes are unchanged. `OWNER-PUBLICATION.json` and
+`NPM-PUBLISHED-CANDIDATES.json` record the published archives; the older
+`REGISTRY-STATUS.json` and `NPM-CANDIDATES.json` describe the prepublication state.
+Release readiness and full production OAuth lifecycle acceptance remain false.
 
 Prepared host checks reproduce the original alpha.14 launcher failure in an
 isolated npm prefix, upgrade that prefix to alpha.18 without uninstalling or
@@ -42,3 +53,7 @@ forcing installation, verify configuration preservation, and exercise the
 installed native package. No new production browser consent or long-running
 expiry test is required for this packaging repair. Full production OAuth
 lifecycle acceptance remains incomplete and is not claimed.
+
+Fresh anonymous registry installs and native acceptance passed on Linux x64 and
+Mac after publication. The ARM64 archive was downloaded anonymously and its
+checksum verified; execution on the ARM64 VM remains the owner test.

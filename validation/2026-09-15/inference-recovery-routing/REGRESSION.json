@@ -1,0 +1,35 @@
+{
+  "scope": "AIRS inference provider recovery routing",
+  "runtime_base": "243399ca1",
+  "reported_package": "0.1.0-alpha.15",
+  "owner_observation": {
+    "idle": "about 30 minutes",
+    "initial_error": "Fatal error: AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed",
+    "manual_signin": "same verified identity restored; next inference reply succeeded in the same conversation",
+    "mcp_after_signin_tested": false,
+    "active_renewal_proven": false
+  },
+  "regression_before": {
+    "tests": 2,
+    "passed": 1,
+    "failed": 1,
+    "failed_test": "gateway_request_preserves_real_helper_recovery_instructions"
+  },
+  "provider_suite_after": {
+    "tests": 78,
+    "passed": 78,
+    "failed": 0,
+    "skipped": 0
+  },
+  "new_binary_published": false,
+  "logs": {
+    "alpha16-recovery-before.log": "f6fed2c514e253f92a03b5a157d3a72c35b42b4f3f6b83d98da54ddd49a9b85f",
+    "alpha16-provider-tests.log": "50e963cf9782863af8e16b79406e1ce83f976df24a03728770a9686115567007",
+    "alpha16-provider-clippy.log": "56afaa17c392c7174ec10a9f377e03539767215ea99641a6292458f6622338d8"
+  },
+  "clippy": {
+    "crate": "codex-model-provider",
+    "warnings_denied": true,
+    "passed": true
+  }
+}

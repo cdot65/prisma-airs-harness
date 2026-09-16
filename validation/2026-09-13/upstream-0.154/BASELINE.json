@@ -1,0 +1,15 @@
+{
+  "source": "1cdc152631d4c1e960435f1630373fef29d34a64",
+  "upstream": "6b9826e3aa83b1a5947db50f4332cb9c65f1b340",
+  "baseline_binary": "/var/tmp/airs-auth-target/debug/airs-harness",
+  "baseline_binary_sha256": "b740959b65bb99aed7648a6c12e81c23e25ff30454d9781e1f76d0325ccfa168",
+  "baseline_binary_source_verified": false,
+  "github_auth_environment_present": {
+    "GH_TOKEN": false,
+    "GITHUB_TOKEN": false
+  },
+  "backports": [
+    "ec84e692611d50d9c79c4bdad0a5785013975a72",
+    "885113aa1d68ccbc567b83698feac3cd42163088"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "anonymous_registry_fetch": true,
+  "binary_hashes_match": true,
+  "linux_x64_startup": true,
+  "linux_arm64_qemu_startup": true,
+  "production_login": "awaiting owner diagnostic"
+}

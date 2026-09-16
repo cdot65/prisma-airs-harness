@@ -6,7 +6,7 @@ Source ef365e990 separates the four existing checks without changing validation 
 
 The `login_diagnostic` example uses the same Provider discovery, browser PKCE flow, and verification as the harness. It outputs authorization instructions and status only, does not save credentials, and does not refresh or revoke the shared session. Discarded diagnostic tokens are not printed or written to disk. The package wrapper selects one bundled executable by platform and architecture.
 
-Published `airs-harness-diagnostics@0.1.0-alpha.20` to https://npm.cdot.io under the `signin` tag. Anonymous download was checked against each staged binary hash. Linux x64 and Apple Silicon Mac startup passed natively; Linux ARM64 startup passed under QEMU. Actual Linux ARM64 sign-in and the underlying failure diagnosis await the owner. This is not a harness release or evidence that production login has been fixed.
+Published `airs-harness-diagnostics@0.1.0-alpha.20` to https://npm.cdot.io under the `signin` tag. Anonymous download was checked against each staged binary hash. Linux x64 and Apple Silicon Mac startup passed natively; Linux ARM64 startup passed under QEMU. The owner subsequently ran the published diagnostic on the affected Linux ARM64 machine and reported PASS for access/ID signatures, issuer, audience, client, subject, nonce, and lifetime. This confirms native diagnostic login acceptance for that fresh response. Regular harness credential persistence and the cause of the earlier failures remain unconfirmed. This is not a harness release or evidence that production login has been fixed.
 
 Run:
 

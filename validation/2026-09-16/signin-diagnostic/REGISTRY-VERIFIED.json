@@ -3,5 +3,5 @@
   "binary_hashes_match": true,
   "linux_x64_startup": true,
   "linux_arm64_qemu_startup": true,
-  "production_login": "awaiting owner diagnostic"
+  "production_login": "owner-reported PASS on affected Linux ARM64 machine; regular harness login and original cause unconfirmed"
 }

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "binary_sha256": "07d73f4ce2bbf28f55e65ef2152c96909be53565b7bcc15bda84f7d74720908b",
+  "installed_arm64_acceptance": false,
+  "emulated_version_probe": true,
+  "production_oauth_acceptance": false,
+  "published": false
+}

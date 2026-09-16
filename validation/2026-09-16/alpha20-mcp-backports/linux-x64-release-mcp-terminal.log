@@ -1,0 +1,8 @@
+test_cancel_restores_terminal_without_token_exchange (test_airs_harness_mcp_login.ManualMcpLogin.test_cancel_restores_terminal_without_token_exchange) ... ok
+test_http_callback_restores_terminal_with_pending_input (test_airs_harness_mcp_login.ManualMcpLogin.test_http_callback_restores_terminal_with_pending_input) ... ok
+test_pasted_callback_is_hidden_and_persists_once (test_airs_harness_mcp_login.ManualMcpLogin.test_pasted_callback_is_hidden_and_persists_once) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.883s
+
+OK

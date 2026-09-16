@@ -9,6 +9,14 @@ fn standalone_login_help_describes_hidden_input() {
 }
 
 #[test]
+fn standalone_mcp_login_help_describes_manual_callback_input() {
+    let mut root = command(crate::MultitoolCli::command());
+    let mcp = root.find_subcommand_mut("mcp").unwrap();
+    let login = mcp.find_subcommand_mut("login").unwrap();
+    insta::assert_snapshot!("airs_mcp_login_help", login.render_long_help().to_string());
+}
+
+#[test]
 fn standalone_help_exposes_local_work_and_gateway_configuration() {
     let mut command = command(crate::MultitoolCli::command())
         .bin_name("airs-harness")

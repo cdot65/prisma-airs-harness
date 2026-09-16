@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "emulated musl default-client DNS and verified local HTTPS",
+  "probe_sha256": "82b9cbe7167e913fc8f718c17d1a06e39949061ef5c230837ceea7655381bc5b",
+  "emulator": "qemu-x86_64",
+  "cases": [
+    {
+      "case": "aaaa-nxdomain",
+      "passed": true,
+      "queries": [
+        1,
+        28
+      ],
+      "exit_code": 0,
+      "https_requests": 1
+    },
+    {
+      "case": "aaaa-nodata",
+      "passed": true,
+      "queries": [
+        1,
+        28
+      ],
+      "exit_code": 0,
+      "https_requests": 1
+    },
+    {
+      "case": "both-nxdomain",
+      "passed": true,
+      "queries": [
+        1,
+        28,
+        1,
+        28
+      ],
+      "exit_code": 1,
+      "https_requests": 0
+    }
+  ],
+  "native_host_acceptance": false
+}

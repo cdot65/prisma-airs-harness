@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "private_candidate": true,
+  "published": false,
+  "release_ready": false,
+  "runtime_source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "build_tooling_source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "compilation_run": "3538",
+  "compilation_attempt": "1",
+  "binary_sha256": "cf4ee2399d59b4e9e04b948766ed8d65f0362400865fb98db9868d1427a4e0a4",
+  "fixture_sha256": "8627f232cdd324694303a069559354f10091be835b28046032b0aef6a2c656de",
+  "cli_opt_level": "1",
+  "signing": {
+    "ad_hoc": true,
+    "developer_id": false,
+    "notarized": false
+  }
+}

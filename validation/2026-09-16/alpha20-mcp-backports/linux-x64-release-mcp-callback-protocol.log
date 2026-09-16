@@ -1,0 +1,13 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Blocking waiting for file lock on package cache
+    Finished `test` profile [unoptimized] target(s) in 0.96s
+────────────
+ Nextest run ID 0cf4e257-c388-4a29-b8a6-6073e08dcce1 with nextest profile: local
+    Starting 5 tests across 1 binary
+        PASS [   0.044s] (1/5) codex-cli::mcp_login no_browser_accepts_http_callback_while_terminal_input_remains_open
+        PASS [   0.046s] (2/5) codex-cli::mcp_login no_browser_retries_rejected_discovered_scopes_with_pasteback
+        PASS [   0.082s] (3/5) codex-cli::mcp_login no_browser_sigint_cancels_token_exchange_after_pasted_or_http_callback
+        PASS [   0.146s] (4/5) codex-cli::mcp_login no_browser_rejects_invalid_callbacks_without_exchanging_tokens
+        PASS [   0.197s] (5/5) codex-cli::mcp_login no_browser_exchanges_pasted_callback_and_saves_credentials
+────────────
+     Summary [   0.197s] 5 tests run: 5 passed, 0 skipped

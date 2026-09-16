@@ -40,12 +40,9 @@ use codex_rmcp_client::resolve_mcp_oauth_callback_url;
 use codex_utils_cli::CliConfigOverrides;
 use codex_utils_cli::format_env_display;
 
-#[path = "mcp_oauth_login.rs"]
-mod oauth_login;
-use oauth_login::BrowserMode;
-use oauth_login::perform_oauth_login_retry_without_scopes;
-
 use crate::cloud_config;
+use crate::mcp_login::McpLoginMode;
+use crate::mcp_login::perform_oauth_login_retry_without_scopes;
 use crate::plugin_cmd::load_cli_auth_manager;
 
 /// Subcommands:
@@ -94,7 +91,7 @@ pub struct GetArgs {
 #[derive(Debug, clap::Parser)]
 #[command(override_usage = "codex mcp add [OPTIONS] <NAME> (--url <URL> | -- <COMMAND>...)")]
 pub struct AddArgs {
-    /// Print the OAuth URL without opening the desktop browser.
+    /// Print the authorization URL and accept the callback URL without opening a browser.
     #[arg(long, requires = "url")]
     pub no_browser: bool,
 
@@ -209,12 +206,12 @@ pub struct RemoveArgs {
 
 #[derive(Debug, clap::Parser)]
 pub struct LoginArgs {
-    /// Print the OAuth URL without opening the desktop browser.
-    #[arg(long)]
-    pub no_browser: bool,
-
     /// Name of the MCP server to authenticate with oauth.
     pub name: String,
+
+    /// Print the authorization URL and accept the callback URL without opening a browser.
+    #[arg(long)]
+    pub no_browser: bool,
 
     /// Comma-separated list of OAuth scopes to request.
     #[arg(long, value_delimiter = ',', value_name = "SCOPE,SCOPE")]
@@ -476,9 +473,9 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
                 config.mcp_oauth_callback_url.as_deref(),
                 http_client,
                 if no_browser {
-                    BrowserMode::Print
+                    McpLoginMode::PasteCallback
                 } else {
-                    BrowserMode::Open
+                    McpLoginMode::Browser
                 },
             )
             .await?;
@@ -539,8 +536,8 @@ async fn run_login(config: &Config, login_args: LoginArgs) -> Result<()> {
     let mcp_servers = mcp_manager.configured_servers(config).await;
 
     let LoginArgs {
-        no_browser,
         name,
+        no_browser,
         scopes,
         oauth_client_registration,
     } = login_args;
@@ -603,9 +600,9 @@ async fn run_login(config: &Config, login_args: LoginArgs) -> Result<()> {
         config.mcp_oauth_callback_url.as_deref(),
         http_client,
         if no_browser {
-            BrowserMode::Print
+            McpLoginMode::PasteCallback
         } else {
-            BrowserMode::Open
+            McpLoginMode::Browser
         },
     )
     .await?;

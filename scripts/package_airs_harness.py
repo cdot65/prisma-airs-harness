@@ -253,6 +253,7 @@ def main():
         for filename in [
             "test_airs_harness.py",
             "test_airs_harness_pty.py",
+            "test_airs_harness_mcp_login.py",
             "airs_harness_pty.py",
             "validate_live_agent.py",
             "validate_live_model_switch.py",

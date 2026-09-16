@@ -1,0 +1,56 @@
+{
+  "source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "checks": [
+    {
+      "suite": "mcp",
+      "log": "mcp-tests-rerun.log",
+      "sha256": "7ee4867e50850f8f9829873b5d382bc2ea6ed4a92edf46f0d3d8fa3eec02eb30",
+      "result": "544 passed, 8 skipped",
+      "passed": true
+    },
+    {
+      "suite": "cli",
+      "log": "cli-tests-reviewed.log",
+      "sha256": "1d6d07cfe6b46915397f0dbc8c6316882c937dc121e33b2afe703ab81989abd6",
+      "result": "783 passed, 0 skipped",
+      "passed": true
+    },
+    {
+      "suite": "harness-mcp-callback",
+      "log": "mcp-cli-airs-dev.log",
+      "sha256": "2007e82fab3a2e52773ad1e3df2688100b43ecbd9ea7caadfc1c9853d5007977",
+      "result": "5 passed, 0 skipped",
+      "passed": true
+    },
+    {
+      "suite": "native-development",
+      "log": "dev-native-tests.log",
+      "sha256": "00aaadddebd3e0b24f833dc1d09af66bd5ba046f852a689b5dba2772a9cb75df",
+      "result": "OK (skipped=2)",
+      "passed": true
+    },
+    {
+      "suite": "packaging",
+      "log": "package-tests-rerun.log",
+      "sha256": "8e5f6ba02d85ca1c0d0494bf3a91a128d1832571eaf4b5ad04793773afa61f27",
+      "result": "OK",
+      "passed": true
+    },
+    {
+      "suite": "launcher",
+      "log": "launcher-tests.log",
+      "sha256": "57b07c1662cc635f071b50a2d5a51c6ce9f4bc8e83c90b5e68efe39f0527957d",
+      "result": "# pass 16",
+      "passed": true
+    },
+    {
+      "suite": "registry-contracts",
+      "log": "npm-registry-tests.log",
+      "sha256": "f94be13c9c00aa581960c6515ae04dd148031e60ace19140da3843d9b01155c0",
+      "result": "OK",
+      "passed": true
+    }
+  ],
+  "production_oauth_acceptance": false,
+  "arm64_native_acceptance": false
+}

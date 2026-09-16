@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "checks": [
+    {
+      "platform": "linux-x64",
+      "binary_sha256": "8b9f3b3568bd56f91476385f0c16308332cfee64fb3b63385592e35a46ac8318",
+      "emulated": false,
+      "checks": [
+        {
+          "check": "callback-protocol",
+          "passed": true,
+          "log": "linux-x64-release-mcp-callback-protocol.log",
+          "log_sha256": "cb6c7ece06558be875ab1fbc40852e5b208bf7942686ad4d495ee97926727f3b"
+        },
+        {
+          "check": "terminal",
+          "passed": true,
+          "log": "linux-x64-release-mcp-terminal.log",
+          "log_sha256": "6d5e71669122170b32a0090689d0b20e04db6990a2dfc4ebe19ca2e716deb130"
+        }
+      ]
+    },
+    {
+      "platform": "linux-arm64",
+      "binary_sha256": "07d73f4ce2bbf28f55e65ef2152c96909be53565b7bcc15bda84f7d74720908b",
+      "emulated": true,
+      "checks": [
+        {
+          "check": "callback-protocol",
+          "passed": true,
+          "log": "linux-arm64-release-mcp-callback-protocol.log",
+          "log_sha256": "330b4564cfa2eb2547d6051991a99ed305f3ba25e654d59c9d09905467885939"
+        },
+        {
+          "check": "terminal",
+          "passed": true,
+          "log": "linux-arm64-release-mcp-terminal.log",
+          "log_sha256": "31db3d6e8cdba087b6b77291e39b8aadf53b72ac7834beb8f30c768ef1bb1e89"
+        }
+      ]
+    }
+  ],
+  "production_oauth_acceptance": false,
+  "arm64_native_acceptance": false
+}

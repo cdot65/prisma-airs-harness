@@ -1,0 +1,65 @@
+{
+  "version": "0.1.0-alpha.20",
+  "source_commit": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "registry": "https://npm.cdot.io",
+  "tag": "gateway-validation",
+  "publication_authorized": true,
+  "release_ready": false,
+  "arm64_installed_acceptance": false,
+  "full_gateway_lifecycle_passed": false,
+  "default_tags_changed": false,
+  "published": true,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.20",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.20.tgz",
+      "integrity": "sha512-NWs3dN3OZq/tioW8b5fSHmazPFSv09zT3g6fhJr6/Bs6kXKBzmOTwGR91OCbD/KlYskshX/8tP7Dc1dif9zK4A==",
+      "sha256": "192240edcf4b86f64ea0f41f1fcd9039ca763a664ae669e490153bfe0ee8dd66"
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.0-alpha.20",
+      "filename": "airs-harness-linux-arm64-0.1.0-alpha.20.tgz",
+      "integrity": "sha512-Pcn58YwFCuR6L0OsZTET0NmI/zBghJ8vppWOR0Xr/rEnWohekcNdWT0Dn+pL587Hkcs5q4/735/32yV3r2FSRw==",
+      "sha256": "b2ce0ed454a62ff2133f37eff0ae63f98d847a86d919c851c728831cfdb0a2e8"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.20",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.20.tgz",
+      "integrity": "sha512-WJ8cUOeLPCzqAjJDos5oxObEsBbj15yUdrq0f7uocICJB5zU6R6zaXvDU8aDjsA8Hzd3z5WfyXFyxHpjtXtVdQ==",
+      "sha256": "9987e61fcad88b8e84a0d01a2666a21af0d69f6be769fecd20096d6aac49254f"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.20",
+      "filename": "airs-harness-0.1.0-alpha.20.tgz",
+      "integrity": "sha512-bZX5k5eBIDEBWB5YsllpJjVac2gexhM63xXBmxYlCb2oio3HlKcVP7EkKlsUyQZTQpUIZszks+wHjDAFn4Igvw==",
+      "sha256": "cfb60161f330046edc743c9e85004e23d2411d93d146dd5780a86ab1166fd2ca"
+    }
+  ],
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.19",
+      "alpha": "0.1.0-alpha.19",
+      "gateway-validation": "0.1.0-alpha.19"
+    }
+  },
+  "completed_at": 1789529981.9796417
+}

@@ -1,0 +1,9 @@
+{
+  "source": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "branch": "feature/alpha20-mcp-backports",
+  "version": "0.1.0-alpha.20",
+  "clean": true,
+  "clippy_exit_code": 0,
+  "clippy_warning": "unchanged rmcp-client version-header expect()",
+  "clippy_log_sha256": "c40f230265944ff51e71fa1faeb1346a9546608e8b8290ca7d14f48c0bcb0fab"
+}

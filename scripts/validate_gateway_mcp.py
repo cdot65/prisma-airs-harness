@@ -58,7 +58,8 @@ def main():
     parser.add_argument("--gateway-evidence", type=Path, required=True)
     parser.add_argument("--refresh-cycles", type=int, choices=[0, 2], default=2)
     parser.add_argument(
-        "--cleanup-barrier", type=Path,
+        "--cleanup-barrier",
+        type=Path,
         help="New coordination directory: controller must release all SSO-sharing peers before issuer logout",
     )
     args = parser.parse_args()
@@ -102,6 +103,8 @@ def main():
         child = subprocess.Popen(
             [str(args.launcher or args.binary), *command],
             env=env,
+            # Keep manual callback input alive while the browser/tunnel completes.
+            stdin=subprocess.PIPE if login else None,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -194,6 +197,8 @@ def main():
             if child.poll() is None:
                 child.terminate()
                 child.wait(timeout=15)
+            if child.stdin is not None:
+                child.stdin.close()
             for tunnel in tunnels:
                 tunnel.terminate()
                 tunnel.wait(timeout=15)

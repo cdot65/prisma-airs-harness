@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.20",
+  "platform": "linux/arm64",
+  "anonymous_archive_download": true,
+  "launcher_optional_dependency_verified": true,
+  "archive_sha256": "b2ce0ed454a62ff2133f37eff0ae63f98d847a86d919c851c728831cfdb0a2e8",
+  "binary_sha256": "07d73f4ce2bbf28f55e65ef2152c96909be53565b7bcc15bda84f7d74720908b",
+  "installed_native_acceptance": false
+}

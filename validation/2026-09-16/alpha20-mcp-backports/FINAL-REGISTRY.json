@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.20",
+  "published": true,
+  "default_tags_verified": true,
+  "unversioned_installs_verified": true,
+  "arm64_native_acceptance": false,
+  "production_oauth_acceptance": false
+}

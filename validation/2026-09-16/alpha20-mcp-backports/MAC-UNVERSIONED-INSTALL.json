@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.20",
+  "version_output": "airs-harness 0.1.0-alpha.20",
+  "source_commit": "26f373c87e11ec8ece6c895b28723fe7c4905aae",
+  "binary_sha256": "b7d0e44869068813a6f08b95bbdbd4102e297d8998588f40dce0bae6f583c3f4",
+  "architecture": "darwin-arm64",
+  "unversioned_anonymous_install": true,
+  "native_host_acceptance": true,
+  "signature_verified": true
+}

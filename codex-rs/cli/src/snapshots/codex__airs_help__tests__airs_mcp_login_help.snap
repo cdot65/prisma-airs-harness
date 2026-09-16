@@ -1,0 +1,25 @@
+---
+source: cli/src/airs_help_tests.rs
+assertion_line: 16
+expression: login.render_long_help().to_string()
+---
+Usage: login [OPTIONS] <NAME>
+
+Arguments:
+  <NAME>
+          Name of the MCP server to authenticate with oauth
+
+Options:
+      --no-browser
+          Print the authorization URL and accept the callback URL without opening a browser
+
+      --scopes <SCOPE,SCOPE>
+          Comma-separated list of OAuth scopes to request
+
+      --oauth-client-registration <AUTO|CIMD|DCR>
+          OAuth client-registration strategy for this login only
+          
+          [possible values: auto, cimd, dcr]
+
+  -h, --help
+          Print help

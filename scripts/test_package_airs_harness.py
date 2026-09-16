@@ -63,6 +63,7 @@ class NativePackaging(unittest.TestCase):
         for name in [
             "test_airs_harness.py",
             "test_airs_harness_pty.py",
+            "test_airs_harness_mcp_login.py",
             "airs_harness_pty.py",
             "validate_live_agent.py",
             "validate_live_model_switch.py",
@@ -203,7 +204,7 @@ class NativePackaging(unittest.TestCase):
                     Path(temporary),
                     "aarch64-apple-darwin",
                     candidate=True,
-                    package_version="0.1.0-alpha.19",
+                    package_version="0.1.0-alpha.20",
                 )
 
     def test_review_archive_retains_bound_evidence_without_full_release_claim(self):

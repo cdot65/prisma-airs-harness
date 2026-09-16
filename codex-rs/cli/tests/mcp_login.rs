@@ -1,6 +1,7 @@
 //! Exercises terminal OAuth pasteback and its shared callback validation through the CLI.
 
 use std::collections::BTreeMap;
+use std::path::PathBuf;
 use std::process::Output;
 use std::process::Stdio;
 use std::time::Duration;
@@ -34,6 +35,7 @@ struct Fixture {
     server: MockServer,
     home: TempDir,
     issuer: String,
+    binary: PathBuf,
 }
 
 impl Fixture {
@@ -41,14 +43,48 @@ impl Fixture {
         let server = MockServer::start().await;
         let home = TempDir::new()?;
         let issuer = format!("{}/mcp", server.uri());
-        std::fs::write(
-            home.path().join("config.toml"),
-            format!(
-                "mcp_oauth_credentials_store = \"file\"\n\
-             [mcp_servers.manual]\nurl = \"{issuer}\"\nscopes = [\"mcp.read\"]\n\
+        // The same protocol cases also run against each packaged AIRS executable.
+        // Its real setup command establishes the inference binding in isolated state.
+        let override_binary = std::env::var_os("AIRS_MCP_TEST_BINARY");
+        let binary = match override_binary.as_ref() {
+            Some(path) => PathBuf::from(path),
+            None => codex_utils_cargo_bin::cargo_bin("codex")?,
+        };
+        if override_binary.is_some() {
+            let setup = Command::new(&binary)
+                .current_dir(home.path())
+                .env("AIRS_HARNESS_HOME", home.path())
+                .env("AIRS_MCP_FIXTURE_INFERENCE_KEY", "isolated-fixture-key")
+                .args([
+                    "setup",
+                    "--gateway-url",
+                    &format!("{}/v1", server.uri()),
+                    "--allow-http-loopback",
+                    "--credential-env",
+                    "AIRS_MCP_FIXTURE_INFERENCE_KEY",
+                ])
+                .output()
+                .await?;
+            anyhow::ensure!(
+                setup.status.success(),
+                "fixture setup failed: {}",
+                String::from_utf8_lossy(&setup.stderr)
+            );
+        }
+        let config_path = home.path().join("config.toml");
+        let existing = std::fs::read_to_string(&config_path).unwrap_or_default();
+        let mut document: toml::Table = existing.parse()?;
+        document.insert(
+            "mcp_oauth_credentials_store".to_string(),
+            toml::Value::String("file".to_string()),
+        );
+        let mcp_config: toml::Table = format!(
+            "[mcp_servers.manual]\nurl = \"{issuer}\"\nscopes = [\"mcp.read\"]\n\
              [mcp_servers.manual.oauth]\nclient_id = \"registered-client\"\n"
-            ),
-        )?;
+        )
+        .parse()?;
+        document.insert("mcp_servers".to_string(), mcp_config["mcp_servers"].clone());
+        std::fs::write(config_path, toml::to_string(&document)?)?;
         Mock::given(method("GET"))
             .and(path("/.well-known/oauth-authorization-server/mcp"))
             .respond_with(ResponseTemplate::new(200).set_body_json(json!({
@@ -76,14 +112,17 @@ impl Fixture {
             server,
             home,
             issuer,
+            binary,
         })
     }
 
     async fn start(&self) -> Result<Login> {
-        let mut child = Command::new(codex_utils_cargo_bin::cargo_bin("codex")?)
+        let mut child = Command::new(&self.binary)
             .kill_on_drop(true)
             .current_dir(self.home.path())
             .env("CODEX_HOME", self.home.path())
+            .env("AIRS_HARNESS_HOME", self.home.path())
+            .env("AIRS_MCP_FIXTURE_INFERENCE_KEY", "isolated-fixture-key")
             .env("NO_PROXY", "127.0.0.1,localhost")
             .env("no_proxy", "127.0.0.1,localhost")
             .args(["mcp", "login", "manual", "--no-browser"])

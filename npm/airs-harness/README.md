@@ -10,14 +10,23 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.19 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.20 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Alpha.19 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
+Alpha.20 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
+
+Alpha.20 adds manual callback input to `airs-harness mcp login <server> --no-browser`.
+Open the printed authorization URL on your browser host, complete sign-in, and
+paste the full callback URL into the terminal running that command. Input is
+hidden and validated; a working HTTP callback can still finish the same flow.
+Never paste the callback into a conversation or share it with another person.
+This release also corrects OAuth status reporting, clears MCP interaction state
+on reconnect, and supports same-issuer OIDC discovery after an OAuth metadata 503.
+The 30-minute idle policy and uncertain-refresh protections are unchanged.
 
 Alpha.19 fixes Linux musl DNS lookups when one address family resolves and the
 other returns NXDOMAIN. It uses the configured DNS servers, keeps IPv4 and IPv6

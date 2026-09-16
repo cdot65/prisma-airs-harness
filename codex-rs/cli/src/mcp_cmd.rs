@@ -91,7 +91,7 @@ pub struct GetArgs {
 #[derive(Debug, clap::Parser)]
 #[command(override_usage = "codex mcp add [OPTIONS] <NAME> (--url <URL> | -- <COMMAND>...)")]
 pub struct AddArgs {
-    /// Print the OAuth URL without opening the desktop browser.
+    /// Print the authorization URL and accept the callback URL without opening a browser.
     #[arg(long, requires = "url")]
     pub no_browser: bool,
 

@@ -1023,12 +1023,10 @@ class TerminalIntegration(unittest.TestCase):
                     self.assertNotIn(
                         "test-only-credential", doctor.stdout + doctor.stderr
                     )
-                    row = next(
-                        item
-                        for item in json.loads(doctor.stdout)["checks"]
-                        if item["name"] == "configuration"
-                    )
-                    self.assertFalse(row["passed"])
+                    # Named environments reject a changed gateway binding before
+                    # doctor can load or display the tampered configuration.
+                    self.assertEqual(doctor.stdout, "")
+                    self.assertIn("gateway binding changed", doctor.stderr)
                     self.assertEqual(binding_path.read_bytes(), binding)
                     self.assertEqual(self.health_requests, [])
                     self.assertEqual(self.requests, [])

@@ -122,6 +122,9 @@ def main():
     preserved_binary.write_bytes(old_native.read_bytes())
     preserved_binary.chmod(0o755)
     (legacy / "bin/airs-harness").symlink_to(preserved_binary)
+    # This fixture knows the manual link's owner. Preserve that link explicitly
+    # before installation, as the runbook requires; never ask npm to force it.
+    (legacy / "bin/airs-harness").rename(legacy / "bin/airs-harness.pre-alpha22")
 
     # Some hosts put ~/.local/bin before a separate npm global prefix. Hand
     # that known legacy command to npm once, without changing the npm prefix.
@@ -159,7 +162,7 @@ def main():
     try:
         for destination, flags, case in [
             (prefix, [], "npm-managed-in-place"),
-            (legacy, ["--force"], "legacy-one-time-migration"),
+            (legacy, [], "legacy-one-time-migration"),
         ]:
             env = install_environment(destination, registry, True)
             env["AIRS_HARNESS_HOME"] = str(state)
@@ -198,6 +201,7 @@ def main():
                     "uninstall_used": False,
                     "manual_command_removal": False,
                     "force_used": bool(flags),
+                    "known_manual_link_preserved": destination == legacy,
                 }
             )
         forwarded_version = run(

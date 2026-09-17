@@ -317,8 +317,21 @@ def main():
         flush=True,
     )
     try:
-        run("setup", ["setup", "--gateway-url", "https://gateway.redtail.cdot.io/v1"])
-        config = args.state / "config.toml"
+        run(
+            "setup",
+            [
+                "env",
+                "create",
+                "work",
+                "--gateway-url",
+                "https://gateway.redtail.cdot.io/v1",
+            ],
+        )
+        registry = json.loads((args.state / "environments.json").read_text())
+        environment_home = (
+            args.state / "environments" / registry["environments"]["work"]["id"]
+        )
+        config = environment_home / "config.toml"
         config.write_text(
             'mcp_oauth_credentials_store = "keyring"\n' + config.read_text()
         )
@@ -346,7 +359,7 @@ def main():
                 "Reply with the single word ready.",
             ],
         )
-        binding = args.state / "session-binding.json"
+        binding = environment_home / "session-binding.json"
         pinned = binding.read_bytes()
         run(
             "mcp_browser_pkce",
@@ -376,7 +389,7 @@ def main():
             ]
         ):
             raise ValueError("Expected native dynamic OAuth against the gateway only")
-        if (args.state / ".credentials.json").exists():
+        if (environment_home / ".credentials.json").exists():
             raise ValueError("Native credential storage fell back to a file")
         previous_credential = credential_metadata("gateway_credential_initial")
         run("doctor_after_mcp", ["doctor", "--verify-access"])

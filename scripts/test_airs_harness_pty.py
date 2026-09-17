@@ -62,8 +62,8 @@ class InteractiveTerminal(unittest.TestCase):
 
             for name in ("work", "other"):
                 cli(
-                    "setup",
-                    "--environment",
+                    "env",
+                    "create",
                     name,
                     "--gateway-url",
                     "https://gateway.invalid/v1",

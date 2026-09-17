@@ -318,7 +318,7 @@ class TerminalIntegration(unittest.TestCase):
             )
         )
         for arguments in (
-            ["status"],
+            ["env", "status"],
             ["doctor", "--json"],
             ["login", "--credential-env", "AIRS_TEST_CREDENTIAL"],
         ):
@@ -339,7 +339,7 @@ class TerminalIntegration(unittest.TestCase):
             BINARY,
             self.env,
             self.work,
-            arguments=["setup", "--allow-http-loopback"],
+            arguments=["env", "create", "--allow-http-loopback"],
         ) as terminal:
             terminal.wait_for(b"Environment name [work]")
             os.write(terminal.master, b"review\r")
@@ -949,7 +949,7 @@ class TerminalIntegration(unittest.TestCase):
                 binding["source"] = {"kind": kind}
                 path.write_text(json.dumps(binding))
                 before = path.read_bytes()
-                for arguments in (("status",), ("login", "status")):
+                for arguments in (("env", "status"), ("login", "status")):
                     status = self.run_cli(*arguments)
                     self.assertEqual(status.returncode, 0, status.stderr)
                     self.assertIn(
@@ -1079,8 +1079,8 @@ class TerminalIntegration(unittest.TestCase):
     def test_named_environments_and_file_credential_without_export(self):
         for name in ("work", "second"):
             setup = self.run_cli(
-                "setup",
-                "--environment",
+                "env",
+                "create",
                 name,
                 "--gateway-url",
                 self.url,
@@ -1116,7 +1116,7 @@ class TerminalIntegration(unittest.TestCase):
         self.assertNotIn(
             "file-only-test-key", (work_home / "credential-binding.json").read_text()
         )
-        other = self.run_cli("status", "--environment", "second")
+        other = self.run_cli("env", "status", "--environment", "second")
         self.assertNotEqual(
             other.returncode, 0, "second environment must not borrow work's credential"
         )
@@ -1389,7 +1389,9 @@ class TerminalIntegration(unittest.TestCase):
 
     def configure(self):
         result = self.run_cli(
-            "setup",
+            "env",
+            "create",
+            "work",
             "--gateway-url",
             self.url,
             "--allow-http-loopback",
@@ -1401,6 +1403,9 @@ class TerminalIntegration(unittest.TestCase):
             EXPLICIT,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
+        state = Path(self.env["AIRS_HARNESS_HOME"])
+        registry = json.loads((state / "environments.json").read_text())
+        self.home = state / "environments" / registry["environments"]["work"]["id"]
         self.assertNotIn(
             "test-only-credential", (self.home / "config.toml").read_text()
         )
@@ -1576,7 +1581,7 @@ class TerminalIntegration(unittest.TestCase):
     def test_unconfigured_and_invalid_routes_fail_before_inference(self):
         result = self.execute()
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("airs-harness setup", result.stderr)
+        self.assertIn("airs-harness env create", result.stderr)
         self.configure()
         for args in [
             ("-m", "unqualified-model"),
@@ -1591,7 +1596,9 @@ class TerminalIntegration(unittest.TestCase):
         self.configure()
         before = (self.home / "config.toml").read_bytes()
         result = self.run_cli(
-            "setup",
+            "env",
+            "create",
+            "work",
             "--gateway-url",
             self.url,
             "--allow-http-loopback",
@@ -1606,9 +1613,12 @@ class TerminalIntegration(unittest.TestCase):
 
     def test_setup_without_context_flag_persists_default(self):
         result = self.run_cli(
-            "setup", "--gateway-url", self.url, "--allow-http-loopback"
+            "env", "create", "work", "--gateway-url", self.url, "--allow-http-loopback"
         )
         self.assertEqual(result.returncode, 0, result.stderr)
+        state = Path(self.env["AIRS_HARNESS_HOME"])
+        registry = json.loads((state / "environments.json").read_text())
+        self.home = state / "environments" / registry["environments"]["work"]["id"]
         catalog = json.loads((self.home / "models.json").read_text())
         self.assertEqual(catalog["models"][0]["context_window"], 1_000_000)
         self.assertIn(

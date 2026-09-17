@@ -10,14 +10,25 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.20 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
-Alpha.20 includes Linux x64, Linux arm64 and Apple Silicon native packages. The package uses anonymous downloads;
+Alpha.21 targets Linux x64 and Apple Silicon; Linux ARM64 publication requires
+acceptance on a native ARM64 host. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).
+
+Alpha.21 adds `env create/list/show/status/use/rename/remove` and removes the
+old top-level `setup` and `status` commands. `env use` changes the saved default;
+`--environment` selects one command. Renaming preserves environment identity;
+removing unregisters the environment and retains its local files.
+
+Follow the [complete SSO-to-ServiceNow walkthrough](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session)
+to create an environment, sign into inference, add the gateway ServiceNow MCP
+connection and authorize it with the same company identity. The two grants
+remain separate. Verify a read-only incident tool result after login.
 
 Alpha.20 adds manual callback input to `airs-harness mcp login <server> --no-browser`.
 Open the printed authorization URL on your browser host, complete sign-in, and
@@ -55,7 +66,7 @@ preserve old targets referenced by stored credential bindings.
 Keep an existing named inference environment. For a new connection:
 
 ```sh
-airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
+airs-harness env create work --gateway-url https://gateway.example.com/v1
 airs-harness --environment work login
 airs-harness --environment work doctor --verify-access
 ```

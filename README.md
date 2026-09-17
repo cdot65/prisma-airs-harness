@@ -13,18 +13,15 @@ not implement the native MCP connection.
 
 ## Release status
 
-Alpha.14 is published on Verdaccio. Both exact installed Linux x64 and signed
-Apple Silicon packages have passed production browser login, native storage,
-all eight gateway-proxied tools, executable checks and npm upgrades. The owner
-authorized this internal alpha release without another hourly authentication
-run. Hourly frontend refresh remains unverified; inactivity beyond the deployed
-30-minute SSO idle limit can require fresh login.
-See [MCP.md](MCP.md) and [PUBLICATION.md](PUBLICATION.md) for current evidence.
-Native Windows distribution and independent release review are not claimed.
+Alpha.21 consolidates environment creation and lifecycle management under
+`env create/list/show/status/use/rename/remove`. Top-level `setup` and `status`
+are removed. Existing environment credentials and history remain intact.
+`env use` saves the default; `--environment` selects one command's environment.
 
-Alpha.15's coordinated renewal and guided sign-in implementation is merged.
-Both installed packages passed native and upgrade checks; production expiry
-acceptance is running. Alpha.15 remains unpublished until those checks pass.
+The release retains gateway inference and MCP routing, manual MCP callback
+input, and guided sign-in recovery. The deployed 30-minute SSO idle policy is
+unchanged. Fresh production SSO, ServiceNow tool calls, and hourly frontend
+refresh are not claimed by this environment-management release.
 
 ## Installation
 
@@ -32,12 +29,12 @@ Connect to the organization's LAN/VPN, then use a supported Node.js installation
 Node.js 22.13+ in the 22.x line, or 23.5+.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
 Downloads are anonymous; no npm login or Rust compiler is required.
-The exact version below installs the gateway integration.
+The exact version above includes the unified environment commands.
 Existing npm installations need no uninstall or force. Inspect `command -v airs-harness` and `npm prefix -g` if an old manual command shadows npm; preserve
 old binaries referenced by existing credential bindings.
 
@@ -50,41 +47,78 @@ and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac
 onboarding. The inherited `scripts/install/` tools install upstream Codex.
 
-## Inference login and gateway MCP onboarding
+## Sign in with SSO and connect ServiceNow
 
-Keep an existing inference environment. Create one only for a new connection,
-using the inference URL supplied by your administrator:
+The [complete SSO-to-ServiceNow walkthrough](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session)
+covers one user, one environment, two company-SSO authorizations, and a real
+read-only incident result. The commands below use example connection settings;
+obtain the actual gateway URL, issuer, public client ID and audience from your
+administrator. The account needs inference access, the gateway workspace grant,
+and the ServiceNow MCP subject permissions.
+
+The unified environment CLI requires alpha.21 or newer. Check
+`airs-harness env create --help` after upgrading. An existing environment for the correct gateway can be reused with
+`env use work`; do not recreate it after a cancelled login.
+
+Create the environment, then sign into inference as your company user:
 
 ```sh
-airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
-airs-harness --environment work login
+airs-harness env create work --gateway-url https://gateway.example.com/v1
+airs-harness env use work
+airs-harness --environment work login \
+  --issuer-url https://sso.example.com/realms/company \
+  --oidc-client-id harness-native \
+  --audience airs-inference
+airs-harness env status work
 airs-harness --environment work doctor --verify-access
 ```
 
-Company sign-in uses the supplied OIDC issuer, public client ID and inference
-audience. A workspace API key is a separate inference option; it is not a
-Keycloak JWT and does not authorize the gateway's user MCP flow.
+Alternatively, `env create work` without the gateway flag guides both creation
+and sign-in: choose **Company sign-in**. Wait for terminal confirmation that the
+credential was saved. `env status` reports local configuration; the doctor probe
+checks inference and can consume gateway quota. Neither verifies ServiceNow.
 
-With alpha.14 and a provisioned gateway integration, add the **gateway MCP URL**:
+Use `env show work` to locate the environment's `config.toml`. Set
+`mcp_oauth_credentials_store = "keyring"` at the top level, before any table
+headers, so MCP also requires native credential storage. Then add the gateway's
+ServiceNow connection, including the final `/mcp`:
 
 ```sh
-airs-harness --environment work mcp add prisma-airs \
-  --url https://gateway-mcp.example.com/prisma-airs/mcp \
+airs-harness --environment work mcp add service-now \
+  --url https://gateway-mcp.example.com/mcp-service-now-dev/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
+```
+
+Adding the connection normally starts browser authorization. Complete the gateway
+CAS/company SSO flow with the **same company account** used for inference, and
+any gateway-managed upstream consent. An existing browser SSO session can avoid
+another password prompt, but the grants remain separate. If login was cancelled
+or failed after registration, resume it with:
+
+```sh
+airs-harness --environment work mcp login service-now
+```
+
+Skip that extra login if `mcp add` already reported success. The connection uses
+the gateway URL, not the ServiceNow instance or upstream MCP URL. The gateway
+owns upstream OAuth; the ServiceNow MCP server uses a server-side integration
+credential. The user does not supply an upstream client secret or ServiceNow
+integration password to the harness.
+
+```sh
 airs-harness --environment work mcp list
 airs-harness --environment work
 ```
 
-The scopes above match this deployment's gateway discovery. Complete CAS/company
-SSO and any gateway-managed upstream consent. The gateway integration has its
-own confidential upstream OAuth client. Do not put its client secret, upstream
-client ID or upstream read scopes into the harness. CIE group membership must
-map to the selected gateway workspace; upstream roles and object grants are
-also required. Shared browser SSO does not make these credentials interchangeable.
+Inside the harness, use `/mcp` to inspect `service-now`, then ask:
 
-Set `mcp_oauth_credentials_store = "keyring"` at the top level of the selected
-environment's `config.toml` when native MCP file fallback is prohibited. Check
-both CLI login completion and an actual tool call. `/mcp` shows the tool inventory.
+> Use service-now to list up to five active incidents, showing their numbers,
+> short descriptions and priorities. Do not create or update records.
+
+Verify an actual `list_incidents` tool result; an empty authorized list is valid.
+A connection label alone is not end-to-end proof. Read-only users see
+`list_incidents` and `get_incident`; management grants also expose `create_incident`
+and `update_incident`. This example targets a development integration.
 See [MCP.md](MCP.md) for migration, refresh and separate logout behavior.
 
 OIDC tokens require an unlocked native credential store. Linux needs a session
@@ -118,7 +152,7 @@ refresh tokens remain encrypted on disk. This password is for your local keyring
 not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
 unlock their keyring through the OS login instead.
 
-`airs-harness logout` signs out inference. Use `mcp logout prisma-airs` separately
+`airs-harness logout` signs out inference. Use `mcp logout service-now` separately
 for the native gateway MCP credential. Neither action proves immediate revocation
 of a gateway-held upstream grant. Stop running sessions to discard cached access
 tokens; issued credentials follow their own expiration and revocation policies.
@@ -126,10 +160,32 @@ Interrupted refresh requires signing in again rather than retrying a possibly
 consumed token. A different user, issuer, gateway or resource needs a new
 environment to preserve history isolation.
 
-## Set up an environment
+## Manage environments
+
+Use `airs-harness env` for the environment lifecycle. With no action it lists
+saved environments and marks the default. For guided onboarding, run:
 
 ```sh
-airs-harness setup --environment work \
+airs-harness env create work
+airs-harness
+```
+
+The wizard collects the inference gateway URL, creates and selects the named
+environment, then starts sign-in. If sign-in is interrupted, resume with
+`airs-harness --environment work login`; do not create the environment again.
+Check access with `airs-harness --environment work doctor --verify-access`.
+Configure gateway MCP using the onboarding steps above.
+
+`env create` selects the new environment, so subsequent commands need no
+environment flag. Use `env use NAME` to change the saved default. The optional
+`--environment NAME` flag overrides that default for just one command; for
+example, `airs-harness --environment staging doctor` leaves your default alone.
+
+For automation, supplying `--gateway-url` creates the environment without
+prompting or starting sign-in:
+
+```sh
+airs-harness env create work \
   --gateway-url https://your-gateway.example/v1 \
   --model '@openai/gpt-4.1'
 
@@ -154,16 +210,31 @@ catalog describes capabilities; authorization and policy enforcement belong to
 the gateway. Gateway requests select one tool call at a time because the
 resolved model's parallel-call capability is not known to the local catalog.
 
-Setup does not overwrite an environment. Each environment has an independent
+Creation does not overwrite an environment. Each environment has an independent
 UUID directory containing its configuration, model catalog, MCP state and history.
 
 ```sh
 airs-harness env list
 airs-harness env use work
-airs-harness env show work
-airs-harness --environment work exec 'Inspect this project and run its tests.'
-airs-harness --environment work resume
+airs-harness env show
+airs-harness env status
+airs-harness env rename work team
+airs-harness env use team
+airs-harness --environment team exec 'Inspect this project and run its tests.'
+airs-harness --environment team resume
 ```
+
+`env show [NAME]` inspects the named or selected environment; `env status [NAME]`
+reports its gateway and local credential availability. Renaming preserves
+its UUID, credentials and history. `env remove NAME` unregisters the environment
+and preserves its files; it does not sign out or revoke credentials. Sign out
+first if needed. Removing the default requires selecting another with `env use`.
+Recreating a removed name creates a fresh, isolated environment.
+
+The top-level `setup` and `status` commands have been removed. Use `env create`
+and `env status` instead. New environments are always named. Creating an
+environment selects it for new processes; running sessions keep their existing
+environment.
 
 State defaults to `~/.airs-harness`, or the absolute directory selected by
 `AIRS_HARNESS_HOME`. If only `~/.airs-terminal` exists, the harness reuses it

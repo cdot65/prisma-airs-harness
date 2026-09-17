@@ -49,8 +49,8 @@ def main():
 
     run(
         [
-            "setup",
-            "--environment",
+            "env",
+            "create",
             "work",
             "--gateway-url",
             args.gateway_url,

@@ -1,6 +1,5 @@
 use anyhow::Context;
 use clap::Args;
-use codex_core::config::find_codex_home;
 use codex_protocol::openai_models::ModelsResponse;
 use serde_json::json;
 use std::io::Write;
@@ -196,12 +195,6 @@ fn catalog_entry(slug: &str, context_window: i64) -> serde_json::Value {
         "node_repl_disabled": true,
         "tool_mode": "direct"
     })
-}
-
-pub fn setup(args: &SetupArgs) -> anyhow::Result<()> {
-    anyhow::ensure!(is_standalone(), "setup is available in airs-harness");
-    let home = find_codex_home()?;
-    setup_in(args, home.as_path())
 }
 
 pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {

@@ -239,8 +239,21 @@ def main():
     mcp_added = False
     inference_logged_in = False
     try:
-        run("setup", ["setup", "--gateway-url", "https://gateway.redtail.cdot.io/v1"])
-        config = args.state / "config.toml"
+        run(
+            "setup",
+            [
+                "env",
+                "create",
+                "work",
+                "--gateway-url",
+                "https://gateway.redtail.cdot.io/v1",
+            ],
+        )
+        registry = json.loads((args.state / "environments.json").read_text())
+        environment_home = (
+            args.state / "environments" / registry["environments"]["work"]["id"]
+        )
+        config = environment_home / "config.toml"
         config.write_text(
             'mcp_oauth_credentials_store = "keyring"\n' + config.read_text()
         )
@@ -270,7 +283,7 @@ def main():
                 "Reply with the single word ready.",
             ],
         )
-        binding = args.state / "session-binding.json"
+        binding = environment_home / "session-binding.json"
         pinned = binding.read_bytes()
         run(
             "mcp_browser_pkce",
@@ -306,7 +319,7 @@ def main():
             next(s for s in listing if s["name"] == "prisma-airs")["auth_status"]
             == "o_auth"
         )
-        assert not (args.state / ".credentials.json").exists(), (
+        assert not (environment_home / ".credentials.json").exists(), (
             "File fallback used instead of native keyring"
         )
         run("doctor_after_mcp", ["doctor", "--verify-access"])

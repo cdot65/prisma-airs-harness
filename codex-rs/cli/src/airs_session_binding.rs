@@ -25,12 +25,12 @@ struct Revision {
 pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
     let config: toml::Value = toml::from_str(
         &std::fs::read_to_string(home.join("config.toml"))
-            .context("environment is not configured; run airs-harness setup")?,
+            .context("environment is not configured; run airs-harness env create")?,
     )?;
     let catalog = config
         .get("model_catalog_json")
         .and_then(toml::Value::as_str)
-        .context("environment has no capability catalog; run setup")?;
+        .context("environment has no capability catalog; run env create")?;
     let mut revision = Revision {
         schema_version: 1,
         gateway_url: airs_environment::gateway(home)?,

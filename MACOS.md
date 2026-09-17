@@ -1,9 +1,9 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the native harness and connect inference and MCP through AI Gateway.
-package_version: 0.1.0-alpha.14
+package_version: 0.1.0-alpha.21
 status: gateway-release-acceptance
-updated: 2026-09-14
+updated: 2026-09-17
 audience: end-users
 platform: macos-arm64
 ---
@@ -11,14 +11,10 @@ platform: macos-arm64
 # Prisma AIRS Harness on your Mac
 
 Use an Apple Silicon Mac on the organization's LAN/VPN. Intel Macs are
-unsupported. Alpha.14 has passed signing, Apple notarization, Keychain, npm
-upgrades and all eight production gateway tools. Hourly frontend refresh remains
-unverified in this owner-authorized internal alpha release. Inactivity beyond
-the deployed 30-minute SSO idle limit can require fresh login.
-
-Alpha.15 is an unpublished candidate with coordinated renewal and guided
-inference recovery. Its installed signed package passed native Keychain and
-upgrade checks; production expiry acceptance is running.
+unsupported. Alpha.21 consolidates environment management under `env` and
+removes top-level `setup` and `status`. Existing environments and history are
+preserved. The deployed 30-minute SSO idle limit can require fresh login;
+production active-expiry acceptance remains incomplete.
 
 ## Install or update
 
@@ -27,7 +23,7 @@ ripgrep if needed, then install the harness:
 
 ```sh
 brew install node git ripgrep
-npm install -g airs-harness@0.1.0-alpha.14 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
 airs-harness --version
 ```
 
@@ -36,15 +32,27 @@ needs no uninstall, manual binary deletion or force. Keep existing environments
 and conversation history. If an old manual executable shadows npm, inspect
 `command -v airs-harness` and `npm prefix -g` before changing that legacy link.
 
+For the complete workflow—environment creation, inference SSO, ServiceNow MCP
+registration and MCP SSO with the same company identity—follow
+[SSO to ServiceNow](README.md#sign-in-with-sso-and-connect-servicenow).
+The new environment commands require alpha.21 or newer.
+
 ## Sign in for inference
 
 For a new connection, create a named environment with your administrator's
-inference gateway URL. Keep an existing environment when upgrading:
+inference gateway URL. Keep an existing environment when upgrading.
+
+Run `airs-harness env create work` for guided setup and sign-in. To supply the
+gateway explicitly and sign in separately:
 
 ```sh
-airs-harness setup --environment work --gateway-url https://gateway.example.com/v1
+airs-harness env create work --gateway-url https://gateway.example.com/v1
 airs-harness --environment work login
 ```
+
+Creation selects the environment, so `airs-harness` opens it afterward. Use
+`env use NAME` to change that default; `--environment NAME` selects an environment
+for one command without changing the default.
 
 Company sign-in asks for the OIDC issuer, public client ID and inference audience.
 Enter your password only on your organization's browser page. A workspace API
@@ -101,8 +109,13 @@ denial does not call for another human login.
 | --- | --- |
 | Open the selected environment | `airs-harness` |
 | Resume its history | `airs-harness resume` |
+| Create an environment and sign in | `airs-harness env create work` |
 | List saved environments | `airs-harness env list` |
+| Inspect the selected environment | `airs-harness env show` |
+| Check local credential availability | `airs-harness env status` |
 | Select work | `airs-harness env use work` |
+| Rename an environment | `airs-harness env rename work team` |
+| Unregister, preserving local files | `airs-harness env remove team` |
 | Sign out native MCP | `airs-harness mcp logout prisma-airs` |
 | Sign back into native MCP | `airs-harness mcp login prisma-airs` |
 | Sign out inference | `airs-harness logout` |

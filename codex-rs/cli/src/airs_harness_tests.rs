@@ -4,21 +4,6 @@ use codex_config::config_toml::ConfigToml;
 use pretty_assertions::assert_eq;
 
 #[test]
-fn setup_help_snapshot() {
-    use clap::CommandFactory;
-    let mut command = crate::MultitoolCli::command();
-    let setup = command.find_subcommand_mut("setup").unwrap();
-    let help = setup
-        .render_long_help()
-        .to_string()
-        .lines()
-        .map(str::trim_end)
-        .collect::<Vec<_>>()
-        .join("\n");
-    insta::assert_snapshot!(help);
-}
-
-#[test]
 fn setup_context_default_and_override_reach_config_and_catalog() {
     use clap::Parser;
 
@@ -29,13 +14,18 @@ fn setup_context_default_and_override_reach_config_and_catalog() {
     ] {
         let mut argv = vec![
             "airs-harness",
-            "setup",
+            "env",
+            "create",
+            "work",
             "--gateway-url",
             "https://gateway.example/v1",
         ];
         argv.extend(extra);
         let cli = crate::MultitoolCli::try_parse_from(argv).unwrap();
-        let Some(crate::Subcommand::Setup(args)) = cli.subcommand else {
+        let Some(crate::Subcommand::Env {
+            command: Some(crate::airs_environment::Command::Create { args, .. }),
+        }) = cli.subcommand
+        else {
             panic!("expected setup arguments");
         };
         let (config, catalog) = configuration(&args, dir.path()).unwrap();

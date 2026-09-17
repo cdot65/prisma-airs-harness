@@ -201,7 +201,9 @@ def acceptance(binary, output):
                 setup = subprocess.run(
                     [
                         str(binary),
-                        "setup",
+                        "env",
+                        "create",
+                        "work",
                         "--gateway-url",
                         "https://gateway.invalid/v1",
                     ],

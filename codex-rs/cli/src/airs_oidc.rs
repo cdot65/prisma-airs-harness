@@ -149,7 +149,7 @@ pub(super) async fn restore_session(home: &Path, flow: LoginFlow) -> anyhow::Res
     let binding = super::airs_credentials::read_binding(home)?;
     let Some(Source::Oidc { identity }) = &binding.source else {
         anyhow::bail!(
-            "This environment uses a workspace credential; inspect airs-harness status to repair its configured source"
+            "This environment uses a workspace credential; inspect airs-harness env status to repair its configured source"
         );
     };
     let tokens = authenticate(identity.config.clone(), flow).await?;

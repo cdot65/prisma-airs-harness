@@ -50,7 +50,7 @@ def main():
             raise RuntimeError(f"{name} failed with exit {result.returncode}")
         return result
 
-    run(["setup", "--gateway-url", args.gateway_url], "setup.log")
+    run(["env", "create", "work", "--gateway-url", args.gateway_url], "setup.log")
     run(
         ["login", "--credential-file", str(args.credential_file.resolve(strict=True))],
         "login.log",

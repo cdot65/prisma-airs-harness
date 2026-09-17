@@ -148,7 +148,7 @@ use codex_terminal_detection::TerminalName;
     override_usage = airs_harness::usage()
 )]
 struct MultitoolCli {
-    /// Select an isolated AIRS environment for this process.
+    /// Use an environment for this command without changing the default (see env use).
     #[arg(long, global = true, hide = !airs_harness::is_standalone())]
     environment: Option<String>,
     #[clap(flatten)]
@@ -174,20 +174,14 @@ enum Subcommand {
     McpSetup(airs_mcp::SetupArgs),
     #[clap(hide = true)]
     McpCredential(airs_mcp::HelperArgs),
-    /// Manage independent AIRS environments.
-    #[clap(hide = !airs_harness::is_standalone())]
+    /// Create, inspect, switch, rename, or remove AIRS environments.
+    #[clap(hide = !airs_harness::is_standalone(), after_help = "With no action, lists saved environments.\nStart with: airs-harness env create work\nFor automation: airs-harness env create work --gateway-url URL")]
     Env {
         #[command(subcommand)]
-        command: airs_environment::Command,
+        command: Option<airs_environment::Command>,
     },
-    /// Show the selected gateway and local credential availability.
-    #[clap(hide = !airs_harness::is_standalone())]
-    Status,
     #[clap(hide = true)]
     Credential(airs_credentials::HelperArgs),
-    /// Configure a direct AIRS gateway connection for this standalone terminal.
-    #[clap(hide = !airs_harness::is_standalone())]
-    Setup(airs_harness::SetupArgs),
     /// Browse all agent sessions on the shared local app-server daemon.
     Agents(AgentsCommand),
 
@@ -1214,22 +1208,12 @@ async fn cli_main(
             }
             Some(Subcommand::McpCredential(args)) => return airs_mcp::helper(args).await,
             Some(Subcommand::Env { command }) => {
-                return airs_environment::run(root.as_path(), command);
-            }
-            Some(Subcommand::Setup(args)) => {
-                if args.gateway_url.is_empty() {
-                    return airs_setup::interactive(root.as_path(), environment.as_deref(), args)
-                        .await;
-                }
-                return if let Some(name) = environment.as_deref() {
-                    airs_environment::setup(root.as_path(), name, args)
-                } else {
-                    anyhow::ensure!(
-                        !root.join("environments.json").exists(),
-                        "use setup --environment NAME to create another environment"
-                    );
-                    airs_harness::setup(args)
-                };
+                return airs_environment::run(
+                    root.as_path(),
+                    command.as_ref().unwrap_or(&airs_environment::Command::List),
+                    environment.as_deref(),
+                )
+                .await;
             }
             _ => {}
         }
@@ -1294,9 +1278,6 @@ async fn cli_main(
                 };
             }
             Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()).await,
-            Some(Subcommand::Status) => {
-                return airs_credentials::status(home.as_path());
-            }
             Some(Subcommand::Doctor(args)) => {
                 return airs_doctor::run(home.as_path(), args).await;
             }
@@ -1430,11 +1411,9 @@ async fn cli_main(
             handle_app_exit(exit_info)?;
         }
         Some(
-            Subcommand::Setup(_)
-            | Subcommand::McpSetup(_)
+            Subcommand::McpSetup(_)
             | Subcommand::McpCredential(_)
             | Subcommand::Env { .. }
-            | Subcommand::Status
             | Subcommand::Credential(_),
         ) => anyhow::bail!("this command is available in airs-harness"),
         Some(Subcommand::Exec(mut exec_cli)) => {
@@ -2754,11 +2733,9 @@ fn unsupported_subcommand_name_for_strict_config(
     subcommand: &Option<Subcommand>,
 ) -> Option<&'static str> {
     match subcommand {
-        Some(Subcommand::Setup(_)) => Some("setup"),
         Some(Subcommand::McpSetup(_)) => Some("setup-mcp"),
         Some(Subcommand::McpCredential(_)) => Some("mcp-credential"),
         Some(Subcommand::Env { .. }) => Some("env"),
-        Some(Subcommand::Status) => Some("status"),
         Some(Subcommand::Credential(_)) => Some("credential"),
         None
         | Some(Subcommand::Agents(_))

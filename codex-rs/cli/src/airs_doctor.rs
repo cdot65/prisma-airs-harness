@@ -117,7 +117,7 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
             let mcp_count = config.get("mcp_servers").and_then(toml::Value::as_table).map_or(0, toml::map::Map::len);
             checks.push(Check { name: "mcp_configuration", passed: true, detail: format!("{mcp_count} configured server(s); use /mcp and invoke a tool to verify remote authorization") });
         }
-        Err(_) => checks.push(Check { name: "configuration", passed: false, detail: "Cannot read environment configuration; run setup or select a configured environment".into() }),
+        Err(_) => checks.push(Check { name: "configuration", passed: false, detail: "Cannot read environment configuration; run env create or select a configured environment".into() }),
     }
     if args.verify_access {
         eprintln!("{}", super::airs_access::DISCLOSURE);

@@ -49,8 +49,8 @@ def main():
             raise RuntimeError(result.stderr)
 
     cli(
-        "setup",
-        "--environment",
+        "env",
+        "create",
         "work",
         "--gateway-url",
         args.gateway_url,

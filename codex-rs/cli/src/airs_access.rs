@@ -42,7 +42,7 @@ impl Failure {
         match self {
             Self::Configuration => "The selected gateway or model configuration is invalid.",
             Self::Credential => {
-                "The saved credential could not be read or refreshed. Run airs-harness status to inspect local sign-in."
+                "The saved credential could not be read or refreshed. Run airs-harness env status to inspect local sign-in."
             }
             Self::SignedOut => "Authentication changed or this environment was signed out.",
             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",

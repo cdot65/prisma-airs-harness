@@ -86,7 +86,7 @@ class PrivateCredentialMeasurements(unittest.TestCase):
         self.assertEqual(native.call_count, 30)
         self.assertEqual(public.call_count, 60)
         self.assertEqual(public.call_args_list[0].args, (["--version"],))
-        self.assertEqual(public.call_args_list[1].args, (["status"],))
+        self.assertEqual(public.call_args_list[1].args, (["env", "status"],))
         for call in native.call_args_list:
             self.assertEqual(
                 call.args[0],

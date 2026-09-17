@@ -353,7 +353,9 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
         check(
             "setup",
             run(
-                "setup",
+                "env",
+                "create",
+                "work",
                 "--gateway-url",
                 gateway,
                 "--model",
@@ -362,6 +364,8 @@ with tempfile.TemporaryDirectory(prefix="airs-cli-auth-") as tmp:
             ).returncode
             == 0,
         )
+        registry = json.loads((home / "environments.json").read_text())
+        home = home / "environments" / registry["environments"]["work"]["id"]
         login = [
             "login",
             "--issuer-url",

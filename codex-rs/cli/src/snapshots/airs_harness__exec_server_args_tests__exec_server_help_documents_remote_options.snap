@@ -1,6 +1,5 @@
 ---
 source: cli/src/exec_server_args_tests.rs
-assertion_line: 36
 expression: help_text
 ---
 [EXPERIMENTAL] Run the standalone exec-server service
@@ -13,7 +12,8 @@ Commands:
 
 Options:
       --environment <ENVIRONMENT>
-          Select an isolated AIRS environment for this process
+          Use an environment for this command without changing the default (see
+          env use)
 
   -c, --config <key=value>
           Override a configuration value that would otherwise be loaded from

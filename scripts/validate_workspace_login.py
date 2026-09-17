@@ -143,7 +143,7 @@ def measure_warm_local_access(binary, env, work, home, binding_id, token, runs, 
         run(["--version"], timeout=5)
         baseline = (time.perf_counter() - started) * 1000
         started = time.perf_counter()
-        run(["status"], timeout=5)
+        run(["env", "status"], timeout=5)
         status = (time.perf_counter() - started) * 1000
         started = time.perf_counter()
         try:
@@ -259,8 +259,8 @@ def validate(args, receipt):
             receipt["phase"] = "configure"
             run(
                 [
-                    "setup",
-                    "--environment",
+                    "env",
+                    "create",
                     "workspace-e2e",
                     "--gateway-url",
                     args.gateway_url,
@@ -325,7 +325,7 @@ def validate(args, receipt):
                     raise AssertionError(
                         "Workspace key was not bound to native storage"
                     )
-                status_output = run(["status"])
+                status_output = run(["env", "status"])
                 receipt["status_metadata_only"] = (
                     b"availability and gateway access not checked" in status_output
                 )
@@ -442,7 +442,7 @@ def validate(args, receipt):
             receipt["checks"].append("new-process-resume-memory")
             receipt["phase"] = "logout"
             run(["logout"])
-            run(["status"], success=False)
+            run(["env", "status"], success=False)
             run(
                 ["exec", "--skip-git-repo-check", "--json", "Reply LOGOUT_MUST_BLOCK"],
                 success=False,
@@ -467,7 +467,7 @@ def validate(args, receipt):
                 started = time.monotonic()
                 guided_login()
                 run(["logout"], timeout=10)
-                run(["status"], success=False, timeout=5)
+                run(["env", "status"], success=False, timeout=5)
                 receipt["credential_lifecycle"]["completed_runs"] += 1
                 receipt["credential_lifecycle"]["durations_seconds"].append(
                     time.monotonic() - started

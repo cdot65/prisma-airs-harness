@@ -290,7 +290,7 @@ def exercise(args, receipt):
                         )
                     receipt["phase"] = label + "-resume"
                     private_read(label)
-                    run(label, "status")
+                    run(label, "env", "status")
                     before = len(fixture.requests)
                     run(
                         label,

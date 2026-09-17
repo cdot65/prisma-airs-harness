@@ -40,7 +40,7 @@ def main():
         if result.returncode:
             raise RuntimeError(f"Fixture setup failed: {result.stderr}")
 
-    cli("setup", "--environment", "inline", "--gateway-url", args.gateway_url)
+    cli("env", "create", "inline", "--gateway-url", args.gateway_url)
     registry = json.loads((root / "state/environments.json").read_text())
     identifier = registry["environments"][registry["active"]]["id"]
     home = root / "state/environments" / identifier

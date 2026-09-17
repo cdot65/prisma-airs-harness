@@ -12,12 +12,23 @@ use uuid::Uuid;
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
+    /// Create an environment and sign in; supply --gateway-url for automation.
+    Create {
+        /// Environment name. Guided setup prompts when omitted.
+        name: Option<String>,
+        #[command(flatten)]
+        args: super::airs_harness::SetupArgs,
+    },
     /// List environments; an asterisk marks the default for new processes.
     List,
     /// Select the default environment for new processes.
     Use { name: String },
-    /// Inspect an environment without showing credentials.
-    Show { name: String },
+    /// Inspect a named or selected environment without showing credentials.
+    Show { name: Option<String> },
+    /// Show the gateway and local credential availability for an environment.
+    Status { name: Option<String> },
+    /// Rename an environment while preserving its credentials and history.
+    Rename { name: String, new_name: String },
     /// Unregister an environment, preserving its local history on disk.
     Remove { name: String },
 }
@@ -152,7 +163,7 @@ pub fn gateway(home: &Path) -> anyhow::Result<String> {
         .and_then(|v| v.get("base_url"))
         .and_then(toml::Value::as_str)
         .map(str::to_owned)
-        .context("run airs-harness setup to configure the gateway")
+        .context("run airs-harness env create to configure the gateway")
 }
 
 pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
@@ -178,7 +189,7 @@ pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
+pub(super) fn validate_name(name: &str) -> anyhow::Result<()> {
     anyhow::ensure!(
         !name.is_empty()
             && name.len() <= 64
@@ -187,6 +198,11 @@ pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> 
                 .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'-' | b'_' | b'.')),
         "environment name must contain 1–64 letters, digits, dots, underscores or hyphens"
     );
+    Ok(())
+}
+
+pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
+    validate_name(name)?;
     let _lock = lock(root)?;
     let mut registry = read(root)?;
     anyhow::ensure!(
@@ -208,10 +224,36 @@ pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> 
     Ok(())
 }
 
-pub fn run(root: &Path, command: &Command) -> anyhow::Result<()> {
+pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> anyhow::Result<()> {
+    if let Command::Status { name } = command {
+        select(root, name.as_deref().or(requested))?;
+        let home = codex_core::config::find_codex_home()?;
+        return super::airs_credentials::status(home.as_path());
+    }
+    // The wizard owns its registry lock and releases it before browser sign-in.
+    if let Command::Create { name, args } = command {
+        anyhow::ensure!(
+            name.as_deref()
+                .zip(requested)
+                .is_none_or(|(name, requested)| name == requested),
+            "environment name conflicts with --environment"
+        );
+        let name = name.as_deref().or(requested);
+        if args.gateway_url.is_empty() {
+            return super::airs_setup::interactive(root, name, args).await;
+        }
+        let name = name.context("supply a name: airs-harness env create NAME --gateway-url URL")?;
+        setup(root, name, args)?;
+        println!("Next: airs-harness --environment {name} login");
+        println!("Then: airs-harness --environment {name} doctor --verify-access");
+        return Ok(());
+    }
     let _lock = lock(root)?;
     let mut registry = read(root)?;
     match command {
+        Command::Create { .. } | Command::Status { .. } => {
+            unreachable!("creation and status are handled before locking the registry")
+        }
         Command::List => {
             for (name, environment) in &registry.environments {
                 let marker = if registry.active.as_ref() == Some(name) {
@@ -222,10 +264,15 @@ pub fn run(root: &Path, command: &Command) -> anyhow::Result<()> {
                 println!("{marker} {name}\t{}", environment.gateway_url);
             }
             if registry.environments.is_empty() {
-                println!("No named environments. Use setup --environment NAME --gateway-url URL.");
+                println!("No named environments. Run airs-harness env create to get started.");
             }
         }
         Command::Show { name } => {
+            let name = name
+                .as_deref()
+                .or(requested)
+                .or(registry.active.as_deref())
+                .context("no environment selected; use env list and env use NAME")?;
             let environment = registry
                 .environments
                 .get(name)
@@ -246,6 +293,23 @@ pub fn run(root: &Path, command: &Command) -> anyhow::Result<()> {
             registry.active = Some(name.clone());
             write(root, &registry)?;
             println!("Selected {name} for new processes. Running sessions keep their environment.");
+        }
+        Command::Rename { name, new_name } => {
+            validate_name(new_name)?;
+            anyhow::ensure!(
+                !registry.environments.contains_key(new_name),
+                "environment already exists; choose another name"
+            );
+            let environment = registry
+                .environments
+                .remove(name)
+                .context("unknown environment")?;
+            registry.environments.insert(new_name.clone(), environment);
+            if registry.active.as_ref() == Some(name) {
+                registry.active = Some(new_name.clone());
+            }
+            write(root, &registry)?;
+            println!("Renamed {name} to {new_name}. Credentials and history are unchanged.");
         }
         Command::Remove { name } => {
             let environment = registry

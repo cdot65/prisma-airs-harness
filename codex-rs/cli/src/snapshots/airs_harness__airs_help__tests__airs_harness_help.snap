@@ -1,6 +1,5 @@
 ---
 source: cli/src/airs_help_tests.rs
-assertion_line: 26
 expression: command.render_help().to_string()
 ---
 AIRS Harness CLI
@@ -10,10 +9,7 @@ Usage: airs-harness [OPTIONS] [PROMPT]
 
 Commands:
   setup-mcp         Connect a remote AIRS MCP server with a separate credential file
-  env               Manage independent AIRS environments
-  status            Show the selected gateway and local credential availability
-  setup             Configure a direct AIRS gateway connection for this standalone
-                    terminal
+  env               Create, inspect, switch, rename, or remove AIRS environments
   exec              Run AIRS Harness non-interactively [aliases: e]
   review            Run a code review non-interactively
   login             Manage login
@@ -42,7 +38,7 @@ Arguments:
 
 Options:
       --environment <ENVIRONMENT>
-          Select an isolated AIRS environment for this process
+          Use an environment for this command without changing the default (see env use)
   -c, --config <key=value>
           Override an allowed setting in the selected environment. Gateway, credential,
           capability and MCP bindings cannot be overridden.

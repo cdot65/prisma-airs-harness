@@ -4,10 +4,13 @@ use pretty_assertions::assert_eq;
 use std::io::Cursor;
 
 #[test]
-fn bare_setup_is_parseable_and_keeps_the_million_token_default() {
-    let cli = crate::MultitoolCli::try_parse_from(["airs-harness", "setup"]).unwrap();
-    let Some(crate::Subcommand::Setup(args)) = cli.subcommand else {
-        panic!("expected setup command");
+fn guided_creation_is_parseable_and_keeps_the_million_token_default() {
+    let cli = crate::MultitoolCli::try_parse_from(["airs-harness", "env", "create"]).unwrap();
+    let Some(crate::Subcommand::Env {
+        command: Some(crate::airs_environment::Command::Create { args, .. }),
+    }) = cli.subcommand
+    else {
+        panic!("expected env create command");
     };
     assert_eq!(
         (args.gateway_url, args.context_window, args.credential_env),

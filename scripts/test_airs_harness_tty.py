@@ -50,7 +50,9 @@ class MacTerminalSandboxTests(unittest.TestCase):
             subprocess.run(
                 [
                     str(BINARY),
-                    "setup",
+                    "env",
+                    "create",
+                    "work",
                     "--gateway-url",
                     "http://127.0.0.1:1/v1",
                     "--allow-http-loopback",

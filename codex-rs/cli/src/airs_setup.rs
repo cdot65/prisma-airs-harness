@@ -3,6 +3,7 @@ use super::airs_environment;
 use super::airs_harness::SetupArgs;
 use super::airs_login;
 use super::airs_oidc::LoginFlow;
+use anyhow::Context;
 use std::io::BufRead;
 use std::io::IsTerminal;
 use std::io::Write;
@@ -29,14 +30,7 @@ fn collect(
             }
         }
     };
-    anyhow::ensure!(
-        !name.is_empty()
-            && name.len() <= 64
-            && name
-                .bytes()
-                .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'-' | b'_' | b'.')),
-        "Environment name must contain 1–64 letters, digits, dots, underscores or hyphens"
-    );
+    airs_environment::validate_name(&name)?;
     let gateway_url = airs_login::prompt(input, output, "AI Gateway URL: ")?;
     anyhow::ensure!(!gateway_url.is_empty(), "An AI Gateway URL is required");
     let setup = SetupArgs {
@@ -53,7 +47,7 @@ pub(super) async fn interactive(
 ) -> anyhow::Result<()> {
     anyhow::ensure!(
         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
-        "Guided setup requires an interactive terminal. Automation must supply setup --gateway-url URL"
+        "Guided setup requires an interactive terminal. Automation must supply env create NAME --gateway-url URL"
     );
     let (name, args) = collect(
         requested_name,
@@ -66,7 +60,16 @@ pub(super) async fn interactive(
     airs_environment::setup(root, &name, &args)?;
     airs_environment::select(root, Some(&name))?;
     let home = codex_core::config::find_codex_home()?;
-    airs_login::interactive(home.as_path(), LoginFlow::Browser).await
+    airs_login::interactive(home.as_path(), LoginFlow::Browser)
+        .await
+        .with_context(|| {
+            format!(
+                "Environment {name} was created. Resume sign-in with: airs-harness --environment {name} login"
+            )
+        })?;
+    eprintln!("Check access: airs-harness --environment {name} doctor --verify-access");
+    eprintln!("Start a session: airs-harness --environment {name}");
+    Ok(())
 }
 
 #[cfg(test)]

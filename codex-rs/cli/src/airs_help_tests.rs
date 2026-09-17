@@ -28,10 +28,22 @@ fn standalone_help_exposes_local_work_and_gateway_configuration() {
         .mut_arg("environment", |arg| arg.hide(false));
     // The test also runs in the upstream codex binary, where AIRS-only commands
     // are hidden by derive attributes. Make the presentation fixture explicit.
-    for name in ["setup", "setup-mcp", "env", "status"] {
+    for name in ["setup-mcp", "env"] {
         command = command.mut_subcommand(name, |subcommand| subcommand.hide(false));
     }
     insta::assert_snapshot!("airs_harness_help", command.render_help().to_string());
+}
+
+#[test]
+fn standalone_environment_help_describes_the_complete_lifecycle() {
+    let mut root = command(crate::MultitoolCli::command());
+    let env = root.find_subcommand_mut("env").unwrap();
+    insta::assert_snapshot!("airs_environment_help", env.render_long_help().to_string());
+    let create = env.find_subcommand_mut("create").unwrap();
+    insta::assert_snapshot!(
+        "airs_environment_create_help",
+        create.render_long_help().to_string()
+    );
 }
 
 #[test]

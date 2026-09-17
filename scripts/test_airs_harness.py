@@ -1586,7 +1586,7 @@ class TerminalIntegration(unittest.TestCase):
     def test_unconfigured_and_invalid_routes_fail_before_inference(self):
         result = self.execute()
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("airs-harness env create", result.stderr)
+        self.assertIn("airs env create", result.stderr)
         self.configure()
         for args in [
             ("-m", "unqualified-model"),

@@ -13,6 +13,9 @@ not implement the native MCP connection.
 
 ## Release status
 
+Alpha.21 is published on Verdaccio as `latest`, `alpha` and `gateway-validation`.
+See the [release checks](validation/2026-09-17/alpha21-environments/README.md) for native installs, upgrades and remaining acceptance limits.
+
 Alpha.21 consolidates environment creation and lifecycle management under
 `env create/list/show/status/use/rename/remove`. Top-level `setup` and `status`
 are removed. Existing environment credentials and history remain intact.

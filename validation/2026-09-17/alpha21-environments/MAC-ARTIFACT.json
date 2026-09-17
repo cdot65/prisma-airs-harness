@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "private_candidate": true,
+  "published": false,
+  "release_ready": false,
+  "runtime_source": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "build_tooling_source": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "compilation_run": "3584",
+  "compilation_attempt": "1",
+  "binary_sha256": "a4165542aeeb6f702da56995dd7d4938b70306dcc5700f26a16febca90ed5e78",
+  "fixture_sha256": "7f6b674394b1aa567c7f5b3040433b9acc494b53234f6b74c6fd4da662daf6cd",
+  "cli_opt_level": "1",
+  "signing": {
+    "ad_hoc": true,
+    "developer_id": false,
+    "notarized": false
+  },
+  "archive_sha256": "397610166ae3c0c865089ea0d1c669309d4af26955c232fa33be521b43dc21c2",
+  "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings"
+}

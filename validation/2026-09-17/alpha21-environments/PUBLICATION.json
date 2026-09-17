@@ -1,0 +1,68 @@
+{
+  "version": "0.1.0-alpha.21",
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "registry": "https://npm.cdot.io",
+  "publication_authorized": true,
+  "authorization": "BUILD AND PUSH THE NEW VERSION WHAT WILL BE 0.1.0-alpha.21 !!!",
+  "published": true,
+  "default_tags_changed": true,
+  "native_arm64_installed_acceptance": true,
+  "production_sso_servicenow_acceptance": false,
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.20",
+      "alpha": "0.1.0-alpha.20",
+      "gateway-validation": "0.1.0-alpha.20"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.20",
+      "gateway-validation": "0.1.0-alpha.20",
+      "alpha": "0.1.0-alpha.20"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.20",
+      "alpha": "0.1.0-alpha.20",
+      "gateway-validation": "0.1.0-alpha.20"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.20",
+      "alpha": "0.1.0-alpha.20",
+      "gateway-validation": "0.1.0-alpha.20"
+    }
+  },
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.21",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.21.tgz",
+      "integrity": "sha512-MpuhjQD7mejZ9imP1dJ6eQrBoGJj5h8q7Nh3+bNDl2HxJSaFI5GagWjf4Xu+STV7WgYT+o27z/Lnw+VnNGvdpw==",
+      "sha256": "21d0058b449cb914d1adad00c77fc70eea88e7a3f8544879ad1ba5706d12f08e",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.0-alpha.21",
+      "filename": "airs-harness-linux-arm64-0.1.0-alpha.21.tgz",
+      "integrity": "sha512-YS7gNwHGneM6yA0r4K7RXLstRAlO9Ss0SvH1Nx+3yMTi2qbPtsgE0S5w+fo1oea9hdDsuJq+K5LxAy54llxB7Q==",
+      "sha256": "d492af5ccabf4e9d1ab0fe669a8224493b82cfc10f60425bf08fa54a87d6ebe2",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.21",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.21.tgz",
+      "integrity": "sha512-ChWY++JkVexOvs66NuyIY2w/NRwKDb06Tf1q5/bDiPpgYaipaLnSKU6awBFL6XtoaLvOoLkJ04cSJuC6OWHf9g==",
+      "sha256": "e44cd442f75893f5c96a9f18299193e30a4a3c4780a6fc3570adf79be5d4f662",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.21",
+      "filename": "airs-harness-0.1.0-alpha.21.tgz",
+      "integrity": "sha512-FFCM8DBfZcCYrmFWA80zzj2KEvteTE/A4fBkthl1BionMWSfNl6pM7J3YT66kHMtM23vWb6+btRG2laM+eFudA==",
+      "sha256": "7d8c24c32a6614b9e31ff85eacef8bdaf6f2c07e5481d1215472c3ac4332abd2",
+      "registry_integrity_verified": true
+    }
+  ],
+  "completed_at": 1789679377.833768
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "scope": "owner-authorized-alpha21-environment-lifecycle",
+  "publication_authorized": true,
+  "authorization": "BUILD AND PUSH THE NEW VERSION WHAT WILL BE 0.1.0-alpha.21 !!!",
+  "authorization_date": "2026-09-17",
+  "product_version": "0.1.0-alpha.21",
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "target": "aarch64-apple-darwin",
+  "binary_sha256": "2b3dcf5b7077c8904b1701ac32a6dbec9ff146794d8765c80bd1eb92ef39ddc0",
+  "native_environment_lifecycle_passed": true,
+  "native_fixture_suite_passed": true,
+  "passed": false,
+  "release_ready": false,
+  "full_gateway_lifecycle_passed": false,
+  "production_sso_servicenow_acceptance": false,
+  "limitations": [
+    "Fresh production SSO and ServiceNow tool-call acceptance are not claimed.",
+    "Production frontend expiry and hourly renewal acceptance remain incomplete.",
+    "Full workspace validation and independent release review are not claimed."
+  ],
+  "evidence": [
+    {
+      "role": "environment-lifecycle",
+      "path": "environment-lifecycle.json",
+      "sha256": "9b3052b5aa7f4853852e4532bf7c15372a7a80c077fee77a534e6180ebeb4350"
+    },
+    {
+      "role": "native-fixture-suite",
+      "path": "native-fixture-suite.log",
+      "sha256": "3a330cb4850e56463b3c2b1d643319b28ad06c6dc8155268d37368d1237d3c79"
+    },
+    {
+      "role": "original-candidate-validation",
+      "path": "original-candidate-validation.json",
+      "sha256": "3144a7acb47dab3645d35da5cb410a17a3bc8a30fc745535a7e14bd1c9acf942"
+    }
+  ]
+}

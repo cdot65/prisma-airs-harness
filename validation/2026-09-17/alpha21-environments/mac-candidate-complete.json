@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.21",
+  "binary_sha256": "2b3dcf5b7077c8904b1701ac32a6dbec9ff146794d8765c80bd1eb92ef39ddc0",
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "installed_tests": {
+    "passed": 46,
+    "skipped": 1
+  },
+  "upgrade_from": [
+    "0.1.0-alpha.20",
+    "0.1.0-alpha.14"
+  ],
+  "configuration_preserved": true
+}

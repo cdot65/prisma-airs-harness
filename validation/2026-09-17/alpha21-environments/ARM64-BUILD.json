@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "scope": "Zig cross-compiled aarch64-unknown-linux-musl candidate; QEMU version probe; native and npm candidate packaging",
+  "installed_acceptance": false,
+  "release_ready": false,
+  "published": false,
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "version_probe": "airs-harness 0.1.0-alpha.21",
+  "emulated_version_probe": "qemu-aarch64-static"
+}

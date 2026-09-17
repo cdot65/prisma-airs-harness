@@ -1,0 +1,16 @@
+{
+  "product": "Prisma AIRS Harness",
+  "version": "0.1.0-alpha.21",
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "source_repository": "https://git.cdot.io/cdot/prisma-airs-harness",
+  "upstream_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+  "target": "x86_64-unknown-linux-musl",
+  "profile": "release; CLI opt-level=1; lto=false; codegen-units=16; debug=0",
+  "binary_processing": "strip --strip-debug",
+  "binary_sha256": "a5bbd42674b80e92e801359a36a15ff6704f9fc09d4de25a50b16c2a212250eb",
+  "cargo_lock_sha256": "e0520a95ee53eba5ac7656b22edac98232323eaf3b8645cf8ae5f2ae19b76ea7",
+  "rust": "rustc 1.95.0 (59807616e 2026-04-14)",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness",
+  "release_scope": "owner-authorized-alpha21-environment-lifecycle",
+  "validation_receipt_sha256": "9888fe09aaf5bbe1e535c677b32d47d23832b18da2fa2d77c1b2c6f6d0935032"
+}

@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "previous": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.21",
+  "platform": "Darwin",
+  "configuration_preserved": true,
+  "legacy_target_preserved": true,
+  "cases": [
+    {
+      "case": "npm-managed-in-place",
+      "passed": true,
+      "binary_sha256": "2b3dcf5b7077c8904b1701ac32a6dbec9ff146794d8765c80bd1eb92ef39ddc0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false
+    },
+    {
+      "case": "legacy-one-time-migration",
+      "passed": true,
+      "binary_sha256": "2b3dcf5b7077c8904b1701ac32a6dbec9ff146794d8765c80bd1eb92ef39ddc0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": true
+    },
+    {
+      "case": "legacy-command-before-separate-npm-prefix",
+      "passed": true,
+      "binary_sha256": "2b3dcf5b7077c8904b1701ac32a6dbec9ff146794d8765c80bd1eb92ef39ddc0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false
+    }
+  ],
+  "registry_requests": [
+    "/airs-harness",
+    "/airs-harness",
+    "/airs-harness-linux-x64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.21.tgz",
+    "/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.21.tgz",
+    "/airs-harness",
+    "/airs-harness",
+    "/airs-harness-linux-x64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.21.tgz",
+    "/airs-harness-darwin-arm64/-/airs-harness-darwin-arm64-0.1.0-alpha.21.tgz"
+  ]
+}

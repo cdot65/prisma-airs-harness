@@ -1,0 +1,8 @@
+{
+  "version": "0.1.0-alpha.21",
+  "source_commit": "c2d555d3547d1d9ca79c45c99f97c40b02c1a66f",
+  "authorization": "BUILD AND PUSH THE NEW VERSION WHAT WILL BE 0.1.0-alpha.21 !!!",
+  "date": "2026-09-17",
+  "scope": "unified environment lifecycle; top-level setup and status removed",
+  "production_sso_servicenow_acceptance": false
+}

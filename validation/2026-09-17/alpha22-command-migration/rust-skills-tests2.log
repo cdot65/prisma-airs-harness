@@ -1,0 +1,59 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-skills v0.154.0 (/home/cdot/development/cdot65/prisma-airs-harness/codex-rs/skills)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.69s
+────────────
+ Nextest run ID f931fbb1-bdd4-44ae-91b8-f140620eb4a4 with nextest profile: local
+    Starting 51 tests across 1 binary
+        PASS [   0.114s] ( 1/51) codex-skills invocation::tests::skill_doc_read_detection_matches_absolute_path
+        PASS [   0.114s] ( 2/51) codex-skills interface::tests::rejects_invalid_local_interface_fields
+        PASS [   0.114s] ( 3/51) codex-skills invocation::tests::script_run_detection_matches_runner_plus_extension
+        PASS [   0.115s] ( 4/51) codex-skills interface::tests::resolves_plugin_shared_assets
+        PASS [   0.116s] ( 5/51) codex-skills invocation::tests::skill_script_run_detection_matches_relative_path_from_skill_root
+        PASS [   0.116s] ( 6/51) codex-skills interface::tests::rejects_plugin_assets_outside_shared_assets_root
+        PASS [   0.116s] ( 7/51) codex-skills loading::tests::skill_root_loader_supports_shared_trait_objects
+        PASS [   0.116s] ( 8/51) codex-skills interface::tests::rejects_absolute_asset_paths
+        PASS [   0.116s] ( 9/51) codex-skills mentions::tests::handles_plain_and_linked_mentions
+        PASS [   0.116s] (10/51) codex-skills mentions::tests::trims_linked_paths_and_allows_spacing
+        PASS [   0.116s] (11/51) codex-skills mentions::tests::requires_exact_name_boundaries
+        PASS [   0.117s] (12/51) codex-skills invocation::tests::powershell_skill_doc_read_matches_common_forms
+        PASS [   0.115s] (13/51) codex-skills model::tests::policy_restricts_implicit_invocation_and_products
+        PASS [   0.117s] (14/51) codex-skills mentions::tests::skips_common_env_vars
+        PASS [   0.117s] (15/51) codex-skills invocation::tests::windows_executor_skill_reads_share_powershell_classification
+        PASS [   0.118s] (16/51) codex-skills interface::tests::drops_invalid_fields_without_discarding_valid_interface_fields
+        PASS [   0.118s] (17/51) codex-skills loading::tests::snapshot_handles_share_owner_managed_values_and_identity
+        PASS [   0.118s] (18/51) codex-skills interface::tests::resolves_local_interface_fields_and_assets
+        PASS [   0.117s] (19/51) codex-skills mentions::tests::plugin_config_names_require_a_plugin_identity
+        PASS [   0.118s] (20/51) codex-skills mentions::tests::handles_many_sigils_without_looping
+        PASS [   0.118s] (21/51) codex-skills invocation::tests::skill_doc_read_detection_matches_shared_read_parser
+        PASS [   0.116s] (22/51) codex-skills parser::tests::preserves_block_scalar_bodies_while_repairing_other_fields
+        PASS [   0.118s] (23/51) codex-skills invocation::tests::script_run_detection_excludes_python_c
+        PASS [   0.117s] (24/51) codex-skills parser::tests::parses_repairs_and_sanitizes_frontmatter
+        PASS [   0.118s] (25/51) codex-skills mentions::tests::keeps_plugin_skill_namespaces
+        PASS [   0.118s] (26/51) codex-skills mentions::tests::plugin_config_names_ignore_mention_query_parameters
+        PASS [   0.118s] (27/51) codex-skills mentions::tests::stops_at_non_name_chars
+        PASS [   0.118s] (28/51) codex-skills model::tests::missing_policy_allows_implicit_invocation_and_all_products
+        PASS [   0.005s] (29/51) codex-skills parser::tests::repairs_unrecognized_frontmatter_fields_that_need_quotes
+        PASS [   0.119s] (30/51) codex-skills invocation::tests::skill_script_run_detection_matches_absolute_path_from_any_workdir
+        PASS [   0.118s] (31/51) codex-skills mentions::tests::requires_link_syntax
+        PASS [   0.118s] (32/51) codex-skills parser::tests::preserves_overlong_descriptions_and_short_descriptions
+        PASS [   0.118s] (33/51) codex-skills parser::tests::repairs_short_descriptions_containing_colons_and_apostrophes
+        PASS [   0.005s] (34/51) codex-skills parser::tests::uses_default_name_and_requires_description
+        PASS [   0.005s] (35/51) codex-skills selection::tests::collect_explicit_skill_mentions_accepts_linked_discovery_path
+        PASS [   0.005s] (36/51) codex-skills selection::tests::collect_explicit_skill_mentions_accepts_structured_discovery_path
+        PASS [   0.005s] (37/51) codex-skills selection::tests::collect_explicit_skill_mentions_allows_explicit_path_with_connector_conflict
+        PASS [   0.005s] (38/51) codex-skills selection::tests::collect_explicit_skill_mentions_dedupes_by_path
+        PASS [   0.005s] (39/51) codex-skills selection::tests::collect_explicit_skill_mentions_prefers_linked_path_over_name
+        PASS [   0.005s] (40/51) codex-skills selection::tests::collect_explicit_skill_mentions_prioritizes_structured_inputs
+        PASS [   0.006s] (41/51) codex-skills selection::tests::collect_explicit_skill_mentions_prefers_resource_path
+        PASS [   0.006s] (42/51) codex-skills selection::tests::collect_explicit_skill_mentions_rejects_disabled_discovery_path
+        PASS [   0.006s] (43/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_ambiguous_name
+        PASS [   0.006s] (44/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_disabled_structured_and_blocks_plain_fallback
+        PASS [   0.006s] (45/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_plain_name_when_connector_matches
+        PASS [   0.007s] (46/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_invalid_structured_and_blocks_plain_fallback
+        PASS [   0.006s] (47/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_missing_path_without_fallback
+        PASS [   0.006s] (48/51) codex-skills selection::tests::collect_explicit_skill_mentions_text_respects_skill_order
+        PASS [   0.006s] (49/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_when_linked_path_disabled
+        PASS [   0.007s] (50/51) codex-skills selection::tests::collect_explicit_skill_mentions_skips_missing_path_with_no_fallback
+        PASS [   0.007s] (51/51) codex-skills tests::fingerprint_traverses_nested_entries
+────────────
+     Summary [   0.126s] 51 tests run: 51 passed, 0 skipped

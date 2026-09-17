@@ -1,0 +1,10 @@
+{
+  "temporary_launch_agents_removed": [
+    "io.cdot.airs-alpha22-candidate",
+    "io.cdot.airs-alpha22-registry"
+  ],
+  "temporary_arm64_container_removed": "airs-alpha22-arm64",
+  "docker_desktop_restored_to_initial_stopped_state": true,
+  "owner_global_installations_changed": false,
+  "fixture_proof_retained": true
+}

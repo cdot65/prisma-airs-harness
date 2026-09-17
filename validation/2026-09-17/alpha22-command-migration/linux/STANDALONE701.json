@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "unversioned_standalone_install": true,
+  "harness": "airs 0.1.0-alpha.22",
+  "managed_cli": "7.0.0",
+  "standalone_cli": "7.0.1",
+  "standalone_uninstall_preserves_harness_and_bundle": true
+}

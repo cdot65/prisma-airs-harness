@@ -1,0 +1,38 @@
+{
+  "version": "7.0.1",
+  "bin": {
+    "airs-cli": "dist/cli/index.js"
+  },
+  "dist": {
+    "shasum": "c8e017543b14b137a35e8ad17b427fd1df8c8e6c",
+    "tarball": "https://registry.npmjs.org/@cdot65/prisma-airs-cli/-/prisma-airs-cli-7.0.1.tgz",
+    "fileCount": 7,
+    "integrity": "sha512-06wa6LqEs6AKTyEhnBxvHKCfHZI+erdIkV3Dj4XjGbThW1c5gTdlgbF00doUDU8mS/vAv+bVPF5PZE7qawo+fw==",
+    "signatures": [
+      {
+        "sig": "MEQCIAWeaZPR9Hp8T/oyh7cqThAp+VaSnu0xI0OAatN5qcRaAiAFhsZK968cqSAzT2ikSmvNvGiB2+d7/T+nfDkwd9R5iQ==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "sig": "MEYCIQDWfoLvwntJvGxvTDmQEDQK086l4vqF+ZjBG2h151QfTwIhAOnLLGT7ml/G5V29YezSMPIVCq9WUyhe3FG8F9JSCDhk",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@cdot65%2fprisma-airs-cli@7.0.1",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "unpackedSize": 874098
+  },
+  "source_commit": "48794e5b37db42130538610a5f37ea2f0f0b5b04",
+  "registry": "https://registry.npmjs.org",
+  "default_tag": "latest",
+  "publish_workflow": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35288045844",
+  "publish_checks_passed": true,
+  "unit_integration_tests": 1920,
+  "release_checks": 14,
+  "bundled_cli_version": "7.0.0",
+  "bundle_source_commit": "ad4f4109d591cbfe0079760ca7b830a5669f60d3"
+}

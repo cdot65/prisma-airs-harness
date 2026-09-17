@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "reference_architecture": {
+    "source_commit": "99b387a382460cdf25eed2b8b3ed4a984b711752",
+    "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+    "workflow": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35288702007",
+    "deployment": "success",
+    "ci_browser_checks": 20,
+    "live_browser_checks": 20,
+    "live_browser_results": "19 passed initially; one navigation hit Chromium ERR_CERT_VERIFIER_CHANGED, then the failed test passed on retry",
+    "live_browser_security_bypass": false
+  },
+  "cli": {
+    "source_commit": "48794e5b37db42130538610a5f37ea2f0f0b5b04",
+    "url": "https://cdot65.github.io/prisma-airs-cli/getting-started/command-migration/",
+    "workflow": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35288667949",
+    "deployment": "success",
+    "live_http_status": 200,
+    "assertions": [
+      "airs-cli",
+      "7.0.1",
+      "airs cli",
+      "7.0.0"
+    ]
+  },
+  "private_canonical_runbook_updated": true,
+  "public_export_uses_example_domains": true,
+  "fresh_attended_sso_or_servicenow_call": false
+}

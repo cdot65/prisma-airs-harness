@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "harness_version": "0.1.0-alpha.22",
+  "cli_version": "7.0.0",
+  "checks": [
+    "old CLI command ownership identified without execution or modification",
+    "CLI 6 to 7 upgrade releases airs and installs airs-cli without force",
+    "paired upgrade preserves named environment ID, settings and history",
+    "legacy product roots and misplaced environment selector fail before starting a session",
+    "environment switching leaves shared standalone/managed CLI tenant selection unchanged",
+    "managed CLI ignores a conflicting global executable earlier on PATH",
+    "either package can be uninstalled independently without deleting the other command",
+    "ordered rollback restores alpha.21 and CLI 6 command ownership while preserving state"
+  ],
+  "external_api_operations": false,
+  "force_used": false,
+  "isolated_prefix": true
+}

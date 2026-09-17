@@ -1,0 +1,27 @@
+
+Running 20 tests using 1 worker
+
+(node:632914) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/site.spec.js:6:3 › lesson start-here renders its diagrams without browser errors (577ms)
+  ✓   2 tests/site.spec.js:6:3 › lesson architecture renders its diagrams without browser errors (1.1s)
+  ✓   3 tests/site.spec.js:6:3 › lesson harness renders its diagrams without browser errors (501ms)
+  ✓   4 tests/site.spec.js:6:3 › lesson keycloak renders its diagrams without browser errors (551ms)
+  ✓   5 tests/site.spec.js:6:3 › lesson cie renders its diagrams without browser errors (579ms)
+  ✓   6 tests/site.spec.js:6:3 › lesson login renders its diagrams without browser errors (547ms)
+  ✓   7 tests/site.spec.js:6:3 › lesson gateway renders its diagrams without browser errors (530ms)
+  ✓   8 tests/site.spec.js:6:3 › lesson mcp renders its diagrams without browser errors (518ms)
+  ✓   9 tests/site.spec.js:6:3 › lesson walkthrough renders its diagrams without browser errors (387ms)
+  ✓  10 tests/site.spec.js:6:3 › lesson lifecycle renders its diagrams without browser errors (588ms)
+  ✓  11 tests/site.spec.js:6:3 › lesson operations renders its diagrams without browser errors (523ms)
+  ✓  12 tests/site.spec.js:6:3 › lesson troubleshooting renders its diagrams without browser errors (497ms)
+  ✓  13 tests/site.spec.js:6:3 › lesson labs renders its diagrams without browser errors (269ms)
+  ✓  14 tests/site.spec.js:6:3 › lesson glossary renders its diagrams without browser errors (300ms)
+  ✓  15 tests/site.spec.js:6:3 › lesson evidence renders its diagrams without browser errors (264ms)
+  ✓  16 tests/site.spec.js:22:1 › authorization exercise denies each missing condition (593ms)
+  ✓  17 tests/site.spec.js:32:1 › home works on a small screen and links use the project base path (256ms)
+  ✓  18 tests/site.spec.js:41:1 › diagrams also render in dark mode (516ms)
+  ✓  19 tests/site.spec.js:48:1 › diagram expansion supports zoom, SVG download and Escape (571ms)
+  ✓  20 tests/site.spec.js:61:1 › ServiceNow onboarding is discoverable and covers both SSO authorizations (462ms)
+
+  20 passed (10.8s)

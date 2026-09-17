@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22",
+  "version_output": "airs 0.1.0-alpha.22",
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "anonymous_fresh_install": true,
+  "binary_sha256": "d0163d8915574cc82874a56d16002ecac3949497114402c7b048c2dee8cd6846",
+  "source_commit": "2a787c03d1673b28fe85803c4082dd1a5e85a36e",
+  "prefix": "/Users/cdot/.cache/airs-alpha22/registry-mac/prefix",
+  "native_fixture_suite": true,
+  "environment_lifecycle": true,
+  "production_sso_or_servicenow_call": false
+}

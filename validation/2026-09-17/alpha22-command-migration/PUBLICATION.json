@@ -1,0 +1,68 @@
+{
+  "version": "0.1.0-alpha.22",
+  "source_commit": "2a787c03d1673b28fe85803c4082dd1a5e85a36e",
+  "registry": "https://npm.cdot.io",
+  "publication_authorized": true,
+  "authorization": "okay, begin. let me know when both the CLI and harness are published and ready for me to test end-to-end on another remote machine",
+  "published": true,
+  "default_tags_changed": true,
+  "native_arm64_installed_acceptance": true,
+  "production_sso_servicenow_acceptance": false,
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.21",
+      "gateway-validation": "0.1.0-alpha.21"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.21",
+      "gateway-validation": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.21"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.21",
+      "gateway-validation": "0.1.0-alpha.21"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.21",
+      "gateway-validation": "0.1.0-alpha.21"
+    }
+  },
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.22",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.22.tgz",
+      "integrity": "sha512-H1ki3GeACqxpwV63F9sl5ESSOyEZRMZ1MLfXfdNtrL5VvHzo5ImXMGfmZaROXjv6TFXsENmmbH7iYjIKSXm9Hw==",
+      "sha256": "55e414744feec79e174ddb3dc1d5c14c7b620c27e801c6d96980dfc3b28c4b23",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.0-alpha.22",
+      "filename": "airs-harness-linux-arm64-0.1.0-alpha.22.tgz",
+      "integrity": "sha512-y5YhJfXEiGHlDGBBhNnNYNvBgppTuHSp4y2DwjTBREsGe0+8JmQPTKX0NUiDCj7RysobmR505MePQSAW53WYEA==",
+      "sha256": "106a9e2033efe424400f8dc57a28ab045398d8199c4f90b77326642e43d79bca",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.22",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.22.tgz",
+      "integrity": "sha512-a1Jfunx8dbhn3W+kpWKwIRkx/m5iPOOwA32TCOKezBu6tFyTRSliG9q9TYZZcRffyX+CmHi4/XAPS/fiS9zfsw==",
+      "sha256": "4c8ce7fe5a41298c957802a8db1b787f20c11168a2df6ad9d5c970480236964f",
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.22",
+      "filename": "airs-harness-0.1.0-alpha.22.tgz",
+      "integrity": "sha512-IEviewrC6GJerKNZ8kZsHidanbubp4uPRWdn0gTwEYCCtcoXsY8fjyON6L6hlFdHkBFF59vdypPmPcKi/lwiyA==",
+      "sha256": "54167499ed84e26bc22f5cc94e49b91ce624550ddee30ec94c1249d221eb5cfa",
+      "registry_integrity_verified": true
+    }
+  ],
+  "completed_at": 1789689123.970121
+}

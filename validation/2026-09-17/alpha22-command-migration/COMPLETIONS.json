@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "installed_binary": "/home/cdot/.cache/airs-alpha22/linux-candidate/prefix/bin/airs",
+  "checks": [
+    "bash native root and nested CLI",
+    "zsh nested CLI",
+    "fish native root and nested CLI",
+    "shell syntax"
+  ]
+}

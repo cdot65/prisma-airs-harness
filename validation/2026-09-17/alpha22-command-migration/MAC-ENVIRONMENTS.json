@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22",
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "binary_sha256": "d0163d8915574cc82874a56d16002ecac3949497114402c7b048c2dee8cd6846",
+  "checks": [
+    "create selects default",
+    "rename preserves state identity",
+    "one-command override preserves default",
+    "named status",
+    "saved default switch",
+    "remove retains files and clears default",
+    "recreated name gets new identity"
+  ],
+  "network": "no external requests",
+  "scope": "exact executable environment lifecycle"
+}

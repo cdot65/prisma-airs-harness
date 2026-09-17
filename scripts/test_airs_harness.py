@@ -1172,7 +1172,13 @@ class TerminalIntegration(unittest.TestCase):
         self.assertEqual(self.requests, [])
 
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="airs-harness-test-")
+        # Release binaries refuse executable helper aliases under the OS temp
+        # directory. Exercise the same user-owned state layout as real installs.
+        state_root = Path.home() / ".cache" / "airs-harness-tests"
+        state_root.mkdir(mode=0o700, parents=True, exist_ok=True)
+        self.temp = tempfile.TemporaryDirectory(
+            prefix="airs-harness-test-", dir=state_root
+        )
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
         self.home = self.root / "state"

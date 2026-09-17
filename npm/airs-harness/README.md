@@ -14,8 +14,7 @@ npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https:/
 airs-harness --version
 ```
 
-Alpha.21 targets Linux x64 and Apple Silicon; Linux ARM64 publication requires
-acceptance on a native ARM64 host. The package uses anonymous downloads;
+Alpha.21 includes Linux x64, Linux ARM64 and Apple Silicon native packages. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).

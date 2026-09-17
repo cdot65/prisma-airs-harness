@@ -38,10 +38,10 @@ The exact version above includes the unified environment commands.
 Existing npm installations need no uninstall or force. Inspect `command -v airs-harness` and `npm prefix -g` if an old manual command shadows npm; preserve
 old binaries referenced by existing credential bindings.
 
-The package supports Linux x64 and Apple Silicon. Intel Macs are unsupported.
-A Linux arm64 (`aarch64-unknown-linux-musl`) executable is cross-compiled by the
-`airs-harness-linux-arm64.yml` workflow as an unvalidated candidate; it is not
-published until installed acceptance passes on an arm64 host.
+The package supports Linux x64, Linux ARM64 and Apple Silicon. Intel Macs are
+unsupported. Linux ARM64 is cross-compiled by the `airs-harness-linux-arm64.yml`
+workflow; release acceptance runs its installed package natively in Jadzia's
+ARM64 Linux VM before publication.
 Git, ripgrep and project tools remain prerequisites. Linux also needs Bubblewrap
 and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac

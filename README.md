@@ -13,8 +13,10 @@ not implement the native MCP connection.
 
 ## Release status
 
-Alpha.21 is published on Verdaccio as `latest`, `alpha` and `gateway-validation`.
-See the [release checks](validation/2026-09-17/alpha21-environments/README.md) for native installs, upgrades and remaining acceptance limits.
+Alpha.22 introduces `airs` for the harness and `airs cli ...` for its bundled
+Prisma AIRS CLI 7.0.0. The standalone product executable is `airs-cli`.
+See [the command migration guide](PRISMA-AIRS-CLI.md) for install order and tenant
+onboarding. [Alpha.21 release checks](validation/2026-09-17/alpha21-environments/README.md) remain historical evidence.
 
 Alpha.21 consolidates environment creation and lifecycle management under
 `env create/list/show/status/use/rename/remove`. Top-level `setup` and `status`
@@ -32,14 +34,19 @@ Connect to the organization's LAN/VPN, then use a supported Node.js installation
 Node.js 22.13+ in the 22.x line, or 23.5+.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
-airs-harness --version
+npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+airs --version
 ```
 
 Downloads are anonymous; no npm login or Rust compiler is required.
 The exact version above includes the unified environment commands.
-Existing npm installations need no uninstall or force. Inspect `command -v airs-harness` and `npm prefix -g` if an old manual command shadows npm; preserve
-old binaries referenced by existing credential bindings.
+If an old standalone product CLI owns `airs`, upgrade it to
+`@cdot65/prisma-airs-cli@7.0.0` first so it exports `airs-cli`, then install the
+harness. Inspect `type -a airs airs-cli airs-harness` and `npm prefix -g` for
+conflicting aliases or manual installs. Preserve existing credential bindings.
+See [the command migration and bundled CLI guide](PRISMA-AIRS-CLI.md).
+The `airs-harness` compatibility launcher remains in alpha.22 and is scheduled
+for removal in alpha.23.
 
 The package supports Linux x64, Linux ARM64 and Apple Silicon. Intel Macs are
 unsupported. Linux ARM64 is cross-compiled by the `airs-harness-linux-arm64.yml`
@@ -60,20 +67,20 @@ administrator. The account needs inference access, the gateway workspace grant,
 and the ServiceNow MCP subject permissions.
 
 The unified environment CLI requires alpha.21 or newer. Check
-`airs-harness env create --help` after upgrading. An existing environment for the correct gateway can be reused with
+`airs env create --help` after upgrading. An existing environment for the correct gateway can be reused with
 `env use work`; do not recreate it after a cancelled login.
 
 Create the environment, then sign into inference as your company user:
 
 ```sh
-airs-harness env create work --gateway-url https://gateway.example.com/v1
-airs-harness env use work
-airs-harness --environment work login \
+airs env create work --gateway-url https://gateway.example.com/v1
+airs env use work
+airs --environment work login \
   --issuer-url https://sso.example.com/realms/company \
   --oidc-client-id harness-native \
   --audience airs-inference
-airs-harness env status work
-airs-harness --environment work doctor --verify-access
+airs env status work
+airs --environment work doctor --verify-access
 ```
 
 Alternatively, `env create work` without the gateway flag guides both creation
@@ -87,7 +94,7 @@ headers, so MCP also requires native credential storage. Then add the gateway's
 ServiceNow connection, including the final `/mcp`:
 
 ```sh
-airs-harness --environment work mcp add service-now \
+airs --environment work mcp add service-now \
   --url https://gateway-mcp.example.com/mcp-service-now-dev/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 ```
@@ -99,7 +106,7 @@ another password prompt, but the grants remain separate. If login was cancelled
 or failed after registration, resume it with:
 
 ```sh
-airs-harness --environment work mcp login service-now
+airs --environment work mcp login service-now
 ```
 
 Skip that extra login if `mcp add` already reported success. The connection uses
@@ -109,8 +116,8 @@ credential. The user does not supply an upstream client secret or ServiceNow
 integration password to the harness.
 
 ```sh
-airs-harness --environment work mcp list
-airs-harness --environment work
+airs --environment work mcp list
+airs --environment work
 ```
 
 Inside the harness, use `/mcp` to inspect `service-now`, then ask:
@@ -133,7 +140,7 @@ workspace-key file/environment modes remain available on headless hosts.
 If a new terminal reports `OS credential store unavailable`, return to your
 unlocked D-Bus shell or unlock the same keyring in a new session as described
 below. Shell variables such as `$airs_e2e_env` do not carry into a new shell;
-use `airs-harness env list` and the literal environment name when resuming.
+use `airs env list` and the literal environment name when resuming.
 Your named environments and conversation history remain on disk.
 
 On a headless Linux host without an existing session bus, start an interactive
@@ -155,7 +162,7 @@ refresh tokens remain encrypted on disk. This password is for your local keyring
 not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
 unlock their keyring through the OS login instead.
 
-`airs-harness logout` signs out inference. Use `mcp logout service-now` separately
+`airs logout` signs out inference. Use `mcp logout service-now` separately
 for the native gateway MCP credential. Neither action proves immediate revocation
 of a gateway-held upstream grant. Stop running sessions to discard cached access
 tokens; issued credentials follow their own expiration and revocation policies.
@@ -165,39 +172,39 @@ environment to preserve history isolation.
 
 ## Manage environments
 
-Use `airs-harness env` for the environment lifecycle. With no action it lists
+Use `airs env` for the environment lifecycle. With no action it lists
 saved environments and marks the default. For guided onboarding, run:
 
 ```sh
-airs-harness env create work
-airs-harness
+airs env create work
+airs
 ```
 
 The wizard collects the inference gateway URL, creates and selects the named
 environment, then starts sign-in. If sign-in is interrupted, resume with
-`airs-harness --environment work login`; do not create the environment again.
-Check access with `airs-harness --environment work doctor --verify-access`.
+`airs --environment work login`; do not create the environment again.
+Check access with `airs --environment work doctor --verify-access`.
 Configure gateway MCP using the onboarding steps above.
 
 `env create` selects the new environment, so subsequent commands need no
 environment flag. Use `env use NAME` to change the saved default. The optional
 `--environment NAME` flag overrides that default for just one command; for
-example, `airs-harness --environment staging doctor` leaves your default alone.
+example, `airs --environment staging doctor` leaves your default alone.
 
 For automation, supplying `--gateway-url` creates the environment without
 prompting or starting sign-in:
 
 ```sh
-airs-harness env create work \
+airs env create work \
   --gateway-url https://your-gateway.example/v1 \
   --model '@openai/gpt-4.1'
 
 # Explicit headless authentication using an existing private file:
 chmod 600 /absolute/path/to/workspace-key
-airs-harness login --credential-file /absolute/path/to/workspace-key
+airs login --credential-file /absolute/path/to/workspace-key
 
-airs-harness doctor
-airs-harness
+airs doctor
+airs
 ```
 
 A bare hostname also works; setup supplies `https://` and `/v1`. The local context
@@ -217,14 +224,14 @@ Creation does not overwrite an environment. Each environment has an independent
 UUID directory containing its configuration, model catalog, MCP state and history.
 
 ```sh
-airs-harness env list
-airs-harness env use work
-airs-harness env show
-airs-harness env status
-airs-harness env rename work team
-airs-harness env use team
-airs-harness --environment team exec 'Inspect this project and run its tests.'
-airs-harness --environment team resume
+airs env list
+airs env use work
+airs env show
+airs env status
+airs env rename work team
+airs env use team
+airs --environment team exec 'Inspect this project and run its tests.'
+airs --environment team resume
 ```
 
 `env show [NAME]` inspects the named or selected environment; `env status [NAME]`

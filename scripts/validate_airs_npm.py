@@ -144,9 +144,7 @@ def main():
                 json.loads(inventory_bytes),
                 require_windows_wrappers=os.name == "nt",
             )
-        command = prefix / (
-            "airs-harness.cmd" if os.name == "nt" else "bin/airs-harness"
-        )
+        command = prefix / ("airs.cmd" if os.name == "nt" else "bin/airs")
         native_manifest = subprocess.check_output(
             [
                 shutil.which("node") or "node",
@@ -180,13 +178,13 @@ console.log(require.resolve(platformPackage(process.platform, process.arch, mani
         version = subprocess.check_output(
             [str(command), "--version"], text=True
         ).strip()
-        expected = "airs-harness " + launcher_record["version"]
+        expected = "airs " + launcher_record["version"]
         if version != expected:
             raise ValueError(
                 "Installed command did not launch the expected native version"
             )
         cli_version = subprocess.check_output(
-            [str(command), "airs", "--version"], text=True
+            [str(command), "cli", "--version"], text=True
         ).strip()
         launcher_manifest = json.loads(
             (launcher_directory / "package.json").read_text()

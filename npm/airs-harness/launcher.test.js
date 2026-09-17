@@ -25,9 +25,9 @@ function fixture(t, native, layout = "legacy") {
   const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
   mkdirSync(cli, { recursive: true });
   writeFileSync(path.join(cli, "package.json"), JSON.stringify({
-    name: "@cdot65/prisma-airs-cli", version: "5.2.0", bin: { airs: "index.js" },
+    name: "@cdot65/prisma-airs-cli", version: "7.0.0", bin: { "airs-cli": "index.js" },
   }));
-  writeFileSync(path.join(cli, "index.js"), "console.log('5.2.0')");
+  writeFileSync(path.join(cli, "index.js"), "console.log('7.0.0')");
   if (native !== undefined) {
     const target = path.join(root, "node_modules", dependency);
     mkdirSync(path.join(target, "bin"), { recursive: true });
@@ -60,7 +60,7 @@ test("Windows PATH variants cannot override the managed CLI directory", () => {
   const original = { Path: "stale-path", PATH: "selected-path", path: "another-path", KEEP: "value" };
   const env = managedEnvironment(original, "win32");
   assert.equal(env.PATH, `${managedCliDirectory};selected-path`);
-  assert.equal(env.AIRS_MANAGED_CLI, path.join(managedCliDirectory, "airs.cmd"));
+  assert.equal(env.AIRS_MANAGED_CLI, path.join(managedCliDirectory, "airs-cli.cmd"));
   assert.equal(env.KEEP, "value");
   assert.deepEqual(Object.keys(env).filter((key) => key.toUpperCase() === "PATH"), ["PATH"]);
   assert.equal(original.Path, "stale-path");
@@ -74,7 +74,7 @@ test("native launch requires the pinned dependency before executing anything", (
     const root = path.resolve(path.dirname(entry), "../../..");
     const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
     if (version === null) rmSync(cli, { recursive: true });
-    else writeFileSync(path.join(cli, "package.json"), JSON.stringify({ version, bin: { airs: "index.js" } }));
+    else writeFileSync(path.join(cli, "package.json"), JSON.stringify({ version, bin: { "airs-cli": "index.js" } }));
     const result = spawnSync(process.execPath, [entry, "--version"], { encoding: "utf8" });
     assert.equal(result.status, 1);
     assert.match(result.stderr, /missing|version mismatch/);
@@ -109,7 +109,7 @@ process.exitCode=result.status;
   assert.equal(result.status, 7, result.stderr);
   const output = JSON.parse(result.stdout);
   const managed = path.resolve(path.dirname(entry), "../managed-cli");
-  assert.equal(output.managed, path.join(managed, "airs"));
+  assert.equal(output.managed, path.join(managed, "airs-cli"));
   assert.equal(output.nativePath, `${managed}:${process.env.PATH}`);
   assert.equal(output.decoyPath, "unix-decoy");
   assert.deepEqual(output.nested, { args: ["doctor", literal], cwd: root, entry: cliEntry });

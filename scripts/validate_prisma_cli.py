@@ -14,8 +14,7 @@ def main():
     parser.add_argument(
         "--launcher",
         type=Path,
-        default=Path(__file__).resolve().parents[1]
-        / "npm/airs-harness/bin/airs-harness.js",
+        default=Path(__file__).resolve().parents[1] / "npm/airs-harness/bin/airs.js",
     )
     parser.add_argument("--receipt", type=Path)
     args = parser.parse_args()
@@ -26,7 +25,16 @@ def main():
     with tempfile.TemporaryDirectory(prefix="airs-cli-contract-") as directory:
         root = Path(directory)
         config = root / "trusted-config.json"
-        config.write_text(json.dumps({"mgmtEndpoint": "https://trusted.invalid"}))
+        config.write_text(
+            json.dumps(
+                {
+                    "mgmtTsgId": "fixture-tsg",
+                    "mgmtClientId": "fixture-client",
+                    "mgmtClientSecret": "fixture-secret",
+                    "mgmtEndpoint": "https://trusted.invalid",
+                }
+            )
+        )
         (root / ".env").write_text(
             "PANW_MGMT_ENDPOINT=https://untrusted.invalid\nPANW_AI_SEC_API_KEY=project-injected-fixture\n"
         )
@@ -36,12 +44,14 @@ def main():
             if not key.startswith(("PANW_", "PRISMA_AIRS_", "DOTENV_"))
         }
         env.update(
-            HOME=directory, USERPROFILE=directory, PRISMA_AIRS_CONFIG_PATH=str(config)
+            HOME=directory,
+            USERPROFILE=directory,
+            PRISMA_AIRS_TENANTS_PATH=str(root / "tenants.json"),
         )
 
         def run(*arguments, code=0, overrides=None):
             result = subprocess.run(
-                ["node", str(launcher), "airs", *arguments],
+                ["node", str(launcher), "cli", *arguments],
                 cwd=root,
                 env=env | (overrides or {}),
                 text=True,
@@ -56,60 +66,58 @@ def main():
 
         assert run("--version").strip() == expected
         checks.append("exact managed CLI version")
-        value = json.loads(run("config", "get", "mgmtEndpoint", "--output", "json"))
-        assert value == [
-            {
-                "key": "mgmtEndpoint",
-                "value": "https://trusted.invalid",
-                "source": "file",
-            }
-        ]
+        doctor = json.loads(run("doctor", "--output", "json", code=1))
+        assert (
+            next(row for row in doctor if row["name"] == "Tenant")["status"] == "fail"
+        )
+        assert "airs cli tenant create" in next(
+            row["hint"] for row in doctor if row["name"] == "Tenant"
+        )
+        run("tenant", "create", "fixture", "--config", str(config))
+        run("tenant", "switch", "fixture")
+        # Simulate credentials removed after registration; doctor must not probe.
+        config.write_text(
+            json.dumps(
+                {"mgmtTsgId": "fixture-tsg", "mgmtEndpoint": "https://trusted.invalid"}
+            )
+        )
+        before = config.read_bytes()
         value = json.loads(
             run(
-                "config",
+                "tenant",
                 "get",
+                "fixture",
                 "mgmtEndpoint",
                 "--output",
                 "json",
                 overrides={"PANW_MGMT_ENDPOINT": "https://explicit.invalid"},
             )
         )
-        assert value == [
-            {
-                "key": "mgmtEndpoint",
-                "value": "https://explicit.invalid",
-                "source": "env",
-            }
-        ]
+        assert value == [{"key": "mgmtEndpoint", "value": "https://trusted.invalid"}]
+        assert config.read_bytes() == before
         checks.append(
-            "trusted config and explicit env precedence; project dotenv excluded"
+            "selected tenant config preserved; credential env and project dotenv ignored"
         )
         doctor = json.loads(run("doctor", "--output", "json", code=1))
         statuses = {row["name"]: row["status"] for row in doctor}
-        assert (
-            statuses["Scanner credentials"]
-            == statuses["Management credentials"]
-            == "fail"
-        )
+        assert statuses["Tenant"] == "pass"
+        assert statuses["Scanner credentials"] == "skip"
+        assert statuses["Management credentials"] == "fail"
         assert (
             statuses["Scanner API"]
             == statuses["Management OAuth"]
             == statuses["AI Gateway API"]
-            == "warn"
+            == "skip"
         )
-        assert "PANW_AI_SEC_API_KEY" in next(
+        assert "airsApiKey" in next(
             row["hint"] for row in doctor if row["name"] == "Scanner credentials"
         )
-        for variable in [
-            "PANW_MGMT_CLIENT_ID",
-            "PANW_MGMT_CLIENT_SECRET",
-            "PANW_MGMT_TSG_ID",
-        ]:
-            assert variable in next(
+        for key in ["mgmtClientId", "mgmtClientSecret"]:
+            assert key in next(
                 row["hint"] for row in doctor if row["name"] == "Management credentials"
             )
         checks.append(
-            "doctor diagnoses missing scanner and management credentials without probes"
+            "doctor distinguishes missing tenant, credentials and skipped network checks"
         )
         commands = [
             ("runtime", "scan"),

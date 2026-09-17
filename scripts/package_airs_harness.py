@@ -111,9 +111,9 @@ def main():
     if args.emulator:
         probe.insert(0, args.emulator)
     version_output = subprocess.check_output(probe, text=True).strip()
-    if not version_output.startswith("airs-harness "):
+    if not version_output.startswith(("airs ", "airs-harness ")):
         raise ValueError("Expected an AIRS Harness binary")
-    version = version_output.removeprefix("airs-harness ")
+    version = version_output.removeprefix("airs-harness ").removeprefix("airs ")
     package_version = json.loads((repo / "npm/airs-harness/package.json").read_text())[
         "version"
     ]

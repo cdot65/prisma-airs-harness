@@ -21,7 +21,13 @@ export function resolvePrismaCli() {
   if (manifest.version !== expected) {
     throw new Error(`Prisma AIRS CLI version mismatch: expected ${expected}, found ${manifest.version}. Reinstall airs-harness.`);
   }
-  const entry = path.resolve(path.dirname(manifestPath), manifest.bin.airs);
+  const command = manifest.bin?.["airs-cli"];
+  if (typeof command !== "string" || !command || path.isAbsolute(command)) {
+    throw new Error("Bundled Prisma AIRS CLI does not declare airs-cli; reinstall airs-harness.");
+  }
+  const root = path.dirname(manifestPath);
+  const entry = path.resolve(root, command);
+  if (!entry.startsWith(root + path.sep)) throw new Error("Invalid bundled CLI entrypoint.");
   if (!existsSync(entry)) throw new Error("Prisma AIRS CLI executable is missing; reinstall airs-harness.");
   return entry;
 }
@@ -32,12 +38,13 @@ export function runPrismaCli(args = process.argv.slice(2)) {
     // dotenv/config also accepts argv overrides. Keep repository files out of
     // credential and endpoint resolution for this managed invocation.
     if (args.some((arg) => /^dotenv_config_/i.test(arg))) {
-      throw new Error("dotenv argument overrides are not supported by the managed Prisma AIRS CLI. Use explicit environment variables or PRISMA_AIRS_CONFIG_PATH.");
+      throw new Error("dotenv argument overrides are not supported by the managed Prisma AIRS CLI. Use the selected tenant JSON configuration.");
     }
     const env = Object.fromEntries(Object.entries(process.env)
       .filter(([key]) => !key.toUpperCase().startsWith("DOTENV_CONFIG_")));
     env.DOTENV_CONFIG_PATH = path.join(managedCliDirectory, "empty.env");
     env.DOTENV_CONFIG_QUIET = "true";
+    env.AIRS_CLI_INVOKED_AS = "airs cli";
     runChild(process.execPath, [entry, ...args], env);
   } catch (error) {
     process.stderr.write(`${error.message}\n`);

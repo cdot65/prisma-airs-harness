@@ -3,10 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       tooling_ref:
+        type: string
         description: Reviewed validation tooling revision
         required: true
         default: integrate/codex-0.154-candidate
       source_ref:
+        type: string
         description: Runtime source revision (resolved once before compilation)
         required: false
         default: ""
@@ -210,7 +212,7 @@ jobs:
       - name: Retain exact alpha.15 signing intake on the native runner
         run: |
           umask 077
-          staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha21/$AIRS_RUNTIME_SOURCE"
+          staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha22/$AIRS_RUNTIME_SOURCE"
           mkdir -p "$staged"
           cp "$RUNNER_TEMP/unvalidated-macos-executables.tar.gz" "$staged/intake.tar.gz"
           cp "$RUNNER_TEMP/ARTIFACT-VERIFIED.json" "$RUNNER_TEMP/CANDIDATE.json" "$staged/"

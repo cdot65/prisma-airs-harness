@@ -1,4 +1,6 @@
 import { runChild } from "./child.js";
+import { runCompletion } from "./completion.js";
+import { inspectCommands } from "./migration-check.js";
 import { managedCliDirectory, resolvePrismaCli, runPrismaCli } from "./prisma-cli.js";
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -45,15 +47,22 @@ export function managedEnvironment(environment, platform = process.platform) {
     inheritedPath = env[pathKeys[0]] || "";
     for (const key of pathKeys) delete env[key];
   }
-  env.AIRS_MANAGED_CLI = path.join(managedCliDirectory, platform === "win32" ? "airs.cmd" : "airs");
+  env.AIRS_MANAGED_CLI = path.join(managedCliDirectory, platform === "win32" ? "airs-cli.cmd" : "airs-cli");
   env.PATH = inheritedPath
     ? `${managedCliDirectory}${platform === "win32" ? ";" : ":"}${inheritedPath}`
     : managedCliDirectory;
   return env;
 }
 
-export function run() {
-  if (process.argv[2] === "airs") {
+export function run({ legacy = false } = {}) {
+  if (process.argv.length === 3 && process.argv[2] === "--migration-check") {
+    process.stdout.write(JSON.stringify(inspectCommands(), null, 2) + "\n");
+    return;
+  }
+  if (legacy && process.stderr.isTTY) {
+    process.stderr.write("airs-harness is now airs; this compatibility command will be removed in alpha.23.\n");
+  }
+  if (process.argv[2] === "cli" || (legacy && process.argv[2] === "airs")) {
     runPrismaCli(process.argv.slice(3));
     return;
   }
@@ -87,7 +96,12 @@ export function run() {
   }
 
   try {
-    resolvePrismaCli();
+    const cli = resolvePrismaCli();
+    if (process.argv[2] === "completion" && process.argv.length === 4 &&
+        !process.argv[3].startsWith("-")) {
+      runCompletion(binary, cli, process.argv[3], managedEnvironment(process.env));
+      return;
+    }
   } catch (error) {
     process.stderr.write(`${error.message}\n`);
     process.exitCode = 1;

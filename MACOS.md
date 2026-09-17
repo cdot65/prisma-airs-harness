@@ -1,7 +1,7 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the native harness and connect inference and MCP through AI Gateway.
-package_version: 0.1.0-alpha.21
+package_version: 0.1.0-alpha.22
 status: gateway-release-acceptance
 updated: 2026-09-17
 audience: end-users
@@ -23,8 +23,8 @@ ripgrep if needed, then install the harness:
 
 ```sh
 brew install node git ripgrep
-npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
-airs-harness --version
+npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+airs --version
 ```
 
 Downloads are anonymous. No GitHub token or npm login is required. An ordinary npm upgrade
@@ -42,12 +42,12 @@ The new environment commands require alpha.21 or newer.
 For a new connection, create a named environment with your administrator's
 inference gateway URL. Keep an existing environment when upgrading.
 
-Run `airs-harness env create work` for guided setup and sign-in. To supply the
+Run `airs env create work` for guided setup and sign-in. To supply the
 gateway explicitly and sign in separately:
 
 ```sh
-airs-harness env create work --gateway-url https://gateway.example.com/v1
-airs-harness --environment work login
+airs env create work --gateway-url https://gateway.example.com/v1
+airs --environment work login
 ```
 
 Creation selects the environment, so `airs-harness` opens it afterward. Use
@@ -62,7 +62,7 @@ a Keycloak JWT and does not authorize the user MCP flow.
 Allow the macOS Keychain prompt when shown. Confirm successful CLI completion:
 
 ```sh
-airs-harness --environment work doctor --verify-access
+airs --environment work doctor --verify-access
 ```
 
 `PASS gateway_access` proves the small inference check, not MCP authorization.
@@ -73,11 +73,11 @@ Your administrator must provision the integration and map your CIE directory
 group to its gateway workspace. Use the connection URL from that gateway:
 
 ```sh
-airs-harness --environment work mcp add prisma-airs \
+airs --environment work mcp add prisma-airs \
   --url https://gateway-mcp.example.com/prisma-airs/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
-airs-harness --environment work mcp list
-airs-harness --environment work
+airs --environment work mcp list
+airs --environment work
 ```
 
 The example scopes match this deployment's gateway discovery. Set
@@ -96,7 +96,7 @@ access. Native MCP onboarding preserves the existing inference history.
 In alpha.15, `/signin` restores inference for the same verified company identity
 while preserving the conversation and draft. Complete browser sign-in and
 Keychain persistence, then explicitly retry the request. From another terminal,
-use `airs-harness --environment work login --restore-session --no-browser`,
+use `airs --environment work login --restore-session --no-browser`,
 replacing `work` with the running session's environment name.
 
 MCP sign-in is separate: follow the displayed gateway MCP login command and
@@ -108,18 +108,18 @@ denial does not call for another human login.
 | Task | Command |
 | --- | --- |
 | Open the selected environment | `airs-harness` |
-| Resume its history | `airs-harness resume` |
-| Create an environment and sign in | `airs-harness env create work` |
-| List saved environments | `airs-harness env list` |
-| Inspect the selected environment | `airs-harness env show` |
-| Check local credential availability | `airs-harness env status` |
-| Select work | `airs-harness env use work` |
-| Rename an environment | `airs-harness env rename work team` |
-| Unregister, preserving local files | `airs-harness env remove team` |
-| Sign out native MCP | `airs-harness mcp logout prisma-airs` |
-| Sign back into native MCP | `airs-harness mcp login prisma-airs` |
-| Sign out inference | `airs-harness logout` |
-| Sign back into inference | `airs-harness login` |
+| Resume its history | `airs resume` |
+| Create an environment and sign in | `airs env create work` |
+| List saved environments | `airs env list` |
+| Inspect the selected environment | `airs env show` |
+| Check local credential availability | `airs env status` |
+| Select work | `airs env use work` |
+| Rename an environment | `airs env rename work team` |
+| Unregister, preserving local files | `airs env remove team` |
+| Sign out native MCP | `airs mcp logout prisma-airs` |
+| Sign back into native MCP | `airs mcp login prisma-airs` |
+| Sign out inference | `airs logout` |
+| Sign back into inference | `airs login` |
 
 Gateway MCP logout does not revoke the gateway-held upstream grant. If a browser
 says it cannot connect to localhost after five minutes, restart native login and

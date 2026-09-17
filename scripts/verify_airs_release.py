@@ -42,7 +42,7 @@ def main():
     if args.emulator:
         probe.insert(0, args.emulator)
     version = subprocess.check_output(probe, text=True).strip()
-    if version != "airs-harness " + info["version"]:
+    if version not in ("airs " + info["version"], "airs-harness " + info["version"]):
         raise ValueError("Executable version differs from provenance")
     required = [
         "LICENSE",

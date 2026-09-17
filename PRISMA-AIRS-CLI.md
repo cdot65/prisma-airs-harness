@@ -1,115 +1,105 @@
-# Managed Prisma AIRS CLI and skills
+# Bundled Prisma AIRS CLI and skills
 
-The alpha.9 release requires `@cdot65/prisma-airs-cli@5.2.0`, whose
-manifest pins `@cdot65/prisma-airs-sdk@0.28.0`. npm installs the CLI with the
-harness. An existing global `airs` installation is left alone. The harness
-checks the exact CLI version before startup and reports a reinstall error if
-it is missing or mismatched; it never falls back to a different global CLI.
-
-Use Node.js 22.13 or newer in the 22.x line, or 23.5 or newer. Keep npm optional
-dependencies enabled: they include the harness executable and the CLI's image
-and document generators. The supported native release targets remain Linux x64
-and Apple Silicon macOS. The JavaScript integration is also tested on Windows;
-a Windows native harness package is a separate release prerequisite.
-
-## Run and diagnose
-
-These commands work before gateway setup or Keycloak login:
+Harness **0.1.0-alpha.22** bundles `@cdot65/prisma-airs-cli@7.0.0` and SDK
+`0.33.0`. One npm harness installation includes the pinned CLI and eight embedded
+product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
+An independently installed product CLI uses **`airs-cli ...`**.
 
 ```sh
-airs-harness airs --version
-airs-harness airs doctor --output json
-airs-harness airs runtime --help
+airs --version
+airs cli --version
+airs cli --help
+airs cli tenant list
+airs cli doctor --output json
 ```
 
-Inside the harness, ask:
+CLI commands work before harness environment setup or company SSO. Put `cli`
+immediately after `airs`; harness `--environment` does not select a product tenant.
+`airs doctor` checks the harness; `airs cli doctor` checks product API readiness.
+The managed runner verifies the exact bundled CLI and never substitutes a global
+installation. Node 22.13+ in the 22.x line, or 23.5+, is required; keep npm optional
+dependencies enabled for native executables and image/document generation.
 
-> Use $prisma-airs-cli to check the managed CLI version and run doctor. Report
-> missing credential variable names and affected capabilities without revealing
-> their values. Do not modify configuration.
+## Upgrade command ownership
 
-Eight built-in skills cover setup/diagnosis, Runtime Security, Guardrail
-Generation, Red Teaming, AI Gateway, Model Security, DLP Testing, and DLP
-Management. The setup skill routes to the relevant capability so unrelated
-instructions do not consume the session context. The skills are embedded in
-the native executable and installed through the existing system-skill mechanism;
-user-created skills outside the system directory are preserved.
+If an old global product CLI owns `airs`, upgrade it first:
 
-Agent shell commands use the absolute `AIRS_MANAGED_CLI` path supplied by the npm
-launcher: `"$AIRS_MANAGED_CLI" doctor --output json` on POSIX or
-`& $env:AIRS_MANAGED_CLI doctor --output json` in PowerShell. Login shell startup
-files can reorder PATH, so a bare `airs` is not reliable proof of the managed
-version. Direct native-archive users must install CLI 5.2.0 separately and verify
-its version; the npm distribution manages the requirement automatically.
+```sh
+npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+airs-cli --version
+npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+airs --version
+airs cli --version
+```
 
-## Credentials
+Fresh harness users need only the second installation. The harness does not
+install a global `airs-cli`. Open a fresh shell and inspect `type -a airs airs-cli airs-harness` if an alias, manual file or another package manager still resolves
+an old executable. Resolve ownership through its original installer; do not force
+npm to overwrite unknown files. The `airs-harness` launcher and its old
+`airs-harness airs ...` forwarding remain compatibility entrypoints in alpha.22
+and are scheduled for removal in alpha.23. Environments, history, saved logins,
+MCP registrations and storage paths remain unchanged.
 
-| Capability | Environment variables |
-| --- | --- |
-| Runtime scanner | `PANW_AI_SEC_API_KEY` (or `PANW_AI_SEC_API_TOKEN` for token-capable scan commands) |
-| Management OAuth | `PANW_MGMT_CLIENT_ID`, `PANW_MGMT_CLIENT_SECRET`, `PANW_MGMT_TSG_ID` |
-| Alternate trusted config file | `PRISMA_AIRS_CONFIG_PATH` |
+For a read-only check before global installation:
 
-Existing protected `~/.prisma-airs/config.json` is supported. Nonempty environment
-values override file values. Users can provision these through their existing
-secret manager or login environment before starting the harness. Keycloak user
-JWTs and gateway workspace inference keys do not replace management service
-account credentials. CLI 5.2.0's DLP management path requires the three
-`PANW_MGMT_*` environment variables even when doctor and other management
-commands accept the config file. An `AISEC_MISSING_VARIABLE:clientId` error in
-that path calls for explicit management environment provisioning, not a different
-tenant or harness JWT. This phase does not add a management credential store or
-write plaintext secrets on behalf of the user.
+```sh
+npm exec --yes --registry=https://npm.cdot.io --package=airs-harness@0.1.0-alpha.22 -- airs --migration-check
+```
 
-The managed wrapper disables automatic loading of a working directory's `.env`.
-This prevents repository-controlled endpoint settings from redirecting requests
-that use trusted credentials. Explicit environment settings and a trusted config
-path still work. CLI/library explicit overrides retain their normal behavior.
-Local shell tools inherit environment credentials; this is not a secret broker.
-Avoid secret-valued command arguments, raw config output and debug/reveal flags.
-Doctor exception text is not universally redacted; summarize statuses before
-sharing results. Network calls follow the harness's existing permission policy.
+This reports PATH entries and recognized package owners without executing those
+commands or changing any installation. Inspect shell aliases/functions separately.
 
-## Known CLI 5.2.0 limits
+## Select product credentials
 
-Doctor probes scanner, management and gateway APIs; a green result is not proof
-of every permission. Its scanner credential check expects a key even when a
-scan command can use a token. Validate the requested operation separately.
+CLI 7 reads the selected tenant's JSON configuration. Credential environment
+variables, `PRISMA_AIRS_CONFIG_PATH` and a project `.env` are ignored. Existing
+CLI 6 tenant registrations work unchanged. To register a protected legacy file:
 
-Scan/evaluation summaries can hide normalized failures behind an Allow result.
-The runtime and guardrail skills require complete successful scan evidence;
-they must report inconclusive results when that evidence is unavailable.
-Guardrail creation upserts by name, evaluation is profile-wide, and revert
-performs separate detach/delete writes. The skill documents candidate isolation,
-full policy capture and verified restoration before any refinement loop.
+```sh
+airs cli tenant create development --config /absolute/path/to/config.json
+airs cli tenant switch development
+airs cli doctor --output json
+```
 
-DLP generation supports PDF, PNG, JPEG, SVG and DOCX, and does not itself scan
-these files. ZIP generation is unsupported. Detection requires a verified
-upload-capable scanner integration. Model Security's separate Python scanner
-requires additional provisioning; its installation is not an npm prerequisite.
+Or run `airs cli tenant create development` in a terminal for guided TSG ID,
+OAuth client ID and hidden secret entry. Use `tenant set NAME KEY` for supported
+edits; approved automation can supply secrets through stdin. Never paste secrets
+into chat or put them in command arguments.
 
-## Upgrade procedure
+Scanner credentials are `airsApiKey` or `airsApiToken`. Management uses
+`mgmtClientId`, `mgmtClientSecret` and `mgmtTsgId` with the tenant's token endpoint.
+Company SSO and MCP grants do not substitute for these product credentials.
+`airs env use` and `airs cli tenant switch` have independent selections. A trusted
+`PRISMA_AIRS_TENANTS_PATH` can isolate the CLI registry; the harness does not
+implicitly bind a CLI tenant to an environment.
 
-1. Select an explicit CLI version and review its manifest, SDK pin, help and
-   changed behavior. Update the exact harness dependency and regenerate the
-   npm lockfile against the trusted registry. No caret or automatic latest pin.
-2. Update only affected skills against that version's commands and schemas.
-   Independently forward-test high-impact workflows, especially rollback,
-   credential handling and interpretation of security results.
-3. Run launcher tests and `scripts/validate_prisma_cli.py` using a clean locked
-   install on Linux, Apple Silicon and Windows. It checks actual command
-   availability, missing-credential diagnosis, configuration precedence and real
-   document/image generation. The npm lockfile fixes the CI dependency graph;
-   published installs pin the CLI/SDK exactly but may resolve newer compatible
-   transitive dependencies. Candidate registry-install acceptance tests that graph.
-4. Rebuild the native executable because skills are compiled assets. Reuse the
-   Rust cache; run scoped Rust tests and native/npm acceptance, then exercise a
-   built-in skill through the actual agent. Preserve results and independent
-   review with the release. Never build Intel Mac artifacts.
-5. Publish a new harness version with its validated native packages, update the
-   compatibility row below and promote only after the candidate checks pass.
+## Skills and validation
 
-| Harness | CLI | SDK | Status |
-| --- | --- | --- | --- |
-| 0.1.0-alpha.9 | 5.2.0 | 0.28.0 | Validated CLI/native/npm compatibility |
-| 0.1.0-alpha.8 | None required | None required | Previously published |
+Ask inside the harness:
+
+> Use $prisma-airs-cli to check the bundled version and selected tenant, then
+> diagnose missing settings without revealing credentials or modifying configuration.
+
+The embedded skills cover diagnosis, Runtime Security, Guardrail Generation,
+Red Teaming, AI Gateway, Model Security, DLP Testing and DLP Management. Agent
+shell tools invoke the absolute `AIRS_MANAGED_CLI` path, so login-shell PATH changes
+cannot select another product version. User-created skills are preserved.
+AgentGuard is available through CLI help but has no dedicated embedded skill yet.
+
+Doctor distinguishes pass/warn/fail/skip and performs network probes when
+credentials are present. It is not proof of every operation or permission.
+Skills require complete scan evidence before treating an Allow summary or
+aggregate evaluation metric as success. Guardrail writes and rollback can
+partially fail; preserve baseline policy and verify actual state. DLP corpus
+generation is not document scanning, and ZIP generation is unsupported. Model
+Security's separate Python scanner requires its own provisioning when requested.
+
+The single-install bundle applies to npm distributions for Linux x64, Linux
+ARM64 and Apple Silicon. Bare native archives do not include Node or the managed
+CLI; use npm for `airs cli` and product skills. Windows launcher contracts remain
+tested separately; this release does not add a Windows native package.
+
+For future upgrades, pin the CLI and SDK exactly, review command/credential
+contracts, refresh affected embedded skills and the lockfile, rebuild native
+assets, and validate clean installs and upgrades on every released platform.
+Retain bundle hashes, signing evidence and published-package acceptance receipts.

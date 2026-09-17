@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       source_ref:
+        type: string
         description: Rust source branch or commit to cross-compile
         default: main
         required: true

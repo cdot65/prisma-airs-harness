@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
-function fixture(t, version = "5.2.0") {
+function fixture(t, version = "7.0.0") {
   const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), "airs-cli-integration-")));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const harness = path.join(root, "node_modules", "airs-harness");
@@ -15,7 +15,7 @@ function fixture(t, version = "5.2.0") {
     const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
     mkdirSync(cli, { recursive: true });
     writeFileSync(path.join(cli, "package.json"), JSON.stringify({
-      version, bin: { airs: "index.js" },
+      version, bin: { "airs-cli": "index.js" },
     }));
     writeFileSync(path.join(cli, "index.js"), `
 console.log(JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),
@@ -59,4 +59,22 @@ test("dotenv argv cannot redirect managed credential discovery", (t) => {
   const result = spawnSync(process.execPath, [entry, "airs", "dotenv_config_path=untrusted.env"], { encoding: "utf8" });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /dotenv argument overrides/);
+});
+
+
+test("public airs cli dispatches without a native package, login or environment", (t) => {
+  const { entry } = fixture(t);
+  const primary = path.join(path.dirname(entry), "airs.js");
+  const result = spawnSync(process.execPath, [primary, "cli", "--", "literal --environment", "{\"x\":1}"], { encoding: "utf8" });
+  assert.equal(result.status, 7, result.stderr);
+  assert.deepEqual(JSON.parse(result.stdout).args, ["--", "literal --environment", "{\"x\":1}"]);
+});
+
+test("only the compatibility launcher accepts the old airs forwarding action", (t) => {
+  const { entry } = fixture(t);
+  const legacy = spawnSync(process.execPath, [entry, "airs", "--version"], { encoding: "utf8" });
+  assert.equal(legacy.status, 7, legacy.stderr);
+  const primary = spawnSync(process.execPath, [path.join(path.dirname(entry), "airs.js"), "airs", "--version"], { encoding: "utf8" });
+  assert.equal(primary.status, 1);
+  assert.match(primary.stderr, /native package|does not include/);
 });

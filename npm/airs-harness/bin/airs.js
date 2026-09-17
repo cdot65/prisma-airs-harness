@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 import { run } from "../lib/launcher.js";
 
-run({ legacy: true });
+run();

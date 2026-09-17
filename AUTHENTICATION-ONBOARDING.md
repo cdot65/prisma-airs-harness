@@ -33,7 +33,7 @@ Open Terminal on your Mac or your Linux desktop terminal, using your normal
 signed-in account. After the candidate is installed:
 
 ```text
-airs-harness
+airs
 ```
 
 On a fresh installation, enter an environment name (Enter accepts `work`) and
@@ -83,11 +83,11 @@ the check; it is not a provider-issued response ID.
 To retry without signing in again:
 
 ```text
-airs-harness doctor --verify-access
+airs doctor --verify-access
 ```
 
 Select the same environment when retrying, for example
-`airs-harness --environment work doctor --verify-access`. The check uses the
+`airs --environment work doctor --verify-access`. The check uses the
 configured model selection: the gateway default sends no model name, while an
 explicit route must appear in that environment's local capability catalog.
 Optional MCP access still needs its own harmless tool test.
@@ -95,36 +95,36 @@ Optional MCP access still needs its own harmless tool test.
 If you need to sign in again, run:
 
 ```text
-airs-harness login
+airs login
 ```
 
 To add another environment without replacing an existing one, run
-`airs-harness setup` and choose a new name. For a different company identity,
+`airs env create` and choose a new name. For a different company identity,
 workspace key, or gateway, create a new environment so histories stay separated.
 
 ## Return in a new terminal
 
 ```text
-airs-harness env list
-airs-harness resume
+airs env list
+airs resume
 ```
 
 The asterisk in the environment list marks the default. Resume uses its saved
 settings and credentials. To choose another listed environment explicitly:
 
 ```text
-airs-harness --environment work resume
+airs --environment work resume
 ```
 
 A signed-out environment offers guided login in an interactive terminal. If a
 saved credential is missing or the OS refuses access, follow the reported
-recovery action or run `airs-harness login`. Do not delete configuration or
+recovery action or run `airs login`. Do not delete configuration or
 credential records to work around an error.
 
 ## Sign out and collect diagnostics
 
 ```text
-airs-harness logout
+airs logout
 ```
 
 Logout invalidates that environment's running AIRS clients and attempts local
@@ -136,10 +136,10 @@ is administered in AIRS; signing out locally does not revoke the shared key.
 For support, run these application commands:
 
 ```text
-airs-harness --version
-airs-harness status
-airs-harness doctor
-airs-harness doctor --json
+airs --version
+airs env status
+airs doctor
+airs doctor --json
 ```
 
 `status` shows the selected environment and saved authentication configuration.

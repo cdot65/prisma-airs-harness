@@ -224,7 +224,7 @@ class TerminalIntegration(unittest.TestCase):
             check=True,
         )
         product, cls.version = result.stdout.strip().split()
-        if product != "airs-harness":
+        if product not in ("airs", "airs-harness"):
             raise ValueError("Expected a Prisma AIRS Harness executable")
 
     @unittest.skipIf(sys.platform == "win32", "POSIX subprocess lock/PTY acceptance")
@@ -1479,7 +1479,7 @@ class TerminalIntegration(unittest.TestCase):
                 del self.env[key]
         config = self.work / "trusted-cli.json"
         config.write_text("{}")
-        self.env["PRISMA_AIRS_CONFIG_PATH"] = str(config)
+        self.env["PRISMA_AIRS_TENANTS_PATH"] = str(self.work / "isolated-tenants.json")
         (self.work / ".env").write_text("PANW_AI_SEC_API_KEY=untrusted-project-key\n")
         self.prompt = "$prisma-airs-cli Check the managed CLI version and diagnose missing credentials."
         self.tool_command = (
@@ -1490,15 +1490,16 @@ class TerminalIntegration(unittest.TestCase):
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
-            (self.work / "managed-version.txt").read_text().strip(), "5.2.0"
+            (self.work / "managed-version.txt").read_text().strip(), "7.0.0"
         )
         statuses = {
             row["name"]: row["status"]
             for row in json.loads((self.work / "managed-doctor.json").read_text())
         }
-        self.assertEqual(statuses["Scanner credentials"], "fail")
-        self.assertEqual(statuses["Management credentials"], "fail")
-        self.assertEqual(statuses["Scanner API"], "warn")
+        self.assertEqual(statuses["Tenant"], "fail")
+        self.assertEqual(statuses["Scanner credentials"], "skip")
+        self.assertEqual(statuses["Management credentials"], "skip")
+        self.assertEqual(statuses["Scanner API"], "skip")
         context = json.dumps(self.requests[0][2]["input"])
         for name in [
             "prisma-airs-cli",
@@ -1512,7 +1513,7 @@ class TerminalIntegration(unittest.TestCase):
         ]:
             self.assertIn(name, context)
         self.assertIn(
-            "Doctor is a preflight", context, "invoked skill body must reach the agent"
+            "Doctor is not proof", context, "invoked skill body must reach the agent"
         )
 
     def test_gateway_default_local_tool_and_continuation(self):

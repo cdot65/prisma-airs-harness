@@ -42,7 +42,7 @@ def main():
             cwd=Path(__file__).resolve().parents[1],
             text=True,
         ).strip(),
-        "product_version": version.removeprefix("airs-harness "),
+        "product_version": version.removeprefix("airs-harness ").removeprefix("airs "),
         "target": args.target,
         "binary_sha256": digest,
         "native_tests": re.search(r"Ran (\d+) tests", tests).group(1),

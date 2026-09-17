@@ -1,6 +1,6 @@
 # Prisma AIRS Harness
 
-The `airs-harness` command runs a native Codex terminal agent. Inference and
+The `airs` command runs a native Codex terminal agent. Inference and
 remote MCP both use Prisma AIRS AI Gateway. Its built-in MCP client connects to
 the gateway listener; the gateway proxies upstream servers and owns upstream
 OAuth. No separate MCP executable is required.
@@ -10,8 +10,8 @@ OAuth. No separate MCP executable is required.
 On the organization's LAN/VPN, install from Verdaccio:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.21 --include=optional --registry=https://npm.cdot.io
-airs-harness --version
+npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+airs --version
 ```
 
 Alpha.21 includes Linux x64, Linux ARM64 and Apple Silicon native packages. The package uses anonymous downloads;
@@ -29,7 +29,7 @@ to create an environment, sign into inference, add the gateway ServiceNow MCP
 connection and authorize it with the same company identity. The two grants
 remain separate. Verify a read-only incident tool result after login.
 
-Alpha.20 adds manual callback input to `airs-harness mcp login <server> --no-browser`.
+Alpha.20 adds manual callback input to `airs mcp login <server> --no-browser`.
 Open the printed authorization URL on your browser host, complete sign-in, and
 paste the full callback URL into the terminal running that command. Input is
 hidden and validated; a working HTTP callback can still finish the same flow.
@@ -65,9 +65,9 @@ preserve old targets referenced by stored credential bindings.
 Keep an existing named inference environment. For a new connection:
 
 ```sh
-airs-harness env create work --gateway-url https://gateway.example.com/v1
-airs-harness --environment work login
-airs-harness --environment work doctor --verify-access
+airs env create work --gateway-url https://gateway.example.com/v1
+airs --environment work login
+airs --environment work doctor --verify-access
 ```
 
 Use your administrator's inference URL and company issuer/client/audience, or
@@ -75,11 +75,11 @@ choose a workspace API key for inference. A workspace key is not the MCP user
 credential. With a configured gateway integration:
 
 ```sh
-airs-harness --environment work mcp add mcp-server-1 \
+airs --environment work mcp add mcp-server-1 \
   --url https://gateway-mcp.example.com/mcp-server-1/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
-airs-harness --environment work mcp list
-airs-harness --environment work
+airs --environment work mcp list
+airs --environment work
 ```
 
 Replace the example with the gateway-provided MCP URL and discovery-supported
@@ -96,7 +96,7 @@ storage. Confirm CLI completion and a tool call after browser consent. The
 callback expires after five minutes; headless tests require a tunnel from the
 browser's loopback port to the native process.
 
-Use `/mcp` in the terminal for inventory, and `airs-harness resume` for history.
+Use `/mcp` in the terminal for inventory, and `airs resume` for history.
 `mcp logout mcp-server-1` signs out native MCP separately from inference `logout`;
 it does not revoke the gateway's upstream user grant. Git, ripgrep and project
 tools remain prerequisites; Linux also requires usable Bubblewrap.
@@ -107,7 +107,7 @@ When inference needs fresh company sign-in, use `/signin` in the open terminal.
 The harness verifies the same issuer, client, audience and subject before saving
 credentials. It keeps your conversation and draft, and does not replay completed
 requests. Cancel leaves your work in place. In another terminal, the equivalent
-command is `airs-harness --environment work login --restore-session --no-browser`.
+command is `airs --environment work login --restore-session --no-browser`.
 Use the environment name shown by your running session.
 
 MCP authentication is separate. On an MCP authentication failure, choose **Sign
@@ -129,10 +129,11 @@ Restart running terminals after upgrading so they use the new native client.
 
 ## Managed Prisma AIRS CLI
 
-This release pins `@cdot65/prisma-airs-cli@5.2.0` and includes eight
-built-in Prisma AIRS skills. Run `airs-harness airs doctor --output json` before
-Prisma AIRS operations. Existing protected CLI configuration and explicit
-`PANW_AI_SEC_API_KEY`, `PANW_MGMT_CLIENT_ID`, `PANW_MGMT_CLIENT_SECRET`, and
-`PANW_MGMT_TSG_ID` environment settings are supported. Keycloak sign-in does not
-supply management credentials. See the bundled `PRISMA-AIRS-CLI.md` for setup,
+This release pins `@cdot65/prisma-airs-cli@7.0.0` and includes eight
+built-in Prisma AIRS skills. Run `airs cli doctor --output json` before
+Prisma AIRS operations. CLI 7 uses the selected tenant JSON configuration;
+credential environment variables are ignored. Register existing protected config
+files with `airs cli tenant create NAME --config PATH`. Harness environments and
+CLI tenants have independent selections. Keycloak sign-in does not supply product
+management credentials. See the bundled `PRISMA-AIRS-CLI.md` for setup,
 capabilities, known CLI limits and the compatibility policy.

@@ -3,15 +3,19 @@ on:
   workflow_dispatch:
     inputs:
       source_ref:
+        type: string
         description: Exact compiled runtime commit
         required: true
       archive_sha256:
+        type: string
         description: Verified native build archive SHA256
         required: true
       binary_sha256:
+        type: string
         description: Verified compiled executable SHA256
         required: true
       fixture_sha256:
+        type: string
         description: Verified native store fixture SHA256
         required: true
 jobs:

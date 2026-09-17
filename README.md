@@ -2,7 +2,7 @@
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
 Both inference and remote MCP traffic target Prisma AIRS AI Gateway. The native
-Codex MCP client runs inside `airs-harness`; the gateway proxies upstream MCP
+Codex MCP client runs inside `airs`; the gateway proxies upstream MCP
 servers and manages their OAuth credentials. Files, shell commands, skills,
 approvals and history remain under the local runtime. Selected file contents and
 tool results become inference context.
@@ -33,9 +33,20 @@ refresh are not claimed by this environment-management release.
 Connect to the organization's LAN/VPN, then use a supported Node.js installation:
 Node.js 22.13+ in the 22.x line, or 23.5+.
 
+If the old standalone Prisma AIRS CLI already owns `airs`, upgrade it **first**:
+
+```sh
+npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+airs-cli --version
+```
+
+A fresh machine needs only the harness installation below. It includes CLI 7.0.0
+as `airs cli` and the Prisma AIRS product skills.
+
 ```sh
 npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
 airs --version
+airs cli --version
 ```
 
 Downloads are anonymous; no npm login or Rust compiler is required.

@@ -9,12 +9,23 @@ OAuth. No separate MCP executable is required.
 
 On the organization's LAN/VPN, install from Verdaccio:
 
+If the old standalone Prisma AIRS CLI already owns `airs`, upgrade it **first**:
+
+```sh
+npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+airs-cli --version
+```
+
+A fresh machine needs only the harness installation below. It includes CLI 7.0.0
+as `airs cli` and the Prisma AIRS product skills.
+
 ```sh
 npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
 airs --version
+airs cli --version
 ```
 
-Alpha.21 includes Linux x64, Linux ARM64 and Apple Silicon native packages. The package uses anonymous downloads;
+Alpha.22 includes Linux x64, Linux ARM64 and Apple Silicon native packages. The package uses anonymous downloads;
 no npm login is required. Optional dependencies carry the matching native binary.
 The launcher does not compile or download code at startup and has no install
 scripts. See the bundled [Mac guide](MACOS.md).

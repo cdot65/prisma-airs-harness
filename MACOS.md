@@ -21,16 +21,27 @@ production active-expiry acceptance remains incomplete.
 Open Terminal in your normal signed-in desktop session. Install Node.js, Git and
 ripgrep if needed, then install the harness:
 
+If the old standalone Prisma AIRS CLI already owns `airs`, upgrade it **first**:
+
+```sh
+npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+airs-cli --version
+```
+
+A fresh machine needs only the harness installation below. It includes CLI 7.0.0
+as `airs cli` and the Prisma AIRS product skills.
+
 ```sh
 brew install node git ripgrep
 npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
 airs --version
+airs cli --version
 ```
 
 Downloads are anonymous. No GitHub token or npm login is required. An ordinary npm upgrade
 needs no uninstall, manual binary deletion or force. Keep existing environments
 and conversation history. If an old manual executable shadows npm, inspect
-`command -v airs-harness` and `npm prefix -g` before changing that legacy link.
+`type -a airs airs-cli airs-harness` and `npm prefix -g` before changing that legacy link.
 
 For the complete workflow—environment creation, inference SSO, ServiceNow MCP
 registration and MCP SSO with the same company identity—follow
@@ -50,7 +61,7 @@ airs env create work --gateway-url https://gateway.example.com/v1
 airs --environment work login
 ```
 
-Creation selects the environment, so `airs-harness` opens it afterward. Use
+Creation selects the environment, so `airs` opens it afterward. Use
 `env use NAME` to change that default; `--environment NAME` selects an environment
 for one command without changing the default.
 

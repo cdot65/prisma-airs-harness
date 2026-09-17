@@ -92,7 +92,9 @@ class ManualMcpLogin(unittest.TestCase):
         setup = subprocess.run(
             [
                 str(BINARY),
-                "setup",
+                "env",
+                "create",
+                "work",
                 "--gateway-url",
                 self.base + "/v1",
                 "--allow-http-loopback",
@@ -106,6 +108,8 @@ class ManualMcpLogin(unittest.TestCase):
             timeout=20,
         )
         self.assertEqual(setup.returncode, 0, setup.stderr)
+        registry = json.loads((self.home / "environments.json").read_text())
+        self.home = self.home / "environments" / registry["environments"]["work"]["id"]
         config = self.home / "config.toml"
         config.write_text(
             'mcp_oauth_credentials_store = "file"\n'

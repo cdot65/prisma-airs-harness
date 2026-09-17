@@ -133,11 +133,22 @@ impl Provider {
             .claims;
         let now = jsonwebtoken::get_current_timestamp();
         anyhow::ensure!(
-            access.azp == self.config.client_id
-                && access.sub == claims.subject().as_str()
-                && access.iat <= now + 30
-                && access.exp > now + 15,
-            "access JWT identity or lifetime mismatch"
+            access.azp == self.config.client_id,
+            "access JWT authorized party does not match the configured client"
+        );
+        anyhow::ensure!(
+            access.sub == claims.subject().as_str(),
+            "access JWT subject does not match the verified ID token"
+        );
+        anyhow::ensure!(
+            access.iat <= now + 30,
+            "access JWT was issued {} seconds ahead of this machine's clock; synchronize the system clock and retry sign-in",
+            access.iat.saturating_sub(now)
+        );
+        anyhow::ensure!(
+            access.exp > now + 15,
+            "access JWT has only {} seconds remaining; check the system clock and issuer token lifetime, then retry sign-in",
+            access.exp.saturating_sub(now)
         );
         let refresh_token = response
             .refresh_token()

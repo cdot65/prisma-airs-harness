@@ -141,6 +141,59 @@ fn rejects_signed_identity_substitution_and_wrong_resource() {
 }
 
 #[test]
+fn identifies_client_and_subject_mismatches_without_exposing_claim_values() {
+    let (id, access) = claims();
+    for (field, message) in [
+        (
+            "azp",
+            "access JWT authorized party does not match the configured client",
+        ),
+        (
+            "sub",
+            "access JWT subject does not match the verified ID token",
+        ),
+    ] {
+        let mut altered = access.clone();
+        altered[field] = json!("private-claim-value");
+        let error = provider()
+            .verify(response(&id, &altered), NoncePolicy::Browser("nonce-123"))
+            .err()
+            .unwrap();
+        assert_eq!(error.to_string(), message);
+    }
+}
+
+#[test]
+fn identifies_future_issue_time_without_accepting_the_token() {
+    let (id, mut access) = claims();
+    access["iat"] = json!(jsonwebtoken::get_current_timestamp() + 300);
+    let error = provider()
+        .verify(response(&id, &access), NoncePolicy::Browser("nonce-123"))
+        .err()
+        .unwrap()
+        .to_string();
+    assert!(error.starts_with("access JWT was issued "));
+    assert!(error.ends_with(
+        "seconds ahead of this machine's clock; synchronize the system clock and retry sign-in"
+    ));
+}
+
+#[test]
+fn identifies_insufficient_remaining_lifetime_without_accepting_the_token() {
+    let (id, mut access) = claims();
+    access["exp"] = json!(jsonwebtoken::get_current_timestamp() + 14);
+    let error = provider()
+        .verify(response(&id, &access), NoncePolicy::Browser("nonce-123"))
+        .err()
+        .unwrap()
+        .to_string();
+    assert!(error.starts_with("access JWT has only "));
+    assert!(error.ends_with(
+        "seconds remaining; check the system clock and issuer token lifetime, then retry sign-in"
+    ));
+}
+
+#[test]
 fn verifies_access_token_hash_and_device_nonce_absence() {
     let (mut id, access) = claims();
     id["at_hash"] = json!("incorrect-hash");

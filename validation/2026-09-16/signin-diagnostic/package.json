@@ -1,0 +1,22 @@
+{
+  "name": "airs-harness-diagnostics",
+  "version": "0.1.0-alpha.20",
+  "description": "AIRS company sign-in validation diagnostic; prints no tokens and stores no credentials",
+  "license": "Apache-2.0",
+  "bin": {
+    "airs-harness-signin-diagnostic": "signin.cjs"
+  },
+  "files": [
+    "signin.cjs",
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.cdot.io/cdot/prisma-airs-harness.git"
+  },
+  "airsRuntimeSource": "ef365e990"
+}

@@ -89,8 +89,18 @@ def main():
     assert old_hash == old_info["binary_sha256"]
 
     # Preserve a real pre-upgrade harness configuration, not a fabricated marker.
+    previous_setup = (
+        ["env", "create", "work"]
+        if int(args.previous.rsplit(".", 1)[1]) >= 21
+        else ["setup"]
+    )
     run(
-        [str(command), "setup", "--gateway-url", "https://gateway.redtail.cdot.io/v1"],
+        [
+            str(command),
+            *previous_setup,
+            "--gateway-url",
+            "https://gateway.example.com/v1",
+        ],
         old_env,
         args.output / "previous-setup.log",
     )
@@ -176,7 +186,7 @@ def main():
                 env,
                 args.output / (case + "-version.log"),
             )
-            assert actual == "airs-harness " + launcher["version"]
+            assert actual == "airs " + launcher["version"]
             binary, info = native_info(destination)
             digest = hashlib.sha256(binary.read_bytes()).hexdigest()
             assert digest == info["binary_sha256"] and digest != old_hash
@@ -195,7 +205,7 @@ def main():
             old_env,
             args.output / "front-of-path-version.log",
         )
-        assert forwarded_version == "airs-harness " + launcher["version"]
+        assert forwarded_version == "airs " + launcher["version"]
         results.append(
             {
                 "case": "legacy-command-before-separate-npm-prefix",

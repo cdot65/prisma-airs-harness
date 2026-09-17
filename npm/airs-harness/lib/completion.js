@@ -4,7 +4,9 @@ import { spawnSync } from "node:child_process";
 // namespace. Product completions must never replace harness root completions.
 export function composeCompletion(shell, native, product) {
   if (shell === "bash") {
-    const harness = native.replace(/\b_airs\b/g, "_airs_harness");
+    const harness = native.replace(/\b_airs\b/g, "_airs_harness")
+      .replace(/opts="([^"\n]*)"/g, (_, options) =>
+        `opts="${options.split(" ").filter((item) => item !== "runtime").join(" ")}"`);
     const cli = product.replaceAll("_airs-cli_completions", "_airs_product")
       .replace(/^complete -F .*$/gm, "");
     return `${harness}\n${cli}\n_airs() {
@@ -20,7 +22,8 @@ complete -F _airs -o bashdefault -o default airs
 `;
   }
   if (shell === "zsh") {
-    const harness = native.replace(/\b_airs\b/g, "_airs_harness");
+    const harness = native.replace(/\b_airs\b/g, "_airs_harness")
+      .replace(/^'runtime:' \\\n/gm, "");
     const cli = product.replaceAll("_airs-cli", "_airs_product")
       .replace(/^#compdef .*$/gm, "").replace(/^_airs_product "\$@"$/gm, "");
     return `${harness}\n${cli}\n_airs() {
@@ -36,12 +39,15 @@ compdef _airs airs
 `;
   }
   if (shell === "fish") {
+    const harness = native.split("\n").filter((line) =>
+      !line.includes('__fish_airs_using_subcommand cli"') &&
+      !line.includes('-a "runtime"')).join("\n");
     const cli = product.replaceAll("__airs-cli_using", "__airs_product_using")
       .replaceAll("complete -c airs-cli", "complete -c airs")
       .replace("set -l tokens (commandline -opc)",
         "set -l tokens (commandline -opc)\n    test \"$tokens[2]\" = cli; or return 1")
       .replace("$tokens[2..-1]", "$tokens[3..-1]");
-    return `${native}\n${cli}`;
+    return `${harness}\n${cli}`;
   }
   return native;
 }

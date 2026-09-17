@@ -31,3 +31,14 @@ test("fish product suggestions require cli and do not register airs-cli", () => 
   assert.match(result, /\$tokens\[3\.\.-1\]/);
   assert.doesNotMatch(result, /complete -c airs-cli/);
 });
+
+test("generated completions omit the legacy product root and harness-only CLI flags", () => {
+  const bash = composeCompletion("bash", '_airs() { opts="env runtime cli"; }', "");
+  assert.match(bash, /opts="env cli"/);
+  const zsh = composeCompletion("zsh", "'cli:Product CLI' \\\n'runtime:' \\\n'env:Environments' \\\n", "");
+  assert.doesNotMatch(zsh, /'runtime:'/);
+  assert.match(zsh, /'env:Environments'/);
+  const fish = composeCompletion("fish", 'complete -c airs -n "__fish_airs_needs_command" -a "runtime"\ncomplete -c airs -n "__fish_airs_using_subcommand cli" -l environment\ncomplete -c airs -n "__fish_airs_needs_command" -a "env"', "");
+  assert.doesNotMatch(fish, /runtime|environment/);
+  assert.match(fish, /-a "env"/);
+});

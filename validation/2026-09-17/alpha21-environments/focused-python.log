@@ -1,0 +1,16 @@
+test_mismatch_newline_stderr_and_exit_failure_are_generic (test_validate_workspace_login.PrivateCredentialMeasurements.test_mismatch_newline_stderr_and_exit_failure_are_generic) ... ok
+test_thirty_paired_processes_verify_private_output_without_retaining_it (test_validate_workspace_login.PrivateCredentialMeasurements.test_thirty_paired_processes_verify_private_output_without_retaining_it) ... ok
+test_timeout_does_not_format_partial_secret_output_or_cause (test_validate_workspace_login.PrivateCredentialMeasurements.test_timeout_does_not_format_partial_secret_output_or_cause) ... ok
+test_zero_runs_performs_no_processes_and_p95_preserves_slow_samples (test_validate_workspace_login.PrivateCredentialMeasurements.test_zero_runs_performs_no_processes_and_p95_preserves_slow_samples) ... ok
+test_optional_probe_preserves_old_fixture_and_still_rejects_key_echo (test_validate_workspace_login.WorkspaceLoginEvidence.test_optional_probe_preserves_old_fixture_and_still_rejects_key_echo) ... ok
+test_required_probe_needs_disclosure_and_success (test_validate_workspace_login.WorkspaceLoginEvidence.test_required_probe_needs_disclosure_and_success) ... ok
+test_transcript_enforces_limit_before_extending (test_validate_workspace_login.WorkspaceLoginEvidence.test_transcript_enforces_limit_before_extending) ... ok
+test_setup_refuses_overwrite (test_airs_harness.TerminalIntegration.test_setup_refuses_overwrite) ... ok
+test_setup_without_context_flag_persists_default (test_airs_harness.TerminalIntegration.test_setup_without_context_flag_persists_default) ... ok
+test_native_status_and_plain_doctor_inspect_configuration_without_store_access (test_airs_harness.TerminalIntegration.test_native_status_and_plain_doctor_inspect_configuration_without_store_access) ... ok
+test_guided_setup_retains_public_settings_after_cancelled_login (test_airs_harness.TerminalIntegration.test_guided_setup_retains_public_settings_after_cancelled_login) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.300s
+
+OK

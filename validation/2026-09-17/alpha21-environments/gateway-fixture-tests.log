@@ -1,0 +1,6 @@
+test_doctor_rejects_unsafe_gateway_before_display_or_any_request (test_airs_harness.TerminalIntegration.test_doctor_rejects_unsafe_gateway_before_display_or_any_request) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.529s
+
+OK

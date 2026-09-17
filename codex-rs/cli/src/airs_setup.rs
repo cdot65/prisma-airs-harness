@@ -64,11 +64,11 @@ pub(super) async fn interactive(
         .await
         .with_context(|| {
             format!(
-                "Environment {name} was created. Resume sign-in with: airs-harness --environment {name} login"
+                "Environment {name} was created. Resume sign-in with: airs --environment {name} login"
             )
         })?;
-    eprintln!("Check access: airs-harness --environment {name} doctor --verify-access");
-    eprintln!("Start a session: airs-harness --environment {name}");
+    eprintln!("Check access: airs --environment {name} doctor --verify-access");
+    eprintln!("Start a session: airs --environment {name}");
     Ok(())
 }
 

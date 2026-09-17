@@ -5,11 +5,11 @@ description: "Refine Prisma AIRS guardrail topics through bounded create, apply,
 
 # Guardrail Generation
 
-Use the harness-managed CLI 5.2.0. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples below use `airs` as shorthand for that executable. Do not substitute a global installation. Outside the npm harness, verify `airs --version` is 5.2.0 first.
+Use the harness-managed CLI 7.0.0. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.0.0. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
 
 For missing credentials or setup, read [Prisma AIRS CLI setup](../prisma-airs-cli/SKILL.md). Use command-specific `--help` and structured output to establish exact flags and schemas. Existing task authorization applies; request additional authorization only when the proposed target or action falls outside it. Keep secrets out of prompts, command arguments, reports and debug logs.
 
-The CLI supplies individual `airs runtime topics` commands; the agent orchestrates the loop. Operations involving multiple writes can partially fail. Inspect `sample`, `create`, `apply`, `eval` and `revert` help before selecting flags. Evaluation CSV uses `prompt,expected,intent`: `expected` must be literal `true` or `false`, all rows must use the same `intent`, and include both positive and negative classes. Keep the dataset fixed across comparisons.
+The CLI supplies individual `airs cli runtime topics` commands; the agent orchestrates the loop. Operations involving multiple writes can partially fail. Inspect `sample`, `create`, `apply`, `eval` and `revert` help before selecting flags. Evaluation CSV uses `prompt,expected,intent`: `expected` must be literal `true` or `false`, all rows must use the same `intent`, and include both positive and negative classes. Keep the dataset fixed across comparisons.
 
 Establish target profile, success criteria and a bounded iteration budget. Capture the original topic definition and full profile policy, including global topic-guardrails action and pinned revisions of every attached topic. Inspect attachments across profiles. Prepare an allowlisted mutable rollback payload accepted by `runtime profiles update --config`; do not submit an unfiltered GET response as an update.
 

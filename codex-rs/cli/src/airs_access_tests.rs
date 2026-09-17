@@ -303,7 +303,7 @@ fn honest_verification_messages_have_snapshot_coverage() {
 
     Credential saved; gateway access not yet verified. The gateway connection failed. Check connectivity, DNS and TLS.
     Client correlation ID: 00000000-0000-0000-0000-000000000000
-    Retry: airs-harness doctor --verify-access (select the same environment).
+    Retry: airs doctor --verify-access (select the same environment).
     ");
 }
 

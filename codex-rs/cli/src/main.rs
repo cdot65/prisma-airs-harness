@@ -169,13 +169,24 @@ struct MultitoolCli {
 
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
+    /// Run the bundled Prisma AIRS product CLI (npm distribution).
+    #[clap(hide = !airs_harness::is_standalone())]
+    Cli {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<std::ffi::OsString>,
+    },
+    #[clap(name = "runtime", aliases = ["redteam", "aigateway", "model-security", "agentguard", "tenant"], hide = true)]
+    LegacyProduct {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<std::ffi::OsString>,
+    },
     /// Connect a remote AIRS MCP server with a separate credential file.
     #[clap(name = "setup-mcp", hide = !airs_harness::is_standalone())]
     McpSetup(airs_mcp::SetupArgs),
     #[clap(hide = true)]
     McpCredential(airs_mcp::HelperArgs),
     /// Create, inspect, switch, rename, or remove AIRS environments.
-    #[clap(hide = !airs_harness::is_standalone(), after_help = "With no action, lists saved environments.\nStart with: airs-harness env create work\nFor automation: airs-harness env create work --gateway-url URL")]
+    #[clap(hide = !airs_harness::is_standalone(), after_help = "With no action, lists saved environments.\nStart with: airs env create work\nFor automation: airs env create work --gateway-url URL")]
     Env {
         #[command(subcommand)]
         command: Option<airs_environment::Command>,
@@ -1193,6 +1204,16 @@ async fn cli_main(
     } else {
         MultitoolCli::parse()
     };
+    if matches!(&subcommand, Some(Subcommand::Cli { .. })) {
+        anyhow::bail!(
+            "Run 'airs cli ...' through the npm-installed airs command, with cli immediately after airs. Harness flags such as --environment do not select a product tenant. Native archives do not bundle the product CLI."
+        );
+    }
+    if matches!(&subcommand, Some(Subcommand::LegacyProduct { .. })) {
+        anyhow::bail!(
+            "Product commands moved to 'airs cli ...' (bundled) or 'airs-cli ...' (standalone). Run 'airs cli --help'."
+        );
+    }
     if airs_harness::is_standalone() {
         let root = codex_core::config::find_codex_home()?;
         match &subcommand {
@@ -1320,7 +1341,7 @@ async fn cli_main(
     }
     anyhow::ensure!(
         airs_harness::is_standalone() || environment.is_none(),
-        "--environment is available in airs-harness"
+        "--environment is available in airs"
     );
     reject_unsupported_worktree_for_subcommand(interactive.shared.worktree, &subcommand)?;
     // Fold --enable/--disable into config overrides so they flow to all subcommands.
@@ -1412,10 +1433,12 @@ async fn cli_main(
         }
         Some(
             Subcommand::McpSetup(_)
+            | Subcommand::Cli { .. }
+            | Subcommand::LegacyProduct { .. }
             | Subcommand::McpCredential(_)
             | Subcommand::Env { .. }
             | Subcommand::Credential(_),
-        ) => anyhow::bail!("this command is available in airs-harness"),
+        ) => anyhow::bail!("this command is available in airs"),
         Some(Subcommand::Exec(mut exec_cli)) => {
             reject_remote_mode_for_subcommand(
                 root_remote.as_deref(),
@@ -2733,6 +2756,8 @@ fn unsupported_subcommand_name_for_strict_config(
     subcommand: &Option<Subcommand>,
 ) -> Option<&'static str> {
     match subcommand {
+        Some(Subcommand::Cli { .. }) => Some("cli"),
+        Some(Subcommand::LegacyProduct { .. }) => Some("runtime"),
         Some(Subcommand::McpSetup(_)) => Some("setup-mcp"),
         Some(Subcommand::McpCredential(_)) => Some("mcp-credential"),
         Some(Subcommand::Env { .. }) => Some("env"),

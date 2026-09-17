@@ -41,7 +41,7 @@ fn native_metadata_does_not_require_any_stored_secret() {
                 result.authentication.replace(&binding.id.to_string(), "<binding-id>"), result.detail), @r"
             https://gateway.example/v1
             Workspace credential; saved OS-store binding <binding-id>
-            Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
+            Saved; availability and gateway access not checked. Run airs doctor --verify-access to check access.
             ");
         }
         assert_eq!(
@@ -72,7 +72,7 @@ fn oidc_saved_identity_is_bounded_and_never_claims_authentication() {
     insta::assert_snapshot!(format!("{}\n{}\n{}", result.gateway, result.authentication, result.detail), @r#"
     https://gateway.example/v1
     OIDC; saved identity metadata (not freshly authenticated): issuer "https://identity.example/realm"; subject "saved-user"; audience "inference"
-    Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.
+    Saved; availability and gateway access not checked. Run airs doctor --verify-access to check access.
     "#);
     for subject in [
         "injected\u{1b}[2J".to_owned(),

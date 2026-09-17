@@ -92,7 +92,9 @@ pub(super) fn needs_login(
         .and_then(|value| value.get("env_http_headers"))
         .and_then(|value| value.get("x-portkey-api-key"))
         .and_then(toml::Value::as_str)
-        .context("Credential configuration is invalid; inspect this environment with airs-harness doctor")?;
+        .context(
+            "Credential configuration is invalid; inspect this environment with airs doctor",
+        )?;
     Ok(!environment_available(variable))
 }
 
@@ -256,7 +258,7 @@ pub(super) async fn interactive(
 ) -> anyhow::Result<()> {
     anyhow::ensure!(
         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
-        "Guided login requires an interactive terminal. Automation must select an explicit login method; see airs-harness login --help"
+        "Guided login requires an interactive terminal. Automation must select an explicit login method; see airs login --help"
     );
     // Check configuration before collecting input, without probing secret storage.
     airs_environment::gateway(home)?;

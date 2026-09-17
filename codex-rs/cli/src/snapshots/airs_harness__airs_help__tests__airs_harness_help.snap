@@ -4,10 +4,11 @@ expression: command.render_help().to_string()
 ---
 AIRS Harness CLI
 
-Usage: airs-harness [OPTIONS] [PROMPT]
-       airs-harness [OPTIONS] <COMMAND> [ARGS]
+Usage: airs [OPTIONS] [PROMPT]
+       airs [OPTIONS] <COMMAND> [ARGS]
 
 Commands:
+  cli               Run the bundled Prisma AIRS product CLI (npm distribution)
   setup-mcp         Connect a remote AIRS MCP server with a separate credential file
   env               Create, inspect, switch, rename, or remove AIRS environments
   exec              Run AIRS Harness non-interactively [aliases: e]

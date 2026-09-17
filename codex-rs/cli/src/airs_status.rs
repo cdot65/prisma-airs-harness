@@ -107,7 +107,7 @@ pub(super) fn configuration(home: &Path) -> anyhow::Result<(String, toml::Value)
 pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
     anyhow::ensure!(
         !home.join("logged-out").exists(),
-        "logged out; run airs-harness login"
+        "logged out; run airs login"
     );
     let session = AirsSessionGuard::capture(home)?;
     let (gateway, config) = configuration(home)?;
@@ -138,14 +138,14 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
         match binding
             .source
             .as_ref()
-            .context("logged out; run airs-harness login")?
+            .context("logged out; run airs login")?
         {
             Source::Keyring | Source::KeyringV2 => (
                 format!(
                     "Workspace credential; saved OS-store binding {}",
                     binding.id
                 ),
-                "Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.",
+                "Saved; availability and gateway access not checked. Run airs doctor --verify-access to check access.",
             ),
             Source::Oidc { identity } => {
                 super::airs_login::validate_identity(&identity.config)
@@ -163,7 +163,7 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
                     format!(
                         "OIDC; saved identity metadata (not freshly authenticated): issuer {issuer:?}; subject {subject:?}; audience {audience:?}"
                     ),
-                    "Saved; availability and gateway access not checked. Run airs-harness doctor --verify-access to check access.",
+                    "Saved; availability and gateway access not checked. Run airs doctor --verify-access to check access.",
                 )
             }
             Source::File { .. } | Source::Environment { .. } => {
@@ -182,7 +182,7 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
             .get("env_http_headers")
             .and_then(|value| value.get("x-portkey-api-key"))
             .and_then(toml::Value::as_str)
-            .context("run airs-harness login to configure credentials")?;
+            .context("run airs login to configure credentials")?;
         anyhow::ensure!(
             !variable.is_empty()
                 && variable.len() <= 128
@@ -192,7 +192,7 @@ pub(super) fn inspect(home: &Path) -> anyhow::Result<Inspection> {
             "Invalid credential environment variable name"
         );
         let token = std::env::var(variable)
-            .context("credential environment variable is missing; run airs-harness login")?;
+            .context("credential environment variable is missing; run airs login")?;
         airs_credentials::validate_token(&token)?;
         (
             format!("Workspace credential from {variable}"),

@@ -42,7 +42,7 @@ impl Failure {
         match self {
             Self::Configuration => "The selected gateway or model configuration is invalid.",
             Self::Credential => {
-                "The saved credential could not be read or refreshed. Run airs-harness env status to inspect local sign-in."
+                "The saved credential could not be read or refreshed. Run airs env status to inspect local sign-in."
             }
             Self::SignedOut => "Authentication changed or this environment was signed out.",
             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",
@@ -85,7 +85,7 @@ impl Verification {
         match self.outcome {
             Ok(()) => self.summary(),
             Err(reason) => format!(
-                "Credential saved; gateway access not yet verified. {}\nClient correlation ID: {}\nRetry: airs-harness doctor --verify-access (select the same environment).",
+                "Credential saved; gateway access not yet verified. {}\nClient correlation ID: {}\nRetry: airs doctor --verify-access (select the same environment).",
                 reason.detail(),
                 self.request_id,
             ),

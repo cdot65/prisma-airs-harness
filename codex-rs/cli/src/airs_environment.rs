@@ -163,7 +163,7 @@ pub fn gateway(home: &Path) -> anyhow::Result<String> {
         .and_then(|v| v.get("base_url"))
         .and_then(toml::Value::as_str)
         .map(str::to_owned)
-        .context("run airs-harness env create to configure the gateway")
+        .context("run airs env create to configure the gateway")
 }
 
 pub fn select(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
@@ -242,10 +242,10 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
         if args.gateway_url.is_empty() {
             return super::airs_setup::interactive(root, name, args).await;
         }
-        let name = name.context("supply a name: airs-harness env create NAME --gateway-url URL")?;
+        let name = name.context("supply a name: airs env create NAME --gateway-url URL")?;
         setup(root, name, args)?;
-        println!("Next: airs-harness --environment {name} login");
-        println!("Then: airs-harness --environment {name} doctor --verify-access");
+        println!("Next: airs --environment {name} login");
+        println!("Then: airs --environment {name} doctor --verify-access");
         return Ok(());
     }
     let _lock = lock(root)?;
@@ -264,7 +264,7 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
                 println!("{marker} {name}\t{}", environment.gateway_url);
             }
             if registry.environments.is_empty() {
-                println!("No named environments. Run airs-harness env create to get started.");
+                println!("No named environments. Run airs env create to get started.");
             }
         }
         Command::Show { name } => {

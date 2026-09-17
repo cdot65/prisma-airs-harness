@@ -25,7 +25,7 @@ struct Revision {
 pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
     let config: toml::Value = toml::from_str(
         &std::fs::read_to_string(home.join("config.toml"))
-            .context("environment is not configured; run airs-harness env create")?,
+            .context("environment is not configured; run airs env create")?,
     )?;
     let catalog = config
         .get("model_catalog_json")

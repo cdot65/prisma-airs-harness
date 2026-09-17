@@ -19,6 +19,32 @@ fn registry(home: &Path) -> Result<Value> {
 }
 
 #[test]
+fn product_commands_never_start_an_agent_or_select_a_gateway_environment() -> Result<()> {
+    let root = tempfile::tempdir()?;
+    for product in [
+        "runtime",
+        "redteam",
+        "aigateway",
+        "model-security",
+        "agentguard",
+        "tenant",
+    ] {
+        command(root.path())?
+            .args([product, "list"])
+            .assert()
+            .failure()
+            .stderr(contains("Product commands moved to 'airs cli"));
+    }
+    command(root.path())?
+        .args(["--environment", "unconfigured", "cli", "doctor"])
+        .assert()
+        .failure()
+        .stderr(contains("--environment do not select a product tenant"));
+    assert!(!root.path().join("environments.json").exists());
+    Ok(())
+}
+
+#[test]
 fn environment_lifecycle_preserves_state_and_isolates_recreated_names() -> Result<()> {
     let root = tempfile::tempdir()?;
     let home = root.path();

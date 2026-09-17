@@ -19,16 +19,14 @@ fn standalone_mcp_login_help_describes_manual_callback_input() {
 #[test]
 fn standalone_help_exposes_local_work_and_gateway_configuration() {
     let mut command = command(crate::MultitoolCli::command())
-        .bin_name("airs-harness")
+        .bin_name("airs")
         .term_width(90)
         .disable_help_subcommand(true)
-        .override_usage(
-            "airs-harness [OPTIONS] [PROMPT]\n       airs-harness [OPTIONS] <COMMAND> [ARGS]",
-        )
+        .override_usage("airs [OPTIONS] [PROMPT]\n       airs [OPTIONS] <COMMAND> [ARGS]")
         .mut_arg("environment", |arg| arg.hide(false));
     // The test also runs in the upstream codex binary, where AIRS-only commands
     // are hidden by derive attributes. Make the presentation fixture explicit.
-    for name in ["setup-mcp", "env"] {
+    for name in ["setup-mcp", "env", "cli"] {
         command = command.mut_subcommand(name, |subcommand| subcommand.hide(false));
     }
     insta::assert_snapshot!("airs_harness_help", command.render_help().to_string());

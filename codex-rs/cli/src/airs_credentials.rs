@@ -132,7 +132,7 @@ pub(super) fn file_token(path: &Path) -> anyhow::Result<String> {
 pub(super) fn read_binding(home: &Path) -> anyhow::Result<Binding> {
     let binding = parse_binding(
         &std::fs::read(home.join("credential-binding.json"))
-            .context("no credential binding; run airs-harness login")?,
+            .context("no credential binding; run airs login")?,
     )?;
     anyhow::ensure!(
         binding.schema_version == 1,
@@ -155,7 +155,7 @@ pub(super) fn resolve(binding: &Binding) -> anyhow::Result<String> {
     let token = match binding
         .source
         .as_ref()
-        .context("logged out; run airs-harness login")?
+        .context("logged out; run airs login")?
     {
         Source::File { path } => file_token(path)?,
         Source::Environment { variable } => {
@@ -341,7 +341,7 @@ pub async fn helper(args: &HelperArgs) -> anyhow::Result<()> {
     );
     anyhow::ensure!(
         !args.home.join("logged-out").exists(),
-        "logged out; run airs-harness login"
+        "logged out; run airs login"
     );
     session.check()?;
     let token = if matches!(binding.source, Some(Source::Oidc { .. })) {
@@ -430,7 +430,7 @@ pub fn status(home: &Path) -> anyhow::Result<()> {
 pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
     anyhow::ensure!(
         !home.join("logged-out").exists(),
-        "logged out; run airs-harness login"
+        "logged out; run airs login"
     );
     codex_utils_home_dir::airs_session::AirsSessionGuard::capture(home)?;
     if home.join("credential-binding.json").exists() {
@@ -450,9 +450,9 @@ pub(super) fn identity(home: &Path) -> anyhow::Result<String> {
             .and_then(|v| v.get("env_http_headers"))
             .and_then(|v| v.get("x-portkey-api-key"))
             .and_then(toml::Value::as_str)
-            .context("run airs-harness login to configure credentials")?;
+            .context("run airs login to configure credentials")?;
         let token = std::env::var(variable).with_context(|| {
-            format!("credential environment variable {variable} is missing; run airs-harness login")
+            format!("credential environment variable {variable} is missing; run airs login")
         })?;
         Ok(fingerprint(validate_token(&token)?))
     }

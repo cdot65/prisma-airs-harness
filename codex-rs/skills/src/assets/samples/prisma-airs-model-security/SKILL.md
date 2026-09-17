@@ -5,11 +5,11 @@ description: "Manage Prisma AIRS model-security groups, rules, rule instances, s
 
 # Model Security
 
-Use the harness-managed CLI 5.2.0. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples below use `airs` as shorthand for that executable. Do not substitute a global installation. Outside the npm harness, verify `airs --version` is 5.2.0 first.
+Use the harness-managed CLI 7.0.0. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.0.0. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
 
 For missing credentials or setup, read [Prisma AIRS CLI setup](../prisma-airs-cli/SKILL.md). Use command-specific `--help` and structured output to establish exact flags and schemas. Existing task authorization applies; request additional authorization only when the proposed target or action falls outside it. Keep secrets out of prompts, command arguments, reports and debug logs.
 
-Discover `airs model-security --help`, then `groups`, `rules`, `rule-instances`, `scans` and `models`. Inspect the group/rule schema before mutation, preserve unrelated policy settings and use stable IDs. Model catalog operations are read-only where the CLI indicates that boundary.
+Discover `airs cli model-security --help`, then `groups`, `rules`, `rule-instances`, `scans` and `models`. Inspect the group/rule schema before mutation, preserve unrelated policy settings and use stable IDs. Model catalog operations are read-only where the CLI indicates that boundary.
 
 For a scan, establish the authorized artifact/source and scan configuration, submit with the supported command, record the ID, and inspect terminal status, evaluations, violations and file-level results. Distinguish submission from completion and unscanned content from clean findings.
 

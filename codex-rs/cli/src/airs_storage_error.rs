@@ -27,10 +27,10 @@ pub(super) fn report(error: CredentialStoreError, operation: &'static str) -> an
             "This login session has no accessible credential store. Use your normal signed-in user session."
         }
         CredentialStoreErrorKind::Unavailable => {
-            "The credential service could not be reached in this user session. Run airs-harness doctor for diagnostics."
+            "The credential service could not be reached in this user session. Run airs doctor for diagnostics."
         }
         CredentialStoreErrorKind::Missing => {
-            "The saved credential is missing. Run airs-harness login to sign in again."
+            "The saved credential is missing. Run airs login to sign in again."
         }
         CredentialStoreErrorKind::TooLong => {
             "The credential exceeds this storage backend's supported size."
@@ -39,13 +39,13 @@ pub(super) fn report(error: CredentialStoreError, operation: &'static str) -> an
             "The stored credential could not be decoded safely. Sign in again to replace it."
         }
         CredentialStoreErrorKind::Ambiguous => {
-            "More than one credential matched. Run airs-harness doctor before changing saved credentials."
+            "More than one credential matched. Run airs doctor before changing saved credentials."
         }
         CredentialStoreErrorKind::Invalid => {
-            "The credential store rejected the record format. Run airs-harness doctor for diagnostics."
+            "The credential store rejected the record format. Run airs doctor for diagnostics."
         }
         CredentialStoreErrorKind::PlatformFailure | CredentialStoreErrorKind::Unknown => {
-            "Run airs-harness doctor and include this error code in your support report."
+            "Run airs doctor and include this error code in your support report."
         }
     };
     let category = diagnostic.kind.as_str();

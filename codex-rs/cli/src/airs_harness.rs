@@ -14,11 +14,7 @@ pub fn is_standalone() -> bool {
 }
 
 pub fn bin_name() -> &'static str {
-    if is_standalone() {
-        "airs-harness"
-    } else {
-        "codex"
-    }
+    if is_standalone() { "airs" } else { "codex" }
 }
 
 pub fn version() -> &'static str {
@@ -31,7 +27,7 @@ pub fn version() -> &'static str {
 
 pub fn usage() -> &'static str {
     if is_standalone() {
-        "airs-harness [OPTIONS] [PROMPT]\n       airs-harness [OPTIONS] <COMMAND> [ARGS]"
+        "airs [OPTIONS] [PROMPT]\n       airs [OPTIONS] <COMMAND> [ARGS]"
     } else {
         "codex [OPTIONS] [PROMPT]\n       codex [OPTIONS] <COMMAND> [ARGS]"
     }
@@ -219,7 +215,7 @@ pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {
         return Err(error.into());
     }
     println!("Configured Prisma AIRS Harness in {}", home.display());
-    println!("Run airs-harness login to sign in with your company account or workspace API key.");
+    println!("Run airs login to sign in with your company account or workspace API key.");
     Ok(())
 }
 

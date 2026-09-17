@@ -1,0 +1,18 @@
+{
+  "host": "Jadzia",
+  "host_architecture": "arm64",
+  "guest_kernel_platform": "Linux aarch64",
+  "container_image": "node:22-bookworm",
+  "container_image_digest": "sha256:8a34c4ab3ea2c5cd194f07e317b2a8f09461d3c8b05c4e34c8ccd56d56024c4d",
+  "container_architecture": "arm64",
+  "native_execution": true,
+  "qemu_used_for_installed_acceptance": false,
+  "checks": [
+    "47 executable cases: 46 passed, one platform skip",
+    "environment lifecycle",
+    "upgrade from alpha.20",
+    "anonymous registry installation",
+    "unversioned default installation"
+  ],
+  "disposable_container": "airs-alpha21-linux-arm64"
+}

@@ -15,21 +15,35 @@ import hashlib
 import html
 import json
 import os
-from pathlib import Path
 import platform
 import pty
 import select
 import signal
 import struct
 import subprocess
+import sys
 import termios
 import time
+from pathlib import Path
 
 import pyte
 
 
 class Preview:
-    def __init__(self, binary, screen="welcome", columns=80, rows=24, extra=()):
+    def __init__(
+        self,
+        binary,
+        screen="welcome",
+        columns=80,
+        rows=24,
+        extra=(),
+        *,
+        arguments=None,
+        environment=None,
+        directory=None,
+        terminal_stdout=False,
+    ):
+        self.terminal_stdout = terminal_stdout
         self.master, self.slave = pty.openpty()
         self.columns, self.rows = columns, rows
         fcntl.ioctl(
@@ -41,19 +55,34 @@ class Preview:
         self.transcript = bytearray()
         self.started = time.monotonic()
 
-        def attach():
-            os.setsid()
-            fcntl.ioctl(self.slave, termios.TIOCSCTTY, 0)
-
-        env = dict(os.environ, TERM="xterm-256color", COLORTERM="truecolor")
+        env = dict(
+            os.environ if environment is None else environment,
+            TERM="xterm-256color",
+            COLORTERM="truecolor",
+        )
         env.pop("NO_COLOR", None)
+        # Acquire the controlling terminal after Python starts in a new session.
+        # preexec_fn can deadlock when this driver shares a process with the
+        # threaded HTTPS identity fixture.
+        attach = (
+            "import fcntl,os,sys,termios;"
+            "fcntl.ioctl(0,termios.TIOCSCTTY,0);"
+            "os.execv(sys.argv[1],sys.argv[1:])"
+        )
         self.process = subprocess.Popen(
-            [str(binary), screen, *extra],
+            [
+                sys.executable,
+                "-c",
+                attach,
+                str(binary),
+                *(arguments if arguments is not None else [screen, *extra]),
+            ],
             stdin=self.slave,
-            stdout=subprocess.PIPE,
+            stdout=self.slave if terminal_stdout else subprocess.PIPE,
             stderr=self.slave,
             env=env,
-            preexec_fn=attach,
+            cwd=directory,
+            start_new_session=True,
         )
 
     def pump(self, duration=0.15):
@@ -109,20 +138,24 @@ class Preview:
             ],
         }
 
-    def finish(self, expected):
+    def finish(self, expected, status=0):
         try:
             self.process.wait(timeout=5)
             self.pump(0.05)
-            output = self.process.stdout.read().decode()
-            assert self.process.returncode == 0, output
+            output = "" if self.terminal_stdout else self.process.stdout.read().decode()
+            assert self.process.returncode == status, output
             assert expected in output, output
             assert termios.tcgetattr(self.slave) == self.original, (
                 "Terminal modes were not restored"
             )
-            assert b"\x1b[?1049l" in self.transcript, "Alternate screen was not left"
+            if not self.terminal_stdout or b"\x1b[?1049h" in self.transcript:
+                assert b"\x1b[?1049l" in self.transcript, (
+                    "Alternate screen was not left"
+                )
             assert b"\x1b[?25h" in self.transcript, "Cursor was not restored"
             assert b"\x1b[?2004l" in self.transcript, "Bracketed paste was not disabled"
-            assert "\x1b" not in output, "Interactive escapes leaked to stdout"
+            if not self.terminal_stdout:
+                assert "\x1b" not in output, "Interactive escapes leaked to stdout"
             return output.strip()
         finally:
             self.close()
@@ -199,7 +232,7 @@ def terminal_html(capture):
     return "\n".join(rows)
 
 
-def write_gallery(output, captures, animation):
+def write_gallery(output, captures, animation, *, preview=True):
     items = []
     for name, capture in captures.items():
         items.append(
@@ -218,6 +251,20 @@ button{background:#273140;color:#e5e9f0;border:1px solid #485569;border-radius:5
 </style><h1>Prisma AIRS welcome</h1><p>These screens were captured from the actual Rust preview through a terminal. All values are synthetic. The animation replays captured terminal frames; it is not a separately designed web mockup.</p>
 <button id="motion">Pause animation</button> <button id="theme">Toggle terminal theme</button>
 <section><h2>Animated welcome · 80 × 24</h2><pre id="animation"></pre></section>"""
+    if not preview:
+        page = page.replace(
+            "actual Rust preview",
+            "built harness with local HTTPS OIDC and native credential storage",
+        )
+        page = page.replace(
+            "The animation replays captured terminal frames; it is not a separately designed web mockup.",
+            "These are fixture results, not production SSO or ServiceNow acceptance.",
+        )
+    if len(frames) < 2:
+        page = page.replace('<button id="motion">', '<button id="motion" hidden>')
+        page = page.replace(
+            "<section><h2>Animated welcome", "<section hidden><h2>Animated welcome"
+        )
     page += "".join(items)
     page += (
         "<script>const frames="

@@ -27,9 +27,11 @@ from validate_airs_onboarding_preview import Preview, write_gallery
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument("--native-binary", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     binary = args.binary.resolve()
+    native = (args.native_binary or binary).resolve(strict=True)
     args.output.mkdir(parents=True, exist_ok=True)
     checks, captures, states = [], {}, []
     daemon = None
@@ -628,7 +630,10 @@ def main():
 
             receipt = {
                 "passed": True,
-                "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
+                "binary_sha256": hashlib.sha256(native.read_bytes()).hexdigest(),
+                "entrypoint": str(args.binary.absolute()),
+                "platform": os.uname().sysname,
+                "architecture": os.uname().machine,
                 "checks": checks,
                 "local_https_oidc": True,
                 "native_os_store": True,

@@ -117,11 +117,16 @@ try:
             summary
         )
         public(summary)
+        assert case.requests and all(
+            "access_programs" not in body for _, _, body in case.requests
+        ), "Normal AIRS turn sent an unexpected access-program selection"
         checks.append(
             {
                 "command": ["airs", "--environment", "work"],
                 "passed": True,
                 "normal_exit_resume_guidance": summary.strip(),
+                "gateway_request_count": len(case.requests),
+                "access_programs_parameter_sent": False,
             }
         )
 finally:

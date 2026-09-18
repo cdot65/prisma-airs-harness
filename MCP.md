@@ -1,14 +1,55 @@
 # Prisma AIRS MCP through AI Gateway
 
 Both inference and remote MCP must target Prisma AIRS AI Gateway. The existing
-Codex MCP client runs inside the normal `airs-harness` executable. The gateway
+Codex MCP client runs inside the normal `airs` executable. The gateway
 proxies upstream MCP servers and owns their upstream OAuth tokens. CAS/Keycloak
 provides gateway-facing organizational login.
 
-Alpha.14 is published with native gateway MCP support on Linux x64 and Apple
-Silicon. Alpha.15 adds coordinated renewal and guided authentication recovery;
-its installed-package production expiry checks are in progress. See
-[PUBLICATION.md](PUBLICATION.md) for the published version and measured acceptance.
+The published release is onboarding.4. The in-session manager below is a
+**development-branch feature**, pending release acceptance and publication.
+See [PUBLICATION.md](PUBLICATION.md) for published artifacts.
+
+## In-session workflow (development candidate)
+
+Start `airs --environment work` using your existing inference environment, then:
+
+1. Enter `/mcp` and choose **Add gateway MCP server**.
+2. Enter a local connection name, such as `service-now`, and your administrator's
+   HTTPS AI Gateway MCP URL. The manager requests `mcp:servers:read`,
+   `mcp:tools:list` and `mcp:tools:call`. That local name does not select a gateway
+   workspace; your gateway access and credential determine authorization.
+3. In the sign-in dialog, press **Ctrl+O** to open company SSO, or **Ctrl+Y** to
+   copy the full link to a browser on another device. Choose the intended company
+   account and complete any gateway-managed upstream consent. Workspace API key
+   inference can stay signed in while you authorize MCP as an individual user.
+4. On the same machine, the browser callback completes automatically. Over SSH,
+   paste the full callback URL into the dialog even if the browser says its
+   loopback page cannot load, then press Enter. Input is hidden and stays out of
+   conversation history. Escape cancels; a connection already saved is retained.
+5. After tool discovery succeeds, choose **Start new conversation**. Your prior
+   conversation remains saved and your draft is preserved for review. Nothing is
+   submitted or replayed automatically.
+6. Ask for a read-only ServiceNow incident lookup and inspect the actual tool
+   result. A connected label alone does not verify the full ServiceNow workflow.
+
+For an existing connection, `/mcp` offers **Sign in**, **Reconnect and verify**,
+**Sign out** and **Remove connection**. Sign-out and removal require confirmation.
+Sign out before removal if you also want to clear the local MCP credential.
+Neither action signs out inference or revokes gateway-managed upstream grants.
+`/mcp verbose` still displays the tool inventory. `/signin` also opens the same
+MCP sign-in dialog for configured OAuth connections.
+
+Changes remain bound to the running session's environment even if another
+terminal changes `airs env use`. Finish or interrupt an active request before
+managing connections. After an attempted change, use `/mcp` to retry or `/new`
+to continue with freshly loaded connections. A remote app-server session must
+manage credentials on its server host. The manager supports adding HTTPS OAuth
+gateway connections; existing local or bearer-authenticated servers do not offer
+browser sign-in.
+
+The manager uses the existing credential store. An unlocked native store is
+still required when `mcp_oauth_credentials_store = "keyring"` is configured.
+No API key, SSO token or upstream integration password belongs in the URL field.
 
 ## Onboarding prerequisites
 
@@ -22,7 +63,7 @@ with native `mcp add` once your administrator has provisioned the integration.
 For example, using a fictional deployment:
 
 ```sh
-airs-harness --environment work mcp add prisma-airs \
+airs --environment work mcp add prisma-airs \
   --url https://mcp-gateway.example.com/workspace/prisma-airs/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 ```
@@ -41,8 +82,9 @@ Set `mcp_oauth_credentials_store = "keyring"` at the top level of the environmen
 `config.toml` when file fallback is prohibited. macOS requires an unlocked login
 Keychain; Linux requires an unlocked Secret Service session. Native `mcp login`,
 `mcp list`, `/mcp` and `/mcp verbose` remain the connection controls.
-`--no-browser` prints the authorization URL for manual opening; the browser still
-needs access to the process's loopback callback port.
+`--no-browser` prints the authorization URL for manual opening and accepts a
+hidden pasted callback URL, including when a remote browser cannot reach the
+process's loopback callback port.
 
 `mcp logout` removes the local gateway-facing credential. It does not sign out
 inference or revoke gateway-managed upstream tokens and Keycloak sessions.
@@ -51,7 +93,7 @@ inference or revoke gateway-managed upstream tokens and Keycloak sessions.
 
 ```mermaid
 flowchart LR
-  User[Human] --> Harness[airs-harness with native Codex MCP client]
+  User[Human] --> Harness[airs with native Codex MCP client]
   Harness -->|Inference credential and tool declarations| Gateway[Prisma AIRS AI Gateway]
   Gateway --> Model[Authorized model route]
   Harness -->|MCP requests with gateway-facing OAuth token| Gateway

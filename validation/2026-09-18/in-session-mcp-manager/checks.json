@@ -1,0 +1,45 @@
+{
+  "base_source": "79599e4b63",
+  "runtime_source": "bc68d3db5b",
+  "branch": "feat/airs-mcp-manager",
+  "published": false,
+  "checks": {
+    "rust_cli_tui": {
+      "passed": 5280,
+      "skipped": 6,
+      "command": "just test -p codex-cli -p codex-tui"
+    },
+    "focused_manager_recovery": {
+      "passed": 14,
+      "others_filtered": true
+    },
+    "terminal_manager": {
+      "passed": 4,
+      "fixture": "disposable HTTPS OAuth and loopback inference"
+    },
+    "terminal_cli_callback": {
+      "passed": 3
+    },
+    "clippy": {
+      "packages": [
+        "codex-cli",
+        "codex-tui"
+      ],
+      "result": "passed without warnings"
+    },
+    "format": "just fmt completed; unrelated baseline formatting restored",
+    "vault": {
+      "errors": 58,
+      "warnings": 2012,
+      "new_note_errors": 0,
+      "note_review_pending": true
+    }
+  },
+  "fixture_tested_binary_sha256": "8721ef40f8723bb71cc031b358479eb69c1723a8678cdacde4bb2e8444193cbb",
+  "limits": [
+    "No production gateway/upstream ServiceNow OAuth acceptance",
+    "No native ARM64 or Apple Silicon candidate checks",
+    "No native credential-store acceptance for this candidate",
+    "Final lint/format cleanup follows tests; not a release artifact attestation"
+  ]
+}

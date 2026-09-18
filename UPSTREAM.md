@@ -1,6 +1,6 @@
 # Upstream and fork boundary
 
-- Product: Prisma AIRS Harness; executable: `airs-harness`.
+- Product: Prisma AIRS Harness; executable: `airs` (npm package `airs-harness`).
 - Upstream: https://github.com/openai/codex.git (git remote `upstream`).
 - Baseline tag: `rust-v0.153.4`.
 - Baseline commit: `3d2ee51ca2d5db578f328aa75e20aa22c0197c9a`.
@@ -89,3 +89,33 @@ local work and scanner calls. The alpha.4 startup-only coverage missed this bug.
 The repository URL and upstream crate names are retained for source provenance.
 The npm distribution is `airs-harness`; it wraps the standalone Rust executable
 and does not install or invoke an external Codex CLI. See [RENAME.md](RENAME.md).
+
+## In-session MCP manager merge boundary
+
+The manager lives in `tui/src/airs_mcp_manager/`,
+`tui/src/app/airs_mcp_manager.rs` and `tui/src/chatwidget/airs_mcp_manager.rs`.
+Shared hooks are the module declarations, one private `AppEvent` variant and its
+handler, and AIRS-only `/mcp` dispatch/help. Existing `/signin` recovery delegates
+to this manager; the existing fresh-conversation/draft restoration path remains.
+Upstream executable behavior is guarded by `is_airs_harness()`.
+
+The CLI adds a private `AIRS_MCP_INTERACTION=json-v1` adapter in `mcp_login.rs`
+and duplicate-name protection in `mcp_cmd.rs` for that adapter. Only a piped AIRS
+child receives it. OAuth discovery, PKCE, state/issuer/callback validation,
+credential storage, scope retry and configuration edits remain in the existing
+CLI/MCP implementation. The exact running executable handles mutations, with
+its environment home pinned; no external CLI installation or shell is involved.
+Authorization events and callbacks use bounded pipes and private UI state.
+
+No public app-server API, configuration schema, inference-loop or dependency
+changes are needed. Refresh and status use the existing typed app-server APIs.
+An upstream update may still conflict at these hooks; this is a small adapter
+boundary, not a guarantee of conflict-free merges. If upstream supplies a native
+manager, keep AIRS gateway/environment/privacy rules and retire the adapter
+instead of maintaining two OAuth implementations.
+
+After a merge, run the CLI/TUI tests and
+`scripts/test_airs_mcp_manager.py` against the built executable. Review the MCP
+screen snapshots and confirm callback secrecy, cancellation, selected-environment
+isolation and explicit new-conversation behavior. Fixture success is not live
+gateway/upstream OAuth acceptance; that remains a release gate in AGENTS.md.

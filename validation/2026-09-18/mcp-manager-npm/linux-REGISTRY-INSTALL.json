@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22.mcp.1",
+  "version_output": "airs 0.1.0-alpha.22.mcp.1",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "anonymous_fresh_install": true,
+  "binary_sha256": "26226f244e9dfad0a7c687fc09ebd049ea6d6a22e91c7bd6adb6a15c5da0517e",
+  "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+  "prefix": "/tmp/airs-mcp-publish-20260918/linux-registry/prefix",
+  "installed_mcp_fixture_suite": true,
+  "environment_lifecycle": true,
+  "production_sso_or_servicenow_call": false
+}

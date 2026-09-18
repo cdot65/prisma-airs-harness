@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+  "version": "0.1.0-alpha.22.mcp.1",
+  "binary_sha256": "8010c51415a2efa298de0368cd6bf0bef27b4e155981a1182caa5d1ea63eeefe",
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "entrypoint": "/Users/cdot/.cache/airs-mcp-publish-20260918/mac-installed-candidate/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "managed CLI contract and native image dependencies",
+    "upgrade from onboarding.3 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

@@ -96,3 +96,7 @@ Remote download, archive digest and installed MCP results are recorded in
 `remote-candidate.json`.
 
 Download: [Linux x64 test candidate](https://git.cdot.io/cdot/prisma-airs-harness/releases/tag/v0.1.0-alpha.22.mcp.1). Forgejo sign-in is required; the release includes browser and authenticated terminal download instructions. The uploaded archive was downloaded again with authentication and its SHA-256 matched. All four MCP terminal fixture cases passed against the portable installation.
+
+## Subsequent npm publication
+
+After the owner explicitly requested npm publication, optimized `0.1.0-alpha.22.mcp.1` builds were published under the `mcp` tag for Linux x64, native Linux ARM64 and signed/notarized Apple Silicon. Fresh anonymous registry installs passed on all three. See `../mcp-manager-npm/README.md`. The earlier archive receipts above remain historical and immutable.

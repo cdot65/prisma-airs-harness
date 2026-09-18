@@ -1,0 +1,71 @@
+{
+  "scope": "Exact installed in-session MCP manager accepted on three native platforms",
+  "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.mcp.1",
+      "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+      "binary_sha256": "26226f244e9dfad0a7c687fc09ebd049ea6d6a22e91c7bd6adb6a15c5da0517e",
+      "mcp_manager_checks": 4,
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.4"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.mcp.1",
+      "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+      "binary_sha256": "cae7136c449cb7c85e8eaa298c54cdbf722378a7e72604bc0900cc857f607d75",
+      "mcp_manager_checks": 4,
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.4"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "version": "0.1.0-alpha.22.mcp.1",
+      "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+      "binary_sha256": "8010c51415a2efa298de0368cd6bf0bef27b4e155981a1182caa5d1ea63eeefe",
+      "mcp_manager_checks": 4,
+      "onboarding_checks": 12,
+      "terminal_checks": 7,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.4"
+    }
+  ],
+  "forgejo_runs": {
+    "linux_x64": 221,
+    "linux_arm64": 220,
+    "mac_build": 219,
+    "mac_signing": 222
+  },
+  "published": false,
+  "production_sso_servicenow_acceptance": false,
+  "affected_package_suite": {
+    "passed": 5280,
+    "failed": 0,
+    "skipped": 6
+  },
+  "live_gateway_mcp_verified": false
+}

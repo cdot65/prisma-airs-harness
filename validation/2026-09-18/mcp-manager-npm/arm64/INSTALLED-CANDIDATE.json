@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+  "version": "0.1.0-alpha.22.mcp.1",
+  "binary_sha256": "cae7136c449cb7c85e8eaa298c54cdbf722378a7e72604bc0900cc857f607d75",
+  "platform": "Linux",
+  "architecture": "aarch64",
+  "entrypoint": "/home/airs-review/installed/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "managed CLI contract and native image dependencies",
+    "upgrade from onboarding.3 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

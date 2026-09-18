@@ -7,10 +7,10 @@ OAuth. No separate MCP executable is required.
 
 ## Branded onboarding
 
-Release `0.1.0-alpha.22.onboarding.1` adds the animated AIRS welcome, environment creation/selection and guided sign-in. It is published at `https://npm.cdot.io` under `latest`, `alpha` and `onboarding`, with verified native installs on Linux x64, Linux ARM64 and signed Apple Silicon.
+Release `0.1.0-alpha.22.onboarding.2` uses the cyan Prisma AIRS mark with a subtle shimmer in the animated welcome. Environment creation/selection and guided sign-in remain available. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.2 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 airs
@@ -33,7 +33,7 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.2 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

@@ -143,6 +143,57 @@ fn static_colorless_rendering_uses_terminal_foreground_for_every_cell() {
 }
 
 #[test]
+fn prisma_mark_preserves_its_silhouette_and_transparency_during_animation() {
+    let render = |animations, elapsed| {
+        let mut terminal = Terminal::new(TestBackend::new(/*width*/ 20, /*height*/ 12)).unwrap();
+        terminal
+            .draw(|frame| {
+                logo::draw(
+                    frame,
+                    frame.area(),
+                    OnboardingOptions {
+                        animations,
+                        color: true,
+                    },
+                    elapsed,
+                );
+            })
+            .unwrap();
+        terminal.backend().buffer().clone()
+    };
+    let static_mark = render(/*animations*/ false, Duration::ZERO);
+    let first = render(/*animations*/ true, Duration::ZERO);
+    let later = render(
+        /*animations*/ true,
+        Duration::from_millis(/*millis*/ 800),
+    );
+    insta::assert_snapshot!("prisma_airs_mark", text(&static_mark));
+    assert_eq!(text(&first), text(&static_mark));
+    assert_eq!(text(&later), text(&static_mark));
+    assert_ne!(first, later, "The light sweep should animate the mark");
+    assert_eq!(
+        static_mark,
+        render(/*animations*/ false, Duration::from_secs(/*secs*/ 8))
+    );
+    for buffer in [&static_mark, &first, &later] {
+        assert!(buffer.content().iter().all(|cell| cell.bg == Color::Reset));
+    }
+    assert!(
+        static_mark
+            .content()
+            .iter()
+            .any(|cell| cell.symbol() == "█")
+    );
+    assert!(
+        static_mark
+            .content()
+            .iter()
+            .filter(|cell| cell.symbol() != " ")
+            .all(|cell| cell.fg == crate::terminal_palette::rgb_color(logo::CYAN))
+    );
+}
+
+#[test]
 fn input_and_progress_snapshots_keep_context_and_recovery_visible() {
     let field = OnboardingInput {
         title: "Connect your environment".into(),

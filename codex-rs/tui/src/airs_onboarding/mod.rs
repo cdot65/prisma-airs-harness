@@ -1,6 +1,7 @@
 //! Standalone AIRS onboarding presentation. Authentication remains with the CLI.
 
 mod input;
+mod logo;
 mod render;
 mod terminal;
 

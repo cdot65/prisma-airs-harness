@@ -8,14 +8,11 @@ use ratatui::layout::Rect;
 use ratatui::style::Color;
 use ratatui::style::Modifier;
 use ratatui::style::Style;
-use ratatui::symbols::Marker;
 use ratatui::text::Line;
 use ratatui::text::Span;
 use ratatui::widgets::Clear;
 use ratatui::widgets::Paragraph;
 use ratatui::widgets::Wrap;
-use ratatui::widgets::canvas::Canvas;
-use ratatui::widgets::canvas::Line as CanvasLine;
 use std::time::Duration;
 use unicode_width::UnicodeWidthStr;
 
@@ -33,7 +30,7 @@ pub(super) fn draw(
         return;
     }
     let accent = if options.color {
-        rgb_color((241, 119, 54))
+        rgb_color(super::logo::CYAN)
     } else {
         Color::Reset
     };
@@ -61,32 +58,27 @@ pub(super) fn draw(
     };
     let header = Rect::new(content.x, content.y, content.width, header_height);
     if header_height >= 5 {
-        let prism_width = if header_height >= 9 {
+        let logo_width = if header_height >= 9 {
             25
         } else if header_height >= 7 {
             23
         } else {
             18
         };
-        let angle = if options.animations {
-            elapsed.as_secs_f64() * 0.65
-        } else {
-            0.55
-        };
-        prism(
+        super::logo::draw(
             frame,
-            Rect::new(header.x, header.y, prism_width, header.height),
-            angle,
-            accent,
+            Rect::new(header.x, header.y, logo_width, header.height),
+            options,
+            elapsed,
         );
-        let x = header.x + prism_width + 2;
+        let x = header.x + logo_width + 2;
         let y = header.y + header.height / 2 - 1;
         frame.render_widget(
             Paragraph::new("PRISMA AIRS").style(bold),
             Rect::new(
                 x,
                 y,
-                header.width.saturating_sub(prism_width + 2),
+                header.width.saturating_sub(logo_width + 2),
                 /*height*/ 1,
             ),
         );
@@ -95,7 +87,7 @@ pub(super) fn draw(
             Rect::new(
                 x,
                 y + 2,
-                header.width.saturating_sub(prism_width + 2),
+                header.width.saturating_sub(logo_width + 2),
                 /*height*/ 1,
             ),
         );
@@ -272,63 +264,6 @@ pub(super) fn draw(
             );
         }
     }
-}
-
-fn prism(frame: &mut Frame<'_>, area: Rect, angle: f64, accent: Color) {
-    let vertices = [
-        (0.0, 1.05, 0.0),
-        (0.0, -1.05, 0.0),
-        (0.9, 0.0, 0.0),
-        (0.0, 0.0, 0.9),
-        (-0.9, 0.0, 0.0),
-        (0.0, 0.0, -0.9),
-    ];
-    let projected: Vec<_> = vertices
-        .iter()
-        .map(|&(x, y, z)| {
-            let x1 = x * angle.cos() + z * angle.sin();
-            let z1 = z * angle.cos() - x * angle.sin();
-            let scale = 3.6 / (3.6 + z1);
-            (x1 * scale, (y * 0.86 - z1 * 0.5) * scale, z1)
-        })
-        .collect();
-    let edges = [
-        (0, 2),
-        (0, 3),
-        (0, 4),
-        (0, 5),
-        (1, 2),
-        (1, 3),
-        (1, 4),
-        (1, 5),
-        (2, 3),
-        (3, 4),
-        (4, 5),
-        (5, 2),
-    ];
-    let canvas = Canvas::default()
-        .marker(Marker::HalfBlock)
-        .x_bounds([-1.45, 1.45])
-        .y_bounds([-1.2, 1.2])
-        .paint(|context| {
-            for (a, b) in edges {
-                let a = projected[a];
-                let b = projected[b];
-                let color = if a.2 + b.2 > 0.5 && accent != Color::Reset {
-                    rgb_color((139, 75, 45))
-                } else {
-                    accent
-                };
-                context.draw(&CanvasLine {
-                    x1: a.0,
-                    y1: a.1,
-                    x2: b.0,
-                    y2: b.1,
-                    color,
-                });
-            }
-        });
-    frame.render_widget(canvas, area);
 }
 
 pub(super) fn input_window(value: &str, cursor: usize, width: usize) -> (&str, usize) {

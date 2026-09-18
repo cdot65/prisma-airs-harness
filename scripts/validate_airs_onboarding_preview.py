@@ -351,10 +351,16 @@ def main():
         for _ in range(24):
             animation.append(preview.capture())
             preview.pump(0.15)
-        assert len({"\n".join(frame["text"]) for frame in animation}) >= 8
+        assert (
+            len({json.dumps(frame["cells"], sort_keys=True) for frame in animation})
+            >= 8
+        )
+        assert len({"\n".join(frame["text"]) for frame in animation}) == 1, (
+            "The Prisma AIRS silhouette changed during its light sweep"
+        )
         preview.send(b"\x1b[B\r")
         preview.finish("menu-action:1")
-        checks.append("live prism animation; down-arrow selection during animation")
+        checks.append("live Prisma AIRS shimmer; down-arrow selection during animation")
     finally:
         preview.close()
 

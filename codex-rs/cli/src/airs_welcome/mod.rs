@@ -282,7 +282,7 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
             title: if verification.outcome.is_ok() {
                 "You're ready to use AIRS"
             } else {
-                "Signed in · gateway access needs attention"
+                "Credential saved · gateway access needs attention"
             }
             .into(),
             detail: verification.after_login(),
@@ -316,9 +316,7 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
         match next {
             OnboardingResult::Selected(0) => return Ok(()),
             OnboardingResult::Selected(1) => {}
-            _ => anyhow::bail!(
-                "Credential saved. Inspect gateway access with airs doctor --verify-access, then start airs when ready."
-            ),
+            _ => anyhow::bail!("{}", verification.after_login()),
         }
     }
 }

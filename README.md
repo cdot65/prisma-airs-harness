@@ -30,10 +30,10 @@ refresh are not claimed by this environment-management release.
 
 ## Branded onboarding
 
-Release `0.1.0-alpha.22.onboarding.3` uses `airs` consistently in generated resume commands, help examples and recovery guidance. The animated welcome retains the cyan Prisma AIRS mark and subtle shimmer. Environment creation/selection and guided sign-in remain available. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
+Release `0.1.0-alpha.22.onboarding.4` distinguishes saved credentials from verified gateway access, reports HTTP status and a gateway-searchable trace ID, and rejects guardrail denials even when the gateway returns HTTP 200. Local environment names are independent of gateway workspace names; a workspace API key selects its gateway workspace. Both SSO and workspace keys require the corresponding gateway policy. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.3 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 airs
@@ -57,7 +57,7 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.3 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

@@ -1,0 +1,23 @@
+---
+source: cli/src/airs_access_tests.rs
+expression: messages
+---
+Credential saved; gateway access not yet verified. The gateway rejected authentication (HTTP 401). Check that the credential is valid for this gateway.
+Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+Retry: airs doctor --verify-access (select the same environment).
+
+Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
+Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+Retry: airs doctor --verify-access (select the same environment).
+
+Credential saved; gateway access not yet verified. A gateway guardrail blocked this request (HTTP 446, policy denial). Check the gateway trace for the failed policy; saving a credential does not establish gateway access.
+Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+Retry: airs doctor --verify-access (select the same environment).
+
+Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 400). Check its route and policy configuration.
+Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+Retry: airs doctor --verify-access (select the same environment).
+
+Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 503). Check its route and policy configuration.
+Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+Retry: airs doctor --verify-access (select the same environment).

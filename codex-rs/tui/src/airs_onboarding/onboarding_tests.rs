@@ -424,7 +424,7 @@ fn long_authorization_links_remain_complete_and_scroll_to_the_end() {
 #[test]
 fn outcome_message_snapshot_shows_saved_credentials_and_denied_access() {
     let progress = OnboardingProgress {
-        title: "Signed in · gateway access needs attention".into(),
+        title: "Credential saved · gateway access needs attention".into(),
         detail: "Credential saved; the gateway denied access. Check your workspace permissions, then retry with airs doctor --verify-access.".into(), link: None,
     };
     insta::assert_snapshot!(

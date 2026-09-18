@@ -30,15 +30,17 @@ pub(super) enum Failure {
     SignedOut,
     Offline,
     Timeout,
+    Unauthenticated,
     Denied,
+    PolicyDenied(u16),
     Redirect,
-    Rejected,
+    Rejected(u16),
     InvalidResponse,
     OversizedResponse,
 }
 
 impl Failure {
-    fn detail(self) -> &'static str {
+    fn detail(self) -> String {
         match self {
             Self::Configuration => "The selected gateway or model configuration is invalid.",
             Self::Credential => {
@@ -47,14 +49,20 @@ impl Failure {
             Self::SignedOut => "Authentication changed or this environment was signed out.",
             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",
             Self::Timeout => "The gateway access check reached its time limit.",
+            Self::Unauthenticated => {
+                "The gateway rejected authentication (HTTP 401). Check that the credential is valid for this gateway."
+            }
             Self::Denied => {
-                "The gateway denied access. Check this credential's workspace and policy permissions."
+                "The gateway denied permission (HTTP 403). Check this credential's workspace and scopes."
+            }
+            Self::PolicyDenied(status) => {
+                return format!("A gateway guardrail blocked this request (HTTP {status}, policy denial). Check the gateway trace for the failed policy; saving a credential does not establish gateway access.");
             }
             Self::Redirect => {
                 "The gateway requested a redirect. Credentials were not forwarded; check its configured API root."
             }
-            Self::Rejected => {
-                "The gateway rejected the probe. Check its route and policy configuration."
+            Self::Rejected(status) => {
+                return format!("The gateway rejected the probe (HTTP {status}). Check its route and policy configuration.");
             }
             Self::InvalidResponse => {
                 "The gateway did not return a successful Responses API result."
@@ -63,6 +71,7 @@ impl Failure {
                 "The gateway response exceeded the 64 KiB verification limit."
             }
         }
+        .to_owned()
     }
 }
 
@@ -78,14 +87,14 @@ impl Verification {
             Ok(()) => "Gateway access verified by one inference response. MCP permissions were not tested.".to_owned(),
             Err(reason) => format!("Gateway access not yet verified. {}", reason.detail()),
         };
-        format!("{result}\nClient correlation ID: {}", self.request_id)
+        format!("{result}\nRequest / gateway trace ID: {}", self.request_id)
     }
 
     pub(super) fn after_login(&self) -> String {
         match self.outcome {
             Ok(()) => self.summary(),
             Err(reason) => format!(
-                "Credential saved; gateway access not yet verified. {}\nClient correlation ID: {}\nRetry: airs doctor --verify-access (select the same environment).",
+                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: airs doctor --verify-access (select the same environment).",
                 reason.detail(),
                 self.request_id,
             ),
@@ -376,6 +385,7 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
         .post(prepared.endpoint.as_str())
         .header(prepared.header_name, prepared.credential)
         .header("x-client-request-id", request_id.to_string())
+        .header("x-portkey-trace-id", request_id.to_string())
         .header(
             "user-agent",
             format!("airs-harness/{}", super::airs_harness::version()),
@@ -395,11 +405,12 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
     if status.is_redirection() {
         return Err(Failure::Redirect);
     }
-    if matches!(status.as_u16(), 401 | 403) {
-        return Err(Failure::Denied);
-    }
-    if !status.is_success() {
-        return Err(Failure::Rejected);
+    match status.as_u16() {
+        401 => return Err(Failure::Unauthenticated),
+        403 => return Err(Failure::Denied),
+        446 => return Err(Failure::PolicyDenied(446)),
+        _ if !status.is_success() => return Err(Failure::Rejected(status.as_u16())),
+        _ => {}
     }
     if response
         .content_length()
@@ -423,6 +434,26 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
     }
     prepared.session.check().map_err(|_| Failure::SignedOut)?;
     let body: Value = serde_json::from_slice(&bytes).map_err(|_| Failure::InvalidResponse)?;
+    // A gateway can deliberately represent a blocked request as a completed
+    // Responses result with HTTP 200. Honor its explicit blocking decisions.
+    if body
+        .get("hook_results")
+        .and_then(Value::as_object)
+        .is_some_and(|phases| {
+            phases
+                .values()
+                .filter_map(Value::as_array)
+                .flatten()
+                .any(|hook| {
+                    hook.get("verdict").and_then(Value::as_bool) == Some(false)
+                        && ["deny", "softDeny200", "soft_deny_200"]
+                            .iter()
+                            .any(|flag| hook.get(*flag).and_then(Value::as_bool) == Some(true))
+                })
+        })
+    {
+        return Err(Failure::PolicyDenied(status.as_u16()));
+    }
     if body.get("object").and_then(Value::as_str) != Some("response")
         || !matches!(
             body.get("status").and_then(Value::as_str),

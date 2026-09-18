@@ -64,6 +64,10 @@ async fn default_and_catalog_routes_send_exact_bounded_probe() {
             request.headers["x-client-request-id"],
             request_id.to_string()
         );
+        assert_eq!(
+            request.headers["x-portkey-trace-id"],
+            request_id.to_string()
+        );
         let mut expected = serde_json::json!({
             "input":"Reply only with OK. This is a Prisma AIRS Harness connectivity check.",
             "max_output_tokens":16,"store":false,"stream":false
@@ -135,7 +139,7 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
         (
             401,
             serde_json::json!({"error":"fixture-secret"}),
-            Failure::Denied,
+            Failure::Unauthenticated,
         ),
         (
             403,
@@ -143,9 +147,14 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
             Failure::Denied,
         ),
         (
+            446,
+            serde_json::json!({"error":"fixture-secret"}),
+            Failure::PolicyDenied(446),
+        ),
+        (
             503,
             serde_json::json!({"error":"fixture-secret"}),
-            Failure::Rejected,
+            Failure::Rejected(503),
         ),
         (
             200,
@@ -299,10 +308,10 @@ fn honest_verification_messages_have_snapshot_coverage() {
     Checking gateway access with one minimal inference request (up to 16 output tokens). This sends only a fixed connectivity message, with no local files or tools. The request asks the provider not to store the response; gateway logging policy still applies.
 
     Gateway access verified by one inference response. MCP permissions were not tested.
-    Client correlation ID: 00000000-0000-0000-0000-000000000000
+    Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
 
     Credential saved; gateway access not yet verified. The gateway connection failed. Check connectivity, DNS and TLS.
-    Client correlation ID: 00000000-0000-0000-0000-000000000000
+    Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
     Retry: airs doctor --verify-access (select the same environment).
     ");
 }
@@ -320,4 +329,58 @@ fn workspace_credential_limit_is_preserved_for_probe_headers() {
         validate_token("token\r\nheader: injected"),
         Err(Failure::Credential)
     );
+}
+
+#[test]
+fn gateway_failures_show_actionable_status_without_response_content() {
+    let messages = [
+        Failure::Unauthenticated,
+        Failure::Denied,
+        Failure::PolicyDenied(446),
+        Failure::Rejected(400),
+        Failure::Rejected(503),
+    ]
+    .into_iter()
+    .map(|failure| {
+        Verification {
+            request_id: Uuid::nil(),
+            outcome: Err(failure),
+        }
+        .after_login()
+    })
+    .collect::<Vec<_>>()
+    .join("\n\n");
+    insta::assert_snapshot!("gateway_failure_status", messages);
+}
+
+#[tokio::test]
+async fn successful_http_responses_cannot_hide_gateway_policy_denials() {
+    for phase in ["before_request_hooks", "after_request_hooks"] {
+        for flag in ["deny", "softDeny200", "soft_deny_200"] {
+            for blocked in [true, false] {
+                let home = TempDir::new().unwrap();
+                let server = MockServer::start().await;
+                let mut body = success();
+                body["hook_results"] =
+                    serde_json::json!({phase: [{"verdict": false, flag: blocked}]});
+                Mock::given(method("POST"))
+                    .respond_with(ResponseTemplate::new(200).set_body_json(body))
+                    .mount(&server)
+                    .await;
+                let result = probe(
+                    prepared(home.path(), &server.uri(), "airs-gateway-default"),
+                    Uuid::new_v4(),
+                )
+                .await;
+                assert_eq!(
+                    result,
+                    if blocked {
+                        Err(Failure::PolicyDenied(200))
+                    } else {
+                        Ok(())
+                    }
+                );
+            }
+        }
+    }
 }

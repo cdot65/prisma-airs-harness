@@ -14,7 +14,7 @@ expression: "text(&render_buffer(80, 24, OnboardingOptions\n{ animations: false,
        Environment  work
        https://gateway.example.com/v1
 
-       Signed in · gateway access needs attention
+       Credential saved · gateway access needs attention
 
        Credential saved; the gateway denied access. Check your workspace
        permissions, then retry with airs doctor --verify-access.

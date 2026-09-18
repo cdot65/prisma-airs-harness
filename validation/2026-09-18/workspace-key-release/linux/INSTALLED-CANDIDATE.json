@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "source_commit": "d58d55b7aafc9a506b463041b5101116808b76ed",
+  "version": "0.1.0-alpha.22.onboarding.4",
+  "binary_sha256": "fdaedad2688e0497ff89473e982c1f34a8972c51fc9e577e33af12c7265f7dff",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "entrypoint": "/tmp/airs-dual-auth-20260918/linux-installed/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "managed CLI contract and native image dependencies",
+    "upgrade from onboarding.3 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

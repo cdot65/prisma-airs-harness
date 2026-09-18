@@ -1,0 +1,9 @@
+[
+  {
+    "case": "revoked_key_after_sync",
+    "status": 401,
+    "trace_id": "c99a1913-9335-42f8-aa30-bce487806e1c",
+    "response_status": "failure",
+    "checks": []
+  }
+]

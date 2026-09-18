@@ -1,0 +1,68 @@
+{
+  "scope": "Exact installed gateway diagnostic update accepted on three native platforms",
+  "source_commit": "d58d55b7aafc9a506b463041b5101116808b76ed",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.onboarding.4",
+      "source_commit": "d58d55b7aafc9a506b463041b5101116808b76ed",
+      "binary_sha256": "fdaedad2688e0497ff89473e982c1f34a8972c51fc9e577e33af12c7265f7dff",
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.3"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.onboarding.4",
+      "source_commit": "d58d55b7aafc9a506b463041b5101116808b76ed",
+      "binary_sha256": "4cd96c80d0d5ffffd7127faf5ea1422227000c10cb58208e864262793aa54fe5",
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.3"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "version": "0.1.0-alpha.22.onboarding.4",
+      "source_commit": "d58d55b7aafc9a506b463041b5101116808b76ed",
+      "binary_sha256": "10e535711845506b0fe791ea401afe3121245aec628cc530e4ac69abd63e8158",
+      "onboarding_checks": 12,
+      "terminal_checks": 7,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.onboarding.3"
+    }
+  ],
+  "forgejo_runs": {
+    "linux_x64": 212,
+    "linux_arm64": 213,
+    "mac_build": 214,
+    "mac_signing": 216
+  },
+  "published": false,
+  "production_sso_servicenow_acceptance": false,
+  "affected_package_suite": {
+    "passed": 5281,
+    "failed": 0,
+    "skipped": 6
+  },
+  "live_gateway_dual_auth_verified": true
+}

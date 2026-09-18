@@ -1,0 +1,354 @@
+[
+  {
+    "case": "workspace_key_default_route",
+    "status": 200,
+    "trace_id": "8827db29-e201-49ca-a161-bdf780dc2b4a",
+    "response_status": "completed",
+    "checks": [
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-headro-9ffd54",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "headroom.compress",
+            "verdict": true,
+            "explanation": "No messages array found, skipping compression"
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-238834",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "default.jwt",
+            "verdict": true,
+            "explanation": "JWT token validation succeeded"
+          },
+          {
+            "id": "default.allowedRequestTypes",
+            "verdict": true,
+            "explanation": "Request type \"createModelResponse\" is allowed."
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "invalid_key",
+    "status": 401,
+    "trace_id": "3c28c61a-0dcd-47e3-9d98-62c426fff800",
+    "response_status": "failure",
+    "checks": []
+  },
+  {
+    "case": "missing_credential",
+    "status": 401,
+    "trace_id": "ac6f0c9f-1f11-4a1e-afca-980f28616568",
+    "response_status": "failure",
+    "checks": []
+  },
+  {
+    "case": "key_without_inference_scope",
+    "status": 403,
+    "trace_id": "6008c270-1ca6-4618-95c8-cd7d922c3854",
+    "response_status": "failure",
+    "checks": []
+  },
+  {
+    "case": "workspace_key_prompt_injection",
+    "status": 200,
+    "trace_id": "569756a2-8202-4c54-85ef-234b6fa4fce7",
+    "response_status": "completed",
+    "checks": [
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-headro-9ffd54",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "headroom.compress",
+            "verdict": true,
+            "explanation": "No messages array found, skipping compression"
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-238834",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "default.jwt",
+            "verdict": true,
+            "explanation": "JWT token validation succeeded"
+          },
+          {
+            "id": "default.allowedRequestTypes",
+            "verdict": true,
+            "explanation": "Request type \"createModelResponse\" is allowed."
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": false,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": false,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": false,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": false,
+            "explanation": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "sso_without_invoke",
+    "status": 446,
+    "trace_id": "b724234c-59b2-44eb-82c0-692ae5736449",
+    "response_status": null,
+    "checks": [
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-headro-9ffd54",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "headroom.compress",
+            "verdict": true,
+            "explanation": "No messages array found, skipping compression"
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-238834",
+        "verdict": false,
+        "checks": [
+          {
+            "id": "default.jwt",
+            "verdict": false,
+            "explanation": "Token validation failed"
+          },
+          {
+            "id": "default.allowedRequestTypes",
+            "verdict": true,
+            "explanation": "Request type \"createModelResponse\" is allowed."
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "sso_authorized_default_route",
+    "status": 200,
+    "trace_id": "10a1e609-c27e-435e-8fd1-d56d2d373e1e",
+    "response_status": "completed",
+    "checks": [
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-headro-9ffd54",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "headroom.compress",
+            "verdict": true,
+            "explanation": "No messages array found, skipping compression"
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-238834",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "default.jwt",
+            "verdict": true,
+            "explanation": "JWT token validation succeeded"
+          },
+          {
+            "id": "default.allowedRequestTypes",
+            "verdict": true,
+            "explanation": "Request type \"createModelResponse\" is allowed."
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "after_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": true,
+            "explanation": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "sso_prompt_injection",
+    "status": 200,
+    "trace_id": "52ebbe36-d094-4b14-b46e-df60773e69e8",
+    "response_status": "completed",
+    "checks": [
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-headro-9ffd54",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "headroom.compress",
+            "verdict": true,
+            "explanation": "No messages array found, skipping compression"
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-238834",
+        "verdict": true,
+        "checks": [
+          {
+            "id": "default.jwt",
+            "verdict": true,
+            "explanation": "JWT token validation succeeded"
+          },
+          {
+            "id": "default.allowedRequestTypes",
+            "verdict": true,
+            "explanation": "Request type \"createModelResponse\" is allowed."
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": false,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": false,
+            "explanation": null
+          }
+        ]
+      },
+      {
+        "phase": "before_request_hooks",
+        "guardrail": "pg-prisma-c67cc1",
+        "verdict": false,
+        "checks": [
+          {
+            "id": "panw-prisma-airs.intercept",
+            "verdict": false,
+            "explanation": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "sso_tampered_signature",
+    "status": 401,
+    "trace_id": "495a4f4c-9846-470e-b1d0-546343ac2d43",
+    "response_status": "failure",
+    "checks": []
+  },
+  {
+    "case": "key_does_not_establish_mcp_access",
+    "status": 401,
+    "trace_id": "3580d7fe-4730-4e26-9240-5dfcbb2aa320",
+    "response_status": null,
+    "checks": []
+  }
+]

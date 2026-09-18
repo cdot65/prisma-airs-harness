@@ -1,0 +1,26 @@
+{
+  "release": "0.1.0-alpha.22.onboarding.4",
+  "runtime_source": "d58d55b7aafc9a506b463041b5101116808b76ed",
+  "affected_package_suite": {
+    "passed": 5281,
+    "failed": 0,
+    "skipped": 6
+  },
+  "packages": [
+    "codex-cli",
+    "codex-tui",
+    "codex-utils-home-dir"
+  ],
+  "policy_tests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "docs": {
+    "content_validation": "passed",
+    "production_build": "passed",
+    "browser_tests": 20
+  },
+  "live_gateway": "dual-auth-results.json",
+  "live_revocation": "revocation-results.json",
+  "full_workspace_rerun": false
+}

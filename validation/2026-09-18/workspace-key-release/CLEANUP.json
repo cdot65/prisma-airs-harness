@@ -1,0 +1,13 @@
+{
+  "owned_arm64_container_removed": true,
+  "owned_test_launchagents_unloaded": true,
+  "docker_engine_restored_to_stopped": true,
+  "recent_keychain_service_entries": 0,
+  "credential_values_requested": false,
+  "forgejo_session_signed_out": true,
+  "temporary_credential_files_removed": true,
+  "temporary_gateway_keys_revoked": true,
+  "disposable_sso_users_removed": true,
+  "owner_gateway_key_unchanged": true,
+  "gateway_dual_auth_policy_deployed": true
+}

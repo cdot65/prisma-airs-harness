@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "product": "Prisma AIRS Harness",
+  "version": "0.1.0-alpha.22.onboarding.3",
+  "state_directory": "/tmp/airs-dual-auth-installed-a32yh358/environments/829d50bc-f199-48c7-a76c-2423c39b944c",
+  "passed": true,
+  "checks": [
+    {
+      "name": "local_tools",
+      "passed": true,
+      "detail": "Required local executables found; this does not exercise kernel sandbox support"
+    },
+    {
+      "name": "linux_user_namespaces",
+      "passed": true,
+      "detail": "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution"
+    },
+    {
+      "name": "configuration",
+      "passed": true,
+      "detail": "https://gateway.redtail.cdot.io/v1"
+    },
+    {
+      "name": "capabilities",
+      "passed": true,
+      "detail": "Local catalog readable; backend limits still apply"
+    },
+    {
+      "name": "gateway_health",
+      "passed": true,
+      "detail": "HTTPS/HTTP health response successful; inference and policy not exercised"
+    },
+    {
+      "name": "mcp_configuration",
+      "passed": true,
+      "detail": "0 configured server(s); use /mcp and invoke a tool to verify remote authorization"
+    },
+    {
+      "name": "gateway_access",
+      "passed": true,
+      "detail": "Gateway access verified by one inference response. MCP permissions were not tested.\nClient correlation ID: d443d4ee-1758-49c5-819e-6cf5cc158195"
+    }
+  ]
+}

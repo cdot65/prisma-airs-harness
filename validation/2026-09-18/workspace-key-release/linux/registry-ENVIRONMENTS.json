@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22.onboarding.4",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "binary_sha256": "fdaedad2688e0497ff89473e982c1f34a8972c51fc9e577e33af12c7265f7dff",
+  "checks": [
+    "create selects default",
+    "rename preserves state identity",
+    "one-command override preserves default",
+    "named status",
+    "saved default switch",
+    "remove retains files and clears default",
+    "recreated name gets new identity"
+  ],
+  "network": "no external requests",
+  "scope": "exact executable environment lifecycle"
+}

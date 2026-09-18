@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+  "source_commit": "5374c25c8888663a2ab57ea27a7662ec8e490fd3",
+  "workflow": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35358049227",
+  "checks": {
+    "published_version": true,
+    "workspace_key_workflow": true,
+    "environment_switch": true,
+    "environment_remove": true,
+    "servicenow": true,
+    "trace_id": true
+  },
+  "response_sha256": "936b8184ce794bf60e0942bca2ed2febc56a110a1358a8cf62768b76ec1a8ebb"
+}

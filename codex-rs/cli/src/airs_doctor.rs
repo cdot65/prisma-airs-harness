@@ -12,7 +12,37 @@ struct Check {
 }
 
 pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Result<()> {
+    if args.json && super::airs_doctor_storage::child_probe()? {
+        return Ok(());
+    }
     let mut checks = Vec::new();
+    let (authentication, native) = super::airs_doctor_storage::authentication(home);
+    // Keep plain CLI doctor a metadata-only credential inspection. The session
+    // dashboard explicitly requests service health; verification already opens
+    // native credentials through the bounded helper.
+    if native
+        && (args.verify_access
+            || std::env::var("AIRS_DOCTOR_CONNECTION_HEALTH").as_deref() == Ok("1"))
+    {
+        let (passed, detail) = super::airs_doctor_storage::check(home).await;
+        checks.push(Check {
+            name: "credential_service",
+            passed,
+            detail,
+        });
+    }
+    let cleanup_clear = [
+        "credential-pending-cleanup.json",
+        "credential-pending-logout.json",
+    ]
+    .iter()
+    .all(|name| matches!(std::fs::symlink_metadata(home.join(name)), Err(error) if error.kind() == std::io::ErrorKind::NotFound));
+    checks.push(Check {
+        name: "credential_cleanup", passed: cleanup_clear,
+        detail: if cleanup_clear { "No pending credential cleanup".into() } else {
+            "Credential cleanup is pending or unreadable. Restore native storage access, then retry airs login or airs logout for this environment. Doctor does not retry credential cleanup.".into()
+        },
+    });
     let tools = if cfg!(target_os = "linux") {
         &["sh", "git", "rg", "bwrap"][..]
     } else {
@@ -132,6 +162,7 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
     let report = serde_json::json!({
         "schema_version": 1, "product": "Prisma AIRS Harness",
         "version": super::airs_harness::version(), "state_directory": home,
+        "authentication": authentication,
         "passed": passed, "checks": checks,
     });
     if args.json {

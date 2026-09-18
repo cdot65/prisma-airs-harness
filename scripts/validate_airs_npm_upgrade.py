@@ -8,20 +8,25 @@ Only disposable prefixes and harness state are used.
 
 import argparse
 import hashlib
-from http.server import ThreadingHTTPServer
 import json
 import os
-from pathlib import Path
 import re
 import subprocess
 import threading
+from http.server import ThreadingHTTPServer
+from pathlib import Path
 
 from airs_npm_registry import install_environment, registry_handler
 
 
 def run(arguments, environment, log):
     result = subprocess.run(
-        arguments, env=environment, capture_output=True, text=True, timeout=300
+        arguments,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=300,
+        check=False,
     )
     log.write_text(result.stdout + result.stderr)
     if result.returncode:
@@ -35,8 +40,10 @@ def native_info(prefix):
         [
             "node",
             "-e",
-            "const {createRequire}=require('module');const r=createRequire(process.argv[1]);"
-            "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));",
+            (
+                "const {createRequire}=require('module');const r=createRequire(process.argv[1]);"
+                "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));"
+            ),
             str(manifest),
         ],
         text=True,
@@ -80,20 +87,18 @@ def main():
         args.output / "install-previous.log",
     )
     command = prefix / "bin/airs-harness"
+    previous_alpha = int(args.previous.rsplit(".", 1)[1])
+    previous_command_name = "airs" if previous_alpha >= 22 else "airs-harness"
     assert (
         run([str(command), "--version"], old_env, args.output / "previous-version.log")
-        == "airs-harness " + args.previous
+        == previous_command_name + " " + args.previous
     )
     old_native, old_info = native_info(prefix)
     old_hash = hashlib.sha256(old_native.read_bytes()).hexdigest()
     assert old_hash == old_info["binary_sha256"]
 
     # Preserve a real pre-upgrade harness configuration, not a fabricated marker.
-    previous_setup = (
-        ["env", "create", "work"]
-        if int(args.previous.rsplit(".", 1)[1]) >= 21
-        else ["setup"]
-    )
+    previous_setup = ["env", "create", "work"] if previous_alpha >= 21 else ["setup"]
     run(
         [
             str(command),

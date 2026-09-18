@@ -39,7 +39,7 @@ airs cli --version
 airs
 ```
 
-The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](validation/2026-09-18/command-output-release/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
+The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](validation/2026-09-18/workspace-key-release/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
 
 ## Installation
 
@@ -279,6 +279,62 @@ The application does not change `HOME` or `CODEX_HOME`, and does not discover
 `.codex` project settings. Endpoint, credential, capability and MCP settings must
 come from the selected environment; project/profile/CLI overrides are rejected.
 
+## Workspace API keys and environments
+
+An environment is a local profile for one gateway connection, its credentials,
+MCP configuration and session history. Create one for a separate connection or
+identity; reuse it for later sessions. Its name does **not** need to match an AI
+Gateway workspace name. A workspace API key belongs to the gateway workspace
+where you created it, independently of the local name.
+
+In Strata Cloud Manager, open AI Security → AI Gateway, select the intended
+workspace, and create a user workspace API key with inference permission
+(`completions.write`). Apply the required expiry and usage limits. That workspace
+also needs a default saved config/model route, or an explicit route supplied by
+your administrator. Its gateway policy must permit workspace keys alongside SSO.
+
+For a new local profile:
+
+```sh
+airs env create workspace-api --gateway-url https://gateway.example.com/v1
+```
+
+Choose **Workspace API key** and enter the key in the hidden prompt. If the
+profile already exists, reuse it:
+
+```sh
+airs --environment workspace-api login --with-api-key
+airs --environment workspace-api doctor --verify-access
+airs --environment workspace-api
+```
+
+A saved credential is not yet proof of gateway access. Verification sends one
+small inference request. HTTP 401 indicates credential rejection; 403 indicates
+an authorization denial; 446 indicates a guardrail denial. Some gateway policies
+return a blocking denial with HTTP 200; the harness checks the hook results too.
+Use the reported request/gateway trace ID when asking the gateway administrator
+to inspect the request. Creating another local environment does not change the
+key's workspace or fix its policy.
+
+```sh
+airs env list
+airs env use workspace-api
+airs --environment work doctor --verify-access
+airs env use work
+airs env remove workspace-api
+```
+
+Removing an environment unregisters its local name and preserves its files. It
+does not delete the gateway workspace or revoke its API key. Select another
+environment before removing the default.
+
+MCP authorization is separate: add the gateway-provided MCP URL in this same
+environment, then complete `airs --environment workspace-api mcp login SERVER`
+if the add flow did not already sign you in. Company SSO and any upstream
+ServiceNow consent still apply; an inference API key does not grant MCP access.
+See the [getting-started guide](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/)
+for the complete SSO and ServiceNow flow.
+
 ## Credentials and recovery
 
 Choose one authentication source:
@@ -291,7 +347,7 @@ Choose one authentication source:
 - Pipe a workspace key into `login --with-api-key` to use the OS credential store.
   An unavailable store produces an error; there is no automatic plaintext fallback.
 
-`status` performs local checks. `doctor --json` additionally makes a bounded,
+`env status` performs local checks. `doctor --json` additionally makes a bounded,
 unauthenticated API-root `/health` request (for example `/v1/health`) to the selected gateway and checks local tool
 availability and, on Linux, actual Bubblewrap namespace creation. It does not
 submit inference, and distinguishes local availability from remote authorization.

@@ -53,3 +53,18 @@ modules are below 500 lines. The complete feature exceeds the usual 800-line
 change guideline because it includes a private terminal form, cancellable child
 adapter, lifecycle menus and installed-executable fixtures; these boundaries
 allow the review to be split without introducing a second OAuth client.
+
+## Local review build
+
+The Linux x64 development executable is
+`/tmp/airs-mcp-manager-20260918/bin/airs`. It was rebuilt after lint/format cleanup
+and passed a version smoke check. It retains the base onboarding.4 version string;
+its hash in `checks.json` distinguishes it from the published npm artifact. This
+is an unoptimized native development binary, not a packaged release. Launch it
+with `--environment NAME`, then enter `/mcp`. The installed `airs` command and
+npm dist-tags were not replaced.
+
+The artifact used by the terminal fixtures is recorded separately from this
+final rebuild. Tests preceded the final lint/format cleanup; no claim of final
+release-artifact acceptance is made. Runtime source is `bc68d3db5b`, following
+CLI adapter commit `3bee0c3e2d`; fixture/documentation source is `c4c659defd`.

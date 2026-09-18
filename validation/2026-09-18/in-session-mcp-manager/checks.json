@@ -41,5 +41,13 @@
     "No native ARM64 or Apple Silicon candidate checks",
     "No native credential-store acceptance for this candidate",
     "Final lint/format cleanup follows tests; not a release artifact attestation"
-  ]
+  ],
+  "development_build": {
+    "path": "/tmp/airs-mcp-manager-20260918/bin/airs",
+    "platform": "linux-x64",
+    "sha256": "a89b738380c83f1975eaade750df19ab4f20602d655f6fd29133f0ae9f8a20b7",
+    "version_output": "airs 0.1.0-alpha.22.onboarding.4",
+    "version_note": "Unversioned development build; not the published onboarding.4 artifact",
+    "build_result": "cargo build -p codex-cli --bin airs-harness passed; version smoke passed"
+  }
 }

@@ -1,0 +1,130 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/airs-harness",
+  "sha256": "64e5a722145fb372afbfa2b0b0ec888b904cdfef9ee891da8a74551207ae495c",
+  "checks": [
+    {
+      "command": [
+        "airs",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "create",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "add",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "doctor",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "exec",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "resume",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "fork",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "queue",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "fork",
+        "--worktree",
+        "--last"
+      ],
+      "passed": true,
+      "output": "Error: `airs fork --worktree` requires an explicit session ID\n"
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "exec",
+        "resume",
+        "--worktree",
+        "session"
+      ],
+      "passed": true,
+      "output": "Error: `--worktree` cannot resume an existing session; use `airs exec fork --worktree`\n"
+    }
+  ],
+  "note": "Development build; not a published package."
+}

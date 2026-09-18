@@ -1,0 +1,563 @@
+{
+  "workspace": {
+    "command": "just test",
+    "exit_code": 101,
+    "tests_started": false,
+    "failure": "v8 150.4.0 build script: HTTP 404 for x86_64-unknown-linux-musl archive"
+  },
+  "affected_packages": {
+    "passed": 9980,
+    "failed": 103,
+    "skipped": 15,
+    "failures": "103 core code-mode cases; 7 explicitly report missing codex-code-mode-host, 96 fail code-mode runtime expectations. This is not a green run or a proven baseline comparison.",
+    "by_binary": {
+      "codex-cli": {
+        "PASS": 13
+      },
+      "codex-cli::app_server": {
+        "PASS": 4
+      },
+      "codex-cli::exec_server": {
+        "PASS": 7
+      },
+      "codex-cli::debug_models": {
+        "PASS": 2
+      },
+      "codex-cli::execpolicy": {
+        "PASS": 2
+      },
+      "codex-cli::airs_environments": {
+        "PASS": 3
+      },
+      "codex-cli::features": {
+        "PASS": 9
+      },
+      "codex-cli::login": {
+        "PASS": 7
+      },
+      "codex-cli::marketplace_add": {
+        "PASS": 4
+      },
+      "codex-cli::marketplace_remove": {
+        "PASS": 4
+      },
+      "codex-cli::marketplace_upgrade": {
+        "PASS": 3
+      },
+      "codex-cli::doctor_enterprise_network": {
+        "PASS": 2
+      },
+      "codex-cli::mcp_add_remove": {
+        "PASS": 11
+      },
+      "codex-cli::debug_clear_memories": {
+        "PASS": 2
+      },
+      "codex-cli::mcp_list": {
+        "PASS": 7
+      },
+      "codex-cli::doctor_path_safety": {
+        "PASS": 3
+      },
+      "codex-cli::cloud_config": {
+        "PASS": 3
+      },
+      "codex-cli::plugin_cli": {
+        "PASS": 37
+      },
+      "codex-cli::delete": {
+        "PASS": 1
+      },
+      "codex-cli::mcp_login": {
+        "PASS": 5
+      },
+      "codex-cli::cloud_auth": {
+        "PASS": 1
+      },
+      "codex-cli::queue": {
+        "PASS": 6
+      },
+      "codex-cli::worktree": {
+        "PASS": 2
+      },
+      "codex-cli::update": {
+        "PASS": 1
+      },
+      "codex-cli::bin/airs-harness": {
+        "PASS": 393
+      },
+      "codex-cli::sandbox_network_proxy": {
+        "PASS": 2
+      },
+      "codex-cli::sandbox_cloud_config": {
+        "PASS": 1
+      },
+      "codex-cli::bin/codex": {
+        "PASS": 393
+      },
+      "codex-cli::bin/logs_client": {
+        "PASS": 5
+      },
+      "codex-core": {
+        "PASS": 2456
+      },
+      "codex-core::all": {
+        "PASS": 1595,
+        "FAIL": 103
+      },
+      "codex-core::responses_headers": {
+        "PASS": 5
+      },
+      "codex-exec": {
+        "PASS": 63
+      },
+      "codex-exec::all": {
+        "PASS": 78
+      },
+      "codex-exec::bin/codex-exec": {
+        "PASS": 1
+      },
+      "codex-login": {
+        "PASS": 164
+      },
+      "codex-login::all": {
+        "PASS": 39
+      },
+      "codex-mcp": {
+        "PASS": 224
+      },
+      "codex-model-provider": {
+        "PASS": 76
+      },
+      "codex-model-provider::gateway_auth_recovery": {
+        "PASS": 2
+      },
+      "codex-tui": {
+        "PASS": 4323
+      },
+      "codex-tui::all": {
+        "PASS": 12
+      },
+      "codex-utils-home-dir": {
+        "PASS": 8
+      },
+      "codex-tui::manager_dependency_regression": {
+        "PASS": 1
+      }
+    }
+  },
+  "native_command_checks": 14,
+  "published": false,
+  "lint": {
+    "command": "just fix with all eight affected packages",
+    "exit_code": 0
+  },
+  "format": {
+    "command": "just fmt",
+    "exit_code": 0
+  },
+  "full_workspace_retry": {
+    "command": "just test --locked --features codex-v8-poc/sandbox",
+    "exit_code": 100,
+    "passed": 18097,
+    "failed": 150,
+    "skipped": 34,
+    "binaries": 273,
+    "runtime_seconds": 335.835,
+    "setup": "Repository checksum-verified V8 artifact pair and CI test CA wrapper adapted for musl",
+    "previous_code_mode_failures_now_passing": 103,
+    "by_package": {
+      "codex-agent-identity": {
+        "PASS": 16
+      },
+      "app_test_support": {
+        "PASS": 6
+      },
+      "codex-agent-graph-store": {
+        "PASS": 4
+      },
+      "codex-airs-identity": {
+        "PASS": 28
+      },
+      "codex-analytics": {
+        "PASS": 104
+      },
+      "codex-api": {
+        "PASS": 189
+      },
+      "codex-app-server": {
+        "PASS": 1523,
+        "FAIL": 2
+      },
+      "codex-agent-extension": {
+        "PASS": 1
+      },
+      "codex-app-server-client": {
+        "PASS": 27
+      },
+      "codex-app-server-daemon": {
+        "PASS": 36
+      },
+      "codex-app-server-protocol": {
+        "PASS": 302
+      },
+      "codex-app-server-test-client": {
+        "PASS": 5
+      },
+      "codex-app-server-transport": {
+        "PASS": 154
+      },
+      "codex-apply-patch": {
+        "PASS": 99
+      },
+      "codex-arg0": {
+        "PASS": 7
+      },
+      "codex-attachment-store": {
+        "PASS": 2
+      },
+      "codex-async-utils": {
+        "PASS": 3
+      },
+      "codex-aws-auth": {
+        "PASS": 5
+      },
+      "codex-backend-client": {
+        "PASS": 32
+      },
+      "codex-build-info": {
+        "PASS": 8
+      },
+      "codex-chatgpt": {
+        "PASS": 7
+      },
+      "codex-cli": {
+        "PASS": 933
+      },
+      "codex-cloud-config": {
+        "PASS": 38
+      },
+      "codex-cloud-tasks": {
+        "PASS": 21
+      },
+      "codex-code-mode": {
+        "PASS": 69
+      },
+      "codex-code-mode-host": {
+        "PASS": 71
+      },
+      "codex-code-mode-protocol": {
+        "PASS": 37
+      },
+      "codex-code-mode-runtime": {
+        "PASS": 71
+      },
+      "codex-config": {
+        "PASS": 295
+      },
+      "codex-connectors": {
+        "PASS": 62
+      },
+      "codex-context-fragments": {
+        "PASS": 1
+      },
+      "codex-core": {
+        "PASS": 4159
+      },
+      "codex-core-plugins": {
+        "PASS": 438
+      },
+      "codex-diagnostics": {
+        "PASS": 2
+      },
+      "codex-exec": {
+        "PASS": 142
+      },
+      "codex-exec-server": {
+        "PASS": 405,
+        "FAIL": 146
+      },
+      "codex-exec-server-protocol": {
+        "PASS": 20
+      },
+      "codex-execpolicy": {
+        "PASS": 34
+      },
+      "codex-extension-api": {
+        "PASS": 13
+      },
+      "codex-extension-items": {
+        "PASS": 8
+      },
+      "codex-external-agent-migration": {
+        "PASS": 168
+      },
+      "codex-features": {
+        "PASS": 41
+      },
+      "codex-feedback": {
+        "PASS": 22
+      },
+      "codex-file-search": {
+        "PASS": 16
+      },
+      "codex-file-watcher": {
+        "PASS": 21
+      },
+      "codex-git-utils": {
+        "PASS": 45
+      },
+      "codex-git-attribution": {
+        "PASS": 2
+      },
+      "codex-goal-extension": {
+        "PASS": 34
+      },
+      "codex-guardian-context": {
+        "PASS": 14
+      },
+      "codex-guardian-v2": {
+        "PASS": 99
+      },
+      "codex-history": {
+        "PASS": 24
+      },
+      "codex-history-notes-extension": {
+        "PASS": 9
+      },
+      "codex-home": {
+        "PASS": 6
+      },
+      "codex-hooks": {
+        "PASS": 176
+      },
+      "codex-http-client": {
+        "PASS": 92
+      },
+      "codex-image-generation-extension": {
+        "PASS": 10
+      },
+      "codex-install-context": {
+        "PASS": 16
+      },
+      "codex-keyring-store": {
+        "PASS": 2
+      },
+      "codex-linux-sandbox": {
+        "PASS": 150,
+        "FAIL": 1
+      },
+      "codex-lmstudio": {
+        "PASS": 8
+      },
+      "codex-login": {
+        "PASS": 203
+      },
+      "codex-mcp": {
+        "PASS": 224
+      },
+      "codex-mcp-extension": {
+        "PASS": 22
+      },
+      "codex-memories-extension": {
+        "PASS": 16
+      },
+      "codex-memories-read": {
+        "PASS": 3
+      },
+      "codex-memories-write": {
+        "PASS": 43
+      },
+      "codex-message-history": {
+        "PASS": 12
+      },
+      "codex-model-provider": {
+        "PASS": 78
+      },
+      "codex-model-provider-info": {
+        "PASS": 32
+      },
+      "codex-models-manager": {
+        "PASS": 48
+      },
+      "codex-network-proxy": {
+        "PASS": 221
+      },
+      "codex-ollama": {
+        "PASS": 16
+      },
+      "codex-otel": {
+        "PASS": 62
+      },
+      "codex-plugin": {
+        "PASS": 7
+      },
+      "codex-process-hardening": {
+        "PASS": 2
+      },
+      "codex-prompts": {
+        "PASS": 31
+      },
+      "codex-protocol": {
+        "PASS": 337
+      },
+      "codex-queue-extension": {
+        "PASS": 16
+      },
+      "codex-realtime-webrtc": {
+        "PASS": 19
+      },
+      "codex-response-debug-context": {
+        "PASS": 3
+      },
+      "codex-responses-api-proxy": {
+        "PASS": 10
+      },
+      "codex-rmcp-client": {
+        "PASS": 320
+      },
+      "codex-rollout": {
+        "PASS": 128
+      },
+      "codex-rollout-trace": {
+        "PASS": 61
+      },
+      "codex-sandboxing": {
+        "PASS": 69
+      },
+      "codex-secrets": {
+        "PASS": 9
+      },
+      "codex-shell-command": {
+        "PASS": 167
+      },
+      "codex-shell-escalation": {
+        "PASS": 20
+      },
+      "codex-skills": {
+        "PASS": 51
+      },
+      "codex-skills-extension": {
+        "PASS": 173,
+        "FAIL": 1
+      },
+      "codex-state": {
+        "PASS": 188
+      },
+      "codex-terminal-detection": {
+        "PASS": 19
+      },
+      "codex-stdio-to-uds": {
+        "PASS": 1
+      },
+      "codex-thread-store": {
+        "PASS": 244
+      },
+      "codex-tools": {
+        "PASS": 97
+      },
+      "codex-tui": {
+        "PASS": 4336
+      },
+      "codex-uds": {
+        "PASS": 5
+      },
+      "codex-utils-absolute-path": {
+        "PASS": 27
+      },
+      "codex-utils-audio": {
+        "PASS": 4
+      },
+      "codex-utils-cache": {
+        "PASS": 3
+      },
+      "codex-utils-cli": {
+        "PASS": 21
+      },
+      "codex-utils-elapsed": {
+        "PASS": 4
+      },
+      "codex-utils-fuzzy-match": {
+        "PASS": 8
+      },
+      "codex-utils-home-dir": {
+        "PASS": 8
+      },
+      "codex-utils-git-discovery": {
+        "PASS": 4
+      },
+      "codex-utils-image": {
+        "PASS": 13
+      },
+      "codex-utils-json-to-toml": {
+        "PASS": 6
+      },
+      "codex-utils-oss": {
+        "PASS": 3
+      },
+      "codex-utils-output-truncation": {
+        "PASS": 19
+      },
+      "codex-utils-path": {
+        "PASS": 8
+      },
+      "codex-utils-path-uri": {
+        "PASS": 72
+      },
+      "codex-utils-plugins": {
+        "PASS": 12
+      },
+      "codex-utils-pty": {
+        "PASS": 27
+      },
+      "codex-utils-readiness": {
+        "PASS": 9
+      },
+      "codex-utils-rustls-provider": {
+        "PASS": 2
+      },
+      "codex-utils-sandbox-summary": {
+        "PASS": 5
+      },
+      "codex-utils-sleep-inhibitor": {
+        "PASS": 4
+      },
+      "codex-utils-stream-parser": {
+        "PASS": 27
+      },
+      "codex-utils-string": {
+        "PASS": 18
+      },
+      "codex-utils-template": {
+        "PASS": 14
+      },
+      "codex-v8-poc": {
+        "PASS": 6
+      },
+      "codex-voice-host": {
+        "PASS": 16
+      },
+      "codex-web-search-extension": {
+        "PASS": 8
+      },
+      "codex-websocket-client": {
+        "PASS": 16
+      },
+      "codex-windows-sandbox": {
+        "PASS": 27
+      },
+      "codex-windows-sandbox-service": {
+        "PASS": 5
+      },
+      "codex-workload-identity": {
+        "PASS": 7
+      },
+      "codex-worktree": {
+        "PASS": 30
+      },
+      "core_test_support": {
+        "PASS": 39
+      }
+    }
+  }
+}

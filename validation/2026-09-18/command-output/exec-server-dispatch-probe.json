@@ -1,0 +1,12 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/deps/process-262868cae64374ba",
+  "arguments": [
+    "exec-server",
+    "--listen",
+    "invalid"
+  ],
+  "exit_code": 101,
+  "stdout": "",
+  "stderr": "error: Unrecognized option: 'listen'\n",
+  "note": "Direct test-executable probe without the Cargo test runner; no server was started."
+}

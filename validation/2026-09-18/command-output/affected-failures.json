@@ -1,0 +1,414 @@
+[
+  {
+    "test": "TRY 2 FAIL [   0.368s] ( 3557/10083) codex-core::all suite::code_mode::code_mode_background_keeps_running_on_later_turn_without_wait",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.397s] ( 3558/10083) codex-core::all suite::code_mode::code_mode_can_apply_patch_via_nested_tool",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.391s] ( 3559/10083) codex-core::all suite::code_mode::code_mode_can_call_indexed_standalone_web_search",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.405s] ( 3560/10083) codex-core::all suite::code_mode::code_mode_can_call_standalone_web_search",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.399s] ( 3561/10083) codex-core::all suite::code_mode::code_mode_can_print_content_only_mcp_tool_result_fields",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.405s] ( 3562/10083) codex-core::all suite::code_mode::code_mode_can_compare_elapsed_time_around_set_timeout",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.415s] ( 3563/10083) codex-core::all suite::code_mode::code_mode_can_print_error_mcp_tool_result_fields",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.410s] ( 3564/10083) codex-core::all suite::code_mode::code_mode_can_resume_after_set_timeout",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.436s] ( 3565/10083) codex-core::all suite::code_mode::code_mode_can_print_structured_mcp_tool_result_fields",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.392s] ( 3566/10083) codex-core::all suite::code_mode::code_mode_can_return_exec_command_output",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.385s] ( 3567/10083) codex-core::all suite::code_mode::code_mode_can_run_multiple_yielded_sessions",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.375s] ( 3568/10083) codex-core::all suite::code_mode::code_mode_can_store_and_load_values_across_turns",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.381s] ( 3569/10083) codex-core::all suite::code_mode::code_mode_can_use_mcp_image_result_with_image_helper",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.591s] ( 3572/10083) codex-core::all suite::code_mode::app_only_tools_are_not_visible_or_runnable_by_code_mode_model",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.387s] ( 3575/10083) codex-core::all suite::code_mode::code_mode_can_use_view_image_result_with_image_helper::legacy_detail",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.373s] ( 3576/10083) codex-core::all suite::code_mode::code_mode_can_use_view_image_result_with_image_helper::unified_image_budget",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.346s] ( 3577/10083) codex-core::all suite::code_mode::code_mode_excludes_mcp_servers_using_their_configured_identity",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.371s] ( 3578/10083) codex-core::all suite::code_mode::code_mode_can_yield_and_resume_with_wait",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.373s] ( 3579/10083) codex-core::all suite::code_mode::code_mode_does_not_expose_update_plan_by_default",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.373s] ( 3580/10083) codex-core::all suite::code_mode::code_mode_current_time_returns_structured_result",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.385s] ( 3581/10083) codex-core::all suite::code_mode::code_mode_excludes_configured_nested_tool_namespaces",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.368s] ( 3582/10083) codex-core::all suite::code_mode::code_mode_exec_nested_limit_formats_truncated_result_with_warning",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.370s] ( 3584/10083) codex-core::all suite::code_mode::code_mode_exec_nested_limit_preserves_result_variable_before_configured_history_truncation",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.379s] ( 3585/10083) codex-core::all suite::code_mode::code_mode_exec_nested_limit_preserves_result_variable_before_default_history_truncation",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.375s] ( 3586/10083) codex-core::all suite::code_mode::code_mode_exec_nested_limit_truncates_result_variable_when_exceeded",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.509s] ( 3588/10083) codex-core::all suite::code_mode::code_mode_concurrent_cells_merge_only_the_stored_values_they_write",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.383s] ( 3589/10083) codex-core::all suite::code_mode::code_mode_exec_outer_limit_truncates_emitted_output",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.361s] ( 3590/10083) codex-core::all suite::code_mode::code_mode_exec_surfaces_handler_errors_as_exceptions",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.618s] ( 3591/10083) codex-core::all suite::code_mode::code_mode_exec_holds_captured_result_during_elicitation",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.393s] ( 3593/10083) codex-core::all suite::code_mode::code_mode_exec_without_nested_limit_preserves_result_variable_before_default_history_truncation",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.402s] ( 3594/10083) codex-core::all suite::code_mode::code_mode_exec_without_nested_limit_preserves_result_variable_before_configured_history_truncation",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.462s] ( 3595/10083) codex-core::all suite::code_mode::code_mode_exit_stops_script_immediately",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.458s] ( 3596/10083) codex-core::all suite::code_mode::code_mode_exports_all_tools_metadata_for_builtin_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.486s] ( 3597/10083) codex-core::all suite::code_mode::code_mode_exports_all_tools_metadata_for_namespaced_mcp_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.467s] ( 3598/10083) codex-core::all suite::code_mode::code_mode_exposes_mcp_tools_on_global_tools_object",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.466s] ( 3599/10083) codex-core::all suite::code_mode::code_mode_exposes_namespaced_mcp_tools_on_global_tools_object",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.457s] ( 3600/10083) codex-core::all suite::code_mode::code_mode_exposes_normalized_illegal_mcp_tool_names",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.518s] ( 3601/10083) codex-core::all suite::code_mode::code_mode_exposes_and_dispatches_namespaced_custom_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.469s] ( 3602/10083) codex-core::all suite::code_mode::code_mode_get_context_remaining_returns_structured_result",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.606s] ( 3604/10083) codex-core::all suite::code_mode::code_mode_node_repl_image_flag_without_enhanced_stays_disabled::cua_repl",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.641s] ( 3605/10083) codex-core::all suite::code_mode::code_mode_node_repl_image_flag_without_enhanced_stays_disabled::node_repl",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.657s] ( 3606/10083) codex-core::all suite::code_mode::code_mode_node_repl_screenshots_can_be_captured_without_guardian_transcript_flags::cua_repl",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.732s] ( 3607/10083) codex-core::all suite::code_mode::code_mode_interrupt_terminates_active_cells_and_nested_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.720s] ( 3608/10083) codex-core::all suite::code_mode::code_mode_node_repl_screenshots_can_be_captured_without_guardian_transcript_flags::node_repl",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.770s] ( 3609/10083) codex-core::all suite::code_mode::code_mode_nested_tool_calls_can_run_in_parallel",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.857s] ( 3611/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_disabled",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.910s] ( 3612/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_images_resume_after_prompt_pressure",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.960s] ( 3614/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_manually_enabled_multimodal",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   1.022s] ( 3616/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_manually_enabled_text_only",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.922s] ( 3618/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_text_fallback_with_insufficient_context",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.953s] ( 3619/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_required_model_forces_multimodal",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.914s] ( 3620/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_text_fallback_without_image_support",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.857s] ( 3621/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::manually_enabled_multimodal",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.916s] ( 3622/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::cua_text_fallback_without_context_bound",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.907s] ( 3623/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::disabled",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.874s] ( 3624/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::images_resume_after_prompt_pressure",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.871s] ( 3625/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::manually_enabled_text_only",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.529s] ( 3627/10083) codex-core::all suite::code_mode::code_mode_notify_injects_additional_exec_tool_output_into_active_context",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.763s] ( 3628/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::multimodal_reviewer_preserves_model_owned_fallback_buffer",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.759s] ( 3630/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::multimodal_reviewer_rollover_replays_evidence",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.793s] ( 3633/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::text_fallback_with_insufficient_context",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.532s] ( 3634/10083) codex-core::all suite::code_mode::code_mode_omits_configured_mcp_server_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.818s] ( 3635/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::required_model_forces_multimodal",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.508s] ( 3636/10083) codex-core::all suite::code_mode::code_mode_omits_short_audio_and_preserves_other_output",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.799s] ( 3637/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::text_fallback_without_image_support",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.493s] ( 3638/10083) codex-core::all suite::code_mode::code_mode_only_can_call_mcp_tool",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.784s] ( 3640/10083) codex-core::all suite::code_mode::code_mode_node_repl_text_evidence_is_visible_only_to_guardian::text_fallback_without_context_bound",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.463s] ( 3641/10083) codex-core::all suite::code_mode::code_mode_only_can_call_mcp_tools_hidden_from_direct_and_deferred_exposure",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.471s] ( 3645/10083) codex-core::all suite::code_mode::code_mode_only_can_call_nested_tools",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.507s] ( 3647/10083) codex-core::all suite::code_mode::code_mode_replaces_malformed_image",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.526s] ( 3648/10083) codex-core::all suite::code_mode::code_mode_returns_accumulated_output_when_script_fails",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.572s] ( 3649/10083) codex-core::all suite::code_mode::code_mode_tool_call_completeness_is_private_and_opt_in::completed",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.537s] ( 3654/10083) codex-core::all suite::code_mode::code_mode_tool_call_completeness_is_private_and_opt_in::oversized",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.753s] ( 3655/10083) codex-core::all suite::code_mode::code_mode_only_guides_all_tools_search_and_calls_deferred_app_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.729s] ( 3656/10083) codex-core::all suite::code_mode::code_mode_resizes_explicit_original_image",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.494s] ( 3657/10083) codex-core::all suite::code_mode::code_mode_unified_image_budget_preserves_legacy_contract_for_unsupported_model",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.453s] ( 3658/10083) codex-core::all suite::code_mode::code_mode_uses_the_first_dynamic_tool_for_a_normalized_name",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.484s] ( 3659/10083) codex-core::all suite::code_mode::code_mode_update_plan_nested_tool_result_is_empty_object",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.528s] ( 3660/10083) codex-core::all suite::code_mode::code_mode_tool_call_completeness_is_private_and_opt_in::yielded",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.490s] ( 3661/10083) codex-core::all suite::code_mode::code_mode_uses_non_prefixed_mcp_tool_names_when_feature_enabled",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.492s] ( 3664/10083) codex-core::all suite::code_mode::code_mode_view_image_rejects_invalid_file_without_exposing_contents",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.493s] ( 3666/10083) codex-core::all suite::code_mode::code_mode_wait_can_terminate_and_continue",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.488s] ( 3667/10083) codex-core::all suite::code_mode::code_mode_wait_terminate_returns_completed_session_if_it_finished_after_yield_control",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.473s] ( 3668/10083) codex-core::all suite::code_mode::code_mode_wait_timeout_reconnects_on_next_exec",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.496s] ( 3669/10083) codex-core::all suite::code_mode::code_mode_wait_returns_error_for_unknown_session",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.488s] ( 3671/10083) codex-core::all suite::code_mode::code_mode_write_stdin_calls_run_in_parallel_across_sessions",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.489s] ( 3672/10083) codex-core::all suite::code_mode::code_mode_wait_uses_its_own_max_tokens_budget",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.460s] ( 3674/10083) codex-core::all suite::code_mode::code_mode_yield_and_termination_are_not_starved_by_runtime_output",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   1.220s] ( 3716/10083) codex-core::all suite::code_mode::code_mode_unified_image_budget_accepts_legacy_detail_hints",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.018s] ( 3881/10083) codex-core::all suite::guardian_authorization::guardian_revalidates_owning_session_before_allow::new_user_instruction",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.018s] ( 3882/10083) codex-core::all suite::guardian_authorization::guardian_revalidates_owning_session_before_allow::verified_answer",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.043s] ( 3968/10083) codex-core::all suite::guardian_review_cancellation::cancelling_tool_aborts_its_guardian_review::code_mode_cell",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.028s] ( 3969/10083) codex-core::all suite::guardian_review_cancellation::cancelling_tool_aborts_its_guardian_review::code_mode_turn",
+    "category": "missing code-mode host"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.368s] ( 4042/10083) codex-core::all suite::hooks::post_tool_use_block_decision_rejects_code_mode_tool_promise",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.377s] ( 4045/10083) codex-core::all suite::hooks::post_tool_use_exit_two_rejects_code_mode_tool_promise",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.399s] ( 4049/10083) codex-core::all suite::hooks::pre_tool_use_block_rejects_code_mode_tool_promise_before_execution",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.395s] ( 4067/10083) codex-core::all suite::hooks::pre_tool_use_rewrites_code_mode_nested_exec_command_before_execution",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [  10.475s] ( 4137/10083) codex-core::all suite::code_mode::code_mode_can_call_hidden_dynamic_tools",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [  10.615s] ( 4335/10083) codex-core::all suite::code_mode_elicitation::code_mode_holds_yielded_result_during_command_approval",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [  10.584s] ( 4337/10083) codex-core::all suite::code_mode_elicitation::code_mode_holds_yielded_result_during_patch_approval",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [   0.735s] ( 4802/10083) codex-core::all suite::skills_extension::explicit_only_orchestrator_skill_is_hidden_but_can_be_invoked",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [  30.512s] (10082/10083) codex-core::all suite::tool_lifecycle::mcp_result_processing_precedes_completion::code_mode_error",
+    "category": "code-mode runtime expectation"
+  },
+  {
+    "test": "TRY 2 FAIL [  30.530s] (10083/10083) codex-core::all suite::tool_lifecycle::mcp_result_processing_precedes_completion::code_mode_replaced",
+    "category": "code-mode runtime expectation"
+  }
+]

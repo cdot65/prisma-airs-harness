@@ -30,7 +30,7 @@ struct Settings {
     identity: IdentityConfig,
 }
 
-fn public_field(value: &str) -> anyhow::Result<()> {
+pub(super) fn public_field(value: &str) -> anyhow::Result<()> {
     anyhow::ensure!(
         !value.is_empty()
             && value.len() <= MAX_FIELD_BYTES
@@ -58,7 +58,7 @@ pub(super) fn validate_identity(config: &IdentityConfig) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn existing_binding(home: &Path) -> anyhow::Result<Option<Binding>> {
+pub(super) fn existing_binding(home: &Path) -> anyhow::Result<Option<Binding>> {
     match std::fs::symlink_metadata(home.join("credential-binding.json")) {
         Ok(_) => airs_credentials::read_binding(home).map(Some),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
@@ -98,7 +98,7 @@ pub(super) fn needs_login(
     Ok(!environment_available(variable))
 }
 
-fn read_settings(home: &Path) -> anyhow::Result<Option<IdentityConfig>> {
+pub(super) fn read_settings(home: &Path) -> anyhow::Result<Option<IdentityConfig>> {
     let path = home.join(SETTINGS_FILE);
     let mut options = std::fs::OpenOptions::new();
     options.read(true);

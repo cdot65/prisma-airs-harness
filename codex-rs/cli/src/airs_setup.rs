@@ -49,6 +49,17 @@ pub(super) async fn interactive(
         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
         "Guided setup requires an interactive terminal. Automation must supply env create NAME --gateway-url URL"
     );
+    if codex_tui::AirsOnboarding::supported() {
+        let name = super::airs_welcome::run(
+            root,
+            requested_name,
+            super::airs_welcome::Entry::Create(args.clone()),
+            &[],
+        )
+        .await?;
+        airs_environment::select(root, name.as_deref())?;
+        return Ok(());
+    }
     let (name, args) = collect(
         requested_name,
         args,

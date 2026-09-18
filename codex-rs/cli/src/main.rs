@@ -62,6 +62,7 @@ mod airs_session_binding;
 mod airs_setup;
 mod airs_status;
 mod airs_storage_error;
+mod airs_welcome;
 #[cfg(all(
     target_os = "linux",
     target_env = "musl",
@@ -1238,7 +1239,47 @@ async fn cli_main(
             }
             _ => {}
         }
-        if subcommand.is_none()
+        let welcome_entry = match &subcommand {
+            None | Some(Subcommand::Resume(_) | Subcommand::Fork(_)) => {
+                Some(airs_welcome::Entry::Session)
+            }
+            Some(Subcommand::Login(args))
+                if args.action.is_none()
+                    && !args.airs.restore_session
+                    && args.airs.issuer_url.is_none()
+                    && !args.with_api_key
+                    && args.airs.credential_file.is_none()
+                    && args.airs.credential_env.is_none()
+                    && !args.with_access_token
+                    && args.api_key.is_none()
+                    && args.issuer_base_url.is_none()
+                    && args.client_id.is_none() =>
+            {
+                Some(airs_welcome::Entry::Login(if args.use_device_code {
+                    airs_oidc::LoginFlow::Device
+                } else if args.no_browser {
+                    airs_oidc::LoginFlow::BrowserManual
+                } else {
+                    airs_oidc::LoginFlow::Browser
+                }))
+            }
+            _ => None,
+        };
+        if codex_tui::AirsOnboarding::supported()
+            && let Some(entry) = welcome_entry
+        {
+            let selected = airs_welcome::run(
+                root.as_path(),
+                environment.as_deref(),
+                entry,
+                &root_config_overrides.raw_overrides,
+            )
+            .await?;
+            airs_environment::select(root.as_path(), selected.as_deref())?;
+            if matches!(&subcommand, Some(Subcommand::Login(_))) {
+                return Ok(());
+            }
+        } else if subcommand.is_none()
             && !root.join("config.toml").exists()
             && !root.join("environments.json").exists()
         {

@@ -1,0 +1,35 @@
+---
+source: tui/src/chatwidget/tests/airs_doctor.rs
+assertion_line: 70
+expression: "render_doctor(&chat, width)"
+---
+
+
+  Connection health · work
+  Workspace API key. No conversation or tool is
+  replayed.
+
+› 1. Refresh diagnostics
+     Read configuration and health; no inference
+     request.
+  2. Verify gateway access
+     Confirm a minimal inference request; no
+     conversation, files or tools.
+  3. Credential recovery
+     To replace a workspace key, exit and run airs
+     --environment NAME login for the environment
+     shown above.
+  4. Gateway access · Not verified
+     A saved credential and health response do not
+     verify inference access.
+  5. credential service · Needs attention
+     Credential service unavailable in this session.
+     Check your signed-in user's credential service
+     and session bus, then retry.
+  6. MCP · service-now
+     Not verified · select to reconnect
+  7. Manage MCP connections
+     Add a gateway server, sign in, reconnect or
+     check discovered tools.
+
+  Press enter to confirm or esc to go back

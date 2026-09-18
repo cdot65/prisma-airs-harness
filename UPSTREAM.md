@@ -92,6 +92,33 @@ and does not install or invoke an external Codex CLI. See [RENAME.md](RENAME.md)
 
 ## In-session MCP manager merge boundary
 
+The subsequent in-session doctor is isolated in `tui/src/airs_doctor/`,
+`app/airs_doctor.rs`, `chatwidget/airs_doctor.rs` and the CLI's
+`airs_doctor_storage.rs`. Shared-file hooks are module declarations, one private
+AppEvent dispatch and the AIRS-only `/doctor` slash command. It reads the existing
+`airs doctor --json` report (including useful reports returned with nonzero exit),
+pins `AIRS_HARNESS_HOME`, and uses the existing MCP status/recovery paths. No core,
+public app-server protocol, configuration schema or dependency changes are needed.
+
+Opening the view never submits inference. Explicit confirmation selects the
+existing `--verify-access` implementation. Cancellation and thread/attempt guards
+prevent stale results from replacing another session's UI. On Unix, diagnostics
+own a process group so cancellation also stops credential helper descendants.
+Reports remain transient UI data and never enter model context. The private
+`AIRS_DOCTOR_STORAGE_PROBE=1` child reads a random diagnostic account, with a
+five-second parent deadline; it never mutates a credential or cleanup journal.
+Service availability is intentionally distinct from saved-credential access.
+The dashboard requests service health through private
+`AIRS_DOCTOR_CONNECTION_HEALTH=1`; plain CLI doctor retains its metadata-only
+credential inspection. Explicit `--verify-access` also includes service health.
+
+Review this extension in three dependent stages: CLI diagnostic adapter, TUI
+wiring, and regression/terminal acceptance. Its combined implementation and tests
+exceed the preferred 800-line review size, while the shared upstream hooks remain
+small. Run affected CLI/TUI package tests and `scripts/test_airs_doctor.py` against
+the built executable, alongside the MCP manager fixtures. These do not replace
+an attended gateway-mediated ServiceNow read-only tool call and restart check.
+
 The manager lives in `tui/src/airs_mcp_manager/`,
 `tui/src/app/airs_mcp_manager.rs` and `tui/src/chatwidget/airs_mcp_manager.rs`.
 Shared hooks are the module declarations, one private `AppEvent` variant and its

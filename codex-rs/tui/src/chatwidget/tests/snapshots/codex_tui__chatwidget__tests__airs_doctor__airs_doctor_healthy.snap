@@ -1,0 +1,18 @@
+---
+source: tui/src/chatwidget/tests/airs_doctor.rs
+assertion_line: 70
+expression: "render_doctor(&chat, width)"
+---
+
+
+  Connection health · work
+  Company SSO. No conversation or tool is replayed.
+
+› 1. Refresh diagnostics      Read configuration and health; no inference request.
+  2. Verify gateway access    Confirm a minimal inference request; no conversation, files or tools.
+  3. Restore company sign-in  Sign in as the same person; preserve this conversation and draft.
+  4. gateway access · OK      Gateway access verified. Client correlation ID: fixture
+  5. MCP · service-now        Not verified · select to reconnect
+  6. Manage MCP connections   Add a gateway server, sign in, reconnect or check discovered tools.
+
+  Press enter to confirm or esc to go back

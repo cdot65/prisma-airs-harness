@@ -1,0 +1,19 @@
+---
+source: tui/src/chatwidget/tests/airs_doctor.rs
+assertion_line: 79
+expression: "render_doctor(&chat, 55)"
+---
+
+
+  Verify gateway access?
+  This sends one fixed connectivity message with up
+  to 16 output tokens. No local files, conversation
+  or tools are sent. The request asks the provider
+  not to store the response; gateway logging policy
+  still applies.
+
+› 1. Send connectivity check
+     Verify access with this environment's saved
+     credential.
+
+  Press enter to confirm or esc to go back

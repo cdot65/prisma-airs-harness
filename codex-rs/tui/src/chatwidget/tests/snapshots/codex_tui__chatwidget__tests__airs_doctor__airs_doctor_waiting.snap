@@ -1,0 +1,14 @@
+---
+source: tui/src/chatwidget/tests/airs_doctor.rs
+assertion_line: 79
+expression: "render_doctor(&chat, 55)"
+---
+
+
+  Checking this environment…
+  Your conversation and draft stay here. Esc cancels.
+
+› 1. Cancel  Stop this check; keep your sign-in and
+             draft.
+
+  Press enter to confirm or esc to go back

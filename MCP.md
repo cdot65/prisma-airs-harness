@@ -36,6 +36,28 @@ For an existing connection, `/mcp` offers **Sign in**, **Reconnect and verify**,
 **Sign out** and **Remove connection**. Sign-out and removal require confirmation.
 Sign out before removal if you also want to clear the local MCP credential.
 Neither action signs out inference or revokes gateway-managed upstream grants.
+The development `/doctor` dashboard brings environment diagnostics and MCP
+recovery into the session. Open it to see the active environment, configured
+authentication method, credential cleanup, gateway health and MCP discovery
+state. Select a server to sign in or reconnect using the existing MCP manager.
+These checks do not replay conversation requests or tools.
+
+**Verify gateway access** asks for confirmation before sending one fixed
+connectivity message, capped at 16 output tokens. It sends no conversation,
+local files or tools, and asks the provider not to store the response; gateway
+logging policy still applies. A successful health response or saved credential
+alone does not establish inference access.
+
+For native inference credentials, the bounded storage check reads a random
+diagnostic account without writing, deleting or recovering credentials. A
+service response does not prove the saved credential is unlocked. If cleanup
+is pending, restore access to the user credential service and retry login or
+logout in the same environment. Workspace-key replacement still uses
+`airs --environment NAME login`; company SSO recovery is available in-session.
+Esc cancels diagnostics while preserving the conversation and draft.
+
+`/doctor` is a development feature here; the published `mcp.1` package predates it.
+
 `/mcp verbose` still displays the tool inventory. `/signin` also opens the same
 MCP sign-in dialog for configured OAuth connections.
 

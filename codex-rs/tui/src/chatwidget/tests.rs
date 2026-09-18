@@ -284,4 +284,6 @@ pub(super) use helpers::*;
 #[path = "tests/questions_tests.rs"]
 mod questions_tests;
 
+#[path = "tests/airs_doctor.rs"]
+mod airs_doctor;
 mod airs_recovery;

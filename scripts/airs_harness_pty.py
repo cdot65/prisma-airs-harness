@@ -12,7 +12,15 @@ import time
 
 
 class TerminalSession:
-    def __init__(self, binary, environment, directory, *, arguments=None):
+    def __init__(
+        self,
+        binary,
+        environment,
+        directory,
+        *,
+        arguments=None,
+        terminal_type="xterm-256color",
+    ):
         self.master, slave = pty.openpty()
         fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 40, 120, 0, 0))
 
@@ -26,7 +34,7 @@ class TerminalSession:
                     str(binary),
                     *(arguments if arguments is not None else ["--no-alt-screen"]),
                 ],
-                env=dict(environment, TERM="xterm-256color"),
+                env=dict(environment, TERM=terminal_type),
                 cwd=directory,
                 stdin=slave,
                 stdout=slave,

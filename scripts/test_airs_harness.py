@@ -331,7 +331,7 @@ class TerminalIntegration(unittest.TestCase):
     @unittest.skipIf(
         sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"
     )
-    def test_guided_setup_retains_public_settings_after_cancelled_login(self):
+    def test_plain_terminal_setup_retains_public_settings_after_cancelled_login(self):
         from airs_harness_pty import TerminalSession
 
         self.env.pop("AIRS_API_KEY", None)
@@ -340,6 +340,7 @@ class TerminalIntegration(unittest.TestCase):
             self.env,
             self.work,
             arguments=["env", "create", "--allow-http-loopback"],
+            terminal_type="dumb",
         ) as terminal:
             terminal.wait_for(b"Environment name [work]")
             os.write(terminal.master, b"review\r")
@@ -360,7 +361,11 @@ class TerminalIntegration(unittest.TestCase):
         for arguments in ([], ["resume"], ["fork"]):
             with self.subTest(arguments=arguments):
                 with TerminalSession(
-                    BINARY, self.env, self.work, arguments=arguments
+                    BINARY,
+                    self.env,
+                    self.work,
+                    arguments=arguments,
+                    terminal_type="dumb",
                 ) as terminal:
                     terminal.wait_for(b"Choose 1 or 2")
                     self.assertNotIn(b"AI Gateway URL:", terminal.transcript)
@@ -478,8 +483,8 @@ class TerminalIntegration(unittest.TestCase):
                     BINARY, self.env, self.work, arguments=arguments
                 ) as terminal:
                     if arguments == ["login"]:
-                        terminal.wait_for(b"Choose 1 or 2")
-                        os.write(terminal.master, b"2\r")
+                        terminal.wait_for(b"Sign in to continue")
+                        os.write(terminal.master, b"2")
                     terminal.wait_for(b"Workspace API key (input hidden")
                     self.assertFalse(
                         termios.tcgetattr(terminal.master)[3] & termios.ECHO
@@ -487,6 +492,9 @@ class TerminalIntegration(unittest.TestCase):
                     secret = b"private-test-key-never-echo"
                     os.write(terminal.master, b"\x1b[200~" + secret + b"\x1b[201~")
                     os.write(terminal.master, b"\x03")
+                    if arguments == ["login"]:
+                        terminal.wait_for(b"Sign-in needs your attention")
+                        os.write(terminal.master, b"\x1b")
                     terminal.wait_for(b"Sign-in cancelled")
                     terminal.process.wait(timeout=5)
                     self.assertNotIn(secret, terminal.transcript)

@@ -40,8 +40,6 @@ class ManagedHelperRelocation(unittest.TestCase):
         self.new = self.install(self.new_source, "New install 'quoted'")
         self.current = self.old
         self.fixture.run_cli = self.run_cli
-        self.config = self.home / "config.toml"
-        self.revision = self.home / "session-binding.json"
         self.checks = {}
         self.env = {
             key: value
@@ -57,6 +55,10 @@ class ManagedHelperRelocation(unittest.TestCase):
         )
         self.fixture.env = self.env
         self.fixture.configure()
+        # configure() resolves the named environment beneath the application root.
+        self.home = self.fixture.home
+        self.config = self.home / "config.toml"
+        self.revision = self.home / "session-binding.json"
         login = self.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
         self.assertEqual(login.returncode, 0, login.stderr)
         self.key = self.root / "synthetic-mcp-key"
@@ -218,11 +220,27 @@ class ManagedHelperRelocation(unittest.TestCase):
         self.relocate()
         self.assert_migration()
         migrated = self.config.read_bytes()
-        for label, altered in (
-            ("config_first", migrated),
+        rejected_revision = self.legacy_revision
+        revision_label = "config_first"
+        if (
+            json.loads(rejected_revision)["mcp_config_revision"]
+            == json.loads(self.revision.read_bytes())["mcp_config_revision"]
+        ):
+            # Recent baselines already normalize owned helper paths. Replaying
+            # their unchanged pin is valid, so inject a different valid digest
+            # to retain the mismatch-before-send check for those baselines.
+            revision = json.loads(rejected_revision)
+            revision["mcp_config_revision"] = hashlib.sha256(
+                b"synthetic-unrelated-mcp-configuration"
+            ).hexdigest()
+            rejected_revision = json.dumps(revision).encode()
+            revision_label = "mismatched_revision"
+        for label, altered, pinned in (
+            (revision_label, migrated, rejected_revision),
             (
                 "tool_policy",
                 self.legacy_config.replace(b"pan_inline_scan", b"unexpected_tool"),
+                self.legacy_revision,
             ),
             (
                 "custom_helper",
@@ -231,17 +249,18 @@ class ManagedHelperRelocation(unittest.TestCase):
                     b'http_headers_helper = "unowned-custom-helper"',
                     self.legacy_config,
                 ),
+                self.legacy_revision,
             ),
         ):
             with self.subTest(label=label):
                 self.config.write_bytes(altered)
-                self.revision.write_bytes(self.legacy_revision)
+                self.revision.write_bytes(pinned)
                 self.fixture.requests.clear()
                 result = self.fixture.execute()
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(self.fixture.requests, [])
                 self.assertEqual(self.config.read_bytes(), altered)
-                self.assertEqual(self.revision.read_bytes(), self.legacy_revision)
+                self.assertEqual(self.revision.read_bytes(), pinned)
                 self.checks[label + "_rejected_before_send"] = True
 
     def test_unchanged_custom_helper_keeps_its_raw_session_pin(self):

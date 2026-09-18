@@ -1,7 +1,6 @@
 //! AIRS-only orchestration, using existing CLI mutation/OAuth and app-server MCP APIs.
 use super::App;
 use super::background_requests::fetch_all_mcp_server_statuses;
-use crate::airs_mcp_manager::Connection;
 use crate::airs_mcp_manager::Event;
 use crate::airs_mcp_manager::Operation;
 use crate::airs_mcp_manager::process;
@@ -12,7 +11,6 @@ use codex_app_server_protocol::ClientRequest;
 use codex_app_server_protocol::McpServerRefreshResponse;
 use codex_app_server_protocol::McpServerStatusDetail;
 use codex_app_server_protocol::RequestId;
-use codex_config::types::McpServerTransportConfig;
 use std::time::Duration;
 
 impl App {
@@ -154,41 +152,7 @@ impl App {
                         _ = cancellation.cancelled() => return,
                         result = tokio::time::timeout(Duration::from_secs(15), fetch_all_mcp_server_statuses(request, McpServerStatusDetail::ToolsAndAuthOnly, /*thread_id*/ None)) => result.ok().and_then(Result::ok).unwrap_or_default(),
                     };
-                    let mut connections: Vec<_> = config
-                        .mcp_servers
-                        .get()
-                        .iter()
-                        .map(|(name, server)| {
-                            let status = statuses.iter().find(|status| status.name == *name);
-                            let state = if !server.enabled {
-                                "Disabled".into()
-                            } else if let Some(status) = status {
-                                if status.server_info.is_some() && status.tools_error.is_none() {
-                                    format!("Connected · {} tools", status.tools.len())
-                                } else {
-                                    "Not connected · select to sign in or retry".into()
-                                }
-                            } else {
-                                "Not verified · select to reconnect".into()
-                            };
-                            Connection {
-                                name: name.clone(),
-                                status: state,
-                                can_login: crate::chatwidget::airs_mcp_recovery::supports_oauth(
-                                    server,
-                                ),
-                                url: match &server.transport {
-                                    McpServerTransportConfig::StreamableHttp { url, .. } => {
-                                        url.clone()
-                                    }
-                                    McpServerTransportConfig::Stdio { .. } => {
-                                        "Local MCP transport".into()
-                                    }
-                                },
-                            }
-                        })
-                        .collect();
-                    connections.sort_by(|a, b| a.name.cmp(&b.name));
+                    let connections = crate::airs_mcp_manager::connections(&config, &statuses);
                     tx.send(AppEvent::AirsMcpManager(Event::Overview {
                         attempt,
                         thread,

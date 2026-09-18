@@ -438,6 +438,7 @@ mod tool_requests;
 mod transcript;
 mod transcript_export;
 use self::transcript::TranscriptState;
+mod airs_doctor;
 mod airs_mcp_manager;
 pub(crate) mod airs_mcp_recovery;
 mod airs_recovery;

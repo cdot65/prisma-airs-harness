@@ -73,3 +73,69 @@ impl std::fmt::Debug for Event {
         f.write_str("AirsMcpManagerEvent [private interaction]")
     }
 }
+
+pub(crate) fn connections(
+    config: &crate::legacy_core::config::Config,
+    statuses: &[McpServerStatus],
+) -> Vec<Connection> {
+    use codex_app_server_protocol::McpServerConnectionStatus as State;
+    use codex_config::types::McpServerTransportConfig;
+    let mut connections: Vec<_> = config
+        .mcp_servers
+        .get()
+        .iter()
+        .map(|(name, server)| {
+            let status = statuses.iter().find(|status| status.name == *name);
+            let state = if !server.enabled {
+                "Disabled".into()
+            } else if let Some(status) = status {
+                match status.runtime_status {
+                    Some(State::Disabled) => "Disabled".into(),
+                    Some(State::NotStarted) => "Not started · select to reconnect".into(),
+                    Some(State::Starting) => "Connecting".into(),
+                    Some(State::AuthenticationRequired) => "Sign-in required".into(),
+                    Some(State::Failed | State::Cancelled) => {
+                        "Not connected · select to retry".into()
+                    }
+                    Some(State::Connected) if status.tools_error.is_none() => {
+                        format!("Connected · {} tools", status.tools.len())
+                    }
+                    Some(State::Connected) => "Connected · tool discovery failed".into(),
+                    None if status.server_info.is_some() && status.tools_error.is_none() => {
+                        format!(
+                            "{} tools discovered · runtime unchecked",
+                            status.tools.len()
+                        )
+                    }
+                    None => "Not verified · select to reconnect".into(),
+                }
+            } else {
+                "Not verified · select to reconnect".into()
+            };
+            let auth = status
+                .map(|s| match s.auth_status {
+                    codex_app_server_protocol::McpAuthStatus::OAuth => "OAuth saved",
+                    codex_app_server_protocol::McpAuthStatus::NotLoggedIn => "Sign-in required",
+                    codex_app_server_protocol::McpAuthStatus::BearerToken => "Bearer credential",
+                    codex_app_server_protocol::McpAuthStatus::CredentialHelper => {
+                        "Credential helper"
+                    }
+                    codex_app_server_protocol::McpAuthStatus::Unsupported => "OAuth unavailable",
+                    codex_app_server_protocol::McpAuthStatus::Unknown => "Authentication unknown",
+                })
+                .unwrap_or("Authentication unchecked");
+            Connection {
+                name: name.clone(),
+                status: format!("{state} · {auth}"),
+                can_login: crate::chatwidget::airs_mcp_recovery::supports_oauth(server),
+                url: match &server.transport {
+                    McpServerTransportConfig::StreamableHttp { url, .. } => url.clone(),
+                    McpServerTransportConfig::Stdio { .. } => "Local MCP transport".into(),
+                },
+            }
+        })
+        .collect();
+    connections.sort_by(|a, b| a.name.cmp(&b.name));
+
+    connections
+}

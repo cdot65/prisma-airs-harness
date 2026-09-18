@@ -428,6 +428,14 @@ impl ChatWidget {
             SlashCommand::Logout => {
                 self.app_event_tx.send(AppEvent::Logout);
             }
+            SlashCommand::Doctor => {
+                if codex_utils_home_dir::is_airs_harness() {
+                    self.app_event_tx
+                        .send(AppEvent::AirsDoctor(crate::airs_doctor::Event::Open(
+                            crate::airs_doctor::Mode::Inspect,
+                        )));
+                }
+            }
             SlashCommand::Signin => self.open_airs_sign_in(),
             SlashCommand::Copy => {
                 self.show_copy_picker();
@@ -1232,6 +1240,7 @@ impl ChatWidget {
             | SlashCommand::Quit
             | SlashCommand::Exit
             | SlashCommand::Logout
+            | SlashCommand::Doctor
             | SlashCommand::Signin
             | SlashCommand::Mention
             | SlashCommand::Skills

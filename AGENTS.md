@@ -1,5 +1,10 @@
 # Prisma AIRS Harness release policy
 
+- Owner preference (September 18, 2026): publish versioned npm test packages for
+  feature handoffs after the required platform checks. Do not ask the owner to
+  run development binaries or request publication permission again. Keep test
+  channels separate from stable promotion and report remaining acceptance gaps.
+
 - Both inference and remote MCP traffic must target Prisma AIRS AI Gateway.
   The built-in Codex MCP client connects to the gateway MCP listener; the gateway
   proxies upstream servers and owns upstream OAuth. CAS/organizational SSO is the

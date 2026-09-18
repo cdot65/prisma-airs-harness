@@ -435,6 +435,12 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
         .await
         .with_context(|| format!("failed to load MCP servers from {}", codex_home.display()))?;
     let credential_name = new_entry.oauth_credential_name(&name);
+    if crate::mcp_login::is_ui_session() {
+        anyhow::ensure!(
+            !servers.contains_key(&name),
+            "An MCP connection with this name already exists"
+        );
+    }
     servers.insert(name.clone(), new_entry);
 
     ConfigEditsBuilder::new(&codex_home)

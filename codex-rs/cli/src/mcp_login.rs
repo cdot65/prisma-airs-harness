@@ -33,6 +33,13 @@ use tokio::sync::oneshot;
 
 const MAX_CALLBACK_BYTES: usize = 64 * 1024;
 
+/// Private AIRS terminal adapter; ordinary CLI and upstream login stay unchanged.
+pub(crate) fn is_ui_session() -> bool {
+    codex_utils_home_dir::is_airs_harness()
+        && !io::stdin().is_terminal()
+        && std::env::var("AIRS_MCP_INTERACTION").as_deref() == Ok("json-v1")
+}
+
 #[derive(Clone, Copy)]
 pub(crate) enum McpLoginMode {
     Browser,
@@ -132,13 +139,23 @@ async fn read_callback(
     authorization_url: String,
     pending_input: &mut Option<oneshot::Receiver<Result<String>>>,
 ) -> Result<String> {
-    println!(
-        "Authorize the MCP server by opening this URL in your browser:\n{authorization_url}\n"
-    );
-    println!(
-        "After signing in, copy the full URL from your browser's address bar.\n\
+    if is_ui_session() {
+        println!(
+            "{}",
+            serde_json::json!({"airs_mcp": 1, "authorization_url": authorization_url})
+        );
+        io::stdout()
+            .flush()
+            .context("failed to notify the AIRS terminal")?;
+    } else {
+        println!(
+            "Authorize the MCP server by opening this URL in your browser:\n{authorization_url}\n"
+        );
+        println!(
+            "After signing in, copy the full URL from your browser's address bar.\n\
          If the callback page cannot load, paste that URL here anyway."
-    );
+        );
+    }
     if io::stdin().is_terminal() {
         return read_terminal_callback().await;
     }

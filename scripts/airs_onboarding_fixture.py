@@ -21,6 +21,7 @@ class IdentityFixture:
     def __init__(self, directory):
         self.directory = Path(directory)
         self.codes, self.devices, self.access_tokens = {}, {}, set()
+        self.refresh_tokens = set()
         self.requests, self.exchanges = [], []
         self.gateway_status = 200
         self.deny_browser = False
@@ -139,6 +140,7 @@ class IdentityFixture:
                             "issuer": fixture.issuer,
                             "authorization_endpoint": fixture.issuer + "/authorize",
                             "token_endpoint": fixture.issuer + "/token",
+                            "revocation_endpoint": fixture.issuer + "/revoke",
                             "jwks_uri": fixture.issuer + "/keys",
                             "device_authorization_endpoint": fixture.issuer + "/device",
                             "code_challenge_methods_supported": ["S256"],
@@ -227,6 +229,12 @@ class IdentityFixture:
                     )
                     fixture.exchanges.append({"grant": grant, "pkce_verified": True})
                     self.answer(200, fixture.tokens(nonce))
+                elif path == "/revoke":
+                    assert values["client_id"] == [fixture.client]
+                    assert values["token_type_hint"] == ["refresh_token"]
+                    assert values["token"][0] in fixture.refresh_tokens
+                    fixture.refresh_tokens.remove(values["token"][0])
+                    self.answer(200, {})
                 elif path == "/v1/responses":
                     token = self.headers.get(
                         "x-portkey-api-key",
@@ -307,12 +315,14 @@ class IdentityFixture:
         if nonce is not None:
             identity["nonce"] = "invalid-fixture-nonce" if self.invalid_nonce else nonce
         self.access_tokens.add(access)
+        refresh = "fixture-refresh-" + secrets.token_urlsafe(24)
+        self.refresh_tokens.add(refresh)
         return {
             "token_type": "Bearer",
             "expires_in": 600,
             "access_token": access,
             "id_token": self.jwt(identity),
-            "refresh_token": "fixture-refresh-" + secrets.token_urlsafe(24),
+            "refresh_token": refresh,
         }
 
     def close(self):

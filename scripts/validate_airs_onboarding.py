@@ -12,6 +12,7 @@ import json
 import os
 import re
 import secrets
+import shutil
 import socket
 import ssl
 import subprocess
@@ -396,8 +397,15 @@ def main():
             fixture.gateway_status = 200
 
             env, home = configured("browser-launch-unavailable")
+            browserless = root / "no-browser-tools"
+            browserless.mkdir()
+            # The installed npm entrypoint still needs Node while browser
+            # discovery must fail. Keep only that runtime on the fixture PATH.
+            node = shutil.which("node")
+            if node:
+                (browserless / "node").symlink_to(node)
             env.update(
-                PATH=str(root / "no-browser-tools"),
+                PATH=str(browserless),
                 BROWSER=str(root / "missing-browser"),
             )
             terminal = session(env)

@@ -198,11 +198,9 @@ def main():
                 terminal_stdout=True,
             )
             try:
-                terminal.expect("Yes, continue")
-                assert b"Sign in to continue" not in terminal.transcript
-                terminal.pump(0.4)
-                terminal.send(b"\r")
+                # The first session already trusted this workspace on macOS.
                 terminal.expect("permissions:")
+                assert b"Sign in to continue" not in terminal.transcript
                 terminal.pump(0.4)
                 terminal.send(b"\x04")
                 terminal.finish("")
@@ -343,17 +341,59 @@ def main():
             checks.append("no bearer credential appears in application files")
         finally:
             failures = []
+            accounts = []
             for env in states:
                 registry = Path(env["AIRS_HARNESS_HOME"]) / "environments.json"
                 if not registry.exists():
                     continue
                 for name in json.loads(registry.read_text())["environments"]:
                     if (selected_home(env, name) / "credential-binding.json").exists():
+                        binding = json.loads(
+                            (
+                                selected_home(env, name) / "credential-binding.json"
+                            ).read_text()
+                        )
+                        accounts.append({"id": binding["id"], "environment": name})
                         result = cli(env, "--environment", name, "logout", check=False)
                         if result.returncode:
-                            failures.append(name)
+                            failures.append(
+                                {"environment": name, "error": result.stderr}
+                            )
+                            # Retain only public recovery metadata if native
+                            # deletion fails; never copy stored credentials.
+                            recovery = (
+                                args.output
+                                / "cleanup-recovery"
+                                / Path(env["AIRS_HARNESS_HOME"]).name
+                                / name
+                            )
+                            recovery.mkdir(parents=True, exist_ok=True)
+                            for filename in (
+                                "credential-binding.json",
+                                "credential-pending-logout.json",
+                                "credential-pending-cleanup.json",
+                                "logged-out",
+                            ):
+                                source = selected_home(env, name) / filename
+                                if source.is_file():
+                                    (recovery / filename).write_bytes(
+                                        source.read_bytes()
+                                    )
             fixture.close()
-            assert not failures, "Owned fixture credential cleanup failed"
+            (args.output / "CREDENTIAL-CLEANUP.json").write_text(
+                json.dumps(
+                    {
+                        "passed": not failures,
+                        "failures": failures,
+                        "owned_accounts": accounts,
+                    },
+                    indent=2,
+                )
+                + "\n"
+            )
+            assert not failures, (
+                "Owned fixture credential cleanup failed; inspect CREDENTIAL-CLEANUP.json"
+            )
         checks.append(
             "all owned fixture identities are logged out and temporary state is removed"
         )

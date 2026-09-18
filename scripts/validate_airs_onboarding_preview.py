@@ -29,6 +29,40 @@ from pathlib import Path
 import pyte
 
 
+class AlternateScreen(pyte.Screen):
+    """Add the DEC 1049 buffer switch used by crossterm to pyte's VT model."""
+
+    def __init__(self, columns, lines):
+        self._primary = None
+        super().__init__(columns, lines)
+
+    def set_mode(self, *modes, **kwargs):
+        if kwargs.get("private") and 1049 in modes and self._primary is None:
+            self._primary = (
+                self.buffer,
+                self.cursor,
+                self.margins,
+                self.columns,
+                self.lines,
+            )
+            alternate = pyte.Screen(self.columns, self.lines)
+            self.buffer, self.cursor = alternate.buffer, alternate.cursor
+            self.margins = None
+            self.dirty.update(range(self.lines))
+        super().set_mode(*modes, **kwargs)
+
+    def reset_mode(self, *modes, **kwargs):
+        if kwargs.get("private") and 1049 in modes and self._primary is not None:
+            columns, lines = self.columns, self.lines
+            (self.buffer, self.cursor, self.margins, self.columns, self.lines) = (
+                self._primary
+            )
+            self._primary = None
+            self.resize(columns=columns, lines=lines)
+            self.dirty.update(range(self.lines))
+        super().reset_mode(*modes, **kwargs)
+
+
 class Preview:
     def __init__(
         self,
@@ -50,7 +84,7 @@ class Preview:
             self.slave, termios.TIOCSWINSZ, struct.pack("HHHH", rows, columns, 0, 0)
         )
         self.original = termios.tcgetattr(self.master)
-        self.screen = pyte.Screen(columns, rows)
+        self.screen = AlternateScreen(columns, rows)
         self.stream = pyte.ByteStream(self.screen)
         self.transcript = bytearray()
         self.started = time.monotonic()

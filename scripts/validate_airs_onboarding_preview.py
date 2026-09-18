@@ -60,7 +60,8 @@ class Preview:
             TERM="xterm-256color",
             COLORTERM="truecolor",
         )
-        env.pop("NO_COLOR", None)
+        if environment is None:
+            env.pop("NO_COLOR", None)
         # Acquire the controlling terminal after Python starts in a new session.
         # preexec_fn can deadlock when this driver shares a process with the
         # threaded HTTPS identity fixture.
@@ -232,7 +233,7 @@ def terminal_html(capture):
     return "\n".join(rows)
 
 
-def write_gallery(output, captures, animation, *, preview=True):
+def write_gallery(output, captures, animation, *, preview=True, caption=None):
     items = []
     for name, capture in captures.items():
         items.append(
@@ -260,6 +261,10 @@ button{background:#273140;color:#e5e9f0;border:1px solid #485569;border-radius:5
             "The animation replays captured terminal frames; it is not a separately designed web mockup.",
             "These are fixture results, not production SSO or ServiceNow acceptance.",
         )
+    if caption is not None:
+        start = page.index("<p>")
+        end = page.index("</p>", start)
+        page = page[:start] + "<p>" + html.escape(caption) + page[end:]
     if len(frames) < 2:
         page = page.replace('<button id="motion">', '<button id="motion" hidden>')
         page = page.replace(

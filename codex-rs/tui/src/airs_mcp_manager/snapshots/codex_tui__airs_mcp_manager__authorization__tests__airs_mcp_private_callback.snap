@@ -1,0 +1,13 @@
+---
+source: tui/src/airs_mcp_manager/authorization_tests.rs
+expression: rendered
+---
+Sign in to gateway MCP
+Open here or in a browser on another device.
+
+https://auth.example/authorize?state=fixture
+
+After consent, paste the full callback URL, even if its page cannot load.
+Callback received (hidden) · Enter to submit
+
+Ctrl+O open · Ctrl+Y copy link · Ctrl+U clear · Esc cancel

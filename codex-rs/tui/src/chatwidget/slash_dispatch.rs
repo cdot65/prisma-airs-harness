@@ -538,7 +538,13 @@ impl ChatWidget {
                 self.add_app_server_stub_message("Memory maintenance");
             }
             SlashCommand::Mcp => {
-                self.add_mcp_output(McpServerStatusDetail::ToolsAndAuthOnly);
+                if codex_utils_home_dir::is_airs_harness() {
+                    self.app_event_tx.send(AppEvent::AirsMcpManager(
+                        crate::airs_mcp_manager::Event::Open,
+                    ));
+                } else {
+                    self.add_mcp_output(McpServerStatusDetail::ToolsAndAuthOnly);
+                }
             }
             SlashCommand::Apps => {
                 self.add_connectors_output();

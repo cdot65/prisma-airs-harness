@@ -80,7 +80,10 @@ async fn mcp_recovery_preserves_draft_and_does_not_unblock_on_company_login() {
     insta::assert_snapshot!("airs_mcp_sign_in", render_recovery(&chat));
     chat.airs_sign_in_completed(Ok(()));
     assert!(chat.input_queue.authentication_pending);
-    chat.airs_mcp_sign_in_completed("mcp-server-1".into(), 8, chat.thread_id.unwrap());
+    chat.airs_mcp_manager_changed(
+        "mcp-server-1: connected · 8 tools.".into(),
+        chat.thread_id.unwrap(),
+    );
     insta::assert_snapshot!("airs_mcp_continue", render_recovery(&chat));
     assert!(chat.input_queue.authentication_pending);
     assert_eq!(chat.bottom_pane.composer_text(), "Keep this unsent draft");
@@ -149,14 +152,69 @@ fn mcp_recovery_actions_keep_the_origin_thread_and_require_an_explicit_choice() 
     );
     (sign_in.items[1].actions[0])(&tx);
     assert!(matches!(rx.try_recv().unwrap(), AppEvent::AirsSignInCancel));
-    let continuation =
-        super::super::airs_mcp_recovery::mcp_continue_view("mcp-server-1".into(), thread_id);
+    let continuation = crate::airs_mcp_manager::views::continue_after_change(thread_id);
     assert!(rx.try_recv().is_err());
-    assert!(continuation.items[1].actions.is_empty());
     (continuation.items[0].actions[0])(&tx);
     assert!(
         matches!(rx.try_recv().unwrap(), AppEvent::AirsMcpNewConversation { thread_id: actual }
         if actual == thread_id)
     );
     assert!(rx.try_recv().is_err());
+}
+
+#[tokio::test]
+async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
+    use crate::airs_mcp_manager::Connection;
+    use crate::airs_mcp_manager::Event;
+    use crate::airs_mcp_manager::Operation;
+    use crate::airs_mcp_manager::views;
+    let (mut chat, mut rx, _ops) = make_chatwidget_manual(None).await;
+    chat.thread_id = Some(ThreadId::new());
+    chat.insert_str("Keep this independent draft");
+    let connection = Connection {
+        name: "service-now".into(),
+        url: "https://gateway.example/service-now/mcp".into(),
+        status: "Not connected".into(),
+        can_login: true,
+    };
+    chat.show_airs_mcp_menu(views::overview(vec![connection.clone()]));
+    insta::assert_snapshot!("airs_mcp_manager_overview", render_recovery(&chat));
+    chat.show_airs_mcp_menu(views::connection(connection));
+    insta::assert_snapshot!("airs_mcp_manager_connection", render_recovery(&chat));
+    chat.show_airs_mcp_menu(views::confirm(Operation::Remove("service-now".into())));
+    insta::assert_snapshot!("airs_mcp_manager_remove", render_recovery(&chat));
+    chat.dismiss_airs_mcp_manager();
+    chat.input_queue.user_turn_pending_start = true;
+    assert!(!chat.airs_mcp_manager_ready());
+    assert!(!chat.prepare_airs_mcp_sign_in("service-now"));
+    assert!(!chat.input_queue.authentication_pending);
+    chat.input_queue.user_turn_pending_start = false;
+    assert!(chat.prepare_airs_mcp_sign_in("service-now"));
+    assert!(!chat.maybe_send_next_queued_input());
+    assert_eq!(
+        chat.bottom_pane.composer_text(),
+        "Keep this independent draft"
+    );
+    while let Ok(event) = rx.try_recv() {
+        assert!(!matches!(
+            event,
+            AppEvent::CodexOp(_) | AppEvent::AirsMcpManager(_)
+        ));
+    }
+    let waiting = views::waiting();
+    waiting.on_cancel.unwrap()(&chat.app_event_tx);
+    assert!(matches!(
+        rx.try_recv().unwrap(),
+        AppEvent::AirsMcpManager(Event::Cancel)
+    ));
+    let confirmation = views::confirm(Operation::Remove("service-now".into()));
+    (confirmation.items[0].actions[0])(&chat.app_event_tx);
+    assert!(matches!(
+        rx.try_recv().unwrap(),
+        AppEvent::AirsMcpManager(Event::Open)
+    ));
+    (confirmation.items[1].actions[0])(&chat.app_event_tx);
+    assert!(
+        matches!(rx.try_recv().unwrap(), AppEvent::AirsMcpManager(Event::Run(Operation::Remove(name))) if name == "service-now")
+    );
 }

@@ -1,0 +1,13 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  Remove service-now?
+  Inference sign-in and history stay saved. Continue in a new conversation.
+
+› 1. Cancel   Keep this connection.
+  2. Confirm  Apply this change to the selected environment.
+
+  Press enter to confirm or esc to go back

@@ -27,10 +27,13 @@ fn cancelling_consent_invalidates_late_completions_and_allows_retry() {
     let mut state = AirsRecoveryState::default();
     let (first, cancellation) = state.begin().unwrap();
     assert!(state.begin().is_none());
+    assert!(state.is_current(first));
     state.cancel();
     assert!(cancellation.is_cancelled());
+    assert!(!state.is_current(first));
     let (second, next) = state.begin().unwrap();
     assert!(!state.finish(first));
+    assert!(state.is_current(second));
     assert!(!next.is_cancelled());
     assert!(state.finish(second));
     assert!(!state.finish(second));

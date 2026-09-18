@@ -148,7 +148,13 @@ impl SlashCommand {
             SlashCommand::Experimental => "toggle experimental features",
             SlashCommand::AutoReview => "approve one retry of a recent auto-review denial",
             SlashCommand::Memories => "configure memory use and generation",
-            SlashCommand::Mcp => "list configured MCP tools; use /mcp verbose for details",
+            SlashCommand::Mcp => {
+                if codex_utils_home_dir::is_airs_harness() {
+                    "manage MCP connections and sign-in; /mcp verbose lists tools"
+                } else {
+                    "list configured MCP tools; use /mcp verbose for details"
+                }
+            }
             SlashCommand::Apps => "manage apps",
             SlashCommand::Plugins => "browse plugins",
             SlashCommand::Logout => {

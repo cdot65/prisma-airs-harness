@@ -536,6 +536,7 @@ pub(crate) enum AppEvent {
 
     /// Request app-server account logout, then exit after it succeeds.
     Logout,
+    AirsMcpManager(crate::airs_mcp_manager::Event),
     AirsSignIn,
     AirsSignInCancel,
     AirsSignInCompleted {
@@ -545,12 +546,6 @@ pub(crate) enum AppEvent {
     AirsMcpSignIn {
         server: String,
         thread_id: ThreadId,
-    },
-    AirsMcpSignInCompleted {
-        attempt: u64,
-        server: String,
-        thread_id: ThreadId,
-        result: Result<usize, String>,
     },
     AirsMcpNewConversation {
         thread_id: ThreadId,

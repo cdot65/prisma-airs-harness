@@ -1,0 +1,17 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  service-now
+  Not connected · https://gateway.example/service-now/mcp
+
+› 1. Sign in               Company SSO in your browser; callback entry works over SSH.
+  2. Sign out              Clear saved MCP OAuth credentials; keep inference sign-in.
+  3. Reconnect and verify  Refresh this connection and check tool discovery.
+  4. Remove connection     Remove this environment's configuration. Sign out first to clear
+                           credentials.
+  5. Back                  Return to MCP connections.
+
+  Press enter to confirm or esc to go back

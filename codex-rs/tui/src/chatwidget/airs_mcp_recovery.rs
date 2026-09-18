@@ -9,7 +9,7 @@ use codex_config::types::McpServerConfig;
 use codex_config::types::McpServerTransportConfig;
 use codex_protocol::ThreadId;
 
-pub(super) fn supports_oauth(server: &McpServerConfig) -> bool {
+pub(crate) fn supports_oauth(server: &McpServerConfig) -> bool {
     server.enabled
         && server.auth == McpServerAuth::OAuth
         && matches!(&server.transport, McpServerTransportConfig::StreamableHttp {
@@ -70,23 +70,6 @@ impl ChatWidget {
         self.request_redraw();
     }
 
-    pub(crate) fn airs_mcp_sign_in_completed(
-        &mut self,
-        server: String,
-        tools: usize,
-        thread_id: ThreadId,
-    ) {
-        self.add_info_message(
-            format!("{server}: connected · {tools} tools. Nothing has been replayed."),
-            None,
-        );
-        if !self.bottom_pane.is_task_running() && !self.has_pending_protected_request() {
-            self.bottom_pane
-                .show_selection_view(mcp_continue_view(server, thread_id));
-        }
-        self.request_redraw();
-    }
-
     pub(crate) fn airs_mcp_draft(&mut self) -> crate::bottom_pane::ComposerDraftSnapshot {
         if let Some(draft) = self.drain_pending_messages_for_restore() {
             self.restore_composer_state(draft);
@@ -122,34 +105,6 @@ pub(super) fn mcp_sign_in_view(server: String, thread_id: ThreadId) -> Selection
                     "Keep your conversation and draft. Use /signin when ready.".into(),
                 ),
                 actions: vec![Box::new(|tx| tx.send(AppEvent::AirsSignInCancel))],
-                dismiss_on_select: true,
-                ..Default::default()
-            },
-        ],
-        ..Default::default()
-    }
-}
-
-pub(super) fn mcp_continue_view(server: String, thread_id: ThreadId) -> SelectionViewParams {
-    SelectionViewParams {
-        title: Some(format!("{server} is connected")),
-        subtitle: Some("Account continuity is unverified. Continue in a new conversation.".into()),
-        footer_hint: Some(standard_popup_hint_line()),
-        items: vec![
-            SelectionItem {
-                name: "Start new conversation".into(),
-                description: Some(
-                    "Keep your draft for review; nothing sends automatically.".into(),
-                ),
-                actions: vec![Box::new(move |tx| {
-                    tx.send(AppEvent::AirsMcpNewConversation { thread_id })
-                })],
-                dismiss_on_select: true,
-                ..Default::default()
-            },
-            SelectionItem {
-                name: "Stay here".into(),
-                description: Some("Keep viewing this conversation. Use /new when ready.".into()),
                 dismiss_on_select: true,
                 ..Default::default()
             },

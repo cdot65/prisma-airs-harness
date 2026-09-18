@@ -739,6 +739,7 @@ impl App {
                     }
                 }
             },
+            AppEvent::AirsMcpManager(event) => self.handle_airs_mcp_manager(app_server, event).await,
             AppEvent::AirsSignIn => self.start_airs_sign_in(),
             AppEvent::AirsSignInCancel => self.airs_recovery.cancel(),
             AppEvent::AirsSignInCompleted { attempt, result } => {
@@ -747,14 +748,6 @@ impl App {
                 }
             }
             AppEvent::AirsMcpSignIn { server, thread_id } => self.start_airs_mcp_sign_in(app_server, server, thread_id),
-            AppEvent::AirsMcpSignInCompleted { attempt, server, thread_id, result } => {
-                if self.airs_recovery.finish(attempt) && self.current_displayed_thread_id() == Some(thread_id) {
-                    match result {
-                        Ok(tools) => self.chat_widget.airs_mcp_sign_in_completed(server, tools, thread_id),
-                        Err(message) => self.chat_widget.add_error_message(message),
-                    }
-                }
-            }
             AppEvent::AirsMcpNewConversation { thread_id } => self.start_airs_mcp_conversation(tui, app_server, thread_id).await,
             AppEvent::Logout => match if codex_utils_home_dir::is_airs_harness() {
                 crate::airs_branding::logout(&self.config.codex_home).await

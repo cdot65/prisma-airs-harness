@@ -101,6 +101,7 @@ pub(crate) use codex_app_server_client::legacy_core;
 
 pub(crate) use worktree_startup::ManagedTuiWorktree;
 
+mod airs_mcp_manager;
 mod airs_onboarding;
 pub use airs_onboarding::AirsOnboarding;
 pub use airs_onboarding::OnboardingContext;

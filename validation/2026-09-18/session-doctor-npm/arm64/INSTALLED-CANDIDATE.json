@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+  "version": "0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "d3ef4cad801d6308b9b3972cecf6192a2d59fb84cfcd1bb7f79751eed8e3cafc",
+  "platform": "Linux",
+  "architecture": "aarch64",
+  "entrypoint": "/home/airs-review/installed/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "in-session doctor and MCP recovery",
+    "managed CLI contract and native image dependencies",
+    "upgrade from mcp.1 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

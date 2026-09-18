@@ -1,0 +1,9 @@
+test_cancel_keeps_connection_and_never_exchanges_or_submits_callback (test_airs_mcp_manager.McpManager.test_cancel_keeps_connection_and_never_exchanges_or_submits_callback) ... ok
+test_desktop_callback_and_failed_discovery_do_not_report_success (test_airs_mcp_manager.McpManager.test_desktop_callback_and_failed_discovery_do_not_report_success) ... ok
+test_private_adapter_rejects_duplicate_name_without_replacing_it (test_airs_mcp_manager.McpManager.test_private_adapter_rejects_duplicate_name_without_replacing_it) ... ok
+test_remote_callback_add_verify_logout_remove_and_environment_pinning (test_airs_mcp_manager.McpManager.test_remote_callback_add_verify_logout_remove_and_environment_pinning) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 15.240s
+
+OK

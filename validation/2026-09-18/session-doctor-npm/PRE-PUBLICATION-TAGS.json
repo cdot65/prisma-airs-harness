@@ -1,0 +1,34 @@
+{
+  "airs-harness-linux-x64": {
+    "latest": "0.1.0-alpha.22.onboarding.4",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.0-alpha.22.mcp.1"
+  },
+  "airs-harness-linux-arm64": {
+    "latest": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.0-alpha.22.mcp.1"
+  },
+  "airs-harness-darwin-arm64": {
+    "latest": "0.1.0-alpha.22.onboarding.4",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.0-alpha.22.mcp.1"
+  },
+  "airs-harness": {
+    "latest": "0.1.0-alpha.22.onboarding.4",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.0-alpha.22.mcp.1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+  "version": "0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "entrypoint": "/tmp/airs-doctor-publish-20260918/linux-installed/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "in-session doctor and MCP recovery",
+    "managed CLI contract and native image dependencies",
+    "upgrade from mcp.1 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

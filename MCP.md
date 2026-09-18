@@ -5,11 +5,16 @@ Codex MCP client runs inside the normal `airs` executable. The gateway
 proxies upstream MCP servers and owns their upstream OAuth tokens. CAS/Keycloak
 provides gateway-facing organizational login.
 
-The published release is onboarding.4. The in-session manager below is a
-**development-branch feature**, pending release acceptance and publication.
+The npm test channel `mcp` provides the in-session MCP manager and connection
+health dashboard in `0.1.0-alpha.22.mcp.2`. The default `latest` remains
+`0.1.0-alpha.22.onboarding.4`.
+
+```sh
+npm install -g airs-harness@0.1.0-alpha.22.mcp.2 --registry=https://npm.cdot.io
+```
 See [PUBLICATION.md](PUBLICATION.md) for published artifacts.
 
-## In-session workflow (development candidate)
+## In-session workflow
 
 Start `airs --environment work` using your existing inference environment, then:
 
@@ -36,7 +41,7 @@ For an existing connection, `/mcp` offers **Sign in**, **Reconnect and verify**,
 **Sign out** and **Remove connection**. Sign-out and removal require confirmation.
 Sign out before removal if you also want to clear the local MCP credential.
 Neither action signs out inference or revokes gateway-managed upstream grants.
-The development `/doctor` dashboard brings environment diagnostics and MCP
+The `/doctor` dashboard brings environment diagnostics and MCP
 recovery into the session. Open it to see the active environment, configured
 authentication method, credential cleanup, gateway health and MCP discovery
 state. Select a server to sign in or reconnect using the existing MCP manager.
@@ -56,7 +61,7 @@ logout in the same environment. Workspace-key replacement still uses
 `airs --environment NAME login`; company SSO recovery is available in-session.
 Esc cancels diagnostics while preserving the conversation and draft.
 
-`/doctor` is a development feature here; the published `mcp.1` package predates it.
+`/doctor` requires `mcp.2` or later; the published `mcp.1` package predates it.
 
 `/mcp verbose` still displays the tool inventory. `/signin` also opens the same
 MCP sign-in dialog for configured OAuth connections.

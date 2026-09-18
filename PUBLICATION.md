@@ -1,3 +1,29 @@
+# Connection health test release — September 18, 2026
+
+`airs-harness@0.1.0-alpha.22.mcp.2` is published to `https://npm.cdot.io` under
+`mcp`, including Linux x64, Linux ARM64 and signed/notarized Apple Silicon.
+It adds `/doctor` inside `airs` and retains the in-session `/mcp` manager.
+
+```sh
+npm install -g airs-harness@0.1.0-alpha.22.mcp.2 --registry=https://npm.cdot.io
+airs
+```
+
+Enter `/doctor` for connection diagnostics or `/mcp` for gateway MCP management.
+Exact installed native acceptance and fresh anonymous registry installs passed
+on all three platforms. Upgrades from mcp.1 preserve environment configuration.
+The bundled product CLI remains 7.0.0, available through `airs cli`.
+
+`latest`, `alpha` and `onboarding` remain `0.1.0-alpha.22.onboarding.4`.
+The owner requested npm packages for future feature handoffs. This test release
+does not claim attended production ServiceNow acceptance or resolution of the
+reported owner-specific Linux credential-service failure.
+See the [publication evidence](validation/2026-09-18/session-doctor-npm/README.md)
+and [MCP workflow](MCP.md).
+
+The release sections below are historical; their dist-tags describe publication
+at that time.
+
 # Published alpha.14 gateway integration — September 14, 2026
 
 `airs-harness@latest` and `airs-harness@alpha` now resolve to

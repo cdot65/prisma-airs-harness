@@ -1,0 +1,77 @@
+{
+  "scope": "Exact installed in-session doctor and MCP manager accepted on three native platforms",
+  "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.mcp.2",
+      "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+      "binary_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+      "mcp_manager_checks": 4,
+      "doctor_checks": 4,
+      "doctor_skipped": 0,
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.mcp.1"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.mcp.2",
+      "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+      "binary_sha256": "d3ef4cad801d6308b9b3972cecf6192a2d59fb84cfcd1bb7f79751eed8e3cafc",
+      "mcp_manager_checks": 4,
+      "doctor_checks": 4,
+      "doctor_skipped": 0,
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.mcp.1"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "version": "0.1.0-alpha.22.mcp.2",
+      "source_commit": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+      "binary_sha256": "d0f8239c6df5a89b9e971b4d833b297a072fb39d5a0a89d2257abb05dc60bf3e",
+      "mcp_manager_checks": 4,
+      "doctor_checks": 2,
+      "doctor_skipped": 2,
+      "onboarding_checks": 12,
+      "terminal_checks": 7,
+      "command_output_checks": 15,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3,
+      "upgrade_previous": "0.1.0-alpha.22.mcp.1"
+    }
+  ],
+  "forgejo_runs": {
+    "mac_build": 223,
+    "linux_arm64": 224,
+    "linux_x64": 225,
+    "mac_signing": 226
+  },
+  "published": false,
+  "production_sso_servicenow_acceptance": false,
+  "affected_package_suite": {
+    "passed": 5284,
+    "failed": 0,
+    "skipped": 6
+  },
+  "live_gateway_mcp_verified": false
+}

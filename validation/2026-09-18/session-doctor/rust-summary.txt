@@ -1,0 +1,2 @@
+Command: env -u NO_COLOR TERM=xterm-256color just test -p codex-cli -p codex-tui
+     Summary [  19.354s] 5284 tests run: 5284 passed, 6 skipped

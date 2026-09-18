@@ -1,0 +1,13 @@
+test_doctor_accepts_reasoning_only_bounded_probe (test_airs_harness.TerminalIntegration.test_doctor_accepts_reasoning_only_bounded_probe) ... ok
+test_doctor_json_is_redacted_and_reports_missing_credentials (test_airs_harness.TerminalIntegration.test_doctor_json_is_redacted_and_reports_missing_credentials) ... ok
+test_doctor_rejects_oversized_or_fifo_catalog_without_blocking (test_airs_harness.TerminalIntegration.test_doctor_rejects_oversized_or_fifo_catalog_without_blocking) ... ok
+test_doctor_rejects_unsafe_gateway_before_display_or_any_request (test_airs_harness.TerminalIntegration.test_doctor_rejects_unsafe_gateway_before_display_or_any_request) ... ok
+test_doctor_verify_access_denial_preserves_binding_and_redacts_response (test_airs_harness.TerminalIntegration.test_doctor_verify_access_denial_preserves_binding_and_redacts_response) ... ok
+test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route (test_airs_harness.TerminalIntegration.test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route) ... ok
+test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell (test_airs_harness.TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell) ... skipped 'requires npm-managed CLI'
+test_native_status_and_plain_doctor_inspect_configuration_without_store_access (test_airs_harness.TerminalIntegration.test_native_status_and_plain_doctor_inspect_configuration_without_store_access) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.787s
+
+OK (skipped=1)

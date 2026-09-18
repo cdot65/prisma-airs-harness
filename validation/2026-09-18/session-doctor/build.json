@@ -1,0 +1,22 @@
+{
+  "source_commit": "3812aa011572f47af06d133bd22af9a771dbbbac",
+  "base_commit": "0a7d519480",
+  "platform": "Linux x86_64",
+  "artifact": "/tmp/airs-session-doctor-20260918/bin/airs",
+  "sha256": "8cfa9f8f53131e08bb21692d420a407d9bf7881c17eb6fe589a1fdfd8d6408da",
+  "reported_version": "airs 0.1.0-alpha.22.mcp.1",
+  "rust_tests": {
+    "passed": 5284,
+    "skipped": 6
+  },
+  "installed_binary_tests": {
+    "doctor_passed": 4,
+    "cli_passed": 7,
+    "cli_skipped": 1,
+    "mcp_passed": 4
+  },
+  "clippy": "passed without warnings",
+  "format": "just fmt completed; unrelated baseline churn reverted",
+  "npm_published": false,
+  "production_servicenow_acceptance": "pending authenticated owner session"
+}

@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0-alpha.22.mcp.1",
+  "source_commit": "15a7f229bcfd08677ca9f193b8ff05db41f30737",
+  "platform": "linux-x64",
+  "profile": "dev; debug=0; incremental=false; unoptimized",
+  "release_url": "https://git.cdot.io/cdot/prisma-airs-harness/releases/tag/v0.1.0-alpha.22.mcp.1",
+  "release_kind": "remote-test prerelease; not npm promotion",
+  "npm_published": false,
+  "npm_dist_tags_changed": false,
+  "candidate_markers_retained": true,
+  "archive": "airs-mcp-review-0.1.0-alpha.22.mcp.1-linux-x64.tar.gz",
+  "archive_sha256": "8b24837cc5370ed2513954e87bc0ff9ae7feeba1fd71255e75a9ea427d79268c",
+  "authenticated_download_verified": true,
+  "anonymous_download_requires_forgejo_sign_in": true,
+  "binary_sha256": "9155743a2a39c1c1ca79c60d2a00717fd284de1920f9f8cc149800addbea1cc9",
+  "bundled_cli": "7.0.0",
+  "installed_mcp_tests": {
+    "passed": 4,
+    "command": "AIRS_HARNESS_BIN=/tmp/airs-mcp-manager-20260918/installed-remote/bin/airs python3 -m unittest discover -s scripts -p test_airs_mcp_manager.py -v"
+  },
+  "native_store_onboarding_checks": 18,
+  "limits": [
+    "Owner local credential-store failure unresolved",
+    "Production gateway/upstream ServiceNow OAuth and tool acceptance pending",
+    "No native ARM64 or Apple Silicon candidate acceptance"
+  ]
+}

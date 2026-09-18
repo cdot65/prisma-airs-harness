@@ -1,7 +1,7 @@
 # In-session MCP manager development acceptance
 
 This is a development candidate based on `79599e4b63`, on branch
-`feat/airs-mcp-manager`. No npm version or dist-tag is changed. The working
+`feat/airs-mcp-manager`. npm dist-tags are unchanged. The working
 onboarding.4 release remains published.
 
 The manager adds gateway MCP servers, routes existing `/signin` actions to the
@@ -68,3 +68,31 @@ The artifact used by the terminal fixtures is recorded separately from this
 final rebuild. Tests preceded the final lint/format cleanup; no claim of final
 release-artifact acceptance is made. Runtime source is `bc68d3db5b`, following
 CLI adapter commit `3bee0c3e2d`; fixture/documentation source is `c4c659defd`.
+
+## Linux x64 remote test candidate
+
+Version `0.1.0-alpha.22.mcp.1` binds runtime/version source
+`15a7f229bcfd08677ca9f193b8ff05db41f30737`. The earlier unversioned local build above
+is retained as historical evidence. The owner requested remote testing after the
+local credential-store failure persisted; that failure remains unresolved.
+
+The portable bundle includes Prisma AIRS CLI 7.0.0 and installs into a new prefix
+using a temporary loopback registry. Linux x64 is the only packaged platform.
+The native executable is an unoptimized dev build (debug=0, incremental=false).
+Native and npm candidate/private markers remain intact. This is a review download,
+not npm publication or full release promotion.
+
+`remote-install.json` verifies the exact installed native hash and managed CLI
+inventory, with no unexpected registry requests. `remote-native-store.json`
+records 18 successful isolated native Secret Service/onboarding checks on these
+same native bytes, including browser PKCE, device login, workspace keys and
+storage-failure recovery. These fixtures do not establish production SSO or
+ServiceNow acceptance or resolution of the owner's local store failure.
+
+The archive uses the existing `install_airs_review.py` and its verification tools.
+Its layout follows `package_airs_review.py` with Linux x64-only package selection
+and candidate-specific instructions; release validation guards are unchanged.
+Remote download, archive digest and installed MCP results are recorded in
+`remote-candidate.json`.
+
+Download: [Linux x64 test candidate](https://git.cdot.io/cdot/prisma-airs-harness/releases/tag/v0.1.0-alpha.22.mcp.1). Forgejo sign-in is required; the release includes browser and authenticated terminal download instructions. The uploaded archive was downloaded again with authentication and its SHA-256 matched. All four MCP terminal fixture cases passed against the portable installation.

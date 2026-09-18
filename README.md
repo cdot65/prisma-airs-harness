@@ -28,27 +28,18 @@ input, and guided sign-in recovery. The deployed 30-minute SSO idle policy is
 unchanged. Fresh production SSO, ServiceNow tool calls, and hourly frontend
 refresh are not claimed by this environment-management release.
 
-## Branded onboarding review
+## Branded onboarding
 
-Candidate `0.1.0-alpha.22.onboarding.1` adds the animated AIRS welcome and sign-in flow. Review distribution uses a self-contained archive and a separate installation directory; this candidate is not published to npm. Published `latest` and `alpha` remain alpha.22. See [harness PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) for the artifact and current native acceptance status.
-
-From the extracted review archive, install and use a separate review home:
+Release `0.1.0-alpha.22.onboarding.1` adds the animated AIRS welcome, environment creation/selection and guided sign-in. It is published at `https://npm.cdot.io` under `latest`, `alpha` and `onboarding`, with verified native installs on Linux x64, Linux ARM64 and signed Apple Silicon.
 
 ```sh
-python3 install.py --prefix "$HOME/airs-onboarding-review"
-export PATH="$HOME/airs-onboarding-review/bin:$PATH"
-export AIRS_HARNESS_HOME="$HOME/airs-onboarding-review/review-home"
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
+airs
 ```
 
-The review installer requires Python 3.11+ and includes the product CLI and package dependencies. Keep this `AIRS_HARNESS_HOME` for the rest of the review walkthrough.
-
-With the candidate installed, run `airs`. A fresh user chooses **Connect an environment**, enters a name and the administrator's gateway URL, and confirms creation. Choose **Sign in with company SSO**, supply the public issuer/client/audience, then select browser sign-in on a desktop or device authorization over SSH. A returning signed-out user sees the selected environment; a signed-in user enters the agent directly.
-
-AIRS reports credential persistence separately from the inference access check. A denied gateway offers recovery without deleting the credential or repeating setup. Workspace keys retain a hidden paste prompt. Press Escape to cancel; use arrows/Tab and Enter, or number shortcuts, to choose actions. Set `animations = false` under `[tui]`, or pass `airs -c tui.animations=false`, for a static mark; `NO_COLOR=1` removes accent colors.
-
-After first-run sign-in, Enter opens the agent. Use Ctrl+D to return to your shell before adding MCP. The [complete SSO-to-ServiceNow walkthrough](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session) continues with the gateway MCP URL and a separate MCP login using the same intended company account. The branded walkthrough revision is available in [documentation PR 1](https://github.com/cdot65/prisma-airs-reference-architecture/pull/1).
+The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](validation/2026-09-18/onboarding-npm/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
 
 ## Installation
 
@@ -66,7 +57,7 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

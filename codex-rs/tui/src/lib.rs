@@ -101,6 +101,15 @@ pub(crate) use codex_app_server_client::legacy_core;
 
 pub(crate) use worktree_startup::ManagedTuiWorktree;
 
+mod airs_onboarding;
+pub use airs_onboarding::AirsOnboarding;
+pub use airs_onboarding::OnboardingContext;
+pub use airs_onboarding::OnboardingInput;
+pub use airs_onboarding::OnboardingMenuItem;
+pub use airs_onboarding::OnboardingOptions;
+pub use airs_onboarding::OnboardingProgress;
+pub use airs_onboarding::OnboardingResult;
+
 mod additional_dirs;
 mod app;
 mod app_backtrack;

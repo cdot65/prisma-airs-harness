@@ -1,0 +1,14 @@
+---
+source: tui/src/airs_onboarding/tests.rs
+expression: "text(&render_buffer(30, 10, options, &view))"
+---
+AIRS · work
+
+Sign in to continue
+
+› 1. Sign in with company SSO
+  2. Use a workspace API key
+  3. Choose another environmen
+
+
+↑↓ Move · Enter · Esc Exit

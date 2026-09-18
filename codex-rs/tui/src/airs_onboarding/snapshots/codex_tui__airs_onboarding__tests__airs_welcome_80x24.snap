@@ -1,0 +1,27 @@
+---
+source: tui/src/airs_onboarding/onboarding_tests.rs
+expression: "text(&render_buffer(80, 24, options, &view))"
+---
+
+
+               ▄▄██▀▄▄
+             ██▀█▀▀█▄▄██▄▄      PRISMA AIRS
+             ███    █ ▄▄▀
+             ▀██▀█▀▀█▀▀         Your secure agent workspace
+                ▀▀▄▀
+
+
+       Environment  work
+       https://gateway.example.com/v1
+
+       Sign in to continue
+
+       › 1. Sign in with company SSO
+            Continue securely in your browser
+         2. Use a workspace API key
+            Enter a key from your administrator
+         3. Choose another environment
+            Keep each workspace and identity separate
+
+
+       ↑↓ Navigate   Enter Select   Esc / Ctrl+C Exit

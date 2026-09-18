@@ -1,0 +1,11 @@
+{
+  "owned_arm64_container_removed": true,
+  "owned_test_launchagents_unloaded": true,
+  "docker_engine_restored_to_stopped": true,
+  "docker_desktop_ui_preserved": true,
+  "recent_keychain_service_entries": 0,
+  "credential_values_requested": false,
+  "forgejo_session_signed_out": true,
+  "temporary_credential_files_removed": true,
+  "production_identity_or_trust_modified": false
+}

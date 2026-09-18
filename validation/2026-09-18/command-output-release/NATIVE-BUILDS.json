@@ -1,0 +1,15 @@
+{
+  "source_commit": "a57f67bd72e9e3cf77d8feccdb2e6c3738012ec1",
+  "version": "0.1.0-alpha.22.onboarding.3",
+  "forgejo_runs": {
+    "linux_x64": 205,
+    "linux_arm64": 206,
+    "mac_build": 207,
+    "mac_signing": 209
+  },
+  "native_hashes": {
+    "x64": "e3a2f2ae1c0b47894b101b82dd4fa454a1fdb33f3c0746ede750de6150ac9303",
+    "arm64": "6800e596236c375ea5ff7b931d40bc81d9a81f5f82f5a27ddfdb73578e82ac74",
+    "mac": "1773c5f9d8728483ce35c498de2b351934e5b6f8fee913f2df6ef2d08a384823"
+  }
+}

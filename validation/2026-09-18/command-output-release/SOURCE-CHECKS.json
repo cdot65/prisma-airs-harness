@@ -1,0 +1,13 @@
+{
+  "launcher_tests_passed": 21,
+  "home_dir_version_tests_passed": 8,
+  "full_workspace": {
+    "passed": 18097,
+    "failed": 150,
+    "skipped": 34
+  },
+  "all_eight_changed_packages_passed": true,
+  "native_source": "a57f67bd72e9e3cf77d8feccdb2e6c3738012ec1",
+  "packaging_source": "fd21710f3a",
+  "production_sso_servicenow": false
+}

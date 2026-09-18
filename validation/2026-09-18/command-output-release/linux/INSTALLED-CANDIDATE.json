@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "source_commit": "a57f67bd72e9e3cf77d8feccdb2e6c3738012ec1",
+  "version": "0.1.0-alpha.22.onboarding.3",
+  "binary_sha256": "e3a2f2ae1c0b47894b101b82dd4fa454a1fdb33f3c0746ede750de6150ac9303",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "entrypoint": "/tmp/airs-command-release-20260918/linux-installed/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "managed CLI contract and native image dependencies",
+    "upgrade from onboarding.2 with environment preservation",
+    "public help, recovery and actual session exit resume guidance"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

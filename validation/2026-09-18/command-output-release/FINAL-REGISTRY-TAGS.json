@@ -1,0 +1,30 @@
+{
+  "airs-harness-linux-x64": {
+    "latest": "0.1.0-alpha.22.onboarding.3",
+    "alpha": "0.1.0-alpha.22.onboarding.3",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.3"
+  },
+  "airs-harness-linux-arm64": {
+    "latest": "0.1.0-alpha.22.onboarding.3",
+    "gateway-validation": "0.1.0-alpha.21",
+    "alpha": "0.1.0-alpha.22.onboarding.3",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.3"
+  },
+  "airs-harness-darwin-arm64": {
+    "latest": "0.1.0-alpha.22.onboarding.3",
+    "alpha": "0.1.0-alpha.22.onboarding.3",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.3"
+  },
+  "airs-harness": {
+    "latest": "0.1.0-alpha.22.onboarding.3",
+    "alpha": "0.1.0-alpha.22.onboarding.3",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.3"
+  }
+}

@@ -59,7 +59,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--previous", default="0.1.0-alpha.12")
     args = parser.parse_args()
-    if not re.fullmatch(r"\d+\.\d+\.\d+-alpha\.\d+", args.previous):
+    if not re.fullmatch(
+        r"\d+\.\d+\.\d+-alpha\.\d+(?:\.onboarding\.\d+)?", args.previous
+    ):
         parser.error("Expected an explicit immutable alpha version")
     args.output.mkdir(parents=True, exist_ok=False)
     packages = args.packages.resolve(strict=True)

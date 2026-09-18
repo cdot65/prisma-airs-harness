@@ -28,6 +28,16 @@ input, and guided sign-in recovery. The deployed 30-minute SSO idle policy is
 unchanged. Fresh production SSO, ServiceNow tool calls, and hourly frontend
 refresh are not claimed by this environment-management release.
 
+## Branded onboarding review
+
+Candidate `0.1.0-alpha.22.onboarding.1` adds the animated AIRS welcome and sign-in flow. Native candidate builds and acceptance are in progress; published `latest` and `alpha` remain alpha.22. Review evidence is recorded in [the PRD 02 acceptance](https://git.cdot.io/cdot/prisma-airs-harness/src/branch/feat/airs-branded-onboarding/validation/2026-09-18/onboarding-prd02/README.md).
+
+With the candidate installed, run `airs`. A fresh user chooses **Connect an environment**, enters a name and the administrator's gateway URL, and confirms creation. Choose **Sign in with company SSO**, supply the public issuer/client/audience, then select browser sign-in on a desktop or device authorization over SSH. A returning signed-out user sees the selected environment; a signed-in user enters the agent directly.
+
+AIRS reports credential persistence separately from the inference access check. A denied gateway offers recovery without deleting the credential or repeating setup. Workspace keys retain a hidden paste prompt. Press Escape to cancel; use arrows/Tab and Enter, or number shortcuts, to choose actions. Set `animations = false` under `[tui]`, or pass `airs -c tui.animations=false`, for a static mark; `NO_COLOR=1` removes accent colors.
+
+After first-run sign-in, Enter opens the agent. Use Ctrl+D to return to your shell before adding MCP. The [complete SSO-to-ServiceNow walkthrough](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session) continues with the gateway MCP URL and a separate MCP login using the same intended company account.
+
 ## Installation
 
 Connect to the organization's LAN/VPN, then use a supported Node.js installation:
@@ -36,7 +46,7 @@ Node.js 22.13+ in the 22.x line, or 23.5+.
 If the old standalone Prisma AIRS CLI already owns `airs`, upgrade it **first**:
 
 ```sh
-npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
 airs-cli --version
 ```
 
@@ -44,7 +54,7 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -52,7 +62,7 @@ airs cli --version
 Downloads are anonymous; no npm login or Rust compiler is required.
 The exact version above includes the unified environment commands.
 If an old standalone product CLI owns `airs`, upgrade it to
-`@cdot65/prisma-airs-cli@7.0.0` first so it exports `airs-cli`, then install the
+`@cdot65/prisma-airs-cli@7.0.1` first so it exports `airs-cli`, then install the
 harness. Inspect `type -a airs airs-cli airs-harness` and `npm prefix -g` for
 conflicting aliases or manual installs. Preserve existing credential bindings.
 See [the command migration and bundled CLI guide](PRISMA-AIRS-CLI.md).

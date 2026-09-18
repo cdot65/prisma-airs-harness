@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22.onboarding.1",
+  "version_output": "airs 0.1.0-alpha.22.onboarding.1",
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "anonymous_fresh_install": true,
+  "binary_sha256": "bedbce8ccab72986031dd6d08f99aa5c1876a7d5be2d4240b08643a5f9d3443f",
+  "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+  "prefix": "/home/cdot/.cache/airs-onboarding-20260918/npm-publication/linux-registry/prefix",
+  "native_fixture_suite": true,
+  "environment_lifecycle": true,
+  "production_sso_or_servicenow_call": false
+}

@@ -1,0 +1,100 @@
+{
+  "version": "0.1.0-alpha.22.onboarding.1",
+  "registry": "https://npm.cdot.io",
+  "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+  "publication_authorized": true,
+  "scope": "owner-requested-onboarding-npm-publication",
+  "published": true,
+  "default_tags_changed": true,
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.22",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    }
+  },
+  "production_sso_servicenow_acceptance": false,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.22.onboarding.1.tgz",
+      "integrity": "sha512-sE2EYJHpxZ5igPtin4F77DX7RvTlhXXIVOLnCZbK9MmEL0VE78LX9H9ohB3qbmWku4NxKIsFF+K410WKwBTLtA==",
+      "sha256": "3d83ea20174476386bd2cc645d67737bdcce0fe263f7fd50793e6c5877af942b",
+      "original_candidate_sha256": "ddd6d67c0551661b56b3bc3bd798ee9ea58853165243b54c44ea252fccc4a288",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "filename": "airs-harness-linux-arm64-0.1.0-alpha.22.onboarding.1.tgz",
+      "integrity": "sha512-YjZbzcDAkIqAAMM6QOMeDZ6NafUIY8PCG3y0yOnAreBNZjDmhWvw8RKMcUVsU8diTOJ5OIPe5JaUJ2MNXuaYuw==",
+      "sha256": "77253aab104c27f0859531ff3a356c360f8e8f89315ff85aa5728a86eae5b5be",
+      "original_candidate_sha256": "b088482ade669d13c6f52c010bde3970a4003cea97254c04f101f3f2510ef91b",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.22.onboarding.1.tgz",
+      "integrity": "sha512-SPi6E4yvWtOkrZ+qBPnSy/KxewkRuFIvrEzeEHJmevWRlhX/hsOyZolZZ7m/wPQUE7JaCgHlZpRtHOFjt8B7Mw==",
+      "sha256": "5230aaa1b930e017a3aad9449bf54b60e7fc34bf77d551b366334cbabee37e5d",
+      "original_candidate_sha256": "313d325da18d5354aed7cceede6366b5ad8978566a224482c3f3ff9c4bb3ea7e",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "filename": "airs-harness-0.1.0-alpha.22.onboarding.1.tgz",
+      "integrity": "sha512-El0znhmvaRE42G16iXPPsMDycgky1GebTjq9ypwztOe3Mq4IM8DR06b56+Ui4a+cCkFpPFEzhz98pTUHAfivLA==",
+      "sha256": "10b301bb92665b37a1a3abdb1e07b14e85b4dfb6e15a8307224ba6039994d06b",
+      "original_candidate_sha256": "5ae66d1f09e4a2b3d56b27ede19cab224375a2ffc5a2fec4569e38a9dd52ae5e",
+      "changed_archive_entries": [
+        "package/package.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    }
+  ],
+  "completed_at": 1789721465.3089678
+}

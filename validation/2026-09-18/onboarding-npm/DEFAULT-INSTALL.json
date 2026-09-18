@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "anonymous_fresh_install": true,
+  "unpinned_install": true,
+  "include_optional_flag_used": false,
+  "version_output": "airs 0.1.0-alpha.22.onboarding.1",
+  "cli_version": "7.0.0",
+  "native_sha256": "bedbce8ccab72986031dd6d08f99aa5c1876a7d5be2d4240b08643a5f9d3443f"
+}

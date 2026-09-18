@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "version": "7.0.1",
+  "source_commit": "48794e5b37db42130538610a5f37ea2f0f0b5b04",
+  "workflow": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35288045621",
+  "successful_attempt": 2,
+  "platforms": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "exact_published_container_checks": "passed without network or credentials on both platforms",
+  "promoted_aliases": {
+    "7.0": "sha256:0b060d57e490a645174c99c00ec484cdbdf745165eb93b3e93518242c172abd4",
+    "latest": "sha256:0b060d57e490a645174c99c00ec484cdbdf745165eb93b3e93518242c172abd4"
+  },
+  "jobs": [
+    {
+      "name": "build-and-push",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-09-18T00:03:18Z",
+      "completedAt": "2026-09-18T00:07:20Z"
+    },
+    {
+      "name": "verify-container (linux/amd64)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-09-18T00:07:23Z",
+      "completedAt": "2026-09-18T00:08:01Z"
+    },
+    {
+      "name": "verify-container (linux/arm64)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-09-18T00:07:23Z",
+      "completedAt": "2026-09-18T00:08:29Z"
+    },
+    {
+      "name": "promote-aliases",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-09-18T00:08:33Z",
+      "completedAt": "2026-09-18T00:08:54Z"
+    }
+  ],
+  "initial_attempt": "Cancelled after ARM QEMU illegal instruction stalled dependency installation; successful rerun used unchanged source on a fresh runner."
+}

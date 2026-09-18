@@ -57,3 +57,9 @@ Per-platform subdirectories hold candidate, registry, migration, installed CLI, 
 The canonical vault walkthrough and both Docusaurus sites document the installation order, new commands, tenant setup, environment lifecycle and company SSO → gateway ServiceNow MCP → same company SSO → read-only incident call. `DOCS-PUBLICATION.json` records final deployments and browser verification.
 
 These checks establish distribution and migration readiness. They do not claim a fresh human production SSO session, a fresh live ServiceNow call, or hourly frontend renewal. The user will perform the attended remote workflow with their own identity. Inference and MCP remain routed through AI Gateway; shared company identity does not merge their tokens or supply product management API credentials.
+
+## Final source and container publication
+
+`RELEASE-RECORDS.json` records the synchronized repositories, immutable release tag and final registry tags. The GitHub harness prerelease was published September 18 at 00:00 UTC, following September 17 npm publication.
+
+Standalone CLI 7.0.1 is also published to GHCR for Linux amd64 and ARM64. Both exact-image checks passed without network or credentials; `7.0` and `latest` were promoted and digest-verified. `CLI-CONTAINER.json` records the successful second attempt. The first attempt stalled after an ARM QEMU illegal-instruction crash during dependency installation; it was cancelled and rerun unchanged on a fresh runner. Native ARM64 harness package acceptance is independent of these emulated container checks.

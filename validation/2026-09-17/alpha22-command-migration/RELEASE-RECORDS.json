@@ -1,0 +1,50 @@
+{
+  "harness_release": {
+    "tag": "airs-harness-v0.1.0-alpha.22",
+    "source": "f6c5049cc3f23c2a8f6ab5753ac984502f25f36d",
+    "url": "https://github.com/cdot65/prisma-airs-harness/releases/tag/airs-harness-v0.1.0-alpha.22",
+    "github_release_id": 391129606,
+    "published_at": "2026-09-18T00:00:15Z",
+    "forgejo_github_main_synchronized": true
+  },
+  "cli_release": {
+    "tag": "v7.0.1",
+    "source": "48794e5b37db42130538610a5f37ea2f0f0b5b04",
+    "url": "https://github.com/cdot65/prisma-airs-cli/releases/tag/v7.0.1",
+    "forgejo_github_main_synchronized": true
+  },
+  "final_registry_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.22",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    },
+    "airs-harness": {
+      "latest": "0.1.0-alpha.22",
+      "alpha": "0.1.0-alpha.22",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22"
+    },
+    "@cdot65/prisma-airs-cli": {
+      "latest": "7.0.1",
+      "next": "7.0.0"
+    }
+  },
+  "temporary_publication_credentials_deleted": true,
+  "vault_indexes_updated": true,
+  "vault_check_errors": 58,
+  "vault_check_errors_preexisting": 58
+}

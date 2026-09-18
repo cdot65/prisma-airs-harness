@@ -1,11 +1,11 @@
 ---
 source: cli/src/airs_help_tests.rs
-assertion_line: 8
+assertion_line: 24
 expression: login.render_long_help().to_string()
 ---
 Manage login
 
-Usage: login [OPTIONS] [COMMAND]
+Usage: airs login [OPTIONS] [COMMAND]
 
 Commands:
   status  Show login status

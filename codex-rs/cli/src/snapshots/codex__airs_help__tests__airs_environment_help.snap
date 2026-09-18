@@ -1,10 +1,11 @@
 ---
 source: cli/src/airs_help_tests.rs
+assertion_line: 55
 expression: env.render_long_help().to_string()
 ---
 Create, inspect, switch, rename, or remove AIRS environments
 
-Usage: env [COMMAND]
+Usage: airs env [COMMAND]
 
 Commands:
   create  Create an environment and sign in; supply --gateway-url for automation

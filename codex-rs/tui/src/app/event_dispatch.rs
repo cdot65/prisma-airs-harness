@@ -2773,8 +2773,7 @@ impl App {
             #[cfg(any(unix, windows))]
             AppEvent::AgentsDaemonStarted { result } => match result {
                 Ok(()) => self.chat_widget.add_info_message(
-                    "Background server started. Run `codex agents` in another terminal; this session remains unchanged."
-                        .to_string(),
+                    format!("Background server started. Run `{cli} agents` in another terminal; this session remains unchanged.", cli = codex_utils_home_dir::command_name()),
                     /*hint*/ None,
                 ),
                 Err(error) => self

@@ -1,9 +1,9 @@
 ---
 source: cli/src/airs_help_tests.rs
-assertion_line: 16
+assertion_line: 32
 expression: login.render_long_help().to_string()
 ---
-Usage: login [OPTIONS] <NAME>
+Usage: airs mcp login [OPTIONS] <NAME>
 
 Arguments:
   <NAME>

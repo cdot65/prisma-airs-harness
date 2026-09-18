@@ -29,7 +29,7 @@ pub(crate) fn observe(step: &StepContext, server: &str, result: &anyhow::Result<
         let home = shlex::try_quote(&home).unwrap_or_default();
         let name = shlex::try_quote(&server).unwrap_or_default();
         failure.get_or_insert_with(|| format!(
-            "MCP sign-in required: {server}. This turn stopped before an alternate credential path was attempted. In another terminal, run AIRS_HARNESS_HOME={home} airs-harness mcp login {name}, then start a fresh conversation. The gateway does not provide verified account continuity for restoring this MCP conversation; completed tools will not be replayed."
+            "MCP sign-in required: {server}. This turn stopped before an alternate credential path was attempted. In another terminal, run AIRS_HARNESS_HOME={home} airs mcp login {name}, then start a fresh conversation. The gateway does not provide verified account continuity for restoring this MCP conversation; completed tools will not be replayed."
         ));
     }
 }

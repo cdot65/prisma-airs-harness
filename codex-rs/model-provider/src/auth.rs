@@ -200,7 +200,7 @@ pub(crate) fn resolve_provider_auth(
 ) -> codex_protocol::error::Result<SharedAuthProvider> {
     if provider.gateway.is_some() && provider.auth.is_some() && auth.is_none() {
         return Err(CodexErr::Fatal(
-            "AIRS credential helper could not supply the bound credential; run airs-harness status, then login if needed".to_string(),
+            "AIRS credential helper could not supply the bound credential; run airs env status, then airs login if needed".to_string(),
         ));
     }
     if let Some(auth) = bearer_auth_for_provider(provider)? {
@@ -254,7 +254,7 @@ pub(crate) async fn resolve_provider_auth_for_scope(
                 CodexErr::RefreshTokenFailed(codex_protocol::auth::RefreshTokenFailedError::new(
                     codex_protocol::auth::RefreshTokenFailedReason::Other,
                     format!(
-                        "{reason} For a terminal without browser access: AIRS_HARNESS_HOME='{home}' airs-harness login --restore-session --no-browser"
+                        "{reason} For a terminal without browser access: AIRS_HARNESS_HOME='{home}' airs login --restore-session --no-browser"
                     ),
                 ))
             }

@@ -72,7 +72,10 @@ pub(crate) fn confirm_fresh_start_rebuild(
 
 pub(crate) fn print_diagnostic_guidance(startup_error: &LocalStateDbStartupError) {
     eprintln!("Codex couldn't start because its local database appears to be damaged.");
-    eprintln!("Run `codex doctor` to check your setup and get next-step guidance.");
+    eprintln!(
+        "Run `{cli} doctor` to check your setup and get next-step guidance.",
+        cli = crate::airs_harness::bin_name()
+    );
     eprintln!("If this keeps happening, share the technical details below when asking for help.");
     print_technical_details(startup_error);
 }

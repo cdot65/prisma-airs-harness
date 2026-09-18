@@ -162,7 +162,7 @@ async fn http_auth_challenge_reaches_agent_tool_call_events_without_replay(
     if gateway {
         assert_eq!(recovery_errors.len(), 1);
         assert!(recovery_errors[0].starts_with("Fatal error: MCP sign-in required: reauth."));
-        assert!(recovery_errors[0].contains("airs-harness mcp login reauth"));
+        assert!(recovery_errors[0].contains("airs mcp login reauth"));
     } else {
         assert!(recovery_errors.is_empty());
     }

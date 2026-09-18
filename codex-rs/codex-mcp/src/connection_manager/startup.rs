@@ -105,7 +105,10 @@ pub(super) fn mcp_init_error_display(
         let recovery_hint = if config.is_some_and(|config| !config.is_local_environment()) {
             "Use your client's MCP OAuth sign-in flow.".to_string()
         } else {
-            format!("Run `codex mcp login {server_name}`.")
+            format!(
+                "Run `{cli} mcp login {server_name}`.",
+                cli = codex_utils_home_dir::command_name()
+            )
         };
         let auth_status = match reason {
             Some(McpStartupFailureReason::ReauthenticationRequired) => {

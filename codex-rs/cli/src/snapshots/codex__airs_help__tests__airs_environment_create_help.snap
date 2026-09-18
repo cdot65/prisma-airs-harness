@@ -4,7 +4,7 @@ expression: create.render_long_help().to_string()
 ---
 Create an environment and sign in; supply --gateway-url for automation
 
-Usage: create [OPTIONS] [NAME]
+Usage: airs env create [OPTIONS] [NAME]
 
 Arguments:
   [NAME]

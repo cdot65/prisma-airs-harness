@@ -79,9 +79,10 @@ impl App {
                     #[cfg(any(unix, windows))]
                     (!workload_identity_selected).then(|| SelectionItem {
                         name: "Start background server".to_string(),
-                        description: Some(
-                            "Open `codex agents` in another terminal afterward.".to_string(),
-                        ),
+                        description: Some(format!(
+                            "Open `{cli} agents` in another terminal afterward.",
+                            cli = codex_utils_home_dir::command_name()
+                        )),
                         actions: vec![Box::new(|tx| tx.send(AppEvent::StartAgentsDaemon))],
                         dismiss_on_select: true,
                         ..Default::default()

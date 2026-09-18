@@ -1021,7 +1021,8 @@ fn run_update_command() -> anyhow::Result<()> {
     #[cfg(debug_assertions)]
     {
         anyhow::bail!(
-            "`codex update` is not available in debug builds. Install a release build of Codex to use this command."
+            "`{cli} update` is not available in debug builds. Install a release build of Codex to use this command.",
+            cli = crate::airs_harness::bin_name()
         );
     }
 
@@ -1397,7 +1398,10 @@ async fn cli_main(
         && let Some(agents_endpoint) = &options.remote.remote
         && root_endpoint != agents_endpoint
     {
-        anyhow::bail!("`codex agents` received conflicting remote server endpoints");
+        anyhow::bail!(
+            "`{cli} agents` received conflicting remote server endpoints",
+            cli = crate::airs_harness::bin_name()
+        );
     }
     let root_remote = agents_options
         .and_then(|options| options.remote.remote.clone())
@@ -1427,7 +1431,10 @@ async fn cli_main(
             );
             if open_agents_overview {
                 if interactive.prompt.is_some() || !interactive.images.is_empty() {
-                    anyhow::bail!("`codex agents` does not accept an initial prompt or images");
+                    anyhow::bail!(
+                        "`{cli} agents` does not accept an initial prompt or images",
+                        cli = crate::airs_harness::bin_name()
+                    );
                 }
                 if root_remote.is_some()
                     && (interactive.oss
@@ -1445,12 +1452,14 @@ async fn cli_main(
                             }))
                 {
                     anyhow::bail!(
-                        "`codex agents` cannot apply local provider or additional-directory overrides to a remote server"
+                        "`{cli} agents` cannot apply local provider or additional-directory overrides to a remote server",
+                        cli = crate::airs_harness::bin_name()
                     );
                 }
                 if is_workload_identity_selected() {
                     anyhow::bail!(
-                        "`codex agents` is unavailable while workload identity is active"
+                        "`{cli} agents` is unavailable while workload identity is active",
+                        cli = crate::airs_harness::bin_name()
                     );
                 }
                 if root_remote.is_none() {
@@ -1459,7 +1468,10 @@ async fn cli_main(
                         root_remote_auth_token_env.clone(),
                     )?;
                     #[cfg(not(any(unix, windows)))]
-                    anyhow::bail!("`codex agents` requires `--remote` on this platform");
+                    anyhow::bail!(
+                        "`{cli} agents` requires `--remote` on this platform",
+                        cli = crate::airs_harness::bin_name()
+                    );
                 }
                 interactive.agents_overview = true;
             }
@@ -1864,7 +1876,8 @@ async fn cli_main(
                         .await;
                     } else if login_cli.api_key.is_some() {
                         eprintln!(
-                            "The --api-key flag is no longer supported. Pipe the key instead, e.g. `printenv OPENAI_API_KEY | codex login --with-api-key`."
+                            "The --api-key flag is no longer supported. Pipe the key instead, e.g. `printenv OPENAI_API_KEY | {cli} login --with-api-key`.",
+                            cli = crate::airs_harness::bin_name()
                         );
                         std::process::exit(1);
                     } else if login_cli.with_api_key {
@@ -1987,7 +2000,10 @@ async fn cli_main(
             #[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
             {
                 let _ = loader_overrides;
-                anyhow::bail!("`codex sandbox` is not supported on this operating system");
+                anyhow::bail!(
+                    "`{cli} sandbox` is not supported on this operating system",
+                    cli = crate::airs_harness::bin_name()
+                );
             }
         }
         Some(Subcommand::Debug(DebugCommand { subcommand })) => match subcommand {
@@ -2168,7 +2184,8 @@ fn profile_v2_for_subcommand<'a>(
             subcommand: DebugSubcommand::PromptInput(_),
         }) => Ok(Some(profile_v2)),
         _ => anyhow::bail!(
-            "--profile only applies to runtime commands and `codex mcp`: `codex`, `codex exec`, `codex review`, `codex resume`, `codex queue`, `codex archive`, `codex delete`, `codex unarchive`, `codex fork`, `codex mcp`, `codex sandbox`, and `codex debug prompt-input`."
+            "--profile only applies to runtime commands and `{cli} mcp`: `{cli}`, `{cli} exec`, `{cli} review`, `{cli} resume`, `{cli} queue`, `{cli} archive`, `{cli} delete`, `{cli} unarchive`, `{cli} fork`, `{cli} mcp`, `{cli} sandbox`, and `{cli} debug prompt-input`.",
+            cli = crate::airs_harness::bin_name()
         ),
     }
 }
@@ -2711,12 +2728,14 @@ fn reject_remote_mode_for_subcommand(
 ) -> anyhow::Result<()> {
     if let Some(remote) = remote {
         anyhow::bail!(
-            "`--remote {remote}` is only supported for interactive TUI commands, not `codex {subcommand}`"
+            "`--remote {remote}` is only supported for interactive TUI commands, not `{cli} {subcommand}`",
+            cli = crate::airs_harness::bin_name()
         );
     }
     if remote_auth_token_env.is_some() {
         anyhow::bail!(
-            "`--remote-auth-token-env` is only supported for interactive TUI commands, not `codex {subcommand}`"
+            "`--remote-auth-token-env` is only supported for interactive TUI commands, not `{cli} {subcommand}`",
+            cli = crate::airs_harness::bin_name()
         );
     }
     Ok(())
@@ -2746,12 +2765,16 @@ fn reject_unsupported_worktree_for_subcommand(
         None => Ok(()),
         Some(Subcommand::Fork(command)) if command.session_id.is_some() && !command.last => Ok(()),
         Some(Subcommand::Fork(_)) => {
-            anyhow::bail!("`codex fork --worktree` requires an explicit session ID")
+            anyhow::bail!(
+                "`{cli} fork --worktree` requires an explicit session ID",
+                cli = crate::airs_harness::bin_name()
+            )
         }
         Some(Subcommand::Exec(command)) => match &command.command {
             None | Some(ExecCommand::Fork(_)) => Ok(()),
             Some(ExecCommand::Resume(_)) => anyhow::bail!(
-                "`--worktree` cannot resume an existing session; use `codex exec fork --worktree`"
+                "`--worktree` cannot resume an existing session; use `{cli} exec fork --worktree`",
+                cli = crate::airs_harness::bin_name()
             ),
             Some(ExecCommand::Review(_)) => {
                 anyhow::bail!("`--worktree` is not supported for code review")
@@ -2759,7 +2782,8 @@ fn reject_unsupported_worktree_for_subcommand(
         },
         _ => {
             anyhow::bail!(
-                "`--worktree` supports new interactive sessions, `codex fork`, `codex exec`, and `codex exec fork`"
+                "`--worktree` supports new interactive sessions, `{cli} fork`, `{cli} exec`, and `{cli} exec fork`",
+                cli = crate::airs_harness::bin_name()
             )
         }
     }
@@ -2858,7 +2882,10 @@ fn reject_strict_config_for_unsupported_subcommand(
     subcommand: &str,
 ) -> anyhow::Result<()> {
     if strict_config {
-        anyhow::bail!("`--strict-config` is not supported for `codex {subcommand}`");
+        anyhow::bail!(
+            "`--strict-config` is not supported for `{cli} {subcommand}`",
+            cli = crate::airs_harness::bin_name()
+        );
     }
     Ok(())
 }
@@ -4775,7 +4802,10 @@ mod tests {
 
         assert_eq!(
             err.to_string(),
-            "`--strict-config` is not supported for `codex mcp`"
+            format!(
+                "`--strict-config` is not supported for `{cli} mcp`",
+                cli = crate::airs_harness::bin_name()
+            )
         );
 
         let cli = MultitoolCli::try_parse_from(["codex", "--strict-config", "remote-control"])
@@ -4788,7 +4818,10 @@ mod tests {
 
         assert_eq!(
             err.to_string(),
-            "`--strict-config` is not supported for `codex remote-control`"
+            format!(
+                "`--strict-config` is not supported for `{cli} remote-control`",
+                cli = crate::airs_harness::bin_name()
+            )
         );
     }
 
@@ -4804,7 +4837,10 @@ mod tests {
 
         assert_eq!(
             err.to_string(),
-            "`--strict-config` is not supported for `codex app-server proxy`"
+            format!(
+                "`--strict-config` is not supported for `{cli} app-server proxy`",
+                cli = crate::airs_harness::bin_name()
+            )
         );
     }
 

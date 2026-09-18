@@ -3768,7 +3768,7 @@ impl Config {
         {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Prisma AIRS Harness requires an explicit gateway provider and capability catalog; run airs-harness setup",
+                "Prisma AIRS Harness requires an explicit gateway provider and capability catalog; run airs env create",
             ));
         }
         let allow_login_shell = cfg.allow_login_shell.unwrap_or(true);

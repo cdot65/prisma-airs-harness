@@ -351,7 +351,7 @@ async fn cleanup_materialized_goal_files(
 
 fn thread_goal_error_message(action: &str, err: &color_eyre::Report) -> String {
     if is_ephemeral_thread_goal_error(err) {
-        EPHEMERAL_THREAD_GOAL_ERROR_MESSAGE.to_string()
+        EPHEMERAL_THREAD_GOAL_ERROR_MESSAGE.replace("codex", codex_utils_home_dir::command_name())
     } else {
         format!("Failed to {action} thread goal: {err}")
     }

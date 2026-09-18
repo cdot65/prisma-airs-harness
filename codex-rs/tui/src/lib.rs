@@ -1357,7 +1357,8 @@ async fn run_ratatui_app(
                 disconnect_info: None,
                 update_action: None,
                 exit_reason: ExitReason::Fatal(format!(
-                    "No saved session found with ID {id_str}. Run `codex {action}` without an ID to choose from existing sessions."
+                    "No saved session found with ID {id_str}. Run `{cli} {action}` without an ID to choose from existing sessions.",
+                    cli = codex_utils_home_dir::command_name()
                 )),
             })
         };

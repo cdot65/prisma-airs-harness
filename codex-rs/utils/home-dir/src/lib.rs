@@ -7,7 +7,7 @@ use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 /// Standalone product version, distinct from the pinned upstream crate versions.
-pub const AIRS_HARNESS_VERSION: &str = "0.1.0-alpha.22.onboarding.2";
+pub const AIRS_HARNESS_VERSION: &str = "0.1.0-alpha.22.onboarding.3";
 static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 
 /// Select one independent AIRS environment before loading runtime configuration.
@@ -27,6 +27,11 @@ pub fn select_airs_environment_home(path: PathBuf) -> std::io::Result<()> {
 /// Whether this process was initialized as the standalone AIRS harness.
 pub fn is_airs_harness() -> bool {
     APPLICATION_HOME.get().is_some()
+}
+
+/// Public command name for built-in instructions, distinct from package names.
+pub fn command_name() -> &'static str {
+    if is_airs_harness() { "airs" } else { "codex" }
 }
 
 /// Bind this process to Prisma AIRS Harness's independent application state.

@@ -2,6 +2,22 @@ use super::*;
 use clap::CommandFactory;
 
 #[test]
+fn standalone_help_tree_uses_the_public_command_in_examples_and_usage() {
+    let mut pending = vec![command(crate::MultitoolCli::command())];
+    while let Some(mut command) = pending.pop() {
+        let help = command.render_long_help().to_string();
+        assert!(!help.contains("codex "), "{}: {help}", command.get_name());
+        assert!(!help.contains("`codex`"), "{}: {help}", command.get_name());
+        assert!(
+            !help.contains("airs-harness "),
+            "{}: {help}",
+            command.get_name()
+        );
+        pending.extend(command.get_subcommands().cloned());
+    }
+}
+
+#[test]
 fn standalone_login_help_describes_hidden_input() {
     let mut root = command(crate::MultitoolCli::command());
     let login = root.find_subcommand_mut("login").unwrap();

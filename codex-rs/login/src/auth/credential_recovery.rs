@@ -13,7 +13,7 @@ pub enum CredentialRecovery {
     )]
     OutcomeUnknown,
     #[error(
-        "The credential store is unavailable. Unlock your native credential store, then retry. Run airs-harness doctor if access remains unavailable."
+        "The credential store is unavailable. Unlock your native credential store, then retry. Run airs doctor if access remains unavailable."
     )]
     StoreUnavailable,
     #[error(

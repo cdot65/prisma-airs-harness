@@ -53,7 +53,10 @@ impl SandboxSetupCommand {
         if self.elevated_sandbox_level {
             Ok(SandboxSetupLevel::Elevated)
         } else {
-            anyhow::bail!("`codex sandbox setup` currently requires --elevated");
+            anyhow::bail!(
+                "`{cli} sandbox setup` currently requires --elevated",
+                cli = crate::airs_harness::bin_name()
+            );
         }
     }
 }

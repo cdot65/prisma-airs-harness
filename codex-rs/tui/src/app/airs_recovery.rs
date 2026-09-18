@@ -56,7 +56,7 @@ impl App {
         };
         let home = self.config.codex_home.to_path_buf();
         let fallback = format!(
-            "AIRS_HARNESS_HOME={} airs-harness login --restore-session --no-browser",
+            "AIRS_HARNESS_HOME={} airs login --restore-session --no-browser",
             shlex::try_quote(&home.to_string_lossy()).unwrap_or_default()
         );
         self.chat_widget.add_info_message("Opening company sign-in. Complete the browser flow and any native-store prompt within five minutes. Your draft remains here.".into(), Some(fallback));

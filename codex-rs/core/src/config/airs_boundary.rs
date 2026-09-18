@@ -83,7 +83,7 @@ Read a skill before applying it and disclose unavailable dependencies. Use apply
 
 pub(super) fn validate(home: &Path, effective: &ConfigToml) -> std::io::Result<ConfigToml> {
     let input = std::fs::read_to_string(home.join("config.toml")).map_err(|_| {
-        invalid("cannot read AIRS environment configuration; run airs-harness setup")
+        invalid("cannot read AIRS environment configuration; run airs env show to inspect the selected environment, or airs env create to create one")
     })?;
     let user: ConfigToml =
         toml::from_str(&input).map_err(|_| invalid("invalid AIRS user configuration"))?;

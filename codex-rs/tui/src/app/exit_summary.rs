@@ -32,7 +32,7 @@ impl App {
         let disconnect_info = thread_id.and_then(|_| {
             let command = match &self.app_server_target {
                 AppServerTarget::Embedded => return None,
-                AppServerTarget::LocalDaemon { .. } => vec!["codex".to_string()],
+                AppServerTarget::LocalDaemon { .. } => crate::airs_branding::command(),
                 AppServerTarget::Remote { endpoint } => {
                     let address = match endpoint {
                         RemoteAppServerEndpoint::WebSocket { websocket_url, .. } => {
@@ -49,7 +49,9 @@ impl App {
                             format!("unix://{}", socket_path.display())
                         }
                     };
-                    vec!["codex".to_string(), "--remote".to_string(), address]
+                    let mut command = crate::airs_branding::command();
+                    command.extend(["--remote".to_string(), address]);
+                    command
                 }
             };
             let stop_hint = self
@@ -80,6 +82,14 @@ impl App {
 impl AppExitInfo {
     /// Format the terminal summary for both the CLI and standalone TUI binaries.
     pub fn format_exit_messages(self, color_enabled: bool) -> Vec<String> {
+        self.format_exit_messages_with_command(color_enabled, &crate::airs_branding::command())
+    }
+
+    fn format_exit_messages_with_command(
+        self,
+        color_enabled: bool,
+        command: &[String],
+    ) -> Vec<String> {
         let color_command = |command: String| {
             if color_enabled {
                 format!("\u{1b}[36m{command}\u{1b}[39m")
@@ -134,18 +144,7 @@ impl AppExitInfo {
         if let ExitReason::Archived(thread_id) = self.exit_reason {
             lines.push(format!("Session archived: {thread_id}"));
         } else if let Some(thread) = self.resume_hint {
-            let executable = if codex_utils_home_dir::is_airs_harness() {
-                let mut command = vec!["airs-harness".to_string()];
-                if let Some(name) = codex_utils_home_dir::find_codex_home()
-                    .ok()
-                    .and_then(|home| crate::airs_branding::environment_name(home.as_path()))
-                {
-                    command.extend(["--environment".to_string(), name]);
-                }
-                escape_command(&command)
-            } else {
-                "codex".to_string()
-            };
+            let executable = escape_command(command);
             lines.push("To continue this session, run:".to_string());
             lines.push(format!(
                 "  {}",
@@ -164,3 +163,7 @@ impl AppExitInfo {
         lines
     }
 }
+
+#[cfg(test)]
+#[path = "exit_summary_tests.rs"]
+mod tests;

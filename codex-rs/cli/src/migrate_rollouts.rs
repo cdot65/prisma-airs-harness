@@ -335,7 +335,10 @@ fn print_human_report(
         );
     }
     if mode == RolloutMigrationMode::DryRun && counts.eligible > 0 {
-        println!("Run `codex migrate-rollouts --apply` to migrate eligible sessions.");
+        println!(
+            "Run `{cli} migrate-rollouts --apply` to migrate eligible sessions.",
+            cli = crate::airs_harness::bin_name()
+        );
     }
 
     if verbose {

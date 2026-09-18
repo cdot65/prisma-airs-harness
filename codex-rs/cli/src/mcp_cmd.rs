@@ -483,7 +483,8 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
         }
         McpOAuthLoginSupport::Unsupported => {}
         McpOAuthLoginSupport::Unknown(_) => println!(
-            "MCP server may or may not require login. Run `codex mcp login {name}` to login."
+            "MCP server may or may not require login. Run `{cli} mcp login {name}` to login.",
+            cli = crate::airs_harness::bin_name()
         ),
     }
 
@@ -733,7 +734,10 @@ async fn run_list(config: &Config, list_args: ListArgs) -> Result<()> {
     }
 
     if entries.is_empty() {
-        println!("No MCP servers configured yet. Try `codex mcp add my-tool -- my-command`.");
+        println!(
+            "No MCP servers configured yet. Try `{cli} mcp add my-tool -- my-command`.",
+            cli = crate::airs_harness::bin_name()
+        );
         return Ok(());
     }
 
@@ -1073,7 +1077,11 @@ async fn run_get(config: &Config, get_args: GetArgs) -> Result<()> {
         };
         println!("  default_tools_approval_mode: {approval_mode}");
     }
-    println!("  remove: codex mcp remove {}", get_args.name);
+    println!(
+        "  remove: {cli} mcp remove {}",
+        get_args.name,
+        cli = crate::airs_harness::bin_name()
+    );
 
     Ok(())
 }

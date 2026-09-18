@@ -326,7 +326,7 @@ pub async fn run_doctor(
 ) -> anyhow::Result<()> {
     anyhow::ensure!(
         !command.verify_access,
-        "--verify-access is available in airs-harness doctor"
+        "--verify-access is available in airs doctor"
     );
     let report = build_report(&command, root_config_overrides, interactive, arg0_paths).await;
 

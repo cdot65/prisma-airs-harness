@@ -5,16 +5,46 @@ fn text(value: &str) -> String {
     value
         .replace("OpenAI Codex", "Prisma AIRS Harness")
         .replace("Codex", "AIRS Harness")
+        .replace("codex ", "airs ")
+        .replace("`codex`", "`airs`")
         .replace("~/.codex", "~/.airs-harness")
         .replace("a AIRS Harness-provided sandbox", "the local sandbox")
 }
 
-pub fn command(mut command: Command) -> Command {
+pub fn command(command: Command) -> Command {
+    command_with_name(command, "airs".to_string())
+}
+
+fn command_with_name(mut command: Command, name: String) -> Command {
+    command = command.bin_name(name.clone());
+    command = match name.as_str() {
+        "airs" => command
+            .override_usage("airs [OPTIONS] [PROMPT]\n       airs [OPTIONS] <COMMAND> [ARGS]"),
+        "airs exec" => command.override_usage(
+            "airs exec [OPTIONS] [PROMPT]\n       airs exec [OPTIONS] <COMMAND> [ARGS]",
+        ),
+        "airs mcp add" => {
+            command.override_usage("airs mcp add [OPTIONS] <NAME> (--url <URL> | -- <COMMAND>...)")
+        }
+        _ => command,
+    };
     if let Some(about) = command.get_about() {
         command = command.clone().about(text(&about.to_string()));
     }
     if let Some(about) = command.get_long_about() {
         command = command.clone().long_about(text(&about.to_string()));
+    }
+    if let Some(help) = command.get_before_help() {
+        command = command.clone().before_help(text(&help.to_string()));
+    }
+    if let Some(help) = command.get_before_long_help() {
+        command = command.clone().before_long_help(text(&help.to_string()));
+    }
+    if let Some(help) = command.get_after_help() {
+        command = command.clone().after_help(text(&help.to_string()));
+    }
+    if let Some(help) = command.get_after_long_help() {
+        command = command.clone().after_long_help(text(&help.to_string()));
     }
     command = command.mut_args(|mut arg| {
         if let Some(help) = arg.get_help() {
@@ -44,7 +74,10 @@ pub fn command(mut command: Command) -> Command {
         arg
     });
     for subcommand in command.get_subcommands_mut() {
-        *subcommand = self::command(subcommand.clone());
+        *subcommand = command_with_name(
+            subcommand.clone(),
+            format!("{name} {}", subcommand.get_name()),
+        );
         if matches!(
             subcommand.get_name(),
             "agents"

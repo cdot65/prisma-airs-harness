@@ -68,6 +68,23 @@ pub(crate) fn environment_name(home: &Path) -> Option<String> {
         })
 }
 
+/// Reopen the selected environment even if the saved default changes later.
+pub(crate) fn command() -> Vec<String> {
+    let environment = is_airs_harness()
+        .then(|| codex_utils_home_dir::find_codex_home().ok())
+        .flatten()
+        .and_then(|home| environment_name(home.as_path()));
+    command_for_environment(codex_utils_home_dir::command_name(), environment.as_deref())
+}
+
+pub(crate) fn command_for_environment(executable: &str, environment: Option<&str>) -> Vec<String> {
+    let mut command = vec![executable.to_string()];
+    if let Some(environment) = environment {
+        command.extend(["--environment".to_string(), environment.to_string()]);
+    }
+    command
+}
+
 #[derive(Debug)]
 pub(crate) struct HeaderContext {
     pub environment: String,

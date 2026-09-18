@@ -47,7 +47,7 @@ impl App {
         }
         let home = self.config.codex_home.to_path_buf();
         let fallback = format!(
-            "AIRS_HARNESS_HOME={} airs-harness mcp login --no-browser -- {}",
+            "AIRS_HARNESS_HOME={} airs mcp login --no-browser -- {}",
             shlex::try_quote(&home.to_string_lossy()).unwrap_or_default(),
             shlex::try_quote(&server).unwrap_or_default()
         );

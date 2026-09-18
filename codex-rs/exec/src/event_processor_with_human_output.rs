@@ -22,7 +22,7 @@ use crate::event_processor::handle_last_message;
 
 fn agent_label() -> &'static str {
     if codex_utils_home_dir::is_airs_harness() {
-        "airs-harness"
+        "airs"
     } else {
         "codex"
     }

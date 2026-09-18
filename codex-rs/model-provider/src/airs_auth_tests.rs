@@ -84,9 +84,11 @@ async fn gateway_preserves_auth_recovery_classification_before_dispatch() {
             reason,
             CredentialRecovery::SignInRequired | CredentialRecovery::OutcomeUnknown
         ) {
-            assert!(error.to_string().contains(
-                "AIRS_HARNESS_HOME='/' airs-harness login --restore-session --no-browser"
-            ));
+            assert!(
+                error
+                    .to_string()
+                    .contains("AIRS_HARNESS_HOME='/' airs login --restore-session --no-browser")
+            );
         }
     }
 }

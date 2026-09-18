@@ -511,7 +511,12 @@ fn resume_hint_for_resumable_thread(
     rollout_path: Option<&Path>,
 ) -> Option<String> {
     let thread = resumable_thread(thread_id, thread_name, rollout_path)?;
-    codex_utils_cli::resume_hint(thread.thread_name.as_deref(), Some(thread.thread_id))
+    codex_utils_cli::resume_hint(thread.thread_name.as_deref(), Some(thread.thread_id)).map(
+        |hint| {
+            let command = crate::exec_command::escape_command(&crate::airs_branding::command());
+            hint.replacen("codex", &command, /*count*/ 1)
+        },
+    )
 }
 
 fn rollout_path_is_resumable(rollout_path: &Path) -> bool {

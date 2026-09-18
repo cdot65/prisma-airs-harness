@@ -19,9 +19,10 @@ pub(super) async fn run_main_inner(
             ));
         }
         if cli.fork_picker || cli.fork_last {
-            return Err(std::io::Error::other(
-                "`codex fork --worktree` requires an explicit session ID",
-            ));
+            return Err(std::io::Error::other(format!(
+                "`{cli} fork --worktree` requires an explicit session ID",
+                cli = codex_utils_home_dir::command_name()
+            )));
         }
     }
     let (sandbox_mode, approval_policy) = if cli.dangerously_bypass_approvals_and_sandbox {

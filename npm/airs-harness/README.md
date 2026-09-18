@@ -7,16 +7,16 @@ OAuth. No separate MCP executable is required.
 
 ## Branded onboarding
 
-Release `0.1.0-alpha.22.onboarding.2` uses the cyan Prisma AIRS mark with a subtle shimmer in the animated welcome. Environment creation/selection and guided sign-in remain available. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
+Release `0.1.0-alpha.22.onboarding.3` uses `airs` consistently in generated resume commands, help examples and recovery guidance. The animated welcome retains the cyan Prisma AIRS mark and subtle shimmer. Environment creation/selection and guided sign-in remain available. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.2 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.3 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 airs
 ```
 
-The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](https://git.cdot.io/cdot/prisma-airs-harness/src/branch/feat/airs-branded-onboarding/validation/2026-09-18/prisma-logo/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
+The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](https://git.cdot.io/cdot/prisma-airs-harness/src/branch/feat/airs-branded-onboarding/validation/2026-09-18/command-output-release/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
 
 ## Install or update
 
@@ -33,7 +33,7 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.2 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.onboarding.3 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

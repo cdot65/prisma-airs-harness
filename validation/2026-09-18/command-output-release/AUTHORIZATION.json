@@ -1,0 +1,14 @@
+{
+  "publication_authorized": true,
+  "request": "please, publish our updated versions!",
+  "date": "2026-09-18",
+  "version": "0.1.0-alpha.22.onboarding.3",
+  "known_workspace_results": {
+    "passed": 18097,
+    "failed": 150,
+    "skipped": 34
+  },
+  "all_changed_packages_passed": true,
+  "native_acceptance_required": true,
+  "production_sso_servicenow_claimed": false
+}

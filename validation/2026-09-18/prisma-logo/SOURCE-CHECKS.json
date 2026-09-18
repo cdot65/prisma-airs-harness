@@ -1,0 +1,25 @@
+{
+  "source_commit": "71f2ea33144cc0535772e8408a3037502a82b02e",
+  "version": "0.1.0-alpha.22.onboarding.2",
+  "tui_tests": {
+    "passed": 4334,
+    "skipped": 6
+  },
+  "home_dir_tests": {
+    "passed": 8,
+    "skipped": 0
+  },
+  "clippy_fix_passed": true,
+  "format_passed": true,
+  "terminal_previews_passed": 21,
+  "reviewed_snapshots": 6,
+  "reference": {
+    "source": "owner-supplied PNG",
+    "sha256": "9839d10662c0b999a1db6b552ac51fab34a30be67fbcb5759102f81a7888a12c",
+    "original_svg_received": false,
+    "vector_transcribed": true,
+    "static_color": "#00C0E8",
+    "background": "transparent",
+    "animation": "fixed silhouette with cyan light sweep"
+  }
+}

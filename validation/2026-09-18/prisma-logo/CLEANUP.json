@@ -1,0 +1,12 @@
+{
+  "owned_container_removed": "airs-logo-arm64",
+  "owned_launchagents_unloaded": [
+    "io.cdot.airs.logo.installed",
+    "io.cdot.airs.logo.registry"
+  ],
+  "jadzia_engine": "stopped",
+  "desktop_ui_preserved": true,
+  "recent_native_service_entries": 0,
+  "credential_values_requested": false,
+  "production_identity_or_trust_changed": false
+}

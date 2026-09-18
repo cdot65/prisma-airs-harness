@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "source_commit": "71f2ea33144cc0535772e8408a3037502a82b02e",
+  "version": "0.1.0-alpha.22.onboarding.2",
+  "binary_sha256": "e5417d788a740a5d1e477298e22232b6eef8ab770fd098b40bfb6e9b2b9341ac",
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "entrypoint": "/Users/cdot/.cache/airs-logo-20260918/mac-installed-candidate/prefix/bin/airs",
+  "checks": [
+    "self-contained review installation",
+    "native HTTPS OAuth and OS credential store",
+    "shells and terminal restoration",
+    "installed executable regressions",
+    "managed CLI contract and native image dependencies",
+    "upgrade from onboarding.1 with environment preservation"
+  ],
+  "production_sso": false,
+  "production_servicenow": false
+}

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "native_binary_sha256": "1edd347bafe2f630ab0b74ebb9750bc3f51bf509e1a09cbbf58d959f27234874",
+  "launcher": "/home/cdot/.cache/airs-logo-20260918/linux-installed/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.103,
+    "zsh": 0.103,
+    "fish": 0.051
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "fish: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

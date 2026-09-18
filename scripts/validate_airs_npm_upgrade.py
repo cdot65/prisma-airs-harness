@@ -59,9 +59,10 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--previous", default="0.1.0-alpha.12")
     args = parser.parse_args()
-    if not re.fullmatch(
-        r"\d+\.\d+\.\d+-alpha\.\d+(?:\.onboarding\.\d+)?", args.previous
-    ):
+    previous_version = re.fullmatch(
+        r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.onboarding\.\d+)?", args.previous
+    )
+    if not previous_version:
         parser.error("Expected an explicit immutable alpha version")
     args.output.mkdir(parents=True, exist_ok=False)
     packages = args.packages.resolve(strict=True)
@@ -89,7 +90,7 @@ def main():
         args.output / "install-previous.log",
     )
     command = prefix / "bin/airs-harness"
-    previous_alpha = int(args.previous.rsplit(".", 1)[1])
+    previous_alpha = int(previous_version[1])
     previous_command_name = "airs" if previous_alpha >= 22 else "airs-harness"
     assert (
         run([str(command), "--version"], old_env, args.output / "previous-version.log")

@@ -60,7 +60,7 @@ def main():
     parser.add_argument("--previous", default="0.1.0-alpha.12")
     args = parser.parse_args()
     previous_version = re.fullmatch(
-        r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.onboarding\.\d+)?", args.previous
+        r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.(?:onboarding|mcp)\.\d+)?", args.previous
     )
     if not previous_version:
         parser.error("Expected an explicit immutable alpha version")

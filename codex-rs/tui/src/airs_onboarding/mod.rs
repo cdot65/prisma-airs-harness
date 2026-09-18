@@ -73,6 +73,7 @@ pub struct AirsOnboarding {
     context: OnboardingContext,
     options: OnboardingOptions,
     started: Instant,
+    scroll: u16,
     // Drop after the backend so raw mode and the alternate screen are restored.
     guard: terminal::TerminalGuard,
 }
@@ -88,6 +89,7 @@ enum View<'a> {
         editor: &'a Editor,
     },
     Progress(&'a OnboardingProgress),
+    Message(&'a OnboardingProgress),
 }
 
 impl AirsOnboarding {
@@ -107,6 +109,7 @@ impl AirsOnboarding {
             context,
             options,
             started: Instant::now(),
+            scroll: 0,
             guard,
         })
     }
@@ -114,6 +117,11 @@ impl AirsOnboarding {
     /// Update public context after the caller has resolved an environment.
     pub fn set_context(&mut self, context: OnboardingContext) {
         self.context = context;
+    }
+
+    /// Apply the selected environment's terminal preferences.
+    pub fn set_options(&mut self, options: OnboardingOptions) {
+        self.options = options;
     }
 
     /// Select an action without imposing a splash delay.
@@ -213,6 +221,36 @@ impl AirsOnboarding {
         }
     }
 
+    /// Display an outcome until the user continues or cancels.
+    pub fn message(&mut self, message: &OnboardingProgress) -> io::Result<OnboardingResult<()>> {
+        self.scroll = 0;
+        let mut dirty = true;
+        loop {
+            if self.guard.cancelled() {
+                return Ok(OnboardingResult::Cancelled);
+            }
+            if dirty || self.options.animations {
+                self.draw(&View::Message(message))?;
+            }
+            dirty = false;
+            if crossterm::event::poll(FRAME_INTERVAL)? {
+                match crossterm::event::read()? {
+                    Event::Key(key) if key.kind != KeyEventKind::Release => {
+                        if cancelled(key) {
+                            return Ok(OnboardingResult::Cancelled);
+                        }
+                        if key.code == KeyCode::Enter && key.kind == KeyEventKind::Press {
+                            return Ok(OnboardingResult::Selected(()));
+                        }
+                        dirty = self.scroll_key(key);
+                    }
+                    Event::Resize(_, _) => dirty = true,
+                    _ => {}
+                }
+            }
+        }
+    }
+
     /// Keep a real async operation responsive to progress updates and cancellation.
     /// Dropping the returned future cancels the owned operation; no success is inferred.
     pub async fn wait<F: Future>(
@@ -220,6 +258,7 @@ impl AirsOnboarding {
         operation: F,
         mut progress: watch::Receiver<OnboardingProgress>,
     ) -> io::Result<OnboardingResult<F::Output>> {
+        self.scroll = 0;
         tokio::pin!(operation);
         let mut tick = tokio::time::interval(FRAME_INTERVAL);
         let mut current = progress.borrow_and_update().clone();
@@ -237,11 +276,15 @@ impl AirsOnboarding {
                 _ = tick.tick() => {
                     if progress.has_changed().unwrap_or(false) {
                         current = progress.borrow_and_update().clone();
+                        self.scroll = 0;
                         dirty = true;
                     }
                     if crossterm::event::poll(Duration::ZERO)? {
                         match crossterm::event::read()? {
-                            Event::Key(key) if key.kind != KeyEventKind::Release && cancelled(key) => return Ok(OnboardingResult::Cancelled),
+                            Event::Key(key) if key.kind != KeyEventKind::Release => {
+                                if cancelled(key) { return Ok(OnboardingResult::Cancelled); }
+                                dirty = self.scroll_key(key);
+                            }
                             Event::Resize(_, _) => dirty = true,
                             _ => {}
                         }
@@ -251,12 +294,26 @@ impl AirsOnboarding {
         }
     }
 
+    fn scroll_key(&mut self, key: KeyEvent) -> bool {
+        self.scroll = match key.code {
+            KeyCode::Up => self.scroll.saturating_sub(1),
+            KeyCode::Down => self.scroll.saturating_add(1),
+            KeyCode::PageUp => self.scroll.saturating_sub(5),
+            KeyCode::PageDown => self.scroll.saturating_add(5),
+            KeyCode::Home => 0,
+            KeyCode::End => u16::MAX,
+            _ => return false,
+        };
+        true
+    }
+
     fn draw(&mut self, view: &View<'_>) -> io::Result<()> {
         let elapsed = self.started.elapsed();
         let context = &self.context;
         let options = self.options;
+        let scroll = &mut self.scroll;
         self.terminal
-            .draw(|frame| render::draw(frame, context, options, elapsed, view))?;
+            .draw(|frame| render::draw(frame, context, options, elapsed, view, scroll))?;
         Ok(())
     }
 }
@@ -271,7 +328,7 @@ fn cancelled(key: KeyEvent) -> bool {
 fn safe_text(value: &str) -> String {
     value
         .chars()
-        .take(2048)
+        .take(/*n*/ 16_384)
         .map(|c| {
             if c.is_control() || matches!(c, '\u{202a}'..='\u{202e}' | '\u{2066}'..='\u{2069}') {
                 ' '

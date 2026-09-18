@@ -202,6 +202,64 @@ pub(super) fn validate_name(name: &str) -> anyhow::Result<()> {
 }
 
 pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
+    let home = create(root, name, args)?;
+    println!("Configured Prisma AIRS Harness in {}", home.display());
+    println!("Run airs login to sign in with your company account or workspace API key.");
+    println!("Selected environment {name}. Its sessions and credentials are independent.");
+    Ok(())
+}
+
+/// Resolve public context before committing this process's immutable selection.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(super) struct Selection {
+    pub name: Option<String>,
+    pub home: PathBuf,
+    pub gateway: String,
+}
+
+pub(super) fn choices(root: &Path) -> anyhow::Result<Vec<(String, String)>> {
+    Ok(read(root)?
+        .environments
+        .into_iter()
+        .map(|(name, env)| (name, env.gateway_url))
+        .collect())
+}
+
+pub(super) fn resolve(root: &Path, requested: Option<&str>) -> anyhow::Result<Option<Selection>> {
+    let registry = read(root)?;
+    let name = requested.or(registry.active.as_deref());
+    let Some(name) = name else {
+        return if root.join("config.toml").exists() && !root.join("environments.json").exists() {
+            Ok(Some(Selection {
+                name: None,
+                home: root.to_owned(),
+                gateway: gateway(root)?,
+            }))
+        } else {
+            Ok(None)
+        };
+    };
+    let environment = registry
+        .environments
+        .get(name)
+        .context("unknown environment; use env list")?;
+    let home = environment_home(root, environment);
+    anyhow::ensure!(
+        gateway(&home)? == environment.gateway_url,
+        "gateway binding changed; create a new environment and authenticate explicitly"
+    );
+    Ok(Some(Selection {
+        name: Some(name.to_owned()),
+        home,
+        gateway: environment.gateway_url.clone(),
+    }))
+}
+
+pub(super) fn create(
+    root: &Path,
+    name: &str,
+    args: &super::airs_harness::SetupArgs,
+) -> anyhow::Result<PathBuf> {
     validate_name(name)?;
     let _lock = lock(root)?;
     let mut registry = read(root)?;
@@ -220,8 +278,7 @@ pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> 
     registry.environments.insert(name.to_owned(), environment);
     registry.active = Some(name.to_owned());
     write(root, &registry)?;
-    println!("Selected environment {name}. Its sessions and credentials are independent.");
-    Ok(())
+    Ok(home)
 }
 
 pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> anyhow::Result<()> {

@@ -25,6 +25,7 @@ pub(super) fn draw(
     options: OnboardingOptions,
     elapsed: Duration,
     view: &View<'_>,
+    scroll: &mut u16,
 ) {
     let area = frame.area();
     frame.render_widget(Clear, area);
@@ -46,6 +47,9 @@ pub(super) fn draw(
     let content = Rect::new(left, top, width, area.height.saturating_sub(top - area.y));
     let header_height = if tiny {
         1
+    } else if matches!(view, View::Progress(progress) if progress.link.as_ref().is_some_and(|link| link.len() > 180))
+    {
+        2
     } else if area.width >= 60 && area.height >= 30 {
         9
     } else if area.width >= 60 && area.height >= 24 {
@@ -233,13 +237,13 @@ pub(super) fn draw(
                 ),
             );
             let hint = if tiny {
-                "Enter Continue · Esc Back"
+                "Enter Continue · Esc Cancel"
             } else {
-                "Enter Continue   Esc Back   Ctrl+U Clear"
+                "Enter Continue   Esc Cancel   Ctrl+U Clear"
             };
             frame.render_widget(Paragraph::new(hint).style(muted), footer);
         }
-        View::Progress(progress) => {
+        View::Progress(progress) | View::Message(progress) => {
             let mut lines = vec![
                 Line::styled(safe_text(&progress.title), bold),
                 Line::default(),
@@ -250,8 +254,22 @@ pub(super) fn draw(
                 lines.push(Line::styled("Open in your browser:", muted));
                 lines.push(Line::from(safe_text(link)));
             }
-            frame.render_widget(Paragraph::new(lines).wrap(Wrap { trim: false }), body);
-            frame.render_widget(Paragraph::new("Esc / Ctrl+C Cancel").style(muted), footer);
+            let paragraph = Paragraph::new(lines).wrap(Wrap { trim: false });
+            let maximum = paragraph
+                .line_count(body.width.max(1))
+                .saturating_sub(body.height as usize)
+                .min(u16::MAX as usize) as u16;
+            *scroll = (*scroll).min(maximum);
+            frame.render_widget(paragraph.scroll((*scroll, 0)), body);
+            frame.render_widget(
+                Paragraph::new(if matches!(view, View::Message(_)) {
+                    "Enter Continue   ↑↓ Scroll   Esc Exit"
+                } else {
+                    "↑↓ Scroll   Esc / Ctrl+C Cancel"
+                })
+                .style(muted),
+                footer,
+            );
         }
     }
 }

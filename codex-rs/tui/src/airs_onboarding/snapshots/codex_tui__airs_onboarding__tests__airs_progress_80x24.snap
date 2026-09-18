@@ -24,4 +24,4 @@ expression: "text(&render_buffer(80, 24, options, &View::Progress(&progress)))"
 
 
 
-       Esc / Ctrl+C Cancel
+       ↑↓ Scroll   Esc / Ctrl+C Cancel

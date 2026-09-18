@@ -26,6 +26,7 @@ enum Stored {
     SignInRequired,
 }
 
+#[derive(Clone, Copy)]
 pub enum LoginFlow {
     Browser,
     BrowserManual,
@@ -188,6 +189,24 @@ fn ensure_restore_identity(binding: &Binding, returned: &Identity) -> anyhow::Re
 mod restore_tests;
 
 pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Result<()> {
+    login_inner(home, args, flow, /*progress*/ None).await
+}
+
+pub(super) async fn login_with_progress(
+    home: &Path,
+    args: &LoginArgs,
+    flow: LoginFlow,
+    progress: tokio::sync::watch::Sender<codex_tui::OnboardingProgress>,
+) -> anyhow::Result<()> {
+    login_inner(home, args, flow, Some(&progress)).await
+}
+
+async fn login_inner(
+    home: &Path,
+    args: &LoginArgs,
+    flow: LoginFlow,
+    progress: Option<&tokio::sync::watch::Sender<codex_tui::OnboardingProgress>>,
+) -> anyhow::Result<()> {
     let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
     let _lock = airs_environment::lock(home)?;
     super::airs_credentials::recover_pending(home)?;
@@ -205,7 +224,13 @@ pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Re
             .clone()
             .context("OIDC login requires --audience")?,
     };
-    let tokens = authenticate(config, flow).await?;
+    let tokens = authenticate_with_progress(config, flow, progress).await?;
+    report_progress(
+        progress,
+        "Saving sign-in",
+        "Storing the verified identity in your OS credential store.",
+        /*link*/ None,
+    );
     let gateway_url = airs_environment::gateway(home)?;
     let credential_fingerprint = fingerprint(&gateway_url, &tokens.identity)?;
     let existing = if home.join("credential-binding.json").exists() {
@@ -236,9 +261,11 @@ pub async fn login(home: &Path, args: &LoginArgs, flow: LoginFlow) -> anyhow::Re
         &serde_json::to_string(&Stored::Active { tokens })?,
         || attempt.commit(|| super::airs_credentials::install_binding(home, &binding)),
     )?;
-    println!(
-        "Signed in through {issuer}. Verified subject: {subject}. Credentials stored in the OS store."
-    );
+    if progress.is_none() {
+        println!(
+            "Signed in through {issuer}. Verified subject: {subject}. Credentials stored in the OS store."
+        );
+    }
     Ok(())
 }
 
@@ -246,6 +273,35 @@ pub(super) async fn authenticate(
     config: IdentityConfig,
     flow: LoginFlow,
 ) -> anyhow::Result<Tokens> {
+    authenticate_with_progress(config, flow, /*progress*/ None).await
+}
+
+fn report_progress(
+    progress: Option<&tokio::sync::watch::Sender<codex_tui::OnboardingProgress>>,
+    title: &str,
+    detail: &str,
+    link: Option<String>,
+) {
+    if let Some(progress) = progress {
+        progress.send_replace(codex_tui::OnboardingProgress {
+            title: title.into(),
+            detail: detail.into(),
+            link,
+        });
+    }
+}
+
+async fn authenticate_with_progress(
+    config: IdentityConfig,
+    flow: LoginFlow,
+    progress: Option<&tokio::sync::watch::Sender<codex_tui::OnboardingProgress>>,
+) -> anyhow::Result<Tokens> {
+    report_progress(
+        progress,
+        "Checking credential storage",
+        "Your sign-in will be saved in the OS credential store.",
+        /*link*/ None,
+    );
     // Fail before asking the user to authenticate if durable OS storage is unavailable.
     let probe = format!("oidc-probe-{}", Uuid::new_v4());
     CredentialStore
@@ -254,29 +310,74 @@ pub(super) async fn authenticate(
     CredentialStore
         .delete(SERVICE, &probe)
         .map_err(|error| super::airs_storage_error::report(error, "clean up storage check"))?;
+    report_progress(
+        progress,
+        "Contacting company sign-in",
+        "Discovering your organization's sign-in service.",
+        /*link*/ None,
+    );
     let provider = Provider::discover(config).await?;
     let tokens = match flow {
         LoginFlow::Browser | LoginFlow::BrowserManual => {
             let login = provider.browser_login().await?;
-            eprintln!("Open this URL to sign in:\n{}", login.authorization_url());
-            if matches!(flow, LoginFlow::Browser) {
-                let _ = webbrowser::open(login.authorization_url().as_str());
+            let url = login.authorization_url().to_string();
+            if progress.is_none() {
+                eprintln!("Open this URL to sign in:\n{url}");
             }
-            tokio::select! {
-                result = login.complete(&provider) => result?,
-                _ = tokio::signal::ctrl_c() => anyhow::bail!("login cancelled"),
+            report_progress(
+                progress,
+                "Waiting for company sign-in",
+                "Complete sign-in in your browser, then return here. Your company password stays in the browser.",
+                Some(url.clone()),
+            );
+            if matches!(flow, LoginFlow::Browser) {
+                let browser_url = url.clone();
+                let opened =
+                    tokio::task::spawn_blocking(move || webbrowser::open(&browser_url)).await;
+                if !matches!(opened, Ok(Ok(()))) {
+                    report_progress(
+                        progress,
+                        "Open company sign-in",
+                        "The browser could not open automatically. Open the link below, or cancel and choose device authorization for SSH.",
+                        Some(url),
+                    );
+                }
+            }
+            if progress.is_some() {
+                // The onboarding screen owns cancellation and its terminal signal guard.
+                login.complete(&provider).await?
+            } else {
+                tokio::select! {
+                    result = login.complete(&provider) => result?,
+                    _ = tokio::signal::ctrl_c() => anyhow::bail!("login cancelled"),
+                }
             }
         }
         LoginFlow::Device => {
             let login = provider.device_login().await?;
-            eprintln!(
-                "Open {} and enter code {}",
-                login.verification_uri(),
-                login.user_code()
+            if progress.is_none() {
+                eprintln!(
+                    "Open {} and enter code {}",
+                    login.verification_uri(),
+                    login.user_code()
+                );
+            }
+            report_progress(
+                progress,
+                "Authorize this device",
+                &format!(
+                    "Enter code {} in your browser, then return here.",
+                    login.user_code()
+                ),
+                Some(login.verification_uri().to_string()),
             );
-            tokio::select! {
-                result = login.complete(&provider) => result?,
-                _ = tokio::signal::ctrl_c() => anyhow::bail!("login cancelled"),
+            if progress.is_some() {
+                login.complete(&provider).await?
+            } else {
+                tokio::select! {
+                    result = login.complete(&provider) => result?,
+                    _ = tokio::signal::ctrl_c() => anyhow::bail!("login cancelled"),
+                }
             }
         }
     };

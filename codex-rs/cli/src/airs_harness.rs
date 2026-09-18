@@ -64,7 +64,7 @@ impl Default for SetupArgs {
     }
 }
 
-fn configuration(args: &SetupArgs, home: &Path) -> anyhow::Result<(String, String)> {
+pub(super) fn configuration(args: &SetupArgs, home: &Path) -> anyhow::Result<(String, String)> {
     anyhow::ensure!(
         !args.gateway_url.is_empty()
             && args.gateway_url.len() <= 2_048
@@ -193,6 +193,7 @@ fn catalog_entry(slug: &str, context_window: i64) -> serde_json::Value {
     })
 }
 
+/// Publish configuration without terminal output; the caller owns presentation.
 pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {
     let (config, catalog) = configuration(args, home)?;
     let config_path = home.join("config.toml");
@@ -214,8 +215,6 @@ pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {
         let _ = std::fs::remove_file(catalog_path.as_path());
         return Err(error.into());
     }
-    println!("Configured Prisma AIRS Harness in {}", home.display());
-    println!("Run airs login to sign in with your company account or workspace API key.");
     Ok(())
 }
 

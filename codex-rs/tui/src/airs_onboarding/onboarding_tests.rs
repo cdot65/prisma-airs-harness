@@ -36,6 +36,7 @@ fn render_buffer(width: u16, height: u16, options: OnboardingOptions, view: &Vie
                 options,
                 Duration::from_millis(/*millis*/ 800),
                 view,
+                &mut 0,
             )
         })
         .unwrap();
@@ -335,5 +336,56 @@ fn long_unicode_input_keeps_the_cursor_visible_on_a_character_boundary() {
     assert_eq!(
         super::render::input_window("abcdef", /*cursor*/ 6, /*width*/ 0),
         ("", 0)
+    );
+}
+
+#[test]
+fn long_authorization_links_remain_complete_and_scroll_to_the_end() {
+    let progress = OnboardingProgress {
+        title: "Waiting for company sign-in".into(),
+        detail: "Complete sign-in in your browser.".into(),
+        link: Some(format!(
+            "https://sso.example/authorize?client_id={}&final=VISIBLE",
+            "a".repeat(3000)
+        )),
+    };
+    let mut terminal = Terminal::new(TestBackend::new(/*width*/ 80, /*height*/ 24)).unwrap();
+    let mut scroll = u16::MAX;
+    terminal
+        .draw(|frame| {
+            render::draw(
+                frame,
+                &OnboardingContext::default(),
+                OnboardingOptions {
+                    animations: false,
+                    color: false,
+                },
+                Duration::ZERO,
+                &View::Progress(&progress),
+                &mut scroll,
+            )
+        })
+        .unwrap();
+    assert!(text(terminal.backend().buffer()).contains("final=VISIBLE"));
+    assert!(scroll > 0 && scroll < u16::MAX);
+}
+
+#[test]
+fn outcome_message_snapshot_shows_saved_credentials_and_denied_access() {
+    let progress = OnboardingProgress {
+        title: "Signed in · gateway access needs attention".into(),
+        detail: "Credential saved; the gateway denied access. Check your workspace permissions, then retry with airs doctor --verify-access.".into(), link: None,
+    };
+    insta::assert_snapshot!(
+        "airs_access_denied_80x24",
+        text(&render_buffer(
+            /*width*/ 80,
+            /*height*/ 24,
+            OnboardingOptions {
+                animations: false,
+                color: false
+            },
+            &View::Message(&progress)
+        ))
     );
 }

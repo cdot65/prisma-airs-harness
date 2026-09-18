@@ -1,4 +1,5 @@
 use anyhow::Context;
+use codex_http_client::build_reqwest_client_with_custom_ca;
 use openidconnect::core::CoreJsonWebKeySet;
 use serde::Deserialize;
 use serde::Serialize;
@@ -89,10 +90,11 @@ impl Provider {
                 && !config.audience.is_empty(),
             "issuer, client and resource audience are required"
         );
-        let http = reqwest::Client::builder()
-            .redirect(reqwest::redirect::Policy::none())
-            .timeout(Duration::from_secs(15))
-            .build()?;
+        let http = build_reqwest_client_with_custom_ca(
+            reqwest::Client::builder()
+                .redirect(reqwest::redirect::Policy::none())
+                .timeout(Duration::from_secs(15)),
+        )?;
         let response = http
             .get(format!(
                 "{}/.well-known/openid-configuration",

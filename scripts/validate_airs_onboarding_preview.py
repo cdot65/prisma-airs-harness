@@ -49,7 +49,7 @@ class Preview:
         fcntl.ioctl(
             self.slave, termios.TIOCSWINSZ, struct.pack("HHHH", rows, columns, 0, 0)
         )
-        self.original = termios.tcgetattr(self.slave)
+        self.original = termios.tcgetattr(self.master)
         self.screen = pyte.Screen(columns, rows)
         self.stream = pyte.ByteStream(self.screen)
         self.transcript = bytearray()
@@ -146,7 +146,9 @@ class Preview:
             output = "" if self.terminal_stdout else self.process.stdout.read().decode()
             assert self.process.returncode == status, output
             assert expected in output, output
-            assert termios.tcgetattr(self.slave) == self.original, (
+            # Darwin revokes the slave descriptor when its session leader exits.
+            # The master remains a valid view of the same terminal attributes.
+            assert termios.tcgetattr(self.master) == self.original, (
                 "Terminal modes were not restored"
             )
             if not self.terminal_stdout or b"\x1b[?1049h" in self.transcript:
@@ -164,10 +166,18 @@ class Preview:
     def close(self):
         if self.process.poll() is None:
             self.process.terminate()
-            try:
-                self.process.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                self.process.kill()
+            # Drain restoration output while the child exits. A full PTY buffer
+            # otherwise blocks cleanup, particularly on macOS.
+            deadline = time.monotonic() + 5
+            while self.process.poll() is None and time.monotonic() < deadline:
+                self.pump(0.05)
+            if self.process.poll() is None:
+                try:
+                    os.killpg(self.process.pid, signal.SIGKILL)
+                except PermissionError:
+                    self.process.kill()
+                except ProcessLookupError:
+                    pass
                 self.process.wait()
         for fd in (self.master, self.slave):
             try:

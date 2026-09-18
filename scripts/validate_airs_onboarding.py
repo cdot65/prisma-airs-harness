@@ -21,6 +21,7 @@ from pathlib import Path
 from urllib.request import urlopen
 
 from airs_onboarding_fixture import IdentityFixture
+from airs_onboarding_tls_checks import check_tls_rejection
 from validate_airs_onboarding_preview import Preview, write_gallery
 
 
@@ -46,8 +47,14 @@ def main():
             GNOME_KEYRING_CONTROL=str(root / "keyring"),
             SSL_CERT_FILE=str(fixture.certificate),
         )
-        for name in ["AIRS_API_KEY", "AIRS_TERMINAL_HOME", "NO_COLOR"]:
-            environment.pop(name, None)
+        for name in list(environment):
+            if name.startswith(("AIRS_", "OPENAI_")) or name in (
+                "CODEX_HOME",
+                "CODEX_SQLITE_HOME",
+                "CODEX_CA_CERTIFICATE",
+                "NO_COLOR",
+            ):
+                environment.pop(name)
         browser_record = root / "browser-url"
         browser = root / "browser"
         browser.write_text(
@@ -237,6 +244,9 @@ def main():
             checks.append(
                 "isolated native Secret Service accepts and deletes credentials"
             )
+
+            env, home = configured("tls-rejection")
+            checks.extend(check_tls_rejection(binary, env, home, root, fixture))
 
             env = state("cancel-before-create")
             terminal = session(env, ["env", "create"])

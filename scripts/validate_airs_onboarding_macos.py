@@ -20,6 +20,7 @@ from pathlib import Path
 from urllib.request import urlopen
 
 from airs_onboarding_fixture import IdentityFixture
+from airs_onboarding_tls_checks import check_tls_rejection
 from validate_airs_onboarding_preview import Preview, write_gallery
 
 
@@ -43,6 +44,7 @@ def main():
             if key.startswith(("AIRS_", "OPENAI_")) or key in (
                 "CODEX_HOME",
                 "CODEX_SQLITE_HOME",
+                "CODEX_CA_CERTIFICATE",
                 "NO_COLOR",
             ):
                 environment.pop(key)
@@ -118,6 +120,10 @@ def main():
             raise AssertionError("Manual browser flow did not display its complete URL")
 
         try:
+            env = state("tls-rejection")
+            checks.extend(
+                check_tls_rejection(binary, env, selected_home(env), root, fixture)
+            )
             env = state("cancel-creation", configure=False)
             terminal = Preview(binary, arguments=[], environment=env, directory=root)
             try:

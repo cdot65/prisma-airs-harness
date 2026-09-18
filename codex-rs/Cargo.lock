@@ -2103,6 +2103,7 @@ name = "codex-airs-identity"
 version = "0.154.0"
 dependencies = [
  "anyhow",
+ "codex-http-client",
  "codex-keyring-store",
  "jsonwebtoken",
  "keyring",

@@ -1,0 +1,95 @@
+{
+  "source": "gallery.html",
+  "records": [
+    {
+      "title": "bash signed-out startup",
+      "theme": "dark",
+      "filename": "dark-01.png"
+    },
+    {
+      "title": "zsh signed-out startup",
+      "theme": "dark",
+      "filename": "dark-02.png"
+    },
+    {
+      "title": "fish signed-out startup",
+      "theme": "dark",
+      "filename": "dark-03.png"
+    },
+    {
+      "title": "static",
+      "theme": "dark",
+      "filename": "dark-04.png"
+    },
+    {
+      "title": "static colorless",
+      "theme": "dark",
+      "filename": "dark-05.png"
+    },
+    {
+      "title": "Installed startup 120x40",
+      "theme": "dark",
+      "filename": "dark-06.png"
+    },
+    {
+      "title": "Installed startup 48x18",
+      "theme": "dark",
+      "filename": "dark-07.png"
+    },
+    {
+      "title": "Installed startup 30x10",
+      "theme": "dark",
+      "filename": "dark-08.png"
+    },
+    {
+      "title": "Installed startup 80x24",
+      "theme": "dark",
+      "filename": "dark-09.png"
+    },
+    {
+      "title": "bash signed-out startup",
+      "theme": "light",
+      "filename": "light-01.png"
+    },
+    {
+      "title": "zsh signed-out startup",
+      "theme": "light",
+      "filename": "light-02.png"
+    },
+    {
+      "title": "fish signed-out startup",
+      "theme": "light",
+      "filename": "light-03.png"
+    },
+    {
+      "title": "static",
+      "theme": "light",
+      "filename": "light-04.png"
+    },
+    {
+      "title": "static colorless",
+      "theme": "light",
+      "filename": "light-05.png"
+    },
+    {
+      "title": "Installed startup 120x40",
+      "theme": "light",
+      "filename": "light-06.png"
+    },
+    {
+      "title": "Installed startup 48x18",
+      "theme": "light",
+      "filename": "light-07.png"
+    },
+    {
+      "title": "Installed startup 30x10",
+      "theme": "light",
+      "filename": "light-08.png"
+    },
+    {
+      "title": "Installed startup 80x24",
+      "theme": "light",
+      "filename": "light-09.png"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+  "changed_crates_passed": true,
+  "combined_test_count": 1051,
+  "passed": 1045,
+  "failed": 6,
+  "failure_scope": "unchanged HTTP crate TLS fallback/classification tests on Alpine x64",
+  "baseline_source": "c88ed444d334a4dbbd8fd9c24d939d65bc235820",
+  "baseline_reproduced_same_six": true,
+  "custom_ca_subprocess_tests_passed": true,
+  "native_onboarding_checks_passed": 18,
+  "terminal_preview_checks_passed": 21,
+  "clippy_passed": true,
+  "bazel_lock_update": {
+    "platform": "Darwin arm64",
+    "passed": true,
+    "lockfile_changed": false
+  },
+  "logs": [
+    "prd03-custom-ca-cli-tests.log",
+    "prd03-http-baseline-tests.log",
+    "prd03-ca-native-dev.log",
+    "prd03-preview-drained.log",
+    "prd03-custom-ca-fix.log"
+  ],
+  "baseline_test_count": 8,
+  "baseline_failed_count": 6,
+  "baseline_passed_count": 2,
+  "per_package_counts": {
+    "codex-airs-identity": 28,
+    "codex-cli": 931,
+    "codex-http-client": 92
+  },
+  "baseline_failures": [
+    "codex-http-client route_aware_client_pool::tests::request_failures_classify_real_untrusted_certificate_handshakes",
+    "codex-http-client route_aware_client_pool::tls_fallback_tests::does_not_retry_a_non_replayable_streaming_request",
+    "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_failure_after_another_request_caches_rustls",
+    "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_protocol_failure_once_with_rustls",
+    "codex-http-client route_aware_client_pool::tls_fallback_tests::retries_a_tls_protocol_failure_when_request_url_contains_certificate_markers",
+    "codex-http-client route_aware_client_pool::tls_fallback_tests::successful_rustls_fallback_replays_the_request_and_reuses_the_destination"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "scope": "Exact installed artifacts accepted on all three native platforms",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+      "binary_sha256": "bedbce8ccab72986031dd6d08f99aa5c1876a7d5be2d4240b08643a5f9d3443f",
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+      "binary_sha256": "3f251acc12cd5188e0202d5de5cb7faa62d9a2f9952f339da3bbc2bb90f27bd2",
+      "onboarding_checks": 18,
+      "terminal_checks": 8,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "version": "0.1.0-alpha.22.onboarding.1",
+      "source_commit": "0317a340486f83f4973ee71a22f061ea31226a76",
+      "binary_sha256": "f481ede26d5107f6101e2f740bee93ffa0e55ca7ff859ac787bd89c036fb8c51",
+      "onboarding_checks": 12,
+      "terminal_checks": 7,
+      "installed_regressions": {
+        "passed": 46,
+        "skipped": 1
+      },
+      "managed_cli_groups_passed": 5,
+      "upgrade_cases_passed": 3
+    }
+  ],
+  "forgejo_runs": {
+    "linux_arm64": 186,
+    "linux_x64": 187,
+    "mac_build": 189,
+    "mac_signing": 192
+  },
+  "published": false,
+  "review_distribution": {
+    "passed": true,
+    "download_url": "https://git.cdot.io/attachments/13d3e81f-2dbb-440e-bdc0-c0499b600ee4",
+    "bytes": 390049932,
+    "sha256": "005825ef352bf14f9c3a337844bddb489c9d47605969ab757eb5d5ba93b4d7d4",
+    "distribution": "Forgejo review PR attachment; no registry publication"
+  },
+  "package_source": "565f8c32388dcc44592677c45155a2d9accd84a1",
+  "acceptance_tools_source": "d4070e3eb5",
+  "cleanup": {
+    "owned_containers_removed": [
+      "airs-onboarding-arm64",
+      "airs-onboarding-arm64-captures"
+    ],
+    "owned_launchagents_unloaded": [
+      "io.cdot.airs.onboarding.native",
+      "io.cdot.airs.onboarding.installed",
+      "io.cdot.airs.onboarding.captures"
+    ],
+    "jadzia_engine": "stopped",
+    "jadzia_desktop_ui": "preserved running",
+    "recent_fixture_keychain_entries": 0,
+    "native_keychain_trust_modified": false,
+    "bazel_daemon": "owned workspace shut down",
+    "production_sso": false,
+    "production_servicenow": false
+  },
+  "documentation": {
+    "commit": "345559a",
+    "content_build_passed": true,
+    "browser_passed": 20,
+    "hosted_check": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35311111734",
+    "pages_published": false
+  }
+}

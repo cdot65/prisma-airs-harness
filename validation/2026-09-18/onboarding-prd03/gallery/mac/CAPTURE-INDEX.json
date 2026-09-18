@@ -1,0 +1,45 @@
+{
+  "source": "gallery.html",
+  "records": [
+    {
+      "title": "Apple Silicon welcome",
+      "theme": "dark",
+      "filename": "dark-01.png"
+    },
+    {
+      "title": "Apple Silicon Keychain sign-in",
+      "theme": "dark",
+      "filename": "dark-02.png"
+    },
+    {
+      "title": "Apple Silicon first session",
+      "theme": "dark",
+      "filename": "dark-03.png"
+    },
+    {
+      "title": "Apple Silicon gateway denial",
+      "theme": "dark",
+      "filename": "dark-04.png"
+    },
+    {
+      "title": "Apple Silicon welcome",
+      "theme": "light",
+      "filename": "light-01.png"
+    },
+    {
+      "title": "Apple Silicon Keychain sign-in",
+      "theme": "light",
+      "filename": "light-02.png"
+    },
+    {
+      "title": "Apple Silicon first session",
+      "theme": "light",
+      "filename": "light-03.png"
+    },
+    {
+      "title": "Apple Silicon gateway denial",
+      "theme": "light",
+      "filename": "light-04.png"
+    }
+  ]
+}

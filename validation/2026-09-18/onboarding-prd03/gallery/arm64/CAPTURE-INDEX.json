@@ -1,0 +1,65 @@
+{
+  "source": "gallery.html",
+  "records": [
+    {
+      "title": "Confirm first environment",
+      "theme": "dark",
+      "filename": "dark-01.png"
+    },
+    {
+      "title": "First session after company SSO",
+      "theme": "dark",
+      "filename": "dark-02.png"
+    },
+    {
+      "title": "Company SSO complete",
+      "theme": "dark",
+      "filename": "dark-03.png"
+    },
+    {
+      "title": "Credential saved but gateway denied",
+      "theme": "dark",
+      "filename": "dark-04.png"
+    },
+    {
+      "title": "Native storage unavailable",
+      "theme": "dark",
+      "filename": "dark-05.png"
+    },
+    {
+      "title": "Selected environment sign-in",
+      "theme": "dark",
+      "filename": "dark-06.png"
+    },
+    {
+      "title": "Confirm first environment",
+      "theme": "light",
+      "filename": "light-01.png"
+    },
+    {
+      "title": "First session after company SSO",
+      "theme": "light",
+      "filename": "light-02.png"
+    },
+    {
+      "title": "Company SSO complete",
+      "theme": "light",
+      "filename": "light-03.png"
+    },
+    {
+      "title": "Credential saved but gateway denied",
+      "theme": "light",
+      "filename": "light-04.png"
+    },
+    {
+      "title": "Native storage unavailable",
+      "theme": "light",
+      "filename": "light-05.png"
+    },
+    {
+      "title": "Selected environment sign-in",
+      "theme": "light",
+      "filename": "light-06.png"
+    }
+  ]
+}

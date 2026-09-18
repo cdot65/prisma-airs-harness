@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "production_publication": false,
+  "checks": [
+    {
+      "name": "desktop",
+      "overflow": false,
+      "reviewArchive": true,
+      "serviceNow": true,
+      "title": "Login from browser to authorized tools | Prisma AIRS · Architecture Lab"
+    },
+    {
+      "name": "mobile",
+      "overflow": false,
+      "reviewArchive": true,
+      "serviceNow": true,
+      "title": "Login from browser to authorized tools | Prisma AIRS · Architecture Lab"
+    }
+  ]
+}

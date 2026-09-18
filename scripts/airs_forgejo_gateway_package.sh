@@ -4,8 +4,8 @@ umask 077
 export PATH="/opt/homebrew/opt/python@3.13/libexec/bin:/opt/homebrew/bin:$HOME/.cargo/bin:$PATH"
 : "${RUNNER_TEMP:?}" "${AIRS_RUNTIME_SOURCE:?}" "${AIRS_ARCHIVE_SHA256:?}" "${AIRS_BINARY_SHA256:?}" "${AIRS_FIXTURE_SHA256:?}"
 test "$(uname -m)" = arm64
-test "$(node -p 'require("./npm/airs-harness/package.json").version')" = 0.1.0-alpha.22
-staged="$HOME/.local/share/airs-forgejo-runner/gateway-alpha22"
+test "$(node -p 'require("./npm/airs-harness/package.json").version')" = "$(node -p 'require("./runtime/npm/airs-harness/package.json").version')"
+staged="$HOME/.local/share/airs-forgejo-runner/gateway-candidates/$AIRS_RUNTIME_SOURCE"
 work="$RUNNER_TEMP/airs-gateway-package"
 mkdir -p "$work/evidence"
 retain_diagnostics() {

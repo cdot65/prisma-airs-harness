@@ -10,12 +10,15 @@ from airs_onboarding_fixture import IdentityFixture
 
 
 class McpGatewayFixture:
-    def __init__(self, directory):
+    def __init__(
+        self, directory, *, token_exchange=None, authorize=None, tool_response=None
+    ):
         # Reuse the onboarding fixture's CA/leaf generator without changing trust globally.
         identity = IdentityFixture(directory)
         identity.close()
         self.certificate = identity.certificate
         self.tokens, self.requests, self.registrations = [], [], []
+        self.network_requests = []
         self.reject_tools = False
         owner = self
 
@@ -35,6 +38,7 @@ class McpGatewayFixture:
 
             def do_GET(self):
                 path = urlsplit(self.path).path
+                owner.network_requests.append(("GET", path))
                 if path.startswith("/.well-known/oauth-protected-resource"):
                     self.reply(
                         200,
@@ -65,6 +69,7 @@ class McpGatewayFixture:
                     self.reply(405, {})
 
             def do_POST(self):
+                owner.network_requests.append(("POST", urlsplit(self.path).path))
                 raw = self.rfile.read(int(self.headers.get("Content-Length", 0)))
                 if self.path == "/register":
                     request = json.loads(raw)
@@ -79,6 +84,9 @@ class McpGatewayFixture:
                     )
                 elif self.path == "/token":
                     owner.tokens.append(parse_qs(raw.decode()))
+                    if token_exchange is not None:
+                        self.reply(*token_exchange(owner.tokens[-1]))
+                        return
                     self.reply(
                         200,
                         {
@@ -89,7 +97,14 @@ class McpGatewayFixture:
                         },
                     )
                 elif self.path == "/gateway/service-now/mcp":
-                    if self.headers.get("Authorization") != "Bearer fixture-mcp-access":
+                    body = json.loads(raw)
+                    authorized = (
+                        authorize(self.headers.get("Authorization", ""), body)
+                        if authorize is not None
+                        else self.headers.get("Authorization")
+                        == "Bearer fixture-mcp-access"
+                    )
+                    if not authorized:
                         self.reply(
                             401,
                             {},
@@ -98,12 +113,21 @@ class McpGatewayFixture:
                             },
                         )
                         return
-                    body = json.loads(raw)
                     owner.requests.append(body)
                     if "id" not in body:
                         self.reply(202, {})
                         return
                     method = body["method"]
+                    if method == "tools/call" and tool_response is not None:
+                        self.reply(
+                            200,
+                            {
+                                "jsonrpc": "2.0",
+                                "id": body["id"],
+                                "result": tool_response(body),
+                            },
+                        )
+                        return
                     if method == "tools/list" and owner.reject_tools:
                         self.reply(
                             200,

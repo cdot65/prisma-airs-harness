@@ -18,7 +18,7 @@ def encoded(value):
 
 
 class IdentityFixture:
-    def __init__(self, directory):
+    def __init__(self, directory, *, refresh_exchange=None, gateway_response=None):
         self.directory = Path(directory)
         self.codes, self.devices, self.access_tokens = {}, {}, set()
         self.refresh_tokens = set()
@@ -218,6 +218,9 @@ class IdentityFixture:
                             self.answer(400, {"error": "authorization_pending"})
                             return
                         challenge, nonce = device["challenge"], None
+                    elif grant == "refresh_token" and refresh_exchange is not None:
+                        self.answer(*refresh_exchange(values))
+                        return
                     else:
                         self.answer(400, {"error": "unsupported_grant_type"})
                         return
@@ -236,6 +239,9 @@ class IdentityFixture:
                     fixture.refresh_tokens.remove(values["token"][0])
                     self.answer(200, {})
                 elif path == "/v1/responses":
+                    if gateway_response is not None:
+                        gateway_response(self, json.loads(raw))
+                        return
                     token = self.headers.get(
                         "x-portkey-api-key",
                         self.headers.get("Authorization", "").removeprefix("Bearer "),

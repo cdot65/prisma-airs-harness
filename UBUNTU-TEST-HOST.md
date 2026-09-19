@@ -9,7 +9,7 @@ unsupported Node version stops preparation with an explicit error.
 The mcp.5 npm package includes this corrected guide and helper. It fixes the
 competing-keyring-daemon problem in the mcp.4 helper, verifies the default
 collection's lock state, and prints the actual script path for later unlocks.
-On a machine with npm, download the package once this version is available:
+On a machine with npm, download the published package:
 
 ```bash
 npm pack airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io
@@ -26,7 +26,7 @@ source ~/.config/airs-test-host/env.sh
 ```
 
 The helper defaults to `0.1.0-alpha.22.mcp.5` from `https://npm.cdot.io`,
-matching this package. Run it once that version is published.
+matching this package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
@@ -71,9 +71,18 @@ command airs doctor --verify-access
 command airs
 ```
 
-Use `/mcp` inside the harness for gateway MCP connections. An SSH browser-login
-callback may require an SSH port forward for the callback port shown by the
-login flow. Do not share callback URLs, tokens or keyring passwords.
+For company inference SSO without a browser on Ubuntu, use **Use device authorization**
+or `airs --environment NAME login --device-auth`. Open the verification link and
+enter the code in a browser on your laptop or phone; keep SSH open while AIRS
+polls. The company issuer must enable this grant for the harness client. Device
+login needs no callback port or SSH tunnel. Follow [the SSH walkthrough](GETTING-STARTED.md#browserless-sign-in-over-ssh)
+to use a separate SSO environment while preserving an existing workspace-key profile.
+
+Gateway MCP authorization is separate. Inside `/mcp`, open its authorization URL
+on the browser host and paste the full callback into the hidden callback input,
+even if the browser cannot load that localhost page. Do not paste callbacks into
+the agent conversation. Inference `login --no-browser` is a different flow from
+`--device-auth` and still needs its callback to reach Ubuntu.
 
 After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp5.sh --unlock`.
 Use `bash ~/prepare-airs-ubuntu-mcp5.sh --check` for checks without installing packages

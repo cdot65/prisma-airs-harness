@@ -1,0 +1,17 @@
+{
+  "issuer": "https://auth.redtail.cdot.io/realms/redtail",
+  "client_id": "prisma-airs-harness",
+  "device_http_status": 200,
+  "device_code_received": true,
+  "expires_in": 600,
+  "interval": 5,
+  "human_login_completed": false,
+  "gateway_access_verified": false,
+  "credentials_persisted": false,
+  "token_http_status": 400,
+  "token_error": "authorization_pending",
+  "tokens_received": false,
+  "passed": true,
+  "scope": "Public-client device initiation and one pending poll from Ubuntu; no human authentication, storage or gateway inference",
+  "observed_package_version": "0.1.0-alpha.22.mcp.5"
+}

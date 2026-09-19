@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source_base": "f96e49dbf7ca301e482c47dd5e2fe3cf3b8ce99a",
+  "working_tree_changes": [
+    "codex-rs/cli/src/airs_credential_transaction.rs",
+    "codex-rs/cli/src/airs_credential_transaction_tests.rs"
+  ],
+  "command": "just test -p codex-cli --bin airs-harness --bin codex -E 'test(airs_credentials::transaction::)'",
+  "exit_code": 0,
+  "passed": 42,
+  "failed": 0,
+  "skipped_by_filter": 756,
+  "scope": "transaction and namespace tests in both CLI binaries",
+  "log": "transaction-green.log",
+  "source_sha256": {
+    "codex-rs/cli/src/airs_credential_transaction.rs": "37b77a4cbeeb5a8f340705e64dfc2967cd96d77b680db2bbaaabf1dbd9a81de8",
+    "codex-rs/cli/src/airs_credential_transaction_tests.rs": "8d9a86f742708215191758157e4ee32d6bf4ea5a251ca12972593b42aeb005b6"
+  },
+  "format": "just fmt passed; only unrelated formatter churn restored",
+  "diff_check": "git diff --check passed",
+  "full_workspace_pass_claimed": false,
+  "owner_ubuntu_acceptance": "deferred",
+  "production_servicenow_acceptance": "deferred"
+}

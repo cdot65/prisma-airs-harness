@@ -1,0 +1,15 @@
+{
+  "scope": "focus2 frozen development binary; not native release acceptance",
+  "source_base": "f96e49dbf7ca301e482c47dd5e2fe3cf3b8ce99a",
+  "source_patch_sha256": "ae23ab8c7f990945ad44ab51f857ced4ff17fd76ab07b2b92caf5b0bd378d7f8",
+  "files": {
+    "codex-rs/cli/src/airs_credential_transaction.rs": "37b77a4cbeeb5a8f340705e64dfc2967cd96d77b680db2bbaaabf1dbd9a81de8",
+    "codex-rs/cli/src/airs_credential_transaction_tests.rs": "8d9a86f742708215191758157e4ee32d6bf4ea5a251ca12972593b42aeb005b6",
+    "codex-rs/login/src/auth/credential_recovery.rs": "63a0c507446359142601ce1e47233104483d7cc40d4818fb624619b3b0a1317c",
+    "scripts/test_airs_harness.py": "814295e9eb5c7c0491b3822ba005c9096a491b656cd97e81837311e8324b39d1",
+    "npm/airs-harness/README.md": "3b98956af0170a3aa5c7604408527ef5656047a64cc40a05f49bd1cb61c81b00"
+  },
+  "binary": "/tmp/airs-autonomous-20260919/focus2/bin/airs",
+  "binary_sha256": "e0c277cd8811669feeebf4ef80de700bf217d74599eed914dc81a585eab12f43",
+  "version": "airs 0.1.0-alpha.22.mcp.2"
+}

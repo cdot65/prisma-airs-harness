@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "scope": "original install + rollback masking regression before rollback production change",
+  "command": "just test -p codex-cli -E 'test(failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error)'",
+  "exit_code": 100,
+  "status": "expected-red",
+  "tests_run": 2,
+  "passed": 0,
+  "failed": 2,
+  "skipped": 941,
+  "intended_failure": "rollback must retain the initiating installation failure",
+  "actual_error": "Credential cleanup also failed: Is a directory (os error 21): Credential configuration rollback failed; retry login after resolving the filesystem error: Is a directory (os error 21)",
+  "journal_retained": true,
+  "configuration_and_binding_directories_preserved": true,
+  "log": "rollback-red.log"
+}

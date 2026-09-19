@@ -1,0 +1,66 @@
+{
+  "scope": "independent checksum verification of focus2 evidence",
+  "all_match": true,
+  "results": [
+    {
+      "path": "/tmp/airs-autonomous-20260919/evidence/focus2-packages-isolated-tmp.log",
+      "expected": "9866566df32aa47869cfb280ee785828b1611401957ba39658e87aa03d2609cd",
+      "observed": "9866566df32aa47869cfb280ee785828b1611401957ba39658e87aa03d2609cd",
+      "matches": true
+    },
+    {
+      "path": "/tmp/airs-autonomous-20260919/focus2/bin/airs",
+      "expected": "e0c277cd8811669feeebf4ef80de700bf217d74599eed914dc81a585eab12f43",
+      "observed": "e0c277cd8811669feeebf4ef80de700bf217d74599eed914dc81a585eab12f43",
+      "matches": true
+    },
+    {
+      "path": "/tmp/airs-autonomous-20260919/evidence/focus2-installed.log",
+      "expected": "32ae3bde9e663930feef6d8cc3bba82361aa3e73af50e745008a642aeeb4f718",
+      "observed": "32ae3bde9e663930feef6d8cc3bba82361aa3e73af50e745008a642aeeb4f718",
+      "matches": true
+    },
+    {
+      "path": "/tmp/airs-autonomous-20260919/evidence/focus2-doctor.log",
+      "expected": "36dbf210f83f87b8c51ab2aec70ab7a5aa462ee1439174d4ea7d521c0f8724e2",
+      "observed": "36dbf210f83f87b8c51ab2aec70ab7a5aa462ee1439174d4ea7d521c0f8724e2",
+      "matches": true
+    },
+    {
+      "path": "/tmp/airs-autonomous-20260919/evidence/focus2-mcp.log",
+      "expected": "ef3e93277f049779c560dcf277338c01831316a496818c02a12dcc82388728c6",
+      "observed": "ef3e93277f049779c560dcf277338c01831316a496818c02a12dcc82388728c6",
+      "matches": true
+    },
+    {
+      "path": "codex-rs/cli/src/airs_credential_transaction.rs",
+      "expected": "37b77a4cbeeb5a8f340705e64dfc2967cd96d77b680db2bbaaabf1dbd9a81de8",
+      "observed": "37b77a4cbeeb5a8f340705e64dfc2967cd96d77b680db2bbaaabf1dbd9a81de8",
+      "matches": true
+    },
+    {
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "expected": "8d9a86f742708215191758157e4ee32d6bf4ea5a251ca12972593b42aeb005b6",
+      "observed": "8d9a86f742708215191758157e4ee32d6bf4ea5a251ca12972593b42aeb005b6",
+      "matches": true
+    },
+    {
+      "path": "codex-rs/login/src/auth/credential_recovery.rs",
+      "expected": "63a0c507446359142601ce1e47233104483d7cc40d4818fb624619b3b0a1317c",
+      "observed": "63a0c507446359142601ce1e47233104483d7cc40d4818fb624619b3b0a1317c",
+      "matches": true
+    },
+    {
+      "path": "scripts/test_airs_harness.py",
+      "expected": "814295e9eb5c7c0491b3822ba005c9096a491b656cd97e81837311e8324b39d1",
+      "observed": "814295e9eb5c7c0491b3822ba005c9096a491b656cd97e81837311e8324b39d1",
+      "matches": true
+    },
+    {
+      "path": "npm/airs-harness/README.md",
+      "expected": "3b98956af0170a3aa5c7604408527ef5656047a64cc40a05f49bd1cb61c81b00",
+      "observed": "3b98956af0170a3aa5c7604408527ef5656047a64cc40a05f49bd1cb61c81b00",
+      "matches": true
+    }
+  ]
+}

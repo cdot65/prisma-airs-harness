@@ -1,0 +1,9 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Finished `test` profile [unoptimized] target(s) in 0.74s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID b726a403-3263-4c4f-bb0e-1134b243963a with nextest profile: local
+    Starting 1 test across 43 binaries (5608 tests skipped)
+        PASS [   0.929s] (1/1) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_reads_destination_and_cleared_model_uses_catalog
+────────────
+     Summary [   0.947s] 1 test run: 1 passed, 5608 skipped

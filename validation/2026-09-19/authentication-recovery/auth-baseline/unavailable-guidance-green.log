@@ -1,0 +1,6 @@
+test_oidc_login_without_keyring_explains_recovery_before_network (test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.527s
+
+OK

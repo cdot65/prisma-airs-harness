@@ -1,0 +1,22 @@
+{
+  "command": "just test --locked -p codex-cli -p codex-login -p codex-tui -p codex-model-provider -p codex-airs-identity -p codex-keyring-store",
+  "passed": 5603,
+  "failed": 0,
+  "skipped": 6,
+  "test_duration_seconds": 21.852,
+  "log": "focus2-packages-isolated-tmp.log",
+  "log_sha256": "9866566df32aa47869cfb280ee785828b1611401957ba39658e87aa03d2609cd",
+  "tmpdir": "/var/tmp/airs-reliability-tests-20260919",
+  "prior_attempt": {
+    "passed": 5602,
+    "failed": 1,
+    "skipped": 6,
+    "reason": "Snapshot normalizes absolute temporary path but UI abbreviates paths under home to ~. Same fixture passed with temporary directory outside home. No runtime/test snapshot modification.",
+    "log": "focus2-packages.log",
+    "isolated_reproduction": "focus2-snapshot-isolated-tmp.log"
+  },
+  "full_workspace": false,
+  "historical_full_workspace_failures": 150,
+  "test_ca_wrapper": "/tmp/airs-command-output-20260918/rust-test-runner.py",
+  "no_product_tls_change": true
+}

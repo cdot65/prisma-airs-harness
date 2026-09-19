@@ -1,0 +1,58 @@
+diff --git a/codex-rs/cli/src/airs_credential_transaction_tests.rs b/codex-rs/cli/src/airs_credential_transaction_tests.rs
+index 6abfd727c0..73ec4019b2 100644
+--- a/codex-rs/cli/src/airs_credential_transaction_tests.rs
++++ b/codex-rs/cli/src/airs_credential_transaction_tests.rs
+@@ -127,6 +127,53 @@ fn failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call()
+     assert!(!home.path().join(JOURNAL).exists());
+ }
+ 
++#[test]
++fn failed_cleanup_preserves_initial_read_failure_and_previous_binding() {
++    let home = tempfile::tempdir().unwrap();
++    let mut desired = binding(Source::Environment {
++        variable: "FIXTURE_KEY".into(),
++    });
++    let previous = serde_json::to_vec(&desired).unwrap();
++    let previous_config = b"previous-working-configuration";
++    std::fs::write(home.path().join("credential-binding.json"), &previous).unwrap();
++    std::fs::write(home.path().join("config.toml"), previous_config).unwrap();
++    desired.source = Some(Source::KeyringV2);
++    let store = FakeStore::default();
++    store.fail_read.set(true);
++    store.fail_delete.set(true);
++
++    let error = persist(home.path(), &desired, "private-fixture-key", &store, || {
++        panic!("failed verification must not install a new binding")
++    })
++    .unwrap_err();
++
++    assert_eq!(
++        std::fs::read(home.path().join("credential-binding.json")).unwrap(),
++        previous
++    );
++    assert_eq!(
++        std::fs::read(home.path().join("config.toml")).unwrap(),
++        previous_config
++    );
++    let journal = std::fs::read_to_string(home.path().join(JOURNAL)).unwrap();
++    assert_eq!(
++        serde_json::from_str::<serde_json::Value>(&journal).unwrap(),
++        serde_json::json!({
++            "schema_version": 1,
++            "store": "workspace-keyring-v2",
++            "account": desired.id,
++        })
++    );
++    let diagnostic = format!("{error:#}");
++    assert!(!diagnostic.contains("private-fixture-key"));
++    assert!(diagnostic.contains("Credential cleanup is pending"));
++    assert!(diagnostic.contains("Injected delete failure"));
++    assert!(
++        diagnostic.contains("Injected read failure"),
++        "cleanup must retain the initiating verification failure: {diagnostic}"
++    );
++}
++
+ #[test]
+ fn partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key() {
+     let home = tempfile::tempdir().unwrap();

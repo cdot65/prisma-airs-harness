@@ -1,0 +1,11 @@
+{
+  "test": "test_oidc_login_without_keyring_explains_recovery_before_network",
+  "phase": "red",
+  "binary_version": "0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+  "fixture": "missing isolated session bus; login fails before network",
+  "exit_code": 1,
+  "failed_for_expected_reason": true,
+  "log_sha256": "b012450a1d24b6394c8c393f2a48525df1ad6a81bdf3803aaf7158b27a00d2fd",
+  "owner_session_accessed": false
+}

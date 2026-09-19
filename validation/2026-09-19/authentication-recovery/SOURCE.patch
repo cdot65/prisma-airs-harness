@@ -1,0 +1,350 @@
+diff --git a/codex-rs/cli/src/airs_credential_transaction.rs b/codex-rs/cli/src/airs_credential_transaction.rs
+index 59daf5079e..b3de41b583 100644
+--- a/codex-rs/cli/src/airs_credential_transaction.rs
++++ b/codex-rs/cli/src/airs_credential_transaction.rs
+@@ -8,6 +8,7 @@ use codex_airs_identity::WorkspaceCredentialFormat;
+ use codex_airs_identity::WorkspaceCredentialStore;
+ use codex_keyring_store::DefaultKeyringStore;
+ use codex_keyring_store::KeyringStore;
++use codex_login::auth::CredentialRecovery;
+ use serde::Deserialize;
+ use serde::Serialize;
+ use std::io::Read;
+@@ -152,6 +153,21 @@ fn restore_file(path: &Path, previous: Option<&[u8]>) -> anyhow::Result<()> {
+     }
+ }
+ 
++// Callers supply classified native-store errors or local filesystem failures,
++// never raw provider/backend payloads. Preserve the original error for downcasts;
++// a secondary typed recovery reason matters only when the primary has none.
++fn preserve_primary_failure(primary: anyhow::Error, secondary: anyhow::Error) -> anyhow::Error {
++    let recovery = secondary
++        .downcast_ref::<CredentialRecovery>()
++        .copied()
++        .filter(|_| primary.downcast_ref::<CredentialRecovery>().is_none());
++    let combined = primary.context(format!("{secondary:#}"));
++    match recovery {
++        Some(recovery) => combined.context(recovery),
++        None => combined,
++    }
++}
++
+ pub(super) fn read_cleanup<T: serde::de::DeserializeOwned>(
+     path: &Path,
+ ) -> anyhow::Result<Option<T>> {
+@@ -261,21 +277,34 @@ pub(super) fn persist(
+             store.load(kind, binding.id)?.as_deref() == Some(token),
+             "Credential storage verification failed; sign-in was not completed"
+         );
+-        if let Err(error) = install() {
++        if let Err(mut error) = install() {
+             // Restore both files even if the first restore fails. Snapshot bytes
+             // stay in memory; the durable cleanup journal never copies secrets.
+             let config_restore =
+                 restore_file(&home.join("config.toml"), previous_config.as_deref());
+             let binding_restore =
+                 restore_file(&home.join("credential-binding.json"), previous.as_deref());
+-            config_restore.context("Credential configuration rollback failed; retry login after resolving the filesystem error")?;
+-            binding_restore.context("Credential binding rollback failed; retry login after resolving the filesystem error")?;
++            if let Err(rollback) = config_restore {
++                error = preserve_primary_failure(error, rollback.context(
++                    "Credential configuration rollback failed; retry login after resolving the filesystem error",
++                ));
++            }
++            if let Err(rollback) = binding_restore {
++                error = preserve_primary_failure(error, rollback.context(
++                    "Credential binding rollback failed; retry login after resolving the filesystem error",
++                ));
++            }
+             return Err(error);
+         }
+         Ok(())
+     })();
+-    if !already_owned {
+-        recover(home, store)?;
++    if !already_owned && let Err(cleanup) = recover(home, store) {
++        return Err(match result {
++            Ok(()) => cleanup,
++            Err(primary) => {
++                preserve_primary_failure(primary, cleanup.context("Credential cleanup also failed"))
++            }
++        });
+     }
+     result
+ }
+diff --git a/codex-rs/cli/src/airs_credential_transaction_tests.rs b/codex-rs/cli/src/airs_credential_transaction_tests.rs
+index 6abfd727c0..4b6485b101 100644
+--- a/codex-rs/cli/src/airs_credential_transaction_tests.rs
++++ b/codex-rs/cli/src/airs_credential_transaction_tests.rs
+@@ -40,6 +40,8 @@ struct FakeStore {
+     fail_read: Cell<bool>,
+     wrong_read: Cell<bool>,
+     fail_delete: Cell<bool>,
++    read_recovery: Cell<Option<CredentialRecovery>>,
++    delete_recovery: Cell<Option<CredentialRecovery>>,
+ }
+ 
+ impl Store for FakeStore {
+@@ -51,6 +53,9 @@ impl Store for FakeStore {
+         Ok(())
+     }
+     fn load(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<Option<String>> {
++        if let Some(recovery) = self.read_recovery.get() {
++            return Err(anyhow::anyhow!("Injected read failure").context(recovery));
++        }
+         anyhow::ensure!(!self.fail_read.get(), "Injected read failure");
+         if self.wrong_read.get() {
+             return Ok(Some("wrong-value".into()));
+@@ -58,6 +63,9 @@ impl Store for FakeStore {
+         Ok(self.values.borrow().get(&(kind, account)).cloned())
+     }
+     fn delete(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<()> {
++        if let Some(recovery) = self.delete_recovery.get() {
++            return Err(anyhow::anyhow!("Injected delete failure").context(recovery));
++        }
+         anyhow::ensure!(!self.fail_delete.get(), "Injected delete failure");
+         self.values.borrow_mut().remove(&(kind, account));
+         Ok(())
+@@ -127,6 +135,190 @@ fn failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call()
+     assert!(!home.path().join(JOURNAL).exists());
+ }
+ 
++#[test]
++fn failed_cleanup_preserves_initial_read_failure_and_previous_binding() {
++    let home = tempfile::tempdir().unwrap();
++    let mut desired = binding(Source::Environment {
++        variable: "FIXTURE_KEY".into(),
++    });
++    let previous = serde_json::to_vec(&desired).unwrap();
++    let previous_config = b"previous-working-configuration";
++    std::fs::write(home.path().join("credential-binding.json"), &previous).unwrap();
++    std::fs::write(home.path().join("config.toml"), previous_config).unwrap();
++    desired.source = Some(Source::KeyringV2);
++    let store = FakeStore::default();
++    store.fail_read.set(true);
++    store.fail_delete.set(true);
++
++    let error = persist(home.path(), &desired, "private-fixture-key", &store, || {
++        panic!("failed verification must not install a new binding")
++    })
++    .unwrap_err();
++
++    assert_eq!(
++        std::fs::read(home.path().join("credential-binding.json")).unwrap(),
++        previous
++    );
++    assert_eq!(
++        std::fs::read(home.path().join("config.toml")).unwrap(),
++        previous_config
++    );
++    let journal = std::fs::read_to_string(home.path().join(JOURNAL)).unwrap();
++    assert_eq!(
++        serde_json::from_str::<serde_json::Value>(&journal).unwrap(),
++        serde_json::json!({
++            "schema_version": 1,
++            "store": "workspace-keyring-v2",
++            "account": desired.id,
++        })
++    );
++    let diagnostic = format!("{error:#}");
++    assert!(!diagnostic.contains("private-fixture-key"));
++    assert!(diagnostic.contains("Credential cleanup is pending"));
++    assert!(diagnostic.contains("Injected delete failure"));
++    assert!(
++        diagnostic.contains("Injected read failure"),
++        "cleanup must retain the initiating verification failure: {diagnostic}"
++    );
++}
++
++#[test]
++fn combined_failures_preserve_typed_recovery_and_retry_only_the_pending_account() {
++    for (primary, cleanup, expected) in [
++        (
++            Some(CredentialRecovery::OutcomeUnknown),
++            None,
++            CredentialRecovery::OutcomeUnknown,
++        ),
++        (
++            None,
++            Some(CredentialRecovery::StoreUnavailable),
++            CredentialRecovery::StoreUnavailable,
++        ),
++        (
++            Some(CredentialRecovery::OutcomeUnknown),
++            Some(CredentialRecovery::StoreUnavailable),
++            CredentialRecovery::OutcomeUnknown,
++        ),
++    ] {
++        let home = tempfile::tempdir().unwrap();
++        let desired = binding(Source::KeyringV2);
++        let store = FakeStore::default();
++        let unrelated = (StoreKind::WorkspaceKeyringV2, Uuid::new_v4());
++        store
++            .values
++            .borrow_mut()
++            .insert(unrelated, "unrelated-key".into());
++        store.fail_read.set(true);
++        store.fail_delete.set(true);
++        store.read_recovery.set(primary);
++        store.delete_recovery.set(cleanup);
++
++        let error = persist(
++            home.path(),
++            &desired,
++            "PRIVATE-TOKEN-CANARY",
++            &store,
++            || panic!("failed verification must not install a new binding"),
++        )
++        .unwrap_err();
++        assert_eq!(error.downcast_ref::<CredentialRecovery>(), Some(&expected));
++        let diagnostic = format!("{error:#}");
++        assert!(diagnostic.contains("Injected read failure"));
++        assert!(diagnostic.contains("Injected delete failure"));
++        assert!(!diagnostic.contains("PRIVATE-TOKEN-CANARY"));
++        let journal = std::fs::read_to_string(home.path().join(JOURNAL)).unwrap();
++        assert_eq!(
++            serde_json::from_str::<serde_json::Value>(&journal).unwrap(),
++            serde_json::json!({"schema_version": 1, "store": "workspace-keyring-v2", "account": desired.id})
++        );
++
++        store.fail_delete.set(false);
++        store.delete_recovery.set(None);
++        recover(home.path(), &store).unwrap();
++        assert_eq!(
++            *store.values.borrow(),
++            BTreeMap::from([(unrelated, "unrelated-key".into())])
++        );
++        assert!(!home.path().join(JOURNAL).exists());
++    }
++}
++
++#[test]
++fn isolated_primary_and_cleanup_failures_keep_their_typed_recovery() {
++    let home = tempfile::tempdir().unwrap();
++    let desired = binding(Source::KeyringV2);
++    let store = FakeStore::default();
++    store
++        .read_recovery
++        .set(Some(CredentialRecovery::OutcomeUnknown));
++    let primary = persist(home.path(), &desired, "fixture-key", &store, || {
++        panic!("failed verification must not install a new binding")
++    })
++    .unwrap_err();
++    assert_eq!(
++        primary.downcast_ref::<CredentialRecovery>(),
++        Some(&CredentialRecovery::OutcomeUnknown)
++    );
++    assert!(!home.path().join(JOURNAL).exists());
++    assert!(store.values.borrow().is_empty());
++
++    store.read_recovery.set(None);
++    store
++        .delete_recovery
++        .set(Some(CredentialRecovery::StoreUnavailable));
++    let cleanup = persist(home.path(), &desired, "fixture-key", &store, || Ok(())).unwrap_err();
++    assert_eq!(
++        cleanup.downcast_ref::<CredentialRecovery>(),
++        Some(&CredentialRecovery::StoreUnavailable)
++    );
++    assert!(home.path().join(JOURNAL).is_file());
++}
++
++#[test]
++fn failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error() {
++    let home = tempfile::tempdir().unwrap();
++    let desired = binding(Source::KeyringV2);
++    let store = FakeStore::default();
++    let error = persist(
++        home.path(),
++        &desired,
++        "PRIVATE-TOKEN-CANARY",
++        &store,
++        || {
++            // Directories cannot be removed as files, so both rollback attempts fail.
++            std::fs::create_dir(home.path().join("config.toml"))?;
++            std::fs::create_dir(home.path().join("credential-binding.json"))?;
++            Err(anyhow::anyhow!("Injected installation failure")
++                .context(CredentialRecovery::OutcomeUnknown))
++        },
++    )
++    .unwrap_err();
++
++    assert!(home.path().join(JOURNAL).is_file());
++    assert!(home.path().join("config.toml").is_dir());
++    assert!(home.path().join("credential-binding.json").is_dir());
++    let diagnostic = format!("{error:#}");
++    assert!(!diagnostic.contains("PRIVATE-TOKEN-CANARY"));
++    assert!(
++        diagnostic.contains("Injected installation failure"),
++        "rollback must retain the initiating installation failure: {diagnostic}"
++    );
++    assert!(diagnostic.contains("Credential configuration rollback failed"));
++    assert!(diagnostic.contains("Credential binding rollback failed"));
++    assert_eq!(
++        error.downcast_ref::<CredentialRecovery>(),
++        Some(&CredentialRecovery::OutcomeUnknown)
++    );
++
++    // Once the filesystem obstruction is resolved, retry only the pending entry.
++    std::fs::remove_dir(home.path().join("config.toml")).unwrap();
++    std::fs::remove_dir(home.path().join("credential-binding.json")).unwrap();
++    recover(home.path(), &store).unwrap();
++    assert!(!home.path().join(JOURNAL).exists());
++    assert!(store.values.borrow().is_empty());
++}
++
+ #[test]
+ fn partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key() {
+     let home = tempfile::tempdir().unwrap();
+diff --git a/codex-rs/login/src/auth/credential_recovery.rs b/codex-rs/login/src/auth/credential_recovery.rs
+index 5dc1d032bd..e17da0c0ab 100644
+--- a/codex-rs/login/src/auth/credential_recovery.rs
++++ b/codex-rs/login/src/auth/credential_recovery.rs
+@@ -13,7 +13,7 @@ pub enum CredentialRecovery {
+     )]
+     OutcomeUnknown,
+     #[error(
+-        "The credential store is unavailable. Unlock your native credential store, then retry. Run airs doctor if access remains unavailable."
++        "The credential store is unavailable in this user session. Run airs doctor for diagnostics, then retry when credential access is restored."
+     )]
+     StoreUnavailable,
+     #[error(
+diff --git a/npm/airs-harness/README.md b/npm/airs-harness/README.md
+index ece8789aae..0e2800acc8 100644
+--- a/npm/airs-harness/README.md
++++ b/npm/airs-harness/README.md
+@@ -202,9 +202,16 @@ continuity for restoring the old MCP conversation. Cancel keeps your work in pla
+ no separate terminal command is needed for the normal desktop flow. Headless
+ terminals retain the displayed `mcp login --no-browser` fallback.
+ 
+-Unlock a locked native credential store and retry. A pre-exchange identity-service
+-outage preserves the saved refresh grant. If an exchange may have consumed a
+-rotating grant, the harness will require sign-in instead of blindly replaying it.
++If credential access fails, open `/doctor` in the running environment, or run
++`airs --environment work doctor` using your environment's name. An unavailable
++service does not establish that the store is locked. Check the credential service
++and any operating-system authorization prompt in the same user session. If
++cleanup is pending, restore access and retry login or logout for that environment;
++the harness retains the original failure alongside any cleanup failure.
++
++A pre-exchange identity-service outage preserves the saved refresh grant. If an
++exchange may have consumed a rotating grant, the harness will require sign-in
++instead of blindly replaying it.
+ Restart running terminals after upgrading so they use the new native client.
+ 
+ ## Managed Prisma AIRS CLI
+diff --git a/scripts/test_airs_harness.py b/scripts/test_airs_harness.py
+index ddc7757fe7..57ee07a0b0 100644
+--- a/scripts/test_airs_harness.py
++++ b/scripts/test_airs_harness.py
+@@ -468,6 +468,10 @@ class TerminalIntegration(unittest.TestCase):
+         self.assertIn("category:", result.stderr)
+         self.assertIn("OS status:", result.stderr)
+         self.assertEqual(self.requests, [])
++        # A missing session bus establishes unavailability, not a locked store.
++        self.assertNotIn("Unlock your native credential store", result.stderr)
++        self.assertIn("airs doctor", result.stderr)
++        self.assertIn("No plaintext credential was written", result.stderr)
+ 
+     @unittest.skipIf(
+         sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"

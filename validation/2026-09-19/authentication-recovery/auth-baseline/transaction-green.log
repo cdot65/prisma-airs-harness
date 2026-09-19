@@ -1,0 +1,51 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cli)
+    Finished `test` profile [unoptimized] target(s) in 32.49s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID 8ba6e079-0938-4453-bd5e-43ba23843f3d with nextest profile: local
+    Starting 42 tests across 2 binaries (756 tests skipped)
+        PASS [   0.090s] ( 1/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::fresh_partial_install_restores_unbound_configuration_and_removes_the_new_key
+        PASS [   0.113s] ( 2/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::oversized_cleanup_journal_cannot_trigger_deletion
+        PASS [   0.113s] ( 3/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_verification_never_deletes_an_existing_working_keyring_binding
+        PASS [   0.113s] ( 4/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::interrupted_install_with_bound_account_remains_recoverable
+        PASS [   0.118s] ( 5/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::same_uuid_in_legacy_binding_does_not_own_pending_v2_entry
+        PASS [   0.119s] ( 6/42) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::conflicting_legacy_persistence_stops_before_even_unrelated_pending_cleanup
+        PASS [   0.119s] ( 7/42) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::separate_v2_namespace_cleanup_still_preserves_either_legacy_format
+        PASS [   0.119s] ( 8/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::cleanup_rejects_symlinks_without_touching_the_referenced_account
+        PASS [   0.118s] ( 9/42) codex-cli::bin/codex airs_credentials::transaction::tests::cleanup_rejects_symlinks_without_touching_the_referenced_account
+        PASS [   0.121s] (10/42) codex-cli::bin/codex airs_credentials::transaction::namespace_tests::conflicting_legacy_persistence_stops_before_even_unrelated_pending_cleanup
+        PASS [   0.121s] (11/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_verification_never_deletes_an_existing_working_keyring_binding
+        PASS [   0.122s] (12/42) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::conflicting_legacy_cleanup_preserves_shared_root_and_all_metadata
+        PASS [   0.122s] (13/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::malformed_binding_does_not_leak_values_in_recovery_or_persistence_errors
+        PASS [   0.122s] (14/42) codex-cli::bin/codex airs_credentials::transaction::namespace_tests::separate_v2_namespace_cleanup_still_preserves_either_legacy_format
+        PASS [   0.125s] (15/42) codex-cli::bin/codex airs_credentials::transaction::namespace_tests::conflicting_legacy_cleanup_preserves_shared_root_and_all_metadata
+        PASS [   0.132s] (16/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::interrupted_v2_commit_recovers_without_deleting_owned_credential
+        PASS [   0.133s] (17/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_cleanup_preserves_initial_read_failure_and_previous_binding
+        PASS [   0.019s] (18/42) codex-cli::bin/codex airs_credentials::transaction::tests::interrupted_install_with_bound_account_remains_recoverable
+        PASS [   0.017s] (19/42) codex-cli::bin/codex airs_credentials::transaction::tests::oversized_cleanup_journal_cannot_trigger_deletion
+        PASS [   0.136s] (20/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_cleanup_preserves_initial_read_failure_and_previous_binding
+        PASS [   0.136s] (21/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+        PASS [   0.018s] (22/42) codex-cli::bin/codex airs_credentials::transaction::tests::malformed_binding_does_not_leak_values_in_recovery_or_persistence_errors
+        PASS [   0.136s] (23/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call
+        PASS [   0.137s] (24/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call
+        PASS [   0.136s] (25/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_oidc_cleanup_retries_only_the_recorded_native_format
+        PASS [   0.015s] (26/42) codex-cli::bin/codex airs_credentials::transaction::tests::same_uuid_in_legacy_binding_does_not_own_pending_v2_entry
+        PASS [   0.142s] (27/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_oidc_cleanup_retries_only_the_recorded_native_format
+        PASS [   0.142s] (28/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+        PASS [   0.033s] (29/42) codex-cli::bin/codex airs_credentials::transaction::tests::interrupted_v2_commit_recovers_without_deleting_owned_credential
+        PASS [   0.151s] (30/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_v2_install_preserves_legacy_namespace_and_binding
+        PASS [   0.152s] (31/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_v2_install_preserves_legacy_namespace_and_binding
+        PASS [   0.047s] (32/42) codex-cli::bin/codex airs_credentials::transaction::tests::fresh_partial_install_restores_unbound_configuration_and_removes_the_new_key
+        PASS [   0.161s] (33/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_writes_reads_and_mismatches_clean_new_accounts_before_install
+        PASS [   0.161s] (34/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::isolated_primary_and_cleanup_failures_keep_their_typed_recovery
+        PASS [   0.164s] (35/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::combined_failures_preserve_typed_recovery_and_retry_only_the_pending_account
+        PASS [   0.045s] (36/42) codex-cli::bin/codex airs_credentials::transaction::tests::isolated_primary_and_cleanup_failures_keep_their_typed_recovery
+        PASS [   0.166s] (37/42) codex-cli::bin/codex airs_credentials::transaction::tests::combined_failures_preserve_typed_recovery_and_retry_only_the_pending_account
+        PASS [   0.168s] (38/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key
+        PASS [   0.172s] (39/42) codex-cli::bin/airs-harness airs_credentials::transaction::tests::fresh_oidc_save_read_and_cancelled_commit_failures_leave_no_unowned_token
+        PASS [   0.083s] (40/42) codex-cli::bin/codex airs_credentials::transaction::tests::failed_writes_reads_and_mismatches_clean_new_accounts_before_install
+        PASS [   0.062s] (41/42) codex-cli::bin/codex airs_credentials::transaction::tests::fresh_oidc_save_read_and_cancelled_commit_failures_leave_no_unowned_token
+        PASS [   0.057s] (42/42) codex-cli::bin/codex airs_credentials::transaction::tests::partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key
+────────────
+     Summary [   0.179s] 42 tests run: 42 passed, 756 skipped

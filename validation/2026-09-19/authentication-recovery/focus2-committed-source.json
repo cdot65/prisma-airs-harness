@@ -1,0 +1,8 @@
+{
+  "source_commit": "d5b43416af3ac3d0c0d69c894d096de2798888cd",
+  "source_base": "f96e49dbf7ca301e482c47dd5e2fe3cf3b8ce99a",
+  "validated_source_patch_sha256": "ae23ab8c7f990945ad44ab51f857ced4ff17fd76ab07b2b92caf5b0bd378d7f8",
+  "commit_matches_validated_patch": true,
+  "frozen_development_binary_sha256": "e0c277cd8811669feeebf4ef80de700bf217d74599eed914dc81a585eab12f43",
+  "not_release_acceptance": true
+}

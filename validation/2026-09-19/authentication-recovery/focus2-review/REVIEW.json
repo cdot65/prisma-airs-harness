@@ -1,0 +1,56 @@
+{
+  "scope": "Focus 2 authentication failure diagnosis and preservation; development acceptance only",
+  "score": 9.5,
+  "rubric": {
+    "completeness": {
+      "score": 3.0,
+      "maximum": 3,
+      "reason": "Read/cleanup and install/rollback cause masking fixed; typed recovery and previous state preserved; neutral unavailable-service guidance and package docs updated."
+    },
+    "capability": {
+      "score": 3.0,
+      "maximum": 3,
+      "reason": "Both failure regressions demonstrated RED then GREEN; six-package 5603-pass suite; frozen binary 54 passed executable tests plus positive isolated native-store fixture."
+    },
+    "best_practices": {
+      "score": 1.9,
+      "maximum": 2,
+      "reason": "Small private helper, original typed error chain, classified nonsecret diagnostics, exact source/file/log/runtime hashes verified; scoped lint passed and reviewed file hashes unchanged."
+    },
+    "optimization": {
+      "score": 1.6,
+      "maximum": 2,
+      "reason": "No dependency/schema/security-boundary change or added runtime I/O; reused caches and fixed-depth composition. Test TMPDIR and moving debug executable initially caused avoidable validation work, corrected before final evidence."
+    }
+  },
+  "required_gates": {
+    "reviewed_code_no_blocking_findings": true,
+    "primary_typed_recovery_preserved": true,
+    "both_rollback_operations_attempted": true,
+    "tokens_excluded_and_state_preserved": true,
+    "focused_red_green": true,
+    "scoped_package_checks": true,
+    "frozen_binary_and_log_hashes_independently_verified": true,
+    "installed_behavior": true,
+    "positive_isolated_native_service_fixture": true,
+    "git_diff_check": true,
+    "scoped_lint": true
+  },
+  "verdict": "pass: all scoped focus 2 required gates satisfied",
+  "deferred_by_owner": [
+    "owner-specific Ubuntu credential-store incident",
+    "attended production SSO/ServiceNow"
+  ],
+  "not_claimed": [
+    "full workspace green",
+    "three-platform release acceptance",
+    "npm publication",
+    "owner incident fixed"
+  ],
+  "lint_verified": {
+    "exit_code": 0,
+    "log_sha256": "5fede64498d29ac6dbe6727a168b18a8fbd1f4d35fb8e6ce3379235ae69a6fae",
+    "reviewed_sources_unchanged": true,
+    "tests_not_repeated_after_lint": true
+  }
+}

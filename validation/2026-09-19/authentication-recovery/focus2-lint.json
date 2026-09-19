@@ -1,0 +1,7 @@
+{
+  "command": "just fix -p codex-cli -p codex-login",
+  "exit_code": 0,
+  "source_files_unchanged": true,
+  "log_sha256": "5fede64498d29ac6dbe6727a168b18a8fbd1f4d35fb8e6ce3379235ae69a6fae",
+  "tests_not_repeated_after_lint": true
+}

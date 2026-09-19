@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source": "focus2 frozen development binary",
+  "version": "airs 0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "e0c277cd8811669feeebf4ef80de700bf217d74599eed914dc81a585eab12f43",
+  "fixture": "isolated dbus-run-session and encrypted disposable gnome-keyring collection",
+  "syscalls_denied": [
+    "keyctl",
+    "add_key",
+    "request_key"
+  ],
+  "syscall_error": "EPERM",
+  "workspace_v2_save_and_verified_read": true,
+  "separate_process_native_read_before_doctor": true,
+  "doctor_native_service_passed": true,
+  "doctor_native_service_detail": "Credential service responded. Access to the saved credential is not verified; choose Verify gateway access.",
+  "separate_process_native_read_after_doctor": true,
+  "binding_preserved": true,
+  "divergence_reproduced": false,
+  "owner_session_accessed": false,
+  "production_acceptance": false
+}

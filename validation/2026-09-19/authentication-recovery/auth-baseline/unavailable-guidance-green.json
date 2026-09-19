@@ -1,0 +1,13 @@
+{
+  "test": "test_oidc_login_without_keyring_explains_recovery_before_network",
+  "phase": "green",
+  "binary_version": "airs 0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "fdba95d97a017c9e2bd237402779175aa42e7bda3a9f72ed80652ce4f24ccdad",
+  "build_scope": "development binary with in-progress focus2 changes; not release acceptance",
+  "source_base": "f96e49dbf7ca301e482c47dd5e2fe3cf3b8ce99a",
+  "exit_code": 0,
+  "passed": 1,
+  "failed": 0,
+  "log_sha256": "4821eeb311db4d46f724ffa49ec1162b699a70a28730fb5d05061734e39d4eca",
+  "owner_session_accessed": false
+}

@@ -1,0 +1,133 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-login v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/login)
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cli)
+   Compiling codex-feedback v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/feedback)
+   Compiling codex-models-manager v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/models-manager)
+   Compiling codex-connectors v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/connectors)
+   Compiling codex-model-provider v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/model-provider)
+   Compiling codex-tools v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/tools)
+   Compiling codex-mcp v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/codex-mcp)
+   Compiling codex-analytics v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/analytics)
+   Compiling codex-backend-client v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/backend-client)
+   Compiling codex-cloud-tasks-client v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cloud-tasks-client)
+   Compiling codex-cloud-tasks-mock-client v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cloud-tasks-mock-client)
+   Compiling codex-extension-api v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/extension-api)
+   Compiling codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/core-plugins)
+   Compiling codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/skills)
+   Compiling codex-home v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/codex-home)
+   Compiling codex-git-attribution v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/git-attribution)
+   Compiling codex-connectors-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/connectors)
+   Compiling codex-core v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/core)
+   Compiling codex-memories-write v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/memories/write)
+   Compiling codex-app-server-transport v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server-transport)
+   Compiling codex-guardian-v2 v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/guardian-v2)
+   Compiling codex-external-agent-migration v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/external-agent-migration)
+   Compiling codex-queue-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/queue)
+   Compiling codex-memories-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/memories)
+   Compiling codex-agent-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/agent)
+   Compiling codex-goal-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/goal)
+   Compiling codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/image-generation)
+   Compiling codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/web-search)
+   Compiling codex-chatgpt v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/chatgpt)
+   Compiling codex-mcp-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/mcp)
+   Compiling codex-cloud-config v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cloud-config)
+   Compiling codex-history-notes-extension v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ext/history-notes)
+   Compiling codex-lmstudio v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/lmstudio)
+   Compiling codex-ollama v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/ollama)
+   Compiling codex-app-server-daemon v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server-daemon)
+   Compiling codex-app-server v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server)
+   Compiling codex-utils-oss v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/utils/oss)
+   Compiling codex-app-server-test-client v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server-test-client)
+   Compiling core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/core/tests/common)
+   Compiling app_test_support v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server/tests/common)
+   Compiling codex-app-server-client v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/app-server-client)
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/tui)
+   Compiling codex-exec v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/exec)
+   Compiling codex-cloud-tasks v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cloud-tasks)
+    Finished `test` profile [unoptimized] target(s) in 3m 46s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID a9817248-1e79-47d4-94ee-8ac8487d8a04 with nextest profile: local
+    Starting 2 tests across 30 binaries (941 tests skipped)
+  TRY 1 FAIL [   0.042s] (───) codex-cli::bin/codex airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+  stdout ───
+
+    running 1 test
+    test airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error ... FAILED
+
+    failures:
+
+    failures:
+        airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 397 filtered out; finished in 0.03s
+
+  stderr ───
+
+    thread 'airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error' (2474348) panicked at cli/src/airs_credential_transaction_tests.rs:258:5:
+    rollback must retain the initiating installation failure: Credential cleanup also failed: Is a directory (os error 21): Credential configuration rollback failed; retry login after resolving the filesystem error: Is a directory (os error 21)
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 1 FAIL [   0.042s] (───) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+  stdout ───
+
+    running 1 test
+    test airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error ... FAILED
+
+    failures:
+
+    failures:
+        airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 397 filtered out; finished in 0.03s
+
+  stderr ───
+
+    thread 'airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error' (2474347) panicked at cli/src/airs_credential_transaction_tests.rs:258:5:
+    rollback must retain the initiating installation failure: Credential cleanup also failed: Is a directory (os error 21): Credential configuration rollback failed; retry login after resolving the filesystem error: Is a directory (os error 21)
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 2 FAIL [   0.024s] (1/2) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+  stdout ───
+
+    running 1 test
+    test airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error ... FAILED
+
+    failures:
+
+    failures:
+        airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 397 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error' (2474351) panicked at cli/src/airs_credential_transaction_tests.rs:258:5:
+    rollback must retain the initiating installation failure: Credential cleanup also failed: Is a directory (os error 21): Credential configuration rollback failed; retry login after resolving the filesystem error: Is a directory (os error 21)
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 2 FAIL [   0.027s] (2/2) codex-cli::bin/codex airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+  stdout ───
+
+    running 1 test
+    test airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error ... FAILED
+
+    failures:
+
+    failures:
+        airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 397 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error' (2474352) panicked at cli/src/airs_credential_transaction_tests.rs:258:5:
+    rollback must retain the initiating installation failure: Credential cleanup also failed: Is a directory (os error 21): Credential configuration rollback failed; retry login after resolving the filesystem error: Is a directory (os error 21)
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.074s] 2 tests run: 0 passed, 2 failed, 941 skipped
+  TRY 2 FAIL [   0.024s] (1/2) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+  TRY 2 FAIL [   0.027s] (2/2) codex-cli::bin/codex airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+error: test run failed
+error: Recipe `test` failed on line 88 with exit code 100

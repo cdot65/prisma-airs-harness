@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source": "f96e49dbf7ca301e482c47dd5e2fe3cf3b8ce99a",
+  "change": "test-only regression.patch; transaction production source unchanged",
+  "command": "just test -p codex-cli -E 'test(failed_cleanup_preserves_initial_read_failure_and_previous_binding)'",
+  "exit_code": 100,
+  "status": "expected-red",
+  "tests_run": 2,
+  "passed": 0,
+  "failed": 2,
+  "skipped": 937,
+  "failed_binaries": [
+    "codex-cli::bin/codex",
+    "codex-cli::bin/airs-harness"
+  ],
+  "intended_failure": "cleanup must retain the initiating verification failure",
+  "actual_error": "Credential cleanup is pending; retry login or logout when secure storage is available: Injected delete failure",
+  "verified_before_failure": [
+    "previous credential binding unchanged",
+    "previous configuration unchanged",
+    "exact metadata-only workspace-v2 journal",
+    "no token in diagnostic",
+    "pending cleanup and delete failure retained"
+  ],
+  "test_patch_sha256": "45170a935cc4dd67a3a29cd90f686e5fb602c015926e8c623760227c820d5cf3",
+  "log": "regression-red.log"
+}

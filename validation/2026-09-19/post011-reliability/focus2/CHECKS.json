@@ -1,0 +1,36 @@
+{
+  "scope": "Implementation checks before version stamping; recorded from completed root tool invocations",
+  "results": [
+    {
+      "command": "just test -p codex-tui -p codex-v8-poc --features codex-v8-poc/sandbox -E test(airs_doctor)",
+      "exit_code": 0,
+      "passed": 13,
+      "log": "doctor-focused-final.log"
+    },
+    {
+      "command": "just test -p codex-tui -p codex-v8-poc --features codex-v8-poc/sandbox -E package(codex-tui)",
+      "exit_code": 0,
+      "passed": 4360,
+      "skipped": 6,
+      "log": "tui-full.log"
+    },
+    {
+      "command": "just fix -p codex-tui -p codex-v8-poc --features codex-v8-poc/sandbox",
+      "exit_code": 0,
+      "log": "tui-fix.log"
+    },
+    {
+      "command": "just fmt",
+      "exit_code": 0,
+      "tool_session": 43660,
+      "log": "doctor-fmt-final.log",
+      "unrelated_files_restored": 19
+    },
+    {
+      "command": "installed test_airs_doctor.py",
+      "exit_code": 0,
+      "passed": 5,
+      "log": "doctor-installed.log"
+    }
+  ]
+}

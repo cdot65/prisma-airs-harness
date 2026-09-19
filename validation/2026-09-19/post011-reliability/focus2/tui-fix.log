@@ -1,0 +1,182 @@
+cargo clippy --fix --tests --allow-dirty {args}
+    Checking writeable v0.6.2
+    Checking zerotrie v0.2.4
+    Checking codex-utils-absolute-path v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/absolute-path)
+    Checking codex-utils-rustls-provider v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/rustls-provider)
+    Checking codex-utils-cache v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/cache)
+    Checking codex-utils-redacted-string v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/redacted-string)
+    Checking codex-utils-string v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/string)
+    Checking codex-async-utils v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/async-utils)
+    Checking codex-utils-pty v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/pty)
+   Compiling codex-windows-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/windows-sandbox-rs)
+    Checking codex-utils-image v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/image)
+    Checking codex-keyring-store v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/keyring-store)
+   Compiling codex-build-info v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/build-info)
+    Checking codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/home-dir)
+    Checking potential_utf v0.1.4
+    Checking icu_locale_core v2.2.0
+    Checking icu_collections v2.2.0
+    Checking fixed_decimal v0.7.2
+    Checking codex-execpolicy v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/execpolicy)
+    Checking codex-extension-items v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/items)
+    Checking codex-utils-path v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/path-utils)
+    Checking codex-install-context v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/install-context)
+    Checking codex-utils-template v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/template)
+    Checking codex-terminal-detection v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/terminal-detection)
+   Compiling codex-code-mode-protocol v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/code-mode-protocol)
+    Checking codex-collaboration-mode-templates v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/collaboration-mode-templates)
+    Checking codex-file-search v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/file-search)
+    Checking codex-diagnostics v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/diagnostics)
+   Compiling codex-experimental-api-macros v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-experimental-api-macros)
+   Compiling codex-app-server-protocol-noop-macros v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-protocol-noop-macros)
+   Compiling codex-skills v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/skills)
+    Checking codex-attachment-store v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/attachment-store)
+    Checking codex-utils-stream-parser v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/stream-parser)
+    Checking codex-backend-openapi-models v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-backend-openapi-models)
+   Compiling codex-linux-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/linux-sandbox)
+    Checking codex-process-hardening v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/process-hardening)
+    Checking codex-uds v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/uds)
+    Checking codex-file-watcher v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/file-watcher)
+    Checking codex-utils-json-to-toml v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/json-to-toml)
+    Checking codex-utils-cargo-bin v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/cargo-bin)
+    Checking core_maths v0.1.1
+    Checking codex-ansi-escape v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ansi-escape)
+    Checking codex-utils-sleep-inhibitor v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/sleep-inhibitor)
+    Checking codex-utils-elapsed v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/elapsed)
+    Checking calendrical_calculations v0.2.4
+    Checking icu_provider v2.2.0
+    Checking codex-utils-fuzzy-match v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/fuzzy-match)
+    Checking resb v0.1.2
+    Checking icu_calendar_data v2.2.0
+    Checking ixdtf v0.6.4
+    Checking diplomat-runtime v0.15.1
+    Checking icu_normalizer v2.2.0
+    Checking icu_properties v2.2.0
+    Checking icu_locale v2.2.0
+    Checking zoneinfo64 v0.3.0
+    Checking timezone_provider v0.2.3
+    Checking icu_decimal v2.2.0
+    Checking icu_calendar v2.2.1
+    Checking idna_adapter v1.2.1
+    Checking idna v1.1.0
+    Checking url v2.5.8
+    Checking publicsuffix v2.3.0
+    Checking temporal_rs v0.2.3
+    Checking hickory-proto v0.25.2
+    Checking cookie_store v0.22.1
+    Checking codex-utils-path-uri v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/path-uri)
+    Checking sentry-types v0.46.1
+    Checking webbrowser v1.2.4
+    Checking reqwest v0.13.4
+    Checking sqlx-core v0.9.0
+    Checking aws-config v1.8.12
+    Checking wiremock v0.6.5
+    Checking temporal_capi v0.2.3
+    Checking v8 v150.4.0
+    Checking sqlx-sqlite v0.9.0
+    Checking sentry-core v0.46.1
+    Checking hickory-resolver v0.25.2
+    Checking sentry-backtrace v0.46.1
+    Checking sentry-contexts v0.46.1
+    Checking sentry-debug-images v0.46.1
+    Checking sentry-panic v0.46.1
+    Checking codex-aws-auth v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/aws-auth)
+    Checking reqwest v0.12.28
+    Checking rama-dns v0.3.0-alpha.4
+    Checking sqlx v0.9.0
+    Checking codex-v8-poc v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/v8-poc)
+    Checking codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/http-client)
+    Checking opentelemetry-http v0.31.0
+    Checking oauth2 v5.0.0
+    Checking sentry v0.46.1
+    Checking opentelemetry-otlp v0.31.0
+    Checking codex-websocket-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/websocket-client)
+    Checking codex-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-client)
+    Checking codex-workload-identity v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/workload-identity)
+    Checking rmcp v3.2.0
+    Checking rama-tcp v0.3.0-alpha.4
+    Checking rama-socks5 v0.3.0-alpha.4
+    Checking rama-http-backend v0.3.0-alpha.4
+    Checking codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/network-proxy)
+    Checking codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/protocol)
+    Checking codex-api v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-api)
+    Checking codex-file-system v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/file-system)
+    Checking codex-shell-command v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/shell-command)
+    Checking codex-agent-identity v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/agent-identity)
+    Checking codex-utils-output-truncation v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/output-truncation)
+    Checking codex-history v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/history)
+    Checking codex-context-fragments v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/context-fragments)
+    Checking codex-shell-escalation v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/shell-escalation)
+    Checking codex-utils-audio v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/audio)
+    Checking codex-utils-approval-presets v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/approval-presets)
+    Checking codex-utils-sandbox-summary v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/sandbox-summary)
+    Checking codex-git-utils v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/git-utils)
+    Checking codex-exec-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/exec-server-protocol)
+    Checking codex-memories-read v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/memories/read)
+    Checking codex-state v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/state)
+    Checking codex-guardian-context v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/guardian-context)
+    Checking codex-utils-cli v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/cli)
+    Checking codex-secrets v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/secrets)
+    Checking codex-utils-git-discovery v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/git-discovery)
+    Checking codex-prompts v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/prompts)
+    Checking codex-worktree v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/worktree)
+    Checking codex-otel v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/otel)
+    Checking codex-model-provider-info v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/model-provider-info)
+    Checking codex-response-debug-context v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/response-debug-context)
+    Checking codex-agent-graph-store v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/agent-graph-store)
+    Checking codex-features v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/features)
+    Checking codex-code-mode v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/code-mode)
+    Checking codex-rollout v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/rollout)
+    Checking codex-sandboxing v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/sandboxing)
+    Checking codex-config v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/config)
+    Checking codex-rollout-trace v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/rollout-trace)
+    Checking codex-app-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-protocol)
+    Checking codex-exec-server v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/exec-server)
+    Checking codex-login v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/login)
+    Checking codex-agent-roles v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/agent-roles)
+    Checking codex-message-history v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/message-history)
+    Checking codex-feedback v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/feedback)
+    Checking codex-models-manager v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/models-manager)
+    Checking codex-model-provider v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/model-provider)
+    Checking codex-backend-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/backend-client)
+    Checking codex-utils-plugins v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/plugins)
+    Checking codex-rmcp-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/rmcp-client)
+    Checking codex-apply-patch v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/apply-patch)
+    Checking codex-plugin v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/plugin)
+    Checking codex-arg0 v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/arg0)
+    Checking codex-connectors v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/connectors)
+    Checking codex-hooks v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/hooks)
+    Checking codex-tools v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/tools)
+    Checking codex-mcp v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-mcp)
+    Checking codex-extension-api v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/extension-api)
+    Checking codex-home v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-home)
+    Checking codex-git-attribution v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/git-attribution)
+    Checking codex-analytics v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/analytics)
+    Checking codex-thread-store v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/thread-store)
+    Checking codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core-plugins)
+    Checking codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/skills)
+    Checking codex-core v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core)
+    Checking codex-connectors-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/connectors)
+    Checking codex-memories-write v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/memories/write)
+    Checking codex-memories-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/memories)
+    Checking codex-chatgpt v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/chatgpt)
+    Checking codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/web-search)
+    Checking codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/image-generation)
+    Checking codex-goal-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/goal)
+    Checking codex-history-notes-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/history-notes)
+    Checking codex-cloud-config v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-config)
+    Checking codex-queue-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/queue)
+    Checking codex-mcp-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/mcp)
+    Checking codex-app-server-transport v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-transport)
+    Checking codex-guardian-v2 v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/guardian-v2)
+    Checking codex-agent-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/agent)
+    Checking codex-lmstudio v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/lmstudio)
+    Checking codex-ollama v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ollama)
+    Checking core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core/tests/common)
+    Checking codex-external-agent-migration v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/external-agent-migration)
+    Checking codex-utils-oss v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/oss)
+    Checking app_test_support v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server/tests/common)
+    Checking codex-app-server v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server)
+    Checking codex-app-server-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-client)
+    Checking codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/tui)
+    Finished `dev` profile [unoptimized] target(s) in 2m 53s

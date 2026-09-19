@@ -220,6 +220,12 @@ airs --environment work mcp login service-now --no-browser
 
 Enter `/doctor` for the current environment's connection-health dashboard. Opening it or choosing **Refresh diagnostics** does not send an inference request. **Verify gateway access** opens a confirmation; **Send connectivity check** sends a small inference request that can consume quota and appear in gateway logs. It sends no local files, conversation content or tools. This verifies inference, not ServiceNow permissions.
 
+**Pending test release:** this branch adds the following diagnostic-report actions; publication and native acceptance are still in progress.
+
+For a support summary, choose **Diagnostic report**, then **Preview report**. The report contains the AIRS version, platform, authentication method, known check outcomes and recovery steps. It omits environment and connection names, addresses, paths, credentials, raw errors and conversation content. It reuses the last completed check; previewing, copying or saving it does not probe the gateway again. An inference check that has not run is **Not verified**.
+
+Choose **Copy report** to send it to your clipboard, or **Save local report** to create a private `diagnostic-report-*.txt` file in this environment's state directory. AIRS displays the saved location. Over SSH, copying depends on your terminal accepting clipboard requests; use the saved file if it does not. Review the report before sharing it. Raw `airs doctor --json` output is a different, detailed local diagnostic and can contain private addresses and paths.
+
 Return to `/mcp`, select `service-now`, and use **Reconnect and verify** if you need fresh initialization/tool discovery. Choose **Start new conversation** after connection changes, then inspect the available tools. A read-only grant exposes `list_incidents` and `get_incident`; incident-management grants may also expose `create_incident` and `update_incident`. Successful login does not imply all four permissions.
 
 Ask in the new conversation:

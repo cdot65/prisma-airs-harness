@@ -1,7 +1,9 @@
 """Installed-binary connection doctor acceptance; fixtures are not live SSO proof."""
 
+import base64
 import json
 import os
+import re
 import socket
 import threading
 import time
@@ -114,6 +116,98 @@ class SessionDoctor(unittest.TestCase):
             terminal.send_line("/doctor")
             terminal.wait_for(b"Connection health", offset, timeout=45)
             self.assertEqual(fixture.requests, [])
+
+    def test_redacted_report_preview_copy_and_save_reuse_one_inspection(self):
+        fixture = self.fixture
+        signed_in = fixture.run_cli("login", "--credential-env", "AIRS_TEST_CREDENTIAL")
+        self.assertEqual(signed_in.returncode, 0, signed_in.stderr)
+        # Exercise terminal-mediated copy without changing the host clipboard.
+        fixture.env["SSH_CONNECTION"] = "127.0.0.1 1234 127.0.0.1 22"
+        fixture.env.pop("TMUX", None)
+        fixture.env.pop("TMUX_PANE", None)
+        private = b"PRIVATE-REPORT-RESPONSE-CANARY"
+
+        def failed_health(request):
+            fixture.health_requests.append(request.path)
+            request.send_response(503)
+            request.send_header("Content-Length", str(len(private)))
+            request.end_headers()
+            request.wfile.write(private)
+
+        fixture.server.RequestHandlerClass.do_GET = failed_health
+        protected = [
+            fixture.home / "config.toml",
+            fixture.home / "credential-binding.json",
+        ]
+        with TerminalSession(harness.BINARY, fixture.env, fixture.work) as terminal:
+            terminal.start()
+            before = {path: path.read_bytes() for path in protected}
+            terminal.send_line("/doctor")
+            terminal.wait_for(b"Connection health", timeout=45)
+            counts = (
+                len(fixture.health_requests),
+                len(fixture.requests),
+                len(fixture.mcp_requests),
+            )
+            self.assertGreater(counts[0], 0)
+            self.assertEqual(counts[1:], (0, 0))
+            offset = len(terminal.transcript)
+            # Report precedes the final MCP-manager action, independent of check count.
+            os.write(terminal.master, b"\x1b[F\x1b[A\r")
+            terminal.wait_for(b"Preview report", offset)
+            self.assertEqual(list(fixture.home.glob("diagnostic-report-*.txt")), [])
+            offset = len(terminal.transcript)
+            self.choose(terminal)
+            # The pager advances the cursor over spaces instead of writing them.
+            terminal.wait_for(b"gateway_access:", offset)
+            offset = len(terminal.transcript)
+            os.write(terminal.master, b"\x1b")
+            terminal.wait_for(b"Preview report", offset)
+            offset = len(terminal.transcript)
+            self.choose(terminal, 1)
+            terminal.wait_for(b"\x1b]52;c;", offset)
+            clipboard = re.compile(rb"\x1b\]52;c;([A-Za-z0-9+/=]+)\x07")
+            terminal.wait_until(
+                lambda: clipboard.search(terminal.transcript[offset:]) is not None
+            )
+            copied = base64.b64decode(
+                clipboard.search(terminal.transcript[offset:])[1], validate=True
+            )
+            # Each refreshed report-action view starts at its first action.
+            offset = len(terminal.transcript)
+            self.choose(terminal, 2)
+            terminal.wait_for(b"Saved locally:", offset)
+            reports = list(fixture.home.glob("diagnostic-report-*.txt"))
+            self.assertEqual(len(reports), 1)
+            saved = reports[0].read_bytes()
+            self.assertEqual(saved, copied)
+            self.assertTrue(saved.startswith(b"AIRS diagnostic report v1\n"))
+            self.assertLessEqual(len(saved), 8192)
+            self.assertEqual(reports[0].stat().st_mode & 0o777, 0o600)
+            self.assertIn(b"Needs attention", saved)
+            self.assertIn(b"Not verified", saved)
+            for canary in (
+                private,
+                b"test-only-credential",
+                fixture.url.encode(),
+                str(fixture.home).encode(),
+                str(fixture.work).encode(),
+            ):
+                self.assertNotIn(canary, saved)
+            self.assertNotIn(b"http://", saved)
+            self.assertNotIn(b"\x1b", saved)
+            self.assertEqual(
+                counts,
+                (
+                    len(fixture.health_requests),
+                    len(fixture.requests),
+                    len(fixture.mcp_requests),
+                ),
+            )
+        self.assertEqual({path: path.read_bytes() for path in protected}, before)
+        for rollout in fixture.home.rglob("*.jsonl"):
+            self.assertNotIn("AIRS diagnostic report", rollout.read_text())
+            self.assertNotIn(private.decode(), rollout.read_text())
 
     @unittest.skipUnless(
         os.name == "posix" and os.uname().sysname == "Linux",

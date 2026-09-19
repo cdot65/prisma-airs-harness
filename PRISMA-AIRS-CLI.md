@@ -1,6 +1,6 @@
 # Bundled Prisma AIRS CLI and skills
 
-Harness **0.1.0-alpha.22** bundles `@cdot65/prisma-airs-cli@7.0.0` and SDK
+Harness **0.1.0-alpha.22.mcp.3** (test release) bundles `@cdot65/prisma-airs-cli@7.0.0` and SDK
 `0.33.0`. One npm harness installation includes the pinned CLI and eight embedded
 product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
 An independently installed product CLI uses **`airs-cli ...`**.
@@ -25,12 +25,14 @@ dependencies enabled for native executables and image/document generation.
 If an old global product CLI owns `airs`, upgrade it first:
 
 ```sh
-npm install -g @cdot65/prisma-airs-cli@7.0.0 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
 airs-cli --version
-npm install -g airs-harness@0.1.0-alpha.22 --include=optional --registry=https://npm.cdot.io
+npm install -g airs-harness@mcp --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
+
+The `mcp` tag selects the currently published test build; inspect `airs --version` after installation. Stable tags remain onboarding.4. Normal installs include optional dependencies, so `--include=optional` is only a repair option when npm configuration omitted them.
 
 Fresh harness users need only the second installation. The harness does not
 install a global `airs-cli`. Open a fresh shell and inspect `type -a airs airs-cli airs-harness` if an alias, manual file or another package manager still resolves
@@ -43,7 +45,7 @@ MCP registrations and storage paths remain unchanged.
 For a read-only check before global installation:
 
 ```sh
-npm exec --yes --registry=https://npm.cdot.io --package=airs-harness@0.1.0-alpha.22 -- airs --migration-check
+npm exec --yes --registry=https://npm.cdot.io --package=airs-harness@mcp -- airs --migration-check
 ```
 
 This reports PATH entries and recognized package owners without executing those

@@ -543,6 +543,23 @@ class NpmCandidatePackaging(unittest.TestCase):
                             self.assertEqual(
                                 manifest["dependencies"], template["dependencies"]
                             )
+                            self.assertNotIn(
+                                "package/AUTHENTICATION-ONBOARDING.md", tar.getnames()
+                            )
+                            for guide in [
+                                "GETTING-STARTED.md",
+                                "MACOS.md",
+                                "PRISMA-AIRS-CLI.md",
+                            ]:
+                                self.assertIn(guide, manifest["files"])
+                                self.assertEqual(
+                                    tar.extractfile("package/" + guide).read(),
+                                    (ROOT / guide).read_bytes(),
+                                )
+                            self.assertEqual(
+                                tar.extractfile("package/README.md").read(),
+                                (ROOT / "npm/airs-harness/README.md").read_bytes(),
+                            )
                             tooling = json.load(
                                 tar.extractfile("package/PACKAGE-TOOLING.json")
                             )

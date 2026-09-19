@@ -156,7 +156,7 @@ def main():
         shutil.copytree(template / name, launcher / name)
     for name in ["LICENSE", "NOTICE", "README.md"]:
         shutil.copy2(template / name, launcher / name)
-    for name in ["MACOS.md", "PRISMA-AIRS-CLI.md", "AUTHENTICATION-ONBOARDING.md"]:
+    for name in ["MACOS.md", "PRISMA-AIRS-CLI.md", "GETTING-STARTED.md"]:
         shutil.copy2(root / name, launcher / name)
     manifest.pop("private", None)
     if candidate:

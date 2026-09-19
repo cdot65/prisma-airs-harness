@@ -23,28 +23,30 @@ Alpha.21 consolidates environment creation and lifecycle management under
 are removed. Existing environment credentials and history remain intact.
 `env use` saves the default; `--environment` selects one command's environment.
 
-The release retains gateway inference and MCP routing, manual MCP callback
-input, and guided sign-in recovery. The deployed 30-minute SSO idle policy is
-unchanged. Fresh production SSO, ServiceNow tool calls, and hourly frontend
-refresh are not claimed by this environment-management release.
+Those historical receipts cover gateway inference and MCP routing, manual MCP
+callback input, and guided sign-in recovery. They do not establish fresh
+production SSO or ServiceNow acceptance for a subsequent test package.
 
-## Branded onboarding
+## Getting started
 
-Release `0.1.0-alpha.22.onboarding.4` distinguishes saved credentials from verified gateway access, reports HTTP status and a gateway-searchable trace ID, and rejects guardrail denials even when the gateway returns HTTP 200. Local environment names are independent of gateway workspace names; a workspace API key selects its gateway workspace. Both SSO and workspace keys require the corresponding gateway policy. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
+Follow [Getting started](GETTING-STARTED.md) for installation, local environments,
+company SSO or a workspace API key, then ServiceNow sign-in through the in-session
+`/mcp` manager. `/doctor` inspects connection health and offers explicit access
+verification. MCP connection changes start a new conversation inside AIRS while
+preserving history and the draft.
 
-```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.4 --registry=https://npm.cdot.io
-airs --version
-airs cli --version
-airs
-```
-
-The product CLI and eight skills are bundled. Normal installs do not require `--include=optional`. Returning signed-in users enter the agent directly. [Release evidence](validation/2026-09-18/workspace-key-release/README.md) records native acceptance and remaining attended production checks. The earlier review archive on [PR 47](https://git.cdot.io/cdot/prisma-airs-harness/pulls/47) remains available as a separate installation path.
+These dashboards are in the **mcp test channel**. The stable `latest`, `alpha` and
+`onboarding` tags remain `0.1.0-alpha.22.onboarding.4`. This guide covers
+`0.1.0-alpha.22.mcp.3`, an owner-authorized test release; real-account SSO,
+workspace-key and ServiceNow acceptance remain separate. [Onboarding reliability evidence](validation/2026-09-19/onboarding-reliability/README.md)
+records the implementation checks without claiming publication or live acceptance.
 
 ## Installation
 
 Connect to the organization's LAN/VPN, then use a supported Node.js installation:
-Node.js 22.14+ in the 22.x line, or Node.js 24 or newer.
+Node.js 22.13.0 or newer in the 22.x line, or 23.5.0 or newer
+(`^22.13.0 || >=23.5.0`). Installing npm alone does not upgrade Node.js; check
+`node --version` and `npm --version` in the same terminal first.
 
 If the old standalone Prisma AIRS CLI already owns `airs`, upgrade it **first**:
 
@@ -57,13 +59,14 @@ A fresh machine needs only the harness installation below. It includes CLI 7.0.0
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.onboarding.4 --registry=https://npm.cdot.io
+npm install -g airs-harness@mcp --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
 Downloads are anonymous; no npm login or Rust compiler is required.
-The exact version above includes the unified environment commands.
+The test channel includes the unified environment commands and in-session
+connection dashboards. Check the installed version before reporting a result.
 If an old standalone product CLI owns `airs`, upgrade it to
 `@cdot65/prisma-airs-cli@7.0.1` first so it exports `airs-cli`, then install the
 harness. Inspect `type -a airs airs-cli airs-harness` and `npm prefix -g` for
@@ -81,79 +84,24 @@ and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac
 onboarding. The inherited `scripts/install/` tools install upstream Codex.
 
-## Sign in with SSO and connect ServiceNow
+## Sign in and connect ServiceNow
 
-The [complete SSO-to-ServiceNow walkthrough](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session)
-covers one user, one environment, two company-SSO authorizations, and a real
-read-only incident result. The commands below use example connection settings;
-obtain the actual gateway URL, issuer, public client ID and audience from your
-administrator. The account needs inference access, the gateway workspace grant,
-and the ServiceNow MCP subject permissions.
+The [current first-session guide](GETTING-STARTED.md) covers both company SSO and
+workspace API keys, when to create an environment, and the separate MCP login.
+Local environment names do not need to match AI Gateway workspace names. A saved
+workspace key is not proof of inference access and does not grant MCP access.
 
-The unified environment CLI requires alpha.21 or newer. Check
-`airs env create --help` after upgrading. An existing environment for the correct gateway can be reused with
-`env use work`; do not recreate it after a cancelled login.
+Configure native-only MCP storage once, open `airs --environment work`, then use
+**Add connection** in `/mcp` with the administrator's **AI Gateway MCP URL**. Follow
+the company sign-in and gateway-managed upstream consent, then choose **Start new
+conversation**. The guide explains cached inventory versus an actual authorized
+read-only tool result, as well as `/doctor` and the optional shell recovery path.
+No attended production ServiceNow result is claimed by this documentation update.
 
-Create the environment, then sign into inference as your company user:
-
-```sh
-airs env create work --gateway-url https://gateway.example.com/v1
-airs env use work
-airs --environment work login \
-  --issuer-url https://sso.example.com/realms/company \
-  --oidc-client-id harness-native \
-  --audience airs-inference
-airs env status work
-airs --environment work doctor --verify-access
-```
-
-Alternatively, `env create work` without the gateway flag guides both creation
-and sign-in: choose **Company sign-in**. Wait for terminal confirmation that the
-credential was saved. `env status` reports local configuration; the doctor probe
-checks inference and can consume gateway quota. Neither verifies ServiceNow.
-
-Use `env show work` to locate the environment's `config.toml`. Set
-`mcp_oauth_credentials_store = "keyring"` at the top level, before any table
-headers, so MCP also requires native credential storage. Then add the gateway's
-ServiceNow connection, including the final `/mcp`:
-
-```sh
-airs --environment work mcp add service-now \
-  --url https://gateway-mcp.example.com/mcp-service-now-dev/mcp \
-  --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
-```
-
-Adding the connection normally starts browser authorization. Complete the gateway
-CAS/company SSO flow with the **same company account** used for inference, and
-any gateway-managed upstream consent. An existing browser SSO session can avoid
-another password prompt, but the grants remain separate. If login was cancelled
-or failed after registration, resume it with:
-
-```sh
-airs --environment work mcp login service-now
-```
-
-Skip that extra login if `mcp add` already reported success. The connection uses
-the gateway URL, not the ServiceNow instance or upstream MCP URL. The gateway
-owns upstream OAuth; the ServiceNow MCP server uses a server-side integration
-credential. The user does not supply an upstream client secret or ServiceNow
-integration password to the harness.
-
-```sh
-airs --environment work mcp list
-airs --environment work
-```
-
-Inside the harness, use `/mcp` to inspect `service-now`, then ask:
-
-> Use service-now to list up to five active incidents, showing their numbers,
-> short descriptions and priorities. Do not create or update records.
-
-Verify an actual `list_incidents` tool result; an empty authorized list is valid.
-A connection label alone is not end-to-end proof. Read-only users see
-`list_incidents` and `get_incident`; management grants also expose `create_incident`
-and `update_incident`. This example targets a development integration.
-See [MCP.md](MCP.md) for migration, refresh and separate logout behavior.
+The [published learning site](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/)
+explains the identity and gateway boundaries; its source is maintained in the
+project knowledge vault. See [MCP.md](MCP.md) for the longer technical lifecycle
+and historical validation context.
 
 OIDC tokens require an unlocked native credential store. Linux needs a session
 D-Bus and Secret Service (such as GNOME Keyring); installing a headless binary
@@ -401,7 +349,8 @@ cargo build --locked --release -p codex-cli --bin airs-harness
 ./target/release/airs-harness --version
 ```
 
-From the repository root, executable fixtures use Python's standard library:
+From the repository root, executable fixtures use Python 3.11 or newer and
+`pyte==0.8.2` for terminal checks:
 
 ```sh
 AIRS_HARNESS_BIN=codex-rs/target/release/airs-harness \
@@ -412,6 +361,8 @@ Rust checks use `just test`. The live contract probe is
 `scripts/validate_live_gateway.py --help`; it reads explicit credential files,
 submits small acceptance fixtures, and writes a redacted result. See
 [RELEASE.md](RELEASE.md) for platform-specific test limitations and install receipts.
+For versioned test handoffs, follow [Publish and verify an AIRS test package](RELEASE-TEST-PACKAGES.md),
+which binds three native installations to exact package and validator bytes.
 
 ## Upstream and license
 

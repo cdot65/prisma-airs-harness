@@ -77,3 +77,13 @@ fn animation_preference_uses_the_environment_and_last_explicit_override() {
     );
     assert!(!options(directory.path(), &["model=\"tui.animations=true\"".into()]).animations);
 }
+
+#[test]
+fn selected_environment_cancellation_has_snapshot_coverage() {
+    insta::assert_snapshot!(cancelled(Some("staging")).to_string(), @r"
+    Sign-in cancelled. Existing environments are preserved; resume with airs --environment staging login.
+    ");
+    insta::assert_snapshot!(cancelled(None).to_string(), @r"
+    Sign-in cancelled. Existing environments are preserved; resume with airs login.
+    ");
+}

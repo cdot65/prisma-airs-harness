@@ -198,7 +198,7 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
                 request_id: Uuid::nil(),
                 outcome: result
             }
-            .after_login()
+            .after_login(None)
             .contains("fixture-secret")
         );
     }
@@ -304,7 +304,7 @@ fn honest_verification_messages_have_snapshot_coverage() {
         request_id: Uuid::nil(),
         outcome: Err(Failure::Offline),
     };
-    insta::assert_snapshot!(format!("{DISCLOSURE}\n\n{}\n\n{}", verified.after_login(), offline.after_login()), @r"
+    insta::assert_snapshot!(format!("{DISCLOSURE}\n\n{}\n\n{}", verified.after_login(None), offline.after_login(None)), @r"
     Checking gateway access with one minimal inference request (up to 16 output tokens). This sends only a fixed connectivity message, with no local files or tools. The request asks the provider not to store the response; gateway logging policy still applies.
 
     Gateway access verified by one inference response. MCP permissions were not tested.
@@ -312,7 +312,7 @@ fn honest_verification_messages_have_snapshot_coverage() {
 
     Credential saved; gateway access not yet verified. The gateway connection failed. Check connectivity, DNS and TLS.
     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
-    Retry: airs doctor --verify-access (select the same environment).
+    Retry: airs doctor --verify-access.
     ");
 }
 
@@ -346,7 +346,7 @@ fn gateway_failures_show_actionable_status_without_response_content() {
             request_id: Uuid::nil(),
             outcome: Err(failure),
         }
-        .after_login()
+        .after_login(None)
     })
     .collect::<Vec<_>>()
     .join("\n\n");
@@ -383,4 +383,17 @@ async fn successful_http_responses_cannot_hide_gateway_policy_denials() {
             }
         }
     }
+}
+
+#[test]
+fn selected_environment_recovery_message_has_snapshot_coverage() {
+    let denied = Verification {
+        request_id: Uuid::nil(),
+        outcome: Err(Failure::Denied),
+    };
+    insta::assert_snapshot!(denied.after_login(Some("-staging")), @r"
+    Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
+    Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+    Retry: airs --environment=-staging doctor --verify-access.
+    ");
 }

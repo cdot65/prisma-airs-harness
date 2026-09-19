@@ -44,7 +44,7 @@ impl Failure {
         match self {
             Self::Configuration => "The selected gateway or model configuration is invalid.",
             Self::Credential => {
-                "The saved credential could not be read or refreshed. Run airs env status to inspect local sign-in."
+                "The saved credential could not be read or refreshed. Inspect local sign-in for this environment."
             }
             Self::SignedOut => "Authentication changed or this environment was signed out.",
             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",
@@ -90,11 +90,12 @@ impl Verification {
         format!("{result}\nRequest / gateway trace ID: {}", self.request_id)
     }
 
-    pub(super) fn after_login(&self) -> String {
+    pub(super) fn after_login(&self, environment: Option<&str>) -> String {
+        let command = super::airs_environment::command(environment);
         match self.outcome {
             Ok(()) => self.summary(),
             Err(reason) => format!(
-                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: airs doctor --verify-access (select the same environment).",
+                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: {command} doctor --verify-access.",
                 reason.detail(),
                 self.request_id,
             ),

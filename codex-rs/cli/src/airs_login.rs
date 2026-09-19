@@ -255,11 +255,13 @@ fn company_settings(
 pub(super) async fn interactive(
     home: &Path,
     preferred_flow: airs_oidc::LoginFlow,
+    environment: Option<&str>,
 ) -> anyhow::Result<()> {
     anyhow::ensure!(
         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
         "Guided login requires an interactive terminal. Automation must select an explicit login method; see airs login --help"
     );
+    let command = airs_environment::command(environment);
     // Check configuration before collecting input, without probing secret storage.
     airs_environment::gateway(home)?;
     let choice = {
@@ -269,15 +271,17 @@ pub(super) async fn interactive(
             airs_oidc::LoginFlow::Browser | airs_oidc::LoginFlow::BrowserManual => SIGN_IN_MENU,
             airs_oidc::LoginFlow::Device => DEVICE_SIGN_IN_MENU,
         };
-        prompt(&mut input, &mut output, menu)?
+        prompt(&mut input, &mut output, menu)
+            .with_context(|| format!("Resume sign-in with: {command} login"))?
     };
-    match choice.as_str() {
+    let result = match choice.as_str() {
         "1" => {
             let config = company_settings(
                 home,
                 &mut std::io::stdin().lock(),
                 &mut std::io::stderr().lock(),
-            )?;
+            )
+            .with_context(|| format!("Resume sign-in with: {command} login"))?;
             let args = LoginArgs {
                 issuer_url: Some(config.issuer),
                 oidc_client_id: Some(config.client_id),
@@ -288,11 +292,14 @@ pub(super) async fn interactive(
             airs_oidc::login(home, &args, preferred_flow).await
         }
         "2" => airs_credentials::login(home, &LoginArgs::default(), /*stdin_key*/ true),
-        _ => anyhow::bail!("Sign-in cancelled; choose 1 or 2 next time"),
-    }?;
+        _ => Err(anyhow::anyhow!(
+            "Sign-in cancelled; choose 1 or 2 next time"
+        )),
+    };
+    result.with_context(|| format!("Resume sign-in with: {command} login"))?;
     eprintln!("{}", super::airs_access::DISCLOSURE);
     let access = super::airs_access::verify(home).await;
-    eprintln!("{}", access.after_login());
+    eprintln!("{}", access.after_login(environment));
     Ok(())
 }
 

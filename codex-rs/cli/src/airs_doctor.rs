@@ -11,7 +11,12 @@ struct Check {
     detail: String,
 }
 
-pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Result<()> {
+pub async fn run(
+    home: &Path,
+    args: &super::doctor::DoctorCommand,
+    environment: Option<&str>,
+) -> anyhow::Result<()> {
+    let command = super::airs_environment::command(environment);
     if args.json && super::airs_doctor_storage::child_probe()? {
         return Ok(());
     }
@@ -40,7 +45,7 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
     checks.push(Check {
         name: "credential_cleanup", passed: cleanup_clear,
         detail: if cleanup_clear { "No pending credential cleanup".into() } else {
-            "Credential cleanup is pending or unreadable. Restore native storage access, then retry airs login or airs logout for this environment. Doctor does not retry credential cleanup.".into()
+            format!("Credential cleanup is pending or unreadable. Restore native storage access, then retry {command} login or {command} logout. Doctor does not retry credential cleanup.")
         },
     });
     let tools = if cfg!(target_os = "linux") {

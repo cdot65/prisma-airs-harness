@@ -18,6 +18,7 @@ pub(super) fn input(
     label: &str,
     help: &str,
     initial: &str,
+    environment: Option<&str>,
     validate: impl Fn(&str) -> anyhow::Result<()>,
 ) -> anyhow::Result<String> {
     let mut field = OnboardingInput {
@@ -28,7 +29,7 @@ pub(super) fn input(
         error: None,
     };
     loop {
-        let value = selected(ui.input(field.clone())?)?;
+        let value = selected(ui.input(field.clone())?, environment)?;
         match validate(&value) {
             Ok(()) => return Ok(value),
             Err(error) => {
@@ -45,24 +46,27 @@ pub(super) fn create(
     requested: Option<&str>,
     defaults: &airs_harness::SetupArgs,
 ) -> anyhow::Result<airs_environment::Selection> {
-    selected(ui.menu(
-        "Welcome to Prisma AIRS",
-        &[
-            item(
-                "Connect an environment",
-                "Use your organization's AI Gateway and company sign-in",
-            ),
-            item(
-                "Exit",
-                "Get connection details from your administrator first",
-            ),
-        ],
-    )?)
+    selected(
+        ui.menu(
+            "Welcome to Prisma AIRS",
+            &[
+                item(
+                    "Connect an environment",
+                    "Use your organization's AI Gateway and company sign-in",
+                ),
+                item(
+                    "Exit",
+                    "Get connection details from your administrator first",
+                ),
+            ],
+        )?,
+        None,
+    )
     .and_then(|choice| {
         if choice == 0 {
             Ok(())
         } else {
-            Err(cancelled())
+            Err(cancelled(None))
         }
     })?;
     let name = input(
@@ -70,6 +74,7 @@ pub(super) fn create(
         "Environment name",
         "A short name such as work or staging.",
         requested.unwrap_or("work"),
+        None,
         |name| {
             airs_environment::validate_name(name)?;
             anyhow::ensure!(
@@ -87,6 +92,7 @@ pub(super) fn create(
         "AI Gateway URL",
         "Use the inference API root supplied by your administrator.",
         &args.gateway_url,
+        None,
         |value| {
             let candidate = airs_harness::SetupArgs {
                 gateway_url: value.into(),
@@ -99,18 +105,21 @@ pub(super) fn create(
         environment: name.clone(),
         gateway: Some(args.gateway_url.clone()),
     });
-    if selected(ui.menu(
-        "Create this environment?",
-        &[
-            item(
-                "Create environment and sign in",
-                "Keep its credentials and conversation history together",
-            ),
-            item("Cancel", "Nothing has been created yet"),
-        ],
-    )?)? != 0
+    if selected(
+        ui.menu(
+            "Create this environment?",
+            &[
+                item(
+                    "Create environment and sign in",
+                    "Keep its credentials and conversation history together",
+                ),
+                item("Cancel", "Nothing has been created yet"),
+            ],
+        )?,
+        None,
+    )? != 0
     {
-        return Err(cancelled());
+        return Err(cancelled(None));
     }
     airs_environment::create(root, &name, &args)?;
     airs_environment::resolve(root, Some(&name))?
@@ -120,6 +129,7 @@ pub(super) fn create(
 pub(super) fn company(
     ui: &mut AirsOnboarding,
     home: &Path,
+    environment: Option<&str>,
 ) -> anyhow::Result<airs_credentials::LoginArgs> {
     let bound = airs_login::existing_binding(home)?.and_then(|binding| match binding.source {
         Some(airs_credentials::Source::Oidc { identity }) => Some(identity.config),
@@ -135,29 +145,32 @@ pub(super) fn company(
                 selected(ui.message(&OnboardingProgress {
                     title: "Check your company sign-in settings".into(),
                     detail: "Saved public connection settings are invalid or unavailable. Enter replacement settings from your administrator. Existing credentials and history are preserved.".into(), link: None,
-                })?)?;
+                })?, environment)?;
                 None
             }
         }
     };
     let config = if let Some(config) = saved {
-        let choice = selected(ui.menu(
-            "Company sign-in settings",
-            &[
-                item("Continue with saved settings", &config.issuer),
-                item(
-                    "Review or change public settings",
-                    "A different identity requires a separate environment",
-                ),
-            ],
-        )?)?;
+        let choice = selected(
+            ui.menu(
+                "Company sign-in settings",
+                &[
+                    item("Continue with saved settings", &config.issuer),
+                    item(
+                        "Review or change public settings",
+                        "A different identity requires a separate environment",
+                    ),
+                ],
+            )?,
+            environment,
+        )?;
         if choice == 0 {
             config
         } else {
-            collect_company(ui, Some(config))?
+            collect_company(ui, Some(config), environment)?
         }
     } else {
-        collect_company(ui, /*previous*/ None)?
+        collect_company(ui, /*previous*/ None, environment)?
     };
     let args = airs_credentials::LoginArgs {
         issuer_url: Some(config.issuer),
@@ -172,6 +185,7 @@ pub(super) fn company(
 fn collect_company(
     ui: &mut AirsOnboarding,
     previous: Option<IdentityConfig>,
+    environment: Option<&str>,
 ) -> anyhow::Result<IdentityConfig> {
     let previous = previous.unwrap_or(IdentityConfig {
         issuer: String::new(),
@@ -183,6 +197,7 @@ fn collect_company(
         "Company issuer URL",
         "The HTTPS issuer from your administrator. Your password stays in the browser.",
         &previous.issuer,
+        environment,
         |value| {
             airs_login::validate_identity(&IdentityConfig {
                 issuer: value.into(),
@@ -196,6 +211,7 @@ fn collect_company(
         "Public client ID",
         "An administrator-provided public client ID, never a client secret.",
         &previous.client_id,
+        environment,
         airs_login::public_field,
     )?;
     let audience = input(
@@ -203,6 +219,7 @@ fn collect_company(
         "Gateway audience",
         "The audience registered for your AI Gateway.",
         &previous.audience,
+        environment,
         airs_login::public_field,
     )?;
     let config = IdentityConfig {

@@ -71,15 +71,14 @@ pub(super) async fn interactive(
     airs_environment::setup(root, &name, &args)?;
     airs_environment::select(root, Some(&name))?;
     let home = codex_core::config::find_codex_home()?;
-    airs_login::interactive(home.as_path(), LoginFlow::Browser)
+    let command = airs_environment::command(Some(&name));
+    airs_login::interactive(home.as_path(), LoginFlow::Browser, Some(&name))
         .await
         .with_context(|| {
-            format!(
-                "Environment {name} was created. Resume sign-in with: airs --environment {name} login"
-            )
+            format!("Environment {name} was created. Resume sign-in with: {command} login")
         })?;
-    eprintln!("Check access: airs --environment {name} doctor --verify-access");
-    eprintln!("Start a session: airs --environment {name}");
+    eprintln!("Check access: {command} doctor --verify-access");
+    eprintln!("Start a session: {command}");
     Ok(())
 }
 

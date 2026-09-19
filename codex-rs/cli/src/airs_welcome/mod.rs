@@ -30,16 +30,17 @@ fn item(label: &str, detail: &str) -> OnboardingMenuItem {
     }
 }
 
-fn cancelled() -> anyhow::Error {
+fn cancelled(environment: Option<&str>) -> anyhow::Error {
+    let command = airs_environment::command(environment);
     anyhow::anyhow!(
-        "Sign-in cancelled. Existing environments are preserved; resume with airs login or airs --environment NAME login."
+        "Sign-in cancelled. Existing environments are preserved; resume with {command} login."
     )
 }
 
-fn selected<T>(result: OnboardingResult<T>) -> anyhow::Result<T> {
+fn selected<T>(result: OnboardingResult<T>, environment: Option<&str>) -> anyhow::Result<T> {
     match result {
         OnboardingResult::Selected(value) => Ok(value),
-        OnboardingResult::Cancelled => Err(cancelled()),
+        OnboardingResult::Cancelled => Err(cancelled(environment)),
     }
 }
 
@@ -104,7 +105,7 @@ pub(super) async fn run(
     if selection.is_none() {
         let choices = airs_environment::choices(root)?;
         selection = if !creating && !choices.is_empty() {
-            Some(pick(&mut ui, root, &choices)?)
+            Some(pick(&mut ui, root, &choices, None)?)
         } else {
             let defaults = match &entry {
                 Entry::Create(args) => args.clone(),
@@ -138,10 +139,13 @@ pub(super) async fn run(
         }
         let action = match retry_action.take() {
             Some(action) => action,
-            None => selected(ui.menu("Sign in to continue", &actions)?)?,
+            None => selected(
+                ui.menu("Sign in to continue", &actions)?,
+                selection.name.as_deref(),
+            )?,
         };
         if action == 2 {
-            selection = pick(&mut ui, root, &choices)?;
+            selection = pick(&mut ui, root, &choices, selection.name.as_deref())?;
             if matches!(entry, Entry::Session)
                 && !airs_login::needs_login(&selection.home, |name| {
                     std::env::var_os(name).is_some()
@@ -167,25 +171,28 @@ pub(super) async fn run(
             ui = AirsOnboarding::open(context(&selection), display)?;
             result
         } else {
-            let args = forms::company(&mut ui, &selection.home)?;
+            let args = forms::company(&mut ui, &selection.home, selection.name.as_deref())?;
             if matches!(preferred, airs_oidc::LoginFlow::Browser) {
-                preferred = match selected(ui.menu(
-                    "How would you like to sign in?",
-                    &[
-                        item(
-                            "Open browser on this machine",
-                            "Recommended for your desktop",
-                        ),
-                        item(
-                            "Use device authorization",
-                            "Sign in on another device; useful over SSH",
-                        ),
-                        item(
-                            "Show the full browser URL",
-                            "Manual browser flow with the existing text prompt",
-                        ),
-                    ],
-                )?)? {
+                preferred = match selected(
+                    ui.menu(
+                        "How would you like to sign in?",
+                        &[
+                            item(
+                                "Open browser on this machine",
+                                "Recommended for your desktop",
+                            ),
+                            item(
+                                "Use device authorization",
+                                "Sign in on another device; useful over SSH",
+                            ),
+                            item(
+                                "Show the full browser URL",
+                                "Manual browser flow with the existing text prompt",
+                            ),
+                        ],
+                    )?,
+                    selection.name.as_deref(),
+                )? {
                     0 => airs_oidc::LoginFlow::Browser,
                     1 => airs_oidc::LoginFlow::Device,
                     _ => airs_oidc::LoginFlow::BrowserManual,
@@ -213,7 +220,9 @@ pub(super) async fn run(
                     .await?
                 {
                     OnboardingResult::Selected(result) => result,
-                    OnboardingResult::Cancelled => return Err(cancelled()),
+                    OnboardingResult::Cancelled => {
+                        return Err(cancelled(selection.name.as_deref()));
+                    }
                 }
             }
         };
@@ -226,27 +235,31 @@ pub(super) async fn run(
                         .replace(".: ", ". "),
                     link: None,
                 })?,
+                selection.name.as_deref(),
             )?;
-            if selected(ui.menu(
-                "Choose your next step",
-                &[
-                    item(
-                        "Try sign-in again",
-                        "Check storage access and connection settings first",
-                    ),
-                    item(
-                        "Back to sign-in options",
-                        "Use a workspace key or another environment",
-                    ),
-                ],
-            )?)? == 0
+            if selected(
+                ui.menu(
+                    "Choose your next step",
+                    &[
+                        item(
+                            "Try sign-in again",
+                            "Check storage access and connection settings first",
+                        ),
+                        item(
+                            "Back to sign-in options",
+                            "Use a workspace key or another environment",
+                        ),
+                    ],
+                )?,
+                selection.name.as_deref(),
+            )? == 0
             {
                 retry_action = Some(action);
                 preferred = airs_oidc::LoginFlow::Browser;
             }
             continue;
         }
-        verify(&mut ui, &selection.home).await?;
+        verify(&mut ui, &selection).await?;
         return Ok(selection.name);
     }
 }
@@ -255,27 +268,35 @@ fn pick(
     ui: &mut AirsOnboarding,
     root: &Path,
     choices: &[(String, String)],
+    environment: Option<&str>,
 ) -> anyhow::Result<airs_environment::Selection> {
     let actions: Vec<_> = choices
         .iter()
         .map(|(name, gateway)| item(name, gateway))
         .collect();
-    let index = selected(ui.menu("Choose an environment", &actions)?)?;
+    let index = selected(ui.menu("Choose an environment", &actions)?, environment)?;
     airs_environment::resolve(root, Some(&choices[index].0))?
         .context("Selected environment is unavailable")
 }
 
-async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
+async fn verify(
+    ui: &mut AirsOnboarding,
+    selection: &airs_environment::Selection,
+) -> anyhow::Result<()> {
+    let command = airs_environment::command(selection.name.as_deref());
     loop {
         let (_sender, receiver) = watch::channel(OnboardingProgress {
             title: "Credential saved · checking gateway access".into(),
             detail: airs_access::DISCLOSURE.into(),
             link: None,
         });
-        let verification = match ui.wait(airs_access::verify(home), receiver).await? {
+        let verification = match ui
+            .wait(airs_access::verify(&selection.home), receiver)
+            .await?
+        {
             OnboardingResult::Selected(result) => result,
             OnboardingResult::Cancelled => anyhow::bail!(
-                "Credential saved; access check cancelled. Resume with airs or run airs doctor --verify-access."
+                "Credential saved; access check cancelled. Resume with {command} or run {command} doctor --verify-access."
             ),
         };
         if ui.message(&OnboardingProgress {
@@ -285,12 +306,12 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
                 "Credential saved · gateway access needs attention"
             }
             .into(),
-            detail: verification.after_login(),
+            detail: verification.after_login(selection.name.as_deref()),
             link: None,
         })? == OnboardingResult::Cancelled
         {
             anyhow::bail!(
-                "Credential saved. Start AIRS when ready, or inspect access with airs doctor --verify-access."
+                "Credential saved. Start {command} when ready, or inspect access with {command} doctor --verify-access."
             );
         }
         if verification.outcome.is_ok() {
@@ -309,14 +330,14 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
                 ),
                 item(
                     "Exit and fix gateway access",
-                    "Use airs doctor --verify-access when ready",
+                    &format!("Use {command} doctor --verify-access when ready"),
                 ),
             ],
         )?;
         match next {
             OnboardingResult::Selected(0) => return Ok(()),
             OnboardingResult::Selected(1) => {}
-            _ => anyhow::bail!("{}", verification.after_login()),
+            _ => anyhow::bail!("{}", verification.after_login(selection.name.as_deref())),
         }
     }
 }

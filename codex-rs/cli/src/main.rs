@@ -1295,6 +1295,7 @@ async fn cli_main(
             airs_environment::select(root.as_path(), environment.as_deref())?;
         }
         let home = codex_core::config::find_codex_home()?;
+        let selected_environment = airs_environment::name_for_home(root.as_path(), home.as_path())?;
         if matches!(
             &subcommand,
             None | Some(Subcommand::Resume(_) | Subcommand::Fork(_))
@@ -1302,7 +1303,12 @@ async fn cli_main(
             && std::io::stderr().is_terminal()
             && airs_login::needs_login(home.as_path(), |name| std::env::var_os(name).is_some())?
         {
-            airs_login::interactive(home.as_path(), airs_oidc::LoginFlow::Browser).await?;
+            airs_login::interactive(
+                home.as_path(),
+                airs_oidc::LoginFlow::Browser,
+                selected_environment.as_deref(),
+            )
+            .await?;
         }
         match &subcommand {
             Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args).await,
@@ -1338,12 +1344,14 @@ async fn cli_main(
                     );
                     airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
                 } else {
-                    airs_login::interactive(home.as_path(), flow).await
+                    airs_login::interactive(home.as_path(), flow, selected_environment.as_deref())
+                        .await
                 };
             }
             Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()).await,
             Some(Subcommand::Doctor(args)) => {
-                return airs_doctor::run(home.as_path(), args).await;
+                return airs_doctor::run(home.as_path(), args, selected_environment.as_deref())
+                    .await;
             }
             _ => {}
         }

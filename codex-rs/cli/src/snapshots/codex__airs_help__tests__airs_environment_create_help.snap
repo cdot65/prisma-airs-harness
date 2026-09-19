@@ -2,7 +2,7 @@
 source: cli/src/airs_help_tests.rs
 expression: create.render_long_help().to_string()
 ---
-Create an environment and sign in; supply --gateway-url for automation
+Create an environment; without --gateway-url, guide setup and sign-in
 
 Usage: airs env create [OPTIONS] [NAME]
 

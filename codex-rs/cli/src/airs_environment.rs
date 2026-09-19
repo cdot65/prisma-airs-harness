@@ -12,7 +12,7 @@ use uuid::Uuid;
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
-    /// Create an environment and sign in; supply --gateway-url for automation.
+    /// Create an environment; without --gateway-url, guide setup and sign-in.
     Create {
         /// Environment name. Guided setup prompts when omitted.
         name: Option<String>,
@@ -135,6 +135,9 @@ fn read(root: &Path) -> anyhow::Result<Registry> {
         registry.schema_version == 1,
         "unsupported environment schema version"
     );
+    for name in registry.environments.keys() {
+        validate_name(name)?;
+    }
     if let Some(name) = &registry.active {
         anyhow::ensure!(
             registry.environments.contains_key(name),
@@ -201,10 +204,30 @@ pub(super) fn validate_name(name: &str) -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Render a copyable command while preserving valid leading-hyphen names.
+pub(super) fn command(name: Option<&str>) -> String {
+    match name {
+        Some(name) if name.starts_with('-') => format!("airs --environment={name}"),
+        Some(name) => format!("airs --environment {name}"),
+        None => "airs".into(),
+    }
+}
+
+/// Recover public selection from the already bound home, never the saved default.
+pub(super) fn name_for_home(root: &Path, home: &Path) -> anyhow::Result<Option<String>> {
+    Ok(read(root)?
+        .environments
+        .into_iter()
+        .find_map(|(name, environment)| {
+            (environment_home(root, &environment) == home).then_some(name)
+        }))
+}
+
 pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
     let home = create(root, name, args)?;
     println!("Configured Prisma AIRS Harness in {}", home.display());
-    println!("Run airs login to sign in with your company account or workspace API key.");
+    let command = command(Some(name));
+    println!("Run {command} login to sign in with your company account or workspace API key.");
     println!("Selected environment {name}. Its sessions and credentials are independent.");
     Ok(())
 }
@@ -301,8 +324,9 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
         }
         let name = name.context("supply a name: airs env create NAME --gateway-url URL")?;
         setup(root, name, args)?;
-        println!("Next: airs --environment {name} login");
-        println!("Then: airs --environment {name} doctor --verify-access");
+        let command = self::command(Some(name));
+        println!("Next: {command} login");
+        println!("Then: {command} doctor --verify-access");
         return Ok(());
     }
     let _lock = lock(root)?;

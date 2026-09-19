@@ -8,7 +8,7 @@ Create, inspect, switch, rename, or remove AIRS environments
 Usage: airs env [COMMAND]
 
 Commands:
-  create  Create an environment and sign in; supply --gateway-url for automation
+  create  Create an environment; without --gateway-url, guide setup and sign-in
   list    List environments; an asterisk marks the default for new processes
   use     Select the default environment for new processes
   show    Inspect a named or selected environment without showing credentials

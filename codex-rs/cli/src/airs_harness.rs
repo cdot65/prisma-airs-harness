@@ -140,6 +140,7 @@ pub(super) fn configuration(args: &SetupArgs, home: &Path) -> anyhow::Result<(St
         "model_context_window": args.context_window,
         "check_for_update_on_startup": false,
         "allow_login_shell": false,
+        "mcp_oauth_credentials_store": "keyring",
         "web_search": "disabled",
         "analytics": {"enabled": false},
         "feedback": {"enabled": false},

@@ -15,6 +15,8 @@ import hashlib
 import html
 import http.cookiejar
 import json
+
+from airs_fixture_config import set_mcp_store
 import os
 from pathlib import Path
 import queue
@@ -254,9 +256,7 @@ def main():
             args.state / "environments" / registry["environments"]["work"]["id"]
         )
         config = environment_home / "config.toml"
-        config.write_text(
-            'mcp_oauth_credentials_store = "keyring"\n' + config.read_text()
-        )
+        set_mcp_store(config, "keyring")
         run(
             "inference_browser_pkce",
             [

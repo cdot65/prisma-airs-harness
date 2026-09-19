@@ -5,6 +5,8 @@ No browser, production token, or operating-system credential store is used.
 """
 
 import json
+
+from airs_fixture_config import set_mcp_store
 import os
 from pathlib import Path
 import re
@@ -111,9 +113,9 @@ class ManualMcpLogin(unittest.TestCase):
         registry = json.loads((self.home / "environments.json").read_text())
         self.home = self.home / "environments" / registry["environments"]["work"]["id"]
         config = self.home / "config.toml"
+        set_mcp_store(config, "file")
         config.write_text(
-            'mcp_oauth_credentials_store = "file"\n'
-            + config.read_text()
+            config.read_text()
             + f'\n[mcp_servers.manual]\nurl = "{self.issuer}"\n'
             + '[mcp_servers.manual.oauth]\nclient_id = "fixture-client"\n'
         )

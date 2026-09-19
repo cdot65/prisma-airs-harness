@@ -5,6 +5,8 @@ not establish production gateway or upstream ServiceNow OAuth acceptance.
 """
 
 import json
+
+from airs_fixture_config import set_mcp_store
 import os
 import re
 import time
@@ -34,7 +36,7 @@ class McpManager(unittest.TestCase):
         )
         self.env.pop("CODEX_CA_CERTIFICATE", None)
         config = self.home / "config.toml"
-        config.write_text('mcp_oauth_credentials_store = "file"\n' + config.read_text())
+        set_mcp_store(config, "file")
         self.before = config.read_text()
 
     def key(self, terminal, keys):
@@ -47,12 +49,12 @@ class McpManager(unittest.TestCase):
         time.sleep(0.15)
         return self.key(terminal, b"\x1b[B" * down + b"\r")
 
-    def add(self, terminal):
+    def add(self, terminal, name="service-now"):
         terminal.send_line("/mcp")
         terminal.wait_for(b"Add gateway MCP server")
         self.choose(terminal)
         terminal.wait_for(b"Name this MCP connection")
-        terminal.send_line("service-now")
+        terminal.send_line(name)
         terminal.wait_for(b"https://gateway-mcp.example.com/service-now/mcp")
         time.sleep(0.15)
         terminal.send_line(self.gateway.endpoint)

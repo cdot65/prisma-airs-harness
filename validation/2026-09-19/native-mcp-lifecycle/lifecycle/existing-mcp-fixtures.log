@@ -1,0 +1,13 @@
+test_cancel_keeps_connection_and_never_exchanges_or_submits_callback (test_airs_mcp_manager.McpManager.test_cancel_keeps_connection_and_never_exchanges_or_submits_callback) ... ok
+test_desktop_callback_and_failed_discovery_do_not_report_success (test_airs_mcp_manager.McpManager.test_desktop_callback_and_failed_discovery_do_not_report_success) ... ok
+test_private_adapter_rejects_duplicate_name_without_replacing_it (test_airs_mcp_manager.McpManager.test_private_adapter_rejects_duplicate_name_without_replacing_it) ... ok
+test_remote_callback_add_verify_logout_remove_and_environment_pinning (test_airs_mcp_manager.McpManager.test_remote_callback_add_verify_logout_remove_and_environment_pinning) ... ok
+test_new_environment_uses_native_storage_across_processes (test_airs_harness_native_mcp.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes) ... ok
+test_unavailable_native_store_never_falls_back_to_file (test_airs_harness_native_mcp.NativeMcpDefault.test_unavailable_native_store_never_falls_back_to_file) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 26.464s
+
+OK
+{"case": "positive", "executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4", "inference_preserved": true, "native_logout_verified": true, "native_mode_unmodified": true, "native_record_persisted": true, "oauth_exchanges": 1, "passed": true, "platform": "linux", "second_process_verified": true}
+{"case": "unavailable", "executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4", "fallback_absent": true, "login_failed_safely": true, "native_mode_unmodified": true, "oauth_exchanges": 1, "passed": true, "platform": "linux"}

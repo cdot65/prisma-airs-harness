@@ -1,0 +1,10 @@
+test_deleted_history_is_rejected (test_airs_lifecycle_history.LifecycleHistory.test_deleted_history_is_rejected) ... ok
+test_each_credential_canary_in_rollout_is_rejected_without_disclosure (test_airs_lifecycle_history.LifecycleHistory.test_each_credential_canary_in_rollout_is_rejected_without_disclosure) ... ok
+test_each_credential_canary_in_transcript_is_rejected_without_disclosure (test_airs_lifecycle_history.LifecycleHistory.test_each_credential_canary_in_transcript_is_rejected_without_disclosure) ... ok
+test_rewritten_or_truncated_history_is_rejected (test_airs_lifecycle_history.LifecycleHistory.test_rewritten_or_truncated_history_is_rejected) ... ok
+test_valid_append_updates_retained_prefix (test_airs_lifecycle_history.LifecycleHistory.test_valid_append_updates_retained_prefix) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.004s
+
+OK

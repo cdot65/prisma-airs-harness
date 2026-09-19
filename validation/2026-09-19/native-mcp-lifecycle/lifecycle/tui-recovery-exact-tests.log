@@ -1,0 +1,10 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Finished `test` profile [unoptimized] target(s) in 0.70s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID 2cefac78-6bdb-400e-99e9-74704f2a3a8e with nextest profile: local
+    Starting 2 tests across 6 binaries (4351 tests skipped)
+        PASS [   0.018s] (1/2) codex-tui app::airs_mcp_recovery::tests::cancelling_consent_invalidates_late_completions_and_allows_retry
+        PASS [   0.019s] (2/2) codex-tui app::airs_mcp_recovery::tests::reconnect_requires_oauth_and_successful_server_initialization
+────────────
+     Summary [   0.033s] 2 tests run: 2 passed, 4351 skipped

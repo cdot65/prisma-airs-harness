@@ -122,16 +122,19 @@ if ! timeout 10 gdbus call --session --dest org.freedesktop.DBus \
 else
     pass 'User D-Bus session is reachable.'
     # Read collection metadata only; D-Bus may activate the user's Secret Service.
-    collection=$(timeout 10 gdbus call --session --dest org.freedesktop.secrets \
-        --object-path /org/freedesktop/secrets --method org.freedesktop.Secret.Service.ReadAlias default 2>/dev/null || true)
-    collection=$(printf '%s' "$collection" | sed -n "s/.*objectpath '\([^']*\)'.*/\1/p")
-    unlocked=false
-    if [[ $collection == /org/freedesktop/secrets/collection/* ]]; then
-        locked=$(timeout 10 gdbus call --session --dest org.freedesktop.secrets \
-            --object-path "$collection" --method org.freedesktop.DBus.Properties.Get \
-            org.freedesktop.Secret.Collection Locked 2>/dev/null || true)
-        [[ $locked != *false* ]] || unlocked=true
-    fi
+    read_collection_state() {
+        collection=$(timeout 10 gdbus call --session --dest org.freedesktop.secrets \
+            --object-path /org/freedesktop/secrets --method org.freedesktop.Secret.Service.ReadAlias default 2>/dev/null || true)
+        collection=$(printf '%s' "$collection" | sed -n "s/.*objectpath '\([^']*\)'.*/\1/p")
+        unlocked=false
+        if [[ $collection == /org/freedesktop/secrets/collection/* ]]; then
+            locked=$(timeout 10 gdbus call --session --dest org.freedesktop.secrets \
+                --object-path "$collection" --method org.freedesktop.DBus.Properties.Get \
+                org.freedesktop.Secret.Collection Locked 2>/dev/null || true)
+            [[ $locked != *false* ]] || unlocked=true
+        fi
+    }
+    read_collection_state
     if [[ $unlocked == false && $mode != --check ]]; then
         printf '\nUnlock the existing login keyring, or choose a nonempty password for a new one.\n'
         printf 'This is a local keyring password, not your SSO password or API key.\n'
@@ -139,31 +142,53 @@ else
             IFS= read -r -s -p 'Keyring password (hidden): ' keyring_password
             printf '\n'
             if [[ -n $keyring_password ]]; then
-                if [[ -z $collection || $collection == / ]]; then
+                if [[ ! -e ${XDG_DATA_HOME:-$HOME/.local/share}/keyrings/login.keyring ]]; then
                     IFS= read -r -s -p 'Confirm new keyring password: ' keyring_confirmation
                     printf '\n'
                     [[ $keyring_confirmation == "$keyring_password" ]] || { unset keyring_password keyring_confirmation; echo 'Passwords did not match.'; exit 1; }
                     unset keyring_confirmation
                 fi
-                # Password is delivered through stdin, never arguments, files, or logs.
-                printf '%s' "$keyring_password" | timeout 20 gnome-keyring-daemon --unlock --components=secrets > /dev/null 2>&1 || true
+                # --unlock alone starts a competing daemon after D-Bus activation.
+                # Replace the locked daemon so Secret Service clients reach the
+                # unlocked instance. Password stays on stdin, never in logs/argv.
+                printf 'Restarting the locked keyring service to apply the unlock.\n'
+                if ! printf '%s' "$keyring_password" | timeout 20 gnome-keyring-daemon \
+                    --replace --unlock --daemonize --components=secrets >/dev/null 2>&1; then
+                    fail 'The keyring daemon could not restart and unlock.'
+                fi
             fi
             unset keyring_password
         else printf 'Use an interactive SSH terminal (ssh -t) to unlock the keyring.\n'; fi
+        # Daemon startup can finish after its launcher returns. Verify the
+        # collection through D-Bus rather than trusting the launcher exit code.
+        for attempt in {1..10}; do
+            read_collection_state
+            [[ $unlocked == false ]] || break
+            sleep 0.2
+        done
     fi
-    probe_id=$(python3 -c 'import uuid; print(uuid.uuid4())')
-    probe_value="airs-disposable-readiness-$probe_id"
-    if printf '%s' "$probe_value" | timeout 15 secret-tool store --label='AIRS disposable host readiness check' \
-        application airs-host-readiness probe-id "$probe_id" >/dev/null 2>&1; then
-        retrieved=$(timeout 10 secret-tool lookup application airs-host-readiness probe-id "$probe_id" 2>/dev/null || true)
-        if [[ $retrieved == "$probe_value" ]]; then pass 'Native credential store write/read passed.'
-        else fail 'Native credential store readback did not match.'; fi
-        unset retrieved
-        if timeout 10 secret-tool clear application airs-host-readiness probe-id "$probe_id" >/dev/null 2>&1; then
-            probe_id=
-            pass 'Disposable credential removed.'
-        else fail 'Disposable credential cleanup failed; this run is not ready.'; fi
-    else fail 'Credential store is locked/unavailable. Run this script with --unlock in your SSH terminal.'; fi
+    if [[ $unlocked == false ]]; then
+        if [[ $mode == --check ]]; then
+            fail 'Credential store is locked/unavailable. Run this script with --unlock in your SSH terminal.'
+        else
+            fail 'The default keyring is still locked/unavailable. Use the password originally chosen for the login keyring; a different password cannot unlock it.'
+            printf 'If that password was accepted, inspect the user keyring service and default collection; do not reset or delete the keyring.\n'
+        fi
+    else
+        probe_id=$(python3 -c 'import uuid; print(uuid.uuid4())')
+        probe_value="airs-disposable-readiness-$probe_id"
+        if printf '%s' "$probe_value" | timeout 15 secret-tool store --label='AIRS disposable host readiness check' \
+            application airs-host-readiness probe-id "$probe_id" >/dev/null 2>&1; then
+            retrieved=$(timeout 10 secret-tool lookup application airs-host-readiness probe-id "$probe_id" 2>/dev/null || true)
+            if [[ $retrieved == "$probe_value" ]]; then pass 'Native credential store write/read passed.'
+            else fail 'Native credential store readback did not match.'; fi
+            unset retrieved
+            if timeout 10 secret-tool clear application airs-host-readiness probe-id "$probe_id" >/dev/null 2>&1; then
+                probe_id=
+                pass 'Disposable credential removed.'
+            else fail 'Disposable credential cleanup failed; this run is not ready.'; fi
+        else fail 'The default keyring is unlocked, but the disposable credential write failed.'; fi
+    fi
 fi
 printf '\nReport: %s\n' "$report"
 if (( failures )); then printf 'NOT READY: %s check(s) failed. Authentication has not been attempted.\n' "$failures"; exit 1; fi

@@ -1,0 +1,12 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  Connecting and discovering MCP tools…
+  Checking the connection. Tool discovery does not execute a tool.
+
+› 1. Cancel  Stop this operation.
+
+  Press enter to confirm or esc to go back

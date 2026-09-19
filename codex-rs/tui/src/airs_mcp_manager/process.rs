@@ -1,6 +1,7 @@
 //! Bounded, cancellable private interaction with the exact running AIRS executable.
 use super::Event;
 use super::Operation;
+use super::Progress;
 use crate::app_event::AppEvent;
 use crate::app_event_sender::AppEventSender;
 use std::path::Path;
@@ -103,6 +104,9 @@ pub(crate) fn authorization_url(line: &str) -> Result<Option<String>, String> {
     if value.get("airs_mcp").and_then(serde_json::Value::as_u64) != Some(1) {
         return Ok(None);
     }
+    if value.get("progress").is_some() {
+        return Ok(None);
+    }
     let value = value
         .get("authorization_url")
         .and_then(serde_json::Value::as_str)
@@ -119,6 +123,22 @@ pub(crate) fn authorization_url(line: &str) -> Result<Option<String>, String> {
         return Err("The gateway returned an unsafe authorization URL.".into());
     }
     Ok(Some(value.to_string()))
+}
+
+fn login_progress(line: &str) -> Result<Option<Progress>, String> {
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(line) else {
+        return Ok(None);
+    };
+    if value.get("airs_mcp").and_then(serde_json::Value::as_u64) != Some(1) {
+        return Ok(None);
+    }
+    match value.get("progress").and_then(serde_json::Value::as_str) {
+        None => Ok(None),
+        Some("exchanging_code") => Ok(Some(Progress::ExchangingCode)),
+        Some("saving_credential") => Ok(Some(Progress::SavingCredential)),
+        Some("timed_out") => Err("MCP sign-in expired. Open /mcp, select the saved connection and choose Sign in for a fresh link.".into()),
+        Some(_) => Err("Invalid MCP sign-in progress response.".into()),
+    }
 }
 
 pub(crate) async fn run(
@@ -162,6 +182,12 @@ pub(crate) async fn run(
                     let (sender, receiver) = oneshot::channel();
                     callback = Some(receiver);
                     tx.send(AppEvent::AirsMcpManager(Event::Authorize { attempt, thread, url, callback: sender }));
+                }
+                if let Some(progress) = login_progress(&line)? {
+                    // Release the input receiver before replacing its view. Its sender
+                    // closing on an automatic HTTP callback must not cancel token exchange.
+                    callback = None;
+                    tx.send(AppEvent::AirsMcpManager(Event::Progress { attempt, thread, progress }));
                 }
             }
             result = async {

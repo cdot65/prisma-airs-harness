@@ -183,6 +183,24 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
     insta::assert_snapshot!("airs_mcp_manager_connection", render_recovery(&chat));
     chat.show_airs_mcp_menu(views::confirm(Operation::Remove("service-now".into())));
     insta::assert_snapshot!("airs_mcp_manager_remove", render_recovery(&chat));
+    for (name, stage) in [
+        (
+            "airs_mcp_exchange_progress",
+            crate::airs_mcp_manager::Progress::ExchangingCode,
+        ),
+        (
+            "airs_mcp_storage_progress",
+            crate::airs_mcp_manager::Progress::SavingCredential,
+        ),
+        (
+            "airs_mcp_discovery_progress",
+            crate::airs_mcp_manager::Progress::DiscoveringTools,
+        ),
+    ] {
+        chat.show_airs_mcp_menu(views::progress(stage));
+        insta::assert_snapshot!(name, render_recovery(&chat));
+    }
+
     chat.dismiss_airs_mcp_manager();
     chat.input_queue.user_turn_pending_start = true;
     assert!(!chat.airs_mcp_manager_ready());

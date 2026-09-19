@@ -12,25 +12,25 @@ collection's lock state, and prints the actual script path for later unlocks.
 On a machine with npm, download the published package:
 
 ```bash
-npm pack airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io
-tar -xOf airs-harness-0.1.0-alpha.22.mcp.5.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-mcp5.sh
+npm pack airs-harness@0.1.0-alpha.22.mcp.6 --registry=https://npm.cdot.io
+tar -xOf airs-harness-0.1.0-alpha.22.mcp.6.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-mcp6.sh
 ```
 
-Review the script, then copy it to `~/prepare-airs-ubuntu-mcp5.sh` on your Ubuntu host
+Review the script, then copy it to `~/prepare-airs-ubuntu-mcp6.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
 Run the corrected copied script in an interactive SSH terminal:
 
 ```bash
-bash ~/prepare-airs-ubuntu-mcp5.sh
+bash ~/prepare-airs-ubuntu-mcp6.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
-The helper defaults to `0.1.0-alpha.22.mcp.5` from `https://npm.cdot.io`,
+The helper defaults to `0.1.0-alpha.22.mcp.6` from `https://npm.cdot.io`,
 matching this package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.5 bash ~/prepare-airs-ubuntu-mcp5.sh
+AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.6 bash ~/prepare-airs-ubuntu-mcp6.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service
@@ -84,8 +84,8 @@ even if the browser cannot load that localhost page. Do not paste callbacks into
 the agent conversation. Inference `login --no-browser` is a different flow from
 `--device-auth` and still needs its callback to reach Ubuntu.
 
-After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp5.sh --unlock`.
-Use `bash ~/prepare-airs-ubuntu-mcp5.sh --check` for checks without installing packages
+After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp6.sh --unlock`.
+Use `bash ~/prepare-airs-ubuntu-mcp6.sh --check` for checks without installing packages
 or prompting for a keyring password. Both modes may create a disposable readiness
 record and sandbox environment, which they clean up. They do not test real SSO,
 workspace API-key authorization or ServiceNow access.

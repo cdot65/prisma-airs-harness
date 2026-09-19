@@ -3,6 +3,7 @@ use super::App;
 use super::background_requests::fetch_all_mcp_server_statuses;
 use crate::airs_mcp_manager::Event;
 use crate::airs_mcp_manager::Operation;
+use crate::airs_mcp_manager::Progress;
 use crate::airs_mcp_manager::process;
 use crate::airs_mcp_manager::views;
 use crate::app_event::AppEvent;
@@ -56,6 +57,18 @@ impl App {
                 {
                     self.chat_widget
                         .show_airs_mcp_menu(views::overview(connections));
+                }
+            }
+            Event::Progress {
+                attempt,
+                thread,
+                progress,
+            } => {
+                if self.airs_recovery.is_current(attempt)
+                    && self.current_displayed_thread_id() == Some(thread)
+                {
+                    self.chat_widget
+                        .show_airs_mcp_menu(views::progress(progress));
                 }
             }
             Event::Done {
@@ -194,6 +207,16 @@ impl App {
                 tokio::spawn(async move {
                     let work = async {
                         process::run(&home, &cwd, &operation, attempt, thread, &tx).await?;
+                        if matches!(
+                            operation,
+                            Operation::Add { .. } | Operation::Login(_) | Operation::Verify(_)
+                        ) {
+                            tx.send(AppEvent::AirsMcpManager(Event::Progress {
+                                attempt,
+                                thread,
+                                progress: Progress::DiscoveringTools,
+                            }));
+                        }
                         request.request_typed::<McpServerRefreshResponse>(ClientRequest::McpServerRefresh { request_id: RequestId::String(format!("airs-mcp-manager-{attempt}")), params: None }).await.map_err(|_| "Connection saved, but MCP reload failed. Start a new conversation and retry /mcp.".to_string())?;
                         fetch_all_mcp_server_statuses(request, McpServerStatusDetail::ToolsAndAuthOnly, /*thread_id*/ None).await.map_err(|_| "Connection saved, but tool discovery could not be verified. Retry from /mcp.".to_string())
                     };

@@ -33,6 +33,7 @@ class McpManager(unittest.TestCase):
             SSL_CERT_FILE=str(self.gateway.certificate),
             NO_PROXY="127.0.0.1,localhost",
             no_proxy="127.0.0.1,localhost",
+            SSH_CONNECTION="fixture",
         )
         self.env.pop("CODEX_CA_CERTIFICATE", None)
         config = self.home / "config.toml"
@@ -249,3 +250,138 @@ class McpManager(unittest.TestCase):
         self.assertIn("already exists", result.stderr)
         self.assertEqual(config.read_bytes(), before)
         self.assertEqual(self.gateway.tokens, [])
+
+    @unittest.skipUnless(
+        __import__("sys").platform.startswith("linux"), "Linux browser launcher fixture"
+    )
+    def test_local_desktop_opens_once_and_http_callback_completes(self):
+        import sys
+
+        recorded = self.inference.root / "browser-url"
+        browser = self.inference.root / "fixture-browser"
+        browser.write_text(
+            f"#!{sys.executable}\nimport pathlib,sys\npathlib.Path({str(recorded)!r}).write_text(sys.argv[1])\n"
+        )
+        browser.chmod(0o700)
+        for name in ("SSH_CONNECTION", "SSH_CLIENT", "SSH_TTY"):
+            self.env.pop(name, None)
+        self.env.update(DISPLAY=":fixture", BROWSER=str(browser) + " %s")
+        with TerminalSession(harness.BINARY, self.env, self.inference.work) as terminal:
+            terminal.start()
+            self.add(terminal)
+            terminal.wait_for(b"Browser opened")
+            terminal.wait_until(
+                lambda: recorded.exists() and recorded.stat().st_size > 0, timeout=10
+            )
+            query = parse_qs(urlsplit(recorded.read_text()).query)
+            callback = urlunsplit(
+                urlsplit(query["redirect_uri"][0])._replace(
+                    query=urlencode(
+                        {
+                            "state": query["state"][0],
+                            "code": "PRIVATE-MANAGER-CODE",
+                            "iss": self.gateway.base,
+                        }
+                    )
+                )
+            )
+            with urlopen(callback, timeout=10) as response:
+                self.assertEqual(response.status, 200)
+            terminal.wait_for(b"MCP connection updated", timeout=45)
+            self.assertNotIn(b"PRIVATE-MANAGER-CODE", terminal.transcript)
+        self.assertEqual(len(self.gateway.tokens), 1)
+        self.assertEqual(self.inference.requests, [])
+
+    def test_private_login_progress_precedes_committed_credential(self):
+        import subprocess
+
+        config = self.home / "config.toml"
+        config.write_text(
+            config.read_text()
+            + f'\n[mcp_servers.service-now]\nurl = "{self.gateway.endpoint}"\n'
+        )
+        process = subprocess.Popen(
+            [str(harness.BINARY), "mcp", "login", "--no-browser", "service-now"],
+            env=dict(
+                self.env,
+                AIRS_HARNESS_HOME=str(self.home),
+                AIRS_MCP_INTERACTION="json-v1",
+            ),
+            cwd=self.inference.work,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.addCleanup(lambda: process.poll() is None and process.kill())
+        while True:
+            line = process.stdout.readline()
+            self.assertTrue(line, "Login exited without an authorization event")
+            try:
+                event = json.loads(line)
+            except ValueError:
+                continue
+            if "authorization_url" in event:
+                break
+        query = parse_qs(urlsplit(event["authorization_url"]).query)
+        callback = urlunsplit(
+            urlsplit(query["redirect_uri"][0])._replace(
+                query=urlencode(
+                    {
+                        "state": query["state"][0],
+                        "code": "PRIVATE-MANAGER-CODE",
+                        "iss": self.gateway.base,
+                    }
+                )
+            )
+        )
+        output, error = process.communicate(callback + "\n", timeout=45)
+        self.assertEqual(process.returncode, 0, error)
+        stages = []
+        for line in output.splitlines():
+            try:
+                event = json.loads(line)
+            except ValueError:
+                continue
+            if "progress" in event:
+                stages.append(event["progress"])
+        self.assertEqual(stages, ["exchanging_code", "saving_credential"])
+        self.assertTrue((self.home / ".credentials.json").exists())
+        self.assertNotIn("PRIVATE-MANAGER-CODE", output + error)
+
+    @unittest.skipUnless(
+        os.environ.get("AIRS_TEST_MCP_TIMEOUT") == "1",
+        "opt-in real five-minute OAuth expiry",
+    )
+    def test_real_browser_expiry_preserves_connection_and_reports_retry(self):
+        import subprocess
+
+        config = self.home / "config.toml"
+        config.write_text(
+            config.read_text()
+            + f'\n[mcp_servers.service-now]\nurl = "{self.gateway.endpoint}"\n'
+        )
+        before = config.read_bytes()
+        process = subprocess.Popen(
+            [str(harness.BINARY), "mcp", "login", "--no-browser", "service-now"],
+            env=dict(
+                self.env,
+                AIRS_HARNESS_HOME=str(self.home),
+                AIRS_MCP_INTERACTION="json-v1",
+            ),
+            cwd=self.inference.work,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.addCleanup(lambda: process.poll() is None and process.kill())
+        process.wait(
+            timeout=330
+        )  # Keep stdin open while the real callback timer expires.
+        output, error = process.communicate(timeout=5)
+        self.assertNotEqual(process.returncode, 0)
+        self.assertIn('"progress":"timed_out"', output)
+        self.assertEqual(config.read_bytes(), before)
+        self.assertEqual(self.gateway.tokens, [])
+        self.assertFalse((self.home / ".credentials.json").exists())

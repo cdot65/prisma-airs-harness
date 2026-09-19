@@ -65,6 +65,8 @@ pub use oauth_callback::McpOAuthCallbackMode;
 pub use oauth_callback::resolve_mcp_oauth_callback_url;
 pub use oauth_client_registration::McpOAuthClientRegistration;
 pub use oauth_refresh_mode::McpOAuthRefreshMode;
+pub use perform_oauth_login::McpOAuthLoginProgress;
+pub use perform_oauth_login::McpOAuthLoginTimeout;
 pub use perform_oauth_login::OAuthProviderError;
 pub use perform_oauth_login::OauthLoginHandle;
 pub use perform_oauth_login::perform_oauth_login;

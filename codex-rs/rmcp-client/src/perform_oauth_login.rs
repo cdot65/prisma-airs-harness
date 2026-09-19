@@ -42,6 +42,8 @@ use codex_config::types::OAuthCredentialsStoreMode;
 
 #[path = "oauth_callback_input.rs"]
 mod callback_input;
+pub use callback_input::McpOAuthLoginProgress;
+pub use callback_input::McpOAuthLoginTimeout;
 pub use callback_input::perform_oauth_login_with_callback_input;
 
 struct OAuthHttpContext {
@@ -693,7 +695,15 @@ impl OauthLoginFlow {
         self.complete_callback(callback).await
     }
 
-    async fn complete_callback(mut self, callback: CallbackResult) -> Result<()> {
+    async fn complete_callback(self, callback: CallbackResult) -> Result<()> {
+        self.complete_callback_with_progress(callback, |_| {}).await
+    }
+
+    async fn complete_callback_with_progress(
+        mut self,
+        callback: CallbackResult,
+        progress: impl Fn(McpOAuthLoginProgress),
+    ) -> Result<()> {
         let result = async {
             let OauthCallbackResult {
                 code,
@@ -704,6 +714,7 @@ impl OauthLoginFlow {
                 CallbackResult::Error(error) => return Err(anyhow!(error)),
             };
 
+            progress(McpOAuthLoginProgress::ExchangingCode);
             self.oauth_state
                 .handle_callback_with_issuer(&code, &csrf_state, issuer.as_deref())
                 .await
@@ -726,6 +737,7 @@ impl OauthLoginFlow {
                 token_response: WrappedOAuthTokenResponse(credentials),
                 expires_at,
             };
+            progress(McpOAuthLoginProgress::SavingCredential);
             save_oauth_tokens(
                 &self.server_name,
                 &stored,

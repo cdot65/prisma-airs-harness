@@ -4,7 +4,7 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release channel:** this guide covers **0.1.0-alpha.22.mcp.5**, with the in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments. Install this exact version once available in your registry. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
+**Release channel:** this guide covers **0.1.0-alpha.22.mcp.6**, with automatic desktop browser opening, clearer remote MCP sign-in instructions and progress through credential storage and tool discovery. The in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments remain available. Install this exact version once available in your registry. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
 
 The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.0.0** and eight product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
@@ -13,7 +13,7 @@ Check Node.js and npm in the terminal you will use. The harness requires **22.13
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.6 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -192,7 +192,7 @@ The remaining connection workflow stays inside AIRS. It uses the environment dis
 
 1. Enter `/mcp` to open **MCP connections**.
 2. Choose **Add gateway MCP server**. Enter the local connection name `service-now` and `https://gateway-mcp.example.com/mcp-service-now-dev/mcp` as the gateway URL.
-3. Complete **Sign in to gateway MCP**. Use **Ctrl+O** to open the browser on this machine or **Ctrl+Y** to copy the authorization URL. Over SSH, open that URL on your browser host and paste the complete callback URL into the terminal's hidden callback input when requested. Never paste it into the agent conversation or a support report.
+3. Complete **Sign in to gateway MCP**. On a local desktop, AIRS opens the browser automatically. Over SSH or without a desktop browser, use **Ctrl+Y** to copy the full authorization link and open it on your laptop or phone. After SSO and consent, the browser may show a localhost page that cannot load: copy its entire address into AIRS's hidden callback field and press Enter. Use **Ctrl+O** to retry opening a browser here and **Page Up/Page Down** to scroll long links. Never paste the callback into the agent conversation or a support report. AIRS shows progress through authorization, credential storage and tool discovery; a saved credential alone does not establish tool access. If the attempt expires, select the saved connection and choose **Sign in** for a fresh link.
 4. In the gateway's company SSO flow, choose the **same company account** used for inference. With workspace-key inference, choose the organizational account that has the MCP workspace grant. An existing browser session may avoid another password prompt; account selection or consent can still appear.
 5. Complete any gateway-managed upstream consent. Wait for native credential persistence and MCP initialization/tool discovery to finish. After **MCP connection updated**, choose **Start new conversation**.
 

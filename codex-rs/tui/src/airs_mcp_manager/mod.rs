@@ -5,6 +5,7 @@ pub(crate) mod process;
 pub(crate) mod views;
 
 pub(crate) use authorization::AuthorizationView;
+pub(crate) use authorization::BrowserMode;
 use codex_app_server_protocol::McpServerStatus;
 use codex_protocol::ThreadId;
 use tokio::sync::oneshot;
@@ -59,12 +60,24 @@ pub(crate) enum Event {
         url: String,
         callback: oneshot::Sender<String>,
     },
+    Progress {
+        attempt: u64,
+        thread: ThreadId,
+        progress: Progress,
+    },
     Done {
         attempt: u64,
         thread: ThreadId,
         operation: Operation,
         result: Result<Vec<McpServerStatus>, String>,
     },
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum Progress {
+    ExchangingCode,
+    SavingCredential,
+    DiscoveringTools,
 }
 
 // Callback capability and provider authorization URLs must never enter debug logs.

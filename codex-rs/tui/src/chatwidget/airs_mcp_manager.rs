@@ -1,6 +1,7 @@
 //! Small chat-widget hooks for the isolated AIRS MCP manager.
 use super::ChatWidget;
 use crate::airs_mcp_manager::AuthorizationView;
+use crate::airs_mcp_manager::BrowserMode;
 use crate::airs_mcp_manager::Event;
 use crate::airs_mcp_manager::Operation;
 use crate::airs_mcp_manager::VIEW_ID;
@@ -42,8 +43,12 @@ impl ChatWidget {
         callback: oneshot::Sender<String>,
     ) {
         self.bottom_pane.dismiss_view_by_id(VIEW_ID);
-        self.bottom_pane
-            .show_view(Box::new(AuthorizationView::new(url, callback)));
+        let mode = BrowserMode::current();
+        let mut view = AuthorizationView::new(url, callback, mode);
+        if mode == BrowserMode::Desktop {
+            view.open_browser(|url| webbrowser::open(url).map_err(|_| ()));
+        }
+        self.bottom_pane.show_view(Box::new(view));
         self.request_redraw();
     }
 

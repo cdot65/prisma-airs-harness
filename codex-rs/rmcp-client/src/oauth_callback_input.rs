@@ -21,6 +21,18 @@ use std::sync::Arc;
 use tokio::time::timeout;
 use url::Url;
 
+/// Credential-free milestones for an interactive OAuth presentation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum McpOAuthLoginProgress {
+    ExchangingCode,
+    SavingCredential,
+}
+
+/// The browser callback did not arrive within the provider login window.
+#[derive(Debug, thiserror::Error)]
+#[error("MCP sign-in expired while waiting for browser approval")]
+pub struct McpOAuthLoginTimeout;
+
 /// Runs MCP OAuth without opening a browser, accepting either the HTTP callback or a
 /// full redirect URL returned by `read_callback`. The reader receives the authorization
 /// URL and must release terminal state when its future is dropped (callback or timeout).
@@ -41,6 +53,7 @@ pub async fn perform_oauth_login_with_callback_input<F>(
     global_callback_url: Option<&str>,
     http_client: Arc<dyn HttpClient>,
     read_callback: impl FnOnce(String) -> F,
+    progress: impl Fn(McpOAuthLoginProgress),
 ) -> Result<()>
 where
     F: Future<Output = Result<String>>,
@@ -77,7 +90,7 @@ where
         }
     })
     .await
-    .context("timed out waiting for OAuth callback")??;
+    .map_err(|_| McpOAuthLoginTimeout)??;
     // RMCP's issuer-mismatch error includes the received value. Reject it here
     // without echoing any part of a pasted callback into terminal diagnostics.
     if let CallbackResult::Success(callback) = &callback
@@ -88,7 +101,8 @@ where
     {
         bail!("OAuth callback issuer does not match this login");
     }
-    flow.complete_callback(callback).await
+    flow.complete_callback_with_progress(callback, progress)
+        .await
 }
 
 fn parse_callback_url(

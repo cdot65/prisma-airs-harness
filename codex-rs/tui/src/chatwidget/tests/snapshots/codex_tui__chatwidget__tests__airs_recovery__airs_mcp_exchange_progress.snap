@@ -1,0 +1,12 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  Completing MCP sign-in…
+  Browser response received. Verifying authorization with the gateway.
+
+› 1. Cancel  Stop this operation.
+
+  Press enter to confirm or esc to go back

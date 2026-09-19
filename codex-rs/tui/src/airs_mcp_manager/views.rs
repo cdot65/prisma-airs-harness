@@ -2,6 +2,7 @@
 use super::Connection;
 use super::Event;
 use super::Operation;
+use super::Progress;
 use super::VIEW_ID;
 use crate::app_event::AppEvent;
 use crate::bottom_pane::SelectionItem;
@@ -156,5 +157,27 @@ pub(crate) fn continue_after_change(thread: codex_protocol::ThreadId) -> Selecti
         view_id: Some(VIEW_ID),
         footer_hint: Some(standard_popup_hint_line()),
         ..Default::default()
+    }
+}
+
+pub(crate) fn progress(progress: Progress) -> SelectionViewParams {
+    let (title, subtitle) = match progress {
+        Progress::ExchangingCode => (
+            "Completing MCP sign-in…",
+            "Browser response received. Verifying authorization with the gateway.",
+        ),
+        Progress::SavingCredential => (
+            "Saving MCP credential…",
+            "Gateway authorization completed. Waiting for credential storage.",
+        ),
+        Progress::DiscoveringTools => (
+            "Connecting and discovering MCP tools…",
+            "Checking the connection. Tool discovery does not execute a tool.",
+        ),
+    };
+    SelectionViewParams {
+        title: Some(title.into()),
+        subtitle: Some(subtitle.into()),
+        ..waiting()
     }
 }

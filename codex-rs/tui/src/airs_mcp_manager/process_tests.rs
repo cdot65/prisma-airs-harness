@@ -99,3 +99,29 @@ async fn line_reader_preserves_partial_input_on_cancellation_and_bounds_output()
             .is_err()
     );
 }
+
+#[test]
+fn progress_messages_are_typed_and_timeout_never_echoes_provider_details() {
+    for (wire, expected) in [
+        ("exchanging_code", Progress::ExchangingCode),
+        ("saving_credential", Progress::SavingCredential),
+    ] {
+        let line = serde_json::json!({"airs_mcp":1,"progress":wire}).to_string();
+        assert_eq!(login_progress(&line), Ok(Some(expected)));
+        assert_eq!(authorization_url(&line), Ok(None));
+    }
+    assert_eq!(
+        login_progress(r#"{"progress":"saving_credential"}"#),
+        Ok(None)
+    );
+    let error =
+        login_progress(r#"{"airs_mcp":1,"progress":"timed_out","error_description":"PRIVATE"}"#)
+            .unwrap_err();
+    assert!(error.contains("fresh link"));
+    assert!(!error.contains("PRIVATE"));
+    assert!(
+        !login_progress(r#"{"airs_mcp":1,"progress":"PRIVATE"}"#)
+            .unwrap_err()
+            .contains("PRIVATE")
+    );
+}

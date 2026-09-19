@@ -1,0 +1,12 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+
+  Saving MCP credential…
+  Gateway authorization completed. Waiting for credential storage.
+
+› 1. Cancel  Stop this operation.
+
+  Press enter to confirm or esc to go back

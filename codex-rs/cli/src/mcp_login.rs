@@ -20,6 +20,8 @@ use codex_exec_server::HttpClient;
 use codex_mcp::ResolvedMcpOAuthScopes;
 use codex_mcp::should_retry_without_scopes;
 use codex_rmcp_client::McpOAuthClientRegistration;
+use codex_rmcp_client::McpOAuthLoginProgress;
+use codex_rmcp_client::McpOAuthLoginTimeout;
 use codex_rmcp_client::perform_oauth_login;
 use codex_rmcp_client::perform_oauth_login_with_callback_input;
 use crossterm::event::Event;
@@ -113,6 +115,19 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
                         global_callback_url,
                         Arc::clone(&http_client),
                         move |authorization_url| read_callback(authorization_url, input),
+                        |progress| {
+                            if is_ui_session() {
+                                let stage = match progress {
+                                    McpOAuthLoginProgress::ExchangingCode => "exchanging_code",
+                                    McpOAuthLoginProgress::SavingCredential => "saving_credential",
+                                };
+                                println!(
+                                    "{}",
+                                    serde_json::json!({"airs_mcp": 1, "progress": stage})
+                                );
+                                let _ = io::stdout().flush();
+                            }
+                        },
                     )
                     .await
                 }
@@ -129,7 +144,20 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
             Err(error) if attempt == 0 && should_retry_without_scopes(resolved_scopes, &error) => {
                 println!("OAuth provider rejected discovered scopes. Retrying without scopes…");
             }
-            result => return result,
+            result => {
+                if is_ui_session()
+                    && result
+                        .as_ref()
+                        .is_err_and(|error| error.downcast_ref::<McpOAuthLoginTimeout>().is_some())
+                {
+                    println!(
+                        "{}",
+                        serde_json::json!({"airs_mcp": 1, "progress": "timed_out"})
+                    );
+                    let _ = io::stdout().flush();
+                }
+                return result;
+            }
         }
     }
     unreachable!("the empty-scope attempt always returns")

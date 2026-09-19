@@ -1,0 +1,24 @@
+---
+source: tui/src/airs_mcp_manager/authorization_tests.rs
+expression: rendered
+---
+Sign in to gateway MCP
+Waiting for browser approval
+
+Complete sign-in in this machine's browser. AIRS continues automatically. If you
+use another device, paste its full callback URL below.
+Paste callback URL here (hidden)
+Browser opened. Complete SSO and consent; AIRS is waiting for the callback.
+
+Authorization link · Ctrl+Y copies the full link
+https://auth.example/authorize
+
+
+
+
+
+
+
+
+
+Ctrl+O open here · Ctrl+Y copy · Ctrl+U clear · PgUp/PgDn scroll · Esc cancel

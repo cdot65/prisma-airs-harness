@@ -468,6 +468,10 @@ class TerminalIntegration(unittest.TestCase):
         self.assertIn("category:", result.stderr)
         self.assertIn("OS status:", result.stderr)
         self.assertEqual(self.requests, [])
+        # A missing session bus establishes unavailability, not a locked store.
+        self.assertNotIn("Unlock your native credential store", result.stderr)
+        self.assertIn("airs doctor", result.stderr)
+        self.assertIn("No plaintext credential was written", result.stderr)
 
     @unittest.skipIf(
         sys.platform == "win32", "POSIX PTY; Windows uses native console acceptance"

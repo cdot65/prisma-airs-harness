@@ -40,6 +40,8 @@ struct FakeStore {
     fail_read: Cell<bool>,
     wrong_read: Cell<bool>,
     fail_delete: Cell<bool>,
+    read_recovery: Cell<Option<CredentialRecovery>>,
+    delete_recovery: Cell<Option<CredentialRecovery>>,
 }
 
 impl Store for FakeStore {
@@ -51,6 +53,9 @@ impl Store for FakeStore {
         Ok(())
     }
     fn load(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<Option<String>> {
+        if let Some(recovery) = self.read_recovery.get() {
+            return Err(anyhow::anyhow!("Injected read failure").context(recovery));
+        }
         anyhow::ensure!(!self.fail_read.get(), "Injected read failure");
         if self.wrong_read.get() {
             return Ok(Some("wrong-value".into()));
@@ -58,6 +63,9 @@ impl Store for FakeStore {
         Ok(self.values.borrow().get(&(kind, account)).cloned())
     }
     fn delete(&self, kind: StoreKind, account: Uuid) -> anyhow::Result<()> {
+        if let Some(recovery) = self.delete_recovery.get() {
+            return Err(anyhow::anyhow!("Injected delete failure").context(recovery));
+        }
         anyhow::ensure!(!self.fail_delete.get(), "Injected delete failure");
         self.values.borrow_mut().remove(&(kind, account));
         Ok(())
@@ -125,6 +133,190 @@ fn failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call() 
     recover(home.path(), &store).unwrap();
     assert_eq!(*store.values.borrow(), BTreeMap::new());
     assert!(!home.path().join(JOURNAL).exists());
+}
+
+#[test]
+fn failed_cleanup_preserves_initial_read_failure_and_previous_binding() {
+    let home = tempfile::tempdir().unwrap();
+    let mut desired = binding(Source::Environment {
+        variable: "FIXTURE_KEY".into(),
+    });
+    let previous = serde_json::to_vec(&desired).unwrap();
+    let previous_config = b"previous-working-configuration";
+    std::fs::write(home.path().join("credential-binding.json"), &previous).unwrap();
+    std::fs::write(home.path().join("config.toml"), previous_config).unwrap();
+    desired.source = Some(Source::KeyringV2);
+    let store = FakeStore::default();
+    store.fail_read.set(true);
+    store.fail_delete.set(true);
+
+    let error = persist(home.path(), &desired, "private-fixture-key", &store, || {
+        panic!("failed verification must not install a new binding")
+    })
+    .unwrap_err();
+
+    assert_eq!(
+        std::fs::read(home.path().join("credential-binding.json")).unwrap(),
+        previous
+    );
+    assert_eq!(
+        std::fs::read(home.path().join("config.toml")).unwrap(),
+        previous_config
+    );
+    let journal = std::fs::read_to_string(home.path().join(JOURNAL)).unwrap();
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(&journal).unwrap(),
+        serde_json::json!({
+            "schema_version": 1,
+            "store": "workspace-keyring-v2",
+            "account": desired.id,
+        })
+    );
+    let diagnostic = format!("{error:#}");
+    assert!(!diagnostic.contains("private-fixture-key"));
+    assert!(diagnostic.contains("Credential cleanup is pending"));
+    assert!(diagnostic.contains("Injected delete failure"));
+    assert!(
+        diagnostic.contains("Injected read failure"),
+        "cleanup must retain the initiating verification failure: {diagnostic}"
+    );
+}
+
+#[test]
+fn combined_failures_preserve_typed_recovery_and_retry_only_the_pending_account() {
+    for (primary, cleanup, expected) in [
+        (
+            Some(CredentialRecovery::OutcomeUnknown),
+            None,
+            CredentialRecovery::OutcomeUnknown,
+        ),
+        (
+            None,
+            Some(CredentialRecovery::StoreUnavailable),
+            CredentialRecovery::StoreUnavailable,
+        ),
+        (
+            Some(CredentialRecovery::OutcomeUnknown),
+            Some(CredentialRecovery::StoreUnavailable),
+            CredentialRecovery::OutcomeUnknown,
+        ),
+    ] {
+        let home = tempfile::tempdir().unwrap();
+        let desired = binding(Source::KeyringV2);
+        let store = FakeStore::default();
+        let unrelated = (StoreKind::WorkspaceKeyringV2, Uuid::new_v4());
+        store
+            .values
+            .borrow_mut()
+            .insert(unrelated, "unrelated-key".into());
+        store.fail_read.set(true);
+        store.fail_delete.set(true);
+        store.read_recovery.set(primary);
+        store.delete_recovery.set(cleanup);
+
+        let error = persist(
+            home.path(),
+            &desired,
+            "PRIVATE-TOKEN-CANARY",
+            &store,
+            || panic!("failed verification must not install a new binding"),
+        )
+        .unwrap_err();
+        assert_eq!(error.downcast_ref::<CredentialRecovery>(), Some(&expected));
+        let diagnostic = format!("{error:#}");
+        assert!(diagnostic.contains("Injected read failure"));
+        assert!(diagnostic.contains("Injected delete failure"));
+        assert!(!diagnostic.contains("PRIVATE-TOKEN-CANARY"));
+        let journal = std::fs::read_to_string(home.path().join(JOURNAL)).unwrap();
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(&journal).unwrap(),
+            serde_json::json!({"schema_version": 1, "store": "workspace-keyring-v2", "account": desired.id})
+        );
+
+        store.fail_delete.set(false);
+        store.delete_recovery.set(None);
+        recover(home.path(), &store).unwrap();
+        assert_eq!(
+            *store.values.borrow(),
+            BTreeMap::from([(unrelated, "unrelated-key".into())])
+        );
+        assert!(!home.path().join(JOURNAL).exists());
+    }
+}
+
+#[test]
+fn isolated_primary_and_cleanup_failures_keep_their_typed_recovery() {
+    let home = tempfile::tempdir().unwrap();
+    let desired = binding(Source::KeyringV2);
+    let store = FakeStore::default();
+    store
+        .read_recovery
+        .set(Some(CredentialRecovery::OutcomeUnknown));
+    let primary = persist(home.path(), &desired, "fixture-key", &store, || {
+        panic!("failed verification must not install a new binding")
+    })
+    .unwrap_err();
+    assert_eq!(
+        primary.downcast_ref::<CredentialRecovery>(),
+        Some(&CredentialRecovery::OutcomeUnknown)
+    );
+    assert!(!home.path().join(JOURNAL).exists());
+    assert!(store.values.borrow().is_empty());
+
+    store.read_recovery.set(None);
+    store
+        .delete_recovery
+        .set(Some(CredentialRecovery::StoreUnavailable));
+    let cleanup = persist(home.path(), &desired, "fixture-key", &store, || Ok(())).unwrap_err();
+    assert_eq!(
+        cleanup.downcast_ref::<CredentialRecovery>(),
+        Some(&CredentialRecovery::StoreUnavailable)
+    );
+    assert!(home.path().join(JOURNAL).is_file());
+}
+
+#[test]
+fn failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error() {
+    let home = tempfile::tempdir().unwrap();
+    let desired = binding(Source::KeyringV2);
+    let store = FakeStore::default();
+    let error = persist(
+        home.path(),
+        &desired,
+        "PRIVATE-TOKEN-CANARY",
+        &store,
+        || {
+            // Directories cannot be removed as files, so both rollback attempts fail.
+            std::fs::create_dir(home.path().join("config.toml"))?;
+            std::fs::create_dir(home.path().join("credential-binding.json"))?;
+            Err(anyhow::anyhow!("Injected installation failure")
+                .context(CredentialRecovery::OutcomeUnknown))
+        },
+    )
+    .unwrap_err();
+
+    assert!(home.path().join(JOURNAL).is_file());
+    assert!(home.path().join("config.toml").is_dir());
+    assert!(home.path().join("credential-binding.json").is_dir());
+    let diagnostic = format!("{error:#}");
+    assert!(!diagnostic.contains("PRIVATE-TOKEN-CANARY"));
+    assert!(
+        diagnostic.contains("Injected installation failure"),
+        "rollback must retain the initiating installation failure: {diagnostic}"
+    );
+    assert!(diagnostic.contains("Credential configuration rollback failed"));
+    assert!(diagnostic.contains("Credential binding rollback failed"));
+    assert_eq!(
+        error.downcast_ref::<CredentialRecovery>(),
+        Some(&CredentialRecovery::OutcomeUnknown)
+    );
+
+    // Once the filesystem obstruction is resolved, retry only the pending entry.
+    std::fs::remove_dir(home.path().join("config.toml")).unwrap();
+    std::fs::remove_dir(home.path().join("credential-binding.json")).unwrap();
+    recover(home.path(), &store).unwrap();
+    assert!(!home.path().join(JOURNAL).exists());
+    assert!(store.values.borrow().is_empty());
 }
 
 #[test]

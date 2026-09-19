@@ -202,9 +202,16 @@ continuity for restoring the old MCP conversation. Cancel keeps your work in pla
 no separate terminal command is needed for the normal desktop flow. Headless
 terminals retain the displayed `mcp login --no-browser` fallback.
 
-Unlock a locked native credential store and retry. A pre-exchange identity-service
-outage preserves the saved refresh grant. If an exchange may have consumed a
-rotating grant, the harness will require sign-in instead of blindly replaying it.
+If credential access fails, open `/doctor` in the running environment, or run
+`airs --environment work doctor` using your environment's name. An unavailable
+service does not establish that the store is locked. Check the credential service
+and any operating-system authorization prompt in the same user session. If
+cleanup is pending, restore access and retry login or logout for that environment;
+the harness retains the original failure alongside any cleanup failure.
+
+A pre-exchange identity-service outage preserves the saved refresh grant. If an
+exchange may have consumed a rotating grant, the harness will require sign-in
+instead of blindly replaying it.
 Restart running terminals after upgrading so they use the new native client.
 
 ## Managed Prisma AIRS CLI

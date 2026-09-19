@@ -8,6 +8,7 @@ use codex_airs_identity::WorkspaceCredentialFormat;
 use codex_airs_identity::WorkspaceCredentialStore;
 use codex_keyring_store::DefaultKeyringStore;
 use codex_keyring_store::KeyringStore;
+use codex_login::auth::CredentialRecovery;
 use serde::Deserialize;
 use serde::Serialize;
 use std::io::Read;
@@ -152,6 +153,21 @@ fn restore_file(path: &Path, previous: Option<&[u8]>) -> anyhow::Result<()> {
     }
 }
 
+// Callers supply classified native-store errors or local filesystem failures,
+// never raw provider/backend payloads. Preserve the original error for downcasts;
+// a secondary typed recovery reason matters only when the primary has none.
+fn preserve_primary_failure(primary: anyhow::Error, secondary: anyhow::Error) -> anyhow::Error {
+    let recovery = secondary
+        .downcast_ref::<CredentialRecovery>()
+        .copied()
+        .filter(|_| primary.downcast_ref::<CredentialRecovery>().is_none());
+    let combined = primary.context(format!("{secondary:#}"));
+    match recovery {
+        Some(recovery) => combined.context(recovery),
+        None => combined,
+    }
+}
+
 pub(super) fn read_cleanup<T: serde::de::DeserializeOwned>(
     path: &Path,
 ) -> anyhow::Result<Option<T>> {
@@ -261,21 +277,34 @@ pub(super) fn persist(
             store.load(kind, binding.id)?.as_deref() == Some(token),
             "Credential storage verification failed; sign-in was not completed"
         );
-        if let Err(error) = install() {
+        if let Err(mut error) = install() {
             // Restore both files even if the first restore fails. Snapshot bytes
             // stay in memory; the durable cleanup journal never copies secrets.
             let config_restore =
                 restore_file(&home.join("config.toml"), previous_config.as_deref());
             let binding_restore =
                 restore_file(&home.join("credential-binding.json"), previous.as_deref());
-            config_restore.context("Credential configuration rollback failed; retry login after resolving the filesystem error")?;
-            binding_restore.context("Credential binding rollback failed; retry login after resolving the filesystem error")?;
+            if let Err(rollback) = config_restore {
+                error = preserve_primary_failure(error, rollback.context(
+                    "Credential configuration rollback failed; retry login after resolving the filesystem error",
+                ));
+            }
+            if let Err(rollback) = binding_restore {
+                error = preserve_primary_failure(error, rollback.context(
+                    "Credential binding rollback failed; retry login after resolving the filesystem error",
+                ));
+            }
             return Err(error);
         }
         Ok(())
     })();
-    if !already_owned {
-        recover(home, store)?;
+    if !already_owned && let Err(cleanup) = recover(home, store) {
+        return Err(match result {
+            Ok(()) => cleanup,
+            Err(primary) => {
+                preserve_primary_failure(primary, cleanup.context("Credential cleanup also failed"))
+            }
+        });
     }
     result
 }

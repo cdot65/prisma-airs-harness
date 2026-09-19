@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "reviewer": "native_mcp_plan",
+  "reviewed_at_utc": "2026-09-19T13:36:26.881478+00:00",
+  "phase": 3,
+  "passed": true,
+  "score": 9.4,
+  "required_score": 9,
+  "mandatory_gates_open": [],
+  "scope": "Installed development binary continuous-session successful OIDC/MCP renewal and existing recovery preservation, with synthetic HTTPS resources and native storage. Not final release, production SSO or ServiceNow acceptance.",
+  "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+  "timed_tooling_commit": "e8eb3a5997c66d006c99f6fdd97fb9654cc44b1c",
+  "timed_tooling_files_verified": 152,
+  "rubric": {
+    "completeness": {
+      "score": 3.0,
+      "maximum": 3,
+      "reason": "Quick plus actual 60-minute active and 35-minute quiet idle observations completed; mandatory negative gates executed, identities and cleanup independently verified; deferrals explicit."
+    },
+    "capability": {
+      "score": 2.4,
+      "maximum": 3,
+      "reason": "Actual installed OIDC and MCP one-use refresh with seven post-expiry cycles per resource, 16 nonce-verified tools and a continuous pinned session; idle return and installed cancel/logout/default-switch checks pass. Deduction: new timed scenarios exercise successful renewal only, not installed ambiguous/rejected-grant restore, concurrent refresh races or fresh-process durability of each rotated generation."
+    },
+    "best_practices": {
+      "score": 2.0,
+      "maximum": 2,
+      "reason": "Fail-closed optimized-Python gates, frozen native/transitive-source identities, private isolated credentials, namespaced cleanup, native platform portability, meaningful negative cases and independent review; no speculative runtime authentication change."
+    },
+    "optimization": {
+      "score": 2.0,
+      "maximum": 2,
+      "reason": "Existing fixture and PTY machinery reused; short real quick profile precedes concurrent independent timed observations; four coherent bounded commits; scoped current TUI tests close exact missing evidence without unnecessary full runtime rebuild."
+    }
+  },
+  "active": {
+    "summary": {
+      "passed": true,
+      "profile": "active",
+      "elapsed_seconds": 3601.0791293629445,
+      "post_expiry_cycles": {
+        "mcp": 7,
+        "inference": 7
+      },
+      "completed_turns": 16,
+      "event_count": 121,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    },
+    "observation_sha256": "dfbe6bcfbd268bcd270986e66843f5662ee9504773acf6635cfd9a9aef0b2760",
+    "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+    "files_verified_against_frozen_and_git": 152,
+    "native_cleanup_completed": true,
+    "generations_before": {
+      "inference": 1,
+      "mcp": 1
+    },
+    "generations_after": {
+      "inference": 8,
+      "mcp": 8
+    },
+    "accepted_refreshes": 14,
+    "unique_actual_tool_calls": 16,
+    "nonce_verified_completions": 16,
+    "max_turn_gap_seconds": 243.1129239439033,
+    "pinned_fields_unchanged": [
+      "process_id",
+      "conversation_id",
+      "environment",
+      "binding_sha256",
+      "auth_epoch_sha256",
+      "gateway_origin",
+      "inference_identity",
+      "mcp_connection",
+      "rollout_paths_count"
+    ],
+    "rollout_count": 1,
+    "history_and_canary_checks": "frozen session checks executed at snapshots and turns; test-only rejection cases separately passed against same frozen method",
+    "production_sso": false,
+    "production_servicenow": false,
+    "owner_ubuntu_acceptance": false
+  },
+  "idle": {
+    "summary": {
+      "passed": true,
+      "profile": "idle",
+      "elapsed_seconds": 2102.529319657944,
+      "post_expiry_cycles": {
+        "inference": 1,
+        "mcp": 1
+      },
+      "completed_turns": 2,
+      "event_count": 27,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    },
+    "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+    "tooling_commit": "e8eb3a5997c66d006c99f6fdd97fb9654cc44b1c",
+    "tooling_files_verified_against_git": 152,
+    "observation_sha256": "639ca05de7be1fea281cd5639d321beb70ac5ae16a391a9da79b697bb56f2f10",
+    "native_cleanup_completed": true,
+    "quiet_seconds": 2100.0852936296724,
+    "http_counts": {
+      "baseline": 38,
+      "quiet_end": 38,
+      "returned": 49
+    },
+    "same_process": true,
+    "same_conversation": true,
+    "generations_before": {
+      "inference": 1,
+      "mcp": 1
+    },
+    "generations_after": {
+      "inference": 2,
+      "mcp": 2
+    },
+    "refresh_events": [
+      {
+        "resource": "inference",
+        "previous_generation": 1,
+        "accepted": true,
+        "generation": 2,
+        "observed_monotonic": 2893646.218585465
+      },
+      {
+        "resource": "mcp",
+        "previous_generation": 1,
+        "accepted": true,
+        "generation": 2,
+        "observed_monotonic": 2893646.999554841
+      }
+    ]
+  },
+  "additional_checks": {
+    "quick_frozen": {
+      "elapsed_seconds": 179.3651333032176,
+      "post_expiry_cycles_each_resource": 2,
+      "tooling_files_verified": 152
+    },
+    "validator_fixture_provenance_tests": {
+      "passed": 25,
+      "optimized_python": true
+    },
+    "history_negative_tests": {
+      "passed": 5,
+      "canary_placements": 14,
+      "actual_frozen_checker_used": true,
+      "optimized_python": true
+    },
+    "current_tui_recovery_tests": {
+      "passed": 2,
+      "elapsed_seconds": 0.033,
+      "others_not_selected": 4351,
+      "first_zero_test_filter_failure_retained": true
+    },
+    "affected_cli_tests": {
+      "passed": 955,
+      "skipped": 0,
+      "scope": "CLI package only"
+    },
+    "installed_harness_regressions": {
+      "passed": 41,
+      "skipped": 1,
+      "skip_reason": "npm-managed CLI test requires launcher; direct development binary used"
+    },
+    "existing_mcp_and_native_tests": {
+      "passed": 6
+    },
+    "installed_onboarding_checks": {
+      "passed": 18
+    },
+    "native_portability": {
+      "helper_tests_passed": 10,
+      "linux_regressions_passed": 2,
+      "actual_corrected_source_darwin_positive_passed": true,
+      "baseline_quick_cases": {
+        "darwin-baseline": {
+          "summary": {
+            "passed": true,
+            "profile": "quick",
+            "elapsed_seconds": 179.23947845795192,
+            "post_expiry_cycles": {
+              "inference": 2,
+              "mcp": 2
+            },
+            "completed_turns": 3,
+            "event_count": 36,
+            "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+          },
+          "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+          "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+          "tooling_files_verified_against_git": 153,
+          "observation_sha256": "8c2edf368ee466fc748faeb8c2a6fc091be9b6d7c4e6692cd340e3e39d7da939",
+          "native_cleanup_completed": true
+        },
+        "arm-baseline": {
+          "summary": {
+            "passed": true,
+            "profile": "quick",
+            "elapsed_seconds": 178.1232806640037,
+            "post_expiry_cycles": {
+              "inference": 2,
+              "mcp": 2
+            },
+            "completed_turns": 3,
+            "event_count": 36,
+            "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+          },
+          "native_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+          "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+          "tooling_files_verified_against_git": 153,
+          "observation_sha256": "96bcb57fd21ed409b6c686389d8ecde5610ae03acffaa9c271682e95d028769d",
+          "native_cleanup_completed": true
+        },
+        "ubuntu-baseline": {
+          "summary": {
+            "passed": true,
+            "profile": "quick",
+            "elapsed_seconds": 178.34692640000026,
+            "post_expiry_cycles": {
+              "inference": 2,
+              "mcp": 2
+            },
+            "completed_turns": 3,
+            "event_count": 36,
+            "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+          },
+          "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+          "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+          "tooling_files_verified_against_git": 153,
+          "observation_sha256": "a2455e34d27fc0a1be5c5226657fc597f0234f871ba963cb83f860f597fc3335",
+          "native_cleanup_completed": true
+        }
+      },
+      "scope": "published mcp.3 baseline binaries with committed153-file77bc tooling; not next candidate acceptance"
+    }
+  },
+  "limitations": [
+    "No production company SSO, real workspace-key policy or upstream ServiceNow authentication acceptance.",
+    "Fresh Ubuntu private synthetic fixture acceptance does not diagnose the original owner login-session/keyring incident or attest attended authentication.",
+    "Successful refresh is the selected allowed idle branch; rejected grant and explicit same-identity restoration were not newly exercised as timed installed scenarios.",
+    "Existing rmcp cancellation-after-consumption, uncertain exchange, concurrent refresh and logout-order tests are source/historical coverage, not part of the955 current CLI tests.",
+    "Final three-platform release candidate installation/signing/registry checks remain phase4; publication remains phase5.",
+    "Native cleanup receipt is scoped to owned synthetic credentials; no owner records were queried broadly or altered."
+  ],
+  "evidence_sha256": {
+    "PHASE3-PRELIMINARY-AUDIT.md": "a507a9fc4f81185e3dcdc4d780e0e682b05066acc78a8f1940aab07aa861377d",
+    "ACTIVE-INDEPENDENT-ACCEPTANCE.json": "2a09ad9a933d8b00f9a36a055a01a1039d367292d179698fdd85b55cbceac2ec",
+    "PARTIAL-INDEPENDENT-ACCEPTANCE.json": "4e2c5a56492ccafa2921f1f772ffe7b87f4bac287d21e5e6ada914fdaccb483d",
+    "quick-frozen/LIFECYCLE-ACCEPTANCE.json": "32f62a41d849cec3af0a184a960735125d9935b3416100889fab361343548047",
+    "active-frozen/LIFECYCLE-ACCEPTANCE.json": "e51cd75deea5e98759c24b812ed2a7674f81b6256a4d51de791a30b9ecfe4707",
+    "idle-frozen/LIFECYCLE-ACCEPTANCE.json": "a1433c1d31fe7afcf6e8a00271dba31bfc7004d74691247c75713ef76c5f6f05",
+    "history-frozen-independent.log": "dff63846e5499f9cb64df7c896f7a64103a87faa51bfd6afaebd8c3686fc0fa8",
+    "HISTORY-CHECKER-PROOF.json": "9c578df84904f70f5848ed1288d09699ce7c0c18bdd463a97c092372dec387e0",
+    "tui-recovery-exact-tests.log": "c3e807bafa7b0bf4ad1242afb8d2df90523e4ed6be75004d5aacdeae39c9faba",
+    "TUI-RECOVERY-EXACT-TESTS-EXIT.json": "71de133cc6b8c81d360e5f4a4d19c0e96199dde55066e7961562eb2c2d2f1538",
+    "existing-mcp-fixtures.log": "24359a9b6c1949aff618a88bf3c2e4d5ef45ef85a2bf29a4a4ee16be3e72a3da",
+    "onboarding-regression/ONBOARDING-ACCEPTANCE.json": "3cbe1d04037ce40c2845a6aaaff8ac98356e3fac94b29529f768a6530419983b"
+  },
+  "decision": "Phase3 completeness gate satisfied at9.4/10. Phase4 may begin under its own unchanged native artifact, signature and installed acceptance gates."
+}

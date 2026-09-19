@@ -1,0 +1,9 @@
+{
+  "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+  "verified_source_files": 153,
+  "native_path": "/home/cdot/.local/share/airs-test-host/npm/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "archive_sha256": "9530e6a51fafa241b1dc0c96bc3917aa566c778e73410588e82b0c2b15b1cd0d",
+  "production_acceptance": false,
+  "native_positive_exit_code": 0
+}

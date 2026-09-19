@@ -1,0 +1,1 @@
+{"exit_code": 0, "filter": "two exact recovery function names", "scope": "existing TUI recovery tests; no runtime edits", "previous_attempt": "filename-based filter selected zero tests and failed; retained tui-recovery-tests.log"}

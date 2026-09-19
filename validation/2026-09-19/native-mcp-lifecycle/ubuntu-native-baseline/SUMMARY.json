@@ -1,0 +1,31 @@
+{
+  "host": "cdot@10.0.44.1",
+  "os": "Ubuntu26.04.1LTS x86_64",
+  "scope": "newly prepared host, installed published mcp.3, synthetic native/HTTPS fixtures only; not prior Ubuntu incident or owner SSO/workspace-key/ServiceNow proof",
+  "native_positive": {
+    "passed": true,
+    "seconds": 7.551,
+    "second_process_verified": true,
+    "native_logout_verified": true,
+    "inference_preserved": true,
+    "oauth_exchanges": 1
+  },
+  "quick_lifecycle": {
+    "passed": true,
+    "elapsed_seconds": 178.34692640000026,
+    "post_expiry_cycles": {
+      "mcp": 2,
+      "inference": 2
+    },
+    "completed_turns": 3,
+    "event_count": 36
+  },
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+  "source_files_verified_before_after": 153,
+  "archive_sha256": "9530e6a51fafa241b1dc0c96bc3917aa566c778e73410588e82b0c2b15b1cd0d",
+  "isolation": "fixture launched its own dbus-run-session and disposable Secret Service; owner bus/keyring and attended preparation process untouched",
+  "remote_owned_root": "/home/cdot/.cache/airs-native-mcp-20260919",
+  "runtime_changes": false,
+  "production_acceptance": false
+}

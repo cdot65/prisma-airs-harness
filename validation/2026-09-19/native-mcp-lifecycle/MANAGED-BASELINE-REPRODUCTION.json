@@ -1,0 +1,35 @@
+{
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "launcher_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+  "cases": [
+    {
+      "context": "direct-native",
+      "binary": "/tmp/airs-autonomous-20260919/release/registry-acceptance-revised/x86_64-unknown-linux-musl.work/install-1465916ffbd044e1bba3e791974c0af9/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_airs_harness.TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell"
+      ],
+      "returncode": 1,
+      "duration_seconds": 0.9538744022138417,
+      "log": "managed-baseline-direct-native.log"
+    },
+    {
+      "context": "installed-launcher",
+      "binary": "/tmp/airs-autonomous-20260919/release/registry-acceptance-revised/x86_64-unknown-linux-musl.work/install-1465916ffbd044e1bba3e791974c0af9/prefix/bin/airs",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_airs_harness.TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.3419261099770665,
+      "log": "managed-baseline-installed-launcher.log"
+    }
+  ],
+  "passed": true
+}

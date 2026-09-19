@@ -1,0 +1,9 @@
+{
+  "red_reproduced": true,
+  "baseline": "0.1.0-alpha.22.mcp.3",
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "requirement_failure": "Unavailable native store reported successful login",
+  "test": "test_airs_harness_native_mcp.NativeMcpDefault.test_unavailable_native_store_never_falls_back_to_file",
+  "scope": "isolated synthetic HTTPS gateway OAuth; no owner credential access",
+  "log": "native-negative-baseline-red.log"
+}

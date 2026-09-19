@@ -1,0 +1,46 @@
+{
+  "system_bwrap": {
+    "exit_code": 0,
+    "stdout": "bubblewrap 0.11.1\n",
+    "stderr": ""
+  },
+  "sysctl": {
+    "exit_code": 0,
+    "stdout": "kernel.apparmor_restrict_unprivileged_userns = 1\n",
+    "stderr": ""
+  },
+  "profile_package": {
+    "exit_code": 0,
+    "stdout": "apparmor: /etc/apparmor.d/bwrap-userns-restrict\n",
+    "stderr": ""
+  },
+  "system_readonly": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "profile_sha256": "d61facde27707b9c47ffe47921b7273e788784484cb5530eb819e6daac1f1990",
+  "system_capabilities": {
+    "--as-pid-1": true,
+    "--perms": true,
+    "--argv0": true,
+    "--ro-bind-fd": true
+  },
+  "bundled_paths": [],
+  "airs_version": {
+    "exit_code": 0,
+    "stdout": "airs 0.1.0-alpha.22.mcp.3\n",
+    "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/airs-sandbox-policy-c6u9fd35/airs\"))\n"
+  },
+  "create": {
+    "exit_code": 0,
+    "stdout": "Configured Prisma AIRS Harness in /tmp/airs-sandbox-policy-c6u9fd35/airs/environments/bc60d2d3-013e-439f-b235-995d11e62545\nRun airs --environment readiness login to sign in with your company account or workspace API key.\nSelected environment readiness. Its sessions and credentials are independent.\nNext: airs --environment readiness login\nThen: airs --environment readiness doctor --verify-access\n",
+    "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/airs-sandbox-policy-c6u9fd35/airs\"))\n"
+  },
+  "harness_readonly": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/airs-sandbox-policy-c6u9fd35/airs\"))\nairs-readiness: 1: cannot create /tmp/airs-sandbox-policy-c6u9fd35/canary: Read-only file system\n"
+  },
+  "canary_unchanged": true
+}

@@ -1,0 +1,114 @@
+{
+  "scope": "independent idle and native quick baseline review; active completion still pending",
+  "passed": true,
+  "cases": {
+    "idle-frozen": {
+      "summary": {
+        "passed": true,
+        "profile": "idle",
+        "elapsed_seconds": 2102.529319657944,
+        "post_expiry_cycles": {
+          "inference": 1,
+          "mcp": 1
+        },
+        "completed_turns": 2,
+        "event_count": 27,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+      "tooling_commit": "e8eb3a5997c66d006c99f6fdd97fb9654cc44b1c",
+      "tooling_files_verified_against_git": 152,
+      "observation_sha256": "639ca05de7be1fea281cd5639d321beb70ac5ae16a391a9da79b697bb56f2f10",
+      "native_cleanup_completed": true,
+      "quiet_seconds": 2100.0852936296724,
+      "http_counts": {
+        "baseline": 38,
+        "quiet_end": 38,
+        "returned": 49
+      },
+      "same_process": true,
+      "same_conversation": true,
+      "generations_before": {
+        "inference": 1,
+        "mcp": 1
+      },
+      "generations_after": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "refresh_events": [
+        {
+          "resource": "inference",
+          "previous_generation": 1,
+          "accepted": true,
+          "generation": 2,
+          "observed_monotonic": 2893646.218585465
+        },
+        {
+          "resource": "mcp",
+          "previous_generation": 1,
+          "accepted": true,
+          "generation": 2,
+          "observed_monotonic": 2893646.999554841
+        }
+      ]
+    },
+    "darwin-baseline": {
+      "summary": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 179.23947845795192,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+      "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+      "tooling_files_verified_against_git": 153,
+      "observation_sha256": "8c2edf368ee466fc748faeb8c2a6fc091be9b6d7c4e6692cd340e3e39d7da939",
+      "native_cleanup_completed": true
+    },
+    "arm-baseline": {
+      "summary": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.1232806640037,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+      "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+      "tooling_files_verified_against_git": 153,
+      "observation_sha256": "96bcb57fd21ed409b6c686389d8ecde5610ae03acffaa9c271682e95d028769d",
+      "native_cleanup_completed": true
+    },
+    "ubuntu-baseline": {
+      "summary": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.34692640000026,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+      "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+      "tooling_files_verified_against_git": 153,
+      "observation_sha256": "a2455e34d27fc0a1be5c5226657fc597f0234f871ba963cb83f860f597fc3335",
+      "native_cleanup_completed": true
+    }
+  }
+}

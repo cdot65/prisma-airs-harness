@@ -1,0 +1,51 @@
+{
+  "phase": "phase1",
+  "status": "accepted for original approved baseline-and-readiness scope",
+  "score": 9.2,
+  "reviewer": "independent lifecycle agent",
+  "baseline_diagnosis": "wrong executable context; exact installed launcher rerun passed unchanged",
+  "blocking_before_9": [],
+  "accepted": [
+    "Published mcp.3 identity/hash and current npm tag inventory retained.",
+    "New default defect has real installed RED reproduction and bounded generator-only plan.",
+    "Lifecycle plan distinguishes mock/short synthetic/timed synthetic/production acceptance.",
+    "Release plan uses existing exact-byte native receipt tooling and preserves non-mcp tags.",
+    "Managed CLI baseline failure isolated without source changes or weakened assertions.",
+    "All six PRDs populated; overall plan documents sequential independent gates and owner deferrals.",
+    "Correct-context full installed suite passed:48executed,47pass,1MacSeatbeltskip,0failures/errors."
+  ],
+  "production_acceptance": "deferred, not inferred from fixtures",
+  "corrected_baseline_receipt": "BASELINE-INSTALLED-LAUNCHER.json",
+  "previous_assessment": {
+    "status": "pending",
+    "blocking_before_9": [
+      "Retain observed post-cleanup Mac capacity >=105GiB operational margin; reviewed readiness currently91.825GiB."
+    ],
+    "reason": "Earlier assessment followed newlywritten phase1 PRD requiring capacity recovery before implementation."
+  },
+  "dimensions": {
+    "completeness": 2.8,
+    "capability": 2.6,
+    "best_practices": 2.0,
+    "optimization": 1.8
+  },
+  "scope_correction": {
+    "approved_plan_source": "AIRS next-week execution plan after mcp.3 - 2026-09-21.md, Monday21 deliverable",
+    "approved_gate": "runner readiness or a concrete capacity blocker",
+    "reason": "The subsequent phase1 PRD introduced a stricter serialization prerequisite than the approved weekly scope. Correcting that phase boundary allows independent application work while bounded reviewed backups continue. It does not establish recovered capacity or authorize build dispatch below its guard.",
+    "mandatory_later_gate": "Observed >=105GiB operational margin before native Mac build; unchanged100GiB workflow guard; all native publication/signature/registry gates remain required.",
+    "required_record_update": "Root must explicitly record this correction and retain prior blocked assessment; do not silently rewrite capacity as passed.",
+    "record_update_satisfied": true,
+    "record_update_evidence": "Phase1 PRD Sequencing clarification \u2014 September19 explicitly retains capacity and native release gates."
+  },
+  "capacity_status": {
+    "observed_free_gib": 91.825,
+    "ready": false,
+    "backup_and_reclaim": "in progress; exact reviewed remediation exists; no success inferred"
+  },
+  "limitations": [
+    "Owner Ubuntu and live real-account SSO/workspace-key/ServiceNow deferred.",
+    "Post-reclaim capacity not yet observed; no new native build/signature/publication success.",
+    "This score assesses baseline/defect reproduction/planning/blocker identification only, not implementation or production reliability."
+  ]
+}

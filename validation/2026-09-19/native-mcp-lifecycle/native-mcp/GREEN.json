@@ -1,0 +1,75 @@
+{
+  "scope": "Phase2 development executable; not a published package or attended live acceptance",
+  "passed": true,
+  "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+  "runtime_build": "/tmp/airs-native-mcp-20260919/phase2/BUILD.json",
+  "red_receipt": "INSTALLED-RED.json",
+  "owned_candidate_tests": {
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "log": "candidate-owned-tests.log"
+  },
+  "final_affected_checks": {
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "log": "candidate-native-final.log",
+    "reason": "Executable-vs-native digest label corrected; bounded worker cancellation added"
+  },
+  "helper_optimized_tests": {
+    "passed": 11,
+    "log": "helpers-optimized.log"
+  },
+  "native_cases": [
+    {
+      "case": "positive",
+      "executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+      "inference_preserved": true,
+      "native_logout_verified": true,
+      "native_mode_unmodified": true,
+      "native_record_persisted": true,
+      "oauth_exchanges": 1,
+      "passed": true,
+      "platform": "linux",
+      "second_process_verified": true
+    },
+    {
+      "case": "unavailable",
+      "executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+      "fallback_absent": true,
+      "login_failed_safely": true,
+      "native_mode_unmodified": true,
+      "oauth_exchanges": 1,
+      "passed": true,
+      "platform": "linux"
+    }
+  ],
+  "source_snapshot": "Before root formatting; source hash is evidence snapshot, not claim of final frozen validation tooling",
+  "files": {
+    "codex-rs/cli/src/airs_harness.rs": "6084ce0e65bd0d6c3e30685417759a1774eff655d8461a4553fcefc3dab4276d",
+    "scripts/airs_fixture_config.py": "d6e856c66b37298a9d46205104f09f5e37069e5da7c9951f5259c2066decc804",
+    "scripts/test_airs_fixture_config.py": "2687164163067726f4d88ec013fd6c9547cb33e2fb3b64f959bb271b5d7fb864",
+    "scripts/test_airs_harness_mcp_preservation.py": "b6db5a394c37c1638c1bf7bbd9e286ab9001f530588df86d6b6f086559806a5e",
+    "scripts/test_airs_harness_mcp_login.py": "9fec3155359138addef259bbd94f05a3ce89f2d4a4122ace3b96c84582f5505d",
+    "scripts/test_airs_mcp_manager.py": "a10193b80fa101a4afff1caacd23a79ccea7cd60577b8bc218429873ccffecc4",
+    "scripts/validate_builtin_mcp.py": "c91f827c7325beae46a500ba420b7c0f5103ea05e6b28992e492155650863192",
+    "scripts/validate_gateway_mcp.py": "bb6649e0ae798f6dd47f94077f90153e00f15bac745a8c17ac60573c3a40b860",
+    "scripts/airs_native_test_store.py": "ead7421ae58373a7c39652e6ab1f11ea03616b055f0a2bbfdac2d961fc3dd85b",
+    "scripts/test_airs_harness_native_mcp.py": "dd65a06b9b64151be2f88a1fbc7e2801e45a4727494c4807257b6878cd54dd69",
+    "scripts/test_airs_native_test_store.py": "eec736df3009ed28c4b0d13bc0c540b64917ab2b548d3b3d9dbd73c1feb208c3"
+  },
+  "logs": {
+    "candidate-owned-tests.log": "04a0f948f4e6b776d05c89d821eec9b19a694ba8098fd4354a45f4f4068785da",
+    "candidate-native-final.log": "173eb5de6e894afce5e9fa239aeac26f4e64b5a42c1bde3f32a082b78fdcab57",
+    "helpers-optimized.log": "53ec6bfd32b426a23950e2fbbff5aba6e95df6d3ed7324d3edb40dd8151e63f8",
+    "stage-a-baseline.log": "591c5dac133b9426a762ec57cdb0f287c26d86f866b1447171d005cb3d2202ea",
+    "native-positive-baseline-revised.log": "4f936c6c64ec7ce338929b6926d73728b7a283ad2e4cb86fe4bdf4d1961c963e",
+    "native-negative-baseline-red.log": "494a6ab65ec4f5c361f0bb46a3dd45a3bc353cae0b3ea361da7893c0823f069c"
+  },
+  "limitations": [
+    "Native Linux x64 executed here; native ARM64 and signed Apple Silicon candidate/registry proof remains phase4",
+    "Owner Ubuntu credential-store investigation and attended SSO/workspace-key/ServiceNow acceptance deferred",
+    "Existing environments are not migrated; native MCP records retain existing OS-user+connection identity semantics"
+  ]
+}

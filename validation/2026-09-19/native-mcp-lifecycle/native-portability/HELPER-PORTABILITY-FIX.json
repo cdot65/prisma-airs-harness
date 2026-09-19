@@ -1,0 +1,46 @@
+{
+  "scope": "native test fixture Darwin portability correction; no runtime change",
+  "changes": [
+    "Preserve inherited absolute GUI HOME on Darwin while isolating explicit AIRS and XDG state",
+    "Use boolean exact account presence checks without requesting Darwin credential data; second AIRS process proves usable credential",
+    "Keep Linux stored JSON identity validation and private bus isolation"
+  ],
+  "source_sha256": {
+    "scripts/airs_native_test_store.py": "581c755f0f5c30c493e073bd28ec90e16018cc10333974487e532a1445fba40f",
+    "scripts/test_airs_native_test_store.py": "4b952d072ef31a6c4a838dafe7cdfa9e768af292b853dc16a1417fd3626f1dc6",
+    "scripts/test_airs_harness_native_mcp.py": "e4c1e7a798b5c395a63a409f50723492e64f2f1494e0c1eb6f9390ed228b595a",
+    "scripts/airs_lifecycle_session.py": "7522ea2355c8a454ecb405ff032e202fd7a4eb17302cbe71c84d636f7e27caf8"
+  },
+  "validation": {
+    "helper_optimized_unit": {
+      "passed": 10,
+      "failed": 0,
+      "log": "helper-unit.log"
+    },
+    "linux_native": {
+      "passed": 2,
+      "failed": 0,
+      "elapsed_seconds": 9.463,
+      "executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+      "log": "linux-native-regression.log"
+    },
+    "darwin_current_source": {
+      "passed": 1,
+      "failed": 0,
+      "elapsed_seconds": 9.35,
+      "evidence_directory": "../native-corrected",
+      "runtime": "exact previously published signed mcp.3; fixture correction acceptance, not candidate runtime acceptance",
+      "source_manifest": "../native-corrected/SOURCE-DELTA.json",
+      "verification": "../native-corrected/VERIFICATION.json"
+    }
+  },
+  "original_diagnostic": [
+    "MAC.log",
+    "MAC-DIAGNOSTIC.log",
+    "MAC-GUIHOME.log",
+    "MAC-METADATA.log",
+    "MAC-OWNED-RECORD-CLEANUP.json"
+  ],
+  "frozen_lifecycle_source_unchanged": true,
+  "live_owner_acceptance": "deferred"
+}

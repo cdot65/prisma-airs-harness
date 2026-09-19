@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "passed": true,
+    "profile": "active",
+    "elapsed_seconds": 3601.0791293629445,
+    "post_expiry_cycles": {
+      "mcp": 7,
+      "inference": 7
+    },
+    "completed_turns": 16,
+    "event_count": 121,
+    "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+  },
+  "observation_sha256": "dfbe6bcfbd268bcd270986e66843f5662ee9504773acf6635cfd9a9aef0b2760",
+  "native_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4",
+  "files_verified_against_frozen_and_git": 152,
+  "native_cleanup_completed": true,
+  "generations_before": {
+    "inference": 1,
+    "mcp": 1
+  },
+  "generations_after": {
+    "inference": 8,
+    "mcp": 8
+  },
+  "accepted_refreshes": 14,
+  "unique_actual_tool_calls": 16,
+  "nonce_verified_completions": 16,
+  "max_turn_gap_seconds": 243.1129239439033,
+  "pinned_fields_unchanged": [
+    "process_id",
+    "conversation_id",
+    "environment",
+    "binding_sha256",
+    "auth_epoch_sha256",
+    "gateway_origin",
+    "inference_identity",
+    "mcp_connection",
+    "rollout_paths_count"
+  ],
+  "rollout_count": 1,
+  "history_and_canary_checks": "frozen session checks executed at snapshots and turns; test-only rejection cases separately passed against same frozen method",
+  "production_sso": false,
+  "production_servicenow": false,
+  "owner_ubuntu_acceptance": false
+}

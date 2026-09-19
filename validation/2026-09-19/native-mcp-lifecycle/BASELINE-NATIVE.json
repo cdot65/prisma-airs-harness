@@ -1,0 +1,7 @@
+{
+  "source": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+  "release": "0.1.0-alpha.22.mcp.3",
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "binary": "/tmp/airs-autonomous-20260919/release/registry-acceptance-revised/x86_64-unknown-linux-musl.work/install-1465916ffbd044e1bba3e791974c0af9/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+  "executed_host": "Alpine x86_64; owner Ubuntu deferred"
+}

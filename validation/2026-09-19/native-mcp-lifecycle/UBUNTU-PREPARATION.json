@@ -1,0 +1,31 @@
+{
+  "script_sha256": "d0ec3a603fb60db75075f540372b5e461c3231075f4b273a5519b390d0736ccc",
+  "host": "10.0.44.1",
+  "user": "cdot",
+  "os": "Ubuntu 26.04.1 LTS",
+  "architecture": "x86_64",
+  "remote_path": "/home/cdot/prepare-airs-ubuntu.sh",
+  "remote_bash_syntax_passed": true,
+  "remote_check_result": "expected_missing_prerequisites",
+  "installed": false,
+  "sudo_requires_owner_interaction": true,
+  "production_authentication_attempted": false,
+  "isolated_sandbox_probe_development_binary": "read passed, write denied; not target-host acceptance",
+  "source_commit": "28caff566d",
+  "independent_review": "native_mcp_plan: no remaining security or functional blocker",
+  "documentation": "UBUNTU-TEST-HOST.md",
+  "owner_install_observed": true,
+  "owner_report": "readiness-20260919T124719-2167.txt",
+  "owner_report_passed": [
+    "Node22.22.1/npm9.2.0",
+    "exactmcp.3 and bundledCLI launches",
+    "sandbox readallowed/writedenied",
+    "registryHTTPS",
+    "gatewayHTTPS401",
+    "userDBus"
+  ],
+  "owner_report_native_store_result": "not yet recorded at last read",
+  "ntp_synchronized": true,
+  "timezone": "Etc/UTC",
+  "clock_observed_utc": "2026-09-19T12:59:32Z"
+}

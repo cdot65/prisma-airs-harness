@@ -1,0 +1,42 @@
+{
+  "scope": "published mcp.3 baseline fixture portability only; not mcp.4 acceptance",
+  "tooling_commit": "77bc03ebd8f71fa34095f30074c1beeb539da5e3",
+  "files": 153,
+  "targets": {
+    "aarch64-apple-darwin": {
+      "summary": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 179.23947845795192,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+      "native_cleanup_completed": true
+    },
+    "aarch64-unknown-linux-musl": {
+      "summary": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.1232806640037,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+      "native_cleanup_completed": true
+    }
+  },
+  "owned_gui_label_unloaded": "io.cdot.airs.native-mcp.20260919.lifecycle.8b3a77ffc280487d8ca7889636a49e07",
+  "container_process_names": "PID                 COMMAND\n41617               sleep\n",
+  "free_gib": 106.74803924560547
+}

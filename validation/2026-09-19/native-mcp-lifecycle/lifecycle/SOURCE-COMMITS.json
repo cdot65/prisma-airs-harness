@@ -1,0 +1,41 @@
+[
+  {
+    "commit": "a4aff6b55d889cfefaa5882475b4b4209d484e54",
+    "title": "Model rotating credentials and verified gateway tool results",
+    "changed_lines": 585,
+    "files": [
+      "scripts/airs_lifecycle_tokens.py",
+      "scripts/test_airs_lifecycle_tokens.py",
+      "scripts/airs_lifecycle_fixture.py",
+      "scripts/test_airs_lifecycle_fixture.py",
+      "scripts/airs_onboarding_fixture.py",
+      "scripts/airs_mcp_manager_fixture.py"
+    ]
+  },
+  {
+    "commit": "e254d29dfa23027130567d064011e886a36449a3",
+    "title": "Exercise continuous native OIDC and MCP sessions",
+    "changed_lines": 305,
+    "files": [
+      "scripts/airs_lifecycle_session.py"
+    ]
+  },
+  {
+    "commit": "f1424437eacefc232a547695cf2a9c48454a364d",
+    "title": "Validate elapsed renewal and pinned-session evidence",
+    "changed_lines": 799,
+    "files": [
+      "scripts/airs_lifecycle_contract.py",
+      "scripts/test_airs_lifecycle_contract.py"
+    ]
+  },
+  {
+    "commit": "e8eb3a5997c66d006c99f6fdd97fb9654cc44b1c",
+    "title": "Run bounded lifecycle observations with frozen identities",
+    "changed_lines": 376,
+    "files": [
+      "scripts/validate_airs_lifecycle.py",
+      "scripts/test_validate_airs_lifecycle.py"
+    ]
+  }
+]

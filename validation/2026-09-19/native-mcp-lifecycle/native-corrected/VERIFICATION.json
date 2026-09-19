@@ -1,0 +1,18 @@
+{
+  "scope": "actual corrected source without monkeypatch wrapper; published mcp.3 baseline",
+  "exit_code": 0,
+  "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+  "source_delta": {
+    "scope": "actual source delta on frozen e8eb3a baseline; not committed acceptance snapshot",
+    "base_tooling_commit": "e8eb3a5997c66d006c99f6fdd97fb9654cc44b1c",
+    "files": {
+      "scripts/airs_native_test_store.py": "581c755f0f5c30c493e073bd28ec90e16018cc10333974487e532a1445fba40f",
+      "scripts/test_airs_native_test_store.py": "4b952d072ef31a6c4a838dafe7cdfa9e768af292b853dc16a1417fd3626f1dc6",
+      "scripts/test_airs_harness_native_mcp.py": "e4c1e7a798b5c395a63a409f50723492e64f2f1494e0c1eb6f9390ed228b595a",
+      "scripts/airs_lifecycle_session.py": "7522ea2355c8a454ecb405ff032e202fd7a4eb17302cbe71c84d636f7e27caf8"
+    }
+  },
+  "all_152_source_files_unchanged": true,
+  "owned_job_unloaded": true,
+  "free_gib": 106.80244445800781
+}

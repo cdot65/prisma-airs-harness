@@ -1,0 +1,16 @@
+{
+  "runtime_changed": false,
+  "commits": [
+    "05791bc4d970e8dd29fae3dd0801990a8902c73c",
+    "77bc03ebd8f71fa34095f30074c1beeb539da5e3"
+  ],
+  "native_platform_checks": {
+    "linux": "../native-portability/linux-native-regression.log",
+    "mac": "../native-corrected/VERIFICATION.json"
+  },
+  "retention_negative_checks": [
+    "history-negative-tests.log",
+    "history-frozen-independent.log"
+  ],
+  "formatting": "Only helper unit test formatting differed from the pre-format Mac source-delta receipt; native helper and positive test bytes match exactly. Unrelated formatter changes restored."
+}

@@ -1,0 +1,18 @@
+{
+  "stage": "post-format/fix static review; passed tests not rerun solely for formatting",
+  "clippy_exit": 0,
+  "formatter_exit": 0,
+  "files": {
+    "codex-rs/cli/src/airs_harness.rs": "6084ce0e65bd0d6c3e30685417759a1774eff655d8461a4553fcefc3dab4276d",
+    "scripts/airs_fixture_config.py": "e52f503e5ddb94bc67cdcfc58a494749623aceedbb4dd7d6ec404cdcafbbe282",
+    "scripts/test_airs_fixture_config.py": "c1d666a231412c0a507376a4c9917439ba3836c55d302c39dd231006f6d5a23b",
+    "scripts/test_airs_harness_mcp_preservation.py": "72ca533db636b6f7442892c4d32f5c2684bf5d32e6265f2fcf4073b70edb13fb",
+    "scripts/test_airs_harness_mcp_login.py": "9fec3155359138addef259bbd94f05a3ce89f2d4a4122ace3b96c84582f5505d",
+    "scripts/test_airs_mcp_manager.py": "a10193b80fa101a4afff1caacd23a79ccea7cd60577b8bc218429873ccffecc4",
+    "scripts/validate_builtin_mcp.py": "c91f827c7325beae46a500ba420b7c0f5103ea05e6b28992e492155650863192",
+    "scripts/validate_gateway_mcp.py": "bb6649e0ae798f6dd47f94077f90153e00f15bac745a8c17ac60573c3a40b860",
+    "scripts/airs_native_test_store.py": "4585222efe90093acb5a97ff1c19c8c36c597a68ce165cbe54957ce5b28abdbd",
+    "scripts/test_airs_native_test_store.py": "544c0cd4b583a6ee80a590edb0683f18151e39301f42529107f606442077c1db",
+    "scripts/test_airs_harness_native_mcp.py": "4ab344b296a4430360ed23ab8e50e073effd8bfb43f7afc366b718b1b1e7fade"
+  }
+}

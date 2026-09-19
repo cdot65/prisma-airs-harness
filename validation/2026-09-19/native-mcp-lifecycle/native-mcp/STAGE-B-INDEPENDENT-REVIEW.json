@@ -1,0 +1,81 @@
+{
+  "status": "accepted",
+  "score": 9.3,
+  "accepted": [
+    "Private one-line new-environment default; no runtime migration/schema/core edits.",
+    "Native helper uses fresh private Linux session bus and exact random account lookup, with missing-versus-servicefailure distinguished.",
+    "Positive test checks native record and absence of filefallback, then separate realprocess discovery withoutcodeexchange.",
+    "Negative test requires actual failedlogin/no false success/no filefallback; inferenceworkspacekey remains separate.",
+    "StageA preservation now uses derivedfallbackkey and rejects newfiles beyond legitimate configurationlock.",
+    "All requestedcleanupownership/accountverification/childfailurelog/startup corrections reviewed and completed.",
+    "Actual nativepositive persistscredential, secondprocess discoverswithoutanothercodeexchange, explicitlogoutdeletesonlyownedentry, inferencestillworks.",
+    "Actual unavailable-store GREENfailsloginwithoutplaintextfallback; unchangedtest wasREDagainstpublishedmcp.3.",
+    "955CLItests pass;25ownedcandidatecases pass;2finalnativechecks pass;11helpertests pass under-O."
+  ],
+  "scope": "Phase2 bounded implementation: newnativeMCPdefault and preservation with Linuxinstalleddevelopmentexecutable; publication/3nativecandidateproof are subsequentmandatorygates",
+  "previous_findings": [
+    {
+      "id": "cleanup-ownership",
+      "priority": "required",
+      "detail": "Preexisting record rejection in positive() still reaches unconditional exercise() finally delete_record. Establish initial absence before cleanup ownership so collision refusal never removes preexisting state."
+    },
+    {
+      "id": "exact-account-cleanup",
+      "priority": "required for shared helper contract",
+      "detail": "read_record validates only first found variant; delete_record then clears both variants. Validate each found account record before deletion, and reject non-synthetic identity names before native lookup."
+    },
+    {
+      "id": "worker-failure-output",
+      "priority": "required for public evidence hygiene",
+      "detail": "Parent assertEqual appends raw worker stdout/stderr including PTY traceback. Bound and sanitize public failure summary, retain any needed raw synthetic diagnostic only privately."
+    },
+    {
+      "id": "second-process-startup",
+      "priority": "fixture failure",
+      "detail": "Current baseline positive reached second process; TerminalSession.start waits for first-run Yes,continue after workdir already trusted. Use appropriate ready predicate and retain failed receipt."
+    }
+  ],
+  "findings_resolution": {
+    "cleanup-ownership": "addressed in reviewed source and affected checks",
+    "exact-account-cleanup": "addressed in reviewed source and affected checks",
+    "worker-failure-output": "addressed in reviewed source and affected checks",
+    "second-process-startup": "addressed in reviewed source and affected checks"
+  },
+  "proposed_score_after_required_finalization": 9.3,
+  "remaining_before_score": [],
+  "evidence": {
+    "owned_candidate_tests": 25,
+    "final_native_tests": 2,
+    "optimized_helper_tests": 11,
+    "cli_tests": 955,
+    "native_executable_sha256": "bad190f6df618fa73d1d0fbe598d22c0cc84354498d3b91762ae4d7aafc4aae4"
+  },
+  "limitations": [
+    "Linux implementation/dev executable; all3nativecandidate andregistryacceptance remains phase4/5",
+    "OwnerUbuntu and attended realaccounts deferred"
+  ],
+  "dimensions": {
+    "completeness": 2.8,
+    "capability": 2.7,
+    "best_practices": 1.9,
+    "optimization": 1.9
+  },
+  "source_hygiene": {
+    "scoped_clippy": "exit0;2m31;phase2-clippy.log",
+    "format": "exit0;19unrelatedformatter-onlypathsrestored",
+    "retest_after_format": "notrun; formattingonlyandAGENTSexplicitlyprohibitsroutinepostformatterrerun"
+  },
+  "post_format_source_sha256": {
+    "codex-rs/cli/src/airs_harness.rs": "6084ce0e65bd0d6c3e30685417759a1774eff655d8461a4553fcefc3dab4276d",
+    "scripts/airs_fixture_config.py": "e52f503e5ddb94bc67cdcfc58a494749623aceedbb4dd7d6ec404cdcafbbe282",
+    "scripts/test_airs_fixture_config.py": "c1d666a231412c0a507376a4c9917439ba3836c55d302c39dd231006f6d5a23b",
+    "scripts/test_airs_harness_mcp_preservation.py": "72ca533db636b6f7442892c4d32f5c2684bf5d32e6265f2fcf4073b70edb13fb",
+    "scripts/test_airs_harness_mcp_login.py": "9fec3155359138addef259bbd94f05a3ce89f2d4a4122ace3b96c84582f5505d",
+    "scripts/test_airs_mcp_manager.py": "a10193b80fa101a4afff1caacd23a79ccea7cd60577b8bc218429873ccffecc4",
+    "scripts/validate_builtin_mcp.py": "c91f827c7325beae46a500ba420b7c0f5103ea05e6b28992e492155650863192",
+    "scripts/validate_gateway_mcp.py": "bb6649e0ae798f6dd47f94077f90153e00f15bac745a8c17ac60573c3a40b860",
+    "scripts/airs_native_test_store.py": "4585222efe90093acb5a97ff1c19c8c36c597a68ce165cbe54957ce5b28abdbd",
+    "scripts/test_airs_harness_native_mcp.py": "4ab344b296a4430360ed23ab8e50e073effd8bfb43f7afc366b718b1b1e7fade",
+    "scripts/test_airs_native_test_store.py": "544c0cd4b583a6ee80a590edb0683f18151e39301f42529107f606442077c1db"
+  }
+}

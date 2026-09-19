@@ -1,0 +1,33 @@
+{
+  "scope": "Negative tests prove unchanged frozen retention checker rejects secret canaries and damaged history; no runtime/source-freeze modification",
+  "checker_equivalence": {
+    "current": {
+      "path": "/home/cdot/development/cdot65/airs-native-mcp-20260919/scripts/airs_lifecycle_session.py",
+      "file_sha256": "7522ea2355c8a454ecb405ff032e202fd7a4eb17302cbe71c84d636f7e27caf8",
+      "checker_ast_sha256": "099b041e29571cd8f6ed05ec3a80482f99d19c94fadf16a6bb81884a1d2508b8"
+    },
+    "frozen": {
+      "path": "/tmp/airs-native-mcp-20260919/phase3-frozen/scripts/airs_lifecycle_session.py",
+      "file_sha256": "889baff03da6365ab16f79d65021beb3f18981d5dd6d00dd7ac240a3183065b8",
+      "checker_ast_sha256": "099b041e29571cd8f6ed05ec3a80482f99d19c94fadf16a6bb81884a1d2508b8"
+    }
+  },
+  "identical_checker_ast": true,
+  "test_sha256": "bce22906c84abd715f501e92db644aa004af802256517e4a9772e1c89a4bdfa7",
+  "validation": {
+    "command": "PYTHONPATH=scripts /tmp/airs-dual-auth-20260918/venv/bin/python -O -m unittest -v test_airs_lifecycle_history",
+    "passed": 5,
+    "failed": 0,
+    "log": "history-negative-tests.log",
+    "canary_cases": 14,
+    "canary_classes": [
+      "inference access",
+      "inference refresh",
+      "inference consumed refresh",
+      "mcp access",
+      "mcp refresh",
+      "mcp consumed refresh",
+      "callback code"
+    ]
+  }
+}

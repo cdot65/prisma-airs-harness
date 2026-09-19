@@ -1,0 +1,24 @@
+{
+  "baseline_version": "0.1.0-alpha.22.mcp.3",
+  "baseline_native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+  "installed_suite": {
+    "passed": 47,
+    "skipped": 1,
+    "failed": 0,
+    "receipt": "BASELINE-INSTALLED-LAUNCHER.json",
+    "original_failure_retained": true
+  },
+  "native_default_requirement_red": "native-mcp/DEFAULT-RED.json",
+  "runner": {
+    "state": "capacity-blocked; reversible backup/recovery running",
+    "measured_free_gib": 91.825,
+    "build_guard_gib": 100,
+    "required_operational_margin_gib": 105,
+    "proposal": "runner-readiness/reclaimable-blobs.json",
+    "completed_recovery_required_before_build": true
+  },
+  "plans": "six vault tasks including overall execution and five sequential focuses",
+  "live_acceptance": "owner-deferred; not performed",
+  "score": 9.2,
+  "independent_review": "PHASE1-INDEPENDENT-REVIEW.json"
+}

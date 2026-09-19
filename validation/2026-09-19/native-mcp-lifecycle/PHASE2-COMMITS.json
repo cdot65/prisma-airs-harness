@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Default new AIRS environments to native MCP credential storage",
+    "commit": "f42da30e0752f02b3e484d05040bfce3497469b2",
+    "changed_lines": 266,
+    "files": [
+      "codex-rs/cli/src/airs_harness.rs",
+      "scripts/airs_fixture_config.py",
+      "scripts/test_airs_fixture_config.py",
+      "scripts/test_airs_harness_mcp_preservation.py",
+      "scripts/test_airs_harness_mcp_login.py",
+      "scripts/test_airs_mcp_manager.py",
+      "scripts/validate_builtin_mcp.py",
+      "scripts/validate_gateway_mcp.py"
+    ]
+  },
+  {
+    "title": "Verify native MCP persistence and unavailable-store recovery",
+    "commit": "3a3106484fcea6a853d6ffbf670d968d797fb077",
+    "changed_lines": 708,
+    "files": [
+      "scripts/airs_native_test_store.py",
+      "scripts/test_airs_native_test_store.py",
+      "scripts/test_airs_harness_native_mcp.py"
+    ]
+  }
+]

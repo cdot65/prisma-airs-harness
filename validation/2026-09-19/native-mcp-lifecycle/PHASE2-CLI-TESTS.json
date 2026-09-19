@@ -1,0 +1,11 @@
+{
+  "command": "just test --locked -p codex-cli",
+  "passed": 955,
+  "failed": 0,
+  "skipped": 0,
+  "test_duration_seconds": 7.313,
+  "log": "phase2-cli-tests-cache.log",
+  "log_sha256": "f4886bd4b819f021e587ae332d00533705933b05cc77fa1ecbf781ee83fdf220",
+  "scope": "affected CLI package, not full workspace",
+  "test_only_ca_wrapper": "/tmp/airs-command-output-20260918/rust-test-runner.py"
+}

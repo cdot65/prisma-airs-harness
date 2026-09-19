@@ -1,0 +1,12 @@
+{
+  "run": "244",
+  "status": "failure",
+  "archive_sha256": "6d9349fa7298dc6f70fa9dce6b5b74335692bddbc3debfbed5747793b18db7ad",
+  "files": {
+    "source.txt": "c3306fc1f2d60b0f6e4ef6a56edfe77fa128c9db316f6d56cdebaf0a456bcf5c",
+    "validation.log": "b864aa68270598dfa1238377a664ad9dcd5dfba43f24fdb0431727853d0a2a1b"
+  },
+  "identity_files": {
+    "source.txt": "61a98558620d37f98899b9a790d8db9cd19df30a"
+  }
+}

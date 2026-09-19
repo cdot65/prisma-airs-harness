@@ -1,0 +1,11 @@
+{
+  "commit": "b75372ec03b55cc6e26eed57c446a7bb9a91534f",
+  "files": {
+    "scripts/promote_airs_stable.py": "0e5da5c4233594418e97fa94830c19679b3cc1b33bbbcde2f58f3b944f98a7ed",
+    "scripts/test_promote_airs_stable.py": "27da25b58e01b94ecdb9bc337ead74c9adcd4dd3b1d587e1f732d188a4916c52"
+  },
+  "tests_passed": 6,
+  "test_log_sha256": "e8e46f9c121003a882cc217d150c4987c77849b71c8df1cbd7464ca5260ac7dc",
+  "candidate_tooling_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "scope": "Promotion review tooling; candidate and registry acceptance provenance remains unchanged"
+}

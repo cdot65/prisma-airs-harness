@@ -6,8 +6,10 @@ Prisma AIRS product CLI installation is needed.
 
 ## What is included
 
-- Guided local environments with independent credentials and gateway settings.
-  Environment names do not need to match AI Gateway workspace names.
+- Guided local environments with separate inference credentials and gateway
+  settings. Environment names do not need to match AI Gateway workspace names.
+  Matching native MCP connection names and URLs can share a credential record
+  for the same OS user; use distinct connection names when isolation is needed.
 - Company SSO, including inference device sign-in for browserless hosts, or a
   workspace API key for inference. Workspace API keys do not replace MCP OAuth.
 - `/mcp` connection creation, sign-in, reconnection, sign-out and removal inside
@@ -56,4 +58,17 @@ sign-in, MCP sign-in, a read-only ServiceNow query, and credential reuse after
 restart. Stable changes preserve that runtime behavior. Version stamping, release
 tooling, test isolation and documentation are verified separately. Release
 evidence records exact-package, full-workspace and default-install results.
-A prior Alpine workspace failure count is not presented as a pass.
+Exact candidates, anonymous registry installs, upgrades from mcp.6 and
+onboarding.4, and unversioned default installs passed on all three supported
+platforms. The `latest` tag now selects 0.1.1.
+
+The complete GNU workspace run recorded **18,313 passed, 6 failed, 34 skipped**.
+It was not green: three inherited failures exercise the disabled upstream remote
+executor, two came from ambient test fixtures, and one needed an explicit voice
+test runtime. The latter three passed focused follow-up checks with unchanged
+application runtime source. All six failures and their dispositions are retained
+in [release evidence](validation/2026-09-19/stable-0.1.1/README.md).
+
+Each platform also passed two synthetic inference/MCP renewal cycles and three
+read-only fixture tool turns. These checks do not establish production
+long-duration renewal or revocation behavior.

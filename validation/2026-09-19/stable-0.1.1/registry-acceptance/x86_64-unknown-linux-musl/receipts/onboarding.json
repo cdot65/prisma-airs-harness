@@ -1,0 +1,52 @@
+{
+  "command": [
+    "dbus-run-session",
+    "--",
+    "/tmp/airs-dual-auth-20260918/venv/bin/python",
+    "/tmp/airs-011-20260919/frozen/scripts/validate_airs_onboarding.py",
+    "--binary",
+    "/tmp/airs-011-20260919/release/registry-acceptance/x86_64-unknown-linux-musl.work/install-601fd2f9d3e345f091e878211b594653/prefix/bin/airs",
+    "--native-binary",
+    "/tmp/airs-011-20260919/release/registry-acceptance/x86_64-unknown-linux-musl.work/install-601fd2f9d3e345f091e878211b594653/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+    "--output",
+    "/tmp/airs-011-20260919/release/registry-acceptance/x86_64-unknown-linux-musl.work/onboarding-9a4f2b0ba7d44513aa6553622af4461a"
+  ],
+  "command_sha256": "0d10ccdea0f91f2aaf886613d7a089d09754cd307dd77c23797a66c390344ae0",
+  "dependencies": {
+    "install": "42a0515f4dc563ee0c2e023b99f247be5270091a5793daedef883c9cde6b5a92"
+  },
+  "exit_code": 0,
+  "input_sha256": "84781e71816cad059de7d931a9bb738501c0e02b53dd7af581a34649e4c5b320",
+  "inputs": {
+    "binary_sha256": "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9",
+    "candidate_metadata_sha256": "45001615463a08ab2fd698d88dd65bdd7cc59c90531c27eb4e33809de2434c79",
+    "candidate_packages_sha256": "50d72ec2ffe058b2add25c536405ead2e867b4564586ca052f89a84925db6767",
+    "contract": {
+      "normal_python": true,
+      "selection": "ONBOARDING-ACCEPTANCE.json",
+      "stage": "onboarding",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "spec_sha256": "8a9c6eed7ab7ec59819eaaea7c6acf1e3e5436f654d1247dfd91901f132c1341",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "tooling_sha256": "7e7cd5531d45ddf5073b268148a9fc66340ac50893f2d844312139776834daab",
+    "version": "0.1.1"
+  },
+  "outputs": {
+    "files/onboarding/ONBOARDING-ACCEPTANCE.json": {
+      "sha256": "bf3d93d121ac0d41a6fbc904b60028f46d2f0d5dccc7b8d957f1e7110da337c7",
+      "size": 2762
+    },
+    "logs/onboarding.log": {
+      "sha256": "bf3d93d121ac0d41a6fbc904b60028f46d2f0d5dccc7b8d957f1e7110da337c7",
+      "size": 2762
+    }
+  },
+  "schema_version": 1,
+  "stage": "onboarding"
+}

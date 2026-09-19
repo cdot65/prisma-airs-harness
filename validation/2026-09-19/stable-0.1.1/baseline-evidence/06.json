@@ -1,0 +1,12 @@
+{
+  "test": "codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals",
+  "disposition": "configured-test-runtime",
+  "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "original_failure_retained": true,
+  "upstream_identity_sha256": "d71547fcfc26dd06f7619cebd47da164512185b2788e3e16d24833601a3241bd",
+  "focused_run": "255",
+  "focused_source": "9729d9af29a9d026db0ebc32f716f373d0456b6f",
+  "focused_pass": "        PASS [   0.900s] (30/30) codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals",
+  "focused_log_sha256": "9186828d6eab5dc79848ee61d09bfd37b1f6ed187f51167ba4ab1ee9895535d4",
+  "runtime_source_unchanged": true
+}

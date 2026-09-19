@@ -1,0 +1,23 @@
+{
+  "scope": "full-workspace",
+  "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "container_tooling_commit": "d99028f793004d795bfb5e1cb69f2a196d31bd14",
+  "source_receipt_verification_pending": false,
+  "run": "253",
+  "status": "failure",
+  "summary": "     Summary [2008.971s] 18319 tests run: 18313 passed (5 slow), 6 failed, 34 skipped",
+  "tests_run": 18319,
+  "passed": 18313,
+  "failed": 6,
+  "skipped": 34,
+  "failures": [
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox",
+    "codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp",
+    "codex-skills-extension host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents",
+    "codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals"
+  ],
+  "artifact_sha256": "ff45afd5ac42300ca6f3b033177ba6f24ff8fff94d7023678ab16817d39c2f7f",
+  "log_sha256": "5f9d09dfdf8275138cc955c2616c346798c073d427eb8a22a10339179b1c3272"
+}

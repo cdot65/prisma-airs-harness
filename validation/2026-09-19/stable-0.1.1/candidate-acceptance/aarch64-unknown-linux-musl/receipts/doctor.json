@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-b91d70/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/home/airs-review/release-frozen-b91d70/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/home/airs-review/stable011-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/doctor-7dd527d4a86f43e1a789666b49ec7c6e/TEST-RESULTS.json"
+  ],
+  "command_sha256": "0374c1349b33b684d8de9f87d78875962bf1dc8ecf78886ebc2f0c7309e7e192",
+  "dependencies": {
+    "install": "203f6f6f6a4c5faa625ddcbe5c90e8e6cf01925b0dfc1e9e3bbaa4ed0784e37a",
+    "installed-regressions": "a1ca92ebf4ecd359eb402b632fac57590019bd8100814a6623e12e02972baa60",
+    "mcp-manager": "7b87f646d0c544844a7aefc1c5208e17f55c9f8f715367dfc99befba614fd4e1",
+    "onboarding": "0cb6a72a2de34e937242756eff2a9b693a1ed8b3433545617d365397fbaf73ba",
+    "terminals": "9f06fd787817022ea069af83d79fa57865716eef04ff2298e720fef64faa6098"
+  },
+  "exit_code": 0,
+  "input_sha256": "a82ca5a52bfd76722e8ece737dfdd49ed1cf88c5f25f74c1bf9ec3ef7863a88e",
+  "inputs": {
+    "binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+    "candidate_metadata_sha256": "b6751f7eb03a5bee93c111005b69f66256db9e3414318e378043daa98f5448cd",
+    "candidate_packages_sha256": "efdc873b967bb117c358e1188c770df1fa823d8dcb26543ba0f675fd549ff9fe",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_doctor.py",
+      "stage": "doctor",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "spec_sha256": "8a9c6eed7ab7ec59819eaaea7c6acf1e3e5436f654d1247dfd91901f132c1341",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "tooling_sha256": "7e7cd5531d45ddf5073b268148a9fc66340ac50893f2d844312139776834daab",
+    "version": "0.1.1"
+  },
+  "outputs": {
+    "files/doctor/TEST-RESULTS.json": {
+      "sha256": "6433d5953bb2097324f750a9de383020b79c2aaa2bdee740a14f19fac96b2bd8",
+      "size": 529
+    },
+    "logs/doctor.log": {
+      "sha256": "5f79f286fadd6dcf9353f182644b141ef61f4d277c770bf95b42ffac7c81e01c",
+      "size": 675
+    }
+  },
+  "schema_version": 1,
+  "stage": "doctor"
+}

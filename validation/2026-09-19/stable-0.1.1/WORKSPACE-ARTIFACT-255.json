@@ -1,0 +1,16 @@
+{
+  "run": "255",
+  "status": "failure",
+  "archive_sha256": "d8aad11b26be981a9bc5bd3b7dbe1e2fb294877c8c02bcb875f823afc85ca2d5",
+  "files": {
+    "source.txt": "fb539d43f4ba7c9e701e43818f4f0e5a808b6e7e25597b7312b80d64a1925a68",
+    "container-tooling-source.txt": "fb539d43f4ba7c9e701e43818f4f0e5a808b6e7e25597b7312b80d64a1925a68",
+    "test-scope.txt": "03815a08591dc619ecc8f13a6c99c09e69320bd53ff61da8706c428d0bf1e465",
+    "validation.log": "9186828d6eab5dc79848ee61d09bfd37b1f6ed187f51167ba4ab1ee9895535d4"
+  },
+  "identity_files": {
+    "source.txt": "9729d9af29a9d026db0ebc32f716f373d0456b6f",
+    "container-tooling-source.txt": "9729d9af29a9d026db0ebc32f716f373d0456b6f",
+    "test-scope.txt": "test(shell_snapshot_v2) | test(effective_workspace_intersection_preserves_network_metadata_and_temp) | test(repo_ancestry_without_project_marker_does_not_walk_parents) | test(real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals)"
+  }
+}

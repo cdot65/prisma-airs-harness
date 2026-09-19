@@ -1,0 +1,92 @@
+{
+  "version": "0.1.1",
+  "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "workspace": {
+    "scope": "full-workspace",
+    "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "tests_run": 18319,
+    "passed": 18313,
+    "skipped": 34,
+    "failed": 6,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox",
+      "codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp",
+      "codex-skills-extension host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents",
+      "codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals"
+    ],
+    "run": "253",
+    "summary": "     Summary [2008.971s] 18319 tests run: 18313 passed (5 slow), 6 failed, 34 skipped",
+    "artifact_sha256": "ff45afd5ac42300ca6f3b033177ba6f24ff8fff94d7023678ab16817d39c2f7f",
+    "log_sha256": "5f9d09dfdf8275138cc955c2616c346798c073d427eb8a22a10339179b1c3272",
+    "baseline_review": {
+      "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+      "upstream_revision": "rust-v0.154.0",
+      "upstream_implementations_unchanged": true,
+      "unresolved_release_blockers": [],
+      "cases": {
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "36fce58c26eba78832c50cac5a6f746caaf0f5095092e5d3fbb29965c3865ac5",
+          "evidence_file": "baseline-evidence/01.json"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "49e7b398f3a72f29894dd64a225a260c2b225bbe871187bd66499dac0489ef4d",
+          "evidence_file": "baseline-evidence/02.json"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "a540afa5b2556fc5fedcb38c1af3897955a18b3cba6db33d67358bafefa98ff3",
+          "evidence_file": "baseline-evidence/03.json"
+        },
+        "codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "evidence_sha256": "bd40ffc9ab58bb6a5efc6e6165efbb75d5d3906c8a057b02fec64d99c1616e75",
+          "evidence_file": "baseline-evidence/04.json"
+        },
+        "codex-skills-extension host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "evidence_sha256": "6f63a930b61cf66ba0564b87a2745161038aa269f0cd6fbf3c32c67bb9feeb13",
+          "evidence_file": "baseline-evidence/05.json"
+        },
+        "codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals": {
+          "disposition": "configured-test-runtime",
+          "evidence_verified": true,
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "evidence_sha256": "0bbfc7168feefb07618902513ea828e4079c6ac83bab9a12d518bf420dd84fc1",
+          "evidence_file": "baseline-evidence/06.json"
+        }
+      },
+      "review_type": "Evidence-based release scope review; not a claim that the full workspace passed"
+    }
+  },
+  "owner_acceptance": {
+    "version": "0.1.0-alpha.22.mcp.6",
+    "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "stable_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "evidence_type": "owner-reported real-account acceptance",
+    "inference_signin": true,
+    "mcp_signin": true,
+    "servicenow_read": true,
+    "restart_reuse": true,
+    "runtime_review": "Only executable Rust change is the AIRS version constant. Other Rust edits correct test fixtures; no authentication, authorization, transport or credential-store behavior changed.",
+    "runtime_behavior_unchanged_since_owner_acceptance": true,
+    "rust_diff_sha256": "f5d95837f312fba22a2cceff0d9c4c974841837c1763d703f61bc70b1a9df2f1"
+  },
+  "runtime_behavior_unchanged_since_owner_acceptance": true
+}

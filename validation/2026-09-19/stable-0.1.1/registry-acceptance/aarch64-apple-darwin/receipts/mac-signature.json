@@ -1,0 +1,69 @@
+{
+  "command": [
+    [
+      "/usr/bin/codesign",
+      "--verify",
+      "--strict",
+      "--verbose=2",
+      "-R",
+      "=anchor apple generic and certificate leaf[subject.OU] = \"G5QLZ5A8TA\" and certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists",
+      "/Users/cdot/.cache/airs-011-20260919/stable011-candidate/registry-acceptance/aarch64-apple-darwin.work/install-78768badbb7a42a7945b0371ac9cac45/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness"
+    ],
+    [
+      "/usr/bin/codesign",
+      "--verify",
+      "--strict",
+      "--verbose=4",
+      "--check-notarization",
+      "-R",
+      "=notarized",
+      "/Users/cdot/.cache/airs-011-20260919/stable011-candidate/registry-acceptance/aarch64-apple-darwin.work/install-78768badbb7a42a7945b0371ac9cac45/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness"
+    ]
+  ],
+  "command_sha256": "d939954e749ad5570b55f117eb1254d84802bc4959d0db86c2b64428b8f49885",
+  "dependencies": {
+    "command-output": "7adc18299b4cf2a8d327f8f6f0fd9d1a5b6a8c1aa4aa3821b6e8f2b0abc8594b",
+    "doctor": "06d86add40d2a44f4c4ef96e18af4d3ecc7c582ac4ee5268877abc0e3fa89529",
+    "install": "3ded3e7a3812fa0cdf188257404fcd783bca125cc5c07552090a25fb545d6eec",
+    "installed-regressions": "069f296e99f8e8e0047923d32821d5dae5e41d99049990bc349193e03640733b",
+    "managed-cli": "d012396279c0eb0f05ea3ac16d362ae54f0c3a9150cbee2270a63c6d4edd0284",
+    "mcp-manager": "db6fd4511dc54f7b558fe1ce6f31507d362b1eef3ac01b40953dc3881469cb26",
+    "onboarding": "3c9c8692dd6d6943610625207aa7fb082143c9eabed442bb846449d2b98bdf4b",
+    "terminals": "810a449d89403712b4e3b5e2cd846215d2b107eac0dfd4b7d103aedd07b64c30",
+    "upgrade": "ca15f0314f87deeac4ada7ad199592d1d82baf7b038dc7c7705372a71a03b999"
+  },
+  "exit_code": 0,
+  "input_sha256": "41d61c90e66efb912df191dced2dc790a4bfdc65cc65390ab8860d57ff068c94",
+  "inputs": {
+    "binary_sha256": "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3",
+    "candidate_metadata_sha256": "45001615463a08ab2fd698d88dd65bdd7cc59c90531c27eb4e33809de2434c79",
+    "candidate_packages_sha256": "50d72ec2ffe058b2add25c536405ead2e867b4564586ca052f89a84925db6767",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALLED-MAC-SIGNATURE.json",
+      "stage": "mac-signature",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "spec_sha256": "8a9c6eed7ab7ec59819eaaea7c6acf1e3e5436f654d1247dfd91901f132c1341",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "tooling_sha256": "7e7cd5531d45ddf5073b268148a9fc66340ac50893f2d844312139776834daab",
+    "version": "0.1.1"
+  },
+  "outputs": {
+    "files/mac-signature/INSTALLED-MAC-SIGNATURE.json": {
+      "sha256": "5f354c3fc5cee8ffb25e5fbc3416cc7e5b46e4a49c8a782a1149f0b25ec6daaa",
+      "size": 205
+    },
+    "logs/mac-signature.log": {
+      "sha256": "869517c2c65b3c3164826ae91b2a6191e89d7f84c63e86c191a7d2300100501a",
+      "size": 1592
+    }
+  },
+  "schema_version": 1,
+  "stage": "mac-signature"
+}

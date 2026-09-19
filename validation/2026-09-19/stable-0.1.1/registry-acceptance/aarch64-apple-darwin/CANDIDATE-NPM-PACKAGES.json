@@ -1,0 +1,164 @@
+{
+  "acceptance_sha256": "0060e7831cdd1cd58a85182d71823037f426f516a04382a8e5f8ec435e79a473",
+  "candidate_metadata_sha256": "b6751f7eb03a5bee93c111005b69f66256db9e3414318e378043daa98f5448cd",
+  "candidate_packages_sha256": "efdc873b967bb117c358e1188c770df1fa823d8dcb26543ba0f675fd549ff9fe",
+  "cli_bundle": {
+    "files": 3114,
+    "inventory_sha256": "438fb5506bf72612200a5a883a5c7d85c27720c127eedecf2701b418a45b1e28",
+    "license_files": 69,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-arm64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-arm64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-arm64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "packages": 75,
+    "required_pins": {
+      "@cdot65/prisma-airs-cli": "7.0.0",
+      "@cdot65/prisma-airs-sdk": "0.33.0"
+    },
+    "source_lock_sha256": "df1c850ff1713a0eef454a14fe00cdf5850626f9cbc506d96744bb000c7b7d69",
+    "targets": [
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-musl",
+      "x86_64-unknown-linux-musl"
+    ],
+    "windows_command_wrappers": []
+  },
+  "evidence_sha256": "23fc9d7a58b8d523cc01e7c92dce141196b95c4faa6e36706a5d484765894208",
+  "package_tooling": {
+    "cli_bundle": {
+      "files": 3114,
+      "inventory_sha256": "438fb5506bf72612200a5a883a5c7d85c27720c127eedecf2701b418a45b1e28",
+      "license_files": 69,
+      "native_payload_packages": [
+        "@img/sharp-darwin-arm64",
+        "@img/sharp-libvips-darwin-arm64",
+        "@img/sharp-libvips-linux-arm64",
+        "@img/sharp-libvips-linux-x64",
+        "@img/sharp-libvips-linuxmusl-arm64",
+        "@img/sharp-libvips-linuxmusl-x64",
+        "@img/sharp-linux-arm64",
+        "@img/sharp-linux-x64",
+        "@img/sharp-linuxmusl-arm64",
+        "@img/sharp-linuxmusl-x64"
+      ],
+      "packages": 75,
+      "required_pins": {
+        "@cdot65/prisma-airs-cli": "7.0.0",
+        "@cdot65/prisma-airs-sdk": "0.33.0"
+      },
+      "source_lock_sha256": "df1c850ff1713a0eef454a14fe00cdf5850626f9cbc506d96744bb000c7b7d69",
+      "targets": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-musl",
+        "x86_64-unknown-linux-musl"
+      ],
+      "windows_command_wrappers": []
+    },
+    "files": {
+      "npm/airs-harness/bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "npm/airs-harness/bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/completion.js": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "npm/airs-harness/lib/launcher.js": "86929d4f27709f019471fea9ade612e2aa208638cb5da0e17453fcbbb45c1399",
+      "npm/airs-harness/lib/migration-check.js": "fd7c75e1aab9ad95e303ec311f0b2e345c7fc04fa700a354e0cfa17b6bea2ef5",
+      "npm/airs-harness/lib/prisma-cli.js": "1884133ee4beae2da34dacae16332d0d6aaf3e992a9590b17771c0e905dea126",
+      "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "npm/airs-harness/managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs-cli.cmd": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08",
+      "npm/airs-harness/package-lock.json": "df1c850ff1713a0eef454a14fe00cdf5850626f9cbc506d96744bb000c7b7d69",
+      "npm/airs-harness/package.json": "729fbc53b71fa1215008053644ce344a4d32be3d9f700f6581d874ff0713489a",
+      "scripts/airs_bundle.py": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+      "scripts/airs_bundle_archive.py": "5ba7f8d774b68b1b1b2abefa18eb15af20d382457f3c180f77f2ce77a0d98cb5",
+      "scripts/airs_bundle_shims.py": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+      "scripts/airs_bundle_tree.py": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+      "scripts/fixtures/npm-command-shims/LICENSE": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475",
+      "scripts/fixtures/npm-command-shims/README.md": "671a62c3ed988e45ca70b9b0d55ece8bd9690f9f8118241302ac3b4ef74d8a0d",
+      "scripts/fixtures/npm-command-shims/node.json": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+      "scripts/package_airs_npm.py": "b96a81f2a49c2a7d37dd5238a49f012f16d7fa2618494b733864c62038fce97a"
+    },
+    "native_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "packaging_commit": "b91d706e292791848394f30128b5f97aa53c4b9d"
+  },
+  "packaging_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "production_release_ready": false,
+  "publish_order": [
+    {
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "filename": "airs-harness-linux-x64-0.1.1.tgz",
+      "integrity": "sha512-iEQjhSKRqM/Vi/qeqXUNZwAvV1yoT/o9NCxjaObPxMUaJRw4TagglhVlgPxYQwktJUjdWCNQ1HLvg21pyA450g==",
+      "name": "airs-harness-linux-x64",
+      "original_candidate_sha256": "24083346f051cc3d6357b73a4baf55930ea335e5cc12954c96d73be196931e81",
+      "runtime_payload_unchanged": true,
+      "sha256": "a9de3df6b301a3343fbda5285c2a8907deb22605fb0c6d22f87e6a2bf1d3bc41",
+      "version": "0.1.1"
+    },
+    {
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "filename": "airs-harness-linux-arm64-0.1.1.tgz",
+      "integrity": "sha512-xF9LyutI2+D0Yevabv2cvbjluaH94g9LkDDYHw4NVWtGgD9cEtS0vJMyNushbB8ys7jcYesFVzQfc4oZtTQiPg==",
+      "name": "airs-harness-linux-arm64",
+      "original_candidate_sha256": "bd4c910abb13518c4e5de2a1c4154d15706334393d85543c354ce66badbdc40d",
+      "runtime_payload_unchanged": true,
+      "sha256": "d7d7efe39812e6562671a339ce946e2dcc0c41f8f9b4ed595a952caa7491c219",
+      "version": "0.1.1"
+    },
+    {
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "filename": "airs-harness-darwin-arm64-0.1.1.tgz",
+      "integrity": "sha512-YbLKXG1MxzFxgQgksx7ymt3x1TqLP4IUz4tCoc1wJzvPgnNnktxnzpAXCzeSmJ//8L7Glz/exH9uM0+Q1Hyomw==",
+      "name": "airs-harness-darwin-arm64",
+      "original_candidate_sha256": "421a3995ae34f82a9ad6f4cd1d18fd167af6ea5ddcc2a944e0b65b661618f786",
+      "runtime_payload_unchanged": true,
+      "sha256": "d88ed8613387f726a825c294c1e928211db084a33bbf48fd1cd35e48ac5d76aa",
+      "version": "0.1.1"
+    },
+    {
+      "changed_archive_entries": [
+        "package/package.json"
+      ],
+      "filename": "airs-harness-0.1.1.tgz",
+      "integrity": "sha512-Sbm8NSvhc5cXH0LWnLXp/LAJU9Pte4TFpG7nQJQOUwOQUmIOSOaATPVP45cRXc+zYTVzRABvn4hfQYCA9A3TEg==",
+      "name": "airs-harness",
+      "original_candidate_sha256": "fd3d7e31fb6c893eb05ae7c4734bfe075e0951bc0ab87dc6f8afe09d0473611e",
+      "runtime_payload_unchanged": true,
+      "sha256": "df9b856d1a7dd9cb1cb47e01f704cfd866e56d5bbfc3ab8d5fc9b2a5b157e720",
+      "version": "0.1.1"
+    }
+  ],
+  "published": false,
+  "registry": "https://npm.cdot.io",
+  "release_scope": "owner-authorized-stable",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "7.0.0"
+  },
+  "schema_version": 1,
+  "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "spec_sha256": "8a9c6eed7ab7ec59819eaaea7c6acf1e3e5436f654d1247dfd91901f132c1341",
+  "tag": "stable-candidate",
+  "tooling_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "version": "0.1.1"
+}

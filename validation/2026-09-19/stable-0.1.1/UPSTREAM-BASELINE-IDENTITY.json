@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "release_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "upstream_revision": "rust-v0.154.0",
+  "upstream_commit": "6b9826e3aa83b1a5947db50f4332cb9c65f1b340",
+  "unchanged_paths": [
+    "codex-rs/exec-server",
+    "codex-rs/protocol/src/permission_profile_intersection.rs",
+    "codex-rs/protocol/src/permission_profile_intersection_tests.rs",
+    "codex-rs/ext/skills/src/host_roots.rs",
+    "codex-rs/ext/skills/src/host_roots_tests.rs",
+    "codex-rs/voice-host"
+  ],
+  "followup_test_commit": "9729d9af29a9d026db0ebc32f716f373d0456b6f",
+  "followup_rust_changes": [
+    "codex-rs/exec-server/tests/exec_process.rs",
+    "codex-rs/ext/skills/src/host_roots_tests.rs",
+    "codex-rs/protocol/src/permission_profile_intersection_tests.rs"
+  ],
+  "runtime_source_unchanged": true,
+  "scope": "Git identity comparison; functional test outcomes are recorded separately",
+  "upstream_tag_object": "36eab01061df3cde5f95ec20a526777b430091ba"
+}

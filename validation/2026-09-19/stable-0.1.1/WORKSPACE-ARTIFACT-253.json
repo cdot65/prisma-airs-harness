@@ -1,0 +1,14 @@
+{
+  "run": "253",
+  "status": "failure",
+  "archive_sha256": "ff45afd5ac42300ca6f3b033177ba6f24ff8fff94d7023678ab16817d39c2f7f",
+  "files": {
+    "container-tooling-source.txt": "6b3b5ad2382c0d22887f39616dd96d177373237a2da228910577bb6842232bdc",
+    "source.txt": "5e932a8f643e97a914c99f668ff0e93e782bfdb460b80bbd726bc448f24f42c2",
+    "validation.log": "5f9d09dfdf8275138cc955c2616c346798c073d427eb8a22a10339179b1c3272"
+  },
+  "identity_files": {
+    "container-tooling-source.txt": "d99028f793004d795bfb5e1cb69f2a196d31bd14",
+    "source.txt": "b91d706e292791848394f30128b5f97aa53c4b9d"
+  }
+}

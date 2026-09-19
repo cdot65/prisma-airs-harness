@@ -1,0 +1,13 @@
+{
+  "version": "0.1.0-alpha.22.mcp.6",
+  "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+  "stable_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "evidence_type": "owner-reported real-account acceptance",
+  "inference_signin": true,
+  "mcp_signin": true,
+  "servicenow_read": true,
+  "restart_reuse": true,
+  "runtime_review": "Only executable Rust change is the AIRS version constant. Other Rust edits correct test fixtures; no authentication, authorization, transport or credential-store behavior changed.",
+  "runtime_behavior_unchanged_since_owner_acceptance": true,
+  "rust_diff_sha256": "f5d95837f312fba22a2cceff0d9c4c974841837c1763d703f61bc70b1a9df2f1"
+}

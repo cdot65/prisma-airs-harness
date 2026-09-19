@@ -1,0 +1,20 @@
+{
+  "x86_64-unknown-linux-musl": {
+    "passed": true,
+    "binary_sha256": "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9",
+    "version": "airs 0.1.1",
+    "bundled_cli": "7.0.0"
+  },
+  "aarch64-unknown-linux-musl": {
+    "passed": true,
+    "binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+    "version": "airs 0.1.1",
+    "bundled_cli": "7.0.0"
+  },
+  "aarch64-apple-darwin": {
+    "passed": true,
+    "binary_sha256": "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3",
+    "version": "airs 0.1.1",
+    "bundled_cli": "7.0.0"
+  }
+}

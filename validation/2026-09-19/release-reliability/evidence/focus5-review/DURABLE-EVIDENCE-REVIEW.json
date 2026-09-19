@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "durable_commit": "ec7c4698b5223e7c21e7b94057983fbdb4d1bc7d",
+  "inventory_files": 391,
+  "all_evidence_files_committed": true,
+  "committed_bytes_match": true,
+  "portable_candidate_collector": "passed under Python -O",
+  "portable_registry_collector": "passed under Python -O",
+  "pages_workflow": 35420045886,
+  "pages_source_commit": "9d328da14b0abf3e8b3823cebb4f92a4bd4a8641",
+  "live_routes": 5,
+  "browser_errors": 0,
+  "owned_fixture_cleanup": "passed; failed original registry job preserved as exit1",
+  "owner_credentials_unchanged": true
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "focus": 5,
+  "reviewed_at_utc": "2026-09-19T04:07:03.686951+00:00",
+  "passed": true,
+  "scope": "Owner-authorized mcp.3 test publication, native installed acceptance, deployed documentation and durable handoff",
+  "version": "0.1.0-alpha.22.mcp.3",
+  "score": 9.5,
+  "rubric": {
+    "completeness": {
+      "score": 3.0,
+      "maximum": 3
+    },
+    "capability": {
+      "score": 2.8,
+      "maximum": 3
+    },
+    "best_practices": {
+      "score": 1.9,
+      "maximum": 2
+    },
+    "optimization": {
+      "score": 1.8,
+      "maximum": 2
+    }
+  },
+  "mandatory_gates": {
+    "candidate_native_platforms": 3,
+    "fresh_anonymous_registry_platforms": 3,
+    "immutable_publication_integrity": "passed",
+    "all_non_mcp_tags_preserved": true,
+    "onboarding_4_upgrade_platforms": 3,
+    "actual_node_18_guard_cases": 16,
+    "pages_deployment_and_live_routes": "passed",
+    "owned_fixture_cleanup": "passed",
+    "durable_committed_evidence": "passed",
+    "remote_branch_commit_verified": "ec7c4698b5223e7c21e7b94057983fbdb4d1bc7d"
+  },
+  "durable_evidence": {
+    "passed": true,
+    "durable_commit": "ec7c4698b5223e7c21e7b94057983fbdb4d1bc7d",
+    "inventory_files": 391,
+    "all_evidence_files_committed": true,
+    "committed_bytes_match": true,
+    "portable_candidate_collector": "passed under Python -O",
+    "portable_registry_collector": "passed under Python -O",
+    "pages_workflow": 35420045886,
+    "pages_source_commit": "9d328da14b0abf3e8b3823cebb4f92a4bd4a8641",
+    "live_routes": 5,
+    "browser_errors": 0,
+    "owned_fixture_cleanup": "passed; failed original registry job preserved as exit1",
+    "owner_credentials_unchanged": true
+  },
+  "supporting_review_sha256": {
+    "FINAL-PUBLICATION-REVIEW.json": "d3ebbbd5990d769dbfc20ecf14d37686e318e5b0ab90292d1825dd26ad0279ee",
+    "STABLE-UPGRADE-REVIEW.json": "ce481c643674114057b58c97431b01be1617c8858f3fdc642ec3434ebafd3b5c",
+    "DURABLE-EVIDENCE-REVIEW.json": "7330e63789bff9e89f9818af586992d6b91f0ff6898e411d00bff359584c0bd8",
+    "node18/ACTUAL-NODE18-SUPPLEMENT.json": "6b10403d40800f8b22aeb5477f32b85c5d2512648c0a9fea877540425def2c86"
+  },
+  "open_mandatory_gates": [],
+  "deferred_owner_scope": [
+    "Owner Ubuntu credential-session investigation",
+    "Attended human SSO and actual gateway workspace-key acceptance",
+    "Real ServiceNow identity and read-only tool result"
+  ],
+  "not_claimed": [
+    "Stable promotion",
+    "Windows or Intel Mac distributions",
+    "A clean full Rust workspace",
+    "Actual Node18 installation or the exact original Ubuntu Node18.19.1/npm9.2.0 session"
+  ],
+  "review_separation": "This closes artifact/platform/handoff review; root and delivery independently reviewed implementation authored by this reviewer. Owner review remains pending.",
+  "followup_bookkeeping": "Root will retain this final review and update the vault focus5 table; its previously pending row is not a failed release gate."
+}

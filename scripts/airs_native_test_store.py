@@ -49,6 +49,12 @@ def isolated_environment(root, inherited):
         ("XDG_RUNTIME_DIR", "runtime"),
         ("GNOME_KEYRING_CONTROL", "keyring"),
     ]:
+        if variable == "HOME" and sys.platform == "darwin":
+            # Security.framework resolves the GUI login Keychain through HOME.
+            # AIRS_HARNESS_HOME and XDG paths still isolate all fixture state.
+            if not inherited.get("HOME") or not Path(inherited["HOME"]).is_absolute():
+                raise ValueError("Darwin native fixture requires its GUI session HOME")
+            continue
         directory = root / name
         directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         env[variable] = str(directory)
@@ -142,7 +148,7 @@ def native_store(root, inherited_env):
             daemon.wait(timeout=10)
 
 
-def _records(identity, env):
+def _accounts(identity, env):
     if not re.fullmatch(r"airs-test-[0-9a-f]{24}", identity.name):
         raise ValueError("Native fixture requires a randomly namespaced test identity")
     found = []
@@ -157,15 +163,17 @@ def _records(identity, env):
                 SERVICE,
                 "-a",
                 account,
-                "-w",
             ]
         else:
             command = ["secret-tool", "lookup", "service", SERVICE, "username", account]
         result = subprocess.run(command, env=env, capture_output=True, timeout=10)
         if result.returncode == 0:
-            record = json.loads(result.stdout)
-            identity.verify_record(record)
-            found.append((account, record))
+            # Darwin's exact metadata query avoids asking another executable for
+            # token data. A second AIRS process proves the credential is usable.
+            if sys.platform != "darwin":
+                record = json.loads(result.stdout)
+                identity.verify_record(record)
+            found.append(account)
             continue
         missing = (
             result.returncode == 44
@@ -179,15 +187,15 @@ def _records(identity, env):
     return found
 
 
-def read_record(identity, env):
-    records = _records(identity, env)
-    return records[0][1] if records else None
+def record_exists(identity, env):
+    """Check this run's exact native identity without reading Darwin token data."""
+    return bool(_accounts(identity, env))
 
 
 def delete_record(identity, env):
     # First validate any found record. Commands below name this run's two exact
     # serialization variants; never delete by shared service alone.
-    for account, _record in _records(identity, env):
+    for account in _accounts(identity, env):
         if sys.platform == "darwin":
             command = [
                 "security",
@@ -205,5 +213,5 @@ def delete_record(identity, env):
             raise RuntimeError(
                 f"Synthetic native record cleanup failed (status {result.returncode})"
             )
-    if read_record(identity, env) is not None:
+    if record_exists(identity, env):
         raise RuntimeError("Synthetic native credential cleanup did not complete")

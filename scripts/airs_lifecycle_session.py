@@ -15,7 +15,7 @@ from urllib.request import urlopen
 from airs_gateway_test_identity import GatewayTestIdentity
 from airs_harness_pty import TerminalSession
 from airs_lifecycle_fixture import LifecycleFixture
-from airs_native_test_store import delete_record, native_store, read_record
+from airs_native_test_store import delete_record, native_store, record_exists
 from test_airs_mcp_manager import McpManager
 
 
@@ -53,7 +53,7 @@ class LifecycleSession:
                 SSH_CONNECTION="fixture",
             )
             require(
-                read_record(self.identity, self.env) is None,
+                not record_exists(self.identity, self.env),
                 "Unique lifecycle native record exists",
             )
             self.cleanup_owned = True
@@ -149,7 +149,7 @@ class LifecycleSession:
         ui.key(self.terminal, b"\x1b[200~" + callback.encode() + b"\x1b[201~\r")
         self.terminal.wait_for(b"MCP connection updated", timeout=45)
         require(
-            read_record(self.identity, self.env) is not None,
+            record_exists(self.identity, self.env),
             "MCP credential was not persisted natively",
         )
         require(

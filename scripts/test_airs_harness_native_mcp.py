@@ -24,7 +24,7 @@ from airs_native_test_store import (
     isolated_environment,
     native_store,
     native_test_command,
-    read_record,
+    record_exists,
 )
 import test_airs_mcp_manager as manager
 
@@ -84,7 +84,7 @@ def exercise(case):
                 )
                 if case == "positive":
                     require(
-                        read_record(identity, env) is None,
+                        not record_exists(identity, env),
                         "Unique native record already exists",
                     )
                     cleanup_owned = True
@@ -137,7 +137,7 @@ def positive(ui, identity, env):
         terminal.wait_for(b"MCP connection updated", timeout=45)
         terminal.wait_for(b"connected")
         require(
-            read_record(identity, env) is not None,
+            record_exists(identity, env),
             "OAuth did not persist a native record",
         )
         require(
@@ -187,7 +187,7 @@ def positive(ui, identity, env):
         terminal.wait_for(f"Sign out of {identity.name}?".encode(), offset)
         ui.choose(terminal, 1)
         terminal.wait_for(b"signed out", offset, timeout=45)
-        require(read_record(identity, env) is None, "Logout retained the native token")
+        require(not record_exists(identity, env), "Logout retained the native token")
         ui.choose(terminal, 1)  # Manage, without replaying a turn.
         offset = len(terminal.transcript)
         terminal.wait_for(b"MCP connections", offset)

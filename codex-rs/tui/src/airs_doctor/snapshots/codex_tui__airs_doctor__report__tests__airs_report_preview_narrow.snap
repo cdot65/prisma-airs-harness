@@ -1,0 +1,28 @@
+---
+source: tui/src/airs_doctor/report_tests.rs
+expression: terminal.backend()
+---
+"/ Diagnostic report / / / / / / / / / / / / / / / / /  "
+"AIRS diagnostic report v1                              "
+"Prisma AIRS Harness [VERSION]                          "
+"Platform: [PLATFORM]                                   "
+"Authentication: Unknown                                "
+"                                                       "
+"Snapshot of the last /doctor check; no new requests    "
+"were made.                                             "
+"Names, addresses, paths, raw details and conversation  "
+"content are omitted.                                   "
+"                                                       "
+"gateway_access: Not verified                           "
+"Diagnostics unavailable. Retry /doctor.                "
+"                                                       "
+"Credential-service health does not verify a saved      "
+"credential.                                            "
+"Gateway health does not verify inference access. MCP   "
+"discovery does not verify a completed tool call.       "
+"No credentials, configuration, raw logs or tool results"
+"are included.                                          "
+"──────────────────────────────────────────────── 100% ─"
+" ↑/↓ to scroll   pgup/pgdn to page   home/end to jump  "
+" q close                                               "
+"                                                       "

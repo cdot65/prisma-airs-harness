@@ -1,5 +1,8 @@
 use super::*;
 use crate::airs_doctor::Check;
+use crate::airs_doctor::Event;
+use crate::airs_doctor::views;
+use crate::app_event::AppEvent;
 use pretty_assertions::assert_eq;
 
 #[test]
@@ -78,6 +81,64 @@ fn explicit_access_and_authentication_are_distinct_from_health() {
 }
 
 #[test]
+fn report_actions_keep_snapshot_and_expire_with_view_or_thread() {
+    let thread = ThreadId::new();
+    let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
+    let tx = crate::app_event_sender::AppEventSender::new(tx);
+    let text = render(None);
+    let view = views::report_actions(text.clone(), Some(thread), "");
+    for item in &view.items {
+        assert!(!item.dismiss_on_select);
+        (item.actions[0])(&tx);
+    }
+    let mut sessions = Vec::new();
+    for expected in [Action::Preview, Action::Copy, Action::Save, Action::Close] {
+        let AppEvent::AirsDoctor(Event::Report { session, action }) = rx.try_recv().unwrap() else {
+            panic!("report must never request inspection, inference or MCP operations");
+        };
+        assert!(std::mem::discriminant(&expected) == std::mem::discriminant(&action));
+        assert!(Arc::ptr_eq(&session.text, &text));
+        assert!(session.allows(Some(thread)));
+        assert!(!session.allows(Some(ThreadId::new())));
+        assert!(!session.allows(None));
+        sessions.push(session);
+    }
+    assert!(rx.try_recv().is_err());
+    drop(view);
+    assert!(sessions.iter().all(|session| !session.allows(Some(thread))));
+}
+
+#[test]
+fn overview_replacement_expires_queued_export_action() {
+    let thread = ThreadId::new();
+    let view = views::overview(
+        "private-environment",
+        Err("private error".into()),
+        Vec::new(),
+        Some(thread),
+    );
+    let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
+    let tx = crate::app_event_sender::AppEventSender::new(tx);
+    let export = view
+        .items
+        .iter()
+        .find(|item| item.name == "Diagnostic report")
+        .unwrap();
+    (export.actions[0])(&tx);
+    let AppEvent::AirsDoctor(Event::Report {
+        session,
+        action: Action::Open,
+    }) = rx.try_recv().unwrap()
+    else {
+        panic!("expected private report action")
+    };
+    assert!(session.allows(Some(thread)));
+    assert!(!session.text.contains("private"));
+    drop(view);
+    assert!(!session.allows(Some(thread)));
+}
+
+#[test]
 fn local_save_preserves_existing_state_and_rejects_invalid_destination() {
     let directory = tempfile::tempdir().unwrap();
     let sentinel = directory.path().join("config.toml");
@@ -110,4 +171,33 @@ fn local_save_preserves_existing_state_and_rejects_invalid_destination() {
     assert!(save(&sentinel, &text).is_err());
     assert!(save(directory.path(), &"x".repeat(MAX_REPORT + 1)).is_err());
     assert_eq!(std::fs::read_dir(directory.path()).unwrap().count(), 3);
+}
+
+#[test]
+fn report_preview_wraps_in_existing_pager_at_narrow_width() {
+    let text = render(None)
+        .replace(codex_utils_home_dir::AIRS_HARNESS_VERSION, "[VERSION]")
+        .replace(
+            &format!("{} / {}", std::env::consts::OS, std::env::consts::ARCH),
+            "[PLATFORM]",
+        );
+    let crate::pager_overlay::Overlay::Static(mut overlay) =
+        crate::pager_overlay::Overlay::new_static_with_lines(
+            text.lines()
+                .map(|line| ratatui::text::Line::from(line.to_owned()))
+                .collect(),
+            "Diagnostic report".into(),
+            crate::keymap::RuntimeKeymap::defaults().pager,
+        )
+    else {
+        panic!("expected static preview")
+    };
+    let mut terminal = ratatui::Terminal::new(ratatui::backend::TestBackend::new(
+        /*width*/ 55, /*height*/ 24,
+    ))
+    .unwrap();
+    terminal
+        .draw(|frame| overlay.render(frame.area(), frame.buffer_mut()))
+        .unwrap();
+    insta::assert_snapshot!("airs_report_preview_narrow", terminal.backend());
 }

@@ -1,11 +1,48 @@
 //! Shareable snapshots contain only known fields, never diagnostic detail strings.
 use super::Report;
+use codex_protocol::ThreadId;
 use std::io::Write;
 use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 
 const MAX_REPORT: usize = 8192;
+
+#[derive(Clone, Copy)]
+pub(crate) enum Action {
+    Open,
+    Preview,
+    Copy,
+    Save,
+    Close,
+}
+
+/// A report action is valid only while its originating view and thread survive.
+pub(crate) struct Session {
+    pub(crate) text: Arc<str>,
+    thread: Option<ThreadId>,
+    active: AtomicBool,
+}
+
+impl Session {
+    pub(crate) fn new(text: Arc<str>, thread: Option<ThreadId>) -> Arc<Self> {
+        Arc::new(Self {
+            text,
+            thread,
+            active: AtomicBool::new(true),
+        })
+    }
+
+    pub(crate) fn allows(&self, thread: Option<ThreadId>) -> bool {
+        thread.is_some() && self.thread == thread && self.active.load(Ordering::Acquire)
+    }
+
+    pub(crate) fn invalidate(&self) {
+        self.active.store(false, Ordering::Release);
+    }
+}
 
 pub(crate) fn render(report: Option<&Report>) -> Arc<str> {
     let authentication = match report.map(|report| report.authentication.as_str()) {

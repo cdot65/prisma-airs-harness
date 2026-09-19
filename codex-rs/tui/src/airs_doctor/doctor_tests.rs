@@ -30,7 +30,12 @@ fn failed_checks_remain_a_report_and_invalid_output_is_redacted() {
 fn verify_requires_an_explicit_action_and_cancel_keeps_attempt_identity() {
     let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
     let tx = crate::app_event_sender::AppEventSender::new(tx);
-    let view = views::overview("work", Err("Offline".into()), Vec::new());
+    let view = views::overview(
+        "work",
+        Err("Offline".into()),
+        Vec::new(),
+        /*thread*/ None,
+    );
     assert!(rx.try_recv().is_err());
     (view.items[0].actions[0])(&tx);
     assert!(matches!(

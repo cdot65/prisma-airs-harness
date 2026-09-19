@@ -31,6 +31,10 @@ pub(crate) struct Report {
 
 pub(crate) enum Event {
     Open(Mode),
+    Report {
+        session: std::sync::Arc<report::Session>,
+        action: report::Action,
+    },
     Cancel(u64),
     SignIn,
     ConfirmVerify,

@@ -2,6 +2,7 @@ use super::App;
 use super::background_requests::fetch_all_mcp_server_statuses;
 use crate::airs_doctor::Event;
 use crate::airs_doctor::process;
+use crate::airs_doctor::report;
 use crate::airs_doctor::views;
 use crate::app_event::AppEvent;
 use crate::app_server_session::AppServerSession;
@@ -9,7 +10,77 @@ use codex_app_server_protocol::McpServerStatusDetail;
 use std::time::Duration;
 
 impl App {
-    pub(super) async fn handle_airs_doctor(&mut self, app_server: &AppServerSession, event: Event) {
+    pub(super) fn handle_airs_report(
+        &mut self,
+        tui: &mut crate::tui::Tui,
+        session: std::sync::Arc<report::Session>,
+        action: report::Action,
+    ) {
+        let thread = self.current_displayed_thread_id();
+        if !session.allows(thread) || !self.chat_widget.airs_report_view_active() {
+            return;
+        }
+        let status = match action {
+            report::Action::Open => "",
+            report::Action::Preview => {
+                let mut keymap = self.keymap.pager.clone();
+                keymap
+                    .close
+                    .push(crate::key_hint::plain(crossterm::event::KeyCode::Esc));
+                let _ = tui.enter_alt_screen();
+                self.overlay = Some(crate::pager_overlay::Overlay::new_static_with_lines(
+                    session
+                        .text
+                        .lines()
+                        .map(|line| ratatui::text::Line::from(line.to_owned()))
+                        .collect(),
+                    "Diagnostic report".into(),
+                    keymap,
+                ));
+                tui.frame_requester().schedule_frame();
+                return;
+            }
+            report::Action::Copy => self
+                .chat_widget
+                .copy_airs_report_with(&session.text, |text| {
+                    crate::clipboard_copy::copy_to_clipboard(
+                        text,
+                        crate::clipboard_copy::CopyFormat::PlainText,
+                    )
+                }),
+            report::Action::Save => {
+                let message = match report::save(&self.config.codex_home, &session.text) {
+                    Ok(path) => format!(
+                        "Saved locally: {}",
+                        crate::airs_doctor::display(&path.to_string_lossy())
+                    ),
+                    Err(message) => message.into(),
+                };
+                self.chat_widget.show_airs_doctor(views::report_actions(
+                    session.text.clone(),
+                    thread,
+                    &message,
+                ));
+                return;
+            }
+            report::Action::Close => {
+                self.chat_widget.dismiss_airs_doctor();
+                return;
+            }
+        };
+        self.chat_widget.show_airs_doctor(views::report_actions(
+            session.text.clone(),
+            thread,
+            status,
+        ));
+    }
+
+    pub(super) async fn handle_airs_doctor(
+        &mut self,
+        tui: &mut crate::tui::Tui,
+        app_server: &AppServerSession,
+        event: Event,
+    ) {
         if !codex_utils_home_dir::is_airs_harness() {
             return;
         }
@@ -20,6 +91,7 @@ impl App {
             return;
         }
         match event {
+            Event::Report { session, action } => self.handle_airs_report(tui, session, action),
             Event::Cancel(attempt) => {
                 if self.airs_recovery.is_current(attempt) {
                     self.airs_recovery.cancel();
@@ -44,6 +116,7 @@ impl App {
                         &environment,
                         report,
                         connections,
+                        Some(thread),
                     ));
                 }
             }
@@ -71,6 +144,7 @@ impl App {
                             &environment,
                             Err("Could not load this environment. Check airs env status.".into()),
                             Vec::new(),
+                            Some(thread),
                         ));
                         return;
                     }

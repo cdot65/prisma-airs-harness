@@ -17,24 +17,24 @@ npm --version
 Installing npm alone does not upgrade Node.js. If Ubuntu supplies Node 18,
 install a supported Node version using your organization's usual method, reopen
 the terminal and check again. npm may otherwise finish with `EBADENGINE`; the
-mcp.3 launcher rejects unsupported Node before starting AIRS or its bundled CLI.
+launcher rejects unsupported Node before starting AIRS or its bundled CLI.
 
-The **mcp test channel** contains the in-session `/mcp` manager and `/doctor`
-dashboard. This guide covers **0.1.0-alpha.22.mcp.3**, an owner-authorized test
-release. Real-account SSO, workspace-key and ServiceNow acceptance remain separate
-from automated distribution checks. Stable `latest`,
-`alpha` and `onboarding` remain **0.1.0-alpha.22.onboarding.4**, which lacks these
-dashboards. Install the currently published test build on the organization's
-LAN/VPN and inspect its version:
+This guide covers **0.1.0-alpha.22.mcp.4**, including the in-session `/mcp`
+manager and `/doctor` dashboard. New environments require native MCP storage;
+existing environments retain their configured mode and tokens. Real-account SSO,
+workspace-key and ServiceNow acceptance remain separate from automated checks.
+Install this exact version once available in your registry, from the organization's
+LAN/VPN, then inspect its version:
 
 ```sh
-npm install -g airs-harness@mcp --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
 Git, ripgrep and your project's build tools remain prerequisites; Linux also
-requires a usable Bubblewrap sandbox.
+requires a usable Bubblewrap sandbox. The optional [Ubuntu test-host guide](UBUNTU-TEST-HOST.md)
+covers prerequisite installation and readiness checks for an Ubuntu SSH host.
 
 Linux x64, Linux ARM64 and Apple Silicon have native packages; Intel Mac and
 Windows are outside this distribution. Downloads are anonymous. Normal installs
@@ -91,10 +91,23 @@ access; `airs --environment work doctor --verify-access` sends a small quota-usi
 probe. HTTP status and request/gateway trace IDs help diagnose route or policy
 rejection without exposing the credential.
 
-Before MCP login, find the selected environment's `state_directory` with
-`airs env show work`. Set top-level `mcp_oauth_credentials_store = "keyring"` in
-its `config.toml`, before table headers, updating any existing value. The manager
-respects this setting but does not enforce native-only storage automatically.
+New environments created by mcp.4 already set
+`mcp_oauth_credentials_store = "keyring"`; no manual edit is needed. MCP sign-in
+requires native persistence and fails without a plaintext fallback if the store
+is unavailable. Existing environments retain their mode and credentials.
+
+For mcp.3 or an existing environment, inspect `config.toml` in the
+`state_directory` shown by `airs env show work`. Before a first MCP login, set
+the top-level `mcp_oauth_credentials_store = "keyring"` before table headers,
+updating any existing value. If tokens already exist, optional migration requires
+successful **Sign out** through `/mcp` for every connection with saved credentials,
+including expired or sign-in-required connections, in the original storage mode
+first. Exit
+AIRS, change the setting, reopen the environment and sign in again. Editing the
+setting alone does not migrate or delete tokens. If cleanup fails, resolve it
+before changing modes. See [the complete storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+Identical connection names and URLs can share a native record across the same
+OS user's environments; use distinct names when separate credentials are needed.
 Linux needs an available Secret Service session; macOS uses Keychain. Installing
 npm does not provision a Linux credential service.
 

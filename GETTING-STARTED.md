@@ -4,7 +4,7 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release channel:** the in-session `/mcp` connection manager and `/doctor` dashboard are available in the **mcp test channel**. This guide covers **airs-harness 0.1.0-alpha.22.mcp.3**, an owner-authorized test release. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from the automated distribution checks. The `latest`, `alpha` and `onboarding` tags remain **0.1.0-alpha.22.onboarding.4**, which does not include these dashboards. Install the `mcp` tag for the currently published test build and inspect `airs --version` before testing.
+**Release channel:** this guide covers **0.1.0-alpha.22.mcp.4**, with the in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments. Install this exact version once available in your registry. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
 
 The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.0.0** and eight product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
@@ -13,7 +13,7 @@ Check Node.js and npm in the terminal you will use. The harness requires **22.13
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@mcp --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -40,6 +40,8 @@ Your account needs inference access, membership in the gateway workspace that ex
 
 Have Git, ripgrep and your project's own build tools available. Linux also requires a usable Bubblewrap sandbox. Use a desktop browser and an available OS credential store. On macOS, sign in from the desktop session and allow Keychain access. On Linux, make sure the Secret Service/keyring session is available and unlocked. Passwords belong in the company browser page, never in a command or configuration file.
 
+For an Ubuntu SSH test host, the optional [Ubuntu preparation guide](UBUNTU-TEST-HOST.md) installs prerequisites and checks the sandbox and credential service before attended sign-in.
+
 ### 2. Create or select a local environment
 
 For a new profile, start guided creation:
@@ -48,7 +50,7 @@ For a new profile, start guided creation:
 airs env create work
 ```
 
-Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in, allowing the one-time MCP storage setting before opening your agent session. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
+Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by mcp.4 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
 
 If `work` already exists, reuse it:
 
@@ -91,7 +93,7 @@ Choose **Sign in with company SSO**. Enter the company issuer, public client ID 
 
 Choose **Open browser on this machine** on your desktop. Over SSH, choose **Use device authorization** and follow the displayed verification link and code on a device with a browser. **Show the full browser URL** retains the manual browser flow; its callback must reach the machine running AIRS, so device authorization is usually easier over SSH.
 
-Sign in as the intended company user in the browser, then return to AIRS. The screen shows progress through authorization, native credential storage and a minimal inference access check. The browser success page alone does not prove credential persistence. **You're ready to use AIRS** means the credential was saved and that inference check passed. When the guided shell command completes, continue with the one-time MCP storage setting below. If you started with bare `airs`, you can return to the shell once to apply that prerequisite before starting your session.
+Sign in as the intended company user in the browser, then return to AIRS. The screen shows progress through authorization, native credential storage and a minimal inference access check. The browser success page alone does not prove credential persistence. **You're ready to use AIRS** means the credential was saved and that inference check passed. Continue with step 4; only existing environments or mcp.3 installations may need a manual MCP storage change.
 
 The access check sends one small inference request and can consume gateway quota; it sends no local files or tools. A denied or unavailable gateway produces **Credential saved · gateway access needs attention**, with separate options to retry the check, continue or exit. Fix access before proceeding with this walkthrough. Storage failures remain sign-in failures and offer recovery guidance; inference credentials have no plaintext fallback. Escape cancels an unfinished sign-in and preserves the environment.
 
@@ -140,15 +142,19 @@ Use arrow keys or Tab to move, Enter to select, or the displayed number shortcut
 
 Set `animations = false` under `[tui]` in the environment configuration, or launch with `airs -c tui.animations=false`, for a static mark. `NO_COLOR=1` removes the accent colors. Small terminals use a compact layout. Plain terminals retain text prompts, and explicit scripted commands retain their existing output and exit behavior.
 
-### 4. Require native MCP storage once, then open AIRS
+### 4. Open AIRS and check MCP storage for existing environments
 
-Run `airs env show work` and locate its `state_directory`. In that directory's `config.toml`, set this **top-level** key before any `[table]` headers; update an existing value instead of adding a duplicate:
+**New environments created by mcp.4:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
+
+**Existing environments and mcp.3:** upgrading preserves the existing mode and saved tokens. To inspect the mode, run `airs env show work`, locate `state_directory`, and inspect that directory's `config.toml`. The explicit native-only setting is this **top-level** key, before any `[table]` headers:
 
 ```toml
 mcp_oauth_credentials_store = "keyring"
 ```
 
-This explicitly requires the OS credential store for MCP tokens. The current connection manager respects the configured mode but does not enforce this setting automatically. Do this before MCP sign-in; do not select a file fallback to work around an unavailable credential service. Linux needs an available Secret Service session, and macOS may request Keychain authorization.
+Changing this setting alone does **not** move or delete existing tokens. If no MCP credentials have been saved, set it before the first MCP login, updating an existing value rather than adding a duplicate. Migration is optional and the setting applies to the whole environment: sign out every MCP connection with saved credentials, including expired or sign-in-required connections through `/mcp` while its **original storage mode is still configured**, and confirm every sign-out succeeds. Then exit AIRS, change the setting, reopen the environment, and sign into those connections again. If sign-out or cleanup fails, restore service access and finish cleanup before changing modes. Do not copy token files or their contents.
+
+The new default does not change native credential identity: the same OS user's identical MCP connection name and URL can share a native record across environments. Signing out that record can affect those environments; use distinct connection names when separate credentials are needed. Linux needs an available Secret Service session, and macOS may request Keychain authorization.
 
 ```sh
 airs --environment work

@@ -1,7 +1,7 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the native harness and connect inference and MCP through AI Gateway.
-package_version: 0.1.0-alpha.22.mcp.3
+package_version: 0.1.0-alpha.22.mcp.4
 status: test-channel-guide
 updated: 2026-09-19
 audience: end-users
@@ -31,14 +31,15 @@ The last command should show `arm64`. If an old standalone product CLI owns
 `airs-cli`. A fresh machine only needs the harness, which bundles CLI 7.0.0.
 
 ```sh
-npm install -g airs-harness@mcp --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
-The `mcp` test channel supplies in-session `/mcp` and `/doctor`. This guide covers
-**0.1.0-alpha.22.mcp.3**, an owner-authorized test release; real-account SSO and
-ServiceNow acceptance remain separate. Stable tags remain onboarding.4. Downloads are
+This guide covers **0.1.0-alpha.22.mcp.4**, with in-session `/mcp` and `/doctor`
+and native MCP storage by default for newly created environments. Install this
+exact version once available in your registry. Real-account SSO and ServiceNow
+acceptance remain separate. Downloads are
 anonymous, and normal installs include optional dependencies without
 `--include=optional`. No uninstall or force is needed to upgrade.
 
@@ -63,11 +64,16 @@ hidden terminal prompt. Allow the Keychain authorization prompt when shown.
 A workspace key's gateway workspace need not share your environment's name.
 Saving a credential and verifying inference access are distinct outcomes.
 
-Before opening the agent, run `airs env show work`, locate `state_directory`,
-and set top-level `mcp_oauth_credentials_store = "keyring"` in that directory's
-`config.toml` before any table header. Update an existing value rather than
-adding a duplicate. Native-only MCP storage is not automatically enforced by the
-manager; this setting requires Keychain persistence before reporting success.
+New environments created by mcp.4 already set
+`mcp_oauth_credentials_store = "keyring"`, requiring Keychain persistence before
+MCP sign-in succeeds. Existing environments keep their original mode and tokens;
+upgrading does not migrate them. For mcp.3 or an existing environment, follow
+[the storage check and optional migration](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+If tokens already exist, successfully sign out every MCP connection with saved
+credentials, including expired or sign-in-required connections, in the original
+mode before changing the setting, then sign in again. A configuration edit alone does not
+migrate credentials. Identical connection names and URLs can share a native
+record across the same OS user's environments.
 
 Open `airs --environment work`. Inside it, `/mcp` → **Add gateway MCP server**
 registers the gateway-provided integration URL and begins gateway SSO. Use the

@@ -1,9 +1,16 @@
 # Bundled Prisma AIRS CLI and skills
 
-Harness **0.1.0-alpha.22.mcp.3** (test release) bundles `@cdot65/prisma-airs-cli@7.0.0` and SDK
+This guide covers harness **0.1.0-alpha.22.mcp.4**. Install this exact version
+once available in your registry. It retains the mcp.3 bundle: `@cdot65/prisma-airs-cli@7.0.0` and SDK
 `0.33.0`. One npm harness installation includes the pinned CLI and eight embedded
 product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
 An independently installed product CLI uses **`airs-cli ...`**.
+
+This version makes native MCP credential storage the default for new harness
+environments. Existing environment modes and tokens stay unchanged; this does
+not change CLI tenants or product API authentication. See [Getting started](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
+for optional MCP storage migration, including signing out in the original mode
+before changing configuration and signing in again.
 
 ```sh
 airs --version
@@ -27,12 +34,12 @@ If an old global product CLI owns `airs`, upgrade it first:
 ```sh
 npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
 airs-cli --version
-npm install -g airs-harness@mcp --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
-The `mcp` tag selects the currently published test build; inspect `airs --version` after installation. Stable tags remain onboarding.4. Normal installs include optional dependencies, so `--include=optional` is only a repair option when npm configuration omitted them.
+The `mcp` tag selects the currently published test build; inspect `airs --version` after installation. Normal installs include optional dependencies, so `--include=optional` is only a repair option when npm configuration omitted them.
 
 Fresh harness users need only the second installation. The harness does not
 install a global `airs-cli`. Open a fresh shell and inspect `type -a airs airs-cli airs-harness` if an alias, manual file or another package manager still resolves

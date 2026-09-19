@@ -156,8 +156,18 @@ def main():
         shutil.copytree(template / name, launcher / name)
     for name in ["LICENSE", "NOTICE", "README.md"]:
         shutil.copy2(template / name, launcher / name)
-    for name in ["MACOS.md", "PRISMA-AIRS-CLI.md", "GETTING-STARTED.md"]:
+    for name in [
+        "MACOS.md",
+        "PRISMA-AIRS-CLI.md",
+        "GETTING-STARTED.md",
+        "UBUNTU-TEST-HOST.md",
+    ]:
         shutil.copy2(root / name, launcher / name)
+    (launcher / "scripts").mkdir()
+    shutil.copy2(
+        root / "scripts/prepare_airs_ubuntu.sh",
+        launcher / "scripts/prepare_airs_ubuntu.sh",
+    )
     manifest.pop("private", None)
     if candidate:
         manifest["private"] = True

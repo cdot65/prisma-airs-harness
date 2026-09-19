@@ -6,6 +6,21 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
+The npm package includes this guide and the script. On a machine with npm, once
+`0.1.0-alpha.22.mcp.4` is available in the registry, download the package and
+extract only the preparation script:
+
+```bash
+npm pack airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
+tar -xOf airs-harness-0.1.0-alpha.22.mcp.4.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu.sh
+```
+
+Review the script, then copy it to `~/prepare-airs-ubuntu.sh` on your Ubuntu host
+(for example with `scp`). This download does not install or run the harness.
+If you already have the package installed globally, find the same script at
+`$(npm root -g)/airs-harness/scripts/prepare_airs_ubuntu.sh`. Run your copied
+script in an interactive SSH terminal:
+
 ```bash
 bash ~/prepare-airs-ubuntu.sh
 source ~/.config/airs-test-host/env.sh

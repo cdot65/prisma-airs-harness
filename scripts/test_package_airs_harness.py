@@ -550,6 +550,8 @@ class NpmCandidatePackaging(unittest.TestCase):
                                 "GETTING-STARTED.md",
                                 "MACOS.md",
                                 "PRISMA-AIRS-CLI.md",
+                                "UBUNTU-TEST-HOST.md",
+                                "scripts/prepare_airs_ubuntu.sh",
                             ]:
                                 self.assertIn(guide, manifest["files"])
                                 self.assertEqual(

@@ -11,12 +11,16 @@ import hashlib
 import json
 import os
 import re
+from urllib.parse import urlsplit
 import subprocess
 import threading
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 
 from airs_npm_registry import install_environment, registry_handler
+from airs_release_receipts import evidence_path
+from airs_test_release_archive import inspect_archive
+from airs_test_release_spec import require
 
 
 def run(arguments, environment, log):
@@ -53,12 +57,26 @@ def native_info(prefix):
     return native, json.loads((package / "BUILD-INFO.json").read_text())
 
 
+def archive_manifest(packages, record):
+    archive = evidence_path(packages, "tarballs/" + record["filename"])
+    inventory = inspect_archive(archive)
+    require(inventory["sha256"] == record["sha256"] and inventory["integrity"] == record["integrity"], "Upgrade archive integrity mismatch")
+    manifest = inventory["json"].get("package/package.json")
+    require(isinstance(manifest, dict) and manifest.get("name") == record["name"] and manifest.get("version") == record["version"], "Upgrade package identity mismatch")
+    return manifest, archive
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--packages", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--previous", default="0.1.0-alpha.12")
+    parser.add_argument("--registry", default="https://npm.cdot.io")
     args = parser.parse_args()
+    registry = urlsplit(args.registry)
+    if registry.scheme != "https" or not registry.hostname or registry.username or registry.password or registry.query or registry.fragment:
+        parser.error("Expected an HTTPS registry URL without credentials, query or fragment")
+    args.registry = args.registry.rstrip("/")
     previous_version = re.fullmatch(
         r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.(?:onboarding|mcp)\.\d+)?", args.previous
     )
@@ -71,7 +89,7 @@ def main():
     assert launcher["version"] != args.previous
     prefix = args.output / "npm managed prefix"
     prefix.mkdir()
-    old_env = install_environment(prefix, "https://npm.cdot.io", False)
+    old_env = install_environment(prefix, args.registry, False)
     old_env["AIRS_HARNESS_HOME"] = str(args.output / "preserved-harness-state")
     run(
         [
@@ -83,7 +101,7 @@ def main():
             "--ignore-scripts",
             "--no-audit",
             "--no-fund",
-            "--registry=https://npm.cdot.io",
+            "--registry=" + args.registry,
             "airs-harness@" + args.previous,
         ],
         old_env,
@@ -151,10 +169,8 @@ def main():
     )
     registry = f"http://127.0.0.1:{server.server_port}"
     for record in records:
-        manifest = json.loads((packages / record["name"] / "package.json").read_text())
+        manifest, archive = archive_manifest(packages, record)
         path = f"/{record['name']}/-/{record['filename']}"
-        archive = packages / "tarballs" / record["filename"]
-        assert hashlib.sha256(archive.read_bytes()).hexdigest() == record["sha256"]
         manifest["dist"] = {
             "tarball": registry + path,
             "integrity": record["integrity"],
@@ -252,6 +268,7 @@ def main():
             "version": launcher["version"],
             "platform": os.uname().sysname,
             "configuration_preserved": True,
+            "previous_registry": args.registry,
             "legacy_target_preserved": True,
             "cases": results,
             "registry_requests": requests,

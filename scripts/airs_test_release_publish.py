@@ -11,7 +11,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import HTTPRedirectHandler, build_opener
 
-from airs_release_receipts import atomic_json
+from airs_release_receipts import atomic_json, safe_destination
 from airs_test_release_spec import (
     PACKAGE_ORDER,
     canonical_digest,
@@ -38,7 +38,8 @@ class Registry:
         with regular_file(self.userconfig, 64 * 1024):
             pass
         require(
-            os.name == "nt" or stat.S_IMODE(self.userconfig.stat().st_mode) & 0o077 == 0,
+            os.name == "nt"
+            or stat.S_IMODE(self.userconfig.stat().st_mode) & 0o077 == 0,
             "Publication npm userconfig must have private permissions",
         )
         self.opener = build_opener(_NoRedirect())
@@ -46,28 +47,41 @@ class Registry:
     def metadata(self, name):
         require(name in PACKAGE_ORDER, "Unexpected package name")
         try:
-            with self.opener.open(self.registry + "/" + quote(name, safe=""), timeout=30) as response:
+            with self.opener.open(
+                self.registry + "/" + quote(name, safe=""), timeout=30
+            ) as response:
                 payload = response.read(8 * 1024 * 1024 + 1)
         except HTTPError as error:
             if error.code == 404:
                 return {"name": name, "versions": {}, "dist-tags": {}}
-            raise ValueError(f"Registry metadata request failed (HTTP {error.code})") from None
+            raise ValueError(
+                f"Registry metadata request failed (HTTP {error.code})"
+            ) from None
         require(len(payload) <= 8 * 1024 * 1024, "Registry metadata exceeds size limit")
         document = json.loads(payload)
-        require(isinstance(document, dict) and document.get("name") == name, "Registry package identity mismatch")
-        require(isinstance(document.get("versions"), dict), "Registry versions are invalid")
+        require(
+            isinstance(document, dict) and document.get("name") == name,
+            "Registry package identity mismatch",
+        )
+        require(
+            isinstance(document.get("versions"), dict), "Registry versions are invalid"
+        )
         _tags(document)
         return document
 
     def publish(self, archive, tag):
         require(tag == "mcp", "Only the mcp test tag can be published")
         environment = {
-            key: value for key, value in os.environ.items()
-            if not key.upper().startswith(("NPM", "NODE_AUTH_TOKEN")) and key != "NODE_OPTIONS"
+            key: value
+            for key, value in os.environ.items()
+            if not key.upper().startswith(("NPM", "NODE_AUTH_TOKEN"))
+            and key != "NODE_OPTIONS"
         }
         # Neither inherited global/project npm settings nor a retained cache may
         # redirect publication or turn lifecycle scripts back on.
-        with tempfile.TemporaryDirectory(prefix=".npm-publish-", dir=self.output) as temporary:
+        with tempfile.TemporaryDirectory(
+            prefix=".npm-publish-", dir=self.output
+        ) as temporary:
             temporary = Path(temporary)
             (temporary / "global.npmrc").write_text("")
             environment.update(
@@ -82,25 +96,49 @@ class Registry:
                 NPM_CONFIG_FETCH_TIMEOUT="30000",
             )
             result = subprocess.run(
-                ["npm", "publish", str(Path(archive).absolute()), "--registry", self.registry,
-                 "--tag", tag, "--ignore-scripts"],
-                cwd=temporary, env=environment, stdout=subprocess.DEVNULL,
-                stderr=subprocess.PIPE, text=True, timeout=300,
+                [
+                    "npm",
+                    "publish",
+                    str(Path(archive).absolute()),
+                    "--registry",
+                    self.registry,
+                    "--tag",
+                    tag,
+                    "--ignore-scripts",
+                ],
+                cwd=temporary,
+                env=environment,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=300,
             )
             if result.returncode:
                 # npm diagnostics can contain private configuration. Retain only
                 # its bounded error code, never raw credential-bearing output.
-                code = re.search(r"npm (?:error|ERR!) code ([A-Z0-9_]{1,64})", result.stderr)
+                code = re.search(
+                    r"npm (?:error|ERR!) code ([A-Z0-9_]{1,64})", result.stderr
+                )
                 suffix = f" ({code[1]})" if code else ""
-                raise RuntimeError(f"npm publication failed{suffix}; verify registry credentials and retry")
+                raise RuntimeError(
+                    f"npm publication failed{suffix}; verify registry credentials and retry"
+                )
 
 
 def _tags(document):
     tags = document.get("dist-tags")
     require(isinstance(tags, dict) and len(tags) <= 128, "Registry tags are invalid")
-    require(all(isinstance(k, str) and isinstance(v, str) and 0 < len(k) <= 128 and 0 < len(v) <= 128
-                and not any(ord(c) < 32 or ord(c) == 127 for c in k + v)
-                for k, v in tags.items()), "Registry tags contain invalid values")
+    require(
+        all(
+            isinstance(k, str)
+            and isinstance(v, str)
+            and 0 < len(k) <= 128
+            and 0 < len(v) <= 128
+            and not any(ord(c) < 32 or ord(c) == 127 for c in k + v)
+            for k, v in tags.items()
+        ),
+        "Registry tags contain invalid values",
+    )
     return dict(tags)
 
 
@@ -113,50 +151,81 @@ def _existing(document, record):
     if observed is None:
         return False
     require(isinstance(observed, dict), "Registry version metadata is invalid")
-    require(observed.get("name") == record["name"] and observed.get("version") == record["version"],
-            "Registry version identity mismatch")
-    require(observed.get("dist", {}).get("integrity") == record["integrity"],
-            "Existing immutable version has different integrity; publication stopped")
-    require(_tags(document).get("mcp") == record["version"],
-            "Existing version is not the mcp tag target; refusing an implicit tag change")
+    require(
+        observed.get("name") == record["name"]
+        and observed.get("version") == record["version"],
+        "Registry version identity mismatch",
+    )
+    require(
+        observed.get("dist", {}).get("integrity") == record["integrity"],
+        "Existing immutable version has different integrity; publication stopped",
+    )
+    require(
+        _tags(document).get("mcp") == record["version"],
+        "Existing version is not the mcp tag target; refusing an implicit tag change",
+    )
     return True
 
 
 def _publish(spec, plan, packages, output, registry):
     """Execute a verified plan; injectable transport keeps behavioral tests local."""
     records = plan["publish_order"]
-    require([record["name"] for record in records] == PACKAGE_ORDER, "Native packages must publish before the launcher")
+    require(
+        [record["name"] for record in records] == PACKAGE_ORDER,
+        "Native packages must publish before the launcher",
+    )
     identity = canonical_digest({"spec": spec, "plan": plan})
-    output = Path(output)
+    output = safe_destination(output)
     output.mkdir(parents=True, exist_ok=True)
-    require(output.is_dir() and not output.is_symlink(), "Publication output must be a real directory")
+    require(
+        output.is_dir() and not output.is_symlink(),
+        "Publication output must be a real directory",
+    )
     receipt_path = output / "PUBLICATION.json"
     receipt = load_json(receipt_path) if receipt_path.exists() else None
     if receipt is not None:
-        require(receipt.get("schema_version") == 1 and receipt.get("identity_sha256") == identity,
-                "Publication checkpoint identity changed; refusing resume")
-        require(set(receipt.get("original_tags", {})) == set(PACKAGE_ORDER), "Publication checkpoint tags are incomplete")
+        require(
+            receipt.get("schema_version") == 1
+            and receipt.get("identity_sha256") == identity,
+            "Publication checkpoint identity changed; refusing resume",
+        )
+        require(
+            set(receipt.get("original_tags", {})) == set(PACKAGE_ORDER),
+            "Publication checkpoint tags are incomplete",
+        )
     current = {}
     for record in records:
         require(record["version"] == spec["version"], "Publication version mismatch")
-        require(digest_file(Path(packages) / "tarballs" / record["filename"]) == record["sha256"],
-                "Staged archive changed before publication")
+        require(
+            digest_file(Path(packages) / "tarballs" / record["filename"])
+            == record["sha256"],
+            "Staged archive changed before publication",
+        )
         current[record["name"]] = registry.metadata(record["name"])
         _existing(current[record["name"]], record)
     if receipt is None:
         receipt = {
-            "schema_version": 1, "scope": spec["scope"], "identity_sha256": identity,
-            "spec_sha256": canonical_digest(spec), "source_commit": spec["source_commit"],
-            "version": spec["version"], "registry": spec["registry"], "tag": spec["tag"],
+            "schema_version": 1,
+            "scope": spec["scope"],
+            "identity_sha256": identity,
+            "spec_sha256": canonical_digest(spec),
+            "source_commit": spec["source_commit"],
+            "version": spec["version"],
+            "registry": spec["registry"],
+            "tag": spec["tag"],
             "original_tags": {name: _tags(value) for name, value in current.items()},
-            "packages": [], "published": False, "production_acceptance": False,
+            "packages": [],
+            "published": False,
+            "production_acceptance": False,
         }
         atomic_json(receipt_path, receipt)
 
     def check_tags(name, document):
         original = _tags({"dist-tags": receipt["original_tags"][name]})
-        require(_protected(_tags(document)) == _protected(original),
-                "Non-mcp registry tags changed; refusing further publication")
+        require(
+            _protected(_tags(document)) == _protected(original),
+            "Non-mcp registry tags changed; refusing further publication",
+        )
 
     for name, document in current.items():
         check_tags(name, document)
@@ -169,18 +238,27 @@ def _publish(spec, plan, packages, output, registry):
         document = registry.metadata(name)
         if not _existing(document, record):
             archive = Path(packages) / "tarballs" / record["filename"]
-            require(digest_file(archive) == record["sha256"], "Archive changed during publication")
+            require(
+                digest_file(archive) == record["sha256"],
+                "Archive changed during publication",
+            )
             registry.publish(archive, spec["tag"])
             document = registry.metadata(name)
-        require(_existing(document, record), "Published version is absent from the registry")
+        require(
+            _existing(document, record), "Published version is absent from the registry"
+        )
         check_tags(name, document)
-        receipt["packages"] = [entry for entry in receipt["packages"] if entry["name"] != name]
+        receipt["packages"] = [
+            entry for entry in receipt["packages"] if entry["name"] != name
+        ]
         receipt["packages"].append({**record, "registry_integrity_verified": True})
         atomic_json(receipt_path, receipt)
     for record in records:
         document = registry.metadata(record["name"])
         check_tags(record["name"], document)
-        require(_existing(document, record), "Registry changed during final verification")
+        require(
+            _existing(document, record), "Registry changed during final verification"
+        )
     receipt["published"] = True
     receipt["existing_non_mcp_tags_preserved"] = True
     atomic_json(receipt_path, receipt)
@@ -190,11 +268,16 @@ def _publish(spec, plan, packages, output, registry):
 def publish_packages(spec, packages, acceptance, output, userconfig):
     from airs_test_release_stage import verify_staged
 
+    output = safe_destination(output)
     spec = validate_spec(spec)
     plan = verify_staged(spec, packages, acceptance)
     for source in (packages, acceptance):
         left, right = Path(output).resolve(), Path(source).resolve()
-        require(not left.is_relative_to(right) and not right.is_relative_to(left),
-                "Publication output must not overlap package or acceptance inputs")
+        require(
+            not left.is_relative_to(right) and not right.is_relative_to(left),
+            "Publication output must not overlap package or acceptance inputs",
+        )
     Path(output).mkdir(parents=True, exist_ok=True)
-    return _publish(spec, plan, packages, output, Registry(spec["registry"], userconfig, output))
+    return _publish(
+        spec, plan, packages, output, Registry(spec["registry"], userconfig, output)
+    )

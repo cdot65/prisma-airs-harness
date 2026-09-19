@@ -1,5 +1,6 @@
 //! Private AIRS diagnostics. Reports are transient UI state, never model context.
 pub(crate) mod process;
+pub(crate) mod report;
 pub(crate) mod views;
 use crate::airs_mcp_manager::Connection;
 use codex_protocol::ThreadId;

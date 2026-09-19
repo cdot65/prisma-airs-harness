@@ -47,3 +47,10 @@ The release source integrates CI/test corrections after the native build source.
 Temporary remote-executor diagnostic logging was removed before main integration;
 the diagnostic commit remains reachable for reproducing run 255. See
 `UPSTREAM-BASELINE-IDENTITY.json` for unchanged implementations and test-only diffs.
+
+The updated getting-started site deployed successfully from `2e2abe9`; all 22
+browser checks passed and all 15 live lesson pages match the deployment artifact.
+`LIVE-DOCS-VERIFIED.json` records per-page hashes. The main package-contract CI
+run 256 passed. `FINAL-HANDOFF.json` records final source/tag and documentation
+identities; the optional GitHub Release page remains unavailable with the current
+token, independently of successful npm publication.

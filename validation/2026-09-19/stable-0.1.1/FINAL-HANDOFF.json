@@ -1,0 +1,19 @@
+{
+  "version": "0.1.1",
+  "latest_promoted": true,
+  "default_platform_installs_passed": 3,
+  "source_integration_commit": "0ab1ff0800e42651b9c20d539290afdf2f71c6cb",
+  "tag": "airs-harness-v0.1.1",
+  "source_remotes": [
+    "origin",
+    "github"
+  ],
+  "main_contract_run": 256,
+  "main_contract_result": "success",
+  "docs_commit": "2e2abe946d5c5bb67109a7306ad7ca9125458a3d",
+  "docs_run": 35473465438,
+  "docs_browser_checks_passed": 22,
+  "live_pages_matching_artifact": 15,
+  "temporary_npm_credential_removed": true,
+  "optional_github_release_page": "Unavailable: current token lacks release-write permission (HTTP 403); source/tag and npm publication succeeded"
+}

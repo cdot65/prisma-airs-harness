@@ -1,0 +1,31 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 check
+npm notice run npm run check:content && npm run build && npm run test:browser
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 check:content
+npm notice run node scripts/check-content.mjs
+Checked 15 lessons, 18 Mermaid blocks, provenance, and publication boundaries.
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 build
+npm notice run docusaurus build
+[INFO] [en] Creating an optimized production build...
+[info] [webpackbar] Compiling Client
+[info] [webpackbar] Compiling Server
+[success] [webpackbar] Server: Compiled successfully in 1.60s
+[success] [webpackbar] Client: Compiled successfully in 1.78s
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 test:browser
+npm notice run playwright test
+[WebServer] npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm notice run prisma-airs-reference-architecture@0.1.0 serve
+[WebServer] npm notice run docusaurus serve --host 127.0.0.1 --port 4173
+[WebServer] (node:3987549) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 22 tests using 1 worker
+(node:3987561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+······················
+  22 passed (9.7s)

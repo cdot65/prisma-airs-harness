@@ -1,0 +1,11 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-011-ci-20260919/codex-rs/ext/skills)
+    Finished `test` profile [unoptimized] target(s) in 15.34s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID 53375ffb-8a30-4e54-a655-6b4d190ab5aa with nextest profile: local
+    Starting 2 tests across 4 binaries (509 tests skipped)
+        PASS [   0.014s] (1/2) codex-skills-extension host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents
+        PASS [   0.018s] (2/2) codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp
+────────────
+     Summary [   0.021s] 2 tests run: 2 passed, 509 skipped

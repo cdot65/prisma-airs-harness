@@ -1,0 +1,11 @@
+test_concurrent_tag_change_after_interruption_is_not_overwritten (test_promote_airs_stable.StablePromotionTests.test_concurrent_tag_change_after_interruption_is_not_overwritten) ... ok
+test_incomplete_or_mismatched_readiness_is_rejected_before_mutation (test_promote_airs_stable.StablePromotionTests.test_incomplete_or_mismatched_readiness_is_rejected_before_mutation) ... ok
+test_interruption_resumes_native_first_and_preserves_other_channels (test_promote_airs_stable.StablePromotionTests.test_interruption_resumes_native_first_and_preserves_other_channels) ... ok
+test_reviewed_baseline_keeps_failures_visible_in_promotion_receipt (test_promote_airs_stable.StablePromotionTests.test_reviewed_baseline_keeps_failures_visible_in_promotion_receipt) ... ok
+test_unknown_or_unverified_baseline_cannot_hide_a_failure (test_promote_airs_stable.StablePromotionTests.test_unknown_or_unverified_baseline_cannot_hide_a_failure) ... ok
+test_wrong_registry_mode_or_package_bytes_prevent_promotion (test_promote_airs_stable.StablePromotionTests.test_wrong_registry_mode_or_package_bytes_prevent_promotion) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.047s
+
+OK

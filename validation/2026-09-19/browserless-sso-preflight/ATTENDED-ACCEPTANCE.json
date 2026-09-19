@@ -1,0 +1,124 @@
+{
+  "scope": "Attended company device login on published Ubuntu x64 mcp.5, followed by separate-process native credential and gateway probes; no MCP or renewal claim",
+  "version": "0.1.0-alpha.22.mcp.5",
+  "native_sha256": "4a82d38a399e0d78fe3facfb4065418cc0d2c437468ffdbfe1f39768a5b45d31",
+  "login": {
+    "exit_code": 0,
+    "device_instruction_shown": true,
+    "native_storage_confirmed": true,
+    "login_success": true,
+    "gateway_verified": false,
+    "user_identity_redacted": true
+  },
+  "doctor_runs": [
+    {
+      "process": 1,
+      "exit_code": 0,
+      "passed": true,
+      "authentication": "Company SSO",
+      "checks": [
+        {
+          "name": "credential_service",
+          "passed": true,
+          "detail": "Credential service responded. Access to the saved credential is not verified; choose Verify gateway access."
+        },
+        {
+          "name": "credential_cleanup",
+          "passed": true,
+          "detail": "No pending credential cleanup"
+        },
+        {
+          "name": "local_tools",
+          "passed": true,
+          "detail": "Required local executables found; this does not exercise kernel sandbox support"
+        },
+        {
+          "name": "linux_user_namespaces",
+          "passed": true,
+          "detail": "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution"
+        },
+        {
+          "name": "configuration",
+          "passed": true,
+          "detail": "https://gateway.redtail.cdot.io/v1"
+        },
+        {
+          "name": "capabilities",
+          "passed": true,
+          "detail": "Local catalog readable; backend limits still apply"
+        },
+        {
+          "name": "gateway_health",
+          "passed": true,
+          "detail": "HTTPS/HTTP health response successful; inference and policy not exercised"
+        },
+        {
+          "name": "mcp_configuration",
+          "passed": true,
+          "detail": "0 configured server(s); use /mcp and invoke a tool to verify remote authorization"
+        },
+        {
+          "name": "gateway_access",
+          "passed": true,
+          "detail": "Gateway access verified by one inference response. MCP permissions were not tested.\nRequest / gateway trace ID: 6e938722-1da2-4ade-b20f-bbba259639b0"
+        }
+      ]
+    },
+    {
+      "process": 2,
+      "exit_code": 0,
+      "passed": true,
+      "authentication": "Company SSO",
+      "checks": [
+        {
+          "name": "credential_service",
+          "passed": true,
+          "detail": "Credential service responded. Access to the saved credential is not verified; choose Verify gateway access."
+        },
+        {
+          "name": "credential_cleanup",
+          "passed": true,
+          "detail": "No pending credential cleanup"
+        },
+        {
+          "name": "local_tools",
+          "passed": true,
+          "detail": "Required local executables found; this does not exercise kernel sandbox support"
+        },
+        {
+          "name": "linux_user_namespaces",
+          "passed": true,
+          "detail": "Bubblewrap created user/PID namespaces; full workspace policy still applies at execution"
+        },
+        {
+          "name": "configuration",
+          "passed": true,
+          "detail": "https://gateway.redtail.cdot.io/v1"
+        },
+        {
+          "name": "capabilities",
+          "passed": true,
+          "detail": "Local catalog readable; backend limits still apply"
+        },
+        {
+          "name": "gateway_health",
+          "passed": true,
+          "detail": "HTTPS/HTTP health response successful; inference and policy not exercised"
+        },
+        {
+          "name": "mcp_configuration",
+          "passed": true,
+          "detail": "0 configured server(s); use /mcp and invoke a tool to verify remote authorization"
+        },
+        {
+          "name": "gateway_access",
+          "passed": true,
+          "detail": "Gateway access verified by one inference response. MCP permissions were not tested.\nRequest / gateway trace ID: 513124bb-ea3b-40cd-b21c-aa6390941bd6"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "owner_profile_used": false,
+  "temporary_root": "/home/cdot/.local/state/airs-device-sso-3jjhu609"
+}

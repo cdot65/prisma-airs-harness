@@ -1,0 +1,10 @@
+{
+  "scope": "Only the isolated attended-test SSO environment",
+  "exit_code": 0,
+  "binding_source_cleared": true,
+  "issuer_refresh_revocation_confirmed": true,
+  "pending_cleanup_files": [],
+  "owner_environment_registry_used": false,
+  "output_sha256": "06e65958c871304a7d2a49652c3755754902bf7abafc2b7904ca3e6c448247f7",
+  "passed": true
+}

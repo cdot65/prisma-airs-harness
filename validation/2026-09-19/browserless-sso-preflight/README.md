@@ -9,3 +9,9 @@ This validates device-grant initiation for this client and network path. It does
 The [getting-started guide](../../../GETTING-STARTED.md#browserless-sign-in-over-ssh) now supplies an explicit SSH command, a separate SSO profile that preserves the workspace-key profile, and the distinction between inference device authorization and the gateway MCP hidden-callback flow. The next acceptance step is attended company sign-in from another device, followed by native persistence and actual gateway verification in the selected SSO environment. No account passwords should be shared with the agent.
 
 The owner declined in-session workspace API-key replacement; it is not part of this work.
+
+## Attended follow-up passed
+
+The owner completed device approval in a separate browser. `ATTENDED-ACCEPTANCE.json` binds successful installed-harness login, native credential storage and two subsequent separate-process gateway inference checks to the exact published Linux x64 binary. Both checks passed with Company SSO and no second login. The first unapproved device attempt expired; a fresh attempt completed.
+
+`ATTENDED-CLEANUP.json` records successful logout of only the isolated test profile, cleared binding, no pending cleanup and confirmed issuer refresh-token revocation. The normal owner profiles were not used or replaced. This closes the human-approval/native-storage/inference gap described in the earlier preflight above, without claiming MCP authorization or long-duration renewal. No runtime source or npm version changed.

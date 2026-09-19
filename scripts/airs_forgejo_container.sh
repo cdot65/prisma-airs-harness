@@ -17,6 +17,7 @@ docker run -d --name "$name" --cpus=2 --memory=8g \
   -v airs-gnu-rustup-v1:/home/airs-ci/.rustup \
   -v airs-gnu-target-v1:/airs-target \
   -v airs-gnu-native-v1:/airs-native \
+  -e AIRS_WORKSPACE_TEST_FILTER \
   -e CARGO_BUILD_JOBS=2 -e CARGO_INCREMENTAL=0 \
   -e CARGO_PROFILE_DEV_DEBUG=0 -e CARGO_PROFILE_TEST_DEBUG=0 \
   -e CARGO_TARGET_DIR=/airs-target -e RUNNER_TEMP=/tmp \
@@ -35,7 +36,9 @@ mkdir -p /tmp/airs-evidence /tmp/airstests
 chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airstests
 runuser -u airs-ci -- unshare -Ur true
 BOOTSTRAP
-docker exec -i -w /workspace "$name" runuser -u airs-ci -- bash -s <<'VALIDATE'
+# A subreaper must own the test tree: PID 1 is an idle container command.
+# Otherwise terminated grandchildren remain zombies and kill(pid, 0) sees them.
+docker exec -i -w /workspace "$name" /usr/bin/tini -s -- runuser -u airs-ci -- bash -s <<'VALIDATE'
 set -euo pipefail
 export PATH="$HOME/.cargo/bin:$PATH"
 if ! command -v rustup >/dev/null; then

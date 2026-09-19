@@ -6,6 +6,14 @@ on:
         description: Rust source branch or commit to validate
         default: main
         required: true
+      tooling_ref:
+        description: CI container tooling branch or commit (source is validated unchanged)
+        default: main
+        required: true
+      test_filter:
+        description: Optional nextest expression for a scoped diagnostic (empty runs full workspace)
+        default: ""
+        required: false
   push:
     branches: [integrate/codex-0.154-candidate]
     paths:
@@ -24,6 +32,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: source
     env:
       CARGO_HOME: /opt/airs-cargo
       RUSTUP_HOME: /opt/airs-rustup
@@ -34,13 +43,23 @@ jobs:
       TERM: xterm-256color
       COLORTERM: truecolor
       NPM_CONFIG_REGISTRY: https://npm.cdot.io
+      AIRS_WORKSPACE_TEST_FILTER: ${{ inputs.test_filter }}
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
           ref: ${{ inputs.source_ref || github.ref }}
+          path: source
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.tooling_ref || github.ref }}
+          path: tooling
       - name: Validate in a bounded GNU Linux container with persistent build caches
-        run: bash scripts/airs_forgejo_container.sh
+        run: |
+          mkdir -p "$RUNNER_TEMP/airs-evidence"
+          git -C ../tooling rev-parse HEAD > "$RUNNER_TEMP/airs-evidence/container-tooling-source.txt"
+          bash ../tooling/scripts/airs_forgejo_container.sh
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         if: always()
         with:

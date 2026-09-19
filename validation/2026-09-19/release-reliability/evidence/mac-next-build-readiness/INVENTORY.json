@@ -1,0 +1,191 @@
+{
+  "scope": "read-only; allocated sizes are upper bounds, not uniquely reclaimable extents",
+  "free_bytes": 96577536000,
+  "roots": [
+    {
+      "path": "/Users/cdot/.cache/airs-reliability-20260919",
+      "allocated_bytes_upper_bound": 5589626880,
+      "entries": [
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/ARM-PREPARED.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/CANDIDATE-TRANSFER.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/MAC-CANDIDATE-LAUNCH.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/MAC-REGISTRY-LAUNCH.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/PRIOR-FIXTURE-CLEANUP.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/SPEC.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/acceptance-status.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/candidate-acceptance",
+          "allocated_bytes": 2546434048,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/candidate-acceptance-collected",
+          "allocated_bytes": 495616,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/candidate-npm",
+          "allocated_bytes": 391663616,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/candidate-transfer.tar",
+          "allocated_bytes": 403656704,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.candidate.ba478a46def744858b5db1b637b1746e-COMPLETE.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.candidate.ba478a46def744858b5db1b637b1746e.log",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.candidate.ba478a46def744858b5db1b637b1746e.plist",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.candidate.ba478a46def744858b5db1b637b1746e.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.registry.50367c14a16344f48e37e255a65a18b4-COMPLETE.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.registry.50367c14a16344f48e37e255a65a18b4.log",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.registry.50367c14a16344f48e37e255a65a18b4.plist",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/io.cdot.airs.reliability.20260919.registry.50367c14a16344f48e37e255a65a18b4.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/launch-mac-acceptance.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/prepare-arm.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/prepare-candidates.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/prepare-registry.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/prepare-tooling.py",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/registry-acceptance",
+          "allocated_bytes": 684638208,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/registry-transfer.tar",
+          "allocated_bytes": 772755456,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/staged",
+          "allocated_bytes": 770502656,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/validation-tooling",
+          "allocated_bytes": 1867776,
+          "directory": true
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/validation-tooling.tar.gz",
+          "allocated_bytes": 266240,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.cache/airs-reliability-20260919/venv",
+          "allocated_bytes": 17264640,
+          "directory": true
+        }
+      ]
+    },
+    {
+      "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+      "allocated_bytes_upper_bound": 355172352,
+      "entries": [
+        {
+          "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2/ARTIFACT-VERIFIED.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2/CANDIDATE.json",
+          "allocated_bytes": 4096,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2/intake.tar.gz",
+          "allocated_bytes": 109883392,
+          "directory": false
+        },
+        {
+          "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2/signed-output",
+          "allocated_bytes": 245280768,
+          "directory": true
+        }
+      ]
+    }
+  ],
+  "upper_bound_free_after_removing_even_entire_owned_roots": 102522335232,
+  "guard_bytes": 107374182400,
+  "recommended_guard_plus_margin_bytes": 118111600640
+}

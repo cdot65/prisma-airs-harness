@@ -1,0 +1,11 @@
+# Independent focus 4 documentation review
+
+**Scoped pass: 9.5/10** (completeness 3/3, capability 2.5/3, best practices 2/2, optimization 2/2). No blocking defect found in the prepublication documentation deliverable. This does not open publication or score the separate release tooling.
+
+Reviewed the current packaged README, GETTING-STARTED, Mac and product CLI guides; package manifest/copy contract/test additions; canonical vault lessons and their exported login/harness/troubleshooting/evidence pages; browser assertions; and the corrected focus 4 PRD. Compared sensitive claims with actual environment, welcome, MCP authorization/manager, OAuth storage and doctor source. The guide correctly retains explicit native-store configuration, required new-conversation transition, shared MCP record caveat, separate SSO/workspace-key grants, hidden secret input, exact Node range, and explicit inference-probe confirmation. No unsupported environment-name binding, native-only default, preserved old MCP identity context, or live acceptance claim was found.
+
+All source hashes in the author's inventory and all recorded evidence checksums match current files. Receipts show 13 packaging tests, 21 browser tests, 15 exported/validated lessons with 18 Mermaid blocks, a successful Docusaurus build, and an actual private npm pack fixture whose four guide bytes and local links match. Historical AUTHENTICATION-ONBOARDING remains unchanged and is excluded from the current package. I did not repeat tests without a source change.
+
+The withheld capability half-point reflects pending final publication integration and deployed Pages route verification. Current wording truthfully says mcp.3 and exact native acceptance are pending, preserves mcp.2 as published baseline and onboarding.4 stable tags, and labels 955 CLI passes as source results. Final wording and assembled package/source hashes must follow actual publication evidence. Attended SSO, workspace-key, owner Ubuntu and live ServiceNow checks remain deferred.
+
+Nonblocking follow-up already reported by the author: repository root README remains shell-first and should link the new getting-started guide in a bounded change. This is outside the reviewed four packaged-guide inventory; it is not silently counted as modernized.

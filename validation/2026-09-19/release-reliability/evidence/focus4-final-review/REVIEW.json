@@ -1,0 +1,39 @@
+{
+  "focus": 4,
+  "decision": "PASS; focus 5 may begin within existing owner-authorized test scope",
+  "score": {
+    "completeness": 3.0,
+    "capability": 2.8,
+    "best_practices": 2.0,
+    "optimization": 1.8,
+    "total": 9.6
+  },
+  "source_commit": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+  "tooling_commit": "a4f85a3de4a3337407fecd1e2eeeb3182573e8cf",
+  "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+  "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372",
+  "stage_plan_sha256": "40aeae683876ecd3f84a11acfd374b1719879b904f378a8e0f7ea7809b9f177f",
+  "mandatory_focus4_gates": {
+    "artifact_and_evidence_fail_closed": "passed; adversarial normal/optimized tests and current portable receipts verified",
+    "completed_stage_resume": "passed; actual Linux x64 resume plus tamper/interruption fixture tests",
+    "native_identity_and_execution": "passed on Linux x64, native Linux ARM64 and Apple Silicon",
+    "mac_signed_notarized_native_and_raw_store": "passed; corrected run231/3655 and installed Mac signature evidence",
+    "metadata_only_staging": "passed; independently rehashed originals/staged archives and compared all members",
+    "secrets_and_test_scope": "passed scoped review; no raw credential values needed in spec or publication arguments",
+    "stable_tag_rejection_and_preservation": "passed behavior tests; actual registry tags will be checked during focus5",
+    "documentation_export_build_packaged_content": "passed earlier independent9.5 documentation review"
+  },
+  "blockers": [],
+  "withheld_points": [
+    "Fresh production-registry publication/installation is not yet executed; its remaining capability proof belongs to focus5.",
+    "Build dispatch/artifact retrieval retain bounded operator-specific orchestration; source-controlled delivery pipeline begins from owned-workflow candidates."
+  ],
+  "limits": [
+    "No mcp.3 publication or test-ready handoff is claimed at this gate.",
+    "Focus5 must verify publication, unchanged non-mcp tags, and fresh anonymous installed acceptance on all three native platforms.",
+    "Attended human SSO, real workspace-key inference, ServiceNow tool call and owner Ubuntu investigation remain deferred.",
+    "Full Rust workspace historical failures are not relabeled as passing.",
+    "Run230 native acceptance import failure is retained honestly; corrected run231 signed/native/raw-store and subsequent installed acceptance supply new evidence."
+  ],
+  "reviewer_scope": "Final receipt/staging integration verification and publisher/docs review; staged-module authorship was separately reviewed by root/auth agents."
+}

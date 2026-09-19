@@ -1,0 +1,27 @@
+{
+  "verified_at_utc": "2026-09-19T03:57:58.577581+00:00",
+  "publication_scope": "published mcp test release; stable tags unchanged; attended live acceptance deferred",
+  "version": "0.1.0-alpha.22.mcp.3",
+  "doc_base_commit": "5374c25c8888663a2ab57ea27a7662ec8e490fd3",
+  "publication_receipt_sha256": "352d8363ab7e880ffcba14ab57de57ab68a0f80a377bdbd36c00b6733c73344e",
+  "registry_verify_all_sha256": "4b403faf54e0ffec99e2969fcf6ffe9e0168121b43cc77dbcf16c0940b7118b7",
+  "exported_lessons": 15,
+  "source_and_export_hashes_verified": true,
+  "final_check": {
+    "content": "passed",
+    "production_build": "passed",
+    "browser_tests_passed": 22,
+    "log_sha256": "f34854b219c3e4dc237d5104c9bcd60f5a145290ec48fc98e39c832d27ccba5d"
+  },
+  "preserved_owner_review_sha256": "4201570dbf0fdb4c5ee4cb0f97114477187d2095ecb7aa1a30f1042eb4d9aa98",
+  "node_modules_remains_symlink": true,
+  "files": {
+    "content-provenance.json": "5e25fccf5d36366d274551f5029e72dec2ed580a825514f8d54882480a120328",
+    "docs/evidence.md": "7477550c0da02b6d8b9e5ff40f30c9ed4b688ef6f6744f3053d11488f2ee4725",
+    "docs/harness.md": "4c68f6e404ad6da992001c6eb0d46ea4e601b1c13484a48cb6ce74eef9f97af8",
+    "docs/login.md": "fab1c365cf58b821b5b5e2348c049ee32344ef26ab7ced6fdd59a6600a486b04",
+    "docs/troubleshooting.md": "b9584bf949db161691319d2e770a1c77e576d79db30c0daac7d9c1cad6b992f6",
+    "tests/site.spec.js": "a304e4e82a2d9d12b91546cf50e5b51bc9ea1a14f7aac061bfc4b9a700443648"
+  },
+  "commit_push_deploy_performed": false
+}

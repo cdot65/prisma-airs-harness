@@ -1,0 +1,40 @@
+{
+  "scope": "Independent review of focus 4 documentation deliverable only",
+  "decision": "pass for prepublication documentation scope",
+  "score": {
+    "completeness": 3,
+    "capability": 2.5,
+    "best_practices": 2,
+    "optimization": 2,
+    "total": 9.5
+  },
+  "blockers": [],
+  "source_inventory_sha256": "dfc1e1f7df1d6a6de0ec77e7b6676997e216a0d3500ac3610fabfaceeed5a060",
+  "source_inventory_verified": true,
+  "evidence_checksums_verified": true,
+  "validated_receipts": {
+    "packaging_tests": 13,
+    "browser_tests": 21,
+    "content_lessons": 15,
+    "mermaid_blocks": 18,
+    "static_build": "passed",
+    "real_npm_pack_guide_and_link_scan": "passed"
+  },
+  "reviewed_runtime_contracts": [
+    "Native MCP storage mode is passed through; keyring requirement remains an explicit pre-login setting.",
+    "MCP connection mutation offers Start new conversation; preserved history/draft does not imply same-conversation identity restoration.",
+    "Native MCP keyring identity uses OS user/server name/URL, so environment name alone is not isolation.",
+    "Doctor inspection sends no inference probe; Send connectivity check follows explicit confirmation.",
+    "Workspace-key replacement remains a shell login; MCP SSO and inference identity/grants remain distinct.",
+    "Environment unregister preserves files and clears default selection; it does not revoke gateway keys.",
+    "Authorization dialog supports Ctrl+O, Ctrl+Y and hidden manual callback input."
+  ],
+  "gates_separate": [
+    "Exact mcp.3 three-platform native acceptance and npm publication remain pending.",
+    "Finalize channel/publication wording using actual publication receipts and regenerate affected artifacts before shipping final packages/pages.",
+    "Public Pages deployment and deployed-route verification are not demonstrated by the local build/browser suite.",
+    "Attended SSO/workspace-key/ServiceNow and owner Ubuntu investigation remain deferred.",
+    "This review does not score or approve the separate release automation code."
+  ],
+  "nonblocking_followup": "Repository root README still has the older shell-first flow; link the current GETTING-STARTED.md in a separate bounded change."
+}

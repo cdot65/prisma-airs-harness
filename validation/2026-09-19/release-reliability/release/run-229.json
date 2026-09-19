@@ -1,0 +1,87 @@
+{
+  "state": {
+    "run": {
+      "link": "/cdot/prisma-airs-harness/actions/runs/229",
+      "title": "AIRS Harness Linux x64 candidate build",
+      "titleHTML": "AIRS Harness Linux x64 candidate build",
+      "status": "success",
+      "description": "Run of commit <a href=\"/cdot/prisma-airs-harness/commit/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2\">7eba6bf33c</a> triggered by <a href=\"/airs-bot\">airs-bot</a>",
+      "canCancel": false,
+      "canApprove": false,
+      "canRerun": true,
+      "canDeleteArtifact": true,
+      "done": true,
+      "jobs": [
+        {
+          "id": 23661,
+          "name": "candidate",
+          "status": "success",
+          "canRerun": true,
+          "duration": "23m57s"
+        }
+      ],
+      "commit": {
+        "localeWorkflow": "Workflow",
+        "localeAllRuns": "all runs",
+        "shortSHA": "7eba6bf33c",
+        "link": "/cdot/prisma-airs-harness/commit/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+        "pusher": {
+          "displayName": "airs-bot",
+          "link": "/airs-bot"
+        },
+        "branch": {
+          "name": "feat/airs-reliability-20260919",
+          "link": "/cdot/prisma-airs-harness/src/branch/feat/airs-reliability-20260919",
+          "isDeleted": false
+        }
+      },
+      "preExecutionError": ""
+    },
+    "currentJob": {
+      "title": "candidate",
+      "details": [
+        "Success"
+      ],
+      "steps": [
+        {
+          "summary": "Set up job",
+          "duration": "1s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "Cross-compile, probe under QEMU and stage candidate packages in a bounded container",
+          "duration": "23m43s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5",
+          "duration": "11s",
+          "status": "success"
+        },
+        {
+          "summary": "Complete job",
+          "duration": "0s",
+          "status": "success"
+        }
+      ],
+      "allAttempts": [
+        {
+          "number": 1,
+          "time_since_started_html": "<relative-time prefix=\"\" tense=\"past\" datetime=\"2026-09-19T02:25:57Z\" data-tooltip-content data-tooltip-interactive=\"true\">2026-09-19 02:25:57 +00:00</relative-time>",
+          "status": "success",
+          "status_diagnostics": [
+            "Success"
+          ]
+        }
+      ]
+    }
+  },
+  "logs": {
+    "stepsLog": []
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "binary_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+    "candidate_metadata_sha256": "40aeae683876ecd3f84a11acfd374b1719879b904f378a8e0f7ea7809b9f177f",
+    "candidate_packages_sha256": "f1b7ab907f649cf0b25b0e93c76d8230797bd9c90d97896711937c86851f5280",
+    "installation": "registry",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+    "source_commit": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+    "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "a4f85a3de4a3337407fecd1e2eeeb3182573e8cf",
+    "tooling_sha256": "66240b98cf54fd9e32739f0ad01ca49cd3dbbecd1a94da7bf09c5e8d7402f02e",
+    "verification_tooling_commit": "0f625cd047a19e559f0500dd0d9f0b131c791e78",
+    "version": "0.1.0-alpha.22.mcp.3"
+  },
+  "passed": true,
+  "production_servicenow": false,
+  "production_sso": false,
+  "schema_version": 1,
+  "stage_receipts": {
+    "command-output": "1ec5926c170e86fa4abdeaf62f4f9c51da5d61246a5d580bbbfc45e952b0a656",
+    "doctor": "0a45f3bb49e7d28ae6eb8e6db144a9f5be48d4a2b690e15f4a979b031c5ccda6",
+    "install": "ac457bd58af6f83d4d333641afcfd17d279ce0dda01d805602e8a2bf5f1c495a",
+    "installed-regressions": "3315c661d751e8a1bdc7c795dc91df86716d0a4f5e0d044c923b151163afdc10",
+    "managed-cli": "4bdc59038ddbaaf07fbbf3db4fa0f4b18e69a80fb5746ac5dad211ef783481ea",
+    "mcp-manager": "5eae30069caec87a1aaed4acad6ffee0a235d9f8e3bf2f0f57750b509f3cc03e",
+    "onboarding": "a3b2dc530982392a24d982f5dae52e61a0b5160f214fd6c609ab6af1f17f57dc",
+    "terminals": "1a32a3b3c331437657736d7d37929f7bde90b5bbb20ae67b4050731b0c22c846",
+    "upgrade": "b307f4733ea654dac7c2e4385008f727187c2acf092c2d138b8d7ae2e1170de3"
+  },
+  "stages": [
+    "install",
+    "onboarding",
+    "terminals",
+    "installed-regressions",
+    "mcp-manager",
+    "doctor",
+    "managed-cli",
+    "upgrade",
+    "command-output"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "cases": 3,
+      "receipt_sha256": "0353adf3078b565ae1820608a0daf0176ea52a6e9952541a87fefef93b7b028b",
+      "state_files_preserved": 4,
+      "target": "x86_64-unknown-linux-musl"
+    },
+    {
+      "cases": 3,
+      "receipt_sha256": "203bebb005fbc871ee0282bdf6d1b6e1b1fcd938615aeee3cc10fe7e0fdf0c01",
+      "state_files_preserved": 4,
+      "target": "aarch64-unknown-linux-musl"
+    },
+    {
+      "cases": 3,
+      "receipt_sha256": "e3929cf464281e80b2858cb8674e13e9f12d450ed8d147131e2053b7822feebe",
+      "state_files_preserved": 4,
+      "target": "aarch64-apple-darwin"
+    }
+  ],
+  "immutable_main_spec_previous": "0.1.0-alpha.22.mcp.2",
+  "main_release_spec_preserved": true,
+  "passed": true,
+  "previous": "0.1.0-alpha.22.onboarding.4",
+  "scope": "supplemental stable-channel upgrade evidence, separate from immutable main acceptance",
+  "verification_tooling_commit": "0f625cd047a19e559f0500dd0d9f0b131c791e78",
+  "version": "0.1.0-alpha.22.mcp.3"
+}

@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "scope": "independent portable receipt verification, no test rerun",
+  "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372",
+  "evidence_sha256": "1b33d758118bc09338069b9ed914c28b5bd49608dbde7baa764f4739c74f013a",
+  "candidate_metadata_sha256": "ecfb07df0ea7e458a88aca52a21f67530445de7e77ae2346d0da7dfde6f4bd22",
+  "candidate_packages_sha256": "cf031467e9419610af480de563c6441d28d669371fc5c8e23896409440d74114",
+  "source_commit": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+  "tooling_commit": "a4f85a3de4a3337407fecd1e2eeeb3182573e8cf",
+  "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+      "stages": 9,
+      "acceptance_sha256": "8342f871490c05d46c3a6869111c0d857122fdd91462bec00c423c3f4d627f44",
+      "suites": {
+        "installed-regressions": {
+          "run": 48,
+          "passed": 47,
+          "skipped": [
+            {
+              "reason": "requires macOS Seatbelt",
+              "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+            }
+          ],
+          "errors": [],
+          "failures": []
+        },
+        "mcp-manager": {
+          "run": 4,
+          "passed": 4,
+          "skipped": [],
+          "errors": [],
+          "failures": []
+        },
+        "doctor": {
+          "run": 4,
+          "passed": 4,
+          "skipped": [],
+          "errors": [],
+          "failures": []
+        }
+      }
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+      "stages": 9,
+      "acceptance_sha256": "c71fc2cf971d3e043b3ce69d1849463a057f062be69638c5d87c6d4284f46f15",
+      "suites": {
+        "installed-regressions": {
+          "run": 48,
+          "passed": 47,
+          "skipped": [
+            {
+              "reason": "requires macOS Seatbelt",
+              "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+            }
+          ],
+          "errors": [],
+          "failures": []
+        },
+        "mcp-manager": {
+          "run": 4,
+          "passed": 4,
+          "skipped": [],
+          "errors": [],
+          "failures": []
+        },
+        "doctor": {
+          "run": 4,
+          "passed": 4,
+          "skipped": [],
+          "errors": [],
+          "failures": []
+        }
+      }
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+      "stages": 10,
+      "acceptance_sha256": "f7ca0d0ccb846541694d49671bf45dbbc936726bdac56c51669940ad8ece101c",
+      "suites": {
+        "installed-regressions": {
+          "run": 48,
+          "passed": 46,
+          "skipped": [
+            {
+              "reason": "Linux session-bus recovery",
+              "test": "test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network"
+            },
+            {
+              "reason": "Isolated Linux Secret Service fixture",
+              "test": "test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment"
+            }
+          ],
+          "errors": [],
+          "failures": []
+        },
+        "mcp-manager": {
+          "run": 4,
+          "passed": 4,
+          "skipped": [],
+          "errors": [],
+          "failures": []
+        },
+        "doctor": {
+          "run": 4,
+          "passed": 2,
+          "skipped": [
+            {
+              "reason": "Linux native service diagnostics",
+              "test": "test_airs_doctor.SessionDoctor.test_missing_native_service_leaves_binding_and_cleanup_untouched"
+            },
+            {
+              "reason": "Linux native service diagnostics",
+              "test": "test_airs_doctor.SessionDoctor.test_stalled_native_service_probe_is_bounded"
+            }
+          ],
+          "errors": [],
+          "failures": []
+        }
+      }
+    }
+  ]
+}

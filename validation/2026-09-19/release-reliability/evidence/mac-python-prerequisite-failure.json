@@ -1,0 +1,18 @@
+{
+  "build_run": 230,
+  "global_run": 3654,
+  "runtime_source": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+  "build_status": "success",
+  "acceptance_status": "failed",
+  "tests": {
+    "passed": 45,
+    "skipped": 2,
+    "errors": 1
+  },
+  "failure": "New terminal recovery test imports pyte, which is absent from the workflow interpreter",
+  "evidence": "release/mac-first-acceptance/native-tests.log",
+  "remediation": "Owned workflow and signer create a job-local venv with pyte==0.8.2; corrected signed/native suite and raw native store fixture must pass before final installed matrix",
+  "rust_rebuild_required": false,
+  "disk_guard_weakened": false,
+  "failed_receipt_reclassified_as_passed": false
+}

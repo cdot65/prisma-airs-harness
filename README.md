@@ -13,6 +13,13 @@ not implement the native MCP connection.
 
 ## Release status
 
+**0.1.0-alpha.22.mcp.3** is published under `mcp` at `https://npm.cdot.io`.
+Fresh anonymous installations passed on Linux x64, native Linux ARM64 and signed,
+notarized Apple Silicon. Upgrades from mcp.2 and onboarding.4 preserved the checked
+configuration. See [the release evidence](validation/2026-09-19/release-reliability/README.md)
+and [the deployed getting-started guide](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/).
+Attended live-account acceptance and the owner Ubuntu investigation remain deferred.
+
 Alpha.22 introduces `airs` for the harness and `airs cli ...` for its bundled
 Prisma AIRS CLI 7.0.0. The standalone product executable is `airs-cli`.
 See [the command migration guide](PRISMA-AIRS-CLI.md) for install order and tenant
@@ -39,7 +46,7 @@ These dashboards are in the **mcp test channel**. The stable `latest`, `alpha` a
 `onboarding` tags remain `0.1.0-alpha.22.onboarding.4`. This guide covers
 `0.1.0-alpha.22.mcp.3`, an owner-authorized test release; real-account SSO,
 workspace-key and ServiceNow acceptance remain separate. [Onboarding reliability evidence](validation/2026-09-19/onboarding-reliability/README.md)
-records the implementation checks without claiming publication or live acceptance.
+records the implementation checks; the release evidence above records publication.
 
 ## Installation
 

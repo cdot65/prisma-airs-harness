@@ -1,0 +1,20 @@
+{
+  "scope": "read-only; allocated sizes are upper bounds, not uniquely reclaimable extents",
+  "free_bytes": 96577536000,
+  "upper_bound_free_after_removing_even_entire_owned_roots": 102522335232,
+  "guard_bytes": 107374182400,
+  "recommended_guard_plus_margin_bytes": 118111600640,
+  "roots": [
+    {
+      "path": "/Users/cdot/.cache/airs-reliability-20260919",
+      "allocated_bytes_upper_bound": 5589626880
+    },
+    {
+      "path": "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+      "allocated_bytes_upper_bound": 355172352
+    }
+  ],
+  "decision": "Defer new native Mac build; even entire current-effort roots cannot restore100GiB guard, before safety exclusions.",
+  "cleanup_performed": false,
+  "existing_backups": "Prior three obsolete cache blobs are already removed from Mac and retained locally; they cannot provide new reclamation."
+}

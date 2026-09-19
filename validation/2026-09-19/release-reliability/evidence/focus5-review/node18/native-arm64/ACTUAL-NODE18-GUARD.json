@@ -1,0 +1,156 @@
+{
+  "passed": true,
+  "scope": "supplemental actual unsupported-runtime rejection; not a replacement for supported-Node native registry matrices",
+  "installed_version": "0.1.0-alpha.22.mcp.3",
+  "node_version": "v18.20.8",
+  "npm_version_bundled_with_download": "10.8.2",
+  "actual_npm_install_under_node18_performed": false,
+  "native_architecture": "aarch64",
+  "execution_host": "Jadzia native ARM64 Debian container airs-reliability-20260919-arm64",
+  "official_download": {
+    "archive": "node-v18.20.8-linux-arm64.tar.xz",
+    "archive_url": "https://nodejs.org/dist/latest-v18.x/node-v18.20.8-linux-arm64.tar.xz",
+    "checksums_url": "https://nodejs.org/dist/latest-v18.x/SHASUMS256.txt",
+    "sha256": "224e569dbe7b0ea4628ce383d9d482494b57ee040566583f1c54072c86d1116b",
+    "verified_sha256": "224e569dbe7b0ea4628ce383d9d482494b57ee040566583f1c54072c86d1116b",
+    "checksum_verified": true,
+    "archive_size": 23271188
+  },
+  "entrypoint_sha256": {
+    "bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+    "bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+    "managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e"
+  },
+  "dispatch_observation": "Plain real-Node runs plus separate test-only preload observing all public child_process dispatch APIs; no runtime version override and no application edits",
+  "child_dispatch_attempts": 0,
+  "checks": [
+    {
+      "case": "startup",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "startup",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "native-version",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "native-version",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "managed-cli",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "managed-cli",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "completion-bash",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "completion-bash",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "completion-zsh",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "completion-zsh",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "legacy-alias",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "legacy-alias",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "migration-check",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "migration-check",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "direct-managed-wrapper",
+      "instrumented_child_process_methods": false,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    },
+    {
+      "case": "direct-managed-wrapper",
+      "instrumented_child_process_methods": true,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Prisma AIRS Harness requires Node.js ^22.13.0 || >=23.5.0; found \"18.20.8\". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n",
+      "isolated_harness_state_created": false
+    }
+  ]
+}

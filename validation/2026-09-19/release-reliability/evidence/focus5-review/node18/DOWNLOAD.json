@@ -1,0 +1,9 @@
+{
+  "archive": "node-v18.20.8-linux-x64.tar.xz",
+  "sha256": "5467ee62d6af1411d46b6a10e3fb5cacc92734dbcef465fea14e7b90993001c9",
+  "checksums_url": "https://nodejs.org/dist/latest-v18.x/SHASUMS256.txt",
+  "archive_url": "https://nodejs.org/dist/latest-v18.x/node-v18.20.8-linux-x64.tar.xz",
+  "verified_sha256": "5467ee62d6af1411d46b6a10e3fb5cacc92734dbcef465fea14e7b90993001c9",
+  "archive_size": 24011112,
+  "checksum_verified": true
+}

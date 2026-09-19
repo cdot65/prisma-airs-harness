@@ -1,0 +1,42 @@
+from pathlib import Path
+import subprocess
+local=Path('/tmp/airs-autonomous-20260919/evidence/focus5-review/node18')
+check=(local/'check_actual_node18.py').read_text()
+check=check.replace("root=Path('/tmp/airs-autonomous-20260919/evidence/focus5-review/node18')", "root=Path('/home/airs-review/node18-supplement')")
+check=check.replace("node-v18.20.8-linux-x64", "node-v18.20.8-linux-arm64")
+check=check.replace("release=Path('/tmp/airs-autonomous-20260919/release')", "release=Path('/home/airs-review')")
+check=check.replace("registry-acceptance/x86_64-unknown-linux-musl.work", "registry-acceptance-revised/aarch64-unknown-linux-musl.work")
+check=check.replace("'actual_npm_install_under_node18_performed':False", "'actual_npm_install_under_node18_performed':False,'native_architecture':'aarch64','execution_host':'Jadzia native ARM64 Debian container airs-reliability-20260919-arm64'")
+setup='''from pathlib import Path
+import hashlib,json,platform,re,tarfile,urllib.request
+root=Path('/home/airs-review/node18-supplement');root.mkdir(exist_ok=True)
+if platform.machine()!='aarch64':raise ValueError('Expected native ARM64 host')
+base='https://nodejs.org/dist/latest-v18.x/'
+checksums=urllib.request.urlopen(base+'SHASUMS256.txt',timeout=60).read()
+(root/'SHASUMS256.txt').write_bytes(checksums)
+rows=[line.split() for line in checksums.decode().splitlines()]
+selected=[row for row in rows if re.fullmatch(r'node-v18\\.\\d+\\.\\d+-linux-arm64\\.tar\\.xz',row[1])]
+if len(selected)!=1:raise ValueError('Expected one official Node18 ARM64 archive')
+sha,name=selected[0];archive=root/name
+with urllib.request.urlopen(base+name,timeout=60) as source,archive.open('wb') as out:
+ while chunk:=source.read(65536):out.write(chunk)
+actual=hashlib.sha256(archive.read_bytes()).hexdigest()
+if actual!=sha:raise ValueError('Official archive checksum mismatch')
+with tarfile.open(archive,'r:xz') as reader:
+ members=reader.getmembers()
+ distribution=root/name.removesuffix('.tar.xz')
+ for member in members:
+  destination=root/member.name
+  if not destination.resolve().is_relative_to(distribution.resolve()):raise ValueError('Unexpected official archive path')
+  if not (member.isfile() or member.isdir() or member.issym()):raise ValueError('Unexpected official archive member type')
+  if member.issym() and not (destination.parent/member.linkname).resolve().is_relative_to(distribution.resolve()):raise ValueError('Unexpected official archive link')
+ reader.extractall(root,members=members)
+(root/'DOWNLOAD.json').write_text(json.dumps({'archive':name,'archive_url':base+name,'checksums_url':base+'SHASUMS256.txt','sha256':sha,'verified_sha256':actual,'checksum_verified':True,'archive_size':archive.stat().st_size},indent=2)+'\\n')
+'''
+code=setup+'\n'+check
+(local/'remote-node18-check.py').write_text(code)
+command=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','-o','ConnectTimeout=10','cdot@10.0.1.121','/usr/local/bin/docker','exec','-i','-u','10001','airs-reliability-20260919-arm64','/opt/review-venv/bin/python','-']
+result=subprocess.run(command,input=code,text=True,capture_output=True,timeout=180)
+(local/'remote-node18.log').write_text(result.stdout+result.stderr)
+print(result.stdout+result.stderr)
+raise SystemExit(result.returncode)

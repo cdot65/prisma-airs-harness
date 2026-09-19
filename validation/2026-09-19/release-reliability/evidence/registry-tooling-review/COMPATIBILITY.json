@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "actual_three_candidate_receipts_unchanged": true,
+  "candidate_evidence_sha256": "1b33d758118bc09338069b9ed914c28b5bd49608dbde7baa764f4739c74f013a",
+  "override_rejected_by_cli": [
+    "accept",
+    "stage",
+    "publish"
+  ],
+  "source_sha256": {
+    "scripts/airs_release_contract.py": "bfb8e1156c27def59fdfb2784c5ef6b2c88435a15076ce96553b0df1fab05a9b",
+    "scripts/airs_release_acceptance.py": "c5e26916ed070af16d1d76f76eeadf04862ef7f19fa6d45409704ef8e0f59b0d",
+    "scripts/airs_test_release.py": "4a933da29239c653d72e095565f26d7d8ad164730d59604a94735717fd39228c",
+    "scripts/test_airs_registry_tooling_revision.py": "64d277e75ed4ee47a8383f319dcac458ecfe78bb8feeeb212439c38cd3007f63",
+    "scripts/test_airs_release_acceptance.py": "ed32d123c8541df99eb6e099b498253d8192151c5ee59110b0f97ef91b6ebfeb",
+    "RELEASE-TEST-PACKAGES.md": "69127239a2c5f7a2f7d2f1a64d6b81ae551b8d542359c4f83d13a48ad5942e7e"
+  }
+}

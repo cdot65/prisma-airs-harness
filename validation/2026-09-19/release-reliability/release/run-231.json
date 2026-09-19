@@ -1,0 +1,92 @@
+{
+  "state": {
+    "run": {
+      "link": "/cdot/prisma-airs-harness/actions/runs/231",
+      "title": "AIRS Harness signed gateway candidate package",
+      "titleHTML": "AIRS Harness signed gateway candidate package",
+      "status": "success",
+      "description": "Run of commit <a href=\"/cdot/prisma-airs-harness/commit/94b45c17bd1182e789772f3f88685c5486cda7d8\">94b45c17bd</a> triggered by <a href=\"/airs-bot\">airs-bot</a>",
+      "canCancel": false,
+      "canApprove": false,
+      "canRerun": true,
+      "canDeleteArtifact": true,
+      "done": true,
+      "jobs": [
+        {
+          "id": 23665,
+          "name": "mac-package",
+          "status": "success",
+          "canRerun": true,
+          "duration": "3m3s"
+        }
+      ],
+      "commit": {
+        "localeWorkflow": "Workflow",
+        "localeAllRuns": "all runs",
+        "shortSHA": "94b45c17bd",
+        "link": "/cdot/prisma-airs-harness/commit/94b45c17bd1182e789772f3f88685c5486cda7d8",
+        "pusher": {
+          "displayName": "airs-bot",
+          "link": "/airs-bot"
+        },
+        "branch": {
+          "name": "feat/airs-reliability-20260919",
+          "link": "/cdot/prisma-airs-harness/src/branch/feat/airs-reliability-20260919",
+          "isDeleted": false
+        }
+      },
+      "preExecutionError": ""
+    },
+    "currentJob": {
+      "title": "mac-package",
+      "details": [
+        "Success"
+      ],
+      "steps": [
+        {
+          "summary": "Set up job",
+          "duration": "0s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "5s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "6s",
+          "status": "success"
+        },
+        {
+          "summary": "Sign exact native build and verify native candidate",
+          "duration": "2m21s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5",
+          "duration": "29s",
+          "status": "success"
+        },
+        {
+          "summary": "Complete job",
+          "duration": "2s",
+          "status": "success"
+        }
+      ],
+      "allAttempts": [
+        {
+          "number": 1,
+          "time_since_started_html": "<relative-time prefix=\"\" tense=\"past\" datetime=\"2026-09-19T03:17:08Z\" data-tooltip-content data-tooltip-interactive=\"true\">2026-09-19 03:17:08 +00:00</relative-time>",
+          "status": "success",
+          "status_diagnostics": [
+            "Success"
+          ]
+        }
+      ]
+    }
+  },
+  "logs": {
+    "stepsLog": []
+  }
+}

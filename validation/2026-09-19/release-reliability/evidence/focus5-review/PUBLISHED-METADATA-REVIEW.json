@@ -1,0 +1,65 @@
+{
+  "fresh_registry_acceptance_reviewed": false,
+  "packages": [
+    {
+      "all_non_mcp_tags_preserved": true,
+      "integrity": "sha512-FU8lU3oIyyOufHkX4Jz5qqBhFviTL7uAnzIx6S70ALmUKxTYY6vuG18zuNPn83eXJcGywIWkXZIwxz/ahttH8A==",
+      "name": "airs-harness-linux-x64",
+      "tags": {
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "latest": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.3",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4"
+      },
+      "version": "0.1.0-alpha.22.mcp.3"
+    },
+    {
+      "all_non_mcp_tags_preserved": true,
+      "integrity": "sha512-Bp7XYVICSk7ylZwE6wXbQ3cBC3aBuBK6DwUJYk+n9M1S/1p1/ZbRk9fI+Ohaxd2fccp25rInJOqDSFeXLmNZaw==",
+      "name": "airs-harness-linux-arm64",
+      "tags": {
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "latest": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.3",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4"
+      },
+      "version": "0.1.0-alpha.22.mcp.3"
+    },
+    {
+      "all_non_mcp_tags_preserved": true,
+      "integrity": "sha512-kS86dHAlU9mU6Ocv3/WV5IBIfhW/CK1AUh5hUM+rKUJ2oeT+Ybb72rexwm2BvsX1LEPfwMfqsZhgSBFj7QptCw==",
+      "name": "airs-harness-darwin-arm64",
+      "tags": {
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "latest": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.3",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4"
+      },
+      "version": "0.1.0-alpha.22.mcp.3"
+    },
+    {
+      "all_non_mcp_tags_preserved": true,
+      "integrity": "sha512-LQLY3N3ZA95ElrLkp374VFmwZnxi3qz5da4Ho2woFKyFYvMXgkw8t389/TK4YaKq0K5flIT66V60bQNoxvvWcQ==",
+      "name": "airs-harness",
+      "tags": {
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "latest": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.3",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4"
+      },
+      "version": "0.1.0-alpha.22.mcp.3"
+    }
+  ],
+  "passed": true,
+  "publication_sha256": "352d8363ab7e880ffcba14ab57de57ab68a0f80a377bdbd36c00b6733c73344e",
+  "scope": "independent anonymous registry metadata and publication receipt; fresh registry native acceptance still pending",
+  "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372"
+}

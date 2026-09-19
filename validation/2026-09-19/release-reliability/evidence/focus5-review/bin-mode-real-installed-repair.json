@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "repair diagnostic against retained failed Linux registry prefix; not fresh registry acceptance",
+  "checks": [
+    {
+      "name": "airs-harness",
+      "passed": true,
+      "archive_sha256": "25ecbe43020104cece13461a4fe305b81f16ec26b34059649ff5953feaca69e4",
+      "files": 3130
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "passed": true,
+      "archive_sha256": "0ed7b91fa0398defa4e2df79baa6c23deefeccbe84af7d65cfe6a5721f439e33",
+      "files": 1702
+    }
+  ],
+  "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222"
+}

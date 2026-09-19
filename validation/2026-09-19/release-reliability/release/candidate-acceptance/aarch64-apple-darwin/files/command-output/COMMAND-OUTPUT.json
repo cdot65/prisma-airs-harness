@@ -1,0 +1,140 @@
+{
+  "passed": true,
+  "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+  "checks": [
+    {
+      "command": [
+        "airs",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "create",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "add",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "doctor",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "exec",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "resume",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "fork",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "queue",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "fork",
+        "--worktree",
+        "--last"
+      ],
+      "passed": true,
+      "output": "Error: `airs fork --worktree` requires an explicit session ID\n"
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "exec",
+        "resume",
+        "--worktree",
+        "session"
+      ],
+      "passed": true,
+      "output": "Error: `--worktree` cannot resume an existing session; use `airs exec fork --worktree`\n"
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work"
+      ],
+      "passed": true,
+      "normal_exit_resume_guidance": "To continue this session, run:\r\n  airs --environment work resume 01a0b7b4-6f25-70a2-a4a9-47904f2f271d",
+      "gateway_request_count": 3,
+      "access_programs_parameter_sent": false
+    }
+  ]
+}

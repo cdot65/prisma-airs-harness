@@ -1,0 +1,9 @@
+# Registry-only tooling revision review
+
+**PASS; no blocking defect found** in the bounded override design/implementation. This permits a committed validator repair to verify already-published immutable packages without rewriting their original specification or candidate provenance.
+
+Reviewed contract, acceptance runner, public CLI, focused/runner tests and runbook. The override is explicit and full-commit validated, registry-only, stored in a separate verification_tooling_commit field, and included in stage inputs and local resume ownership. The original tooling_commit stays intact. The active manifest/files are checked against the revision before execution and again before final acceptance; portable collection requires that explicit revision on every target and verifies the retained manifest hash and stage chain. Candidate override fails before output creation; candidate/stage/publish CLI commands do not accept the option.
+
+Independent compatibility check revalidated the actual three native candidate receipt sets with current code and obtained exactly the original collection result. Direct parser checks rejected the override for accept, stage and publish. Existing RED/GREEN logs cover introduction of the four revision tests, optimized execution, and runner interruption/resume for both candidate and revised registry modes. No tests were repeated merely because of formatting.
+
+The runbook correctly requires preserving failed registry evidence, committing/snapshotting the repair, using fresh output on all three hosts, and passing the same revision during collection. No published package/spec/candidate receipt mutation or stable/live gate bypass is introduced. Mode-normalization changes are a separate review scope. Final readiness still requires all three real fresh registry checks with the committed revised tooling.

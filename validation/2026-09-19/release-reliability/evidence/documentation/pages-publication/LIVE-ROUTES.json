@@ -1,0 +1,73 @@
+{
+  "verified_at_utc": "2026-09-19T04:01:12.617Z",
+  "source_commit": "9d328da14b0abf3e8b3823cebb4f92a4bd4a8641",
+  "workflow_run": 35420045886,
+  "routes": [
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/",
+      "final_url": "https://cdot65.github.io/prisma-airs-reference-architecture/",
+      "http_status": 200,
+      "sha256": "342bda022c0d319b9fd91a003537521dca8039b103a6d3658f1fcdb40a2fb330",
+      "expected_phrases": [
+        "Sign in and connect ServiceNow"
+      ]
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+      "final_url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+      "http_status": 200,
+      "sha256": "b78d1cd187763c5a72b10cd0e3a94864695543b5ccc549ba6a472d92d9da469b",
+      "expected_phrases": [
+        "airs-harness 0.1.0-alpha.22.mcp.3",
+        "is published and ready for local testing",
+        "npm install -g airs-harness@0.1.0-alpha.22.mcp.3 --registry=https://npm.example.com",
+        "mcp_oauth_credentials_store = \"keyring\"",
+        "does not enforce this setting automatically",
+        "Start new conversation",
+        "Send connectivity check",
+        "remain separate attended checks",
+        "does not create a gateway workspace or require matching names",
+        "Workspace-key replacement remains a shell operation"
+      ]
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+      "final_url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+      "http_status": 200,
+      "sha256": "4a7a25e2b597b2c1e9629f6e97f88d6c81933838f6b79251c006913662430b72",
+      "expected_phrases": [
+        "0.1.0-alpha.22.mcp.3",
+        "recovery commands scoped to the selected environment",
+        "does not enforce it automatically",
+        "Start new conversation"
+      ]
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "final_url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "http_status": 200,
+      "sha256": "b95d823300e1dd0375d95fff741b07c2c065d766c4f07396684897795048d00d",
+      "expected_phrases": [
+        "Verify gateway access",
+        "Secret Service"
+      ]
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "final_url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "http_status": 200,
+      "sha256": "a1545976d04f6740f390fc4acf6a98a1001d370f2301d0885378bea3d36cb83c",
+      "expected_phrases": [
+        "0.1.0-alpha.22.mcp.3 is published",
+        "Fresh anonymous registry installations passed isolated acceptance on Linux x64, Linux ARM64 and Apple Silicon",
+        "they do not establish live-account acceptance",
+        "are deferred to attended testing",
+        "no full workspace pass is claimed"
+      ]
+    }
+  ],
+  "login_anchor": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/#sso-to-servicenow-a-complete-first-session",
+  "browser_errors": [],
+  "request_failures": [],
+  "live_identity_checks_performed": false
+}

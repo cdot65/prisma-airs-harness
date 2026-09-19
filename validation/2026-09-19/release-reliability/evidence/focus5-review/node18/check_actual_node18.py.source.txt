@@ -1,0 +1,32 @@
+import hashlib,json,os,subprocess
+from pathlib import Path
+root=Path('/tmp/airs-autonomous-20260919/evidence/focus5-review/node18')
+node=root/'node-v18.20.8-linux-x64/bin/node'
+release=Path('/tmp/airs-autonomous-20260919/release')
+prefixes=list((release/'registry-acceptance/x86_64-unknown-linux-musl.work').glob('install-*/prefix'))
+if len(prefixes)!=1:raise ValueError('Expected one retained exact installed registry prefix')
+launcher=prefixes[0]/'lib/node_modules/airs-harness';manifest=json.loads((launcher/'package.json').read_text())
+if manifest['version']!='0.1.0-alpha.22.mcp.3':raise ValueError('Unexpected installed version')
+node_version=subprocess.check_output([str(node),'--version'],text=True).strip()
+npm_version=subprocess.check_output([str(node),str(node.parent.parent/'lib/node_modules/npm/bin/npm-cli.js'),'--version'],text=True).strip()
+if node_version!='v18.20.8':raise ValueError('Did not execute expected real Node18 runtime')
+methods=['spawn','spawnSync','exec','execSync','execFile','execFileSync','fork']
+trace=root/'dispatch-attempts.jsonl';trace.write_text('')
+preload=root/'observe-dispatch.cjs'
+preload.write_text("const fs=require('node:fs');const cp=require('node:child_process');const log="+json.dumps(str(trace))+";for(const method of "+json.dumps(methods)+"){cp[method]=()=>{fs.appendFileSync(log,JSON.stringify({method})+'\\n');throw new Error('Unexpected child dispatch after unsupported runtime');};}require('node:module').syncBuiltinESMExports();\n")
+cases=[('startup',launcher/'bin/airs.js',[]),('native-version',launcher/'bin/airs.js',['--version']),('managed-cli',launcher/'bin/airs.js',['cli','--version']),('completion-bash',launcher/'bin/airs.js',['completion','bash']),('completion-zsh',launcher/'bin/airs.js',['completion','zsh']),('legacy-alias',launcher/'bin/airs-harness.js',['--version']),('migration-check',launcher/'bin/airs.js',['--migration-check']),('direct-managed-wrapper',launcher/'managed-cli/airs-cli',['--version'])]
+results=[]
+for name,entry,args in cases:
+ for instrumented in (False,True):
+  state=root/(name+('-observed' if instrumented else '-plain'))
+  env={'PATH':str(node.parent)+':/usr/bin:/bin','LANG':'C.UTF-8','TERM':'dumb','AIRS_HARNESS_HOME':str(state)}
+  command=[str(node),*(['--require',str(preload)] if instrumented else []),str(entry),*args]
+  result=subprocess.run(command,cwd=root,env=env,capture_output=True,text=True,timeout=20)
+  expected='Prisma AIRS Harness requires Node.js '+manifest['engines']['node']+'; found "18.20.8". Upgrade Node.js to match this range, check node --version in this terminal, then retry.\n'
+  if result.returncode!=1 or result.stdout or result.stderr!=expected:raise ValueError(json.dumps({'case':name,'instrumented':instrumented,'exit_code':result.returncode,'stdout':result.stdout,'stderr':result.stderr}))
+  if state.exists():raise ValueError('Unsupported runtime touched isolated harness state')
+  results.append({'case':name,'instrumented_child_process_methods':instrumented,'exit_code':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'isolated_harness_state_created':False})
+if trace.read_bytes():raise ValueError('Unsupported Node dispatched a child')
+record={'passed':True,'scope':'supplemental actual unsupported-runtime rejection; not a replacement for supported-Node native registry matrices','installed_version':manifest['version'],'node_version':node_version,'npm_version_bundled_with_download':npm_version,'actual_npm_install_under_node18_performed':False,'official_download':json.loads((root/'DOWNLOAD.json').read_text()),'entrypoint_sha256':{str(entry.relative_to(launcher)):hashlib.sha256(entry.read_bytes()).hexdigest() for _,entry,_ in cases},'dispatch_observation':'Plain real-Node runs plus separate test-only preload observing all public child_process dispatch APIs; no runtime version override and no application edits','child_dispatch_attempts':0,'checks':results}
+(root/'ACTUAL-NODE18-GUARD.json').write_text(json.dumps(record,indent=2)+'\n')
+print(json.dumps({'passed':True,'node_version':node_version,'npm_version_bundled_with_download':npm_version,'checks':len(results),'child_dispatch_attempts':0,'scope':record['scope']},indent=2))

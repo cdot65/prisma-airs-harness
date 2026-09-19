@@ -1,0 +1,201 @@
+{
+  "candidate_acceptance": {
+    "candidate_metadata_sha256": "ecfb07df0ea7e458a88aca52a21f67530445de7e77ae2346d0da7dfde6f4bd22",
+    "candidate_packages_sha256": "cf031467e9419610af480de563c6441d28d669371fc5c8e23896409440d74114",
+    "evidence_sha256": "1b33d758118bc09338069b9ed914c28b5bd49608dbde7baa764f4739c74f013a",
+    "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+    "platforms": [
+      {
+        "acceptance_sha256": "8342f871490c05d46c3a6869111c0d857122fdd91462bec00c423c3f4d627f44",
+        "binary_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+        "evidence_sha256": "b5db561475d4838c7a4ee5acb49f621a3f159246d63a004be39e5fd28ff627ca",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ],
+        "target": "x86_64-unknown-linux-musl"
+      },
+      {
+        "acceptance_sha256": "c71fc2cf971d3e043b3ce69d1849463a057f062be69638c5d87c6d4284f46f15",
+        "binary_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+        "evidence_sha256": "89027f6639e078169cc156ece1cbffbb6738a5ee99519bb09cdf9314a0ee093a",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ],
+        "target": "aarch64-unknown-linux-musl"
+      },
+      {
+        "acceptance_sha256": "f7ca0d0ccb846541694d49671bf45dbbc936726bdac56c51669940ad8ece101c",
+        "binary_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+        "evidence_sha256": "7957dfbe6638ec4b7ce2bd201ac42aa04c0d5d51ed2ade64c1a9b4ce79cfcae4",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ],
+        "target": "aarch64-apple-darwin"
+      }
+    ],
+    "source_commit": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+    "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372",
+    "tooling_commit": "a4f85a3de4a3337407fecd1e2eeeb3182573e8cf",
+    "version": "0.1.0-alpha.22.mcp.3"
+  },
+  "candidate_suites": [
+    {
+      "native_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+      "production_servicenow": false,
+      "production_sso": false,
+      "suites": {
+        "doctor": {
+          "passed": true,
+          "skipped": [],
+          "tests_run": 4
+        },
+        "installed-regressions": {
+          "passed": true,
+          "skipped": [
+            {
+              "reason": "requires macOS Seatbelt",
+              "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+            }
+          ],
+          "tests_run": 48
+        },
+        "mcp-manager": {
+          "passed": true,
+          "skipped": [],
+          "tests_run": 4
+        }
+      },
+      "target": "x86_64-unknown-linux-musl"
+    },
+    {
+      "native_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+      "production_servicenow": false,
+      "production_sso": false,
+      "suites": {
+        "doctor": {
+          "passed": true,
+          "skipped": [],
+          "tests_run": 4
+        },
+        "installed-regressions": {
+          "passed": true,
+          "skipped": [
+            {
+              "reason": "requires macOS Seatbelt",
+              "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+            }
+          ],
+          "tests_run": 48
+        },
+        "mcp-manager": {
+          "passed": true,
+          "skipped": [],
+          "tests_run": 4
+        }
+      },
+      "target": "aarch64-unknown-linux-musl"
+    },
+    {
+      "native_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+      "production_servicenow": false,
+      "production_sso": false,
+      "suites": {
+        "doctor": {
+          "passed": true,
+          "skipped": [
+            {
+              "reason": "Linux native service diagnostics",
+              "test": "test_airs_doctor.SessionDoctor.test_missing_native_service_leaves_binding_and_cleanup_untouched"
+            },
+            {
+              "reason": "Linux native service diagnostics",
+              "test": "test_airs_doctor.SessionDoctor.test_stalled_native_service_probe_is_bounded"
+            }
+          ],
+          "tests_run": 4
+        },
+        "installed-regressions": {
+          "passed": true,
+          "skipped": [
+            {
+              "reason": "Linux session-bus recovery",
+              "test": "test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network"
+            },
+            {
+              "reason": "Isolated Linux Secret Service fixture",
+              "test": "test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment"
+            }
+          ],
+          "tests_run": 48
+        },
+        "mcp-manager": {
+          "passed": true,
+          "skipped": [],
+          "tests_run": 4
+        }
+      },
+      "target": "aarch64-apple-darwin"
+    }
+  ],
+  "fresh_registry_acceptance_reviewed": false,
+  "frozen_tooling_archive_sha256": "eb5f794774f94688294de8fbbf6f09be4cf57a82680b149526dda2b8c4e7165f",
+  "frozen_tooling_files": 136,
+  "owner_live_acceptance": "deferred",
+  "passed": true,
+  "publication_reviewed": false,
+  "registry_before_sha256": "de1927e5fe334263b157d8c969753001bb06f83e488c255ac239ce68627c6161",
+  "scope": "independent read-only candidate/stage review before publication",
+  "spec": {
+    "developer_id_team": "G5QLZ5A8TA",
+    "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+    "platforms": [
+      {
+        "binary_sha256": "774c47315cacb3836ad6461d061974f3ed32e7a7762dba293b1dd9e3de154222",
+        "target": "x86_64-unknown-linux-musl"
+      },
+      {
+        "binary_sha256": "23a6642fb140775e27014fd696150a38389525a780e92c3312939b9bd9c9c87a",
+        "target": "aarch64-unknown-linux-musl"
+      },
+      {
+        "binary_sha256": "b0376aee39dbbcec138008647f1b8298aff906829c580180df24808b40704b8d",
+        "target": "aarch64-apple-darwin"
+      }
+    ],
+    "previous_version": "0.1.0-alpha.22.mcp.2",
+    "registry": "https://npm.cdot.io",
+    "schema_version": 1,
+    "scope": "owner-authorized-test",
+    "source_commit": "7eba6bf33c13b669a6c28b53ec658b3c9c3be5c2",
+    "tag": "mcp",
+    "tooling_commit": "a4f85a3de4a3337407fecd1e2eeeb3182573e8cf",
+    "version": "0.1.0-alpha.22.mcp.3"
+  },
+  "spec_sha256": "8579a26a59dd4398f36c9c4d33adb7a2be989f052d43d466091a0af44fa6b372",
+  "staged_plan_sha256": "dd0996b9dd153c5c8d3a7ad6b285b9a58fbcb0cfe0276b8d3dec3c2a997fad90"
+}

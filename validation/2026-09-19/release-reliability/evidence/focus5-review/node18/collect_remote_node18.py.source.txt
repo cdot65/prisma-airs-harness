@@ -1,0 +1,31 @@
+import base64,hashlib,json,subprocess,sys
+from pathlib import Path
+root=Path('/tmp/airs-autonomous-20260919/evidence/focus5-review/node18')
+code="""import base64,hashlib,json
+from pathlib import Path
+root=Path('/home/airs-review/node18-supplement')
+files={}
+for name in ('ACTUAL-NODE18-GUARD.json','DOWNLOAD.json','SHASUMS256.txt','dispatch-attempts.jsonl','observe-dispatch.cjs'):
+ value=(root/name).read_bytes();files[name]={'sha256':hashlib.sha256(value).hexdigest(),'base64':base64.b64encode(value).decode()}
+print(json.dumps(files))
+"""
+command=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','-o','ConnectTimeout=10','cdot@10.0.1.121','/usr/local/bin/docker','exec','-i','-u','10001','airs-reliability-20260919-arm64','/opt/review-venv/bin/python','-']
+files=json.loads(subprocess.check_output(command,input=code,text=True,timeout=30))
+destination=root/'native-arm64';destination.mkdir(exist_ok=True)
+for name,row in files.items():
+ payload=base64.b64decode(row['base64'],validate=True)
+ if hashlib.sha256(payload).hexdigest()!=row['sha256']:raise ValueError('Node18 evidence transfer changed')
+ (destination/name).write_bytes(payload)
+release=Path('/tmp/airs-autonomous-20260919/release');sys.path.insert(0,str(release/'validation-tooling/scripts'))
+from airs_test_release_archive import inspect_archive
+from airs_test_release_spec import load_json,require
+plan=load_json(release/'staged/NPM-PACKAGES.json');row=next(r for r in plan['publish_order'] if r['name']=='airs-harness')
+archive=inspect_archive(release/'staged/tarballs'/row['filename'])
+require(archive['sha256']==row['sha256'] and archive['integrity']==row['integrity'],'Staged launcher changed')
+receipt=load_json(destination/'ACTUAL-NODE18-GUARD.json')
+for relative,expected in receipt['entrypoint_sha256'].items():
+ require(archive['members']['package/'+relative]['sha256']==expected,'Node18 used a different launcher entrypoint')
+receipt['collector_staged_launcher_sha256']=archive['sha256']
+receipt['collector_entrypoints_match_published_stage']=True
+(root/'ACTUAL-NODE18-SUPPLEMENT.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({'passed':True,'actual_node':receipt['node_version'],'actual_bundled_npm':receipt['npm_version_bundled_with_download'],'native_architecture':receipt['native_architecture'],'checks':len(receipt['checks']),'child_dispatch_attempts':receipt['child_dispatch_attempts'],'collector_entrypoints_match_published_stage':True},indent=2))

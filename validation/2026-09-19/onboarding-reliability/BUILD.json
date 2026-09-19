@@ -1,0 +1,26 @@
+{
+  "scope": "focus3 frozen development native, not published platform acceptance",
+  "source_base": "864dec8aa9b9bfd9fd6a843d1b4205a691689a55",
+  "source_patch_sha256": "360fc1bef88e2dcf59d7a4644535668fd297f0167b9268af6e2c030762d3d795",
+  "files": {
+    "codex-rs/cli/src/airs_access.rs": "f5bc11aa6e8b9b03251744be767f0c6d7e46057aaebc00412bb3e0c837ddb535",
+    "codex-rs/cli/src/airs_access_tests.rs": "36c9a61562f7d463f737914c38050ee3db6988760a9ee8d26e2b09a188e790d2",
+    "codex-rs/cli/src/airs_doctor.rs": "f6aba45060bd9959883c02d78214b3e1a84ce743b475d1e03f645d0fd6ab31df",
+    "codex-rs/cli/src/airs_environment.rs": "29c05f6fd22c5e0fd05355104f35a0e6f99e6732aba522aa4fc57e4f333dd624",
+    "codex-rs/cli/src/airs_environment_tests.rs": "366da6ed98b570920037c7052aed2a8e7ce996ef1f937aef82b3860d70b071c8",
+    "codex-rs/cli/src/airs_login.rs": "2558ad7cbf5117b26990ae08eae3ff4bc57d4cfb80039c16be1ac15aba922bf0",
+    "codex-rs/cli/src/airs_setup.rs": "c5b7c2dc86a15835950e07dfc5d9803a977b7bb028708e50c166a6d54a1baee2",
+    "codex-rs/cli/src/airs_welcome/forms.rs": "ae927c9a4f18f8306352206e7f844a5cc2a0015c9f8c327199747e97248e00d0",
+    "codex-rs/cli/src/airs_welcome/mod.rs": "6874362eaa8eb92e81f3165d28f7408a1760214fbb1352883e0fd83026488b60",
+    "codex-rs/cli/src/airs_welcome/welcome_tests.rs": "b57bc2871a225b35e716dedba2f03b1f4340e9818b431c5a0f6c6b17a94b7417",
+    "codex-rs/cli/src/main.rs": "a062e78f3d72bd1121934863c901a02345e571818e488be7989d830bed184888",
+    "codex-rs/cli/src/snapshots/airs_harness__airs_access__tests__gateway_failure_status.snap": "390fbe0a3b55550908bd2445f245de0c0a88ec63b3454eaa5843b0d6966187cd",
+    "codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_create_help.snap": "cbb91946157e8629173db2e7af5391a1fffc6c191c9846f1d85221d04aa55e41",
+    "codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_help.snap": "adcbd8ea71a505050db87dd3cddda82836a1ebc5618164e9b3ceece0428700d5",
+    "codex-rs/cli/src/snapshots/codex__airs_access__tests__gateway_failure_status.snap": "390fbe0a3b55550908bd2445f245de0c0a88ec63b3454eaa5843b0d6966187cd",
+    "codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_create_help.snap": "cbb91946157e8629173db2e7af5391a1fffc6c191c9846f1d85221d04aa55e41",
+    "codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap": "adcbd8ea71a505050db87dd3cddda82836a1ebc5618164e9b3ceece0428700d5"
+  },
+  "binary_sha256": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+  "version": "airs 0.1.0-alpha.22.mcp.2"
+}

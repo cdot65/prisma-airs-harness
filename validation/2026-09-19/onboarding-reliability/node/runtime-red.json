@@ -1,0 +1,11 @@
+{
+  "status": "expected-red",
+  "command": "node --test --test-name-pattern='unsupported Node runtime' npm/airs-harness/launcher.test.js",
+  "actual_runtime": "v22.23.2",
+  "fixture": "subprocess-only process.versions.node override using --require; no production environment bypass",
+  "failed_cases": 5,
+  "observed": "simulated Node 18.19.1 reaches native and managed children (exit 17), completion reaches its native child, and direct wrapper also executes product child",
+  "real_node18_tested": false,
+  "exit_code": 1,
+  "log": "runtime-red.log"
+}

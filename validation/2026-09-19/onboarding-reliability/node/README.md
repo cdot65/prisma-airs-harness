@@ -1,0 +1,9 @@
+# Node runtime prerequisite enforcement
+
+Five entrypoint regressions failed before the guard: the simulated unsupported runtime reached native/product child execution. The full npm suite then passed **30 tests**, including 9 added behavior tests, after the guard was installed. The test host actually ran Node v22.23.2; other runtime versions are subprocess-only metadata fixtures, not real alternate Node installations.
+
+The guard derives its policy from `package.json` engines, before native dispatch, CLI resolution and completion execution. Direct managed-wrapper invocation uses the same guard through `runPrismaCli`. Unsupported runtimes receive the required range, observed version and an instruction to upgrade and check `node --version`. No dependency, download or product environment bypass was added. Stable caret-major/minimum-union declarations are supported; unknown declaration syntax fails closed instead of silently differing from npm. Prereleases and malformed runtime strings are rejected.
+
+`runtime-red.json` / `.log` record the failing boundary. `runtime-green.json` / `.log` record the full suite and exact changed-source hashes. Existing supported argument/stdin/exit/signal tests remain passing. Native publication acceptance and owner Ubuntu acceptance are separate from this fixture suite.
+
+Independent review identified that the entrypoint integration fixtures used POSIX executables and therefore skipped Windows. Added a separate portable subprocess test that imports the guard directly using a file URL from an isolated package fixture, with no shell/shebang/native child and no platform skip. It passed all 23 version/manifest cases on this Linux Node 22.23.2 host (`runtime-portable.json` / `.log`). This is Windows-runnable coverage, not a claim that Windows or actual Node 18 was executed. The earlier 30-test full-suite result remains unchanged; this new test ran separately.

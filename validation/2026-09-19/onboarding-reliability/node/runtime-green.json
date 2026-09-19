@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "source_base": "864dec8aa9b9bfd9fd6a843d1b4205a691689a55",
+  "actual_runtime": "v22.23.2",
+  "command": "node --test npm/airs-harness/*.test.js",
+  "exit_code": 0,
+  "passed": 30,
+  "failed": 0,
+  "skipped": 0,
+  "new_behavior_tests": 9,
+  "engine_range": "^22.13.0 || >=23.5.0",
+  "unsupported_fixture_versions": [
+    "18.19.1",
+    "22.12.0",
+    "23.4.0",
+    "22.13.0-rc.1",
+    "24.0.0-pre",
+    "22.13",
+    "garbage",
+    "022.13.0",
+    "22.13.0\\n"
+  ],
+  "supported_fixture_versions": [
+    "22.13.0",
+    "22.13.1",
+    "22.99.0",
+    "23.5.0",
+    "23.6.1",
+    "24.0.0",
+    "25.1.0",
+    "22.13.0+vendor.1"
+  ],
+  "rejected_entrypoints": [
+    "native",
+    "managed CLI",
+    "completion",
+    "direct managed wrapper",
+    "legacy launcher"
+  ],
+  "metadata_consistency": "reads actual package engines declaration; alternate supported range tested; unknown range fails closed",
+  "fixture_mechanism": "preload overrides process.versions.node in test launcher subprocess only",
+  "real_node18_tested": false,
+  "new_dependencies": false,
+  "downloads": false,
+  "production_environment_test_bypass": false,
+  "source_sha256": {
+    "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+    "npm/airs-harness/lib/launcher.js": "86929d4f27709f019471fea9ade612e2aa208638cb5da0e17453fcbbb45c1399",
+    "npm/airs-harness/lib/prisma-cli.js": "1884133ee4beae2da34dacae16332d0d6aaf3e992a9590b17771c0e905dea126",
+    "npm/airs-harness/launcher.test.js": "cdd642a87f77a28e83543bbbef86ff53663e940535e6d495b543dc55f1c5c3d2"
+  },
+  "format": "parent will run repository formatter after paired focus3 changes",
+  "log": "runtime-green.log",
+  "final_copy_adjustment": {
+    "change": "Invalid engine declaration uses Prisma AIRS Harness product name",
+    "validation": "node --test --test-name-pattern='runtime policy follows' npm/airs-harness/launcher.test.js",
+    "passed": 1,
+    "failed": 0,
+    "log": "runtime-metadata-final.log"
+  }
+}

@@ -1,0 +1,89 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-reliability-20260919/codex-rs/cli)
+    Finished `test` profile [unoptimized] target(s) in 32.60s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID ba86f050-b3de-4247-9fc7-7dd647d1b9f1 with nextest profile: local
+    Starting 2 tests across 2 binaries (806 tests skipped)
+  TRY 1 FAIL [   0.019s] (───) codex-cli::bin/codex airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+  stdout ───
+
+    running 1 test
+    test airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them ... FAILED
+
+    failures:
+
+    failures:
+        airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 403 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them' (2657659) panicked at cli/src/airs_environment_tests.rs:105:37:
+    called `Result::unwrap_err()` on an `Ok` value: ()
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 1 FAIL [   0.020s] (───) codex-cli::bin/airs-harness airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+  stdout ───
+
+    running 1 test
+    test airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them ... FAILED
+
+    failures:
+
+    failures:
+        airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 403 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them' (2657660) panicked at cli/src/airs_environment_tests.rs:105:37:
+    called `Result::unwrap_err()` on an `Ok` value: ()
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 2 FAIL [   0.017s] (1/2) codex-cli::bin/codex airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+  stdout ───
+
+    running 1 test
+    test airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them ... FAILED
+
+    failures:
+
+    failures:
+        airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 403 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them' (2657663) panicked at cli/src/airs_environment_tests.rs:105:37:
+    called `Result::unwrap_err()` on an `Ok` value: ()
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  TRY 2 FAIL [   0.018s] (2/2) codex-cli::bin/airs-harness airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+  stdout ───
+
+    running 1 test
+    test airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them ... FAILED
+
+    failures:
+
+    failures:
+        airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 403 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them' (2657664) panicked at cli/src/airs_environment_tests.rs:105:37:
+    called `Result::unwrap_err()` on an `Ok` value: ()
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.042s] 2 tests run: 0 passed, 2 failed, 806 skipped
+  TRY 2 FAIL [   0.017s] (1/2) codex-cli::bin/codex airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+  TRY 2 FAIL [   0.018s] (2/2) codex-cli::bin/airs-harness airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+error: test run failed
+error: Recipe `test` failed on line 88 with exit code 100

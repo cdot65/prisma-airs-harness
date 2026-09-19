@@ -1,0 +1,60 @@
+{
+  "scope": "frozen focus3 development native",
+  "binary_sha256": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+  "checks": [
+    {
+      "name": "installed",
+      "exit_code": 0,
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/home/cdot/development/cdot65/airs-reliability-20260919/scripts",
+        "-p",
+        "test_airs_harness.py",
+        "-v"
+      ],
+      "seconds": 45.409,
+      "log": "installed.log",
+      "log_sha256": "5d8a0d77731c7e06e4a4fb4afcc06d7c658f0c07982e8d8c809df5ea19ea6bf5"
+    },
+    {
+      "name": "doctor",
+      "exit_code": 0,
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/home/cdot/development/cdot65/airs-reliability-20260919/scripts",
+        "-p",
+        "test_airs_doctor.py",
+        "-v"
+      ],
+      "seconds": 11.938,
+      "log": "doctor.log",
+      "log_sha256": "1db436531442956d5fff84f500728700e35d171740b55d45f8e317a906c64293"
+    },
+    {
+      "name": "mcp",
+      "exit_code": 0,
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/home/cdot/development/cdot65/airs-reliability-20260919/scripts",
+        "-p",
+        "test_airs_mcp_manager.py",
+        "-v"
+      ],
+      "seconds": 16.546,
+      "log": "mcp.log",
+      "log_sha256": "cf2d0cd537f193f2da1aad37bed47f0876a460509ec3d51d3ed3df9f43b6f6f3"
+    }
+  ]
+}

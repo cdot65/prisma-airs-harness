@@ -1,0 +1,770 @@
+diff --git a/codex-rs/cli/src/airs_access.rs b/codex-rs/cli/src/airs_access.rs
+index 2fd7d17bd8..ea48001e31 100644
+--- a/codex-rs/cli/src/airs_access.rs
++++ b/codex-rs/cli/src/airs_access.rs
+@@ -44,7 +44,7 @@ impl Failure {
+         match self {
+             Self::Configuration => "The selected gateway or model configuration is invalid.",
+             Self::Credential => {
+-                "The saved credential could not be read or refreshed. Run airs env status to inspect local sign-in."
++                "The saved credential could not be read or refreshed. Inspect local sign-in for this environment."
+             }
+             Self::SignedOut => "Authentication changed or this environment was signed out.",
+             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",
+@@ -90,11 +90,12 @@ impl Verification {
+         format!("{result}\nRequest / gateway trace ID: {}", self.request_id)
+     }
+ 
+-    pub(super) fn after_login(&self) -> String {
++    pub(super) fn after_login(&self, environment: Option<&str>) -> String {
++        let command = super::airs_environment::command(environment);
+         match self.outcome {
+             Ok(()) => self.summary(),
+             Err(reason) => format!(
+-                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: airs doctor --verify-access (select the same environment).",
++                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: {command} doctor --verify-access.",
+                 reason.detail(),
+                 self.request_id,
+             ),
+diff --git a/codex-rs/cli/src/airs_access_tests.rs b/codex-rs/cli/src/airs_access_tests.rs
+index 5efd71a4a1..006cad934d 100644
+--- a/codex-rs/cli/src/airs_access_tests.rs
++++ b/codex-rs/cli/src/airs_access_tests.rs
+@@ -198,7 +198,7 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
+                 request_id: Uuid::nil(),
+                 outcome: result
+             }
+-            .after_login()
++            .after_login(None)
+             .contains("fixture-secret")
+         );
+     }
+@@ -304,7 +304,7 @@ fn honest_verification_messages_have_snapshot_coverage() {
+         request_id: Uuid::nil(),
+         outcome: Err(Failure::Offline),
+     };
+-    insta::assert_snapshot!(format!("{DISCLOSURE}\n\n{}\n\n{}", verified.after_login(), offline.after_login()), @r"
++    insta::assert_snapshot!(format!("{DISCLOSURE}\n\n{}\n\n{}", verified.after_login(None), offline.after_login(None)), @r"
+     Checking gateway access with one minimal inference request (up to 16 output tokens). This sends only a fixed connectivity message, with no local files or tools. The request asks the provider not to store the response; gateway logging policy still applies.
+ 
+     Gateway access verified by one inference response. MCP permissions were not tested.
+@@ -312,7 +312,7 @@ fn honest_verification_messages_have_snapshot_coverage() {
+ 
+     Credential saved; gateway access not yet verified. The gateway connection failed. Check connectivity, DNS and TLS.
+     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-    Retry: airs doctor --verify-access (select the same environment).
++    Retry: airs doctor --verify-access.
+     ");
+ }
+ 
+@@ -346,7 +346,7 @@ fn gateway_failures_show_actionable_status_without_response_content() {
+             request_id: Uuid::nil(),
+             outcome: Err(failure),
+         }
+-        .after_login()
++        .after_login(None)
+     })
+     .collect::<Vec<_>>()
+     .join("\n\n");
+@@ -384,3 +384,13 @@ async fn successful_http_responses_cannot_hide_gateway_policy_denials() {
+         }
+     }
+ }
++
++#[test]
++fn selected_environment_recovery_message_has_snapshot_coverage() {
++    let denied = Verification { request_id: Uuid::nil(), outcome: Err(Failure::Denied) };
++    insta::assert_snapshot!(denied.after_login(Some("-staging")), @r"
++    Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
++    Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
++    Retry: airs --environment=-staging doctor --verify-access.
++    ");
++}
+diff --git a/codex-rs/cli/src/airs_doctor.rs b/codex-rs/cli/src/airs_doctor.rs
+index ca01c21522..adfc5a6caa 100644
+--- a/codex-rs/cli/src/airs_doctor.rs
++++ b/codex-rs/cli/src/airs_doctor.rs
+@@ -11,7 +11,8 @@ struct Check {
+     detail: String,
+ }
+ 
+-pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Result<()> {
++pub async fn run(home: &Path, args: &super::doctor::DoctorCommand, environment: Option<&str>) -> anyhow::Result<()> {
++    let command = super::airs_environment::command(environment);
+     if args.json && super::airs_doctor_storage::child_probe()? {
+         return Ok(());
+     }
+@@ -40,7 +41,7 @@ pub async fn run(home: &Path, args: &super::doctor::DoctorCommand) -> anyhow::Re
+     checks.push(Check {
+         name: "credential_cleanup", passed: cleanup_clear,
+         detail: if cleanup_clear { "No pending credential cleanup".into() } else {
+-            "Credential cleanup is pending or unreadable. Restore native storage access, then retry airs login or airs logout for this environment. Doctor does not retry credential cleanup.".into()
++            format!("Credential cleanup is pending or unreadable. Restore native storage access, then retry {command} login or {command} logout. Doctor does not retry credential cleanup.")
+         },
+     });
+     let tools = if cfg!(target_os = "linux") {
+diff --git a/codex-rs/cli/src/airs_environment.rs b/codex-rs/cli/src/airs_environment.rs
+index 58499d9c26..3fb098a845 100644
+--- a/codex-rs/cli/src/airs_environment.rs
++++ b/codex-rs/cli/src/airs_environment.rs
+@@ -12,7 +12,7 @@ use uuid::Uuid;
+ 
+ #[derive(Debug, Subcommand)]
+ pub enum Command {
+-    /// Create an environment and sign in; supply --gateway-url for automation.
++    /// Create an environment; without --gateway-url, guide setup and sign-in.
+     Create {
+         /// Environment name. Guided setup prompts when omitted.
+         name: Option<String>,
+@@ -135,6 +135,9 @@ fn read(root: &Path) -> anyhow::Result<Registry> {
+         registry.schema_version == 1,
+         "unsupported environment schema version"
+     );
++    for name in registry.environments.keys() {
++        validate_name(name)?;
++    }
+     if let Some(name) = &registry.active {
+         anyhow::ensure!(
+             registry.environments.contains_key(name),
+@@ -201,10 +204,27 @@ pub(super) fn validate_name(name: &str) -> anyhow::Result<()> {
+     Ok(())
+ }
+ 
++/// Render a copyable command while preserving valid leading-hyphen names.
++pub(super) fn command(name: Option<&str>) -> String {
++    match name {
++        Some(name) if name.starts_with('-') => format!("airs --environment={name}"),
++        Some(name) => format!("airs --environment {name}"),
++        None => "airs".into(),
++    }
++}
++
++/// Recover public selection from the already bound home, never the saved default.
++pub(super) fn name_for_home(root: &Path, home: &Path) -> anyhow::Result<Option<String>> {
++    Ok(read(root)?.environments.into_iter().find_map(|(name, environment)| {
++        (environment_home(root, &environment) == home).then_some(name)
++    }))
++}
++
+ pub fn setup(root: &Path, name: &str, args: &super::airs_harness::SetupArgs) -> anyhow::Result<()> {
+     let home = create(root, name, args)?;
+     println!("Configured Prisma AIRS Harness in {}", home.display());
+-    println!("Run airs login to sign in with your company account or workspace API key.");
++    let command = command(Some(name));
++    println!("Run {command} login to sign in with your company account or workspace API key.");
+     println!("Selected environment {name}. Its sessions and credentials are independent.");
+     Ok(())
+ }
+@@ -301,8 +321,9 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
+         }
+         let name = name.context("supply a name: airs env create NAME --gateway-url URL")?;
+         setup(root, name, args)?;
+-        println!("Next: airs --environment {name} login");
+-        println!("Then: airs --environment {name} doctor --verify-access");
++        let command = self::command(Some(name));
++        println!("Next: {command} login");
++        println!("Then: {command} doctor --verify-access");
+         return Ok(());
+     }
+     let _lock = lock(root)?;
+diff --git a/codex-rs/cli/src/airs_environment_tests.rs b/codex-rs/cli/src/airs_environment_tests.rs
+index 37bb4ffbf8..c0c0151f1d 100644
+--- a/codex-rs/cli/src/airs_environment_tests.rs
++++ b/codex-rs/cli/src/airs_environment_tests.rs
+@@ -58,3 +58,54 @@ fn atomic_write_replaces_complete_document_privately() {
+         );
+     }
+ }
++
++#[test]
++fn recovery_commands_parse_valid_names_without_changing_selection() {
++    use clap::Parser;
++    for name in ["staging", "-staging", "--", "team.env_2"] {
++        validate_name(name).unwrap();
++        let command = command(Some(name));
++        let parsed = crate::MultitoolCli::try_parse_from(
++            command.split_whitespace().chain(["doctor", "--verify-access"]),
++        ).unwrap();
++        assert_eq!(parsed.environment.as_deref(), Some(name));
++    }
++    assert_eq!(command(None), "airs");
++}
++
++#[test]
++fn recovery_name_tracks_bound_home_instead_of_default_and_handles_legacy_home() {
++    let root = tempfile::tempdir().unwrap();
++    let args = super::super::airs_harness::SetupArgs {
++        gateway_url: "https://gateway.example/v1".into(),
++        ..Default::default()
++    };
++    let selected = create(root.path(), "staging", &args).unwrap();
++    create(root.path(), "work", &args).unwrap();
++    let before = std::fs::read(root.path().join("environments.json")).unwrap();
++    assert_eq!(name_for_home(root.path(), &selected).unwrap(), Some("staging".into()));
++    assert_eq!(name_for_home(root.path(), root.path()).unwrap(), None);
++    assert_eq!(std::fs::read(root.path().join("environments.json")).unwrap(), before);
++}
++
++#[test]
++fn loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them() {
++    for name in ["team;PRIVATE-CANARY", "team\nPRIVATE-CANARY", "team\u{1b}[31mPRIVATE-CANARY"] {
++        let root = tempfile::tempdir().unwrap();
++        let path = root.path().join("environments.json");
++        let bytes = serde_json::to_vec(&serde_json::json!({
++            "schema_version": 1,
++            "active": name,
++            "environments": {
++                name: {"id": Uuid::new_v4(), "gateway_url": "https://gateway.example/v1"}
++            }
++        })).unwrap();
++        std::fs::write(&path, &bytes).unwrap();
++        for result in [read(root.path()).map(|_| ()), resolve(root.path(), Some(name)).map(|_| ())] {
++            let diagnostic = result.unwrap_err().to_string();
++            assert_eq!(diagnostic, "environment name must contain 1–64 letters, digits, dots, underscores or hyphens");
++            assert!(!diagnostic.contains("PRIVATE-CANARY"));
++        }
++        assert_eq!(std::fs::read(&path).unwrap(), bytes);
++    }
++}
+diff --git a/codex-rs/cli/src/airs_login.rs b/codex-rs/cli/src/airs_login.rs
+index 5e57872543..93c8186703 100644
+--- a/codex-rs/cli/src/airs_login.rs
++++ b/codex-rs/cli/src/airs_login.rs
+@@ -255,11 +255,13 @@ fn company_settings(
+ pub(super) async fn interactive(
+     home: &Path,
+     preferred_flow: airs_oidc::LoginFlow,
++    environment: Option<&str>,
+ ) -> anyhow::Result<()> {
+     anyhow::ensure!(
+         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
+         "Guided login requires an interactive terminal. Automation must select an explicit login method; see airs login --help"
+     );
++    let command = airs_environment::command(environment);
+     // Check configuration before collecting input, without probing secret storage.
+     airs_environment::gateway(home)?;
+     let choice = {
+@@ -269,15 +271,16 @@ pub(super) async fn interactive(
+             airs_oidc::LoginFlow::Browser | airs_oidc::LoginFlow::BrowserManual => SIGN_IN_MENU,
+             airs_oidc::LoginFlow::Device => DEVICE_SIGN_IN_MENU,
+         };
+-        prompt(&mut input, &mut output, menu)?
++        prompt(&mut input, &mut output, menu)
++            .with_context(|| format!("Resume sign-in with: {command} login"))?
+     };
+-    match choice.as_str() {
++    let result = match choice.as_str() {
+         "1" => {
+             let config = company_settings(
+                 home,
+                 &mut std::io::stdin().lock(),
+                 &mut std::io::stderr().lock(),
+-            )?;
++            ).with_context(|| format!("Resume sign-in with: {command} login"))?;
+             let args = LoginArgs {
+                 issuer_url: Some(config.issuer),
+                 oidc_client_id: Some(config.client_id),
+@@ -288,11 +291,12 @@ pub(super) async fn interactive(
+             airs_oidc::login(home, &args, preferred_flow).await
+         }
+         "2" => airs_credentials::login(home, &LoginArgs::default(), /*stdin_key*/ true),
+-        _ => anyhow::bail!("Sign-in cancelled; choose 1 or 2 next time"),
+-    }?;
++        _ => Err(anyhow::anyhow!("Sign-in cancelled; choose 1 or 2 next time")),
++    };
++    result.with_context(|| format!("Resume sign-in with: {command} login"))?;
+     eprintln!("{}", super::airs_access::DISCLOSURE);
+     let access = super::airs_access::verify(home).await;
+-    eprintln!("{}", access.after_login());
++    eprintln!("{}", access.after_login(environment));
+     Ok(())
+ }
+ 
+diff --git a/codex-rs/cli/src/airs_setup.rs b/codex-rs/cli/src/airs_setup.rs
+index d4435c1df8..4e0a2588c1 100644
+--- a/codex-rs/cli/src/airs_setup.rs
++++ b/codex-rs/cli/src/airs_setup.rs
+@@ -71,15 +71,16 @@ pub(super) async fn interactive(
+     airs_environment::setup(root, &name, &args)?;
+     airs_environment::select(root, Some(&name))?;
+     let home = codex_core::config::find_codex_home()?;
+-    airs_login::interactive(home.as_path(), LoginFlow::Browser)
++    let command = airs_environment::command(Some(&name));
++    airs_login::interactive(home.as_path(), LoginFlow::Browser, Some(&name))
+         .await
+         .with_context(|| {
+             format!(
+-                "Environment {name} was created. Resume sign-in with: airs --environment {name} login"
++                "Environment {name} was created. Resume sign-in with: {command} login"
+             )
+         })?;
+-    eprintln!("Check access: airs --environment {name} doctor --verify-access");
+-    eprintln!("Start a session: airs --environment {name}");
++    eprintln!("Check access: {command} doctor --verify-access");
++    eprintln!("Start a session: {command}");
+     Ok(())
+ }
+ 
+diff --git a/codex-rs/cli/src/airs_welcome/forms.rs b/codex-rs/cli/src/airs_welcome/forms.rs
+index 64af1e6a1c..c831df7b4b 100644
+--- a/codex-rs/cli/src/airs_welcome/forms.rs
++++ b/codex-rs/cli/src/airs_welcome/forms.rs
+@@ -18,6 +18,7 @@ pub(super) fn input(
+     label: &str,
+     help: &str,
+     initial: &str,
++    environment: Option<&str>,
+     validate: impl Fn(&str) -> anyhow::Result<()>,
+ ) -> anyhow::Result<String> {
+     let mut field = OnboardingInput {
+@@ -28,7 +29,7 @@ pub(super) fn input(
+         error: None,
+     };
+     loop {
+-        let value = selected(ui.input(field.clone())?)?;
++        let value = selected(ui.input(field.clone())?, environment)?;
+         match validate(&value) {
+             Ok(()) => return Ok(value),
+             Err(error) => {
+@@ -57,12 +58,12 @@ pub(super) fn create(
+                 "Get connection details from your administrator first",
+             ),
+         ],
+-    )?)
++    )?, None)
+     .and_then(|choice| {
+         if choice == 0 {
+             Ok(())
+         } else {
+-            Err(cancelled())
++            Err(cancelled(None))
+         }
+     })?;
+     let name = input(
+@@ -70,6 +71,7 @@ pub(super) fn create(
+         "Environment name",
+         "A short name such as work or staging.",
+         requested.unwrap_or("work"),
++        None,
+         |name| {
+             airs_environment::validate_name(name)?;
+             anyhow::ensure!(
+@@ -87,6 +89,7 @@ pub(super) fn create(
+         "AI Gateway URL",
+         "Use the inference API root supplied by your administrator.",
+         &args.gateway_url,
++        None,
+         |value| {
+             let candidate = airs_harness::SetupArgs {
+                 gateway_url: value.into(),
+@@ -108,9 +111,9 @@ pub(super) fn create(
+             ),
+             item("Cancel", "Nothing has been created yet"),
+         ],
+-    )?)? != 0
++    )?, None)? != 0
+     {
+-        return Err(cancelled());
++        return Err(cancelled(None));
+     }
+     airs_environment::create(root, &name, &args)?;
+     airs_environment::resolve(root, Some(&name))?
+@@ -120,6 +123,7 @@ pub(super) fn create(
+ pub(super) fn company(
+     ui: &mut AirsOnboarding,
+     home: &Path,
++    environment: Option<&str>,
+ ) -> anyhow::Result<airs_credentials::LoginArgs> {
+     let bound = airs_login::existing_binding(home)?.and_then(|binding| match binding.source {
+         Some(airs_credentials::Source::Oidc { identity }) => Some(identity.config),
+@@ -135,7 +139,7 @@ pub(super) fn company(
+                 selected(ui.message(&OnboardingProgress {
+                     title: "Check your company sign-in settings".into(),
+                     detail: "Saved public connection settings are invalid or unavailable. Enter replacement settings from your administrator. Existing credentials and history are preserved.".into(), link: None,
+-                })?)?;
++                })?, environment)?;
+                 None
+             }
+         }
+@@ -150,14 +154,14 @@ pub(super) fn company(
+                     "A different identity requires a separate environment",
+                 ),
+             ],
+-        )?)?;
++        )?, environment)?;
+         if choice == 0 {
+             config
+         } else {
+-            collect_company(ui, Some(config))?
++            collect_company(ui, Some(config), environment)?
+         }
+     } else {
+-        collect_company(ui, /*previous*/ None)?
++        collect_company(ui, /*previous*/ None, environment)?
+     };
+     let args = airs_credentials::LoginArgs {
+         issuer_url: Some(config.issuer),
+@@ -172,6 +176,7 @@ pub(super) fn company(
+ fn collect_company(
+     ui: &mut AirsOnboarding,
+     previous: Option<IdentityConfig>,
++    environment: Option<&str>,
+ ) -> anyhow::Result<IdentityConfig> {
+     let previous = previous.unwrap_or(IdentityConfig {
+         issuer: String::new(),
+@@ -183,6 +188,7 @@ fn collect_company(
+         "Company issuer URL",
+         "The HTTPS issuer from your administrator. Your password stays in the browser.",
+         &previous.issuer,
++        environment,
+         |value| {
+             airs_login::validate_identity(&IdentityConfig {
+                 issuer: value.into(),
+@@ -196,6 +202,7 @@ fn collect_company(
+         "Public client ID",
+         "An administrator-provided public client ID, never a client secret.",
+         &previous.client_id,
++        environment,
+         airs_login::public_field,
+     )?;
+     let audience = input(
+@@ -203,6 +210,7 @@ fn collect_company(
+         "Gateway audience",
+         "The audience registered for your AI Gateway.",
+         &previous.audience,
++        environment,
+         airs_login::public_field,
+     )?;
+     let config = IdentityConfig {
+diff --git a/codex-rs/cli/src/airs_welcome/mod.rs b/codex-rs/cli/src/airs_welcome/mod.rs
+index c110a04d80..28d39785fe 100644
+--- a/codex-rs/cli/src/airs_welcome/mod.rs
++++ b/codex-rs/cli/src/airs_welcome/mod.rs
+@@ -30,16 +30,17 @@ fn item(label: &str, detail: &str) -> OnboardingMenuItem {
+     }
+ }
+ 
+-fn cancelled() -> anyhow::Error {
++fn cancelled(environment: Option<&str>) -> anyhow::Error {
++    let command = airs_environment::command(environment);
+     anyhow::anyhow!(
+-        "Sign-in cancelled. Existing environments are preserved; resume with airs login or airs --environment NAME login."
++        "Sign-in cancelled. Existing environments are preserved; resume with {command} login."
+     )
+ }
+ 
+-fn selected<T>(result: OnboardingResult<T>) -> anyhow::Result<T> {
++fn selected<T>(result: OnboardingResult<T>, environment: Option<&str>) -> anyhow::Result<T> {
+     match result {
+         OnboardingResult::Selected(value) => Ok(value),
+-        OnboardingResult::Cancelled => Err(cancelled()),
++        OnboardingResult::Cancelled => Err(cancelled(environment)),
+     }
+ }
+ 
+@@ -104,7 +105,7 @@ pub(super) async fn run(
+     if selection.is_none() {
+         let choices = airs_environment::choices(root)?;
+         selection = if !creating && !choices.is_empty() {
+-            Some(pick(&mut ui, root, &choices)?)
++            Some(pick(&mut ui, root, &choices, None)?)
+         } else {
+             let defaults = match &entry {
+                 Entry::Create(args) => args.clone(),
+@@ -138,10 +139,10 @@ pub(super) async fn run(
+         }
+         let action = match retry_action.take() {
+             Some(action) => action,
+-            None => selected(ui.menu("Sign in to continue", &actions)?)?,
++            None => selected(ui.menu("Sign in to continue", &actions)?, selection.name.as_deref())?,
+         };
+         if action == 2 {
+-            selection = pick(&mut ui, root, &choices)?;
++            selection = pick(&mut ui, root, &choices, selection.name.as_deref())?;
+             if matches!(entry, Entry::Session)
+                 && !airs_login::needs_login(&selection.home, |name| {
+                     std::env::var_os(name).is_some()
+@@ -167,7 +168,7 @@ pub(super) async fn run(
+             ui = AirsOnboarding::open(context(&selection), display)?;
+             result
+         } else {
+-            let args = forms::company(&mut ui, &selection.home)?;
++            let args = forms::company(&mut ui, &selection.home, selection.name.as_deref())?;
+             if matches!(preferred, airs_oidc::LoginFlow::Browser) {
+                 preferred = match selected(ui.menu(
+                     "How would you like to sign in?",
+@@ -185,7 +186,7 @@ pub(super) async fn run(
+                             "Manual browser flow with the existing text prompt",
+                         ),
+                     ],
+-                )?)? {
++                )?, selection.name.as_deref())? {
+                     0 => airs_oidc::LoginFlow::Browser,
+                     1 => airs_oidc::LoginFlow::Device,
+                     _ => airs_oidc::LoginFlow::BrowserManual,
+@@ -213,7 +214,7 @@ pub(super) async fn run(
+                     .await?
+                 {
+                     OnboardingResult::Selected(result) => result,
+-                    OnboardingResult::Cancelled => return Err(cancelled()),
++                    OnboardingResult::Cancelled => return Err(cancelled(selection.name.as_deref())),
+                 }
+             }
+         };
+@@ -226,6 +227,7 @@ pub(super) async fn run(
+                         .replace(".: ", ". "),
+                     link: None,
+                 })?,
++                selection.name.as_deref(),
+             )?;
+             if selected(ui.menu(
+                 "Choose your next step",
+@@ -239,14 +241,14 @@ pub(super) async fn run(
+                         "Use a workspace key or another environment",
+                     ),
+                 ],
+-            )?)? == 0
++            )?, selection.name.as_deref())? == 0
+             {
+                 retry_action = Some(action);
+                 preferred = airs_oidc::LoginFlow::Browser;
+             }
+             continue;
+         }
+-        verify(&mut ui, &selection.home).await?;
++        verify(&mut ui, &selection).await?;
+         return Ok(selection.name);
+     }
+ }
+@@ -255,27 +257,29 @@ fn pick(
+     ui: &mut AirsOnboarding,
+     root: &Path,
+     choices: &[(String, String)],
++    environment: Option<&str>,
+ ) -> anyhow::Result<airs_environment::Selection> {
+     let actions: Vec<_> = choices
+         .iter()
+         .map(|(name, gateway)| item(name, gateway))
+         .collect();
+-    let index = selected(ui.menu("Choose an environment", &actions)?)?;
++    let index = selected(ui.menu("Choose an environment", &actions)?, environment)?;
+     airs_environment::resolve(root, Some(&choices[index].0))?
+         .context("Selected environment is unavailable")
+ }
+ 
+-async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
++async fn verify(ui: &mut AirsOnboarding, selection: &airs_environment::Selection) -> anyhow::Result<()> {
++    let command = airs_environment::command(selection.name.as_deref());
+     loop {
+         let (_sender, receiver) = watch::channel(OnboardingProgress {
+             title: "Credential saved · checking gateway access".into(),
+             detail: airs_access::DISCLOSURE.into(),
+             link: None,
+         });
+-        let verification = match ui.wait(airs_access::verify(home), receiver).await? {
++        let verification = match ui.wait(airs_access::verify(&selection.home), receiver).await? {
+             OnboardingResult::Selected(result) => result,
+             OnboardingResult::Cancelled => anyhow::bail!(
+-                "Credential saved; access check cancelled. Resume with airs or run airs doctor --verify-access."
++                "Credential saved; access check cancelled. Resume with {command} or run {command} doctor --verify-access."
+             ),
+         };
+         if ui.message(&OnboardingProgress {
+@@ -285,12 +289,12 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
+                 "Credential saved · gateway access needs attention"
+             }
+             .into(),
+-            detail: verification.after_login(),
++            detail: verification.after_login(selection.name.as_deref()),
+             link: None,
+         })? == OnboardingResult::Cancelled
+         {
+             anyhow::bail!(
+-                "Credential saved. Start AIRS when ready, or inspect access with airs doctor --verify-access."
++                "Credential saved. Start {command} when ready, or inspect access with {command} doctor --verify-access."
+             );
+         }
+         if verification.outcome.is_ok() {
+@@ -309,14 +313,14 @@ async fn verify(ui: &mut AirsOnboarding, home: &Path) -> anyhow::Result<()> {
+                 ),
+                 item(
+                     "Exit and fix gateway access",
+-                    "Use airs doctor --verify-access when ready",
++                    &format!("Use {command} doctor --verify-access when ready"),
+                 ),
+             ],
+         )?;
+         match next {
+             OnboardingResult::Selected(0) => return Ok(()),
+             OnboardingResult::Selected(1) => {}
+-            _ => anyhow::bail!("{}", verification.after_login()),
++            _ => anyhow::bail!("{}", verification.after_login(selection.name.as_deref())),
+         }
+     }
+ }
+diff --git a/codex-rs/cli/src/airs_welcome/welcome_tests.rs b/codex-rs/cli/src/airs_welcome/welcome_tests.rs
+index 395bc4b3b6..15be5f8ab2 100644
+--- a/codex-rs/cli/src/airs_welcome/welcome_tests.rs
++++ b/codex-rs/cli/src/airs_welcome/welcome_tests.rs
+@@ -77,3 +77,13 @@ fn animation_preference_uses_the_environment_and_last_explicit_override() {
+     );
+     assert!(!options(directory.path(), &["model=\"tui.animations=true\"".into()]).animations);
+ }
++
++#[test]
++fn selected_environment_cancellation_has_snapshot_coverage() {
++    insta::assert_snapshot!(cancelled(Some("staging")).to_string(), @r"
++    Sign-in cancelled. Existing environments are preserved; resume with airs --environment staging login.
++    ");
++    insta::assert_snapshot!(cancelled(None).to_string(), @r"
++    Sign-in cancelled. Existing environments are preserved; resume with airs login.
++    ");
++}
+diff --git a/codex-rs/cli/src/main.rs b/codex-rs/cli/src/main.rs
+index f1f4c87701..e2cd8f84a0 100644
+--- a/codex-rs/cli/src/main.rs
++++ b/codex-rs/cli/src/main.rs
+@@ -1295,6 +1295,7 @@ async fn cli_main(
+             airs_environment::select(root.as_path(), environment.as_deref())?;
+         }
+         let home = codex_core::config::find_codex_home()?;
++        let selected_environment = airs_environment::name_for_home(root.as_path(), home.as_path())?;
+         if matches!(
+             &subcommand,
+             None | Some(Subcommand::Resume(_) | Subcommand::Fork(_))
+@@ -1302,7 +1303,7 @@ async fn cli_main(
+             && std::io::stderr().is_terminal()
+             && airs_login::needs_login(home.as_path(), |name| std::env::var_os(name).is_some())?
+         {
+-            airs_login::interactive(home.as_path(), airs_oidc::LoginFlow::Browser).await?;
++            airs_login::interactive(home.as_path(), airs_oidc::LoginFlow::Browser, selected_environment.as_deref()).await?;
+         }
+         match &subcommand {
+             Some(Subcommand::McpSetup(args)) => return airs_mcp::setup(home.as_path(), args).await,
+@@ -1338,12 +1339,12 @@ async fn cli_main(
+                     );
+                     airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
+                 } else {
+-                    airs_login::interactive(home.as_path(), flow).await
++                    airs_login::interactive(home.as_path(), flow, selected_environment.as_deref()).await
+                 };
+             }
+             Some(Subcommand::Logout(_)) => return airs_credentials::logout(home.as_path()).await,
+             Some(Subcommand::Doctor(args)) => {
+-                return airs_doctor::run(home.as_path(), args).await;
++                return airs_doctor::run(home.as_path(), args, selected_environment.as_deref()).await;
+             }
+             _ => {}
+         }
+diff --git a/codex-rs/cli/src/snapshots/airs_harness__airs_access__tests__gateway_failure_status.snap b/codex-rs/cli/src/snapshots/airs_harness__airs_access__tests__gateway_failure_status.snap
+index 2d8a65f8e2..ffc7362d4d 100644
+--- a/codex-rs/cli/src/snapshots/airs_harness__airs_access__tests__gateway_failure_status.snap
++++ b/codex-rs/cli/src/snapshots/airs_harness__airs_access__tests__gateway_failure_status.snap
+@@ -4,20 +4,20 @@ expression: messages
+ ---
+ Credential saved; gateway access not yet verified. The gateway rejected authentication (HTTP 401). Check that the credential is valid for this gateway.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. A gateway guardrail blocked this request (HTTP 446, policy denial). Check the gateway trace for the failed policy; saving a credential does not establish gateway access.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 400). Check its route and policy configuration.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 503). Check its route and policy configuration.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+diff --git a/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_create_help.snap b/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_create_help.snap
+index 4cc9d4e1c8..3514164a7b 100644
+--- a/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_create_help.snap
++++ b/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_create_help.snap
+@@ -2,7 +2,7 @@
+ source: cli/src/airs_help_tests.rs
+ expression: create.render_long_help().to_string()
+ ---
+-Create an environment and sign in; supply --gateway-url for automation
++Create an environment; without --gateway-url, guide setup and sign-in
+ 
+ Usage: airs env create [OPTIONS] [NAME]
+ 
+diff --git a/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_help.snap b/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_help.snap
+index f2fd60b387..db80a87cc9 100644
+--- a/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_help.snap
++++ b/codex-rs/cli/src/snapshots/airs_harness__airs_help__tests__airs_environment_help.snap
+@@ -8,7 +8,7 @@ Create, inspect, switch, rename, or remove AIRS environments
+ Usage: airs env [COMMAND]
+ 
+ Commands:
+-  create  Create an environment and sign in; supply --gateway-url for automation
++  create  Create an environment; without --gateway-url, guide setup and sign-in
+   list    List environments; an asterisk marks the default for new processes
+   use     Select the default environment for new processes
+   show    Inspect a named or selected environment without showing credentials
+diff --git a/codex-rs/cli/src/snapshots/codex__airs_access__tests__gateway_failure_status.snap b/codex-rs/cli/src/snapshots/codex__airs_access__tests__gateway_failure_status.snap
+index 2d8a65f8e2..ffc7362d4d 100644
+--- a/codex-rs/cli/src/snapshots/codex__airs_access__tests__gateway_failure_status.snap
++++ b/codex-rs/cli/src/snapshots/codex__airs_access__tests__gateway_failure_status.snap
+@@ -4,20 +4,20 @@ expression: messages
+ ---
+ Credential saved; gateway access not yet verified. The gateway rejected authentication (HTTP 401). Check that the credential is valid for this gateway.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. A gateway guardrail blocked this request (HTTP 446, policy denial). Check the gateway trace for the failed policy; saving a credential does not establish gateway access.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 400). Check its route and policy configuration.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+ 
+ Credential saved; gateway access not yet verified. The gateway rejected the probe (HTTP 503). Check its route and policy configuration.
+ Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+-Retry: airs doctor --verify-access (select the same environment).
++Retry: airs doctor --verify-access.
+diff --git a/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_create_help.snap b/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_create_help.snap
+index 4cc9d4e1c8..3514164a7b 100644
+--- a/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_create_help.snap
++++ b/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_create_help.snap
+@@ -2,7 +2,7 @@
+ source: cli/src/airs_help_tests.rs
+ expression: create.render_long_help().to_string()
+ ---
+-Create an environment and sign in; supply --gateway-url for automation
++Create an environment; without --gateway-url, guide setup and sign-in
+ 
+ Usage: airs env create [OPTIONS] [NAME]
+ 
+diff --git a/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap b/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap
+index f2fd60b387..db80a87cc9 100644
+--- a/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap
++++ b/codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap
+@@ -8,7 +8,7 @@ Create, inspect, switch, rename, or remove AIRS environments
+ Usage: airs env [COMMAND]
+ 
+ Commands:
+-  create  Create an environment and sign in; supply --gateway-url for automation
++  create  Create an environment; without --gateway-url, guide setup and sign-in
+   list    List environments; an asterisk marks the default for new processes
+   use     Select the default environment for new processes
+   show    Inspect a named or selected environment without showing credentials

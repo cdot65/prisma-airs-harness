@@ -1,0 +1,46 @@
+test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) ... 
+  test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='staging') ... FAIL
+  test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='-staging') ... FAIL
+
+======================================================================
+FAIL: test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='staging')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 322, in test_denied_login_and_cancel_preserve_nondefault_environment
+    self.assertEqual(process.returncode, 0, output + error)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 327, in <module>
+    worker(sys.argv[2])
+    ~~~~~~^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 191, in worker
+    require(f"Retry: {command} doctor --verify-access" in compact, compact)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 32, in require
+    raise AssertionError(message)
+AssertionError: ▄█ ▄███ ▄████ ▄ ▄█████ █▄ PRISMA AIRS ██████ ██▄ ▀███ ███▄ Your secure agent workspace ▀█████ ▀███ ▀█ Environment staging https://127.0.0.1:37519/v1 Credential saved · gateway access needs attention Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes. Request / gateway trace ID: 2d95d242-83b5-48a1-8aaf-27905c096bfd Retry: airs doctor --verify-access (select the same environment). Enter Continue ↑↓ Scroll Esc Exit
+
+
+======================================================================
+FAIL: test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='-staging')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 322, in test_denied_login_and_cancel_preserve_nondefault_environment
+    self.assertEqual(process.returncode, 0, output + error)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 327, in <module>
+    worker(sys.argv[2])
+    ~~~~~~^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 191, in worker
+    require(f"Retry: {command} doctor --verify-access" in compact, compact)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 32, in require
+    raise AssertionError(message)
+AssertionError: ▄█ ▄███ ▄████ ▄ ▄█████ █▄ PRISMA AIRS ██████ ██▄ ▀███ ███▄ Your secure agent workspace ▀█████ ▀███ ▀█ Environment -staging https://127.0.0.1:45723/v1 Credential saved · gateway access needs attention Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes. Request / gateway trace ID: 70b13abf-81fe-4254-bbc4-bdd41bcd19bf Retry: airs doctor --verify-access (select the same environment). Enter Continue ↑↓ Scroll Esc Exit
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.434s
+
+FAILED (failures=2)

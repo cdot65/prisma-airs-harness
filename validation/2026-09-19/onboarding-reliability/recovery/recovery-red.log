@@ -1,0 +1,42 @@
+test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) ... 
+  test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='staging') ... FAIL
+  test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='-staging') ... FAIL
+
+======================================================================
+FAIL: test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='staging')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 117, in test_denied_login_and_cancel_preserve_nondefault_environment
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 122, in <module>
+    worker(sys.argv[2])
+    ~~~~~~^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 86, in worker
+    assert f'Retry: {command} doctor --verify-access' in compact, compact
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ▄█ ▄███ ▄████ ▄ ▄█████ █▄ PRISMA AIRS ██████ ██▄ ▀███ ███▄ Your secure agent workspace ▀█████ ▀███ ▀█ Environment staging https://127.0.0.1:45559/v1 Credential saved · gateway access needs attention Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes. Request / gateway trace ID: f973bdc8-8462-4320-9b3b-4aed655c418e Retry: airs doctor --verify-access (select the same environment). Enter Continue ↑↓ Scroll Esc Exit
+
+
+======================================================================
+FAIL: test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) (environment='-staging')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 117, in test_denied_login_and_cancel_preserve_nondefault_environment
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 122, in <module>
+    worker(sys.argv[2])
+    ~~~~~~^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_harness_recovery.py", line 86, in worker
+    assert f'Retry: {command} doctor --verify-access' in compact, compact
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ▄█ ▄███ ▄████ ▄ ▄█████ █▄ PRISMA AIRS ██████ ██▄ ▀███ ███▄ Your secure agent workspace ▀█████ ▀███ ▀█ Environment -staging https://127.0.0.1:46309/v1 Credential saved · gateway access needs attention Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes. Request / gateway trace ID: 83f0aff2-7b34-4b93-9cfd-5bb7b67aefb9 Retry: airs doctor --verify-access (select the same environment). Enter Continue ↑↓ Scroll Esc Exit
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.489s
+
+FAILED (failures=2)

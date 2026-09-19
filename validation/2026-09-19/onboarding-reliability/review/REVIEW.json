@@ -1,0 +1,66 @@
+{
+  "scope": "Focus 3 onboarding/recovery development acceptance; distribution and live gates remain separate",
+  "score": 9.3,
+  "verdict": "pass",
+  "rubric": {
+    "completeness": {
+      "score": 3.0,
+      "maximum": 3,
+      "reason": "Node prerequisite guard/docs, scoped recovery paths, accurate explicit creation help, portable policy tests and loaded-registry safety are implemented."
+    },
+    "capability": {
+      "score": 2.5,
+      "maximum": 3,
+      "reason": "955 CLI passes; frozen Linux executable54 passes/1 platform skip, selected recovery with2 environment subcases under optimized Python, terminal8 checks; npm tests30 plus portable guard test. Three-platform distribution remains future shared gate; actual Node18/Windows not run."
+    },
+    "best_practices": {
+      "score": 2.0,
+      "maximum": 2,
+      "reason": "Selected home rather than default; loaded-name allowlist blocks command injection; no credentials/default/history mutation; RED/GREEN and snapshots, typed errors, no new dependencies; scoped fmt/lint passed."
+    },
+    "optimization": {
+      "score": 1.8,
+      "maximum": 2,
+      "reason": "Small shared command/Node guard helpers, no added network calls, cached scoped Rust checks, streamed subprocess fixtures with bounded cleanup. Minor test iteration overhead and duplicate cheap CLI guard remain."
+    }
+  },
+  "required_gates": {
+    "loaded_registry_name_finding_resolved": true,
+    "full_cli_suite": true,
+    "frozen_linux_runtime": true,
+    "installed_regressions_doctor_mcp": true,
+    "selected_environment_recovery": true,
+    "terminal_acceptance": true,
+    "npm_guard_tests": true,
+    "portable_node_boundary_test": true,
+    "format_and_lint": true,
+    "post_format_sources_match": true,
+    "diff_check": true
+  },
+  "evidence_independently_verified": {
+    "binary_sha256": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+    "source_patch_hash": true,
+    "all_declared_executable_log_hashes": true,
+    "all_recovery_receipt_log_hashes": true,
+    "all_post_format_owned_file_hashes": true,
+    "semantic_differential_versions": 729,
+    "semantic_differential_mismatches": 0
+  },
+  "future_mandatory_distribution_gates": [
+    "native installedLinuxARM64",
+    "signed notarizedAppleSilicon",
+    "final exact npm candidate acceptance all3platforms",
+    "immutable npm publication and anonymous installs",
+    "stable tags preserved"
+  ],
+  "owner_deferred": [
+    "owner Ubuntu session",
+    "attended productionSSO/workspace-key/ServiceNow"
+  ],
+  "not_claimed": [
+    "npm publication complete",
+    "fullworkspacegreen",
+    "actual Node18execution",
+    "Windows execution"
+  ]
+}

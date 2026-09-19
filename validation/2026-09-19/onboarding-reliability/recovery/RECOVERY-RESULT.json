@@ -1,0 +1,58 @@
+{
+  "scope": "Focus3 selected-environment recovery; local fixture evidence, not publication",
+  "runtime_base_commit": "864dec8aa9b9bfd9fd6a843d1b4205a691689a55",
+  "uncommitted_recovery_changes": true,
+  "ordinary_native": "/tmp/airs-command-output-20260918/target/debug/airs-harness",
+  "ordinary_native_sha256": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+  "cli_tests": {
+    "passed": 955,
+    "failed": 0,
+    "skipped": 0
+  },
+  "installed_fixture": {
+    "passed": 1,
+    "subcases": [
+      "staging",
+      "-staging"
+    ],
+    "python_optimized_worker": true,
+    "checks": [
+      "denied login exact selected recovery command",
+      "cancel after saved credential keeps selected recovery command",
+      "copied doctor command targets selected state directory",
+      "sign-in menu cancellation remains scoped",
+      "doctor cleanup login/logout commands remain scoped",
+      "plain doctor preserves pending metadata",
+      "default environment, binding and history preserved",
+      "hidden key not echoed",
+      "terminal modes restored"
+    ]
+  },
+  "registry_red": "Old read accepted unsafe loaded name; new behavioral test failed in both CLI binaries before validation loop added",
+  "registry_green": "All loaded keys validated using existing name rules; fixed diagnostic/no rewrite/no unsafe-name echo; tested shell/newline/ESC cases",
+  "production_identity_access": false,
+  "owner_session_access": false,
+  "formatter_and_linter": "Parent owns final just fmt and just fix -p codex-cli",
+  "logs": {
+    "recovery-red.log": {
+      "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-red.log",
+      "sha256": "31a7d7fd2a7364f4d96fc6404f8d092399d9847681d7dd6f2f5c8fe899e28257"
+    },
+    "recovery-red-optimized.log": {
+      "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-red-optimized.log",
+      "sha256": "1a3662ec4322e9d362c2c3134bbb2ee4e00c61a7e46e44c36f964fb902e1f588"
+    },
+    "registry-red.log": {
+      "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/registry-red.log",
+      "sha256": "1a4794d719c80d1a1a48c422dc0df06abca5f7e48e356ad7d3c2d8c7b629c5b3"
+    },
+    "recovery-cli-final.log": {
+      "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-cli-final.log",
+      "sha256": "a34514e5e816fb4842d307273413258973d78e3321096fbb678a5b24d5855d52"
+    },
+    "recovery-installed-final.log": {
+      "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-installed-final.log",
+      "sha256": "06ff51a2681cb4b3b1b2901bc79c9c78b095c2b5d0089853bb84832d22c3b51e"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "command": "node --test npm/airs-harness/runtime.test.js",
+  "actual_runtime": "v22.23.2",
+  "actual_platform": "Linux",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "boundary_cases": 23,
+  "platform_skips": false,
+  "native_child_or_shebang_dependency": false,
+  "strategy": "invoke actual Node with --input-type=module and import guard using file URL in isolated package fixture",
+  "windows_execution_claimed": false,
+  "real_node18_tested": false,
+  "source_sha256": "a62a4d43d667038ecd5e97d07f4828d7b4143e2fbc7fe2ab39b72158f049b922",
+  "log": "runtime-portable.log"
+}

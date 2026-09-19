@@ -1,0 +1,6 @@
+test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.389s
+
+OK

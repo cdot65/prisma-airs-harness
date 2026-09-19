@@ -1,0 +1,68 @@
+[
+  {
+    "path": "/tmp/airs-autonomous-20260919/focus3/bin/airs",
+    "matches": true,
+    "expected": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+    "observed": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/focus3/SOURCE.patch",
+    "matches": true,
+    "expected": "360fc1bef88e2dcf59d7a4644535668fd297f0167b9268af6e2c030762d3d795",
+    "observed": "360fc1bef88e2dcf59d7a4644535668fd297f0167b9268af6e2c030762d3d795"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/focus3-executable/installed.log",
+    "matches": true,
+    "expected": "5d8a0d77731c7e06e4a4fb4afcc06d7c658f0c07982e8d8c809df5ea19ea6bf5",
+    "observed": "5d8a0d77731c7e06e4a4fb4afcc06d7c658f0c07982e8d8c809df5ea19ea6bf5"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/focus3-executable/additional-installed.log",
+    "matches": true,
+    "expected": "f83ad54d12f16cc8d9873cc323546ed686be7e14744c09b311c5966dd0997b6c",
+    "observed": "f83ad54d12f16cc8d9873cc323546ed686be7e14744c09b311c5966dd0997b6c"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/focus3-executable/doctor.log",
+    "matches": true,
+    "expected": "1db436531442956d5fff84f500728700e35d171740b55d45f8e317a906c64293",
+    "observed": "1db436531442956d5fff84f500728700e35d171740b55d45f8e317a906c64293"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/focus3-executable/mcp.log",
+    "matches": true,
+    "expected": "cf2d0cd537f193f2da1aad37bed47f0876a460509ec3d51d3ed3df9f43b6f6f3",
+    "observed": "cf2d0cd537f193f2da1aad37bed47f0876a460509ec3d51d3ed3df9f43b6f6f3"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-red.log",
+    "matches": true,
+    "expected": "31a7d7fd2a7364f4d96fc6404f8d092399d9847681d7dd6f2f5c8fe899e28257",
+    "observed": "31a7d7fd2a7364f4d96fc6404f8d092399d9847681d7dd6f2f5c8fe899e28257"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-red-optimized.log",
+    "matches": true,
+    "expected": "1a3662ec4322e9d362c2c3134bbb2ee4e00c61a7e46e44c36f964fb902e1f588",
+    "observed": "1a3662ec4322e9d362c2c3134bbb2ee4e00c61a7e46e44c36f964fb902e1f588"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/registry-red.log",
+    "matches": true,
+    "expected": "1a4794d719c80d1a1a48c422dc0df06abca5f7e48e356ad7d3c2d8c7b629c5b3",
+    "observed": "1a4794d719c80d1a1a48c422dc0df06abca5f7e48e356ad7d3c2d8c7b629c5b3"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-cli-final.log",
+    "matches": true,
+    "expected": "a34514e5e816fb4842d307273413258973d78e3321096fbb678a5b24d5855d52",
+    "observed": "a34514e5e816fb4842d307273413258973d78e3321096fbb678a5b24d5855d52"
+  },
+  {
+    "path": "/tmp/airs-autonomous-20260919/evidence/onboarding-baseline/recovery-installed-final.log",
+    "matches": true,
+    "expected": "06ff51a2681cb4b3b1b2901bc79c9c78b095c2b5d0089853bb84832d22c3b51e",
+    "observed": "06ff51a2681cb4b3b1b2901bc79c9c78b095c2b5d0089853bb84832d22c3b51e"
+  }
+]

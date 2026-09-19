@@ -1,0 +1,5 @@
+{
+  "runtime_guard_and_readme": "bfc18222af",
+  "recovery_runtime_and_fixture": "efa48d8f10",
+  "note": "Development native BUILD.json records exact preformatter Rust input patch and hashes; subsequent just fmt changed layout only and just fix changed no owned files. Native release source builds remain a separate later gate."
+}

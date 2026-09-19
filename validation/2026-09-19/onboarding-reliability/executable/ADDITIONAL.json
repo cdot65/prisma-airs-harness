@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/tmp/airs-dual-auth-20260918/venv/bin/python",
+    "-m",
+    "unittest",
+    "test_airs_harness_pty",
+    "test_airs_harness_tty",
+    "test_airs_harness_mcp_login",
+    "-v"
+  ],
+  "exit_code": 0,
+  "binary_sha256": "d17b0b27ee9352728480c221509dedccaa3b6380d9a1f691921853b95f66d0c0",
+  "log_sha256": "f83ad54d12f16cc8d9873cc323546ed686be7e14744c09b311c5966dd0997b6c"
+}

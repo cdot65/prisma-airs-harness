@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "command": "just fix -p codex-cli",
+  "files_changed_since_fmt": []
+}

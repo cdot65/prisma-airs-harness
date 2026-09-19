@@ -1,0 +1,10 @@
+{
+  "run": "243",
+  "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+  "inputs": {
+    "source_ref": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "archive_sha256": "fc0209b204f66b21d71dedac8478e6f658d601b00baaca37c482314975b929c4",
+    "binary_sha256": "3f4b468694b3d9c95bd3e26220a95d2d748c5f12e4768a3a1f215c4cefa8333c",
+    "fixture_sha256": "c9331353860beb504d025ffcdf1b80ff0b131491dcf2b3fd2efaa5a6168d71f1"
+  }
+}

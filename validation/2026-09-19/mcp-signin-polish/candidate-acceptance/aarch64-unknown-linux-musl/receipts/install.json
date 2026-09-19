@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-a0a1b5/scripts/validate_airs_npm.py",
+    "--packages",
+    "/home/airs-review/mcp6-candidate/candidate-npm",
+    "--prefix",
+    "/home/airs-review/mcp6-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-62ce65cff07d4320b4427f22454e8e8e/prefix"
+  ],
+  "command_sha256": "d63702b92a5b0556358cd2b2e59330bfe5f22002e56af1a73c7a74bc293df6ea",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "459f2ddb46fad229e6dd5ceafca94e14cbe2631a7f6360c5ef5cda0d668223ad",
+  "inputs": {
+    "binary_sha256": "97173b4511821e6945c5b6564d53358e9e3672a46cb16e6da81d527e77b0e1b1",
+    "candidate_metadata_sha256": "c835095b3b9b57240eea85572317de396179a027b2ac542b254d2ba22d73d598",
+    "candidate_packages_sha256": "f45a31ce023c6a322cf333ba7ff90df677c1b066644aff6dd714e55fbc8fd473",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "spec_sha256": "8fb9a3510943b09bfebccb9814cb14be1b9e5d5b7ae1de4022030d6322eb0063",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "tooling_sha256": "ac5f05148f415af1f36b980f95a7e8d06946a76180ac4c6fb36392b5dc3d85fd",
+    "version": "0.1.0-alpha.22.mcp.6"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "4214e8b650148e6ffd8b550bc414548141c03aff813d7d5cbb23218ec691b1fc",
+      "size": 461
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "90088abc94f4e4e61ae169c6efde6fb538910c893e440d32a3a02b8ed2b02301",
+      "size": 5155
+    },
+    "logs/install.log": {
+      "sha256": "90088abc94f4e4e61ae169c6efde6fb538910c893e440d32a3a02b8ed2b02301",
+      "size": 5155
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

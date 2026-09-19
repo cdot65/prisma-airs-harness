@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "profile": "quick",
+  "started_monotonic": 2913564.484610693,
+  "finished_monotonic": 2913742.697728428,
+  "quiet_finished_monotonic": null,
+  "quiet_snapshot": null,
+  "baseline": {
+    "process_id": 3449458,
+    "process_alive": true,
+    "conversation_id": "01a0baf9-2a83-7ca1-a5db-f42d26fbc699",
+    "environment": "lifecycle",
+    "binding_sha256": "af63a468f5153b356d534d3a02804bca0d4a8faae797bf52d9aa4f19c7b9579e",
+    "auth_epoch_sha256": "1e5e9c226d018b0fc850eb53b693acffc1929de6af09cf66600c71ce46d0a80f",
+    "gateway_origin": "synthetic-loopback",
+    "inference_identity": "signed-synthetic-oidc",
+    "mcp_connection": "airs-test-650f4b2e57c821c573f035a1",
+    "rollout_paths_count": 1,
+    "resource_generations": {
+      "inference": 1,
+      "mcp": 1
+    },
+    "resource_expiries": {
+      "inference": 1789843373,
+      "mcp": 1789843376
+    },
+    "event_count": 16,
+    "network_request_count": 38
+  },
+  "final": {
+    "process_id": 3449458,
+    "process_alive": true,
+    "conversation_id": "01a0baf9-2a83-7ca1-a5db-f42d26fbc699",
+    "environment": "lifecycle",
+    "binding_sha256": "af63a468f5153b356d534d3a02804bca0d4a8faae797bf52d9aa4f19c7b9579e",
+    "auth_epoch_sha256": "1e5e9c226d018b0fc850eb53b693acffc1929de6af09cf66600c71ce46d0a80f",
+    "gateway_origin": "synthetic-loopback",
+    "inference_identity": "signed-synthetic-oidc",
+    "mcp_connection": "airs-test-650f4b2e57c821c573f035a1",
+    "rollout_paths_count": 1,
+    "resource_generations": {
+      "inference": 3,
+      "mcp": 3
+    },
+    "resource_expiries": {
+      "inference": 1789843558,
+      "mcp": 1789843558
+    },
+    "event_count": 36,
+    "network_request_count": 60
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "kind": "token_issued",
+      "observed_monotonic": 2913557.363119423,
+      "observed_unix": 1789843283.9443288,
+      "resource": "inference",
+      "generation": 1,
+      "grant": "authorization_code",
+      "access_expires_unix": 1789843373
+    },
+    {
+      "sequence": 2,
+      "kind": "token_issued",
+      "observed_monotonic": 2913559.850578733,
+      "observed_unix": 1789843286.431787,
+      "resource": "mcp",
+      "generation": 1,
+      "grant": "authorization_code",
+      "access_expires_unix": 1789843376
+    },
+    {
+      "sequence": 3,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.894517094,
+      "observed_unix": 1789843286.4757252,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "initialize"
+    },
+    {
+      "sequence": 4,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.895733649,
+      "observed_unix": 1789843286.4769416,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "notifications/initialized"
+    },
+    {
+      "sequence": 5,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.897008973,
+      "observed_unix": 1789843286.478217,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "tools/list"
+    },
+    {
+      "sequence": 6,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.900294582,
+      "observed_unix": 1789843286.481503,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "initialize"
+    },
+    {
+      "sequence": 7,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.902342708,
+      "observed_unix": 1789843286.483551,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "notifications/initialized"
+    },
+    {
+      "sequence": 8,
+      "kind": "resource_request",
+      "observed_monotonic": 2913559.904292889,
+      "observed_unix": 1789843286.4855008,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "tools/list"
+    },
+    {
+      "sequence": 9,
+      "kind": "resource_request",
+      "observed_monotonic": 2913560.100614334,
+      "observed_unix": 1789843286.6818225,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "initialize"
+    },
+    {
+      "sequence": 10,
+      "kind": "resource_request",
+      "observed_monotonic": 2913560.101818845,
+      "observed_unix": 1789843286.683027,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "notifications/initialized"
+    },
+    {
+      "sequence": 11,
+      "kind": "resource_request",
+      "observed_monotonic": 2913560.103007978,
+      "observed_unix": 1789843286.684216,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "tools/list"
+    },
+    {
+      "sequence": 12,
+      "kind": "resource_request",
+      "observed_monotonic": 2913561.754315313,
+      "observed_unix": 1789843288.3355234,
+      "resource": "inference",
+      "generation": 1,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "initial"
+    },
+    {
+      "sequence": 13,
+      "kind": "resource_request",
+      "observed_monotonic": 2913561.963129443,
+      "observed_unix": 1789843288.544338,
+      "resource": "mcp",
+      "generation": 1,
+      "accepted": true,
+      "operation": "tools/call",
+      "turn": "initial",
+      "call_id": "lifecycle-81c3fa9d87aecde38f1867ea"
+    },
+    {
+      "sequence": 14,
+      "kind": "resource_request",
+      "observed_monotonic": 2913561.972329007,
+      "observed_unix": 1789843288.5535371,
+      "resource": "inference",
+      "generation": 1,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "initial"
+    },
+    {
+      "sequence": 15,
+      "kind": "tool_completed",
+      "observed_monotonic": 2913561.972344045,
+      "observed_unix": 1789843288.5535522,
+      "turn": "initial",
+      "call_id": "lifecycle-81c3fa9d87aecde38f1867ea",
+      "nonce_verified": true
+    },
+    {
+      "sequence": 16,
+      "kind": "turn_completed",
+      "observed_monotonic": 2913562.480107329,
+      "observed_unix": 1789843289.0613163,
+      "turn": "initial",
+      "unique_call_count": 1,
+      "final_reply_verified": true,
+      "conversation_id": "01a0baf9-2a83-7ca1-a5db-f42d26fbc699",
+      "process_id": 3449458
+    },
+    {
+      "sequence": 17,
+      "kind": "phase_started",
+      "observed_monotonic": 2913564.484658202,
+      "observed_unix": 1789843291.0658674,
+      "profile": "quick",
+      "phase": "observe"
+    },
+    {
+      "sequence": 18,
+      "kind": "token_issued",
+      "observed_monotonic": 2913650.929969731,
+      "observed_unix": 1789843377.5111783,
+      "resource": "inference",
+      "generation": 2,
+      "grant": "refresh_token",
+      "access_expires_unix": 1789843467
+    },
+    {
+      "sequence": 19,
+      "kind": "refresh_requested",
+      "observed_monotonic": 2913650.929983827,
+      "observed_unix": 1789843377.511192,
+      "resource": "inference",
+      "previous_generation": 1,
+      "accepted": true,
+      "generation": 2
+    },
+    {
+      "sequence": 20,
+      "kind": "resource_request",
+      "observed_monotonic": 2913651.065355236,
+      "observed_unix": 1789843377.6465633,
+      "resource": "inference",
+      "generation": 2,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "quick_1"
+    },
+    {
+      "sequence": 21,
+      "kind": "token_issued",
+      "observed_monotonic": 2913651.090322465,
+      "observed_unix": 1789843377.6715305,
+      "resource": "mcp",
+      "generation": 2,
+      "grant": "refresh_token",
+      "access_expires_unix": 1789843467
+    },
+    {
+      "sequence": 22,
+      "kind": "refresh_requested",
+      "observed_monotonic": 2913651.090326964,
+      "observed_unix": 1789843377.6715348,
+      "resource": "mcp",
+      "previous_generation": 1,
+      "accepted": true,
+      "generation": 2
+    },
+    {
+      "sequence": 23,
+      "kind": "resource_request",
+      "observed_monotonic": 2913651.102617741,
+      "observed_unix": 1789843377.6838257,
+      "resource": "mcp",
+      "generation": 2,
+      "accepted": true,
+      "operation": "tools/call",
+      "turn": "quick_1",
+      "call_id": "lifecycle-75a0d0ed085ee40e19fcc174"
+    },
+    {
+      "sequence": 24,
+      "kind": "resource_request",
+      "observed_monotonic": 2913651.110798261,
+      "observed_unix": 1789843377.6920066,
+      "resource": "inference",
+      "generation": 2,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "quick_1"
+    },
+    {
+      "sequence": 25,
+      "kind": "tool_completed",
+      "observed_monotonic": 2913651.110842575,
+      "observed_unix": 1789843377.6920507,
+      "turn": "quick_1",
+      "call_id": "lifecycle-75a0d0ed085ee40e19fcc174",
+      "nonce_verified": true
+    },
+    {
+      "sequence": 26,
+      "kind": "turn_completed",
+      "observed_monotonic": 2913651.616855604,
+      "observed_unix": 1789843378.1980643,
+      "turn": "quick_1",
+      "unique_call_count": 1,
+      "final_reply_verified": true,
+      "conversation_id": "01a0baf9-2a83-7ca1-a5db-f42d26fbc699",
+      "process_id": 3449458
+    },
+    {
+      "sequence": 27,
+      "kind": "token_issued",
+      "observed_monotonic": 2913741.91623742,
+      "observed_unix": 1789843468.497446,
+      "resource": "inference",
+      "generation": 3,
+      "grant": "refresh_token",
+      "access_expires_unix": 1789843558
+    },
+    {
+      "sequence": 28,
+      "kind": "refresh_requested",
+      "observed_monotonic": 2913741.916250865,
+      "observed_unix": 1789843468.4974592,
+      "resource": "inference",
+      "previous_generation": 2,
+      "accepted": true,
+      "generation": 3
+    },
+    {
+      "sequence": 29,
+      "kind": "resource_request",
+      "observed_monotonic": 2913742.10883683,
+      "observed_unix": 1789843468.690045,
+      "resource": "inference",
+      "generation": 3,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "quick_2"
+    },
+    {
+      "sequence": 30,
+      "kind": "token_issued",
+      "observed_monotonic": 2913742.160287244,
+      "observed_unix": 1789843468.7414956,
+      "resource": "mcp",
+      "generation": 3,
+      "grant": "refresh_token",
+      "access_expires_unix": 1789843558
+    },
+    {
+      "sequence": 31,
+      "kind": "refresh_requested",
+      "observed_monotonic": 2913742.16030078,
+      "observed_unix": 1789843468.7415092,
+      "resource": "mcp",
+      "previous_generation": 2,
+      "accepted": true,
+      "generation": 3
+    },
+    {
+      "sequence": 32,
+      "kind": "resource_request",
+      "observed_monotonic": 2913742.173829632,
+      "observed_unix": 1789843468.7550378,
+      "resource": "mcp",
+      "generation": 3,
+      "accepted": true,
+      "operation": "tools/call",
+      "turn": "quick_2",
+      "call_id": "lifecycle-5672d747b0d555258b1bbb84"
+    },
+    {
+      "sequence": 33,
+      "kind": "resource_request",
+      "observed_monotonic": 2913742.182420462,
+      "observed_unix": 1789843468.7636285,
+      "resource": "inference",
+      "generation": 3,
+      "accepted": true,
+      "operation": "responses",
+      "turn": "quick_2"
+    },
+    {
+      "sequence": 34,
+      "kind": "tool_completed",
+      "observed_monotonic": 2913742.182433397,
+      "observed_unix": 1789843468.7636414,
+      "turn": "quick_2",
+      "call_id": "lifecycle-5672d747b0d555258b1bbb84",
+      "nonce_verified": true
+    },
+    {
+      "sequence": 35,
+      "kind": "turn_completed",
+      "observed_monotonic": 2913742.696848956,
+      "observed_unix": 1789843469.2780578,
+      "turn": "quick_2",
+      "unique_call_count": 1,
+      "final_reply_verified": true,
+      "conversation_id": "01a0baf9-2a83-7ca1-a5db-f42d26fbc699",
+      "process_id": 3449458
+    },
+    {
+      "sequence": 36,
+      "kind": "phase_finished",
+      "observed_monotonic": 2913742.69743128,
+      "observed_unix": 1789843469.2786393,
+      "profile": "quick",
+      "phase": "observe"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "previous": "0.1.0-alpha.22.mcp.5",
+  "version": "0.1.0-alpha.22.mcp.6",
+  "platform": "Linux",
+  "configuration_preserved": true,
+  "previous_registry": "https://npm.cdot.io",
+  "legacy_target_preserved": true,
+  "cases": [
+    {
+      "case": "npm-managed-in-place",
+      "passed": true,
+      "binary_sha256": "38bf6a52d7b4c3242b4e2cf7dc0aed84e786b0e79826df28264782a8696a4ba0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false,
+      "known_manual_link_preserved": false
+    },
+    {
+      "case": "legacy-one-time-migration",
+      "passed": true,
+      "binary_sha256": "38bf6a52d7b4c3242b4e2cf7dc0aed84e786b0e79826df28264782a8696a4ba0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false,
+      "known_manual_link_preserved": true
+    },
+    {
+      "case": "legacy-command-before-separate-npm-prefix",
+      "passed": true,
+      "binary_sha256": "38bf6a52d7b4c3242b4e2cf7dc0aed84e786b0e79826df28264782a8696a4ba0",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false
+    }
+  ],
+  "registry_requests": [
+    "/airs-harness",
+    "/airs-harness",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-linux-x64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.22.mcp.6.tgz",
+    "/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.22.mcp.6.tgz",
+    "/airs-harness",
+    "/airs-harness",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-linux-x64",
+    "/airs-harness/-/airs-harness-0.1.0-alpha.22.mcp.6.tgz",
+    "/airs-harness-linux-x64/-/airs-harness-linux-x64-0.1.0-alpha.22.mcp.6.tgz"
+  ]
+}

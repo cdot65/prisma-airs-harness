@@ -1,0 +1,32 @@
+{
+  "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+  "source_clean_after_lint": true,
+  "affected_rust": {
+    "passed": 5633,
+    "failed": 1,
+    "skipped": 14,
+    "remaining_failure": "unchanged Kitty filename base64 substring assertion",
+    "focused_rerun_passed": true
+  },
+  "manager_fixtures": {
+    "passed": 6,
+    "skipped": 1,
+    "real_expiry_separate_passed": true,
+    "real_expiry_build_scope": "Development build of the new timeout logic, before the release version stamp and final UI wrapping; not an exact-package expiry claim."
+  },
+  "packaging_tests_passed": 17,
+  "fmt_passed": true,
+  "scoped_fix_passed": true,
+  "preexisting_lint_warning": "rmcp-client/src/utils.rs expect_used",
+  "log_sha256": {
+    "affected-tests-final.log": "8fca280aba4ad902d1e11734bc3fda3c47b92eba721ce0680346bfda205740cd",
+    "targeted-tests.log": "7fd3cefc5b21080b189f0f2b43cfe2845058355afcbe26f5634a127ad3389b94",
+    "pet-filename-check.log": "31d1deccc64489c2eb4aec1572dae970dbfb1c5e66f249e8d8a3bbf65665f370",
+    "clippy.log": "f6dd75fb0239e50c511afd9ae0fbe8bdf3eca5ed2e8ac08cf6a10b003448e895",
+    "fmt-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manager-fixtures-final.log": "ba681454be9106e2c4d18063828887d08879ba0c6879f155de9f344ae4abe897",
+    "real-timeout.log": "c5b500edb5b8ba48e632e6afebc5c12fe73cf642d7d02be0c9f9bb2160914c15",
+    "packaging-tests.log": "69bbc142c362f330c4e5e835c98c25dfeae30df0e8f78b4d9c902d2ef9ff1df9"
+  },
+  "production_acceptance": false
+}

@@ -1,0 +1,52 @@
+{
+  "command": [
+    "dbus-run-session",
+    "--",
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-a0a1b5/scripts/validate_airs_onboarding.py",
+    "--binary",
+    "/home/airs-review/mcp6-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-4f756be0647b4d5e8ff9eaa4b3c879fc/prefix/bin/airs",
+    "--native-binary",
+    "/home/airs-review/mcp6-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-4f756be0647b4d5e8ff9eaa4b3c879fc/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+    "--output",
+    "/home/airs-review/mcp6-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/onboarding-5332fe8be46a473db5d566e4353524e4"
+  ],
+  "command_sha256": "49685834c7db900c93fdb81b5bc3557e0ee3021f0e6f67a6cdf8c3b47bd1f992",
+  "dependencies": {
+    "install": "a684a7473f9ab357f0aed0b7a11525d3a7c0eaff0603617d2bb328334b87138f"
+  },
+  "exit_code": 0,
+  "input_sha256": "cc7732273bf1fa2d9dd50e025baf2bed1733d087fdb105f57d7667bcf77f9dc9",
+  "inputs": {
+    "binary_sha256": "97173b4511821e6945c5b6564d53358e9e3672a46cb16e6da81d527e77b0e1b1",
+    "candidate_metadata_sha256": "b14d14bef77f50f17d7a8437db5e962c62307cdd4af9d0106e77c98882692a0d",
+    "candidate_packages_sha256": "032a6d2e965551170f0f64981eb7dd700345b42094a1fad1f5480b5d74fe1ecc",
+    "contract": {
+      "normal_python": true,
+      "selection": "ONBOARDING-ACCEPTANCE.json",
+      "stage": "onboarding",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "spec_sha256": "8fb9a3510943b09bfebccb9814cb14be1b9e5d5b7ae1de4022030d6322eb0063",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "tooling_sha256": "ac5f05148f415af1f36b980f95a7e8d06946a76180ac4c6fb36392b5dc3d85fd",
+    "version": "0.1.0-alpha.22.mcp.6"
+  },
+  "outputs": {
+    "files/onboarding/ONBOARDING-ACCEPTANCE.json": {
+      "sha256": "3ce193164357f84c4b7d45023b3528677c7af9f454ddc94dbf6bdba849ab24b6",
+      "size": 2766
+    },
+    "logs/onboarding.log": {
+      "sha256": "3ce193164357f84c4b7d45023b3528677c7af9f454ddc94dbf6bdba849ab24b6",
+      "size": 2766
+    }
+  },
+  "schema_version": 1,
+  "stage": "onboarding"
+}

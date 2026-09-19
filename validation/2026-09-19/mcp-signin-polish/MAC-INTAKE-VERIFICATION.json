@@ -1,0 +1,46 @@
+{
+  "artifact": {
+    "schema_version": 1,
+    "private_candidate": true,
+    "published": false,
+    "release_ready": false,
+    "runtime_source": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "build_tooling_source": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "compilation_run": "3673",
+    "compilation_attempt": "1",
+    "binary_sha256": "3f4b468694b3d9c95bd3e26220a95d2d748c5f12e4768a3a1f215c4cefa8333c",
+    "fixture_sha256": "c9331353860beb504d025ffcdf1b80ff0b131491dcf2b3fd2efaa5a6168d71f1",
+    "cli_opt_level": "1",
+    "signing": {
+      "ad_hoc": true,
+      "developer_id": false,
+      "notarized": false
+    },
+    "archive_sha256": "fc0209b204f66b21d71dedac8478e6f658d601b00baaca37c482314975b929c4",
+    "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+    "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings"
+  },
+  "candidate": {
+    "schema_version": 1,
+    "private_candidate": true,
+    "published": false,
+    "release_ready": false,
+    "runtime_source": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "build_tooling_source": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "compilation_run": "3673",
+    "compilation_attempt": "1",
+    "binary_sha256": "3f4b468694b3d9c95bd3e26220a95d2d748c5f12e4768a3a1f215c4cefa8333c",
+    "fixture_sha256": "c9331353860beb504d025ffcdf1b80ff0b131491dcf2b3fd2efaa5a6168d71f1",
+    "cli_opt_level": "1",
+    "signing": {
+      "ad_hoc": true,
+      "developer_id": false,
+      "notarized": false
+    }
+  },
+  "actual_archive_sha256": "fc0209b204f66b21d71dedac8478e6f658d601b00baaca37c482314975b929c4",
+  "members_verified": {
+    "airs-harness": "3f4b468694b3d9c95bd3e26220a95d2d748c5f12e4768a3a1f215c4cefa8333c",
+    "store_acceptance": "c9331353860beb504d025ffcdf1b80ff0b131491dcf2b3fd2efaa5a6168d71f1"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-mcp6-20260919/release-frozen-a0a1b5/scripts/validate_airs_onboarding_macos.py",
+    "--binary",
+    "/Users/cdot/.cache/airs-mcp6-20260919/mcp6-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-0a4eb193bbbf4958a4a2301c525c0e11/prefix/bin/airs",
+    "--native-binary",
+    "/Users/cdot/.cache/airs-mcp6-20260919/mcp6-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-0a4eb193bbbf4958a4a2301c525c0e11/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+    "--output",
+    "/Users/cdot/.cache/airs-mcp6-20260919/mcp6-candidate/candidate-acceptance/aarch64-apple-darwin.work/onboarding-b2404bc6ab5346b5bf4384cf80a321b8"
+  ],
+  "command_sha256": "5eb5eea358eb46dbd38612bd2b433fb22da3269a85f327f99e57bbf647891e90",
+  "dependencies": {
+    "install": "4a53838baedad34d50e3fb0c05c0cbbfb6d03e8bf2f3b43b880a2d763e8a140f"
+  },
+  "exit_code": 0,
+  "input_sha256": "76665b3d4e67a38d245aa394974ba7f7bc38d6e24ab8462e099e389a27598e12",
+  "inputs": {
+    "binary_sha256": "44f43c0f07125e5df5470dbdee3a212ae954ef8b4f6adabcf96dc3945fc42234",
+    "candidate_metadata_sha256": "c835095b3b9b57240eea85572317de396179a027b2ac542b254d2ba22d73d598",
+    "candidate_packages_sha256": "f45a31ce023c6a322cf333ba7ff90df677c1b066644aff6dd714e55fbc8fd473",
+    "contract": {
+      "normal_python": true,
+      "selection": "ONBOARDING-ACCEPTANCE.json",
+      "stage": "onboarding",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "source_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "spec_sha256": "8fb9a3510943b09bfebccb9814cb14be1b9e5d5b7ae1de4022030d6322eb0063",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "a0a1b5c8d4306e23e75816139ba8538d95da0b92",
+    "tooling_sha256": "ac5f05148f415af1f36b980f95a7e8d06946a76180ac4c6fb36392b5dc3d85fd",
+    "version": "0.1.0-alpha.22.mcp.6"
+  },
+  "outputs": {
+    "files/onboarding/CREDENTIAL-CLEANUP.json": {
+      "sha256": "4447969b21b6583b4f729e9c9e97875849fa82d9008c08e3faa0f0aa48b46a66",
+      "size": 533
+    },
+    "files/onboarding/ONBOARDING-ACCEPTANCE.json": {
+      "sha256": "44bb667af2ffacd76c61df34d8c717fd413a1c91310ce7801a96ac1c0266b290",
+      "size": 2018
+    },
+    "logs/onboarding.log": {
+      "sha256": "44bb667af2ffacd76c61df34d8c717fd413a1c91310ce7801a96ac1c0266b290",
+      "size": 2018
+    }
+  },
+  "schema_version": 1,
+  "stage": "onboarding"
+}

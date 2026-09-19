@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "scope": "Fresh anonymous installed mcp.5 Ubuntu bundled-helper regression with actual default5; isolated fixture, not owner-session unlock or production authentication",
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "exit_code": 0,
+  "python_optimize": "0",
+  "installed_version": "0.1.0-alpha.22.mcp.5",
+  "helper_default_version": "0.1.0-alpha.22.mcp.5",
+  "version_override": null,
+  "published_launcher_archive_sha256": "e4368fa1009fdfa8b54b58079ed73a9cb156d02aeeca65451aabcf7e79af7977",
+  "native_sha256": "4a82d38a399e0d78fe3facfb4065418cc0d2c437468ffdbfe1f39768a5b45d31",
+  "helper_sha256": "0f8619659b7a80f392d8bca638b401155829ca512d40b6c05dbbdc9048a1dcab",
+  "regression_sha256": "874628c79bf37ad02f8e40f04912cf64854ee0183b6b7c67aaee30ffe08a852f",
+  "log_sha256": "23e8fd467b136872223744490292fb0f1a3429bb31c86b3435d0f580de2615ea",
+  "checks": [
+    "new encrypted keyring and native write/read/delete",
+    "already-unlocked service is reused",
+    "unlocked check reuses the service without prompting",
+    "quoted rerun command preserves the spaced script path",
+    "locked check and wrong-password diagnosis preserve the keyring",
+    "correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "isolation": {
+    "home_and_prefix": "fresh private scratch",
+    "npm": "empty environment; distinct empty user/global npm configs; no auth",
+    "credential_service": "private D-Bus and disposable XDG directories",
+    "owner_prefix_modified": false,
+    "owner_credential_values_used": false,
+    "real_authenticated_requests": false
+  },
+  "setup_retry": "npm rejects using the same /dev/null file for both user/global config; initial pre-install error retained remotely, retried with distinct empty configs",
+  "handoff_receipt_sha256": "5d09dd68110e2f289786a149a6b06069741d8ace6d31574138efdb18ee93e4c5"
+}

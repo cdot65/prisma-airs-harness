@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "byte_exact_receipts": 155,
+  "receipt_bytes": 518251,
+  "json_documents_parsed": 155,
+  "credential_value_scan_passed": true,
+  "canonical_spec_sha256": "4d38763d27c5075599a1a830ab86f7718b2703c01374626f0eaf0e129aee6c12",
+  "candidate_and_registry_acceptance_platforms": 6,
+  "per_stage_exit_codes_and_bound_digests_verified": true,
+  "included_output_file_hashes_verified": true,
+  "native_quick_and_upgrade_summaries_verified": true,
+  "publication_four_packages_and_protected_tags_verified": true,
+  "omitted": "Raw output logs, transcripts, observation event streams, package archives, test private keys, fixture state, unpacked installations. Omitted output digests remain in original receipts.",
+  "supplemental_receipts": "Final independent registry review and final runner capacity, verified byte-exact after initial collection."
+}

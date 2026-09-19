@@ -1,0 +1,35 @@
+{
+  "utc": "2026-09-19T15:58:18.298869+00:00",
+  "passed": true,
+  "scope": "independent source, native artifact and candidate assembly consistency; installed acceptance and publication not yet established",
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "version": "0.1.0-alpha.22.mcp.5",
+  "tooling_git_and_frozen_files_verified": 154,
+  "native_manifest_counts": {
+    "x86_64-unknown-linux-musl": 3951,
+    "aarch64-unknown-linux-musl": 3949,
+    "aarch64-apple-darwin": 3869
+  },
+  "archives": [
+    {
+      "name": "airs-harness-linux-x64",
+      "sha256": "99cd9028e8f3d2625e7fb6a5b68914e8c0f8bfd4ffa7fa8bd7849fe7e994db8a"
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "sha256": "b03e79c30dbd6998debce7d20abb726dfaea9b06f9a8f8959615867111725c16"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "sha256": "2a86f5dd8be38f34d5c990d36551afa848351b1e5309b9c7756b286e241af4c5"
+    },
+    {
+      "name": "airs-harness",
+      "sha256": "fdfe1daf774d3528910413334b221a3fc9bb5383e0f06f0b5de46d10c010ea69"
+    }
+  ],
+  "helper_sha256": "0f8619659b7a80f392d8bca638b401155829ca512d40b6c05dbbdc9048a1dcab",
+  "helper_git_unpacked_archive_match": true,
+  "spec_sha256": "8b7724d470c1895b1218fbaf4f9c50c162885588a75f4b1d0732f888b4518b17",
+  "handoff_sha256": "3ee41cebf3c3c397c7cc41b47390ddb9d49160302a2e7b8a2e032c2b381bbdcc"
+}

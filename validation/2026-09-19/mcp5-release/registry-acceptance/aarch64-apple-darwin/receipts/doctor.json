@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-mcp5-20260919/release-frozen-9e4f1d/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/Users/cdot/.cache/airs-mcp5-20260919/release-frozen-9e4f1d/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/Users/cdot/.cache/airs-mcp5-20260919/mcp5-candidate/registry-acceptance/aarch64-apple-darwin.work/doctor-f3c20008a6ab4bc6bcefdab92dd1f772/TEST-RESULTS.json"
+  ],
+  "command_sha256": "eaef599cb5e211641f61ac259154344694c9bc044549410775d93b66809e1083",
+  "dependencies": {
+    "install": "b3398b3da32277774e1ca7163877bb4d0b7b4089dfb7e8641e52ca3862a00eca",
+    "installed-regressions": "d3a02afe9556aadd67c5bfff6fe8ffeb8cbe897011bf7e16238c3c72b58a2581",
+    "mcp-manager": "6e203dc6de69a6b9edf002f00e4bfc50e399a0f0dc11b2d348d0ce1d0d97a7dc",
+    "onboarding": "36c3502cd3d641d285098f798428569cca07190311f2081a24bd80bb3725203c",
+    "terminals": "75f76c4252b73acd50104ab3f6f00f8779a8eed5a9282b3e7f7db4e52c6b96f0"
+  },
+  "exit_code": 0,
+  "input_sha256": "65d7c29672d2cb1e2e3f880a1e50ca8d088afc86008d3688ea6eb563910612dd",
+  "inputs": {
+    "binary_sha256": "28526eac904aed939a0c7364c25aa88d897819bc291ff75ac532e9be11998586",
+    "candidate_metadata_sha256": "5275c465005a74f0eb1ff9a0c48aa8eff999c357a4d954dba0c411daa5537306",
+    "candidate_packages_sha256": "ad61c2f004d02b944be980e81daeefd36062b7f8e8661ccf5e26629813f6bb0b",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_doctor.py",
+      "stage": "doctor",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "spec_sha256": "4d38763d27c5075599a1a830ab86f7718b2703c01374626f0eaf0e129aee6c12",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "tooling_sha256": "912603058a2a02a25b3215e4bd725be28f13fab19724ba71b50a792278df1cc9",
+    "version": "0.1.0-alpha.22.mcp.5"
+  },
+  "outputs": {
+    "files/doctor/TEST-RESULTS.json": {
+      "sha256": "2095019303b250869e05f4d82add5128ecf1d825e7cddc9f48266da14bfa3318",
+      "size": 865
+    },
+    "logs/doctor.log": {
+      "sha256": "5a05d893087423243ceee47a0f1f3591bf327cfedbe3e54dcf736d8bb82c5e53",
+      "size": 766
+    }
+  },
+  "schema_version": 1,
+  "stage": "doctor"
+}

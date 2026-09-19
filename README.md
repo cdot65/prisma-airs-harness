@@ -13,29 +13,30 @@ not implement the native MCP connection.
 
 ## Release status
 
-**0.1.0-alpha.22.mcp.5 is in preparation.** It bundles the corrected Ubuntu SSH
-setup helper, including keyring-daemon replacement when required and verified
-collection unlock. The native runtime changes only its displayed release version.
-Published mcp.4 acceptance remains recorded below; it does not establish mcp.5
-acceptance until the new packages pass their own native and registry checks.
-
-**0.1.0-alpha.22.mcp.4 is published under `mcp` at `https://npm.cdot.io`.**
+**0.1.0-alpha.22.mcp.5 is published under `mcp` at `https://npm.cdot.io`.**
 Fresh anonymous registry installations passed on Linux x64, native Linux ARM64
-and signed/notarized Apple Silicon. Its new environments require native MCP
-credential storage by default. Existing
-environments keep their configured storage mode, credentials and history;
+and signed/notarized Apple Silicon. This release bundles the corrected Ubuntu
+SSH setup helper, including keyring-daemon replacement when required and verified
+collection unlock. The exact installed helper passed six isolated Ubuntu checks
+using its unmodified mcp.5 default. The native runtime changes only its displayed
+release version from mcp.4.
+
+New environments created by mcp.4 and later require native MCP credential storage.
+Existing environments keep their configured storage mode, credentials and history;
 upgrading does not migrate tokens. See [the storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
 
-See [the mcp.4 release evidence](validation/2026-09-19/native-mcp-release/README.md)
-for exact package identities, native acceptance and upgrade checks from mcp.3 and
-onboarding.4.
+See [the mcp.5 release evidence](validation/2026-09-19/mcp5-release/README.md)
+for package identities, native acceptance, lifecycle checks and upgrades from
+mcp.4 and onboarding.4. [Historical mcp.4 evidence](validation/2026-09-19/native-mcp-release/README.md)
+preserves the earlier package's Ubuntu-helper limitation.
 
-**Previous release: 0.1.0-alpha.22.mcp.3.**
+**Historical release: 0.1.0-alpha.22.mcp.3.**
 Fresh anonymous installations passed on Linux x64, native Linux ARM64 and signed,
 notarized Apple Silicon. Upgrades from mcp.2 and onboarding.4 preserved the checked
 configuration. See [the release evidence](validation/2026-09-19/release-reliability/README.md)
 and [the deployed getting-started guide](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/).
-Attended live-account acceptance and the owner Ubuntu investigation remain deferred.
+The owner separately reported successful workspace-key inference and ServiceNow use
+on Ubuntu. This is not an independently observed service receipt or a company SSO check.
 
 Alpha.22 introduces `airs` for the harness and `airs cli ...` for its bundled
 Prisma AIRS CLI 7.0.0. The standalone product executable is `airs-cli`.
@@ -61,8 +62,8 @@ preserving history and the draft.
 
 These dashboards are in the **mcp test channel**. The stable `latest`, `alpha` and
 `onboarding` tags remain `0.1.0-alpha.22.onboarding.4`. This guide covers
-the published `0.1.0-alpha.22.mcp.4` release and distinguishes its new-environment
-default from `mcp.3` behavior. Real-account SSO,
+the published `0.1.0-alpha.22.mcp.5` release, retaining the native-storage default
+introduced in `mcp.4`. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate. [Onboarding reliability evidence](validation/2026-09-19/onboarding-reliability/README.md)
 records the implementation checks; the release evidence above records publication.
 
@@ -118,7 +119,7 @@ workspace API keys, when to create an environment, and the separate MCP login.
 Local environment names do not need to match AI Gateway workspace names. A saved
 workspace key is not proof of inference access and does not grant MCP access.
 
-New environments created by mcp.4 already require native MCP storage. For an
+New environments created by mcp.4 and later already require native MCP storage. For an
 existing environment or mcp.3 installation, follow the guide's storage check
 before sign-in. Open `airs --environment work`, then use
 **Add connection** in `/mcp` with the administrator's **AI Gateway MCP URL**. Follow
@@ -147,7 +148,7 @@ Your named environments and conversation history remain on disk.
 On an Ubuntu SSH host, follow [the corrected host preparation guide](UBUNTU-TEST-HOST.md).
 Use its reviewed helper to unlock the existing Secret Service collection and
 verify native credential write/read/delete. The helper bundled in mcp.4 predates
-the SSH daemon correction; use mcp.5 when published or the corrected administrator copy.
+the SSH daemon correction; use mcp.5 or the corrected administrator copy.
 Run AIRS in the same user D-Bus session. On other Linux distributions, use the
 platform's credential-service unlock procedure and verify access with `airs doctor`.
 

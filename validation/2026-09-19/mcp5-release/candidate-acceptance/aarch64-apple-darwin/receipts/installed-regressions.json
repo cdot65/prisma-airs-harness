@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-mcp5-20260919/release-frozen-9e4f1d/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/Users/cdot/.cache/airs-mcp5-20260919/release-frozen-9e4f1d/scripts",
+    "--pattern",
+    "test_airs_harness*.py",
+    "--receipt",
+    "/Users/cdot/.cache/airs-mcp5-20260919/mcp5-candidate/candidate-acceptance/aarch64-apple-darwin.work/installed-regressions-ad7b966c07ce42f8a936cd868fdbbbeb/TEST-RESULTS.json"
+  ],
+  "command_sha256": "69bb522919e7068b8b54aceea8bb223f25f023a5cc2f7229f35b8362f6b7f4db",
+  "dependencies": {
+    "install": "c81724757a60ca9f156eee4441405909ec67e1a7d12a5cd65ca3c956309cc937",
+    "onboarding": "f2ed14bbc66c73a11b23d50d8b1fa2e6f4fa8be25cfc1dd93a31edaaddda71f6",
+    "terminals": "b2a3b81042f143ebe0fcc02ad01f2c44dea392bdc6233906ebe47b09d9fa9887"
+  },
+  "exit_code": 0,
+  "input_sha256": "aa09bb82333386f3174b17580857a16e279f686ee00b253c35e06b484866d628",
+  "inputs": {
+    "binary_sha256": "28526eac904aed939a0c7364c25aa88d897819bc291ff75ac532e9be11998586",
+    "candidate_metadata_sha256": "daf3f5fecae44826c61262c75bfc36e8855c6eea378d35bd9f39204ea7da2975",
+    "candidate_packages_sha256": "b02bae9f8f7d8f1b82b31a4b38fcc6741da54e75c14b95c632f965aee03d4d4e",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_harness*.py",
+      "stage": "installed-regressions",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "spec_sha256": "4d38763d27c5075599a1a830ab86f7718b2703c01374626f0eaf0e129aee6c12",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "tooling_sha256": "912603058a2a02a25b3215e4bd725be28f13fab19724ba71b50a792278df1cc9",
+    "version": "0.1.0-alpha.22.mcp.5"
+  },
+  "outputs": {
+    "files/installed-regressions/TEST-RESULTS.json": {
+      "sha256": "d389ee61d9ea0f980d0fe01431ef3a9072d8690d62e50f889d4b072c4e5f82ab",
+      "size": 6154
+    },
+    "logs/installed-regressions.log": {
+      "sha256": "6353c4447f0c0b00ecec15b578766d1df1b9480fe748d6112b81011553226b60",
+      "size": 9104
+    }
+  },
+  "schema_version": 1,
+  "stage": "installed-regressions"
+}

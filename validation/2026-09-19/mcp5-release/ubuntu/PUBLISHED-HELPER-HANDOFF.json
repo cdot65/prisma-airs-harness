@@ -1,0 +1,15 @@
+{
+  "delivered": true,
+  "path": "/home/cdot/prepare-airs-ubuntu-mcp5.sh",
+  "mode": "0700",
+  "sha256": "0f8619659b7a80f392d8bca638b401155829ca512d40b6c05dbbdc9048a1dcab",
+  "source": "fresh anonymous installed airs-harness0.1.0-alpha.22.mcp.5 package",
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "default_version": "0.1.0-alpha.22.mcp.5",
+  "older_script_hashes_preserved": {
+    "/home/cdot/prepare-airs-ubuntu-mcp4.sh": "82498c03f9064b5037d4a19fe03e1bdde14f640f36a6a848a85d8f06a675443a"
+  },
+  "owner_installed_version_unchanged": "0.1.0-alpha.22.mcp.4",
+  "owner_prefix_upgraded": false,
+  "script_executed_in_owner_session": false
+}

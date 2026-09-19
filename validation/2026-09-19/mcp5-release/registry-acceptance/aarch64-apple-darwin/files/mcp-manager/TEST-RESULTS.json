@@ -1,0 +1,15 @@
+{
+  "errors": [],
+  "failures": [],
+  "passed": true,
+  "pattern": "test_airs_mcp_manager.py",
+  "schema_version": 1,
+  "skipped": [],
+  "test_ids": [
+    "test_airs_mcp_manager.McpManager.test_cancel_keeps_connection_and_never_exchanges_or_submits_callback",
+    "test_airs_mcp_manager.McpManager.test_desktop_callback_and_failed_discovery_do_not_report_success",
+    "test_airs_mcp_manager.McpManager.test_private_adapter_rejects_duplicate_name_without_replacing_it",
+    "test_airs_mcp_manager.McpManager.test_remote_callback_add_verify_logout_remove_and_environment_pinning"
+  ],
+  "tests_run": 4
+}

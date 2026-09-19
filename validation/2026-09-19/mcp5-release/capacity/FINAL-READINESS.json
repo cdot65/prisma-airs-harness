@@ -1,0 +1,21 @@
+{
+  "at_utc": "2026-09-19T16:17:20.978038+00:00",
+  "free_bytes": 136755224576,
+  "free_gib": 127.36322784423828,
+  "minimum105_passed": true,
+  "owned_gui_jobs_unloaded": {
+    "io.cdot.airs.mcp5.20260919.candidate.964aa68d9184438d8d8e4b1468d21b69": true,
+    "io.cdot.airs.mcp5.20260919.registry.62d49ab084d444bb98ffcbba21035cd4": true
+  },
+  "paths_preserved": {
+    "/Users/cdot/.local/share/airs-forgejo-runner/cache": true,
+    "/Users/cdot/.cargo": true,
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv": true,
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate": true,
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2": true
+  },
+  "existing_arm_container": "9e3fe129c60a743a6a6e23c1c28c2f087f4870c6fa5f59bb80e4c1104fa3ec2c running",
+  "vm_reachable": true,
+  "additional_deletions_performed": false,
+  "mcp5_generated_installs_and_evidence_preserved": true
+}

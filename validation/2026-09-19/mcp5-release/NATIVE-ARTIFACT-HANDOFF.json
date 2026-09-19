@@ -1,0 +1,94 @@
+{
+  "utc": "2026-09-19T15:54:04.943035+00:00",
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "tooling_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "packaging_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "version": "0.1.0-alpha.22.mcp.5",
+  "build_runs": [
+    {
+      "workflow": "airs-harness-linux-arm64.yml",
+      "run_index": 236,
+      "global_run_id": 3662,
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "job_ids": [
+        23675
+      ]
+    },
+    {
+      "workflow": "airs-harness-linux-x64.yml",
+      "run_index": 237,
+      "global_run_id": 3663,
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "job_ids": [
+        23676
+      ]
+    },
+    {
+      "workflow": "airs-harness-macos-build.yml",
+      "run_index": 238,
+      "global_run_id": 3664,
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "job_ids": [
+        23677,
+        23678,
+        23679
+      ]
+    }
+  ],
+  "signing_run": {
+    "status": 200,
+    "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-gateway-package.yml&actor=0&status=0",
+    "workflow": "airs-harness-gateway-package.yml",
+    "ref": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+    "inputs": {
+      "archive_sha256": "52166da9bbb75e7f9ef5eb5520c41d7efea93caa6b7704a3874d1dcd1f73bae3",
+      "binary_sha256": "f6b51e93ff917183aa8ebb9e554ad4d7c8d228eae03c1147643a7b268f6ff3d3",
+      "fixture_sha256": "b960212642088cd94ad69c42504663c87c177d4a84da080c62844459290874d6",
+      "source_ref": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26"
+    },
+    "utc": "2026-09-19T15:46:35.966381+00:00",
+    "run_index": 239,
+    "global_run_id": 3665,
+    "job_id": 23680,
+    "verified_run_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26"
+  },
+  "targets": [
+    {
+      "archive_sha256": "18f00995953e8dc075dafe99a327cf5604e1b95be38c96d9b9b823c2ea6cce5d",
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "binary_sha256": "4a82d38a399e0d78fe3facfb4065418cc0d2c437468ffdbfe1f39768a5b45d31",
+      "target": "x86_64-unknown-linux-musl",
+      "extracted": "/tmp/airs-mcp5-20260919/release/x64-native/extracted/airs-harness-0.1.0-alpha.22.mcp.5-linux-x86_64-musl",
+      "verified_files": 3951,
+      "archive_sidecar_present": true,
+      "actual_native_sha256": "4a82d38a399e0d78fe3facfb4065418cc0d2c437468ffdbfe1f39768a5b45d31",
+      "version": "0.1.0-alpha.22.mcp.5"
+    },
+    {
+      "archive_sha256": "b79999d62c59e72c613c7065f2bdfcc751188b7694802ec0050236a952658e49",
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "binary_sha256": "20c143820cdfe6b516b8dd410297f3c325a2364b40182e31dab1ef36cb621b48",
+      "target": "aarch64-unknown-linux-musl",
+      "extracted": "/tmp/airs-mcp5-20260919/release/arm64-native/extracted/airs-harness-0.1.0-alpha.22.mcp.5-linux-aarch64-musl",
+      "verified_files": 3949,
+      "archive_sidecar_present": true,
+      "actual_native_sha256": "20c143820cdfe6b516b8dd410297f3c325a2364b40182e31dab1ef36cb621b48",
+      "version": "0.1.0-alpha.22.mcp.5"
+    },
+    {
+      "archive_sha256": "4ed8f71f6c9f7b4f0119c430574c8489536462bd79a7e3441aaf0f7869d27422",
+      "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+      "binary_sha256": "28526eac904aed939a0c7364c25aa88d897819bc291ff75ac532e9be11998586",
+      "target": "aarch64-apple-darwin",
+      "extracted": "/tmp/airs-mcp5-20260919/release/mac-native/extracted/airs-harness-0.1.0-alpha.22.mcp.5-darwin-arm64",
+      "verified_files": 3869,
+      "archive_sidecar_present": false,
+      "actual_native_sha256": "28526eac904aed939a0c7364c25aa88d897819bc291ff75ac532e9be11998586",
+      "version": "0.1.0-alpha.22.mcp.5"
+    }
+  ],
+  "signed_mac_team": "G5QLZ5A8TA",
+  "notarization_status": "Accepted",
+  "mandatory_native_mcp_positive_passed": true,
+  "scope": "verified source-bound native candidates; combined npm/native acceptance and publication remain pending"
+}

@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "scope": "Exact combined npm candidate helper bytes on real Ubuntu; explicit published4 override before version5 publication, not default5 installed acceptance",
+  "platform": "Ubuntu26.04.1 x86_64",
+  "exit_code": 0,
+  "python_optimize": "0",
+  "script_default_version": "0.1.0-alpha.22.mcp.5",
+  "requested_version_override": "0.1.0-alpha.22.mcp.4",
+  "helper_sha256": "0f8619659b7a80f392d8bca638b401155829ca512d40b6c05dbbdc9048a1dcab",
+  "regression_sha256": "874628c79bf37ad02f8e40f04912cf64854ee0183b6b7c67aaee30ffe08a852f",
+  "log_sha256": "0455b90e38df5856a60a276ef06e543818b18d4a0780bfb79147eb25ce64a7f3",
+  "checks": [
+    "new encrypted keyring and native write/read/delete",
+    "already-unlocked service is reused",
+    "unlocked check reuses the service without prompting",
+    "quoted rerun command preserves the spaced script path",
+    "locked check and wrong-password diagnosis preserve the keyring",
+    "correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "isolation": {
+    "home_and_npm_prefix": "private scratch, own fresh anonymous mcp.4 install",
+    "credential_service": "private D-Bus and disposable XDG data/runtime",
+    "owner_credential_store_used": false,
+    "owner_install_modified": false,
+    "real_authenticated_requests": false
+  },
+  "retained_remote_scratch": "/tmp/airs-mcp5-helper.bq7fIE",
+  "remaining": [
+    "Fresh anonymous installed5 helper with default5 regression after publication"
+  ],
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "version": "0.1.0-alpha.22.mcp.5",
+  "launcher_archive_sha256": "fdfe1daf774d3528910413334b221a3fc9bb5383e0f06f0b5de46d10c010ea69",
+  "frozen_source_bytes_match": true,
+  "default_version": "0.1.0-alpha.22.mcp.5",
+  "prepublication_version_override": "0.1.0-alpha.22.mcp.4",
+  "extracted_member": "package/scripts/prepare_airs_ubuntu.sh",
+  "frozen_regression_source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "initial_setup_attempt": "Initial local archive path omitted tarballs/; extraction failed before execution. Corrected archive path and successful exact-byte run are recorded here."
+}

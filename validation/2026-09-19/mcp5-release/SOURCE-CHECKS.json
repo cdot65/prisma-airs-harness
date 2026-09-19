@@ -1,0 +1,34 @@
+{
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "scope": "Affected source checks before release freeze",
+  "home_dir_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "packaging_tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "formatting_exit_code": 0,
+  "diff_check_exit_code": 0,
+  "logs": {
+    "home-dir-tests.log": {
+      "sha256": "0248eb3c564b8b57cfded01f7cd3bee6ca3915253ee761f8eeed684f5c1514e7",
+      "size": 2680
+    },
+    "package-tests.log": {
+      "sha256": "e355d92db4f7257d663cd487032b5eed887cfbd6a67904380178008403ec269b",
+      "size": 2410
+    },
+    "fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "final-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    }
+  },
+  "full_workspace_rerun": false,
+  "full_workspace_note": "No core/common/protocol logic changed. Historical workspace suite is not green and is not claimed by this release."
+}

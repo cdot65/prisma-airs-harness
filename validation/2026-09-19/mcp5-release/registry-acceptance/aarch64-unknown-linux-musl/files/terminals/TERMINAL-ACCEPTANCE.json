@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "aarch64",
+  "native_binary_sha256": "20c143820cdfe6b516b8dd410297f3c325a2364b40182e31dab1ef36cb621b48",
+  "launcher": "/home/airs-review/mcp5-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-47b89520f458451ba6a59ff6af89da34/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.052,
+    "zsh": 0.108,
+    "fish": 0.114
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "fish: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

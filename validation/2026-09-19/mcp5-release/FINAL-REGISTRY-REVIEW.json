@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "utc": "2026-09-19T16:17:56.508490+00:00",
+  "version": "0.1.0-alpha.22.mcp.5",
+  "source_commit": "9e4f1d2211afcfe81054bc00b8fccc546bf25b26",
+  "scope": "Published mcp test release ready for local testing; synthetic fixtures do not establish attended production identity/ServiceNow acceptance",
+  "score": 9.7,
+  "registry_collectors_agree": true,
+  "targets": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "4a82d38a399e0d78fe3facfb4065418cc0d2c437468ffdbfe1f39768a5b45d31",
+      "tests_run": 51,
+      "platform_skips": [
+        {
+          "reason": "requires macOS Seatbelt",
+          "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+        }
+      ],
+      "mandatory_native_positive_passed": true,
+      "acceptance_sha256": "2bda5aaddd65b656d4ba88b61052ef1cc7fa39b83f2a5b5ba7daf839ec097b45"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "20c143820cdfe6b516b8dd410297f3c325a2364b40182e31dab1ef36cb621b48",
+      "tests_run": 51,
+      "platform_skips": [
+        {
+          "reason": "requires macOS Seatbelt",
+          "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+        }
+      ],
+      "mandatory_native_positive_passed": true,
+      "acceptance_sha256": "47cbac97daf94eb4e3ddbe4633c9286b16302c62da21d86f778f183ed308d620"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "28526eac904aed939a0c7364c25aa88d897819bc291ff75ac532e9be11998586",
+      "tests_run": 51,
+      "platform_skips": [
+        {
+          "reason": "Linux session-bus recovery",
+          "test": "test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network"
+        },
+        {
+          "reason": "Unavailable private Secret Service is Linux-specific",
+          "test": "test_airs_harness_native_mcp.NativeMcpDefault.test_unavailable_native_store_never_falls_back_to_file"
+        },
+        {
+          "reason": "Isolated Linux Secret Service fixture",
+          "test": "test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment"
+        }
+      ],
+      "mandatory_native_positive_passed": true,
+      "acceptance_sha256": "d095bd6e186d7a586272bf65b13d65482e28cab75dd94b9b451dfee32a6942e5"
+    }
+  ],
+  "helper_default_version_verified": "0.1.0-alpha.22.mcp.5",
+  "helper_checks": [
+    "new encrypted keyring and native write/read/delete",
+    "already-unlocked service is reused",
+    "unlocked check reuses the service without prompting",
+    "quoted rerun command preserves the spaced script path",
+    "locked check and wrong-password diagnosis preserve the keyring",
+    "correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "helper_receipt_sha256": "c226620bf2f47c57601b84b1a4049216e7b5f8af885276df1a5a42b8d75ffd47",
+  "prepublication_review_sha256": "c3270639c0f579bbef4ab0d0dbd5a9c49c4974a6eaabeda440a673dac9752470",
+  "publication_review_sha256": "da602d4950722010cc1ffa4383db08862f5f792b6a170e15adf006a537fc42a0",
+  "ready_for_local_testing": true,
+  "production_acceptance": false,
+  "stable_promoted": false,
+  "remaining": [
+    "Deploy reviewed public documentation",
+    "Attended owner SSO, real workspace key and ServiceNow checks remain separately scoped"
+  ]
+}

@@ -259,8 +259,15 @@ class InstalledBytes(unittest.TestCase):
         registry = Mock()
         registry.metadata.return_value = document
         validator.verify_registry_metadata(spec, [row], registry)
+        document["dist-tags"]["latest"] = "older-default"
+        with self.assertRaisesRegex(ValueError, "Default channel"):
+            validator.verify_registry_metadata(
+                spec, [row], registry, selection="default"
+            )
+        document["dist-tags"]["latest"] = spec["version"]
+        validator.verify_registry_metadata(spec, [row], registry, selection="default")
         document["dist-tags"]["mcp"] = "0.1.0-alpha.22.mcp.2"
-        with self.assertRaisesRegex(ValueError, "mcp channel"):
+        with self.assertRaisesRegex(ValueError, "candidate channel"):
             validator.verify_registry_metadata(spec, [row], registry)
         document["dist-tags"]["mcp"] = spec["version"]
         published["dist"]["tarball"] = "https://unrelated.example.test/release.tgz"

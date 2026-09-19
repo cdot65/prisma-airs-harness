@@ -31,8 +31,8 @@ set -euo pipefail
 apt-get update -qq
 apt-get install -y --no-install-recommends build-essential clang libssl-dev libglib2.0-dev libsecret-1-dev pkg-config cmake libasound2-dev libcap-dev ripgrep bubblewrap zsh dbus-x11 gnome-keyring tini
 useradd --create-home --uid 10001 airs-ci
-mkdir -p /tmp/airs-evidence /tmp/airs-test-tmp
-chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airs-test-tmp
+mkdir -p /tmp/airs-evidence /tmp/airstests
+chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airstests
 runuser -u airs-ci -- unshare -Ur true
 BOOTSTRAP
 docker exec -i -w /workspace "$name" runuser -u airs-ci -- bash -s <<'VALIDATE'

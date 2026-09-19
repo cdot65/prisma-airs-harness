@@ -13,7 +13,7 @@ not implement the native MCP connection.
 
 ## Release status
 
-**0.1.1 is the stable release being prepared.** It consolidates environment
+**0.1.1 is the reliability and onboarding release.** It consolidates environment
 onboarding, company SSO and workspace API keys, in-session MCP sign-in and
 connection management, and recovery diagnostics. Desktop MCP sign-in opens the
 browser; remote sign-in supports hidden callback input. New environments use

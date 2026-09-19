@@ -1,7 +1,5 @@
 # Prisma AIRS Harness 0.1.1
 
-Status: stabilization and native package verification in progress.
-
 This release brings the tested onboarding and MCP workflows to the default
 installation. Install the `airs-harness` package and run `airs`; no separate
 Prisma AIRS product CLI installation is needed.
@@ -31,8 +29,7 @@ airs cli --version
 airs
 ```
 
-After publication and default-tag verification, unversioned installs select
-0.1.1. Optional dependencies are included by npm by default; `--include=optional`
+Unversioned installs select the release promoted through `latest`. Optional dependencies are included by npm by default; `--include=optional`
 is only needed if your npm configuration omits them. Restart existing AIRS
 processes after upgrading. Environments, credential bindings and conversation
 history are preserved; existing MCP storage choices are not silently migrated.
@@ -56,7 +53,7 @@ inference setup followed by MCP sign-in and a ServiceNow read.
 
 The owner confirmed all four real-account Apple Silicon mcp.6 checks: inference
 sign-in, MCP sign-in, a read-only ServiceNow query, and credential reuse after
-restart. Stable changes preserve that runtime behavior; version stamping,
-release tooling, test isolation and documentation are being verified separately.
-Final exact-package, full-workspace and default-install receipts will accompany
-publication. A prior Alpine workspace failure count is not presented as a pass.
+restart. Stable changes preserve that runtime behavior. Version stamping, release
+tooling, test isolation and documentation are verified separately. Release
+evidence records exact-package, full-workspace and default-install results.
+A prior Alpine workspace failure count is not presented as a pass.

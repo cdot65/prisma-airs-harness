@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fresh anonymous npm installation of exact, previously staged test packages."""
+"""Verify anonymous exact-version or default-channel installs against staged bytes."""
 
 import argparse
 import json
@@ -92,14 +92,20 @@ def verify_installed_files(package, inventory):
         )
 
 
-def verify_registry_metadata(spec, records, registry):
+def verify_registry_metadata(spec, records, registry, *, selection="exact"):
+    require(selection in ("exact", "default"), "Unknown install selection")
     expected_origin = urlsplit(spec["registry"])
     for record in records:
         document = registry.metadata(record["name"])
         require(
             document.get("dist-tags", {}).get(spec["tag"]) == spec["version"],
-            "Published mcp channel does not select the accepted version",
+            "Published candidate channel does not select the accepted version",
         )
+        if selection == "default":
+            require(
+                document.get("dist-tags", {}).get("latest") == spec["version"],
+                "Default channel does not select the accepted stable version",
+            )
         published = document["versions"].get(spec["version"], {})
         require(
             published.get("name") == record["name"]
@@ -124,7 +130,8 @@ def verify_registry_metadata(spec, records, registry):
         )
 
 
-def install(spec, packages, prefix):
+def install(spec, packages, prefix, *, selection="exact"):
+    require(selection in ("exact", "default"), "Unknown install selection")
     target = host_target()
     expected_native = next(
         row["binary_sha256"] for row in spec["platforms"] if row["target"] == target
@@ -174,7 +181,7 @@ def install(spec, packages, prefix):
     userconfig = prefix / "empty.npmrc"
     userconfig.chmod(0o600)
     registry = Registry(spec["registry"], userconfig, prefix)
-    verify_registry_metadata(spec, records, registry)
+    verify_registry_metadata(spec, records, registry, selection=selection)
     result = subprocess.run(
         [
             "npm",
@@ -187,7 +194,9 @@ def install(spec, packages, prefix):
             "--no-fund",
             "--registry",
             spec["registry"],
-            "airs-harness@" + spec["version"],
+            "airs-harness"
+            if selection == "default"
+            else "airs-harness@" + spec["version"],
         ],
         cwd=prefix,
         env=environment,
@@ -198,6 +207,7 @@ def install(spec, packages, prefix):
     )
     network = {
         "anonymous_fresh_install": True,
+        "selection": selection,
         "isolated_npm_configuration": True,
         "fresh_npm_cache": True,
         "npm_exit_code": result.returncode,
@@ -255,13 +265,14 @@ def install(spec, packages, prefix):
     require(
         tooling == plan.get("package_tooling"), "Installed packaging tooling mismatch"
     )
-    verify_registry_metadata(spec, records, registry)
+    verify_registry_metadata(spec, records, registry, selection=selection)
     receipt = {
         **network,
         "passed": True,
         "published": True,
         "version": version,
-        "mcp_channel_verified_before_and_after_install": True,
+        "candidate_channel_verified_before_and_after_install": spec["tag"],
+        "default_channel_verified_before_and_after_install": selection == "default",
         "source_commit": spec["source_commit"],
         "binary_sha256": native_hash,
         "launcher_package": "airs-harness",
@@ -282,9 +293,18 @@ def main():
     parser.add_argument("--spec", type=Path, required=True)
     parser.add_argument("--packages", type=Path, required=True)
     parser.add_argument("--prefix", type=Path, required=True)
+    parser.add_argument("--selection", choices=("exact", "default"), default="exact")
     args = parser.parse_args()
     print(
-        json.dumps(install(load_spec(args.spec), args.packages, args.prefix), indent=2)
+        json.dumps(
+            install(
+                load_spec(args.spec),
+                args.packages,
+                args.prefix,
+                selection=args.selection,
+            ),
+            indent=2,
+        )
     )
 
 

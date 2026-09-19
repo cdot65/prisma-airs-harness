@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 : "${RUNNER_TEMP:?}"
-export TMPDIR="$RUNNER_TEMP/airs-test-tmp"
+# Cursor import fixtures exercise one punctuated project component; the temporary
+# ancestor must not add another ambiguous encoded path component.
+export TMPDIR="$RUNNER_TEMP/airstests"
 export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER="$PWD/scripts/airs_rust_test_runner.py"
 unset NO_COLOR SSL_CERT_FILE SSL_CERT_DIR CODEX_CA_CERTIFICATE
 exec > >(tee "$RUNNER_TEMP/airs-evidence/validation.log") 2>&1
@@ -11,7 +13,7 @@ ldd --version
 node --test npm/airs-harness/*.test.js
 npm ci --prefix npm/airs-harness --ignore-scripts --no-audit --no-fund
 python3 scripts/validate_prisma_cli.py
-for pattern in 'test_airs_bundle*.py' test_airs_npm_registry.py test_package_airs_harness.py test_airs_review_release.py test_airs_signed_macos_artifact.py 'test_plan_airs_review*.py' test_publish_airs_review.py test_airs_package_access.py test_restore_airs_review_stage.py test_validate_airs_registry_install.py test_format.py test_evaluate_airs_upstream.py test_live_gateway_evidence.py; do
+for pattern in 'test_airs_bundle*.py' test_airs_npm_registry.py test_package_airs_harness.py test_airs_review_release.py test_airs_signed_macos_artifact.py 'test_plan_airs_review*.py' test_publish_airs_review.py test_airs_package_access.py test_restore_airs_review_stage.py test_validate_airs_registry_install.py test_format.py test_evaluate_airs_upstream.py test_live_gateway_evidence.py 'test_airs_test_release*.py' test_promote_airs_stable.py test_validate_airs_test_registry_install.py; do
   python3 -m unittest discover -s scripts -p "$pattern" -v
 done
 CODEX_REPO_ROOT="$PWD" PYTHONPATH=scripts python3 - <<'PY' > "$RUNNER_TEMP/airs-v8.env"

@@ -4,7 +4,7 @@ on:
     inputs:
       source_ref:
         description: Rust source branch or commit to validate
-        default: integrate/codex-0.154-candidate
+        default: main
         required: true
   push:
     branches: [integrate/codex-0.154-candidate]

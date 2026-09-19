@@ -778,27 +778,20 @@ async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills(
         .enable_feature(Feature::Personality)
         .write(codex_home.path())?;
     write_models_cache(codex_home.path())?;
-    let cache_path = codex_home.path().join("models_cache.json");
-    let mut cache: serde_json::Value =
-        serde_json::from_str(&std::fs::read_to_string(&cache_path)?)?;
-    let models = cache["models"]
-        .as_array_mut()
-        .expect("models_cache.json models should be an array");
-    let entry = models
-        .first_mut()
-        .expect("models cache should not be empty");
-    let model = entry["slug"]
+    let cache: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(
+        codex_home.path().join("models_cache.json"),
+    )?)?;
+    let model = cache["models"][0]["slug"]
         .as_str()
-        .expect("model slug should be present")
-        .to_string();
-    entry["context_window"] = serde_json::Value::from(100);
-    std::fs::write(&cache_path, serde_json::to_string_pretty(&cache)?)?;
+        .context("models cache should contain a model slug")?;
+    // Exercise catalog truncation independently of bundled skills, path lengths,
+    // and the model's compaction threshold.
     let config_path = codex_home.path().join("config.toml");
     let config = std::fs::read_to_string(&config_path)?;
     std::fs::write(
         &config_path,
         config.replace("model = \"mock-model\"", &format!("model = \"{model}\""))
-            + "\n[skills.bundled]\nenabled = false\n",
+            + "\n[skills]\nmax_context_tokens = 1\n[skills.bundled]\nenabled = false\n",
     )?;
     write_test_skill(codex_home.path(), "alpha-skill")?;
     write_test_skill(codex_home.path(), "beta-skill")?;
@@ -835,7 +828,7 @@ async fn turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills(
     assert_eq!(warning.thread_id.as_deref(), Some(thread.id.as_str()));
     assert_eq!(
         warning.message,
-        "Exceeded skills context budget. All skill descriptions were removed and 1 additional skills were not included in the model-visible skills list."
+        "Exceeded skills context budget. All skill descriptions were removed and 2 additional skills were not included in the model-visible skills list."
     );
 
     timeout(

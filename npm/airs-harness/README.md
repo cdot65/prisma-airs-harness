@@ -19,15 +19,15 @@ install a supported Node version using your organization's usual method, reopen
 the terminal and check again. npm may otherwise finish with `EBADENGINE`; the
 launcher rejects unsupported Node before starting AIRS or its bundled CLI.
 
-This guide covers **0.1.0-alpha.22.mcp.4**, including the in-session `/mcp`
+This guide covers **0.1.1**, including the in-session `/mcp`
 manager and `/doctor` dashboard. New environments require native MCP storage;
 existing environments retain their configured mode and tokens. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate from automated checks.
-Install this exact version once available in your registry, from the organization's
+Install this exact version from your registry, from the organization's
 LAN/VPN, then inspect its version:
 
 ```sh
-npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

@@ -6,7 +6,7 @@ on:
         type: string
         description: Reviewed validation tooling revision
         required: true
-        default: integrate/codex-0.154-candidate
+        default: main
       source_ref:
         type: string
         description: Runtime source revision (resolved once before compilation)

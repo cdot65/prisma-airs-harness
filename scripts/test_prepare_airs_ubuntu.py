@@ -11,6 +11,8 @@ from pathlib import Path
 import pty
 import re
 import select
+import shlex
+import shutil
 import signal
 import subprocess
 import sys
@@ -110,6 +112,24 @@ def exercise(script):
         assert owner() == first_owner, "An unlocked service must not restart"
         print("PASS already-unlocked service is reused", flush=True)
 
+        code, output, prompts = run_preparation(script, "--check")
+        assert code == 0 and not prompts, output
+        assert owner() == first_owner, "Unlocked check must reuse the service"
+        print("PASS unlocked check reuses the service without prompting", flush=True)
+
+        hint_prefix = "After reboot or keyring lock, rerun: "
+        hints = [
+            line.removeprefix(hint_prefix)
+            for line in output.splitlines()
+            if line.startswith(hint_prefix)
+        ]
+        assert len(hints) == 1, "Expected exactly one rerun command"
+        assert " " in Path(script).name, "Fixture must exercise a spaced filename"
+        assert shlex.split(hints[0]) == ["bash", script, "--unlock"], (
+            "Rerun command must preserve the exact script pathname"
+        )
+        print("PASS quoted rerun command preserves the spaced script path", flush=True)
+
         subprocess.run(
             [
                 "secret-tool",
@@ -178,6 +198,8 @@ if __name__ == "__main__":
         with tempfile.TemporaryDirectory(
             prefix="airs-keyring-regression-"
         ) as temporary:
+            spaced_script = Path(temporary) / "prepare AIRS Ubuntu.sh"
+            shutil.copyfile(script, spaced_script)
             environment = os.environ.copy()
             for name in (
                 "GNOME_KEYRING_CONTROL",
@@ -200,7 +222,7 @@ if __name__ == "__main__":
                     sys.executable,
                     str(Path(__file__).resolve()),
                     "--isolated",
-                    script,
+                    str(spaced_script),
                 ],
                 env=environment,
                 timeout=600,

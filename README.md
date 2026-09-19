@@ -13,6 +13,12 @@ not implement the native MCP connection.
 
 ## Release status
 
+**0.1.0-alpha.22.mcp.5 is in preparation.** It bundles the corrected Ubuntu SSH
+setup helper, including keyring-daemon replacement when required and verified
+collection unlock. The native runtime changes only its displayed release version.
+Published mcp.4 acceptance remains recorded below; it does not establish mcp.5
+acceptance until the new packages pass their own native and registry checks.
+
 **0.1.0-alpha.22.mcp.4 is published under `mcp` at `https://npm.cdot.io`.**
 Fresh anonymous registry installations passed on Linux x64, native Linux ARM64
 and signed/notarized Apple Silicon. Its new environments require native MCP
@@ -102,8 +108,8 @@ Git, ripgrep and project tools remain prerequisites. Linux also needs Bubblewrap
 and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac
 onboarding and the optional [Ubuntu test-host preparation guide](UBUNTU-TEST-HOST.md)
-for an Ubuntu SSH host. Use its corrected repository helper: the copy bundled in
-mcp.4 predates the September 19 SSH keyring-daemon repair. The inherited `scripts/install/` tools install upstream Codex.
+for an Ubuntu SSH host. The mcp.5 helper includes the September 19 SSH
+keyring-daemon repair; mcp.4 users need the corrected separately supplied helper. The inherited `scripts/install/` tools install upstream Codex.
 
 ## Sign in and connect ServiceNow
 
@@ -141,7 +147,7 @@ Your named environments and conversation history remain on disk.
 On an Ubuntu SSH host, follow [the corrected host preparation guide](UBUNTU-TEST-HOST.md).
 Use its reviewed helper to unlock the existing Secret Service collection and
 verify native credential write/read/delete. The helper bundled in mcp.4 predates
-the SSH daemon correction; obtain the corrected repository or administrator copy.
+the SSH daemon correction; use mcp.5 when published or the corrected administrator copy.
 Run AIRS in the same user D-Bus session. On other Linux distributions, use the
 platform's credential-service unlock procedure and verify access with `airs doctor`.
 

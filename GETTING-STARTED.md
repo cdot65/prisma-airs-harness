@@ -4,7 +4,7 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release channel:** this guide covers **0.1.0-alpha.22.mcp.4**, with the in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments. Install this exact version once available in your registry. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
+**Release channel:** this guide covers **0.1.0-alpha.22.mcp.5**, with the in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments. Install this exact version once available in your registry. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
 
 The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.0.0** and eight product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
@@ -13,7 +13,7 @@ Check Node.js and npm in the terminal you will use. The harness requires **22.13
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

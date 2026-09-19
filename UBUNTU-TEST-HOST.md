@@ -6,28 +6,31 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
-**SSH helper correction:** the helper bundled in published mcp.4 predates the
-September 19 keyring-daemon repair. Use the corrected repository script from
-the current feature branch (keyring repair `1fd617abb4`) or the corrected copy supplied by your administrator. On the
-dedicated test host it is `~/prepare-airs-ubuntu-mcp4.sh`. Do not extract the old
-helper from the mcp.4 tarball for SSH keyring setup. The harness package itself
-remains mcp.4; this correction changes host preparation, not the executable.
+The mcp.5 npm package includes this corrected guide and helper. It fixes the
+competing-keyring-daemon problem in the mcp.4 helper, verifies the default
+collection's lock state, and prints the actual script path for later unlocks.
+On a machine with npm, download the package once this version is available:
 
-Review the script, then copy it to `~/prepare-airs-ubuntu-mcp4.sh` on your Ubuntu host
+```bash
+npm pack airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io
+tar -xOf airs-harness-0.1.0-alpha.22.mcp.5.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-mcp5.sh
+```
+
+Review the script, then copy it to `~/prepare-airs-ubuntu-mcp5.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
 Run the corrected copied script in an interactive SSH terminal:
 
 ```bash
-bash ~/prepare-airs-ubuntu-mcp4.sh
+bash ~/prepare-airs-ubuntu-mcp5.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
-The helper defaults to `0.1.0-alpha.22.mcp.4` from `https://npm.cdot.io`,
-matching the published harness package.
+The helper defaults to `0.1.0-alpha.22.mcp.5` from `https://npm.cdot.io`,
+matching this package. Run it once that version is published.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.4 bash ~/prepare-airs-ubuntu-mcp4.sh
+AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.5 bash ~/prepare-airs-ubuntu-mcp5.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service
@@ -72,8 +75,8 @@ Use `/mcp` inside the harness for gateway MCP connections. An SSH browser-login
 callback may require an SSH port forward for the callback port shown by the
 login flow. Do not share callback URLs, tokens or keyring passwords.
 
-After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp4.sh --unlock`.
-Use `bash ~/prepare-airs-ubuntu-mcp4.sh --check` for checks without installing packages
+After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp5.sh --unlock`.
+Use `bash ~/prepare-airs-ubuntu-mcp5.sh --check` for checks without installing packages
 or prompting for a keyring password. Both modes may create a disposable readiness
 record and sandbox environment, which they clean up. They do not test real SSO,
 workspace API-key authorization or ServiceNow access.

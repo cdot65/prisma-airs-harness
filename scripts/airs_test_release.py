@@ -39,6 +39,11 @@ def parser():
             command.add_argument("--acceptance", type=Path, required=True)
         if name in ("accept", "stage", "publish", "verify"):
             command.add_argument("--output", type=Path, required=True)
+        if name in ("verify", "verify-all"):
+            command.add_argument(
+                "--verification-tooling-commit",
+                help="Explicit committed registry validator revision; original candidate provenance is preserved",
+            )
         if name == "publish":
             command.add_argument(
                 "--userconfig",
@@ -99,9 +104,15 @@ def execute(args):
             args.output / observed_target(),
             resume=args.resume,
             installation="registry",
+            verification_tooling_commit=args.verification_tooling_commit,
         )
         return {"acceptance": str(path), "installation": "registry"}
-    return verify_acceptance_set(spec, args.acceptance, installation=args.installation)
+    return verify_acceptance_set(
+        spec,
+        args.acceptance,
+        installation=args.installation,
+        verification_tooling_commit=args.verification_tooling_commit,
+    )
 
 
 def main():

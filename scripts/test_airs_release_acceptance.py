@@ -85,13 +85,15 @@ def result_for(name, spec, target):
     return result
 
 
-def evidence_set(root, packages, spec, installation="candidate"):
+def evidence_set(
+    root, packages, spec, installation="candidate", verification_tooling_commit=None
+):
     for target in TARGETS:
         output = root / target
         output.mkdir(parents=True)
         tooling = {
             "schema_version": 1,
-            "tooling_commit": spec["tooling_commit"],
+            "tooling_commit": verification_tooling_commit or spec["tooling_commit"],
             "files": {"scripts/example.py": "a" * 64},
         }
         identity = {
@@ -116,6 +118,8 @@ def evidence_set(root, packages, spec, installation="candidate"):
             **acceptance.candidate_identity(spec, packages),
             "tooling_sha256": canonical_digest(tooling),
         }
+        if verification_tooling_commit is not None:
+            identity["verification_tooling_commit"] = verification_tooling_commit
         shutil.copyfile(
             packages / "NPM-PACKAGES.json", output / "CANDIDATE-NPM-PACKAGES.json"
         )
@@ -310,6 +314,12 @@ class AcceptanceRunnerTests(unittest.TestCase):
 
     # Exercise real subprocess output and an intentionally interrupted stage.
     def test_interrupted_run_resumes_only_rehashed_completed_stages(self):
+        self.exercise_interrupted_run("candidate", None)
+
+    def test_registry_revision_is_bound_through_run_and_resume(self):
+        self.exercise_interrupted_run("registry", "f" * 40)
+
+    def exercise_interrupted_run(self, installation, revision):
         scripts = self.root / "tooling/scripts"
         scripts.mkdir(parents=True)
         filenames = (
@@ -321,10 +331,11 @@ class AcceptanceRunnerTests(unittest.TestCase):
             "validate_airs_npm.py",
             "validate_airs_command_output.py",
             "validate_airs_npm_upgrade.py",
+            "validate_airs_test_registry_install.py",
         )
         tooling = {
             "schema_version": 1,
-            "tooling_commit": self.spec["tooling_commit"],
+            "tooling_commit": revision or self.spec["tooling_commit"],
             "files": {f"scripts/{name}": "a" * 64 for name in filenames},
         }
         atomic_json(scripts.parent / "ACCEPTANCE-TOOLING.json", tooling)
@@ -363,22 +374,43 @@ class AcceptanceRunnerTests(unittest.TestCase):
             patch.object(acceptance, "invocation", side_effect=invoke),
         ):
             with self.assertRaisesRegex(RuntimeError, "controlled interruption"):
-                acceptance.run_acceptance(self.spec, self.packages, scripts, output)
+                acceptance.run_acceptance(
+                    self.spec,
+                    self.packages,
+                    scripts,
+                    output,
+                    installation=installation,
+                    verification_tooling_commit=revision,
+                )
             self.assertFalse((output / "ACCEPTANCE.json").exists())
             completed = calls[:-1]
             interrupted[0] = False
             calls.clear()
             acceptance.run_acceptance(
-                self.spec, self.packages, scripts, output, resume=True
+                self.spec,
+                self.packages,
+                scripts,
+                output,
+                resume=True,
+                installation=installation,
+                verification_tooling_commit=revision,
             )
             self.assertEqual(acceptance.stages(self.target)[len(completed) :], calls)
             self.assertGreaterEqual(actual_identity.call_count, 3)
-            acceptance.verify_one(self.spec, output, self.target)
+            acceptance.verify_one(
+                self.spec, output, self.target, installation, revision
+            )
             calls.clear()
             (output / "logs/install.log").write_text("tampered after successful run")
             with self.assertRaisesRegex(ValueError, "output evidence"):
                 acceptance.run_acceptance(
-                    self.spec, self.packages, scripts, output, resume=True
+                    self.spec,
+                    self.packages,
+                    scripts,
+                    output,
+                    resume=True,
+                    installation=installation,
+                    verification_tooling_commit=revision,
                 )
             self.assertEqual([], calls)
 

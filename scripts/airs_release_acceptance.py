@@ -14,6 +14,7 @@ from airs_release_contract import (
     paths_for,
     stages,
     validate_result,
+    verification_commit,
     verify_one,
     verify_acceptance_set as verify_acceptance_set,
 )
@@ -43,10 +44,19 @@ from airs_test_release_spec import (
 
 
 def run_acceptance(
-    spec, packages, scripts, output, resume=False, installation="candidate"
+    spec,
+    packages,
+    scripts,
+    output,
+    resume=False,
+    installation="candidate",
+    verification_tooling_commit=None,
 ):
     require(installation in ("candidate", "registry"), "Unknown installation mode")
     spec = validate_spec(spec)
+    expected_tooling = verification_commit(
+        spec, installation, verification_tooling_commit
+    )
     packages, scripts, output = (
         Path(packages).resolve(strict=True),
         Path(scripts).resolve(strict=True),
@@ -63,7 +73,7 @@ def run_acceptance(
     target = observed_target()
     environment = clean_environment()
     tooling = load_json(scripts.parent / "ACCEPTANCE-TOOLING.json")
-    tooling_hash = verify_tooling(scripts.parent, tooling, spec["tooling_commit"])
+    tooling_hash = verify_tooling(scripts.parent, tooling, expected_tooling)
     if installation == "registry":
         require(
             "scripts/validate_airs_test_registry_install.py" in tooling["files"],
@@ -105,6 +115,8 @@ def run_acceptance(
         **candidate_identity(spec, packages),
         "tooling_sha256": tooling_hash,
     }
+    if verification_tooling_commit is not None:
+        identity["verification_tooling_commit"] = verification_tooling_commit
     output.mkdir(parents=True, exist_ok=True)
     work_root = safe_destination(output.with_name(output.name + ".work"))
     if work_root.exists():
@@ -236,7 +248,7 @@ def run_acceptance(
     # including on resume. Collector verification uses portable retained evidence.
     installed_identity(spec, packages, prefix, target, environment)
     require(
-        verify_tooling(scripts.parent, tooling, spec["tooling_commit"]) == tooling_hash,
+        verify_tooling(scripts.parent, tooling, expected_tooling) == tooling_hash,
         "Validation tooling changed during acceptance",
     )
     require(
@@ -259,7 +271,7 @@ def run_acceptance(
             "production_servicenow": False,
         },
     )
-    verify_one(spec, output, target, installation)
+    verify_one(spec, output, target, installation, verification_tooling_commit)
     return output / "ACCEPTANCE.json"
 
 
@@ -273,6 +285,7 @@ def main():
     parser.add_argument(
         "--installation", choices=("candidate", "registry"), default="candidate"
     )
+    parser.add_argument("--verification-tooling-commit")
     args = parser.parse_args()
     print(
         run_acceptance(
@@ -282,6 +295,7 @@ def main():
             args.output,
             args.resume,
             args.installation,
+            args.verification_tooling_commit,
         )
     )
 

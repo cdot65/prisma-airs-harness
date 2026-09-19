@@ -3,13 +3,15 @@
 
 import argparse
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
+import re
 import stat
 import subprocess
 from urllib.parse import urlsplit
 
 from airs_bundle import verify_bundle
+from airs_bundle_archive import safe_path
 from airs_npm_registry import install_environment
 from airs_release_receipts import atomic_json, evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive
@@ -37,7 +39,8 @@ def host_target():
 
 
 def verify_installed_files(package, inventory):
-    """Compare every shipped file, including launcher and bundled CLI content."""
+    """Verify bytes first, allowing npm's chmod only for verified declared bins."""
+    files = {}
     for relative, expected in inventory["members"].items():
         if expected["type"] == "dir":
             continue
@@ -46,8 +49,45 @@ def verify_installed_files(package, inventory):
             digest_file(path) == expected["sha256"],
             "Installed package file differs from staged bytes",
         )
+        files[relative] = path
+
+    # npm makes declared bin targets executable, including bundled dependencies.
+    # Nested manifests are read only after every file matched archive evidence;
+    # a modified manifest cannot authorize a mode change on another file.
+    bins = set()
+    for relative, path in files.items():
+        if not re.fullmatch(
+            r"package/(?:node_modules/(?:@[^/]+/)?[^/]+/)*package\.json", relative
+        ):
+            continue
+        manifest = load_json(path)
+        require(isinstance(manifest, dict), "Invalid inventoried package manifest")
+        commands = manifest.get("bin") or {}
+        if isinstance(commands, str):
+            commands = {"declared-bin": commands}
         require(
-            stat.S_IMODE(path.stat().st_mode) & 0o111 == expected["mode"] & 0o111,
+            isinstance(commands, dict), "Invalid inventoried package bin declaration"
+        )
+        for command, target in commands.items():
+            require(
+                isinstance(command, str)
+                and len(safe_path(command).parts) == 1
+                and isinstance(target, str),
+                "Invalid inventoried package bin declaration",
+            )
+            destination = str(
+                PurePosixPath(relative).parent / safe_path(target.removeprefix("./"))
+            )
+            require(
+                destination in files, "Declared npm bin lacks inventoried file evidence"
+            )
+            bins.add(destination)
+
+    for relative, path in files.items():
+        expected = inventory["members"][relative]
+        expected_execute = 0o111 if relative in bins else expected["mode"] & 0o111
+        require(
+            stat.S_IMODE(path.stat().st_mode) & 0o111 == expected_execute,
             "Installed executable mode differs from staged package",
         )
 

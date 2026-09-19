@@ -4,6 +4,7 @@ from pathlib import Path
 
 from airs_release_receipts import evidence_path, verify_stage
 from airs_test_release_spec import (
+    COMMIT,
     PACKAGE_ORDER,
     TARGETS,
     canonical_digest,
@@ -181,7 +182,26 @@ def validate_result(name, value, spec, target):
         )
 
 
-def verify_one(spec, root, target, installation="candidate"):
+def verification_commit(spec, installation, revision=None):
+    if revision is None:
+        return spec["tooling_commit"]
+    require(
+        installation == "registry",
+        "Tooling revisions apply only to registry verification",
+    )
+    require(
+        isinstance(revision, str) and COMMIT.fullmatch(revision) is not None,
+        "Verification tooling requires a full source commit",
+    )
+    return revision
+
+
+def verify_one(
+    spec, root, target, installation="candidate", verification_tooling_commit=None
+):
+    expected_tooling = verification_commit(
+        spec, installation, verification_tooling_commit
+    )
     result = load_json(evidence_path(root, "ACCEPTANCE.json"))
     require(result.get("schema_version") == 1, "Unknown acceptance schema")
     identity = result.get("identity")
@@ -191,6 +211,10 @@ def verify_one(spec, root, target, installation="candidate"):
     require(
         identity.get("installation") == installation,
         "Acceptance installation mode mismatch",
+    )
+    require(
+        identity.get("verification_tooling_commit") == verification_tooling_commit,
+        "Registry verification tooling revision mismatch",
     )
     expected = next(
         row["binary_sha256"] for row in spec["platforms"] if row["target"] == target
@@ -228,7 +252,7 @@ def verify_one(spec, root, target, installation="candidate"):
     )
     tooling = load_json(evidence_path(root, "TOOLING.json"))
     require(
-        tooling.get("tooling_commit") == spec["tooling_commit"]
+        tooling.get("tooling_commit") == expected_tooling
         and canonical_digest(tooling) == identity.get("tooling_sha256"),
         "Acceptance tooling evidence changed",
     )
@@ -265,9 +289,12 @@ def verify_one(spec, root, target, installation="candidate"):
     }, identity
 
 
-def verify_acceptance_set(spec, evidence_root, installation="candidate"):
+def verify_acceptance_set(
+    spec, evidence_root, installation="candidate", verification_tooling_commit=None
+):
     require(installation in ("candidate", "registry"), "Unknown installation mode")
     spec, evidence_root = validate_spec(spec), Path(evidence_root)
+    verification_commit(spec, installation, verification_tooling_commit)
     actual = {path.parent.name for path in evidence_root.glob("*/ACCEPTANCE.json")}
     require(
         actual == set(TARGETS), "Exactly three native acceptance roots are required"
@@ -275,7 +302,11 @@ def verify_acceptance_set(spec, evidence_root, installation="candidate"):
     platforms, identities = [], []
     for target in TARGETS:
         result, identity = verify_one(
-            spec, evidence_root / target, target, installation
+            spec,
+            evidence_root / target,
+            target,
+            installation,
+            verification_tooling_commit,
         )
         platforms.append(result)
         identities.append(identity)
@@ -296,6 +327,11 @@ def verify_acceptance_set(spec, evidence_root, installation="candidate"):
         "tooling_commit": spec["tooling_commit"],
         "packaging_commit": spec["packaging_commit"],
         "version": spec["version"],
+        **(
+            {"verification_tooling_commit": verification_tooling_commit}
+            if verification_tooling_commit is not None
+            else {}
+        ),
         **candidate,
         "platforms": platforms,
         "evidence_sha256": canonical_digest(platforms),

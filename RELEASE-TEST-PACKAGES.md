@@ -227,6 +227,18 @@ Candidate and registry receipts have different installation identities and
 cannot substitute for one another. Declare the test version ready only after
 publication and all three fresh registry acceptances are verified.
 
+If registry verification exposes a validator defect after publication, preserve
+the failed evidence and repair, test and commit the validator separately. Do not
+edit the published packages, original specification, candidate receipts or their
+tooling snapshot. Create a new tooling snapshot from the repair's full commit,
+then run `verify` into a **fresh output directory** on all three hosts with
+`--verification-tooling-commit <full-repair-commit>`. Pass that same explicit
+option to `verify-all --installation registry` when collecting the results.
+The receipts retain the original candidate tooling identity and bind the new
+verification commit and file manifest separately. This option is registry-only;
+it cannot substitute revised tools for candidate acceptance or publication.
+Document the defect, regression evidence and review of the repair with the release.
+
 ## Resume without skipping checks
 
 Re-run `accept` or `verify` with the same arguments plus `--resume`. There is no

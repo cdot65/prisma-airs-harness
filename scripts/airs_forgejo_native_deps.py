@@ -70,3 +70,5 @@ with Path(os.environ["RUNNER_TEMP"], "airs-native.env").open("w") as stream:
         f"export PKG_CONFIG_PATH={shlex.quote(str(prefix / 'lib/pkgconfig'))}\n"
     )
     stream.write(f"export LD_LIBRARY_PATH={shlex.quote(str(prefix / 'lib'))}\n")
+
+    stream.write(f"export CODEX_TEST_VOICE_RUNTIME={shlex.quote(str(prefix))}\n")

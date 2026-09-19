@@ -406,7 +406,17 @@ async fn repo_ancestry_without_project_marker_does_not_walk_parents() {
     fs::create_dir_all(outer.join(".agents/skills")).expect("create outer skills");
     fs::create_dir_all(cwd.join(".agents/skills")).expect("create cwd skills");
 
-    let roots = repo_agents_skill_roots(Some(Arc::clone(&LOCAL_FS)), &stack(Vec::new()), &cwd)
+    // Use a fixture-specific absent marker so an ancestor repository outside
+    // this temporary directory cannot change the no-project case.
+    let marker = format!(
+        ".absent-project-{}",
+        temp_dir.path().file_name().unwrap().to_string_lossy()
+    );
+    let layers = stack(vec![ConfigLayerEntry::new(
+        ConfigLayerSource::SessionFlags,
+        toml::toml! { project_root_markers = [marker] }.into(),
+    )]);
+    let roots = repo_agents_skill_roots(Some(Arc::clone(&LOCAL_FS)), &layers, &cwd)
         .await
         .into_iter()
         .map(|root| root.path)

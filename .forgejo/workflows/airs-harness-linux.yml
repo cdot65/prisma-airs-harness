@@ -10,6 +10,10 @@ on:
         description: CI container tooling branch or commit (source is validated unchanged)
         default: main
         required: true
+      test_filter:
+        description: Optional nextest expression for a scoped diagnostic (empty runs full workspace)
+        default: ""
+        required: false
   push:
     branches: [integrate/codex-0.154-candidate]
     paths:
@@ -39,6 +43,7 @@ jobs:
       TERM: xterm-256color
       COLORTERM: truecolor
       NPM_CONFIG_REGISTRY: https://npm.cdot.io
+      AIRS_WORKSPACE_TEST_FILTER: ${{ inputs.test_filter }}
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:

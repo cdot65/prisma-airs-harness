@@ -521,7 +521,7 @@ async fn shell_snapshot_v2_capture_failure_falls_back_and_retries(
 
     std::fs::write(
         home.path().join(profile_name),
-        "printf x >> \"$HOME/captures\"\nprofile_helper() { printf recovered; }\n",
+        "printf x >> \"$HOME/captures\"\nprintf '%s\\n' \"$BASHPID|$-|${BASH_ENV-unset}\" >> \"$HOME/profile-trace\"\nprofile_helper() { printf recovered; }\n",
     )?;
     let (expected_output, expected_captures) = if failures_before_repair == 3 {
         ("original", "xxx")
@@ -538,7 +538,9 @@ async fn shell_snapshot_v2_capture_failure_falls_back_and_retries(
     }
     assert_eq!(
         std::fs::read_to_string(home.path().join("captures"))?,
-        expected_captures
+        expected_captures,
+        "profile execution trace: {}",
+        std::fs::read_to_string(home.path().join("profile-trace")).unwrap_or_default()
     );
     Ok(())
 }

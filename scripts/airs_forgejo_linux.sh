@@ -27,4 +27,9 @@ source "$RUNNER_TEMP/airs-v8.env"
 (cd codex-rs && cargo build --locked -p codex-cli -p codex-linux-sandbox -p codex-rmcp-client -p codex-code-mode-host --bins)
 python3 scripts/airs_forgejo_native_deps.py
 source "$RUNNER_TEMP/airs-native.env"
-just test --locked --features codex-v8-poc/sandbox
+test_args=(--locked --features codex-v8-poc/sandbox)
+if [[ -n "${AIRS_WORKSPACE_TEST_FILTER:-}" ]]; then
+  test_args+=(-E "$AIRS_WORKSPACE_TEST_FILTER")
+fi
+printf '%s\n' "${AIRS_WORKSPACE_TEST_FILTER:-full-workspace}" > "$RUNNER_TEMP/airs-evidence/test-scope.txt"
+just test "${test_args[@]}"

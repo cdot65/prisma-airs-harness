@@ -1,0 +1,19 @@
+{
+  "deployment": "aigw-redtail",
+  "namespace": "aigw-redtail",
+  "containers": [
+    {
+      "name": "airs-gw",
+      "image": "registry.portkey.ai/airsgw/gateway_enterprise:2.22.0",
+      "image_id": "registry.portkey.ai/airsgw/gateway_enterprise@sha256:88fb80d050fb8dfb3e1c0c6383367b3744b04af4c8c97db154def671efcce0d4"
+    }
+  ],
+  "implementation_observations": {
+    "bundle_sha256": "a93d4a94e1b30a49f17f6e7399679cd11eb4cc111c40d56a5b9d88e0d042ad22",
+    "device_endpoint_marker": false,
+    "device_grant_marker": false,
+    "token_forwarding_marker": true,
+    "control_plane_error_marker": true
+  },
+  "scope": "Read-only deployed artifact inspection; absence of literal markers alone is not proof of absence. Live token endpoint rejection supplies behavioral evidence. No secrets or proprietary bundle retained."
+}

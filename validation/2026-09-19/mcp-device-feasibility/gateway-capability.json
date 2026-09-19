@@ -1,0 +1,60 @@
+{
+  "utc": "2026-09-19T17:31:45.567152+00:00",
+  "discovery": [
+    {
+      "url": "https://mcp.redtail.cdot.io/.well-known/oauth-protected-resource/mcp-service-now-dev/mcp",
+      "metadata": {
+        "resource": "https://mcp.redtail.cdot.io/mcp-service-now-dev/mcp",
+        "authorization_servers": [
+          "https://mcp.redtail.cdot.io/mcp-service-now-dev/mcp"
+        ],
+        "scopes_supported": [
+          "mcp:servers:read",
+          "mcp:servers:*",
+          "mcp:tools:list",
+          "mcp:tools:call",
+          "mcp:*"
+        ]
+      }
+    },
+    {
+      "url": "https://mcp.redtail.cdot.io/.well-known/oauth-authorization-server/mcp-service-now-dev/mcp",
+      "metadata": {
+        "issuer": "https://mcp.redtail.cdot.io/mcp-service-now-dev/mcp",
+        "authorization_endpoint": "https://mcp.redtail.cdot.io/oauth/mcp-service-now-dev/authorize",
+        "token_endpoint": "https://mcp.redtail.cdot.io/oauth/token",
+        "revocation_endpoint": "https://mcp.redtail.cdot.io/oauth/revoke",
+        "revocation_endpoint_auth_methods_supported": [
+          "none"
+        ],
+        "registration_endpoint": "https://mcp.redtail.cdot.io/oauth/register",
+        "response_types_supported": [
+          "code"
+        ],
+        "grant_types_supported": [
+          "authorization_code",
+          "refresh_token"
+        ],
+        "response_modes_supported": [
+          "query",
+          "fragment"
+        ],
+        "token_endpoint_auth_methods_supported": [
+          "none"
+        ],
+        "code_challenge_methods_supported": [
+          "S256"
+        ],
+        "service_documentation": "https://portkey.ai/docs/mcp-gateway",
+        "ui_locales_supported": [
+          "en"
+        ]
+      }
+    }
+  ],
+  "invalid_device_grant_probe": {
+    "status": 400,
+    "error": "unsupported_grant_type",
+    "error_description": "Invalid grant_type parameter"
+  }
+}

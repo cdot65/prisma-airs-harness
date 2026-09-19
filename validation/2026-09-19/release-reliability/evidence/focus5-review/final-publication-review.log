@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.22.mcp.3",
+  "native_targets": [
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "aarch64-apple-darwin"
+  ],
+  "all_non_mcp_tags_preserved": true,
+  "scope": "owner-authorized-test; attended real-account checks deferred"
+}

@@ -1,0 +1,4 @@
+{
+  "acceptance": "/tmp/airs-autonomous-20260919/release/candidate-acceptance/x86_64-unknown-linux-musl/ACCEPTANCE.json",
+  "installation": "candidate"
+}

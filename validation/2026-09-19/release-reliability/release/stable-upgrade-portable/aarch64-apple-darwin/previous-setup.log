@@ -1,0 +1,5 @@
+Configured Prisma AIRS Harness in /Users/cdot/.cache/airs-reliability-20260919/stable-upgrade/aarch64-apple-darwin/preserved-harness-state/environments/404ce2e0-18e2-4934-8dee-eb53fd252c1d
+Run airs login to sign in with your company account or workspace API key.
+Selected environment work. Its sessions and credentials are independent.
+Next: airs --environment work login
+Then: airs --environment work doctor --verify-access

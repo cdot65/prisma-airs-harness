@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "packages": [
+    "airs-harness-linux-x64",
+    "airs-harness-linux-arm64",
+    "airs-harness-darwin-arm64",
+    "airs-harness"
+  ],
+  "all_non_mcp_tags_preserved": true,
+  "fresh_registry_acceptance": "pending"
+}

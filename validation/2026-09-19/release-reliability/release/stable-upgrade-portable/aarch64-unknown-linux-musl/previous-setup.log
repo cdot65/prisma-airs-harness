@@ -1,0 +1,5 @@
+Configured Prisma AIRS Harness in /home/airs-review/stable-upgrade/aarch64-unknown-linux-musl/preserved-harness-state/environments/0d7b5db3-f588-4dee-bc93-e9a4b74fc1e7
+Run airs login to sign in with your company account or workspace API key.
+Selected environment work. Its sessions and credentials are independent.
+Next: airs --environment work login
+Then: airs --environment work doctor --verify-access

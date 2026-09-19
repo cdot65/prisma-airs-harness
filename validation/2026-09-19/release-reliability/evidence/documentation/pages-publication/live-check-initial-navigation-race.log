@@ -1,0 +1,3 @@
+Error: Live login anchor missing
+    at requireThat (/tmp/airs-autonomous-20260919/evidence/documentation/pages-publication/check-live.cjs:13:49)
+    at /tmp/airs-autonomous-20260919/evidence/documentation/pages-publication/check-live.cjs:37:3

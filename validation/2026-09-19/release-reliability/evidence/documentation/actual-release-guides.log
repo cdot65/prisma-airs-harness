@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "scope": "Actual candidate and published staged archive guide bytes, not fixture package evidence",
+  "checked_source_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+  "archives": [
+    {
+      "scope": "actual-candidate",
+      "archive": "/tmp/airs-autonomous-20260919/release/candidate-npm/tarballs/airs-harness-0.1.0-alpha.22.mcp.3.tgz",
+      "sha256": "0b886850bed15f873a51d66814ba53b3979d94eba45bc737c350a6c65de510e9",
+      "version": "0.1.0-alpha.22.mcp.3",
+      "private": true,
+      "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+      "guide_sha256": {
+        "README.md": "b8dd52b71496ada3e94a66f33db5c25672456e048fda536f686172f77d1cd1e9",
+        "GETTING-STARTED.md": "7d0cdc68086af21744e9377a68de99f71e3858d104a5f75adffb9a9820db2e50",
+        "MACOS.md": "8d66b2c568a0da7c850623e3a11751e8dbade70d04633f89a5350b9d2bebc401",
+        "PRISMA-AIRS-CLI.md": "f5419fd126b55e156c72b392a6c76d17110c2c512a6285b79fac3ea04cc25f75"
+      },
+      "committed_source_match": true,
+      "relative_links_valid": true,
+      "historical_guide_absent": true
+    },
+    {
+      "scope": "actual-published-stage",
+      "archive": "/tmp/airs-autonomous-20260919/release/staged/tarballs/airs-harness-0.1.0-alpha.22.mcp.3.tgz",
+      "sha256": "25ecbe43020104cece13461a4fe305b81f16ec26b34059649ff5953feaca69e4",
+      "version": "0.1.0-alpha.22.mcp.3",
+      "private": false,
+      "packaging_commit": "94b45c17bd1182e789772f3f88685c5486cda7d8",
+      "guide_sha256": {
+        "README.md": "b8dd52b71496ada3e94a66f33db5c25672456e048fda536f686172f77d1cd1e9",
+        "GETTING-STARTED.md": "7d0cdc68086af21744e9377a68de99f71e3858d104a5f75adffb9a9820db2e50",
+        "MACOS.md": "8d66b2c568a0da7c850623e3a11751e8dbade70d04633f89a5350b9d2bebc401",
+        "PRISMA-AIRS-CLI.md": "f5419fd126b55e156c72b392a6c76d17110c2c512a6285b79fac3ea04cc25f75"
+      },
+      "committed_source_match": true,
+      "relative_links_valid": true,
+      "historical_guide_absent": true
+    }
+  ],
+  "historical_source_unchanged_sha256": "8a46b69dff5703a63f3aa404084e36ff26b284b71042a38e16ac8e0674cf79f7",
+  "publication_receipt_published": true,
+  "non_mcp_tags_preserved": true,
+  "fresh_three_platform_registry_gate": "awaiting root confirmation",
+  "publication_receipt_sha256": "352d8363ab7e880ffcba14ab57de57ab68a0f80a377bdbd36c00b6733c73344e"
+}

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "node_version": "v18.20.8",
+  "npm_version_bundled_with_download": "10.8.2",
+  "checks": 16,
+  "child_dispatch_attempts": 0,
+  "scope": "supplemental actual unsupported-runtime rejection; not a replacement for supported-Node native registry matrices"
+}

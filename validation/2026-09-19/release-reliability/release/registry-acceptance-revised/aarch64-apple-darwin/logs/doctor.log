@@ -1,0 +1,9 @@
+test_cancel_slow_diagnostics_then_retry (test_airs_doctor.SessionDoctor.test_cancel_slow_diagnostics_then_retry) ... ok
+test_environment_pinning_explicit_probe_and_failed_report (test_airs_doctor.SessionDoctor.test_environment_pinning_explicit_probe_and_failed_report) ... ok
+test_missing_native_service_leaves_binding_and_cleanup_untouched (test_airs_doctor.SessionDoctor.test_missing_native_service_leaves_binding_and_cleanup_untouched) ... skipped 'Linux native service diagnostics'
+test_stalled_native_service_probe_is_bounded (test_airs_doctor.SessionDoctor.test_stalled_native_service_probe_is_bounded) ... skipped 'Linux native service diagnostics'
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.615s
+
+OK (skipped=2)

@@ -1,0 +1,26 @@
+test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins (test_validate_airs_test_registry_install.InstalledBytes.test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins) ... ERROR
+
+======================================================================
+ERROR: test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins (test_validate_airs_test_registry_install.InstalledBytes.test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_validate_airs_test_registry_install.py", line 102, in test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins
+    validator.verify_installed_files(installed, inventory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/validate_airs_test_registry_install.py", line 49, in verify_installed_files
+    require(
+    ~~~~~~~^
+        stat.S_IMODE(path.stat().st_mode) & 0o111 == expected["mode"] & 0o111,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "Installed executable mode differs from staged package",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/airs_test_release_spec.py", line 30, in require
+    raise ValueError(message)
+ValueError: Installed executable mode differs from staged package
+
+----------------------------------------------------------------------
+Ran 1 test in 0.278s
+
+FAILED (errors=1)

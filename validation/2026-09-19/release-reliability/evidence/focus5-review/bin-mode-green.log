@@ -1,0 +1,14 @@
+test_bin_permission_requires_verified_manifest_and_safe_existing_target (test_validate_airs_test_registry_install.InstalledBytes.test_bin_permission_requires_verified_manifest_and_safe_existing_target) ... ok
+test_exact_bytes_pass_but_corruption_and_missing_executable_mode_fail (test_validate_airs_test_registry_install.InstalledBytes.test_exact_bytes_pass_but_corruption_and_missing_executable_mode_fail) ... ok
+test_exact_version_is_insufficient_when_advertised_channel_differs (test_validate_airs_test_registry_install.InstalledBytes.test_exact_version_is_insufficient_when_advertised_channel_differs) ... ok
+test_file_or_parent_symlink_cannot_substitute_installed_bytes (test_validate_airs_test_registry_install.InstalledBytes.test_file_or_parent_symlink_cannot_substitute_installed_bytes) ... ok
+test_host_architecture_requires_a_supported_native_platform (test_validate_airs_test_registry_install.InstalledBytes.test_host_architecture_requires_a_supported_native_platform) ... ok
+test_linked_output_is_rejected_before_any_installation (test_validate_airs_test_registry_install.InstalledBytes.test_linked_output_is_rejected_before_any_installation) ... ok
+test_missing_file_and_traversal_inventory_are_rejected (test_validate_airs_test_registry_install.InstalledBytes.test_missing_file_and_traversal_inventory_are_rejected) ... ok
+test_non_package_asset_manifest_cannot_authorize_executable_mode (test_validate_airs_test_registry_install.InstalledBytes.test_non_package_asset_manifest_cannot_authorize_executable_mode) ... ok
+test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins (test_validate_airs_test_registry_install.InstalledBytes.test_real_npm_normalizes_only_declared_root_and_nested_bundled_bins) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.288s
+
+OK

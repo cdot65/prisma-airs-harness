@@ -1,0 +1,92 @@
+Eusage: python3 -m unittest [-h]
+                           {snapshot-tooling,inspect,accept,stage,publish,verify,verify-all} ...
+python3 -m unittest: error: unrecognized arguments: --verification-tooling-commit ffffffffffffffffffffffffffffffffffffffff
+EEEEEEE
+======================================================================
+ERROR: test_candidate_cannot_accept_a_registry_revision (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_candidate_cannot_accept_a_registry_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 41, in test_candidate_cannot_accept_a_registry_revision
+    verify_acceptance_set(self.spec, self.evidence, "candidate", self.revision)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cli_requires_explicit_verification_revision (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_cli_requires_explicit_verification_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 62, in test_cli_requires_explicit_verification_revision
+    args = parser().parse_args([
+        "verify-all", "--spec", "spec.json", "--acceptance", "registry",
+        "--installation", "registry", "--verification-tooling-commit", self.revision,
+    ])
+  File "/usr/lib/python3.14/argparse.py", line 2012, in parse_args
+    self.error(msg)
+    ~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.14/argparse.py", line 2785, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/argparse.py", line 2772, in exit
+    _sys.exit(status)
+    ~~~~~~~~~^^^^^^^^
+SystemExit: 2
+
+======================================================================
+ERROR: test_explicit_revision_preserves_original_spec_and_candidate_tooling (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_explicit_revision_preserves_original_spec_and_candidate_tooling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 28, in test_explicit_revision_preserves_original_spec_and_candidate_tooling
+    result = verify_acceptance_set(
+        self.spec, self.evidence, "registry", self.revision
+    )
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_revision_must_be_a_full_commit_and_match_each_manifest (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_revision_must_be_a_full_commit_and_match_each_manifest) (invalid='HEAD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 53, in test_revision_must_be_a_full_commit_and_match_each_manifest
+    verify_acceptance_set(self.spec, self.evidence, "registry", invalid)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_revision_must_be_a_full_commit_and_match_each_manifest (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_revision_must_be_a_full_commit_and_match_each_manifest) (invalid='fffffffffffffffffffffffffffffffffffffff')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 53, in test_revision_must_be_a_full_commit_and_match_each_manifest
+    verify_acceptance_set(self.spec, self.evidence, "registry", invalid)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_revision_must_be_a_full_commit_and_match_each_manifest (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_revision_must_be_a_full_commit_and_match_each_manifest) (invalid='ffffffffffffffffffffffffffffffffffffffff\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 53, in test_revision_must_be_a_full_commit_and_match_each_manifest
+    verify_acceptance_set(self.spec, self.evidence, "registry", invalid)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_revision_must_be_a_full_commit_and_match_each_manifest (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_revision_must_be_a_full_commit_and_match_each_manifest) (invalid='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 53, in test_revision_must_be_a_full_commit_and_match_each_manifest
+    verify_acceptance_set(self.spec, self.evidence, "registry", invalid)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_revision_must_be_a_full_commit_and_match_each_manifest (test_airs_registry_tooling_revision.RegistryToolingRevisionTests.test_revision_must_be_a_full_commit_and_match_each_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-reliability-20260919/scripts/test_airs_registry_tooling_revision.py", line 59, in test_revision_must_be_a_full_commit_and_match_each_manifest
+    verify_acceptance_set(self.spec, self.evidence, "registry", self.revision)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: verify_acceptance_set() takes from 2 to 3 positional arguments but 4 were given
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.454s
+
+FAILED (errors=8)

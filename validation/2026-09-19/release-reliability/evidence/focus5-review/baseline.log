@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "frozen_tooling_files": 136,
+  "targets": [
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "aarch64-apple-darwin"
+  ],
+  "scope": "candidate/staged baseline only; publication and registry acceptance not yet reviewed"
+}

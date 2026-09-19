@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "actual_node": "v18.20.8",
+  "actual_bundled_npm": "10.8.2",
+  "native_architecture": "aarch64",
+  "checks": 16,
+  "child_dispatch_attempts": 0,
+  "collector_entrypoints_match_published_stage": true
+}

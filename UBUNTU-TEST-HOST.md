@@ -26,12 +26,12 @@ bash ~/prepare-airs-ubuntu.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
-The default package is the published `0.1.0-alpha.22.mcp.3` from
-`https://npm.cdot.io`. This does not select an unpublished development build.
-To prepare a later published version, supply its exact version:
+The helper defaults to `0.1.0-alpha.22.mcp.4` from `https://npm.cdot.io`,
+matching this package. Run it once that exact version is available in the registry.
+You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.3 bash ~/prepare-airs-ubuntu.sh
+AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.4 bash ~/prepare-airs-ubuntu.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service

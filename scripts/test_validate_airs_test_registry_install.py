@@ -19,13 +19,16 @@ class InstalledBytes(unittest.TestCase):
         self.binary = self.package / "bin/airs"
         self.binary.write_bytes(b"synthetic shipped executable\n")
         self.binary.chmod(0o755)
-        self.inventory = {"members": {
-            "package/bin": {"type": "dir"},
-            "package/bin/airs": {
-                "type": "file", "mode": 0o755,
-                "sha256": hashlib.sha256(self.binary.read_bytes()).hexdigest(),
-            },
-        }}
+        self.inventory = {
+            "members": {
+                "package/bin": {"type": "dir"},
+                "package/bin/airs": {
+                    "type": "file",
+                    "mode": 0o755,
+                    "sha256": hashlib.sha256(self.binary.read_bytes()).hexdigest(),
+                },
+            }
+        }
 
     def test_exact_bytes_pass_but_corruption_and_missing_executable_mode_fail(self):
         validator.verify_installed_files(self.package, self.inventory)
@@ -54,15 +57,21 @@ class InstalledBytes(unittest.TestCase):
         self.binary.unlink()
         with self.assertRaisesRegex(ValueError, "missing"):
             validator.verify_installed_files(self.package, self.inventory)
-        self.inventory["members"]["package/../../escape"] = self.inventory["members"].pop("package/bin/airs")
+        self.inventory["members"]["package/../../escape"] = self.inventory[
+            "members"
+        ].pop("package/bin/airs")
         with self.assertRaises(ValueError):
             validator.verify_installed_files(self.package, self.inventory)
 
     def test_linked_output_is_rejected_before_any_installation(self):
         linked = self.root / "linked"
         linked.symlink_to(self.package, target_is_directory=True)
-        spec = {"platforms": [{"target": "aarch64-apple-darwin", "binary_sha256": "a" * 64}]}
-        with patch.object(validator, "host_target", return_value="aarch64-apple-darwin"):
+        spec = {
+            "platforms": [{"target": "aarch64-apple-darwin", "binary_sha256": "a" * 64}]
+        }
+        with patch.object(
+            validator, "host_target", return_value="aarch64-apple-darwin"
+        ):
             with self.assertRaisesRegex(ValueError, "Linked"):
                 validator.install(spec, self.root / "archives", linked / "new-prefix")
         self.assertFalse((self.package / "new-prefix").exists())
@@ -76,12 +85,24 @@ class InstalledBytes(unittest.TestCase):
                 self.assertEqual(validator.host_target(), "aarch64-apple-darwin")
 
     def test_exact_version_is_insufficient_when_advertised_channel_differs(self):
-        spec = {"version": "0.1.0-alpha.22.mcp.3", "tag": "mcp", "registry": "https://npm.example.test"}
+        spec = {
+            "version": "0.1.0-alpha.22.mcp.3",
+            "tag": "mcp",
+            "registry": "https://npm.example.test",
+        }
         row = {"name": "airs-harness", "integrity": "sha512-synthetic"}
-        published = {"name": row["name"], "version": spec["version"], "dist": {
-            "integrity": row["integrity"], "tarball": "https://npm.example.test/airs-harness/-/release.tgz",
-        }}
-        document = {"versions": {spec["version"]: published}, "dist-tags": {"mcp": spec["version"]}}
+        published = {
+            "name": row["name"],
+            "version": spec["version"],
+            "dist": {
+                "integrity": row["integrity"],
+                "tarball": "https://npm.example.test/airs-harness/-/release.tgz",
+            },
+        }
+        document = {
+            "versions": {spec["version"]: published},
+            "dist-tags": {"mcp": spec["version"]},
+        }
         registry = Mock()
         registry.metadata.return_value = document
         validator.verify_registry_metadata(spec, [row], registry)

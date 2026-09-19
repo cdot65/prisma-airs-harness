@@ -12,7 +12,9 @@ from airs_test_release_spec import require
 def test_ids(suite):
     result = []
     for item in suite:
-        result.extend(test_ids(item) if isinstance(item, unittest.TestSuite) else [item.id()])
+        result.extend(
+            test_ids(item) if isinstance(item, unittest.TestSuite) else [item.id()]
+        )
     return result
 
 
@@ -21,15 +23,23 @@ def run_suite(scripts, pattern, receipt):
     ids = test_ids(suite)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     summary = {
-        "schema_version": 1, "pattern": pattern, "test_ids": ids,
+        "schema_version": 1,
+        "pattern": pattern,
+        "test_ids": ids,
         "tests_run": result.testsRun,
         "failures": [case.id() for case, _ in result.failures],
         "errors": [case.id() for case, _ in result.errors],
-        "skipped": [{"test": case.id(), "reason": reason[:512]} for case, reason in result.skipped],
+        "skipped": [
+            {"test": case.id(), "reason": reason[:512]}
+            for case, reason in result.skipped
+        ],
         "passed": result.wasSuccessful() and result.testsRun > len(result.skipped),
     }
     atomic_json(receipt, summary)
-    require(summary["passed"], "Installed fixture suite failed, was empty or entirely skipped")
+    require(
+        summary["passed"],
+        "Installed fixture suite failed, was empty or entirely skipped",
+    )
     return summary
 
 

@@ -60,9 +60,18 @@ def native_info(prefix):
 def archive_manifest(packages, record):
     archive = evidence_path(packages, "tarballs/" + record["filename"])
     inventory = inspect_archive(archive)
-    require(inventory["sha256"] == record["sha256"] and inventory["integrity"] == record["integrity"], "Upgrade archive integrity mismatch")
+    require(
+        inventory["sha256"] == record["sha256"]
+        and inventory["integrity"] == record["integrity"],
+        "Upgrade archive integrity mismatch",
+    )
     manifest = inventory["json"].get("package/package.json")
-    require(isinstance(manifest, dict) and manifest.get("name") == record["name"] and manifest.get("version") == record["version"], "Upgrade package identity mismatch")
+    require(
+        isinstance(manifest, dict)
+        and manifest.get("name") == record["name"]
+        and manifest.get("version") == record["version"],
+        "Upgrade package identity mismatch",
+    )
     return manifest, archive
 
 
@@ -74,8 +83,17 @@ def main():
     parser.add_argument("--registry", default="https://npm.cdot.io")
     args = parser.parse_args()
     registry = urlsplit(args.registry)
-    if registry.scheme != "https" or not registry.hostname or registry.username or registry.password or registry.query or registry.fragment:
-        parser.error("Expected an HTTPS registry URL without credentials, query or fragment")
+    if (
+        registry.scheme != "https"
+        or not registry.hostname
+        or registry.username
+        or registry.password
+        or registry.query
+        or registry.fragment
+    ):
+        parser.error(
+            "Expected an HTTPS registry URL without credentials, query or fragment"
+        )
     args.registry = args.registry.rstrip("/")
     previous_version = re.fullmatch(
         r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.(?:onboarding|mcp)\.\d+)?", args.previous

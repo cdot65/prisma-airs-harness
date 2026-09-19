@@ -19,7 +19,9 @@ MAX_ARCHIVE = 512 * 1024 * 1024
 MAX_JSON = 1024 * 1024
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 COMMIT = re.compile(r"[0-9a-f]{40}\Z")
-VERSION = re.compile(r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)-alpha\.(?:0|[1-9]\d*)\.mcp\.(?:0|[1-9]\d*)\Z")
+VERSION = re.compile(
+    r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)-alpha\.(?:0|[1-9]\d*)\.mcp\.(?:0|[1-9]\d*)\Z"
+)
 PREVIOUS = re.compile(r"\d+\.\d+\.\d+-alpha\.\d+(?:\.(?:mcp|onboarding)\.\d+)?\Z")
 
 
@@ -29,19 +31,31 @@ def require(condition, message):
 
 
 def canonical_digest(document):
-    return hashlib.sha256(json.dumps(document, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(
+            document, sort_keys=True, separators=(",", ":"), allow_nan=False
+        ).encode()
+    ).hexdigest()
 
 
 def regular_file(path, limit=MAX_ARCHIVE):
     """Open a bounded regular file without following its final symlink."""
     path = Path(path)
     before = path.lstat()
-    require(stat.S_ISREG(before.st_mode) and not getattr(before, "st_file_attributes", 0) & 0x400, "Expected a regular non-linked file")
+    require(
+        stat.S_ISREG(before.st_mode)
+        and not getattr(before, "st_file_attributes", 0) & 0x400,
+        "Expected a regular non-linked file",
+    )
     require(before.st_size <= limit, "File exceeds size limit")
     flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
     stream = os.fdopen(os.open(path, flags), "rb")
     current = os.fstat(stream.fileno())
-    if not stat.S_ISREG(current.st_mode) or (before.st_dev, before.st_ino, before.st_size) != (current.st_dev, current.st_ino, current.st_size):
+    if not stat.S_ISREG(current.st_mode) or (
+        before.st_dev,
+        before.st_ino,
+        before.st_size,
+    ) != (current.st_dev, current.st_ino, current.st_size):
         stream.close()
         raise ValueError("File changed while opening")
     return stream
@@ -69,7 +83,13 @@ def json_bytes(payload):
             result[key] = value
         return result
 
-    return json.loads(payload, object_pairs_hook=unique, parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite JSON value")))
+    return json.loads(
+        payload,
+        object_pairs_hook=unique,
+        parse_constant=lambda _: (_ for _ in ()).throw(
+            ValueError("Nonfinite JSON value")
+        ),
+    )
 
 
 def load_json(path):
@@ -80,35 +100,99 @@ def load_json(path):
 
 def validate_spec(document):
     require(isinstance(document, dict), "Expected release specification")
-    fields = {"schema_version", "scope", "version", "tag", "registry", "source_commit", "tooling_commit", "packaging_commit", "previous_version", "developer_id_team", "platforms"}
-    require(set(document) == fields, "Unexpected or missing release specification fields")
-    require(type(document["schema_version"]) is int and document["schema_version"] == 1, "Unsupported release specification schema")
-    require(document["scope"] == SCOPE and document["tag"] == "mcp", "Only owner-authorized mcp test publication is supported")
+    fields = {
+        "schema_version",
+        "scope",
+        "version",
+        "tag",
+        "registry",
+        "source_commit",
+        "tooling_commit",
+        "packaging_commit",
+        "previous_version",
+        "developer_id_team",
+        "platforms",
+    }
+    require(
+        set(document) == fields, "Unexpected or missing release specification fields"
+    )
+    require(
+        type(document["schema_version"]) is int and document["schema_version"] == 1,
+        "Unsupported release specification schema",
+    )
+    require(
+        document["scope"] == SCOPE and document["tag"] == "mcp",
+        "Only owner-authorized mcp test publication is supported",
+    )
     for key in fields - {"schema_version", "platforms"}:
         value = document[key]
-        require(isinstance(value, str) and 0 < len(value) <= 2048 and all(32 <= ord(c) < 127 for c in value), "Invalid release specification string")
-    require(VERSION.fullmatch(document["version"]) is not None and len(document["version"]) <= 128, "Expected an immutable mcp prerelease version")
-    require(PREVIOUS.fullmatch(document["previous_version"]) is not None and document["previous_version"] != document["version"], "Invalid previous version")
+        require(
+            isinstance(value, str)
+            and 0 < len(value) <= 2048
+            and all(32 <= ord(c) < 127 for c in value),
+            "Invalid release specification string",
+        )
+    require(
+        VERSION.fullmatch(document["version"]) is not None
+        and len(document["version"]) <= 128,
+        "Expected an immutable mcp prerelease version",
+    )
+    require(
+        PREVIOUS.fullmatch(document["previous_version"]) is not None
+        and document["previous_version"] != document["version"],
+        "Invalid previous version",
+    )
     for key in ("source_commit", "tooling_commit", "packaging_commit"):
-        require(COMMIT.fullmatch(document[key]) is not None, "Expected a full source commit")
-    require(re.fullmatch(r"[A-Z0-9]{10}", document["developer_id_team"]) is not None, "Invalid Developer ID team")
+        require(
+            COMMIT.fullmatch(document[key]) is not None, "Expected a full source commit"
+        )
+    require(
+        re.fullmatch(r"[A-Z0-9]{10}", document["developer_id_team"]) is not None,
+        "Invalid Developer ID team",
+    )
     registry = document["registry"]
     parsed = urlsplit(registry)
-    require(parsed.scheme == "https" and parsed.hostname and parsed.username is None and parsed.password is None and not any(c in registry for c in "\\?# ") and parsed.port != 0, "Registry requires HTTPS without credentials, query, fragment or whitespace")
-    require(not parsed.path or all(part not in (".", "..") for part in parsed.path.split("/")), "Invalid registry path")
+    require(
+        parsed.scheme == "https"
+        and parsed.hostname
+        and parsed.username is None
+        and parsed.password is None
+        and not any(c in registry for c in "\\?# ")
+        and parsed.port != 0,
+        "Registry requires HTTPS without credentials, query, fragment or whitespace",
+    )
+    require(
+        not parsed.path
+        or all(part not in (".", "..") for part in parsed.path.split("/")),
+        "Invalid registry path",
+    )
     platforms = document["platforms"]
-    require(isinstance(platforms, list) and len(platforms) == 3, "Exactly three native targets are required")
+    require(
+        isinstance(platforms, list) and len(platforms) == 3,
+        "Exactly three native targets are required",
+    )
     seen = set()
     for platform in platforms:
-        require(isinstance(platform, dict) and set(platform) == {"target", "binary_sha256"}, "Invalid platform declaration")
+        require(
+            isinstance(platform, dict) and set(platform) == {"target", "binary_sha256"},
+            "Invalid platform declaration",
+        )
         target, digest = platform["target"], platform["binary_sha256"]
-        require(isinstance(target, str) and target in TARGETS and target not in seen, "Unsupported or duplicate native target")
-        require(isinstance(digest, str) and SHA256.fullmatch(digest) is not None, "Invalid native digest")
+        require(
+            isinstance(target, str) and target in TARGETS and target not in seen,
+            "Unsupported or duplicate native target",
+        )
+        require(
+            isinstance(digest, str) and SHA256.fullmatch(digest) is not None,
+            "Invalid native digest",
+        )
         seen.add(target)
     # Copy and canonicalize ordering without mutating the caller's declaration.
     result = dict(document)
     result["registry"] = registry.rstrip("/")
-    result["platforms"] = [dict(next(p for p in platforms if p["target"] == target)) for target in TARGETS]
+    result["platforms"] = [
+        dict(next(p for p in platforms if p["target"] == target)) for target in TARGETS
+    ]
     return result
 
 

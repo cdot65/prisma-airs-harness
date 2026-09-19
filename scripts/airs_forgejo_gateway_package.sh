@@ -19,6 +19,12 @@ retain_diagnostics() {
 }
 trap 'retain_diagnostics "$?"' EXIT
 test "$(git -C runtime rev-parse HEAD)" = "$AIRS_RUNTIME_SOURCE"
+# Terminal recovery fixtures import pyte; never install into the runner's Python.
+acceptance_python="$(mktemp -d "$work/acceptance-python.XXXXXX")"
+python3 -m venv "$acceptance_python"
+"$acceptance_python/bin/python3" -I -m pip --isolated --disable-pip-version-check install --no-input --index-url https://pypi.org/simple 'pyte==0.8.2'
+"$acceptance_python/bin/python3" -I -m pip freeze > "$work/evidence/python-packages.txt"
+export PATH="$acceptance_python/bin:$PATH"
 python3 scripts/airs_macos_artifact.py restore --archive "$staged/intake.tar.gz" --directory "$work/compiled" --source-commit "$AIRS_RUNTIME_SOURCE" --archive-sha256 "$AIRS_ARCHIVE_SHA256" --binary-sha256 "$AIRS_BINARY_SHA256" --fixture-sha256 "$AIRS_FIXTURE_SHA256"
 cp "$work/compiled/ARTIFACT-VERIFIED.json" "$work/evidence/NATIVE-BUILD.json"
 mkdir "$work/prisma-airs-harness-signing"
@@ -37,6 +43,7 @@ binary_sha="$(shasum -a 256 "$binary" | cut -d ' ' -f 1)"
 python3 scripts/airs_signed_macos_artifact.py verify --asset-id "forgejo-run-$GITHUB_RUN_ID" --binary "$binary" --receipt "$work/evidence/SIGNING.json" --archive-sha256 "$archive_sha" --binary-sha256 "$binary_sha" --source-commit "$AIRS_RUNTIME_SOURCE" --submission "$submission"
 python3 scripts/validate_airs_macos_keychain.py --binary "$binary" --receipt "$work/evidence/NATIVE-KEYCHAIN.json"
 AIRS_HARNESS_BIN="$binary" python3 -m unittest discover -s scripts -p 'test_airs_harness*.py' -v > "$work/evidence/native-tests.log" 2>&1
+python3 scripts/validate_native_credentials.py --binary "$work/compiled/store_acceptance" --output "$work/evidence/NATIVE-STORE.json"
 # Interactive gateway E2E runs against the subsequently installed signed npm bytes.
 # This job only produces an unvalidated candidate; it does not authorize promotion.
 (cd runtime/codex-rs && cargo metadata --locked --filter-platform aarch64-apple-darwin --format-version 1) > "$work/metadata.json"

@@ -47,5 +47,6 @@ jobs:
             ${{ runner.temp }}/airs-gateway-package/evidence/*.json
             ${{ runner.temp }}/airs-gateway-package/evidence/SIGNING-*.log
             ${{ runner.temp }}/airs-gateway-package/evidence/native-tests.log
+            ${{ runner.temp }}/airs-gateway-package/evidence/python-packages.txt
             ${{ runner.temp }}/airs-gateway-package/mac-release/*.tar.gz
             ${{ runner.temp }}/airs-gateway-package/signed.zip

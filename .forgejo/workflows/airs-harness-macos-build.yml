@@ -316,6 +316,13 @@ jobs:
         with:
           name: ${{ needs.build.outputs.artifact_name }}
           path: ${{ runner.temp }}/download
+      - name: Prepare isolated terminal acceptance dependencies
+        run: |
+          acceptance_python="$(mktemp -d "$RUNNER_TEMP/airs-acceptance-python.XXXXXX")"
+          python3 -m venv "$acceptance_python"
+          "$acceptance_python/bin/python3" -I -m pip --isolated --disable-pip-version-check install --no-input --index-url https://pypi.org/simple 'pyte==0.8.2'
+          "$acceptance_python/bin/python3" -I -m pip freeze > "$RUNNER_TEMP/airs-evidence/python-packages.txt"
+          echo "$acceptance_python/bin" >> "$GITHUB_PATH"
       - name: Verify immutable build inputs before executing acceptance
         id: restore
         run: |

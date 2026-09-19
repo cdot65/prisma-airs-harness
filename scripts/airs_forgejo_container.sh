@@ -35,7 +35,9 @@ mkdir -p /tmp/airs-evidence /tmp/airstests
 chown -R airs-ci:airs-ci /workspace /home/airs-ci /airs-target /airs-native /tmp/airs-evidence /tmp/airstests
 runuser -u airs-ci -- unshare -Ur true
 BOOTSTRAP
-docker exec -i -w /workspace "$name" runuser -u airs-ci -- bash -s <<'VALIDATE'
+# A subreaper must own the test tree: PID 1 is an idle container command.
+# Otherwise terminated grandchildren remain zombies and kill(pid, 0) sees them.
+docker exec -i -w /workspace "$name" /usr/bin/tini -s -- runuser -u airs-ci -- bash -s <<'VALIDATE'
 set -euo pipefail
 export PATH="$HOME/.cargo/bin:$PATH"
 if ! command -v rustup >/dev/null; then

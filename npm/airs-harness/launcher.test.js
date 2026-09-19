@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
@@ -219,4 +219,82 @@ test("a release without the host architecture reports unsupported packaging", ()
   assert.throws(() => platformPackage("linux", "arm64", manifest), {
     message: "This airs-harness release does not include a native package for linux/arm64. Install a release that supports this platform.",
   });
+});
+
+// Simulate only process.versions.node in the launcher subprocess. This exercises
+// the real entrypoints without a production override or claiming a Node 18 run.
+function runtimeFixture(t, version) {
+  const entry = fixture(t, "#!/bin/sh\nexit 99\n");
+  const module = path.resolve(path.dirname(entry), "..");
+  const root = path.resolve(module, "../..");
+  const marker = path.join(root, "child-started");
+  const child = `#!${process.execPath}\nrequire("node:fs").writeFileSync(${JSON.stringify(marker)}, "started");\nconsole.log(JSON.stringify(process.argv.slice(2)));\nprocess.exitCode=17;\n`;
+  const native = path.join(root, "node_modules", platformPackage(process.platform, process.arch), "bin", "airs-harness");
+  writeFileSync(native, child, { mode: 0o755 });
+  writeFileSync(path.join(root, "node_modules", "@cdot65", "prisma-airs-cli", "index.js"), child);
+  const preload = path.join(root, "runtime-fixture.cjs");
+  writeFileSync(preload, `Object.defineProperty(process.versions, "node", {value:${JSON.stringify(version)}});\n`);
+  return { entry, module, marker, preload };
+}
+
+const runtimeEntrypoints = [
+  ["native", "bin/airs.js", ["--version"]],
+  ["managed CLI", "bin/airs.js", ["cli", "doctor"]],
+  ["completion", "bin/airs.js", ["completion", "bash"]],
+  ["direct managed wrapper", "managed-cli/airs-cli", ["doctor"]],
+  ["legacy launcher", "bin/airs-harness.js", ["--version"]],
+];
+
+for (const [name, relative, args] of runtimeEntrypoints) {
+  test(`unsupported Node runtime stops ${name} before any child starts`, { skip: process.platform === "win32" }, (t) => {
+    for (const version of ["18.19.1", "22.12.0", "23.4.0", "22.13.0-rc.1", "24.0.0-pre", "22.13", "garbage", "022.13.0", "22.13.0\n"]) {
+      const { module, marker, preload } = runtimeFixture(t, version);
+      const result = spawnSync(process.execPath, ["--require", preload, path.join(module, relative), ...args], { encoding: "utf8" });
+      assert.equal(result.status, 1, `${version}: ${result.stderr}`);
+      assert.equal(result.stdout, "", version);
+      assert.match(result.stderr, /requires Node\.js.*\^22\.13\.0 \|\| >=23\.5\.0/);
+      assert.match(result.stderr, /node --version/);
+      assert.equal(existsSync(marker), false, `${name} spawned a child with ${version}`);
+    }
+  });
+}
+
+
+for (const [name, relative, prefix] of [
+  ["native", "bin/airs.js", []],
+  ["managed CLI", "bin/airs.js", ["cli"]],
+  ["direct managed wrapper", "managed-cli/airs-cli", []],
+]) {
+  test(`supported Node runtime preserves ${name} argument forwarding and exit status`, { skip: process.platform === "win32" }, (t) => {
+    for (const version of ["22.13.0", "22.13.1", "22.99.0", "23.5.0", "23.6.1", "24.0.0", "25.1.0", "22.13.0+vendor.1"]) {
+      const { module, marker, preload } = runtimeFixture(t, version);
+      const args = ["doctor", "--", "literal ; $(no-shell)"];
+      const result = spawnSync(process.execPath, ["--require", preload, path.join(module, relative), ...prefix, ...args], { encoding: "utf8" });
+      assert.equal(result.status, 17, `${version}: ${result.stderr}`);
+      assert.equal(result.stderr, "");
+      assert.equal(readFileSync(marker, "utf8"), "started");
+      assert.deepEqual(JSON.parse(result.stdout), args);
+    }
+  });
+}
+
+test("runtime policy follows the package engine declaration and rejects an unknown range", { skip: process.platform === "win32" }, (t) => {
+  for (const [range, version, allowed] of [
+    ["^24.2.0 || >=25.1.0", "22.13.0", false],
+    ["^24.2.0 || >=25.1.0", "24.1.9", false],
+    ["^24.2.0 || >=25.1.0", "24.2.0", true],
+    ["^24.2.0 || >=25.1.0", "25.0.9", false],
+    ["^24.2.0 || >=25.1.0", "25.1.0", true],
+    [">=18.0.0", "24.0.0", false],
+  ]) {
+    const { module, marker, preload } = runtimeFixture(t, version);
+    const manifestPath = path.join(module, "package.json");
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+    manifest.engines.node = range;
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+    const result = spawnSync(process.execPath, ["--require", preload, path.join(module, "bin/airs.js"), "--version"], { encoding: "utf8" });
+    assert.equal(result.status, allowed ? 17 : 1, `${range}, ${version}: ${result.stderr}`);
+    assert.equal(existsSync(marker), allowed);
+    if (!allowed) assert.match(result.stderr, /requires Node\.js|engine declaration is invalid/);
+  }
 });

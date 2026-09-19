@@ -5,6 +5,24 @@ remote MCP both use Prisma AIRS AI Gateway. Its built-in MCP client connects to
 the gateway listener; the gateway proxies upstream servers and owns upstream
 OAuth. No separate MCP executable is required.
 
+## Prerequisites
+
+Use Node.js **22.13.0 or newer in the 22.x line**, or **23.5.0 or newer**
+(`^22.13.0 || >=23.5.0`). Check the versions in the same terminal where you
+will install and run AIRS:
+
+```sh
+node --version
+npm --version
+```
+
+Installing npm alone does not upgrade Node.js. If Ubuntu supplies Node 18,
+install a supported Node.js version using your organization's usual method,
+open a new terminal and check again before installing the harness. npm may
+otherwise finish installation with an `EBADENGINE` warning; the AIRS launcher
+rejects unsupported Node versions before starting either the harness or its
+bundled product CLI.
+
 ## Branded onboarding
 
 Release `0.1.0-alpha.22.onboarding.4` distinguishes saved credentials from verified gateway access, reports HTTP status and a gateway-searchable trace ID, and rejects guardrail denials even when the gateway returns HTTP 200. Local environment names are independent of gateway workspace names; a workspace API key selects its gateway workspace. Both SSO and workspace keys require the corresponding gateway policy. The npm distribution targets Linux x64, Linux ARM64 and signed Apple Silicon at `https://npm.cdot.io`.
@@ -102,10 +120,15 @@ For a new local profile:
 
 ```sh
 airs env create workspace-api --gateway-url https://gateway.example.com/v1
+airs --environment workspace-api login --with-api-key
 ```
 
-Choose **Workspace API key** and enter the key in the hidden prompt. If the
-profile already exists, reuse it:
+Explicit creation with `--gateway-url` saves the connection settings without
+signing in. The separate `login --with-api-key` command asks for the key in a
+hidden prompt. For guided creation and a choice of authentication methods,
+run `airs env create` without arguments.
+
+If the profile already exists, reuse it:
 
 ```sh
 airs --environment workspace-api login --with-api-key
@@ -216,7 +239,7 @@ Restart running terminals after upgrading so they use the new native client.
 
 ## Managed Prisma AIRS CLI
 
-This release pins `@cdot65/prisma-airs-cli@7.0.1` and includes eight
+This release pins `@cdot65/prisma-airs-cli@7.0.0` and includes eight
 built-in Prisma AIRS skills. Run `airs cli doctor --output json` before
 Prisma AIRS operations. CLI 7 uses the selected tenant JSON configuration;
 credential environment variables are ignored. Register existing protected config

@@ -2,6 +2,7 @@ import { runChild } from "./child.js";
 import { runCompletion } from "./completion.js";
 import { inspectCommands } from "./migration-check.js";
 import { managedCliDirectory, resolvePrismaCli, runPrismaCli } from "./prisma-cli.js";
+import { checkNodeRuntime } from "./runtime.js";
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -55,6 +56,7 @@ export function managedEnvironment(environment, platform = process.platform) {
 }
 
 export function run({ legacy = false } = {}) {
+  if (!checkNodeRuntime()) return;
   if (process.argv.length === 3 && process.argv[2] === "--migration-check") {
     process.stdout.write(JSON.stringify(inspectCommands(), null, 2) + "\n");
     return;

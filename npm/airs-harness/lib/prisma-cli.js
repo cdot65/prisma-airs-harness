@@ -3,6 +3,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runChild } from "./child.js";
+import { checkNodeRuntime } from "./runtime.js";
 
 const require = createRequire(import.meta.url);
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,6 +34,7 @@ export function resolvePrismaCli() {
 }
 
 export function runPrismaCli(args = process.argv.slice(2)) {
+  if (!checkNodeRuntime()) return;
   try {
     const entry = resolvePrismaCli();
     // dotenv/config also accepts argv overrides. Keep repository files out of

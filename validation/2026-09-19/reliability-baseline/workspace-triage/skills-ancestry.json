@@ -1,0 +1,18 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/deps/codex_skills_extension-57b0d125aa8af6f1",
+  "sha256": "f5800a31f8805f2ce025b8193dd5337290e2d537e0790598ecdefffeafc4dc88",
+  "test": "host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents",
+  "results": [
+    {
+      "label": "historical-tmp",
+      "tmpdir": "/tmp",
+      "exit_code": 101
+    },
+    {
+      "label": "isolated-tmp",
+      "tmpdir": "/home/cdot/.cache/airs-workspace-triage-tmp",
+      "exit_code": 0
+    }
+  ],
+  "ancestry_marker": "/tmp/.git exists; inspected metadata only; untouched"
+}

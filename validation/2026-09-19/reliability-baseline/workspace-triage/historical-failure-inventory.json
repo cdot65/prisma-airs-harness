@@ -1,0 +1,612 @@
+{
+  "input_sha256": "079720f07ece17d5e03f106d87557e06e8d4d4b4d79fd9a18fbf618a585a1d23",
+  "total": 150,
+  "groups": {
+    "codex-exec-server": 146,
+    "codex-linux-sandbox": 1,
+    "codex-skills-extension": 1,
+    "codex-app-server": 2
+  },
+  "tests": [
+    {
+      "binary": "codex-exec-server::capability_discovery",
+      "test": "discovers_cursor_plugin_without_reading_default_mcp_for_inline_servers"
+    },
+    {
+      "binary": "codex-exec-server::capability_discovery",
+      "test": "discovers_a_complete_capability_bundle_in_one_request"
+    },
+    {
+      "binary": "codex-exec-server::capability_discovery",
+      "test": "sandboxed_discovery_follows_only_permitted_external_symlinks"
+    },
+    {
+      "binary": "codex-exec-server::capability_discovery",
+      "test": "sandboxed_discovery_batches_roots_without_combining_different_permissions"
+    },
+    {
+      "binary": "codex-exec-server::environment",
+      "test": "capability_discovery_retries_after_executor_reconnects"
+    },
+    {
+      "binary": "codex-exec-server::environment",
+      "test": "prepared_remote_environment_uses_configured_system_proxy"
+    },
+    {
+      "binary": "codex-exec-server::environment",
+      "test": "selected_capability_inspection_tracks_connection_recovery"
+    },
+    {
+      "binary": "codex-exec-server::environment",
+      "test": "capability_discovery_retries_executor_disconnect_within_same_request"
+    },
+    {
+      "binary": "codex-exec-server::environment_config",
+      "test": "remote_environment_reads_projected_executor_config"
+    },
+    {
+      "binary": "codex-exec-server::environment_config",
+      "test": "environment_config_read_rejects_empty_selectors"
+    },
+    {
+      "binary": "codex-exec-server::chatgpt_cloudflare_affinity",
+      "test": "exec_server_replays_only_chatgpt_cloudflare_cookies"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_preserves_queued_events_before_subscribe::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_rejects_write_without_pipe_stdin::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_replays_events_after_close::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_pushes_events::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_retains_output_after_exit_until_streams_close::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_retains_output_after_exit_until_streams_close::local"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_signal_interrupts_process::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_write_then_read::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_starts_and_exits::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_streams_output::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "exec_process_write_then_read_without_tty::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "remote_exec_process_recovers_after_transport_disconnect"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "remote_sandboxed_process_preserves_custom_arg0"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "remote_process_preserves_empty_workspace_roots"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "remote_process_keeps_sandbox_helper_visible_with_restricted_reads"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "remote_tty_process_uses_configured_sandbox_helper_with_hostile_path"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_bash_env"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_pipe"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_remote_managed_proxy_uses_prepared_execution_context"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_tty"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "completed_streams_release_handle_capacity"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "file_reads_reject_fifo_without_waiting_for_a_writer"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "open_enforces_the_per_connection_limit_and_close_releases_capacity"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "open_rejects_handle_ids_longer_than_32_bytes"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "read_block_supports_non_sequential_offsets_and_lengths"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_retry_budget_exhausted"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "stream_keeps_reading_the_open_file_after_path_replacement"
+    },
+    {
+      "binary": "codex-exec-server::file_stream",
+      "test": "stream_stops_after_an_exact_block_boundary"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_canonicalize_resolves_directory_symlink::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_ignores_unknown_special_files_in_recursive_copy::remote"
+    },
+    {
+      "binary": "codex-exec-server::exec_process",
+      "test": "shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_preserves_symlink_source::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_preserves_symlinks_in_recursive_copy::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_preserves_symlink_source::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_rejects_standalone_fifo_source::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_rejects_symlink_escape_destination::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_rejects_symlink_escape_destination::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_rejects_symlink_escape_source::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_copy_rejects_symlink_escape_source::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_create_directory_rejects_symlink_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_create_directory_rejects_symlink_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_metadata_and_directory_listing_follow_symlinks::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_metadata_preserves_linux_birthtime::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_metadata_preserves_linux_birthtime::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_non_recursive_root_creation_fails::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_operations_support_search_only_ancestors::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_recursive_mkdir_handles_concurrent_creators::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_no_follow_write_rejects_fifo_without_blocking::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_operations_can_reject_symlinks_in_any_path_component::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_read_directory_rejects_symlink_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_read_directory_rejects_symlink_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_remove_rejects_symlink_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_remove_rejects_symlink_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_remove_removes_symlink_not_target::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_remove_removes_symlink_not_target::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_canonicalize_resolves_directory_symlink::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_operations_can_reject_symlinks_in_any_path_component::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_canonicalize_resolves_directory_symlink::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_read_rejects_symlink_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_read_rejects_symlink_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_read_rejects_symlink_parent_dotdot_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_read_rejects_symlink_parent_dotdot_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_preserves_existing_hard_link::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_preserves_existing_hard_link::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_rejects_symlink_escape::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_rejects_unwritable_path::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_rejects_unwritable_path::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_sandboxed_write_rejects_symlink_escape::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_walk_handles_directory_symlinks::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_walk_prunes_hidden_directories_without_claiming_visible_aliases::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "sandboxed_file_system_helper_finds_bwrap_on_preserved_path"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "remote_read_file_materializes_environment_workspace_roots"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "remote_read_file_preserves_empty_workspace_roots"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "file_system_walk_reports_non_utf8_names::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_copy_copies_directory_recursively::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_copy_copies_file::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_copy_rejects_copying_directory_into_descendant::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_copy_rejects_directory_without_recursive::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_create_directory_creates_nested_directories::local_sandboxed_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_create_directory_creates_nested_directories::remote_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_create_directory_creates_nested_directories::remote_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_get_metadata_reports_files_and_directories::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_create_directory_creates_nested_directories::remote_sandboxed_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_read_directory_lists_entries::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_read_file_returns_bytes::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_read_file_text_returns_string::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_read_file_stream_returns_bounded_chunks::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_remove_no_follow_removes_file_and_empty_directory::local_sandboxed"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_remove_no_follow_removes_file_and_empty_directory::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_remove_no_follow_removes_file_and_empty_directory::remote_sandboxed"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_remove_removes_directory::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_sandboxed_metadata_and_read_allow_readable_root::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_sandboxed_metadata_and_read_allow_readable_root::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_sandboxed_write_allows_additional_write_root::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_sandboxed_write_allows_additional_write_root::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_walk_handles_invalid_roots_and_limits::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_walk_honors_read_sandbox::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_write_file_reports_missing_parent::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_walk_returns_a_bounded_tree::remote"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_walk_honors_read_sandbox::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_read_file_stream_returns_bounded_chunks::local"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_write_file_writes_bytes::local_sandboxed_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_write_file_writes_bytes::remote_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_write_file_writes_bytes::remote_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::file_system_write_file_writes_bytes::remote_sandboxed_no_follow"
+    },
+    {
+      "binary": "codex-exec-server::file_system_unix",
+      "test": "shared::sandboxed_file_operations_cannot_read_helper_siblings"
+    },
+    {
+      "binary": "codex-exec-server::health",
+      "test": "exec_server_reports_environment_status_over_websocket"
+    },
+    {
+      "binary": "codex-exec-server::health",
+      "test": "exec_server_serves_readyz_alongside_websocket_endpoint"
+    },
+    {
+      "binary": "codex-exec-server::health",
+      "test": "remote_environment_fetches_info_from_exec_server"
+    },
+    {
+      "binary": "codex-exec-server::forward",
+      "test": "forwarder_runs_commands_and_transfers_files"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_buffers_response_body"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_can_follow_redirects"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_can_stop_at_redirects"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_honors_optional_timeout"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_normalizes_unicode_hostname"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_omits_url_fragment"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_streams_response_body_notifications"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_rejects_duplicate_stream_request_ids"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_rejects_protected_environment_headers"
+    },
+    {
+      "binary": "codex-exec-server::http_request",
+      "test": "exec_server_http_request_uses_configured_system_proxy"
+    },
+    {
+      "binary": "codex-exec-server::initialize",
+      "test": "exec_server_rejects_pipelined_requests_before_initialized"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_dedupes_retried_process_write_ids"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_defaults_omitted_pipe_stdin_to_closed_stdin"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_keeps_control_requests_live_during_long_reads_and_queued_requests"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_resumes_detached_session_without_killing_processes"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_runs_ordinary_requests_serially_by_default"
+    },
+    {
+      "binary": "codex-exec-server::process",
+      "test": "exec_server_starts_process_over_websocket"
+    },
+    {
+      "binary": "codex-exec-server::selected_capability_roots",
+      "test": "selected_capability_roots_use_captured_handle_after_replacement"
+    },
+    {
+      "binary": "codex-exec-server::initialize",
+      "test": "exec_server_accepts_initialize::without_manifest"
+    },
+    {
+      "binary": "codex-exec-server::websocket",
+      "test": "exec_server_accepts_binary_websocket_json"
+    },
+    {
+      "binary": "codex-exec-server::initialize",
+      "test": "exec_server_accepts_initialize::packaged"
+    },
+    {
+      "binary": "codex-exec-server::websocket",
+      "test": "exec_server_reports_malformed_websocket_json_and_keeps_running"
+    },
+    {
+      "binary": "codex-exec-server::websocket",
+      "test": "exec_server_rejects_browser_origin_websocket_handshake"
+    },
+    {
+      "binary": "codex-linux-sandbox::all",
+      "test": "suite::landlock::sandbox_starts_with_denied_tmp_without_exposing_registry"
+    },
+    {
+      "binary": "codex-skills-extension",
+      "test": "host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents"
+    },
+    {
+      "binary": "codex-app-server::all",
+      "test": "suite::v2::turn_start::turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills"
+    },
+    {
+      "binary": "codex-app-server::all",
+      "test": "suite::v2::turn_start_zsh_fork::turn_start_shell_zsh_fork_executes_command_v2"
+    }
+  ]
+}

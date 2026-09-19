@@ -1,0 +1,20 @@
+{
+  "reproduced": true,
+  "version": "airs 0.1.0-alpha.22.mcp.2",
+  "binary": "/tmp/airs-doctor-publish-20260918/linux-registry/prefix/bin/airs",
+  "native_binary": "/tmp/airs-doctor-publish-20260918/linux-registry/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+  "native_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+  "source_revision": "a826d22a63d9d6889157477a0109e242871796f5",
+  "selected_environment": "staging",
+  "saved_default": "work",
+  "gateway_http_status": 403,
+  "displayed_retry": "airs doctor --verify-access (select the same environment)",
+  "displayed_exit": "Start AIRS when ready, or inspect access with airs doctor --verify-access.",
+  "registry_and_default_preserved": true,
+  "default_history_preserved": true,
+  "credential_saved_only_in_selected_environment": true,
+  "terminal_restored": true,
+  "secret_not_echoed": true,
+  "production_access": false,
+  "node18_execution": "Not performed: no locally available Node18 located; installed Node is v22.23.2."
+}

@@ -1,0 +1,13 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/deps/process-262868cae64374ba",
+  "sha256": "9853e58abbe685c39a0ff05a46901b1056f307d1eba8ebbaad68055db709d4e8",
+  "arguments": [
+    "exec-server",
+    "--listen",
+    "invalid"
+  ],
+  "exit_code": 101,
+  "stdout": "",
+  "stderr": "error: Unrecognized option: 'listen'\n",
+  "note": "Retained September 18 executable; no rebuild and invalid listen URL starts no listener."
+}

@@ -1,0 +1,60 @@
+{
+  "source_commit": "a826d22a63d9d6889157477a0109e242871796f5",
+  "scope": "Historical workspace failure triage, not a full suite or baseline proof",
+  "workspace_previous": {
+    "passed": 18097,
+    "failed": 150,
+    "skipped": 34
+  },
+  "focused_current": {
+    "command": "just test --locked -p codex-exec-server --test health -E test(exec_server_serves_readyz_alongside_websocket_endpoint)",
+    "exit_code": 100,
+    "passed": 0,
+    "failed": 1,
+    "filtered": 2,
+    "build_seconds": 79
+  },
+  "findings": {
+    "exec_server": {
+      "historical_failure_count": 146,
+      "old_executable_dispatch_failure_reproduced": true,
+      "current_scoped_failure_reproduced": true,
+      "musl_constructor_empty_argv_reproduced": true,
+      "all_146_individually_rerun": false
+    },
+    "skills_ancestry": {
+      "same_binary_default_tmp_fails": true,
+      "same_binary_isolated_tmp_passes": true,
+      "unknown_tmp_git_untouched": true
+    },
+    "sandbox_denied_tmp": {
+      "same_retained_binary_fails_with_isolated_tmp": true,
+      "actual_error": "bwrap execvp helper under /tmp: Permission denied",
+      "helper_path_is_compile_time": true,
+      "outside_tmp_helper_rerun": false
+    },
+    "app_skills_budget": {
+      "same_retained_binary_fails_isolated_tmp": true,
+      "actual": 15,
+      "expected": 7,
+      "embedded_skill_count": 14,
+      "airs_embedded_skills": 8,
+      "root_cause_status": "strong source-supported explanation; did not remove bundled skills or rewrite test"
+    },
+    "app_zsh": {
+      "same_retained_binary_fails_with_dotslash_path": true,
+      "first_rerun_self_skipped": true,
+      "vendored_executable_exists": true,
+      "vendored_executable_exec_errno": 2,
+      "elf_interpreter": "/lib64/ld-linux-x86-64.so.2",
+      "interpreter_exists": false
+    }
+  },
+  "changes": {
+    "application_code_changed_by_this_agent": false,
+    "unknown_tmp_git_changed": false,
+    "full_suite_run": false,
+    "full_workspace_green_claimed": false,
+    "baseline_comparison_performed": false
+  }
+}

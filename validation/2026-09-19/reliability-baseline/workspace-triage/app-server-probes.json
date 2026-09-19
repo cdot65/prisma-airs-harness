@@ -1,0 +1,37 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/deps/all-3538602f13f8aa6f",
+  "sha256": "eb355411d69a849a009796f1a76090d86f6d2dac4997004720337b480c1dec09",
+  "results": [
+    {
+      "label": "app-skills",
+      "test": "suite::v2::turn_start::turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills",
+      "exit_code": 101,
+      "last_output_lines": [
+        "thread 'suite::v2::turn_start::turn_start_emits_thread_scoped_warning_notification_for_trimmed_skills' (2454529) panicked at app-server/tests/suite/v2/turn_start.rs:835:5:",
+        "assertion failed: `(left == right)`",
+        "",
+        "\u001b[1mDiff\u001b[0m \u001b[31m< left\u001b[0m / \u001b[32mright >\u001b[0m :",
+        "\u001b[31m<Exceeded skills context budget. All skill descriptions were removed and \u001b[0m\u001b[1;48;5;52;31m15\u001b[0m\u001b[31m additional skills were not included in the model-visible skills list.\u001b[0m",
+        "\u001b[32m>Exceeded skills context budget. All skill descriptions were removed and \u001b[0m\u001b[1;48;5;22;32m7\u001b[0m\u001b[32m additional skills were not included in the model-visible skills list.\u001b[0m",
+        "",
+        "",
+        "note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+      ]
+    },
+    {
+      "label": "app-zsh",
+      "test": "suite::v2::turn_start_zsh_fork::turn_start_shell_zsh_fork_executes_command_v2",
+      "exit_code": 0,
+      "last_output_lines": [
+        "",
+        "running 1 test",
+        "test suite::v2::turn_start_zsh_fork::turn_start_shell_zsh_fork_executes_command_v2 ... ok",
+        "",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1229 filtered out; finished in 0.01s",
+        "",
+        "failed to fetch vendored zsh via dotslash: failed to run dotslash to fetch resource /home/cdot/development/cdot65/prisma-airs-harness/codex-rs/app-server/tests/suite/zsh: No such file or directory (os error 2)",
+        "skipping zsh fork test: no zsh executable found"
+      ]
+    }
+  ]
+}

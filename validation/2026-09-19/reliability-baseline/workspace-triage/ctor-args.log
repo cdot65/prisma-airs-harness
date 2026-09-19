@@ -1,0 +1,2 @@
+before_main argv=[]
+main argv=["/tmp/airs-autonomous-20260919/evidence/workspace-triage/ctor-args", "exec-server", "--listen", "invalid"]

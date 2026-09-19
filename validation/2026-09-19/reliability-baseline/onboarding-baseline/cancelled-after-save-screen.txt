@@ -1,0 +1,40 @@
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binarie
+s under temporary dir "/tmp" (codex_home: AbsolutePathBuf("/tmp/airs-onboarding-baseline-mw6jdfvi/ha
+rness"))                                                                                            
+PRISMA AIRS · staging                                                                               
+Gateway: https://127.0.0.1:33969/v1                                                                 
+Workspace API key (input hidden; Esc to cancel):                                                    
+Error: Credential saved. Start AIRS when ready, or inspect access with airs doctor --verify-access. 
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    

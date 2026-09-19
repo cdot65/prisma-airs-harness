@@ -1,0 +1,15 @@
+{
+  "binary": "/tmp/airs-command-output-20260918/target/debug/deps/all-dec71bbc7a7666c3",
+  "sha256": "43376747ce9161cef261b031404ec851b6d26d1c4221de40f3ead13dae8e4d75",
+  "test": "suite::landlock::sandbox_starts_with_denied_tmp_without_exposing_registry",
+  "exit_code": 101,
+  "last_output_lines": [
+    "",
+    "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 40 filtered out; finished in 0.03s",
+    "",
+    "",
+    "thread 'suite::landlock::sandbox_starts_with_denied_tmp_without_exposing_registry' (2464652) panicked at linux-sandbox/tests/suite/landlock.rs:1079:14:",
+    "sandbox should start with denied temp directory: Sandbox(Denied { output: ExecToolCallOutput { exit_code: 1, stdout: StreamOutput { text: \"\", truncated_after_lines: None }, stderr: StreamOutput { text: \"bwrap: execvp /tmp/airs-command-output-20260918/target/debug/codex-linux-sandbox: Permission denied\\n\", truncated_after_lines: None }, aggregated_output: StreamOutput { text: \"bwrap: execvp /tmp/airs-command-output-20260918/target/debug/codex-linux-sandbox: Permission denied\\n\", truncated_after_lines: None }, duration: 10.983126ms, timed_out: false }, network_policy_decision: None })",
+    "note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+  ]
+}

@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "source": "a826d22a63d9d6889157477a0109e242871796f5",
+  "recorded": "2026-09-19",
+  "scope": "fixture coverage inventory, not a test execution receipt",
+  "tests": [
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "failed_writes_reads_and_mismatches_clean_new_accounts_before_install",
+      "line": 78,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call",
+      "line": 102,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key",
+      "line": 131,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "failed_verification_never_deletes_an_existing_working_keyring_binding",
+      "line": 177,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "fresh_partial_install_restores_unbound_configuration_and_removes_the_new_key",
+      "line": 209,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "interrupted_install_with_bound_account_remains_recoverable",
+      "line": 236,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "oversized_cleanup_journal_cannot_trigger_deletion",
+      "line": 277,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "same_uuid_in_legacy_binding_does_not_own_pending_v2_entry",
+      "line": 297,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "failed_v2_install_preserves_legacy_namespace_and_binding",
+      "line": 337,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "interrupted_v2_commit_recovers_without_deleting_owned_credential",
+      "line": 369,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "fresh_oidc_save_read_and_cancelled_commit_failures_leave_no_unowned_token",
+      "line": 409,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "failed_oidc_cleanup_retries_only_the_recorded_native_format",
+      "line": 435,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "native transaction rollback",
+      "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+      "test": "cleanup_rejects_symlinks_without_touching_the_referenced_account",
+      "line": 475,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "verified_restore_preserves_the_active_session_epoch",
+      "line": 8,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "restore_cannot_reactivate_a_logged_out_or_replaced_session",
+      "line": 25,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "logout_rejects_an_in_progress_login_before_it_installs",
+      "line": 60,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "relogin_activates_a_new_epoch_without_resurrecting_old_clients",
+      "line": 74,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "failed_install_leaves_the_session_revoked",
+      "line": 97,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "revocation_does_not_wait_for_a_refresh_configuration_lock",
+      "line": 118,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "short_state_lock_has_a_bounded_wait",
+      "line": 134,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "a_second_completed_login_cancels_the_first_attempt",
+      "line": 154,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "authentication epoch and cancellation",
+      "path": "codex-rs/cli/src/airs_auth_lifecycle_tests.rs",
+      "test": "state_lock_does_not_follow_a_symlink",
+      "line": 170,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "refresh failure classification",
+      "path": "codex-rs/cli/src/airs_oidc_refresh_tests.rs",
+      "test": "definitive_rejection_survives_subsequent_credential_reads",
+      "line": 26,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "refresh failure classification",
+      "path": "codex-rs/cli/src/airs_oidc_refresh_tests.rs",
+      "test": "uncertain_exchange_keeps_the_tokenless_pending_record",
+      "line": 57,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "refresh failure classification",
+      "path": "codex-rs/cli/src/airs_oidc_refresh_tests.rs",
+      "test": "returned_generation_is_saved_before_becoming_available",
+      "line": 82,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "same-identity restore",
+      "path": "codex-rs/cli/src/airs_oidc_restore_tests.rs",
+      "test": "restore_pins_signed_subject_and_configuration_but_not_display_name",
+      "line": 4,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "namespace isolation",
+      "path": "codex-rs/cli/src/airs_credential_namespace_tests.rs",
+      "test": "conflicting_legacy_cleanup_preserves_shared_root_and_all_metadata",
+      "line": 72,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "namespace isolation",
+      "path": "codex-rs/cli/src/airs_credential_namespace_tests.rs",
+      "test": "conflicting_legacy_persistence_stops_before_even_unrelated_pending_cleanup",
+      "line": 106,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "namespace isolation",
+      "path": "codex-rs/cli/src/airs_credential_namespace_tests.rs",
+      "test": "separate_v2_namespace_cleanup_still_preserves_either_legacy_format",
+      "line": 153,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "logout pending cleanup",
+      "path": "codex-rs/cli/src/airs_logout_cleanup_tests.rs",
+      "test": "deletion_failure_preserves_typed_journal_for_workspace_and_oidc_retries",
+      "line": 48,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "logout pending cleanup",
+      "path": "codex-rs/cli/src/airs_logout_cleanup_tests.rs",
+      "test": "stale_logout_cannot_delete_another_working_binding",
+      "line": 87,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "logout pending cleanup",
+      "path": "codex-rs/cli/src/airs_logout_cleanup_tests.rs",
+      "test": "unmarked_state_cannot_resume_destructive_cleanup",
+      "line": 106,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "logout pending cleanup",
+      "path": "codex-rs/cli/src/airs_logout_cleanup_tests.rs",
+      "test": "malformed_cleanup_and_binding_diagnostics_never_include_file_values",
+      "line": 122,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed doctor read-only and bounds",
+      "path": "scripts/test_airs_doctor.py",
+      "test": "test_environment_pinning_explicit_probe_and_failed_report",
+      "line": 36,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed doctor read-only and bounds",
+      "path": "scripts/test_airs_doctor.py",
+      "test": "test_cancel_slow_diagnostics_then_retry",
+      "line": 90,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed doctor read-only and bounds",
+      "path": "scripts/test_airs_doctor.py",
+      "test": "test_missing_native_service_leaves_binding_and_cleanup_untouched",
+      "line": 122,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed doctor read-only and bounds",
+      "path": "scripts/test_airs_doctor.py",
+      "test": "test_stalled_native_service_probe_is_bounded",
+      "line": 150,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed MCP login lifecycle",
+      "path": "scripts/test_airs_mcp_manager.py",
+      "test": "test_remote_callback_add_verify_logout_remove_and_environment_pinning",
+      "line": 98,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed MCP login lifecycle",
+      "path": "scripts/test_airs_mcp_manager.py",
+      "test": "test_cancel_keeps_connection_and_never_exchanges_or_submits_callback",
+      "line": 188,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed MCP login lifecycle",
+      "path": "scripts/test_airs_mcp_manager.py",
+      "test": "test_desktop_callback_and_failed_discovery_do_not_report_success",
+      "line": 199,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed MCP login lifecycle",
+      "path": "scripts/test_airs_mcp_manager.py",
+      "test": "test_private_adapter_rejects_duplicate_name_without_replacing_it",
+      "line": 215,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_running_client_stays_revoked_after_subprocess_logout_and_relogin",
+      "line": 231,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_plain_terminal_setup_retains_public_settings_after_cancelled_login",
+      "line": 334,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_existing_home_is_reused_without_moving_credentials_or_history",
+      "line": 376,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_oidc_login_without_keyring_explains_recovery_before_network",
+      "line": 448,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_workspace_login_hides_paste_and_restores_terminal_on_cancel",
+      "line": 475,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_workspace_login_rejects_multiline_paste_without_echo_or_binding",
+      "line": 513,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_workspace_login_restores_terminal_when_terminated",
+      "line": 534,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_doctor_json_is_redacted_and_reports_missing_credentials",
+      "line": 820,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route",
+      "line": 853,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_native_status_and_plain_doctor_inspect_configuration_without_store_access",
+      "line": 944,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_doctor_verify_access_denial_preserves_binding_and_redacts_response",
+      "line": 984,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_named_environments_and_file_credential_without_export",
+      "line": 1085,
+      "evidence": "source-inspected; not executed in this baseline task"
+    },
+    {
+      "area": "installed onboarding and preserved state",
+      "path": "scripts/test_airs_harness.py",
+      "test": "test_credential_change_and_repository_destination_override_fail_closed",
+      "line": 1139,
+      "evidence": "source-inspected; not executed in this baseline task"
+    }
+  ],
+  "executed_fixture": "../doctor-backend-reproduction.json",
+  "gaps": [
+    "No current-run assertion yet that initial save/read error survives secondary cleanup failure.",
+    "No owner Ubuntu/native session diagnosis; explicitly deferred.",
+    "No attended live SSO/ServiceNow acceptance; explicitly deferred."
+  ],
+  "source_sha256": {
+    "codex-rs/cli/src/airs_credential_transaction_tests.rs": "d29988bab549ac31f295334ca82c967e1172d0599786013efec97e8c74b890b0",
+    "codex-rs/cli/src/airs_auth_lifecycle_tests.rs": "583d50aa274ec0093807aadaaa2fcc71da08d95f8d811f3bfd6ed48576c3f341",
+    "codex-rs/cli/src/airs_oidc_refresh_tests.rs": "dbaf54b1141ea39c928460c5bccef3efcc9e80b92e723c1cc531cc9505d9f5fe",
+    "codex-rs/cli/src/airs_oidc_restore_tests.rs": "f7f0417174606a5c9ff85ad985d6dd332c0961ec90dc6b3122d8c7b6a1a5b627",
+    "codex-rs/cli/src/airs_credential_namespace_tests.rs": "53c1fa08ca9e8667dddca3bb1fde1400501cd79461122fc83150e4aad7a94237",
+    "codex-rs/cli/src/airs_logout_cleanup_tests.rs": "d5b8293634a31cf64e0ad410bd35e14faa3abf19563f2b094e72b93f6f83e9f5",
+    "scripts/test_airs_doctor.py": "8fab21645b1db38ba40078c6c9154e8781e3c38b20e9c23264554a7d08e95c51",
+    "scripts/test_airs_mcp_manager.py": "15a9096a675de1a14ea7814df03557114069e4624800983ac70b10fb3c329d43",
+    "scripts/test_airs_harness.py": "1da47e59150e3236dbc5738d9c467dd2b307d42575bacffcb31313b81bf20291"
+  },
+  "new_regression": {
+    "test": "failed_cleanup_preserves_initial_read_failure_and_previous_binding",
+    "path": "codex-rs/cli/src/airs_credential_transaction_tests.rs",
+    "state": "added; narrow just test compiling; outcome pending",
+    "assertions": [
+      "previous binding unchanged",
+      "previous configuration unchanged",
+      "metadata-only workspace-v2 cleanup journal retained",
+      "no token contents in displayed error",
+      "both initiating read failure and pending delete failure remain diagnosable"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+
+running 1 test
+test host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents ... FAILED
+
+failures:
+
+failures:
+    host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 143 filtered out; finished in 0.00s
+
+
+thread 'host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents' (2452715) panicked at ext/skills/src/host_roots_tests.rs:415:5:
+assertion failed: `(left == right)`
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+ [
+     AbsolutePathBuf(
+[31m<        "/tmp/.tmpDphtyR/outer/.agents/skills",[0m
+[31m<    ),[0m
+[31m<    AbsolutePathBuf([0m
+         "/tmp/.tmpDphtyR/outer/nested/inner/.agents/skills",
+     ),
+ ]
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

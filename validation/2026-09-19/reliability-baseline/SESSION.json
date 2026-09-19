@@ -1,0 +1,11 @@
+{
+  "start_utc": "2026-09-19T01:21:27Z",
+  "deadline_utc": "2026-09-19T09:21:27Z",
+  "baseline_source": "a826d22a63d9d6889157477a0109e242871796f5",
+  "baseline_version": "airs 0.1.0-alpha.22.mcp.2",
+  "binary_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+  "baseline_binary": "/tmp/airs-doctor-publish-20260918/linux-registry/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+  "owner_live_acceptance": "deferred by owner until tomorrow",
+  "owner_ubuntu_session_investigation": "deferred by owner until tomorrow",
+  "test_channel_only": true
+}

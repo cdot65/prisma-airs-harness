@@ -1,0 +1,8 @@
+
+running 1 test
+test suite::v2::turn_start_zsh_fork::turn_start_shell_zsh_fork_executes_command_v2 ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1229 filtered out; finished in 0.01s
+
+failed to fetch vendored zsh via dotslash: failed to run dotslash to fetch resource /home/cdot/development/cdot65/prisma-airs-harness/codex-rs/app-server/tests/suite/zsh: No such file or directory (os error 2)
+skipping zsh fork test: no zsh executable found

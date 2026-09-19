@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "source_commit": "a826d22a63d9d6889157477a0109e242871796f5",
+  "worktree": "/home/cdot/development/cdot65/airs-reliability-20260919",
+  "branch": "feat/airs-reliability-20260919",
+  "source_clean": true,
+  "published_runtime_source": "19e5bcee52f6b21e22441a870db0a610fa8b3d4b",
+  "published_version": "airs 0.1.0-alpha.22.mcp.2",
+  "native_sha256": "f40aa35dac2834d2c32edd261e799f6414e0227eb002c00fbdd5d26b3b7aab81",
+  "host": {
+    "os": "Linux",
+    "architecture": "x86_64"
+  },
+  "tools": {
+    "node": "v22.23.2",
+    "npm": "12.0.2",
+    "python": "3.14.7"
+  },
+  "fixture_checks": [
+    {
+      "name": "doctor",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 11.411,
+      "log": "/tmp/airs-autonomous-20260919/evidence/baseline-doctor.log",
+      "log_sha256": "8b5d178b61572fae97d2e7e0b5bc69ca41a3b6dadea04c2ed5849096d54d94a6",
+      "command": "env -u NO_COLOR TERM=xterm-256color AIRS_HARNESS_BIN=/tmp/airs-doctor-publish-20260918/linux-registry/prefix/bin/airs /tmp/airs-dual-auth-20260918/venv/bin/python -m unittest discover -s scripts -p test_airs_doctor.py -v"
+    },
+    {
+      "name": "mcp",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 14.735,
+      "log": "/tmp/airs-autonomous-20260919/evidence/baseline-mcp.log",
+      "log_sha256": "bb2c6722118ed5455e9ed4892c09dea1305cbb14499f4e53aa977ba58b2c4e28",
+      "command": "env -u NO_COLOR TERM=xterm-256color AIRS_HARNESS_BIN=/tmp/airs-doctor-publish-20260918/linux-registry/prefix/bin/airs /tmp/airs-dual-auth-20260918/venv/bin/python -m unittest discover -s scripts -p test_airs_mcp_manager.py -v"
+    },
+    {
+      "name": "installed-regressions",
+      "passed": 46,
+      "failed": 0,
+      "skipped": 1,
+      "skip_reason": "macOS Seatbelt only",
+      "duration_seconds": 44.236,
+      "log": "/tmp/airs-autonomous-20260919/evidence/baseline-installed.log",
+      "log_sha256": "eae28131871ac45763c32b90f91812178228b46744cd97acc50ccf5412f094b4",
+      "command": "env -u NO_COLOR TERM=xterm-256color AIRS_HARNESS_BIN=/tmp/airs-doctor-publish-20260918/linux-registry/prefix/bin/airs AIRS_MANAGED_CLI_ACCEPTANCE=1 /tmp/airs-dual-auth-20260918/venv/bin/python -m unittest discover -s scripts -p 'test_airs_harness*.py' -v"
+    }
+  ],
+  "deferred": [
+    "owner Ubuntu session investigation",
+    "attended production SSO and ServiceNow OAuth/tool acceptance"
+  ],
+  "stable_promotion_authorized": false
+}

@@ -1,0 +1,10 @@
+{
+  "version": "0.1.1",
+  "anonymous_isolated_install": true,
+  "optional_dependencies_omitted": true,
+  "install_seconds": 2.149,
+  "launch_returncode": 1,
+  "stdout": "",
+  "stderr": "The native package airs-harness-linux-x64 is unavailable. Install a release that supports this platform from your organization's registry with optional dependencies enabled.\n",
+  "native_exists": false
+}

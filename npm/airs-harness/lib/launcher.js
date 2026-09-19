@@ -77,8 +77,9 @@ export function run({ legacy = false } = {}) {
       manifest = require.resolve(`${name}/package.json`);
     } catch {
       throw new Error(
-        `The native package ${name} is unavailable. Install a release that supports ` +
-        `this platform from your organization's registry with optional dependencies enabled.`,
+        `The native package ${name} is unavailable. Reinstall ` +
+        `${JSON.stringify(`${launcherManifest.name}@${launcherManifest.version}`)} with ` +
+        `--include=optional, using the same registry and installation scope as the original install.`,
       );
     }
     const nativeManifest = require(manifest);

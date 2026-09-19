@@ -22,6 +22,8 @@ airs cli --version
 
 Replace the example registry with your administrator's registry. Ordinary installs include the matching native package; `--include=optional` is unnecessary unless npm configuration explicitly omits optional dependencies. Upgrades preserve existing environments, credentials and histories. Restart an already running AIRS process after upgrading.
 
+If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
+
 If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The standalone 7.0.1 release and the harness's pinned 7.0.0 bundle are intentionally distinct.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.

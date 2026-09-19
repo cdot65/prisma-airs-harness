@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "source_scope": "Updated source launcher copied into isolated published0.1.1 installation; native runtime remains0.1.1",
+  "source_launcher_sha256": "f19e258f731ab2bf89f4d07890d018945720819caff784ff7959e195bee99f73",
+  "published_launcher_sha256": "86929d4f27709f019471fea9ade612e2aa208638cb5da0e17453fcbbb45c1399",
+  "missing_native_error": "The native package airs-harness-linux-x64 is unavailable. Reinstall \"airs-harness@0.1.1\" with --include=optional, using the same registry and installation scope as the original install.\n",
+  "same_prefix_registry_version": true,
+  "npm_configuration_unchanged": true,
+  "repair_seconds": 6.378,
+  "outputs": {
+    "harness": "airs 0.1.1",
+    "bundled_cli": "7.0.0"
+  }
+}

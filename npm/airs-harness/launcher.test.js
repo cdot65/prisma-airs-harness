@@ -45,9 +45,14 @@ test("unsupported platform is actionable", () => {
 });
 
 test("missing platform dependency fails without fetching a replacement", (t) => {
-  const result = spawnSync(process.execPath, [fixture(t)], { encoding: "utf8" });
+  const entry = fixture(t);
+  const manifest = JSON.parse(readFileSync(path.join(path.dirname(entry), "../package.json"), "utf8"));
+  const result = spawnSync(process.execPath, [entry], { encoding: "utf8" });
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /optional dependencies enabled/);
+  assert.equal(result.stdout, "");
+  assert.ok(result.stderr.includes(`airs-harness@${manifest.version}`));
+  assert.match(result.stderr, /--include=optional/);
+  assert.match(result.stderr, /same registry and installation scope/);
 });
 
 test("incomplete native package reports a reinstall", (t) => {

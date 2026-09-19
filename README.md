@@ -138,26 +138,18 @@ below. Shell variables such as `$airs_e2e_env` do not carry into a new shell;
 use `airs env list` and the literal environment name when resuming.
 Your named environments and conversation history remain on disk.
 
-On a headless Linux host without an existing session bus, start an interactive
-Bash session with `dbus-run-session -- bash`, then unlock Secret Service inside it:
+On an Ubuntu SSH host, follow [the corrected host preparation guide](UBUNTU-TEST-HOST.md).
+Use its reviewed helper to unlock the existing Secret Service collection and
+verify native credential write/read/delete. The helper bundled in mcp.4 predates
+the SSH daemon correction; obtain the corrected repository or administrator copy.
+Run AIRS in the same user D-Bus session. On other Linux distributions, use the
+platform's credential-service unlock procedure and verify access with `airs doctor`.
 
-```bash
-set +x
-read -r -s -p 'Keyring password (choose one on first use): ' airs_keyring_password
-printf '\n'
-if [ -n "$airs_keyring_password" ]; then
-  printf '%s' "$airs_keyring_password" | gnome-keyring-daemon --unlock --components=secrets
-fi
-unset airs_keyring_password
-```
+Use a nonempty local keyring password you control. It is not your company SSO
+password and is never sent to AIRS. Desktop sessions normally unlock their
+keyring through OS login; SSH public-key authentication does not do so.
 
-Use a nonempty password you control. Run the Terminal login and coding commands
-inside that same D-Bus session. On a later session, unlock with the same password;
-refresh tokens remain encrypted on disk. This password is for your local keyring,
-not your Keycloak account, and is never sent to AIRS. Desktop sessions normally
-unlock their keyring through the OS login instead.
-
-`airs logout` signs out inference. Use `mcp logout service-now` separately
+`airs logout` signs out inference. Use `airs --environment work mcp logout service-now` separately
 for the native gateway MCP credential. Neither action proves immediate revocation
 of a gateway-held upstream grant. Stop running sessions to discard cached access
 tokens; issued credentials follow their own expiration and revocation policies.

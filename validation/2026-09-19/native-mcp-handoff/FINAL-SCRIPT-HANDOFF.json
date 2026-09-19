@@ -1,0 +1,10 @@
+{
+  "sha256": "82498c03f9064b5037d4a19fe03e1bdde14f640f36a6a848a85d8f06a675443a",
+  "remote_path": "/home/cdot/prepare-airs-ubuntu-mcp4.sh",
+  "default_version": "0.1.0-alpha.22.mcp.4",
+  "change": "Display actual shell-quoted script invocation for later unlock instead of older fixed path",
+  "previous_sha256": "bc31a5a289e038456e191fcb40bbaf34a630c718039caca47a34f6725d259322",
+  "bash_syntax": "passed",
+  "credential_logic": "unchanged from passed isolated regression",
+  "owner_state": "unchanged"
+}

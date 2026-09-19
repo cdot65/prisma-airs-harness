@@ -1,0 +1,20 @@
+{
+  "verified_utc": "2026-09-19T15:03:20.877859+00:00",
+  "passed": true,
+  "deployed_commit": "4a9f641600e49dec7616218b0640505a40db01ff",
+  "workflow_url": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35450330144",
+  "site": "https://cdot65.github.io/prisma-airs-reference-architecture/",
+  "live_routes": [
+    "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+    "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+    "https://cdot65.github.io/prisma-airs-reference-architecture/learn/lifecycle/",
+    "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+    "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/"
+  ],
+  "live_html_matches_deployed_artifact": true,
+  "live_browser_routes": 5,
+  "live_diagrams_rendered": 7,
+  "browser_errors": 0,
+  "source_and_snapshot_notes_verified": 15,
+  "source_provenance_sha256": "a02349240bf6514b766da6634c42a9358dcc2d5afe68ab123e896dcae6c9332a"
+}

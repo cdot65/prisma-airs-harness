@@ -1,0 +1,72 @@
+{
+  "utc": "2026-09-19T15:01:53.806351+00:00",
+  "commit": "4a9f641600e49dec7616218b0640505a40db01ff",
+  "workflow_run": 35450330144,
+  "routes": [
+    {
+      "slug": "login",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+      "status": 200,
+      "html_sha256": "2e746a061daa80c1da9b07a57cb79e11f8c1540dbfec15aa7fea4f608f418f7b",
+      "artifact_html_sha256": "2e746a061daa80c1da9b07a57cb79e11f8c1540dbfec15aa7fea4f608f418f7b",
+      "exact_artifact_match": true,
+      "headers": {
+        "ETag": "\"6aaea375-fed6\"",
+        "Last-Modified": "Sat, 19 Sep 2026 15:00:05 GMT",
+        "Content-Type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "slug": "harness",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+      "status": 200,
+      "html_sha256": "fec24e998a747c5075663f81d42ae97fc155953c98d8219101c908dc5d0da0a0",
+      "artifact_html_sha256": "fec24e998a747c5075663f81d42ae97fc155953c98d8219101c908dc5d0da0a0",
+      "exact_artifact_match": true,
+      "headers": {
+        "ETag": "\"6aaea374-7a63\"",
+        "Last-Modified": "Sat, 19 Sep 2026 15:00:04 GMT",
+        "Content-Type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "slug": "lifecycle",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/lifecycle/",
+      "status": 200,
+      "html_sha256": "6b977990c16acf64fda8fb6ecc68642b1e438b264ee0e3c6978e6f880aec60d4",
+      "artifact_html_sha256": "6b977990c16acf64fda8fb6ecc68642b1e438b264ee0e3c6978e6f880aec60d4",
+      "exact_artifact_match": true,
+      "headers": {
+        "ETag": "\"6aaea374-93d7\"",
+        "Last-Modified": "Sat, 19 Sep 2026 15:00:04 GMT",
+        "Content-Type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "slug": "troubleshooting",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "status": 200,
+      "html_sha256": "7694dfbef9838ece262bde10cdab52c3e094b386ac492618302f3cb700bd1152",
+      "artifact_html_sha256": "7694dfbef9838ece262bde10cdab52c3e094b386ac492618302f3cb700bd1152",
+      "exact_artifact_match": true,
+      "headers": {
+        "ETag": "\"6aaea375-7f5e\"",
+        "Last-Modified": "Sat, 19 Sep 2026 15:00:05 GMT",
+        "Content-Type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "slug": "evidence",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "status": 200,
+      "html_sha256": "f858045f3a149a36e6212f3d40b1a728065ff61c3ebd83c396df4694eeffd8a3",
+      "artifact_html_sha256": "f858045f3a149a36e6212f3d40b1a728065ff61c3ebd83c396df4694eeffd8a3",
+      "exact_artifact_match": true,
+      "headers": {
+        "ETag": "\"6aaea374-9c63\"",
+        "Last-Modified": "Sat, 19 Sep 2026 15:00:04 GMT",
+        "Content-Type": "text/html; charset=utf-8"
+      }
+    }
+  ]
+}

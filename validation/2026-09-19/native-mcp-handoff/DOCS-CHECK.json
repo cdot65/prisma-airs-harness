@@ -1,0 +1,46 @@
+{
+  "utc": "2026-09-19T14:57:19.804059+00:00",
+  "worktree": "/home/cdot/development/cdot65/airs-native-mcp-docs-20260919",
+  "base_commit": "9d328da14b0abf3e8b3823cebb4f92a4bd4a8641",
+  "exported_lessons": 15,
+  "mermaid_blocks": 18,
+  "production_build_passed": true,
+  "browser_tests_passed": 22,
+  "browser_seconds": 10.0,
+  "browser_executable": "/usr/bin/chromium",
+  "ci": true,
+  "npm_audit_vulnerabilities": 0,
+  "lock_changed_package_only": "image-size2.0.2->2.0.4",
+  "changed_files": {
+    "content-provenance.json": "a02349240bf6514b766da6634c42a9358dcc2d5afe68ab123e896dcae6c9332a",
+    "docs/evidence.md": "052e78e49cea2dd074a512f9f8984a1970f88f56005e67b90bf1e192ca3e25ac",
+    "docs/harness.md": "ac037e202a963862e3a9d49017a82b3e18a4fdba2ce09535ff5a172910c74cd6",
+    "docs/lifecycle.md": "9adb7063a07027d83b5b4926ea9482a3885c94a11e4a48755230a18a6da96312",
+    "docs/login.md": "fe8d10470f9a65871d0d238b2fe5eede6ffc13183753db63ac94eb4978828e28",
+    "docs/operations.md": "c8b4062b2c31717e316ccdff11cc6083499799818e9f58d9ebac9b986520d32a",
+    "docs/troubleshooting.md": "6d0ad5ceb89cec414a27ace014c1c30e8be1749c214f7e1a8df6c07e1bb31b52",
+    "package-lock.json": "2e5fd986c152ae5a3a797f734bb02873aa8e8e290aaee452863e7eefd6d55848",
+    "tests/site.spec.js": "be160a8c687dcc26c1215e32efd678fe4dcd352a40417d8aeb1a6596b6fd0d6f"
+  },
+  "source_privacy": {
+    "checked_lessons": 15,
+    "patterns": [
+      "rfc1918_10",
+      "rfc1918_172",
+      "rfc1918_192",
+      "private_domain",
+      "host_alias",
+      "private_local_path",
+      "private_repo"
+    ],
+    "findings": []
+  },
+  "rendered_privacy": {
+    "html_files": 17,
+    "findings": []
+  },
+  "version_consistency": "Current instructionsmcp.4; mcp.3 references historical/carried-forward/upgrade origins only; protected tags onboarding.4",
+  "ubuntu_wording": "Generic provider/unlockedcollection instructions only; no bare daemon unlock or bundled helper invocation",
+  "committed": false,
+  "pushed": false
+}

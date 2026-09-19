@@ -1,0 +1,53 @@
+{
+  "reviewed_at_utc": "2026-09-19T15:05:25.657503+00:00",
+  "reviewer": "lifecycle_plan independent review",
+  "score": 9.5,
+  "gate": "pass",
+  "scope": "Phase 5 published package delivery, owned synthetic native acceptance, documentation handoff/deployment and durable evidence; excludes attended production acceptance and future runner capacity.",
+  "findings": [],
+  "checks": {
+    "all_three_fresh_registry_acceptance": "Canonical collected receipt reviewed; Mac and ARM runs independently executed by this reviewer, source/runtime IDs preserved.",
+    "four_package_publication": "Published mcp.4 under mcp; protected channel tags unchanged in retained receipt.",
+    "six_public_lessons": "Previously independently reviewed final six source hashes at 9.5/10. Native default applies to newly generated environments; old credential policy preserved, explicit optional migration only.",
+    "deployed_site": {
+      "commit": "4a9f641600e49dec7616218b0640505a40db01ff",
+      "workflow": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35450330144",
+      "live_routes": 5,
+      "live_html_independently_matches_retained_deployed_artifact": true,
+      "browser_evidence": "5 routes, 7 rendered diagrams, zero errors; reviewed runner receipts, not a duplicate live browser run.",
+      "vault_source_provenance_notes": 15
+    },
+    "durable_bundle": {
+      "sha256sum_entries": 161,
+      "byte_exact_original_receipts": 157,
+      "all_passed": true,
+      "manifest_sha256": "adeb4f86a0ca738d716c3c104e0a2b60d13a07ab63e83d2e4aca7417d2b488e6",
+      "readme_sha256": "0f9d4358dd948c5112e3da300d50a8f54c9d64ce2998a45a16314b491c907ab8"
+    },
+    "ubuntu_helper": {
+      "final_sha256": "82498c03f9064b5037d4a19fe03e1bdde14f640f36a6a848a85d8f06a675443a",
+      "syntax": "pass",
+      "isolated_regression": "Four retained PASS lines independently checked and bound to regression hash ee09f73ed679a5d159c8845d1de8edf011d40b9ebe79b275aa0beebf53f3a7b8.",
+      "final_delta": "Only shell-quoted actual invocation in rerun hint; credential logic identical to tested repair.",
+      "published_helper_limitation": "Immutable mcp.4 contains older helper; repository README/Ubuntu guide and ledger explicitly direct corrected repository/admin copy. Real owner unlock not claimed."
+    }
+  },
+  "material_limits": [
+    "Production company SSO, workspace-key route and ServiceNow acceptance remain deferred.",
+    "60-minute active/35-minute idle runs used development binary; published artifacts received native quick profiles only.",
+    "Full Rust workspace completion is not established by this phase.",
+    "Mac free space after authorized duplicate-only cleanup is about81.81GiB, below mandatory105GiB next-build threshold; no future runner-readiness claim."
+  ],
+  "source_files": {
+    "README.md": "8ac1d58fb49b5299a11de3fdfb75ebc3ddb804a3d67689409201e09d56afb0b1",
+    "UBUNTU-TEST-HOST.md": "bce57b9921d5361ebbcf7e66f57f1e2281c8137f404414259970a3ce1b389229",
+    "scripts/prepare_airs_ubuntu.sh": "82498c03f9064b5037d4a19fe03e1bdde14f640f36a6a848a85d8f06a675443a",
+    "scripts/test_prepare_airs_ubuntu.py": "833b927d8f442d697b302e16d27507c09cade9facd77106115bc6038a4e3b52e"
+  },
+  "final_handoff_addendum": {
+    "sha256sum_entries": 12,
+    "unchanged_source_receipts_independently_matched": 9,
+    "readme_sha256": "7960b28d62e984f277b6d73bc3203a2987ac31368ac92b56991276e53be7babd",
+    "scope": "Reviewed capacity shortfall, separately delivered helper, deployed site and owner-acceptance limits; no finding."
+  }
+}

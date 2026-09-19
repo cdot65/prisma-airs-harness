@@ -197,4 +197,4 @@ printf 'In this terminal run: source ~/.config/airs-test-host/env.sh\n'
 printf 'Then: command airs env create\n'
 printf 'After login: command airs doctor --verify-access\n'
 printf 'Inside airs, use /mcp for gateway MCP connections.\n'
-printf 'After reboot or keyring lock, rerun: bash ~/prepare-airs-ubuntu.sh --unlock\n'
+printf 'After reboot or keyring lock, rerun: bash %q --unlock\n' "$0"

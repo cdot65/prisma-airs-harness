@@ -1,0 +1,68 @@
+{
+  "status": "proposal_only_no_deletions_authorized_or_performed",
+  "scope": "Exact duplicate transfer archives and extracted input copies only; preserve generated .work trees, all receipts, raw intake not locally copied, owner VM/Rust caches/keychain.",
+  "mac": [
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/candidate-transfer.tar",
+      "allocated_kib": 1471672,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/candidate-transfer.tar"
+    },
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/candidate-delta.tar",
+      "allocated_kib": 51156,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/candidate-delta.tar"
+    },
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/registry-inputs.tar",
+      "allocated_kib": 754644,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/registry-inputs.tar"
+    },
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate/candidate-npm",
+      "allocated_kib": 1477408,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/candidate-npm"
+    },
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2/candidate-npm",
+      "allocated_kib": 1477412,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/candidate-npm"
+    },
+    {
+      "remote_path": "/Users/cdot/.cache/airs-native-mcp-20260919/registry-inputs-r2",
+      "allocated_kib": 752980,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/registry-inputs.tar"
+    }
+  ],
+  "arm_container": "airs-native-mcp-20260919-arm64",
+  "arm": [
+    {
+      "remote_path": "/home/airs-review/mcp4-candidate/candidate-npm",
+      "allocated_kib": 1490688,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/candidate-npm"
+    },
+    {
+      "remote_path": "/home/airs-review/mcp4-candidate-r2/candidate-npm",
+      "allocated_kib": 1490700,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/candidate-npm"
+    },
+    {
+      "remote_path": "/home/airs-review/registry-inputs-r2",
+      "allocated_kib": 753164,
+      "retained_local": "/tmp/airs-native-mcp-20260919/release/revision2/registry-inputs.tar"
+    }
+  ],
+  "mac_free_gib": 76.08502960205078,
+  "mac_selected_allocated_gib": 5.708000183105469,
+  "arm_selected_guest_allocated_gib": 3.5615463256835938,
+  "target_free_gib": 105,
+  "target_remains_unmet": true,
+  "caveat": "du allocated bytes are not a guarantee of immediately reclaimed APFS space. Guest deletion does not guarantee Mac host reclaim. Next native build still requires actual >=105 GiB measured free.",
+  "verification": [
+    "LOCAL-RETAINED.json",
+    "LOCAL-PAYLOAD-CHECKS.json",
+    "VERIFIED-COPIES.json",
+    "ARM-VERIFIED-COPIES.json",
+    "MAC-REGISTRY-EXTRA.json"
+  ],
+  "registry_copy_note": "All 108 transported file hashes checked; extra TRANSFER.json matches retained local REGISTRY-TRANSFER.json."
+}

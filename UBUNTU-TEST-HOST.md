@@ -8,17 +8,17 @@ unsupported Node version stops preparation with an explicit error.
 
 **SSH helper correction:** the helper bundled in published mcp.4 predates the
 September 19 keyring-daemon repair. Use the corrected repository script from
-commit `1fd617abb4` or the corrected copy supplied by your administrator. On the
+the current feature branch (keyring repair `1fd617abb4`) or the corrected copy supplied by your administrator. On the
 dedicated test host it is `~/prepare-airs-ubuntu-mcp4.sh`. Do not extract the old
 helper from the mcp.4 tarball for SSH keyring setup. The harness package itself
 remains mcp.4; this correction changes host preparation, not the executable.
 
-Review the script, then copy it to `~/prepare-airs-ubuntu.sh` on your Ubuntu host
+Review the script, then copy it to `~/prepare-airs-ubuntu-mcp4.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
 Run the corrected copied script in an interactive SSH terminal:
 
 ```bash
-bash ~/prepare-airs-ubuntu.sh
+bash ~/prepare-airs-ubuntu-mcp4.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
@@ -27,7 +27,7 @@ matching the published harness package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.4 bash ~/prepare-airs-ubuntu.sh
+AIRS_TEST_VERSION=0.1.0-alpha.22.mcp.4 bash ~/prepare-airs-ubuntu-mcp4.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service
@@ -72,8 +72,8 @@ Use `/mcp` inside the harness for gateway MCP connections. An SSH browser-login
 callback may require an SSH port forward for the callback port shown by the
 login flow. Do not share callback URLs, tokens or keyring passwords.
 
-After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu.sh --unlock`.
-Use `bash ~/prepare-airs-ubuntu.sh --check` for checks without installing packages
+After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-mcp4.sh --unlock`.
+Use `bash ~/prepare-airs-ubuntu-mcp4.sh --check` for checks without installing packages
 or prompting for a keyring password. Both modes may create a disposable readiness
 record and sandbox environment, which they clean up. They do not test real SSO,
 workspace API-key authorization or ServiceNow access.

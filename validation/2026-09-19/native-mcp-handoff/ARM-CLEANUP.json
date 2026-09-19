@@ -1,0 +1,19 @@
+{
+  "at_utc": "2026-09-19T15:03:35.866174+00:00",
+  "before_disk": {
+    "total": 1081914773504,
+    "used": 23512723456,
+    "free": 1003409760256
+  },
+  "after_disk": {
+    "total": 1081914773504,
+    "used": 19688542208,
+    "free": 1007233941504
+  },
+  "removed": [
+    "/home/airs-review/mcp4-candidate/candidate-npm",
+    "/home/airs-review/mcp4-candidate-r2/candidate-npm",
+    "/home/airs-review/registry-inputs-r2"
+  ],
+  "preserved": "All other task paths, full .work trees and receipts; owner resources untouched."
+}

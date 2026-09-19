@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-09-19T15:03:35.333473+00:00",
+  "before_disk": {
+    "total": 494353338368,
+    "used": 412642091008,
+    "free": 81711247360
+  },
+  "after_disk": {
+    "total": 494353338368,
+    "used": 406505631744,
+    "free": 87847706624
+  },
+  "removed": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/candidate-transfer.tar",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/candidate-delta.tar",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/registry-inputs.tar",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate/candidate-npm",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2/candidate-npm",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/registry-inputs-r2"
+  ],
+  "preserved": "All other task paths, full .work trees and receipts; owner resources untouched."
+}

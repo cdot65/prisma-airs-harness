@@ -1,0 +1,220 @@
+{
+  "passed": true,
+  "reviewed_at_utc": "2026-09-19T14:39:16.461888+00:00",
+  "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+  "tooling_files_verified_against_git": 153,
+  "standard_collector_under_optimized_python": true,
+  "required_gate_groups_passed": 9,
+  "targets": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "native_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+      "standard_stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ],
+      "installed_regressions": {
+        "tests_run": 51,
+        "passed": 50,
+        "skipped": [
+          {
+            "reason": "requires macOS Seatbelt",
+            "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+          }
+        ],
+        "native_positive_and_preservation_and_managed_cli_executed": true
+      },
+      "native_positive": {
+        "case": "positive",
+        "executable_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+        "inference_preserved": true,
+        "native_logout_verified": true,
+        "native_mode_unmodified": true,
+        "native_record_persisted": true,
+        "oauth_exchanges": 1,
+        "passed": true,
+        "platform": "linux",
+        "second_process_verified": true
+      },
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.4005510979332,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "quick_observation_sha256": "beaea9975e68fee59864d895e2b19d9ea926a424bb155fad797e49cf7b7a2ef4",
+      "quick_cleanup_completed": true,
+      "extra_inputs_and_outputs_verified": true,
+      "upgrades": {
+        "mcp3": {
+          "cases": 3,
+          "receipt_sha256": "47e0d3f9f51719805110111677589378e072bed2c3c711c86297a78e70859fa4",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        },
+        "onboarding4": {
+          "cases": 3,
+          "receipt_sha256": "2bec2539ed5c1fbb32c6ef1d5f5ac3f213571042ad84a136ca7deace5f74fa7e",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        }
+      }
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "native_sha256": "ab4d9860c625466fb4acf1279105a93aff26fd3f38d87aa855c0dc91e575007f",
+      "standard_stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ],
+      "installed_regressions": {
+        "tests_run": 51,
+        "passed": 50,
+        "skipped": [
+          {
+            "reason": "requires macOS Seatbelt",
+            "test": "test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control"
+          }
+        ],
+        "native_positive_and_preservation_and_managed_cli_executed": true
+      },
+      "native_positive": {
+        "case": "positive",
+        "executable_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+        "inference_preserved": true,
+        "native_logout_verified": true,
+        "native_mode_unmodified": true,
+        "native_record_persisted": true,
+        "oauth_exchanges": 1,
+        "passed": true,
+        "platform": "linux",
+        "second_process_verified": true
+      },
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.5917104149994,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "quick_observation_sha256": "d7570343a1807f3de71ba79c438c1d019e507e909d276de5a594dfb189068264",
+      "quick_cleanup_completed": true,
+      "extra_inputs_and_outputs_verified": true,
+      "upgrades": {
+        "mcp3": {
+          "cases": 3,
+          "receipt_sha256": "690ecb25bd99cc601f1904841f53f396b1ae5f977e032d4e9973a7da73cbfb0c",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        },
+        "onboarding4": {
+          "cases": 3,
+          "receipt_sha256": "602b3a043541ed5510c7d800c35a945492e17ffcd31a5e745ab9e220fd965e41",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        }
+      }
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "native_sha256": "fd18bb6000be5758e122544e953a40e74c3e3ef4ce3d98a1f8d21238cea462f8",
+      "standard_stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ],
+      "installed_regressions": {
+        "tests_run": 51,
+        "passed": 48,
+        "skipped": [
+          {
+            "reason": "Linux session-bus recovery",
+            "test": "test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network"
+          },
+          {
+            "reason": "Unavailable private Secret Service is Linux-specific",
+            "test": "test_airs_harness_native_mcp.NativeMcpDefault.test_unavailable_native_store_never_falls_back_to_file"
+          },
+          {
+            "reason": "Isolated Linux Secret Service fixture",
+            "test": "test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment"
+          }
+        ],
+        "native_positive_and_preservation_and_managed_cli_executed": true
+      },
+      "native_positive": {
+        "case": "positive",
+        "executable_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+        "inference_preserved": true,
+        "native_logout_verified": true,
+        "native_mode_unmodified": true,
+        "native_record_persisted": true,
+        "oauth_exchanges": 1,
+        "passed": true,
+        "platform": "darwin",
+        "second_process_verified": true
+      },
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.6812348329695,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "quick_observation_sha256": "097ea0ab1e60390bf3535e5d2a396e12b004efa661848e227d17afcadc6f04d2",
+      "quick_cleanup_completed": true,
+      "extra_inputs_and_outputs_verified": true,
+      "upgrades": {
+        "mcp3": {
+          "cases": 3,
+          "receipt_sha256": "892af5701d5998776ced97b9ca8b92b31272abbd71cf430aa83b228a92869398",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        },
+        "onboarding4": {
+          "cases": 3,
+          "receipt_sha256": "6b9cd8b2a51cf5e89fcf6aadaefc672e2c65ff2cb40d1a61dc5445f7e880ee53",
+          "configuration_preserved": true,
+          "legacy_target_preserved": true
+        }
+      }
+    }
+  ]
+}

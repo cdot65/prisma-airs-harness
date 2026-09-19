@@ -1,0 +1,32 @@
+{
+  "state": "final_ready_for_export",
+  "registry_receipt": "release/revision2/REGISTRY-VERIFIED.json",
+  "registry_evidence_sha256": "d5e424a6480bd3f76691ab96115fbced6bb3a71ef9cb597743fafa4b431fb1e0",
+  "lessons": [
+    {
+      "file": "AIRS learning - Deployment and operations.md",
+      "sha256": "704c8e9b233a7fee18fa84c9a32b5bf08aa09ece5e2611eafd49d35d96032c07"
+    },
+    {
+      "file": "AIRS learning - Harness and agent execution.md",
+      "sha256": "cee93e3697d26e05d55c462724551a7bbe326652121f1651a256ac0f810a9206"
+    },
+    {
+      "file": "AIRS learning - Implementation status and public sources.md",
+      "sha256": "9cff1e87970f643424d0cd063b6f798575f97616824e0b92c642c495296d6396"
+    },
+    {
+      "file": "AIRS learning - Login from browser to authorized tools.md",
+      "sha256": "1a44eefa50776894d6d921eb7edc24482cda08e82e95a693e20d3f4abcdc2958"
+    },
+    {
+      "file": "AIRS learning - Refresh revocation and identity changes.md",
+      "sha256": "d1a53673c8c50b23e572b2fbdd82b5e37d915316054e16ad61c4c680710a9076"
+    },
+    {
+      "file": "AIRS learning - Troubleshooting by trust boundary.md",
+      "sha256": "069dc8eb10060129690cbe521a13e28eb2027b839950d559a1954446bcaea0d9"
+    }
+  ],
+  "scope": "Only six assigned Education lessons. Existing UUIDs, created dates, pending review state preserved. Public privacy patterns passed. Existing vault error set unchanged."
+}

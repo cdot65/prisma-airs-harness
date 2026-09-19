@@ -1,0 +1,58 @@
+{
+  "reviewer": "independent lifecycle/native acceptance agent",
+  "scope": "Six final public Education lesson source changes; export/build/deployed Pages verification remains separate",
+  "score": 9.5,
+  "passed": true,
+  "blocking_findings": [],
+  "addressed_findings": [
+    "Replaced synthetic browser-authorization wording with precise gateway OAuth wording"
+  ],
+  "lessons": [
+    {
+      "file": "AIRS learning - Deployment and operations.md",
+      "sha256": "704c8e9b233a7fee18fa84c9a32b5bf08aa09ece5e2611eafd49d35d96032c07"
+    },
+    {
+      "file": "AIRS learning - Harness and agent execution.md",
+      "sha256": "cee93e3697d26e05d55c462724551a7bbe326652121f1651a256ac0f810a9206"
+    },
+    {
+      "file": "AIRS learning - Implementation status and public sources.md",
+      "sha256": "9cff1e87970f643424d0cd063b6f798575f97616824e0b92c642c495296d6396"
+    },
+    {
+      "file": "AIRS learning - Login from browser to authorized tools.md",
+      "sha256": "1a44eefa50776894d6d921eb7edc24482cda08e82e95a693e20d3f4abcdc2958"
+    },
+    {
+      "file": "AIRS learning - Refresh revocation and identity changes.md",
+      "sha256": "d1a53673c8c50b23e572b2fbdd82b5e37d915316054e16ad61c4c680710a9076"
+    },
+    {
+      "file": "AIRS learning - Troubleshooting by trust boundary.md",
+      "sha256": "069dc8eb10060129690cbe521a13e28eb2027b839950d559a1954446bcaea0d9"
+    }
+  ],
+  "registry_evidence_sha256": "d5e424a6480bd3f76691ab96115fbced6bb3a71ef9cb597743fafa4b431fb1e0",
+  "registry_receipt_file_sha256": "91efebc2006d2954b6e8d5e7a37fcb6cec0498bd61d50669617530325021a571",
+  "evidence_compared": [
+    "Three-platform fresh anonymous registry verification for exact published mcp.4",
+    "Exact candidate quick lifecycle, three verified tool turns and two cycles per resource on each platform",
+    "Native persistence/second-process reuse/logout acceptance",
+    "mcp.3 and onboarding.4 upgrades",
+    "Development-only60minactive/35minidle receipts; quietseconds 2100.0852936296724"
+  ],
+  "checks": [
+    "New environment native-only default distinguished from unchanged existing modes",
+    "Optional migration signs out all saved credentials in original mode before edit",
+    "Shared name/URL native record boundary retained",
+    "Workspace key inference and local environment name remain independent from MCP SSO",
+    "Synthetic vs production and development vs published binary scope explicit",
+    "No private hostnames, local paths, token canaries or hashes introduced into lessons",
+    "Final six source hashes match ready manifest"
+  ],
+  "remaining": [
+    "Docusaurus export/build/browser/deployed checks are separate root/runner work",
+    "Owner production SSO/workspace-key/ServiceNow and earlier Ubuntu incident remain deferred"
+  ]
+}

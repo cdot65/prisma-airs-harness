@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-3e43436/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/home/airs-review/release-frozen-3e43436/scripts",
+    "--pattern",
+    "test_airs_harness*.py",
+    "--receipt",
+    "/home/airs-review/mcp4-candidate-r2/candidate-acceptance/aarch64-unknown-linux-musl.work/installed-regressions-f5b751a837284b1c9a5691659f5b8029/TEST-RESULTS.json"
+  ],
+  "command_sha256": "4dbed344f19d6a49fc52037746ecae55a1985c2d56d7b38a77a3042d6b2d8ca7",
+  "dependencies": {
+    "install": "9897a08efd5ea893739d230eb858bd1ff51f99f85f8269d106f6babc5616f371",
+    "onboarding": "82d7df38859094c6d634923f669b9a48ed7085294850c325d7b66c562ec2be61",
+    "terminals": "1c2518c2a10a18fd7ef9539302709f75eded2d2c06c614af4b1a1091446163c8"
+  },
+  "exit_code": 0,
+  "input_sha256": "6eb3141ad39bc19f27b37142f96fa13a532fcc1e97f412473da60052004594b6",
+  "inputs": {
+    "binary_sha256": "ab4d9860c625466fb4acf1279105a93aff26fd3f38d87aa855c0dc91e575007f",
+    "candidate_metadata_sha256": "d71968c8d9cbca6e161140d617139f0c7bb4e3606a797be6e8a7b44400bb87a9",
+    "candidate_packages_sha256": "b24a44733550251ef4d088063a17cc8a3693be4c01aa8a3ba019707a07fe7f46",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_harness*.py",
+      "stage": "installed-regressions",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+    "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "tooling_sha256": "923bbbb253f8b4613eaeb5ea4ed1695715931b3fb049410fc2ab8458f877f40a",
+    "version": "0.1.0-alpha.22.mcp.4"
+  },
+  "outputs": {
+    "files/installed-regressions/TEST-RESULTS.json": {
+      "sha256": "9f88f30e8c4e06346bd1fb2fd98371f41ae067786cae6bd405b154ba591cebec",
+      "size": 5745
+    },
+    "logs/installed-regressions.log": {
+      "sha256": "9d1e8de9fc49664b0f0e394715b4256a887050da10242f4e13d112c847cad60d",
+      "size": 9253
+    }
+  },
+  "schema_version": 1,
+  "stage": "installed-regressions"
+}

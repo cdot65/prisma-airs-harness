@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/release-frozen-3e43436/scripts/validate_airs_npm.py",
+    "--packages",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2/candidate-npm",
+    "--prefix",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2/candidate-acceptance/aarch64-apple-darwin.work/install-d737328124a3412b9db75a745a7d8b1a/prefix"
+  ],
+  "command_sha256": "87fc3d72961f43321345e4679286ddf09e8db4d443133691bb7cccfeaa240173",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "7249675de7d0a6b64c02ebe8cd891a75bde3e47c1d0721d90fae32c00eeffbd1",
+  "inputs": {
+    "binary_sha256": "fd18bb6000be5758e122544e953a40e74c3e3ef4ce3d98a1f8d21238cea462f8",
+    "candidate_metadata_sha256": "d71968c8d9cbca6e161140d617139f0c7bb4e3606a797be6e8a7b44400bb87a9",
+    "candidate_packages_sha256": "b24a44733550251ef4d088063a17cc8a3693be4c01aa8a3ba019707a07fe7f46",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+    "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "tooling_sha256": "923bbbb253f8b4613eaeb5ea4ed1695715931b3fb049410fc2ab8458f877f40a",
+    "version": "0.1.0-alpha.22.mcp.4"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "a2fd7290a3625a4590d2f5e6dbbc2bec66411af013d1597cfa6d49a193c6c1a0",
+      "size": 463
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "eb4b04b5def17ac1f26415b166aac0b30d1ab844539c03e12f9f2a45706157ee",
+      "size": 5181
+    },
+    "logs/install.log": {
+      "sha256": "eb4b04b5def17ac1f26415b166aac0b30d1ab844539c03e12f9f2a45706157ee",
+      "size": 5181
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

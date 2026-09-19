@@ -1,0 +1,12 @@
+{
+  "baseline_errors": 58,
+  "current_errors": 58,
+  "baseline_warnings": 2079,
+  "current_warnings": 2080,
+  "added_errors": [],
+  "removed_errors": [],
+  "added_warnings": [
+    "Calendar/Sessions/2026/2026-09-19 - Repair Ubuntu AIRS keyring preparation and Codex installation.md: awaiting content review"
+  ],
+  "removed_warnings": []
+}

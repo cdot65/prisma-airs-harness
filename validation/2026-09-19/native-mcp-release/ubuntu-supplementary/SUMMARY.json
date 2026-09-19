@@ -1,0 +1,24 @@
+{
+  "scope": "r2 final candidate supplementary fresh Ubuntu proof; synthetic isolated fixtures, not owner login-session acceptance",
+  "native_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+  "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+  "final_package_files_verified": 8157,
+  "installed_ubuntu_helper_sha256": "8878590d1cc2a38130fd17c7f04e77ca5cefe1af5f12fb21c0b80ab5a7375173",
+  "installed_ubuntu_default_version": "0.1.0-alpha.22.mcp.4",
+  "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "source_files_verified_before_after": 153,
+  "native_cleanup_completed": true,
+  "lifecycle_summary": {
+    "passed": true,
+    "profile": "quick",
+    "elapsed_seconds": 178.22520770400024,
+    "post_expiry_cycles": {
+      "mcp": 2,
+      "inference": 2
+    },
+    "completed_turns": 3,
+    "event_count": 36,
+    "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+  },
+  "isolation": "own prefix, private D-Bus/native fixture; owner prefix/session/preparation script untouched"
+}

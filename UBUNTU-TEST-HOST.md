@@ -6,20 +6,16 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
-The npm package includes this guide and the script. On a machine with npm, once
-`0.1.0-alpha.22.mcp.4` is available in the registry, download the package and
-extract only the preparation script:
-
-```bash
-npm pack airs-harness@0.1.0-alpha.22.mcp.4 --registry=https://npm.cdot.io
-tar -xOf airs-harness-0.1.0-alpha.22.mcp.4.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu.sh
-```
+**SSH helper correction:** the helper bundled in published mcp.4 predates the
+September 19 keyring-daemon repair. Use the corrected repository script from
+commit `1fd617abb4` or the corrected copy supplied by your administrator. On the
+dedicated test host it is `~/prepare-airs-ubuntu-mcp4.sh`. Do not extract the old
+helper from the mcp.4 tarball for SSH keyring setup. The harness package itself
+remains mcp.4; this correction changes host preparation, not the executable.
 
 Review the script, then copy it to `~/prepare-airs-ubuntu.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
-If you already have the package installed globally, find the same script at
-`$(npm root -g)/airs-harness/scripts/prepare_airs_ubuntu.sh`. Run your copied
-script in an interactive SSH terminal:
+Run the corrected copied script in an interactive SSH terminal:
 
 ```bash
 bash ~/prepare-airs-ubuntu.sh
@@ -27,7 +23,7 @@ source ~/.config/airs-test-host/env.sh
 ```
 
 The helper defaults to `0.1.0-alpha.22.mcp.4` from `https://npm.cdot.io`,
-matching this package. Run it once that exact version is available in the registry.
+matching the published harness package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
@@ -49,7 +45,9 @@ password. It is not a gateway API key or an SSO password. The password goes to t
 keyring daemon through stdin and is never recorded in the readiness report.
 GNOME describes login/session startup and passwordless login behavior in its
 [daemon documentation](https://wiki.gnome.org/Projects/GnomeKeyring/RunningDaemon).
-The script does not replace the running daemon, reset a keyring, modify PAM,
+When unlock is needed, the script replaces the locked Secret Service daemon so
+D-Bus clients reach the unlocked instance, then checks the collection lock state.
+An already unlocked service is reused. It does not reset a keyring, modify PAM,
 disable AppArmor or enable plaintext credential fallback.
 
 A successful `READY` report proves:

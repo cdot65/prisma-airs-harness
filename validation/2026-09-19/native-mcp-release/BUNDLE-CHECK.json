@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "byte_exact_receipts": 157,
+  "receipt_bytes": 527814,
+  "json_documents_parsed": 157,
+  "credential_value_scan_passed": true,
+  "canonical_spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+  "candidate_and_registry_acceptance_platforms": 6,
+  "per_stage_exit_codes_and_bound_digests_verified": true,
+  "included_output_file_hashes_verified": true,
+  "native_quick_and_upgrade_summaries_verified": true,
+  "publication_four_packages_and_protected_tags_verified": true,
+  "omitted": "Raw output logs, transcripts, observation event streams, package archives, test private keys, fixture state, unpacked installations. Omitted output digests remain in original receipts.",
+  "corrected_script_handoff_and_current_source_hash_verified": true,
+  "corrected_script_four_isolated_regression_pass_lines_reviewed": true
+}

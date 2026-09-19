@@ -13,12 +13,18 @@ not implement the native MCP connection.
 
 ## Release status
 
-**0.1.0-alpha.22.mcp.4 is a release candidate, not yet published.** Its new
-environments require native MCP credential storage by default. Existing
+**0.1.0-alpha.22.mcp.4 is published under `mcp` at `https://npm.cdot.io`.**
+Fresh anonymous registry installations passed on Linux x64, native Linux ARM64
+and signed/notarized Apple Silicon. Its new environments require native MCP
+credential storage by default. Existing
 environments keep their configured storage mode, credentials and history;
 upgrading does not migrate tokens. See [the storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
 
-**0.1.0-alpha.22.mcp.3** is published under `mcp` at `https://npm.cdot.io`.
+See [the mcp.4 release evidence](validation/2026-09-19/native-mcp-release/README.md)
+for exact package identities, native acceptance and upgrade checks from mcp.3 and
+onboarding.4.
+
+**Previous release: 0.1.0-alpha.22.mcp.3.**
 Fresh anonymous installations passed on Linux x64, native Linux ARM64 and signed,
 notarized Apple Silicon. Upgrades from mcp.2 and onboarding.4 preserved the checked
 configuration. See [the release evidence](validation/2026-09-19/release-reliability/README.md)
@@ -49,8 +55,8 @@ preserving history and the draft.
 
 These dashboards are in the **mcp test channel**. The stable `latest`, `alpha` and
 `onboarding` tags remain `0.1.0-alpha.22.onboarding.4`. This guide covers
-the `0.1.0-alpha.22.mcp.4` candidate and distinguishes its new-environment default
-from published `mcp.3` behavior. Real-account SSO,
+the published `0.1.0-alpha.22.mcp.4` release and distinguishes its new-environment
+default from `mcp.3` behavior. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate. [Onboarding reliability evidence](validation/2026-09-19/onboarding-reliability/README.md)
 records the implementation checks; the release evidence above records publication.
 
@@ -96,7 +102,8 @@ Git, ripgrep and project tools remain prerequisites. Linux also needs Bubblewrap
 and a kernel/container policy permitting its namespaces. The runtime fails
 explicitly when its sandbox is unavailable. See [MACOS.md](MACOS.md) for Mac
 onboarding and the optional [Ubuntu test-host preparation guide](UBUNTU-TEST-HOST.md)
-for an Ubuntu SSH host. The inherited `scripts/install/` tools install upstream Codex.
+for an Ubuntu SSH host. Use its corrected repository helper: the copy bundled in
+mcp.4 predates the September 19 SSH keyring-daemon repair. The inherited `scripts/install/` tools install upstream Codex.
 
 ## Sign in and connect ServiceNow
 

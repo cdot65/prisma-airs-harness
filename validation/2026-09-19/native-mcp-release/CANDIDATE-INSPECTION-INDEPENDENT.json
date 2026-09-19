@@ -1,0 +1,37 @@
+{
+  "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+  "scope": "owner-authorized-test",
+  "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "version": "0.1.0-alpha.22.mcp.4",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.0-alpha.22.mcp.4",
+      "filename": "airs-harness-linux-x64-0.1.0-alpha.22.mcp.4.tgz",
+      "integrity": "sha512-9x2OIl2SVgvMQkiVJ18LylejYnpOxEq9A32Xq1e+h+QmFHLHcd5BrB3UqzR2srYoIX+ulyTiFuyLxxqN8h6vFw==",
+      "sha256": "0cc8ed0115595c84fbb2842ea9254d9a091528e880bc0bce6235dbd422531d22"
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.0-alpha.22.mcp.4",
+      "filename": "airs-harness-linux-arm64-0.1.0-alpha.22.mcp.4.tgz",
+      "integrity": "sha512-6WYovxoLLqQis3L1xRm0noAkGQEY1u3vEz54Z5d9S8qbV2X/7hugYhAIszRoObXSkPeiyzgqKnqf2xwq024wDg==",
+      "sha256": "c3cbb408ae3ca6aa11a90f746ff680b349897dd4799b057d0b20854372688a13"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.0-alpha.22.mcp.4",
+      "filename": "airs-harness-darwin-arm64-0.1.0-alpha.22.mcp.4.tgz",
+      "integrity": "sha512-j5liZetMadOnH5BavC5FFsGJbEMLommtvfzPI8MR31jw8PV8XM9kXfGPzcHZEYLQSjfLAJqFhAtUzMAI07PFBQ==",
+      "sha256": "ada4c3faa14c5a0ec5e63ff9f334afabb74f27a76d98bf4496e4410a1e126003"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.0-alpha.22.mcp.4",
+      "filename": "airs-harness-0.1.0-alpha.22.mcp.4.tgz",
+      "integrity": "sha512-y/twNyQLErq0Vq4WaXUg7iupaJrPy4LVcSKHbCPW1tEN9vKgE+aWJw3Xr44V5K/gt0Al+kykAdaV9eZ4QU0pRw==",
+      "sha256": "6549cd1d1513e13985c8867c47d3cbb2a08245dac63ab5adeb39455ef9f82c63"
+    }
+  ],
+  "production_acceptance": false
+}

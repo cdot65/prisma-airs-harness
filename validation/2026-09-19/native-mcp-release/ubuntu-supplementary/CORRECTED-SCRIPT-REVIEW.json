@@ -1,0 +1,16 @@
+{
+  "scope": "Independent retained-log inspection and handoff/source hash verification; isolated encrypted fixture, not owner keyring unlock",
+  "source_commit": "1fd617abb4",
+  "script_sha256": "bc31a5a289e038456e191fcb40bbaf34a630c718039caca47a34f6725d259322",
+  "default_version": "0.1.0-alpha.22.mcp.4",
+  "regression_log_sha256": "ee09f73ed679a5d159c8845d1de8edf011d40b9ebe79b275aa0beebf53f3a7b8",
+  "observed_pass_checks": [
+    "new encrypted keyring and native write/read/delete",
+    "already-unlocked service is reused",
+    "locked check and wrong-password diagnosis preserve the keyring",
+    "correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "owner_prefix_preservation": "Root reports installed-version override remained mcp.3 during fixture test; no owner package upgrade or real-store unlock claimed",
+  "raw_log_retained_in_bundle": false,
+  "published_package_contains_correction": false
+}

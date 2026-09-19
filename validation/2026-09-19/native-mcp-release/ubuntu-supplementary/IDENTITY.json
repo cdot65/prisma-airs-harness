@@ -1,0 +1,15 @@
+{
+  "host": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "uid": 1000,
+  "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "source_files": 153,
+  "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+  "native_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+  "spec_sha256": "12fb3256574f52c03ed368aca0576017253e84a03f9c50fdfc99f631d21cad0c",
+  "manifest_sha256": "8e42ecb6dcd38c66d89cf03b13675d90d5bf110aacefa0c026af1b34da857254",
+  "packages_receipt_sha256": "d71968c8d9cbca6e161140d617139f0c7bb4e3606a797be6e8a7b44400bb87a9",
+  "transport_sha256": {
+    "candidate-delta.tar": "7a89565a4b8bc66d087c17daae4a9759e89ad39b517645fe47e683553cf187a1"
+  },
+  "scope": "supplementary fresh Ubuntu candidate proof; synthetic fixtures, isolated prefix and private D-Bus; not owner login-session acceptance"
+}

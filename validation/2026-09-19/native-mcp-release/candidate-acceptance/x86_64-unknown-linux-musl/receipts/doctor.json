@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/tmp/airs-dual-auth-20260918/venv/bin/python",
+    "/tmp/airs-native-mcp-20260919/release-frozen/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/tmp/airs-native-mcp-20260919/release-frozen/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/tmp/airs-native-mcp-20260919/release/revision2/candidate-acceptance/x86_64-unknown-linux-musl.work/doctor-e1affb44ac6d45c79d14b5bb33097442/TEST-RESULTS.json"
+  ],
+  "command_sha256": "e458bc494f6ed3f06745030d438c6fc3d4fb27f9ef29333f7574e509ae759fb3",
+  "dependencies": {
+    "install": "c8efde789e3f81ae3c3beab9da7b787866c5b299728502aaee2267c17f496634",
+    "installed-regressions": "4bcedc3b8ecabbc50b3ba7892a945bbf2d15d27d0eaf1faf31fbc554d733693a",
+    "mcp-manager": "255f89752c8cc1b2d824bf61ed0d3ebfc33e064dacb9907e54aa034cc3dd0e5f",
+    "onboarding": "ea29e0c5f67efd1ea39bb5a20bc5aaed45c9037ce10a110ce494ed8171ed8cd3",
+    "terminals": "d93dbfac06c1e2f5bf3b607e3df59f23be20cab900232b1d56c12f4d47fbe098"
+  },
+  "exit_code": 0,
+  "input_sha256": "633b3247e47fc6a27d3bac5f1076ad83c3dcb2c4a1cf1d122945ee368b9201cc",
+  "inputs": {
+    "binary_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+    "candidate_metadata_sha256": "d71968c8d9cbca6e161140d617139f0c7bb4e3606a797be6e8a7b44400bb87a9",
+    "candidate_packages_sha256": "b24a44733550251ef4d088063a17cc8a3693be4c01aa8a3ba019707a07fe7f46",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_doctor.py",
+      "stage": "doctor",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+    "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "tooling_sha256": "923bbbb253f8b4613eaeb5ea4ed1695715931b3fb049410fc2ab8458f877f40a",
+    "version": "0.1.0-alpha.22.mcp.4"
+  },
+  "outputs": {
+    "files/doctor/TEST-RESULTS.json": {
+      "sha256": "6433d5953bb2097324f750a9de383020b79c2aaa2bdee740a14f19fac96b2bd8",
+      "size": 529
+    },
+    "logs/doctor.log": {
+      "sha256": "721b1fd83f7d52a708678093c65b1221793a4d00de825b3291675210b60dc749",
+      "size": 675
+    }
+  },
+  "schema_version": 1,
+  "stage": "doctor"
+}

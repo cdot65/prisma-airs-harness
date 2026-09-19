@@ -1,0 +1,140 @@
+{
+  "passed": true,
+  "native_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+  "checks": [
+    {
+      "command": [
+        "airs",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "env",
+        "create",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "add",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "mcp",
+        "login",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "doctor",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "exec",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "resume",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "fork",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "queue",
+        "--help"
+      ],
+      "passed": true
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "fork",
+        "--worktree",
+        "--last"
+      ],
+      "passed": true,
+      "output": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/var/tmp/airs-native-mcp-tests-20260919\" (codex_home: AbsolutePathBuf(\"/var/tmp/airs-native-mcp-tests-20260919/airs-command-guidance-qd3nkq0k/state\"))\nError: `airs fork --worktree` requires an explicit session ID\n"
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work",
+        "exec",
+        "resume",
+        "--worktree",
+        "session"
+      ],
+      "passed": true,
+      "output": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/var/tmp/airs-native-mcp-tests-20260919\" (codex_home: AbsolutePathBuf(\"/var/tmp/airs-native-mcp-tests-20260919/airs-command-guidance-qd3nkq0k/state\"))\nError: `--worktree` cannot resume an existing session; use `airs exec fork --worktree`\n"
+    },
+    {
+      "command": [
+        "airs",
+        "--environment",
+        "work"
+      ],
+      "passed": true,
+      "normal_exit_resume_guidance": "To continue this session, run:\r\n  airs --environment work resume 01a0ba22-6503-7aa1-a979-868a12f5416a",
+      "gateway_request_count": 3,
+      "access_programs_parameter_sent": false
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "scope": "R2 assembled candidate package/source preaudit; installed gates pending",
+  "passed": true,
+  "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+  "reviewed_at_utc": "2026-09-19T14:27:08.355271+00:00",
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "archive_sha256": "0cc8ed0115595c84fbb2842ea9254d9a091528e880bc0bce6235dbd422531d22",
+      "members_changed_from_R1": []
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "archive_sha256": "c3cbb408ae3ca6aa11a90f746ff680b349897dd4799b057d0b20854372688a13",
+      "members_changed_from_R1": []
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "archive_sha256": "ada4c3faa14c5a0ec5e63ff9f334afabb74f27a76d98bf4496e4410a1e126003",
+      "members_changed_from_R1": []
+    },
+    {
+      "name": "airs-harness",
+      "archive_sha256": "6549cd1d1513e13985c8867c47d3cbb2a08245dac63ab5adeb39455ef9f82c63",
+      "members_changed_from_R1": [
+        "package/PACKAGE-TOOLING.json",
+        "package/UBUNTU-TEST-HOST.md",
+        "package/scripts/prepare_airs_ubuntu.sh"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "binary_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+    "candidate_metadata_sha256": "e33ef9d887f07220c0f560444618c22f523cee4098e411af3d94f88289d45481",
+    "candidate_packages_sha256": "221285cca81f62045ab6cba0a2e66303b86dffffae782ef976c6d6cf6a0deab2",
+    "installation": "registry",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+    "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "tooling_sha256": "923bbbb253f8b4613eaeb5ea4ed1695715931b3fb049410fc2ab8458f877f40a",
+    "version": "0.1.0-alpha.22.mcp.4"
+  },
+  "passed": true,
+  "production_servicenow": false,
+  "production_sso": false,
+  "schema_version": 1,
+  "stage_receipts": {
+    "command-output": "ee4025fa849d456b7da640c43638eca8a3f07d25f42a288fa068d245dc602143",
+    "doctor": "f4b2a8832a4110b9e41f71e294226c235291464256d6d2e7d58366e00859c9f0",
+    "install": "d96b36618e1097b73435549273bb62fe67f1a8a1a229801ca4a2604b2168f062",
+    "installed-regressions": "b022b724de6a7938acf975692ac9494f54ba91de4a434383a32c5de9865a2662",
+    "managed-cli": "3e8a13bec2dc3f69299077ec9817e1dd56253a2fc3b05dbdbfbee8e3eecff196",
+    "mcp-manager": "a96d7f6d08155b8bbc7239c5d61857a3d4bd00a85aca3911d549d3b1f01e0433",
+    "onboarding": "6d85ef13bb61e296a99dcb62224b5b06c85098b3036417ae7cda27f0aa70d640",
+    "terminals": "b5e8643ed59d79c99fcc8206f009c6c4654dead2b6ad78470975f47daa5f1b9e",
+    "upgrade": "bd7d9b058254737aff2f89fa3fb6cbfefe87d01f7c93e6c3a9b80e08becc3d07"
+  },
+  "stages": [
+    "install",
+    "onboarding",
+    "terminals",
+    "installed-regressions",
+    "mcp-manager",
+    "doctor",
+    "managed-cli",
+    "upgrade",
+    "command-output"
+  ]
+}

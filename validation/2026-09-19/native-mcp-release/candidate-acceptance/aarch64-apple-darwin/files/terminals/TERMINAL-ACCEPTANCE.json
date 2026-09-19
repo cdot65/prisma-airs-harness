@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "native_binary_sha256": "fd18bb6000be5758e122544e953a40e74c3e3ef4ce3d98a1f8d21238cea462f8",
+  "launcher": "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2/candidate-acceptance/aarch64-apple-darwin.work/install-d737328124a3412b9db75a745a7d8b1a/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.158,
+    "zsh": 0.18
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

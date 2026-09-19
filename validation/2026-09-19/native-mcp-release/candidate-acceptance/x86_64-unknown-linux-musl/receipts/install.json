@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/tmp/airs-dual-auth-20260918/venv/bin/python",
+    "/tmp/airs-native-mcp-20260919/release-frozen/scripts/validate_airs_npm.py",
+    "--packages",
+    "/tmp/airs-native-mcp-20260919/release/revision2/candidate-npm",
+    "--prefix",
+    "/tmp/airs-native-mcp-20260919/release/revision2/candidate-acceptance/x86_64-unknown-linux-musl.work/install-4b0142b75eac4c72a857c05e32e99b4f/prefix"
+  ],
+  "command_sha256": "44905764eb90b9727b9a5951d8cc274b64515c5d6951ce3151351b861793a135",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "63aa05b449404c2f8d5dd0d890023f5827ea0807f0cbd2e852d2069a705af6dc",
+  "inputs": {
+    "binary_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236",
+    "candidate_metadata_sha256": "d71968c8d9cbca6e161140d617139f0c7bb4e3606a797be6e8a7b44400bb87a9",
+    "candidate_packages_sha256": "b24a44733550251ef4d088063a17cc8a3693be4c01aa8a3ba019707a07fe7f46",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+    "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "spec_sha256": "18967908e19961324dc20ec6feb4d7d579e2a230689213165966e046813771dd",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+    "tooling_sha256": "923bbbb253f8b4613eaeb5ea4ed1695715931b3fb049410fc2ab8458f877f40a",
+    "version": "0.1.0-alpha.22.mcp.4"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "f3de5627ab6425f9ddb4e988c21620cbfa978da3664c7f5c697fbb9d1b1f8af9",
+      "size": 457
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "fcad0168842cf3e985a8666068e912a8a353ac371503b2503f09ba341a83ebb9",
+      "size": 5163
+    },
+    "logs/install.log": {
+      "sha256": "fcad0168842cf3e985a8666068e912a8a353ac371503b2503f09ba341a83ebb9",
+      "size": 5163
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scope": "owner-authorized-test",
+  "version": "0.1.0-alpha.22.mcp.4",
+  "tag": "mcp",
+  "registry": "https://npm.cdot.io",
+  "source_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "tooling_commit": "3e43436ce0bbffef796fac0cd5eee0527e5ead15",
+  "packaging_commit": "667822f50c1cea5a93c783d7d3811cec0f4dc845",
+  "previous_version": "0.1.0-alpha.22.mcp.3",
+  "developer_id_team": "G5QLZ5A8TA",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "ba61eb9016130a6b9c4c834b215149fe2142b2abdc145e93ef81462a010ca236"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "ab4d9860c625466fb4acf1279105a93aff26fd3f38d87aa855c0dc91e575007f"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "fd18bb6000be5758e122544e953a40e74c3e3ef4ce3d98a1f8d21238cea462f8"
+    }
+  ]
+}

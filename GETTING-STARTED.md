@@ -4,7 +4,9 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release channel:** this guide covers **0.1.0-alpha.22.mcp.6**, with automatic desktop browser opening, clearer remote MCP sign-in instructions and progress through credential storage and tool discovery. The in-session `/mcp` manager, `/doctor` dashboard and native MCP storage default for new environments remain available. This version is published under the `mcp` test tag; install the exact version below. Existing environments retain their storage mode when upgraded; the instructions below also explain mcp.3 behavior. Real-account SSO, workspace-key and ServiceNow acceptance remain separate from automated checks. The `mcp` tag selects the registry's test-channel build; inspect `airs --version` before following version-specific instructions.
+**Release: 0.1.1.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
+
+The owner confirmed the complete inference → ServiceNow sign-in → read-only query → restart/reuse workflow on Apple Silicon with the preceding mcp.6 release. Automated package checks and real-account acceptance are recorded separately.
 
 The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.0.0** and eight product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
@@ -13,7 +15,7 @@ Check Node.js and npm in the terminal you will use. The harness requires **22.13
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@0.1.0-alpha.22.mcp.6 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -22,7 +24,7 @@ Replace the example registry with your administrator's registry. Ordinary instal
 
 If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The standalone 7.0.1 release and the harness's pinned 7.0.0 bundle are intentionally distinct.
 
-Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in alpha.22; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
+Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
 ### 1. Get the connection details and access
 
@@ -50,7 +52,7 @@ For a new profile, start guided creation:
 airs env create work
 ```
 
-Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by mcp.4 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
+Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by 0.1.1 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
 
 If `work` already exists, reuse it:
 
@@ -170,7 +172,7 @@ Set `animations = false` under `[tui]` in the environment configuration, or laun
 
 ### 4. Open AIRS and check MCP storage for existing environments
 
-**New environments created by mcp.4:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
+**New environments created by 0.1.1:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
 
 **Existing environments and mcp.3:** upgrading preserves the existing mode and saved tokens. To inspect the mode, run `airs env show work`, locate `state_directory`, and inspect that directory's `config.toml`. The explicit native-only setting is this **top-level** key, before any `[table]` headers:
 

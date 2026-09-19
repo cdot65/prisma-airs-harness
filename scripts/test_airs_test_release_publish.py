@@ -121,6 +121,25 @@ class PublicationTests(unittest.TestCase):
     def run_publish(self):
         return _publish(self.spec, self.plan, self.packages, self.output, self.registry)
 
+    def test_stable_candidate_publication_preserves_latest_and_mcp(self):
+        with patch(__name__ + ".VERSION", "0.1.1"):
+            spec, plan, packages = fixture(self.root / "stable")
+            spec.update(scope="owner-authorized-stable", tag="stable-candidate")
+            registry = MemoryRegistry(plan)
+            before = copy.deepcopy(registry.documents)
+            receipt = _publish(spec, plan, packages, self.output, registry)
+            self.assertTrue(receipt["published"])
+            for name in PACKAGE_ORDER:
+                self.assertEqual(
+                    registry.documents[name]["dist-tags"],
+                    {**before[name]["dist-tags"], "stable-candidate": "0.1.1"},
+                )
+            self.assertEqual(registry.published, PACKAGE_ORDER)
+            # Resume cannot silently repair a conflicting tag or changed bytes.
+            registry.documents[PACKAGE_ORDER[0]]["dist-tags"]["latest"] = "unexpected"
+            with self.assertRaisesRegex(ValueError, "Protected"):
+                _publish(spec, plan, packages, self.output, registry)
+
     def test_interrupted_native_publish_resumes_before_launcher_and_preserves_tags(
         self,
     ):
@@ -189,7 +208,7 @@ class PublicationTests(unittest.TestCase):
             self.run_publish()
         archive.write_bytes(original)
         self.registry.documents[PACKAGE_ORDER[-1]]["dist-tags"]["latest"] = "unexpected"
-        with self.assertRaisesRegex(ValueError, "Non-mcp"):
+        with self.assertRaisesRegex(ValueError, "Protected"):
             self.run_publish()
         self.assertEqual(self.registry.published, PACKAGE_ORDER[:1])
 
@@ -237,7 +256,7 @@ class PublicationTests(unittest.TestCase):
         for tag in ["latest", "alpha", "onboarding"]:
             with (
                 self.subTest(tag=tag),
-                self.assertRaisesRegex(ValueError, "test publication"),
+                self.assertRaisesRegex(ValueError, "candidate scope"),
             ):
                 validate_spec({**document, "tag": tag})
 

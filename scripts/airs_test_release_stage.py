@@ -11,7 +11,7 @@ from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import (
     PACKAGE_ORDER,
-    SCOPE,
+    STABLE_SCOPE,
     TARGETS,
     canonical_digest,
     digest_file,
@@ -212,7 +212,7 @@ def _replacements(spec, row, inventory, acceptance):
     platform = next(p for p in acceptance["platforms"] if p["target"] == info["target"])
     receipt = {
         "schema_version": 1,
-        "scope": SCOPE,
+        "scope": spec["scope"],
         "publication_authorized": True,
         "authorization": "Owner authorized direct versioned npm test handoffs; stable promotion and attended production acceptance remain separate.",
         "product_version": spec["version"],
@@ -237,11 +237,21 @@ def _replacements(spec, row, inventory, acceptance):
             inventory["metadata"][BUILD]
         ).hexdigest(),
     }
+    if spec["scope"] == STABLE_SCOPE:
+        receipt["authorization"] = (
+            "Owner authorized the stable release after stabilization. These native "
+            "receipts cover automated acceptance; attended acceptance and full-workspace "
+            "classification are retained in the stable release record."
+        )
+        receipt["limitations"] = [
+            "Native fixtures do not independently establish production account acceptance.",
+            "Default-tag promotion requires fresh registry verification of all platforms.",
+        ]
     changes[ORIGINAL] = inventory["metadata"][BUILD]
     changes[VALIDATION] = _bytes(receipt)
     info.pop("publishable", None)
     info.pop("release_status", None)
-    info["release_scope"] = SCOPE
+    info["release_scope"] = spec["scope"]
     info["validation_receipt_sha256"] = hashlib.sha256(changes[VALIDATION]).hexdigest()
     changes[BUILD] = _bytes(info)
     return changes
@@ -251,7 +261,7 @@ def _plan(spec, candidate, acceptance, records):
     return {
         "schema_version": 1,
         "published": False,
-        "release_scope": SCOPE,
+        "release_scope": spec["scope"],
         "production_release_ready": False,
         "spec_sha256": canonical_digest(spec),
         **{

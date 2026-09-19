@@ -13,44 +13,26 @@ not implement the native MCP connection.
 
 ## Release status
 
-**0.1.0-alpha.22.mcp.5 is published under `mcp` at `https://npm.cdot.io`.**
-Fresh anonymous registry installations passed on Linux x64, native Linux ARM64
-and signed/notarized Apple Silicon. This release bundles the corrected Ubuntu
-SSH setup helper, including keyring-daemon replacement when required and verified
-collection unlock. The exact installed helper passed six isolated Ubuntu checks
-using its unmodified mcp.5 default. The native runtime changes only its displayed
-release version from mcp.4.
+**0.1.1 is the stable release being prepared.** It consolidates environment
+onboarding, company SSO and workspace API keys, in-session MCP sign-in and
+connection management, and recovery diagnostics. Desktop MCP sign-in opens the
+browser; remote sign-in supports hidden callback input. New environments use
+native MCP credential storage; existing environments retain their configured mode.
 
-New environments created by mcp.4 and later require native MCP credential storage.
-Existing environments keep their configured storage mode, credentials and history;
-upgrading does not migrate tokens. See [the storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+The owner confirmed inference sign-in, ServiceNow sign-in, a read-only query and
+credential reuse after restarting the preceding mcp.6 release on Apple Silicon.
+Stable publication requires fresh installed checks of the actual 0.1.1 packages
+on Linux x64, Linux ARM64 and signed/notarized Apple Silicon. See
+[the release notes](RELEASE-0.1.1.md) and
+[the preceding release evidence](validation/2026-09-19/mcp-signin-polish/README.md).
 
-See [the mcp.5 release evidence](validation/2026-09-19/mcp5-release/README.md)
-for package identities, native acceptance, lifecycle checks and upgrades from
-mcp.4 and onboarding.4. [Historical mcp.4 evidence](validation/2026-09-19/native-mcp-release/README.md)
-preserves the earlier package's Ubuntu-helper limitation.
+The npm package remains `airs-harness`; the command is `airs`. The bundled product
+CLI is `airs cli ...`; the standalone product CLI uses `airs-cli`. A temporary
+`airs-harness` compatibility alias remains for existing installations.
 
-**Historical release: 0.1.0-alpha.22.mcp.3.**
-Fresh anonymous installations passed on Linux x64, native Linux ARM64 and signed,
-notarized Apple Silicon. Upgrades from mcp.2 and onboarding.4 preserved the checked
-configuration. See [the release evidence](validation/2026-09-19/release-reliability/README.md)
-and [the deployed getting-started guide](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/).
-The owner separately reported successful workspace-key inference and ServiceNow use
-on Ubuntu. This is not an independently observed service receipt or a company SSO check.
-
-Alpha.22 introduces `airs` for the harness and `airs cli ...` for its bundled
-Prisma AIRS CLI 7.0.0. The standalone product executable is `airs-cli`.
-See [the command migration guide](PRISMA-AIRS-CLI.md) for install order and tenant
-onboarding. [Alpha.21 release checks](validation/2026-09-17/alpha21-environments/README.md) remain historical evidence.
-
-Alpha.21 consolidates environment creation and lifecycle management under
-`env create/list/show/status/use/rename/remove`. Top-level `setup` and `status`
-are removed. Existing environment credentials and history remain intact.
-`env use` saves the default; `--environment` selects one command's environment.
-
-Those historical receipts cover gateway inference and MCP routing, manual MCP
-callback input, and guided sign-in recovery. They do not establish fresh
-production SSO or ServiceNow acceptance for a subsequent test package.
+Environment lifecycle commands live under `env`: create, list, show, status, use,
+rename and remove. `env use` saves the default; `--environment` selects an
+environment for one command. The old top-level `setup` and `status` are removed.
 
 ## Getting started
 
@@ -60,12 +42,9 @@ company SSO or a workspace API key, then ServiceNow sign-in through the in-sessi
 verification. MCP connection changes start a new conversation inside AIRS while
 preserving history and the draft.
 
-These dashboards are in the **mcp test channel**. The stable `latest`, `alpha` and
-`onboarding` tags remain `0.1.0-alpha.22.onboarding.4`. This guide covers
-the published `0.1.0-alpha.22.mcp.5` release, retaining the native-storage default
-introduced in `mcp.4`. Real-account SSO,
-workspace-key and ServiceNow acceptance remain separate. [Onboarding reliability evidence](validation/2026-09-19/onboarding-reliability/README.md)
-records the implementation checks; the release evidence above records publication.
+For 0.1.1 use the exact version below. After stable promotion, an ordinary
+unversioned install selects it through `latest`; prerelease channel tags remain
+separate. Upgrading preserves existing environments, credentials and history.
 
 ## Installation
 

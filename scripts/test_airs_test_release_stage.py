@@ -298,6 +298,35 @@ class StageTests(unittest.TestCase):
         self.verifier = mocked.start()
         self.addCleanup(mocked.stop)
 
+    def test_stable_candidate_stage_preserves_runtime_and_scope(self):
+        spec = {
+            **self.spec,
+            "scope": "owner-authorized-stable",
+            "tag": "stable-candidate",
+            "version": "0.1.1",
+        }
+        validate_spec(spec)
+        source = self.root / "stable-source"
+        self.verifier.return_value = candidates(source, spec)
+        plan = stage.stage_packages(spec, source, self.evidence, self.output)
+        self.assertEqual(plan, stage.verify_staged(spec, self.output, self.evidence))
+        self.assertEqual(plan["release_scope"], spec["scope"])
+        self.assertTrue(
+            all(row["runtime_payload_unchanged"] for row in plan["publish_order"])
+        )
+        native = archive.inspect_archive(
+            self.output / "tarballs" / plan["publish_order"][0]["filename"]
+        )
+        self.assertEqual(native["json"][stage.VALIDATION]["scope"], spec["scope"])
+        self.assertEqual(native["json"][stage.BUILD]["release_scope"], spec["scope"])
+        for change in (
+            {"tag": "latest"},
+            {"scope": "owner-authorized-test"},
+            {"version": "0.1.1-rc.1"},
+        ):
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                validate_spec({**spec, **change})
+
     def test_complete_stage_roundtrip_retains_provenance_and_honest_gates(self):
         plan = stage.stage_packages(self.spec, self.source, self.evidence, self.output)
         self.assertEqual(

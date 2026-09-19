@@ -9,6 +9,9 @@ import stat
 from urllib.parse import urlsplit
 
 SCOPE = "owner-authorized-test"
+STABLE_SCOPE = "owner-authorized-stable"
+STABLE_TAG = "stable-candidate"
+STABLE_VERSION = re.compile(r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\Z")
 TARGETS = {
     "x86_64-unknown-linux-musl": "airs-harness-linux-x64",
     "aarch64-unknown-linux-musl": "airs-harness-linux-arm64",
@@ -121,8 +124,9 @@ def validate_spec(document):
         "Unsupported release specification schema",
     )
     require(
-        document["scope"] == SCOPE and document["tag"] == "mcp",
-        "Only owner-authorized mcp test publication is supported",
+        (document["scope"], document["tag"])
+        in ((SCOPE, "mcp"), (STABLE_SCOPE, STABLE_TAG)),
+        "Expected an explicitly authorized test or stable candidate scope",
     )
     for key in fields - {"schema_version", "platforms"}:
         value = document[key]
@@ -133,12 +137,18 @@ def validate_spec(document):
             "Invalid release specification string",
         )
     require(
-        VERSION.fullmatch(document["version"]) is not None
+        (STABLE_VERSION if document["scope"] == STABLE_SCOPE else VERSION).fullmatch(
+            document["version"]
+        )
+        is not None
         and len(document["version"]) <= 128,
-        "Expected an immutable mcp prerelease version",
+        "Version does not match the release scope",
     )
     require(
-        PREVIOUS.fullmatch(document["previous_version"]) is not None
+        (
+            PREVIOUS.fullmatch(document["previous_version"]) is not None
+            or STABLE_VERSION.fullmatch(document["previous_version"]) is not None
+        )
         and document["previous_version"] != document["version"],
         "Invalid previous version",
     )

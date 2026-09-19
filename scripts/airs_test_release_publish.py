@@ -14,6 +14,7 @@ from urllib.request import HTTPRedirectHandler, build_opener
 from airs_release_receipts import atomic_json, safe_destination
 from airs_test_release_spec import (
     PACKAGE_ORDER,
+    STABLE_TAG,
     canonical_digest,
     digest_file,
     load_json,
@@ -70,7 +71,7 @@ class Registry:
         return document
 
     def publish(self, archive, tag):
-        require(tag == "mcp", "Only the mcp test tag can be published")
+        require(tag in ("mcp", STABLE_TAG), "Only candidate tags can be published")
         environment = {
             key: value
             for key, value in os.environ.items()
@@ -142,11 +143,11 @@ def _tags(document):
     return dict(tags)
 
 
-def _protected(tags):
-    return {key: value for key, value in tags.items() if key != "mcp"}
+def _protected(tags, tag):
+    return {key: value for key, value in tags.items() if key != tag}
 
 
-def _existing(document, record):
+def _existing(document, record, tag):
     observed = document["versions"].get(record["version"])
     if observed is None:
         return False
@@ -161,8 +162,8 @@ def _existing(document, record):
         "Existing immutable version has different integrity; publication stopped",
     )
     require(
-        _tags(document).get("mcp") == record["version"],
-        "Existing version is not the mcp tag target; refusing an implicit tag change",
+        _tags(document).get(tag) == record["version"],
+        "Existing version is not the candidate tag target; refusing an implicit tag change",
     )
     return True
 
@@ -202,7 +203,7 @@ def _publish(spec, plan, packages, output, registry):
             "Staged archive changed before publication",
         )
         current[record["name"]] = registry.metadata(record["name"])
-        _existing(current[record["name"]], record)
+        _existing(current[record["name"]], record, spec["tag"])
     if receipt is None:
         receipt = {
             "schema_version": 1,
@@ -223,8 +224,9 @@ def _publish(spec, plan, packages, output, registry):
     def check_tags(name, document):
         original = _tags({"dist-tags": receipt["original_tags"][name]})
         require(
-            _protected(_tags(document)) == _protected(original),
-            "Non-mcp registry tags changed; refusing further publication",
+            _protected(_tags(document), spec["tag"])
+            == _protected(original, spec["tag"]),
+            "Protected registry tags changed; refusing further publication",
         )
 
     for name, document in current.items():
@@ -236,7 +238,7 @@ def _publish(spec, plan, packages, output, registry):
         for other in PACKAGE_ORDER:
             check_tags(other, registry.metadata(other))
         document = registry.metadata(name)
-        if not _existing(document, record):
+        if not _existing(document, record, spec["tag"]):
             archive = Path(packages) / "tarballs" / record["filename"]
             require(
                 digest_file(archive) == record["sha256"],
@@ -245,7 +247,8 @@ def _publish(spec, plan, packages, output, registry):
             registry.publish(archive, spec["tag"])
             document = registry.metadata(name)
         require(
-            _existing(document, record), "Published version is absent from the registry"
+            _existing(document, record, spec["tag"]),
+            "Published version is absent from the registry",
         )
         check_tags(name, document)
         receipt["packages"] = [
@@ -257,10 +260,13 @@ def _publish(spec, plan, packages, output, registry):
         document = registry.metadata(record["name"])
         check_tags(record["name"], document)
         require(
-            _existing(document, record), "Registry changed during final verification"
+            _existing(document, record, spec["tag"]),
+            "Registry changed during final verification",
         )
     receipt["published"] = True
-    receipt["existing_non_mcp_tags_preserved"] = True
+    receipt["existing_protected_tags_preserved"] = True
+    if spec["tag"] == "mcp":
+        receipt["existing_non_mcp_tags_preserved"] = True
     atomic_json(receipt_path, receipt)
     return receipt
 

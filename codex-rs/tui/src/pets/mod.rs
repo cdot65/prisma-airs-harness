@@ -346,9 +346,12 @@ mod tests {
 
     #[test]
     fn kitty_local_file_pet_image_uses_file_reference_without_inline_payload() {
+        use base64::Engine as _;
+
         let dir = tempfile::tempdir().unwrap();
         let frame = dir.path().join("frame.png");
         std::fs::write(&frame, b"png").unwrap();
+        let expected_path = frame.canonicalize().unwrap();
         let request = AmbientPetDraw {
             frame,
             protocol: ImageProtocol::KittyLocalFile,
@@ -369,7 +372,19 @@ mod tests {
         assert!(output.contains("a=d,d=I,i=49374,q=2;"));
         assert!(output.contains("\x1b[4;3H"));
         assert!(output.contains("a=T,t=f,f=100,c=4,r=2,q=2,i=49374;"));
-        assert!(!output.contains("cG5n"));
+        let payload = output
+            .split_once("a=T,t=f,f=100,c=4,r=2,q=2,i=49374;")
+            .unwrap()
+            .1
+            .split_once("\x1b\\")
+            .unwrap()
+            .0;
+        assert_eq!(
+            base64::engine::general_purpose::STANDARD
+                .decode(payload)
+                .unwrap(),
+            expected_path.to_string_lossy().as_bytes()
+        );
         assert!(output.contains("\x1b8"));
     }
 

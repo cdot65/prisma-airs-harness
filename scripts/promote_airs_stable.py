@@ -69,6 +69,69 @@ class StableRegistry(Registry):
             )
 
 
+# These inherited 0.154 cases are the only exceptions eligible for the 0.1.1
+# release review. The original full-workspace failure result remains in evidence.
+WORKSPACE_BASELINE_011 = {
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": "disabled-upstream-service",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": "disabled-upstream-service",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": "disabled-upstream-service",
+    "codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp": "corrected-test-fixture",
+    "codex-skills-extension host_roots::tests::repo_ancestry_without_project_marker_does_not_walk_parents": "corrected-test-fixture",
+    "codex-voice-host::bin/codex-voice-host devices::playout::tests::real_decoder_renders_current_rtp_and_rejects_pre_epoch_arrivals": "configured-test-runtime",
+}
+
+
+def validate_workspace(spec, workspace):
+    require(
+        workspace.get("scope") == "full-workspace"
+        and type(workspace.get("passed")) is int
+        and workspace["passed"] > 0
+        and type(workspace.get("failed")) is int
+        and workspace["failed"] >= 0
+        and workspace.get("source_commit") == spec["source_commit"],
+        "A complete full workspace run on the release source is required",
+    )
+    if workspace["failed"] == 0:
+        require(not workspace.get("failures"), "Failure count disagrees with cases")
+        return
+    failures = workspace.get("failures", [])
+    review = workspace.get("baseline_review", {})
+    require(
+        spec["version"] == "0.1.1"
+        and len(failures) == workspace["failed"]
+        and len(set(failures)) == len(failures)
+        and set(failures) <= WORKSPACE_BASELINE_011.keys()
+        and review.get("source_commit") == spec["source_commit"]
+        and review.get("upstream_revision") == "rust-v0.154.0"
+        and review.get("upstream_implementations_unchanged") is True
+        and review.get("unresolved_release_blockers") == [],
+        "Unclassified workspace failures prevent promotion",
+    )
+    cases = review.get("cases", {})
+    require(set(cases) == set(failures), "Every workspace failure needs a disposition")
+    for name in failures:
+        case = cases[name]
+        require(
+            case.get("disposition") == WORKSPACE_BASELINE_011[name]
+            and case.get("evidence_verified") is True
+            and isinstance(case.get("evidence_sha256"), str)
+            and len(case["evidence_sha256"]) == 64
+            and all(c in "0123456789abcdef" for c in case["evidence_sha256"]),
+            "Workspace baseline evidence is incomplete",
+        )
+        if case["disposition"] == "disabled-upstream-service":
+            require(
+                case.get("installed_command_rejected") is True,
+                "Disabled service requires an installed command check",
+            )
+        else:
+            require(
+                case.get("focused_check_passed") is True
+                and case.get("runtime_source_unchanged") is True,
+                "Fixture disposition requires a passing check on unchanged runtime code",
+            )
+
+
 def validate_readiness(spec, readiness):
     require(spec["scope"] == STABLE_SCOPE, "Stable scope required")
     require(
@@ -76,14 +139,7 @@ def validate_readiness(spec, readiness):
         and readiness.get("version") == spec["version"],
         "Readiness source/version mismatch",
     )
-    workspace = readiness.get("workspace", {})
-    require(
-        workspace.get("failed") == 0
-        and type(workspace.get("passed")) is int
-        and workspace["passed"] > 0
-        and workspace.get("source_commit") == spec["source_commit"],
-        "A passing full workspace run on the release source is required",
-    )
+    validate_workspace(spec, readiness.get("workspace", {}))
     owner = readiness.get("owner_acceptance", {})
     require(
         owner.get("version") in (spec["version"], spec["previous_version"])
@@ -134,6 +190,7 @@ def promote(spec, plan, verification, readiness, output, registry):
             "identity_sha256": identity,
             "version": spec["version"],
             "source_commit": spec["source_commit"],
+            "workspace": readiness["workspace"],
             "original_tags": {
                 name: registry.metadata(name)["dist-tags"] for name in PACKAGE_ORDER
             },

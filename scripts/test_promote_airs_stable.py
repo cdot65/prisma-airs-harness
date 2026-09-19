@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from airs_test_release_spec import PACKAGE_ORDER, canonical_digest
-from promote_airs_stable import promote, validate_readiness
+from promote_airs_stable import WORKSPACE_BASELINE_011, promote, validate_readiness
 from test_airs_test_release_publish import MemoryRegistry, fixture
 
 
@@ -52,6 +52,7 @@ class StablePromotionTests(unittest.TestCase):
             "version": "0.1.1",
             "source_commit": self.spec["source_commit"],
             "workspace": {
+                "scope": "full-workspace",
                 "passed": 100,
                 "failed": 0,
                 "source_commit": self.spec["source_commit"],
@@ -113,6 +114,78 @@ class StablePromotionTests(unittest.TestCase):
         for change in changes:
             with self.subTest(change=change), self.assertRaises(ValueError):
                 validate_readiness(self.spec, {**self.readiness, **change})
+        self.assertEqual(self.registry.promoted, [])
+
+    def test_reviewed_baseline_keeps_failures_visible_in_promotion_receipt(self):
+        cases = {
+            name: {
+                "disposition": disposition,
+                "evidence_verified": True,
+                "evidence_sha256": "a" * 64,
+                "installed_command_rejected": True,
+                "focused_check_passed": True,
+                "runtime_source_unchanged": True,
+            }
+            for name, disposition in WORKSPACE_BASELINE_011.items()
+        }
+        self.readiness["workspace"].update(
+            failed=len(cases),
+            failures=list(cases),
+            baseline_review={
+                "source_commit": self.spec["source_commit"],
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": cases,
+            },
+        )
+        receipt = self.run_promotion()
+        self.assertEqual(receipt["workspace"], self.readiness["workspace"])
+        self.assertEqual(receipt["workspace"]["failed"], len(cases))
+
+    def test_unknown_or_unverified_baseline_cannot_hide_a_failure(self):
+        name = next(
+            name
+            for name, kind in WORKSPACE_BASELINE_011.items()
+            if kind == "corrected-test-fixture"
+        )
+        self.readiness["workspace"].update(
+            failed=1,
+            failures=[name],
+            baseline_review={
+                "source_commit": self.spec["source_commit"],
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": {
+                    name: {
+                        "disposition": "corrected-test-fixture",
+                        "evidence_verified": True,
+                        "evidence_sha256": "a" * 64,
+                        "focused_check_passed": True,
+                        "runtime_source_unchanged": True,
+                    }
+                },
+            },
+        )
+        validate_readiness(self.spec, self.readiness)
+        for field in (
+            "evidence_verified",
+            "focused_check_passed",
+            "runtime_source_unchanged",
+        ):
+            changed = copy.deepcopy(self.readiness)
+            changed["workspace"]["baseline_review"]["cases"][name][field] = False
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate_readiness(self.spec, changed)
+        changed = copy.deepcopy(self.readiness)
+        changed["workspace"]["failures"] = ["new supported authentication regression"]
+        with self.assertRaises(ValueError):
+            validate_readiness(self.spec, changed)
+        changed = copy.deepcopy(self.readiness)
+        changed["workspace"]["scope"] = "focused-diagnostic"
+        with self.assertRaises(ValueError):
+            validate_readiness(self.spec, changed)
         self.assertEqual(self.registry.promoted, [])
 
     def test_wrong_registry_mode_or_package_bytes_prevent_promotion(self):

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "scope": "independent-clean-bare-shallow-clone",
+  "command": [
+    "git",
+    "clone",
+    "--bare",
+    "--no-local",
+    "--depth",
+    "1",
+    "--single-branch",
+    "--branch",
+    "feat/airs-post011-reliability-20260919",
+    "/home/cdot/development/cdot65/airs-post011-reliability-20260919",
+    "/tmp/airs-post011-20260919/release/independent-clean-evidence.git"
+  ],
+  "source_commit": "0b171dd54fd724634ec696c5a6ea60a9d83ef054",
+  "source_branch": "feat/airs-post011-reliability-20260919",
+  "exit_code": 0,
+  "bare": true,
+  "shallow": true,
+  "working_tree_present": false,
+  "object_alternates_present": false,
+  "log_sha256": "f0851311d6f1bf41d5ca69e731cce7d110ca370b81e6929bdbcb91ccadcbed81"
+}

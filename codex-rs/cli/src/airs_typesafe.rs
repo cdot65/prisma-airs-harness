@@ -48,6 +48,9 @@ pub enum Command {
     Status,
     /// Run the bundled judge with TypeSafe variables scoped to its child process.
     Exec {
+        /// Bind an installed skill to its owning environment, ignoring the default.
+        #[arg(long, hide = true)]
+        skill_home: Option<std::path::PathBuf>,
         #[arg(required = true, trailing_var_arg = true, allow_hyphen_values = true)]
         command: Vec<std::ffi::OsString>,
     },
@@ -400,7 +403,14 @@ pub(super) async fn run(
     command: &Command,
     requested: Option<&str>,
 ) -> anyhow::Result<()> {
-    super::airs_environment::select(root, requested)?;
+    let bound_name = match command {
+        Command::Exec {
+            skill_home: Some(home),
+            ..
+        } => skill_environment(root, home, requested)?,
+        _ => requested.map(str::to_owned),
+    };
+    super::airs_environment::select(root, bound_name.as_deref())?;
     let home = codex_core::config::find_codex_home()?;
     let home = home.as_path();
     let label = super::airs_environment::command(requested);
@@ -432,7 +442,7 @@ pub(super) async fn run(
             "TypeSafe judge: {}",
             status_detail(home, |name| std::env::var_os(name).is_some())
         ),
-        Command::Exec { command } => {
+        Command::Exec { command, .. } => {
             let status = child_command(home, &NativeStore, command)?.status()?;
             std::process::exit(status.code().unwrap_or(1));
         }
@@ -445,6 +455,28 @@ pub(super) async fn run(
         }
     }
     Ok(())
+}
+
+/// Bind credential access to the installed skill, including after default changes.
+fn skill_environment(
+    root: &Path,
+    home: &Path,
+    requested: Option<&str>,
+) -> anyhow::Result<Option<String>> {
+    let root = root.canonicalize()?;
+    let home = home
+        .canonicalize()
+        .context("The skill's environment home is unavailable")?;
+    let name = super::airs_environment::name_for_home(&root, &home)?;
+    anyhow::ensure!(
+        name.is_some() || (home == root && !root.join("environments.json").exists()),
+        "The skill's environment is no longer registered; start airs in a registered environment"
+    );
+    anyhow::ensure!(
+        requested.is_none() || requested == name.as_deref(),
+        "The requested environment does not own this installed skill"
+    );
+    Ok(name)
 }
 
 #[cfg(test)]

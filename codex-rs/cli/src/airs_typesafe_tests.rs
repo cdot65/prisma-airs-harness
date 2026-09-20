@@ -241,3 +241,45 @@ async fn model_probe_validates_the_response_and_refuses_redirects() {
         assert_eq!(server.received_requests().await.unwrap().len(), 1);
     }
 }
+
+#[test]
+fn skill_binding_uses_owning_environment_not_default_and_rejects_mismatch() {
+    let root = tempfile::tempdir().unwrap();
+    let id = Uuid::new_v4();
+    let other = Uuid::new_v4();
+    let home = root.path().join("environments").join(id.to_string());
+    std::fs::create_dir_all(&home).unwrap();
+    std::fs::write(
+        root.path().join("environments.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema_version":1,"active":"other","environments":{
+                "judge":{"id":id,"gateway_url":"https://fixture.invalid/v1"},
+                "other":{"id":other,"gateway_url":"https://fixture.invalid/v1"}
+            }
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        skill_environment(root.path(), &home, None).unwrap(),
+        Some("judge".into())
+    );
+    assert!(skill_environment(root.path(), &home, Some("other")).is_err());
+    assert!(skill_environment(root.path(), root.path(), None).is_err());
+    std::fs::write(
+        root.path().join("environments.json"),
+        br#"{"schema_version":1,"active":null,"environments":{}}"#,
+    )
+    .unwrap();
+    assert!(skill_environment(root.path(), &home, None).is_err());
+}
+
+#[test]
+fn skill_binding_supports_unregistered_legacy_root_only_without_named_selection() {
+    let root = tempfile::tempdir().unwrap();
+    assert_eq!(
+        skill_environment(root.path(), root.path(), None).unwrap(),
+        None
+    );
+    assert!(skill_environment(root.path(), root.path(), Some("missing")).is_err());
+}

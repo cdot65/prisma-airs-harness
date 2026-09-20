@@ -65,6 +65,7 @@ pub enum SlashCommand {
     Apps,
     Plugins,
     Doctor,
+    Typesafe,
     Signin,
     Logout,
     Quit,
@@ -90,6 +91,9 @@ impl SlashCommand {
     /// User-visible description shown in the popup.
     pub fn description(self) -> &'static str {
         match self {
+            SlashCommand::Typesafe => {
+                "configure the optional TypeSafe Jev judge for this environment"
+            }
             SlashCommand::Doctor => "check environment health and recover gateway or MCP access",
             SlashCommand::Signin => "restore company or MCP sign-in for this AIRS session",
             SlashCommand::Feedback => "send logs to maintainers",
@@ -245,6 +249,7 @@ impl SlashCommand {
             | SlashCommand::Cd
             | SlashCommand::Clear
             | SlashCommand::Doctor
+            | SlashCommand::Typesafe
             | SlashCommand::Logout
             | SlashCommand::MemoryDrop
             | SlashCommand::MemoryUpdate => false,
@@ -289,7 +294,9 @@ impl SlashCommand {
 
     fn is_visible(self) -> bool {
         match self {
-            SlashCommand::Signin | SlashCommand::Doctor => codex_utils_home_dir::is_airs_harness(),
+            SlashCommand::Signin | SlashCommand::Doctor | SlashCommand::Typesafe => {
+                codex_utils_home_dir::is_airs_harness()
+            }
             SlashCommand::SandboxReadRoot => cfg!(target_os = "windows"),
             SlashCommand::Copy => !cfg!(target_os = "android"),
             SlashCommand::App => cfg!(any(target_os = "macos", target_os = "windows")),

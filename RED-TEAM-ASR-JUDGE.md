@@ -1,9 +1,44 @@
+# TypeScript judge and environment-scoped credentials
+
+The **0.1.2-alpha.4.mcp.1 candidate**, with CLI **7.1.5**, replaces the Python
+proof of concept below. Publication status is in [the release record](RELEASE-TYPESAFE-JUDGE.md).
+
+The embedded skill invokes `scripts/asr_judge.mjs`, a small JavaScript entrypoint
+that delegates to the pinned TypeScript CLI. The CLI owns ingestion, questions,
+the official `@typesafe-ai/sdk` 0.6.0 adapter, replay and metrics. This workflow
+requires Node, already provided by the npm installation, and no Python runtime.
+
+The entrypoint derives the owning environment from its installed location. The
+native helper verifies that home is still registered before retrieving the key.
+A changed default cannot select another environment. Keys are passed only to the
+judge child; they never appear in arguments or get copied into CLI tenant files.
+Existing shell keys take precedence. Help, dry-run and explicit replay remain
+credential-free. Missing credentials fail; replay is never an automatic fallback.
+Replay reports clearly say that old answers were reused, with no new evaluation.
+
+Standalone CLI invocations still read the selected tenant's `typesafeApiKey`.
+Only the harness's explicit child credential mode consumes injected variables.
+The SDK has logging disabled and follows the adapter's existing retry and
+redirect rules. Output strings remain verbatim. No new live Jev accuracy claim
+is made. Native Windows acceptance remains separate from portable Node tests.
+
+The [JavaScript SDK documentation](https://docs.typesafe.ai/sdk/javascript.md)
+and v0.6.0 client source were checked on September 20, 2026.
+
+---
+
+The following is the historical Python proof-of-concept record. Its Python
+commands and separate script implementation are retired by the candidate above.
+
 # Red-team ASR judge (TypeSafe Jev) proof of concept
 
 Status: implemented and tested at the integration boundary. No live Jev call has been
 made from this repository because `TYPESAFE_API_KEY` is not present in the
 development environment; the illustrative ASR metrics below come from
 hand-authored replay fixtures and carries no accuracy claim.
+
+Use `/typesafe` inside AIRS to save, replace, inspect or remove the optional key.
+Entry is hidden and the conversation and draft remain intact.
 
 ## What was built
 

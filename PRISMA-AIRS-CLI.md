@@ -1,8 +1,8 @@
 # Bundled Prisma AIRS CLI and skills
 
-This guide covers harness **0.1.2-alpha.3.mcp.1**. Install this exact version
-from `https://npm.cdot.io` under `mcp`. It includes `@cdot65/prisma-airs-cli@7.1.4` and SDK
-`0.33.0`. One npm harness installation includes the pinned CLI and eight embedded
+This guide covers harness **0.1.2-alpha.4.mcp.1**. Install this exact version
+from `https://npm.cdot.io` under `mcp`. It includes `@cdot65/prisma-airs-cli@7.1.5` and SDK
+`0.33.0`. One npm harness installation includes the pinned CLI and nine embedded
 product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
 An independently installed product CLI uses **`airs-cli ...`**.
 
@@ -34,7 +34,7 @@ If an old global product CLI owns `airs`, upgrade it first:
 ```sh
 npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
 airs-cli --version
-npm install -g airs-harness@0.1.2-alpha.3.mcp.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.2-alpha.4.mcp.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -112,3 +112,12 @@ For future upgrades, pin the CLI and SDK exactly, review command/credential
 contracts, refresh affected embedded skills and the lockfile, rebuild native
 assets, and validate clean installs and upgrades on every released platform.
 Retain bundle hashes, signing evidence and published-package acceptance receipts.
+
+## Optional TypeSafe Jev setup inside AIRS
+
+Use `/typesafe` in a running harness session to save or replace the API key in a
+hidden field, inspect its configuration, or remove the saved key. Setup is
+optional and belongs to the current harness environment. Keys never enter the
+conversation. The ASR skill's Node entrypoint retrieves that environment's key
+automatically and invokes the bundled TypeScript implementation. No Python or
+external setup command is required. Saving does not run a paid evaluation.

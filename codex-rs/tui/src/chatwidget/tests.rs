@@ -287,3 +287,5 @@ mod questions_tests;
 #[path = "tests/airs_doctor.rs"]
 mod airs_doctor;
 mod airs_recovery;
+#[path = "tests/airs_typesafe.rs"]
+mod airs_typesafe;

@@ -1,0 +1,23 @@
+---
+source: tui/src/chatwidget/tests/airs_typesafe.rs
+expression: "render(&chat, 60)"
+---
+
+
+  TypeSafe Jev · work
+  Optional red-team judge. No key configured. No requests
+  sent.
+
+› 1. Save or replace API key
+     Hidden entry; stored only for this environment.
+     Judging sends scan data to TypeSafe and may incur
+     charges.
+  2. Refresh status
+     Inspect configuration without sending a paid judgment
+     request.
+  3. Remove saved API key
+     Remove this environment's saved key. An inherited
+     TYPESAFE_API_KEY still takes precedence.
+  4. Close
+
+  Press enter to confirm or esc to go back

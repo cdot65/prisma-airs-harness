@@ -740,6 +740,7 @@ impl App {
                 }
             },
             AppEvent::AirsDoctor(event) => self.handle_airs_doctor(tui, app_server, event).await,
+            AppEvent::AirsTypeSafe(event) => self.handle_airs_typesafe(app_server, event),
             AppEvent::AirsMcpManager(event) => self.handle_airs_mcp_manager(app_server, event).await,
             AppEvent::AirsSignIn => self.start_airs_sign_in(),
             AppEvent::AirsSignInCancel => self.airs_recovery.cancel(),

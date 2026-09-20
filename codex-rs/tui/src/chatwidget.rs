@@ -442,6 +442,7 @@ mod airs_doctor;
 mod airs_mcp_manager;
 pub(crate) mod airs_mcp_recovery;
 mod airs_recovery;
+mod airs_typesafe;
 mod turn_lifecycle;
 mod turn_runtime;
 use self::turn_lifecycle::TurnLifecycleState;

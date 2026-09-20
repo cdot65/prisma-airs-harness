@@ -214,6 +214,7 @@ mod airs_doctor;
 mod airs_mcp_manager;
 mod airs_mcp_recovery;
 mod airs_recovery;
+mod airs_typesafe;
 mod app_server_event_targets;
 mod app_server_events;
 pub(crate) mod app_server_requests;

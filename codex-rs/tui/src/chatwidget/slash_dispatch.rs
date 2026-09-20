@@ -437,6 +437,9 @@ impl ChatWidget {
                 }
             }
             SlashCommand::Signin => self.open_airs_sign_in(),
+            SlashCommand::Typesafe => self
+                .app_event_tx
+                .send(AppEvent::AirsTypeSafe(crate::airs_typesafe::Event::Open)),
             SlashCommand::Copy => {
                 self.show_copy_picker();
             }
@@ -1241,6 +1244,7 @@ impl ChatWidget {
             | SlashCommand::Exit
             | SlashCommand::Logout
             | SlashCommand::Doctor
+            | SlashCommand::Typesafe
             | SlashCommand::Signin
             | SlashCommand::Mention
             | SlashCommand::Skills

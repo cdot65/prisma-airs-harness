@@ -1,3 +1,18 @@
+# JavaScript judge and automatic environment credentials
+
+Candidate **0.1.2-alpha.4.mcp.1** bundles CLI **7.1.5**. Native acceptance and
+publication are pending. This source note is not a registry receipt.
+
+The skill invokes the bundled TypeScript judge through a JavaScript entrypoint.
+Python is no longer required. The native helper resolves the skill's owning
+environment and supplies its saved key only to the judge child. The CLI uses
+the official TypeSafe JavaScript SDK. Explicit replay is labeled clearly.
+
+Use `/typesafe` inside the harness for hidden API-key entry, configuration status
+and confirmed removal. The optional dialog preserves the conversation and draft
+and reuses the native credential store. This UI is included in the pending
+candidate; the previous published harness does not have it.
+
 # Verbatim model-output judgment
 
 Harness **0.1.2-alpha.3.mcp.1** is published under `mcp` at `https://npm.cdot.io`

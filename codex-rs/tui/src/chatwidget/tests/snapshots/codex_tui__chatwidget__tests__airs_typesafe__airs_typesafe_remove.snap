@@ -1,0 +1,15 @@
+---
+source: tui/src/chatwidget/tests/airs_typesafe.rs
+expression: "render(&chat, 60)"
+---
+
+
+  Remove this environment's TypeSafe key?
+  Inference and MCP sign-in are unchanged. An inherited
+  TYPESAFE_API_KEY remains active.
+
+› 1. Keep saved key    Return to TypeSafe settings.
+  2. Remove saved key  Delete the saved key from the
+                       native credential store.
+
+  Press enter to confirm or esc to go back

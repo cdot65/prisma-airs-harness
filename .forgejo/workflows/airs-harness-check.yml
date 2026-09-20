@@ -21,6 +21,6 @@ jobs:
       - run: python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v
       - name: Stable staging and promotion contracts
         run: |
-          for pattern in 'test_airs_test_release*.py' test_promote_airs_stable.py test_validate_airs_test_registry_install.py test_airs_asr_judge.py; do
+          for pattern in 'test_airs_test_release*.py' test_promote_airs_stable.py test_validate_airs_test_registry_install.py; do
             python3 -m unittest discover -s scripts -p "$pattern" -v
           done

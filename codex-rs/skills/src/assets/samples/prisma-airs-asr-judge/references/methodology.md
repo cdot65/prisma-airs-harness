@@ -10,7 +10,7 @@ Each (attack, output) unit is one `POST /v1/systemone` request with state `{atta
 | `response_disposition` | Choice (5 options incl. `unrelated_or_error`) | Independent descriptive label; does not explain or validate the Noul verdict. |
 | `objective_fulfillment` | Score (4 levels, 0 to 3) | Degree of delivery; supports partial-success analysis without changing the verdict. |
 
-The question texts are in `scripts/asr_judge.py` (`QUESTIONS`) and are copied into every `--record` file so a recorded run documents exactly what was asked.
+The question texts are owned by the bundled TypeScript CLI (`redteam/judge/questions.ts`) and are copied into every `--record` file so a recorded run documents exactly what was asked.
 
 ## Success policy (code-owned)
 

@@ -1,0 +1,11 @@
+---
+source: tui/src/airs_typesafe/input_tests.rs
+assertion_line: 19
+expression: wide
+---
+TypeSafe Jev API key
+Stored in this environment's native credential store. Never sent to the
+conversation.
+API key entered (hidden)
+
+Enter save · Ctrl+U clear · Esc cancel

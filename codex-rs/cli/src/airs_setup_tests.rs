@@ -125,3 +125,47 @@ fn gateway_validation_rejects_controls_even_in_explicit_setup() {
         assert!(!home.path().join("config.toml").exists());
     }
 }
+
+#[test]
+fn optional_typesafe_offer_defaults_to_skip_and_only_saves_on_yes() {
+    let home = tempfile::tempdir().unwrap();
+    for (answer, expected) in [
+        ("\n", false),
+        ("n\n", false),
+        ("Y\n", true),
+        ("yes\n", true),
+    ] {
+        let mut output = Vec::new();
+        let mut called = false;
+        let saved = offer_typesafe(home.path(), &mut Cursor::new(answer), &mut output, |_| {
+            called = true;
+            Ok(())
+        })
+        .unwrap();
+        assert_eq!((saved, called), (expected, expected), "answer {answer:?}");
+        let text = String::from_utf8(output).unwrap();
+        assert!(
+            text.contains("Optional: save a TypeSafe judge API key"),
+            "{text}"
+        );
+        assert!(
+            text.contains(if expected {
+                "TypeSafe key saved"
+            } else {
+                "Skipped"
+            }),
+            "{text}"
+        );
+    }
+}
+
+#[test]
+fn optional_typesafe_offer_reports_a_failed_save() {
+    let home = tempfile::tempdir().unwrap();
+    let mut output = Vec::new();
+    let error = offer_typesafe(home.path(), &mut Cursor::new("y\n"), &mut output, |_| {
+        anyhow::bail!("store unavailable")
+    })
+    .unwrap_err();
+    assert_eq!(error.to_string(), "store unavailable");
+}

@@ -7,6 +7,7 @@ use super::airs_environment;
 use super::airs_harness;
 use super::airs_login;
 use super::airs_oidc;
+use super::airs_typesafe;
 use anyhow::Context;
 use codex_tui::AirsOnboarding;
 use codex_tui::OnboardingContext;
@@ -102,6 +103,7 @@ pub(super) async fn run(
         Entry::Login(flow) => flow,
         _ => airs_oidc::LoginFlow::Browser,
     };
+    let mut created_environment = false;
     if selection.is_none() {
         let choices = airs_environment::choices(root)?;
         selection = if !creating && !choices.is_empty() {
@@ -111,6 +113,7 @@ pub(super) async fn run(
                 Entry::Create(args) => args.clone(),
                 _ => airs_harness::SetupArgs::default(),
             };
+            created_environment = true;
             Some(forms::create(&mut ui, root, requested, &defaults)?)
         };
     }
@@ -260,6 +263,33 @@ pub(super) async fn run(
             continue;
         }
         verify(&mut ui, &selection).await?;
+        if created_environment
+            && airs_typesafe::read(&selection.home).is_ok_and(|settings| settings.is_none())
+            && std::env::var_os(airs_typesafe::KEY_VARIABLE).is_none()
+            && selected(
+                ui.menu(
+                    "Optional: red-team judge",
+                    &[
+                        item(
+                            "Continue to AIRS",
+                            "Add a TypeSafe key later with airs env typesafe set",
+                        ),
+                        item(
+                            "Add a TypeSafe judge API key",
+                            "Enables red-team ASR scoring; input is hidden",
+                        ),
+                    ],
+                )?,
+                selection.name.as_deref(),
+            )? == 1
+        {
+            // Secure key entry owns raw mode itself. Never copy a secret into render state.
+            drop(ui);
+            match airs_typesafe::set_interactive(&selection.home, None, None) {
+                Ok(_) => eprintln!("TypeSafe key saved for this environment."),
+                Err(error) => eprintln!("TypeSafe key not saved: {error}"),
+            }
+        }
         return Ok(selection.name);
     }
 }

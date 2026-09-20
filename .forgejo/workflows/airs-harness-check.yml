@@ -2,9 +2,9 @@ name: AIRS Harness package contracts
 on:
   push:
     branches: [main, integrate/codex-0.154-candidate]
-    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**']
+    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**', 'codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/**']
   pull_request:
-    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**']
+    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**', 'codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/**']
   workflow_dispatch:
 jobs:
   contracts:
@@ -21,6 +21,6 @@ jobs:
       - run: python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v
       - name: Stable staging and promotion contracts
         run: |
-          for pattern in 'test_airs_test_release*.py' test_promote_airs_stable.py test_validate_airs_test_registry_install.py; do
+          for pattern in 'test_airs_test_release*.py' test_promote_airs_stable.py test_validate_airs_test_registry_install.py test_airs_asr_judge.py; do
             python3 -m unittest discover -s scripts -p "$pattern" -v
           done

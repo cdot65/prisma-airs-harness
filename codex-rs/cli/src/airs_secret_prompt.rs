@@ -16,6 +16,9 @@ const MAX_KEY_BYTES: usize = 16_384;
 const PROMPT: &str = "Workspace API key (input hidden; Esc to cancel): ";
 const WINDOWS_PROMPT: &str =
     "Workspace API key (input hidden; Ctrl+Enter to submit; Esc to cancel): ";
+const TYPESAFE_PROMPT: &str = "TypeSafe API key (input hidden; Esc to cancel): ";
+const TYPESAFE_WINDOWS_PROMPT: &str =
+    "TypeSafe API key (input hidden; Ctrl+Enter to submit; Esc to cancel): ";
 
 #[derive(Clone, Copy)]
 enum Submission {
@@ -88,6 +91,18 @@ fn apply_event(
 }
 
 pub(super) fn workspace_key() -> anyhow::Result<String> {
+    read_secret(PROMPT, WINDOWS_PROMPT, "No workspace API key was entered")
+}
+
+pub(super) fn typesafe_key() -> anyhow::Result<String> {
+    read_secret(
+        TYPESAFE_PROMPT,
+        TYPESAFE_WINDOWS_PROMPT,
+        "No TypeSafe API key was entered",
+    )
+}
+
+fn read_secret(prompt: &str, windows_prompt: &str, empty: &str) -> anyhow::Result<String> {
     anyhow::ensure!(
         std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
         "Interactive login requires a terminal. Automation can use login --with-api-key with stdin."
@@ -100,9 +115,9 @@ pub(super) fn workspace_key() -> anyhow::Result<String> {
     let restore =
         terminal_guard::SecretTerminal::open().context("Unable to open secure terminal input")?;
     let (prompt, submission) = if cfg!(windows) {
-        (WINDOWS_PROMPT, Submission::ControlEnter)
+        (windows_prompt, Submission::ControlEnter)
     } else {
-        (PROMPT, Submission::Enter)
+        (prompt, Submission::Enter)
     };
     write!(std::io::stderr(), "{prompt}")?;
     std::io::stderr().flush()?;
@@ -123,7 +138,7 @@ pub(super) fn workspace_key() -> anyhow::Result<String> {
                     !restore.cancelled(),
                     "Sign-in cancelled; credentials were not changed"
                 );
-                anyhow::ensure!(!value.is_empty(), "No workspace API key was entered");
+                anyhow::ensure!(!value.is_empty(), "{empty}");
                 return Ok(value);
             }
             InputResult::Cancel => anyhow::bail!("Sign-in cancelled; credentials were not changed"),

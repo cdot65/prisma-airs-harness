@@ -31,6 +31,11 @@ pub enum Command {
     Rename { name: String, new_name: String },
     /// Unregister an environment, preserving its local history on disk.
     Remove { name: String },
+    /// Manage the optional TypeSafe judge API key for an environment.
+    Typesafe {
+        #[command(subcommand)]
+        command: super::airs_typesafe::Command,
+    },
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -310,6 +315,9 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
         let home = codex_core::config::find_codex_home()?;
         return super::airs_credentials::status(home.as_path());
     }
+    if let Command::Typesafe { command } = command {
+        return super::airs_typesafe::run(root, command, requested).await;
+    }
     // The wizard owns its registry lock and releases it before browser sign-in.
     if let Command::Create { name, args } = command {
         anyhow::ensure!(
@@ -332,8 +340,8 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
     let _lock = lock(root)?;
     let mut registry = read(root)?;
     match command {
-        Command::Create { .. } | Command::Status { .. } => {
-            unreachable!("creation and status are handled before locking the registry")
+        Command::Create { .. } | Command::Status { .. } | Command::Typesafe { .. } => {
+            unreachable!("creation, status and typesafe are handled before locking the registry")
         }
         Command::List => {
             for (name, environment) in &registry.environments {

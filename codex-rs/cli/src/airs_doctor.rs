@@ -154,6 +154,27 @@ pub async fn run(
         }
         Err(_) => checks.push(Check { name: "configuration", passed: false, detail: "Cannot read environment configuration; run env create or select a configured environment".into() }),
     }
+    let typesafe_detail =
+        super::airs_typesafe::status_detail(home, |name| std::env::var_os(name).is_some());
+    let typesafe_configured = !typesafe_detail.starts_with("Not configured");
+    let typesafe_readable = super::airs_typesafe::read(home).is_ok();
+    if args.verify_access && typesafe_configured && typesafe_readable {
+        let probe = super::airs_typesafe::probe(home).await;
+        checks.push(Check {
+            name: "typesafe_judge",
+            passed: probe.is_ok(),
+            detail: match probe {
+                Ok(detail) => detail,
+                Err(error) => error.to_string(),
+            },
+        });
+    } else {
+        checks.push(Check {
+            name: "typesafe_judge",
+            passed: typesafe_readable,
+            detail: typesafe_detail,
+        });
+    }
     if args.verify_access {
         eprintln!("{}", super::airs_access::DISCLOSURE);
         let access = super::airs_access::verify(home).await;

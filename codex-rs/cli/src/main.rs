@@ -63,6 +63,7 @@ mod airs_session_binding;
 mod airs_setup;
 mod airs_status;
 mod airs_storage_error;
+mod airs_typesafe;
 mod airs_welcome;
 #[cfg(all(
     target_os = "linux",

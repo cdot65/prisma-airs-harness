@@ -28,7 +28,7 @@ node -p process.arch
 
 The last command should show `arm64`. If an old standalone product CLI owns
 `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; that command becomes
-`airs-cli`. A fresh machine only needs the harness, which bundles CLI 7.0.0.
+`airs-cli`. A fresh machine only needs the harness, which bundles CLI 7.1.0.
 
 ```sh
 npm install -g airs-harness@0.1.0-alpha.22.mcp.5 --registry=https://npm.cdot.io

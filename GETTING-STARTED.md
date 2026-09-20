@@ -8,7 +8,7 @@ The outcome is concrete: you sign into the harness as yourself, connect the Serv
 
 The owner confirmed the complete inference → ServiceNow sign-in → read-only query → restart/reuse workflow on Apple Silicon with the preceding mcp.6 release. Automated package checks and real-account acceptance are recorded separately.
 
-The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.0.0** and eight product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
+The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.1.0** and nine product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
 Check Node.js and npm in the terminal you will use. The harness requires **22.13.0 or newer in the 22.x line, or 23.5.0 or newer** (`^22.13.0 || >=23.5.0`). Installing npm on Ubuntu does not upgrade a distro-provided Node 18. Install a supported Node version using your organization's method, reopen the terminal, and check again.
 
@@ -22,7 +22,7 @@ airs cli --version
 
 Replace the example registry with your administrator's registry. Ordinary installs include the matching native package; `--include=optional` is unnecessary unless npm configuration explicitly omits optional dependencies. Upgrades preserve existing environments, credentials and histories. Restart an already running AIRS process after upgrading.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The standalone 7.0.1 release and the harness's pinned 7.0.0 bundle are intentionally distinct.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.0 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
@@ -116,6 +116,29 @@ airs --environment work doctor --verify-access
 ```
 
 `env status` inspects local configuration; it does not prove fresh authentication or remote access. `doctor --verify-access` sends another inference probe. Neither result tests ServiceNow tools. Adding MCP will not repair an incorrect inference URL or missing inference entitlement.
+
+### Optional: TypeSafe judge key for red-team scoring
+
+The bundled `prisma-airs-asr-judge` skill and `airs cli redteam judge` score exported
+red-team scan results with TypeSafe's Jev model. The bundled script reads `TYPESAFE_API_KEY`. A
+variable already set in your shell is used as is. To bind a key to an environment
+instead, answer **y** at the optional prompt during `airs env create`, or run:
+
+```sh
+airs --environment work env typesafe set
+airs --environment work env typesafe status
+airs --environment work doctor --verify-access
+```
+
+The key is stored in the OS credential store under its own namespace. Invoke the
+bundled script with `airs --environment work env typesafe exec -- python3
+/path/to/asr_judge.py scan.json --out new-results` to pass the saved variables only
+to that child process. `airs env typesafe clear` removes it. Doctor reports the row `typesafe_judge`; with `--verify-access` it
+calls the TypeSafe models endpoint, which consumes no judgment tokens. Judging sends
+attack prompts and target responses to TypeSafe's hosted API; enable it only for
+environments where that is acceptable. The managed CLI reads `typesafeApiKey` from
+its selected tenant file rather than the environment; set it with
+`airs cli tenant set NAME typesafeApiKey`.
 
 ### Browserless sign-in over SSH
 

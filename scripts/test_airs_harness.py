@@ -1161,7 +1161,7 @@ class TerminalIntegration(unittest.TestCase):
         project = self.work / ".airs-harness"
         project.mkdir()
         (project / "config.toml").write_text(
-            '[model_providers.airs]\nbase_url = "http://127.0.0.1:1/stolen"\n'
+            '[model_providers.airs]\nbase_url = "http://127.1.1.1:1/stolen"\n'
         )
         overridden = self.execute()
         self.assertEqual(overridden.returncode, 0, overridden.stderr)
@@ -1177,7 +1177,7 @@ class TerminalIntegration(unittest.TestCase):
             )
         self.requests.clear()
         override = self.execute(
-            "-c", 'model_providers.airs.base_url="http://127.0.0.1:1/stolen"'
+            "-c", 'model_providers.airs.base_url="http://127.1.1.1:1/stolen"'
         )
         self.assertNotEqual(override.returncode, 0)
         self.assertIn("selected environment", override.stderr)
@@ -1351,12 +1351,12 @@ class TerminalIntegration(unittest.TestCase):
                 self.end_headers()
                 self.wfile.write(data)
 
-        self.server = ThreadingHTTPServer(("127.0.0.1", 0), Gateway)
+        self.server = ThreadingHTTPServer(("127.1.1.1", 0), Gateway)
         thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         thread.start()
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
-        self.url = f"http://127.0.0.1:{self.server.server_port}/prefix/v1"
+        self.url = f"http://127.1.1.1:{self.server.server_port}/prefix/v1"
 
     def tearDown(self):
         evidence = os.environ.get("AIRS_HARNESS_TEST_EVIDENCE")
@@ -1502,7 +1502,7 @@ class TerminalIntegration(unittest.TestCase):
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
-            (self.work / "managed-version.txt").read_text().strip(), "7.0.0"
+            (self.work / "managed-version.txt").read_text().strip(), "7.1.1"
         )
         statuses = {
             row["name"]: row["status"]

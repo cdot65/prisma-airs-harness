@@ -5,7 +5,7 @@ description: "Manage Prisma AIRS adversarial test targets, prompt sets and stati
 
 # AI Red Teaming
 
-Use the harness-managed CLI 7.0.0. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.0.0. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
+Use the harness-managed CLI 7.1.1. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.1.1. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
 
 For missing credentials or setup, read [Prisma AIRS CLI setup](../prisma-airs-cli/SKILL.md). Use command-specific `--help` and structured output to establish exact flags and schemas. Existing task authorization applies; request additional authorization only when the proposed target or action falls outside it. Keep secrets out of prompts, command arguments, reports and debug logs.
 
@@ -16,3 +16,5 @@ Before a scan, establish the authorized target, credentials, attack scope, reque
 Record the submitted job ID, poll status to the requested stopping point, and retrieve its actual report. Distinguish queueing, completion, cancellation and failure. An empty result is not proof of resilience. Report tested categories, successful attacks, unavailable evidence and recommended changes without reproducing credentials from target definitions or signed artifact URLs.
 
 Use `abort` for the specifically authorized job when stopping is needed; preserve unrelated jobs, targets and prompt collections. For target/prompt-set CRUD, inspect current state and refer to stable IDs.
+
+To score a completed job's attack outputs independently of the AIRS verdicts, export its attacks and use the [Red-team ASR judge](../prisma-airs-asr-judge/SKILL.md) skill, or `airs cli redteam judge --job JOB_ID` when the selected tenant has `typesafeApiKey`.

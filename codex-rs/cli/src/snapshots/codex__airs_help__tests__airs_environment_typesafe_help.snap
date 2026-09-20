@@ -1,0 +1,18 @@
+---
+source: cli/src/airs_help_tests.rs
+expression: typesafe.render_long_help().to_string()
+---
+Manage the optional TypeSafe judge API key for an environment
+
+Usage: airs env typesafe <COMMAND>
+
+Commands:
+  set     Save a TypeSafe API key for this environment (hidden input, or --stdin)
+  status  Show whether a TypeSafe key is configured, without revealing it
+  exec    Run the bundled judge with TypeSafe variables scoped to its child process
+  clear   Remove the saved TypeSafe key and settings from this environment
+  help    Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help
+          Print help

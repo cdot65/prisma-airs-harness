@@ -58,6 +58,11 @@ fn standalone_environment_help_describes_the_complete_lifecycle() {
         "airs_environment_create_help",
         create.render_long_help().to_string()
     );
+    let typesafe = env.find_subcommand_mut("typesafe").unwrap();
+    insta::assert_snapshot!(
+        "airs_environment_typesafe_help",
+        typesafe.render_long_help().to_string()
+    );
 }
 
 #[test]

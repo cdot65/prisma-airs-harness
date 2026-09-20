@@ -60,6 +60,11 @@ fn workspace_key_prompt_snapshot() {
 }
 
 #[test]
+fn typesafe_key_prompt_snapshot() {
+    insta::assert_snapshot!(TYPESAFE_PROMPT);
+}
+
+#[test]
 fn typed_invalid_characters_are_rejected_without_silently_changing_the_key() {
     for character in ['é', ' ', '\t', '\0', '\u{1b}', '\u{200b}'] {
         let mut value = "unchanged-key".to_owned();

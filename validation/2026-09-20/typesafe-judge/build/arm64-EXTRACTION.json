@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "111c5714422bc39363554fab897dea50a364486fabbbe04ff9b0122e6f5ff79f",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "binary_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af",
+  "target": "aarch64-unknown-linux-musl",
+  "extracted": "/tmp/airs-jev-resume-20260920/release/arm64-native/extracted/airs-harness-0.1.2-alpha.2.mcp.1-linux-aarch64-musl",
+  "verified_files": 4944,
+  "archive_sidecar_present": true
+}

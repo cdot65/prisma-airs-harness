@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "binary_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+  "target": "aarch64-apple-darwin",
+  "team_id": "G5QLZ5A8TA",
+  "codesign_verified": true,
+  "hardened_runtime": true,
+  "notarization_verified": true,
+  "notarization_method": "codesign-online-explicit-notarized-requirement",
+  "gatekeeper_app_assessment": "not-applicable-raw-cli",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "asset_id": "forgejo-run-3759-reverified",
+  "archive_sha256": "5d85659f805905d1895db68033852ed40e8725a6158bac116da993d8ea42eb84",
+  "accepted_archive_members": [
+    "prisma-airs-harness-signing/airs-harness",
+    "prisma-airs-harness-alpha10-signing/airs-harness"
+  ],
+  "owner_reported_submission_id": "83740749-83bd-408d-bacf-042554cec522",
+  "submission_api_queried": false,
+  "verification_log_sha256": {
+    "SIGNING-REVERIFIED-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+    "SIGNING-REVERIFIED-codesign.log": "dc1cec776727c2009a1d5638de6b54d664d19b05223ebc3605108e0b7ec2a8b7",
+    "SIGNING-REVERIFIED-details.log": "c4ba147fcc8111765c7c357acc7f1919305de5ee42b052577e2d2c0f8a8fced1",
+    "SIGNING-REVERIFIED-notarization.log": "dc1cec776727c2009a1d5638de6b54d664d19b05223ebc3605108e0b7ec2a8b7"
+  },
+  "published": false,
+  "release_ready": false
+}

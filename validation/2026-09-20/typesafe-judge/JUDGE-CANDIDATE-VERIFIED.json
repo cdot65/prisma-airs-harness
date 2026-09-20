@@ -1,0 +1,222 @@
+{
+  "passed": true,
+  "platforms": {
+    "aarch64-apple-darwin": {
+      "passed": true,
+      "target": "aarch64-apple-darwin",
+      "installation": "candidate",
+      "cli_version": "7.1.2",
+      "coverage": {
+        "units": 11,
+        "judged": 9,
+        "skipped_error": 1,
+        "provider_error": 0,
+        "attacks_judged": 9,
+        "skipped_oversized": 1
+      },
+      "synthetic_replay_only": true,
+      "live_jev_call": false,
+      "spec_sha256": "f570b2034d341928d1ee11d73d182ba8b25870dc2b1f7ce2bdb2aa4afbc55ced",
+      "commands": [
+        {
+          "name": "version",
+          "argv": [
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bf9489aec56648f598c18259493e34ce/prefix/bin/airs",
+            "cli",
+            "--version"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "help",
+          "argv": [
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bf9489aec56648f598c18259493e34ce/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "--help"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "dry-run",
+          "argv": [
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bf9489aec56648f598c18259493e34ce/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/dry-output",
+            "--dry-run"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "replay",
+          "argv": [
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bf9489aec56648f598c18259493e34ce/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/replay-output",
+            "--provider",
+            "replay",
+            "--replay",
+            "/Users/cdot/.cache/airs-jev-resume-20260920/judge-smoke-inputs/sample-judgments.json",
+            "--threshold",
+            "0.6"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    "aarch64-unknown-linux-musl": {
+      "passed": true,
+      "target": "aarch64-unknown-linux-musl",
+      "installation": "candidate",
+      "cli_version": "7.1.2",
+      "coverage": {
+        "units": 11,
+        "judged": 9,
+        "skipped_error": 1,
+        "provider_error": 0,
+        "attacks_judged": 9,
+        "skipped_oversized": 1
+      },
+      "synthetic_replay_only": true,
+      "live_jev_call": false,
+      "spec_sha256": "f570b2034d341928d1ee11d73d182ba8b25870dc2b1f7ce2bdb2aa4afbc55ced",
+      "commands": [
+        {
+          "name": "version",
+          "argv": [
+            "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/bin/airs",
+            "cli",
+            "--version"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "help",
+          "argv": [
+            "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "--help"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "dry-run",
+          "argv": [
+            "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/home/airs-review/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/home/airs-review/typesafe-candidate/judge-smoke-candidate/dry-output",
+            "--dry-run"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "replay",
+          "argv": [
+            "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/home/airs-review/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/home/airs-review/typesafe-candidate/judge-smoke-candidate/replay-output",
+            "--provider",
+            "replay",
+            "--replay",
+            "/home/airs-review/judge-smoke-inputs/sample-judgments.json",
+            "--threshold",
+            "0.6"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    "x86_64-unknown-linux-musl": {
+      "passed": true,
+      "target": "x86_64-unknown-linux-musl",
+      "installation": "candidate",
+      "cli_version": "7.1.2",
+      "coverage": {
+        "units": 11,
+        "judged": 9,
+        "skipped_error": 1,
+        "provider_error": 0,
+        "attacks_judged": 9,
+        "skipped_oversized": 1
+      },
+      "synthetic_replay_only": true,
+      "live_jev_call": false,
+      "spec_sha256": "f570b2034d341928d1ee11d73d182ba8b25870dc2b1f7ce2bdb2aa4afbc55ced",
+      "commands": [
+        {
+          "name": "version",
+          "argv": [
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/bin/airs",
+            "cli",
+            "--version"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "help",
+          "argv": [
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "--help"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "dry-run",
+          "argv": [
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/dry-output",
+            "--dry-run"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "replay",
+          "argv": [
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/bin/airs",
+            "cli",
+            "redteam",
+            "judge",
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/scan.json",
+            "--out",
+            "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/judge-smoke-candidate/replay-output",
+            "--provider",
+            "replay",
+            "--replay",
+            "/home/cdot/.cache/airs-jev-resume-20260920/judge-smoke-inputs/sample-judgments.json",
+            "--threshold",
+            "0.6"
+          ],
+          "exit_code": 0
+        }
+      ]
+    }
+  },
+  "live_jev_call": false
+}

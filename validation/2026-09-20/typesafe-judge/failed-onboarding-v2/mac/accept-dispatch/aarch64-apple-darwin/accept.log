@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/airs_test_release.py", line 128, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/airs_test_release.py", line 120, in main
+    print(json.dumps(execute(parser().parse_args()), indent=2))
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/airs_test_release.py", line 84, in execute
+    path = run_acceptance(
+        spec,
+    ...<3 lines>...
+        resume=args.resume,
+    )
+  File "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/airs_release_acceptance.py", line 222, in run_acceptance
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<5 lines>...
+        timeout=900,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python', '/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/validate_airs_onboarding_macos.py', '--binary', '/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bc548ab1aa39429b86231918235f8196/prefix/bin/airs', '--native-binary', '/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bc548ab1aa39429b86231918235f8196/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness', '--output', '/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/onboarding-f34ba4dde9de4124a05fcc545fe6014e']' returned non-zero exit status 1.

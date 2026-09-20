@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "platform": "darwin",
+  "architecture": "arm64",
+  "binary_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+  "entrypoint": "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-bf9489aec56648f598c18259493e34ce/prefix/bin/airs",
+  "checks": [
+    "untrusted issuer certificate fails closed before authorization or persistence",
+    "invalid custom CA bundle fails closed before authorization or persistence",
+    "first-run cancellation restores the terminal and creates no environment",
+    "fresh airs creates the environment, saves device SSO in Keychain, verifies the gateway and enters the agent",
+    "returning signed-in startup bypasses onboarding and additional SSO",
+    "manual browser callback validates PKCE and JWT and persists the identity in Keychain",
+    "gateway denial and exit preserve the saved identity with accurate recovery guidance",
+    "pending device authorization cancels without publishing credentials",
+    "environment picker uses the selected identity home and preserves another history and the saved default",
+    "hidden workspace-key paste persists in Keychain and authorizes a gateway request",
+    "no bearer credential appears in application files",
+    "all owned fixture identities are logged out and temporary state is removed"
+  ],
+  "local_https_oidc": true,
+  "native_os_store": "Keychain",
+  "default_browser_automated": false,
+  "browser_state_changed": false,
+  "production_sso": false,
+  "production_servicenow": false,
+  "oauth_exchanges": [
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    }
+  ],
+  "gateway_requests": 5
+}

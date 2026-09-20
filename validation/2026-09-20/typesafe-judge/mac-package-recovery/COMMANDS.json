@@ -1,0 +1,50 @@
+[
+  {
+    "name": "signing",
+    "command": [
+      "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/airs_signed_macos_artifact.py",
+      "verify",
+      "--asset-id",
+      "forgejo-run-3759-reverified",
+      "--binary",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/mac-package-recovery/airs-harness",
+      "--receipt",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/mac-package-recovery/SIGNING-REVERIFIED.json",
+      "--archive-sha256",
+      "5d85659f805905d1895db68033852ed40e8725a6158bac116da993d8ea42eb84",
+      "--binary-sha256",
+      "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+      "--source-commit",
+      "835b32803152fcd7d4dabbdaed983de9321be3b6",
+      "--submission",
+      "83740749-83bd-408d-bacf-042554cec522"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "package",
+    "command": [
+      "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/release-frozen-typesafe-v2/scripts/package_airs_harness.py",
+      "--source-directory",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/case-source-mount/runtime",
+      "--binary",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/mac-package-recovery/airs-harness",
+      "--metadata",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/mac-package-recovery/metadata.json",
+      "--target",
+      "aarch64-apple-darwin",
+      "--unvalidated-candidate",
+      "--signing-receipt",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/SIGNING.json",
+      "--output-directory",
+      "/Users/cdot/.cache/airs-jev-resume-20260920/mac-package-recovery/mac-release",
+      "--profile",
+      "release; CLI opt-level=1; lto=false; codegen-units=16; debug=0",
+      "--build-command",
+      "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness"
+    ],
+    "exit_code": 0
+  }
+]

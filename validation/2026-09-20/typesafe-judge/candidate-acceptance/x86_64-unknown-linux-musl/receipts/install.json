@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/validate_airs_npm.py",
+    "--packages",
+    "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-npm",
+    "--prefix",
+    "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix"
+  ],
+  "command_sha256": "223c5c3fc6af799f5e9cdfc916fbc90094ecdd600f5b7060b364a3843a3bef68",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "6b00c4bcfcb1035b7e600af19bd299539814e63e6b0df1cd596369332a98b508",
+  "inputs": {
+    "binary_sha256": "061a4ed38e3d68d4079f65b4a06e3cedeb6995f5c8b485936d4ca5ff5ad5f97a",
+    "candidate_metadata_sha256": "cad33c0b3421e005055d50e693ae5b2a9c49d61b4934474cf97b6cf460bb7bcb",
+    "candidate_packages_sha256": "8ec21192efe94b5d166701164a2ff6bc3dfda1ec08c5ee05020cd9e7792a7b99",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "e31b6231aba50b9abe337374a4c7286652f0dd87",
+    "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+    "spec_sha256": "b91661261f1a75a5c367da5b83084d881f95fb4038cb491ed8ddd5a2f6e4fe72",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+    "tooling_sha256": "391f741a0abd161db7335d3501eb9a7a36a666a9da6e4c709db63ea3ab432148",
+    "version": "0.1.2-alpha.2.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "80ea6cd47de19a7fcbe0bdcd64a812e182d05151714ed3d56b05e27e5035108e",
+      "size": 454
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "32de04481ddfe1f519c0ce08598e3202989e999af7e27451f501d728039f41bb",
+      "size": 5173
+    },
+    "logs/install.log": {
+      "sha256": "32de04481ddfe1f519c0ce08598e3202989e999af7e27451f501d728039f41bb",
+      "size": 5173
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

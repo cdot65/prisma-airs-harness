@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "f5c9111093122063196660da30827a5d7b74fc69a07b154e3e9b0657b7bcfc8f",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "binary_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+  "target": "aarch64-apple-darwin",
+  "extracted": "/tmp/airs-jev-resume-20260920/release/mac-native/extracted/airs-harness-0.1.2-alpha.2.mcp.1-darwin-arm64",
+  "verified_files": 4864,
+  "archive_sidecar_present": true
+}

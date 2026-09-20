@@ -1,0 +1,18 @@
+{
+  "verified_at": "2026-09-20T11:07:29.618436+00:00",
+  "repository": "cdot65/prisma-airs-cli",
+  "main_commit": "8d5fdbe48aca79cf16572ebabedfc7791e969b98",
+  "merge_method": "non-forced fast-forward Git push to unprotected main",
+  "tag": "v7.1.2",
+  "gh_environment_token_override": false,
+  "pr_create_error": "GraphQL: Resource not accessible by personal access token (createPullRequest)",
+  "release_create_error": "HTTP 403: Resource not accessible by personal access token",
+  "release_created": true,
+  "public_npm_publication_verified": true,
+  "release_url": "https://github.com/cdot65/prisma-airs-cli/releases/tag/v7.1.2",
+  "publication_run": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35507189643",
+  "release_permission_retry": "succeeded",
+  "publication_workflow_conclusion": "success",
+  "publication_test_count": 1997,
+  "npm_processing_notice": "Your package is being processed and may take a few minutes to become available."
+}

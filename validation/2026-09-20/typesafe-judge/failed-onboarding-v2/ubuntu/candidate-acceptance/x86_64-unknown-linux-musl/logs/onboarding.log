@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/validate_airs_onboarding.py", line 680, in <module>
+    main()
+    ~~~~^^
+  File "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/validate_airs_onboarding.py", line 313, in main
+    terminal.expect("Yes, continue")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/validate_airs_onboarding_preview.py", line 148, in expect
+    raise AssertionError(
+        f"Preview did not display {text!r}:\n" + "\n".join(self.screen.display)
+    )
+AssertionError: Preview did not display 'Yes, continue':
+                                                                                
+                   ▄                                                            
+                 ▄██▄                                                           
+               ▄███ █▄          PRISMA AIRS                                     
+              ████  ██▄                                                         
+               ▀█▄▄▄▀▀▀         Your secure agent workspace                     
+                 ▀██                                                            
+                   ▀                                                            
+                                                                                
+       Environment  work                                                        
+       https://127.0.0.1:41189/v1                                               
+                                                                                
+       Optional: red-team judge                                                 
+                                                                                
+       › 1. Continue to AIRS                                                    
+            Add a TypeSafe key later with airs env typesafe set                 
+         2. Add a TypeSafe judge API key                                        
+            Enables red-team ASR scoring; input is hidden                       
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+       ↑↓ Navigate   Enter Select   Esc / Ctrl+C Exit                           
+                                                                                

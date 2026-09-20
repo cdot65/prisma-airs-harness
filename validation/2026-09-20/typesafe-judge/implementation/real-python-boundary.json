@@ -1,0 +1,24 @@
+{
+  "source_sha256": "79318e7caddfc3a64fcb97a33a14524387eefa85853bc56240732ecf714826e0",
+  "bytes": 15049332,
+  "ingestion": {
+    "layout": "array",
+    "records": 4362,
+    "skipped_no_prompt": 0,
+    "error_outputs": 0,
+    "fallback_row_ids": 4362,
+    "objective_proxies": 4362,
+    "oversized_units": 36
+  },
+  "coverage": {
+    "units": 4362,
+    "judged": 4326,
+    "skipped_error": 0,
+    "provider_error": 0,
+    "attacks_judged": 4326,
+    "skipped_oversized": 36
+  },
+  "units_fingerprint": "6ebcaafaf99dffc0308563fe9c909c1b4c6328cb6cf13a76d4adff43faccc688",
+  "real_jev_call": false,
+  "source_unchanged": true
+}

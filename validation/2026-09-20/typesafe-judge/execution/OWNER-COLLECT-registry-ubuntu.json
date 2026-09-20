@@ -1,0 +1,14 @@
+{
+  "archive": "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/portable-registry.tar.gz",
+  "sha256": "927a09c473f5eee57211a6392cbc14e753ff0f6257ca433cee58dcfda9936a57",
+  "bytes": 30212,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "registry",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false
+  }
+}

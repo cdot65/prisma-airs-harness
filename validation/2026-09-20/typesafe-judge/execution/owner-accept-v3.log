@@ -1,0 +1,93 @@
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'passed'}
+{
+  "spec_sha256": "b91661261f1a75a5c367da5b83084d881f95fb4038cb491ed8ddd5a2f6e4fe72",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+  "packaging_commit": "e31b6231aba50b9abe337374a4c7286652f0dd87",
+  "version": "0.1.2-alpha.2.mcp.1",
+  "candidate_metadata_sha256": "cad33c0b3421e005055d50e693ae5b2a9c49d61b4934474cf97b6cf460bb7bcb",
+  "candidate_packages_sha256": "8ec21192efe94b5d166701164a2ff6bc3dfda1ec08c5ee05020cd9e7792a7b99",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "061a4ed38e3d68d4079f65b4a06e3cedeb6995f5c8b485936d4ca5ff5ad5f97a",
+      "acceptance_sha256": "36bcadbeec38e25df5fee8121670714cc6441ea315d43ffa50f4f5612dbb2624",
+      "evidence_sha256": "5c398a5523f87e0c3e837898079e9cb0998c9b091ef4b8aacc6bfe8bced4be71",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af",
+      "acceptance_sha256": "f4422d92821b080ffa274b76e8a83addbed9ef804737157a98261b005485a758",
+      "evidence_sha256": "d4364eeb41a1d37818e9580c444c7ae67432618890068417871fea4a568a3871",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+      "acceptance_sha256": "0c385b47e29789ec5dd48b4719ba75b73fb6701bd30da7110f423d177e51713a",
+      "evidence_sha256": "a33cf97dcbc45e067c442ec308659087b4086df1a99336c3493d3bd1dcd3bfd3",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ]
+    }
+  ],
+  "evidence_sha256": "7925c4959f5e6fb74722ede9dbef578f3a07b461b23d25988e6a5a239a3d86a5"
+}

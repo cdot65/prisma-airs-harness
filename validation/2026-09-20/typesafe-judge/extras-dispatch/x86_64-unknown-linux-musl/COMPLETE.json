@@ -1,0 +1,46 @@
+{
+  "mode": "extras",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "f570b2034d341928d1ee11d73d182ba8b25870dc2b1f7ce2bdb2aa4afbc55ced",
+  "tooling_manifest_sha256": "8b1977542cff4f61864581cb18f2eb160753d66b606678dd9ada391b3556c4e3",
+  "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+  "expected_native_sha256": "061a4ed38e3d68d4079f65b4a06e3cedeb6995f5c8b485936d4ca5ff5ad5f97a",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "cad33c0b3421e005055d50e693ae5b2a9c49d61b4934474cf97b6cf460bb7bcb",
+    "candidate_packages_sha256": "8ec21192efe94b5d166701164a2ff6bc3dfda1ec08c5ee05020cd9e7792a7b99"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--native-binary",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-0e5e1253e7e547df807d6776826e92d3/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 188.7699238770001
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6973780270054704
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "daffa31a9bde6532fba39caa3dd4752bbb045cf0539b19a6750a32bd84300c8a"
+  },
+  "passed": true
+}

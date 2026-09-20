@@ -1,0 +1,54 @@
+Preparing worktree (new branch 'release/owner-jev-package-20260920')
+HEAD is now at 3e416b0182 fix(test): restore portable loopback addresses in installed fixtures
+[release/owner-jev-package-20260920 e31b6231ab] fix(packaging): resolve CLI 7.1.2 from verified public npm
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+remote: 
+remote: Create a new pull request for 'release/owner-jev-package-20260920':        
+remote:   https://git.cdot.io/cdot/prisma-airs-harness/compare/main...release/owner-jev-package-20260920        
+remote: 
+To ssh://git-ssh.cdot.io/cdot/prisma-airs-harness.git
+ * [new branch]            HEAD -> release/owner-jev-package-20260920
+remote: 
+remote: Create a pull request for 'release/owner-jev-package-20260920' on GitHub by visiting:        
+remote:      https://github.com/cdot65/prisma-airs-harness/pull/new/release/owner-jev-package-20260920        
+remote: 
+To https://github.com/cdot65/prisma-airs-harness.git
+ * [new branch]            HEAD -> release/owner-jev-package-20260920
+{
+  "spec_sha256": "e101c81bbf7e8548925579a03d5337acc4f4df084fcec6dbd20a38ff039e643e",
+  "scope": "owner-authorized-test",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "version": "0.1.2-alpha.2.mcp.1",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "filename": "airs-harness-linux-x64-0.1.2-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-jKXI98+zQ+91NRPNOL94SSylHfqURyG1Vc6DIvMmjPwPKu6m66eTFNICmLzJa5e4u7gpQ4qolfiySPc3P/irog==",
+      "sha256": "66d8a1548888f17a5d9304f92841e73259646d3021d39961e855ccb358530f2a"
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "filename": "airs-harness-linux-arm64-0.1.2-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-Zj+O/kliXu0vH1hpYqEmegl/uJI9IKIbo/FAw5SFhmYvPL803uU5JdEf9TDJ7HzYCaNKOC/5cq1bDnWf4IZGfg==",
+      "sha256": "687d2beb527da4003087629d6c8eba23b767e6caab342086944f32971a631771"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "filename": "airs-harness-darwin-arm64-0.1.2-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-kx6V5QKgCdXT/MGIwl2R5nGXFlx2sc9eusD6sq1qdBHArKecOqqaSQ7x0VGVdZZHxNvBrz0tzFjPNmbgZn77fg==",
+      "sha256": "45ef590cc33edaae946ea2506a698adb9c8de6f9c2db7e00163bf2420eb7d33e"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "filename": "airs-harness-0.1.2-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-uhGE0CoWcEfhkcWdTCFfrlxP1u74whh34fyVJDkgmyfT9D08rXlgHYCE3FHjCcDzodpbETrxk5t94Pb6xO9ghQ==",
+      "sha256": "2a9250b9a1d8457536d44cfd99d72b92eee15dff0be9c050cd2de9cc9935fc8f"
+    }
+  ],
+  "production_acceptance": false
+}
+{"archive": "/tmp/airs-jev-resume-20260920/release/candidate-transfer.tar", "sha256": "48b1555622a372f73a783737f642daec3500a3b685e7c875f1c1306191b5ee66", "bytes": 1508147200, "files": 8157}

@@ -1,13 +1,13 @@
 # Bundled Prisma AIRS CLI and skills
 
 This guide covers harness **0.1.2-alpha.2.mcp.1**. Install this exact version
-once available in your registry. It includes: `@cdot65/prisma-airs-cli@7.1.2` and SDK
+from `https://npm.cdot.io` under `mcp`. It includes `@cdot65/prisma-airs-cli@7.1.2` and SDK
 `0.33.0`. One npm harness installation includes the pinned CLI and eight embedded
 product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
 An independently installed product CLI uses **`airs-cli ...`**.
 
-This version makes native MCP credential storage the default for new harness
-environments. Existing environment modes and tokens stay unchanged; this does
+New harness environments use native MCP credential storage by default.
+Existing environment modes and tokens stay unchanged; this does
 not change CLI tenants or product API authentication. See [Getting started](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
 for optional MCP storage migration, including signing out in the original mode
 before changing configuration and signing in again.

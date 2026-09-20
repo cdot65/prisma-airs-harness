@@ -24,7 +24,7 @@ Replace the example registry with your administrator's registry. Ordinary instal
 
 If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.2 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness 0.1.1 bundles CLI 7.0.0. For `redteam judge`, install [harness preview 0.1.2-alpha.2.mcp.1](RELEASE-TYPESAFE-JUDGE.md), which bundles CLI 7.1.2. Standalone CLI 7.1.2 is also published on public npm under `next`.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
@@ -121,10 +121,13 @@ airs --environment work doctor --verify-access
 
 ### Optional: TypeSafe judge key for red-team scoring
 
+This section requires **0.1.2-alpha.2.mcp.1**; it is not included in stable 0.1.1.
+Use the [preview installation command](RELEASE-TYPESAFE-JUDGE.md) first.
+
 The bundled `prisma-airs-asr-judge` skill and `airs cli redteam judge` score exported
 red-team scan results with TypeSafe's Jev model. The bundled script reads `TYPESAFE_API_KEY`. A
 variable already set in your shell is used as is. To bind a key to an environment
-instead, answer **y** at the optional prompt during `airs env create`, or run:
+instead, choose the optional TypeSafe setup during environment creation, or run:
 
 ```sh
 airs --environment work env typesafe set

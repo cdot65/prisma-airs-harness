@@ -1,0 +1,10 @@
+{
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+  "version": "0.1.2-alpha.2.mcp.1",
+  "tooling_files": 168,
+  "tooling_manifest_sha256": "8b1977542cff4f61864581cb18f2eb160753d66b606678dd9ada391b3556c4e3",
+  "tooling_archive_sha256": "45a3b0e246ab4232e3d8e032dab7417773ec9a9cb1ff53ee175c91c97eea9f05",
+  "source_tree_clean_before_dispatch": true,
+  "stable_latest_changes_authorized": false
+}

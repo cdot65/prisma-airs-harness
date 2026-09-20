@@ -1,0 +1,62 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-typesafe-v2/scripts/validate_airs_npm_upgrade.py",
+    "--packages",
+    "/home/airs-review/typesafe-candidate/staged",
+    "--previous",
+    "0.1.1",
+    "--registry",
+    "https://npm.cdot.io",
+    "--output",
+    "/home/airs-review/typesafe-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/upgrade-9ce46a1fa84e4acf8741a7af4edc576d/upgrade",
+    "--previous-source-commit",
+    "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "--previous-native-sha256",
+    "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94"
+  ],
+  "command_sha256": "904e31d591beb32b40bb6a3f1b242540e4308ddc0fc530d47293ccc08ded45a6",
+  "dependencies": {
+    "doctor": "8beb06fd0b83f97f4d2f080a8425d21ab39b7fc9c5589a030987b321b4e302d5",
+    "install": "72daadbb198b568dd00868f2a1680fc0f23b721571edb26e2f6acab3553ff452",
+    "installed-regressions": "fce963296f038ce48a52de1bce7d9ba237ecde1d9e1575c29fa544237528dd45",
+    "managed-cli": "8f8a99a51d84d149066949f31a5e2ec85b2825fa644b6ebd41dd8c83811eab40",
+    "mcp-manager": "8765c6c27916fe226e93350585279f2f2b4e6ed0aad20060be643dceae17c86f",
+    "onboarding": "0116d45e3b587d091a893debcf7eda7537182cee1cced379ad948382433b052c",
+    "terminals": "6762d4dfd4861e0fa9a0b6ffc372faa9cf56405677b76cab98b0571a8ce254a5"
+  },
+  "exit_code": 0,
+  "input_sha256": "7ebeacf3ca8e807d52ed60c2a6d9f1a7250bb5feeefe1d56b5d5353d4b35adc9",
+  "inputs": {
+    "binary_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af",
+    "candidate_metadata_sha256": "c5d54427a29947438a487aced98e668686b9f1b7a143f5ba66478d358b7e3314",
+    "candidate_packages_sha256": "5d74599d18dc632d43c60cf7b15adea61bdb3c673acba700bd7560809f03c967",
+    "contract": {
+      "normal_python": true,
+      "selection": "UPGRADE.json",
+      "stage": "upgrade",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "e31b6231aba50b9abe337374a4c7286652f0dd87",
+    "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+    "spec_sha256": "b91661261f1a75a5c367da5b83084d881f95fb4038cb491ed8ddd5a2f6e4fe72",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+    "tooling_sha256": "391f741a0abd161db7335d3501eb9a7a36a666a9da6e4c709db63ea3ab432148",
+    "version": "0.1.2-alpha.2.mcp.1"
+  },
+  "outputs": {
+    "files/upgrade/UPGRADE.json": {
+      "sha256": "d5ae6530cb5e928fbb7bb811d37377f2650add5aa301b770909bdbe9c91c2e6f",
+      "size": 2859
+    },
+    "logs/upgrade.log": {
+      "sha256": "429d2f36d752fdec6183c9af1c96ccd6264391d6d328397add0d7ea273a9f11a",
+      "size": 2529
+    }
+  },
+  "schema_version": 1,
+  "stage": "upgrade"
+}

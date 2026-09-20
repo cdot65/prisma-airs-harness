@@ -1,0 +1,52 @@
+from pathlib import Path
+import hashlib,json,os,plistlib,shutil,subprocess,sys,tarfile,uuid
+host=sys.argv[1]
+assert host in ['mac','arm','ubuntu']
+base=Path({'mac':'/Users/cdot/.cache/airs-jev-resume-20260920','arm':'/home/airs-review','ubuntu':'/home/cdot/.cache/airs-jev-resume-20260920'}[host])
+root=base/'typesafe-candidate';failed=root/'failed-onboarding-v2'
+assert not failed.exists()
+assert (root/'HOST-COMPLETE.json').is_file()
+old=json.loads((root/'HOST-COMPLETE.json').read_text());assert old['passed'] is False
+spec=json.loads((base/'SPEC.json').read_text());assert spec['tooling_commit']=='7b03cbeafe574aef32004df44b7f35c9b89e2ff9'
+archive=base/'acceptance-tooling-v3.tar.gz'
+assert hashlib.sha256(archive.read_bytes()).hexdigest()=='45a3b0e246ab4232e3d8e032dab7417773ec9a9cb1ff53ee175c91c97eea9f05'
+name='frozen-v2' if host=='ubuntu' else 'release-frozen-typesafe-v2'
+tooling=base/name;oldtooling=base/(name+'-before-onboarding-v3');assert not oldtooling.exists()
+if host=='mac':
+ label=json.loads((root/'LAUNCH.json').read_text())['mac_gui_label'];assert label.startswith('io.cdot.airs.typesafe.20260920.candidate.')
+ subprocess.run(['launchctl','bootout','gui/501/'+label],capture_output=True)
+ assert subprocess.run(['launchctl','print','gui/501/'+label],capture_output=True).returncode!=0
+failed.mkdir()
+for n in ['HOST-COMPLETE.json','candidate-acceptance','accept-dispatch','extras-dispatch','extra-candidate','SPEC.json','TRANSFER.json','LAUNCH.json','MAC.log','ARM.log','HOST.log']:
+ p=root/n
+ if p.exists():p.rename(failed/n)
+shutil.copy2(root/'host-runner.py',failed/'host-runner.py')
+if host=='mac':shutil.copy2(root/'mac-job.plist',failed/'mac-job.plist')
+tooling.rename(oldtooling);tooling.mkdir()
+with tarfile.open(archive) as tar:
+ members=tar.getmembers();assert all(m.isfile() and not Path(m.name).is_absolute() and '..' not in Path(m.name).parts for m in members)
+ assert len({m.name for m in members})==len(members)
+ for member in members:
+  path=tooling/member.name;path.parent.mkdir(parents=True,exist_ok=True)
+  with path.open('xb') as output:shutil.copyfileobj(tar.extractfile(member),output)
+  path.chmod(member.mode & 0o777)
+m=json.loads((tooling/'ACCEPTANCE-TOOLING.json').read_text());assert m['tooling_commit']==spec['tooling_commit']
+assert {str(p.relative_to(tooling)) for p in tooling.rglob('*') if p.is_file()}==set(m['files'])|{'ACCEPTANCE-TOOLING.json'}
+assert all(hashlib.sha256((tooling/p).read_bytes()).hexdigest()==h for p,h in m['files'].items())
+shutil.copy2(base/'SPEC.json',root/'SPEC.json');shutil.copy2(base/'CANDIDATE-TRANSFER.json',root/'TRANSFER.json')
+report={'tooling_commit':spec['tooling_commit'],'spec':spec,'archive_sha256':json.loads((root/'TRANSFER.json').read_text())['archive_sha256'],'failed_attempt_preserved':str(failed)}
+if host=='mac':
+ plist=plistlib.loads((root/'mac-job.plist').read_bytes());label='io.cdot.airs.typesafe.20260920.candidate.v3.'+uuid.uuid4().hex
+ plist['Label']=label
+ (root/'mac-job.plist').write_bytes(plistlib.dumps(plist))
+ subprocess.run(['launchctl','bootstrap','gui/501',str(root/'mac-job.plist')],check=True)
+ report['mac_gui_label']=label
+else:
+ python={'arm':'/opt/review-venv/bin/python','ubuntu':'/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python'}[host]
+ env=os.environ.copy();env.update(HOME='/home/airs-review' if host=='arm' else '/home/cdot',USER='airs-review' if host=='arm' else 'cdot',TERM='xterm-256color',PYTHONDONTWRITEBYTECODE='1')
+ if host=='ubuntu':env['PATH']=str(Path(python).parent)+':/home/cdot/.cache/airs-post011-20260919/test-shells/bin:/usr/local/bin:/usr/bin:/bin'
+ else:env['PATH']=str(Path(python).parent)+':/usr/local/bin:/usr/bin:/bin'
+ with (root/'HOST.log').open('x') as log:child=subprocess.Popen([python,str(root/'host-runner.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+ report['pid']=child.pid
+(root/'LAUNCH.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps(report))

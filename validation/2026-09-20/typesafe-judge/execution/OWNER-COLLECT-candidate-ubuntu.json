@@ -1,0 +1,26 @@
+{
+  "archive": "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/portable-candidate.tar.gz",
+  "sha256": "d72658062d90296d322f5f1a46c946b94f0a74e07c01baa8cf86e23728f65b17",
+  "bytes": 48935,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 178.16316697800357,
+      "post_expiry_cycles": {
+        "mcp": 2,
+        "inference": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

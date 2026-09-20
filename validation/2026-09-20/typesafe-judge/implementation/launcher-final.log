@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: bash completion preserves harness commands and shifts the product namespace
+ok 1 - bash completion preserves harness commands and shifts the product namespace
+  ---
+  duration_ms: 5.639251
+  type: 'test'
+  ...
+# Subtest: fish product suggestions require cli and do not register airs-cli
+ok 2 - fish product suggestions require cli and do not register airs-cli
+  ---
+  duration_ms: 0.215625
+  type: 'test'
+  ...
+# Subtest: generated completions omit the legacy product root and harness-only CLI flags
+ok 3 - generated completions omit the legacy product root and harness-only CLI flags
+  ---
+  duration_ms: 0.283172
+  type: 'test'
+  ...
+# Subtest: unsupported platform is actionable
+ok 4 - unsupported platform is actionable
+  ---
+  duration_ms: 1.124081
+  type: 'test'
+  ...
+# Subtest: missing platform dependency fails without fetching a replacement
+ok 5 - missing platform dependency fails without fetching a replacement
+  ---
+  duration_ms: 32.025246
+  type: 'test'
+  ...
+# Subtest: incomplete native package reports a reinstall
+ok 6 - incomplete native package reports a reinstall
+  ---
+  duration_ms: 32.44275
+  type: 'test'
+  ...
+# Subtest: Windows PATH variants cannot override the managed CLI directory
+ok 7 - Windows PATH variants cannot override the managed CLI directory
+  ---
+  duration_ms: 1.005217
+  type: 'test'
+  ...
+# Subtest: native launch requires the pinned dependency before executing anything
+ok 8 - native launch requires the pinned dependency before executing anything
+  ---
+  duration_ms: 68.983286
+  type: 'test'
+  ...
+# Subtest: native login-shell tools use the pinned CLI even after PATH is replaced
+ok 9 - native login-shell tools use the pinned CLI even after PATH is replaced
+  ---
+  duration_ms: 107.363919
+  type: 'test'
+  ...
+# Subtest: launcher preserves arguments, cwd, stdin and exit code
+ok 10 - launcher preserves arguments, cwd, stdin and exit code
+  ---
+  duration_ms: 34.876241
+  type: 'test'
+  ...
+# Subtest: termination reaches the native process
+ok 11 - termination reaches the native process
+  ---
+  duration_ms: 51.530028
+  type: 'test'
+  ...
+# Subtest: termination still forwards after the native process handles an interrupt
+ok 12 - termination still forwards after the native process handles an interrupt
+  ---
+  duration_ms: 47.891715
+  type: 'test'
+  ...
+# Subtest: declared keys select scoped natives without inferring from the launcher name
+ok 13 - declared keys select scoped natives without inferring from the launcher name
+  ---
+  duration_ms: 0.744729
+  type: 'test'
+  ...
+# Subtest: scoped and historical alias layouts launch the declared native
+ok 14 - scoped and historical alias layouts launch the declared native
+  ---
+  duration_ms: 64.81065
+  type: 'test'
+  ...
+# Subtest: native identity or version mismatch fails before execution
+ok 15 - native identity or version mismatch fails before execution
+  ---
+  duration_ms: 68.181752
+  type: 'test'
+  ...
+# Subtest: a release without the host architecture reports unsupported packaging
+ok 16 - a release without the host architecture reports unsupported packaging
+  ---
+  duration_ms: 0.2399
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops native before any child starts
+ok 17 - unsupported Node runtime stops native before any child starts
+  ---
+  duration_ms: 278.296445
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops managed CLI before any child starts
+ok 18 - unsupported Node runtime stops managed CLI before any child starts
+  ---
+  duration_ms: 276.73353
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops completion before any child starts
+ok 19 - unsupported Node runtime stops completion before any child starts
+  ---
+  duration_ms: 277.792859
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops direct managed wrapper before any child starts
+ok 20 - unsupported Node runtime stops direct managed wrapper before any child starts
+  ---
+  duration_ms: 267.010148
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops legacy launcher before any child starts
+ok 21 - unsupported Node runtime stops legacy launcher before any child starts
+  ---
+  duration_ms: 272.871947
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves native argument forwarding and exit status
+ok 22 - supported Node runtime preserves native argument forwarding and exit status
+  ---
+  duration_ms: 407.135125
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves managed CLI argument forwarding and exit status
+ok 23 - supported Node runtime preserves managed CLI argument forwarding and exit status
+  ---
+  duration_ms: 408.154029
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves direct managed wrapper argument forwarding and exit status
+ok 24 - supported Node runtime preserves direct managed wrapper argument forwarding and exit status
+  ---
+  duration_ms: 406.858004
+  type: 'test'
+  ...
+# Subtest: runtime policy follows the package engine declaration and rejects an unknown range
+ok 25 - runtime policy follows the package engine declaration and rejects an unknown range
+  ---
+  duration_ms: 233.581365
+  type: 'test'
+  ...
+# Subtest: managed CLI preserves arguments and exit status while excluding project dotenv loading
+ok 26 - managed CLI preserves arguments and exit status while excluding project dotenv loading
+  ---
+  duration_ms: 56.56811
+  type: 'test'
+  ...
+# Subtest: missing or mismatched managed CLI fails instead of selecting a global airs
+ok 27 - missing or mismatched managed CLI fails instead of selecting a global airs
+  ---
+  duration_ms: 66.094291
+  type: 'test'
+  ...
+# Subtest: dotenv argv cannot redirect managed credential discovery
+ok 28 - dotenv argv cannot redirect managed credential discovery
+  ---
+  duration_ms: 31.087074
+  type: 'test'
+  ...
+# Subtest: public airs cli dispatches without a native package, login or environment
+ok 29 - public airs cli dispatches without a native package, login or environment
+  ---
+  duration_ms: 52.549062
+  type: 'test'
+  ...
+# Subtest: only the compatibility launcher accepts the old airs forwarding action
+ok 30 - only the compatibility launcher accepts the old airs forwarding action
+  ---
+  duration_ms: 83.050206
+  type: 'test'
+  ...
+# Subtest: runtime version and manifest boundaries are portable without a native child
+ok 31 - runtime version and manifest boundaries are portable without a native child
+  ---
+  duration_ms: 546.815147
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3399.15136

@@ -1,0 +1,46 @@
+{
+  "mode": "extras",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "f570b2034d341928d1ee11d73d182ba8b25870dc2b1f7ce2bdb2aa4afbc55ced",
+  "tooling_manifest_sha256": "8b1977542cff4f61864581cb18f2eb160753d66b606678dd9ada391b3556c4e3",
+  "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+  "expected_native_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "cad33c0b3421e005055d50e693ae5b2a9c49d61b4934474cf97b6cf460bb7bcb",
+    "candidate_packages_sha256": "8ec21192efe94b5d166701164a2ff6bc3dfda1ec08c5ee05020cd9e7792a7b99"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-typesafe-v2/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+        "--native-binary",
+        "/home/airs-review/typesafe-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-39c0341e825540a8961e0f1a4d5f97aa/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/home/airs-review/typesafe-candidate/extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 188.14256287700846
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-typesafe-v2/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5329266670159996
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "94ec9a456459f7924f42a07901fa4344a270460139a78597505534a64824f243"
+  },
+  "passed": true
+}

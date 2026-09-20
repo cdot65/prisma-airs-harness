@@ -1,0 +1,21 @@
+{
+  "archive": "/Users/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/registry-portable.tar.gz",
+  "sha256": "382e27b5b00c8dbaf2744de46e392c22799d19ef8e9d6c76ae7beec8719da6b3",
+  "bytes": 60662,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "native_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a"
+    },
+    "aarch64-unknown-linux-musl": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "native_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af"
+    }
+  }
+}

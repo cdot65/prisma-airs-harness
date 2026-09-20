@@ -1,0 +1,292 @@
+"""Owner-operated handoff for the existing alpha.2 candidates; no live Jev calls.
+
+Commands: prepare, accept, publish, verify. Run these in order on the build host.
+Failure preserves artifacts and stops; do not delete a failed test to bypass it.
+Requires the existing task caches, SSH access, unlocked Mac GUI keychain, native
+ARM Docker container, and private npm userconfig. Not a general release tool.
+"""
+import argparse
+import base64
+import hashlib
+import json
+import os
+from pathlib import Path
+import shlex
+import shutil
+import subprocess
+import sys
+import tarfile
+import time
+import urllib.request
+
+TASK = Path('/tmp/airs-jev-resume-20260920')
+ROOT = TASK / 'release'
+REPO = Path('/home/cdot/development/cdot65/airs-typesafe-judge-20260920')
+FROZEN = TASK / 'frozen'
+CHECKOUT = ROOT / 'owner-packaging-checkout'
+VERSION = '0.1.2-alpha.2.mcp.1'
+TOOLING = '7b03cbeafe574aef32004df44b7f35c9b89e2ff9'
+RUNTIME = '835b32803152fcd7d4dabbdaed983de9321be3b6'
+MAC_CACHE = '/Users/cdot/.cache/airs-jev-resume-20260920'
+UBUNTU_CACHE = '/home/cdot/.cache/airs-jev-resume-20260920'
+MAC_PY = '/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python'
+UBUNTU_PY = '/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python'
+SSH = {
+    'mac': ['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '-i', '/home/cdot/.ssh/airs-jadzia-runner', 'cdot@10.0.1.121'],
+    'ubuntu': ['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', 'cdot@10.0.44.1'],
+}
+TARGETS = ['x86_64-unknown-linux-musl', 'aarch64-unknown-linux-musl', 'aarch64-apple-darwin']
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def write(path, data):
+    Path(path).write_text(json.dumps(data, indent=2) + '\n')
+
+
+def run(argv, *, cwd=None, capture=False):
+    result = subprocess.run([str(x) for x in argv], cwd=cwd, check=True,
+                            text=True, stdout=subprocess.PIPE if capture else None)
+    return result.stdout if capture else None
+
+
+def digest(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
+def remote(host, argv, capture=False):
+    return run([*SSH[host], shlex.join([str(x) for x in argv])], capture=capture)
+
+
+def copy_to(host, files):
+    cache = MAC_CACHE if host == 'mac' else UBUNTU_CACHE
+    run(['scp', *SSH[host][1:-1], *files, SSH[host][-1] + ':' + cache + '/'])
+
+
+def release_command(action, *args):
+    run([sys.executable, FROZEN / 'scripts/airs_test_release.py', action,
+         '--spec', ROOT / 'SPEC.json', *args])
+
+
+def require_prepared():
+    receipt = read(ROOT / 'OWNER-PREPARE.json')
+    spec = read(ROOT / 'SPEC.json')
+    assert spec['version'] == VERSION and spec['tag'] == 'mcp'
+    assert spec['source_commit'] == RUNTIME and spec['tooling_commit'] == TOOLING
+    assert receipt['spec_sha256'] == digest(ROOT / 'SPEC.json')
+    assert read(ROOT / 'ASSEMBLY.json')['exit_code'] == 0
+    return spec
+
+
+def prepare():
+    assert not (ROOT / 'OWNER-PREPARE.json').exists(), 'Already prepared: run accept next.'
+    assert not CHECKOUT.exists(), 'Packaging checkout exists; inspect the previous attempt.'
+    assert read(ROOT / 'SOURCE-FREEZE.json')['tooling_commit'] == TOOLING
+    assert run(['git', 'rev-parse', 'HEAD'], cwd=REPO, capture=True).strip() == TOOLING
+    assert not run(['git', 'status', '--porcelain'], cwd=REPO, capture=True)
+    with urllib.request.urlopen('https://registry.npmjs.org/@cdot65%2fprisma-airs-cli/7.1.2', timeout=30) as response:
+        cli = json.load(response)
+    assert cli['version'] == '7.1.2'
+    expected_url = 'https://registry.npmjs.org/@cdot65/prisma-airs-cli/-/prisma-airs-cli-7.1.2.tgz'
+    assert cli['dist']['tarball'] == expected_url
+    with urllib.request.urlopen(expected_url, timeout=30) as response:
+        blob = response.read(32 * 1024 * 1024 + 1)
+    assert len(blob) <= 32 * 1024 * 1024
+    assert 'sha512-' + base64.b64encode(hashlib.sha512(blob).digest()).decode() == cli['dist']['integrity']
+    lock_name = 'npm/airs-harness/package-lock.json'
+    lock = read(REPO / lock_name)
+    entry = lock['packages']['node_modules/@cdot65/prisma-airs-cli']
+    assert entry['version'] == '7.1.2' and entry['integrity'] == cli['dist']['integrity']
+    entry['resolved'] = expected_url
+    run(['git', 'worktree', 'add', '-b', 'release/owner-jev-package-20260920', CHECKOUT, TOOLING], cwd=REPO)
+    write(CHECKOUT / lock_name, lock)
+    with (ROOT / 'OWNER-FORMAT.log').open('x') as log:
+        subprocess.run(['just', 'fmt'], cwd=CHECKOUT / 'codex-rs', stdout=log, stderr=subprocess.STDOUT, check=True)
+    # This fresh task-owned checkout had no edits besides the lock. Restore only
+    # unrelated formatter churn to its original committed bytes.
+    changed = run(['git', 'diff', '--name-only'], cwd=CHECKOUT, capture=True).splitlines()
+    unrelated = [name for name in changed if name != lock_name]
+    if unrelated:
+        run(['git', 'restore', '--', *unrelated], cwd=CHECKOUT)
+    run(['git', 'diff', '--check'], cwd=CHECKOUT)
+    run(['git', 'add', '--', lock_name], cwd=CHECKOUT)
+    run(['git', 'commit', '-m', 'fix(packaging): resolve CLI 7.1.2 from verified public npm'], cwd=CHECKOUT)
+    packaging = run(['git', 'rev-parse', 'HEAD'], cwd=CHECKOUT, capture=True).strip()
+    run(['git', 'push', 'origin', 'HEAD:refs/heads/release/owner-jev-package-20260920'], cwd=CHECKOUT)
+    run(['git', 'push', 'github', 'HEAD:refs/heads/release/owner-jev-package-20260920'], cwd=CHECKOUT)
+    if (ROOT / 'candidate-npm').exists():
+        assert read(ROOT / 'ASSEMBLY.json')['exit_code'] != 0, 'Refusing to replace a successful assembly.'
+        for name in ['candidate-npm', 'ASSEMBLY.json', 'ASSEMBLY.log']:
+            destination = ROOT / (name + '.before-public-cli')
+            assert not destination.exists()
+            (ROOT / name).rename(destination)
+    spec = read(ROOT / 'SPEC.json')
+    spec['packaging_commit'] = packaging
+    assert spec['source_commit'] == RUNTIME and spec['tooling_commit'] == TOOLING
+    command = [sys.executable, CHECKOUT / 'scripts/package_airs_npm.py']
+    for name, target in zip(['x64', 'arm64', 'mac'], TARGETS):
+        extraction = read(ROOT / (name + '-native') / 'EXTRACTION.json')
+        assert extraction['source_commit'] == RUNTIME and extraction['target'] == target
+        assert extraction['binary_sha256'] == next(row['binary_sha256'] for row in spec['platforms'] if row['target'] == target)
+        command += ['--release-directory', extraction['extracted']]
+    command += ['--output-directory', ROOT / 'candidate-npm', '--registry', 'https://npm.cdot.io', '--bundle-cli']
+    write(ROOT / 'SPEC.json', spec)
+    with (ROOT / 'ASSEMBLY.log').open('x') as log:
+        result = subprocess.run([str(x) for x in command], stdout=log, stderr=subprocess.STDOUT)
+    write(ROOT / 'ASSEMBLY.json', {'command': [str(x) for x in command], 'exit_code': result.returncode, 'source_commit': RUNTIME})
+    assert result.returncode == 0, 'Assembly failed; inspect ASSEMBLY.log.'
+    release_command('inspect', '--packages', ROOT / 'candidate-npm')
+    run([sys.executable, ROOT / 'native-execution/build-transfer.py'])
+    write(ROOT / 'OWNER-PREPARE.json', {'spec_sha256': digest(ROOT / 'SPEC.json'), 'packaging_commit': packaging, 'cli_version': '7.1.2'})
+
+
+def launch(phase):
+    require_prepared()
+    candidate = phase == 'candidate'
+    archive = 'candidate-transfer.tar' if candidate else 'registry-inputs.tar'
+    manifest = 'CANDIDATE-TRANSFER.json' if candidate else 'REGISTRY-TRANSFER.json'
+    checksum = read(ROOT / manifest)['archive_sha256']
+    assert digest(ROOT / archive) == checksum
+    for host in ['mac', 'ubuntu']:
+        helper_dir = ROOT / ('native-execution' if host == 'mac' else 'ubuntu-execution')
+        filename = ('prepare-native-candidates.py' if candidate else 'prepare-native-registry.py') if host == 'mac' else ('prepare-candidate.py' if candidate else 'prepare-registry.py')
+        cache, python = (MAC_CACHE, MAC_PY) if host == 'mac' else (UBUNTU_CACHE, UBUNTU_PY)
+        marker = ROOT / ('OWNER-LAUNCH-' + phase + '-' + host + '.json')
+        if marker.exists():
+            assert read(marker)['archive_sha256'] == checksum
+            continue
+        copy_to(host, [ROOT / archive, ROOT / manifest, ROOT / 'SPEC.json', helper_dir / filename])
+        output = remote(host, [python, cache + '/' + filename, checksum], capture=True)
+        # Helpers emit a final JSON line, occasionally preceded by Docker output.
+        report = json.loads(output.strip().splitlines()[-1])
+        assert report['archive_sha256'] == checksum
+        write(marker, report)
+
+
+def wait_hosts(phase):
+    completion = 'HOST-COMPLETE.json' if phase == 'candidate' else 'REGISTRY-HOST-COMPLETE.json'
+    deadline = time.monotonic() + 7200
+    while time.monotonic() < deadline:
+        states = {}
+        for target, host, root, python in [
+            ('mac', 'mac', MAC_CACHE + '/typesafe-candidate', MAC_PY),
+            ('arm', 'mac', '/home/airs-review/typesafe-candidate', '/opt/review-venv/bin/python'),
+            ('ubuntu', 'ubuntu', UBUNTU_CACHE + '/typesafe-candidate', UBUNTU_PY),
+        ]:
+            code = 'from pathlib import Path;import json;p=Path(' + repr(root + '/' + completion) + ');print(p.read_text() if p.exists() else "null")'
+            argv = [python, '-c', code]
+            if target == 'arm':
+                argv = ['/usr/local/bin/docker', 'exec', '-u', '10001', 'airs-native-mcp-20260919-arm64', *argv]
+            report = json.loads(remote(host, argv, capture=True))
+            if report is not None and report.get('passed') is not True:
+                raise RuntimeError(target + ' ' + phase + ' failed; inspect its host logs. Nothing further will be published.')
+            states[target] = 'passed' if report else 'running'
+        print(phase, states, flush=True)
+        if all(value == 'passed' for value in states.values()):
+            return
+        time.sleep(20)
+    raise TimeoutError('Tests still running after two hours; inspect hosts before retrying. Processes were not killed.')
+
+
+def merge_tree(source, destination):
+    for path in sorted(source.rglob('*')):
+        if path.is_symlink():
+            raise RuntimeError('Unexpected linked evidence')
+        if path.is_file():
+            dest = destination / path.relative_to(source)
+            if dest.exists():
+                assert digest(path) == digest(dest), 'Existing evidence differs'
+            else:
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(path, dest)
+
+
+def collect(phase):
+    for host in ['mac', 'ubuntu']:
+        cache, python = (MAC_CACHE, MAC_PY) if host == 'mac' else (UBUNTU_CACHE, UBUNTU_PY)
+        if host == 'mac':
+            helper = ROOT / 'native-execution' / ('collect-native-candidates.py' if phase == 'candidate' else 'collect-native-registry.py')
+            args = []
+        else:
+            helper = ROOT / 'ubuntu-execution/collect-evidence.py'
+            args = [phase]
+        marker = ROOT / ('OWNER-COLLECT-' + phase + '-' + host + '.json')
+        if marker.exists():
+            report = read(marker)
+        else:
+            copy_to(host, [helper])
+            report = json.loads(remote(host, [python, cache + '/' + helper.name, *args], capture=True).strip().splitlines()[-1])
+            write(marker, report)
+        local_archive = ROOT / ('owner-' + host + '-' + phase + '.tar.gz')
+        run(['scp', *SSH[host][1:-1], SSH[host][-1] + ':' + report['archive'], local_archive])
+        assert digest(local_archive) == report['sha256']
+        destination = ROOT / ('owner-collected-' + host + '-' + phase)
+        if not destination.exists():
+            destination.mkdir()
+            with tarfile.open(local_archive) as tar:
+                members = tar.getmembers()
+                assert all(m.isfile() and not Path(m.name).is_absolute() and '..' not in Path(m.name).parts for m in members)
+                assert len({m.name for m in members}) == len(members)
+                tar.extractall(destination, filter='data')
+        merge_tree(destination / (phase + '-acceptance'), ROOT / (phase + '-acceptance'))
+        if phase == 'candidate':
+            merge_tree(destination / 'extras-dispatch', ROOT / 'extras-dispatch')
+    release_command('verify-all', '--acceptance', ROOT / (phase + '-acceptance'), '--installation', phase)
+
+
+def verify_extras():
+    for target in TARGETS:
+        directory = ROOT / 'extras-dispatch' / target
+        receipt = read(directory / 'COMPLETE.json')
+        assert receipt.get('passed') is True
+        commands = [row for row in receipt['commands'] if row['name'] == 'typesafe-native']
+        assert len(commands) == 1 and commands[0]['exit_code'] == 0
+        log = (directory / 'typesafe-native.log').read_text()
+        assert 'Ran 1 test' in log and '\nOK' in log and 'skipped' not in log.lower()
+        assert receipt['spec_sha256'] == digest(ROOT / 'SPEC.json')
+
+
+def accept():
+    launch('candidate')
+    wait_hosts('candidate')
+    collect('candidate')
+    verify_extras()
+    write(ROOT / 'OWNER-CANDIDATE-VERIFIED.json', {'passed': True, 'spec_sha256': digest(ROOT / 'SPEC.json')})
+
+
+def publish():
+    require_prepared()
+    assert read(ROOT / 'OWNER-CANDIDATE-VERIFIED.json') == {'passed': True, 'spec_sha256': digest(ROOT / 'SPEC.json')}
+    verify_extras()
+    release_command('verify-all', '--acceptance', ROOT / 'candidate-acceptance', '--installation', 'candidate')
+    config = Path(os.environ.get('AIRS_NPM_USERCONFIG', str(TASK / 'publication.npmrc')))
+    assert config.is_file() and config.stat().st_mode & 0o077 == 0, 'Set AIRS_NPM_USERCONFIG to an owner-only private npm config.'
+    if not (ROOT / 'STAGING.json').exists():
+        assert not (ROOT / 'staged').exists(), 'Partial staging exists; inspect before retrying.'
+        release_command('stage', '--packages', ROOT / 'candidate-npm', '--acceptance', ROOT / 'candidate-acceptance', '--output', ROOT / 'staged')
+        write(ROOT / 'STAGING.json', {'exit_code': 0, 'spec_sha256': digest(ROOT / 'SPEC.json')})
+    assert read(ROOT / 'STAGING.json')['spec_sha256'] == digest(ROOT / 'SPEC.json')
+    print('Publishing four packages as ' + VERSION + ' to https://npm.cdot.io under mcp. latest is preserved.', flush=True)
+    release_command('publish', '--packages', ROOT / 'staged', '--acceptance', ROOT / 'candidate-acceptance', '--output', ROOT / 'publication', '--userconfig', config)
+
+
+def verify():
+    require_prepared()
+    assert (ROOT / 'publication/PUBLICATION.json').is_file(), 'Publish first.'
+    if not (ROOT / 'REGISTRY-TRANSFER.json').exists():
+        run([sys.executable, ROOT / 'native-execution/build-registry-transfer.py'])
+    launch('registry')
+    wait_hosts('registry')
+    collect('registry')
+    write(ROOT / 'OWNER-REGISTRY-VERIFIED.json', {'passed': True, 'version': VERSION, 'spec_sha256': digest(ROOT / 'SPEC.json')})
+    print('READY: npm install -g airs-harness@' + VERSION + ' --registry=https://npm.cdot.io')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('phase', choices=['prepare', 'accept', 'publish', 'verify'])
+    args = parser.parse_args()
+    globals()[args.phase]()

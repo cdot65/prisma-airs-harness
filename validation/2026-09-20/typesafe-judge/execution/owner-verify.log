@@ -1,0 +1,88 @@
+{"archive": "/tmp/airs-jev-resume-20260920/release/registry-inputs.tar", "sha256": "81c2d7715b674e9809dac2344da27f46f6f5a1d29105da5a31e6971f75fe0fe4", "bytes": 771420160, "files": 108}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+registry {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+registry {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+registry {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+registry {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'running'}
+registry {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'passed'}
+{
+  "spec_sha256": "b91661261f1a75a5c367da5b83084d881f95fb4038cb491ed8ddd5a2f6e4fe72",
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6",
+  "tooling_commit": "7b03cbeafe574aef32004df44b7f35c9b89e2ff9",
+  "packaging_commit": "e31b6231aba50b9abe337374a4c7286652f0dd87",
+  "version": "0.1.2-alpha.2.mcp.1",
+  "candidate_metadata_sha256": "c5d54427a29947438a487aced98e668686b9f1b7a143f5ba66478d358b7e3314",
+  "candidate_packages_sha256": "5d74599d18dc632d43c60cf7b15adea61bdb3c673acba700bd7560809f03c967",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "061a4ed38e3d68d4079f65b4a06e3cedeb6995f5c8b485936d4ca5ff5ad5f97a",
+      "acceptance_sha256": "ca81200b4d5177008cd931c46b86a05a66e6cde592ef399d7778b8293fad41c1",
+      "evidence_sha256": "1739ee748a108031990c7beb06ba52a7eb345b1d8e0a1ced4ec6fad67200bf67",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "2b698256b5ff82fc5dc5456275a4f58282c9dfb7fc0dac44c85efbdb648501af",
+      "acceptance_sha256": "429b741f77f9ba303ab9e371ecf13ff77568d41fd5517871a8b29e84b4f97a0d",
+      "evidence_sha256": "62c1cc1e3c7e41431dff05978fa3f37a2dbab523127462417e328c7154fe5ba7",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "109fcde4ed947009c23ea1829a27b8fcd65645eb0250087283369d3050c1619a",
+      "acceptance_sha256": "008e1ca1d6b701bf6b93f10008b316a0fedd7eb532149183da0d56130febc5b0",
+      "evidence_sha256": "83f17091d9cc3e75889d1878e04aa4c1cda3e692b7e0066721ba2df0a1610576",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ]
+    }
+  ],
+  "evidence_sha256": "dcc4de6fe9736b1d371857d637e1efa525ef200225aaf5a701df10e14bc08548"
+}
+READY: npm install -g airs-harness@0.1.2-alpha.2.mcp.1 --registry=https://npm.cdot.io

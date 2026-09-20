@@ -1,0 +1,37 @@
+{
+  "commit": "a987350dda20bc8f7881368bcd698e4deafd8c7e",
+  "deployment": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35507781092",
+  "pages": [
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/getting-started/installation/",
+      "matches_local_build": true,
+      "local_main_sha256": "1e65d255403c488fcea17b8f3e01359820069d6a5e03a75b32624977bfd63e7b",
+      "remote_main_sha256": "1e65d255403c488fcea17b8f3e01359820069d6a5e03a75b32624977bfd63e7b"
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/getting-started/command-migration/",
+      "matches_local_build": true,
+      "local_main_sha256": "6a39635f3661c4564e05193cc382e251cf693f8690bb6bc81eaa081f082fe220",
+      "remote_main_sha256": "6a39635f3661c4564e05193cc382e251cf693f8690bb6bc81eaa081f082fe220"
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/",
+      "matches_local_build": true,
+      "local_main_sha256": "7efcd7af00ce2c9b139f88631b96496e0649d0c9c100b72b2c3d9860dcd2c435",
+      "remote_main_sha256": "7efcd7af00ce2c9b139f88631b96496e0649d0c9c100b72b2c3d9860dcd2c435"
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/about/release-notes/",
+      "matches_local_build": true,
+      "local_main_sha256": "343a373be38a9f15052761c8a62a9ed16eae2576c71506278bd001e6f3ceb754",
+      "remote_main_sha256": "343a373be38a9f15052761c8a62a9ed16eae2576c71506278bd001e6f3ceb754"
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/redteam/overview/",
+      "matches_local_build": true,
+      "local_main_sha256": "f6b69ac4eea9ca861dda6c6279bd88621801f8f97e6ede6cf968e5ca80f6c2bc",
+      "remote_main_sha256": "f6b69ac4eea9ca861dda6c6279bd88621801f8f97e6ede6cf968e5ca80f6c2bc"
+    }
+  ],
+  "passed": true
+}

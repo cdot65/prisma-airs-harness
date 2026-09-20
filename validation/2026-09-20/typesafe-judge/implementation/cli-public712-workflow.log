@@ -1,0 +1,849 @@
+publish	Set up job	﻿2026-09-20T11:12:39.6503246Z Current runner version: '2.337.0'
+publish	Set up job	2026-09-20T11:12:39.6527644Z ##[group]Runner Image Provisioner
+publish	Set up job	2026-09-20T11:12:39.6528551Z Hosted Compute Agent
+publish	Set up job	2026-09-20T11:12:39.6529110Z Version: 20260828.587
+publish	Set up job	2026-09-20T11:12:39.6529734Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+publish	Set up job	2026-09-20T11:12:39.6530458Z Build Date: 2026-08-28T16:44:25Z
+publish	Set up job	2026-09-20T11:12:39.6531087Z Worker ID: {b1056012-e25a-4235-acea-cb9761e2990d}
+publish	Set up job	2026-09-20T11:12:39.6531835Z Azure Region: westcentralus
+publish	Set up job	2026-09-20T11:12:39.6532406Z ##[endgroup]
+publish	Set up job	2026-09-20T11:12:39.6533644Z ##[group]Operating System
+publish	Set up job	2026-09-20T11:12:39.6534637Z Ubuntu
+publish	Set up job	2026-09-20T11:12:39.6535147Z 24.04.5
+publish	Set up job	2026-09-20T11:12:39.6535666Z LTS
+publish	Set up job	2026-09-20T11:12:39.6536156Z ##[endgroup]
+publish	Set up job	2026-09-20T11:12:39.6536939Z ##[group]Runner Image
+publish	Set up job	2026-09-20T11:12:39.6537564Z Image: ubuntu-24.04
+publish	Set up job	2026-09-20T11:12:39.6538104Z Version: 20260907.300.1
+publish	Set up job	2026-09-20T11:12:39.6539156Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+publish	Set up job	2026-09-20T11:12:39.6540805Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+publish	Set up job	2026-09-20T11:12:39.6541824Z ##[endgroup]
+publish	Set up job	2026-09-20T11:12:39.6542902Z ##[group]GITHUB_TOKEN Permissions
+publish	Set up job	2026-09-20T11:12:39.6545207Z Contents: read
+publish	Set up job	2026-09-20T11:12:39.6545756Z Metadata: read
+publish	Set up job	2026-09-20T11:12:39.6546360Z ##[endgroup]
+publish	Set up job	2026-09-20T11:12:39.6548294Z Secret source: Actions
+publish	Set up job	2026-09-20T11:12:39.6549180Z Cache mode: write
+publish	Set up job	2026-09-20T11:12:39.6550019Z Prepare workflow directory
+publish	Set up job	2026-09-20T11:12:39.6907504Z Prepare all required actions
+publish	Set up job	2026-09-20T11:12:39.6957644Z Getting action download info
+publish	Set up job	2026-09-20T11:12:40.0057333Z Download action repository 'actions/checkout@v5' (SHA:fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09)
+publish	Set up job	2026-09-20T11:12:40.2205418Z Download action repository 'pnpm/action-setup@v4' (SHA:b906affcce14559ad1aafd4ab0e942779e9f58b1)
+publish	Set up job	2026-09-20T11:12:40.9698176Z Download action repository 'actions/setup-node@v5' (SHA:a0853c24544627f65ddf259abe73b1d18a591444)
+publish	Set up job	2026-09-20T11:12:41.2794121Z Complete job name: publish
+publish	Run actions/checkout@v5	﻿2026-09-20T11:12:41.3499911Z ##[group]Run actions/checkout@v5
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3500789Z with:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3501305Z   repository: cdot65/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3505424Z   token: ***
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3505982Z   ssh-strict: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3506478Z   ssh-user: git
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3506999Z   persist-credentials: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3507540Z   clean: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3508028Z   sparse-checkout-cone-mode: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3508698Z   fetch-depth: 1
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3509186Z   fetch-tags: false
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3509700Z   show-progress: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3510200Z   lfs: false
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3510664Z   submodules: false
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3511218Z   set-safe-directory: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3511773Z   allow-unsafe-pr-checkout: false
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3512488Z env:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3512993Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.3513593Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4476653Z Syncing repository: cdot65/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4478930Z ##[group]Getting Git version info
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4479846Z Working directory is '/home/runner/work/prisma-airs-cli/prisma-airs-cli'
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4481014Z [command]/usr/bin/git version
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4901804Z git version 2.55.0
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4919875Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4933775Z Temporarily overriding HOME='/home/runner/work/_temp/0fdb90ff-2c75-446b-9c0c-42f099799569' before making global git config changes
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4935652Z Adding repository directory to the temporary git global config as a safe directory
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4939497Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4993223Z Deleting the contents of '/home/runner/work/prisma-airs-cli/prisma-airs-cli'
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.4997040Z ##[group]Initializing the repository
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5000626Z [command]/usr/bin/git init /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5214760Z hint: Using 'master' as the name for the initial branch. This default branch name
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5216205Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5217168Z hint: to use in all of your new repositories, which will suppress this warning,
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5218088Z hint: call:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5218728Z hint:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5219632Z hint: 	git config --global init.defaultBranch <name>
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5220534Z hint:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5221365Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5222716Z hint: 'development'. The just-created branch can be renamed via this command:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5223927Z hint:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5224688Z hint: 	git branch -m <name>
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5225377Z hint:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5226351Z hint: Disable this message with "git config set advice.defaultBranchName false"
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5227525Z Initialized empty Git repository in /home/runner/work/prisma-airs-cli/prisma-airs-cli/.git/
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5230973Z [command]/usr/bin/git remote add origin https://github.com/cdot65/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5280646Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5281708Z ##[group]Disabling automatic garbage collection
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5283067Z [command]/usr/bin/git config --local gc.auto 0
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5309931Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5310920Z ##[group]Setting up auth
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5315703Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5342505Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5773362Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5799865Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.5981257Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.6008143Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.6190242Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.6224378Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.6225897Z ##[group]Fetching the repository
+publish	Run actions/checkout@v5	2026-09-20T11:12:41.6233403Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8d5fdbe48aca79cf16572ebabedfc7791e969b98:refs/tags/v7.1.2
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9234938Z From https://github.com/cdot65/prisma-airs-cli
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9238620Z  * [new ref]         8d5fdbe48aca79cf16572ebabedfc7791e969b98 -> v7.1.2
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9245139Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9247925Z ##[group]Determining the checkout info
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9250749Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9252665Z [command]/usr/bin/git sparse-checkout disable
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9302911Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9330377Z ##[group]Checking out the ref
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9332654Z [command]/usr/bin/git checkout --progress --force refs/tags/v7.1.2
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9845533Z Note: switching to 'refs/tags/v7.1.2'.
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9846721Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9847695Z You are in 'detached HEAD' state. You can look around, make experimental
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9849885Z changes and commit them, and you can discard any commits you make in this
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9853029Z state without impacting any branches by switching back to a branch.
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9855064Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9856322Z If you want to create a new branch to retain commits you create, you may
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9859523Z do so (now or later) by using -c with the switch command. Example:
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9861184Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9861975Z   git switch -c <new-branch-name>
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9863144Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9864185Z Or undo this operation with:
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9865378Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9866214Z   git switch -
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9867350Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9868996Z Turn off this advice by setting config variable advice.detachedHead to false
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9870656Z 
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9871812Z HEAD is now at 8d5fdbe fix(redteam): report real-export coverage and release 7.1.2
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9877846Z ##[endgroup]
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9898466Z [command]/usr/bin/git log -1 --format=%H
+publish	Run actions/checkout@v5	2026-09-20T11:12:42.9919577Z 8d5fdbe48aca79cf16572ebabedfc7791e969b98
+publish	Run pnpm/action-setup@v4	﻿2026-09-20T11:12:43.0243546Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0250010Z ##[group]Run pnpm/action-setup@v4
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0251426Z with:
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0252462Z   dest: ~/setup-pnpm
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0253640Z   run_install: null
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0254912Z   cache: false
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0256139Z   cache_dependency_path: pnpm-lock.yaml
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0257690Z   package_json_file: package.json
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0258990Z   standalone: false
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0260110Z env:
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0261198Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.0262607Z ##[endgroup]
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.1642431Z ##[group]Running self-installer...
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.5436643Z (node:2304) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.8094993Z (Use `node --trace-deprecation ...` to show where the warning was created)
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.8095944Z Progress: resolved 1, reused 0, downloaded 0, added 0
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.8198032Z Packages: +1
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:43.8198857Z +
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2431628Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2810985Z 
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2812052Z dependencies:
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2812577Z + pnpm 10.6.5 (12.5.1 is available)
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2812885Z 
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2845287Z Done in 946ms
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2974293Z ##[endgroup]
+publish	Run pnpm/action-setup@v4	2026-09-20T11:12:44.2974820Z Installation Completed!
+publish	Run actions/setup-node@v5	﻿2026-09-20T11:12:44.3150501Z ##[group]Run actions/setup-node@v5
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3150952Z with:
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3151275Z   node-version: 24
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3151624Z   cache: pnpm
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3151988Z   registry-url: https://registry.npmjs.org
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3152390Z   always-auth: false
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3152767Z   check-latest: false
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3155490Z   token: ***
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3155860Z   package-manager-cache: true
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3156200Z env:
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3156515Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3156974Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.3157427Z ##[endgroup]
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.4608349Z Found in cache @ /opt/hostedtoolcache/node/24.20.0/x64
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.4613024Z (node:2319) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.4614472Z (Use `node --trace-deprecation ...` to show where the warning was created)
+publish	Run actions/setup-node@v5	2026-09-20T11:12:44.4615867Z ##[group]Environment details
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.2101402Z node: v24.20.0
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.2101955Z npm: 11.19.0
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.2102378Z yarn: 1.22.22
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.2104715Z ##[endgroup]
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.2130294Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.5852669Z /home/runner/setup-pnpm/node_modules/.bin/store/v10
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.7843371Z Cache hit for: node-cache-Linux-x64-pnpm-f4a45c855e4589c58d6cb35f8944492505c9b6b67d32f42efd5b6cc89a129b0a
+publish	Run actions/setup-node@v5	2026-09-20T11:12:45.7946965Z (node:2319) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+publish	Run actions/setup-node@v5	2026-09-20T11:12:47.0101478Z Received 41943040 of 88076680 (47.6%), 40.0 MBs/sec
+publish	Run actions/setup-node@v5	2026-09-20T11:12:47.6447713Z Received 88076680 of 88076680 (100.0%), 51.4 MBs/sec
+publish	Run actions/setup-node@v5	2026-09-20T11:12:47.6448891Z Cache Size: ~84 MB (88076680 B)
+publish	Run actions/setup-node@v5	2026-09-20T11:12:47.6484213Z [command]/usr/bin/tar -xf /home/runner/work/_temp/0af04e41-557d-427d-8ed3-dd29158f77e8/cache.tzst -P -C /home/runner/work/prisma-airs-cli/prisma-airs-cli --use-compress-program unzstd
+publish	Run actions/setup-node@v5	2026-09-20T11:12:48.1478104Z Cache restored successfully
+publish	Run actions/setup-node@v5	2026-09-20T11:12:48.1519704Z Cache restored from key: node-cache-Linux-x64-pnpm-f4a45c855e4589c58d6cb35f8944492505c9b6b67d32f42efd5b6cc89a129b0a
+publish	Run pnpm install --frozen-lockfile	﻿2026-09-20T11:12:48.1666480Z ##[group]Run pnpm install --frozen-lockfile
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1667010Z ^[[36;1mpnpm install --frozen-lockfile^[[0m
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1702292Z shell: /usr/bin/bash -e {0}
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1702719Z env:
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1703200Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1703733Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1704560Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1705045Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.1705451Z ##[endgroup]
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.4737758Z Lockfile is up to date, resolution step is skipped
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.5031601Z Progress: resolved 1, reused 0, downloaded 0, added 0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.5509118Z Packages: +357
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:48.5531370Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.1448203Z Progress: resolved 357, reused 357, downloaded 0, added 357, done
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3309627Z 
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3310750Z dependencies:
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3311425Z + @cdot65/prisma-airs-sdk 0.33.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3311820Z + @inquirer/prompts 8.3.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3312170Z + chalk 5.6.2
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3312554Z + commander 14.0.3
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3312866Z + js-yaml 4.3.2
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3313193Z + nanoid 5.1.16
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3313544Z + p-limit 6.2.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3314126Z + zod 3.25.76
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3314427Z 
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3314625Z optionalDependencies:
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3315037Z + docx 9.6.1
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3315419Z + pdf-lib 1.17.1
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3315851Z + piexifjs 1.0.6
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3316308Z + sharp 0.35.4
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3316528Z 
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3316714Z devDependencies:
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3317119Z + @biomejs/biome 2.4.5
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3317532Z + @changesets/cli 2.31.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3318024Z + @types/js-yaml 4.0.9
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3318523Z + @types/node 22.19.13
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3318940Z + @vitest/coverage-v8 3.2.4
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3319414Z + tsup 8.5.1
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3319812Z + tsx 4.21.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3320146Z + typedoc 0.28.19
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3320679Z + typedoc-plugin-markdown 4.11.0
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3321179Z + typescript 5.9.3
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3321599Z + vitest 3.2.4
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3321828Z 
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3325179Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: esbuild, msw.                                       ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3327440Z 
+publish	Run pnpm install --frozen-lockfile	2026-09-20T11:12:49.3457367Z Done in 1.1s using pnpm v10.6.5
+publish	Run pnpm audit:prod	﻿2026-09-20T11:12:49.3618976Z ##[group]Run pnpm audit:prod
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3619417Z ^[[36;1mpnpm audit:prod^[[0m
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3643281Z shell: /usr/bin/bash -e {0}
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3643747Z env:
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3644479Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3644946Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3645407Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3645811Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.3646217Z ##[endgroup]
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.6381990Z 
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.6383570Z > @cdot65/prisma-airs-cli@7.1.2 audit:prod /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.6384910Z > pnpm audit --prod --audit-level low
+publish	Run pnpm audit:prod	2026-09-20T11:12:49.6385300Z 
+publish	Run pnpm audit:prod	2026-09-20T11:12:50.1415502Z No known vulnerabilities found
+publish	Run pnpm test:release	﻿2026-09-20T11:12:50.1658477Z ##[group]Run pnpm test:release
+publish	Run pnpm test:release	2026-09-20T11:12:50.1659186Z ^[[36;1mpnpm test:release^[[0m
+publish	Run pnpm test:release	2026-09-20T11:12:50.1694000Z shell: /usr/bin/bash -e {0}
+publish	Run pnpm test:release	2026-09-20T11:12:50.1694539Z env:
+publish	Run pnpm test:release	2026-09-20T11:12:50.1695041Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Run pnpm test:release	2026-09-20T11:12:50.1695709Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Run pnpm test:release	2026-09-20T11:12:50.1696474Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Run pnpm test:release	2026-09-20T11:12:50.1697157Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Run pnpm test:release	2026-09-20T11:12:50.1697699Z ##[endgroup]
+publish	Run pnpm test:release	2026-09-20T11:12:50.4351522Z 
+publish	Run pnpm test:release	2026-09-20T11:12:50.4353057Z > @cdot65/prisma-airs-cli@7.1.2 test:release /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Run pnpm test:release	2026-09-20T11:12:50.4354375Z > node --test .github/scripts/*.test.mjs
+publish	Run pnpm test:release	2026-09-20T11:12:50.4354772Z 
+publish	Run pnpm test:release	2026-09-20T11:12:50.7076302Z ✔ a matching stable tag is required for publication (1.452773ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7077867Z ✔ latest stable release owns minor and latest aliases (0.866501ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7078880Z ✔ older patch cannot roll back either alias (0.144205ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7080302Z ✔ maintenance release may advance its own minor but never latest (0.114786ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7081653Z ✔ numeric ordering is independent of API order and tag creation time (0.184283ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7114672Z ✔ prereleases, branches and malformed tags do not reserve production aliases (0.122641ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7115835Z ✔ missing or invalid release metadata fails closed (0.145365ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7116591Z ✔ an older queued rerun reevaluates tags after the newer release (0.21799ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7117435Z ✔ workflow separates exact-version publication from serialized post-build promotion (24.988391ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7118206Z ✔ production audit gates CI, npm publication, and container publication (5.365054ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7202543Z ✔ empty native stderr needs no exception (1.821094ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7203304Z ✔ the observed Node 20 warning is reported, not suppressed (0.463858ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7204610Z ✔ other runtimes or diagnostics still fail the native gate (1.147061ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7205628Z ✔ a known warning cannot hide an appended or prepended error (1.436828ms)
+publish	Run pnpm test:release	2026-09-20T11:12:50.7260097Z ℹ tests 14
+publish	Run pnpm test:release	2026-09-20T11:12:50.7260681Z ℹ suites 0
+publish	Run pnpm test:release	2026-09-20T11:12:50.7261222Z ℹ pass 14
+publish	Run pnpm test:release	2026-09-20T11:12:50.7261650Z ℹ fail 0
+publish	Run pnpm test:release	2026-09-20T11:12:50.7262079Z ℹ cancelled 0
+publish	Run pnpm test:release	2026-09-20T11:12:50.7262587Z ℹ skipped 0
+publish	Run pnpm test:release	2026-09-20T11:12:50.7263027Z ℹ todo 0
+publish	Run pnpm test:release	2026-09-20T11:12:50.7263504Z ℹ duration_ms 258.030716
+publish	Lint	﻿2026-09-20T11:12:50.7435508Z ##[group]Run pnpm run lint
+publish	Lint	2026-09-20T11:12:50.7436072Z ^[[36;1mpnpm run lint^[[0m
+publish	Lint	2026-09-20T11:12:50.7469230Z shell: /usr/bin/bash -e {0}
+publish	Lint	2026-09-20T11:12:50.7469746Z env:
+publish	Lint	2026-09-20T11:12:50.7470170Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Lint	2026-09-20T11:12:50.7470875Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Lint	2026-09-20T11:12:50.7471558Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Lint	2026-09-20T11:12:50.7472177Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Lint	2026-09-20T11:12:50.7472687Z ##[endgroup]
+publish	Lint	2026-09-20T11:12:51.0139531Z 
+publish	Lint	2026-09-20T11:12:51.0140721Z > @cdot65/prisma-airs-cli@7.1.2 lint /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Lint	2026-09-20T11:12:51.0141843Z > biome check --config-path config .
+publish	Lint	2026-09-20T11:12:51.0142146Z 
+publish	Lint	2026-09-20T11:12:51.7439252Z tests/unit/cli/runtime-commands.spec.ts:18:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7440195Z 
+publish	Lint	2026-09-20T11:12:51.7440660Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7441314Z   
+publish	Lint	2026-09-20T11:12:51.7442520Z     17 │   it('no longer exposes the legacy `dlp-profiles` subcommand', () => {
+publish	Lint	2026-09-20T11:12:51.7443590Z   > 18 │     expect(find(runtime!, 'dlp-profiles')).toBeUndefined();
+publish	Lint	2026-09-20T11:12:51.7444710Z        │                 ^^^^^^^^
+publish	Lint	2026-09-20T11:12:51.7446906Z     19 │   });
+publish	Lint	2026-09-20T11:12:51.7447530Z     20 │ 
+publish	Lint	2026-09-20T11:12:51.7448043Z   
+publish	Lint	2026-09-20T11:12:51.7448334Z 
+publish	Lint	2026-09-20T11:12:51.7449247Z tests/unit/cli/runtime-commands.spec.ts:22:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7450042Z 
+publish	Lint	2026-09-20T11:12:51.7450409Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7450956Z   
+publish	Lint	2026-09-20T11:12:51.7451900Z     21 │   it('keeps the new `dlp profiles` namespace command as the canonical listing', () => {
+publish	Lint	2026-09-20T11:12:51.7452926Z   > 22 │     const dlp = find(runtime!, 'dlp');
+publish	Lint	2026-09-20T11:12:51.7453708Z        │                      ^^^^^^^^
+publish	Lint	2026-09-20T11:12:51.7454667Z     23 │     expect(dlp).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7455538Z Checked 308 files in 681ms. No fixes applied.
+publish	Lint	2026-09-20T11:12:51.7456213Z Found 7 warnings.
+publish	Lint	2026-09-20T11:12:51.7457051Z     24 │     expect(find(dlp!, 'profiles')).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7457731Z   
+publish	Lint	2026-09-20T11:12:51.7458040Z 
+publish	Lint	2026-09-20T11:12:51.7458862Z tests/unit/cli/runtime-commands.spec.ts:24:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7459579Z 
+publish	Lint	2026-09-20T11:12:51.7460005Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7460672Z   
+publish	Lint	2026-09-20T11:12:51.7461363Z     22 │     const dlp = find(runtime!, 'dlp');
+publish	Lint	2026-09-20T11:12:51.7462213Z     23 │     expect(dlp).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7463005Z   > 24 │     expect(find(dlp!, 'profiles')).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7463984Z        │                 ^^^^
+publish	Lint	2026-09-20T11:12:51.7464604Z     25 │   });
+publish	Lint	2026-09-20T11:12:51.7465123Z     26 │ 
+publish	Lint	2026-09-20T11:12:51.7465698Z   
+publish	Lint	2026-09-20T11:12:51.7466007Z 
+publish	Lint	2026-09-20T11:12:51.7466902Z tests/unit/cli/runtime-commands.spec.ts:28:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7467701Z 
+publish	Lint	2026-09-20T11:12:51.7468007Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7468594Z   
+publish	Lint	2026-09-20T11:12:51.7469360Z     27 │   it('no longer exposes the top-level `dlp-gen` command', () => {
+publish	Lint	2026-09-20T11:12:51.7470276Z   > 28 │     expect(find(runtime!, 'dlp-gen')).toBeUndefined();
+publish	Lint	2026-09-20T11:12:51.7471122Z        │                 ^^^^^^^^
+publish	Lint	2026-09-20T11:12:51.7471705Z     29 │   });
+publish	Lint	2026-09-20T11:12:51.7472231Z     30 │ 
+publish	Lint	2026-09-20T11:12:51.7472754Z   
+publish	Lint	2026-09-20T11:12:51.7473071Z 
+publish	Lint	2026-09-20T11:12:51.7474113Z tests/unit/cli/runtime-commands.spec.ts:32:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7474893Z 
+publish	Lint	2026-09-20T11:12:51.7475315Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7475962Z   
+publish	Lint	2026-09-20T11:12:51.7476874Z     31 │   it('exposes the relocated `dlp generate` command with original flags preserved', () => {
+publish	Lint	2026-09-20T11:12:51.7478016Z   > 32 │     const dlp = find(runtime!, 'dlp');
+publish	Lint	2026-09-20T11:12:51.7479208Z        │                      ^^^^^^^^
+publish	Lint	2026-09-20T11:12:51.7480032Z     33 │     const generate = find(dlp!, 'generate');
+publish	Lint	2026-09-20T11:12:51.7480807Z     34 │     expect(generate).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7481491Z   
+publish	Lint	2026-09-20T11:12:51.7481844Z 
+publish	Lint	2026-09-20T11:12:51.7482708Z tests/unit/cli/runtime-commands.spec.ts:33:27 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7483395Z 
+publish	Lint	2026-09-20T11:12:51.7483751Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7484752Z   
+publish	Lint	2026-09-20T11:12:51.7485683Z     31 │   it('exposes the relocated `dlp generate` command with original flags preserved', () => {
+publish	Lint	2026-09-20T11:12:51.7486740Z     32 │     const dlp = find(runtime!, 'dlp');
+publish	Lint	2026-09-20T11:12:51.7487557Z   > 33 │     const generate = find(dlp!, 'generate');
+publish	Lint	2026-09-20T11:12:51.7488306Z        │                           ^^^^
+publish	Lint	2026-09-20T11:12:51.7489003Z     34 │     expect(generate).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7489972Z     35 │     const flags = generate!.options.map((o) => o.long);
+publish	Lint	2026-09-20T11:12:51.7490690Z   
+publish	Lint	2026-09-20T11:12:51.7491005Z 
+publish	Lint	2026-09-20T11:12:51.7491841Z tests/unit/cli/runtime-commands.spec.ts:35:19 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━
+publish	Lint	2026-09-20T11:12:51.7492592Z 
+publish	Lint	2026-09-20T11:12:51.7492964Z   ! Forbidden non-null assertion.
+publish	Lint	2026-09-20T11:12:51.7493513Z   
+publish	Lint	2026-09-20T11:12:51.7494404Z     33 │     const generate = find(dlp!, 'generate');
+publish	Lint	2026-09-20T11:12:51.7495174Z     34 │     expect(generate).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7496069Z   > 35 │     const flags = generate!.options.map((o) => o.long);
+publish	Lint	2026-09-20T11:12:51.7496902Z        │                   ^^^^^^^^^
+publish	Lint	2026-09-20T11:12:51.7498152Z     36 │     for (const f of ['--types', '--count', '--out', '--techniques', '--seed', '--output']) {
+publish	Lint	2026-09-20T11:12:51.7499303Z     37 │       expect(flags).toContain(f);
+publish	Lint	2026-09-20T11:12:51.7499920Z   
+publish	Lint	2026-09-20T11:12:51.7501117Z   i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+publish	Lint	2026-09-20T11:12:51.7502301Z   
+publish	Lint	2026-09-20T11:12:51.7502953Z     33 33 │       const generate = find(dlp!, 'generate');
+publish	Lint	2026-09-20T11:12:51.7503982Z     34 34 │       expect(generate).toBeDefined();
+publish	Lint	2026-09-20T11:12:51.7505342Z     35    │ - ····const·flags·=·generate!.options.map((o)·=>·o.long);
+publish	Lint	2026-09-20T11:12:51.7506472Z        35 │ + ····const·flags·=·generate?.options.map((o)·=>·o.long);
+publish	Lint	2026-09-20T11:12:51.7507825Z     36 36 │       for (const f of ['--types', '--count', '--out', '--techniques', '--seed', '--output']) {
+publish	Lint	2026-09-20T11:12:51.7508852Z     37 37 │         expect(flags).toContain(f);
+publish	Lint	2026-09-20T11:12:51.7509522Z   
+publish	Lint	2026-09-20T11:12:51.7509808Z 
+publish	Format	﻿2026-09-20T11:12:51.7666713Z ##[group]Run pnpm run format:check
+publish	Format	2026-09-20T11:12:51.7667178Z ^[[36;1mpnpm run format:check^[[0m
+publish	Format	2026-09-20T11:12:51.7691033Z shell: /usr/bin/bash -e {0}
+publish	Format	2026-09-20T11:12:51.7691416Z env:
+publish	Format	2026-09-20T11:12:51.7691785Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Format	2026-09-20T11:12:51.7692218Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Format	2026-09-20T11:12:51.7692687Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Format	2026-09-20T11:12:51.7693145Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Format	2026-09-20T11:12:51.7693498Z ##[endgroup]
+publish	Format	2026-09-20T11:12:52.0370173Z 
+publish	Format	2026-09-20T11:12:52.0371522Z > @cdot65/prisma-airs-cli@7.1.2 format:check /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Format	2026-09-20T11:12:52.0372280Z > biome format --config-path config .
+publish	Format	2026-09-20T11:12:52.0372589Z 
+publish	Format	2026-09-20T11:12:52.3504579Z Checked 308 files in 263ms. No fixes applied.
+publish	Typecheck	﻿2026-09-20T11:12:52.3696789Z ##[group]Run pnpm tsc --noEmit
+publish	Typecheck	2026-09-20T11:12:52.3697226Z ^[[36;1mpnpm tsc --noEmit^[[0m
+publish	Typecheck	2026-09-20T11:12:52.3720677Z shell: /usr/bin/bash -e {0}
+publish	Typecheck	2026-09-20T11:12:52.3721046Z env:
+publish	Typecheck	2026-09-20T11:12:52.3721368Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Typecheck	2026-09-20T11:12:52.3721895Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Typecheck	2026-09-20T11:12:52.3722393Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Typecheck	2026-09-20T11:12:52.3722842Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Typecheck	2026-09-20T11:12:52.3723220Z ##[endgroup]
+publish	Test	﻿2026-09-20T11:12:58.5847895Z ##[group]Run pnpm test:coverage
+publish	Test	2026-09-20T11:12:58.5848332Z ^[[36;1mpnpm test:coverage^[[0m
+publish	Test	2026-09-20T11:12:58.5872203Z shell: /usr/bin/bash -e {0}
+publish	Test	2026-09-20T11:12:58.5872613Z env:
+publish	Test	2026-09-20T11:12:58.5872940Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Test	2026-09-20T11:12:58.5873380Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Test	2026-09-20T11:12:58.5874176Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Test	2026-09-20T11:12:58.5874652Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Test	2026-09-20T11:12:58.5875005Z ##[endgroup]
+publish	Test	2026-09-20T11:12:58.8743111Z 
+publish	Test	2026-09-20T11:12:58.8744521Z > @cdot65/prisma-airs-cli@7.1.2 test:coverage /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Test	2026-09-20T11:12:58.8745683Z > vitest run --coverage
+publish	Test	2026-09-20T11:12:58.8746009Z 
+publish	Test	2026-09-20T11:12:59.2527242Z 
+publish	Test	2026-09-20T11:12:59.2529915Z ^[[1m^[[46m RUN ^[[49m^[[22m ^[[36mv3.2.4 ^[[39m^[[90m/home/runner/work/prisma-airs-cli/prisma-airs-cli^[[39m
+publish	Test	2026-09-20T11:12:59.2530845Z       ^[[2mCoverage enabled with ^[[22m^[[33mv8^[[39m
+publish	Test	2026-09-20T11:12:59.2531515Z 
+publish	Test	2026-09-20T11:12:59.9395138Z  ^[[32m✓^[[39m tests/unit/airs/management.spec.ts ^[[2m(^[[22m^[[2m69 tests^[[22m^[[2m)^[[22m^[[32m 49^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:12:59.9783192Z  ^[[32m✓^[[39m tests/unit/airs/redteam.spec.ts ^[[2m(^[[22m^[[2m91 tests^[[22m^[[2m)^[[22m^[[32m 87^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:00.3880953Z  ^[[32m✓^[[39m tests/unit/backup/dlp-resources.spec.ts ^[[2m(^[[22m^[[2m134 tests^[[22m^[[2m)^[[22m^[[33m 345^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:00.4454330Z  ^[[32m✓^[[39m tests/unit/airs/modelsecurity.spec.ts ^[[2m(^[[22m^[[2m41 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:00.9611758Z  ^[[32m✓^[[39m tests/unit/backup/runtime-profiles.spec.ts ^[[2m(^[[22m^[[2m55 tests^[[22m^[[2m)^[[22m^[[32m 93^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:01.0730964Z  ^[[32m✓^[[39m tests/unit/airs/runtime.spec.ts ^[[2m(^[[22m^[[2m49 tests^[[22m^[[2m)^[[22m^[[33m 666^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:02.0490879Z  ^[[32m✓^[[39m tests/unit/cli/doctor.spec.ts ^[[2m(^[[22m^[[2m71 tests^[[22m^[[2m)^[[22m^[[33m 472^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:02.4097091Z  ^[[32m✓^[[39m tests/unit/airs/aigateway.spec.ts ^[[2m(^[[22m^[[2m33 tests^[[22m^[[2m)^[[22m^[[32m 18^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:02.6441256Z  ^[[32m✓^[[39m tests/unit/cli/profile-builder.spec.ts ^[[2m(^[[22m^[[2m26 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:05.5260436Z  ^[[32m✓^[[39m tests/unit/cli/redteam-judge.spec.ts ^[[2m(^[[22m^[[2m27 tests^[[22m^[[2m)^[[22m^[[33m 2341^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:05.5266996Z    ^[[33m^[[2m✓^[[22m^[[39m redteam judge — replay runs^[[2m > ^[[22mwrites results.json, judgments.json and summary.md privately and prints the summary ^[[33m 720^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:05.5269490Z    ^[[33m^[[2m✓^[[22m^[[39m redteam judge — replay runs^[[2m > ^[[22mre-derives metrics under another threshold and can record, include text and print JSON ^[[33m 698^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:05.5271515Z    ^[[33m^[[2m✓^[[22m^[[39m redteam judge — replay runs^[[2m > ^[[22mnever overwrites existing deliverables ^[[33m 701^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.1643320Z  ^[[32m✓^[[39m tests/integration/cli/runtime-bulk-scan.spec.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[33m 4194^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.1687494Z    ^[[33m^[[2m✓^[[22m^[[39m runtime bulk-scan^[[2m > ^[[22mwrites one correctly aligned result for every input prompt ^[[33m 315^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.1691981Z    ^[[33m^[[2m✓^[[22m^[[39m runtime bulk-scan^[[2m > ^[[22mresume-poll restores prompts and completes a scan after polling fails ^[[33m 746^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.1734074Z    ^[[33m^[[2m✓^[[22m^[[39m runtime bulk-scan^[[2m > ^[[22mprevents overlapping resume processes from submitting the same pending prompt ^[[33m 934^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.1745872Z    ^[[33m^[[2m✓^[[22m^[[39m runtime bulk-scan^[[2m > ^[[22mresume-poll submits only unfinished prompts after an exhausted 429 ^[[33m 1583^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.4934264Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-mutation-commands.spec.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[33m 4522^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.4937400Z    ^[[33m^[[2m✓^[[22m^[[39m AI Gateway mutation commands^[[2m > ^[[22mreports structured-input failures as usage errors: 'Invalid AI Gateway request' ^[[33m 523^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.4939702Z    ^[[33m^[[2m✓^[[22m^[[39m AI Gateway mutation commands^[[2m > ^[[22muses an imperative non-interactive refusal message ^[[33m 1274^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.4941523Z    ^[[33m^[[2m✓^[[22m^[[39m AI Gateway mutation commands^[[2m > ^[[22mremoves a reserved secret destination before a non-interactive decline exits ^[[33m 792^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.5341761Z  ^[[32m✓^[[39m tests/unit/airs/promptsets.spec.ts ^[[2m(^[[22m^[[2m29 tests^[[22m^[[2m)^[[22m^[[32m 20^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:06.9272669Z  ^[[32m✓^[[39m tests/unit/reports/runtime.spec.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[32m 58^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:07.2737516Z  ^[[32m✓^[[39m tests/unit/backup/runtime-policy.spec.ts ^[[2m(^[[22m^[[2m26 tests^[[22m^[[2m)^[[22m^[[32m 26^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:08.5527318Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-read-commands.spec.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[33m 468^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:09.3409381Z  ^[[32m✓^[[39m tests/integration/cli/runtime-dashboard.spec.ts ^[[2m(^[[22m^[[2m45 tests^[[22m^[[2m)^[[22m^[[32m 254^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2216610Z  ^[[32m✓^[[39m tests/integration/dlp-transfer-contract.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[33m 4367^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2218563Z    ^[[33m^[[2m✓^[[22m^[[39m DLP transfer CLI/SDK HTTP contract^[[2m > ^[[22maggregates missing references and ranks suggestions without creating any resources ^[[33m 979^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2220441Z    ^[[33m^[[2m✓^[[22m^[[39m DLP transfer CLI/SDK HTTP contract^[[2m > ^[[22mhonors explicit pattern maps and verifies the created profile through re-GET ^[[33m 936^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2221787Z    ^[[33m^[[2m✓^[[22m^[[39m DLP transfer CLI/SDK HTTP contract^[[2m > ^[[22mskips the whole mixed profile while restoring an independent resolvable profile ^[[33m 922^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2223163Z    ^[[33m^[[2m✓^[[22m^[[39m DLP transfer CLI/SDK HTTP contract^[[2m > ^[[22mreports a verified dictionary create then stops on HTTP 400 before patterns/profiles without leaking keywords ^[[33m 758^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.2225179Z    ^[[33m^[[2m✓^[[22m^[[39m DLP transfer CLI/SDK HTTP contract^[[2m > ^[[22mrestores an existing v1 envelope with custom IDs remapped and predefined identity/name bindings intact ^[[33m 772^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.5013249Z  ^[[32m✓^[[39m tests/unit/redteam/judge/metrics.spec.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.7884212Z  ^[[32m✓^[[39m tests/unit/airs/scanner.spec.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[33m 2068^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.7886192Z    ^[[33m^[[2m✓^[[22m^[[39m RateLimitedScanService^[[2m > ^[[22mdelays calls that exceed the per-second rate ^[[33m 1001^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:11.7888241Z    ^[[33m^[[2m✓^[[22m^[[39m RateLimitedScanService^[[2m > ^[[22mscanBatch respects rate limit across concurrent calls ^[[33m 1002^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:12.7073136Z  ^[[32m✓^[[39m tests/unit/cli/flag-standardization.spec.ts ^[[2m(^[[22m^[[2m31 tests^[[22m^[[2m)^[[22m^[[32m 187^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:13.0474198Z  ^[[32m✓^[[39m tests/unit/cli/debug-logger.spec.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 28^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:13.3936456Z  ^[[32m✓^[[39m tests/unit/redteam/judge/providers.spec.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 35^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:13.8058296Z  ^[[32m✓^[[39m tests/unit/reports/aigateway.spec.ts ^[[2m(^[[22m^[[2m29 tests^[[22m^[[2m)^[[22m^[[32m 69^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7234124Z  ^[[32m✓^[[39m tests/integration/dlp-dictionary-errors.spec.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[33m 13609^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7244986Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mrenders safe field-level create errors with operational exit 1 ^[[33m 966^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7275718Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mrenders safe field-level replace errors with operational exit 1 ^[[33m 892^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7296031Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22moffers a neutral region hint for detail-free 400 without changing the supplied region ^[[33m 973^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7302555Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mclassifies PATCH API rejection as operational and preserves safe validation detail ^[[33m 898^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7304293Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mkeeps missing create flags as usage exit 2 before a request ^[[33m 806^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7305913Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mkeeps missing replace flags as usage exit 2 before a request ^[[33m 798^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7307842Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mdoes not echo malformed create metadata in usage errors ^[[33m 842^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7309584Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mdoes not echo malformed replace metadata in usage errors ^[[33m 788^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7311402Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mdoes not echo malformed patch metadata in usage errors ^[[33m 763^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7313084Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mrejects nonobject metadata before upload ^[[33m 786^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7315186Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mkeeps SDK request-schema validation as usage exit 2 without echoing metadata values ^[[33m 802^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7317175Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mkeeps missing PATCH metadata fields as usage exit 2 ^[[33m 789^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7319532Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22momits all DLP bodies with global --debug before the subcommand ^[[33m 964^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7320852Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22momits all DLP bodies with global --debug after the subcommand ^[[33m 906^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7322058Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mdoes not echo malformed patch flags ^[[33m 823^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:27.7323239Z    ^[[33m^[[2m✓^[[22m^[[39m dictionary CLI errors through the real SDK and HTTP transport^[[2m > ^[[22mrejects conflicting patch flags before a request ^[[33m 811^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:28.1457134Z  ^[[32m✓^[[39m tests/unit/cli/restore.spec.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 21^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4350598Z  ^[[32m✓^[[39m tests/integration/dlp-profile-pattern-flags.spec.ts ^[[2m(^[[22m^[[2m26 tests^[[22m^[[2m)^[[22m^[[33m 21658^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4358168Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mbuilds a complete mixed-technique create expression from pattern GETs ^[[33m 990^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4360960Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mbuilds a complete mixed-technique replace expression from pattern GETs ^[[33m 921^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4363202Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mstops without writing when one pattern is missing ^[[33m 918^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4365595Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mstops without writing for deleted references ^[[33m 875^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4367862Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mstops without writing for deprecated references ^[[33m 885^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4369981Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mstops without writing for disabled references ^[[33m 820^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4372063Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects mismatched pattern identity ^[[33m 788^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4374232Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects confidence unsupported by a referenced pattern ^[[33m 794^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4376285Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects explicit basic create before OAuth ^[[33m 783^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4378177Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects explicit basic replace before OAuth ^[[33m 788^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4380153Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects basic raw create bodies before OAuth ^[[33m 802^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4382053Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects basic raw replace bodies before OAuth ^[[33m 802^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4384056Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects basic raw patch bodies before OAuth ^[[33m 827^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4386015Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects invalid --combinator before OAuth ^[[33m 776^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4388103Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects invalid --confidence before OAuth ^[[33m 778^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4389983Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22maccepts 32-character flag names for create ^[[33m 888^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4392110Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22maccepts 32-character flag names for replace ^[[33m 858^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4394502Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects 33-character flag names for create before OAuth ^[[33m 756^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4396800Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects 33-character flag names for replace before OAuth ^[[33m 821^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4399064Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22maccepts 32-character raw-body names for create ^[[33m 926^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4402571Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22maccepts 32-character raw-body names for replace ^[[33m 879^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4404951Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22maccepts 32-character raw-body names for patch ^[[33m 860^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4407222Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects 33-character raw-body names for create before OAuth ^[[33m 764^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4409650Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects 33-character raw-body names for replace before OAuth ^[[33m 762^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4412181Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22mrejects 33-character raw-body names for patch before OAuth ^[[33m 789^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.4414379Z    ^[[33m^[[2m✓^[[22m^[[39m profile pattern flags resolve real SDK references before mutation^[[2m > ^[[22msanitizes malformed raw JSON before OAuth ^[[33m 803^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:33.7736038Z  ^[[32m✓^[[39m tests/unit/backup/prod-dev-evidence.spec.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 62^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:34.9044566Z  ^[[32m✓^[[39m tests/integration/cli/aigateway-dashboard.spec.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[33m 409^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:36.2312224Z  ^[[32m✓^[[39m tests/integration/cli/agentguard.spec.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[33m 420^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:36.6686061Z  ^[[32m✓^[[39m tests/unit/cli/redteam-output-flag.spec.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 64^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:37.1493105Z  ^[[32m✓^[[39m tests/unit/config/tenants.spec.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[32m 185^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:38.3547165Z  ^[[32m✓^[[39m tests/integration/cli/redteam-dashboard.spec.ts ^[[2m(^[[22m^[[2m24 tests^[[22m^[[2m)^[[22m^[[33m 375^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:38.8033073Z  ^[[32m✓^[[39m tests/unit/config/client-options.spec.ts ^[[2m(^[[22m^[[2m20 tests^[[22m^[[2m)^[[22m^[[32m 19^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:39.1207723Z  ^[[32m✓^[[39m tests/unit/airs/redteam-adapters.spec.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:39.4166841Z  ^[[32m✓^[[39m tests/unit/core/metrics.spec.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:40.7424207Z  ^[[32m✓^[[39m tests/integration/sdk-gateway-chart-flags.spec.ts ^[[2m(^[[22m^[[2m53 tests^[[22m^[[2m)^[[22m^[[33m 543^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:41.1166052Z  ^[[32m✓^[[39m tests/unit/cli/dlp-build-body.spec.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:42.0453331Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-workspace-provision.spec.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 183^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:42.5651981Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-inference.spec.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 42^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:43.7169250Z  ^[[32m✓^[[39m tests/integration/cli/runtime-report.spec.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[33m 354^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:44.5880484Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-command-tree.spec.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 29^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:44.9949513Z  ^[[32m✓^[[39m tests/unit/cli/bulk-scan-state.spec.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 31^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:46.7154722Z  ^[[32m✓^[[39m tests/integration/sdk-gateway-group-flags.spec.ts ^[[2m(^[[22m^[[2m95 tests^[[22m^[[2m)^[[22m^[[33m 892^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.0396310Z  ^[[32m✓^[[39m tests/unit/redteam/judge/ingest.spec.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.1856480Z  ^[[32m✓^[[39m tests/integration/tenant-profile-transfer.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 41349^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.1858383Z    ^[[33m^[[2m✓^[[22m^[[39m real CLI + SDK OAuth with isolated source and destination tenants^[[2m > ^[[22mpreserves Basic DLP and explicitly converts custom DLP through the actual CLI ^[[33m 11162^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.1866304Z    ^[[33m^[[2m✓^[[22m^[[39m real CLI + SDK OAuth with isolated source and destination tenants^[[2m > ^[[22mregisters, backs up JSON/YAML, switches, plans, restores fresh IDs and retains source configs ^[[33m 19907^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.1869159Z    ^[[33m^[[2m✓^[[22m^[[39m real CLI + SDK OAuth with isolated source and destination tenants^[[2m > ^[[22mblocks wrong-tenant, malformed input and debug leakage before authentication ^[[33m 10278^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.5286154Z  ^[[32m✓^[[39m tests/unit/cli/dlp-renderer.spec.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.5325998Z  ^[[32m✓^[[39m tests/unit/config/tenant-settings.spec.ts ^[[2m(^[[22m^[[2m25 tests^[[22m^[[2m)^[[22m^[[32m 145^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:47.8824753Z  ^[[32m✓^[[39m tests/unit/reports/redteam.spec.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 26^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:48.6537552Z  ^[[32m✓^[[39m tests/unit/backup/prod-dev-guide.spec.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[33m 353^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:49.0124705Z  ^[[32m✓^[[39m tests/unit/reports/agentguard.spec.ts ^[[2m(^[[22m^[[2m17 tests^[[22m^[[2m)^[[22m^[[32m 62^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:49.3310002Z  ^[[32m✓^[[39m tests/unit/core/constraints.spec.ts ^[[2m(^[[22m^[[2m25 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:49.6879680Z  ^[[32m✓^[[39m tests/unit/reports/render.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 45^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:50.0133728Z  ^[[32m✓^[[39m tests/unit/backup/io.spec.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 21^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:50.3664878Z  ^[[32m✓^[[39m tests/unit/config/loader.spec.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[32m 43^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:50.6909616Z  ^[[32m✓^[[39m tests/unit/redteam/judge/fetch.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:51.0244252Z  ^[[32m✓^[[39m tests/unit/config/schema.spec.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:52.1122077Z  ^[[32m✓^[[39m tests/unit/cli/dlp-generate-output.spec.ts ^[[2m(^[[22m^[[2m30 tests^[[22m^[[2m)^[[22m^[[33m 320^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:52.4735324Z  ^[[32m✓^[[39m tests/unit/core/prompt-loader.spec.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:53.2908146Z  ^[[32m✓^[[39m tests/unit/cli/completion.spec.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:53.6234600Z  ^[[32m✓^[[39m tests/unit/cli/parse-input.spec.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:53.9433751Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-renderer.spec.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:54.4288621Z  ^[[32m✓^[[39m tests/unit/cli/topics-apply.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:54.7827916Z  ^[[32m✓^[[39m tests/unit/airs/dlp/dictionaries.spec.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6808180Z  ^[[32m✓^[[39m tests/integration/dlp-tenant-auth.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[33m 27191^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6810543Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mloads JSON credentials and the DLP endpoint for patterns ^[[33m 3287^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6815805Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mloads JSON credentials and the DLP endpoint for profiles ^[[33m 3317^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6818787Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mloads JSON credentials and the DLP endpoint for dictionaries ^[[33m 3298^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6820503Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mloads JSON credentials and the DLP endpoint for filtering-profiles ^[[33m 3301^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6822460Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mcreates and reads a pattern and advanced profile in each tenant without changing credentials ^[[33m 10796^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:55.6824691Z    ^[[33m^[[2m✓^[[22m^[[39m DLP commands use selected tenant config through real CLI and SDK OAuth^[[2m > ^[[22mignores environment credentials and config paths; only the selected tenant file authenticates ^[[33m 3190^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:56.5036141Z  ^[[32m✓^[[39m tests/unit/cli/aliases.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:57.0422437Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-structured-input.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 26^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:57.4133613Z  ^[[32m✓^[[39m tests/unit/cli/ui.spec.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:58.2363240Z  ^[[32m✓^[[39m tests/unit/cli/dlp-debug.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 98^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:58.7904197Z  ^[[32m✓^[[39m tests/unit/cli/topics-eval.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:59.1554743Z  ^[[32m✓^[[39m tests/unit/cli/redteam-attacks-renderer.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 46^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:13:59.5866414Z  ^[[32m✓^[[39m tests/unit/cli/backup.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:00.1513298Z  ^[[32m✓^[[39m tests/unit/cli/redteam-scan-helpers.spec.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:00.5105543Z  ^[[32m✓^[[39m tests/unit/cli/backup-renderer.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 39^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:01.2632989Z  ^[[32m✓^[[39m tests/unit/docs/aigateway-workflows.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 27^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:02.0587127Z  ^[[32m✓^[[39m tests/unit/cli/quiet.spec.ts ^[[2m(^[[22m^[[2m11 tests^[[22m^[[2m)^[[22m^[[32m 47^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:02.6289080Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-chart-filters.spec.ts ^[[2m(^[[22m^[[2m39 tests^[[22m^[[2m)^[[22m^[[32m 20^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:03.0074564Z  ^[[32m✓^[[39m tests/unit/cli/confirm.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 18^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:03.8428139Z  ^[[32m✓^[[39m tests/unit/cli/help-examples.spec.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 37^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:04.3958357Z  ^[[32m✓^[[39m tests/unit/cli/redteam-init.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.0198294Z  ^[[32m✓^[[39m tests/unit/cli/profiles-cleanup.spec.ts ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.1987678Z  ^[[32m✓^[[39m tests/integration/tenant-setup.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 17368^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.1990022Z    ^[[33m^[[2m✓^[[22m^[[39m uses individually configured tenant credentials for a real CLI OAuth and profile-list workflow against a local API ^[[33m 4174^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.1992053Z    ^[[33m^[[2m✓^[[22m^[[39m creates without JSON, configures one field at a time, rotates secrets and switches ^[[33m 5456^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.1993777Z    ^[[33m^[[2m✓^[[22m^[[39m fails clearly without a terminal or stdin instead of creating an incomplete tenant ^[[33m 2272^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.1995802Z    ^[[33m^[[2m✓^[[22m^[[39m refuses mixed input modes, secret arguments and identity changes ^[[33m 5464^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.3488955Z  ^[[32m✓^[[39m tests/unit/airs/dlp/data-profiles.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.5698113Z  ^[[32m✓^[[39m tests/unit/cli/renderer/view.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 11^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.8486199Z  ^[[32m✓^[[39m tests/unit/cli/topics-create.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:05.8711250Z  ^[[32m✓^[[39m tests/unit/airs/dlp/data-filtering-profiles.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:06.1766241Z  ^[[32m✓^[[39m tests/unit/cli/output-resolution.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:06.1826524Z  ^[[32m✓^[[39m tests/unit/cli/dlp-patch.spec.ts ^[[2m(^[[22m^[[2m16 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:06.5167887Z  ^[[32m✓^[[39m tests/unit/cli/modelsecurity-groupdetail-output.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:06.9578022Z  ^[[32m✓^[[39m tests/integration/sdk-runtime-contract.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:07.0206427Z  ^[[32m✓^[[39m tests/integration/cli/debug-output-path.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 75^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:07.2847099Z  ^[[32m✓^[[39m tests/unit/airs/dlp/data-patterns.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:07.5980902Z  ^[[32m✓^[[39m tests/unit/cli/aigateway-write-helpers.spec.ts ^[[2m(^[[22m^[[2m10 tests^[[22m^[[2m)^[[22m^[[32m 14^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:07.9324528Z  ^[[32m✓^[[39m tests/unit/reports/io.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 22^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:08.1327142Z  ^[[32m✓^[[39m tests/integration/sdk-gateway-telemetry.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 70^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:08.2863457Z ^[[90mstdout^[[2m | tests/unit/cli/tenant-wizard.spec.ts^[[2m > ^[[22m^[[2mcollects three settings in order and hides only the secret prompt
+publish	Test	2026-09-20T11:14:08.2885741Z ^[[22m^[[39m  ✓ Registered dev (TSG 100); private config created. Use airs-cli tenant switch dev.
+publish	Test	2026-09-20T11:14:08.2912282Z 
+publish	Test	2026-09-20T11:14:08.2914749Z ^[[90mstderr^[[2m | tests/unit/cli/tenant-wizard.spec.ts^[[2m > ^[[22m^[[2mcancels safely at prompt 0 without saving files or a partial tenant
+publish	Test	2026-09-20T11:14:08.2916602Z ^[[22m^[[39m  Cancelled; no configuration saved.
+publish	Test	2026-09-20T11:14:08.2917132Z 
+publish	Test	2026-09-20T11:14:08.2932067Z ^[[90mstderr^[[2m | tests/unit/cli/tenant-wizard.spec.ts^[[2m > ^[[22m^[[2mcancels safely at prompt 1 without saving files or a partial tenant
+publish	Test	2026-09-20T11:14:08.2941933Z ^[[22m^[[39m  Cancelled; no configuration saved.
+publish	Test	2026-09-20T11:14:08.2942564Z 
+publish	Test	2026-09-20T11:14:08.2946667Z ^[[90mstderr^[[2m | tests/unit/cli/tenant-wizard.spec.ts^[[2m > ^[[22m^[[2mcancels safely at prompt 2 without saving files or a partial tenant
+publish	Test	2026-09-20T11:14:08.2951735Z ^[[22m^[[39m  Cancelled; no configuration saved.
+publish	Test	2026-09-20T11:14:08.2952143Z 
+publish	Test	2026-09-20T11:14:08.3158676Z  ^[[32m✓^[[39m tests/unit/cli/tenant-wizard.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 28^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:08.4656582Z  ^[[32m✓^[[39m tests/unit/config/credentials.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:08.8312877Z  ^[[32m✓^[[39m tests/unit/cli/topics-revert.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:09.1529936Z  ^[[32m✓^[[39m tests/unit/cli/dashboard-debug.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:09.4273410Z  ^[[32m✓^[[39m tests/unit/cli/deprecated-flags.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:09.9449868Z  ^[[32m✓^[[39m tests/unit/dlp/orchestrate.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 780^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:09.9451980Z    ^[[33m^[[2m✓^[[22m^[[39m generateCorpus^[[2m > ^[[22mwrites clean + dirty + manifest across all formats and techniques ^[[33m 728^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:10.0127880Z  ^[[32m✓^[[39m tests/unit/dlp/embed-pdf.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 148^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:10.2754903Z  ^[[32m✓^[[39m tests/unit/docs/brand-assets.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 9^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:10.4637201Z  ^[[32m✓^[[39m tests/unit/dlp/embed-png.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 79^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:10.6162440Z  ^[[32m✓^[[39m tests/unit/cli/redteam-categories-renderer.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 47^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.0459866Z  ^[[32m✓^[[39m tests/unit/cli/redteam-adapter-helpers.spec.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.0475543Z  ^[[32m✓^[[39m tests/unit/airs/dlp/client-wiring.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.1072289Z  ^[[32m✓^[[39m tests/unit/backup/profile-migration-docs.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[33m 16013^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.1095842Z    ^[[33m^[[2m✓^[[22m^[[39m public migration guides use direct airs-cli commands^[[2m > ^[[22mmatches every documented command and option to actual CLI help without executing actions ^[[33m 15874^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.3636211Z  ^[[32m✓^[[39m tests/unit/cli/fail.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.4464594Z  ^[[32m✓^[[39m tests/unit/dlp/embed-jpeg.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 39^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.4748182Z  ^[[32m✓^[[39m tests/unit/cli/redteam-dynamic-renderer.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 47^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.7306294Z  ^[[32m✓^[[39m tests/unit/dlp/payload.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:11.8339534Z  ^[[32m✓^[[39m tests/unit/cli/redteam-footnote.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.0558429Z  ^[[32m✓^[[39m tests/unit/cli/tenant-input.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.1239426Z  ^[[32m✓^[[39m tests/unit/cli/report-naming.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 60^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.1492488Z  ^[[32m✓^[[39m tests/unit/config/env.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.4083349Z  ^[[32m✓^[[39m tests/unit/cli/pagination.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 13^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.4207964Z  ^[[32m✓^[[39m tests/unit/docs/aigateway-dashboard.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.4356159Z  ^[[32m✓^[[39m tests/unit/cli/bulk-scan-lock.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 18^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:12.7151375Z  ^[[32m✓^[[39m tests/unit/docs/theme-layout.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.0259535Z  ^[[32m✓^[[39m tests/unit/dlp/rng.spec.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 17^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.1874186Z  ^[[32m✓^[[39m tests/unit/cli/runtime-commands.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.2245608Z  ^[[32m✓^[[39m tests/unit/cli/invocation.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 61^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.3366742Z  ^[[32m✓^[[39m tests/unit/dlp/manifest.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.5573416Z  ^[[32m✓^[[39m tests/unit/cli/process-guards.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 8^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.6857616Z  ^[[32m✓^[[39m tests/unit/cli/dlp-delete-safety.spec.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:13.7071232Z  ^[[32m✓^[[39m tests/unit/cli/dlp-generate-lazy.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.0225901Z  ^[[32m✓^[[39m tests/unit/dlp/embed-svg.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 6^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.0750696Z  ^[[32m✓^[[39m tests/unit/cli/topics-sample.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.2146307Z  ^[[32m✓^[[39m tests/unit/dlp/generate.spec.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 179^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.3186902Z  ^[[32m✓^[[39m tests/unit/cli/dlp-visibility.spec.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.5131187Z  ^[[32m✓^[[39m tests/unit/dlp/lorem.spec.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 5^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:14.5486395Z  ^[[32m✓^[[39m tests/unit/dlp/embed-docx.spec.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 147^[[2mms^[[22m^[[39m
+publish	Test	2026-09-20T11:14:15.1567761Z 
+publish	Test	2026-09-20T11:14:15.1580137Z ^[[2m Test Files ^[[22m ^[[1m^[[32m133 passed^[[39m^[[22m^[[90m (133)^[[39m
+publish	Test	2026-09-20T11:14:15.1583708Z ^[[2m      Tests ^[[22m ^[[1m^[[32m1997 passed^[[39m^[[22m^[[90m (1997)^[[39m
+publish	Test	2026-09-20T11:14:15.1585067Z ^[[2m   Start at ^[[22m 11:12:59
+publish	Test	2026-09-20T11:14:15.1588393Z ^[[2m   Duration ^[[22m 75.90s^[[2m (transform 3.05s, setup 2.63s, collect 20.75s, tests 165.06s, environment 31ms, prepare 12.34s)^[[22m
+publish	Test	2026-09-20T11:14:15.1589266Z 
+publish	Test	2026-09-20T11:14:15.1618159Z ^[[34m % ^[[39m^[[2mCoverage report from ^[[22m^[[33mv8^[[39m
+publish	Test	2026-09-20T11:14:15.1728215Z -------------------|---------|----------|---------|---------|-------------------
+publish	Test	2026-09-20T11:14:15.1729148Z File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+publish	Test	2026-09-20T11:14:15.1730099Z -------------------|---------|----------|---------|---------|-------------------
+publish	Test	2026-09-20T11:14:15.1737669Z All files          |   97.72 |    90.24 |   96.76 |   97.72 |                   
+publish	Test	2026-09-20T11:14:15.1738665Z  airs              |    94.8 |    84.52 |   95.51 |    94.8 |                   
+publish	Test	2026-09-20T11:14:15.1739411Z   aigateway.ts     |     100 |     88.5 |     100 |     100 | ...61,210,212-213 
+publish	Test	2026-09-20T11:14:15.1740415Z   management.ts    |   97.72 |       83 |      95 |   97.72 | ...34-337,378-381 
+publish	Test	2026-09-20T11:14:15.1741806Z   modelsecurity.ts |   89.54 |    72.12 |   91.11 |   89.54 | ...25-438,600-613 
+publish	Test	2026-09-20T11:14:15.1742634Z   promptsets.ts    |     100 |    97.22 |     100 |     100 | 181               
+publish	Test	2026-09-20T11:14:15.1744792Z   redteam.ts       |   95.14 |    92.39 |   95.23 |   95.14 | ...87-702,800-808 
+publish	Test	2026-09-20T11:14:15.1746417Z   runtime.ts       |   92.48 |    83.48 |      95 |   92.48 | ...35-438,570-573 
+publish	Test	2026-09-20T11:14:15.1747905Z   scanner.ts       |     100 |    96.66 |     100 |     100 | 133               
+publish	Test	2026-09-20T11:14:15.1748723Z  airs/dlp          |   87.39 |    96.87 |   84.84 |   87.39 |                   
+publish	Test	2026-09-20T11:14:15.1749338Z   ...g-profiles.ts |   83.33 |      100 |   83.33 |   83.33 | 23-26             
+publish	Test	2026-09-20T11:14:15.1749871Z   data-patterns.ts |   92.85 |      100 |   88.88 |   92.85 | 24-25             
+publish	Test	2026-09-20T11:14:15.1750557Z   data-profiles.ts |      92 |      100 |    87.5 |      92 | 24-25             
+publish	Test	2026-09-20T11:14:15.1751286Z   dictionaries.ts  |   94.59 |      100 |   88.88 |   94.59 | 25-26             
+publish	Test	2026-09-20T11:14:15.1751965Z   index.ts         |       0 |        0 |       0 |       0 | 1-5               
+publish	Test	2026-09-20T11:14:15.1752479Z  backup            |    98.5 |    87.12 |   97.36 |    98.5 |                   
+publish	Test	2026-09-20T11:14:15.1753407Z   dlp-resources.ts |   98.46 |    85.64 |   97.56 |   98.46 | ...1461,1500-1502 
+publish	Test	2026-09-20T11:14:15.1754340Z   index.ts         |       0 |        0 |       0 |       0 | 1-2               
+publish	Test	2026-09-20T11:14:15.1755130Z   io.ts            |     100 |    96.66 |     100 |     100 | 17                
+publish	Test	2026-09-20T11:14:15.1755848Z   ...ime-policy.ts |     100 |    98.79 |     100 |     100 | 56                
+publish	Test	2026-09-20T11:14:15.1756786Z   ...e-profiles.ts |   98.39 |    86.41 |     100 |   98.39 | ...16-417,435,714 
+publish	Test	2026-09-20T11:14:15.1757409Z  config            |   99.63 |     97.1 |     100 |   99.63 |                   
+publish	Test	2026-09-20T11:14:15.1758352Z   ...nt-options.ts |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1758954Z   credentials.ts   |   96.36 |    95.45 |     100 |   96.36 | 32-33             
+publish	Test	2026-09-20T11:14:15.1759551Z   env.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1760174Z   loader.ts        |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1760734Z   schema.ts        |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1761613Z   ...t-settings.ts |     100 |    97.72 |     100 |     100 | 139               
+publish	Test	2026-09-20T11:14:15.1762191Z   tenants.ts       |     100 |    94.93 |     100 |     100 | 39,43,83,127      
+publish	Test	2026-09-20T11:14:15.1762819Z  core              |   99.15 |    94.17 |     100 |   99.15 |                   
+publish	Test	2026-09-20T11:14:15.1763405Z   constraints.ts   |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1764320Z   metrics.ts       |     100 |    96.96 |     100 |     100 | 74                
+publish	Test	2026-09-20T11:14:15.1765165Z   prompt-loader.ts |   98.03 |    89.36 |     100 |   98.03 | 44-45             
+publish	Test	2026-09-20T11:14:15.1765887Z  dlp               |   99.04 |    94.59 |     100 |   99.04 |                   
+publish	Test	2026-09-20T11:14:15.1766786Z   index.ts         |     100 |    83.33 |     100 |     100 | 21                
+publish	Test	2026-09-20T11:14:15.1767458Z   lorem.ts         |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1768167Z   manifest.ts      |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1768867Z   payload.ts       |   96.61 |    94.44 |     100 |   96.61 | 36-37             
+publish	Test	2026-09-20T11:14:15.1770061Z   rng.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1770887Z  dlp/embed         |    98.3 |    92.17 |     100 |    98.3 |                   
+publish	Test	2026-09-20T11:14:15.1771594Z   docx.ts          |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1772304Z   index.ts         |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1773034Z   jpeg.ts          |     100 |     90.9 |     100 |     100 | 32                
+publish	Test	2026-09-20T11:14:15.1773772Z   overlay.ts       |     100 |    71.42 |     100 |     100 | 17-18             
+publish	Test	2026-09-20T11:14:15.1774628Z   pdf.ts           |   94.73 |    87.09 |     100 |   94.73 | 65-66,72-73,78-79 
+publish	Test	2026-09-20T11:14:15.1775362Z   piexifjs.d.ts    |       0 |        0 |       0 |       0 |                   
+publish	Test	2026-09-20T11:14:15.1776114Z   png-chunks.ts    |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1776792Z   png.ts           |    97.4 |    92.85 |     100 |    97.4 | 16-17             
+publish	Test	2026-09-20T11:14:15.1777275Z   svg.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1777741Z   zip.ts           |   95.23 |    83.33 |     100 |   95.23 | 21                
+publish	Test	2026-09-20T11:14:15.1778268Z  dlp/generate      |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1778763Z   docx.ts          |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1779261Z   index.ts         |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1779799Z   jpeg.ts          |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1780267Z   pdf.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1780732Z   png.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1781267Z   raster.ts        |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1781727Z   svg.ts           |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1782275Z  redteam/judge     |   99.61 |     96.1 |    97.5 |   99.61 |                   
+publish	Test	2026-09-20T11:14:15.1783382Z   fetch.ts         |     100 |    94.11 |     100 |     100 | 122,133           
+publish	Test	2026-09-20T11:14:15.1784083Z   index.ts         |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1784634Z   ingest.ts        |     100 |    97.63 |     100 |     100 | 76,103,142        
+publish	Test	2026-09-20T11:14:15.1785114Z   judge.ts         |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1785639Z   metrics.ts       |     100 |    93.84 |     100 |     100 | 81,107,120,141    
+publish	Test	2026-09-20T11:14:15.1786123Z   providers.ts     |   98.37 |    95.18 |   91.66 |   98.37 | 91-92,191         
+publish	Test	2026-09-20T11:14:15.1786853Z   questions.ts     |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1787384Z   summary.ts       |     100 |     92.3 |     100 |     100 | 46                
+publish	Test	2026-09-20T11:14:15.1787885Z  reports           |   99.62 |    95.34 |     100 |   99.62 |                   
+publish	Test	2026-09-20T11:14:15.1788383Z   agentguard.ts    |   99.55 |    95.45 |     100 |   99.55 | 230               
+publish	Test	2026-09-20T11:14:15.1788916Z   aigateway.ts     |     100 |    92.59 |     100 |     100 | ...62,280,317,329 
+publish	Test	2026-09-20T11:14:15.1789455Z   ...ent-render.ts |     100 |    97.05 |     100 |     100 | 14                
+publish	Test	2026-09-20T11:14:15.1790020Z   io.ts            |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1790550Z   ...eam-render.ts |     100 |      100 |     100 |     100 |                   
+publish	Test	2026-09-20T11:14:15.1791045Z   redteam.ts       |   99.07 |    92.17 |     100 |   99.07 | 361-363           
+publish	Test	2026-09-20T11:14:15.1791609Z   render.ts        |   98.79 |    96.96 |     100 |   98.79 | 197-199           
+publish	Test	2026-09-20T11:14:15.1792089Z   runtime.ts       |     100 |    97.68 |     100 |     100 | ...08,368,385,509 
+publish	Test	2026-09-20T11:14:15.1792611Z -------------------|---------|----------|---------|---------|-------------------
+publish	Build	﻿2026-09-20T11:14:15.3079082Z ##[group]Run pnpm run build
+publish	Build	2026-09-20T11:14:15.3079566Z ^[[36;1mpnpm run build^[[0m
+publish	Build	2026-09-20T11:14:15.3102981Z shell: /usr/bin/bash -e {0}
+publish	Build	2026-09-20T11:14:15.3103389Z env:
+publish	Build	2026-09-20T11:14:15.3103764Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Build	2026-09-20T11:14:15.3104559Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Build	2026-09-20T11:14:15.3105069Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Build	2026-09-20T11:14:15.3105471Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Build	2026-09-20T11:14:15.3105870Z ##[endgroup]
+publish	Build	2026-09-20T11:14:15.5722000Z 
+publish	Build	2026-09-20T11:14:15.5723094Z > @cdot65/prisma-airs-cli@7.1.2 build /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Build	2026-09-20T11:14:15.8492008Z > tsup
+publish	Build	2026-09-20T11:14:15.8492488Z 
+publish	Build	2026-09-20T11:14:15.8493463Z ^[[34mCLI^[[39m Building entry: {"index":"src/index.ts","cli/index":"src/cli/index.ts"}
+publish	Build	2026-09-20T11:14:15.8494707Z ^[[34mCLI^[[39m Using tsconfig: tsconfig.json
+publish	Build	2026-09-20T11:14:15.8495426Z ^[[34mCLI^[[39m tsup v8.5.1
+publish	Build	2026-09-20T11:14:15.8496466Z ^[[34mCLI^[[39m Using tsup config: /home/runner/work/prisma-airs-cli/prisma-airs-cli/tsup.config.ts
+publish	Build	2026-09-20T11:14:15.8530243Z ^[[34mCLI^[[39m Target: es2022
+publish	Build	2026-09-20T11:14:15.8571450Z ^[[34mCLI^[[39m Cleaning output folder
+publish	Build	2026-09-20T11:14:15.8581603Z ^[[34mESM^[[39m Build start
+publish	Build	2026-09-20T11:14:15.9928104Z ^[[32mESM^[[39m ^[[1mdist/index.js          ^[[22m^[[32m1.39 KB^[[39m
+publish	Build	2026-09-20T11:14:15.9929460Z ^[[32mESM^[[39m ^[[1mdist/chunk-T4S4FMTZ.js ^[[22m^[[32m164.51 KB^[[39m
+publish	Build	2026-09-20T11:14:15.9930851Z ^[[32mESM^[[39m ^[[1mdist/dlp-5XKWITZX.js   ^[[22m^[[32m19.41 KB^[[39m
+publish	Build	2026-09-20T11:14:15.9932018Z ^[[32mESM^[[39m ^[[1mdist/cli/index.js      ^[[22m^[[32m615.33 KB^[[39m
+publish	Build	2026-09-20T11:14:15.9933101Z ^[[32mESM^[[39m ⚡️ Build success in 134ms
+publish	Build	2026-09-20T11:14:16.1686899Z ^[[34mDTS^[[39m Build start
+publish	Build	2026-09-20T11:14:20.5876365Z ^[[32mDTS^[[39m ⚡️ Build success in 4419ms
+publish	Build	2026-09-20T11:14:20.5877971Z ^[[32mDTS^[[39m ^[[1mdist/index.d.ts ^[[22m^[[32m80.39 KB^[[39m
+publish	Publish to npm	﻿2026-09-20T11:14:20.6818566Z ##[group]Run # Migration releases are staged until the matching harness is accepted.
+publish	Publish to npm	2026-09-20T11:14:20.6819258Z ^[[36;1m# Migration releases are staged until the matching harness is accepted.^[[0m
+publish	Publish to npm	2026-09-20T11:14:20.6819708Z ^[[36;1mtag=latest^[[0m
+publish	Publish to npm	2026-09-20T11:14:20.6820170Z ^[[36;1mif [ "$RELEASE_PRERELEASE" = true ]; then tag=next; fi^[[0m
+publish	Publish to npm	2026-09-20T11:14:20.6820626Z ^[[36;1mnpm publish --access public --tag "$tag"^[[0m
+publish	Publish to npm	2026-09-20T11:14:20.6844274Z shell: /usr/bin/bash -e {0}
+publish	Publish to npm	2026-09-20T11:14:20.6844772Z env:
+publish	Publish to npm	2026-09-20T11:14:20.6845100Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+publish	Publish to npm	2026-09-20T11:14:20.6845521Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+publish	Publish to npm	2026-09-20T11:14:20.6846013Z   NPM_CONFIG_USERCONFIG: /home/runner/work/_temp/.npmrc
+publish	Publish to npm	2026-09-20T11:14:20.6846625Z   NODE_AUTH_TOKEN: XXXXX-XXXXX-XXXXX-XXXXX
+publish	Publish to npm	2026-09-20T11:14:20.6847040Z   RELEASE_PRERELEASE: true
+publish	Publish to npm	2026-09-20T11:14:20.6847366Z ##[endgroup]
+publish	Publish to npm	2026-09-20T11:14:22.2026133Z npm warn Unknown user config "always-auth". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+publish	Publish to npm	2026-09-20T11:14:22.2485960Z 
+publish	Publish to npm	2026-09-20T11:14:22.2486657Z > @cdot65/prisma-airs-cli@7.1.2 prepublishOnly
+publish	Publish to npm	2026-09-20T11:14:22.2487101Z > pnpm audit:prod && pnpm run build
+publish	Publish to npm	2026-09-20T11:14:22.2487283Z 
+publish	Publish to npm	2026-09-20T11:14:22.5005029Z 
+publish	Publish to npm	2026-09-20T11:14:22.5006084Z > @cdot65/prisma-airs-cli@7.1.2 audit:prod /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Publish to npm	2026-09-20T11:14:22.5006938Z > pnpm audit --prod --audit-level low
+publish	Publish to npm	2026-09-20T11:14:22.5007140Z 
+publish	Publish to npm	2026-09-20T11:14:22.9920385Z No known vulnerabilities found
+publish	Publish to npm	2026-09-20T11:14:23.2618264Z 
+publish	Publish to npm	2026-09-20T11:14:23.2619257Z > @cdot65/prisma-airs-cli@7.1.2 build /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Publish to npm	2026-09-20T11:14:23.2619917Z > tsup
+publish	Publish to npm	2026-09-20T11:14:23.2620051Z 
+publish	Publish to npm	2026-09-20T11:14:23.5346285Z ^[[34mCLI^[[39m Building entry: {"index":"src/index.ts","cli/index":"src/cli/index.ts"}
+publish	Publish to npm	2026-09-20T11:14:23.5347880Z ^[[34mCLI^[[39m Using tsconfig: tsconfig.json
+publish	Publish to npm	2026-09-20T11:14:23.5349038Z ^[[34mCLI^[[39m tsup v8.5.1
+publish	Publish to npm	2026-09-20T11:14:23.5349818Z ^[[34mCLI^[[39m Using tsup config: /home/runner/work/prisma-airs-cli/prisma-airs-cli/tsup.config.ts
+publish	Publish to npm	2026-09-20T11:14:23.5384311Z ^[[34mCLI^[[39m Target: es2022
+publish	Publish to npm	2026-09-20T11:14:23.5435355Z ^[[34mCLI^[[39m Cleaning output folder
+publish	Publish to npm	2026-09-20T11:14:23.5444785Z ^[[34mESM^[[39m Build start
+publish	Publish to npm	2026-09-20T11:14:23.6805930Z ^[[32mESM^[[39m ^[[1mdist/index.js          ^[[22m^[[32m1.39 KB^[[39m
+publish	Publish to npm	2026-09-20T11:14:23.6815297Z ^[[32mESM^[[39m ^[[1mdist/dlp-5XKWITZX.js   ^[[22m^[[32m19.41 KB^[[39m
+publish	Publish to npm	2026-09-20T11:14:23.6816537Z ^[[32mESM^[[39m ^[[1mdist/chunk-T4S4FMTZ.js ^[[22m^[[32m164.51 KB^[[39m
+publish	Publish to npm	2026-09-20T11:14:23.6817511Z ^[[32mESM^[[39m ^[[1mdist/cli/index.js      ^[[22m^[[32m615.33 KB^[[39m
+publish	Publish to npm	2026-09-20T11:14:23.6818408Z ^[[32mESM^[[39m ⚡️ Build success in 136ms
+publish	Publish to npm	2026-09-20T11:14:23.8457843Z ^[[34mDTS^[[39m Build start
+publish	Publish to npm	2026-09-20T11:14:28.2587733Z ^[[32mDTS^[[39m ⚡️ Build success in 4414ms
+publish	Publish to npm	2026-09-20T11:14:28.2588481Z ^[[32mDTS^[[39m ^[[1mdist/index.d.ts ^[[22m^[[32m80.39 KB^[[39m
+publish	Publish to npm	2026-09-20T11:14:28.9150987Z npm warn publish npm auto-corrected some errors in your package.json when publishing.  Please run "npm pkg fix" to address these errors.
+publish	Publish to npm	2026-09-20T11:14:28.9153634Z npm warn publish errors corrected:
+publish	Publish to npm	2026-09-20T11:14:28.9154651Z npm warn publish "repository.url" was normalized to "git+https://github.com/cdot65/prisma-airs-cli.git"
+publish	Publish to npm	2026-09-20T11:14:28.9192649Z npm notice
+publish	Publish to npm	2026-09-20T11:14:28.9195521Z npm notice 📦  @cdot65/prisma-airs-cli@7.1.2
+publish	Publish to npm	2026-09-20T11:14:28.9196018Z npm notice Tarball Contents
+publish	Publish to npm	2026-09-20T11:14:28.9198569Z npm notice 10.7kB README.md
+publish	Publish to npm	2026-09-20T11:14:28.9199019Z npm notice 168.5kB dist/chunk-T4S4FMTZ.js
+publish	Publish to npm	2026-09-20T11:14:28.9199489Z npm notice 630.1kB dist/cli/index.js
+publish	Publish to npm	2026-09-20T11:14:28.9199969Z npm notice 19.9kB dist/dlp-5XKWITZX.js
+publish	Publish to npm	2026-09-20T11:14:28.9200428Z npm notice 82.3kB dist/index.d.ts
+publish	Publish to npm	2026-09-20T11:14:28.9200846Z npm notice 1.4kB dist/index.js
+publish	Publish to npm	2026-09-20T11:14:28.9201245Z npm notice 3.6kB package.json
+publish	Publish to npm	2026-09-20T11:14:28.9201638Z npm notice Tarball Details
+publish	Publish to npm	2026-09-20T11:14:28.9202473Z npm notice name: @cdot65/prisma-airs-cli
+publish	Publish to npm	2026-09-20T11:14:28.9202891Z npm notice version: 7.1.2
+publish	Publish to npm	2026-09-20T11:14:28.9203396Z npm notice filename: cdot65-prisma-airs-cli-7.1.2.tgz
+publish	Publish to npm	2026-09-20T11:14:28.9204035Z npm notice package size: 206.5 kB
+publish	Publish to npm	2026-09-20T11:14:28.9204477Z npm notice unpacked size: 916.6 kB
+publish	Publish to npm	2026-09-20T11:14:28.9205038Z npm notice shasum: 5e57836dd4ec21971c3f746c25bafa57d5ac9216
+publish	Publish to npm	2026-09-20T11:14:28.9205704Z npm notice integrity: sha512-MsfwBLkmfc1eA[...]t+kJgaXxnXTnw==
+publish	Publish to npm	2026-09-20T11:14:28.9206261Z npm notice total files: 7
+publish	Publish to npm	2026-09-20T11:14:28.9211863Z npm notice
+publish	Publish to npm	2026-09-20T11:14:30.0109156Z npm notice npm tokens that bypass 2FA are being restricted for account changes and direct publishing. Learn how to prepare: https://gh.io/npm-gat-bypass2fa-deprecation
+publish	Publish to npm	2026-09-20T11:14:30.3378475Z npm notice Publishing to https://registry.npmjs.org/ with tag next and public access
+publish	Publish to npm	2026-09-20T11:14:31.0611522Z npm notice publish Signed provenance statement with source and build information from GitHub Actions
+publish	Publish to npm	2026-09-20T11:14:31.0612951Z npm notice publish Provenance statement published to transparency log: https://search.sigstore.dev/?logIndex=2897767654
+publish	Publish to npm	2026-09-20T11:14:32.9010410Z npm notice Your package is being processed and may take a few minutes to become available.
+publish	Publish to npm	2026-09-20T11:14:32.9012188Z + @cdot65/prisma-airs-cli@7.1.2
+publish	Post Run actions/setup-node@v5	﻿2026-09-20T11:14:32.9307479Z Post job cleanup.
+publish	Post Run actions/setup-node@v5	2026-09-20T11:14:33.0476932Z (node:7999) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+publish	Post Run actions/setup-node@v5	2026-09-20T11:14:33.0478210Z (Use `node --trace-deprecation ...` to show where the warning was created)
+publish	Post Run actions/setup-node@v5	2026-09-20T11:14:33.0479896Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-f4a45c855e4589c58d6cb35f8944492505c9b6b67d32f42efd5b6cc89a129b0a, not saving cache.
+publish	Post Run pnpm/action-setup@v4	﻿2026-09-20T11:14:33.0566341Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+publish	Post Run pnpm/action-setup@v4	2026-09-20T11:14:33.0567537Z Post job cleanup.
+publish	Post Run pnpm/action-setup@v4	2026-09-20T11:14:33.1885386Z Pruning is unnecessary.
+publish	Post Run actions/checkout@v5	﻿2026-09-20T11:14:33.2000049Z Post job cleanup.
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2882507Z [command]/usr/bin/git version
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2915937Z git version 2.55.0
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2945356Z Temporarily overriding HOME='/home/runner/work/_temp/bbc4d4df-6c80-431f-a61a-c519ec7e4abd' before making global git config changes
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2946149Z Adding repository directory to the temporary git global config as a safe directory
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2950742Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/prisma-airs-cli/prisma-airs-cli
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.2984193Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3011860Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3198711Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3221856Z http.https://github.com/.extraheader
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3230024Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3258221Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3439720Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+publish	Post Run actions/checkout@v5	2026-09-20T11:14:33.3468261Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+publish	Complete job	﻿2026-09-20T11:14:33.3774140Z Cleaning up orphan processes
+publish	Complete job	2026-09-20T11:14:33.4015305Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

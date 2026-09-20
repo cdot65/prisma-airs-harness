@@ -1,0 +1,6 @@
+....error: output destinations must be distinct new files; existing files are never overwritten
+..................
+----------------------------------------------------------------------
+Ran 22 tests in 0.132s
+
+OK

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/tmp/airs-jev-resume-20260920/release/owner-packaging-checkout/scripts/package_airs_npm.py",
+    "--release-directory",
+    "/tmp/airs-jev-resume-20260920/release/x64-native/extracted/airs-harness-0.1.2-alpha.2.mcp.1-linux-x86_64-musl",
+    "--release-directory",
+    "/tmp/airs-jev-resume-20260920/release/arm64-native/extracted/airs-harness-0.1.2-alpha.2.mcp.1-linux-aarch64-musl",
+    "--release-directory",
+    "/tmp/airs-jev-resume-20260920/release/mac-native/extracted/airs-harness-0.1.2-alpha.2.mcp.1-darwin-arm64",
+    "--output-directory",
+    "/tmp/airs-jev-resume-20260920/release/candidate-npm",
+    "--registry",
+    "https://npm.cdot.io",
+    "--bundle-cli"
+  ],
+  "exit_code": 0,
+  "source_commit": "835b32803152fcd7d4dabbdaed983de9321be3b6"
+}

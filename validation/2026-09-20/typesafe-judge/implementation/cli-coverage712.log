@@ -1,0 +1,301 @@
+
+> @cdot65/prisma-airs-cli@7.1.2 test:coverage /home/cdot/development/cdot65/prisma-airs-cli
+> vitest run --coverage --maxWorkers\=2
+
+
+ RUN  v3.2.4 /home/cdot/development/cdot65/prisma-airs-cli
+      Coverage enabled with v8
+
+ ✓ tests/integration/dlp-tenant-auth.spec.ts (6 tests) 10950ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > loads JSON credentials and the DLP endpoint for patterns  1378ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > loads JSON credentials and the DLP endpoint for profiles  1349ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > loads JSON credentials and the DLP endpoint for dictionaries  1307ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > loads JSON credentials and the DLP endpoint for filtering-profiles  1318ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > creates and reads a pattern and advanced profile in each tenant without changing credentials  4334ms
+   ✓ DLP commands use selected tenant config through real CLI and SDK OAuth > ignores environment credentials and config paths; only the selected tenant file authenticates  1263ms
+ ✓ tests/integration/tenant-profile-transfer.spec.ts (3 tests) 16930ms
+   ✓ real CLI + SDK OAuth with isolated source and destination tenants > preserves Basic DLP and explicitly converts custom DLP through the actual CLI  4614ms
+   ✓ real CLI + SDK OAuth with isolated source and destination tenants > registers, backs up JSON/YAML, switches, plans, restores fresh IDs and retains source configs  8267ms
+   ✓ real CLI + SDK OAuth with isolated source and destination tenants > blocks wrong-tenant, malformed input and debug leakage before authentication  4047ms
+ ✓ tests/integration/dlp-profile-pattern-flags.spec.ts (26 tests) 8580ms
+   ✓ profile pattern flags resolve real SDK references before mutation > builds a complete mixed-technique create expression from pattern GETs  384ms
+   ✓ profile pattern flags resolve real SDK references before mutation > builds a complete mixed-technique replace expression from pattern GETs  371ms
+   ✓ profile pattern flags resolve real SDK references before mutation > stops without writing when one pattern is missing  358ms
+   ✓ profile pattern flags resolve real SDK references before mutation > stops without writing for deleted references  340ms
+   ✓ profile pattern flags resolve real SDK references before mutation > stops without writing for deprecated references  337ms
+   ✓ profile pattern flags resolve real SDK references before mutation > stops without writing for disabled references  342ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects mismatched pattern identity  333ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects confidence unsupported by a referenced pattern  330ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects explicit basic create before OAuth  312ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects explicit basic replace before OAuth  303ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects basic raw create bodies before OAuth  300ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects basic raw replace bodies before OAuth  303ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects basic raw patch bodies before OAuth  310ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects invalid --combinator before OAuth  313ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects invalid --confidence before OAuth  307ms
+   ✓ profile pattern flags resolve real SDK references before mutation > accepts 32-character flag names for create  373ms
+   ✓ profile pattern flags resolve real SDK references before mutation > accepts 32-character flag names for replace  391ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects 33-character flag names for create before OAuth  317ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects 33-character flag names for replace before OAuth  312ms
+   ✓ profile pattern flags resolve real SDK references before mutation > accepts 32-character raw-body names for create  343ms
+   ✓ profile pattern flags resolve real SDK references before mutation > accepts 32-character raw-body names for replace  333ms
+   ✓ profile pattern flags resolve real SDK references before mutation > accepts 32-character raw-body names for patch  332ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects 33-character raw-body names for replace before OAuth  319ms
+   ✓ profile pattern flags resolve real SDK references before mutation > rejects 33-character raw-body names for patch before OAuth  325ms
+ ✓ tests/integration/tenant-setup.spec.ts (4 tests) 6893ms
+   ✓ uses individually configured tenant credentials for a real CLI OAuth and profile-list workflow against a local API  1583ms
+   ✓ creates without JSON, configures one field at a time, rotates secrets and switches  2206ms
+   ✓ fails clearly without a terminal or stdin instead of creating an incomplete tenant  962ms
+   ✓ refuses mixed input modes, secret arguments and identity changes  2141ms
+ ✓ tests/unit/backup/profile-migration-docs.spec.ts (5 tests) 6364ms
+   ✓ public migration guides use direct airs-cli commands > matches every documented command and option to actual CLI help without executing actions  6292ms
+ ✓ tests/integration/dlp-transfer-contract.spec.ts (5 tests) 1910ms
+   ✓ DLP transfer CLI/SDK HTTP contract > aggregates missing references and ranks suggestions without creating any resources  385ms
+   ✓ DLP transfer CLI/SDK HTTP contract > honors explicit pattern maps and verifies the created profile through re-GET  378ms
+   ✓ DLP transfer CLI/SDK HTTP contract > skips the whole mixed profile while restoring an independent resolvable profile  382ms
+   ✓ DLP transfer CLI/SDK HTTP contract > reports a verified dictionary create then stops on HTTP 400 before patterns/profiles without leaking keywords  380ms
+   ✓ DLP transfer CLI/SDK HTTP contract > restores an existing v1 envelope with custom IDs remapped and predefined identity/name bindings intact  383ms
+ ✓ tests/integration/dlp-dictionary-errors.spec.ts (16 tests) 5119ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > renders safe field-level create errors with operational exit 1  353ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > renders safe field-level replace errors with operational exit 1  346ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > offers a neutral region hint for detail-free 400 without changing the supplied region  348ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > classifies PATCH API rejection as operational and preserves safe validation detail  329ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > keeps missing replace flags as usage exit 2 before a request  304ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > does not echo malformed create metadata in usage errors  304ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > does not echo malformed replace metadata in usage errors  312ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > does not echo malformed patch metadata in usage errors  305ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > rejects nonobject metadata before upload  307ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > keeps missing PATCH metadata fields as usage exit 2  304ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > omits all DLP bodies with global --debug before the subcommand  369ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > omits all DLP bodies with global --debug after the subcommand  328ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > does not echo malformed patch flags  306ms
+   ✓ dictionary CLI errors through the real SDK and HTTP transport > rejects conflicting patch flags before a request  304ms
+ ✓ tests/unit/airs/scanner.spec.ts (20 tests) 2060ms
+   ✓ RateLimitedScanService > delays calls that exceed the per-second rate  1002ms
+   ✓ RateLimitedScanService > scanBatch respects rate limit across concurrent calls  1002ms
+ ✓ tests/unit/cli/aigateway-mutation-commands.spec.ts (28 tests) 860ms
+   ✓ AI Gateway mutation commands > uses an imperative non-interactive refusal message  309ms
+   ✓ AI Gateway mutation commands > removes a reserved secret destination before a non-interactive decline exits  326ms
+ ✓ tests/unit/airs/runtime.spec.ts (49 tests) 631ms
+ ✓ tests/integration/sdk-gateway-group-flags.spec.ts (95 tests) 364ms
+ ✓ tests/integration/cli/runtime-bulk-scan.spec.ts (20 tests) 341ms
+ ✓ tests/integration/sdk-gateway-chart-flags.spec.ts (53 tests) 226ms
+ ✓ tests/integration/cli/aigateway-dashboard.spec.ts (24 tests) 189ms
+ ✓ tests/unit/dlp/orchestrate.spec.ts (3 tests) 203ms
+ ✓ tests/unit/cli/aigateway-read-commands.spec.ts (17 tests) 183ms
+ ✓ tests/integration/cli/redteam-dashboard.spec.ts (24 tests) 179ms
+ ✓ tests/integration/cli/agentguard.spec.ts (23 tests) 165ms
+ ✓ tests/unit/backup/prod-dev-guide.spec.ts (11 tests) 193ms
+ ✓ tests/unit/backup/dlp-resources.spec.ts (134 tests) 156ms
+ ✓ tests/integration/cli/runtime-report.spec.ts (15 tests) 158ms
+ ✓ tests/unit/cli/doctor.spec.ts (71 tests) 120ms
+ ✓ tests/unit/cli/dlp-generate-output.spec.ts (30 tests) 131ms
+ ✓ tests/unit/config/tenant-settings.spec.ts (25 tests) 101ms
+ ✓ tests/integration/cli/runtime-dashboard.spec.ts (45 tests) 89ms
+ ✓ tests/unit/cli/aigateway-workspace-provision.spec.ts (11 tests) 75ms
+ ✓ tests/unit/cli/redteam-judge.spec.ts (27 tests) 89ms
+ ✓ tests/unit/config/tenants.spec.ts (23 tests) 73ms
+ ✓ tests/unit/dlp/embed-docx.spec.ts (4 tests) 78ms
+ ✓ tests/unit/dlp/generate.spec.ts (5 tests) 77ms
+ ✓ tests/unit/cli/flag-standardization.spec.ts (31 tests) 66ms
+ ✓ tests/unit/dlp/embed-pdf.spec.ts (5 tests) 65ms
+ ✓ tests/unit/airs/redteam.spec.ts (91 tests) 52ms
+ ✓ tests/unit/backup/runtime-profiles.spec.ts (55 tests) 53ms
+ ✓ tests/unit/cli/dlp-debug.spec.ts (5 tests) 51ms
+ ✓ tests/unit/dlp/embed-png.spec.ts (4 tests) 50ms
+ ✓ tests/unit/cli/report-naming.spec.ts (5 tests) 41ms
+ ✓ tests/unit/dlp/embed-jpeg.spec.ts (4 tests) 32ms
+ ✓ tests/integration/cli/debug-output-path.spec.ts (2 tests) 32ms
+ ✓ tests/integration/sdk-gateway-telemetry.spec.ts (2 tests) 30ms
+ ✓ tests/unit/backup/prod-dev-evidence.spec.ts (12 tests) 31ms
+ ✓ tests/unit/cli/invocation.spec.ts (2 tests) 28ms
+ ✓ tests/unit/reports/aigateway.spec.ts (29 tests) 29ms
+ ✓ tests/unit/reports/runtime.spec.ts (28 tests) 21ms
+ ✓ tests/unit/cli/redteam-output-flag.spec.ts (16 tests) 25ms
+ ✓ tests/unit/cli/redteam-categories-renderer.spec.ts (3 tests) 21ms
+ ✓ tests/unit/reports/render.spec.ts (5 tests) 23ms
+ ✓ tests/unit/cli/redteam-attacks-renderer.spec.ts (6 tests) 22ms
+ ✓ tests/unit/cli/aigateway-inference.spec.ts (13 tests) 22ms
+ ✓ tests/unit/config/loader.spec.ts (12 tests) 17ms
+ ✓ tests/unit/reports/io.spec.ts (4 tests) 16ms
+ ✓ tests/unit/cli/redteam-dynamic-renderer.spec.ts (3 tests) 23ms
+ ✓ tests/unit/cli/backup-renderer.spec.ts (4 tests) 25ms
+ ✓ tests/unit/airs/management.spec.ts (69 tests) 23ms
+ ✓ tests/unit/cli/debug-logger.spec.ts (17 tests) 18ms
+ ✓ tests/unit/cli/quiet.spec.ts (11 tests) 21ms
+stdout | tests/unit/cli/tenant-wizard.spec.ts > collects three settings in order and hides only the secret prompt
+  ✓ Registered dev (TSG 100); private config created. Use airs-cli tenant switch dev.
+
+stderr | tests/unit/cli/tenant-wizard.spec.ts > cancels safely at prompt 0 without saving files or a partial tenant
+  Cancelled; no configuration saved.
+
+stderr | tests/unit/cli/tenant-wizard.spec.ts > cancels safely at prompt 1 without saving files or a partial tenant
+  Cancelled; no configuration saved.
+
+stderr | tests/unit/cli/tenant-wizard.spec.ts > cancels safely at prompt 2 without saving files or a partial tenant
+  Cancelled; no configuration saved.
+
+ ✓ tests/unit/cli/tenant-wizard.spec.ts (4 tests) 16ms
+ ✓ tests/unit/reports/agentguard.spec.ts (17 tests) 18ms
+ ✓ tests/unit/cli/bulk-scan-state.spec.ts (14 tests) 17ms
+ ✓ tests/unit/redteam/judge/metrics.spec.ts (9 tests) 16ms
+ ✓ tests/unit/reports/redteam.spec.ts (16 tests) 13ms
+ ✓ tests/unit/redteam/judge/providers.spec.ts (15 tests) 12ms
+ ✓ tests/unit/airs/aigateway.spec.ts (33 tests) 12ms
+ ✓ tests/unit/docs/aigateway-workflows.spec.ts (4 tests) 13ms
+ ✓ tests/unit/airs/modelsecurity.spec.ts (41 tests) 12ms
+ ✓ tests/unit/cli/aigateway-structured-input.spec.ts (5 tests) 12ms
+ ✓ tests/unit/cli/restore.spec.ts (11 tests) 12ms
+ ✓ tests/unit/backup/io.spec.ts (16 tests) 11ms
+ ✓ tests/integration/sdk-runtime-contract.spec.ts (3 tests) 11ms
+ ✓ tests/unit/cli/dlp-patch.spec.ts (16 tests) 8ms
+ ✓ tests/unit/cli/help-examples.spec.ts (13 tests) 12ms
+ ✓ tests/unit/airs/dlp/dictionaries.spec.ts (8 tests) 12ms
+ ✓ tests/unit/cli/aigateway-command-tree.spec.ts (8 tests) 10ms
+ ✓ tests/unit/cli/bulk-scan-lock.spec.ts (2 tests) 11ms
+ ✓ tests/unit/airs/dlp/data-profiles.spec.ts (5 tests) 9ms
+ ✓ tests/unit/cli/dlp-build-body.spec.ts (23 tests) 9ms
+ ✓ tests/unit/redteam/judge/fetch.spec.ts (5 tests) 7ms
+ ✓ tests/unit/airs/dlp/data-patterns.spec.ts (6 tests) 9ms
+ ✓ tests/unit/cli/dlp-delete-safety.spec.ts (1 test) 9ms
+ ✓ tests/unit/cli/output-resolution.spec.ts (6 tests) 5ms
+ ✓ tests/unit/config/client-options.spec.ts (20 tests) 9ms
+ ✓ tests/unit/cli/aigateway-chart-filters.spec.ts (39 tests) 9ms
+ ✓ tests/unit/airs/promptsets.spec.ts (29 tests) 8ms
+ ✓ tests/unit/cli/dashboard-debug.spec.ts (5 tests) 8ms
+ ✓ tests/unit/backup/runtime-policy.spec.ts (26 tests) 7ms
+ ✓ tests/unit/dlp/rng.spec.ts (6 tests) 7ms
+ ✓ tests/unit/core/metrics.spec.ts (14 tests) 5ms
+ ✓ tests/unit/cli/profile-builder.spec.ts (26 tests) 8ms
+ ✓ tests/unit/airs/dlp/data-filtering-profiles.spec.ts (4 tests) 8ms
+ ✓ tests/unit/redteam/judge/ingest.spec.ts (8 tests) 6ms
+ ✓ tests/unit/cli/deprecated-flags.spec.ts (4 tests) 6ms
+ ✓ tests/unit/cli/topics-apply.spec.ts (5 tests) 6ms
+ ✓ tests/unit/cli/dlp-renderer.spec.ts (11 tests) 7ms
+ ✓ tests/unit/cli/renderer/view.spec.ts (6 tests) 8ms
+ ✓ tests/unit/core/prompt-loader.spec.ts (15 tests) 7ms
+ ✓ tests/unit/cli/aigateway-renderer.spec.ts (10 tests) 6ms
+ ✓ tests/unit/cli/confirm.spec.ts (6 tests) 6ms
+ ✓ tests/unit/airs/redteam-adapters.spec.ts (9 tests) 5ms
+ ✓ tests/unit/cli/parse-input.spec.ts (14 tests) 6ms
+ ✓ tests/unit/airs/dlp/client-wiring.spec.ts (2 tests) 7ms
+ ✓ tests/unit/cli/topics-revert.spec.ts (3 tests) 5ms
+ ✓ tests/unit/cli/backup.spec.ts (3 tests) 8ms
+ ✓ tests/unit/config/schema.spec.ts (14 tests) 7ms
+ ✓ tests/unit/cli/modelsecurity-groupdetail-output.spec.ts (6 tests) 6ms
+ ✓ tests/unit/cli/redteam-adapter-helpers.spec.ts (9 tests) 7ms
+ ✓ tests/unit/docs/brand-assets.spec.ts (3 tests) 5ms
+ ✓ tests/unit/cli/redteam-scan-helpers.spec.ts (13 tests) 7ms
+ ✓ tests/unit/cli/topics-eval.spec.ts (5 tests) 7ms
+ ✓ tests/unit/cli/aigateway-write-helpers.spec.ts (10 tests) 6ms
+ ✓ tests/unit/cli/fail.spec.ts (5 tests) 5ms
+ ✓ tests/unit/cli/topics-create.spec.ts (5 tests) 8ms
+ ✓ tests/unit/dlp/manifest.spec.ts (2 tests) 5ms
+ ✓ tests/unit/cli/ui.spec.ts (9 tests) 5ms
+ ✓ tests/unit/core/constraints.spec.ts (25 tests) 7ms
+ ✓ tests/unit/docs/theme-layout.spec.ts (2 tests) 4ms
+ ✓ tests/unit/cli/tenant-input.spec.ts (3 tests) 5ms
+ ✓ tests/unit/dlp/payload.spec.ts (5 tests) 6ms
+ ✓ tests/unit/cli/aliases.spec.ts (6 tests) 5ms
+ ✓ tests/unit/cli/pagination.spec.ts (4 tests) 5ms
+ ✓ tests/unit/dlp/lorem.spec.ts (3 tests) 4ms
+ ✓ tests/unit/cli/dlp-visibility.spec.ts (2 tests) 4ms
+ ✓ tests/unit/cli/redteam-init.spec.ts (6 tests) 4ms
+ ✓ tests/unit/docs/aigateway-dashboard.spec.ts (2 tests) 4ms
+ ✓ tests/unit/cli/process-guards.spec.ts (2 tests) 4ms
+ ✓ tests/unit/cli/completion.spec.ts (14 tests) 4ms
+ ✓ tests/unit/cli/profiles-cleanup.spec.ts (7 tests) 4ms
+ ✓ tests/unit/config/credentials.spec.ts (5 tests) 4ms
+ ✓ tests/unit/cli/runtime-commands.spec.ts (5 tests) 3ms
+ ✓ tests/unit/dlp/embed-svg.spec.ts (4 tests) 3ms
+ ✓ tests/unit/config/env.spec.ts (4 tests) 3ms
+ ✓ tests/unit/cli/dlp-generate-lazy.spec.ts (3 tests) 3ms
+ ✓ tests/unit/cli/redteam-footnote.spec.ts (5 tests) 3ms
+ ✓ tests/unit/cli/topics-sample.spec.ts (3 tests) 3ms
+
+ Test Files  133 passed (133)
+      Tests  1997 passed (1997)
+   Start at  09:57:06
+   Duration  48.48s (transform 1.34s, setup 597ms, collect 9.76s, tests 64.90s, environment 28ms, prepare 6.94s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   97.72 |    90.25 |   96.78 |   97.72 |                   
+ airs              |    94.8 |    84.52 |   95.51 |    94.8 |                   
+  aigateway.ts     |     100 |     88.5 |     100 |     100 | ...61,210,212-213 
+  management.ts    |   97.72 |       83 |      95 |   97.72 | ...34-337,378-381 
+  modelsecurity.ts |   89.54 |    72.12 |   91.11 |   89.54 | ...25-438,600-613 
+  promptsets.ts    |     100 |    97.22 |     100 |     100 | 181               
+  redteam.ts       |   95.14 |    92.39 |   95.23 |   95.14 | ...87-702,800-808 
+  runtime.ts       |   92.48 |    83.48 |      95 |   92.48 | ...35-438,570-573 
+  scanner.ts       |     100 |    96.66 |     100 |     100 | 133               
+ airs/dlp          |   87.39 |    96.87 |   84.84 |   87.39 |                   
+  ...g-profiles.ts |   83.33 |      100 |   83.33 |   83.33 | 23-26             
+  data-patterns.ts |   92.85 |      100 |   88.88 |   92.85 | 24-25             
+  data-profiles.ts |      92 |      100 |    87.5 |      92 | 24-25             
+  dictionaries.ts  |   94.59 |      100 |   88.88 |   94.59 | 25-26             
+  index.ts         |       0 |        0 |       0 |       0 | 1-5               
+ backup            |    98.5 |    87.12 |   97.36 |    98.5 |                   
+  dlp-resources.ts |   98.46 |    85.64 |   97.56 |   98.46 | ...1461,1500-1502 
+  index.ts         |       0 |        0 |       0 |       0 | 1-2               
+  io.ts            |     100 |    96.66 |     100 |     100 | 17                
+  ...ime-policy.ts |     100 |    98.79 |     100 |     100 | 56                
+  ...e-profiles.ts |   98.39 |    86.41 |     100 |   98.39 | ...16-417,435,714 
+ config            |   99.63 |     97.1 |     100 |   99.63 |                   
+  ...nt-options.ts |     100 |      100 |     100 |     100 |                   
+  credentials.ts   |   96.36 |    95.45 |     100 |   96.36 | 32-33             
+  env.ts           |     100 |      100 |     100 |     100 |                   
+  loader.ts        |     100 |      100 |     100 |     100 |                   
+  schema.ts        |     100 |      100 |     100 |     100 |                   
+  ...t-settings.ts |     100 |    97.72 |     100 |     100 | 139               
+  tenants.ts       |     100 |    94.93 |     100 |     100 | 39,43,83,127      
+ core              |   99.15 |    94.17 |     100 |   99.15 |                   
+  constraints.ts   |     100 |      100 |     100 |     100 |                   
+  metrics.ts       |     100 |    96.96 |     100 |     100 | 74                
+  prompt-loader.ts |   98.03 |    89.36 |     100 |   98.03 | 44-45             
+ dlp               |   99.04 |    94.59 |     100 |   99.04 |                   
+  index.ts         |     100 |    83.33 |     100 |     100 | 21                
+  lorem.ts         |     100 |      100 |     100 |     100 |                   
+  manifest.ts      |     100 |      100 |     100 |     100 |                   
+  payload.ts       |   96.61 |    94.44 |     100 |   96.61 | 36-37             
+  rng.ts           |     100 |      100 |     100 |     100 |                   
+ dlp/embed         |    98.3 |    92.17 |     100 |    98.3 |                   
+  docx.ts          |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  jpeg.ts          |     100 |     90.9 |     100 |     100 | 32                
+  overlay.ts       |     100 |    71.42 |     100 |     100 | 17-18             
+  pdf.ts           |   94.73 |    87.09 |     100 |   94.73 | 65-66,72-73,78-79 
+  piexifjs.d.ts    |       0 |        0 |       0 |       0 |                   
+  png-chunks.ts    |     100 |      100 |     100 |     100 |                   
+  png.ts           |    97.4 |    92.85 |     100 |    97.4 | 16-17             
+  svg.ts           |     100 |      100 |     100 |     100 |                   
+  zip.ts           |   95.23 |    83.33 |     100 |   95.23 | 21                
+ dlp/generate      |     100 |      100 |     100 |     100 |                   
+  docx.ts          |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  jpeg.ts          |     100 |      100 |     100 |     100 |                   
+  pdf.ts           |     100 |      100 |     100 |     100 |                   
+  png.ts           |     100 |      100 |     100 |     100 |                   
+  raster.ts        |     100 |      100 |     100 |     100 |                   
+  svg.ts           |     100 |      100 |     100 |     100 |                   
+ redteam/judge     |   99.61 |     96.1 |    97.5 |   99.61 |                   
+  fetch.ts         |     100 |    94.11 |     100 |     100 | 122,133           
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  ingest.ts        |     100 |    97.63 |     100 |     100 | 76,103,142        
+  judge.ts         |     100 |      100 |     100 |     100 |                   
+  metrics.ts       |     100 |    93.84 |     100 |     100 | 81,107,120,141    
+  providers.ts     |   98.37 |    95.18 |   91.66 |   98.37 | 91-92,191         
+  questions.ts     |     100 |      100 |     100 |     100 |                   
+  summary.ts       |     100 |     92.3 |     100 |     100 | 46                
+ reports           |   99.62 |    95.34 |     100 |   99.62 |                   
+  agentguard.ts    |   99.55 |    95.45 |     100 |   99.55 | 230               
+  aigateway.ts     |     100 |    92.59 |     100 |     100 | ...62,280,317,329 
+  ...ent-render.ts |     100 |    97.05 |     100 |     100 | 14                
+  io.ts            |     100 |      100 |     100 |     100 |                   
+  ...eam-render.ts |     100 |      100 |     100 |     100 |                   
+  redteam.ts       |   99.07 |    92.17 |     100 |   99.07 | 361-363           
+  render.ts        |   98.79 |    96.96 |     100 |   98.79 | 197-199           
+  runtime.ts       |     100 |    97.69 |     100 |     100 | ...08,368,385,509 
+-------------------|---------|----------|---------|---------|-------------------

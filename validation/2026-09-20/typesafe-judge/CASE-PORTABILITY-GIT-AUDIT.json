@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 5072840,
+  "evidence_commit": "3a512bbcede4be5348b0e7e067bb47ff4ceab83d",
+  "evidence_root": "validation/2026-09-19/post011-reliability/focus4-release",
+  "files_checked": 349,
+  "inventory_sha256": "c0c51dc48185f6072c2739cac82f7980a11ef86a843f1dd0556836ef7c6fd2bf",
+  "manifest_blob_id": "1840fc26e9059c9ec98df6f7cb649b87ca17f099",
+  "manifest_sha256": "e488af35cfd3071e692a6a0ca0bfdac985fb064e60149b3f21cb236b9df09128",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 56
+}

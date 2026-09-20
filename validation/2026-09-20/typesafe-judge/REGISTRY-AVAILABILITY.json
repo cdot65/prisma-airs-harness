@@ -1,0 +1,67 @@
+{
+  "verified": true,
+  "packages": [
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.2.mcp.1",
+        "stable-candidate": "0.1.1"
+      },
+      "integrity": "sha512-T+hmVw4ooAPosNn7krBeIdfakjSAKVajRRp/+TzATHbZFhmZR0XSJpkxrSVCnFHwqCrShP0eMyDih1LFIGqKbg==",
+      "dependencies": {
+        "@cdot65/prisma-airs-cli": "7.1.2"
+      }
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.2.mcp.1",
+        "stable-candidate": "0.1.1"
+      },
+      "integrity": "sha512-YG8mF97m0rj9Sub5wMHkZqTIxJ9M+kWnV67mPUDfICfeneX8eHdOqBpSiBwxQ3b+KwAtUMyo6s+c1qkkXzSRjw==",
+      "dependencies": null
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "tags": {
+        "latest": "0.1.1",
+        "gateway-validation": "0.1.0-alpha.21",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.2.mcp.1",
+        "stable-candidate": "0.1.1"
+      },
+      "integrity": "sha512-I9EXpNPWIg5J2NOR1OgBowpRMnSesm0rI15/sAExUUsYmfOiZYcMdtOQIJDR9pck7pQcp3yPOu1h2c4yD36zkw==",
+      "dependencies": null
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.2.mcp.1",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.2.mcp.1",
+        "stable-candidate": "0.1.1"
+      },
+      "integrity": "sha512-LcVgmYfB1hFbVrz198QnXpdengB8xEww9wMDozOZFOePyFU1KJKhzSvvMRY2dAKn25sgUSTD012zeWXfWbU9xQ==",
+      "dependencies": null
+    }
+  ]
+}

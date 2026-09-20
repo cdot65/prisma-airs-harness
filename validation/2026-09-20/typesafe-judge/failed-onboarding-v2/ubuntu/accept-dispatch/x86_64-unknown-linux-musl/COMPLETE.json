@@ -1,0 +1,33 @@
+{
+  "mode": "accept",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "54915dcb4c8d639fcb4a6d1f4ac7bff698328efe47673d9f22c55f6df75d9e56",
+  "tooling_manifest_sha256": "e20a103ad7963deab9bf11540105747532d30c4f7d028614e27b8ef2bff26b63",
+  "tooling_commit": "3e416b0182da1b2cfcbfaf5fca38d743642d7274",
+  "expected_native_sha256": "061a4ed38e3d68d4079f65b4a06e3cedeb6995f5c8b485936d4ca5ff5ad5f97a",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "cad33c0b3421e005055d50e693ae5b2a9c49d61b4934474cf97b6cf460bb7bcb",
+    "candidate_packages_sha256": "8ec21192efe94b5d166701164a2ff6bc3dfda1ec08c5ee05020cd9e7792a7b99"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/SPEC.json",
+        "--packages",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-npm",
+        "--scripts",
+        "/home/cdot/.cache/airs-jev-resume-20260920/frozen-v2/scripts",
+        "--output",
+        "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-acceptance"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 38.30316045699874
+    }
+  ]
+}

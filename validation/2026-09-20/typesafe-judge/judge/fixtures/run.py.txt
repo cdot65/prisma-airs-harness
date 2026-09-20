@@ -1,0 +1,32 @@
+from pathlib import Path
+import hashlib,json,os,subprocess,sys
+root=Path(sys.argv[1]);phase=sys.argv[2];target=sys.argv[3]
+assert phase in ['candidate','registry']
+local=json.loads((root/(phase+'-acceptance')/(target+'.work')/'LOCAL.json').read_text())
+prefix=Path(local['prefix']);assert prefix.resolve().is_relative_to(root/(phase+'-acceptance')/(target+'.work'))
+launcher=prefix/'bin/airs';assert launcher.exists()
+out=root/('judge-smoke-'+phase);out.mkdir(mode=0o700)
+source=Path(__file__).resolve().parent
+scan=json.loads((source/'sample-scan.json').read_text());scan.append({'attack_id':'oversized-smoke','prompt':'x'*24001,'output':'synthetic output','category':'SMOKE'})
+(out/'scan.json').write_text(json.dumps(scan))
+env=os.environ.copy();env['PRISMA_AIRS_TENANTS_PATH']=str(out/'absent-tenants.json')
+commands=[]
+def run(name,args):
+ command=[str(launcher),'cli',*args]
+ p=subprocess.run(command,env=env,cwd=out,text=True,capture_output=True,timeout=60)
+ (out/(name+'.stdout')).write_text(p.stdout);(out/(name+'.stderr')).write_text(p.stderr)
+ commands.append({'name':name,'argv':command,'exit_code':p.returncode})
+ assert p.returncode==0,(name,p.stderr)
+ return p.stdout
+assert run('version',['--version']).strip()=='7.1.2'
+help_text=run('help',['redteam','judge','--help']);assert '--uncertain-band' in help_text and '--replay' in help_text
+base=['redteam','judge',str(out/'scan.json')]
+dry=json.loads(run('dry-run',[*base,'--out',str(out/'dry-output'),'--dry-run']));assert dry['units']==11
+assert not (out/'dry-output').exists()
+run('replay',[*base,'--out',str(out/'replay-output'),'--provider','replay','--replay',str(source/'sample-judgments.json'),'--threshold','0.6'])
+results=json.loads((out/'replay-output/results.json').read_text());c=results['coverage']
+assert (c['units'],c['judged'],c['skipped_error'],c['skipped_oversized'],c['provider_error'])==(11,9,1,1,0)
+assert results['output_level']['successes']==5 and results['output_level']['asr']==5/9
+assert not (out/'absent-tenants.json').exists()
+report={'passed':True,'target':target,'installation':phase,'cli_version':'7.1.2','coverage':c,'synthetic_replay_only':True,'live_jev_call':False,'spec_sha256':hashlib.sha256((root/'SPEC.json').read_bytes()).hexdigest(),'commands':commands}
+(out/'JUDGE-SMOKE.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

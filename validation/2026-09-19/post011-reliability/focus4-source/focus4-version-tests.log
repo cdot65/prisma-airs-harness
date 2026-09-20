@@ -1,0 +1,18 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-utils-absolute-path v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/absolute-path)
+   Compiling codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/home-dir)
+    Finished `test` profile [unoptimized] target(s) in 0.88s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID bf2bd4e5-8afc-4473-9233-3a1070bf2ecd with nextest profile: local
+    Starting 8 tests across 1 binary
+        PASS [   0.013s] (1/8) codex-utils-home-dir airs_session::tests::legacy_clients_stop_on_first_epoch_and_missing_records_fail_closed
+        PASS [   0.013s] (2/8) codex-utils-home-dir tests::find_codex_home_without_env_uses_default_home_dir
+        PASS [   0.013s] (3/8) codex-utils-home-dir tests::find_codex_home_env_missing_path_is_fatal
+        PASS [   0.014s] (4/8) codex-utils-home-dir tests::find_codex_home_env_file_path_is_fatal
+        PASS [   0.014s] (5/8) codex-utils-home-dir tests::find_codex_home_env_valid_directory_canonicalizes
+        PASS [   0.014s] (6/8) codex-utils-home-dir airs_session::tests::round_trip_and_other_environment_isolation
+        PASS [   0.014s] (7/8) codex-utils-home-dir airs_session::tests::logout_then_login_never_resurrects_existing_guard
+        PASS [   0.014s] (8/8) codex-utils-home-dir airs_session::tests::logout_marker_and_invalid_records_are_fail_closed
+────────────
+     Summary [   0.014s] 8 tests run: 8 passed, 0 skipped

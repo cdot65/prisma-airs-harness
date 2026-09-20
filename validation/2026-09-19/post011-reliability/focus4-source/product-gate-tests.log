@@ -1,0 +1,12 @@
+test_incomplete_focused_or_stale_workspace_is_not_full_acceptance (test_airs_product_gate.ProductGate.test_incomplete_focused_or_stale_workspace_is_not_full_acceptance) ... ok
+test_phase_and_native_target_are_not_interchangeable (test_airs_product_gate.ProductGate.test_phase_and_native_target_are_not_interchangeable) ... ok
+test_real_receipt_chain_preserves_product_and_workspace_distinction (test_airs_product_gate.ProductGate.test_real_receipt_chain_preserves_product_and_workspace_distinction) ... ok
+test_registry_validator_revision_is_explicit_and_phase_bound (test_airs_product_gate.ProductGate.test_registry_validator_revision_is_explicit_and_phase_bound) ... ok
+test_required_feature_case_cannot_be_missing_or_skipped (test_airs_product_gate.ProductGate.test_required_feature_case_cannot_be_missing_or_skipped) ... ok
+test_workspace_failures_need_current_nonblocking_review_evidence (test_airs_product_gate.ProductGate.test_workspace_failures_need_current_nonblocking_review_evidence) ... ok
+test_wrong_or_config_only_rollback_cannot_pass (test_airs_product_gate.ProductGate.test_wrong_or_config_only_rollback_cannot_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.448s
+
+OK

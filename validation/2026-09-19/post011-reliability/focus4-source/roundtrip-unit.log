@@ -1,0 +1,11 @@
+test_alpha_migration_evidence_does_not_require_modern_fixture (test_airs_npm_roundtrip.StableBaseline.test_alpha_migration_evidence_does_not_require_modern_fixture) ... ok
+test_baseline_is_canonical_and_bound_to_each_native_invocation (test_airs_npm_roundtrip.StableBaseline.test_baseline_is_canonical_and_bound_to_each_native_invocation) ... ok
+test_missing_malformed_duplicate_or_extra_baselines_are_rejected (test_airs_npm_roundtrip.StableBaseline.test_missing_malformed_duplicate_or_extra_baselines_are_rejected) ... ok
+test_stable_gate_requires_actual_identity_bound_preservation (test_airs_npm_roundtrip.StableBaseline.test_stable_gate_requires_actual_identity_bound_preservation) ... ok
+test_historical_command_and_setup_boundaries (test_airs_npm_roundtrip.VersionSelection.test_historical_command_and_setup_boundaries) ... ok
+test_tags_ranges_and_unpinned_stable_fail_before_output_mutation (test_airs_npm_roundtrip.VersionSelection.test_tags_ranges_and_unpinned_stable_fail_before_output_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.583s
+
+OK

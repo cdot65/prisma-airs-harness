@@ -1,0 +1,23 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cli)
+    Finished `test` profile [unoptimized] target(s) in 1m 09s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID ca913227-50e0-4a8e-ae94-1ec51df470ca with nextest profile: local
+    Starting 14 tests across 31 binaries (953 tests skipped)
+        PASS [   0.022s] ( 1/14) codex-cli::bin/airs-harness airs_harness::tests::unrelated_startup_failures_keep_their_original_error_chain
+        PASS [   0.023s] ( 2/14) codex-cli::bin/codex airs_harness::tests::unrelated_startup_failures_keep_their_original_error_chain
+        PASS [   0.024s] ( 3/14) codex-cli::bin/codex airs_harness::tests::setup_rejects_ambiguous_models_and_missing_capability_limits
+        PASS [   0.024s] ( 4/14) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_ambiguous_models_and_missing_capability_limits
+        PASS [   0.024s] ( 5/14) codex-cli::bin/codex airs_harness::tests::setup_rejects_credential_urls_and_nonlocal_plain_http
+        PASS [   0.026s] ( 6/14) codex-cli::bin/codex airs_harness::tests::setup_produces_valid_config_and_explicit_capabilities_without_credentials
+        PASS [   0.027s] ( 7/14) codex-cli::bin/airs-harness airs_harness::tests::setup_produces_valid_config_and_explicit_capabilities_without_credentials
+        PASS [   0.028s] ( 8/14) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_credential_urls_and_nonlocal_plain_http
+        PASS [   0.030s] ( 9/14) codex-cli::bin/airs-harness airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog
+        PASS [   0.034s] (10/14) codex-cli::bin/codex airs_harness::tests::startup_authentication_recovery_preserves_selected_environment_and_restore_mode
+        PASS [   0.035s] (11/14) codex-cli::bin/codex airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog
+        PASS [   0.036s] (12/14) codex-cli::bin/airs-harness airs_harness::tests::startup_authentication_recovery_preserves_selected_environment_and_restore_mode
+        PASS [   0.175s] (13/14) codex-cli::bin/airs-harness airs_harness::tests::startup_recovery_messages_offer_shell_commands_before_the_tui_opens
+        PASS [   0.178s] (14/14) codex-cli::bin/codex airs_harness::tests::startup_recovery_messages_offer_shell_commands_before_the_tui_opens
+────────────
+     Summary [   0.182s] 14 tests run: 14 passed, 953 skipped

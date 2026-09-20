@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": "development-focus3-rust-validation",
+  "native_sha256": "da54e47800ddfe78a0d233508fe0f6b92776f93a804472470056948b20a1c79e",
+  "full_cli_tests": {
+    "passed": 959,
+    "skipped": 0
+  },
+  "final_focused_snapshot_tests": {
+    "passed": 14,
+    "filtered": 953
+  },
+  "lint_exit_code": 0,
+  "format_exit_code": 0,
+  "build_exit_code": 0,
+  "inline_snapshots_reviewed": true,
+  "unrelated_formatting_restored": 19,
+  "rust_tests_repeated_after_format": false,
+  "release_acceptance_claimed": false,
+  "files": {
+    "focus3-cli-focused.log": "1db1e0365d142e6b487f2b604e94b110c98e8ce256a253ffd45682d1163ee1be",
+    "focus3-cli-full.log": "6c754d0effe1482eb43cc3e7ff33fc2f32549e2b8ad7e00af068fc973b3de0da",
+    "focus3-cli-snapshots.log": "af5f480353a51f59a22b1296862cf0a8d9415d5d61ad5bc49f35143d97def934",
+    "focus3-cli-lint.log": "284309d9dcf09212dc12dd5c1a4870e26019d88801b70e99b814751b2bfae47a",
+    "focus3-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "focus3-format-restored.json": "d4411ced94601358de1ba8fba03ea2c60f02f5a34a1eac1bb5a9fee398127cee",
+    "focus3-build.log": "84dfe5a5c27826df050421267ceaa0ccd5a4f69d256e9baf4936af97c6ad4fd7"
+  }
+}

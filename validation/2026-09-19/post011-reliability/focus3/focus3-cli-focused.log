@@ -1,0 +1,85 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-git-utils v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/git-utils)
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cli)
+   Compiling codex-utils-cargo-bin v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/cargo-bin)
+   Compiling codex-v8-poc v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/v8-poc)
+   Compiling codex-config v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/config)
+   Compiling codex-secrets v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/secrets)
+   Compiling codex-rollout v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/rollout)
+   Compiling codex-prompts v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/prompts)
+   Compiling codex-utils-git-discovery v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/git-discovery)
+   Compiling codex-worktree v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/worktree)
+   Compiling codex-app-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-protocol)
+   Compiling codex-exec-server v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/exec-server)
+   Compiling codex-login v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/login)
+   Compiling codex-agent-roles v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/agent-roles)
+   Compiling codex-message-history v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/message-history)
+   Compiling codex-feedback v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/feedback)
+   Compiling codex-models-manager v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/models-manager)
+   Compiling codex-model-provider v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/model-provider)
+   Compiling codex-backend-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/backend-client)
+   Compiling codex-cloud-tasks-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-tasks-client)
+   Compiling codex-cloud-tasks-mock-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-tasks-mock-client)
+   Compiling codex-utils-plugins v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/plugins)
+   Compiling codex-rmcp-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/rmcp-client)
+   Compiling codex-apply-patch v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/apply-patch)
+   Compiling codex-plugin v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/plugin)
+   Compiling codex-connectors v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/connectors)
+   Compiling codex-hooks v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/hooks)
+   Compiling codex-arg0 v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/arg0)
+   Compiling codex-tools v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/tools)
+   Compiling codex-mcp v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-mcp)
+   Compiling codex-extension-api v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/extension-api)
+   Compiling codex-home v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/codex-home)
+   Compiling codex-git-attribution v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/git-attribution)
+   Compiling codex-analytics v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/analytics)
+   Compiling codex-thread-store v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/thread-store)
+   Compiling codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core-plugins)
+   Compiling codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/skills)
+   Compiling codex-connectors-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/connectors)
+   Compiling codex-core v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core)
+   Compiling codex-app-server-transport v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-transport)
+   Compiling codex-memories-write v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/memories/write)
+   Compiling codex-cloud-config v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-config)
+   Compiling codex-mcp-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/mcp)
+   Compiling codex-goal-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/goal)
+   Compiling codex-guardian-v2 v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/guardian-v2)
+   Compiling codex-agent-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/agent)
+   Compiling codex-chatgpt v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/chatgpt)
+   Compiling codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/image-generation)
+   Compiling codex-queue-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/queue)
+   Compiling codex-external-agent-migration v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/external-agent-migration)
+   Compiling codex-memories-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/memories)
+   Compiling codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/web-search)
+   Compiling codex-history-notes-extension v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ext/history-notes)
+   Compiling codex-lmstudio v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/lmstudio)
+   Compiling codex-ollama v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/ollama)
+   Compiling codex-app-server-test-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-test-client)
+   Compiling codex-utils-oss v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/utils/oss)
+   Compiling codex-app-server v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server)
+   Compiling codex-app-server-daemon v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-daemon)
+   Compiling core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/core/tests/common)
+   Compiling app_test_support v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server/tests/common)
+   Compiling codex-app-server-client v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/app-server-client)
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/tui)
+   Compiling codex-exec v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/exec)
+   Compiling codex-cloud-tasks v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-tasks)
+    Finished `test` profile [unoptimized] target(s) in 3m 21s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID e4fef598-9ad4-4d2e-8d75-473245643377 with nextest profile: local
+    Starting 12 tests across 31 binaries (953 tests skipped)
+        PASS [   0.020s] ( 1/12) codex-cli::bin/airs-harness airs_harness::tests::unrelated_startup_failures_and_helper_recovery_contract_remain_unchanged
+        PASS [   0.020s] ( 2/12) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_ambiguous_models_and_missing_capability_limits
+        PASS [   0.021s] ( 3/12) codex-cli::bin/codex airs_harness::tests::setup_rejects_ambiguous_models_and_missing_capability_limits
+        PASS [   0.021s] ( 4/12) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_credential_urls_and_nonlocal_plain_http
+        PASS [   0.022s] ( 5/12) codex-cli::bin/codex airs_harness::tests::unrelated_startup_failures_and_helper_recovery_contract_remain_unchanged
+        PASS [   0.022s] ( 6/12) codex-cli::bin/codex airs_harness::tests::setup_rejects_credential_urls_and_nonlocal_plain_http
+        PASS [   0.023s] ( 7/12) codex-cli::bin/airs-harness airs_harness::tests::setup_produces_valid_config_and_explicit_capabilities_without_credentials
+        PASS [   0.023s] ( 8/12) codex-cli::bin/codex airs_harness::tests::setup_produces_valid_config_and_explicit_capabilities_without_credentials
+        PASS [   0.027s] ( 9/12) codex-cli::bin/codex airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog
+        PASS [   0.028s] (10/12) codex-cli::bin/airs-harness airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog
+        PASS [   0.030s] (11/12) codex-cli::bin/airs-harness airs_harness::tests::startup_authentication_recovery_preserves_selected_environment_and_restore_mode
+        PASS [   0.034s] (12/12) codex-cli::bin/codex airs_harness::tests::startup_authentication_recovery_preserves_selected_environment_and_restore_mode
+────────────
+     Summary [   0.038s] 12 tests run: 12 passed, 953 skipped

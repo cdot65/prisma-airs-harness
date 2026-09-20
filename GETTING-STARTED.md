@@ -272,6 +272,8 @@ List environments with `airs env list`; switch the saved default with `airs env 
 
 For inference SSO renewal, `/doctor` offers **Restore company sign-in**, or use `/signin`. Workspace-key replacement remains a shell operation. Neither operation grants MCP permissions. Escape cancels an unfinished action; existing work remains saved.
 
+If startup or resume stops because the inference refresh was rejected or its outcome is unknown, restore sign-in from the shell with `airs --environment work login --restore-session`, using the affected environment’s name. Sign in as the same person, then retry the original command. This restores access to the saved conversation; an already-open session continues to use `/signin`.
+
 To retire the environment, use `/mcp` → **Sign out** if desired, then sign out the credentials you intend to remove while it is still selected and unregister it:
 
 ```sh

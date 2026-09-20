@@ -141,6 +141,11 @@ def tooling_files(root):
         if path.is_file() or path.is_symlink()
     )
     paths.extend((root / "codex-rs/airs-identity/src/fixtures").glob("test-only-*"))
+    paths.extend(
+        (root / "codex-rs/skills/src/assets/samples/prisma-airs-asr-judge").glob(
+            "SKILL.md"
+        )
+    )
     return sorted(paths)
 
 

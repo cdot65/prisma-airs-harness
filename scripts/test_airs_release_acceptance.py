@@ -577,6 +577,7 @@ class StructuredExecutionTests(unittest.TestCase):
                 "scripts/fixtures/npm-command-shims/sources.json": b"{}",
                 "scripts/fixtures/npm-command-shims/README.md": b"Controlled fixture provenance",
                 "codex-rs/airs-identity/src/fixtures/test-only-private.pem": b"synthetic test-only key fixture",
+                "codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/SKILL.md": b"# Embedded judge skill fixture\n",
             }
             for relative, content in committed.items():
                 path = root / relative
@@ -593,6 +594,17 @@ class StructuredExecutionTests(unittest.TestCase):
                 self.assertEqual(
                     canonical_digest(manifest), verify_tooling(root, manifest, "b" * 40)
                 )
+                skill = (
+                    root
+                    / "codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/SKILL.md"
+                )
+                skill.write_bytes(b"modified skill instructions")
+                with self.assertRaisesRegex(ValueError, "tooling bytes changed"):
+                    verify_tooling(root, manifest, "b" * 40)
+                skill.unlink()
+                with self.assertRaisesRegex(ValueError, "inventory changed"):
+                    verify_tooling(root, manifest, "b" * 40)
+                skill.write_bytes(committed[str(skill.relative_to(root))])
                 wrapper = root / "scripts/fixtures/npm-command-shims/node.json"
                 wrapper.write_bytes(b"changed wrapper reference")
                 with self.assertRaisesRegex(ValueError, "tooling bytes changed"):

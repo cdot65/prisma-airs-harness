@@ -310,6 +310,12 @@ def main():
                 authorize_browser(terminal)
                 terminal.expect("You're ready to use AIRS")
                 terminal.send(b"\r")
+                terminal.expect("Optional: red-team judge")
+                terminal.expect("Continue to AIRS")
+                captures["Optional judge setup after first sign-in"] = (
+                    terminal.capture()
+                )
+                terminal.send(b"1")
                 terminal.expect("Yes, continue")
                 terminal.pump(
                     0.4

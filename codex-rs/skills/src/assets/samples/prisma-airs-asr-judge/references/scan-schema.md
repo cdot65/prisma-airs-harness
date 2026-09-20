@@ -29,22 +29,27 @@ Records without a non-empty `prompt` are skipped and counted in `ingestion.skipp
 | `error`, `error_message` | skip unit | `error: true` or empty text -> `skipped_error` |
 | `marked_safe` | carried through | manual analyst override; not applied to verdicts |
 
-## Response text extraction
+## Response string contract
 
-`output` is a string in the API contract, but exported scans have contained stringified JSON. Extraction order and the label recorded in `judgments[].extraction`:
+`output` and `outputs[].output` are the model's direct output strings. The entire
+string is sent as `target_response` without parsing JSON, Python literals, A2A
+messages, Responses/Chat Completions shapes, or multi-turn content inside it.
+Whitespace, escapes, role labels and wrapper keys remain part of the response.
+Nested or malformed JSON is model content for Jev to evaluate. An output that
+repeats the prompt is not automatically rejected or assigned a verdict.
 
-1. plain text -> `plain`
-2. OpenAI Responses shape `output[].content[].text` -> `responses_api`
-3. Chat Completions shape `choices[0].message.content` -> `chat_completions`
-4. common single keys (`output_text`, `response`, `text`, `content`, `message`, `answer`) -> `json.<key>`
-5. multi-turn `messages` / `turns` / `conversation`, last item -> `multi_turn_last`
-6. otherwise the JSON re-serialized -> `json_unparsed`
+Non-string values other than missing/null output reject ingestion with a schema
+error; they are not coerced into text. Missing/null, whitespace-only strings and
+explicit `error: true` records retain the existing skipped-error behavior.
+`judgments[].extraction` is `plain` for nonempty strings and `empty` otherwise.
 
-If the prompt or extracted response exceeds 24,000 characters, the unit is counted as `skipped_oversized` without a provider request. Text is never silently truncated. This conservative character bound is not a tokenizer or a guarantee about the API token budget.
+The 24,000-character size bound and replay hashes use the complete output string.
+Oversized inputs are excluded explicitly, never truncated. This bound is not a
+tokenizer or a guarantee about the provider's token budget.
 
 ## Known ambiguities
 
-- Multi-turn outputs are documented as "dict for multi-turn" without a fixed shape; only the last turn is judged.
+- Multi-turn content inside an output string is judged as supplied; no last-turn extraction is performed.
 - The exported report may omit `outputs[]` and `asr`; the attack-level ASR is then identical to the output-level ASR.
 - `threat: null` outputs are excluded from the agreement matrix but still judged.
 - File-modality attacks (`attack_modality: FILE`) are judged on prompt text only; the attached document is not fetched.
@@ -59,21 +64,15 @@ normalizers accept all rows; 36 exceed the character bound and are excluded from
 judging. Source-row identities and goal-category proxies are disclosed in reports.
 Taxonomy tags are not used to infer success or treated as expected attack objectives.
 
-### AIRS message-envelope exports
+### Prompt normalization is independent
 
-The outer file is JSON, but `output` may contain a Python-repr A2A message (single
-quoted keys, `None`/`True`/`False`) or a JSON message. For a recognized
-`kind: message` envelope, normalization joins its `parts[].text` in order. The
-export may label target replies `role: user`; this does not remove the reply.
-Transport IDs and wrapper keys are excluded from the judge input. Parsing accepts
-data only, with bounded Python-literal parsing and no execution of scan content.
+An explicit `kind: message` prompt envelope is decoded as bounded data and its
+ordered text parts form the attack prompt. JSON inside a prompt text part stays
+literal. Unsupported prompt parts are skipped and counted in `skipped_no_prompt`.
+Ordinary JSON prompt strings remain unchanged. Dry runs report
+`normalized_prompt_envelopes` when applicable. These rules never apply to `output`.
 
-Prompts are preserved verbatim unless they are explicit message envelopes too.
-JSON inside a text part stays literal; it is not recursively stripped. Empty text
-is counted as a skipped error output. Mixed/non-text message parts are unsupported
-and skipped rather than silently judged from partial text.
-
-Dry-run ingestion reports `response_envelopes`, `normalized_prompt_envelopes`, and
-`unsupported_response_envelopes` when applicable. Size limits and replay hashes
-apply to the extracted text. Recordings from a run that judged wrapper text cannot
-be reused for corrected text; use a new output directory and a new recorded probe.
+The representative export contains string outputs that resemble Python-style A2A
+messages. They are preserved in full, consistent with the owner's confirmed
+response-string contract. This structural observation does not establish a
+model-response defect or justify changing Jev's verdicts.

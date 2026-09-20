@@ -1,6 +1,6 @@
 # Prisma AIRS Harness
 
-TypeSafe Jev preview: [install the harness with bundled CLI 7.1.3](RELEASE-TYPESAFE-JUDGE.md).
+TypeSafe Jev preview: [install the harness with bundled CLI 7.1.4](RELEASE-TYPESAFE-JUDGE.md).
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
 Both inference and remote MCP traffic target Prisma AIRS AI Gateway. The native
@@ -62,7 +62,7 @@ npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.o
 airs-cli --version
 ```
 
-A fresh machine needs only the harness installation below. It includes CLI 7.1.3
+A fresh machine needs only the harness installation below. It includes CLI 7.1.4
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh

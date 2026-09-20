@@ -42,7 +42,7 @@ include optional dependencies and do not require `--include=optional`. If your
 npm configuration omits them, re-enable them for installation. The launcher does
 not compile or download code at startup. See the [Mac guide](MACOS.md).
 
-The harness includes Prisma AIRS CLI **7.1.3** and nine product skills as
+The harness includes Prisma AIRS CLI **7.1.4** and nine product skills as
 `airs cli`. If an older standalone CLI already owns `airs`, upgrade it first:
 
 ```sh

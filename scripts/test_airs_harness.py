@@ -1502,7 +1502,7 @@ class TerminalIntegration(unittest.TestCase):
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
-            (self.work / "managed-version.txt").read_text().strip(), "7.1.3"
+            (self.work / "managed-version.txt").read_text().strip(), "7.1.4"
         )
         statuses = {
             row["name"]: row["status"]

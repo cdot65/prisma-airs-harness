@@ -131,17 +131,6 @@ def _digest(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
 
-def _text_from_content_list(content: Any) -> str | None:
-    if not isinstance(content, list):
-        return None
-    parts = [
-        c.get("text")
-        for c in content
-        if isinstance(c, dict) and isinstance(c.get("text"), str)
-    ]
-    return "\n".join(parts) if parts else None
-
-
 def _decode_container(raw: str) -> tuple[Any, str]:
     """Decode data only, including Python-repr envelopes exported by AIRS.
 
@@ -191,7 +180,7 @@ def _decode_container(raw: str) -> tuple[Any, str]:
 
 
 def _message_text(value: Any) -> tuple[str, str] | None:
-    # Role is not used to discard data: AIRS exports target replies with role=user.
+    # Prompt envelopes can use either role; response strings are never unwrapped.
     if (
         not isinstance(value, dict)
         or value.get("kind") != "message"
@@ -210,68 +199,12 @@ def _message_text(value: Any) -> tuple[str, str] | None:
 
 
 def extract_response_text(raw: Any) -> tuple[str, str]:
-    """Return (text, extraction_method) for a raw AIRS `output` value.
-
-    Handles plain text, stringified JSON in OpenAI Responses or Chat Completions
-    shape, multi-turn dicts, and falls back to the raw string.
-    """
+    """Preserve model output verbatim, including JSON and serialized message envelopes."""
     if raw is None:
         return "", "empty"
-    value: Any = raw
-    method = "plain"
-    if isinstance(raw, str):
-        stripped = raw.strip()
-        if not stripped:
-            return "", "empty"
-        if stripped[0] in "{[":
-            value, method = _decode_container(stripped)
-            if method == "plain":
-                return raw, "plain"
-        else:
-            return raw, "plain"
-    message = _message_text(value)
-    if message is not None:
-        return message
-    if isinstance(value, dict):
-        outputs = value.get("output")
-        if isinstance(outputs, list):
-            texts: list[str] = []
-            for item in outputs:
-                text = (
-                    _text_from_content_list(item.get("content"))
-                    if isinstance(item, dict)
-                    else None
-                )
-                if text:
-                    texts.append(text)
-            if texts:
-                return "\n".join(texts), "responses_api"
-        choices = value.get("choices")
-        if isinstance(choices, list) and choices and isinstance(choices[0], dict):
-            message = choices[0].get("message")
-            if isinstance(message, dict) and isinstance(message.get("content"), str):
-                return message["content"], "chat_completions"
-        for key in ("output_text", "response", "text", "content", "message", "answer"):
-            if isinstance(value.get(key), str):
-                return value[key], f"json.{key}"
-        turns = value.get("messages") or value.get("turns") or value.get("conversation")
-        if isinstance(turns, list) and turns:
-            last = turns[-1]
-            if isinstance(last, dict):
-                text = (
-                    last.get("content")
-                    if isinstance(last.get("content"), str)
-                    else _text_from_content_list(last.get("content"))
-                )
-                if text:
-                    return text, "multi_turn_last"
-        return json.dumps(value, ensure_ascii=False), f"{method}_unparsed"
-    if isinstance(value, list):
-        texts = [item for item in value if isinstance(item, str)]
-        if texts:
-            return "\n".join(texts), "list_of_strings"
-        return json.dumps(value, ensure_ascii=False), f"{method}_unparsed"
-    return str(value), "coerced"
+    if not isinstance(raw, str):
+        raise ValueError("Expected output to be a string")
+    return raw, "plain" if raw.strip() else "empty"
 
 
 def _records_from_document(document: Any) -> tuple[list[dict[str, Any]], str]:
@@ -374,12 +307,6 @@ def normalize_scan(
         )
         for output_index, output in enumerate(raw_outputs):
             text, extraction = extract_response_text(output.get("output"))
-            if extraction.startswith("a2a_"):
-                notes["response_envelopes"] = notes.get("response_envelopes", 0) + 1
-            if extraction == "a2a_unsupported_parts":
-                notes["unsupported_response_envelopes"] = (
-                    notes.get("unsupported_response_envelopes", 0) + 1
-                )
             is_error = bool(output.get("error")) or not text.strip()
             if is_error:
                 notes["error_outputs"] += 1

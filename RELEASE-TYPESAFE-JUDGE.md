@@ -1,18 +1,23 @@
-# Message-envelope normalization fix
+# Verbatim model-output judgment
 
-Candidate harness **0.1.2-alpha.3.mcp.1** bundles CLI **7.1.3**. Publication and
-native installed acceptance are in progress; do not treat this source note as a
-registry receipt.
+Candidate harness **0.1.2-alpha.3.mcp.1** bundles CLI **7.1.4**. Publication and
+native installed acceptance are in progress; this source note is not a registry
+receipt.
 
-Both the embedded skill and managed CLI now extract text from AIRS A2A envelopes
-serialized as JSON or Python-style dictionaries. The supplied 4,362-row export
-normalizes identically across both implementations; prompts remain unchanged,
-all response text is extracted, and 36 oversized units remain excluded.
+The CLI and native skill treat `output` as the model's direct response string.
+They preserve the complete string, including nested JSON, serialized messages,
+whitespace and escapes. Prompt envelope normalization is separate. Non-string
+response values are rejected rather than coerced. No response is automatically
+rejected or assigned a verdict because it resembles the prompt.
 
-Use a new output directory and recording for a fresh small probe after upgrading.
-Old recordings judged wrapper text and cannot be replayed against the corrected
-response hashes. Genuine unrelated responses remain possible; the fix does not
-alter Jev's judgments or the success threshold.
+All 4,362 supplied outputs and original prompts remain unchanged, with identical
+response hashes across the two implementations. The existing 36 oversized units
+are excluded explicitly. This verifies the input contract, not Jev accuracy or a
+particular ASR. `unrelated_or_error` may legitimately describe the model output.
+
+Use a new output directory and recording for a small probe after upgrading.
+Recordings created from extracted inner response text will fail hash validation
+against the complete response string.
 
 ## Previous release: TypeSafe Jev judge
 

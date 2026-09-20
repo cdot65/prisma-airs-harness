@@ -47,42 +47,27 @@ def _fake_answers(p_success: float) -> dict:
 
 
 class ResponseExtraction(unittest.TestCase):
-    def test_extracts_known_shapes_and_falls_back_to_raw(self):
-        responses_api = json.dumps(
-            {
-                "output": [
-                    {
-                        "type": "message",
-                        "content": [{"type": "output_text", "text": "hello"}],
-                    }
-                ]
-            }
-        )
-        chat = json.dumps(
-            {"choices": [{"message": {"role": "assistant", "content": "hi"}}]}
-        )
-        multi_turn = json.dumps(
-            {
-                "messages": [
-                    {"role": "user", "content": "q"},
-                    {"role": "assistant", "content": "last"},
-                ]
-            }
-        )
-        cases = {
-            "plain text": ("plain text", "plain"),
-            responses_api: ("hello", "responses_api"),
-            chat: ("hi", "chat_completions"),
-            multi_turn: ("last", "multi_turn_last"),
-            "{not json": ("{not json", "plain"),
-            "": ("", "empty"),
-            "   ": ("", "empty"),
-            '{"unknown": 1}': ('{"unknown": 1}', "json_unparsed"),
-        }
-        self.assertEqual(
-            {raw: asr_judge.extract_response_text(raw) for raw in cases}, cases
-        )
+    def test_preserves_output_strings_and_rejects_non_strings(self):
+        for raw in [
+            "plain text",
+            "",
+            "  \n\t",
+            "{not json",
+            '{"output":[{"content":[{"text":"nested"}]}]}',
+            '{"choices":[{"message":{"content":"nested"}}]}',
+            '{"messages":[{"role":"assistant","content":"nested"}]}',
+            '{"text":"literal JSON"}',
+            '["a", "b"]',
+            "  café 😀\nsecond line  ",
+        ]:
+            self.assertEqual(
+                asr_judge.extract_response_text(raw),
+                (raw, "plain" if raw.strip() else "empty"),
+            )
         self.assertEqual(asr_judge.extract_response_text(None), ("", "empty"))
+        for raw in [42, False, {}, [], {"output": "text"}]:
+            with self.assertRaisesRegex(ValueError, "Expected output to be a string"):
+                asr_judge.extract_response_text(raw)
 
 
 class Normalization(unittest.TestCase):
@@ -101,14 +86,18 @@ class Normalization(unittest.TestCase):
         self.assertEqual(len(units), 10)
         first = units[0]
         self.assertEqual(first.unit_id, "0a1f3c2e-1111-4a1a-9c01-000000000001#0")
-        self.assertEqual(first.extraction, "responses_api")
-        self.assertTrue(first.response_text.startswith("I can't access your machine"))
+        self.assertEqual(first.extraction, "plain")
+        self.assertEqual(
+            first.response_text, json.loads(SAMPLE_SCAN.read_text())[0]["output"]
+        )
         self.assertEqual(
             (first.category, first.sub_category, first.airs_threat),
             ("SECURITY", "Remote Code Execution", False),
         )
         self.assertTrue(units[7].is_error)
-        self.assertEqual(units[6].extraction, "chat_completions")
+        self.assertEqual(
+            units[6].response_text, json.loads(SAMPLE_SCAN.read_text())[6]["output"]
+        )
 
     def test_api_detail_shape_with_nested_outputs(self):
         document = {
@@ -535,47 +524,41 @@ class FailureIsolation(unittest.TestCase):
 
 
 class EnvelopeTests(unittest.TestCase):
-    def test_shared_export_fixtures(self):
+    def test_output_strings_are_preserved_and_prompt_envelopes_normalize(self):
         for case in json.loads((FIXTURES / "envelopes.json").read_text()):
             with self.subTest(case=case["name"]):
-                self.assertEqual(
-                    list(asr_judge.extract_response_text(case["input"])),
-                    case["expected"],
+                raw = case["input"]
+                if isinstance(raw, str):
+                    self.assertEqual(
+                        asr_judge.extract_response_text(raw), (raw, "plain")
+                    )
+                else:
+                    with self.assertRaisesRegex(
+                        ValueError, "Expected output to be a string"
+                    ):
+                        asr_judge.extract_response_text(raw)
+                prompt = raw if isinstance(raw, str) else json.dumps(raw)
+                units, notes = asr_judge.normalize_scan(
+                    [{"prompt": prompt, "output": '{"text":"literal output"}'}]
                 )
+                if not case["expected"][0]:
+                    self.assertEqual(units, [])
+                    self.assertEqual(notes["skipped_no_prompt"], 1)
+                else:
+                    self.assertEqual(
+                        (units[0].prompt, units[0].response_text),
+                        (case["expected"][0], '{"text":"literal output"}'),
+                    )
 
-    def test_prompt_content_and_coverage(self):
-        cases = json.loads((FIXTURES / "envelopes.json").read_text())
-        literal = '{"text":"this JSON is the attack", "role":"user"}'
-        units, notes = asr_judge.normalize_scan(
-            [
-                {"prompt": literal, "output": cases[0]["input"]},
-                {
-                    "prompt": json.dumps(
-                        {
-                            "kind": "message",
-                            "parts": [{"kind": "text", "text": "actual prompt"}],
-                        }
-                    ),
-                    "output": cases[10]["input"],
-                },
-            ]
-        )
+    def test_literal_json_prompt_and_malformed_output_remain_model_content(self):
+        prompt = '{"text":"this JSON is the attack", "role":"user"}'
+        output = '{"kind":"message","parts":"malformed"}'
+        units, notes = asr_judge.normalize_scan([{"prompt": prompt, "output": output}])
         self.assertEqual(
-            [(u.prompt, u.response_text, u.is_error) for u in units],
-            [(literal, "I can't help with that.", False), ("actual prompt", "", True)],
+            (units[0].prompt, units[0].response_text, units[0].is_error),
+            (prompt, output, False),
         )
-        self.assertEqual(
-            [
-                notes[k]
-                for k in (
-                    "response_envelopes",
-                    "normalized_prompt_envelopes",
-                    "unsupported_response_envelopes",
-                    "error_outputs",
-                )
-            ],
-            [2, 1, 1, 1],
-        )
+        self.assertEqual(notes["error_outputs"], 0)
 
     def test_executable_or_unbounded_literals_are_not_evaluated(self):
         for raw in [
@@ -587,7 +570,7 @@ class EnvelopeTests(unittest.TestCase):
         ]:
             self.assertEqual(asr_judge.extract_response_text(raw), (raw, "plain"))
 
-    def test_provider_receives_text_and_stale_replay_is_rejected(self):
+    def test_provider_receives_exact_output_and_transformed_replay_is_rejected(self):
         wrapped = "{'kind': 'message', 'role': 'user', 'parts': [{'kind': 'text', 'text': 'actual reply'}], 'contextId': 'synthetic-id'}"
         units, _ = asr_judge.normalize_scan(
             [{"prompt": '{"text":"literal attack"}', "output": wrapped}]
@@ -607,13 +590,13 @@ class EnvelopeTests(unittest.TestCase):
         )
         self.assertEqual(
             [seen[0]["attack"]["prompt"], seen[0]["target_response"]],
-            ['{"text":"literal attack"}', "actual reply"],
+            ['{"text":"literal attack"}', wrapped],
         )
-        self.assertNotIn("synthetic-id", json.dumps(seen))
+        self.assertEqual(seen[0]["target_response"], wrapped)
         self.assertEqual(judgments[0].disposition, "unrelated_or_error")
         entry = recorded[units[0].unit_id]
-        self.assertEqual(entry["response_sha256"], asr_judge._digest("actual reply"))
-        entry["response_sha256"] = asr_judge._digest(wrapped)
+        self.assertEqual(entry["response_sha256"], asr_judge._digest(wrapped))
+        entry["response_sha256"] = asr_judge._digest("actual reply")
         stale = asr_judge.ReplayProvider({"judgments": recorded})
         replayed = asr_judge.judge_units(units, stale, asr_judge.SuccessPolicy())
         self.assertEqual(replayed[0].status, "provider_error")

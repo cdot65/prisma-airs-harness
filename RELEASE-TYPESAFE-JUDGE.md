@@ -86,3 +86,6 @@ alongside successful results in that evidence directory.
 
 See [the judge methodology](RED-TEAM-ASR-JUDGE.md) and the
 [published CLI judge guide](https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/).
+
+The [immutable evidence audit](validation/2026-09-20/typesafe-judge-git-audit.json)
+passed across 331 retained files and 59 stage receipts.

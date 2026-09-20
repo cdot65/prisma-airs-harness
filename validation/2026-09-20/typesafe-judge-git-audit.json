@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 3046559,
+  "evidence_commit": "4360e2c47901cc7ab5943202f12fe26ede032ed0",
+  "evidence_root": "validation/2026-09-20/typesafe-judge",
+  "files_checked": 331,
+  "inventory_sha256": "f159e86a0cbfd4cbad3639eab7c0b752330687c2df14c5038b5a64c8c259779f",
+  "manifest_blob_id": "2c37d632fa8037621c4c44dceb6a29cd7750700c",
+  "manifest_sha256": "2d1aab1f4b9d9035b33cf70184d549ba19f9d137762c2f4abb1a483420f8f454",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 59
+}

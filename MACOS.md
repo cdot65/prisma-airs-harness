@@ -1,7 +1,7 @@
 ---
 title: Install Prisma AIRS Harness on your Mac
 description: Install the native harness and connect inference and MCP through AI Gateway.
-package_version: 0.1.2-alpha.2.mcp.1
+package_version: 0.1.2-alpha.3.mcp.1
 status: test-channel-guide
 updated: 2026-09-19
 audience: end-users
@@ -31,12 +31,12 @@ The last command should show `arm64`. If an old standalone product CLI owns
 `airs-cli`. A fresh machine only needs the harness, which bundles CLI 7.1.2.
 
 ```sh
-npm install -g airs-harness@0.1.2-alpha.2.mcp.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.2-alpha.3.mcp.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
-This guide covers **0.1.2-alpha.2.mcp.1**, with in-session `/mcp` and `/doctor`
+This guide covers **0.1.2-alpha.3.mcp.1**, with in-session `/mcp` and `/doctor`
 and native MCP storage by default for newly created environments. Install this
 exact version once available in your registry. Real-account SSO and ServiceNow
 acceptance remain separate. Downloads are

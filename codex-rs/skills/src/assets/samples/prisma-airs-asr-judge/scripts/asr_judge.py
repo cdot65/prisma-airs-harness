@@ -19,12 +19,14 @@ Prompts and responses are never printed or written unless --include-text is set.
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import math
 import os
 import sys
 import time
+import warnings
 import urllib.error
 import urllib.request
 import urllib.parse
@@ -140,6 +142,73 @@ def _text_from_content_list(content: Any) -> str | None:
     return "\n".join(parts) if parts else None
 
 
+def _decode_container(raw: str) -> tuple[Any, str]:
+    """Decode data only, including Python-repr envelopes exported by AIRS.
+
+    Bound literal parsing and reject executable syntax. Never evaluate scan code.
+    """
+    if len(raw) > 1_000_000:
+        return raw, "plain"
+    try:
+        return json.loads(raw), "json"
+    except (ValueError, RecursionError):
+        pass
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", SyntaxWarning)
+            tree = ast.parse(raw, mode="eval")
+        pending = [(tree.body, 0)]
+        count = 0
+        while pending:
+            node, depth = pending.pop()
+            count += 1
+            if depth > 64 or count > 50_000:
+                raise ValueError("Literal limit")
+            if isinstance(node, ast.Dict):
+                keys = [key.value for key in node.keys if isinstance(key, ast.Constant)]
+                if len(keys) != len(node.keys) or any(
+                    not isinstance(k, str) for k in keys
+                ):
+                    raise ValueError("Non-string key")
+                if len(set(keys)) != len(keys):
+                    raise ValueError("Duplicate key")
+                pending.extend((v, depth + 1) for v in node.values)
+            elif isinstance(node, ast.List):
+                pending.extend((v, depth + 1) for v in node.elts)
+            elif isinstance(node, ast.Constant):
+                if type(node.value) not in (str, int, float, bool, type(None)):
+                    raise ValueError("Unsupported literal")
+            elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
+                if not isinstance(node.operand, ast.Constant) or type(
+                    node.operand.value
+                ) not in (int, float):
+                    raise ValueError("Unsupported number")
+            else:
+                raise ValueError("Unsupported syntax")
+        return ast.literal_eval(tree), "python_literal"
+    except (ValueError, SyntaxError, RecursionError, MemoryError):
+        return raw, "plain"
+
+
+def _message_text(value: Any) -> tuple[str, str] | None:
+    # Role is not used to discard data: AIRS exports target replies with role=user.
+    if (
+        not isinstance(value, dict)
+        or value.get("kind") != "message"
+        or "parts" not in value
+    ):
+        return None
+    parts = value["parts"]
+    if not isinstance(parts, list) or any(
+        not isinstance(part, dict)
+        or part.get("kind") != "text"
+        or not isinstance(part.get("text"), str)
+        for part in parts
+    ):
+        return "", "a2a_unsupported_parts"
+    return "\n".join(part["text"] for part in parts), "a2a_text"
+
+
 def extract_response_text(raw: Any) -> tuple[str, str]:
     """Return (text, extraction_method) for a raw AIRS `output` value.
 
@@ -155,13 +224,14 @@ def extract_response_text(raw: Any) -> tuple[str, str]:
         if not stripped:
             return "", "empty"
         if stripped[0] in "{[":
-            try:
-                value = json.loads(stripped)
-                method = "json"
-            except json.JSONDecodeError:
+            value, method = _decode_container(stripped)
+            if method == "plain":
                 return raw, "plain"
         else:
             return raw, "plain"
+    message = _message_text(value)
+    if message is not None:
+        return message
     if isinstance(value, dict):
         outputs = value.get("output")
         if isinstance(outputs, list):
@@ -250,6 +320,22 @@ def normalize_scan(
         if not isinstance(prompt, str) or not prompt.strip():
             notes["skipped_no_prompt"] += 1
             continue
+        # Unwrap only explicit message envelopes; literal JSON in attack prompts
+        # is part of the attack and must retain its exact bytes.
+        value, _ = (
+            _decode_container(prompt.strip())
+            if prompt.lstrip().startswith("{")
+            else (prompt, "plain")
+        )
+        prompt_message = _message_text(value)
+        if prompt_message is not None:
+            prompt, _ = prompt_message
+            if not prompt.strip():
+                notes["skipped_no_prompt"] += 1
+                continue
+            notes["normalized_prompt_envelopes"] = (
+                notes.get("normalized_prompt_envelopes", 0) + 1
+            )
         attack_id = (
             _label(record.get("uuid"))
             or _label(record.get("attack_id"))
@@ -288,6 +374,12 @@ def normalize_scan(
         )
         for output_index, output in enumerate(raw_outputs):
             text, extraction = extract_response_text(output.get("output"))
+            if extraction.startswith("a2a_"):
+                notes["response_envelopes"] = notes.get("response_envelopes", 0) + 1
+            if extraction == "a2a_unsupported_parts":
+                notes["unsupported_response_envelopes"] = (
+                    notes.get("unsupported_response_envelopes", 0) + 1
+                )
             is_error = bool(output.get("error")) or not text.strip()
             if is_error:
                 notes["error_outputs"] += 1

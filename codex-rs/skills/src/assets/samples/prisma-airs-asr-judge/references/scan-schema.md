@@ -58,3 +58,22 @@ All multi-turn flags are false and turn/generation/multi_turn_prompt are null. B
 normalizers accept all rows; 36 exceed the character bound and are excluded from
 judging. Source-row identities and goal-category proxies are disclosed in reports.
 Taxonomy tags are not used to infer success or treated as expected attack objectives.
+
+### AIRS message-envelope exports
+
+The outer file is JSON, but `output` may contain a Python-repr A2A message (single
+quoted keys, `None`/`True`/`False`) or a JSON message. For a recognized
+`kind: message` envelope, normalization joins its `parts[].text` in order. The
+export may label target replies `role: user`; this does not remove the reply.
+Transport IDs and wrapper keys are excluded from the judge input. Parsing accepts
+data only, with bounded Python-literal parsing and no execution of scan content.
+
+Prompts are preserved verbatim unless they are explicit message envelopes too.
+JSON inside a text part stays literal; it is not recursively stripped. Empty text
+is counted as a skipped error output. Mixed/non-text message parts are unsupported
+and skipped rather than silently judged from partial text.
+
+Dry-run ingestion reports `response_envelopes`, `normalized_prompt_envelopes`, and
+`unsupported_response_envelopes` when applicable. Size limits and replay hashes
+apply to the extracted text. Recordings from a run that judged wrapper text cannot
+be reused for corrected text; use a new output directory and a new recorded probe.

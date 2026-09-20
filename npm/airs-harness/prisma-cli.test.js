@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
-function fixture(t, version = "7.1.2") {
+function fixture(t, version = "7.1.3") {
   const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), "airs-cli-integration-")));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const harness = path.join(root, "node_modules", "airs-harness");

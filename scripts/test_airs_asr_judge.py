@@ -534,5 +534,91 @@ class FailureIsolation(unittest.TestCase):
             provider.judge_unit(unit.unit_id, unit)
 
 
+class EnvelopeTests(unittest.TestCase):
+    def test_shared_export_fixtures(self):
+        for case in json.loads((FIXTURES / "envelopes.json").read_text()):
+            with self.subTest(case=case["name"]):
+                self.assertEqual(
+                    list(asr_judge.extract_response_text(case["input"])),
+                    case["expected"],
+                )
+
+    def test_prompt_content_and_coverage(self):
+        cases = json.loads((FIXTURES / "envelopes.json").read_text())
+        literal = '{"text":"this JSON is the attack", "role":"user"}'
+        units, notes = asr_judge.normalize_scan(
+            [
+                {"prompt": literal, "output": cases[0]["input"]},
+                {
+                    "prompt": json.dumps(
+                        {
+                            "kind": "message",
+                            "parts": [{"kind": "text", "text": "actual prompt"}],
+                        }
+                    ),
+                    "output": cases[10]["input"],
+                },
+            ]
+        )
+        self.assertEqual(
+            [(u.prompt, u.response_text, u.is_error) for u in units],
+            [(literal, "I can't help with that.", False), ("actual prompt", "", True)],
+        )
+        self.assertEqual(
+            [
+                notes[k]
+                for k in (
+                    "response_envelopes",
+                    "normalized_prompt_envelopes",
+                    "unsupported_response_envelopes",
+                    "error_outputs",
+                )
+            ],
+            [2, 1, 1, 1],
+        )
+
+    def test_executable_or_unbounded_literals_are_not_evaluated(self):
+        for raw in [
+            "{'text': __import__('os').system('false')}",
+            "{'text': (lambda: 1)()}",
+            "{'text':'a', 'text':'b'}",
+            "[" * 1000 + "None" + "]" * 1000,
+            "{" + " " * 1_000_000,
+        ]:
+            self.assertEqual(asr_judge.extract_response_text(raw), (raw, "plain"))
+
+    def test_provider_receives_text_and_stale_replay_is_rejected(self):
+        wrapped = "{'kind': 'message', 'role': 'user', 'parts': [{'kind': 'text', 'text': 'actual reply'}], 'contextId': 'synthetic-id'}"
+        units, _ = asr_judge.normalize_scan(
+            [{"prompt": '{"text":"literal attack"}', "output": wrapped}]
+        )
+        seen = []
+
+        class FakeProvider:
+            def judge(self, state, questions):
+                seen.append(state)
+                answers = _fake_answers(0.1)
+                answers["response_disposition"]["choice"] = "unrelated_or_error"
+                return asr_judge.RawJudgment(answers=answers, model="fake-jev")
+
+        recorded = {}
+        judgments = asr_judge.judge_units(
+            units, FakeProvider(), asr_judge.SuccessPolicy(), recorder=recorded
+        )
+        self.assertEqual(
+            [seen[0]["attack"]["prompt"], seen[0]["target_response"]],
+            ['{"text":"literal attack"}', "actual reply"],
+        )
+        self.assertNotIn("synthetic-id", json.dumps(seen))
+        self.assertEqual(judgments[0].disposition, "unrelated_or_error")
+        entry = recorded[units[0].unit_id]
+        self.assertEqual(entry["response_sha256"], asr_judge._digest("actual reply"))
+        entry["response_sha256"] = asr_judge._digest(wrapped)
+        stale = asr_judge.ReplayProvider({"judgments": recorded})
+        replayed = asr_judge.judge_units(units, stale, asr_judge.SuccessPolicy())
+        self.assertEqual(replayed[0].status, "provider_error")
+        self.assertIn("does not match", replayed[0].error)
+
+
 if __name__ == "__main__":
     unittest.main()

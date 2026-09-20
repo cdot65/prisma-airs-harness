@@ -1,6 +1,6 @@
 # Prisma AIRS Harness
 
-TypeSafe Jev preview: [install the harness with bundled CLI 7.1.2](RELEASE-TYPESAFE-JUDGE.md).
+TypeSafe Jev preview: [install the harness with bundled CLI 7.1.3](RELEASE-TYPESAFE-JUDGE.md).
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
 Both inference and remote MCP traffic target Prisma AIRS AI Gateway. The native
@@ -62,7 +62,7 @@ npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.o
 airs-cli --version
 ```
 
-A fresh machine needs only the harness installation below. It includes CLI 7.1.2
+A fresh machine needs only the harness installation below. It includes CLI 7.1.3
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
@@ -161,7 +161,7 @@ environment, then starts sign-in. If sign-in is interrupted, resume with
 Check access with `airs --environment work doctor --verify-access`.
 Configure gateway MCP using the onboarding steps above.
 
-In [preview 0.1.2-alpha.2.mcp.1](RELEASE-TYPESAFE-JUDGE.md), setup also offers an
+In [preview 0.1.2-alpha.3.mcp.1](RELEASE-TYPESAFE-JUDGE.md), setup also offers an
 optional TypeSafe judge key for red-team ASR scoring. Bind or
 inspect it later with `airs env typesafe set|status|clear`. The skill uses
 `airs --environment NAME env typesafe exec -- COMMAND` to pass the key only to

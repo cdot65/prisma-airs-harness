@@ -1,4 +1,20 @@
-# TypeSafe Jev judge preview
+# Message-envelope normalization fix
+
+Candidate harness **0.1.2-alpha.3.mcp.1** bundles CLI **7.1.3**. Publication and
+native installed acceptance are in progress; do not treat this source note as a
+registry receipt.
+
+Both the embedded skill and managed CLI now extract text from AIRS A2A envelopes
+serialized as JSON or Python-style dictionaries. The supplied 4,362-row export
+normalizes identically across both implementations; prompts remain unchanged,
+all response text is extracted, and 36 oversized units remain excluded.
+
+Use a new output directory and recording for a fresh small probe after upgrading.
+Old recordings judged wrapper text and cannot be replayed against the corrected
+response hashes. Genuine unrelated responses remain possible; the fix does not
+alter Jev's judgments or the success threshold.
+
+## Previous release: TypeSafe Jev judge
 
 Harness **0.1.2-alpha.2.mcp.1** is published under `mcp` at
 `https://npm.cdot.io` and bundles Prisma AIRS CLI **7.1.2**. Stable `latest`

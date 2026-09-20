@@ -354,6 +354,13 @@ class AcceptanceRunnerTests(unittest.TestCase):
             if name == "install":
                 values["INSTALL-NETWORK.json"] = {"passed": True}
             code = "import pathlib,sys,json; root=pathlib.Path(sys.argv[1]); root.mkdir(parents=True,exist_ok=True); [(root/name).write_text(json.dumps(value)) for name,value in json.loads(sys.argv[2]).items()]; print('controlled stage complete')"
+            if installed:
+                code += (
+                    "; import os; assert os.environ['AIRS_HARNESS_BIN'] == "
+                    + repr(str(installed[0]))
+                    + "; assert os.environ['AIRS_HARNESS_NATIVE_BIN'] == "
+                    + repr(str(installed[1]))
+                )
             return [
                 sys.executable,
                 "-c",

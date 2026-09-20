@@ -192,7 +192,9 @@ def run_acceptance(
             stage_env = dict(environment)
             if installed:
                 stage_env.update(
-                    AIRS_HARNESS_BIN=str(installed[0]), AIRS_MANAGED_CLI_ACCEPTANCE="1"
+                    AIRS_HARNESS_BIN=str(installed[0]),
+                    AIRS_HARNESS_NATIVE_BIN=str(installed[1]),
+                    AIRS_MANAGED_CLI_ACCEPTANCE="1",
                 )
             with log.open("w") as stream:
                 if name == "mac-signature":

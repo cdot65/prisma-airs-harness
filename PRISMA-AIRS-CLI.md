@@ -115,6 +115,14 @@ Retain bundle hashes, signing evidence and published-package acceptance receipts
 
 ## Optional TypeSafe Jev setup inside AIRS
 
+The development correction (not yet published) makes the bundled skill request
+per-command approval for live judging because native
+credential-store access and TypeSafe network access can be blocked by the shell
+sandbox. A successful `/typesafe` save or `/doctor` check does not grant those
+permissions to shell tools. Approve the specific judge command inside AIRS;
+dry-run and explicit replay do not require this live-access approval. An
+unreadable key from an unapproved shell attempt is not proof of missing setup.
+
 Use `/typesafe` in a running harness session to save or replace the API key in a
 hidden field, inspect its configuration, or remove the saved key. Setup is
 optional and belongs to the current harness environment. Keys never enter the

@@ -265,6 +265,19 @@ class NativeNodeJudge(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(json.loads(result.stdout.strip().splitlines()[-1])["passed"])
+        # A direct child passing is insufficient: release acceptance must also
+        # cross the actual agent shell/approval boundary that reads the key.
+        agent = subprocess.run(
+            native_test_command(
+                Path(__file__).with_name("test_airs_typesafe_agent.py"),
+                ["--worker", binary],
+            ),
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        self.assertEqual(agent.returncode, 0, agent.stdout + agent.stderr)
+        self.assertTrue(json.loads(agent.stdout.strip().splitlines()[-1])["passed"])
 
 
 if __name__ == "__main__":

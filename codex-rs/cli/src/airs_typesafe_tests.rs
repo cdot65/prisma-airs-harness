@@ -89,6 +89,28 @@ fn unset_environment_exports_nothing_and_reports_optional() {
 }
 
 #[test]
+fn unreadable_saved_key_preserves_binding_and_explains_execution_access() {
+    let home = tempfile::tempdir().unwrap();
+    let mut store = MockStore::default();
+    save(home.path(), &store, "ts-key-1", None, None).unwrap();
+    let before = read(home.path()).unwrap();
+    for fail_load in [false, true] {
+        store.entries.borrow_mut().clear();
+        store.fail_load = fail_load;
+        let error = exports(home.path(), &store, |_| false).unwrap_err();
+        assert!(error.to_string().contains("per-command approval"));
+        assert!(!error.to_string().contains("ts-key-1"));
+        assert_eq!(read(home.path()).unwrap(), before);
+        // An explicit process credential still takes precedence over an
+        // inaccessible saved credential; it must not consult the store.
+        assert_eq!(
+            exports(home.path(), &store, |name| name == KEY_VARIABLE).unwrap(),
+            (Origin::ProcessVariable, Vec::new())
+        );
+    }
+}
+
+#[test]
 fn replacing_a_key_removes_the_previous_native_entry() {
     let home = tempfile::tempdir().unwrap();
     let store = MockStore::default();

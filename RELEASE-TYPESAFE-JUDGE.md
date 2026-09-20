@@ -1,5 +1,13 @@
 # TypeScript judge and in-session TypeSafe setup
 
+**September 20 correction:** Alpha.4's original acceptance ran the SDK child
+outside the agent shell sandbox. It did not prove the in-session skill could
+read a saved key. The owner reproduced that failure. The development skill now
+requests per-command approval for live credential-store and network access;
+local installed agent acceptance verifies saved-key access, inherited-key
+precedence, and denial without an SDK request. This source correction is not yet
+published. The registry version below remains unchanged.
+
 Harness **0.1.2-alpha.4.mcp.1** is published under `mcp` at `https://npm.cdot.io`,
 bundling CLI **7.1.5**. Stable `latest` remains **0.1.1**.
 
@@ -13,7 +21,7 @@ airs cli --version
 
 Restart `airs`, open `/typesafe`, and choose **Save or replace API key**. Enter the
 key in the hidden field, then invoke `$prisma-airs-asr-judge attacks.json`.
-Existing saved keys work automatically. The optional dialog also shows configuration
+Saved keys require native-store access from the executing process. The optional dialog also shows configuration
 status and confirms removal; it preserves the conversation and draft. Saving does
 not perform a paid judgment or verify remote access. Never paste a key into chat.
 

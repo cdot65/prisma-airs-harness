@@ -224,9 +224,14 @@ pub(super) fn clear(home: &Path, store: &impl Store) -> anyhow::Result<bool> {
 }
 
 fn load_key(store: &impl Store, settings: &Settings) -> anyhow::Result<String> {
-    let token = store.load(settings.id)?.context(
-        "TypeSafe key is missing from the OS credential store; run airs env typesafe set",
-    )?;
+    let access_context = "This process could not read the saved TypeSafe credential. \
+        A shell sandbox or locked credential store can prevent access even after successful setup. \
+        Inside AIRS, retry the judge using per-command approval for credential-store and network access. \
+        If the approved command still fails, check /typesafe and unlock the native credential store before replacing the key.";
+    let token = store
+        .load(settings.id)
+        .context(access_context)?
+        .context(access_context)?;
     anyhow::ensure!(
         super::airs_credentials::fingerprint(&token) == settings.key_fingerprint,
         "Saved TypeSafe key does not match its recorded fingerprint; run airs env typesafe set"

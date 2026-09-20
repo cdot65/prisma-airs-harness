@@ -38,6 +38,8 @@ Validation tooling: `86563415a79e8b8a95ef3b12139e3e1276eb422a`.
 The initial tooling inventory failure is retained alongside the corrected run;
 the validator correction passed 17 unit tests. See
 [release evidence](validation/2026-09-20/judge-credential-access/README.md).
+The [immutable Git audit](validation/2026-09-20/judge-credential-access-git-audit.json)
+passed across 332 files and 56 stage receipts at `a09f992a3c`.
 The [CLI judge guide](https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/)
 is deployed at `607c2b0`; all five checked live pages match the validated build.
 

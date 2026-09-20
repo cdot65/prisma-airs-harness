@@ -1,3 +1,16 @@
+# Saved TypeSafe credential access from the judge skill
+
+**0.1.2-alpha.5.mcp.1 candidate** retains CLI **7.1.5** and fixes live judge
+execution permissions. The skill requests per-command approval for credential
+store and TypeSafe network access. Native errors distinguish an unreadable saved
+binding from absent setup. Release acceptance now requires the actual agent
+approval boundary, including refusal without provider requests, saved-key access,
+and inherited-key precedence. Installed embedded instructions must match source.
+
+Local installed source acceptance passed. Platform build, signing, registry
+publication and fresh-install acceptance are in progress; this is not yet a
+published release. Stable `latest` remains 0.1.1.
+
 # TypeScript judge and in-session TypeSafe setup
 
 **September 20 correction:** Alpha.4's original acceptance ran the SDK child

@@ -1,6 +1,6 @@
 # Bundled Prisma AIRS CLI and skills
 
-This guide covers harness **0.1.2-alpha.4.mcp.1**. Install this exact version
+This guide covers harness **0.1.2-alpha.5.mcp.1**. Install this exact version
 from `https://npm.cdot.io` under `mcp`. It includes `@cdot65/prisma-airs-cli@7.1.5` and SDK
 `0.33.0`. One npm harness installation includes the pinned CLI and nine embedded
 product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
@@ -34,7 +34,7 @@ If an old global product CLI owns `airs`, upgrade it first:
 ```sh
 npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
 airs-cli --version
-npm install -g airs-harness@0.1.2-alpha.4.mcp.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.2-alpha.5.mcp.1 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```

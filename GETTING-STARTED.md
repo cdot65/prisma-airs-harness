@@ -24,7 +24,7 @@ Replace the example registry with your administrator's registry. Ordinary instal
 
 If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness 0.1.1 bundles CLI 7.0.0. For `redteam judge`, install [harness preview 0.1.2-alpha.4.mcp.1](RELEASE-TYPESAFE-JUDGE.md), which bundles CLI 7.1.5. Standalone CLI 7.1.5 is also published on public npm under `next`.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness 0.1.1 bundles CLI 7.0.0. For `redteam judge`, install [harness preview 0.1.2-alpha.5.mcp.1](RELEASE-TYPESAFE-JUDGE.md), which bundles CLI 7.1.5. Standalone CLI 7.1.5 is also published on public npm under `next`.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
@@ -129,7 +129,7 @@ key can be readable by `/typesafe` while inaccessible to a sandboxed shell. If a
 shell attempt reports an unreadable key, retry through the command approval path
 before replacing it. The workspace sandbox remains enabled for other commands.
 
-The JavaScript entrypoint requires preview **0.1.2-alpha.4.mcp.1** with CLI
+The JavaScript entrypoint requires preview **0.1.2-alpha.5.mcp.1** with CLI
 **7.1.5**. See the [release record](RELEASE-TYPESAFE-JUDGE.md) for publication
 status. Stable 0.1.1 does not include the judge.
 

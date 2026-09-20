@@ -1,6 +1,6 @@
 # TypeScript judge and environment-scoped credentials
 
-The **0.1.2-alpha.4.mcp.1 candidate**, with CLI **7.1.5**, replaces the Python
+The **0.1.2-alpha.5.mcp.1 candidate**, with CLI **7.1.5**, replaces the Python
 proof of concept below. Publication status is in [the release record](RELEASE-TYPESAFE-JUDGE.md).
 
 The embedded skill invokes `scripts/asr_judge.mjs`, a small JavaScript entrypoint

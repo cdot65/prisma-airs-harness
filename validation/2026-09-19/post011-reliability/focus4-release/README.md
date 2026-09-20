@@ -56,3 +56,9 @@ Actions timestamp lines. Those evidence-only whitespace warnings are preserved
 rather than altering a hash-bound deployment log. After removing redundant test
 copies, the unchanged Mac free-space guard passes at 101.77 GiB; compiler caches
 and the native ARM VM/container remain intact.
+
+September 20 portability correction: the source-commit receipt is now named
+`RUNTIME-SOURCE`, preserving its exact bytes. Its former name, `SOURCE`, collided
+with the `source/` directory on case-insensitive Mac filesystems. `SHA256SUMS`
+records the new path; the original committed release evidence remains available
+at its historical Git revisions. No runtime or acceptance receipt was changed.

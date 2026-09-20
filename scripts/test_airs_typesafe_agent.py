@@ -182,14 +182,16 @@ def exercise(binary):
                                     terminal.start()
                                 else:
                                     terminal.wait_for(b"permissions:")
-                                # Test the source skill on the installed runtime, without
-                                # waiting for recompilation of the embedded asset.
+                                # Verify the installed binary actually embeds the fix.
+                                # Never overlay source instructions and pass old bytes
+                                # as acceptance of the candidate being shipped.
                                 source = (
                                     Path(__file__).resolve().parents[1]
                                     / "codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/SKILL.md"
                                 )
-                                shutil.copyfile(
-                                    source, script.parent.parent / "SKILL.md"
+                                self.assertEqual(
+                                    (script.parent.parent / "SKILL.md").read_bytes(),
+                                    source.read_bytes(),
                                 )
                                 terminal.send_line("$prisma-airs-asr-judge scan.json")
                                 terminal.wait_for(b"Yes, proceed")

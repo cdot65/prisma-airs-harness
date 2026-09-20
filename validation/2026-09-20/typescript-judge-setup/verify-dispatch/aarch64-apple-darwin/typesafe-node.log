@@ -1,0 +1,6 @@
+test_installed_node_judge_resolves_saved_key_and_never_substitutes_replay (__main__.NativeNodeJudge.test_installed_node_judge_resolves_saved_key_and_never_substitutes_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4.353s
+
+OK

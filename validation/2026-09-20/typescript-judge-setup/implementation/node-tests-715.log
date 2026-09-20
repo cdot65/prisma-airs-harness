@@ -1,0 +1,208 @@
+TAP version 13
+# Subtest: installed skill delegates to Node without shell or Python (POSIX)
+ok 1 - installed skill delegates to Node without shell or Python (POSIX)
+  ---
+  duration_ms: 56.834105
+  type: 'test'
+  ...
+# Subtest: installed skill delegates to Node without shell or Python (.cmd)
+ok 2 - installed skill delegates to Node without shell or Python (.cmd)
+  ---
+  duration_ms: 48.111496
+  type: 'test'
+  ...
+# Subtest: bash completion preserves harness commands and shifts the product namespace
+ok 3 - bash completion preserves harness commands and shifts the product namespace
+  ---
+  duration_ms: 5.088916
+  type: 'test'
+  ...
+# Subtest: fish product suggestions require cli and do not register airs-cli
+ok 4 - fish product suggestions require cli and do not register airs-cli
+  ---
+  duration_ms: 0.312106
+  type: 'test'
+  ...
+# Subtest: generated completions omit the legacy product root and harness-only CLI flags
+ok 5 - generated completions omit the legacy product root and harness-only CLI flags
+  ---
+  duration_ms: 0.324058
+  type: 'test'
+  ...
+# Subtest: unsupported platform is actionable
+ok 6 - unsupported platform is actionable
+  ---
+  duration_ms: 1.093293
+  type: 'test'
+  ...
+# Subtest: missing platform dependency fails without fetching a replacement
+ok 7 - missing platform dependency fails without fetching a replacement
+  ---
+  duration_ms: 36.128296
+  type: 'test'
+  ...
+# Subtest: incomplete native package reports a reinstall
+ok 8 - incomplete native package reports a reinstall
+  ---
+  duration_ms: 35.982632
+  type: 'test'
+  ...
+# Subtest: Windows PATH variants cannot override the managed CLI directory
+ok 9 - Windows PATH variants cannot override the managed CLI directory
+  ---
+  duration_ms: 1.509354
+  type: 'test'
+  ...
+# Subtest: native launch requires the pinned dependency before executing anything
+ok 10 - native launch requires the pinned dependency before executing anything
+  ---
+  duration_ms: 72.231926
+  type: 'test'
+  ...
+# Subtest: native login-shell tools use the pinned CLI even after PATH is replaced
+ok 11 - native login-shell tools use the pinned CLI even after PATH is replaced
+  ---
+  duration_ms: 102.143429
+  type: 'test'
+  ...
+# Subtest: launcher preserves arguments, cwd, stdin and exit code
+ok 12 - launcher preserves arguments, cwd, stdin and exit code
+  ---
+  duration_ms: 33.459506
+  type: 'test'
+  ...
+# Subtest: termination reaches the native process
+ok 13 - termination reaches the native process
+  ---
+  duration_ms: 51.754537
+  type: 'test'
+  ...
+# Subtest: termination still forwards after the native process handles an interrupt
+ok 14 - termination still forwards after the native process handles an interrupt
+  ---
+  duration_ms: 50.127321
+  type: 'test'
+  ...
+# Subtest: declared keys select scoped natives without inferring from the launcher name
+ok 15 - declared keys select scoped natives without inferring from the launcher name
+  ---
+  duration_ms: 0.817455
+  type: 'test'
+  ...
+# Subtest: scoped and historical alias layouts launch the declared native
+ok 16 - scoped and historical alias layouts launch the declared native
+  ---
+  duration_ms: 71.227641
+  type: 'test'
+  ...
+# Subtest: native identity or version mismatch fails before execution
+ok 17 - native identity or version mismatch fails before execution
+  ---
+  duration_ms: 69.763932
+  type: 'test'
+  ...
+# Subtest: a release without the host architecture reports unsupported packaging
+ok 18 - a release without the host architecture reports unsupported packaging
+  ---
+  duration_ms: 0.236674
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops native before any child starts
+ok 19 - unsupported Node runtime stops native before any child starts
+  ---
+  duration_ms: 283.649364
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops managed CLI before any child starts
+ok 20 - unsupported Node runtime stops managed CLI before any child starts
+  ---
+  duration_ms: 276.009899
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops completion before any child starts
+ok 21 - unsupported Node runtime stops completion before any child starts
+  ---
+  duration_ms: 281.511901
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops direct managed wrapper before any child starts
+ok 22 - unsupported Node runtime stops direct managed wrapper before any child starts
+  ---
+  duration_ms: 265.354773
+  type: 'test'
+  ...
+# Subtest: unsupported Node runtime stops legacy launcher before any child starts
+ok 23 - unsupported Node runtime stops legacy launcher before any child starts
+  ---
+  duration_ms: 282.496309
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves native argument forwarding and exit status
+ok 24 - supported Node runtime preserves native argument forwarding and exit status
+  ---
+  duration_ms: 414.189152
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves managed CLI argument forwarding and exit status
+ok 25 - supported Node runtime preserves managed CLI argument forwarding and exit status
+  ---
+  duration_ms: 426.466925
+  type: 'test'
+  ...
+# Subtest: supported Node runtime preserves direct managed wrapper argument forwarding and exit status
+ok 26 - supported Node runtime preserves direct managed wrapper argument forwarding and exit status
+  ---
+  duration_ms: 420.614666
+  type: 'test'
+  ...
+# Subtest: runtime policy follows the package engine declaration and rejects an unknown range
+ok 27 - runtime policy follows the package engine declaration and rejects an unknown range
+  ---
+  duration_ms: 236.672638
+  type: 'test'
+  ...
+# Subtest: managed CLI preserves arguments and exit status while excluding project dotenv loading
+ok 28 - managed CLI preserves arguments and exit status while excluding project dotenv loading
+  ---
+  duration_ms: 59.599857
+  type: 'test'
+  ...
+# Subtest: missing or mismatched managed CLI fails instead of selecting a global airs
+ok 29 - missing or mismatched managed CLI fails instead of selecting a global airs
+  ---
+  duration_ms: 67.951539
+  type: 'test'
+  ...
+# Subtest: dotenv argv cannot redirect managed credential discovery
+ok 30 - dotenv argv cannot redirect managed credential discovery
+  ---
+  duration_ms: 34.009227
+  type: 'test'
+  ...
+# Subtest: public airs cli dispatches without a native package, login or environment
+ok 31 - public airs cli dispatches without a native package, login or environment
+  ---
+  duration_ms: 51.034685
+  type: 'test'
+  ...
+# Subtest: only the compatibility launcher accepts the old airs forwarding action
+ok 32 - only the compatibility launcher accepts the old airs forwarding action
+  ---
+  duration_ms: 77.443883
+  type: 'test'
+  ...
+# Subtest: runtime version and manifest boundaries are portable without a native child
+ok 33 - runtime version and manifest boundaries are portable without a native child
+  ---
+  duration_ms: 552.065246
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3476.597069

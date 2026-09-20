@@ -1,0 +1,95 @@
+
+> @cdot65/prisma-airs-cli@7.1.5 lint /home/cdot/development/cdot65/prisma-airs-cli
+> biome check --config-path config .
+
+tests/unit/cli/runtime-commands.spec.ts:18:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    17 │   it('no longer exposes the legacy `dlp-profiles` subcommand', () => {
+  > 18 │     expect(find(runtime!, 'dlp-profiles')).toBeUndefined();
+       │                 ^^^^^^^^
+    19 │   });
+    20 │ 
+  
+
+tests/unit/cli/runtime-commands.spec.ts:22:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    21 │   it('keeps the new `dlp profiles` namespace command as the canonical listing', () => {
+  > 22 │     const dlp = find(runtime!, 'dlp');
+       │                      ^^^^^^^^
+    23 │     expect(dlp).toBeDefined();
+    24 │     expect(find(dlp!, 'profiles')).toBeDefined();
+  
+
+tests/unit/cli/runtime-commands.spec.ts:24:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    22 │     const dlp = find(runtime!, 'dlp');
+    23 │     expect(dlp).toBeDefined();
+  > 24 │     expect(find(dlp!, 'profiles')).toBeDefined();
+       │                 ^^^^
+    25 │   });
+    26 │ 
+  
+
+tests/unit/cli/runtime-commands.spec.ts:28:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    27 │   it('no longer exposes the top-level `dlp-gen` command', () => {
+  > 28 │     expect(find(runtime!, 'dlp-gen')).toBeUndefined();
+       │                 ^^^^^^^^
+    29 │   });
+    30 │ 
+  
+
+tests/unit/cli/runtime-commands.spec.ts:32:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    31 │   it('exposes the relocated `dlp generate` command with original flags preserved', () => {
+  > 32 │     const dlp = find(runtime!, 'dlp');
+       │                      ^^^^^^^^
+    33 │     const generate = find(dlp!, 'generate');
+    34 │     expect(generate).toBeDefined();
+  
+
+tests/unit/cli/runtime-commands.spec.ts:33:27 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    31 │   it('exposes the relocated `dlp generate` command with original flags preserved', () => {
+    32 │     const dlp = find(runtime!, 'dlp');
+  > 33 │     const generate = find(dlp!, 'generate');
+       │                           ^^^^
+    34 │     expect(generate).toBeDefined();
+    35 │     const flags = generate!.options.map((o) => o.long);
+  
+
+tests/unit/cli/runtime-commands.spec.ts:35:19 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    33 │     const generate = find(dlp!, 'generate');
+    34 │     expect(generate).toBeDefined();
+  > 35 │     const flags = generate!.options.map((o) => o.long);
+       │                   ^^^^^^^^^
+    36 │     for (const f of ['--types', '--count', '--out', '--techniques', '--seed', '--output']) {
+    37 │       expect(flags).toContain(f);
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+    33 33 │       const generate = find(dlp!, 'generate');
+    34 34 │       expect(generate).toBeDefined();
+    35    │ - ····const·flags·=·generate!.options.map((o)·=>·o.long);
+       35 │ + ····const·flags·=·generate?.options.map((o)·=>·o.long);
+    36 36 │       for (const f of ['--types', '--count', '--out', '--techniques', '--seed', '--output']) {
+    37 37 │         expect(flags).toContain(f);
+  
+
+Checked 310 files in 12s. No fixes applied.
+Found 7 warnings.

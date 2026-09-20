@@ -1,0 +1,98 @@
+
+> @cdot65/prisma-airs-cli@7.1.5 test:release /home/cdot/development/cdot65/prisma-airs-cli
+> node --test .github/scripts/*.test.mjs
+
+TAP version 13
+# Subtest: a matching stable tag is required for publication
+ok 1 - a matching stable tag is required for publication
+  ---
+  duration_ms: 1.579345
+  type: 'test'
+  ...
+# Subtest: latest stable release owns minor and latest aliases
+ok 2 - latest stable release owns minor and latest aliases
+  ---
+  duration_ms: 0.978898
+  type: 'test'
+  ...
+# Subtest: older patch cannot roll back either alias
+ok 3 - older patch cannot roll back either alias
+  ---
+  duration_ms: 0.136086
+  type: 'test'
+  ...
+# Subtest: maintenance release may advance its own minor but never latest
+ok 4 - maintenance release may advance its own minor but never latest
+  ---
+  duration_ms: 0.104015
+  type: 'test'
+  ...
+# Subtest: numeric ordering is independent of API order and tag creation time
+ok 5 - numeric ordering is independent of API order and tag creation time
+  ---
+  duration_ms: 0.18083
+  type: 'test'
+  ...
+# Subtest: prereleases, branches and malformed tags do not reserve production aliases
+ok 6 - prereleases, branches and malformed tags do not reserve production aliases
+  ---
+  duration_ms: 0.100188
+  type: 'test'
+  ...
+# Subtest: missing or invalid release metadata fails closed
+ok 7 - missing or invalid release metadata fails closed
+  ---
+  duration_ms: 0.185949
+  type: 'test'
+  ...
+# Subtest: an older queued rerun reevaluates tags after the newer release
+ok 8 - an older queued rerun reevaluates tags after the newer release
+  ---
+  duration_ms: 0.266851
+  type: 'test'
+  ...
+# Subtest: workflow separates exact-version publication from serialized post-build promotion
+ok 9 - workflow separates exact-version publication from serialized post-build promotion
+  ---
+  duration_ms: 5.879359
+  type: 'test'
+  ...
+# Subtest: production audit gates CI, npm publication, and container publication
+ok 10 - production audit gates CI, npm publication, and container publication
+  ---
+  duration_ms: 4.482046
+  type: 'test'
+  ...
+# Subtest: empty native stderr needs no exception
+ok 11 - empty native stderr needs no exception
+  ---
+  duration_ms: 1.381864
+  type: 'test'
+  ...
+# Subtest: the observed Node 20 warning is reported, not suppressed
+ok 12 - the observed Node 20 warning is reported, not suppressed
+  ---
+  duration_ms: 0.315703
+  type: 'test'
+  ...
+# Subtest: other runtimes or diagnostics still fail the native gate
+ok 13 - other runtimes or diagnostics still fail the native gate
+  ---
+  duration_ms: 0.838053
+  type: 'test'
+  ...
+# Subtest: a known warning cannot hide an appended or prepended error
+ok 14 - a known warning cannot hide an appended or prepended error
+  ---
+  duration_ms: 1.279853
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 91.449832

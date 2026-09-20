@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-ubuntu-worker.py", line 70, in <module>
+    execute(args.mode, command)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-ubuntu-worker.py", line 57, in execute
+    require(result.returncode == 0, "Native stage failed: " + name)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts/airs_test_release_spec.py", line 34, in require
+    raise ValueError(message)
+ValueError: Native stage failed: accept

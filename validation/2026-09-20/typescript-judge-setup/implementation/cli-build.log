@@ -1,0 +1,19 @@
+
+> @cdot65/prisma-airs-cli@7.1.5 build /home/cdot/development/cdot65/prisma-airs-cli
+> tsup
+
+CLI Building entry: {"index":"src/index.ts","cli/index":"src/cli/index.ts"}
+CLI Using tsconfig: tsconfig.json
+CLI tsup v8.5.1
+CLI Using tsup config: /home/cdot/development/cdot65/prisma-airs-cli/tsup.config.ts
+CLI Target: es2022
+CLI Cleaning output folder
+ESM Build start
+ESM dist/index.js          1.39 KB
+ESM dist/chunk-T4S4FMTZ.js 164.51 KB
+ESM dist/dlp-5XKWITZX.js   19.41 KB
+ESM dist/cli/index.js      618.41 KB
+ESM ⚡️ Build success in 159ms
+DTS Build start
+DTS ⚡️ Build success in 6901ms
+DTS dist/index.d.ts 80.39 KB

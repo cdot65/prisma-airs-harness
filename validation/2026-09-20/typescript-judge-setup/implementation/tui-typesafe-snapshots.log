@@ -1,0 +1,42 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-skills v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/skills)
+   Compiling codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/core-plugins)
+   Compiling codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/skills)
+   Compiling codex-core v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/core)
+   Compiling codex-connectors-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/connectors)
+   Compiling codex-memories-write v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/memories/write)
+   Compiling codex-chatgpt v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/chatgpt)
+   Compiling codex-mcp-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/mcp)
+   Compiling codex-queue-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/queue)
+   Compiling codex-goal-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/goal)
+   Compiling codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/web-search)
+   Compiling codex-history-notes-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/history-notes)
+   Compiling codex-guardian-v2 v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/guardian-v2)
+   Compiling codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/image-generation)
+   Compiling codex-app-server-transport v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/app-server-transport)
+   Compiling codex-cloud-config v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/cloud-config)
+   Compiling codex-memories-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/memories)
+   Compiling codex-agent-extension v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ext/agent)
+   Compiling codex-ollama v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/ollama)
+   Compiling codex-lmstudio v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/lmstudio)
+   Compiling core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/core/tests/common)
+   Compiling codex-utils-oss v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/utils/oss)
+   Compiling codex-external-agent-migration v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/external-agent-migration)
+   Compiling app_test_support v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/app-server/tests/common)
+   Compiling codex-app-server v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/app-server)
+   Compiling codex-app-server-client v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/app-server-client)
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-typesafe-judge-20260920/codex-rs/tui)
+    Finished `test` profile [unoptimized] target(s) in 1m 53s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID 172711c0-07ab-4a5e-8342-3b1c467d3b51 with nextest profile: local
+    Starting 7 tests across 6 binaries (4366 tests skipped)
+        PASS [   0.022s] (1/7) codex-tui chatwidget::tests::airs_typesafe::remove_requires_confirmation_and_settings_events_are_private
+        PASS [   0.024s] (2/7) codex-tui airs_typesafe::input::tests::clear_and_backspace_edit_without_exposing_input
+        PASS [   0.024s] (3/7) codex-tui airs_typesafe::input::tests::invalid_pastes_and_cancel_never_submit_a_key
+        PASS [   0.024s] (4/7) codex-tui airs_typesafe::process::tests::unix::set_binds_home_and_passes_key_only_over_stdin
+        PASS [   0.033s] (5/7) codex-tui airs_typesafe::process::tests::unix::failure_output_is_not_exposed_and_oversized_status_is_rejected
+        PASS [   0.043s] (6/7) codex-tui airs_typesafe::input::tests::key_is_hidden_and_reaches_only_the_private_receiver
+        PASS [   0.083s] (7/7) codex-tui chatwidget::tests::airs_typesafe::typesafe_views_preserve_draft_and_keep_key_out_of_model_events
+────────────
+     Summary [   0.098s] 7 tests run: 7 passed, 4366 skipped

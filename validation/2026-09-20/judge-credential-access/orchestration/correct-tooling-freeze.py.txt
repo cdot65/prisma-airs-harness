@@ -1,0 +1,30 @@
+from pathlib import Path
+import json,hashlib,subprocess,sys,tarfile,shutil
+root=Path('/tmp/airs-judge-access-20260920');release=root/'release';repo=Path('/home/cdot/development/cdot65/airs-typesafe-judge-20260920')
+sys.path.insert(0,str(repo/'scripts'))
+from airs_release_receipts import snapshot_tooling,verify_tooling
+commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert commit.startswith('86563415a7')
+old=release/'failed-tooling-inventory';old.mkdir()
+for name in ['SPEC.json','SOURCE-FREEZE.json','OWNER-PREPARE.json','CANDIDATE-TRANSFER.json','OWNER-LAUNCH-candidate-mac.json','OWNER-LAUNCH-candidate-ubuntu.json','acceptance-tooling-v2.tar.gz']:
+ shutil.copy2(release/name,old/name)
+(root/'frozen').rename(root/'frozen-before-inventory-fix')
+frozen=root/'frozen';frozen.mkdir()
+m=snapshot_tooling(repo/'scripts',commit)
+for n,h in m['files'].items():
+ p=frozen/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(subprocess.check_output(['git','show',commit+':'+n],cwd=repo))
+(frozen/'ACCEPTANCE-TOOLING.json').write_text(json.dumps(m,indent=2)+'\n')
+verify_tooling(frozen,m,commit)
+with tarfile.open(release/'acceptance-tooling-v2.tar.gz','w:gz') as tar:
+ for p in sorted(frozen.rglob('*')):
+  if p.is_file() and '__pycache__' not in str(p):tar.add(p,arcname=str(p.relative_to(frozen)),recursive=False)
+spec=json.loads((release/'SPEC.json').read_text());spec['tooling_commit']=commit
+(release/'SPEC.json').write_text(json.dumps(spec,indent=2)+'\n')
+transfer=json.loads((release/'CANDIDATE-TRANSFER.json').read_text());transfer['spec']=spec
+(release/'CANDIDATE-TRANSFER.json').write_text(json.dumps(transfer,indent=2)+'\n')
+receipt=json.loads((release/'OWNER-PREPARE.json').read_text());receipt['spec_sha256']=hashlib.sha256((release/'SPEC.json').read_bytes()).hexdigest()
+(release/'OWNER-PREPARE.json').write_text(json.dumps(receipt,indent=2)+'\n')
+freeze=json.loads((release/'SOURCE-FREEZE.json').read_text());freeze.update(tooling_commit=commit,tooling_files=len(m['files']),tooling_manifest_sha256=hashlib.sha256((frozen/'ACCEPTANCE-TOOLING.json').read_bytes()).hexdigest(),tooling_archive_sha256=hashlib.sha256((release/'acceptance-tooling-v2.tar.gz').read_bytes()).hexdigest())
+(release/'SOURCE-FREEZE.json').write_text(json.dumps(freeze,indent=2)+'\n')
+p=release/'owner-handoff/release.py';s=p.read_text().replace("TOOLING = '4509d98550b8919de0ff687e40ab4f80f00f122c'",'TOOLING = '+repr(commit));p.write_text(s)
+print(json.dumps(freeze))

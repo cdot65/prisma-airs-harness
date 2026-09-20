@@ -1,0 +1,12 @@
+{
+  "url": "https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/",
+  "deployment_run": 35534057162,
+  "source_commit": "c07859265595c37ba2397729556e761967749df2",
+  "checks": {
+    "Saved key works": true,
+    "per-command approval": true,
+    "0.1.2-alpha.5.mcp.1": true,
+    "Published alpha.4": true
+  },
+  "passed": true
+}

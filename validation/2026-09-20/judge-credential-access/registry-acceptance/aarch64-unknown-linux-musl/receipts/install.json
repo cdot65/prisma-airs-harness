@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-judgeaccess/scripts/validate_airs_test_registry_install.py",
+    "--spec",
+    "/home/airs-review/judgeaccess-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-c01d279ab6ec4c2ba144e86f1c248415/SPEC.json",
+    "--packages",
+    "/home/airs-review/judgeaccess-candidate/staged",
+    "--prefix",
+    "/home/airs-review/judgeaccess-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-c01d279ab6ec4c2ba144e86f1c248415/prefix"
+  ],
+  "command_sha256": "76432231a4b47015be693c155979d74c0b4a8e3b70df2ffb4709d5fbe5bd883e",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "8bd8677555f983dd6bddc1e1054fb2a93a4fadebce6206f3b7efb4601f4444b8",
+  "inputs": {
+    "binary_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef",
+    "candidate_metadata_sha256": "c15131f3bc388cffafd31d2bcbbd751123715193aa332a1202facce774a1e825",
+    "candidate_packages_sha256": "ababcaf5a4b94d2139f40252e02e8511fbec2f9881aa0c9a58eca58a92f8f6a1",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "spec_sha256": "be8c9dc5946fd5180b8b9ead44987e2c8baca16806053cea7b3ea5c2dc97aa03",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+    "tooling_sha256": "fa9b3893b251f9af5da84453352a5312998906f8288f1f32601d63d0c5289d60",
+    "version": "0.1.2-alpha.5.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb",
+      "size": 317
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "0eb94e96f93dbf9feffe88b10580e81a16490125693034a8a9750699ff3377e1",
+      "size": 5301
+    },
+    "logs/install.log": {
+      "sha256": "c6daa61dc48956bc8d5ad132a08d6e4e1c436f6bb605ffa8956713dfd9fc609f",
+      "size": 5301
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

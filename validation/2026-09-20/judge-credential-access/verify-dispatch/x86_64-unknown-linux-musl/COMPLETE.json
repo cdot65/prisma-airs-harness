@@ -1,0 +1,46 @@
+{
+  "mode": "verify",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "bcc041d6e9bc47fc36878c980e32c812593167be7c554dc798d2cb75fb10a5cc",
+  "tooling_manifest_sha256": "a8a27dc73b9fd0244a366148d6335c908aef2546bc4b2b9e41d7e776a7ad6dd1",
+  "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+  "expected_native_sha256": "c5b5d13bceecf458f511719759a7af085f8c0b26972098807f8ebc916a48ea9f",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "c15131f3bc388cffafd31d2bcbbd751123715193aa332a1202facce774a1e825",
+    "candidate_packages_sha256": "ababcaf5a4b94d2139f40252e02e8511fbec2f9881aa0c9a58eca58a92f8f6a1"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-judge-access-20260920/frozen-judgeaccess/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/SPEC.json",
+        "--packages",
+        "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/staged",
+        "--scripts",
+        "/home/cdot/.cache/airs-judge-access-20260920/frozen-judgeaccess/scripts",
+        "--output",
+        "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/registry-acceptance",
+        "--acceptance",
+        "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 383.7449021079956
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-judge-access-20260920/frozen-judgeaccess/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.862211119994754
+    }
+  ],
+  "passed": true
+}

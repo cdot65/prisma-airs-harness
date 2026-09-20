@@ -1,0 +1,56 @@
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import tarfile
+import os
+
+cache = Path('/home/cdot/.cache/airs-judge-access-20260920')
+venv = Path('/home/cdot/.cache/airs-native-mcp-20260919/venv')
+root = cache / 'judgeaccess-candidate'
+archive = cache / 'registry-inputs.tar'
+manifest = json.loads((cache / 'REGISTRY-TRANSFER.json').read_text())
+with archive.open('rb') as stream:
+    actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+if actual != __import__('sys').argv[1] or actual != manifest['archive_sha256']:
+    raise RuntimeError('Registry transfer hash mismatch')
+source = cache / 'registry-inputs-judgeaccess'
+source.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+    members = tar.getmembers()
+    if any(not member.isfile() for member in members) or len(members) != len(manifest['files']) or {member.name for member in members} != set(manifest['files']):
+        raise RuntimeError('Unexpected registry input archive inventory')
+    tar.extractall(source, filter='data')
+for relative, expected in manifest['files'].items():
+    src = source / relative
+    with src.open('rb') as stream:
+        if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
+            raise RuntimeError('Registry input file changed')
+    dest = root / relative
+    if dest.exists():
+        with dest.open('rb') as stream:
+            if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
+                raise RuntimeError('Refusing different existing input: ' + relative)
+    else:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dest)
+shutil.copy2(cache / 'REGISTRY-TRANSFER.json', source / 'TRANSFER.json')
+if json.loads((root / 'SPEC.json').read_text()) != manifest['spec']:
+    raise RuntimeError('Registry SPEC mismatch')
+runner = '''from pathlib import Path
+import subprocess,json,sys
+root=Path(__file__).resolve().parent
+command=[sys.executable,str(root.parent/'judgeaccess-ubuntu-worker.py'),'verify','--root',str(root),'--tooling',str(root.parent/'frozen-judgeaccess'),'--packages',str(root/'staged')]
+r=subprocess.run(command)
+(root/'REGISTRY-HOST-COMPLETE.json').write_text(json.dumps({'exit_code':r.returncode,'passed':r.returncode==0,'command':command})+'\\n')
+raise SystemExit(r.returncode)
+'''
+(root / 'registry-runner.py').write_text(runner)
+env = os.environ.copy()
+env.update(HOME='/home/cdot', USER='cdot', TERM='xterm-256color', PYTHONDONTWRITEBYTECODE='1', PATH=str(venv / 'bin') + ':/home/cdot/.cache/airs-post011-20260919/test-shells/bin:/usr/local/bin:/usr/bin:/bin')
+with (root / 'UBUNTU-REGISTRY.log').open('x') as log:
+    child = subprocess.Popen([str(venv / 'bin/python'), str(root / 'registry-runner.py')], cwd=root, env=env, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+report = {'pid': child.pid, 'root': str(root), 'target': 'x86_64-unknown-linux-musl', 'archive_sha256': actual, 'files_verified': len(manifest['files']), 'installation': 'registry', 'production_acceptance': False}
+(root / 'REGISTRY-LAUNCH.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps(report))

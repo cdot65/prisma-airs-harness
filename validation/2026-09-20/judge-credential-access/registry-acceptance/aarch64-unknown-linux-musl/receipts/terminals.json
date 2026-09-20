@@ -1,0 +1,51 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-judgeaccess/scripts/validate_airs_onboarding_terminals.py",
+    "--binary",
+    "/home/airs-review/judgeaccess-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-c01d279ab6ec4c2ba144e86f1c248415/prefix/bin/airs",
+    "--native-binary",
+    "/home/airs-review/judgeaccess-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-c01d279ab6ec4c2ba144e86f1c248415/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+    "--output",
+    "/home/airs-review/judgeaccess-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/terminals-0afe0a2666944fc08050d254429fc761"
+  ],
+  "command_sha256": "01ddd3f361ac318bcccc1bd845cac458b897994c48443763afa0a5a673bacfe3",
+  "dependencies": {
+    "install": "a3f308e9bd61199408e57e67a6ef51be879e184ab25f5612c246e688945f70a3",
+    "onboarding": "244e4c1dba5cc0e9f83831e6432e0ee10d56b8bb0e79d16ecf5022fc267f7c01"
+  },
+  "exit_code": 0,
+  "input_sha256": "ff94f652630fa0aa9c982d724cdb0983df2cf2baa74454d7126e2b84abceaa41",
+  "inputs": {
+    "binary_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef",
+    "candidate_metadata_sha256": "c15131f3bc388cffafd31d2bcbbd751123715193aa332a1202facce774a1e825",
+    "candidate_packages_sha256": "ababcaf5a4b94d2139f40252e02e8511fbec2f9881aa0c9a58eca58a92f8f6a1",
+    "contract": {
+      "normal_python": true,
+      "selection": "TERMINAL-ACCEPTANCE.json",
+      "stage": "terminals",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "spec_sha256": "be8c9dc5946fd5180b8b9ead44987e2c8baca16806053cea7b3ea5c2dc97aa03",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+    "tooling_sha256": "fa9b3893b251f9af5da84453352a5312998906f8288f1f32601d63d0c5289d60",
+    "version": "0.1.2-alpha.5.mcp.1"
+  },
+  "outputs": {
+    "files/terminals/TERMINAL-ACCEPTANCE.json": {
+      "sha256": "db68e90b65d48af4af6148fcf87b5433b244b4a46647e83f017efc78caec8a64",
+      "size": 1235
+    },
+    "logs/terminals.log": {
+      "sha256": "db68e90b65d48af4af6148fcf87b5433b244b4a46647e83f017efc78caec8a64",
+      "size": 1235
+    }
+  },
+  "schema_version": 1,
+  "stage": "terminals"
+}

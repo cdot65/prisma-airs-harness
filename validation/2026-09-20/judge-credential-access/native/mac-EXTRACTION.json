@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "52bcde122caa0e44ce6bc1eea89eb2c7c1e73b0da90bcd660b5702a698a66d27",
+  "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+  "binary_sha256": "858572ff26f0ac0b84c20cb13b6d6fe1dcde5ddd52f4cfba6ca937215d64186d",
+  "target": "aarch64-apple-darwin",
+  "extracted": "/tmp/airs-judge-access-20260920/release/mac-native/extracted/airs-harness-0.1.2-alpha.5.mcp.1-darwin-arm64",
+  "verified_files": 5803,
+  "archive_sidecar_present": false
+}

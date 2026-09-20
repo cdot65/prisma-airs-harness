@@ -1,0 +1,14 @@
+{
+  "archive": "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/portable-registry.tar.gz",
+  "sha256": "196b153e932632264c709c55f7081dd4c1f04ec25626e82a79c23fc3e61ebbe4",
+  "bytes": 30154,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "registry",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false
+  }
+}

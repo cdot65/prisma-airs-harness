@@ -1,0 +1,10 @@
+{
+  "279": [
+    "x64",
+    "x86_64-unknown-linux-musl"
+  ],
+  "280": [
+    "arm64",
+    "aarch64-unknown-linux-musl"
+  ]
+}

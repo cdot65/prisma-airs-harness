@@ -1,0 +1,9 @@
+{
+  "pid": 210986,
+  "root": "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "821404c5c732fd50ca9a721f7474793b27ef6b2597b86570941f3ea48033247a",
+  "files_verified": 108,
+  "installation": "registry",
+  "production_acceptance": false
+}

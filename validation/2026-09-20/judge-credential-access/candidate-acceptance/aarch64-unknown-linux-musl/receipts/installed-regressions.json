@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-judgeaccess/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/home/airs-review/release-frozen-judgeaccess/scripts",
+    "--pattern",
+    "test_airs_harness*.py",
+    "--receipt",
+    "/home/airs-review/judgeaccess-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/installed-regressions-ba23c9d1b5a447b9a3f14a8cc8d125e0/TEST-RESULTS.json"
+  ],
+  "command_sha256": "3c3b9d6ac520ff64563318c002777c25482f2e66d673d772ca07359e90cdc545",
+  "dependencies": {
+    "install": "b8648ed0461e245bd78294e23e62d2cf979b70d59a79ca93f8080fdba1d922f8",
+    "onboarding": "19562932110f738814436dc22ff48fc042a5cfcadfb9ea319d8019d43f451a17",
+    "terminals": "571e40151c5611eafcce7d3bdc17abba4c97782974bc4c6ec8d93b3afe506fd7"
+  },
+  "exit_code": 0,
+  "input_sha256": "21e198f0d847dc9c05f870d4363197333006808d4ca5dbfeaa7b73df610da048",
+  "inputs": {
+    "binary_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef",
+    "candidate_metadata_sha256": "cc6f4c4edccaa9d5be808e75e0d4bb6a385aad89faede4527ece3634b2bb4d04",
+    "candidate_packages_sha256": "d8f73371681ed3cd92e02394c7b0811da7d11a593396b07a61546ded7499d8be",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_harness*.py",
+      "stage": "installed-regressions",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+    "spec_sha256": "be8c9dc5946fd5180b8b9ead44987e2c8baca16806053cea7b3ea5c2dc97aa03",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+    "tooling_sha256": "fa9b3893b251f9af5da84453352a5312998906f8288f1f32601d63d0c5289d60",
+    "version": "0.1.2-alpha.5.mcp.1"
+  },
+  "outputs": {
+    "files/installed-regressions/TEST-RESULTS.json": {
+      "sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087",
+      "size": 5981
+    },
+    "logs/installed-regressions.log": {
+      "sha256": "5177691ada8c499aaa97b0bf7f8220fead80d38a045a0c875ce7e7d203ca7d99",
+      "size": 11268
+    }
+  },
+  "schema_version": 1,
+  "stage": "installed-regressions"
+}

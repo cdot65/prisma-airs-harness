@@ -1,0 +1,26 @@
+{
+  "archive": "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/portable-candidate.tar.gz",
+  "sha256": "780349556f698bebaffb50104ea1c15a746c10d2cdb1cc074951d353e222256a",
+  "bytes": 49377,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 177.77547665899328,
+      "post_expiry_cycles": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

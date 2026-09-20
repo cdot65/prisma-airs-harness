@@ -1,0 +1,21 @@
+{
+  "archive": "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/registry-portable.tar.gz",
+  "sha256": "faec41a8e04d284d5e3eb7fd552ee3e0f003dd97ce7f926fa2a4e8f71a208403",
+  "bytes": 60329,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "native_sha256": "858572ff26f0ac0b84c20cb13b6d6fe1dcde5ddd52f4cfba6ca937215d64186d"
+    },
+    "aarch64-unknown-linux-musl": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "native_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef"
+    }
+  }
+}

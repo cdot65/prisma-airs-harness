@@ -1,0 +1,34 @@
+{
+  "mode": "accept",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "bcc041d6e9bc47fc36878c980e32c812593167be7c554dc798d2cb75fb10a5cc",
+  "tooling_manifest_sha256": "a8a27dc73b9fd0244a366148d6335c908aef2546bc4b2b9e41d7e776a7ad6dd1",
+  "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+  "expected_native_sha256": "858572ff26f0ac0b84c20cb13b6d6fe1dcde5ddd52f4cfba6ca937215d64186d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "cc6f4c4edccaa9d5be808e75e0d4bb6a385aad89faede4527ece3634b2bb4d04",
+    "candidate_packages_sha256": "d8f73371681ed3cd92e02394c7b0811da7d11a593396b07a61546ded7499d8be"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-judge-access-20260920/release-frozen-judgeaccess/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/candidate-npm",
+        "--scripts",
+        "/Users/cdot/.cache/airs-judge-access-20260920/release-frozen-judgeaccess/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 314.5854565410409
+    }
+  ],
+  "passed": true
+}

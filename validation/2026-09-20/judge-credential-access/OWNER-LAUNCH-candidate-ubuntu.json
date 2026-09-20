@@ -1,0 +1,11 @@
+{
+  "pid": 192546,
+  "root": "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "a5d321a4ea85166f4486f4dd746ff3fe87235ddbd3d8955e6a711ecc2e327d12",
+  "files_verified": 8167,
+  "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+  "production_acceptance": false,
+  "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a",
+  "retry": "Inventory correction; original launch retained under failed-tooling-inventory. Candidate bytes reverified on each host."
+}

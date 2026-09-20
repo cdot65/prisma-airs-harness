@@ -1,0 +1,67 @@
+from pathlib import Path
+import importlib.util,json,subprocess,sys,shlex
+root=Path('/tmp/airs-judge-access-20260920');release=root/'release'
+s=importlib.util.spec_from_file_location('handoff',release/'owner-handoff/release.py');h=importlib.util.module_from_spec(s);s.loader.exec_module(h)
+fix=r'''from pathlib import Path
+import hashlib,json,sys,tarfile,shutil
+cache=Path(sys.argv[1]);tooling=cache/sys.argv[2];root=cache/'judgeaccess-candidate'
+failed=root/'failed-tooling-inventory'
+completion=(failed if failed.exists() else root)/'HOST-COMPLETE.json'
+m=json.loads(completion.read_text());assert not m['passed'] and m['commands']==[{'mode':'accept','exit_code':1}]
+assert not (root/'accept-dispatch').exists(),'Failure had progressed beyond inventory'
+failed.mkdir(exist_ok=True)
+for name in ['HOST-COMPLETE.json','MAC.log','ARM.log','HOST.log','SPEC.json','TRANSFER.json','LAUNCH.json']:
+ p=root/name
+ if p.exists() and not (failed/name).exists():p.rename(failed/name)
+if not (cache/(sys.argv[2]+'-before-inventory-fix')).exists():tooling.rename(cache/(sys.argv[2]+'-before-inventory-fix'))
+tooling.mkdir(exist_ok=True)
+archive=cache/'acceptance-tooling-v2.tar.gz'
+assert hashlib.sha256(archive.read_bytes()).hexdigest()==sys.argv[3]
+with tarfile.open(archive) as t:
+ assert all(m.isfile() and not Path(m.name).is_absolute() and '..' not in Path(m.name).parts for m in t.getmembers())
+ for member in t.getmembers():
+  p=tooling/member.name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(t.extractfile(member).read())
+spec=json.loads((cache/'SPEC.json').read_text());manifest=json.loads((tooling/'ACCEPTANCE-TOOLING.json').read_text())
+sys.path.insert(0,str(tooling/'scripts'))
+from airs_release_receipts import verify_tooling
+verify_tooling(tooling,manifest,spec['tooling_commit'])
+transfer=json.loads((cache/'CANDIDATE-TRANSFER.json').read_text());assert transfer['spec']==spec
+for name,digest in transfer['files'].items():
+ with (root/'candidate-npm'/name).open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==digest
+shutil.copy2(cache/'SPEC.json',root/'SPEC.json');shutil.copy2(cache/'CANDIDATE-TRANSFER.json',root/'TRANSFER.json')
+if (failed/'LAUNCH.json').exists():shutil.copy2(failed/'LAUNCH.json',root/'LAUNCH.json')
+print(json.dumps({'files_verified':len(transfer['files']),'tooling_commit':spec['tooling_commit'],'preserved_failure':str(failed)}))
+'''
+script=root/'retry-inventory-host.py';script.write_text(fix)
+freeze=json.loads((release/'SOURCE-FREEZE.json').read_text());digest=freeze['tooling_archive_sha256']
+for host,cache,py,folder in [('mac',h.MAC_CACHE,h.MAC_PY,'release-frozen-judgeaccess'),('ubuntu',h.UBUNTU_CACHE,h.UBUNTU_PY,'frozen-judgeaccess')]:
+ files=[release/'acceptance-tooling-v2.tar.gz',release/'SPEC.json',release/'CANDIDATE-TRANSFER.json',script]
+ h.copy_to(host,files)
+ if host=='mac':
+  docker=['/usr/local/bin/docker'];container='airs-native-mcp-20260919-arm64';arm='/home/airs-review'
+  for file in files:
+   h.remote(host,[*docker,'cp',cache+'/'+file.name,container+':'+arm+'/'+file.name])
+  h.remote(host,[*docker,'exec','-u','10001',container,'/opt/review-venv/bin/python',arm+'/'+script.name,arm,'release-frozen-judgeaccess',digest])
+ h.remote(host,[py,cache+'/'+script.name,cache,folder,digest])
+ print(host,'prepared',flush=True)
+# Preserve pre-inventory launch records locally; same checked package transfer.
+mac_launch=json.loads((release/'OWNER-LAUNCH-candidate-mac.json').read_text())
+h.remote('mac',['launchctl','kickstart','gui/501/'+mac_launch['mac_gui_label']])
+arm_start=r'''from pathlib import Path
+import subprocess,json
+root=Path('/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate')
+cmd=['/usr/local/bin/docker','exec','-u','10001','-e','HOME=/home/airs-review','-e','USER=airs-review','-e','TERM=xterm-256color','-e','PYTHONDONTWRITEBYTECODE=1','-w','/home/airs-review','airs-native-mcp-20260919-arm64','/opt/review-venv/bin/python','/home/airs-review/judgeaccess-candidate/host-runner.py']
+with (root/'ARM.log').open('x') as log:p=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+print(json.dumps({'arm_dispatch_pid':p.pid}))
+'''
+h.remote('mac',[h.MAC_PY,'-c',arm_start])
+ub_start=r'''from pathlib import Path
+import subprocess,json,os
+root=Path('/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate');python=Path('/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python')
+env=os.environ.copy();env.update(HOME='/home/cdot',USER='cdot',TERM='xterm-256color',PYTHONDONTWRITEBYTECODE='1',PATH=str(python.parent)+':/home/cdot/.cache/airs-post011-20260919/test-shells/bin:/usr/local/bin:/usr/bin:/bin')
+with (root/'HOST.log').open('x') as log:p=subprocess.Popen([str(python),str(root/'host-runner.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+print(json.dumps({'pid':p.pid}))
+'''
+h.remote('ubuntu',[h.UBUNTU_PY,'-c',ub_start])
+(release/'INVENTORY-CORRECTION.json').write_text(json.dumps({'tooling_commit':freeze['tooling_commit'],'runtime_commit':freeze['source_commit'],'packages_unchanged':True,'initial_failure_preserved':True},indent=2)+'\n')
+h.accept()

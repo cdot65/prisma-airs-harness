@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts",
+    "-p",
+    "test_airs_release_acceptance.py"
+  ],
+  "tests_run": 17,
+  "elapsed_seconds": 4.184,
+  "exit_code": 0,
+  "passed": true,
+  "tooling_commit": "86563415a79e8b8a95ef3b12139e3e1276eb422a"
+}

@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "c532708583234a57a1487c5c9e5e3d27610d58914c5dc9def6ac4fbf205095e7",
+  "source_commit": "4509d98550b8919de0ff687e40ab4f80f00f122c",
+  "binary_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef",
+  "target": "aarch64-unknown-linux-musl",
+  "extracted": "/tmp/airs-judge-access-20260920/release/arm64-native/extracted/airs-harness-0.1.2-alpha.5.mcp.1-linux-aarch64-musl",
+  "verified_files": 5883,
+  "archive_sidecar_present": true
+}

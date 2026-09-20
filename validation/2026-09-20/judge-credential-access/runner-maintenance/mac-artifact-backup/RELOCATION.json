@@ -1,0 +1,19 @@
+{
+  "before_free_bytes": 88160423936,
+  "after_free_bytes": 112547172352,
+  "compiler_caches_preserved": true,
+  "owner_environments_preserved": true,
+  "backup": {
+    "sha256": "9352c1df4fce7c654ed344deb67310aeaf02fe0849d4a691ccb5e774de992bce",
+    "bytes": 17772506130,
+    "roots": [
+      "/Users/cdot/.cache/airs-node-judge-20260920",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha14",
+      "/Users/cdot/.local/share/airs-forgejo-runner/frozen-alpha12",
+      "/Users/cdot/.local/share/airs-forgejo-runner/mcp-alpha13"
+    ],
+    "verified": true,
+    "local_archive": "/tmp/airs-judge-access-20260920/mac-artifact-backup/completed-artifacts.tar.gz"
+  }
+}

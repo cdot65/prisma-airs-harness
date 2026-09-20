@@ -121,8 +121,8 @@ airs --environment work doctor --verify-access
 
 ### Optional: TypeSafe judge key for red-team scoring
 
-The development correction (not yet published) makes live skill runs request
-approval for the judge command to access your native
+Preview **0.1.2-alpha.5.mcp.1** makes live skill runs request approval for the
+judge command to access your native
 credential store and send scan records to TypeSafe. Approve that specific command
 inside AIRS; dry runs and explicit replay keep normal sandbox permissions. A saved
 key can be readable by `/typesafe` while inaccessible to a sandboxed shell. If a

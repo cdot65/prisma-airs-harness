@@ -1,0 +1,84 @@
+from pathlib import Path
+import hashlib
+import json
+import plistlib
+import shutil
+import subprocess
+import tarfile
+import uuid
+
+cache = Path('/Users/cdot/.cache/airs-judge-access-20260920')
+venv = Path('/Users/cdot/.cache/airs-native-mcp-20260919/venv')
+import sys
+expected_archive = sys.argv[1]
+archive = cache / 'candidate-transfer.tar'
+transfer = json.loads((cache / 'CANDIDATE-TRANSFER.json').read_text())
+with archive.open('rb') as stream:
+    actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+if actual != expected_archive or actual != transfer['archive_sha256']:
+    raise RuntimeError('Candidate transfer hash mismatch')
+root = cache / 'judgeaccess-candidate'
+root.mkdir(mode=0o700)
+packages = root / 'candidate-npm'
+packages.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+    members = tar.getmembers()
+    if any(not member.isfile() for member in members) or len(members) != len(transfer['files']) or {member.name for member in members} != set(transfer['files']):
+        raise RuntimeError('Unexpected candidate archive members')
+    tar.extractall(packages, filter='data')
+for relative, expected in transfer['files'].items():
+    with (packages / relative).open('rb') as stream:
+        if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
+            raise RuntimeError('Extracted candidate file mismatch')
+shutil.copy2(cache / 'SPEC.json', root / 'SPEC.json')
+if json.loads((root / 'SPEC.json').read_text()) != transfer['spec']:
+    raise RuntimeError('Specification mismatch')
+shutil.copy2(cache / 'CANDIDATE-TRANSFER.json', root / 'TRANSFER.json')
+runner = '''from pathlib import Path
+import json,subprocess,sys
+root=Path(__file__).resolve().parent
+commands=[]
+try:
+ for mode in ['accept','extras']:
+  command=[sys.executable,str(root.parent/'judgeaccess-native-worker.py'),mode,'--root',str(root),'--tooling',str(root.parent/'release-frozen-judgeaccess'),'--packages',str(root/'candidate-npm')]
+  r=subprocess.run(command)
+  commands.append({'mode':mode,'exit_code':r.returncode})
+  if r.returncode:raise SystemExit(r.returncode)
+finally:(root/'HOST-COMPLETE.json').write_text(json.dumps({'commands':commands,'passed':len(commands)==2 and all(r['exit_code']==0 for r in commands)})+'\\n')
+'''
+(root / 'host-runner.py').write_text(runner)
+docker = '/usr/local/bin/docker'
+container = 'airs-native-mcp-20260919-arm64'
+arm = '/home/airs-review/judgeaccess-candidate'
+subprocess.run([docker, 'exec', container, 'test', '!', '-e', arm], check=True)
+subprocess.run([docker, 'cp', str(root), container + ':' + arm], check=True)
+subprocess.run([docker, 'exec', container, 'chown', '-R', '10001:10001', arm], check=True)
+verification = '''from pathlib import Path
+import hashlib,json
+root=Path('/home/airs-review/judgeaccess-candidate');m=json.loads((root/'TRANSFER.json').read_text())
+for p,h in m['files'].items():
+ with (root/'candidate-npm'/p).open('rb') as f:
+  if hashlib.file_digest(f,'sha256').hexdigest()!=h:raise RuntimeError('ARM transfer mismatch')
+if json.loads((root/'SPEC.json').read_text())!=m['spec']:raise RuntimeError('ARM spec mismatch')
+print(len(m['files']))
+'''
+verified = subprocess.check_output([docker, 'exec', '-u', '10001', container, '/opt/review-venv/bin/python', '-c', verification], text=True)
+tmp = root / 'tmp'
+tmp.mkdir(mode=0o700)
+label = 'io.cdot.airs.typesafe.20260920.candidate.' + uuid.uuid4().hex
+plist = root / 'mac-job.plist'
+plist.write_bytes(plistlib.dumps({
+    'Label': label, 'ProgramArguments': [str(venv / 'bin/python'), str(root / 'host-runner.py')],
+    'RunAtLoad': True, 'WorkingDirectory': str(root),
+    'EnvironmentVariables': {'PATH': str(venv / 'bin') + ':/opt/homebrew/opt/openssl@3/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin',
+                             'HOME': '/Users/cdot', 'TERM': 'xterm-256color', 'TMPDIR': str(tmp), 'PYTHONDONTWRITEBYTECODE': '1'},
+    'StandardOutPath': str(root / 'MAC.log'), 'StandardErrorPath': str(root / 'MAC.log'),
+}))
+subprocess.run(['launchctl', 'bootstrap', 'gui/501', str(plist)], check=True)
+command = [docker, 'exec', '-u', '10001', '-e', 'HOME=/home/airs-review', '-e', 'USER=airs-review', '-e', 'TERM=xterm-256color', '-e', 'PYTHONDONTWRITEBYTECODE=1', '-w', '/home/airs-review', container, '/opt/review-venv/bin/python', arm + '/host-runner.py']
+with (root / 'ARM.log').open('x') as output:
+    child = subprocess.Popen(command, stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
+report = {'mac_gui_label': label, 'arm_dispatch_pid': child.pid, 'mac_files_verified': len(transfer['files']), 'arm_files_verified': int(verified),
+          'archive_sha256': actual, 'spec': transfer['spec'], 'mac_root': str(root), 'arm_root': arm, 'production_acceptance': False}
+(root / 'LAUNCH.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps(report))

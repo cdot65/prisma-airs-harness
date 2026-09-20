@@ -1,0 +1,28 @@
+{
+  "scope": "local source candidate before platform publication",
+  "runtime_commit": "f07c0bc841",
+  "acceptance_tooling_commit": "ddd883d0c7",
+  "local_install": "/home/cdot/.local/share/airs-local/f07c0bc841/bin/airs",
+  "global_command": "/home/cdot/.local/share/npm-global/bin/airs",
+  "previous_command": "/home/cdot/.local/share/npm-global/bin/airs.before-local-f07c0bc841",
+  "embedded_skill_matches_source": true,
+  "native_and_agent_suite_passed": true,
+  "native_and_agent_suite_seconds": 13.687,
+  "credential_cases": [
+    "saved_native_key",
+    "inherited_key_precedence",
+    "denied_approval_zero_requests"
+  ],
+  "model_instruction_following_tested": false,
+  "paid_jev_calls": 0,
+  "owner_credentials_modified": false,
+  "rust_credential_tests_passed": 30,
+  "node_wrapper_tests_passed": 7,
+  "source_identity": {
+    "source_commit": "f07c0bc841",
+    "distribution": "local development candidate; not an npm release",
+    "base_package": "airs-harness@0.1.2-alpha.4.mcp.1",
+    "managed_cli": "7.1.5",
+    "native_sha256": "f02590eec18837b770283ac5a1ca6fb31a55e27e964a6a2ae61936eff78920d3"
+  }
+}

@@ -1,25 +1,55 @@
 # Saved TypeSafe credential access from the judge skill
 
-**0.1.2-alpha.5.mcp.1 candidate** retains CLI **7.1.5** and fixes live judge
-execution permissions. The skill requests per-command approval for credential
-store and TypeSafe network access. Native errors distinguish an unreadable saved
-binding from absent setup. Release acceptance now requires the actual agent
-approval boundary, including refusal without provider requests, saved-key access,
-and inherited-key precedence. Installed embedded instructions must match source.
+Harness **0.1.2-alpha.5.mcp.1** is published under `mcp` at `https://npm.cdot.io`,
+bundling CLI **7.1.5**. Stable `latest` remains **0.1.1**.
 
-Local installed source acceptance passed. Platform build, signing, registry
-publication and fresh-install acceptance are in progress; this is not yet a
-published release. Stable `latest` remains 0.1.1.
+```bash
+npm install -g airs-harness@0.1.2-alpha.5.mcp.1 --registry=https://npm.cdot.io
+airs --version
+# airs 0.1.2-alpha.5.mcp.1
+airs cli --version
+# 7.1.5
+```
+
+Restart `airs` and invoke `$prisma-airs-asr-judge attacks.json`. Approve the specific
+live judge command when AIRS requests native credential-store and TypeSafe network
+access. A saved key does not need to be replaced just because an earlier sandboxed
+command could not read it. Dry-run and explicit replay keep normal sandbox
+permissions. An unreadable saved binding is no longer misreported as absent setup.
+
+Exact candidate and fresh anonymous registry acceptance passed on Ubuntu x64,
+native Linux ARM64, and signed/notarized Apple Silicon. The TypeSafe stage now
+exercises the actual agent tool executor and approval UI, including saved native
+keys, inherited-key precedence, and declined approval with zero provider requests.
+Installed embedded skill instructions must match the frozen source bytes. No
+source overlay is used to make an older binary pass.
+
+The published npm package was also installed in the owner's Bash environment on
+the local Linux host. Its native and agent tests passed in 10.346 seconds; the
+existing `work` environment was preserved. The judge runs through Node and the
+bundled TypeScript CLI; Python is used only by development acceptance tooling.
+
+These checks use a scripted inference gateway and loopback TypeSafe SDK fixtures.
+They verify execution and permissions, not model instruction-following or live
+Jev accuracy. No owner credentials were changed and no paid Jev calls were made.
+
+Runtime/packaging: `4509d98550b8919de0ff687e40ab4f80f00f122c`.
+Validation tooling: `86563415a79e8b8a95ef3b12139e3e1276eb422a`.
+The initial tooling inventory failure is retained alongside the corrected run;
+the validator correction passed 17 unit tests. See
+[release evidence](validation/2026-09-20/judge-credential-access/README.md).
+The [CLI judge guide](https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/)
+is deployed at `607c2b0`; all five checked live pages match the validated build.
 
 # TypeScript judge and in-session TypeSafe setup
 
 **September 20 correction:** Alpha.4's original acceptance ran the SDK child
 outside the agent shell sandbox. It did not prove the in-session skill could
-read a saved key. The owner reproduced that failure. The development skill now
-requests per-command approval for live credential-store and network access;
-local installed agent acceptance verifies saved-key access, inherited-key
-precedence, and denial without an SDK request. This source correction is not yet
-published. The registry version below remains unchanged.
+read a saved key. The owner reproduced that failure. Alpha.5 now
+requests per-command approval for live credential-store and network access. Its
+installed agent acceptance verifies saved-key access, inherited-key precedence,
+and denial without an SDK request. The alpha.4 bytes and evidence below are
+historical and do not contain this correction.
 
 Harness **0.1.2-alpha.4.mcp.1** is published under `mcp` at `https://npm.cdot.io`,
 bundling CLI **7.1.5**. Stable `latest` remains **0.1.1**.

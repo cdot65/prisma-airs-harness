@@ -1,0 +1,45 @@
+{
+  "archive": "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/portable-typesafe.tar.gz",
+  "sha256": "af155c409a93f15d34779091510587f03ba3075115b826cf6f688ea770851c68",
+  "bytes": 89595,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.99871645891108,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "858572ff26f0ac0b84c20cb13b6d6fe1dcde5ddd52f4cfba6ca937215d64186d"
+    },
+    "aarch64-unknown-linux-musl": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.20852016398567,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "8869d594581fd98e4bf9cfd6457c53217b856518cbde24449ad03825f0499cef"
+    }
+  }
+}

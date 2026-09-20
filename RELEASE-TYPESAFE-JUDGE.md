@@ -32,6 +32,9 @@ claims are part of these checks. This is not native Windows package acceptance.
 Runtime source: `640f30b05ffb149f18be62b74a56804bcda72e62`.
 Acceptance/packaging tooling: `d64ccd3fa87eae928d66bf7dce704e4f98b46965`.
 See [the release evidence](validation/2026-09-20/typescript-judge-setup/README.md).
+The [immutable Git audit](validation/2026-09-20/typescript-judge-setup-git-audit.json)
+passed across 327 files and 56 stage receipts at `5eb9594c78`. The CLI Docusaurus
+guide is deployed at `fe80cec`; all five checked live pages match the validated build.
 
 # Verbatim model-output judgment
 

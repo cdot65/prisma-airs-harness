@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 3526146,
+  "evidence_commit": "5eb9594c7895c3c2b35ffd0dab01ef7126a012e7",
+  "evidence_root": "validation/2026-09-20/typescript-judge-setup",
+  "files_checked": 327,
+  "inventory_sha256": "4b69cd224c744aeb17614c0d68da971707cc3e4c3fe8449d85700dd74c9bcc01",
+  "manifest_blob_id": "32182507e2ef02cd5fe034fdfc55155247e5ba91",
+  "manifest_sha256": "4b7d0918f041c963c849a2470b28596ab2bf5625bc3d68370eaf40edae774e6e",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 56
+}

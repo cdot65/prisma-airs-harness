@@ -1,0 +1,28 @@
+{
+  "archive_sha256": "d9a1094cb2c39a9e6448efe403ade0a72d43b74395f73f097445850ab9f1f2ab",
+  "bytes": 48295,
+  "verified": true,
+  "target": "x86_64-unknown-linux-musl",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 177.9370696429978,
+      "post_expiry_cycles": {
+        "mcp": 2,
+        "inference": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

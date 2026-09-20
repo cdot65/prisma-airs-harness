@@ -1,0 +1,33 @@
+{
+  "paths": [
+    {
+      "path": "candidate-transfer.tar",
+      "bytes": 1507522560
+    },
+    {
+      "path": "registry-inputs.tar",
+      "bytes": 771194880
+    },
+    {
+      "path": "registry-inputs-post011",
+      "bytes": 771015289
+    },
+    {
+      "path": "post011-candidate/candidate-npm",
+      "bytes": 1492422331
+    },
+    {
+      "path": "post011-candidate/staged",
+      "bytes": 770687454
+    },
+    {
+      "path": "post011-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work",
+      "bytes": 2401219924
+    },
+    {
+      "path": "post011-candidate/registry-acceptance/x86_64-unknown-linux-musl.work",
+      "bytes": 2388808738
+    }
+  ],
+  "scope": "task-owned redundant package and disposable install files; portable proof retained locally and remotely"
+}

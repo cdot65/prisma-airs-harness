@@ -1,0 +1,685 @@
+build	Set up job	﻿2026-09-20T01:49:45.9023887Z Current runner version: '2.337.0'
+build	Set up job	2026-09-20T01:49:45.9051054Z ##[group]Runner Image Provisioner
+build	Set up job	2026-09-20T01:49:45.9051916Z Hosted Compute Agent
+build	Set up job	2026-09-20T01:49:45.9052928Z Version: 20260828.587
+build	Set up job	2026-09-20T01:49:45.9053638Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+build	Set up job	2026-09-20T01:49:45.9054444Z Build Date: 2026-08-28T16:44:25Z
+build	Set up job	2026-09-20T01:49:45.9055174Z Worker ID: {f07519df-f9d8-4880-80cd-430e8fdd81ba}
+build	Set up job	2026-09-20T01:49:45.9055956Z Azure Region: northcentralus
+build	Set up job	2026-09-20T01:49:45.9056702Z ##[endgroup]
+build	Set up job	2026-09-20T01:49:45.9058170Z ##[group]Operating System
+build	Set up job	2026-09-20T01:49:45.9058873Z Ubuntu
+build	Set up job	2026-09-20T01:49:45.9059435Z 24.04.5
+build	Set up job	2026-09-20T01:49:45.9059977Z LTS
+build	Set up job	2026-09-20T01:49:45.9060562Z ##[endgroup]
+build	Set up job	2026-09-20T01:49:45.9061179Z ##[group]Runner Image
+build	Set up job	2026-09-20T01:49:45.9061779Z Image: ubuntu-24.04
+build	Set up job	2026-09-20T01:49:45.9062436Z Version: 20260907.300.1
+build	Set up job	2026-09-20T01:49:45.9063754Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+build	Set up job	2026-09-20T01:49:45.9065590Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+build	Set up job	2026-09-20T01:49:45.9066568Z ##[endgroup]
+build	Set up job	2026-09-20T01:49:45.9067798Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-09-20T01:49:45.9070343Z Contents: read
+build	Set up job	2026-09-20T01:49:45.9071049Z Metadata: read
+build	Set up job	2026-09-20T01:49:45.9071639Z ##[endgroup]
+build	Set up job	2026-09-20T01:49:45.9074038Z Secret source: Actions
+build	Set up job	2026-09-20T01:49:45.9075003Z Cache mode: write
+build	Set up job	2026-09-20T01:49:45.9076177Z Prepare workflow directory
+build	Set up job	2026-09-20T01:49:45.9429727Z Prepare all required actions
+build	Set up job	2026-09-20T01:49:45.9477657Z Getting action download info
+build	Set up job	2026-09-20T01:49:46.1744654Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build	Set up job	2026-09-20T01:49:46.3037406Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build	Set up job	2026-09-20T01:49:46.3998350Z Download action repository 'actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+build	Set up job	2026-09-20T01:49:46.6709790Z Getting action download info
+build	Set up job	2026-09-20T01:49:46.7596214Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build	Set up job	2026-09-20T01:49:46.9114180Z Complete job name: build
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	﻿2026-09-20T01:49:46.9983305Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:46.9994764Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:46.9996169Z with:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:46.9997005Z   repository: cdot65/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0005106Z   token: ***
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0005780Z   ssh-strict: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0006507Z   ssh-user: git
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0007207Z   persist-credentials: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0007979Z   clean: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0008660Z   sparse-checkout-cone-mode: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0009505Z   fetch-depth: 1
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0010174Z   fetch-tags: false
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0010866Z   show-progress: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0011561Z   lfs: false
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0012268Z   submodules: false
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0013309Z   set-safe-directory: true
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0014139Z   allow-unsafe-pr-checkout: false
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.0015264Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1046550Z Syncing repository: cdot65/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1049191Z ##[group]Getting Git version info
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1050968Z Working directory is '/home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture'
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1053541Z [command]/usr/bin/git version
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1102255Z git version 2.55.0
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1122023Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1137171Z Temporarily overriding HOME='/home/runner/work/_temp/3edefeb2-9988-4825-93d8-9be8cab317af' before making global git config changes
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1139967Z Adding repository directory to the temporary git global config as a safe directory
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1143278Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1189192Z Deleting the contents of '/home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture'
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1192744Z ##[group]Initializing the repository
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1197979Z [command]/usr/bin/git init /home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1295453Z hint: Using 'master' as the name for the initial branch. This default branch name
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1297544Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1299995Z hint: to use in all of your new repositories, which will suppress this warning,
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1301770Z hint: call:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1302722Z hint:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1303803Z hint: 	git config --global init.defaultBranch <name>
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1304868Z hint:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1305823Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1307699Z hint: 'development'. The just-created branch can be renamed via this command:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1309390Z hint:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1310080Z hint: 	git branch -m <name>
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1310849Z hint:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1311914Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1314716Z Initialized empty Git repository in /home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture/.git/
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1318739Z [command]/usr/bin/git remote add origin https://github.com/cdot65/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1353919Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1355201Z ##[group]Disabling automatic garbage collection
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1357356Z [command]/usr/bin/git config --local gc.auto 0
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1387856Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1389032Z ##[group]Setting up auth
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1394781Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1428116Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1767553Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.1804194Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2039192Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2071535Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2308128Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2344795Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2346585Z ##[group]Fetching the repository
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.2356196Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0235219441a75f9aa28c67312e47e6be1037ca90:refs/remotes/origin/main
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6428360Z From https://github.com/cdot65/prisma-airs-reference-architecture
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6431202Z  * [new ref]         0235219441a75f9aa28c67312e47e6be1037ca90 -> origin/main
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6435190Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6439605Z ##[group]Determining the checkout info
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6441891Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6443494Z [command]/usr/bin/git sparse-checkout disable
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6490725Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6520927Z ##[group]Checking out the ref
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6531330Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6641150Z Switched to a new branch 'main'
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6646177Z branch 'main' set up to track 'origin/main'.
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6652825Z ##[endgroup]
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6693614Z [command]/usr/bin/git log -1 --format=%H
+build	Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:49:47.6718633Z 0235219441a75f9aa28c67312e47e6be1037ca90
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	﻿2026-09-20T01:49:47.7129081Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7131870Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7133143Z with:
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7133950Z   node-version: 22
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7134772Z   cache: npm
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7135565Z   always-auth: false
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7136393Z   check-latest: false
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7139765Z   token: ***
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.7140567Z ##[endgroup]
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.8629856Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.8638528Z (node:2235) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.8640228Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:47.8642332Z ##[group]Environment details
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.2203189Z node: v22.23.2
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.2204760Z npm: 10.9.8
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.2206008Z yarn: 1.22.22
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.2208135Z ##[endgroup]
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.2245774Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.3378448Z /home/runner/.npm
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.4795173Z Cache hit for: node-cache-Linux-x64-npm-14f1dafec4a8659eb59dec05c530d35405a8bd41eb7162d92f6716af71070a49
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:48.4899225Z (node:2235) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:49.3784546Z Received 75304491 of 75304491 (100.0%), 92.7 MBs/sec
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:49.3785354Z Cache Size: ~72 MB (75304491 B)
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:49.3852054Z [command]/usr/bin/tar -xf /home/runner/work/_temp/143db852-d561-4e05-b9ba-0f962a633163/cache.tzst -P -C /home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture --use-compress-program unzstd
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:49.6580535Z Cache restored successfully
+build	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:49:49.6625907Z Cache restored from key: node-cache-Linux-x64-npm-14f1dafec4a8659eb59dec05c530d35405a8bd41eb7162d92f6716af71070a49
+build	Run npm ci	﻿2026-09-20T01:49:49.6808788Z ##[group]Run npm ci
+build	Run npm ci	2026-09-20T01:49:49.6809182Z ^[[36;1mnpm ci^[[0m
+build	Run npm ci	2026-09-20T01:49:49.6860509Z shell: /usr/bin/bash -e {0}
+build	Run npm ci	2026-09-20T01:49:49.6860839Z ##[endgroup]
+build	Run npm ci	2026-09-20T01:49:59.2808570Z 
+build	Run npm ci	2026-09-20T01:49:59.2815811Z added 1388 packages, and audited 1389 packages in 10s
+build	Run npm ci	2026-09-20T01:49:59.2816252Z 
+build	Run npm ci	2026-09-20T01:49:59.2816470Z 425 packages are looking for funding
+build	Run npm ci	2026-09-20T01:49:59.2816903Z   run `npm fund` for details
+build	Run npm ci	2026-09-20T01:49:59.2822071Z 
+build	Run npm ci	2026-09-20T01:49:59.2822749Z found 0 vulnerabilities
+build	Run npx playwright install --with-deps chromium	﻿2026-09-20T01:49:59.3745791Z ##[group]Run npx playwright install --with-deps chromium
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:49:59.3746298Z ^[[36;1mnpx playwright install --with-deps chromium^[[0m
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:49:59.3786171Z shell: /usr/bin/bash -e {0}
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:49:59.3786476Z ##[endgroup]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.1527927Z Installing dependencies...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.1590178Z Switching to root user to install dependencies...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.3238577Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.3574542Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.3845200Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.3894655Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.3975046Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.4047166Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.4117258Z Get:7 https://dl.google.com/linux/chrome-stable/deb stable InRelease [2548 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.4911399Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [478 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.5070267Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [429 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6270412Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1275 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6374747Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [294 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6391518Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [180 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6444587Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1689 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6511617Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [338 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6559242Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6623883Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1580 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6783955Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [359 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6817786Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [45.7 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.6831421Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [13.1 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7270621Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7288450Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [65.9 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7307300Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5764 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7323962Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [34.6 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7333833Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.7 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7349980Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7609853Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1009 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7677717Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [214 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7705017Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.3 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7728523Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1208 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7796027Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [243 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7821367Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.2 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7843051Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1449 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.7937163Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [336 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.8390558Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [11.3 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:00.8544287Z Get:35 https://dl.google.com/linux/chrome-stable/deb stable/main amd64 Packages [1408 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:09.2265631Z Fetched 12.2 MB in 2s (7981 kB/s)
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.0569406Z Reading package lists...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.0828031Z Reading package lists...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.3068258Z Building dependency tree...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.3076007Z Reading state information...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4892120Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4893220Z libasound2t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4894024Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4894857Z libatk-bridge2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4895647Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4896316Z libatk1.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4896991Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4897668Z libatspi2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4898320Z libcairo2 is already the newest version (1.18.0-3build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4898874Z libcairo2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4899481Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4900011Z libcups2t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4900433Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4900826Z libdbus-1-3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4901337Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4901858Z libdrm2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4902269Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4902958Z libgbm1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4903416Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.8).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4903919Z libglib2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4904360Z libnspr4 is already the newest version (2:4.35-1.1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4904766Z libnspr4 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4905150Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4905708Z libnss3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4906303Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4906920Z libpango-1.0-0 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4907544Z libx11-6 is already the newest version (2:1.8.7-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4908080Z libx11-6 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4908660Z libxcb1 is already the newest version (1.15-1ubuntu2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4909042Z libxcb1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4909461Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4909878Z libxcomposite1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4910286Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4910857Z libxdamage1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4911490Z libxext6 is already the newest version (2:1.3.4-1build2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4912069Z libxext6 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4912865Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4913269Z libxfixes3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4913670Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4914072Z libxkbcommon0 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4914472Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4914842Z libxrandr2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4915240Z xvfb is already the newest version (2:21.1.12-1ubuntu1.6).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4916108Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4916668Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4917106Z libfontconfig1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4917548Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.1).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4918116Z libfreetype6 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4918531Z fonts-liberation is already the newest version (1:2.1.5-3).
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4918956Z fonts-liberation set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4919367Z The following additional packages will be installed:
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4919729Z   xfonts-encodings xfonts-utils
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4920026Z Recommended packages:
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.4920317Z   fonts-ipafont-mincho fonts-tlwg-loma
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5394462Z The following NEW packages will be installed:
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5395510Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5405394Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5406026Z   xfonts-utils
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5603017Z 0 upgraded, 9 newly installed, 0 to remove and 73 not upgraded.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5603534Z Need to get 21.1 MB of archives.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5604284Z After this operation, 79.5 MB of additional disk space will be used.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.5605097Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.6001400Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.6550599Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.7275682Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.7504764Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.7929888Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:10.9898655Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.0234598Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.0460133Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.0714596Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.3630859Z Fetched 21.1 MB in 1s (40.2 MB/s)
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4296550Z Selecting previously unselected package fonts-ipafont-gothic.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4705609Z (Reading database ... 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4706133Z (Reading database ... 5%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4706469Z (Reading database ... 10%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4706750Z (Reading database ... 15%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4707003Z (Reading database ... 20%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4707592Z (Reading database ... 25%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4707858Z (Reading database ... 30%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4708106Z (Reading database ... 35%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4708373Z (Reading database ... 40%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4708623Z (Reading database ... 45%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.4708886Z (Reading database ... 50%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.5216689Z (Reading database ... 55%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:11.9492086Z (Reading database ... 60%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:12.2507554Z (Reading database ... 65%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:12.5202776Z (Reading database ... 70%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:12.8414360Z (Reading database ... 75%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:13.3918654Z (Reading database ... 80%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:14.0067645Z (Reading database ... 85%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:14.8233253Z (Reading database ... 90%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.5447397Z (Reading database ... 95%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.5448362Z (Reading database ... 100%
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.5449039Z (Reading database ... 201818 files and directories currently installed.)
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.5497315Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.5595859Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.7961756Z Selecting previously unselected package fonts-freefont-ttf.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.8095494Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.8102042Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.8923970Z Selecting previously unselected package fonts-tlwg-loma-otf.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.9056472Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.9062911Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.9326658Z Selecting previously unselected package fonts-unifont.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.9459028Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:15.9465192Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.0617872Z Selecting previously unselected package fonts-wqy-zenhei.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.0749997Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.0854993Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.5680048Z Selecting previously unselected package xfonts-encodings.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.5812982Z Preparing to unpack .../5-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.5819996Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.6118316Z Selecting previously unselected package xfonts-utils.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.6250920Z Preparing to unpack .../6-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.6258691Z Unpacking xfonts-utils (1:7.7+6build3) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7057788Z Selecting previously unselected package xfonts-cyrillic.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7192113Z Preparing to unpack .../7-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7199471Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7550405Z Selecting previously unselected package xfonts-scalable.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7684415Z Preparing to unpack .../8-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.7691742Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8128802Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8244561Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8260643Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8276820Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8294843Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8361953Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8376780Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8393427Z Setting up xfonts-utils (1:7.7+6build3) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.8433096Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.9340608Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.9729869Z Processing triggers for man-db (2.12.0-4build2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.9758744Z Not building database; man-db/auto-update is not 'true'.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:16.9772100Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3154007Z 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3154671Z Running kernel seems to be up-to-date.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3154971Z 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3155139Z No services need to be restarted.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3155333Z 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3155483Z No containers need to be restarted.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3155677Z 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3155864Z No user sessions are running outdated binaries.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3156080Z 
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:18.3156372Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:19.3809565Z Downloading Chrome for Testing 153.0.8010.12 (playwright chromium v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:19.8179204Z |                                                                                |   0% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.0052953Z |■■■■■■■■                                                                        |  10% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.2079902Z |■■■■■■■■■■■■■■■■                                                                |  20% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.3563809Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.4687445Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.5986940Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.7066164Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.8490192Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:20.9567688Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:21.0767550Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:21.2311301Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 186.8 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:23.8091205Z Chrome for Testing 153.0.8010.12 (playwright chromium v1243) downloaded to /home/runner/.cache/ms-playwright/chromium-1243
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:23.8094819Z Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1747395Z |                                                                                |   0% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1791250Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1822377Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1843666Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1855929Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1877556Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1886684Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1903408Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1913346Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1925574Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.1935931Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.2526045Z FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.2528972Z Downloading Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-headless-shell-linux64.zip
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.6726346Z |                                                                                |   0% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.7810981Z |■■■■■■■■                                                                        |  10% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.8685072Z |■■■■■■■■■■■■■■■■                                                                |  20% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:24.9876213Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.1492451Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.2248273Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.3387588Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.4096781Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.4693082Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.5664465Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:25.7287211Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.3 MiB
+build	Run npx playwright install --with-deps chromium	2026-09-20T01:50:27.5548484Z Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1243
+build	Run npm run check	﻿2026-09-20T01:50:27.5834578Z ##[group]Run npm run check
+build	Run npm run check	2026-09-20T01:50:27.5835111Z ^[[36;1mnpm run check^[[0m
+build	Run npm run check	2026-09-20T01:50:27.5876870Z shell: /usr/bin/bash -e {0}
+build	Run npm run check	2026-09-20T01:50:27.5877196Z ##[endgroup]
+build	Run npm run check	2026-09-20T01:50:27.6892874Z 
+build	Run npm run check	2026-09-20T01:50:27.6893566Z > prisma-airs-reference-architecture@0.1.0 check
+build	Run npm run check	2026-09-20T01:50:27.6894160Z > npm run check:content && npm run build && npm run test:browser
+build	Run npm run check	2026-09-20T01:50:27.6894432Z 
+build	Run npm run check	2026-09-20T01:50:27.7896012Z 
+build	Run npm run check	2026-09-20T01:50:27.7896832Z > prisma-airs-reference-architecture@0.1.0 check:content
+build	Run npm run check	2026-09-20T01:50:27.7897344Z > node scripts/check-content.mjs
+build	Run npm run check	2026-09-20T01:50:27.7897551Z 
+build	Run npm run check	2026-09-20T01:50:27.8309782Z Checked 15 lessons, 18 Mermaid blocks, provenance, and publication boundaries.
+build	Run npm run check	2026-09-20T01:50:27.9411603Z 
+build	Run npm run check	2026-09-20T01:50:27.9412407Z > prisma-airs-reference-architecture@0.1.0 build
+build	Run npm run check	2026-09-20T01:50:27.9413316Z > docusaurus build
+build	Run npm run check	2026-09-20T01:50:27.9413551Z 
+build	Run npm run check	2026-09-20T01:50:28.8973531Z [INFO] [en] Creating an optimized production build...
+build	Run npm run check	2026-09-20T01:50:29.6055977Z [info] [webpackbar] Compiling Client
+build	Run npm run check	2026-09-20T01:50:29.6265400Z [info] [webpackbar] Compiling Server
+build	Run npm run check	2026-09-20T01:50:41.7111935Z [success] [webpackbar] Server: Compiled successfully in 12.08s
+build	Run npm run check	2026-09-20T01:51:27.2745364Z [success] [webpackbar] Client: Compiled successfully in 57.67s
+build	Run npm run check	2026-09-20T01:51:31.1065811Z [SUCCESS] Generated static files in "build".
+build	Run npm run check	2026-09-20T01:51:31.1068483Z [INFO] Use `npm run serve` command to test your build locally.
+build	Run npm run check	2026-09-20T01:51:31.3021003Z 
+build	Run npm run check	2026-09-20T01:51:31.3021947Z > prisma-airs-reference-architecture@0.1.0 test:browser
+build	Run npm run check	2026-09-20T01:51:31.3022823Z > playwright test
+build	Run npm run check	2026-09-20T01:51:31.3023037Z 
+build	Run npm run check	2026-09-20T01:51:33.8253757Z 
+build	Run npm run check	2026-09-20T01:51:33.8254518Z Running 22 tests using 1 worker
+build	Run npm run check	2026-09-20T01:51:46.5361674Z ······················
+build	Run npm run check	2026-09-20T01:51:46.5366503Z   22 passed (14.7s)
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	﻿2026-09-20T01:51:46.5759401Z ##[group]Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5759869Z with:
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5760087Z   path: build
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5760313Z   name: github-pages
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5760564Z   retention-days: 1
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5760793Z ##[endgroup]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5830424Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5859112Z ##[group]Run echo ::group::Archive artifact
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5859509Z ^[[36;1mecho ::group::Archive artifact^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5859800Z ^[[36;1mtar \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5860069Z ^[[36;1m  --dereference --hard-dereference \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5860392Z ^[[36;1m  --directory "$INPUT_PATH" \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5860719Z ^[[36;1m  -cvf "$RUNNER_TEMP/artifact.tar" \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5861026Z ^[[36;1m  --exclude=.git \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5861289Z ^[[36;1m  --exclude=.github \^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5861543Z ^[[36;1m  .^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5861760Z ^[[36;1mecho ::endgroup::^[[0m
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5914101Z shell: /usr/bin/sh -e {0}
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5914393Z env:
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5914618Z   INPUT_PATH: build
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5914865Z ##[endgroup]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.5985886Z ##[group]Archive artifact
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6000667Z ./
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6001055Z ./404.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6001375Z ./sitemap.xml
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6001706Z ./learn/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6002050Z ./learn/evidence/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6002435Z ./learn/evidence/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6003068Z ./learn/lifecycle/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6003447Z ./learn/lifecycle/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6003832Z ./learn/gateway/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6004187Z ./learn/gateway/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6004606Z ./learn/troubleshooting/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6005064Z ./learn/troubleshooting/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6005479Z ./learn/mcp/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6005827Z ./learn/mcp/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6006164Z ./learn/cie/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6006497Z ./learn/cie/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6006896Z ./learn/architecture/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6007311Z ./learn/architecture/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6007716Z ./learn/keycloak/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6008073Z ./learn/keycloak/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6008442Z ./learn/login/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6008790Z ./learn/login/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6009172Z ./learn/operations/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6009562Z ./learn/operations/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6009946Z ./learn/labs/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6010277Z ./learn/labs/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6010651Z ./learn/start-here/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6011011Z ./learn/start-here/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6011402Z ./learn/walkthrough/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6011820Z ./learn/walkthrough/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6012220Z ./learn/glossary/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6012722Z ./learn/glossary/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6013092Z ./learn/harness/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6013457Z ./learn/harness/index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6013817Z ./index.html
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6014108Z ./.nojekyll
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6014423Z ./img/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6014711Z ./img/mark.svg
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6015020Z ./assets/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6015319Z ./assets/js/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6015660Z ./assets/js/4560.d6dd02b1.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6016066Z ./assets/js/3510.a361b2e2.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6016790Z ./assets/js/da78eb99.98c5706c.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6017327Z ./assets/js/583.f873dbf5.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6017763Z ./assets/js/5137.25068614.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6018166Z ./assets/js/629.60af8d6a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6018549Z ./assets/js/7486.d7675eb6.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6018937Z ./assets/js/4772.067efbb1.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6019335Z ./assets/js/6284.5be541b8.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6019724Z ./assets/js/6445.facd7b13.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6020115Z ./assets/js/6089.37fb709a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6020540Z ./assets/js/17896441.39c32f73.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6020961Z ./assets/js/4246.72f90dde.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6021395Z ./assets/js/5523731c.7ca6a54d.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6021840Z ./assets/js/5e95c892.dd428a19.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6022657Z ./assets/js/1501.85b899e2.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6023063Z ./assets/js/9279.86144054.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6023454Z ./assets/js/851.37fb709a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6023872Z ./assets/js/1045.b9e72da3.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6024257Z ./assets/js/3765.a9f0fee1.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6024703Z ./assets/js/common.c87ca1cf.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6027671Z ./assets/js/5779.3778e9d9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6028336Z ./assets/js/165.5ec3be30.js.LICENSE.txt
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6028842Z ./assets/js/cfd71120.243a875e.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6029275Z ./assets/js/2237.1368434c.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6029671Z ./assets/js/2223.50ac1fba.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6030099Z ./assets/js/2c70f9a5.606a1878.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6030568Z ./assets/js/636ddc05.e9baee9f.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6030981Z ./assets/js/7632.2220c6e3.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6031369Z ./assets/js/9590.0f070f8a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6031770Z ./assets/js/2822.ce7098d0.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6032166Z ./assets/js/3566.96803731.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6032760Z ./assets/js/4469.cfe7cd0f.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6033179Z ./assets/js/1738.6521e785.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6033587Z ./assets/js/4985.d7ecea81.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6033995Z ./assets/js/165.5ec3be30.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6037169Z ./assets/js/7310.4fc17b8b.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6037583Z ./assets/js/6803.ddc8bf90.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6037990Z ./assets/js/4220.ece22f73.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6038393Z ./assets/js/1388.c8e022d1.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6038803Z ./assets/js/8952.52ecb314.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6039264Z ./assets/js/4de154ba.341a6b53.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6039694Z ./assets/js/884.d7e516df.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6039964Z ./assets/js/6344.2c4a9a1c.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6040622Z ./assets/js/b8066252.b549a6e5.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6041100Z ./assets/js/runtime~main.37374115.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6041587Z ./assets/js/5281b7a2.0851bb62.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6042055Z ./assets/js/7d8e08ea.8320ce9c.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6042684Z ./assets/js/e2a7f71b.16d355d3.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6043187Z ./assets/js/3923.9111db4a.js.LICENSE.txt
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6043660Z ./assets/js/4142.bc8b7ed9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6044076Z ./assets/js/8365.ff42346e.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6044479Z ./assets/js/7483.a037c506.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6044932Z ./assets/js/ca4d3f77.1ca90ed9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6045399Z ./assets/js/2355.f9d64017.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6045801Z ./assets/js/7038.a1d7b3ff.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6046197Z ./assets/js/8470.37fb709a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6046599Z ./assets/js/4780.9b16437b.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6046995Z ./assets/js/7567.40de25ae.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6047383Z ./assets/js/1671.52542e5b.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6047792Z ./assets/js/6180.0f3b4400.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6059703Z ./assets/js/451.8753ced7.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6060700Z ./assets/js/6806.5ea06f91.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6061144Z ./assets/js/2e6f4f00.d58e60ff.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6061602Z ./assets/js/e747ec83.080d0006.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6062016Z ./assets/js/3327.277ede6e.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6062427Z ./assets/js/9945.f932f550.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6062975Z ./assets/js/a7456010.adee5a2b.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6063396Z ./assets/js/2227.e90ea736.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6063830Z ./assets/js/a94703ab.e7ccf8c8.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6064240Z ./assets/js/3923.9111db4a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6068666Z ./assets/js/6571.163521d3.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6069065Z ./assets/js/5617.053896fb.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6069452Z ./assets/js/3509.54f99e08.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6073196Z ./assets/js/2122.0e47bb90.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6083251Z ./assets/js/aba21aa0.e0b0c313.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6083750Z ./assets/js/f0e68af0.f64f3153.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6084175Z ./assets/js/200.e9698fb9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6084585Z ./assets/js/main.24f89552.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6085043Z ./assets/js/9dd8a0d2.b3eba5f7.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6085505Z ./assets/js/e8744089.201692d4.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6085916Z ./assets/js/8677.7d68e11a.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6086385Z ./assets/js/main.24f89552.js.LICENSE.txt
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6087062Z ./assets/js/3608.c9cc9125.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6087383Z ./assets/js/5784.66b7270e.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6087784Z ./assets/js/7636.3e731a06.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6088195Z ./assets/js/3283.f42bcc01.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6088615Z ./assets/js/6789.3cfe3b09.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6089031Z ./assets/js/9035.841fd065.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6089463Z ./assets/js/3230.42f71f35.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6089893Z ./assets/js/2180.796218c9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6090336Z ./assets/js/9d9f8394.fc04dba3.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6090792Z ./assets/js/a7bd4aaa.41b08108.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6091289Z ./assets/js/1501.85b899e2.js.LICENSE.txt
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6091620Z ./assets/js/7834.d86fc8d4.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6091877Z ./assets/js/7430.395ce984.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6092136Z ./assets/js/7089.29f394a9.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6092394Z ./assets/js/4061.3591c4bc.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6092877Z ./assets/js/3436.9048d0bf.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6093241Z ./assets/js/6480.9147782f.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6093572Z ./assets/js/2130.a661331c.js
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6093931Z ./assets/css/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6094355Z ./assets/css/styles.2dfed545.css
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6095304Z ##[endgroup]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6106998Z ##[end-action id=__actions_upload-pages-artifact.__run;outcome=success;conclusion=success;duration_ms=27]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6111296Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run_2]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6117291Z ##[end-action id=__actions_upload-pages-artifact.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6120282Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run_3]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6124365Z ##[end-action id=__actions_upload-pages-artifact.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6126418Z ##[start-action display=Upload artifact;id=__actions_upload-pages-artifact.upload-artifact]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6180934Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6182174Z ##[group]Run actions/upload-artifact@v4
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6182485Z with:
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6182927Z   name: github-pages
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6183200Z   path: /home/runner/work/_temp/artifact.tar
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6183516Z   retention-days: 1
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6183761Z   if-no-files-found: error
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6184037Z   compression-level: 6
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6184278Z   overwrite: false
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6184515Z   include-hidden-files: false
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.6184777Z ##[endgroup]
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.7945867Z (node:3432) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.7946751Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.7998207Z With the provided path, there will be 1 file uploaded
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.8004031Z Artifact name is valid!
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:46.8005179Z Root directory input is valid!
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.0496948Z Beginning upload of artifact content to blob storage
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.2429955Z (node:3432) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.5107811Z Uploaded bytes 1758427
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.5423828Z Finished uploading artifact content to blob storage!
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.5425311Z SHA256 digest of uploaded artifact zip is 251d0da56a23ed848a6a9b7cef3903444796fd9fcf4467e2b33e0e62ec7402d1
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.5426299Z Finalizing artifact upload
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.7391347Z Artifact github-pages.zip successfully finalized. Artifact ID 10595834891
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.7392922Z Artifact github-pages has been successfully uploaded! Final size is 1758427 bytes. Artifact ID is 10595834891
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.7396565Z Artifact download URL: https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/35482389835/artifacts/10595834891
+build	Run actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa	2026-09-20T01:51:47.7516039Z ##[end-action id=__actions_upload-pages-artifact.upload-artifact;outcome=success;conclusion=success;duration_ms=1138]
+build	Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	﻿2026-09-20T01:51:47.7634862Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build	Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:51:47.7636067Z Post job cleanup.
+build	Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:51:47.8900093Z (node:3445) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:51:47.8900995Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-09-20T01:51:47.8904042Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-14f1dafec4a8659eb59dec05c530d35405a8bd41eb7162d92f6716af71070a49, not saving cache.
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	﻿2026-09-20T01:51:47.9042430Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:47.9043915Z Post job cleanup.
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:47.9921664Z [command]/usr/bin/git version
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:47.9959656Z git version 2.55.0
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:47.9995821Z Temporarily overriding HOME='/home/runner/work/_temp/531542a8-8e29-4b8e-a51f-db4a51ae0314' before making global git config changes
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:47.9997250Z Adding repository directory to the temporary git global config as a safe directory
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0001132Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/prisma-airs-reference-architecture/prisma-airs-reference-architecture
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0040142Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0074864Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0317936Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0345309Z http.https://github.com/.extraheader
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0355290Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0390014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0633424Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262	2026-09-20T01:51:48.0667634Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Complete job	﻿2026-09-20T01:51:48.1047669Z Cleaning up orphan processes
+build	Complete job	2026-09-20T01:51:48.1387900Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Set up job	﻿2026-09-20T01:51:54.9733390Z Current runner version: '2.337.0'
+deploy	Set up job	2026-09-20T01:51:54.9758111Z ##[group]Runner Image Provisioner
+deploy	Set up job	2026-09-20T01:51:54.9759380Z Hosted Compute Agent
+deploy	Set up job	2026-09-20T01:51:54.9760125Z Version: 20260828.587
+deploy	Set up job	2026-09-20T01:51:54.9760798Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+deploy	Set up job	2026-09-20T01:51:54.9761532Z Build Date: 2026-08-28T16:44:25Z
+deploy	Set up job	2026-09-20T01:51:54.9762347Z Worker ID: {809f70a4-02ee-48f0-9585-723771aaa73d}
+deploy	Set up job	2026-09-20T01:51:54.9763078Z Azure Region: westus
+deploy	Set up job	2026-09-20T01:51:54.9763688Z ##[endgroup]
+deploy	Set up job	2026-09-20T01:51:54.9765366Z ##[group]Operating System
+deploy	Set up job	2026-09-20T01:51:54.9766063Z Ubuntu
+deploy	Set up job	2026-09-20T01:51:54.9766736Z 24.04.5
+deploy	Set up job	2026-09-20T01:51:54.9767273Z LTS
+deploy	Set up job	2026-09-20T01:51:54.9767869Z ##[endgroup]
+deploy	Set up job	2026-09-20T01:51:54.9768648Z ##[group]Runner Image
+deploy	Set up job	2026-09-20T01:51:54.9769283Z Image: ubuntu-24.04
+deploy	Set up job	2026-09-20T01:51:54.9769927Z Version: 20260907.300.1
+deploy	Set up job	2026-09-20T01:51:54.9771017Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+deploy	Set up job	2026-09-20T01:51:54.9773018Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+deploy	Set up job	2026-09-20T01:51:54.9774010Z ##[endgroup]
+deploy	Set up job	2026-09-20T01:51:54.9775188Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2026-09-20T01:51:54.9777077Z Metadata: read
+deploy	Set up job	2026-09-20T01:51:54.9777841Z Pages: write
+deploy	Set up job	2026-09-20T01:51:54.9778628Z ##[endgroup]
+deploy	Set up job	2026-09-20T01:51:54.9780656Z Secret source: Actions
+deploy	Set up job	2026-09-20T01:51:54.9781793Z Cache mode: write
+deploy	Set up job	2026-09-20T01:51:54.9782525Z Prepare workflow directory
+deploy	Set up job	2026-09-20T01:51:55.0120333Z Prepare all required actions
+deploy	Set up job	2026-09-20T01:51:55.0168239Z Getting action download info
+deploy	Set up job	2026-09-20T01:51:55.3581415Z Download action repository 'actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e' (SHA:d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e)
+deploy	Set up job	2026-09-20T01:51:55.9396892Z Complete job name: deploy
+deploy	Deploy GitHub Pages	﻿2026-09-20T01:51:56.0187646Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0197028Z ##[group]Run actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0198142Z with:
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0202536Z   token: ***
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0203027Z   timeout: 600000
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0203517Z   error_count: 10
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0204027Z   reporting_interval: 5000
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0204594Z   artifact_name: github-pages
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0205177Z   preview: false
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.0205930Z ##[endgroup]
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.2091209Z (node:2111) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.2092666Z (Use `node --trace-deprecation ...` to show where the warning was created)
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.4442293Z Fetching artifact metadata for "github-pages" in this workflow run
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.6970451Z Found 1 artifact(s)
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.6983661Z Creating Pages deployment with payload:
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.6985324Z {
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.6986556Z 	"artifact_id": 10595834891,
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.6988342Z 	"pages_build_version": "0235219441a75f9aa28c67312e47e6be1037ca90",
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.7166736Z 	"oidc_token": "***"
+deploy	Deploy GitHub Pages	2026-09-20T01:51:56.7167797Z }
+deploy	Deploy GitHub Pages	2026-09-20T01:51:57.0165102Z Created deployment for 0235219441a75f9aa28c67312e47e6be1037ca90, ID: 0235219441a75f9aa28c67312e47e6be1037ca90
+deploy	Deploy GitHub Pages	2026-09-20T01:52:02.0185961Z Getting Pages deployment status...
+deploy	Deploy GitHub Pages	2026-09-20T01:52:02.2186451Z Reported success!
+deploy	Complete job	﻿2026-09-20T01:52:02.2485379Z Evaluate and set environment url
+deploy	Complete job	2026-09-20T01:52:02.2490813Z Evaluated environment url: https://cdot65.github.io/prisma-airs-reference-architecture/
+deploy	Complete job	2026-09-20T01:52:02.2491917Z Cleaning up orphan processes
+deploy	Complete job	2026-09-20T01:52:02.2757093Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,5 +1,6 @@
 //! Private AIRS diagnostics. Reports are transient UI state, never model context.
 pub(crate) mod process;
+pub(crate) mod report;
 pub(crate) mod views;
 use crate::airs_mcp_manager::Connection;
 use codex_protocol::ThreadId;
@@ -30,6 +31,10 @@ pub(crate) struct Report {
 
 pub(crate) enum Event {
     Open(Mode),
+    Report {
+        session: std::sync::Arc<report::Session>,
+        action: report::Action,
+    },
     Cancel(u64),
     SignIn,
     ConfirmVerify,

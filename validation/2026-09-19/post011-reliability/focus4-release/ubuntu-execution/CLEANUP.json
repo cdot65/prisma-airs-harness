@@ -1,0 +1,38 @@
+{
+  "removed": [
+    {
+      "path": "candidate-transfer.tar",
+      "bytes": 1507522560
+    },
+    {
+      "path": "registry-inputs.tar",
+      "bytes": 771194880
+    },
+    {
+      "path": "registry-inputs-post011",
+      "bytes": 771015289
+    },
+    {
+      "path": "post011-candidate/candidate-npm",
+      "bytes": 1492422331
+    },
+    {
+      "path": "post011-candidate/staged",
+      "bytes": 770687454
+    },
+    {
+      "path": "post011-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work",
+      "bytes": 2401219924
+    },
+    {
+      "path": "post011-candidate/registry-acceptance/x86_64-unknown-linux-musl.work",
+      "bytes": 2388808738
+    }
+  ],
+  "all_absent": true,
+  "free_bytes_before": 20531249152,
+  "free_bytes_after": 30781460480,
+  "owner_environment_untouched": true,
+  "compiled_caches_preserved": true,
+  "portable_evidence_preserved": true
+}

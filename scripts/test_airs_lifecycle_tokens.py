@@ -1,6 +1,6 @@
 import unittest
 
-from airs_lifecycle_tokens import RotatingTokens
+from airs_lifecycle_tokens import RefreshFault, RotatingTokens
 
 
 class LifecycleTokens(unittest.TestCase):
@@ -62,3 +62,36 @@ class LifecycleTokens(unittest.TestCase):
         self.tokens.exchange({"refresh_token": [first["refresh_token"]]}, self.build)
         self.assertNotIn("access-1", str(self.events))
         self.assertNotIn("refresh-1", str(self.events))
+
+    def test_lost_response_consumes_predecessor_and_issues_unreturned_generation(self):
+        first = self.tokens.issue(self.build)
+        self.tokens.fail_next_refresh(RefreshFault.RESPONSE_LOST)
+        values = {"refresh_token": [first["refresh_token"]]}
+        self.assertIsNone(self.tokens.exchange(values, self.build))
+        self.assertEqual(self.tokens.generation, 2)
+        self.assertEqual(self.tokens.exchange(values, self.build)[0], 400)
+        self.assertEqual(self.events[-1]["reason"], "consumed")
+        self.assertEqual(
+            self.tokens.exchange({"refresh_token": ["refresh-2"]}, self.build)[0],
+            200,
+        )
+
+    def test_rejected_refresh_does_not_issue_generation_or_reuse_fault(self):
+        first = self.tokens.issue(self.build)
+        self.tokens.fail_next_refresh(RefreshFault.REJECTED)
+        with self.assertRaises(ValueError):
+            self.tokens.fail_next_refresh(RefreshFault.RESPONSE_LOST)
+        values = {"refresh_token": [first["refresh_token"]]}
+        self.assertEqual(
+            self.tokens.exchange(values, self.build), (400, {"error": "invalid_grant"})
+        )
+        self.assertEqual(self.tokens.generation, 1)
+        self.assertEqual(self.events[-1]["reason"], "fixture_rejection")
+        self.assertEqual(self.tokens.exchange(values, self.build)[0], 400)
+        second = self.tokens.issue(self.build)
+        self.assertEqual(
+            self.tokens.exchange(
+                {"refresh_token": [second["refresh_token"]]}, self.build
+            )[0],
+            200,
+        )

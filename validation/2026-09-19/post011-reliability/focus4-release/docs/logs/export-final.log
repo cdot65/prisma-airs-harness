@@ -1,0 +1,4 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 export:vault
+npm notice run node scripts/export-vault.mjs /home/cdot/Documents/strength-and-honor
+Exported 15 explicitly selected lessons. No vault credentials or indexes are included.

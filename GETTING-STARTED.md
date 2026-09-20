@@ -22,7 +22,9 @@ airs cli --version
 
 Replace the example registry with your administrator's registry. Ordinary installs include the matching native package; `--include=optional` is unnecessary unless npm configuration explicitly omits optional dependencies. Upgrades preserve existing environments, credentials and histories. Restart an already running AIRS process after upgrading.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.0 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
+If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
+
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.1 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
@@ -241,6 +243,12 @@ airs --environment work mcp login service-now --no-browser
 
 Enter `/doctor` for the current environment's connection-health dashboard. Opening it or choosing **Refresh diagnostics** does not send an inference request. **Verify gateway access** opens a confirmation; **Send connectivity check** sends a small inference request that can consume quota and appear in gateway logs. It sends no local files, conversation content or tools. This verifies inference, not ServiceNow permissions.
 
+**Pending test release:** this branch adds the following diagnostic-report actions; publication and native acceptance are still in progress.
+
+For a support summary, choose **Diagnostic report**, then **Preview report**. The report contains the AIRS version, platform, authentication method, known check outcomes and recovery steps. It omits environment and connection names, addresses, paths, credentials, raw errors and conversation content. It reuses the last completed check; previewing, copying or saving it does not probe the gateway again. An inference check that has not run is **Not verified**.
+
+Choose **Copy report** to send it to your clipboard, or **Save local report** to create a private `diagnostic-report-*.txt` file in this environment's state directory. AIRS displays the saved location. Over SSH, copying depends on your terminal accepting clipboard requests; use the saved file if it does not. Review the report before sharing it. Raw `airs doctor --json` output is a different, detailed local diagnostic and can contain private addresses and paths.
+
 Return to `/mcp`, select `service-now`, and use **Reconnect and verify** if you need fresh initialization/tool discovery. Choose **Start new conversation** after connection changes, then inspect the available tools. A read-only grant exposes `list_incidents` and `get_incident`; incident-management grants may also expose `create_incident` and `update_incident`. Successful login does not imply all four permissions.
 
 Ask in the new conversation:
@@ -286,6 +294,8 @@ List environments with `airs env list`; switch the saved default with `airs env 
 | Tools return an authorization error | Have an administrator check the gateway workspace grant and upstream incident roles/scopes/subject binding |
 
 For inference SSO renewal, `/doctor` offers **Restore company sign-in**, or use `/signin`. Workspace-key replacement remains a shell operation. Neither operation grants MCP permissions. Escape cancels an unfinished action; existing work remains saved.
+
+If startup or resume stops because the inference refresh was rejected or its outcome is unknown, restore sign-in from the shell with `airs --environment work login --restore-session`, using the affected environment’s name. Sign in as the same person, then retry the original command. This restores access to the saved conversation; an already-open session continues to use `/signin`.
 
 To retire the environment, use `/mcp` → **Sign out** if desired, then sign out the credentials you intend to remove while it is still selected and unregister it:
 

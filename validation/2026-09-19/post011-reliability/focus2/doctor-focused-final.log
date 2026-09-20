@@ -1,0 +1,21 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Finished `test` profile [unoptimized] target(s) in 0.66s
+info: using target runner `/tmp/airs-command-output-20260918/rust-test-runner.py` defined by environment variable `CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER`
+────────────
+ Nextest run ID 636abe00-053c-4ab1-8da9-d4079645e583 with nextest profile: local
+    Starting 13 tests across 7 binaries (4359 tests skipped)
+        PASS [   0.049s] ( 1/13) codex-tui airs_doctor::report::tests::explicit_access_and_authentication_are_distinct_from_health
+        PASS [   0.050s] ( 2/13) codex-tui chatwidget::tests::airs_doctor::report_copy_failure_keeps_lease_draft_and_local_fallback
+        PASS [   0.072s] ( 3/13) codex-tui airs_doctor::tests::failed_checks_remain_a_report_and_invalid_output_is_redacted
+        PASS [   0.073s] ( 4/13) codex-tui airs_doctor::report::tests::report_actions_keep_snapshot_and_expire_with_view_or_thread
+        PASS [   0.073s] ( 5/13) codex-tui airs_doctor::report::tests::overview_replacement_expires_queued_export_action
+        PASS [   0.073s] ( 6/13) codex-tui airs_doctor::report::tests::report_ignores_private_fields_and_uses_pessimistic_known_checks
+        PASS [   0.074s] ( 7/13) codex-tui airs_doctor::report::tests::local_save_preserves_existing_state_and_rejects_invalid_destination
+        PASS [   0.075s] ( 8/13) codex-tui airs_doctor::tests::verify_requires_an_explicit_action_and_cancel_keeps_attempt_identity
+        PASS [   0.077s] ( 9/13) codex-tui airs_doctor::report::tests::report_preview_wraps_in_existing_pager_at_narrow_width
+        PASS [   0.087s] (10/13) codex-tui chatwidget::tests::airs_doctor::doctor_mcp_status_keeps_runtime_failure_separate_from_cached_discovery
+        PASS [   0.091s] (11/13) codex-tui app::tests::airs_doctor::report_save_dispatch_rejects_wrong_thread_and_stale_view
+        PASS [   0.103s] (12/13) codex-tui chatwidget::tests::airs_doctor::report_actions_and_local_save_status_remain_private_views
+        PASS [   0.108s] (13/13) codex-tui chatwidget::tests::airs_doctor::doctor_views_preserve_draft_and_do_not_submit_model_actions
+────────────
+     Summary [   0.125s] 13 tests run: 13 passed, 4359 skipped

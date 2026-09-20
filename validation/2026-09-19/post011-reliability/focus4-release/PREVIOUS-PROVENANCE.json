@@ -1,0 +1,20 @@
+{
+  "evidence_commit": "5c7086341e50757168a8a04a5d56401c52cd0170",
+  "path": "validation/2026-09-19/stable-0.1.1/SPEC.json",
+  "sha256": "b3fb8970dc1637547873e5d61448761fc681069f650b0c50c5c6b554c4652deb",
+  "source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3"
+    }
+  ]
+}

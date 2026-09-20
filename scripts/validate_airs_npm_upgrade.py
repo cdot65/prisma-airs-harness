@@ -10,17 +10,21 @@ import argparse
 import hashlib
 import json
 import os
-import re
 from urllib.parse import urlsplit
 import subprocess
 import threading
+import sys
+import signal
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 
 from airs_npm_registry import install_environment, registry_handler
 from airs_release_receipts import evidence_path
 from airs_test_release_archive import inspect_archive
-from airs_test_release_spec import require
+from airs_test_release_spec import COMMIT, SHA256, require
+from airs_npm_versions import released_version
+from airs_native_test_store import native_test_command
+from airs_npm_roundtrip import observe_roundtrip
 
 
 def run(arguments, environment, log):
@@ -81,6 +85,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--previous", default="0.1.0-alpha.12")
     parser.add_argument("--registry", default="https://npm.cdot.io")
+    parser.add_argument("--previous-native-sha256")
+    parser.add_argument("--previous-source-commit")
+    parser.add_argument("--native-worker", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     registry = urlsplit(args.registry)
     if (
@@ -95,11 +102,38 @@ def main():
             "Expected an HTTPS registry URL without credentials, query or fragment"
         )
     args.registry = args.registry.rstrip("/")
-    previous_version = re.fullmatch(
-        r"\d+\.\d+\.\d+-alpha\.(\d+)(?:\.(?:onboarding|mcp)\.\d+)?", args.previous
-    )
-    if not previous_version:
-        parser.error("Expected an explicit immutable alpha version")
+    try:
+        previous_version = released_version(args.previous)
+    except ValueError as error:
+        parser.error(str(error))
+    if previous_version.stable and (
+        not SHA256.fullmatch(args.previous_native_sha256 or "")
+        or not COMMIT.fullmatch(args.previous_source_commit or "")
+    ):
+        parser.error(
+            "Stable upgrades require pinned previous native SHA256 and source commit"
+        )
+    if not args.native_worker:
+        worker = subprocess.Popen(
+            native_test_command(__file__, [*sys.argv[1:], "--native-worker"]),
+            start_new_session=True,
+        )
+        try:
+            status = worker.wait(timeout=720)
+        except subprocess.TimeoutExpired:
+            os.killpg(worker.pid, signal.SIGTERM)
+            try:
+                worker.wait(timeout=60)
+            except subprocess.TimeoutExpired:
+                os.killpg(worker.pid, signal.SIGKILL)
+                worker.wait(timeout=10)
+            raise RuntimeError("Isolated upgrade observation exceeded deadline")
+        raise SystemExit(status)
+
+    def interrupted(_signal, _frame):
+        raise RuntimeError("Isolated upgrade observation interrupted")
+
+    signal.signal(signal.SIGTERM, interrupted)
     args.output.mkdir(parents=True, exist_ok=False)
     packages = args.packages.resolve(strict=True)
     records = json.loads((packages / "NPM-PACKAGES.json").read_text())["publish_order"]
@@ -126,8 +160,7 @@ def main():
         args.output / "install-previous.log",
     )
     command = prefix / "bin/airs-harness"
-    previous_alpha = int(previous_version[1])
-    previous_command_name = "airs" if previous_alpha >= 22 else "airs-harness"
+    previous_command_name = previous_version.command
     assert (
         run([str(command), "--version"], old_env, args.output / "previous-version.log")
         == previous_command_name + " " + args.previous
@@ -135,9 +168,15 @@ def main():
     old_native, old_info = native_info(prefix)
     old_hash = hashlib.sha256(old_native.read_bytes()).hexdigest()
     assert old_hash == old_info["binary_sha256"]
+    if previous_version.stable:
+        require(
+            old_hash == args.previous_native_sha256
+            and old_info["source_commit"] == args.previous_source_commit,
+            "Previous package differs from pinned baseline",
+        )
 
     # Preserve a real pre-upgrade harness configuration, not a fabricated marker.
-    previous_setup = ["env", "create", "work"] if previous_alpha >= 21 else ["setup"]
+    previous_setup = previous_version.setup
     run(
         [
             str(command),
@@ -220,7 +259,7 @@ def main():
                     "--no-fund",
                     "--registry",
                     registry,
-                    "airs-harness@latest",
+                    "airs-harness@" + launcher["version"],
                     *flags,
                 ],
                 env,
@@ -280,7 +319,52 @@ def main():
             }
         )
         assert not unexpected and not redirects
+        roundtrip = None
+        if previous_version.stable:
+
+            def install_phase(phase):
+                url = args.registry if phase == "previous" else registry
+                version = args.previous if phase == "previous" else launcher["version"]
+                environment = install_environment(prefix, url, phase == "candidate")
+                run(
+                    [
+                        "npm",
+                        "install",
+                        "-g",
+                        "--prefix",
+                        str(prefix),
+                        "--ignore-scripts",
+                        "--no-audit",
+                        "--no-fund",
+                        "--registry=" + url,
+                        "airs-harness@" + version,
+                    ],
+                    environment,
+                    args.output / ("roundtrip-" + phase + "-install.log"),
+                )
+                for name in ("airs", "airs-harness"):
+                    require(
+                        run(
+                            [str(prefix / "bin" / name), "--version"],
+                            environment,
+                            args.output / ("roundtrip-" + phase + "-" + name + ".log"),
+                        )
+                        == "airs " + version,
+                        "Roundtrip command reports wrong version",
+                    )
+
+            roundtrip = observe_roundtrip(
+                prefix,
+                args.previous,
+                launcher["version"],
+                install_phase,
+                native_info,
+                args.previous_native_sha256,
+                args.previous_source_commit,
+            )
         receipt = {
+            "schema_version": 2,
+            "roundtrip": roundtrip,
             "passed": True,
             "previous": args.previous,
             "version": launcher["version"],
@@ -298,4 +382,19 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as error:
+        # Native PTY exceptions may contain synthetic callback URLs. Keep only
+        # bounded phase/type diagnostics; never persist their raw message.
+        print(
+            json.dumps(
+                {
+                    "passed": False,
+                    "error_type": type(error).__name__,
+                    "phase": getattr(observe_roundtrip, "phase", "upgrade"),
+                }
+            ),
+            file=sys.stderr,
+        )
+        raise SystemExit(1)

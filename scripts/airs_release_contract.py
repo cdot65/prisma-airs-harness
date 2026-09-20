@@ -14,7 +14,6 @@ from airs_test_release_spec import (
     validate_spec,
 )
 
-
 PATTERNS = {
     "installed-regressions": "test_airs_harness*.py",
     "mcp-manager": "test_airs_mcp_manager.py",
@@ -168,6 +167,54 @@ def validate_result(name, value, spec, target):
             and value.get("legacy_target_preserved") is True,
             "Upgrade identity or preservation mismatch",
         )
+        if "previous_release" in spec:
+            baseline = spec["previous_release"]
+            previous_hash = next(
+                row["binary_sha256"]
+                for row in baseline["platforms"]
+                if row["target"] == target
+            )
+            roundtrip = value.get("roundtrip")
+            require(
+                value.get("schema_version") == 2 and isinstance(roundtrip, dict),
+                "Stable upgrade requires actual native roundtrip",
+            )
+            require(
+                roundtrip.get("previous_version") == spec["previous_version"]
+                and roundtrip.get("restored_version") == spec["previous_version"]
+                and roundtrip.get("candidate_version") == spec["version"]
+                and roundtrip.get("previous_binary_sha256") == previous_hash
+                and roundtrip.get("restored_binary_sha256") == previous_hash
+                and roundtrip.get("candidate_binary_sha256") == expected
+                and roundtrip.get("candidate_source_commit") == spec["source_commit"]
+                and roundtrip.get("previous_source_commit")
+                == baseline["source_commit"],
+                "Stable roundtrip native/source identity mismatch",
+            )
+            require(
+                all(
+                    roundtrip.get(key) is True
+                    for key in (
+                        "passed",
+                        "command_links_preserved",
+                        "configuration_preserved",
+                        "real_conversation_preserved",
+                        "inference_credential_reused",
+                        "mcp_credential_reused",
+                        "native_cleanup_completed",
+                    )
+                ),
+                "Stable roundtrip preservation missing",
+            )
+            require(
+                all(
+                    roundtrip.get(key) is False
+                    for key in ("uninstall_used", "force_used", "production_acceptance")
+                )
+                and type(roundtrip.get("real_mcp_turns")) is int
+                and roundtrip["real_mcp_turns"] == 3,
+                "Stable roundtrip scope mismatch",
+            )
     if name == "managed-cli":
         require(
             value.get("live_api_operations") is False,

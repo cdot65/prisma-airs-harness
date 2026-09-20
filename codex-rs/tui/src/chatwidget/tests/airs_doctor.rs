@@ -66,7 +66,7 @@ async fn doctor_views_preserve_draft_and_do_not_submit_model_actions() {
         chat.show_airs_doctor(views::overview("work", report, vec![crate::airs_mcp_manager::Connection {
             name: "service-now".into(), url: "https://gateway.example/mcp".into(),
             status: "Not verified · select to reconnect".into(), can_login: true,
-        }]));
+        }], /*thread*/ None));
         insta::assert_snapshot!(name, render_doctor(&chat, width));
         chat.dismiss_airs_doctor();
         assert_eq!(chat.bottom_pane.composer_text(), "Keep this unsent request");
@@ -114,4 +114,79 @@ fn render_doctor(chat: &ChatWidget, width: u16) -> String {
         })
         .collect::<Vec<_>>()
         .join("\n")
+}
+
+#[tokio::test]
+async fn report_copy_failure_keeps_lease_draft_and_local_fallback() {
+    let (mut chat, mut rx, _ops) = make_chatwidget_manual(None).await;
+    chat.insert_str("Private unsent draft");
+    let text = crate::airs_doctor::report::render(None);
+    let status = chat.copy_airs_report_with(&text, |copied| {
+        assert_eq!(copied, text.as_ref());
+        Ok(Some(crate::clipboard_copy::ClipboardLease::test()))
+    });
+    assert!(chat.clipboard_lease.is_some());
+    chat.show_airs_doctor(views::report_actions(
+        text.clone(),
+        chat.thread_id(),
+        status,
+    ));
+    insta::assert_snapshot!("airs_report_clipboard_sent", render_doctor(&chat, 88));
+    let status = chat.copy_airs_report_with(&text, |_| Err("PRIVATE-BACKEND-ERROR".into()));
+    assert!(chat.clipboard_lease.is_some());
+    chat.show_airs_doctor(views::report_actions(text, chat.thread_id(), status));
+    insta::assert_snapshot!(
+        "airs_report_clipboard_failure_narrow",
+        render_doctor(&chat, 55)
+    );
+    assert!(!render_doctor(&chat, 55).contains("PRIVATE-BACKEND-ERROR"));
+    chat.dismiss_airs_doctor();
+    assert_eq!(chat.bottom_pane.composer_text(), "Private unsent draft");
+    assert!(!chat.airs_report_view_active());
+    while let Ok(event) = rx.try_recv() {
+        assert!(!matches!(
+            event,
+            AppEvent::InsertHistoryCell(_)
+                | AppEvent::CodexOp(_)
+                | AppEvent::AirsDoctor(_)
+                | AppEvent::AirsMcpManager(_)
+        ));
+    }
+}
+
+#[tokio::test]
+async fn report_actions_and_local_save_status_remain_private_views() {
+    let (mut chat, mut rx, _ops) = make_chatwidget_manual(None).await;
+    let text = crate::airs_doctor::report::render(None);
+    for (name, width, status) in [
+        ("airs_report_actions", 88, ""),
+        ("airs_report_actions_narrow", 55, ""),
+        (
+            "airs_report_saved",
+            88,
+            "Saved locally: /fixture/diagnostic-report-fixture.txt",
+        ),
+        (
+            "airs_report_save_failed",
+            55,
+            "Could not save the report. Preview it or retry in a writable environment directory.",
+        ),
+    ] {
+        chat.show_airs_doctor(views::report_actions(
+            text.clone(),
+            chat.thread_id(),
+            status,
+        ));
+        insta::assert_snapshot!(name, render_doctor(&chat, width));
+        chat.dismiss_airs_doctor();
+    }
+    while let Ok(event) = rx.try_recv() {
+        assert!(!matches!(
+            event,
+            AppEvent::InsertHistoryCell(_)
+                | AppEvent::CodexOp(_)
+                | AppEvent::AirsDoctor(_)
+                | AppEvent::AirsMcpManager(_)
+        ));
+    }
 }

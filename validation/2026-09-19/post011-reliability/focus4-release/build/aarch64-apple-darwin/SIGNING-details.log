@@ -1,0 +1,28 @@
+Executable=/Users/cdot/.local/share/airs-forgejo-runner/jobs/457e8e90acc9702f/tmp/airs-gateway-package/prisma-airs-harness-signing/airs-harness
+Identifier=airs-harness
+Format=Mach-O thin (arm64)
+CodeDirectory v=20500 size=608312 flags=0x10000(runtime) hashes=19004+2 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1705216
+Hash type=sha256 size=32
+CandidateCDHash sha256=501c5aa659a1a28a4a105ebf9d39f293e2e3e987
+CandidateCDHashFull sha256=501c5aa659a1a28a4a105ebf9d39f293e2e3e9872bdfa4458c79efdb477bafab
+Hash choices=sha256
+CMSDigest=501c5aa659a1a28a4a105ebf9d39f293e2e3e9872bdfa4458c79efdb477bafab
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=247054336
+Executable Segment flags=0x1
+Page size=16384
+CDHash=501c5aa659a1a28a4a105ebf9d39f293e2e3e987
+Signature size=8979
+Authority=Developer ID Application: Calvin Remsburg (G5QLZ5A8TA)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Sep 19, 2026 at 19:59:43
+Info.plist=not bound
+TeamIdentifier=G5QLZ5A8TA
+Runtime Version=26.5.0
+Sealed Resources=none
+Internal requirements count=1 size=172

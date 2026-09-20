@@ -1,0 +1,36 @@
+{
+  "scope": "isolated user-local distro test-shell prerequisites",
+  "system_packages_modified": false,
+  "files": {
+    "zsh_5.9-8ubuntu3_amd64.deb": "f863e8039e5a5c02a24424f9a6af81f8129187cff9283864152d0091d0cc0c10",
+    "fish-common_4.2.1-3.2_all.deb": "6048d375aa4928f43f954fb178bdae6acfed3d01c614ac2c40d0a44af28bd518",
+    "fish_4.2.1-3.2_amd64.deb": "548bff3c10daf951e0b4b356a258f0fed49cf98443575a7fb0e9ed976600ad13",
+    "zsh-common_5.9-8ubuntu3_all.deb": "91eeb8ea91acb7fe46b252eb7ff44888906edaaaba4c3c46b06f503b1a5704f2",
+    "libpcre2-32-0_10.46-1build1_amd64.deb": "a385713732a7411d39ba5c057f8e5727d0cdf3bf8afa36cbe1104c66ae2acd5b"
+  },
+  "checks": {
+    "zsh": {
+      "exit_code": 0,
+      "version": "zsh 5.9 (x86_64-ubuntu-linux-gnu)",
+      "loader_error": ""
+    },
+    "fish": {
+      "exit_code": 127,
+      "version": "",
+      "loader_error": "/home/cdot/.cache/airs-post011-20260919/test-shells/root/usr/bin/fish: error while loading shared libraries: libpcre2-32.so.0: cannot open shared object file: No such file or directory\n"
+    }
+  },
+  "isolated_execution_checks": {
+    "zsh": {
+      "passed": true,
+      "stderr": "",
+      "version": "zsh 5.9 (x86_64-ubuntu-linux-gnu)"
+    },
+    "fish": {
+      "passed": true,
+      "stderr": "",
+      "version": "fish, version 4.2.1"
+    }
+  },
+  "fish_loader_wrapper_sha256": "4ef3cef72ebf6ff1c50545e61bf5375eb2f6abfc19fd7c575e08eb1e1e433fde"
+}

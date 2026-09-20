@@ -1,0 +1,9 @@
+{
+  "pid": 50468,
+  "root": "/home/cdot/.cache/airs-post011-20260919/post011-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "ec621bb92dfd6412c371ee1477091fb21649ef1acc77db307e13667e65898b79",
+  "files_verified": 108,
+  "installation": "registry",
+  "production_acceptance": false
+}

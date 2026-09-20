@@ -1,0 +1,22 @@
+---
+source: tui/src/airs_doctor/report_tests.rs
+expression: normalized
+---
+AIRS diagnostic report v1
+Prisma AIRS Harness [VERSION]
+Platform: [PLATFORM]
+Authentication: Unknown
+
+Snapshot of the last /doctor check; no new requests were made.
+Names, addresses, paths, raw details and conversation content are omitted.
+
+credential_service: Needs attention
+  Recovery: Check your signed-in user's native credential service. A failed check does not establish that the store is locked.
+configuration: PASS
+gateway_health: Needs attention
+  Recovery: Check gateway DNS, TLS and the API-root health endpoint.
+gateway_access: Not verified
+
+Credential-service health does not verify a saved credential.
+Gateway health does not verify inference access. MCP discovery does not verify a completed tool call.
+No credentials, configuration, raw logs or tool results are included.

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "285d579c-10cf-4695-a130-7e264c7e34ed",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Start here.md",
+    "slug": "start-here",
+    "title": "Start here"
+  },
+  {
+    "id": "3f00eb86-27db-4f23-b84d-5a6941ec32f6",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - System architecture.md",
+    "slug": "architecture",
+    "title": "System architecture"
+  },
+  {
+    "id": "0a24ec09-7e16-45c1-85ec-0766ba0faec1",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Harness and agent execution.md",
+    "slug": "harness",
+    "title": "Harness and agent execution"
+  },
+  {
+    "id": "0f050987-2326-4259-8b72-4f552eaf6031",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Keycloak and token contracts.md",
+    "slug": "keycloak",
+    "title": "Keycloak and token contracts"
+  },
+  {
+    "id": "3c34f0e3-e0e4-4451-a1c2-8d4005a5f51d",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Cloud Identity Engine and provisioning.md",
+    "slug": "cie",
+    "title": "Cloud Identity Engine and provisioning"
+  },
+  {
+    "id": "6e43c28a-618d-43a8-bcad-23c91ab262d1",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Login from browser to authorized tools.md",
+    "slug": "login",
+    "title": "Login from browser to authorized tools"
+  },
+  {
+    "id": "ad5b921d-7285-4de8-a7e6-cd1d10f2d469",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - AI Gateway and AIRS enforcement.md",
+    "slug": "gateway",
+    "title": "AI Gateway and AIRS enforcement"
+  },
+  {
+    "id": "da83c92a-aa99-44a5-8a13-23aaac92882d",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Read-only MCP authorization.md",
+    "slug": "mcp",
+    "title": "MCP utility tools and authorization"
+  },
+  {
+    "id": "1505f7e0-4e6f-4376-b826-ede6ad08b9a6",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - End-to-end question walkthrough.md",
+    "slug": "walkthrough",
+    "title": "End-to-end question walkthrough"
+  },
+  {
+    "id": "95825d11-9057-4da5-bb84-fd0515da26ad",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Refresh revocation and identity changes.md",
+    "slug": "lifecycle",
+    "title": "Refresh revocation and identity changes"
+  },
+  {
+    "id": "1fe82b1c-35b8-41f4-b2f8-3ee0f07abb39",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Deployment and operations.md",
+    "slug": "operations",
+    "title": "Deployment and operations"
+  },
+  {
+    "id": "70c16e1a-a994-4312-953c-5cbfb8f45ec8",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Troubleshooting by trust boundary.md",
+    "slug": "troubleshooting",
+    "title": "Troubleshooting by trust boundary"
+  },
+  {
+    "id": "813d70c4-190d-4c9e-8344-3895941817e0",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Labs and answer keys.md",
+    "slug": "labs",
+    "title": "Labs and answer keys"
+  },
+  {
+    "id": "fbbce717-5d46-4e14-b8b0-5554c65a966b",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Glossary and misconceptions.md",
+    "slug": "glossary",
+    "title": "Glossary and misconceptions"
+  },
+  {
+    "id": "ae0c3bd4-47f4-4e32-afb8-687521faeba8",
+    "source": "Efforts/prisma-airs-harness/Content/Education/AIRS learning - Implementation status and public sources.md",
+    "slug": "evidence",
+    "title": "Implementation status and public sources"
+  }
+]

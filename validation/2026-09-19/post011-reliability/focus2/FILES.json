@@ -1,0 +1,18 @@
+{
+  "CHECKS.json": "d1497455efbf58baee850891003260b71019d23e2411fe48bbe7d7d122f59e5b",
+  "DOCTOR-INSTALLED-IDENTITY.json": "c31417d96b4b7541aada6a2c575825250fee3e074c0bc08addc8a07835cb356c",
+  "DOCTOR-INSTALLED-TESTS.json": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779",
+  "FOCUS2-EARLY-REVIEW.md": "a6b9e9f21ce904eac759a1ecbd4d66ae89494d12464c0225b7ba040774548021",
+  "FOCUS2-FINAL-REVIEW.md": "bda590bc0ab174ed0b5b26009aa02a7ffedb6ac409d48cdfb9f5c5adec7ca791",
+  "README.md": "f5f9caae3941b3a87d8c4786c54f4a347c79a07bc5e707a22feae6eaee68f3cc",
+  "doctor-cli-final-build.log": "2d2b07c3390c8efd6e6cf4d3da4890c68d82681f264ca8d9a6e81746de1975db",
+  "doctor-fmt-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "doctor-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "doctor-focused-final.log": "7a261bca462177323c57d7f292c63bb85ef9f3f352c9853f89b2d0bbd88e8f9e",
+  "doctor-installed.log": "0cfef508f695f7b08cbfaac63875dd3e4886db391f298f9907eceda40a8ebb3d",
+  "doctor-installed.log.r1": "dc60f570d7641247ecb555275f4f46de5ed15687fe35887a061fa34a3325ca07",
+  "doctor-installed.log.r2": "7456105e57cd0f5edcfe85d7db6c90748a28ed7c9c063d8c24f9879d8506db17",
+  "focus2-format-final-restored.json": "d4411ced94601358de1ba8fba03ea2c60f02f5a34a1eac1bb5a9fee398127cee",
+  "tui-fix.log": "f22e3e81bd465fb575b88f138573ce1e0418a5eadfcc94905d6d3c62b4429883",
+  "tui-full.log": "e52858a1284a6fe67a735f7bf425169ae2203e8830241e3797fb35ae82f39031"
+}

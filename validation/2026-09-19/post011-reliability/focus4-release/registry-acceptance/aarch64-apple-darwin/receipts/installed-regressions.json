@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-post011-20260919/release-frozen-44872e/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/Users/cdot/.cache/airs-post011-20260919/release-frozen-44872e/scripts",
+    "--pattern",
+    "test_airs_harness*.py",
+    "--receipt",
+    "/Users/cdot/.cache/airs-post011-20260919/post011-candidate/registry-acceptance/aarch64-apple-darwin.work/installed-regressions-0903e8b5394b4fb6b0cf8dde47b8364e/TEST-RESULTS.json"
+  ],
+  "command_sha256": "c0bba85db9c3263d0e4bf6c22608b45b5da09edf557de10e7d43363df4dcfab5",
+  "dependencies": {
+    "install": "80f8efd121a43bb04130300db8936193cbfca09061ad99f931f9a580bb516740",
+    "onboarding": "9b4bf7ab711f78459a6eeb7f5a73ef92bdbfc6f8b12bc97937d1f2a4b5bff4c9",
+    "terminals": "29d2e079c5666d5ce4f1cb24bf1d787d4631f06fa6c51dfc2745fbae9996a4fd"
+  },
+  "exit_code": 0,
+  "input_sha256": "92ea8cc13effdd99a428cdfb9c4b24ede52e0f9f94afcce4bb178f9efd462581",
+  "inputs": {
+    "binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+    "candidate_metadata_sha256": "808950a1f2519470d9233b43037478e94f511ad583363d9c3382ee6bff6b21c4",
+    "candidate_packages_sha256": "14a322bdde3672184bedd463b2d7254f80235bb42f4719b2be4ce69ba85654bf",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_harness*.py",
+      "stage": "installed-regressions",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "spec_sha256": "9fd7c606365e5d7183f9f7fbe436cbb832105509ab647d5bf16c9952bfed8412",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "tooling_sha256": "f8da588a5fcfd575cd5999e44117345125ca168e5417eecfa74c43cb797458cb",
+    "version": "0.1.2-alpha.1.mcp.1"
+  },
+  "outputs": {
+    "files/installed-regressions/TEST-RESULTS.json": {
+      "sha256": "711254941f19d32e1062a12a243f3c7e4c8e5b9dff368355a482c9c1d2b4a498",
+      "size": 6390
+    },
+    "logs/installed-regressions.log": {
+      "sha256": "3e9220955efd626d6bed1b867b767ebb3e68d78318de37185247f5cd6866a4b5",
+      "size": 11119
+    }
+  },
+  "schema_version": 1,
+  "stage": "installed-regressions"
+}

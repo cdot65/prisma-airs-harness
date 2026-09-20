@@ -1,0 +1,1 @@
+{"passed": true, "native_architecture": "arm64", "free_bytes": 109275484160, "free_gib": 101.77072525024414, "required_gib": 100, "guard_unchanged": true, "additional_historical_or_ci_deletions": false, "vm_compacted_or_restarted": false}

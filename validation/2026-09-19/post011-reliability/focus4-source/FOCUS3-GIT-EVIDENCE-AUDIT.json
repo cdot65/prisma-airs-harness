@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 187776,
+  "evidence_commit": "15b4f95f43c472a5f6fe7ee20b11841339005cb9",
+  "evidence_root": "validation/2026-09-19/post011-reliability/focus3",
+  "files_checked": 21,
+  "inventory_sha256": "e17780f800f07211cf4bccb3cd83113804ba3f5046de536c1580c1beb165ef24",
+  "manifest_blob_id": "9a244ad2fa69fa9a93ec72d9b3e1f0ec453d7759",
+  "manifest_sha256": "94804431005e2c1042c3f2117ee5a186841dc1a53ef4553035cedf3700fc8526",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 0
+}

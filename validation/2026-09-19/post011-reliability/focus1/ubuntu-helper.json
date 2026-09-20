@@ -1,0 +1,9 @@
+{
+  "version": "0.1.1",
+  "packaged_helper_sha256": "7879c3d869093236fd818ac7bb5aa45a9feeca716ca44122f9fa14384db3c44a",
+  "isolated_home_prefix_dbus_keyring": true,
+  "version_override": false,
+  "seconds": 18.529,
+  "exit_code": 0,
+  "passed": true
+}

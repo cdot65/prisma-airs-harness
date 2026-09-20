@@ -1,0 +1,116 @@
+{
+  "state": {
+    "run": {
+      "link": "/cdot/prisma-airs-harness/actions/runs/259",
+      "title": "AIRS Harness Apple Silicon build and acceptance",
+      "titleHTML": "AIRS Harness Apple Silicon build and acceptance",
+      "status": "running",
+      "description": "Run of commit <a href=\"/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af\">44872ebf4c</a> triggered by <a href=\"/airs-bot\">airs-bot</a>",
+      "canCancel": true,
+      "canApprove": false,
+      "canRerun": false,
+      "canDeleteArtifact": false,
+      "done": false,
+      "jobs": [
+        {
+          "id": 24018,
+          "name": "preflight",
+          "status": "success",
+          "canRerun": true,
+          "duration": "28s"
+        },
+        {
+          "id": 24019,
+          "name": "build",
+          "status": "running",
+          "canRerun": false,
+          "duration": "2m5s"
+        },
+        {
+          "id": 24020,
+          "name": "acceptance",
+          "status": "blocked",
+          "canRerun": false,
+          "duration": "0s"
+        }
+      ],
+      "commit": {
+        "localeWorkflow": "Workflow",
+        "localeAllRuns": "all runs",
+        "shortSHA": "44872ebf4c",
+        "link": "/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "pusher": {
+          "displayName": "airs-bot",
+          "link": "/airs-bot"
+        },
+        "branch": {
+          "name": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "link": "/cdot/prisma-airs-harness/src/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "isDeleted": false
+        }
+      },
+      "preExecutionError": ""
+    },
+    "currentJob": {
+      "title": "preflight",
+      "details": [
+        "Success"
+      ],
+      "steps": [
+        {
+          "summary": "Set up job",
+          "duration": "1s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "https://github.com/actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405",
+          "duration": "6s",
+          "status": "success"
+        },
+        {
+          "summary": "https://github.com/actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f",
+          "duration": "4s",
+          "status": "success"
+        },
+        {
+          "summary": "Check fixtures and private packaging contracts before native compilation",
+          "duration": "10s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5",
+          "duration": "1s",
+          "status": "success"
+        },
+        {
+          "summary": "Complete job",
+          "duration": "2s",
+          "status": "success"
+        }
+      ],
+      "allAttempts": [
+        {
+          "number": 1,
+          "time_since_started_html": "<relative-time prefix=\"\" tense=\"past\" datetime=\"2026-09-20T00:39:07Z\" data-tooltip-content data-tooltip-interactive=\"true\">2026-09-20 00:39:07 +00:00</relative-time>",
+          "status": "success",
+          "status_diagnostics": [
+            "Success"
+          ]
+        }
+      ]
+    }
+  },
+  "logs": {
+    "stepsLog": []
+  }
+}

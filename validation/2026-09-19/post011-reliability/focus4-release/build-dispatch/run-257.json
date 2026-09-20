@@ -1,0 +1,87 @@
+{
+  "state": {
+    "run": {
+      "link": "/cdot/prisma-airs-harness/actions/runs/257",
+      "title": "AIRS Harness Linux x64 candidate build",
+      "titleHTML": "AIRS Harness Linux x64 candidate build",
+      "status": "success",
+      "description": "Run of commit <a href=\"/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af\">44872ebf4c</a> triggered by <a href=\"/airs-bot\">airs-bot</a>",
+      "canCancel": false,
+      "canApprove": false,
+      "canRerun": true,
+      "canDeleteArtifact": true,
+      "done": true,
+      "jobs": [
+        {
+          "id": 24016,
+          "name": "candidate",
+          "status": "success",
+          "canRerun": true,
+          "duration": "25m34s"
+        }
+      ],
+      "commit": {
+        "localeWorkflow": "Workflow",
+        "localeAllRuns": "all runs",
+        "shortSHA": "44872ebf4c",
+        "link": "/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "pusher": {
+          "displayName": "airs-bot",
+          "link": "/airs-bot"
+        },
+        "branch": {
+          "name": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "link": "/cdot/prisma-airs-harness/src/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "isDeleted": false
+        }
+      },
+      "preExecutionError": ""
+    },
+    "currentJob": {
+      "title": "candidate",
+      "details": [
+        "Success"
+      ],
+      "steps": [
+        {
+          "summary": "Set up job",
+          "duration": "1s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "Cross-compile, probe under QEMU and stage candidate packages in a bounded container",
+          "duration": "25m19s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5",
+          "duration": "12s",
+          "status": "success"
+        },
+        {
+          "summary": "Complete job",
+          "duration": "0s",
+          "status": "success"
+        }
+      ],
+      "allAttempts": [
+        {
+          "number": 1,
+          "time_since_started_html": "<relative-time prefix=\"\" tense=\"past\" datetime=\"2026-09-20T00:39:07Z\" data-tooltip-content data-tooltip-interactive=\"true\">2026-09-20 00:39:07 +00:00</relative-time>",
+          "status": "success",
+          "status_diagnostics": [
+            "Success"
+          ]
+        }
+      ]
+    }
+  },
+  "logs": {
+    "stepsLog": []
+  }
+}

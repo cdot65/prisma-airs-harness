@@ -1,0 +1,910 @@
+{
+  "scope": "immutable-source-reference-closure",
+  "objects": {
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:codex-rs/Cargo.lock": {
+      "sha256": "22b6909888f6b82b2999f230cbc7d743b6b4f2db8a14ad4137805487b3ee3873",
+      "blob_id": "3db1e1788fd21ea1030de37139ed7901499b3820",
+      "size": 409922
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:codex-rs/airs-identity/src/fixtures/test-only-jwks.json": {
+      "sha256": "217db0a8c044e3271c73c95750dfc6ca1435fb37d914ec178fb1a31fd409ba08",
+      "blob_id": "63136d094dee201220fe6d9bc616c3373d0d9eae",
+      "size": 495
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:codex-rs/airs-identity/src/fixtures/test-only-private.pem": {
+      "sha256": "3260a794a652c96e1551bca765f0d9615bf368aa53ff3836bdab4e55259f4656",
+      "blob_id": "0777c25ff0d5a1c7471a12534052885d44673061",
+      "size": 1704
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_alpha14_release_exception.py": {
+      "sha256": "463fe7e805aac365ec8122539f8639cec7c19f47e06e0c9f144191df0ceabd53",
+      "blob_id": "c33c6f8af6cf23532497853970b6af6b3a90d1f1",
+      "size": 4585
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_bundle.py": {
+      "sha256": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+      "blob_id": "4655f35c686a6e505d1abbd1ada49474f7029420",
+      "size": 11484
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_bundle_archive.py": {
+      "sha256": "5ba7f8d774b68b1b1b2abefa18eb15af20d382457f3c180f77f2ce77a0d98cb5",
+      "blob_id": "1e8b32e303184aa2e095ccd699e547ffc8956a6d",
+      "size": 9781
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_bundle_shims.py": {
+      "sha256": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+      "blob_id": "791a6371eb3ba969a2857716cfee762f0144771e",
+      "size": 2647
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_bundle_tree.py": {
+      "sha256": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+      "blob_id": "1bda30510d5be47bf2329ad641057d1be85e9590",
+      "size": 5761
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_ci_cache_key.py": {
+      "sha256": "ea304ab85d99f18c3f47910b5ab300476ae0e06c25ab6f85e96280da497eb4a9",
+      "blob_id": "0f98d83858536865868663c7df449e37484ddb5e",
+      "size": 2727
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_fixture_config.py": {
+      "sha256": "e52f503e5ddb94bc67cdcfc58a494749623aceedbb4dd7d6ec404cdcafbbe282",
+      "blob_id": "b8d540637bc7492c68cc308381ffdd2cd977b9e8",
+      "size": 1736
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_forgejo_native_deps.py": {
+      "sha256": "4e271cf4c784bac886494e2e65fa79253961d1f6855a5ff32a4357ed0ad93a52",
+      "blob_id": "b5e31b5354a507cbcd2feb8c49832fcbaf009120",
+      "size": 2426
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_gateway_cleanup.py": {
+      "sha256": "87ef295bb5dedcedfda928f6a8e370702d5121a3618391e984a1e62c6d6d6606",
+      "blob_id": "1465684741197868468f5c6d793e0b2ef8ee86a5",
+      "size": 2053
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_gateway_expiry.py": {
+      "sha256": "93b3b8d6c689a37f4552faa421c3a2c4cc0e0e5ba72caf9e6edac57c1fa93a08",
+      "blob_id": "3632015512fb425751bb146708070ad27ca74386",
+      "size": 1247
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_gateway_test_identity.py": {
+      "sha256": "4e8d2b3767437417c7334360ab522a3b005372423d305e7267caead4eb2d08e3",
+      "blob_id": "8cc03bf59590db17dfe01ff8c1dc0e6badb04415",
+      "size": 1037
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_harness_pty.py": {
+      "sha256": "1f8d036ef2c637f9ffe9d1825da2f5aece40f426cf391c44653b4863e4654508",
+      "blob_id": "bba8dece9b129b3271bc3f50346808708bcac86f",
+      "size": 4903
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_lifecycle_contract.py": {
+      "sha256": "7237eb2947e14b1ba13490a86acb4da5fa17d53519aa49ba24a435d8e53408a0",
+      "blob_id": "1b15a7e46b59706deea43147fead2d924b79593a",
+      "size": 19836
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_lifecycle_faults.py": {
+      "sha256": "e9b32c23ac031609338f0fe3d969e3d6a84762b7d18bb54f46c2f1a8ccf64b65",
+      "blob_id": "5988274b20702d07d8363f5f6e543853faadf3a5",
+      "size": 15255
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_lifecycle_fixture.py": {
+      "sha256": "4e38fd3bef0844fd854c24d376df587dff3e5bb7a5cd90d89c9a35ff50abd777",
+      "blob_id": "bfd48faccb375e2df0244e9fec45bc7cf6a23e63",
+      "size": 10764
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_lifecycle_session.py": {
+      "sha256": "7522ea2355c8a454ecb405ff032e202fd7a4eb17302cbe71c84d636f7e27caf8",
+      "blob_id": "419429fbd0f8c477019054a904bdee4e4cb4f30b",
+      "size": 11790
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_lifecycle_tokens.py": {
+      "sha256": "4b3072f0facbc798e7e3a2235205f5ac6dc859757e77858d9b824037817f1871",
+      "blob_id": "7c40a60a341ba4b9b0ab69c33d9a737fef6db8f9",
+      "size": 4348
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_macos_artifact.py": {
+      "sha256": "d326ca462284ff3e45e97e229020c3d4a6ff1a9ec0d8be7aee4d4ad644a2b7f8",
+      "blob_id": "cfb121497867616a6c5271dc72bd7e1658b47462",
+      "size": 7514
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_mcp_manager_fixture.py": {
+      "sha256": "f56525fe46cfa9e73a45f1e4f371330d84428c90a914e450e88a3fec6817e671",
+      "blob_id": "e56ef1716676398b438695b5271c175df294ea1b",
+      "size": 8179
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_native_test_store.py": {
+      "sha256": "581c755f0f5c30c493e073bd28ec90e16018cc10333974487e532a1445fba40f",
+      "blob_id": "38764b8195b3b8f28a0e43e445a302c707458421",
+      "size": 7701
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_npm_registry.py": {
+      "sha256": "8e8b44bcfbf190ff127d8c41fa1da3b225439a5d8822091888fe9f8173e858ce",
+      "blob_id": "d950981100f7a216b1897350fd1f99d0fa53c945",
+      "size": 4346
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_npm_roundtrip.py": {
+      "sha256": "798290705f96eb527e3b189c457179c528d7a09bd05c67e1011ae4b52476610e",
+      "blob_id": "ddc7032135011e1904890f919c24d7f57787ff5b",
+      "size": 8764
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_npm_versions.py": {
+      "sha256": "aa2ba8af397b83db2ff68582f15b23760836e52b0393c4bc262915090931c473",
+      "blob_id": "238233226e9009fe2c8ca2a67dd99c03998089c9",
+      "size": 1338
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_oidc_evidence.py": {
+      "sha256": "65cd41245dbcb91e690eb6cae3d40546167320f0135b2dcd8af2dba162dc3195",
+      "blob_id": "332e7183e8325cdc2a28949ea4df7feb3a503437",
+      "size": 3936
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_oidc_interactive.py": {
+      "sha256": "7e0bcb3980215ada1c906a7a5e0cdb8fdfbfba46660585d79e51391688ac1618",
+      "blob_id": "9993b4c67a5b5398bbc07dbf5d58e6265612f1d2",
+      "size": 8302
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_onboarding_fixture.py": {
+      "sha256": "a27cd143712f7a27a1ed58ef52926075014f2977240f4276be1cd4861697f215",
+      "blob_id": "fdbd11d5aad5025a502c8bb4b3c32fd5a240319d",
+      "size": 14333
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_onboarding_tls_checks.py": {
+      "sha256": "8a4c0e9f7cbf78844d7457ce653783c2290a1464912884872a8c96b69c35e6aa",
+      "blob_id": "e159644d0054966cfb22c8eca680138ed345b7ca",
+      "size": 1840
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_package_access.py": {
+      "sha256": "49fd5d7ed4d7a385011724bf1c12e41bef851efa33716cdc041d0ebb1c525399",
+      "blob_id": "b60c1cd6b4e5bb2efaa2b00ec44ebcec197587b7",
+      "size": 1676
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_product_gate.py": {
+      "sha256": "31c4ee2fa3759038d3be4b0f58dd3a3fc038a31086e4d5b30f2ac916d9dc58e9",
+      "blob_id": "57870b395fe2a6a7e6360abba1425b57dcd54d43",
+      "size": 5287
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_product_workspace.py": {
+      "sha256": "4b7e6829cc23cb66bf9ef89ab4613b37e4b5af28856d6108c3b99fdc269d6579",
+      "blob_id": "ee261b2525605ae4ec49fc4c7a4c1dca01b44590",
+      "size": 4377
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_acceptance.py": {
+      "sha256": "a9a25d9103ebf8a0df8a8670a0a181ab84f41918c8ab2fc2617f38df1cfd8f31",
+      "blob_id": "ac6eb3cc8ebef57afd1916cda2339cddaf99327d",
+      "size": 10892
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_contract.py": {
+      "sha256": "cdf3dcd78ba1460802e3592030afae1fe3da0e821d7e88bc5085b00fd2e30adf",
+      "blob_id": "6fbab8f9408b3ee3cb663871f9aca768b43f3685",
+      "size": 14157
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_execution.py": {
+      "sha256": "f791bad76282c058cde4e2a02ae020dec590fcf38488d3f8eb676b5ba28e826c",
+      "blob_id": "8edbbd0e51747c00c02f3ecdab1659d6dd77ec63",
+      "size": 11174
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_git_audit.py": {
+      "sha256": "efeaeb7f6a2d47db3f12de7f479fd8f1a0acafe335c006dffe99c6871fb1f6fd",
+      "blob_id": "26b8e7d91b02f9c2bfb6a8916d6c23ea98de7e40",
+      "size": 10720
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_receipts.py": {
+      "sha256": "1156605619ce5572d644f91123607235a1a76f29af41911b67ee23a735a3a7df",
+      "blob_id": "d70428b3740a9de4bf08c055ede0fcc4c02354f0",
+      "size": 6294
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_release_unittest.py": {
+      "sha256": "f3e3fa760397930ff329cd744924141f8c642f8b4b0e418e94c45e60935c263d",
+      "blob_id": "4f5f85d62fa1ac59cb741599160ef22a8db61d3c",
+      "size": 1691
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_review_release.py": {
+      "sha256": "afa89d359eb2b2a92edb86f7822d732b765d5facb3dbdc1a6a5f3d5bde8fc194",
+      "blob_id": "e865960b1322b00bd46458041220874506a25148",
+      "size": 8077
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_rust_test_runner.py": {
+      "sha256": "ff5bfa00fac2ce1f6af5127fbc4f7f495200c4dcfb9b8ca9c7d7464f02c188aa",
+      "blob_id": "f2a86b216260076305e02a639ac274deb6138f86",
+      "size": 911
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_signed_macos_artifact.py": {
+      "sha256": "d559fa08abe35ca682fff315a24be5a131bb5b93da0ba6a7ae8c7045a5baa7db",
+      "blob_id": "bc785009dd8dd14010a22ee647a5a3153bf04688",
+      "size": 9414
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_test_release.py": {
+      "sha256": "81af3a890709ee27298c0a781960b023a36328343208b963c21e8d10d9b551b0",
+      "blob_id": "cd3a64a4de4b7071c8478366799fa975f71aeb7f",
+      "size": 4852
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_test_release_archive.py": {
+      "sha256": "5a3d5c6cd739794af6117ce2e7284dc80909f3476992a30a0337739695bd0a7a",
+      "blob_id": "8e7c68d15a9b9dacc12dffb1be3d497327887c72",
+      "size": 8326
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_test_release_publish.py": {
+      "sha256": "7eb5d3e9794c9cab9a49ae5d351a89c41437d1609a7684c508dbf105ce5d9438",
+      "blob_id": "9a5fbf26784f599e751c66eeedb139899df0fbd7",
+      "size": 10908
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_test_release_spec.py": {
+      "sha256": "bcd7bd41aa6e75bbb2a9cab367a363982dcb0dc1899917d5ecd6cf3ad89ff066",
+      "blob_id": "122c689cac84e051a93d8dbc3517b98113b49441",
+      "size": 8382
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_test_release_stage.py": {
+      "sha256": "9efc1b7263e673fd82642aa33e30a9fcb1a247ce8fdb0c8c1c42e8d633607c1f",
+      "blob_id": "d0dfcd5dd6c7896763081779bca8093cad1571b6",
+      "size": 15866
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/airs_windows_artifact.py": {
+      "sha256": "4ca6371b0dd46dbe97897dfebc76666575e7733272087c670403e7552c3eb509",
+      "blob_id": "ee4346d4d206c2eaa7c045f960ce6ed8968b99e3",
+      "size": 7027
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/asciicheck.py": {
+      "sha256": "5bf0bf3b147d14d38a5494db467a60487618aa188bffa655e5e37adc9e4ee9ef",
+      "blob_id": "812d1c6b69b4cb8c811d71dd8cd5338b0c0af626",
+      "size": 3973
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/build_codex_package.py": {
+      "sha256": "7a5b7ba90604944831dd25ad89ccba46b4c40f44ec6aeec67a6d058a0c837ad2",
+      "blob_id": "8e1097c488ac18bacf3994abd4db7694042b261c",
+      "size": 518
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/check_airs_endpoints.py": {
+      "sha256": "1140d09ca4d2536d8d34ac65dfd5c5a5af7caa5fa698c01f37fe6c39adbe2424",
+      "blob_id": "3be9cb2ea8a790008b6ff4e310f521bd756c433d",
+      "size": 3113
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/check_airs_review_registry.py": {
+      "sha256": "1b8ed21e68877f6047f33049be3da78d9161f93dec906b48d5dbd498f6730142",
+      "blob_id": "ec4714318e664ac8ff99f89f3825945a87ed03eb",
+      "size": 3205
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/check_blob_size.py": {
+      "sha256": "a6a66ffc6c1fe7f52092c96e746725de38a7ea8a2bb4d7fd7f4c825b778c14c9",
+      "blob_id": "b63e1d19f0cba28e7954bc41d3800d3f967b6c9b",
+      "size": 5340
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/coordinate_gateway_cleanup.py": {
+      "sha256": "c8e2146e3b14ae74320dfa8bc98bbb6d8b6580299d4f2c1d9fbe8134bb83bb16",
+      "blob_id": "3ff2a4ce0e574ab6717cef02c6505718d5c6aba2",
+      "size": 2710
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/evaluate_airs_upstream.py": {
+      "sha256": "482dc078bf0524817f2ca5735c338054268d80a7c6a9253913310fb865d980dc",
+      "blob_id": "8b8e6f77292185e24d53886702d743d199d9c051",
+      "size": 7757
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/fixtures/npm-command-shims/LICENSE": {
+      "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475",
+      "blob_id": "20a476254092375ee52bb87e5e36d070074cc5a7",
+      "size": 756
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/fixtures/npm-command-shims/README.md": {
+      "sha256": "671a62c3ed988e45ca70b9b0d55ece8bd9690f9f8118241302ac3b4ef74d8a0d",
+      "blob_id": "61e24fa3e8c6485f18cf84398545b52f46f17a1b",
+      "size": 2317
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/fixtures/npm-command-shims/node.json": {
+      "sha256": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+      "blob_id": "7d882ee5d6a3e6a7f9314a9a36d06789b753ffa8",
+      "size": 4145
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/format.py": {
+      "sha256": "ed8eb79dc99ecfe51716772c8ec33b3feb7d67b1a9e00f9b4354948ed4137555",
+      "blob_id": "fd4aa8a0f8e0b3a666a09f5e2826d0a43657619d",
+      "size": 6063
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/install_airs_review.py": {
+      "sha256": "ca9a4fa7a1aba31bc33a9b187a500bb245aa5847e97fe60dff8e9d63355031bf",
+      "blob_id": "b492a00c590edf97190f52842259bf645e6e2b8b",
+      "size": 2841
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/just-shell.py": {
+      "sha256": "444d6b328d44abf6453b77b6acce2a0c881fc162ff30b20f352c85067797fbe9",
+      "blob_id": "bb2db6ebc4312a301ee39d2793fde16289d046d8",
+      "size": 2030
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/mock_responses_websocket_server.py": {
+      "sha256": "81960becad4ecc9f4a7d445f8916ab8c31dde1e627d4c4b232577fefd66ce194",
+      "blob_id": "f018bf673dde2369111092845296de0d700ced2e",
+      "size": 5987
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/package_airs_harness.py": {
+      "sha256": "fb9187204775ce94e39bcf90f260eddf43fefebf5d0a44679eca995caf9e22cd",
+      "blob_id": "7f610837355bedb6cf31bb018baffd0d78024653",
+      "size": 16005
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/package_airs_npm.py": {
+      "sha256": "b96a81f2a49c2a7d37dd5238a49f012f16d7fa2618494b733864c62038fce97a",
+      "blob_id": "bf6b330e6b4fb8b0efdda3377a67510b6e2744e5",
+      "size": 11137
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/package_airs_review.py": {
+      "sha256": "d3fac6ec07b77cebcc3789d9591bf2f1a8fb372f29c3f1743ee3e6735cc1e86c",
+      "blob_id": "7c47e99dfc58cdbb2d10dea627e4520a48264a6c",
+      "size": 5154
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/plan_airs_review_publication.py": {
+      "sha256": "923ba91b6ebea42ea7da159fdaecb12e3002ef1a223f06b13efaa4cf9221d133",
+      "blob_id": "a873abb1db260ac980eead70969a559e6029cbb5",
+      "size": 13965
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/promote_airs_mcp_prerelease.py": {
+      "sha256": "279dd1d825c6d7191bf44af58097799fc321835faa6089076dc85ce73fee96b9",
+      "blob_id": "91b57945275fb64675b53c1e4d5eac4a032d6b2f",
+      "size": 9793
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/promote_airs_stable.py": {
+      "sha256": "0e5da5c4233594418e97fa94830c19679b3cc1b33bbbcde2f58f3b944f98a7ed",
+      "blob_id": "ae7bbb3f8f753c5a54357674e48c3118ee9ae319",
+      "size": 10854
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/publish_airs_github_packages.py": {
+      "sha256": "ed7f7de0ab1b714d62bceabb65f689c52664602670bad798647f61b3814912e7",
+      "blob_id": "d76f4366b8fa6de353b542170ce254f0be84c7da",
+      "size": 10604
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/publish_airs_review.py": {
+      "sha256": "553215e7c406debf38c7d5a76ea463ecad12c0cb55c3e39a96407e6d4eb69f4a",
+      "blob_id": "f8603982f80a75b7d62a78d7456b9e22111e341e",
+      "size": 11607
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/readme_toc.py": {
+      "sha256": "9d952007f34a6b1ff7c256bb95a1803970dd8c74f61e3759c2af27955e50a9e0",
+      "blob_id": "f37a69d7c714cd1bd8e4abb8695ca6ddb402ad8c",
+      "size": 3878
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/record_airs_macos_validation.py": {
+      "sha256": "0198322a57732900cfddce91d1f254a35a137948066b2be21024f2c8cec80ae5",
+      "blob_id": "fa753966495bae83603ff9e9316c6dfd9f9d58cb",
+      "size": 2593
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/restore_airs_review_stage.py": {
+      "sha256": "2eb80482b2a74c081b016b31458ee5834899a89d14933c82a98bab2d14754cfb",
+      "blob_id": "2ecbff61c24289ef389ece6a8eca5014a4765338",
+      "size": 6205
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/stage_npm_packages.py": {
+      "sha256": "f0670d0cb7ec46bdd417e6997b00ae26ebe3832c973323fc746396313086e759",
+      "blob_id": "b258b4c94626562ef675302ceec1ee36ccdb6619",
+      "size": 20221
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_bundle.py": {
+      "sha256": "a1f14f369d537b3ce4c7c2367dd5de091367efa0b752f631b0ee3ee6319feaed",
+      "blob_id": "e8b27b399801337a7bf57d4232605aede0c1bfd8",
+      "size": 19709
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_bundle_archive.py": {
+      "sha256": "745049d847095b9a0c2f60051b781d6df1e08a4549771b5601bb2cff11dafc16",
+      "blob_id": "e7184847a66906f262b9dfb4a70c3d8e54312c9d",
+      "size": 7205
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_ci_cache_key.py": {
+      "sha256": "e63c76a943baecd91116fa96fccee112f349a7ef297280442d46ca707235bce3",
+      "blob_id": "2684488d23eb91ba0b1338f7d48e89357212685b",
+      "size": 4229
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_doctor.py": {
+      "sha256": "7bd2a2c5e89d92f357a0632192ac12c89bd27c8a6216e3b54a805363d71399fd",
+      "blob_id": "52a406e23b4780660c2a7e599fac428d6c5c591b",
+      "size": 12286
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_fixture_config.py": {
+      "sha256": "c1d666a231412c0a507376a4c9917439ba3836c55d302c39dd231006f6d5a23b",
+      "blob_id": "2baadc515abf614832a577d423b4ea73bf8b4f73",
+      "size": 2961
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_gateway_cleanup.py": {
+      "sha256": "49ab0f2a255fd92151174568a4347c62f31b38e75da2aa3946e025234c0e98a8",
+      "blob_id": "fc807e542799c9fccfa9aaa6eb812805e353d8f9",
+      "size": 2400
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_gateway_expiry.py": {
+      "sha256": "89e2e3c9a722d6aa6454bc13ad0e181e8503a3a7caefe0c9c74a0cd1ca83b7fe",
+      "blob_id": "d0390885233ad277d8a4a9596b04589bf4fb9943",
+      "size": 1988
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_gateway_test_identity.py": {
+      "sha256": "e7e5272b63e5df52c7959820418cfe30c16333bc993d30a964ff3db200cdb3d3",
+      "blob_id": "607215727109806a245d522c39cf69bcd48368a3",
+      "size": 1609
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness.py": {
+      "sha256": "814295e9eb5c7c0491b3822ba005c9096a491b656cd97e81837311e8324b39d1",
+      "blob_id": "57ee07a0b07f6cc4331612da7a781bf524bd25f9",
+      "size": 74177
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_mcp_login.py": {
+      "sha256": "9fec3155359138addef259bbd94f05a3ce89f2d4a4122ace3b96c84582f5505d",
+      "blob_id": "80286aced06f50b6578ea04bd4b85489af601c1e",
+      "size": 7617
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_mcp_preservation.py": {
+      "sha256": "72ca533db636b6f7442892c4d32f5c2684bf5d32e6265f2fcf4073b70edb13fb",
+      "blob_id": "a5b9050b2a9aa3e3fa185f3052b7dc8dd37c1afb",
+      "size": 5332
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_native_mcp.py": {
+      "sha256": "e4c1e7a798b5c395a63a409f50723492e64f2f1494e0c1eb6f9390ed228b595a",
+      "blob_id": "069c887180236ded8e9c53cf375e54db1b9971af",
+      "size": 14603
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_pty.py": {
+      "sha256": "53e55a412a6715f94d78c28058dacddfc55552d8f41f34ca2d44265835480672",
+      "blob_id": "ed1340b5330f7afbd8b6922f7eb7073fd7462ee3",
+      "size": 6638
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_recovery.py": {
+      "sha256": "42d8d600a11fe098d1bad02db651b936b78ff8a617b2524dafd03c7ac3319026",
+      "blob_id": "cd4397fc941f607e5374d6138b94bdf96f3751f6",
+      "size": 12114
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_refresh_faults.py": {
+      "sha256": "6d5c8eb4340fd2682af4ade64213426dd33e9fb8742ac51fdcb6b00478771eff",
+      "blob_id": "66a3f51010a56224505703403c70bf4ca74dde43",
+      "size": 3897
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_harness_tty.py": {
+      "sha256": "20b69c42e07abbf2f82c7b29e5457cedbd20068fc7592e7d15a81fb237e4a611",
+      "blob_id": "438b376be5d5a94b6773bbad840390d3d172cc71",
+      "size": 3020
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_helper_relocation.py": {
+      "sha256": "310920fc029365caf2e0bc96c53fb8d8d70c0fc010786173d60095d271a915a8",
+      "blob_id": "26665c61dadaf9682ced4964bdebbad42b6b9438",
+      "size": 12155
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_lifecycle_contract.py": {
+      "sha256": "d943b18274aded06b5edea845b10421fe3326db04fb64f66eda820b259658f07",
+      "blob_id": "2b0f8a45e10ed0069387d9459a51323f2150f23d",
+      "size": 8030
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_lifecycle_fixture.py": {
+      "sha256": "69b24f601e8bc9c8d0fcc36f4e2a65ddc17d423e1cf06f9b7fef44703f810473",
+      "blob_id": "57157fc291450bb4b8f1b5b5f9cfe38af1d5d45a",
+      "size": 4427
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_lifecycle_history.py": {
+      "sha256": "2771870cc3d8d72920e82824d227e8eb6302a0f66515ec44614f85bd01d4af91",
+      "blob_id": "6e381f7b44a0c79960ee63465a3cabe10c3ad99b",
+      "size": 3586
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_lifecycle_tokens.py": {
+      "sha256": "e1fb7a045310249bdcd0d42974369a256d8b571aebddcba0abe68d09c28bc7e2",
+      "blob_id": "626f453e72aa7db7955f9ea9569274e9001760a3",
+      "size": 4140
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_macos_artifact.py": {
+      "sha256": "bc2790c7cf4918292f7944cffc09d292bced44c35c59bc44d81c6ab78bfd3902",
+      "blob_id": "f7b735a01beef7c993faedd96d273ede9f92dcfa",
+      "size": 5188
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_mcp_manager.py": {
+      "sha256": "62fc33208a4d894c37c86bb7b06774bf41547aaa21b02ec5d8462a0726dd3023",
+      "blob_id": "3e7954e77dd8f2a97645548bba0e79c6c2bb2b59",
+      "size": 16165
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_native_test_store.py": {
+      "sha256": "f817f66012163f83eba474b35d60340e5296fa053b1c6925f56b3b459f6489f0",
+      "blob_id": "9fab4eb321a8b50001751945f4f527d225c66ca9",
+      "size": 7563
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_npm_registry.py": {
+      "sha256": "23a6084da0abee903fb422cb047a2c50a15ce4cdf415ab0e93defc5956e72bde",
+      "blob_id": "338dfcb4ebaf6a21064adc52776747f44a5dcc97",
+      "size": 15951
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_npm_roundtrip.py": {
+      "sha256": "e7d2109d53e88a2165d5cb08d999b060032cbf7293e99aecbab47b512ccba55f",
+      "blob_id": "8da1980ce61cd97ce85677a7026ee1c206b59859",
+      "size": 7699
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_oidc_cycles.py": {
+      "sha256": "70671370aa5b305e8d7dfb4e12c677475c18d28a86890e0b0b33dbce03d26e64",
+      "blob_id": "daf352d3c888fb474b1a95af800a7eacb26f43c4",
+      "size": 6356
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_oidc_evidence.py": {
+      "sha256": "349de3fa246fdcca4a7374f0d136c22b3d011a07f9020f4bb12175e19ff777aa",
+      "blob_id": "ce807ea782da081bdad6d1b504fcd59c8889e558",
+      "size": 4360
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_oidc_interactive.py": {
+      "sha256": "3042767a725f11a679f10ff096d5915e8a6f14b2f4a2798d15405155982ab98b",
+      "blob_id": "c8ee367a1397db283f4feea8f374ad330702433e",
+      "size": 1466
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_onboarding_terminal.py": {
+      "sha256": "86b7bb08fe9b373dde18023d044715a1a9edb4dc4997b6c33f10c6f44c8cd489",
+      "blob_id": "aacdb1493c63cd0c853ab621e54c0ba9c0120431",
+      "size": 1161
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_package_access.py": {
+      "sha256": "bbeb2ddc4587eb6544b09e4083ccc0e16e563e3c31f049b83361d7410d6842ba",
+      "blob_id": "5f78c385762acaeee5b57149e5ede5cadcfaf82c",
+      "size": 2707
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_product_gate.py": {
+      "sha256": "2b7d4461e83ac8a22f1dbbd527a4af91c194ce724699697183c1fa011b4dded1",
+      "blob_id": "f72745e642d89ebebcb6b1c1342923fa03fd7a4d",
+      "size": 11037
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_pty_wait.py": {
+      "sha256": "b2cc9413f31774f814bbda38f8a0c27c43115dd50d90349b9c7ef8d3ba9b9422",
+      "blob_id": "271f7916802152ab7ca575043cc132108737ed69",
+      "size": 1221
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_registry_tooling_revision.py": {
+      "sha256": "5488e9917ec9abbf864a9a89ce6cf86c8e12053b7160c52951bdf947b3c0c5b4",
+      "blob_id": "d845fc01ab221cc3c48e3799edf831955f52f471",
+      "size": 3939
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_release_acceptance.py": {
+      "sha256": "a673076fd6d85231f85333db34b59e3a7f3613fb905e02597cef74c03d5bc086",
+      "blob_id": "9412b5d0f897d7b517614e44e40e7fdff1f57656",
+      "size": 27217
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_release_git_audit.py": {
+      "sha256": "b325f4586a2c0a2a25ebf11b3c30be06f53b69c096b0988ba410fe37534f0f5b",
+      "blob_id": "92fac198c58f280ad5aa64264c8fb1d586e3ec57",
+      "size": 11702
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_review_registry.py": {
+      "sha256": "884fb8109c4d3ca35a9b7a1760fb274c186fa89e25089b3e530847cf838c89ce",
+      "blob_id": "2bfb143153a16fe236190f059e46715b15e7bf31",
+      "size": 2712
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_review_release.py": {
+      "sha256": "79ca88307984f448587a77a2c39ac53c22dde4021bd4983ea19db11e506a2db2",
+      "blob_id": "ab9b1c3ad548c0b329834f650c475a2d213437d3",
+      "size": 7751
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_secret_windows.py": {
+      "sha256": "3f9a3578a4982274f6c64c5089c275d5380389b3e29d280f2afb7ede3ebcd1d0",
+      "blob_id": "eba4063b0ada3ce3eaecc8271dc6a3a14b58421f",
+      "size": 15551
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_signed_macos_artifact.py": {
+      "sha256": "8aa22e30f815807523da9f1c514ff721783464c12ced446d4f4e768121563d5b",
+      "blob_id": "24a3277b5fe9ab9964f0e516327c54e788de235b",
+      "size": 8741
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_test_release_publish.py": {
+      "sha256": "583e4693a44f0fd33a60b2156860e8cafceddf2d962dd837ae34746e6737649f",
+      "blob_id": "b61bfad5547c30dde5e0f80183dea4e4d3923c5f",
+      "size": 15570
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_test_release_stage.py": {
+      "sha256": "bcb948f6cff37d16b221822253c3508e3ae26a2c53140ea2c81fbe91a220461f",
+      "blob_id": "5d68851a9046e243949295b28b37c6cca260f135",
+      "size": 20133
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_airs_windows_artifact.py": {
+      "sha256": "a3f03a83bb4cd392419fa123f7d843564311cbc7b9ba7dd51fc4a645ba654b6e",
+      "blob_id": "084086afe1dbf1ea6274e96144b80b4ec6c98b53",
+      "size": 4607
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_evaluate_airs_upstream.py": {
+      "sha256": "1d14c063aaed0eb1b92c9ab4f14b22e67f80d2261654c359c35cb0d41bfacc90",
+      "blob_id": "cdf49e35e5b11eb441272de3e87ce5a3d02c7d50",
+      "size": 4350
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_format.py": {
+      "sha256": "2bafd7f273bfda2dbca1a7345ed1e1e37a862f522f85b3052dc7715c749bf125",
+      "blob_id": "c892732751ed95d24663219dcb34605f3e8ebc9d",
+      "size": 901
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_live_gateway_evidence.py": {
+      "sha256": "0a8c58db22a59be0cf3adfefd4f9246efd214653696897d7ead195000fa80b3b",
+      "blob_id": "2d2ddb048282214b9d98c7ab693c78d068a4a72b",
+      "size": 1216
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_macos_workflow_split.py": {
+      "sha256": "07fe107b15566c6dd364beb14552c07c9e096e18ce8c71ca144705556c8943ab",
+      "blob_id": "118d84e081f9f9ee4481e6d7fdb8dcb27ed23383",
+      "size": 3465
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_package_airs_harness.py": {
+      "sha256": "04038e864dfa1a4a17622ded5f829ddadbbbbad55d29c526aefdf2d07e4a2312",
+      "blob_id": "f8c6585b9dac88f86110883d84e86c6c8dab4150",
+      "size": 26539
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_plan_airs_review_optional.py": {
+      "sha256": "31a37831017393e93e098175f08182137b3cb006ed4d2b326863f34c4d62ea72",
+      "blob_id": "2b05fc2e8d4a42dd5772e1724b48887890731ec6",
+      "size": 3139
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_plan_airs_review_publication.py": {
+      "sha256": "6e0486b07af380601c52d1c32fa0d05d71c6053d725ef7836bae58fe79c483ee",
+      "blob_id": "7969df384351758e3f850888aa02fd67df4945de",
+      "size": 13321
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_prepare_airs_ubuntu.py": {
+      "sha256": "874628c79bf37ad02f8e40f04912cf64854ee0183b6b7c67aaee30ffe08a852f",
+      "blob_id": "1cb56603630fe29496193fc275744224d9f361ae",
+      "size": 8338
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_promote_airs_mcp_prerelease.py": {
+      "sha256": "51d7f58bb792a86ca3322e73f0c90339f2744aa14301c68e72a0d77fe521bc85",
+      "blob_id": "a75cafe2668c4ef29c8e3f4e3a1fbbb7669f82e5",
+      "size": 6270
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_promote_airs_stable.py": {
+      "sha256": "27da25b58e01b94ecdb9bc337ead74c9adcd4dd3b1d587e1f732d188a4916c52",
+      "blob_id": "744919083bdc57afdc2306410bc623b8b1569b15",
+      "size": 8577
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_publish_airs_github_packages.py": {
+      "sha256": "ef193f843e7fe13572f72340d731b7cbbdb4e768511730348c3572c810194e62",
+      "blob_id": "45a840220de7a0a7ac68e66281e4c04d56efb9b1",
+      "size": 10940
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_publish_airs_review.py": {
+      "sha256": "5c9b71c359b5354641f13e662748efdf4f9962797e9e6c353970ab70fdc0ca58",
+      "blob_id": "770a1ade6eeb765a562011c01c250b29c76d7a05",
+      "size": 8682
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_restore_airs_review_stage.py": {
+      "sha256": "d0d7b491329d352d6d0ed72f31f5b167a91da8f73e5523096681b5558ffb9515",
+      "blob_id": "4d37e180ab2846bdcac559b442f347dfea1ef4a3",
+      "size": 4410
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_airs_lifecycle.py": {
+      "sha256": "10046f09bb70e42083cacb6ff90bfa01a08259fbc29dd46677ced610ce825054",
+      "blob_id": "4fc670c405b63d864bb10bbb544cec74a971fcf4",
+      "size": 2410
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_airs_registry_install.py": {
+      "sha256": "01fcef8dabc0a1b5c5043251b85a050e953bf250555c731cd2bd940a86a90bbf",
+      "blob_id": "df4334b4418fc89479eb9efb8056f917aa9989cf",
+      "size": 5233
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_airs_test_registry_install.py": {
+      "sha256": "939ca11195a5a9192ce77d43744c873aa50bd74f0a70d868766b927c151b8903",
+      "blob_id": "f0c2edcf5a7a0fbde464ccd87976992d642cbe28",
+      "size": 12060
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_airs_upgrade.py": {
+      "sha256": "daa8ea7b91628f39d98bff87ca572a5e447c061a40899695f52c862d8b0fb996",
+      "blob_id": "9424772cea51bfeedaa2a51b65f3404cb3184f28",
+      "size": 4471
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_macos_artifact_keychain.py": {
+      "sha256": "6f225cadeaa2282c20209c25c8aaacfa0397fabce88454c336efe3d7cc757013",
+      "blob_id": "ce60ff4d97c773620c1f778eb7355f8244f4101e",
+      "size": 4397
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/test_validate_workspace_login.py": {
+      "sha256": "addd4949898a4440349d28a45f274b204354fc898d87f467cbed12bc341a7d23",
+      "blob_id": "e175ddfb0462f7445714ec09c728db2ae20de864",
+      "size": 6332
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_command_output.py": {
+      "sha256": "304f0c327c5bf61c96f0823a5166729363dae8c4ad067d0523caa01c99f81137",
+      "blob_id": "8d5aa80645acc8d79875f7ffbcb644e29179a0c1",
+      "size": 4804
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_lifecycle.py": {
+      "sha256": "0d734078ddc313a4fe5c9fa1da3f010443f9c11a4ac015e0c231ec0b92f069ae",
+      "blob_id": "cbd40e9777d48e273eadba51cc97f76c95914f12",
+      "size": 11584
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_macos_keychain.py": {
+      "sha256": "97a27e52134d01a0b0fbca1098fb4ddb7f1dddd798ef0b16fd20767f65b2bc28",
+      "blob_id": "db0fb327512a06230d4fa664e2bf3fc7d6d4493b",
+      "size": 5799
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_musl_dns.py": {
+      "sha256": "11a22ddd39101f9e997958e8a81b37441e58b15f1c8222e56e15fee8d1e2d534",
+      "blob_id": "bcb4a8dedbcb6bc63c87d9a9f11d244d280cfc18",
+      "size": 9025
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_npm.py": {
+      "sha256": "d40548ebe16455522912e42cf031d6b69a95a19ebf432d635f2f3e9dde558920",
+      "blob_id": "ada436fec4d790733f8d0664177432341be4672d",
+      "size": 9048
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_npm_upgrade.py": {
+      "sha256": "68ae8fccefb040c80833a7bf96d86ecd4c67dba50a24ba90b3f4125a888ce5b8",
+      "blob_id": "4563f514d6622e00fa3416b8a401c04b6108a1a0",
+      "size": 15084
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_onboarding.py": {
+      "sha256": "f6335577391c6668d5c7bf2ffd4070379e9be0b5d70424fed6f0b0aafa99eae1",
+      "blob_id": "bad540bfb764564adb7ced255277c9ecaefff642",
+      "size": 28131
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_onboarding_macos.py": {
+      "sha256": "d2413365659901e17880faad04b491b395ab2f0e001c93aade38dc46692b9dc3",
+      "blob_id": "6003e6e896240a98ac6fdac36c413a09589a7b6f",
+      "size": 18042
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_onboarding_preview.py": {
+      "sha256": "4a8dafe7a9eb024928a923d0fa69908079f4ded66cd4742e8e36fbde01af4b76",
+      "blob_id": "ab745ccc8ce4cb7242c7595e897bde889d566ce5",
+      "size": 19470
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_onboarding_terminals.py": {
+      "sha256": "b34af431dbf6e914d6ce36839ca0ff29b90ef7b60e80d28a50eeb66d924755fa",
+      "blob_id": "23608ff8c47627fd259fc9f5e5b2353648147e2b",
+      "size": 7406
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_registry_install.py": {
+      "sha256": "a46bc06957071a9c7af6e1cdf038ad6cda4b2d359b729e1d98e3bad3b33fa939",
+      "blob_id": "4531e2279a4d9d32627700614549adfb2183ad85",
+      "size": 10563
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_test_registry_install.py": {
+      "sha256": "176e5965a0eba2362c84e218dc556b1d77a1dc9f9dfcc833b4d59ceac43da0a4",
+      "blob_id": "47c530ef6894d2cff2966fa7ae686447f8b0aaa1",
+      "size": 12094
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_airs_upgrade.py": {
+      "sha256": "9caca15f06bdbc8eb36e5b189928989900305b1444c3fbbae98e521ea1ca1884",
+      "blob_id": "3263faf36ab5aa3316aa9eead99efc89973e61ce",
+      "size": 22763
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_auth_cli.py": {
+      "sha256": "d028ed592c481953666206e3ebbc5d539138d75d71fb5af6a0bdb267c916316a",
+      "blob_id": "2f3a4a0c3ae6073c2efe5bae42bedc818e170948",
+      "size": 26280
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_builtin_mcp.py": {
+      "sha256": "c91f827c7325beae46a500ba420b7c0f5103ea05e6b28992e492155650863192",
+      "blob_id": "30bd0e13f6901a556a3c7905e6a5ce9ed20982b7",
+      "size": 15879
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_gateway_compatibility.py": {
+      "sha256": "06cc3bf47912019778fbb50e8c8d6e3603ce47809cd66628b3ac868602f65ef5",
+      "blob_id": "f91ca8bd3a44f6217b3e042f98b7735aabedc863",
+      "size": 5886
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_gateway_mcp.py": {
+      "sha256": "bb6649e0ae798f6dd47f94077f90153e00f15bac745a8c17ac60573c3a40b860",
+      "blob_id": "b8f2d6319055be25d5f794890262423db977db91",
+      "size": 22298
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_keycloak_pilot.py": {
+      "sha256": "527c4afb2f221e166f8adb3f98e213532f059f13c0688c07a5be26b2e745d956",
+      "blob_id": "3c48277c3e08050ed2a340b462029a267e3213f5",
+      "size": 18601
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_live_agent.py": {
+      "sha256": "98e97197bb3cec41ce00b8284f3090ab18b95817cd694e9b0bb4fb7749521cf6",
+      "blob_id": "2249e031af136c3c58218ba576ec387468224489",
+      "size": 6926
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_live_gateway.py": {
+      "sha256": "faa00193255c51c1563095328b8f0666ba51916a04682add8fa5d3bf414e766c",
+      "blob_id": "49bfb90f437bc081fae38dc29136c2677d2b99a1",
+      "size": 9949
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_live_inline_questions.py": {
+      "sha256": "63b9c565d268db6e7cd0a761bef4a555d85cf2b25086ef8ab631bb2f750e8a72",
+      "blob_id": "8ad087facefa6d6adb403bc4237adbb74e12a6de",
+      "size": 4561
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_live_model_switch.py": {
+      "sha256": "539fdd70a31c6eae6c9d45009c479dd125ba2becf70b1cdddeadb6e0a8b31af2",
+      "blob_id": "569b5b7def44dd61ec03e9bdd9eb814d2fddf59a",
+      "size": 8822
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_live_prisma_cli.py": {
+      "sha256": "261334561e647bdf99c9aac291549257159e9f19f08e9651f86168d82aac696f",
+      "blob_id": "bc1f41b2131694c8be9ad95a96ee3ee38b6fbc20",
+      "size": 3761
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_macos_artifact_keychain.py": {
+      "sha256": "1571d5d8e0d737bc5c61b09f8cd0db50fe087efbd2e1a1eb422591a6e6c87eea",
+      "blob_id": "2cb43ce95732ef0dc1852313e8f8c6fbab79f9d6",
+      "size": 6465
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_mcp_sessions.py": {
+      "sha256": "9c843b37c3a8690ab214e5f6b3c3752a35a6060b4f9ffa5789217590b8b37272",
+      "blob_id": "595d5bd093c6b755655f20410508d8af9a1f36e9",
+      "size": 5990
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_native_credentials.py": {
+      "sha256": "cfe2825ba0dc3ec9542d947a654d0c77efe22ca242a2d14b3df77dfa1f85b888",
+      "blob_id": "129afccd97256556127c5840e9ead04d71471f73",
+      "size": 4692
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_prisma_cli.py": {
+      "sha256": "11dd9582ce2b7947f8ce344bf69a1ea1744ea86b7968c2059c7056e4b5b22747",
+      "blob_id": "f8b47fc3bf7fcf1b229cff1650ccf228bd7cd76b",
+      "size": 7213
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_rust_oidc.py": {
+      "sha256": "2fcbedbfb1c2265649f9f71edf5a2a0c1dea64c8e1151736688ddd968b71ece7",
+      "blob_id": "14873be99af82bd76a75dda93e7329e066e0768f",
+      "size": 6851
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/validate_workspace_login.py": {
+      "sha256": "dc882dc0a60c3aa6580381c0476e55fd0dccf0a017c8e362584dee5fd8ec9df8",
+      "blob_id": "a71e826a6a11375e64a4b00308c77de466d9220b",
+      "size": 24678
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/verify_airs_release.py": {
+      "sha256": "54563d55ca829115340ab8542fd36ea650759958636589609fef350524df2ca4",
+      "blob_id": "f38668a77a391e99ab737a0a8deb238752228ad2",
+      "size": 2870
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:scripts/verify_persisted_airs_audit.py": {
+      "sha256": "f88c52233aa152ff03cccb59b8e0d65ae9db35ad06d9e4949070fd1bf70d4fe9",
+      "blob_id": "c82ff082bdb6eacaf0eeb85f819363141b0bcab4",
+      "size": 4323
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/package-lock.json": {
+      "sha256": "e21649e2deb47dba41a8d107703312725fa51c9f7ad2bef1bae50151c675372f",
+      "blob_id": "d02d201478d0ece1de3e3757614e09c3ccba4f60",
+      "size": 48747
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/package.json": {
+      "sha256": "fa74ad30828424b639e21be5b94996e62fe853687719d91fd40eaa58338a730b",
+      "blob_id": "581b0473845d93319d6dc853fe8156be0fe1f89f",
+      "size": 817
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/child.js": {
+      "sha256": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "blob_id": "6230f6a54467e84b9b74f244799b826be9251027",
+      "size": 972
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/completion.js": {
+      "sha256": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "blob_id": "bd45377ece8e780503b4965358d95b01bb2b368a",
+      "size": 2789
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/launcher.js": {
+      "sha256": "f19e258f731ab2bf89f4d07890d018945720819caff784ff7959e195bee99f73",
+      "blob_id": "86def0cd12ac9fd5179c9d51a67bf7bde918cbd6",
+      "size": 4905
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/migration-check.js": {
+      "sha256": "fd7c75e1aab9ad95e303ec311f0b2e345c7fc04fa700a354e0cfa17b6bea2ef5",
+      "blob_id": "8feccd9e388cd914ed1d73f6fcc917537cc52752",
+      "size": 2099
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/prisma-cli.js": {
+      "sha256": "1884133ee4beae2da34dacae16332d0d6aaf3e992a9590b17771c0e905dea126",
+      "blob_id": "9a736e123109cbc4e2a0b40e15c5c02c41ad9443",
+      "size": 2614
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/lib/runtime.js": {
+      "sha256": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "blob_id": "0628c79d1390d3bfd73c9d3f2d6598a7b6e60e4e",
+      "size": 1866
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/bin/airs-harness.js": {
+      "sha256": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "blob_id": "842057182aa99351c24e86dae233bf92a005319a",
+      "size": 86
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/bin/airs.js": {
+      "sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "blob_id": "b3f8ab95d2d538c8ad81488d4ab80dbc7058850a",
+      "size": 70
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/managed-cli/airs-cli": {
+      "sha256": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "blob_id": "ab89edfeb3bec2d497fdc145dfd130aeb7a905b1",
+      "size": 89
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/managed-cli/airs-cli.cmd": {
+      "sha256": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "blob_id": "a71229fc6696a410b162b77b9de2363092d584d4",
+      "size": 34
+    },
+    "44872ebf4c125f06fa69bee7a486f8e7ab26c6af:npm/airs-harness/managed-cli/empty.env": {
+      "sha256": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08",
+      "blob_id": "5bb5338c6686ef636e1607b27a335919ac5e8aae",
+      "size": 73
+    },
+    "5c7086341e50757168a8a04a5d56401c52cd0170:validation/2026-09-19/stable-0.1.1/SPEC.json": {
+      "sha256": "b3fb8970dc1637547873e5d61448761fc681069f650b0c50c5c6b554c4652deb",
+      "blob_id": "d27c4ae71771cd29827507900035f2a04fbfd43c",
+      "size": 889
+    }
+  }
+}

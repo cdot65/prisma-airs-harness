@@ -1,0 +1,27 @@
+{
+  "observation": "npm 12.0.2 global installation with --omit=optional installs the required native optional dependency",
+  "global_probe": {
+    "exit_code": 0,
+    "stdout": "airs 0.1.1\n",
+    "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/airs-post011-20260919/evidence/missing-native-baseline/home/.airs-harness\"))\n",
+    "optional_dependency_present": true
+  },
+  "npm_effective_config": {
+    "omit": [
+      "optional"
+    ],
+    "include": []
+  },
+  "launcher_archive_contains_native": false,
+  "npm_arborist_actual_node": {
+    "name": "airs-harness-linux-x64",
+    "optional": true,
+    "top": "airs-harness",
+    "topIsProjectRoot": false,
+    "topIsWorkspace": false,
+    "shouldOmitOptional": false
+  },
+  "explanation": "Installed npm Arborist Node.shouldOmit returns false when dependency top is neither project root nor workspace. The global AIRS package is such a top.",
+  "source": "/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js:505",
+  "next_reproduction": "Use a disposable local project and npm install --prefix PROJECT --omit=optional --ignore-scripts --registry=https://npm.cdot.io airs-harness@0.1.1, then PROJECT/node_modules/.bin/airs --version. Do not claim global omission reproduces missing native on this npm version."
+}

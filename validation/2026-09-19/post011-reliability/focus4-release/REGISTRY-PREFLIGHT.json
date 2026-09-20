@@ -1,0 +1,61 @@
+{
+  "anonymous": true,
+  "packages": [
+    {
+      "package": "airs-harness-linux-x64",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "candidate_exists": false,
+      "dist_tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.6",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "package": "airs-harness-linux-arm64",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "candidate_exists": false,
+      "dist_tags": {
+        "latest": "0.1.1",
+        "gateway-validation": "0.1.0-alpha.21",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.6",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "package": "airs-harness-darwin-arm64",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "candidate_exists": false,
+      "dist_tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.6",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "package": "airs-harness",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "candidate_exists": false,
+      "dist_tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.0-alpha.22.mcp.6",
+        "stable-candidate": "0.1.1"
+      }
+    }
+  ]
+}

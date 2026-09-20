@@ -1,5 +1,8 @@
 //! App-level orchestration tests for the TUI.
 
+#[path = "tests/airs_doctor_tests.rs"]
+mod airs_doctor;
+
 #[path = "tests/daybreak_tests.rs"]
 mod daybreak_tests;
 

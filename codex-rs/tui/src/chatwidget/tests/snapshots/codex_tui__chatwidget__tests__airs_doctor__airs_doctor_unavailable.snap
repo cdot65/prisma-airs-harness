@@ -1,6 +1,5 @@
 ---
 source: tui/src/chatwidget/tests/airs_doctor.rs
-assertion_line: 70
 expression: "render_doctor(&chat, width)"
 ---
 
@@ -13,7 +12,9 @@ expression: "render_doctor(&chat, width)"
                               files or tools.
   3. Diagnostics unavailable  Diagnostics timed out. Retry /doctor.
   4. MCP · service-now        Not verified · select to reconnect
-  5. Manage MCP connections   Add a gateway server, sign in, reconnect or check
+  5. Diagnostic report        Preview, copy or save a report with private identifiers
+                              omitted.
+  6. Manage MCP connections   Add a gateway server, sign in, reconnect or check
                               discovered tools.
 
   Press enter to confirm or esc to go back

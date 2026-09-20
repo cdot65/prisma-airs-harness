@@ -1,0 +1,4 @@
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/tui)
+   Compiling codex-cloud-tasks v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cloud-tasks)
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-post011-reliability-20260919/codex-rs/cli)
+    Finished `dev` profile [unoptimized] target(s) in 1m 08s

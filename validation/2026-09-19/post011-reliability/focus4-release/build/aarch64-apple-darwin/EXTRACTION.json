@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "5e06253d4a3c6d68920eacf11bdd63d76796a7d5e2db3c2c5162399e278a741a",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+  "target": "aarch64-apple-darwin",
+  "extracted": "mac-native/extracted/airs-harness-0.1.2-alpha.1.mcp.1-darwin-arm64",
+  "verified_files": 4503,
+  "archive_sidecar_present": false
+}

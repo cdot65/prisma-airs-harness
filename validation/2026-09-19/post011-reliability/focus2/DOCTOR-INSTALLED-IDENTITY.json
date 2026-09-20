@@ -1,0 +1,17 @@
+{
+  "binary_sha256": "527591ecdff9a36bae5cab024ce2599a09c99c40ef38c2d27a8f9bcb62fd633b",
+  "binary": "/tmp/airs-command-output-20260918/target/debug/airs-harness",
+  "source_base": "873c42bfab949491d0b7cbb073589e20abc0c2b4",
+  "scope": "Development executable with uncommitted diagnostic-report changes; native release acceptance remains separate",
+  "command": [
+    "/tmp/airs-dual-auth-20260918/venv/bin/python",
+    "/home/cdot/development/cdot65/airs-post011-reliability-20260919/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/home/cdot/development/cdot65/airs-post011-reliability-20260919/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/tmp/airs-post011-20260919/evidence/DOCTOR-INSTALLED-TESTS.json"
+  ],
+  "exit_code": 0
+}

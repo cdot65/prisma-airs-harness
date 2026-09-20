@@ -1,8 +1,14 @@
 """Rotating synthetic grants; never used with production credentials."""
 
 import secrets
+from enum import Enum
 import threading
 import time
+
+
+class RefreshFault(Enum):
+    REJECTED = "rejected"
+    RESPONSE_LOST = "response-lost"
 
 
 class RotatingTokens:
@@ -21,6 +27,15 @@ class RotatingTokens:
         self.access = {}
         self.refresh = {}
         self.consumed = set()
+        self.next_fault = None
+
+    def fail_next_refresh(self, fault):
+        if not isinstance(fault, RefreshFault):
+            raise ValueError("Unknown synthetic refresh fault")
+        with self.lock:
+            if self.next_fault is not None:
+                raise ValueError("A refresh fault is already armed")
+            self.next_fault = fault
 
     def issue(self, build, grant="authorization_code"):
         with self.lock:
@@ -60,6 +75,16 @@ class RotatingTokens:
                 )
                 return 400, {"error": "invalid_grant"}
             self.consumed.add(token)
+            fault, self.next_fault = self.next_fault, None
+            if fault is RefreshFault.REJECTED:
+                self.emit(
+                    "refresh_requested",
+                    resource=self.resource,
+                    previous_generation=prior,
+                    accepted=False,
+                    reason="fixture_rejection",
+                )
+                return 400, {"error": "invalid_grant"}
             # Consumption precedes issuance: a failed response cannot restore a predecessor.
             response = self.issue(build, "refresh_token")
             self.emit(
@@ -69,7 +94,7 @@ class RotatingTokens:
                 accepted=True,
                 generation=self.generation,
             )
-            return 200, response
+            return None if fault is RefreshFault.RESPONSE_LOST else (200, response)
 
     def authorize(self, token, operation, **details):
         with self.lock:

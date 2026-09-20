@@ -1,0 +1,9 @@
+{
+  "pid": 33071,
+  "root": "/home/cdot/.cache/airs-post011-20260919/post011-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "8f9660b0b0f7837569700055c47e8c67c45e9f6007f6c760f138b6806e63b324",
+  "files_verified": 8157,
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "production_acceptance": false
+}

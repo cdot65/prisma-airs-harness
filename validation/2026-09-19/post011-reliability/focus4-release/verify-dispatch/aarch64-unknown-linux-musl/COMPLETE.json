@@ -1,0 +1,36 @@
+{
+  "mode": "verify",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "37b2ebd90d4f9278445021d83c6031ec15d8e0f5d5e69cb57d803dc381984bb5",
+  "tooling_manifest_sha256": "8acf7a8508dac89956a2e2e2b46fcf89ccc53532ee605dc58c46e381adad4a15",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "expected_native_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "808950a1f2519470d9233b43037478e94f511ad583363d9c3382ee6bff6b21c4",
+    "candidate_packages_sha256": "14a322bdde3672184bedd463b2d7254f80235bb42f4719b2be4ce69ba85654bf"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-44872e/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/home/airs-review/post011-candidate/SPEC.json",
+        "--packages",
+        "/home/airs-review/post011-candidate/staged",
+        "--scripts",
+        "/home/airs-review/release-frozen-44872e/scripts",
+        "--output",
+        "/home/airs-review/post011-candidate/registry-acceptance",
+        "--acceptance",
+        "/home/airs-review/post011-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 358.35690832899127
+    }
+  ],
+  "passed": true
+}

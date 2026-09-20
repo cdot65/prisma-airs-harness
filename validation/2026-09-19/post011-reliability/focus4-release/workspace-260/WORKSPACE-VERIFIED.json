@@ -1,0 +1,65 @@
+{
+  "counts": {
+    "failed": 3,
+    "passed": 18331,
+    "skipped": 34,
+    "tests_run": 18334
+  },
+  "failure_reviews": [
+    {
+      "evidence": {
+        "path": "remote-pipe-recovery-review.md",
+        "sha256": "18e8d0911d27ec40096b229e9ac420f53dc33359fba1485f5dfb3ba41cce7c2f"
+      },
+      "product_blocking": false,
+      "reason": "Current remote snapshot-v2 recovery test reaches the final capture-count assertion and reports xxxx instead of xx. ShellSnapshotV2 is UnderDevelopment/defaultfalse; normal shell requests returnNone when disabled. This experimental remote capture path is outside default AIRS auth/report behavior and is unchanged; its unresolved defect and full-workspace failure remain visible.",
+      "test": "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery"
+    },
+    {
+      "evidence": {
+        "path": "remote-tty-recovery-review.md",
+        "sha256": "4cd957a17bc804ca70cb1bd1222867d2bcc2f5ddbd334e8f071004c7440823ca"
+      },
+      "product_blocking": false,
+      "reason": "Current remote snapshot-v2 recovery test reaches the final capture-count assertion and reports xxxx instead of xx. ShellSnapshotV2 is UnderDevelopment/defaultfalse; normal shell requests returnNone when disabled. This experimental remote capture path is outside default AIRS auth/report behavior and is unchanged; its unresolved defect and full-workspace failure remain visible.",
+      "test": "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery"
+    },
+    {
+      "evidence": {
+        "path": "remote-sandbox-review.md",
+        "sha256": "fe41aa444158e134e52506c4cdcded53724c3fd97d54189a717e1c656bf1e439"
+      },
+      "product_blocking": false,
+      "reason": "Current remote snapshot-v2 sandbox test fails because its profile capture writes to a read-only test home and exits41. ShellSnapshotV2 is UnderDevelopment/defaultfalse, and the normal shell request path returnsNone when disabled. The unchanged experimental opt-in path is excluded from default AIRS product acceptance; its defect and full-workspace failure remain visible.",
+      "test": "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    }
+  ],
+  "failures": [
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+  ],
+  "files": {
+    "log": {
+      "path": "validation.log",
+      "sha256": "24ad97b0f4aa1fdca0cb39c0e898234cddb188998a51b6e88c2c45bfb4b2793e"
+    },
+    "scope": {
+      "path": "test-scope.txt",
+      "sha256": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e"
+    },
+    "source": {
+      "path": "source.txt",
+      "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+    },
+    "tooling": {
+      "path": "container-tooling-source.txt",
+      "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+    }
+  },
+  "record_sha256": "8378abc17ba74c92ee9abda1cf5f2ba21ba9241565a8186a3be0a208eb045c21",
+  "scope": "full-workspace",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "status": "failure",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+}

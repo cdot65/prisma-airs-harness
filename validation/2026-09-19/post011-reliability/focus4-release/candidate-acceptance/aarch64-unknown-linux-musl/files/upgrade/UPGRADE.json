@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "roundtrip": {
+    "passed": true,
+    "previous_version": "0.1.1",
+    "candidate_version": "0.1.2-alpha.1.mcp.1",
+    "restored_version": "0.1.1",
+    "previous_binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+    "candidate_binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+    "restored_binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+    "candidate_source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "previous_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+    "command_links_preserved": true,
+    "configuration_preserved": true,
+    "real_conversation_preserved": true,
+    "inference_credential_reused": true,
+    "mcp_credential_reused": true,
+    "native_cleanup_completed": true,
+    "real_mcp_turns": 3,
+    "uninstall_used": false,
+    "force_used": false,
+    "production_acceptance": false,
+    "tooling_sha256": "060a4d049ec18ba28309d61ffd23c25a283926f82b66b6356261c5e0f1828b0b"
+  },
+  "passed": true,
+  "previous": "0.1.1",
+  "version": "0.1.2-alpha.1.mcp.1",
+  "platform": "Linux",
+  "configuration_preserved": true,
+  "previous_registry": "https://npm.cdot.io",
+  "legacy_target_preserved": true,
+  "cases": [
+    {
+      "case": "npm-managed-in-place",
+      "passed": true,
+      "binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false,
+      "known_manual_link_preserved": false
+    },
+    {
+      "case": "legacy-one-time-migration",
+      "passed": true,
+      "binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false,
+      "known_manual_link_preserved": true
+    },
+    {
+      "case": "legacy-command-before-separate-npm-prefix",
+      "passed": true,
+      "binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+      "uninstall_used": false,
+      "manual_command_removal": false,
+      "force_used": false
+    }
+  ],
+  "registry_requests": [
+    "/airs-harness",
+    "/airs-harness-linux-x64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness/-/airs-harness-0.1.2-alpha.1.mcp.1.tgz",
+    "/airs-harness-linux-arm64/-/airs-harness-linux-arm64-0.1.2-alpha.1.mcp.1.tgz",
+    "/airs-harness",
+    "/airs-harness-linux-x64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness/-/airs-harness-0.1.2-alpha.1.mcp.1.tgz",
+    "/airs-harness-linux-arm64/-/airs-harness-linux-arm64-0.1.2-alpha.1.mcp.1.tgz",
+    "/airs-harness",
+    "/airs-harness-darwin-arm64",
+    "/airs-harness-linux-arm64",
+    "/airs-harness-linux-x64"
+  ]
+}

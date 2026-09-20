@@ -1,0 +1,18 @@
+---
+source: tui/src/chatwidget/tests/airs_doctor.rs
+expression: "render_doctor(&chat, width)"
+---
+
+
+  Diagnostic report
+  Version, platform, authentication method and check results. Names, addresses, paths
+  and raw details are omitted. Nothing is uploaded. Saved locally:
+  /fixture/diagnostic-report-fixture.txt
+
+› 1. Preview report     Read the exact report; Esc returns here.
+  2. Copy report        Send plain text to your clipboard; terminal support may be
+                        required.
+  3. Save local report  Create a private text file in this environment's directory.
+  4. Close              Return to your conversation; preserve your draft.
+
+  Press enter to confirm or esc to go back

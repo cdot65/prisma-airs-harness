@@ -1,0 +1,18 @@
+test_acceptance_references_and_duplicate_json_fields_reject (test_airs_release_git_audit.GitEvidenceAudit.test_acceptance_references_and_duplicate_json_fields_reject) ... ok
+test_extra_committed_file_not_in_manifest_is_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_extra_committed_file_not_in_manifest_is_rejected) ... ok
+test_failed_cli_does_not_overwrite_receipt (test_airs_release_git_audit.GitEvidenceAudit.test_failed_cli_does_not_overwrite_receipt) ... ok
+test_gitlink_is_rejected_and_executable_regular_file_is_allowed (test_airs_release_git_audit.GitEvidenceAudit.test_gitlink_is_rejected_and_executable_regular_file_is_allowed) ... ok
+test_ignored_and_staged_log_cannot_rescue_committed_reference (test_airs_release_git_audit.GitEvidenceAudit.test_ignored_and_staged_log_cannot_rescue_committed_reference) ... ok
+test_limits_fail_before_unbounded_blob_read (test_airs_release_git_audit.GitEvidenceAudit.test_limits_fail_before_unbounded_blob_read) ... ok
+test_manifest_paths_duplicates_and_digests_are_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_manifest_paths_duplicates_and_digests_are_rejected) ... ok
+test_replacement_refs_and_git_environment_cannot_redirect_audit (test_airs_release_git_audit.GitEvidenceAudit.test_replacement_refs_and_git_environment_cannot_redirect_audit) ... ok
+test_stage_output_input_command_and_dependency_corruption_reject (test_airs_release_git_audit.GitEvidenceAudit.test_stage_output_input_command_and_dependency_corruption_reject) ... ok
+test_symlink_root_and_output_are_never_followed (test_airs_release_git_audit.GitEvidenceAudit.test_symlink_root_and_output_are_never_followed) ... ok
+test_unsafe_roots_and_noncommit_revisions_are_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_unsafe_roots_and_noncommit_revisions_are_rejected) ... ok
+test_valid_commit_is_reproducible_without_checkout_or_worktree_bytes (test_airs_release_git_audit.GitEvidenceAudit.test_valid_commit_is_reproducible_without_checkout_or_worktree_bytes) ... ok
+test_wrong_committed_bytes_cannot_be_rescued_locally (test_airs_release_git_audit.GitEvidenceAudit.test_wrong_committed_bytes_cannot_be_rescued_locally) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.633s
+
+OK

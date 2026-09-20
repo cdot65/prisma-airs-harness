@@ -116,3 +116,62 @@ fn setup_rejects_ambiguous_models_and_missing_capability_limits() {
     config.credential_env = "secret-value".to_string();
     assert!(configuration(&config, dir.path()).is_err());
 }
+#[test]
+fn startup_authentication_recovery_preserves_selected_environment_and_restore_mode() {
+    use clap::Parser;
+    use codex_login::auth::CredentialRecovery;
+    for environment in [None, Some("staging"), Some("-staging"), Some("--")] {
+        for reason in [
+            CredentialRecovery::SignInRequired,
+            CredentialRecovery::OutcomeUnknown,
+        ] {
+            let message = super::startup_recovery(
+                anyhow::Error::new(reason).context("private context"),
+                environment,
+            )
+            .to_string();
+            let command = message.split('`').nth(1).unwrap();
+            let parsed = crate::MultitoolCli::try_parse_from(command.split_whitespace()).unwrap();
+            assert_eq!(parsed.environment.as_deref(), environment);
+            let Some(crate::Subcommand::Login(login)) = parsed.subcommand else {
+                panic!("startup recovery must offer login");
+            };
+            assert!(login.airs.restore_session);
+            assert!(!message.contains("/signin"));
+            assert!(!message.contains("private context"));
+            assert!(message.contains("retry your original command"));
+        }
+    }
+}
+
+#[test]
+fn unrelated_startup_failures_keep_their_original_error_chain() {
+    use codex_login::auth::CredentialRecovery;
+    let error = anyhow::anyhow!("configuration unchanged").context("outer context");
+    let expected = format!("{error:#}");
+    assert_eq!(
+        format!("{:#}", super::startup_recovery(error, Some("work"))),
+        expected
+    );
+    for reason in [
+        CredentialRecovery::StoreUnavailable,
+        CredentialRecovery::TemporarilyUnavailable,
+    ] {
+        let error = super::startup_recovery(reason.into(), Some("work"));
+        assert_eq!(error.downcast_ref::<CredentialRecovery>(), Some(&reason));
+    }
+}
+
+#[test]
+fn startup_recovery_messages_offer_shell_commands_before_the_tui_opens() {
+    use codex_login::auth::CredentialRecovery;
+
+    insta::assert_snapshot!(
+        super::startup_recovery(CredentialRecovery::SignInRequired.into(), Some("work")).to_string(),
+        @"Your work session has ended. Run `airs --environment work login --restore-session` to sign in as the same person, then retry your original command. Your saved conversations are preserved."
+    );
+    insta::assert_snapshot!(
+        super::startup_recovery(CredentialRecovery::OutcomeUnknown.into(), Some("-staging")).to_string(),
+        @"Your sign-in needs to be restored. Run `airs --environment=-staging login --restore-session` to sign in as the same person, then retry your original command. Your saved conversations are preserved."
+    );
+}

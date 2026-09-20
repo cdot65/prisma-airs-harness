@@ -1,0 +1,20 @@
+{
+  "scope": "Fresh anonymous registry verification, synthetic account fixtures; not production SSO or ServiceNow acceptance",
+  "targets": {
+    "aarch64-apple-darwin": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "native_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716"
+    },
+    "aarch64-unknown-linux-musl": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "native_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e"
+    }
+  },
+  "owned_gui_label_unloaded": "io.cdot.airs.post011.20260919.registry.d06daa48ebda4291bdbff56475497cd1"
+}

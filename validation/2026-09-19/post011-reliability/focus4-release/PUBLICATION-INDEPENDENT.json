@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "scope": "independent-published-test-release-mapping",
+  "passed": true,
+  "anonymous_metadata_reads": true,
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "version": "0.1.2-alpha.1.mcp.1",
+  "publication_identity_sha256": "f6ecd1729a9dd55a405d34d2b0cb93052ee1d7dda8a59e58eaa79b70bd12a452",
+  "staged_payload_recomputed": true,
+  "registry_product_receipt_matches": true,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "archive_sha256": "e25c9354305e4541cd8143a0fc3a332d6b89811afd55c14c66f3e43ba5f1b633",
+      "integrity": "sha512-mZEJC7dN+SbEZzRZIj1FPLVQ+XbCnc3VNPjhRKUJmp0Wd0Xxd9Cz7w7u09kyTfqjwShXQMp3zBZGU2qJt4pw3Q==",
+      "runtime_payload_unchanged": true,
+      "registry_integrity_matches_staged": true,
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.1.mcp.1",
+      "all_protected_tags_preserved": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "archive_sha256": "9049059e294c61f4dfd37cb0c18fca713ca1a31b60b03c166f05328955af1f11",
+      "integrity": "sha512-5dWzZZ1ZdLdo900hVCJp763bHTZnYazVRFfJZq5Mx01eWv7e931AZsm/Tr+v7zkDuOXarradj3J2JPK3lql/Cw==",
+      "runtime_payload_unchanged": true,
+      "registry_integrity_matches_staged": true,
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.1.mcp.1",
+      "all_protected_tags_preserved": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "archive_sha256": "b96250873fb07416adca8c3ed039f4f90515015fc1b2946b2d4c779d44af04c6",
+      "integrity": "sha512-BeDnYipMo8fD98HW+RDN7fHeaUTBmg2gplOrU4jpzIob1LoTDMkT+Q1xR6PYT/F9G76ngEXbSDFtXfFxyKhbcQ==",
+      "runtime_payload_unchanged": true,
+      "registry_integrity_matches_staged": true,
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.1.mcp.1",
+      "all_protected_tags_preserved": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "archive_sha256": "2febc8ceba8da3cb12f2723117cd998aebb7b5ddb7061cb01927578511c3e4ee",
+      "integrity": "sha512-7BXc2+m2N+KKShh8n4Rf3fD/DFYpGHw2hyMx68m5SKdk/Q56672qFm2mSXjC6vvVwKyLgn8WQ41FDUbqm5r6wg==",
+      "runtime_payload_unchanged": true,
+      "registry_integrity_matches_staged": true,
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.1.mcp.1",
+      "all_protected_tags_preserved": true
+    }
+  ],
+  "stable_promotion_authorized": false,
+  "production_acceptance": false
+}

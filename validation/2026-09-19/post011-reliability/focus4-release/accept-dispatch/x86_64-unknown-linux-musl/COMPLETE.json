@@ -1,0 +1,35 @@
+{
+  "mode": "accept",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "37b2ebd90d4f9278445021d83c6031ec15d8e0f5d5e69cb57d803dc381984bb5",
+  "tooling_manifest_sha256": "8acf7a8508dac89956a2e2e2b46fcf89ccc53532ee605dc58c46e381adad4a15",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "expected_native_sha256": "41756d1b68a6131f4f140dc0e95812cd2efb45864734cb76472779a3c87924d4",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "04f5aa6169048808c47d7dc77815dd14013c5fb79e83b628116f61f7fba74290",
+    "candidate_packages_sha256": "9cc9e21ae2950fc8bbae368738c3680cc9acea6348d9f069bac5d76202682c3f"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/home/cdot/.cache/airs-post011-20260919/post011-candidate/SPEC.json",
+        "--packages",
+        "/home/cdot/.cache/airs-post011-20260919/post011-candidate/candidate-npm",
+        "--scripts",
+        "/home/cdot/.cache/airs-post011-20260919/frozen/scripts",
+        "--output",
+        "/home/cdot/.cache/airs-post011-20260919/post011-candidate/candidate-acceptance",
+        "--resume"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 360.53676425300364
+    }
+  ],
+  "passed": true
+}

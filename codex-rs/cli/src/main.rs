@@ -1369,7 +1369,9 @@ async fn cli_main(
                     | Subcommand::Fork(_)
             )
         ) {
-            airs_helper_relocation::refresh(home.as_path())?;
+            airs_helper_relocation::refresh(home.as_path()).map_err(|error| {
+                airs_harness::startup_recovery(error, selected_environment.as_deref())
+            })?;
             codex_utils_home_dir::airs_session::pin_current_airs_session()?;
         }
         match &subcommand {

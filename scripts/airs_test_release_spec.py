@@ -8,6 +8,8 @@ import re
 import stat
 from urllib.parse import urlsplit
 
+from airs_npm_versions import released_version
+
 SCOPE = "owner-authorized-test"
 STABLE_SCOPE = "owner-authorized-stable"
 STABLE_TAG = "stable-candidate"
@@ -25,7 +27,6 @@ COMMIT = re.compile(r"[0-9a-f]{40}\Z")
 VERSION = re.compile(
     r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)-alpha\.(?:0|[1-9]\d*)\.mcp\.(?:0|[1-9]\d*)\Z"
 )
-PREVIOUS = re.compile(r"\d+\.\d+\.\d+-alpha\.\d+(?:\.(?:mcp|onboarding)\.\d+)?\Z")
 
 
 def require(condition, message):
@@ -103,6 +104,7 @@ def load_json(path):
 
 def validate_spec(document):
     require(isinstance(document, dict), "Expected release specification")
+    previous = released_version(document.get("previous_version"))
     fields = {
         "schema_version",
         "scope",
@@ -116,6 +118,8 @@ def validate_spec(document):
         "developer_id_team",
         "platforms",
     }
+    if previous.stable:
+        fields.add("previous_release")
     require(
         set(document) == fields, "Unexpected or missing release specification fields"
     )
@@ -128,7 +132,7 @@ def validate_spec(document):
         in ((SCOPE, "mcp"), (STABLE_SCOPE, STABLE_TAG)),
         "Expected an explicitly authorized test or stable candidate scope",
     )
-    for key in fields - {"schema_version", "platforms"}:
+    for key in fields - {"schema_version", "platforms", "previous_release"}:
         value = document[key]
         require(
             isinstance(value, str)
@@ -145,13 +149,39 @@ def validate_spec(document):
         "Version does not match the release scope",
     )
     require(
-        (
-            PREVIOUS.fullmatch(document["previous_version"]) is not None
-            or STABLE_VERSION.fullmatch(document["previous_version"]) is not None
-        )
-        and document["previous_version"] != document["version"],
-        "Invalid previous version",
+        document["previous_version"] != document["version"], "Invalid previous version"
     )
+    if previous.stable:
+        baseline = document["previous_release"]
+        require(
+            isinstance(baseline, dict)
+            and set(baseline) == {"source_commit", "platforms"},
+            "Invalid previous release declaration",
+        )
+        require(
+            isinstance(baseline["source_commit"], str)
+            and COMMIT.fullmatch(baseline["source_commit"]) is not None,
+            "Invalid previous source commit",
+        )
+        rows = baseline["platforms"]
+        require(
+            isinstance(rows, list) and len(rows) == 3,
+            "Previous release requires three native targets",
+        )
+        for row in rows:
+            require(
+                isinstance(row, dict)
+                and set(row) == {"target", "binary_sha256"}
+                and isinstance(row["target"], str)
+                and row["target"] in TARGETS
+                and isinstance(row["binary_sha256"], str)
+                and SHA256.fullmatch(row["binary_sha256"]) is not None,
+                "Invalid previous native target",
+            )
+        require(
+            {row["target"] for row in rows} == set(TARGETS),
+            "Duplicate previous native target",
+        )
     for key in ("source_commit", "tooling_commit", "packaging_commit"):
         require(
             COMMIT.fullmatch(document[key]) is not None, "Expected a full source commit"
@@ -203,6 +233,18 @@ def validate_spec(document):
     result["platforms"] = [
         dict(next(p for p in platforms if p["target"] == target)) for target in TARGETS
     ]
+    if previous.stable:
+        result["previous_release"] = {
+            "source_commit": baseline["source_commit"],
+            "platforms": [
+                dict(
+                    next(
+                        row for row in baseline["platforms"] if row["target"] == target
+                    )
+                )
+                for target in TARGETS
+            ],
+        }
     return result
 
 

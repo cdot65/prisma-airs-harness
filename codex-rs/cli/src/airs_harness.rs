@@ -219,6 +219,22 @@ pub fn setup_in(args: &SetupArgs, home: &Path) -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Startup errors need a shell command because no interactive session is open yet.
+pub(super) fn startup_recovery(error: anyhow::Error, environment: Option<&str>) -> anyhow::Error {
+    use codex_login::auth::CredentialRecovery;
+
+    let detail = match error.downcast_ref::<CredentialRecovery>() {
+        Some(CredentialRecovery::SignInRequired) => "Your work session has ended.",
+        Some(CredentialRecovery::OutcomeUnknown) => "Your sign-in needs to be restored.",
+        Some(CredentialRecovery::StoreUnavailable | CredentialRecovery::TemporarilyUnavailable)
+        | None => return error,
+    };
+    let command = super::airs_environment::command(environment);
+    anyhow::anyhow!(
+        "{detail} Run `{command} login --restore-session` to sign in as the same person, then retry your original command. Your saved conversations are preserved."
+    )
+}
+
 #[cfg(test)]
 #[path = "airs_harness_tests.rs"]
 mod tests;

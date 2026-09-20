@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "native_binary_sha256": "c5b5d13bceecf458f511719759a7af085f8c0b26972098807f8ebc916a48ea9f",
+  "launcher": "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-8b35f96e1ce141e6bffd68e401b7a018/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.153,
+    "zsh": 0.206,
+    "fish": 0.153
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "fish: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

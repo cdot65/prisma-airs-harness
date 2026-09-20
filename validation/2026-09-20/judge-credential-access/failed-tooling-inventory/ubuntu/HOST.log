@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-judge-access-20260920/judgeaccess-ubuntu-worker.py", line 33, in <module>
+    verify_tooling(tooling, manifest, spec["tooling_commit"])
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-judge-access-20260920/frozen-judgeaccess/scripts/airs_release_receipts.py", line 186, in verify_tooling
+    require(actual == set(files), "Validation tooling inventory changed")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-judge-access-20260920/frozen-judgeaccess/scripts/airs_test_release_spec.py", line 34, in require
+    raise ValueError(message)
+ValueError: Validation tooling inventory changed

@@ -1,0 +1,25 @@
+from pathlib import Path
+from html.parser import HTMLParser
+import urllib.request,hashlib,json,sys
+class Main(HTMLParser):
+ def __init__(self):super().__init__();self.active=False;self.parts=[]
+ def handle_starttag(self,tag,attrs):
+  if tag=='main':self.active=True
+ def handle_endtag(self,tag):
+  if tag=='main':self.active=False
+ def handle_data(self,data):
+  if self.active:self.parts.append(data)
+def main_text(html):
+ p=Main();p.feed(html);s=' '.join(' '.join(p.parts).split());assert s;return s
+build=Path('/home/cdot/development/cdot65/prisma-airs-cli/docs-site/build')
+paths=['getting-started/installation','getting-started/command-migration','cli/redteam/judge','about/release-notes','redteam/overview']
+rows=[]
+for route in paths:
+ local=main_text((build/route/'index.html').read_text())
+ url='https://cdot65.github.io/prisma-airs-cli/'+route+'/'
+ with urllib.request.urlopen(urllib.request.Request(url,headers={'Cache-Control':'no-cache'}),timeout=30) as r:remote=main_text(r.read().decode())
+ rows.append({'url':url,'matches_local_build':local==remote,'local_main_sha256':hashlib.sha256(local.encode()).hexdigest(),'remote_main_sha256':hashlib.sha256(remote.encode()).hexdigest()})
+report={'commit':sys.argv[1],'deployment':'https://github.com/cdot65/prisma-airs-cli/actions/runs/'+sys.argv[2],'pages':rows,'passed':all(r['matches_local_build'] for r in rows)}
+Path('/tmp/airs-judge-access-20260920/CLI-DOCS-ALPHA5-LIVE.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'pages':[{k:r[k] for k in ('url','matches_local_build')} for r in rows]}))
+raise SystemExit(0 if report['passed'] else 1)

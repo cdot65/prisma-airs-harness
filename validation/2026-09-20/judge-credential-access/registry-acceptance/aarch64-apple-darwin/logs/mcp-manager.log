@@ -1,0 +1,12 @@
+test_cancel_keeps_connection_and_never_exchanges_or_submits_callback (test_airs_mcp_manager.McpManager.test_cancel_keeps_connection_and_never_exchanges_or_submits_callback) ... ok
+test_desktop_callback_and_failed_discovery_do_not_report_success (test_airs_mcp_manager.McpManager.test_desktop_callback_and_failed_discovery_do_not_report_success) ... ok
+test_local_desktop_opens_once_and_http_callback_completes (test_airs_mcp_manager.McpManager.test_local_desktop_opens_once_and_http_callback_completes) ... skipped 'Linux browser launcher fixture'
+test_private_adapter_rejects_duplicate_name_without_replacing_it (test_airs_mcp_manager.McpManager.test_private_adapter_rejects_duplicate_name_without_replacing_it) ... ok
+test_private_login_progress_precedes_committed_credential (test_airs_mcp_manager.McpManager.test_private_login_progress_precedes_committed_credential) ... ok
+test_real_browser_expiry_preserves_connection_and_reports_retry (test_airs_mcp_manager.McpManager.test_real_browser_expiry_preserves_connection_and_reports_retry) ... skipped 'opt-in real five-minute OAuth expiry'
+test_remote_callback_add_verify_logout_remove_and_environment_pinning (test_airs_mcp_manager.McpManager.test_remote_callback_add_verify_logout_remove_and_environment_pinning) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 19.248s
+
+OK (skipped=2)

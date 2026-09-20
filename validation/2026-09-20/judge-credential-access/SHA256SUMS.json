@@ -126,6 +126,36 @@
       "sha256": "80126962cb08fcab25ae091c7d896ad7fa7d8a0b16066ed1c24ee611026fdeb3"
     },
     {
+      "path": "accept-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 1479,
+      "sha256": "9d3b2ed970b49dac9f56b9d1f72dc69b145350d970634d519e3f9dad5d015562"
+    },
+    {
+      "path": "accept-dispatch/aarch64-apple-darwin/accept.log",
+      "bytes": 179,
+      "sha256": "2de945bc41d212f36790ae8d15b7cdf0c97fac00f3b822829a5da66ab9e6bd5a"
+    },
+    {
+      "path": "accept-dispatch/aarch64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 1313,
+      "sha256": "ac93aa4c9b9f0062d5334ad7dc0fa19dca4d46270b82294fc334396170cd0725"
+    },
+    {
+      "path": "accept-dispatch/aarch64-unknown-linux-musl/accept.log",
+      "bytes": 157,
+      "sha256": "78fb2b415522ee19b09ca58529526b5bae606af1678d531023a944d080864389"
+    },
+    {
+      "path": "accept-dispatch/x86_64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 1463,
+      "sha256": "e3b965e24f281330aaa6c88fe9eba96af855f8b86ee1fe4e2afa0e48cf8e6bd0"
+    },
+    {
+      "path": "accept-dispatch/x86_64-unknown-linux-musl/accept.log",
+      "bytes": 183,
+      "sha256": "38bce4bb20c78e204649bc18eca615dc02e051456b8ad1c5efed33cf38f91730"
+    },
+    {
       "path": "candidate-acceptance/aarch64-apple-darwin/ACCEPTANCE.json",
       "bytes": 2050,
       "sha256": "02d1a703f332f4a8e65f05ad3951e25547f8cc66b41cd9a3b8702f152ca90abc"
@@ -611,6 +641,81 @@
       "sha256": "b912186a47300486a8653f6d0c1e572b04ac6506a34c7354d35c6b35c01615c8"
     },
     {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19792,
+      "sha256": "b08a878f1c9e9b4905224502f3bf2cd3cbf7914f5798ddca58bf64c4c966b7a5"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11843,
+      "sha256": "377292bfa66c5825a2da5179955fd0f4c1561cd184aeea3ee455c8f995ca15e4"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/PROGRESS.json",
+      "bytes": 143,
+      "sha256": "361144cac809d9d494d4f59ad1faaa204c836b8f9540cf11edc21005c5884008"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/RUN-IDENTITY.json",
+      "bytes": 19119,
+      "sha256": "20929110211c379368d6bba550e7f7f54fe6419bfd6a7bbffb960b8375a179af"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/worker.private.log",
+      "bytes": 76,
+      "sha256": "210ecc49a6d88f745fe39fc17bdd324bff259b6c0022e718799b0cb28ee565af"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19792,
+      "sha256": "20a4d97556f0c95afb27f3923deb0ed6e01b887501f757d87312c227b347e86e"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11826,
+      "sha256": "93c923a2e370c0ce74c15b086be02059f2f2aec0a37dc467a89ac3109c815bea"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/PROGRESS.json",
+      "bytes": 142,
+      "sha256": "ab36e63d27f6a5ab87253a8398ff29f8a9611855856c2fa32cd5a91e2b395b23"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/RUN-IDENTITY.json",
+      "bytes": 19119,
+      "sha256": "18c50c5ae90d632c4df660ddc472b3239594ab9d07104a1bb6fa2de06e2d4d87"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/worker.private.log",
+      "bytes": 76,
+      "sha256": "7cd329c17a959a6d81cade839447143243b6a45e758e176f18eb5797cf257390"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19792,
+      "sha256": "d706319b5494ac50bf5e9aac2ead7003d27f9280560982ac2dc0d14b33d44bc1"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11831,
+      "sha256": "353d510d0ea19b1faa85f8e251ca47fb1082207009234550e4e0bd48e11b9331"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/PROGRESS.json",
+      "bytes": 143,
+      "sha256": "fec0273b6b63dfc36cf1078a1465f0cb2d416db923bd2130a6433d0bc5088478"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/RUN-IDENTITY.json",
+      "bytes": 19119,
+      "sha256": "8767a4895b48c067ca58b3d8a16eefd2bfb43d5732eba5708f88c6093c30f3a4"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/worker.private.log",
+      "bytes": 76,
+      "sha256": "1f66e796935fb1601bbddfa42dd83e8e09d1c0cf7bac0dbe992fae0a5d21f561"
+    },
+    {
       "path": "extras-dispatch/aarch64-apple-darwin/COMPLETE.json",
       "bytes": 2576,
       "sha256": "abecdc8e1f5c3a1b0870e2ef0bf60e2bb7ae737ba25cdc6beab2f831a85f3058"
@@ -989,6 +1094,11 @@
       "path": "orchestration/ubuntu-execution/status.py.txt",
       "bytes": 668,
       "sha256": "409d010aa86440767f9095b8443e9a23325b5e3feff309d24a24cc20819c680d"
+    },
+    {
+      "path": "orchestration/verify-cli-docs.py.txt",
+      "bytes": 1650,
+      "sha256": "9881dd8252689c616d6a985ad5d06aa7fda4487b6f724e4b98d646d394751056"
     },
     {
       "path": "publication/PUBLICATION.json",
@@ -1546,5 +1656,5 @@
       "sha256": "a3bca3693fd16f942bc179b2d1aa23950f8af5d5557647c4c3f45c1f5bfb7787"
     }
   ],
-  "total_files": 309
+  "total_files": 331
 }

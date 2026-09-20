@@ -1,0 +1,8 @@
+airs 0.1.2-alpha.5.mcp.1
+7.1.5
+test_installed_node_judge_resolves_saved_key_and_never_substitutes_replay (__main__.NativeNodeJudge.test_installed_node_judge_resolves_saved_key_and_never_substitutes_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 10.346s
+
+OK

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "native_binary_sha256": "858572ff26f0ac0b84c20cb13b6d6fe1dcde5ddd52f4cfba6ca937215d64186d",
+  "launcher": "/Users/cdot/.cache/airs-judge-access-20260920/judgeaccess-candidate/registry-acceptance/aarch64-apple-darwin.work/install-4510403a666f42b683143f8d4b2cdd46/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.13,
+    "zsh": 0.176
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

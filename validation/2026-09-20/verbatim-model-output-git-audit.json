@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 2000865,
+  "evidence_commit": "177bccc45b1dee0a6afe4e77a2a91ec2b9f4c774",
+  "evidence_root": "validation/2026-09-20/verbatim-model-output",
+  "files_checked": 275,
+  "inventory_sha256": "1e25b397e4515aa4bffd1c00e5ba09fdb98956c845424914b79b2185ec758cae",
+  "manifest_blob_id": "f4cbc6bbc6c2f595b371a19c35578bc01fb69696",
+  "manifest_sha256": "4a761ceecd79eb55abe3588ed4c983bb702e01553b452f742c5f1e0f1099f8f4",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 56
+}

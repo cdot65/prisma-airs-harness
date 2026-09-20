@@ -17,6 +17,9 @@ signed/notarized Apple Silicon, including verbatim-response replay through both
 the bundled CLI and the embedded skill. These tests made no paid Jev calls.
 Runtime, tooling and packaging source: `5c2a3c01e10b8b37845333bcea56e5a829840082`.
 See [the retained evidence](validation/2026-09-20/verbatim-model-output/README.md).
+The [immutable evidence audit](validation/2026-09-20/verbatim-model-output-git-audit.json)
+passed across 275 files and 56 stage receipts. The updated CLI Docusaurus guide
+is deployed at `1792b14`; all five checked live pages match the validated build.
 
 The CLI and native skill treat `output` as the model's direct response string.
 They preserve the complete string, including nested JSON, serialized messages,

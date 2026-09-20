@@ -1,0 +1,9 @@
+{
+  "run": "278",
+  "inputs": {
+    "source_ref": "640f30b05ffb149f18be62b74a56804bcda72e62",
+    "archive_sha256": "8017fa25f4a13d98b6d1741a85e53c5a8030ebc8c6a6e0d819db09f3de4fbdc9",
+    "binary_sha256": "17ddd46c80dbb68d08b8b7495f4680ac1dfd28405f685b496862bddd03842ef8",
+    "fixture_sha256": "f023baa75c3d7bc8ee8e9eb32c62f659323e5c7d777db045b83f8e3a4e358a00"
+  }
+}

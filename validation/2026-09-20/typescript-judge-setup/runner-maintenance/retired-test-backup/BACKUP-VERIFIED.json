@@ -1,0 +1,11 @@
+{
+  "sha256": "1cdc4612f235a602b64639d0910f4e7b5495eff1da337f141660d499a741c137",
+  "bytes": 6072833001,
+  "roots": [
+    "/Users/cdot/.cache/airs-judge-envelope-fix-20260920",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate",
+    "/Users/cdot/.cache/airs-native-mcp-20260919/mcp4-candidate-r2"
+  ],
+  "verified": true,
+  "local_archive": "/tmp/airs-node-judge-20260920/retired-test-backup/retired-tests.tar.gz"
+}

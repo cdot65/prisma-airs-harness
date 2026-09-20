@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "before_free_bytes": 208896,
+  "after_free_bytes": 7576293376,
+  "verified_duplicate_archives": [
+    {
+      "local": "/tmp/airs-node-judge-20260920/release/candidate-transfer.tar",
+      "remote": "/home/cdot/.cache/airs-node-judge-20260920/candidate-transfer.tar",
+      "sha256": "1dbfdfaf76936563fadf64fcc90be4c0a3693aa84bf56a236d78f941a6370013",
+      "bytes": 1508710400
+    },
+    {
+      "local": "/tmp/airs-verbatim-output-20260920/release/candidate-transfer.tar",
+      "remote": "/home/cdot/.cache/airs-verbatim-output-20260920/candidate-transfer.tar",
+      "sha256": "aafe7a591c2a7fb784a4c320ef78b13283db9700417c92a14ae6df25dccf0345",
+      "bytes": 1508167680
+    },
+    {
+      "local": "/tmp/airs-verbatim-output-20260920/release/registry-inputs.tar",
+      "remote": "/home/cdot/.cache/airs-verbatim-output-20260920/registry-inputs.tar",
+      "sha256": "ce73d86ec67abca37cd11c4fae018eb5df273d4464d2fb348db5a4c291962e6d",
+      "bytes": 771430400
+    },
+    {
+      "local": "/tmp/airs-judge-envelope-fix-20260920/release/candidate-transfer.tar",
+      "remote": "/home/cdot/.cache/airs-judge-envelope-fix-20260920/candidate-transfer.tar",
+      "sha256": "72fff6244e61331faaf48985bdbca5729c0fedeadbe4dbbf0b31222fe241cdf3",
+      "bytes": 1508177920
+    },
+    {
+      "local": "/tmp/airs-jev-resume-20260920/release/candidate-transfer.tar",
+      "remote": "/home/cdot/.cache/airs-jev-resume-20260920/candidate-transfer.tar",
+      "sha256": "48b1555622a372f73a783737f642daec3500a3b685e7c875f1c1306191b5ee66",
+      "bytes": 1508147200
+    },
+    {
+      "local": "/tmp/airs-jev-resume-20260920/release/registry-inputs.tar",
+      "remote": "/home/cdot/.cache/airs-jev-resume-20260920/registry-inputs.tar",
+      "sha256": "81c2d7715b674e9809dac2344da27f46f6f5a1d29105da5a31e6971f75fe0fe4",
+      "bytes": 771420160
+    }
+  ],
+  "owner_environments_changed": false
+}

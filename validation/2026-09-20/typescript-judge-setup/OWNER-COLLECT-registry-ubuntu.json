@@ -1,0 +1,14 @@
+{
+  "archive": "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/portable-registry.tar.gz",
+  "sha256": "0e11581664dca73ba684bfbd2999702dddd12971b17cde1dbe1d74fa74b3f121",
+  "bytes": 30039,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "registry",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false
+  }
+}

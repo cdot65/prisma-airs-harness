@@ -1,0 +1,13 @@
+{
+  "scan_sha256": "79318e7caddfc3a64fcb97a33a14524387eefa85853bc56240732ecf714826e0",
+  "ingestion": {
+    "layout": "array",
+    "records": 4362,
+    "skipped_no_prompt": 0,
+    "error_outputs": 0,
+    "fallback_row_ids": 4362,
+    "objective_proxies": 4362,
+    "oversized_units": 36
+  },
+  "paid_calls": 0
+}

@@ -1,0 +1,56 @@
+{
+  "mode": "extras",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "b4fc8b30de010e122394e8f6f9d93f2afd1f85d04ea0e5e11b6477b2e871b65f",
+  "tooling_manifest_sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9",
+  "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+  "expected_native_sha256": "0b4d049019b6e1330cf27fc9d12ff71bec7fa4a60d8d8f673ce07d87fa17d262",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4",
+    "candidate_packages_sha256": "044ba3c0fa3b9d06b85d9a99224db85215ff4f899bf00e603cf9f3658e074887"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-nodejudge/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/home/airs-review/nodejudge-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-c578943968524f668a64fe7b7be42159/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+        "--native-binary",
+        "/home/airs-review/nodejudge-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-c578943968524f668a64fe7b7be42159/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-arm64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/home/airs-review/nodejudge-candidate/extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 187.07231287800823
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-nodejudge/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.5279233329929411
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-nodejudge/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.5568225430033635
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "c3f08da9ccc35ecbe7fe0566248bc83a4bd9f61ef8473186b7ff1e6edd5393df"
+  },
+  "passed": true
+}

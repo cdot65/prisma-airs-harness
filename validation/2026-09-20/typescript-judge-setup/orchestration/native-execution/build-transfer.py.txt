@@ -1,0 +1,13 @@
+from pathlib import Path
+import hashlib,json,tarfile
+r=Path('/tmp/airs-node-judge-20260920/release');p=r/'candidate-npm';spec=json.loads((r/'SPEC.json').read_text());a=r/'candidate-transfer.tar';files={}
+assert json.loads((r/'ASSEMBLY.json').read_text())['exit_code']==0
+with tarfile.open(a,'w') as t:
+ for q in sorted(p.rglob('*')):
+  if q.is_symlink():raise RuntimeError('Unexpected symlink in candidate inputs')
+  if q.is_file():
+   n=str(q.relative_to(p))
+   with q.open('rb') as f:files[n]=hashlib.file_digest(f,'sha256').hexdigest()
+   t.add(q,arcname=n,recursive=False)
+with a.open('rb') as f:h=hashlib.file_digest(f,'sha256').hexdigest()
+m={'archive_sha256':h,'spec':spec,'files':files};(r/'CANDIDATE-TRANSFER.json').write_text(json.dumps(m,indent=2)+'\n');print(json.dumps({'archive':str(a),'sha256':h,'bytes':a.stat().st_size,'files':len(files)}))

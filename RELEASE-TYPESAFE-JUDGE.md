@@ -1,17 +1,37 @@
-# JavaScript judge and automatic environment credentials
+# TypeScript judge and in-session TypeSafe setup
 
-Candidate **0.1.2-alpha.4.mcp.1** bundles CLI **7.1.5**. Native acceptance and
-publication are pending. This source note is not a registry receipt.
+Harness **0.1.2-alpha.4.mcp.1** is published under `mcp` at `https://npm.cdot.io`,
+bundling CLI **7.1.5**. Stable `latest` remains **0.1.1**.
 
-The skill invokes the bundled TypeScript judge through a JavaScript entrypoint.
-Python is no longer required. The native helper resolves the skill's owning
-environment and supplies its saved key only to the judge child. The CLI uses
-the official TypeSafe JavaScript SDK. Explicit replay is labeled clearly.
+```bash
+npm install -g airs-harness@0.1.2-alpha.4.mcp.1 --registry=https://npm.cdot.io
+airs --version
+# 0.1.2-alpha.4.mcp.1
+airs cli --version
+# 7.1.5
+```
 
-Use `/typesafe` inside the harness for hidden API-key entry, configuration status
-and confirmed removal. The optional dialog preserves the conversation and draft
-and reuses the native credential store. This UI is included in the pending
-candidate; the previous published harness does not have it.
+Restart `airs`, open `/typesafe`, and choose **Save or replace API key**. Enter the
+key in the hidden field, then invoke `$prisma-airs-asr-judge attacks.json`.
+Existing saved keys work automatically. The optional dialog also shows configuration
+status and confirms removal; it preserves the conversation and draft. Saving does
+not perform a paid judgment or verify remote access. Never paste a key into chat.
+
+The bundled JavaScript entrypoint invokes the one TypeScript judge and official
+TypeSafe JavaScript SDK. Python is no longer required. A native helper resolves
+the skill's owning environment and supplies its saved key only to the judge child.
+Missing credentials fail explicitly; replay is used only when selected and is
+clearly labeled. Model output strings remain verbatim, even when they contain JSON.
+
+Exact candidate and fresh anonymous registry checks passed on Ubuntu x64, native
+Linux ARM64 and signed/notarized Apple Silicon, including actual hidden-key dialog
+interaction, native storage, a fresh SDK request to a loopback fixture, explicit
+replay and upgrade/rollback preservation. No paid Jev calls or model-accuracy
+claims are part of these checks. This is not native Windows package acceptance.
+
+Runtime source: `640f30b05ffb149f18be62b74a56804bcda72e62`.
+Acceptance/packaging tooling: `d64ccd3fa87eae928d66bf7dce704e4f98b46965`.
+See [the release evidence](validation/2026-09-20/typescript-judge-setup/README.md).
 
 # Verbatim model-output judgment
 

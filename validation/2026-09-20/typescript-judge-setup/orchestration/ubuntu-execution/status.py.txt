@@ -1,0 +1,13 @@
+import subprocess
+code = """from pathlib import Path
+import json
+r=Path('/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate');t='x86_64-unknown-linux-musl'
+out={}
+for phase,completion in [('candidate','HOST-COMPLETE.json'),('registry','REGISTRY-HOST-COMPLETE.json')]:
+ p=r/(phase+'-acceptance')/t/'receipts'
+ stages=[f.stem for f in sorted(p.glob('*.json'))]
+ out[phase]={'stages':stages,'completed':(r/completion).exists()}
+ if (r/completion).exists():out[phase]['completion']=json.loads((r/completion).read_text())
+print(json.dumps(out))
+"""
+subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.44.1','python3','-'],input=code,text=True,check=True)

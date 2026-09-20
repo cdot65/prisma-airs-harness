@@ -1,0 +1,11 @@
+{
+  "source_commit": "640f30b05ffb149f18be62b74a56804bcda72e62",
+  "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+  "version": "0.1.2-alpha.4.mcp.1",
+  "tooling_files": 169,
+  "tooling_manifest_sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9",
+  "tooling_archive_sha256": "7606bb4dc05ee2195f4e97ebc31208ce6ee4791a7c55dff39f17e95a252b4077",
+  "source_tree_clean_before_dispatch": true,
+  "stable_latest_changes_authorized": false,
+  "correction": "Installed CLI version assertion updated from 7.1.4 to 7.1.5; native source unchanged; failed Mac run 277 retained."
+}

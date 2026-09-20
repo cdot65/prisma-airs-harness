@@ -1,0 +1,26 @@
+{
+  "version": "7.1.5",
+  "dist": {
+    "shasum": "a4d3f36d1202ce6677d09033208b14e1868252f5",
+    "tarball": "https://registry.npmjs.org/@cdot65/prisma-airs-cli/-/prisma-airs-cli-7.1.5.tgz",
+    "fileCount": 7,
+    "integrity": "sha512-yq4r676+4JqqH0bW1mg8Ku2UwovxdHkYNxfub07d0wK5w5G7K2u1vjtr838RhX2q4xgYNHCzO1KdDVW9WgjNFQ==",
+    "signatures": [
+      {
+        "sig": "MEQCIFjDv9H3LB635Rmj+cm7Rd/aC6dofAVBUeB2Ff5/2gw3AiA1klR5BL56Kxc70gAZKeNXIV2ghgBhJQ49Q7wQ52zZwg==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "sig": "MEQCIEEFR/+QOg8XqPm0nfb7oYRtnU+qp9FykZn/ygwoQl3zAiB7OXniSfonOBvNo3kty91TVBz4PLq5INs/IzGjmx4NNQ==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@cdot65%2fprisma-airs-cli@7.1.5",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "unpackedSize": 919754
+  }
+}

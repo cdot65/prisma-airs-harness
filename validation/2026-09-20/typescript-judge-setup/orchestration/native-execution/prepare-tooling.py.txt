@@ -1,0 +1,35 @@
+from pathlib import Path
+import hashlib,json,subprocess,sys,tarfile
+cache=Path('/Users/cdot/.cache/airs-node-judge-20260920')
+archive=cache/'acceptance-tooling-v2.tar.gz'
+expected,commit=sys.argv[1:]
+if hashlib.sha256(archive.read_bytes()).hexdigest()!=expected:raise RuntimeError('Tooling transport mismatch')
+root=cache/'release-frozen-nodejudge'
+root.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+ members=tar.getmembers()
+ if any(not m.isfile() or Path(m.name).is_absolute() or '..' in Path(m.name).parts for m in members):raise RuntimeError('Unexpected tooling member')
+ if len({m.name for m in members})!=len(members):raise RuntimeError('Duplicate tooling member')
+ tar.extractall(root,filter='data')
+m=json.loads((root/'ACCEPTANCE-TOOLING.json').read_text())
+if m['tooling_commit']!=commit:raise RuntimeError('Tooling source mismatch')
+if {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}!=set(m['files'])|{'ACCEPTANCE-TOOLING.json'}:raise RuntimeError('Tooling inventory mismatch')
+for n,h in m['files'].items():
+ if hashlib.sha256((root/n).read_bytes()).hexdigest()!=h:raise RuntimeError('Tooling file mismatch')
+docker='/usr/local/bin/docker';container='airs-native-mcp-20260919-arm64'
+arm='/home/airs-review/release-frozen-nodejudge';worker='/home/airs-review/nodejudge-native-worker.py'
+for path in (arm,worker):subprocess.run([docker,'exec',container,'test','!','-e',path],check=True)
+subprocess.run([docker,'cp',str(root),container+':'+arm],check=True)
+subprocess.run([docker,'cp',str(cache/'nodejudge-native-worker.py'),container+':'+worker],check=True)
+subprocess.run([docker,'exec',container,'chown','-R','10001:10001',arm,worker],check=True)
+code="""import pathlib,json,hashlib,sys
+root=pathlib.Path(sys.argv[1]);manifest=json.loads((root/'ACCEPTANCE-TOOLING.json').read_text())
+assert manifest['tooling_commit']==sys.argv[2]
+assert {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}==set(manifest['files'])|{'ACCEPTANCE-TOOLING.json'}
+assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in manifest['files'].items())
+print(len(manifest['files']))
+"""
+count=int(subprocess.check_output([docker,'exec','-u','10001',container,'/opt/review-venv/bin/python','-c',code,arm,commit],text=True))
+if count!=len(m['files']):raise RuntimeError('ARM tooling count differs')
+out={'source_commit':commit,'archive_sha256':expected,'mac_files_verified':len(m['files']),'arm_files_verified':count,'mac_root':str(root),'arm_root':arm,'worker_sha256':hashlib.sha256((cache/'nodejudge-native-worker.py').read_bytes()).hexdigest(),'acceptance_started':False}
+(cache/'TOOLING-PREPARED.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out))

@@ -1,0 +1,59 @@
+{
+  "command": [
+    "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts/validate_airs_command_output.py",
+    "--binary",
+    "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-54f23b99151d4aeab272b7d4e7801c2f/prefix/bin/airs",
+    "--native",
+    "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-54f23b99151d4aeab272b7d4e7801c2f/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+    "--scripts",
+    "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts",
+    "--receipt",
+    "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/command-output-95e778c3a7ae497a90980e87822e65fa/COMMAND-OUTPUT.json"
+  ],
+  "command_sha256": "cc11eb17a79cfac6989597cb920ad43537d3756f56310b896b35c6c6c1a669a3",
+  "dependencies": {
+    "doctor": "6636f5ec95dc074a96b95dd656febbd45f6bb829aff192871d6ceef6fed0b506",
+    "install": "71e883d394adf4717a94e3522835c1c53144ac635830cfb8fa97a6701ff7fc65",
+    "installed-regressions": "84093bcd36bc6f278f04c32b162acb0222b36c5bb75b157cdf87d5ef09338881",
+    "managed-cli": "d6a5a6d27f4b25cb3d7e3ac83b8276666bd1f73bc9a784052f6b949fa59d932f",
+    "mcp-manager": "2f435c22628e2ea65823d4506907afe7ba6175b7d28d90fe156f7dde3b55036f",
+    "onboarding": "3026034a061350b9c459e304a2d9744231ba71e89638440a7b2f40d8d8faf99c",
+    "terminals": "6d6231c728dbff07e7f40b5b1b311e8d1390ec33680bb782ed1a96e802a43573",
+    "upgrade": "337ce58ed0cfbc7310a2f97ddbbec9b7b6561b30f51fed6ae6efa3170e0b9214"
+  },
+  "exit_code": 0,
+  "input_sha256": "b6f63dab520303e605cf57f4e864549790cec4ab603c14cb188e6d520ffb3dec",
+  "inputs": {
+    "binary_sha256": "afbc1971a5047ea70d71d251a6e95aef010637666bc7ff6c28fd36728b543f6d",
+    "candidate_metadata_sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4",
+    "candidate_packages_sha256": "044ba3c0fa3b9d06b85d9a99224db85215ff4f899bf00e603cf9f3658e074887",
+    "contract": {
+      "normal_python": true,
+      "selection": "COMMAND-OUTPUT.json",
+      "stage": "command-output",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+    "source_commit": "640f30b05ffb149f18be62b74a56804bcda72e62",
+    "spec_sha256": "17213bf87bf3f6c3c15264a5fe58f4bb36ed2bdd9d2a0134960f97173066a6af",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+    "tooling_sha256": "0145ed89c1f929fabf6c44688f93a52c8f4cad133510f112fa1b6dab3fa0cd48",
+    "version": "0.1.2-alpha.4.mcp.1"
+  },
+  "outputs": {
+    "files/command-output/COMMAND-OUTPUT.json": {
+      "sha256": "31127d0a573689f700b07ae259da9d958230dd2b7a3ba772c78f4a97412506b2",
+      "size": 2812
+    },
+    "logs/command-output.log": {
+      "sha256": "10bb7b3d27501e0f06bf9ba666caecdfb2a52f23d4b5b489142418633c512e9d",
+      "size": 1888
+    }
+  },
+  "schema_version": 1,
+  "stage": "command-output"
+}

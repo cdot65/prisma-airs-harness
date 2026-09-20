@@ -1,0 +1,24 @@
+from pathlib import Path
+root=Path('/tmp/airs-node-judge-20260920');r=root/'release'
+for area,worker in [('native-execution','nodejudge-native-worker.py'),('ubuntu-execution','nodejudge-ubuntu-worker.py')]:
+ p=r/area/worker;s=p.read_text();needle='    verify_tooling(tooling, manifest, spec["tooling_commit"])'
+ extra='''    if args.mode in ("extras", "verify"):
+        phase = "candidate" if args.mode == "extras" else "registry"
+        local = load_json(root / (phase + "-acceptance") / (target + ".work") / "LOCAL.json")
+        prefix = Path(local["prefix"])
+        _launcher, native, _package = installed_identity(spec, packages, prefix, target, environment)
+        environment.update(AIRS_TYPESAFE_NATIVE="1", AIRS_HARNESS_BIN=str(native),
+                           AIRS_MANAGED_CLI=str(prefix / "lib/node_modules/airs-harness/managed-cli/airs-cli"))
+        execute("typesafe-node", [sys.executable, tooling / "scripts/test_airs_typesafe_node_native.py", "-v"])
+        for name in ("AIRS_TYPESAFE_NATIVE", "AIRS_HARNESS_BIN", "AIRS_MANAGED_CLI"):
+            environment.pop(name)
+''';assert needle in s;s=s.replace(needle,extra+needle);p.write_text(s)
+p=r/'owner-handoff/release.py';s=p.read_text()
+s=s.replace("        if phase == 'candidate':\n            merge_tree(destination / 'extras-dispatch', ROOT / 'extras-dispatch')", "        area = 'extras-dispatch' if phase == 'candidate' else 'verify-dispatch'\n        merge_tree(destination / area, ROOT / area)")
+s=s.replace("def verify_extras():", "def verify_extras(phase='candidate'):").replace("directory = ROOT / 'extras-dispatch' / target", "directory = ROOT / ('extras-dispatch' if phase == 'candidate' else 'verify-dispatch') / target")
+s=s.replace("        commands = [row for row in receipt['commands'] if row['name'] == 'typesafe-native']", "        commands = [row for row in receipt['commands'] if row['name'] == 'typesafe-node']").replace("directory / 'typesafe-native.log'", "directory / 'typesafe-node.log'")
+s=s.replace("    collect('registry')", "    collect('registry')\n    verify_extras('registry')")
+p.write_text(s)
+p=root/'accept-when-built.py';s=p.read_text();s='\n'.join(line for line in s.splitlines() if "run-node-smokes.py" not in line)+'\n';p.write_text(s)
+p=root/'publish-and-verify.py';s=p.read_text();start=s.index("for host in ['mac','arm','ubuntu']:");end=s.index("helper=",start);s=s[:start]+s[end:];s='\n'.join(line for line in s.splitlines() if "run-node-smokes.py" not in line)+'\n';p.write_text(s)
+print('Release orchestration now requires installed Node/native-store tests on all three platforms in both phases.')

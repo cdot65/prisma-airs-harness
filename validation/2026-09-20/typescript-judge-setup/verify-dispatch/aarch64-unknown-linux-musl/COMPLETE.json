@@ -1,0 +1,46 @@
+{
+  "mode": "verify",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "b4fc8b30de010e122394e8f6f9d93f2afd1f85d04ea0e5e11b6477b2e871b65f",
+  "tooling_manifest_sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9",
+  "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+  "expected_native_sha256": "0b4d049019b6e1330cf27fc9d12ff71bec7fa4a60d8d8f673ce07d87fa17d262",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "1e6f17653e7c2f04d87644ca168583c7f7594752e41e9e5e6565a822ad987952",
+    "candidate_packages_sha256": "b7adcca707c8aa7323f1a92b067b1f3556ecb0528e2e4d2ddd04ace9f2afe8f0"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-nodejudge/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/home/airs-review/nodejudge-candidate/SPEC.json",
+        "--packages",
+        "/home/airs-review/nodejudge-candidate/staged",
+        "--scripts",
+        "/home/airs-review/release-frozen-nodejudge/scripts",
+        "--output",
+        "/home/airs-review/nodejudge-candidate/registry-acceptance",
+        "--acceptance",
+        "/home/airs-review/nodejudge-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 335.2902689850016
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-nodejudge/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.550737042998662
+    }
+  ],
+  "passed": true
+}

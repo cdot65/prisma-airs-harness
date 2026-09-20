@@ -1,0 +1,21 @@
+{
+  "archive": "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/registry-portable.tar.gz",
+  "sha256": "b978f0bab3537906fb6df8caf4662dc2990be8cba114fd009d3fec230ceb9748",
+  "bytes": 60140,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "native_sha256": "24ee63aad6f5efdef5a3cf1fc6e2c5266f8d1691d1132b707f37b18978fa592e"
+    },
+    "aarch64-unknown-linux-musl": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "native_sha256": "0b4d049019b6e1330cf27fc9d12ff71bec7fa4a60d8d8f673ce07d87fa17d262"
+    }
+  }
+}

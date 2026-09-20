@@ -1,0 +1,1630 @@
+{
+  "files": [
+    {
+      "path": "ACCEPTANCE-TOOLING.json",
+      "bytes": 18859,
+      "sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9"
+    },
+    {
+      "path": "ASSEMBLY.json",
+      "bytes": 843,
+      "sha256": "8fc741ce08d36aee64340a6e19c3b432212f38c69606d9021e8bf5bf530d75a9"
+    },
+    {
+      "path": "BUNDLE-DIAGNOSIS.json",
+      "bytes": 26156,
+      "sha256": "21f9d8c412c29131cc61694198edfe468c0528645a31cde803ddf58ccdc2597b"
+    },
+    {
+      "path": "CANDIDATE-TRANSFER.json",
+      "bytes": 1123762,
+      "sha256": "11a363663e0d98771008c9e0287562d684be765ec26539d5218a35d93ee17af9"
+    },
+    {
+      "path": "LINUX-DISPATCH.json",
+      "bytes": 124,
+      "sha256": "dffde96b09c697bd9198ba944c42c1f51770287a84cc55e574e21186ef472056"
+    },
+    {
+      "path": "MAC-BUILD-DISPATCH.json",
+      "bytes": 75,
+      "sha256": "56085757cbd0e630ca9aa27f7f72aff31c56827b13c275b057dfef3f05589368"
+    },
+    {
+      "path": "MAC-INTAKE-VERIFICATION.json",
+      "bytes": 1941,
+      "sha256": "c9dc5eb04b8d64d10a972ebf46b039026892ad003408c3335968c097423004d3"
+    },
+    {
+      "path": "MAC-SIGNING-DISPATCH.json",
+      "bytes": 368,
+      "sha256": "8dfffd9371262e4961a8686b4d50443d9bc11d30307b4bf2fe51bbc5105a2aa0"
+    },
+    {
+      "path": "OWNER-CANDIDATE-VERIFIED.json",
+      "bytes": 106,
+      "sha256": "fca919f5ef4fded5506963a47161e6bfc5a5a807a4fedafa98828b4d732d80b5"
+    },
+    {
+      "path": "OWNER-COLLECT-candidate-mac.json",
+      "bytes": 1507,
+      "sha256": "5729034b2d3083cd5381e2dea9daf7559b82d29c96fd9ec7925cae9a286026b4"
+    },
+    {
+      "path": "OWNER-COLLECT-candidate-ubuntu.json",
+      "bytes": 805,
+      "sha256": "30e4ed05f6b63cee9bc8fa1fcd905421779a4dc510ce910756425a274a876cda"
+    },
+    {
+      "path": "OWNER-COLLECT-registry-mac.json",
+      "bytes": 731,
+      "sha256": "248ea294a222c862724f999f5fccc963cc1280a335f2d96ac1ff76cd8510bf74"
+    },
+    {
+      "path": "OWNER-COLLECT-registry-ubuntu.json",
+      "bytes": 441,
+      "sha256": "ba37743ced0d0c5b9b7baf735875cf304cd27dc5b0a0956b18c3425b9215e08e"
+    },
+    {
+      "path": "OWNER-LAUNCH-candidate-mac.json",
+      "bytes": 1394,
+      "sha256": "5aac1a12b60ded52a146e44d2980fe866857004371fb2a62d7231e2bd89058f5"
+    },
+    {
+      "path": "OWNER-LAUNCH-candidate-ubuntu.json",
+      "bytes": 348,
+      "sha256": "5ef2d3b4dd4e2a7095a2bfa51930871c747d8fb984333a710a6382fc731d67c4"
+    },
+    {
+      "path": "OWNER-LAUNCH-registry-mac.json",
+      "bytes": 1285,
+      "sha256": "622278079b6ccdc8d6138f653a86ac4eb3e3547dffc34ebfe165e210ac78c14d"
+    },
+    {
+      "path": "OWNER-LAUNCH-registry-ubuntu.json",
+      "bytes": 314,
+      "sha256": "226df86d262f3cb8fb7707bb8923185c1c9059ec1eb114ea1f0b4d59ad42ab1d"
+    },
+    {
+      "path": "OWNER-PREPARE.json",
+      "bytes": 180,
+      "sha256": "5dc7000a9dc6fc2cf0dc4652c43beb508d1f79553e149e738b4ff9dce8683d72"
+    },
+    {
+      "path": "OWNER-REGISTRY-VERIFIED.json",
+      "bytes": 142,
+      "sha256": "acc1b506d3c97b0dabcfc8750a3afd166a665deaef9cc6d4b57d54e4351cf413"
+    },
+    {
+      "path": "REGISTRY-TRANSFER.json",
+      "bytes": 16908,
+      "sha256": "0dedf6777df88b2823c9757412d7676530f650a24e0f0d833626aa2a45fdec44"
+    },
+    {
+      "path": "SOURCE-FREEZE.json",
+      "bytes": 607,
+      "sha256": "a26b878e2669dfacfe60e708c5e01b34903c0b4be1020472aa230fa27dd0a863"
+    },
+    {
+      "path": "SPEC.json",
+      "bytes": 887,
+      "sha256": "b4fc8b30de010e122394e8f6f9d93f2afd1f85d04ea0e5e11b6477b2e871b65f"
+    },
+    {
+      "path": "STAGING.json",
+      "bytes": 106,
+      "sha256": "c02d06702903458173ea19db6ae7951b94556d6ff0c98c175d330db7534f8ff2"
+    },
+    {
+      "path": "TEST-JOBS-CLEANUP.json",
+      "bytes": 408,
+      "sha256": "2dd59e1bdef5e6a7a7df4e8109683c7e33d6abcaa942964be5b66dfdaa604f4e"
+    },
+    {
+      "path": "UBUNTU-ACCEPTANCE-RECOVERY.json",
+      "bytes": 210,
+      "sha256": "d7400a4a748af596558556e299e6fbb487e13d49110bf06adcb4454a6a44b5ec"
+    },
+    {
+      "path": "UBUNTU-DUPLICATE-ARCHIVE-CLEANUP.json",
+      "bytes": 1908,
+      "sha256": "a370c7da120c710d5903ab7a4ab796694619a7f2be7af1a42cd876e62a238538"
+    },
+    {
+      "path": "UBUNTU-DUPLICATE-PACKAGE-CLEANUP.json",
+      "bytes": 1179,
+      "sha256": "e0b60c7c8336a948b4b6ddfc5404464ecf104e89a89d22d6cfcaceab229a843b"
+    },
+    {
+      "path": "assembly-failure/ASSEMBLY.json",
+      "bytes": 843,
+      "sha256": "a5a159d3af98a6be7d7fb3d5f24835142dbf74ff92fafa14259cb162ae2b843a"
+    },
+    {
+      "path": "assembly-failure/ASSEMBLY.log",
+      "bytes": 918,
+      "sha256": "1a0b8a4c5a04472e84dfdc93ceaee809daf0a4b68f31fddbad9de0da9b0f0cce"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/ACCEPTANCE.json",
+      "bytes": 2050,
+      "sha256": "cf4988601ea21ab57a186c529f699255f4311bb7d7255ddaf5202d577a92f45a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 6404,
+      "sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 3064,
+      "sha256": "0b51f0c1d941a291be8f71e2ec2e433e8840f3cdf87467062560ede7e45429b3"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/doctor/TEST-RESULTS.json",
+      "bytes": 967,
+      "sha256": "8d17ee3e4bf263861d258736e9a5ae95c8f2d8ce39b9862b26fcfc3e44cce24a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/install/INSTALL-NETWORK.json",
+      "bytes": 461,
+      "sha256": "013c8f3f292b9083b4f325b0d06aee7aeabc3e9e7d8e112e03c469ac3e295123"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5288,
+      "sha256": "4b068d4a3cba6c3fe0e8739ce7c11e34930ebfb481f9ea65dd2a84c095950e2e"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 6390,
+      "sha256": "711254941f19d32e1062a12a243f3c7e4c8e5b9dff368355a482c9c1d2b4a498"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/mac-signature/INSTALLED-MAC-SIGNATURE.json",
+      "bytes": 205,
+      "sha256": "d44aef6468b23d47ebbd08580ba0c2c35338c30698069bf9be2b7e4ba0d182ac"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1257,
+      "sha256": "4bdcf1bf19e00dd5c8b417be29b630e94a83e9fe08ef3480d155db2b1ca56788"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/onboarding/CREDENTIAL-CLEANUP.json",
+      "bytes": 533,
+      "sha256": "5703dba8646ec9b25dcd2d85a0825bf763d6fdd35b466c674b72c165d51bba32"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2029,
+      "sha256": "7ecf21bccdde90564121ebe48df3ffd5f41767cbcc1d211e111310d12aba7aec"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1138,
+      "sha256": "229ec008bb1d57e4033e65d577fc44739e082c81ccc91e8985a83603e9e99dce"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/upgrade/UPGRADE.json",
+      "bytes": 1747,
+      "sha256": "d5c87df9788ea4311e487f71e6bfbfb6e79502367d28e504c27a3e0d4895c0b1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/command-output.log",
+      "bytes": 2140,
+      "sha256": "c1b459e9a6115747fac8cfeb704a9e2fb44aa177ba88cd14e6ab52fb3b29c7b1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/doctor.log",
+      "bytes": 934,
+      "sha256": "69102eec16fb5998d3d9796addbd64da87dfb9937b49f36df317c2df8e5e9ca9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/install.log",
+      "bytes": 5288,
+      "sha256": "4b068d4a3cba6c3fe0e8739ce7c11e34930ebfb481f9ea65dd2a84c095950e2e"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/installed-regressions.log",
+      "bytes": 11119,
+      "sha256": "c4b860bae8b134d920a6dd9c24fceb3b3018661cee1ad30c930f674c41e6a681"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/mac-signature.log",
+      "bytes": 1640,
+      "sha256": "edce8b6910bddfc6b7e11a9e79a3782fc815f13cf45b68b558e828c122dd7119"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/mcp-manager.log",
+      "bytes": 1385,
+      "sha256": "7e0d5572381a10dc55029629a68cf2cd318cb1e6c8b5ae6a335b8605b615df23"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/onboarding.log",
+      "bytes": 2029,
+      "sha256": "7ecf21bccdde90564121ebe48df3ffd5f41767cbcc1d211e111310d12aba7aec"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/terminals.log",
+      "bytes": 1138,
+      "sha256": "229ec008bb1d57e4033e65d577fc44739e082c81ccc91e8985a83603e9e99dce"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/upgrade.log",
+      "bytes": 1517,
+      "sha256": "c8984aa6e8d2e8af55553e98b7c54ccee32a99df788bfead8ecd600f9419968a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/command-output.json",
+      "bytes": 3257,
+      "sha256": "13c23074894eadfd128049098b93cf350f2558679505b54f127a74c2414db25d"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/doctor.json",
+      "bytes": 2537,
+      "sha256": "ed786e6d3f3039483f05e7fe4cbc8b533fcb5b4e7a3f8ad1d506e723ce8011ca"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/install.json",
+      "bytes": 2213,
+      "sha256": "bfe27822c168419695f891bfce0f620569aa3fdbff151cf6c706419ca2082d3b"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/installed-regressions.json",
+      "bytes": 2435,
+      "sha256": "151b0c5904db1e107ab6e39d5c82bf4652b17d84f5140be6c7b213768f16bed1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/mac-signature.json",
+      "bytes": 3387,
+      "sha256": "ec8a956d310a871a8fe551de2852a998177d40d5cb4710e2984ff1e939fb67be"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/managed-cli.json",
+      "bytes": 2718,
+      "sha256": "a8876a3f2dc581d19fd351ae72ac9d2e77b06673ddc241e1c35f06e3cfc7cf26"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/mcp-manager.json",
+      "bytes": 2487,
+      "sha256": "4694464ced3fd24cbebd35afb4ae79e25eb4c01ec01c7cdfe7f37f3537f2a333"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/onboarding.json",
+      "bytes": 2690,
+      "sha256": "b7179851acf1b923e4cf23a11e2a74f8a3fb04376ed03f97b28fe7e9c4a93d90"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/terminals.json",
+      "bytes": 2651,
+      "sha256": "595b9993535022ebebb66edbc2f644190135c7a864babb8aa7b99f8dc188989c"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/upgrade.json",
+      "bytes": 2742,
+      "sha256": "eb08dfdd1025dc83ff419233c5ffeb41e0aa5555db30e77b7800bc1500a48148"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/ACCEPTANCE.json",
+      "bytes": 1952,
+      "sha256": "af371e2ebde58bac8106f0b335d8128a7f0dc9c202833542c454e24242a4f6a6"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 6404,
+      "sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 2812,
+      "sha256": "6e36f246489636f6f2dcebfdfd3bf146e5ae959f7b0513b9cef2db8982f3ea65"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/doctor/TEST-RESULTS.json",
+      "bytes": 631,
+      "sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/install/INSTALL-NETWORK.json",
+      "bytes": 459,
+      "sha256": "ca3914eb3f618a40df57e7b2b3140954473dbdb0d3bf23500a0fba0740132f3e"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5265,
+      "sha256": "c108a09582aeef1fa660a21574acb36f942956106cc54465d25e951ae028182a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 5981,
+      "sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1087,
+      "sha256": "d6376cac93ed0db1ac6184155a85e2f876e02403de6377184264772d6af70b99"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2772,
+      "sha256": "06dbed28292e85c52d2df2f7104e5cfb2e985b1fa9b79e205852de863be5a4ae"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1233,
+      "sha256": "0cb6e6672dc701323ebe92b148dc1c87fa5311550ec41684d8f72d13af542c05"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/files/upgrade/UPGRADE.json",
+      "bytes": 1742,
+      "sha256": "7590034774fc3a4a374aeb49f5c0986168456a292ab83b9f96f4bebc32dfad28"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/command-output.log",
+      "bytes": 1888,
+      "sha256": "83e4943be37e59671a8f969ca894ffedccbb76ef9b7e8dae945a9b14b3d2f8b5"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/doctor.log",
+      "bytes": 843,
+      "sha256": "31fcba4c72a15dc2722e8c3baf2a5abe816f98ecaaea02c32c0aee49b4a2d828"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/install.log",
+      "bytes": 5265,
+      "sha256": "c108a09582aeef1fa660a21574acb36f942956106cc54465d25e951ae028182a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/installed-regressions.log",
+      "bytes": 11268,
+      "sha256": "fdc52395f99b4faf590319026b7008fa3cf1a7f3406023d336f306a75990873f"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/mcp-manager.log",
+      "bytes": 1347,
+      "sha256": "994381be6aba927c6e6c0835fd015f5fda55e8aa6ca14c19a81bee18565c9602"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/onboarding.log",
+      "bytes": 2772,
+      "sha256": "06dbed28292e85c52d2df2f7104e5cfb2e985b1fa9b79e205852de863be5a4ae"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/terminals.log",
+      "bytes": 1233,
+      "sha256": "0cb6e6672dc701323ebe92b148dc1c87fa5311550ec41684d8f72d13af542c05"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/logs/upgrade.log",
+      "bytes": 1512,
+      "sha256": "000383793318bbf139086a0624495c94f78f4556f76d5de9997985b36403309e"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/command-output.json",
+      "bytes": 3130,
+      "sha256": "8668bb6ad8abd5184245f032da6e8232bea1749760c652c325014a8ce98b5fdd"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/doctor.json",
+      "bytes": 2451,
+      "sha256": "5c21e6f61fdd666fe27ab2e9d73378ed2276067e965e4b8884b9d23df84a8539"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/install.json",
+      "bytes": 2127,
+      "sha256": "1b9e813408640596cf1e866a9debeb21138087824a34079f615135a2c23b84f8"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/installed-regressions.json",
+      "bytes": 2349,
+      "sha256": "983456d892655b71a2e49f0456eb0f96f0a9d2870a05f713456ad9005959e593"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/managed-cli.json",
+      "bytes": 2638,
+      "sha256": "947a7d5681cbfcf9deb0f318f9b6b74c6b5a7066b1f90eefefad1009874d16a9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/mcp-manager.json",
+      "bytes": 2401,
+      "sha256": "4c94e87c1e61d93b774a540aad0b1aabc660654bb87ebb9d8df4071af546e3f6"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/onboarding.json",
+      "bytes": 2458,
+      "sha256": "5d25ab2d1da38fd1781005e658e5798cbf24576ddb662247e4d2f7952a114447"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/terminals.json",
+      "bytes": 2511,
+      "sha256": "3853b423c55f1afdee7ae0542e53fe9ac33fae81317693008d6d70c645762f8d"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-unknown-linux-musl/receipts/upgrade.json",
+      "bytes": 2656,
+      "sha256": "0f95265fa3bee2eff3a3cf785161b34c785084d40fed0db63fd59b0ad936a202"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/ACCEPTANCE.json",
+      "bytes": 1950,
+      "sha256": "30728bc7d073e7e130c4360099b314019cef14d5c90d5aebc593b88ce0786030"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 6404,
+      "sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 2812,
+      "sha256": "31127d0a573689f700b07ae259da9d958230dd2b7a3ba772c78f4a97412506b2"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/doctor/TEST-RESULTS.json",
+      "bytes": 631,
+      "sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/install/INSTALL-NETWORK.json",
+      "bytes": 454,
+      "sha256": "0dcc9f7a5d95ed638c13f5613de2878318a6d565ca89d9dfe035080da5998107"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5282,
+      "sha256": "32dbe97dadc9c6adffbffdbb6a40ccc988e15f30ee0f9fe33b3365bef59b5a13"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 5981,
+      "sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1087,
+      "sha256": "d6376cac93ed0db1ac6184155a85e2f876e02403de6377184264772d6af70b99"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2795,
+      "sha256": "aeef93121bb15f3ad28066889c7390d66a049f2adee1ae75d8dfff84f8229fda"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1257,
+      "sha256": "6cf97d3af2ade6acb972eea4a905a165f2a6ec3c349bcf43081a4aa25568d8ec"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/files/upgrade/UPGRADE.json",
+      "bytes": 1734,
+      "sha256": "624c263a2201a7e2de9eb3c0c54edc9ed1aefc92e93bf056aea0026f4c955f15"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/command-output.log",
+      "bytes": 1888,
+      "sha256": "10bb7b3d27501e0f06bf9ba666caecdfb2a52f23d4b5b489142418633c512e9d"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/doctor.log",
+      "bytes": 843,
+      "sha256": "fe11e1e9253335f0ee218bef52a6df200e2a18fab87dfec1a83058189a1de499"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/install.log",
+      "bytes": 5282,
+      "sha256": "32dbe97dadc9c6adffbffdbb6a40ccc988e15f30ee0f9fe33b3365bef59b5a13"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/installed-regressions.log",
+      "bytes": 11268,
+      "sha256": "27698ef2074ec8ec449e74bbed1a04fd163f9b646584866c66b4818b18aa420f"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/mcp-manager.log",
+      "bytes": 1347,
+      "sha256": "62517c594055ea301da7af3e9c7d9be352bc8461b2358047ac1b0bc7b54d81e6"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/onboarding.log",
+      "bytes": 2795,
+      "sha256": "aeef93121bb15f3ad28066889c7390d66a049f2adee1ae75d8dfff84f8229fda"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/terminals.log",
+      "bytes": 1257,
+      "sha256": "6cf97d3af2ade6acb972eea4a905a165f2a6ec3c349bcf43081a4aa25568d8ec"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/logs/upgrade.log",
+      "bytes": 1504,
+      "sha256": "9ad95fdb1dceb43a31d4795fae8b8653d72a97cdbc684195f98c26610b19f30d"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/command-output.json",
+      "bytes": 3262,
+      "sha256": "adc4b884f4156f5d715813fe708c3f00cfb2e4706c17b8a7921246a3ec41cb98"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/doctor.json",
+      "bytes": 2537,
+      "sha256": "6636f5ec95dc074a96b95dd656febbd45f6bb829aff192871d6ceef6fed0b506"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/install.json",
+      "bytes": 2221,
+      "sha256": "71e883d394adf4717a94e3522835c1c53144ac635830cfb8fa97a6701ff7fc65"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/installed-regressions.json",
+      "bytes": 2435,
+      "sha256": "84093bcd36bc6f278f04c32b162acb0222b36c5bb75b157cdf87d5ef09338881"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/managed-cli.json",
+      "bytes": 2731,
+      "sha256": "d6a5a6d27f4b25cb3d7e3ac83b8276666bd1f73bc9a784052f6b949fa59d932f"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/mcp-manager.json",
+      "bytes": 2487,
+      "sha256": "2f435c22628e2ea65823d4506907afe7ba6175b7d28d90fe156f7dde3b55036f"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/onboarding.json",
+      "bytes": 2573,
+      "sha256": "3026034a061350b9c459e304a2d9744231ba71e89638440a7b2f40d8d8faf99c"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/terminals.json",
+      "bytes": 2626,
+      "sha256": "6d6231c728dbff07e7f40b5b1b311e8d1390ec33680bb782ed1a96e802a43573"
+    },
+    {
+      "path": "candidate-acceptance/x86_64-unknown-linux-musl/receipts/upgrade.json",
+      "bytes": 2750,
+      "sha256": "337ce58ed0cfbc7310a2f97ddbbec9b7b6561b30f51fed6ae6efa3170e0b9214"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19540,
+      "sha256": "f63d7f0291e4aedb485c3042790d82c9e539ecf8095c195d646c7bff2ca294f1"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11837,
+      "sha256": "ad422536d31f558233d2ea4ddce6bc53f0db4237076464391cc1a1674704bdcb"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19540,
+      "sha256": "c3f08da9ccc35ecbe7fe0566248bc83a4bd9f61ef8473186b7ff1e6edd5393df"
+    },
+    {
+      "path": "extra-candidate/aarch64-unknown-linux-musl/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11829,
+      "sha256": "b0e8f97d771746e256aa6022e2e1c98155cead4a1a48e7566c5cabf4d3e8dd20"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 19539,
+      "sha256": "e1171bb480479606ab5b7be1fcf5efe172a2516aac6a0ee18635d65c886cbff2"
+    },
+    {
+      "path": "extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11834,
+      "sha256": "9f0a0513b27fc0c2df5563c94fc306ae7b7afbc9b28f6c93c7f82ed0945b638d"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 2550,
+      "sha256": "40e88b334f7e8aae1874dce3eb6264f8af6e9ab11f5d56bb5a242833470387ce"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/quick.log",
+      "bytes": 194,
+      "sha256": "5a7f3d82efcbdf2ea3c9bd81826e71f81ffc6a3be91d2031dc023cbe0b4347c5"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/typesafe-native.log",
+      "bytes": 234,
+      "sha256": "6c3ad0b693d9e2ddb9d011a7acf6a3b4dde6645a48e5caedfac08fe95f67c6f2"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "c81edf823dd34f2f72fca9351676979f4f7f1b8c8ffa876836804b80c7d53677"
+    },
+    {
+      "path": "extras-dispatch/aarch64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 2322,
+      "sha256": "bf8997d19a52539b40a66f12052fecc7eff50a7d0472efdb38c32e9179443ada"
+    },
+    {
+      "path": "extras-dispatch/aarch64-unknown-linux-musl/quick.log",
+      "bytes": 174,
+      "sha256": "7430bb17d6d49d776ef2b930e8a27ded35c5b8af90ce0b976ac11f4394f92981"
+    },
+    {
+      "path": "extras-dispatch/aarch64-unknown-linux-musl/typesafe-native.log",
+      "bytes": 234,
+      "sha256": "a787373839029f9816c1cb562ab9cbd329304c89fe57f75672ed6f8a0e2e75a3"
+    },
+    {
+      "path": "extras-dispatch/aarch64-unknown-linux-musl/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "1eacc863de330a8cb69bcd3af8fe67975c088da0b77d07dd844152bade6c58fc"
+    },
+    {
+      "path": "extras-dispatch/x86_64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 2531,
+      "sha256": "cb5e467be075603e84c984e78a9fb19e92556e72d6694053b53d59286c6a6c17"
+    },
+    {
+      "path": "extras-dispatch/x86_64-unknown-linux-musl/quick.log",
+      "bytes": 198,
+      "sha256": "147bb2b4044913c79b3f47040a198b91113eee75d3a12cc929fd7d470a614f0c"
+    },
+    {
+      "path": "extras-dispatch/x86_64-unknown-linux-musl/typesafe-native.log",
+      "bytes": 234,
+      "sha256": "1e2692715c79718bef4fc7de00f565ed5035fc4a2382658732354dcf62483a82"
+    },
+    {
+      "path": "extras-dispatch/x86_64-unknown-linux-musl/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "03666eaa82db913861e43c38aefc1cca965a8ef789e5f0b3fd2baf2ae25c7fd4"
+    },
+    {
+      "path": "implementation/CLI-DOCS715-LIVE.json",
+      "bytes": 1778,
+      "sha256": "267ca900b527d1a89c8debf14dc0d0031a07deff98b1b1561d0298f14f4a2c3f"
+    },
+    {
+      "path": "implementation/CLI-REGISTRY.json",
+      "bytes": 1004,
+      "sha256": "1d6bc480c120ed8a62f2316134070ef0da2b007d47743a3d38205972fa83fec0"
+    },
+    {
+      "path": "implementation/CLI-TAGS.json",
+      "bytes": 359,
+      "sha256": "547017a9676e60ee2366a5067350d464a589302873606d185732bce7a5e0c419"
+    },
+    {
+      "path": "implementation/REAL-SCAN-INGESTION.json",
+      "bytes": 312,
+      "sha256": "3bb9e86b8b2364411e5e87fd172110bdc0d69a9a1701d8ec44194e5e8b2819e6"
+    },
+    {
+      "path": "implementation/bundle-tests-corrected.log",
+      "bytes": 125,
+      "sha256": "db4314dcf6c8600ead45a1c6949e3181ed670cf916c2bc60154790b7548ad5e0"
+    },
+    {
+      "path": "implementation/cli-audit-public.log",
+      "bytes": 31,
+      "sha256": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+    },
+    {
+      "path": "implementation/cli-build.log",
+      "bytes": 624,
+      "sha256": "b23477b9225039d1bbafc9e30d8e860569472dde5a8b147d5374c67757b5b117"
+    },
+    {
+      "path": "implementation/cli-coverage.log",
+      "bytes": 24510,
+      "sha256": "85fe655ec219e2259b41e6009d01a74c4aa414a2dfca7b8d68a719df0f1db2a4"
+    },
+    {
+      "path": "implementation/cli-final-docs-build.log",
+      "bytes": 1308,
+      "sha256": "e02a4d16ffe325559a6c8d609e42d5ed9a10d7676c23bc358d21ad836ba3fc37"
+    },
+    {
+      "path": "implementation/cli-format.log",
+      "bytes": 174,
+      "sha256": "37847b5fef982cb05930c5475d80645ff171c9dae7db1dd30d9b8e4f2fd544e5"
+    },
+    {
+      "path": "implementation/cli-lint.log",
+      "bytes": 4052,
+      "sha256": "dc0b56b1b58a1107c6cd79c793847993e682f02d321480ee92e7735e8d607998"
+    },
+    {
+      "path": "implementation/cli-release-tests.log",
+      "bytes": 2875,
+      "sha256": "e6ffd1dfd41532c8ef864ec2cc479ae95daba829bbee247169bfce1a225fc9c3"
+    },
+    {
+      "path": "implementation/cli-typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "implementation/clippy-fix.log",
+      "bytes": 17289,
+      "sha256": "d33c8dcbb88dcb38cf1e3ee48c76728be3a4d1195a7ff14af4648b475830d0ad"
+    },
+    {
+      "path": "implementation/node-native-local.log",
+      "bytes": 279,
+      "sha256": "e9e7e4b4150cf2b97a5242ca37a92064fb3784fa5528e9f8d54cf3e2f7b80682"
+    },
+    {
+      "path": "implementation/node-native-ui-local.log",
+      "bytes": 279,
+      "sha256": "1990e720b5c5cbca7bdb8edec0bda7378704caef7df6ee7e5de5cf842f1ab1dc"
+    },
+    {
+      "path": "implementation/node-tests-715.log",
+      "bytes": 6973,
+      "sha256": "7702011a35053e288baaef8c3a64d6037b706712404679596b5304f1d3d5bd7a"
+    },
+    {
+      "path": "implementation/package-tests.log",
+      "bytes": 112,
+      "sha256": "6d87046575b4618368bf68a4c3382af87c36a9b7e9d9fc8f5138f6b1fbb9a446"
+    },
+    {
+      "path": "implementation/rust-affected.log",
+      "bytes": 137171,
+      "sha256": "6dfcead44db1e14844bb6e175287907b8cbc29f67f34b3bf6f7d8400e5a79d2a"
+    },
+    {
+      "path": "implementation/tui-full-color.log",
+      "bytes": 566697,
+      "sha256": "57c7bb2a1ec5207cd5785351b04d85151c75b68dbc4d65aa4945e5d199ffcead"
+    },
+    {
+      "path": "implementation/tui-full.log",
+      "bytes": 585306,
+      "sha256": "27f020ee766f3bd5216daa192ab1861145b47f2a82a59dd81dd1d8e4c0e79fdf"
+    },
+    {
+      "path": "implementation/tui-typesafe-snapshots.log",
+      "bytes": 4868,
+      "sha256": "0c155f253eb78d6f839d2fb87d2fc686cf6dcc339d4a9db021b14cd757bf6bbc"
+    },
+    {
+      "path": "mac-packaging-failure/README.txt",
+      "bytes": 483,
+      "sha256": "6569cf8b4243bb14fbed9549dd5532ea6954dc63dba2f6f5cb22a8cfe5e83810"
+    },
+    {
+      "path": "mac-packaging-failure/artifact-selection.json",
+      "bytes": 1156,
+      "sha256": "bebaf94ebe4e3f66b0243748efe01968c14126ed91d87f3b0a6a5a3d25accb6a"
+    },
+    {
+      "path": "mac-packaging-failure/native-tests.log",
+      "bytes": 11151,
+      "sha256": "4034cc3ccd383ef6b3e29cc5c6f1eadf7c3357ff3a53d34022b32fd84bf6b37b"
+    },
+    {
+      "path": "mac-packaging-failure/npm-tests.log",
+      "bytes": 7963,
+      "sha256": "e60a58b44eb8d65142c479a5a30635a82061a54fa32d4ea5409641bf77e354df"
+    },
+    {
+      "path": "mac-packaging-failure/test-tooling-source.txt",
+      "bytes": 41,
+      "sha256": "d77c4b3fb9d5fc9224af0ac62730cceef2b15abfac435b1ef69842e45a8475d9"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-BUILD.json",
+      "bytes": 945,
+      "sha256": "b5d836be0c7e6126134b2d10da94f0be31a48221fdec4625456090163cf0e147"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-KEYCHAIN.json",
+      "bytes": 492,
+      "sha256": "4d7b37d748daf31f865ede06af02b69ed2a0bf8199922c4373f605926970c399"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-STORE.json",
+      "bytes": 644,
+      "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed"
+    },
+    {
+      "path": "mac-signing-evidence/NOTARIZATION.json",
+      "bytes": 98,
+      "sha256": "fbee2c282bb5b0d1ca61fb127b8d97a719fe913ccbe7ca0d9771948d734b7462"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING-architecture.log",
+      "bytes": 6,
+      "sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING-codesign.log",
+      "bytes": 484,
+      "sha256": "cc7395dbf169401c8d47173e48dcbb63e678cb9af596a27512ae232e855297d8"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING-details.log",
+      "bytes": 1108,
+      "sha256": "2def1ec1b4f68f6feb6ceedbb27fbfe17d0913d96b136826d7026afc7f75b8a2"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING-notarization.log",
+      "bytes": 484,
+      "sha256": "cc7395dbf169401c8d47173e48dcbb63e678cb9af596a27512ae232e855297d8"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING.json",
+      "bytes": 1306,
+      "sha256": "1fd29297346f4fcd9a50cdf9be872cf9d4d2522f6645a96b287dcea9b6874ce1"
+    },
+    {
+      "path": "mac-signing-evidence/native-tests.log",
+      "bytes": 11151,
+      "sha256": "4aeb3ccc431d9fc4ee36c705fc30e74266d483081351c8a46ec52ee310186b51"
+    },
+    {
+      "path": "native/arm64-EXTRACTION.json",
+      "bytes": 475,
+      "sha256": "49b9d43921098799705bc1aec5c45952c2baa55106799c5db2dc4d9f772bda2f"
+    },
+    {
+      "path": "native/mac-EXTRACTION.json",
+      "bytes": 462,
+      "sha256": "ec3861f27f6e80d91c40f1e0ecdbab7497388f2cf19b3531a8cc8f938710e7b9"
+    },
+    {
+      "path": "native/x64-EXTRACTION.json",
+      "bytes": 471,
+      "sha256": "11438889cd662362924728552e583ffb94065c9421554d2db36f625397d5e201"
+    },
+    {
+      "path": "orchestration/accept-when-built.py.txt",
+      "bytes": 1287,
+      "sha256": "9b8862c32694a19b3f2c561dc2a29cc4ace61457d5ac055e957a689963f347f2"
+    },
+    {
+      "path": "orchestration/extend-release-helpers.py.txt",
+      "bytes": 2621,
+      "sha256": "84c2d8160e4cc1984a8b13b9a7cda6a31a8b4ee15a1934fdca99bd3d9ae5ded6"
+    },
+    {
+      "path": "orchestration/free-ubuntu-duplicates.py.txt",
+      "bytes": 1499,
+      "sha256": "70d8eca7b2665b8dfbf9334f14c77b5effbdaab06f6f99c9ea1a9307ac472e4e"
+    },
+    {
+      "path": "orchestration/free-ubuntu-package-copies.py.txt",
+      "bytes": 1856,
+      "sha256": "701642eff4a84bb44cdde90c65325897889f5c886d8fcadc64843c81bea84ccf"
+    },
+    {
+      "path": "orchestration/native-execution/build-registry-transfer.py.txt",
+      "bytes": 1405,
+      "sha256": "a9735ddac335e01a3d60039ec81d58a987f1426f7184ce0ad2e7ca73a13e8753"
+    },
+    {
+      "path": "orchestration/native-execution/build-transfer.py.txt",
+      "bytes": 858,
+      "sha256": "4c42b79430feee3dd2a47bc1406762a20797628dc3e213fa931311a27682c585"
+    },
+    {
+      "path": "orchestration/native-execution/collect-native-candidates.py.txt",
+      "bytes": 5463,
+      "sha256": "a0ae36cc50bbadec96d22ef62281a5379eed8ad04a2ab6523d19ed17bcd8ca19"
+    },
+    {
+      "path": "orchestration/native-execution/collect-native-registry.py.txt",
+      "bytes": 4230,
+      "sha256": "2f916518c55a8e6df61003857d4bd67512238bd67e1d710707d2952e645c04d8"
+    },
+    {
+      "path": "orchestration/native-execution/nodejudge-native-worker.py.txt",
+      "bytes": 5664,
+      "sha256": "e2476cc7c4ffa4e5c6686208c41a21476e8db0948704b5e4ac06051e6369ab49"
+    },
+    {
+      "path": "orchestration/native-execution/prepare-native-candidates.py.txt",
+      "bytes": 4808,
+      "sha256": "75253c08ac7c1404c36efddb4d887c4dd3ceaaeef2b8a044dd8e2bc4af650277"
+    },
+    {
+      "path": "orchestration/native-execution/prepare-native-registry.py.txt",
+      "bytes": 5649,
+      "sha256": "a660f881aae4e7375df9766bb1344cb5867c2472ac55d264da146e8ee8b4db69"
+    },
+    {
+      "path": "orchestration/native-execution/prepare-tooling.py.txt",
+      "bytes": 2713,
+      "sha256": "1ddee2e21da6c4da9ea1420d2a0e524b69e0193dd800f577f8f6e13937da6bc8"
+    },
+    {
+      "path": "orchestration/native-execution/status-native.py.txt",
+      "bytes": 1220,
+      "sha256": "7019d66197675fc0b4f5397823af874ce718baf0f410d6fd33820157f1aeeeba"
+    },
+    {
+      "path": "orchestration/owner-handoff/release.py.txt",
+      "bytes": 15464,
+      "sha256": "f7f6bb262fb6d9a24d921150e34fbda35385e3ec63e4092dae370390c1072bee"
+    },
+    {
+      "path": "orchestration/prepare-release.py.txt",
+      "bytes": 3275,
+      "sha256": "288e06985f261639cae1c6d6efa0b8ea16e228a9bbfce3945215985a657f8e08"
+    },
+    {
+      "path": "orchestration/publish-and-verify.py.txt",
+      "bytes": 478,
+      "sha256": "5f44cde2394167c7bbbf750936c3fb5e55a2aa09d45090ef70ae97c95ff5a99c"
+    },
+    {
+      "path": "orchestration/recover-mac-sign.py.txt",
+      "bytes": 2021,
+      "sha256": "50eac7055a7543fd4a1486562869a82267a8ae5158988d6fe0201cdebd92d2ba"
+    },
+    {
+      "path": "orchestration/recover-ubuntu-acceptance.py.txt",
+      "bytes": 2559,
+      "sha256": "ec28559411faad0c4e0565bebbb46d436518f9f82594fd0509b56c6cbc0d575e"
+    },
+    {
+      "path": "orchestration/refreeze-tooling.py.txt",
+      "bytes": 1773,
+      "sha256": "cf94df865030bae998ff74f9bc08dbba8de1d8278ccd3266a04649d8fb36d08a"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/collect-evidence.py.txt",
+      "bytes": 3573,
+      "sha256": "9e360dd8db6a822ae946feb540c8b73570c2c0fe4a017175f2fd83cdeb860b96"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/nodejudge-ubuntu-worker.py.txt",
+      "bytes": 5753,
+      "sha256": "df09bef37b69b0a419c3a89d4ce4717ca0ccb05c6a053f2ad88dd4dfb54acf4c"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/prepare-candidate.py.txt",
+      "bytes": 2886,
+      "sha256": "0c74583fa8bb95aafe658192019c7e2eb39b42674004983f17aac6b22b794c0f"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/prepare-registry.py.txt",
+      "bytes": 3153,
+      "sha256": "f1bf2ea66de7694f54bb476b1a37bc4a7d8379c622f577209a0ef0189bce6fe4"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/prepare-tooling.py.txt",
+      "bytes": 1028,
+      "sha256": "7056b83c198cbbdbdeb11be21b67098817ce0845a6e2c73baae464318dee749c"
+    },
+    {
+      "path": "orchestration/ubuntu-execution/status.py.txt",
+      "bytes": 664,
+      "sha256": "158ea4ba70bcfadd9ee638e1f74346bf6cfa0a73bef056c4dc35d2c61a463f6b"
+    },
+    {
+      "path": "publication/PUBLICATION.json",
+      "bytes": 4730,
+      "sha256": "7e5aa957507b2b4149754f90f0405902a043e8c29e9341b314c93befa8a13f33"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/ACCEPTANCE.json",
+      "bytes": 2049,
+      "sha256": "4f8dccea29dfb45889718ea9b718c36d1f9fcf47fa62b001345eb14390331c99"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 8311,
+      "sha256": "1e6f17653e7c2f04d87644ca168583c7f7594752e41e9e5e6565a822ad987952"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 3100,
+      "sha256": "8ef6d855878df794318651f689b1582beb8b823a87e9a6dcb029bffc65276448"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/doctor/TEST-RESULTS.json",
+      "bytes": 967,
+      "sha256": "8d17ee3e4bf263861d258736e9a5ae95c8f2d8ce39b9862b26fcfc3e44cce24a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/install/INSTALL-NETWORK.json",
+      "bytes": 317,
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5319,
+      "sha256": "42a13f6c9d847718adfca62b370d4b762dacf03136c42b6fd564eb55ce40b115"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 6390,
+      "sha256": "711254941f19d32e1062a12a243f3c7e4c8e5b9dff368355a482c9c1d2b4a498"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/mac-signature/INSTALLED-MAC-SIGNATURE.json",
+      "bytes": 205,
+      "sha256": "d44aef6468b23d47ebbd08580ba0c2c35338c30698069bf9be2b7e4ba0d182ac"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1257,
+      "sha256": "4bdcf1bf19e00dd5c8b417be29b630e94a83e9fe08ef3480d155db2b1ca56788"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/onboarding/CREDENTIAL-CLEANUP.json",
+      "bytes": 533,
+      "sha256": "733a497c737d87be05845ea9c1beba9e8880bf8b52aae19be646fc827b57a39c"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2028,
+      "sha256": "483bef7efff58182a6c48d92b252fb59d874e20b71e1792a98d6c5f77695cbc1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1137,
+      "sha256": "7c62007f195305842f868dbb147dbe7f7a0ae7236c3481042ac3b85ba44d3f98"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/upgrade/UPGRADE.json",
+      "bytes": 1747,
+      "sha256": "415e23b07697e514238f0f2d3f8fa2f8e586b595a16af7db820955544504e4b3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/command-output.log",
+      "bytes": 2176,
+      "sha256": "ce4f12d9e4a557a9eeffb72cb4e3837360e47c10d7d0e331c519150bb5fee79f"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/doctor.log",
+      "bytes": 934,
+      "sha256": "525e997f83047467beb961f8cfc5c0517b691e072cff36862f970b3b5bf73011"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/install.log",
+      "bytes": 5319,
+      "sha256": "b07dc83224321ea0aceed35bf08e04d39d47446ef323cc679913889c39736de3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/installed-regressions.log",
+      "bytes": 11119,
+      "sha256": "d3c6816185db4252092b14d62b0d5ed6491f4b3506a671e695208945405fb06e"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/mac-signature.log",
+      "bytes": 1634,
+      "sha256": "8af6e1bd1917528b73c78e6c693be908e00e22116232f8d4a47f566e72bb3fef"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/mcp-manager.log",
+      "bytes": 1385,
+      "sha256": "f5c7632b43d644be0ea9861585e9a0a8ec56d2fbc61f3775172899e318c332d9"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/onboarding.log",
+      "bytes": 2028,
+      "sha256": "483bef7efff58182a6c48d92b252fb59d874e20b71e1792a98d6c5f77695cbc1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/terminals.log",
+      "bytes": 1137,
+      "sha256": "7c62007f195305842f868dbb147dbe7f7a0ae7236c3481042ac3b85ba44d3f98"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/upgrade.log",
+      "bytes": 1517,
+      "sha256": "b5aed6f9342bbb27927979cbe60b2fa4b7582fc6e996c6b88dfb71b68669e428"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/command-output.json",
+      "bytes": 3253,
+      "sha256": "8b3a1dd11af4ecb60e3e59dae5e07993d24b40ea5da0b6c72ee188d95ba5a5ee"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/doctor.json",
+      "bytes": 2535,
+      "sha256": "4a790ccffd45c0f5bfc221bbb609f1cbdfd82bcf0de7503aba3c74dd56a0238a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/install.json",
+      "bytes": 2404,
+      "sha256": "710f22f8e886dea4d1b59aead0407298182eaf6ff3fc5114bee25f98be1a56a9"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/installed-regressions.json",
+      "bytes": 2433,
+      "sha256": "446b39eb785e0e14da2ed3f6f14e1cbd8ecb11511cfcf38be56267617d56026d"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/mac-signature.json",
+      "bytes": 3384,
+      "sha256": "07beb1168d78f05145f33e922019474bfd9f25cef364304dad91cc02a5dd8663"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/managed-cli.json",
+      "bytes": 2715,
+      "sha256": "10fe75ab5a7397fc3e1418b4f13525cbe5e2c0bb1c1a11828f6ca1236bcf6c8d"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/mcp-manager.json",
+      "bytes": 2485,
+      "sha256": "adb0f6778c4b81e8dc01a44d872b9be89d49b12bc89ad2d1a8bcc6d7bcd8d465"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/onboarding.json",
+      "bytes": 2686,
+      "sha256": "75929539a7251b0bab331a40982b8a56f27279765caa60bb05971ebbd926ebd2"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/terminals.json",
+      "bytes": 2647,
+      "sha256": "d0d493ec2578bf65aa9b329a0e3f115a01625f65f18bb57e7d62a31eac01b2dd"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/upgrade.json",
+      "bytes": 2733,
+      "sha256": "3af4a071b1852a4216830b2b4e3cebf9a122f289bdab80396e1c4391e741f9a3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/ACCEPTANCE.json",
+      "bytes": 1951,
+      "sha256": "9853dc3b32b511626c1fdb26ca0f904c11164df0b16654e0016462f06f8d4920"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 8311,
+      "sha256": "1e6f17653e7c2f04d87644ca168583c7f7594752e41e9e5e6565a822ad987952"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 2812,
+      "sha256": "d6577e10ad19265de05de8b5595be60a036b8ac933e833724389bcf84e59e74d"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/doctor/TEST-RESULTS.json",
+      "bytes": 631,
+      "sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/install/INSTALL-NETWORK.json",
+      "bytes": 317,
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5299,
+      "sha256": "8ebad0f6de41b947adc520d35d7d78d18d9503b784f4c0172688be4e774a0418"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 5981,
+      "sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1087,
+      "sha256": "d6376cac93ed0db1ac6184155a85e2f876e02403de6377184264772d6af70b99"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2771,
+      "sha256": "5b9360fca94fb6fa74b8a48d3b58c42d27a9db0a2052c2f490ebbd45ae910169"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1233,
+      "sha256": "ed4c9dc192d1086bb329933208e5a87f48a2148d6665f9a131d4fa69d0612c86"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/files/upgrade/UPGRADE.json",
+      "bytes": 1742,
+      "sha256": "e163c3253d89738ba41e360f8f65611935cf817a52b25c1ade96b6ae9ca7e848"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/command-output.log",
+      "bytes": 1888,
+      "sha256": "66a2aef368d11392656b04b0ecad48389c81f01ad25880daf83fd77da9a30c74"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/doctor.log",
+      "bytes": 843,
+      "sha256": "6039b0341eb907625b301152cebf5d0785ed18d5316fc60abd3454a60f9d0706"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/install.log",
+      "bytes": 5299,
+      "sha256": "63f675a7270fcac5d9986750b089971a7119910bd1b1dd4421a0715dabc2ab11"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/installed-regressions.log",
+      "bytes": 11268,
+      "sha256": "ff7dd3066cff7b4032b4c98eda2c1d8f6fa7ee0ed36244eb2e54dac3520b0160"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/mcp-manager.log",
+      "bytes": 1347,
+      "sha256": "a188629442f0dc4cdb7cda2774cd9de7154d62847ee24467c9e62832e7de7c10"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/onboarding.log",
+      "bytes": 2771,
+      "sha256": "5b9360fca94fb6fa74b8a48d3b58c42d27a9db0a2052c2f490ebbd45ae910169"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/terminals.log",
+      "bytes": 1233,
+      "sha256": "ed4c9dc192d1086bb329933208e5a87f48a2148d6665f9a131d4fa69d0612c86"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/logs/upgrade.log",
+      "bytes": 1512,
+      "sha256": "dd8171c1af242bd179f9aece87e1cd457544fa393857c128e8a6673cdbc7bd22"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/command-output.json",
+      "bytes": 3126,
+      "sha256": "c0b2bf264e29d1da3b03163b7ec89baae19c3484f0993d8bec5e2e7e0b73dfe6"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/doctor.json",
+      "bytes": 2449,
+      "sha256": "18b334e19b660c092494402be193d9593b7ef1f034f001d04042fc9e0d56f30a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/install.json",
+      "bytes": 2298,
+      "sha256": "858e18c1270dad1cdca3e8f16d12ca20a8ae4b403f0de33226765fdd81a3ee31"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/installed-regressions.json",
+      "bytes": 2347,
+      "sha256": "b9981b1def40743d2798b6f74b0550ca506cc0bae7b59246e367fc020f64fb4e"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/managed-cli.json",
+      "bytes": 2635,
+      "sha256": "fb949291756cdd9f440ea15883cfcc76d31c8499bcd2cd12a85149b90f44cebf"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/mcp-manager.json",
+      "bytes": 2399,
+      "sha256": "2459b41c9dc9169b1d2ee5dff578264f5175495af6cbd6aef520928d06d40e1a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/onboarding.json",
+      "bytes": 2454,
+      "sha256": "edef469fe3633b934defda5030e1afe477972a410f1de1c0f77f66e62cdb453b"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/terminals.json",
+      "bytes": 2507,
+      "sha256": "c8a39c02082e80b7be27d0c9a2688b1c6b0d6812b53c90856984ab96b674e793"
+    },
+    {
+      "path": "registry-acceptance/aarch64-unknown-linux-musl/receipts/upgrade.json",
+      "bytes": 2647,
+      "sha256": "5b2338d16ef49bf88b39629eac7373e2b918000719b89d10321424f8721f018a"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/ACCEPTANCE.json",
+      "bytes": 1949,
+      "sha256": "f2fb1da311823286d3d4659d4e5947dd285cbc1ce01c0e8aa12ba3d24737c426"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 8311,
+      "sha256": "1e6f17653e7c2f04d87644ca168583c7f7594752e41e9e5e6565a822ad987952"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/TOOLING.json",
+      "bytes": 18859,
+      "sha256": "8a638214fa78c4c28f6595751c8a1bbbcb08cbd16d9372d7bfdaf3fcaea45fff"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 2812,
+      "sha256": "c1add4de99e68de029a37eb09ecd39afa124ed41feb629b7955344fff98a2df4"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/doctor/TEST-RESULTS.json",
+      "bytes": 631,
+      "sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/install/INSTALL-NETWORK.json",
+      "bytes": 317,
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 5320,
+      "sha256": "5299b159c1c5867b4abab9c24b52d0a971ef0c5fb119db8f76528dc0dfc926b5"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 5981,
+      "sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1087,
+      "sha256": "d6376cac93ed0db1ac6184155a85e2f876e02403de6377184264772d6af70b99"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2794,
+      "sha256": "30476740c3dc6d8f28f26f082bd73bf4e033a5042d781ac0728569f0ed0e6d82"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1256,
+      "sha256": "761e2274d8c768cdf845df13f0af8dc1976e4fe8a3d44214b219d38977baa8b8"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/files/upgrade/UPGRADE.json",
+      "bytes": 1734,
+      "sha256": "953f2b0b813bf968cbd65714b63389727153c76e67059ca55358d63c61ae738a"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/command-output.log",
+      "bytes": 1888,
+      "sha256": "67c59999ed5779cb9ee08599fc7535abcb411db855fa45b151e9c9336238cd8e"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/doctor.log",
+      "bytes": 843,
+      "sha256": "c429a39974d4b4cf300119c78c0a8782b2820d7e462be1b69564eda057219a37"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/install.log",
+      "bytes": 5320,
+      "sha256": "4377d151a94eb4cbbc9bfc43c532c86d2541e574f2b1990a28dc748fa78ba5b0"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/installed-regressions.log",
+      "bytes": 11268,
+      "sha256": "715010b7d884e5638a05f810a4670cb18bcc816d445868d8e8b99431dc748c43"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/mcp-manager.log",
+      "bytes": 1347,
+      "sha256": "366c6b1c9cbe3c89aa683f73d0ea04c8f0e5a4ea56ef6ad18707c8bbf1d2ee7c"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/onboarding.log",
+      "bytes": 2794,
+      "sha256": "30476740c3dc6d8f28f26f082bd73bf4e033a5042d781ac0728569f0ed0e6d82"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/terminals.log",
+      "bytes": 1256,
+      "sha256": "761e2274d8c768cdf845df13f0af8dc1976e4fe8a3d44214b219d38977baa8b8"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/logs/upgrade.log",
+      "bytes": 1504,
+      "sha256": "32f4682a6dd4ffaea2e416a19e4854d26680d244a5f684397f88fcd608842bd0"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/command-output.json",
+      "bytes": 3258,
+      "sha256": "2b6228bc5f9146f4951f007ffc37352fa13161927db89cf484f3f756bd222836"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/doctor.json",
+      "bytes": 2535,
+      "sha256": "9d05a7b1c6b4b73a962aaf045a8bb54807a52188f19687519e494026870b366f"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/install.json",
+      "bytes": 2416,
+      "sha256": "f5f9afc100d7ea27d865c86859fcf032301b3a87e23244497eaa3a7f39fc1964"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/installed-regressions.json",
+      "bytes": 2433,
+      "sha256": "cfda2fcb5a8ecd3fc921202dc2f63b382d4835c09a01e7f94b6b1780127fb222"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/managed-cli.json",
+      "bytes": 2728,
+      "sha256": "7d5b759eaad3140a155b5bfd6d41b7a96edfc94ce92da50c728274297ea3c5dc"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/mcp-manager.json",
+      "bytes": 2485,
+      "sha256": "92bf374731b80ef129896728be6d4b807fa55419b0bafad5891beb63ea31862b"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/onboarding.json",
+      "bytes": 2569,
+      "sha256": "f6c88604c394c69bfcadeeefec312533265acd58065f0d2b6d97482dcf871910"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/terminals.json",
+      "bytes": 2622,
+      "sha256": "20d03b72b77a4e74036c7bb3354ec62af7088f1d8f696603ce255506f94578bd"
+    },
+    {
+      "path": "registry-acceptance/x86_64-unknown-linux-musl/receipts/upgrade.json",
+      "bytes": 2741,
+      "sha256": "c72b54f93a4323d65f702c5cc867ba6ef3c6163c5bc5caed9585720453cb4902"
+    },
+    {
+      "path": "runner-maintenance/mac-test-backup-compressed/BACKUP-VERIFIED.json",
+      "bytes": 340,
+      "sha256": "284e6bc05600877c3e596c207b6c465c35383ad9df3dc78cd9c8df46e2241d39"
+    },
+    {
+      "path": "runner-maintenance/mac-test-backup-compressed/RELOCATION.json",
+      "bytes": 627,
+      "sha256": "813ade5b1f24d23002443fc8fff067b1359592377cb5950034294014d7ae620a"
+    },
+    {
+      "path": "runner-maintenance/retired-test-backup/BACKUP-VERIFIED.json",
+      "bytes": 430,
+      "sha256": "35263703768342161698f3331ed1912ff17436efd2fdabf66cc1e16b5c4615cc"
+    },
+    {
+      "path": "runner-maintenance/retired-test-backup/RELOCATION.json",
+      "bytes": 584,
+      "sha256": "afe56967f1b8893aabf3123ec881989f4f868e80d109f60371ede98e192ad532"
+    },
+    {
+      "path": "ubuntu-disk-failure/HOST-COMPLETE.json",
+      "bytes": 68,
+      "sha256": "ea93edac51f20798f57a1747f87b6ee421445ca8658af022c698189bc59ea311"
+    },
+    {
+      "path": "ubuntu-disk-failure/HOST.log",
+      "bytes": 630,
+      "sha256": "e40bb91adb4b099652f0df9d02ecdc4a4cc240d13dec5583fb84e8db33acca39"
+    },
+    {
+      "path": "ubuntu-disk-failure/accept-dispatch/x86_64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 1424,
+      "sha256": "4fde2e62faf4e760d2f850092b9bab15ba2b9f7c7bcd725a0036d2b48073cdef"
+    },
+    {
+      "path": "ubuntu-disk-failure/accept-dispatch/x86_64-unknown-linux-musl/accept.log",
+      "bytes": 1697,
+      "sha256": "efec9e4ab4a0c5a84fe1531b9853bce551efeaee147ceefee43a12f01b46ab90"
+    },
+    {
+      "path": "ubuntu-disk-failure/upgrade.log",
+      "bytes": 63,
+      "sha256": "64671c012bd401f70d40e5bd6fc9bb6b17d05137690c14c181e1e110b05bb4a1"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 1914,
+      "sha256": "f79774fe79d87264df755ebce7abf98ac4c610d8d97561add32027e4aa71853d"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "425053ab526361d21c307eb5539941b3b0330be02a758678cbd287f9f8371cfc"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/verify.log",
+      "bytes": 173,
+      "sha256": "2a361bf4c7142399773c04bc2082495974d96c925738690548fe46244459cac5"
+    },
+    {
+      "path": "verify-dispatch/aarch64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 1674,
+      "sha256": "4f2038f9ce61093a7a399c84981b4a349b2a1928cd91b9f8af05b15d08e244b2"
+    },
+    {
+      "path": "verify-dispatch/aarch64-unknown-linux-musl/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "2bde5060ef7491b2527f0a60c0089a4e3fe1cba737d802c961d55cefa89d8f28"
+    },
+    {
+      "path": "verify-dispatch/aarch64-unknown-linux-musl/verify.log",
+      "bytes": 153,
+      "sha256": "b6d6936d35cfeca1c78dbf88227de41a5f65bd1cc2f2cd74a5e5411572d8a48a"
+    },
+    {
+      "path": "verify-dispatch/x86_64-unknown-linux-musl/COMPLETE.json",
+      "bytes": 1887,
+      "sha256": "e3ed88d40b3f4d7c3db5ed521e6417028dd7f9d78d87f8a0f628080225e3d4e3"
+    },
+    {
+      "path": "verify-dispatch/x86_64-unknown-linux-musl/typesafe-node.log",
+      "bytes": 279,
+      "sha256": "ec5db97a49bc4205a05ceaa564820032aa86705aace45c566530798a3b512138"
+    },
+    {
+      "path": "verify-dispatch/x86_64-unknown-linux-musl/verify.log",
+      "bytes": 177,
+      "sha256": "1b26b5f1a1ca2d391ba3c2bf2571527f469077a58ebb4a575007da8f44a9ffdf"
+    }
+  ],
+  "total_files": 325
+}

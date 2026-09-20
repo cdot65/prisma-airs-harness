@@ -1,0 +1,20 @@
+import pathlib,json,subprocess
+code="""import pathlib,json
+r=pathlib.Path(ROOT);out={}
+for name in ['HOST-COMPLETE.json','REGISTRY-HOST-COMPLETE.json']:
+ p=r/name
+ if p.exists():out[name]=json.loads(p.read_text())
+for n in ['candidate-acceptance','registry-acceptance','accept-dispatch','extras-dispatch','verify-dispatch']:
+ out[n]=[str(p.relative_to(r)) for p in (r/n).glob('*/COMPLETE.json')]+[str(p.relative_to(r)) for p in (r/n).glob('*/ACCEPTANCE.json')]
+out['stage_receipts']=[str(p.relative_to(r)) for area in ['candidate-acceptance','registry-acceptance'] for p in (r/area).glob('*/receipts/*.json')]
+out['extra_results']=[str(p.relative_to(r)) for p in (r/'extra-candidate').glob('*/*/*.json')]
+print(json.dumps(out))
+"""
+ns={'ROOT':'/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate'}
+import contextlib,io
+s=io.StringIO()
+with contextlib.redirect_stdout(s):exec(code,ns)
+mac=json.loads(s.getvalue())
+armcode='ROOT='+repr('/home/airs-review/nodejudge-candidate')+'\n'+code
+arm=json.loads(subprocess.check_output(['/usr/local/bin/docker','exec','-u','10001','airs-native-mcp-20260919-arm64','/opt/review-venv/bin/python','-c',armcode],text=True))
+print(json.dumps({'mac':mac,'arm':arm},indent=2))

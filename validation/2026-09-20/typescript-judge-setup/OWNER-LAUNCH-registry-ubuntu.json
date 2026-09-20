@@ -1,0 +1,9 @@
+{
+  "pid": 175391,
+  "root": "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "18a23dcfc27a91a905eddbf1aa2bf6c89d9e8717e28973136d1bc6d3ed8702a3",
+  "files_verified": 108,
+  "installation": "registry",
+  "production_acceptance": false
+}

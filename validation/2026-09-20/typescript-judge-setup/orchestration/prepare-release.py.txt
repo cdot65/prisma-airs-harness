@@ -1,0 +1,29 @@
+from pathlib import Path
+import subprocess,json,hashlib,tarfile
+repo=Path('/home/cdot/development/cdot65/airs-typesafe-judge-20260920');task=Path('/tmp/airs-node-judge-20260920');root=task/'release';root.mkdir(exist_ok=True)
+source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip();assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True)
+(root/'SOURCE').write_text(source+'\n');(root/'VERSION').write_text('0.1.2-alpha.4.mcp.1\n')
+old=Path('/tmp/airs-verbatim-output-20260920/release');oldfreeze=json.loads((old/'SOURCE-FREEZE.json').read_text())
+replacements={'airs-verbatim-output-20260920':'airs-node-judge-20260920','7.1.4':'7.1.5','5c2a3c01e10b8b37845333bcea56e5a829840082':source,'0.1.2-alpha.3.mcp.1':'0.1.2-alpha.4.mcp.1','release-frozen-verbatim':'release-frozen-nodejudge','frozen-verbatim':'frozen-nodejudge','verbatim-native-worker':'nodejudge-native-worker','verbatim-ubuntu-worker':'nodejudge-ubuntu-worker','verbatim-candidate':'nodejudge-candidate','registry-inputs-verbatim':'registry-inputs-nodejudge'}
+paths=['dispatch-forgejo.py','forgejo-status.py','download-forgejo.py','extract-candidate.py','verify-mac-intake.py','assemble.py','owner-handoff/release.py']
+for d in ['native-execution','ubuntu-execution']:paths += [str(p.relative_to(old)) for p in (old/d).glob('*.py')]
+for name in paths:
+ s=(old/name).read_text();out=name
+ for a,b in replacements.items():s=s.replace(a,b);out=out.replace(a,b)
+ p=root/out;p.parent.mkdir(exist_ok=True);p.write_text(s)
+manifest=json.loads(Path('/tmp/airs-verbatim-output-20260920/frozen/ACCEPTANCE-TOOLING.json').read_text());dest=task/'frozen';dest.mkdir();files={}
+for name in [*[n for n in manifest['files'] if n != 'scripts/test_airs_asr_judge.py'], 'scripts/test_airs_typesafe_node_native.py', 'scripts/airs_typesafe_tui_fixture.py']:
+ data=subprocess.check_output(['git','show',source+':'+name],cwd=repo);p=dest/name;p.parent.mkdir(exist_ok=True,parents=True);p.write_bytes(data);files[name]=hashlib.sha256(data).hexdigest()
+p=dest/'ACCEPTANCE-TOOLING.json';p.write_text(json.dumps({'schema_version':1,'tooling_commit':source,'files':files},indent=2)+'\n')
+archive=root/'acceptance-tooling-v2.tar.gz'
+with tarfile.open(archive,'w:gz') as t:
+ for name in [*files,'ACCEPTANCE-TOOLING.json']:t.add(dest/name,arcname=name,recursive=False)
+freeze={'source_commit':source,'tooling_commit':source,'version':'0.1.2-alpha.4.mcp.1','tooling_files':len(files),'tooling_manifest_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'tooling_archive_sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'source_tree_clean_before_dispatch':True,'stable_latest_changes_authorized':False}
+(root/'SOURCE-FREEZE.json').write_text(json.dumps(freeze,indent=2)+'\n')
+p=root/'ubuntu-execution/prepare-tooling.py';p.write_text(p.read_text().replace(oldfreeze['tooling_archive_sha256'],freeze['tooling_archive_sha256']))
+s=Path('/tmp/airs-verbatim-output-20260920/prepare-hosts.py').read_text()
+for a,b in replacements.items():s=s.replace(a,b)
+(task/'prepare-hosts.py').write_text(s)
+print(json.dumps(freeze))
+
+p=root/'assemble.py';p.write_text(p.read_text().replace('/tmp/airs-jev-resume-20260920/release/SPEC.json','/tmp/airs-verbatim-output-20260920/release/SPEC.json'))

@@ -1,0 +1,19 @@
+{
+  "removed_completed_test_copies": [
+    "/Users/cdot/.cache/airs-verbatim-output-20260920"
+  ],
+  "before_free_bytes": 88025214976,
+  "after_free_bytes": 99313197056,
+  "compiler_caches_preserved": true,
+  "live_environments_preserved": true,
+  "verified_backup": {
+    "sha256": "1d8a8f7dba93a848dbf5aef088b140be892a15d0f658683268fd5495a3dda648",
+    "bytes": 7362362814,
+    "roots": [
+      "/Users/cdot/.cache/airs-verbatim-output-20260920"
+    ],
+    "completed_tests_only": true,
+    "local_archive": "/tmp/airs-node-judge-20260920/mac-test-backup-compressed/completed-alpha3-tests.tar.gz",
+    "verified": true
+  }
+}

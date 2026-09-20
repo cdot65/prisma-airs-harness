@@ -1,0 +1,30 @@
+from pathlib import Path
+import subprocess,json
+root=Path('/tmp/airs-node-judge-20260920');r=root/'release'
+assert json.loads((r/'UBUNTU-DUPLICATE-ARCHIVE-CLEANUP.json').read_text())['passed']
+code=r'''from pathlib import Path
+import os,json,subprocess,shutil
+cache=Path('/home/cdot/.cache/airs-node-judge-20260920');root=cache/'nodejudge-candidate'
+assert json.loads((root/'HOST-COMPLETE.json').read_text())['passed'] is False
+failure=root/'candidate-disk-failure';failure.mkdir()
+for name in ['HOST-COMPLETE.json','HOST.log','accept-dispatch']:
+ (root/name).rename(failure/name)
+p=root/'candidate-acceptance/x86_64-unknown-linux-musl/logs/upgrade.log';shutil.copy2(p,failure/'upgrade.log')
+worker=cache/'nodejudge-ubuntu-worker.py';s=worker.read_text();before='        execute(args.mode, command)';assert s.count(before)==1
+s=s.replace(before,'        if args.mode == "accept": command.append("--resume")\n'+before)
+# Convert only the deliberately inserted source newline.
+s=s.replace('command.append("--resume")\\n', 'command.append("--resume")\n')
+resume=cache/'nodejudge-ubuntu-resume-worker.py';resume.write_text(s);compile(s,str(resume),'exec')
+runner=(root/'host-runner.py').read_text().replace("root.parent/'nodejudge-ubuntu-worker.py'", "root.parent/'nodejudge-ubuntu-resume-worker.py'")
+(root/'resume-runner.py').write_text(runner)
+python=Path('/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python')
+env=os.environ.copy();env.update(HOME='/home/cdot',USER='cdot',TERM='xterm-256color',PYTHONDONTWRITEBYTECODE='1',PATH=str(python.parent)+':/home/cdot/.cache/airs-post011-20260919/test-shells/bin:/usr/local/bin:/usr/bin:/bin')
+with (root/'HOST-RECOVERY.log').open('x') as log:
+ child=subprocess.Popen([str(python),str(root/'resume-runner.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+print(json.dumps({'pid':child.pid,'resumed':True,'unchanged_spec':True,'frozen_tooling_changed':False,'failed_evidence':str(failure)}))
+'''
+# Keep the generated worker newline actual within the remotely executed source.
+code=code.replace("'        if args.mode == \"accept\": command.append(\"--resume\")\\\\n'", "'        if args.mode == \"accept\": command.append(\"--resume\")\\n'")
+p=subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.44.1','python3 -'],input=code,capture_output=True,text=True)
+if p.returncode:print(p.stderr);raise SystemExit(p.returncode)
+data=json.loads(p.stdout);(r/'UBUNTU-ACCEPTANCE-RECOVERY.json').write_text(json.dumps(data,indent=2)+'\n');print(json.dumps(data))

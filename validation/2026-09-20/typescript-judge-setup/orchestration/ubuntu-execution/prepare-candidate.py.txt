@@ -1,0 +1,41 @@
+"""Verify a task-owned package transfer and start disposable Ubuntu acceptance."""
+from pathlib import Path
+import hashlib,json,os,subprocess,sys,tarfile
+cache=Path('/home/cdot/.cache/airs-node-judge-20260920')
+archive=cache/'candidate-transfer.tar'
+transfer=json.loads((cache/'CANDIDATE-TRANSFER.json').read_text())
+with archive.open('rb') as stream:actual=hashlib.file_digest(stream,'sha256').hexdigest()
+if actual!=sys.argv[1] or actual!=transfer['archive_sha256']:raise RuntimeError('Candidate transfer changed')
+root=cache/'nodejudge-candidate';root.mkdir(mode=0o700)
+packages=root/'candidate-npm';packages.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+ members=tar.getmembers()
+ if len(members)!=len(transfer['files']) or {m.name for m in members}!=set(transfer['files']) or any(not m.isfile() for m in members):raise RuntimeError('Unexpected candidate members')
+ tar.extractall(packages,filter='data')
+for name,expected in transfer['files'].items():
+ with (packages/name).open('rb') as stream:
+  if hashlib.file_digest(stream,'sha256').hexdigest()!=expected:raise RuntimeError('Candidate file changed')
+spec=json.loads((cache/'SPEC.json').read_text())
+if spec!=transfer['spec']:raise RuntimeError('Candidate specification changed')
+(root/'SPEC.json').write_text(json.dumps(spec,indent=2)+'\n')
+(root/'TRANSFER.json').write_text(json.dumps(transfer,indent=2)+'\n')
+runner="""from pathlib import Path
+import json,subprocess,sys
+root=Path(__file__).resolve().parent
+commands=[]
+try:
+ for mode in ['accept','extras']:
+  command=[sys.executable,str(root.parent/'nodejudge-ubuntu-worker.py'),mode,'--root',str(root),'--tooling',str(root.parent/'frozen-nodejudge'),'--packages',str(root/'candidate-npm')]
+  result=subprocess.run(command)
+  commands.append({'mode':mode,'exit_code':result.returncode})
+  if result.returncode:raise SystemExit(result.returncode)
+finally:
+ (root/'HOST-COMPLETE.json').write_text(json.dumps({'commands':commands,'passed':len(commands)==2 and all(r['exit_code']==0 for r in commands)})+'\\n')
+"""
+(root/'host-runner.py').write_text(runner)
+python=Path('/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python')
+env=os.environ.copy();env.update(HOME='/home/cdot',USER='cdot',TERM='xterm-256color',PYTHONDONTWRITEBYTECODE='1',PATH=str(python.parent)+':/home/cdot/.cache/airs-post011-20260919/test-shells/bin:/usr/local/bin:/usr/bin:/bin')
+with (root/'HOST.log').open('x') as log:
+ child=subprocess.Popen([str(python),str(root/'host-runner.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+report={'pid':child.pid,'root':str(root),'target':'x86_64-unknown-linux-musl','archive_sha256':actual,'files_verified':len(transfer['files']),'source_commit':spec['source_commit'],'production_acceptance':False}
+(root/'LAUNCH.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

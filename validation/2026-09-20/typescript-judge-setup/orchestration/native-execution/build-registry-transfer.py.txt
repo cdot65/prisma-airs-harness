@@ -1,0 +1,21 @@
+from pathlib import Path
+import json,hashlib,tarfile
+r=Path('/tmp/airs-node-judge-20260920/release');spec=json.loads((r/'SPEC.json').read_text());staging=json.loads((r/'STAGING.json').read_text())
+# Staging completion and staged immutable package metadata are prerequisites.
+if staging.get('exit_code',0)!=0 or not (r/'staged/NPM-PACKAGES.json').is_file():raise RuntimeError('Staging incomplete')
+selected=[r/'SPEC.json']
+selected+=sorted(p for p in (r/'staged').rglob('*') if p.is_file())
+for row in spec['platforms']:
+ d=r/'candidate-acceptance'/row['target']
+ if not (d/'ACCEPTANCE.json').is_file():raise RuntimeError('Missing native candidate evidence')
+ selected+=sorted(p for p in d.rglob('*') if p.is_file())
+a=r/'registry-inputs.tar';files={}
+with tarfile.open(a,'w') as t:
+ for p in selected:
+  if p.is_symlink():raise RuntimeError('Unexpected transport symlink')
+  name=str(p.relative_to(r));
+  if name in files:raise RuntimeError('Duplicate transport member')
+  with p.open('rb') as f:files[name]=hashlib.file_digest(f,'sha256').hexdigest()
+  t.add(p,arcname=name,recursive=False)
+with a.open('rb') as f:h=hashlib.file_digest(f,'sha256').hexdigest()
+m={'archive_sha256':h,'files':files,'spec':spec,'local_work_trees_excluded':True};(r/'REGISTRY-TRANSFER.json').write_text(json.dumps(m,indent=2)+'\n');print(json.dumps({'archive':str(a),'sha256':h,'bytes':a.stat().st_size,'files':len(files)}))

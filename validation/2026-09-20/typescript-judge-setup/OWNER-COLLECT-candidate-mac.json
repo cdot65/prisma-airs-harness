@@ -1,0 +1,45 @@
+{
+  "archive": "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/portable-typesafe.tar.gz",
+  "sha256": "f0e4846ce017d2f405e92d03a9c6f052c273a96041cb185f478513e2a9f3ed75",
+  "bytes": 88860,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.93218029197305,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "24ee63aad6f5efdef5a3cf1fc6e2c5266f8d1691d1132b707f37b18978fa592e"
+    },
+    "aarch64-unknown-linux-musl": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 177.77464749800856,
+        "post_expiry_cycles": {
+          "inference": 2,
+          "mcp": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "0b4d049019b6e1330cf27fc9d12ff71bec7fa4a60d8d8f673ce07d87fa17d262"
+    }
+  }
+}

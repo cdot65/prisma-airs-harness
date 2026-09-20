@@ -1,0 +1,56 @@
+{
+  "mode": "extras",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "b4fc8b30de010e122394e8f6f9d93f2afd1f85d04ea0e5e11b6477b2e871b65f",
+  "tooling_manifest_sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9",
+  "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+  "expected_native_sha256": "afbc1971a5047ea70d71d251a6e95aef010637666bc7ff6c28fd36728b543f6d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "dc39d450029f54de844763efc012b111c4f17b4b6e860e99e61b3eaeb497a3a4",
+    "candidate_packages_sha256": "044ba3c0fa3b9d06b85d9a99224db85215ff4f899bf00e603cf9f3658e074887"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-54f23b99151d4aeab272b7d4e7801c2f/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--native-binary",
+        "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-54f23b99151d4aeab272b7d4e7801c2f/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 188.5889749529888
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.7284683820034843
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-node-judge-20260920/frozen-nodejudge/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.869868224996026
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "e1171bb480479606ab5b7be1fcf5efe172a2516aac6a0ee18635d65c886cbff2"
+  },
+  "passed": true
+}

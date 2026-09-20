@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,subprocess,hashlib,tarfile,shutil
+root=Path('/tmp/airs-node-judge-20260920');r=root/'release';repo=Path('/home/cdot/development/cdot65/airs-typesafe-judge-20260920')
+old=json.loads((r/'SOURCE-FREEZE.json').read_text());new=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert subprocess.check_output(['git','diff','--name-only',old['tooling_commit'],new],cwd=repo,text=True).splitlines()==['scripts/test_airs_harness.py']
+backup=r/'initial-tooling';backup.mkdir()
+for name in ['SOURCE-FREEZE.json','acceptance-tooling-v2.tar.gz']:shutil.copy2(r/name,backup/name)
+frozen=root/'frozen';mf=frozen/'ACCEPTANCE-TOOLING.json';manifest=json.loads(mf.read_text());manifest['tooling_commit']=new
+for name in manifest['files']:
+ data=subprocess.check_output(['git','show',new+':'+name],cwd=repo);(frozen/name).write_bytes(data);manifest['files'][name]=hashlib.sha256(data).hexdigest()
+mf.write_text(json.dumps(manifest,indent=2)+'\n')
+archive=r/'acceptance-tooling-v2.tar.gz'
+with tarfile.open(archive,'w:gz') as tar:
+ for name in [*manifest['files'],'ACCEPTANCE-TOOLING.json']:tar.add(frozen/name,arcname=name,recursive=False)
+updated=old|{'tooling_commit':new,'tooling_archive_sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'tooling_manifest_sha256':hashlib.sha256(mf.read_bytes()).hexdigest(),'correction':'Installed CLI version assertion updated from 7.1.4 to 7.1.5; native source unchanged; failed Mac run 277 retained.'}
+(r/'SOURCE-FREEZE.json').write_text(json.dumps(updated,indent=2)+'\n')
+p=r/'ubuntu-execution/prepare-tooling.py';p.write_text(p.read_text().replace(old['tooling_commit'],new).replace(old['tooling_archive_sha256'],updated['tooling_archive_sha256']))
+print(json.dumps(updated))

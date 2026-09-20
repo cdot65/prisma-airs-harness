@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "before_free_bytes": 5783085056,
+  "after_free_bytes": 10361196544,
+  "verified_duplicate_package_trees": [
+    {
+      "remote": "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-npm",
+      "local_archive": "/tmp/airs-verbatim-output-20260920/release/candidate-transfer.tar",
+      "archive_sha256": "aafe7a591c2a7fb784a4c320ef78b13283db9700417c92a14ae6df25dccf0345",
+      "files_verified": 8157
+    },
+    {
+      "remote": "/home/cdot/.cache/airs-jev-resume-20260920/typesafe-candidate/candidate-npm",
+      "local_archive": "/tmp/airs-jev-resume-20260920/release/candidate-transfer.tar",
+      "archive_sha256": "48b1555622a372f73a783737f642daec3500a3b685e7c875f1c1306191b5ee66",
+      "files_verified": 8157
+    },
+    {
+      "remote": "/home/cdot/.cache/airs-judge-envelope-fix-20260920/envelope-candidate/candidate-npm",
+      "local_archive": "/tmp/airs-judge-envelope-fix-20260920/release/candidate-transfer.tar",
+      "archive_sha256": "72fff6244e61331faaf48985bdbca5729c0fedeadbe4dbbf0b31222fe241cdf3",
+      "files_verified": 8157
+    }
+  ],
+  "owner_environments_changed": false,
+  "test_logs_preserved": true
+}

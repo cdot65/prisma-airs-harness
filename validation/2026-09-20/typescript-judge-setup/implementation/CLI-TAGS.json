@@ -1,0 +1,13 @@
+{
+  "dist_tags": {
+    "latest": "7.0.1",
+    "next": "7.1.5"
+  },
+  "release_workflow": {
+    "conclusion": "success",
+    "headSha": "12ffb2ce5df59719a71e576173490f9a1b237a93",
+    "status": "completed",
+    "url": "https://github.com/cdot65/prisma-airs-cli/actions/runs/35524460839"
+  },
+  "registry_git_head": "12ffb2ce5df59719a71e576173490f9a1b237a93"
+}

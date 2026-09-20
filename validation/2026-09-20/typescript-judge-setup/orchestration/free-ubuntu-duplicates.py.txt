@@ -1,0 +1,22 @@
+from pathlib import Path
+import hashlib,json,subprocess
+r=Path('/tmp/airs-node-judge-20260920');rows=[]
+for name in ['airs-node-judge-20260920','airs-verbatim-output-20260920','airs-judge-envelope-fix-20260920','airs-jev-resume-20260920']:
+ for filename in ['candidate-transfer.tar','registry-inputs.tar']:
+  p=Path('/tmp')/name/'release'/filename
+  if p.exists():
+   with p.open('rb') as f:sha=hashlib.file_digest(f,'sha256').hexdigest()
+   rows.append({'local':str(p),'remote':'/home/cdot/.cache/'+name+'/'+filename,'sha256':sha,'bytes':p.stat().st_size})
+code='''from pathlib import Path
+import json,hashlib,shutil
+rows=ROWS
+before=shutil.disk_usage('/home/cdot').free
+for row in rows:
+ p=Path(row['remote']);assert p.is_file() and not p.is_symlink()
+ with p.open('rb') as f:sha=hashlib.file_digest(f,'sha256').hexdigest()
+ assert sha==row['sha256'] and p.stat().st_size==row['bytes']
+for row in rows:Path(row['remote']).unlink()
+print(json.dumps({'passed':True,'before_free_bytes':before,'after_free_bytes':shutil.disk_usage('/home/cdot').free,'verified_duplicate_archives':rows,'owner_environments_changed':False}))
+'''.replace('ROWS',repr(rows))
+p=subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.44.1','python3 -'],input=code,capture_output=True,text=True,check=True)
+d=json.loads(p.stdout);(r/'release/UBUNTU-DUPLICATE-ARCHIVE-CLEANUP.json').write_text(json.dumps(d,indent=2)+'\n');print(json.dumps({'passed':d['passed'],'archives':len(rows),'after_free_bytes':d['after_free_bytes']}))

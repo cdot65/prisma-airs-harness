@@ -1,0 +1,26 @@
+{
+  "archive": "/home/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/portable-candidate.tar.gz",
+  "sha256": "ba382ef9cef21abedd2140849678979f45bc881e6013ac822fbaff79e98cf5e1",
+  "bytes": 48921,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 178.0512008299993,
+      "post_expiry_cycles": {
+        "mcp": 2,
+        "inference": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

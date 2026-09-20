@@ -1,0 +1,46 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "b4fc8b30de010e122394e8f6f9d93f2afd1f85d04ea0e5e11b6477b2e871b65f",
+  "tooling_manifest_sha256": "53c16c4807e211dbd63055904ba62eed634108c21da6cc8219c2c965eb27afa9",
+  "tooling_commit": "d64ccd3fa87eae928d66bf7dce704e4f98b46965",
+  "expected_native_sha256": "24ee63aad6f5efdef5a3cf1fc6e2c5266f8d1691d1132b707f37b18978fa592e",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "1e6f17653e7c2f04d87644ca168583c7f7594752e41e9e5e6565a822ad987952",
+    "candidate_packages_sha256": "b7adcca707c8aa7323f1a92b067b1f3556ecb0528e2e4d2ddd04ace9f2afe8f0"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-node-judge-20260920/release-frozen-nodejudge/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-node-judge-20260920/release-frozen-nodejudge/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-node-judge-20260920/nodejudge-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 331.1130284580868
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-node-judge-20260920/release-frozen-nodejudge/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.460321458056569
+    }
+  ],
+  "passed": true
+}

@@ -272,9 +272,11 @@ def invocation(
             "--output",
             str(work),
         ]
-        return args + (
-            ["--shells", "bash", "zsh"] if target == "aarch64-apple-darwin" else []
-        ), work
+        return (
+            args
+            + (["--shells", "bash", "zsh"] if target == "aarch64-apple-darwin" else []),
+            work,
+        )
     if name == "managed-cli":
         return [
             python,
@@ -285,7 +287,7 @@ def invocation(
             str(work / RESULTS[name]),
         ], work
     if name == "upgrade":
-        return [
+        arguments = [
             python,
             str(scripts / "validate_airs_npm_upgrade.py"),
             "--packages",
@@ -296,7 +298,22 @@ def invocation(
             spec["registry"],
             "--output",
             str(work / "upgrade"),
-        ], work / "upgrade"
+        ]
+        if "previous_release" in spec:
+            baseline = spec["previous_release"]
+            arguments.extend(
+                [
+                    "--previous-source-commit",
+                    baseline["source_commit"],
+                    "--previous-native-sha256",
+                    next(
+                        row["binary_sha256"]
+                        for row in baseline["platforms"]
+                        if row["target"] == target
+                    ),
+                ]
+            )
+        return arguments, work / "upgrade"
     if name == "command-output":
         return [
             python,

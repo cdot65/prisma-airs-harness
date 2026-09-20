@@ -219,7 +219,13 @@ class IdentityFixture:
                             return
                         challenge, nonce = device["challenge"], None
                     elif grant == "refresh_token" and refresh_exchange is not None:
-                        self.answer(*refresh_exchange(values))
+                        response = refresh_exchange(values)
+                        if response is None:
+                            # Fault fixtures can consume the grant then lose its
+                            # response. No headers or token body reach the client.
+                            self.close_connection = True
+                            return
+                        self.answer(*response)
                         return
                     else:
                         self.answer(400, {"error": "unsupported_grant_type"})

@@ -1,0 +1,33 @@
+{
+  "artifact_name": "airs-linux-validation",
+  "artifact_zip_bytes": 427610,
+  "artifact_zip_sha256": "a55dc52831ae948d1c780ef9973450a3b42e1f53cfdc1eb0d10312d744cfe8ad",
+  "duration": "48m56s",
+  "files": {
+    "log": {
+      "path": "validation.log",
+      "sha256": "24ad97b0f4aa1fdca0cb39c0e898234cddb188998a51b6e88c2c45bfb4b2793e"
+    },
+    "scope": {
+      "path": "test-scope.txt",
+      "sha256": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e"
+    },
+    "source": {
+      "path": "source.txt",
+      "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+    },
+    "tooling": {
+      "path": "container-tooling-source.txt",
+      "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+    }
+  },
+  "internal_run_id": 3724,
+  "run_index": 260,
+  "schema_version": 1,
+  "scope": "full-workspace",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "summary": "Summary [2043.665s] 18334 tests run: 18331 passed (5 slow), 3 failed, 34 skipped",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "workflow_status": "failure",
+  "workflow_url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/260"
+}

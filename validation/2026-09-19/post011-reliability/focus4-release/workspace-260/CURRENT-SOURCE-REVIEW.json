@@ -1,0 +1,75 @@
+{
+  "basis": "Current failed diagnostics plus current default-disabled feature and guarded execution path. Baseline object equality is context only; no historical waiver is imported.",
+  "comparison_source_commit": "b91d706e292791848394f30128b5f97aa53c4b9d",
+  "schema_version": 1,
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "sources": [
+    {
+      "baseline_blob_id": "5b5206047cc82d517352ae0b1a6c3a90eb22129a",
+      "blob_id": "5b5206047cc82d517352ae0b1a6c3a90eb22129a",
+      "excerpts": [
+        {
+          "first_line": 973,
+          "last_line": 981,
+          "text": "    },\n    FeatureSpec {\n        id: Feature::ShellSnapshotV2,\n        key: \"shell_snapshot_v2\",\n        stage: Stage::UnderDevelopment,\n        default_enabled: false,\n    },\n    FeatureSpec {\n        id: Feature::DeferredExecutor,"
+        }
+      ],
+      "path": "codex-rs/features/src/lib.rs",
+      "sha256": "451604ebcb3e805ce22e62a87fc425b95f774bcdadc9bcc60b422075cedd7c85",
+      "unchanged_from_baseline": true
+    },
+    {
+      "baseline_blob_id": "c04b7d541e9868d2f26ac2f41a56b0f6a4ef37a2",
+      "blob_id": "c04b7d541e9868d2f26ac2f41a56b0f6a4ef37a2",
+      "excerpts": [
+        {
+          "first_line": 31,
+          "last_line": 44,
+          "text": "\nimpl Session {\n    pub(crate) fn prewarm_shell_snapshots(\n        self: &Arc<Self>,\n        step_context: &StepContext,\n    ) -> Option<AbortOnDropHandle<()>> {\n        if !self.features().enabled(Feature::ShellSnapshotV2)\n            || step_context\n                .tool_router\n                .tool_runtime(&ToolName::plain(\"exec_command\"))\n                .is_none()\n        {\n            return None;\n        }"
+        },
+        {
+          "first_line": 175,
+          "last_line": 201,
+          "text": "pub(super) fn shell_snapshot_request(\n    request: &ExecCommandRequest,\n    cwd: &PathUri,\n    context: &UnifiedExecContext,\n) -> Option<ShellSnapshotRequest> {\n    if !context.session.features().enabled(Feature::ShellSnapshotV2)\n        || !request.turn_environment.shell_snapshot_v2_supported\n        || request.turn_environment.selection.cwd != *cwd\n        || !matches!(request.shell_mode, UnifiedExecShellMode::Direct)\n        || !matches!(\n            request.shell_type,\n            ShellType::Bash | ShellType::Zsh | ShellType::Sh\n        )\n        || request.command.get(1).is_none_or(|flag| flag != \"-lc\")\n    {\n        return None;\n    }\n\n    Some(ShellSnapshotRequest {\n        scope_id: format!(\n            \"{}:{}\",\n            context.session.thread_id(),\n            request.turn_environment.selection.environment_id\n        ),\n        shell: ShellInfo {\n            name: request.shell_type.name().to_string(),\n            path: request.command.first()?.clone(),"
+        }
+      ],
+      "path": "codex-rs/core/src/unified_exec/shell_snapshot.rs",
+      "sha256": "2f863da0d419e7565e7a3b2987ac7dc304e831b138dd0c1d656680aff1c074cc",
+      "unchanged_from_baseline": true
+    },
+    {
+      "baseline_blob_id": "c7bb503849e1aa0bfc00805cd4c430f7df61477c",
+      "blob_id": "c7bb503849e1aa0bfc00805cd4c430f7df61477c",
+      "excerpts": [
+        {
+          "first_line": 177,
+          "last_line": 211,
+          "text": "#[cfg(unix)]\n#[test_case(false, false, false, false, \"bash\"; \"local_pipe\")]\n#[test_case(false, true, false, false, \"bash\"; \"local_tty\")]\n#[test_case(true, false, false, false, \"bash\"; \"remote_pipe\")]\n#[test_case(true, true, false, false, \"bash\"; \"remote_tty\")]\n#[test_case(true, false, true, false, \"bash\"; \"remote_sandbox\")]\n#[test_case(false, false, false, false, \"sh\"; \"local_sh_pipe\")]\n#[test_case(false, false, false, true, \"bash\"; \"local_bash_env\")]\n#[test_case(true, false, false, true, \"bash\"; \"remote_bash_env\")]\n#[cfg_attr(\n    target_os = \"macos\",\n    test_case(false, false, false, false, \"zsh\"; \"local_zsh_pipe\")\n)]\n#[cfg_attr(\n    target_os = \"macos\",\n    test_case(false, false, false, true, \"zsh\"; \"local_zshenv\")\n)]\n#[cfg_attr(\n    target_os = \"macos\",\n    test_case(true, false, false, true, \"zsh\"; \"remote_zshenv\")\n)]\n#[tokio::test(flavor = \"multi_thread\", worker_threads = 2)]\n// Serialize tests that launch a real exec-server process through the full CLI.\n#[serial_test::serial(remote_exec_server)]\nasync fn shell_snapshot_v2_filters_profile_exports_and_stays_in_memory(\n    use_remote: bool,\n    tty: bool,\n    use_sandbox: bool,\n    automatic_startup: bool,\n    shell_name: &str,\n) -> Result<()> {\n    if use_sandbox\n        && let Some(warning) =\n            codex_sandboxing::system_bwrap_warning(&PermissionProfile::read_only())\n    {"
+        },
+        {
+          "first_line": 239,
+          "last_line": 248,
+          "text": "    } else {\n        \"unset() { exit 41; }\\nbuiltin() { :; }\\n\"\n    };\n    std::fs::write(\n        &profile_path,\n        format!(\n            \"printf x >> \\\"$HOME/captures\\\"\\nexport PATH=\\\"$HOME/profile-bin:/usr/bin:/bin\\\"\\nexport PROFILE_ALLOWED=profile\\nexport PROFILE_SECRET=secret\\nexport PROFILE_DENIED=denied\\nprofile_helper() {{ printf helper; }}\\n{shadowed_builtins}{padding}\"\n        ),\n    )?;\n    if shell_name == \"zsh\" && automatic_startup {"
+        },
+        {
+          "first_line": 307,
+          "last_line": 338,
+          "text": "                shell_snapshot: Some(ShellSnapshotRequest {\n                    scope_id: \"attachment-1\".to_string(),\n                    shell: ShellInfo {\n                        name: shell_name.to_string(),\n                        path: shell_path.to_string(),\n                    },\n                }),\n                env: HashMap::new(),\n                tty,\n                pipe_stdin: false,\n                arg0: None,\n                sandbox: (use_sandbox && attempt == 0).then(|| {\n                    FileSystemSandboxContext::from_permission_profile_with_cwd(\n                        PermissionProfile::read_only(),\n                        cwd.clone(),\n                    )\n                }),\n                enforce_managed_network: false,\n                managed_network: None,\n                network_proxy: None,\n            })\n            .await?;\n        let (stdout, stderr, status, closed) =\n            collect_process_output_from_events(started.process).await?;\n        assert_eq!(\n            (stdout, stderr, status, closed),\n            (expected_stdout.clone(), String::new(), Some(0), true,)\n        );\n    }\n\n    assert_eq!(std::fs::read_to_string(home.path().join(\"captures\"))?, \"x\");\n    if let Some(server) = context._server {"
+        },
+        {
+          "first_line": 425,
+          "last_line": 446,
+          "text": "}\n\n#[cfg(unix)]\n#[test_case(false, false, \"bash\", 1; \"local_pipe_recovery\")]\n#[test_case(false, true, \"bash\", 1; \"local_tty_recovery\")]\n#[test_case(true, false, \"bash\", 1; \"remote_pipe_recovery\")]\n#[test_case(true, true, \"bash\", 1; \"remote_tty_recovery\")]\n#[test_case(false, false, \"bash\", 3; \"local_retry_budget_exhausted\")]\n#[test_case(true, false, \"bash\", 3; \"remote_retry_budget_exhausted\")]\n#[cfg_attr(target_os = \"macos\", test_case(false, false, \"zsh\", 1; \"local_zsh_recovery\"))]\n#[cfg_attr(target_os = \"macos\", test_case(true, false, \"zsh\", 1; \"remote_zsh_recovery\"))]\n#[tokio::test(flavor = \"multi_thread\", worker_threads = 2)]\n#[serial_test::serial(remote_exec_server)]\nasync fn shell_snapshot_v2_capture_failure_falls_back_and_retries(\n    use_remote: bool,\n    tty: bool,\n    shell_name: &str,\n    failures_before_repair: usize,\n) -> Result<()> {\n    if use_remote\n        && let Some(warning) =\n            codex_sandboxing::system_bwrap_warning(&PermissionProfile::workspace_write())"
+        },
+        {
+          "first_line": 516,
+          "last_line": 543,
+          "text": "    }\n    assert_eq!(\n        std::fs::read_to_string(home.path().join(\"captures\"))?,\n        \"x\".repeat(failures_before_repair)\n    );\n\n    std::fs::write(\n        home.path().join(profile_name),\n        \"printf x >> \\\"$HOME/captures\\\"\\nprofile_helper() { printf recovered; }\\n\",\n    )?;\n    let (expected_output, expected_captures) = if failures_before_repair == 3 {\n        (\"original\", \"xxx\")\n    } else {\n        (\"recovered\", \"xx\")\n    };\n    for attempt in 0..2 {\n        params.process_id = ProcessId::from(format!(\"snapshot-after-repair-{attempt}\"));\n        let started = context.backend.start(params.clone()).await?;\n        assert_eq!(\n            collect_process_output_from_events(started.process).await?,\n            (expected_output.to_string(), String::new(), Some(0), true)\n        );\n    }\n    assert_eq!(\n        std::fs::read_to_string(home.path().join(\"captures\"))?,\n        expected_captures\n    );\n    Ok(())"
+        }
+      ],
+      "path": "codex-rs/exec-server/tests/exec_process.rs",
+      "sha256": "e0fbe50fb27bd936e40fdef276d49229da537b36a431015aa515a09c43f7be04",
+      "unchanged_from_baseline": true
+    }
+  ]
+}

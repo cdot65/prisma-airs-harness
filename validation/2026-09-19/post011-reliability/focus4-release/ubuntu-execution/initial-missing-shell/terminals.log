@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/validate_airs_onboarding_terminals.py", line 192, in <module>
+    main()
+    ~~~~^^
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/validate_airs_onboarding_terminals.py", line 68, in main
+    assert shell, f"Required shell is unavailable: {name}"
+           ^^^^^
+AssertionError: Required shell is unavailable: zsh

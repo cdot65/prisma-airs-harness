@@ -1,0 +1,64 @@
+{
+  "anonymous": true,
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "integrity": "sha512-mZEJC7dN+SbEZzRZIj1FPLVQ+XbCnc3VNPjhRKUJmp0Wd0Xxd9Cz7w7u09kyTfqjwShXQMp3zBZGU2qJt4pw3Q==",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.1.mcp.1",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "integrity": "sha512-5dWzZZ1ZdLdo900hVCJp763bHTZnYazVRFfJZq5Mx01eWv7e931AZsm/Tr+v7zkDuOXarradj3J2JPK3lql/Cw==",
+      "tags": {
+        "latest": "0.1.1",
+        "gateway-validation": "0.1.0-alpha.21",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.1.mcp.1",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "integrity": "sha512-BeDnYipMo8fD98HW+RDN7fHeaUTBmg2gplOrU4jpzIob1LoTDMkT+Q1xR6PYT/F9G76ngEXbSDFtXfFxyKhbcQ==",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.1.mcp.1",
+        "stable-candidate": "0.1.1"
+      }
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.1.mcp.1",
+      "integrity": "sha512-7BXc2+m2N+KKShh8n4Rf3fD/DFYpGHw2hyMx68m5SKdk/Q56672qFm2mSXjC6vvVwKyLgn8WQ41FDUbqm5r6wg==",
+      "tags": {
+        "latest": "0.1.1",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.2-alpha.1.mcp.1",
+        "stable-candidate": "0.1.1"
+      }
+    }
+  ],
+  "protected_tags_preserved": true,
+  "published": true,
+  "installed_acceptance_pending": true
+}

@@ -1,0 +1,19 @@
+{
+  "inputs": {
+    "source_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "archive_sha256": "94030be5a2456d57490bc7f66e23bd444b6bacc79ce735cf8bbd07f723773a0b",
+    "binary_sha256": "1e74b5229a123b78171075fd4a5a5c53943f41c5c9529134d4418fe5ac2b3d69",
+    "fixture_sha256": "57a4777bb5a41b354e240ea57e2bcdc6de2405c284fd2bc8f6cd75cc7c560945"
+  },
+  "dispatch": {
+    "status": 200,
+    "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-gateway-package.yml&actor=0&status=0",
+    "workflow": "airs-harness-gateway-package.yml",
+    "ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+  },
+  "candidate_run_ids": [
+    261,
+    254,
+    243
+  ]
+}

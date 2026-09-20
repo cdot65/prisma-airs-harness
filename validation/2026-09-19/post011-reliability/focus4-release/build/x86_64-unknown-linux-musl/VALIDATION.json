@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "release_ready": false,
+  "status": "unsigned-unvalidated-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "product_version": "0.1.2-alpha.1.mcp.1",
+  "binary_sha256": "41756d1b68a6131f4f140dc0e95812cd2efb45864734cb76472779a3c87924d4",
+  "remaining": [
+    "production signing",
+    "consumer-platform authentication E2E",
+    "independent release review"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "local_verified": true,
+  "archive_sha256": "66dd1a3336a1e501e506250541c95ea7727d5874e818be61186e54a1aa7e3956",
+  "targets": [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-musl"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "release_ready": false,
+  "status": "signed-unvalidated-candidate",
+  "target": "aarch64-apple-darwin",
+  "product_version": "0.1.2-alpha.1.mcp.1",
+  "binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+  "remaining": [
+    "consumer-platform authentication E2E",
+    "independent release review"
+  ]
+}

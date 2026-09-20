@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+    "candidate_metadata_sha256": "808950a1f2519470d9233b43037478e94f511ad583363d9c3382ee6bff6b21c4",
+    "candidate_packages_sha256": "14a322bdde3672184bedd463b2d7254f80235bb42f4719b2be4ce69ba85654bf",
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "spec_sha256": "9fd7c606365e5d7183f9f7fbe436cbb832105509ab647d5bf16c9952bfed8412",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "tooling_sha256": "f8da588a5fcfd575cd5999e44117345125ca168e5417eecfa74c43cb797458cb",
+    "version": "0.1.2-alpha.1.mcp.1"
+  },
+  "passed": true,
+  "production_servicenow": false,
+  "production_sso": false,
+  "schema_version": 1,
+  "stage_receipts": {
+    "command-output": "4ecd1a1f46e503ae285cb1746a5f1416d49720ad94a8082cde88ff594f2e36a1",
+    "doctor": "348d591a9e75a7910331f782a82b984c623d040436a882fe77b6c60c8f4e6409",
+    "install": "80f8efd121a43bb04130300db8936193cbfca09061ad99f931f9a580bb516740",
+    "installed-regressions": "287ce82251e47f5612e5b14d23ac3ba1539d83f3a43c95dc044305b246c80505",
+    "mac-signature": "5522df075ba29d37fb66b8c07249fa3df67a7b14184500f96a1d51d59b10658d",
+    "managed-cli": "1df20e4f2eb23cad76d54def2300a39585c8f520d63afd8780422550e56537f2",
+    "mcp-manager": "9bd7d33430f591924f2786e033a36a4dd167d8deb3ec274d0f391e1d8c49d169",
+    "onboarding": "9b4bf7ab711f78459a6eeb7f5a73ef92bdbfc6f8b12bc97937d1f2a4b5bff4c9",
+    "terminals": "29d2e079c5666d5ce4f1cb24bf1d787d4631f06fa6c51dfc2745fbae9996a4fd",
+    "upgrade": "2f4ba98aece53ef8f93dd60f84912825c0357b04a959c0dfbc139e1f61d257a3"
+  },
+  "stages": [
+    "install",
+    "onboarding",
+    "terminals",
+    "installed-regressions",
+    "mcp-manager",
+    "doctor",
+    "managed-cli",
+    "upgrade",
+    "command-output",
+    "mac-signature"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "sha256": "d5bfa84e0a1bc0f17602867922b7401f5445dcaf0f37bd7fdf89dc9ddf916861",
+  "target": "x86_64-unknown-linux-musl",
+  "acceptance_started": false,
+  "resumed_worker_sha256": "72ca1079e3b0bc439e2fe07cbbb2ca70ebd2e0bdf774c52b276f72e29af2b289",
+  "reason": "Add explicit resume option to orchestration wrapper; frozen acceptance source unchanged"
+}

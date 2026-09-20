@@ -1,0 +1,16 @@
+{
+  "archive_sha256": "4d1c894907b70e70787e7ab8d012dd76353bfec53491802a4ecc5f8044467ab1",
+  "bytes": 29909,
+  "verified": true,
+  "target": "x86_64-unknown-linux-musl",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "registry",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false
+  }
+}

@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/airs_test_release.py", line 128, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/airs_test_release.py", line 120, in main
+    print(json.dumps(execute(parser().parse_args()), indent=2))
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/airs_test_release.py", line 84, in execute
+    path = run_acceptance(
+        spec,
+    ...<3 lines>...
+        resume=args.resume,
+    )
+  File "/home/cdot/.cache/airs-post011-20260919/frozen/scripts/airs_release_acceptance.py", line 222, in run_acceptance
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<5 lines>...
+        timeout=900,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python', '/home/cdot/.cache/airs-post011-20260919/frozen/scripts/validate_airs_onboarding_terminals.py', '--binary', '/home/cdot/.cache/airs-post011-20260919/post011-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-78bb03c494804f7e9aff0595cf7b3084/prefix/bin/airs', '--native-binary', '/home/cdot/.cache/airs-post011-20260919/post011-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-78bb03c494804f7e9aff0595cf7b3084/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness', '--output', '/home/cdot/.cache/airs-post011-20260919/post011-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/terminals-0853d11f62cc4df9b591d0e11bdbb59e']' returned non-zero exit status 1.

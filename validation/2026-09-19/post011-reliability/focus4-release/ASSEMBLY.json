@@ -1,0 +1,20 @@
+{
+  "command": [
+    "python",
+    "/tmp/airs-post011-20260919/frozen/scripts/package_airs_npm.py",
+    "--release-directory",
+    "/tmp/airs-post011-20260919/release/x64-native/extracted/airs-harness-0.1.2-alpha.1.mcp.1-linux-x86_64-musl",
+    "--release-directory",
+    "/tmp/airs-post011-20260919/release/arm64-native/extracted/airs-harness-0.1.2-alpha.1.mcp.1-linux-aarch64-musl",
+    "--release-directory",
+    "/tmp/airs-post011-20260919/release/mac-native/extracted/airs-harness-0.1.2-alpha.1.mcp.1-darwin-arm64",
+    "--output-directory",
+    "/tmp/airs-post011-20260919/release/candidate-npm",
+    "--registry",
+    "https://npm.cdot.io",
+    "--bundle-cli"
+  ],
+  "exit_code": 0,
+  "duration_seconds": 121.408,
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+}

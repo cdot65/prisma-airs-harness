@@ -1,0 +1,19 @@
+{
+  "pid": 35356,
+  "resume": true,
+  "reason": "Missing zsh/fish native test prerequisites, isolated user-local distro packages prepared",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "initial_failure_preserved": true,
+  "shells": {
+    "zsh": {
+      "passed": true,
+      "stderr": "",
+      "version": "zsh 5.9 (x86_64-ubuntu-linux-gnu)"
+    },
+    "fish": {
+      "passed": true,
+      "stderr": "",
+      "version": "fish, version 4.2.1"
+    }
+  }
+}

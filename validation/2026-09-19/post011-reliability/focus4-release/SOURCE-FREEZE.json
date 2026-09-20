@@ -1,0 +1,10 @@
+{
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "version": "0.1.2-alpha.1.mcp.1",
+  "tooling_files": 166,
+  "tooling_manifest_sha256": "8acf7a8508dac89956a2e2e2b46fcf89ccc53532ee605dc58c46e381adad4a15",
+  "previous_evidence": "PREVIOUS-PROVENANCE.json",
+  "source_tree_clean_before_dispatch": true,
+  "stable_latest_changes_authorized": false
+}

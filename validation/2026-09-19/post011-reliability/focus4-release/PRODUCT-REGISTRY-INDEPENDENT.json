@@ -1,0 +1,247 @@
+{
+  "behavioral_checks": [
+    {
+      "required_executed": [
+        "test_airs_doctor.SessionDoctor.test_redacted_report_preview_copy_and_save_reuse_one_inspection"
+      ],
+      "result_sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779",
+      "skipped": 0,
+      "stage": "doctor",
+      "target": "x86_64-unknown-linux-musl",
+      "tests_run": 5
+    },
+    {
+      "required_executed": [
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_consumed_refresh_response_loss_never_replays_after_restart",
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_rejected_refresh_remains_signin_required_after_restart"
+      ],
+      "result_sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087",
+      "skipped": 1,
+      "stage": "installed-regressions",
+      "target": "x86_64-unknown-linux-musl",
+      "tests_run": 53
+    },
+    {
+      "required_executed": [
+        "test_airs_doctor.SessionDoctor.test_redacted_report_preview_copy_and_save_reuse_one_inspection"
+      ],
+      "result_sha256": "82e514e6def389c9b547c48c37821f14e30019f0c680b7c6bafa93d062143779",
+      "skipped": 0,
+      "stage": "doctor",
+      "target": "aarch64-unknown-linux-musl",
+      "tests_run": 5
+    },
+    {
+      "required_executed": [
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_consumed_refresh_response_loss_never_replays_after_restart",
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_rejected_refresh_remains_signin_required_after_restart"
+      ],
+      "result_sha256": "276ed80d4b10210b0aeb01967a3fc11d9a6b114e52f708473b8ca01860418087",
+      "skipped": 1,
+      "stage": "installed-regressions",
+      "target": "aarch64-unknown-linux-musl",
+      "tests_run": 53
+    },
+    {
+      "required_executed": [
+        "test_airs_doctor.SessionDoctor.test_redacted_report_preview_copy_and_save_reuse_one_inspection"
+      ],
+      "result_sha256": "8d17ee3e4bf263861d258736e9a5ae95c8f2d8ce39b9862b26fcfc3e44cce24a",
+      "skipped": 2,
+      "stage": "doctor",
+      "target": "aarch64-apple-darwin",
+      "tests_run": 5
+    },
+    {
+      "required_executed": [
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_consumed_refresh_response_loss_never_replays_after_restart",
+        "test_airs_harness_refresh_faults.RefreshRecovery.test_rejected_refresh_remains_signin_required_after_restart"
+      ],
+      "result_sha256": "711254941f19d32e1062a12a243f3c7e4c8e5b9dff368355a482c9c1d2b4a498",
+      "skipped": 3,
+      "stage": "installed-regressions",
+      "target": "aarch64-apple-darwin",
+      "tests_run": 53
+    }
+  ],
+  "native_acceptance": {
+    "candidate_metadata_sha256": "808950a1f2519470d9233b43037478e94f511ad583363d9c3382ee6bff6b21c4",
+    "candidate_packages_sha256": "14a322bdde3672184bedd463b2d7254f80235bb42f4719b2be4ce69ba85654bf",
+    "evidence_sha256": "300db4903fd7dbfb5f5df97390fd471f95b5fd1381d1a4b24f98c3daf907840c",
+    "packaging_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "platforms": [
+      {
+        "acceptance_sha256": "d429b0dc3ddace1de1c6977dea0f7c32899af1dd9edb1ba415d918fe0ee8135e",
+        "binary_sha256": "41756d1b68a6131f4f140dc0e95812cd2efb45864734cb76472779a3c87924d4",
+        "evidence_sha256": "a947397f3a74d7fac9efe19f84a1811c7c197790b909e86ecb86787d27f99f2e",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ],
+        "target": "x86_64-unknown-linux-musl"
+      },
+      {
+        "acceptance_sha256": "aff824b2613f8abf6ee6cf7f699a830225f05aaabfe33fc36927b7d9958ec8e0",
+        "binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+        "evidence_sha256": "d20f0cd2ade31a037f740373481464cef1e759a6c10e3b043ef9ed0fa54c5a31",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ],
+        "target": "aarch64-unknown-linux-musl"
+      },
+      {
+        "acceptance_sha256": "80749143bb64db8134e73b4a9b70be3cb5324c78bb3996ebbcb54744c2ebb007",
+        "binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+        "evidence_sha256": "37b7cb7b80e55502f9cbb724e9e8b3f11beb40929ce422e16c4d3043672badaf",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ],
+        "target": "aarch64-apple-darwin"
+      }
+    ],
+    "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "spec_sha256": "9fd7c606365e5d7183f9f7fbe436cbb832105509ab647d5bf16c9952bfed8412",
+    "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "version": "0.1.2-alpha.1.mcp.1"
+  },
+  "packaging_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "passed": true,
+  "phase": "registry",
+  "production_sso_servicenow_claimed": false,
+  "schema_version": 1,
+  "scope": "airs-product-acceptance",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "spec_sha256": "9fd7c606365e5d7183f9f7fbe436cbb832105509ab647d5bf16c9952bfed8412",
+  "stable_promotion_authorized": false,
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "unresolved_product_blockers": [],
+  "upgrade_rollback": [
+    {
+      "candidate_binary_sha256": "41756d1b68a6131f4f140dc0e95812cd2efb45864734cb76472779a3c87924d4",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "configuration_history_credentials_preserved": true,
+      "native_cleanup_completed": true,
+      "previous_binary_sha256": "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9",
+      "previous_version": "0.1.1",
+      "real_mcp_turns": 3,
+      "restored_binary_sha256": "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9",
+      "result_sha256": "58e618a096e4a17c43415f2b1a31c6c9f0b7fa70cab6dc64b24e97f634856551",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    {
+      "candidate_binary_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "configuration_history_credentials_preserved": true,
+      "native_cleanup_completed": true,
+      "previous_binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+      "previous_version": "0.1.1",
+      "real_mcp_turns": 3,
+      "restored_binary_sha256": "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+      "result_sha256": "28d55764d86cc6105f4567a2e3a8c4c4d672552b96b102d17505cfdbe9f1481c",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    {
+      "candidate_binary_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+      "candidate_version": "0.1.2-alpha.1.mcp.1",
+      "configuration_history_credentials_preserved": true,
+      "native_cleanup_completed": true,
+      "previous_binary_sha256": "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3",
+      "previous_version": "0.1.1",
+      "real_mcp_turns": 3,
+      "restored_binary_sha256": "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3",
+      "result_sha256": "cc1723bc38a0ada587afbad53a15ed9c3a60ca1fe6277b4fde835d29976a8a6a",
+      "target": "aarch64-apple-darwin"
+    }
+  ],
+  "verification_tooling_commit": null,
+  "version": "0.1.2-alpha.1.mcp.1",
+  "workspace_diagnostics": {
+    "counts": {
+      "failed": 3,
+      "passed": 18331,
+      "skipped": 34,
+      "tests_run": 18334
+    },
+    "failure_reviews": [
+      {
+        "evidence": {
+          "path": "remote-pipe-recovery-review.md",
+          "sha256": "18e8d0911d27ec40096b229e9ac420f53dc33359fba1485f5dfb3ba41cce7c2f"
+        },
+        "product_blocking": false,
+        "reason": "Current remote snapshot-v2 recovery test reaches the final capture-count assertion and reports xxxx instead of xx. ShellSnapshotV2 is UnderDevelopment/defaultfalse; normal shell requests returnNone when disabled. This experimental remote capture path is outside default AIRS auth/report behavior and is unchanged; its unresolved defect and full-workspace failure remain visible.",
+        "test": "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery"
+      },
+      {
+        "evidence": {
+          "path": "remote-tty-recovery-review.md",
+          "sha256": "4cd957a17bc804ca70cb1bd1222867d2bcc2f5ddbd334e8f071004c7440823ca"
+        },
+        "product_blocking": false,
+        "reason": "Current remote snapshot-v2 recovery test reaches the final capture-count assertion and reports xxxx instead of xx. ShellSnapshotV2 is UnderDevelopment/defaultfalse; normal shell requests returnNone when disabled. This experimental remote capture path is outside default AIRS auth/report behavior and is unchanged; its unresolved defect and full-workspace failure remain visible.",
+        "test": "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery"
+      },
+      {
+        "evidence": {
+          "path": "remote-sandbox-review.md",
+          "sha256": "fe41aa444158e134e52506c4cdcded53724c3fd97d54189a717e1c656bf1e439"
+        },
+        "product_blocking": false,
+        "reason": "Current remote snapshot-v2 sandbox test fails because its profile capture writes to a read-only test home and exits41. ShellSnapshotV2 is UnderDevelopment/defaultfalse, and the normal shell request path returnsNone when disabled. The unchanged experimental opt-in path is excluded from default AIRS product acceptance; its defect and full-workspace failure remain visible.",
+        "test": "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+      }
+    ],
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "files": {
+      "log": {
+        "path": "validation.log",
+        "sha256": "24ad97b0f4aa1fdca0cb39c0e898234cddb188998a51b6e88c2c45bfb4b2793e"
+      },
+      "scope": {
+        "path": "test-scope.txt",
+        "sha256": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e"
+      },
+      "source": {
+        "path": "source.txt",
+        "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+      },
+      "tooling": {
+        "path": "container-tooling-source.txt",
+        "sha256": "8a36ee429915e07b3c03b07d94b59860fa415f02e2f1757af0831565d0516f9c"
+      }
+    },
+    "record_sha256": "8378abc17ba74c92ee9abda1cf5f2ba21ba9241565a8186a3be0a208eb045c21",
+    "scope": "full-workspace",
+    "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+    "status": "failure",
+    "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "state": {
+    "run": {
+      "link": "/cdot/prisma-airs-harness/actions/runs/260",
+      "title": "AIRS Harness Linux validation",
+      "titleHTML": "AIRS Harness Linux validation",
+      "status": "failure",
+      "description": "Run of commit <a href=\"/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af\">44872ebf4c</a> triggered by <a href=\"/airs-bot\">airs-bot</a>",
+      "canCancel": false,
+      "canApprove": false,
+      "canRerun": true,
+      "canDeleteArtifact": true,
+      "done": true,
+      "jobs": [
+        {
+          "id": 24021,
+          "name": "workspace",
+          "status": "failure",
+          "canRerun": true,
+          "duration": "48m56s"
+        }
+      ],
+      "commit": {
+        "localeWorkflow": "Workflow",
+        "localeAllRuns": "all runs",
+        "shortSHA": "44872ebf4c",
+        "link": "/cdot/prisma-airs-harness/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "pusher": {
+          "displayName": "airs-bot",
+          "link": "/airs-bot"
+        },
+        "branch": {
+          "name": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "link": "/cdot/prisma-airs-harness/src/commit/44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+          "isDeleted": false
+        }
+      },
+      "preExecutionError": ""
+    },
+    "currentJob": {
+      "title": "workspace",
+      "details": [
+        "Failure"
+      ],
+      "steps": [
+        {
+          "summary": "Set up job",
+          "duration": "1s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "duration": "2s",
+          "status": "success"
+        },
+        {
+          "summary": "Validate in a bounded GNU Linux container with persistent build caches",
+          "duration": "48m50s",
+          "status": "failure"
+        },
+        {
+          "summary": "https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5",
+          "duration": "0s",
+          "status": "success"
+        },
+        {
+          "summary": "Complete job",
+          "duration": "1s",
+          "status": "failure"
+        }
+      ],
+      "allAttempts": [
+        {
+          "number": 1,
+          "time_since_started_html": "<relative-time prefix=\"\" tense=\"past\" datetime=\"2026-09-20T00:39:35Z\" data-tooltip-content data-tooltip-interactive=\"true\">2026-09-20 00:39:35 +00:00</relative-time>",
+          "status": "failure",
+          "status_diagnostics": [
+            "Failure"
+          ]
+        }
+      ]
+    }
+  },
+  "logs": {
+    "stepsLog": []
+  }
+}

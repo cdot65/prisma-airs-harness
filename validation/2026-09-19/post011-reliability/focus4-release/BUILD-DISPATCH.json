@@ -1,0 +1,66 @@
+{
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "dispatches": [
+    {
+      "workflow": "airs-harness-linux-x64.yml",
+      "inputs": {
+        "source_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "result": {
+        "status": 200,
+        "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-linux-x64.yml&actor=0&status=0",
+        "workflow": "airs-harness-linux-x64.yml",
+        "ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "run": 257,
+      "observed_source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+    },
+    {
+      "workflow": "airs-harness-linux-arm64.yml",
+      "inputs": {
+        "source_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "result": {
+        "status": 200,
+        "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-linux-arm64.yml&actor=0&status=0",
+        "workflow": "airs-harness-linux-arm64.yml",
+        "ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "run": 258,
+      "observed_source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+    },
+    {
+      "workflow": "airs-harness-macos-build.yml",
+      "inputs": {
+        "source_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "tooling_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "private_candidate": true,
+        "preflight_only": false
+      },
+      "result": {
+        "status": 200,
+        "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-macos-build.yml&actor=0&status=0",
+        "workflow": "airs-harness-macos-build.yml",
+        "ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "run": 259,
+      "observed_source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+    },
+    {
+      "workflow": "airs-harness-linux.yml",
+      "inputs": {
+        "source_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "tooling_ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+        "test_filter": ""
+      },
+      "result": {
+        "status": 200,
+        "url": "https://git.cdot.io/cdot/prisma-airs-harness/actions?workflow=airs-harness-linux.yml&actor=0&status=0",
+        "workflow": "airs-harness-linux.yml",
+        "ref": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+      },
+      "run": 260,
+      "observed_source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af"
+    }
+  ]
+}

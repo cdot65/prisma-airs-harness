@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python",
+    "/tmp/airs-post011-20260919/frozen/scripts/airs_test_release.py",
+    "stage",
+    "--spec",
+    "/tmp/airs-post011-20260919/release/SPEC.json",
+    "--packages",
+    "/tmp/airs-post011-20260919/release/candidate-npm",
+    "--acceptance",
+    "/tmp/airs-post011-20260919/release/candidate-acceptance",
+    "--output",
+    "/tmp/airs-post011-20260919/release/staged"
+  ],
+  "exit_code": 0,
+  "duration_seconds": 83.819
+}

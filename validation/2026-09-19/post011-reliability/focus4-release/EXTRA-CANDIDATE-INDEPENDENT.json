@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scope": "independent-current-candidate-lifecycle-verification",
+  "source_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "tooling_commit": "44872ebf4c125f06fa69bee7a486f8e7ab26c6af",
+  "version": "0.1.2-alpha.1.mcp.1",
+  "passed": true,
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "passed": true,
+      "native_sha256": "41756d1b68a6131f4f140dc0e95812cd2efb45864734cb76472779a3c87924d4",
+      "receipt_sha256": "5cd587578da02ea91a4724ebb33d4ad8652b5c32f1ba731fa8969d7414bd6fb0",
+      "observation_sha256": "565c3ec8bba40926f6565b1516fdc4120f445a21c518a85252044b430afc3077",
+      "post_expiry_cycles": {
+        "mcp": 2,
+        "inference": 2
+      },
+      "completed_turns": 3,
+      "native_cleanup_completed": true,
+      "production_acceptance": false
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "passed": true,
+      "native_sha256": "d1b176dd15ff0da72bab14aea7016478f42844c093a27d7a9769bd1fc264950e",
+      "receipt_sha256": "747694f778d69d27622340310d8c82d188e1de90bff648a071313a3ac9bc27c1",
+      "observation_sha256": "516d4f17b7aba24bec51ede95d3a7467a161549492576e4fe564eedde5b76df3",
+      "post_expiry_cycles": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "completed_turns": 3,
+      "native_cleanup_completed": true,
+      "production_acceptance": false
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "passed": true,
+      "native_sha256": "01f988e9180eed9dc634c58aeebfe3b6c825c638359913423c66aa42ac104716",
+      "receipt_sha256": "56cbd10476e8814e15061cf2a125651543c72cad58da928b6f6d195841d6f2bf",
+      "observation_sha256": "7a6ba1504037e96affe6b300c3ef98f59dccc18a2ec8bf47026c7b200632b04e",
+      "post_expiry_cycles": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "completed_turns": 3,
+      "native_cleanup_completed": true,
+      "production_acceptance": false
+    }
+  ]
+}

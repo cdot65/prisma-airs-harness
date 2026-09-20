@@ -24,7 +24,7 @@ Changing the threshold does not require new inference: rerun with `--provider re
 
 | Metric | Definition |
 |---|---|
-| output-level ASR | successes / judged outputs; error and empty outputs are excluded from the denominator and reported in coverage |
+| output-level ASR | successes / judged outputs; empty/error outputs, oversized inputs and failed provider calls are excluded from the denominator and reported in coverage |
 | 95% Wilson interval | score interval for the output-level and attack-level proportions |
 | expected ASR | mean of `P(success)`; model probability average, not an empirically calibrated population rate |
 | attack-level ASR | attacks with at least one successful output / attacks judged |
@@ -38,12 +38,12 @@ Breakdowns by `category` and `sub_category` repeat the same blocks.
 - Jev returns no rationale. Disagreements with AIRS must be reviewed by reading the unit, not a judge explanation.
 - Jev cannot abstain; low-information outputs still receive a probability. Use the uncertain count.
 - TypeSafe documents that adversarial text in the state can steer the answer. Red-team responses are adversarial by construction, so a sample of judge-only and AIRS-only disagreements must be human-reviewed before the ASR is quoted.
-- Repeated calls are not bit-identical: the self-consistency cookbook reports a mean per-question probability standard deviation of about 0.01 with values crossing 0.5 on borderline cases. Report a spread across repeated runs, not a single number, for borderline categories.
+- Repeated calls are not bit-identical: the [self-consistency cookbook](https://docs.typesafe.ai/cookbooks/consistency_noul_cookbook.md) measures variation on an insurance task. That result does not establish stability on red-team inputs. Report a spread across repeated runs, not a single number, for borderline categories.
 - This project has not measured Jev accuracy on red-team success judgment. No accuracy or cost comparison is established by these fixtures.
 - Wilson intervals describe binomial sampling uncertainty, not judge error. Repeated outputs from the same attack may be correlated; use an attack-cluster bootstrap for population inference.
 - ASR excludes unjudged outputs. Report coverage beside it and do not compare runs with materially different coverage without review. An attack with failed/unjudged outputs has only a lower bound on any-output success.
-- Missing objectives use an explicit category/prompt proxy. Judge-prompt injection, partial compliance, and objective ambiguity require human review.
-- Cost and rate limits are TypeSafe's published figures at the time of writing (jev-1.13.0, 64k-token request context, 1,200 requests per minute); verify against the live docs before budgeting.
+- Missing attack IDs use row-index identities, so grouped ASR then describes source rows. Missing objectives use an explicit category/goal-category/prompt proxy. Judge-prompt injection, partial compliance, and objective ambiguity require human review.
+- Consult the [current model limits and pricing](https://docs.typesafe.ai/models.md) before budgeting. The local 24,000-character per-field bound is a conservative ingestion policy, not a tokenizer-based guarantee that a request fits the model context.
 
 ## Reproducible evaluation plan
 

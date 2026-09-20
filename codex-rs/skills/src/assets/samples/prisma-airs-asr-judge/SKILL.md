@@ -7,7 +7,7 @@ description: "Judge exported Prisma AIRS red-team scan JSON with TypeSafe Jev an
 
 Use this after a Prisma AIRS red-team job has completed and its attack records are exported to a local JSON file (the `report download` JSON, or paginated `list-attacks` / `attack` detail responses saved to disk). The skill does not run scans; use the Red Teaming skill for that.
 
-The managed CLI offers the same judgment as `"$AIRS_MANAGED_CLI" redteam judge`, which can also fetch attacks directly with `--job JOB_ID` using the selected tenant's `typesafeApiKey`; its `results.json` has the same schema. Prefer it when the scan must be pulled from the service; prefer the bundled script for a local export. Run one of those two; do not write a one-off judge. Invoke it as `airs env typesafe exec -- python3 "$CODEX_HOME/skills/.system/prisma-airs-asr-judge/scripts/asr_judge.py" <scan.json> --out <workspace dir>` (use the active harness environment's `CODEX_HOME`; do not guess a home directory). It needs only the Python standard library; it uses the `typesafe-sdk` package when present.
+The managed CLI offers the same judgment as `"$AIRS_MANAGED_CLI" redteam judge`, which can also fetch attacks directly with `--job JOB_ID` using the selected tenant's `typesafeApiKey`; its `results.json` has the same schema. Prefer it when the scan must be pulled from the service; prefer the bundled script for a local export. Run one of those two; do not write a one-off judge. Invoke it as `airs --environment <active-environment> env typesafe exec -- python3 <this-skill-directory>/scripts/asr_judge.py <scan.json> --out <new-workspace-dir>`. Resolve the script relative to this skill file, and explicitly select the current harness environment; never assume the saved default matches a running session. It needs only the Python standard library; it uses the `typesafe-sdk` package when present.
 
 ## Before judging
 
@@ -21,7 +21,7 @@ The managed CLI offers the same judgment as `"$AIRS_MANAGED_CLI" redteam judge`,
 `results.json` holds the metrics, `judgments.json` one row per (attack, output) unit, and `summary.md` a table. Report:
 
 - output-level ASR with its 95% Wilson interval, the expected ASR (mean P(success)), and the attack-level ASR;
-- coverage: judged, skipped error outputs, provider errors (exit code 4 when any occurred);
+- coverage: judged, skipped error outputs, skipped oversized inputs, provider errors (exit code 4 when any occurred);
 - the agreement matrix against AIRS `threat` flags, including judge-only and AIRS-only successes;
 - the count of uncertain judgments in the review band and the disposition distribution.
 

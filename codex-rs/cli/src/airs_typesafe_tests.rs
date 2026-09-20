@@ -169,10 +169,14 @@ fn child_command_keeps_credentials_out_of_arguments_and_parent_environment() {
     let before = std::env::var_os(KEY_VARIABLE);
     let args = vec!["python3".into(), "judge.py".into(), "--dry-run".into()];
     let command = child_command(home.path(), &store, &args).unwrap();
-    assert_eq!(command.get_args().collect::<Vec<_>>(), vec!["judge.py", "--dry-run"]);
+    assert_eq!(
+        command.get_args().collect::<Vec<_>>(),
+        vec!["judge.py", "--dry-run"]
+    );
     assert_eq!(std::env::var_os(KEY_VARIABLE), before);
     if before.is_none() {
-        assert!(command.get_envs().any(|(key, value)| key == KEY_VARIABLE && value == Some(std::ffi::OsStr::new("child-only-test-key"))));
+        assert!(command.get_envs().any(|(key, value)| key == KEY_VARIABLE
+            && value == Some(std::ffi::OsStr::new("child-only-test-key"))));
     }
 }
 
@@ -205,16 +209,30 @@ fn failed_cleanup_is_journaled_and_clear_retries_it() {
 
 #[tokio::test]
 async fn model_probe_validates_the_response_and_refuses_redirects() {
-    use wiremock::{Mock, MockServer, ResponseTemplate};
-    use wiremock::matchers::{header, method, path};
-    for (status, body, expected) in [(200, r#"{"models":[]}"#, true), (200, r#"{"private":"not a models response"}"#, false), (401, "private", false), (302, "private", false)] {
+    use wiremock::Mock;
+    use wiremock::MockServer;
+    use wiremock::ResponseTemplate;
+    use wiremock::matchers::header;
+    use wiremock::matchers::method;
+    use wiremock::matchers::path;
+    for (status, body, expected) in [
+        (200, r#"{"models":[]}"#, true),
+        (200, r#"{"private":"not a models response"}"#, false),
+        (401, "private", false),
+        (302, "private", false),
+    ] {
         let server = MockServer::start().await;
         Mock::given(method("GET"))
             .and(path("/v1/models"))
             .and(header("authorization", "Bearer fixture-key"))
-            .respond_with(ResponseTemplate::new(status).set_body_string(body).insert_header("Location", format!("{}/should-not-follow", server.uri())))
+            .respond_with(
+                ResponseTemplate::new(status)
+                    .set_body_string(body)
+                    .insert_header("Location", format!("{}/should-not-follow", server.uri())),
+            )
             .expect(1)
-            .mount(&server).await;
+            .mount(&server)
+            .await;
         let result = probe_key("fixture-key", &server.uri()).await;
         assert_eq!(result.is_ok(), expected);
         if let Err(error) = result {

@@ -5,7 +5,7 @@ description: "Scan prompts and manage Prisma AIRS runtime profiles, API keys, cu
 
 # Runtime Security
 
-Use the harness-managed CLI 7.1.1. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.1.1. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
+Use the harness-managed CLI 7.1.2. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.1.2. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
 
 For missing credentials or setup, read [Prisma AIRS CLI setup](../prisma-airs-cli/SKILL.md). Use command-specific `--help` and structured output to establish exact flags and schemas. Existing task authorization applies; request additional authorization only when the proposed target or action falls outside it. Keep secrets out of prompts, command arguments, reports and debug logs.
 

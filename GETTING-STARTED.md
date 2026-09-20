@@ -8,7 +8,7 @@ The outcome is concrete: you sign into the harness as yourself, connect the Serv
 
 The owner confirmed the complete inference → ServiceNow sign-in → read-only query → restart/reuse workflow on Apple Silicon with the preceding mcp.6 release. Automated package checks and real-account acceptance are recorded separately.
 
-The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.1.0** and nine product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
+The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.1.2** and nine product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
 Check Node.js and npm in the terminal you will use. The harness requires **22.13.0 or newer in the 22.x line, or 23.5.0 or newer** (`^22.13.0 || >=23.5.0`). Installing npm on Ubuntu does not upgrade a distro-provided Node 18. Install a supported Node version using your organization's method, reopen the terminal, and check again.
 
@@ -24,7 +24,7 @@ Replace the example registry with your administrator's registry. Ordinary instal
 
 If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.1 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. The harness's pinned 7.1.2 bundle adds `redteam judge`; the public standalone release may lag it until its npmjs publication completes.
 
 Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 

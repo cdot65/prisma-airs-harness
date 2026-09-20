@@ -31,6 +31,6 @@
     "directory": "npm/airs-harness"
   },
   "dependencies": {
-    "@cdot65/prisma-airs-cli": "7.1.1"
+    "@cdot65/prisma-airs-cli": "7.1.2"
   }
 }

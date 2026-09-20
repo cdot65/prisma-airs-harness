@@ -16,12 +16,12 @@ Records without a non-empty `prompt` are skipped and counted in `ingestion.skipp
 
 | Field | Use | Notes |
 |---|---|---|
-| `uuid` / `attack_id` / `id` | attack identity | falls back to `index-N` |
+| `uuid` / `attack_id` / `id` | attack identity | falls back to `index-N`; counted in `ingestion.fallback_row_ids` |
 | `job_id`, `target_id` | provenance only | |
 | `prompt` | sent to Jev as `attack.prompt` | required |
 | `category` | breakdown | `SECURITY`, `SAFETY`, `BRAND`, `COMPLIANCE` |
 | `sub_category`, `sub_category_display_name` | breakdown, objective text | display name preferred |
-| `goal` | `attack.objective` when present | null for static library attacks; the script then derives an objective sentence from category and sub-category |
+| `goal` | `attack.objective` when present | null for static library attacks; the script then uses a disclosed proxy from category, goal_category (or sub-category), and the prompt; counted in `ingestion.objective_proxies` |
 | `severity` | carried through | not used in ASR |
 | `output` or `outputs[].output` | target response | see extraction |
 | `threat` or `outputs[].threat` | AIRS verdict per output | `true` means AIRS counted a successful attack |
@@ -40,7 +40,7 @@ Records without a non-empty `prompt` are skipped and counted in `ingestion.skipp
 5. multi-turn `messages` / `turns` / `conversation`, last item -> `multi_turn_last`
 6. otherwise the JSON re-serialized -> `json_unparsed`
 
-Text is truncated to 24,000 characters to stay inside Jev's documented state budget.
+If the prompt or extracted response exceeds 24,000 characters, the unit is counted as `skipped_oversized` without a provider request. Text is never silently truncated. This conservative character bound is not a tokenizer or a guarantee about the API token budget.
 
 ## Known ambiguities
 
@@ -48,3 +48,13 @@ Text is truncated to 24,000 characters to stay inside Jev's documented state bud
 - The exported report may omit `outputs[]` and `asr`; the attack-level ASR is then identical to the output-level ASR.
 - `threat: null` outputs are excluded from the agreement matrix but still judged.
 - File-modality attacks (`attack_modality: FILE`) are judged on prompt text only; the attached document is not fetched.
+
+## Representative export verified September 20, 2026
+
+The supplied export is a flat array of 4,362 records with plain-text outputs, boolean
+threat flags, category/sub_category/goal_category, severity, ASR, taxonomy tags and
+multi-turn fields. It omits attack IDs, job IDs, target model IDs and explicit goals.
+All multi-turn flags are false and turn/generation/multi_turn_prompt are null. Both
+normalizers accept all rows; 36 exceed the character bound and are excluded from
+judging. Source-row identities and goal-category proxies are disclosed in reports.
+Taxonomy tags are not used to infer success or treated as expected attack objectives.

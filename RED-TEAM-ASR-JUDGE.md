@@ -2,7 +2,7 @@
 
 Status: implemented and tested at the integration boundary. No live Jev call has been
 made from this repository because `TYPESAFE_API_KEY` is not present in the
-development environment; every metric below that involves a judgment comes from
+development environment; the illustrative ASR metrics below come from
 hand-authored replay fixtures and carries no accuracy claim.
 
 ## What was built
@@ -19,7 +19,7 @@ codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/
   references/methodology.md        questions, success policy, metrics, limits, evaluation plan
   references/fixtures/sample-scan.json        synthetic 10-record scan in the exported-report shape
   references/fixtures/sample-judgments.json   replay answers in the /v1/systemone wire shape
-scripts/test_airs_asr_judge.py     21 unittest cases, wired into airs-harness-check.yml
+scripts/test_airs_asr_judge.py     22 unittest cases, wired into airs-harness-check.yml
 ```
 
 The script runs with `python3` from the standard library. When the official
@@ -32,8 +32,11 @@ network, and `--record <file>` captures raw answers plus the exact question text
 
 | Check | Result |
 |---|---|
-| `python3 -m unittest discover -s scripts -p test_airs_asr_judge.py` (system Python 3.14) | 20 passed, 1 skipped (SDK not installed) |
-| same suite in a venv with `typesafe-sdk==0.7.0` (SDK adapter uses `httpx2.MockTransport`) | 21 passed |
+| `python3 -m unittest discover -s scripts -p test_airs_asr_judge.py` (system Python 3.14) | 21 passed, 1 skipped (SDK not installed) |
+| same suite in a venv with `typesafe-sdk==0.7.0` (SDK adapter uses `httpx2.MockTransport`) | 22 passed |
+| affected Rust packages (CLI, TUI, home, skills, V8) | 5,416 passed; 6 skipped |
+| managed CLI coverage suite | 1,997 passed; 97.72% lines/statements |
+| npm launcher tests | 31 passed |
 | `ruff format` / `ruff check` via the repo's `scripts` project | clean |
 | replay run on the sample fixture | output-level ASR 66.7% (Wilson 95%: 35.4% to 87.9%), AIRS threat-flag ASR 33.3%, agreement 66.7%, 1 error output skipped, 2 uncertain |
 
@@ -55,12 +58,9 @@ never from the environment.
 
 ## Blocker for a live run
 
-`TYPESAFE_API_KEY` is not set. Steps to complete the paid evaluation are in
-`references/methodology.md` (dry run, 25-unit probe, three recorded full runs, human
-labeling of 90 sampled disagreements and uncertain units). The real scan JSON
-referenced by the prior Gemma-based evaluation (jobs `3ade30a7`, `9e3e8a48`) is not on
-this machine; the exported-report layout was reconstructed from that evaluation's
-data dictionary and the data-plane OpenAPI schemas.
+`TYPESAFE_API_KEY` is not set. The owner supplied `/var/tmp/attacks.json` on September 20: 15,049,332 bytes, 4,362 rows, SHA-256 `79318e7caddfc3a64fcb97a33a14524387eefa85853bc56240732ecf714826e0`. Both adapters normalize it identically and the source hash remains unchanged. A deterministic fake adapter exercised 4,326 eligible units; 36 oversized units were excluded before any provider call. This verifies ingestion and plumbing, not Jev accuracy.
+
+The export has no attack/job IDs or explicit objectives. All rows use disclosed row-index IDs and category/goal-category/prompt objective proxies. Grouped ASR therefore describes source rows, not independently identified attacks. No prompt or response text was copied into repository fixtures or receipts. Complete the paid evaluation and representative held-out human labeling in `references/methodology.md` after configuring a TypeSafe credential.
 
 ## Research summary (verified 2026-09-20)
 

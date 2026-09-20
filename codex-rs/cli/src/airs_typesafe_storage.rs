@@ -1,5 +1,7 @@
 //! Journal only native-store identifiers, so interrupted writes remain recoverable.
-use super::{Settings, Store, read};
+use super::Settings;
+use super::Store;
+use super::read;
 use anyhow::Context;
 use std::io::Read;
 use std::path::Path;
@@ -13,11 +15,17 @@ pub(super) fn lock(home: &Path) -> anyhow::Result<std::fs::File> {
     #[cfg(unix)]
     {
         use std::os::unix::fs::OpenOptionsExt;
-        options.mode(0o600).custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK);
+        options
+            .mode(0o600)
+            .custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK);
     }
     let file = options.open(home.join(".typesafe.lock"))?;
-    anyhow::ensure!(file.metadata()?.is_file(), "Invalid TypeSafe configuration lock");
-    file.try_lock().context("TypeSafe settings are busy; retry the command")?;
+    anyhow::ensure!(
+        file.metadata()?.is_file(),
+        "Invalid TypeSafe configuration lock"
+    );
+    file.try_lock()
+        .context("TypeSafe settings are busy; retry the command")?;
     Ok(file)
 }
 
@@ -33,10 +41,14 @@ pub(super) fn recover(home: &Path, store: &impl Store) -> anyhow::Result<()> {
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
         Err(error) => return Err(error.into()),
     };
-    anyhow::ensure!(file.metadata()?.is_file() && file.metadata()?.len() <= 16_384, "Invalid TypeSafe cleanup journal");
+    anyhow::ensure!(
+        file.metadata()?.is_file() && file.metadata()?.len() <= 16_384,
+        "Invalid TypeSafe cleanup journal"
+    );
     let mut bytes = Vec::new();
     file.take(16_385).read_to_end(&mut bytes)?;
-    let ids: Vec<Uuid> = serde_json::from_slice(&bytes).context("Invalid TypeSafe cleanup journal")?;
+    let ids: Vec<Uuid> =
+        serde_json::from_slice(&bytes).context("Invalid TypeSafe cleanup journal")?;
     let active = read(home)?.map(|settings: Settings| settings.id);
     for id in ids {
         if Some(id) != active {

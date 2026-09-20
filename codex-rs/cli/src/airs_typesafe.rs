@@ -150,8 +150,9 @@ pub(super) fn read(home: &Path) -> anyhow::Result<Option<Settings>> {
     );
     let mut bytes = Vec::new();
     file.take(MAX_SETTINGS_BYTES).read_to_end(&mut bytes)?;
-    let settings: Settings = serde_json::from_slice(&bytes)
-        .map_err(|_| anyhow::anyhow!("Invalid saved TypeSafe settings; run airs env typesafe clear"))?;
+    let settings: Settings = serde_json::from_slice(&bytes).map_err(|_| {
+        anyhow::anyhow!("Invalid saved TypeSafe settings; run airs env typesafe clear")
+    })?;
     anyhow::ensure!(
         settings.schema_version == 1,
         "Unsupported TypeSafe settings version"
@@ -192,8 +193,14 @@ pub(super) fn save(
     let result = (|| -> anyhow::Result<()> {
         store.save(settings.id, token)?;
         let readback = store.load(settings.id)?;
-        anyhow::ensure!(readback.as_deref() == Some(token), "Saved TypeSafe key could not be read back; the previous binding is preserved");
-        super::airs_environment::atomic_write(&home.join(SETTINGS_FILE), &serde_json::to_vec_pretty(&settings)?)?;
+        anyhow::ensure!(
+            readback.as_deref() == Some(token),
+            "Saved TypeSafe key could not be read back; the previous binding is preserved"
+        );
+        super::airs_environment::atomic_write(
+            &home.join(SETTINGS_FILE),
+            &serde_json::to_vec_pretty(&settings)?,
+        )?;
         Ok(())
     })();
     let cleanup = storage::recover(home, store);
@@ -214,9 +221,9 @@ pub(super) fn clear(home: &Path, store: &impl Store) -> anyhow::Result<bool> {
 }
 
 fn load_key(store: &impl Store, settings: &Settings) -> anyhow::Result<String> {
-    let token = store
-        .load(settings.id)?
-        .context("TypeSafe key is missing from the OS credential store; run airs env typesafe set")?;
+    let token = store.load(settings.id)?.context(
+        "TypeSafe key is missing from the OS credential store; run airs env typesafe set",
+    )?;
     anyhow::ensure!(
         super::airs_credentials::fingerprint(&token) == settings.key_fingerprint,
         "Saved TypeSafe key does not match its recorded fingerprint; run airs env typesafe set"
@@ -302,7 +309,10 @@ pub(super) async fn probe(home: &Path) -> anyhow::Result<String> {
             let settings = read(home)?.context("Not configured")?;
             (
                 load_key(&NativeStore, &settings)?,
-                std::env::var(BASE_URL_VARIABLE).ok().or(settings.base_url).unwrap_or_else(|| DEFAULT_BASE_URL.into()),
+                std::env::var(BASE_URL_VARIABLE)
+                    .ok()
+                    .or(settings.base_url)
+                    .unwrap_or_else(|| DEFAULT_BASE_URL.into()),
             )
         }
     };
@@ -311,12 +321,14 @@ pub(super) async fn probe(home: &Path) -> anyhow::Result<String> {
 
 async fn probe_key(key: &str, base_url: &str) -> anyhow::Result<String> {
     validate_token(key)?;
-    let endpoint = url::Url::parse(&format!("{}/v1/models", validate_base_url(&base_url)?))?;
+    let endpoint = url::Url::parse(&format!("{}/v1/models", validate_base_url(base_url)?))?;
     let mut response = codex_http_client::HttpClientBuilder::new()
         .without_request_logging()
         .without_redirects()
         .build_respecting_outbound_proxy_policy(
-            &codex_http_client::HttpClientFactory::new(codex_http_client::OutboundProxyPolicy::ReqwestDefault),
+            &codex_http_client::HttpClientFactory::new(
+                codex_http_client::OutboundProxyPolicy::ReqwestDefault,
+            ),
             endpoint.as_str(),
             codex_http_client::ClientRouteClass::Other,
         )?
@@ -331,12 +343,25 @@ async fn probe_key(key: &str, base_url: &str) -> anyhow::Result<String> {
     match response.status().as_u16() {
         200..=299 => {
             let mut bytes = Vec::new();
-            while let Some(chunk) = response.chunk().await.context("Cannot read TypeSafe models response")? {
-                anyhow::ensure!(bytes.len() + chunk.len() <= 65_536, "TypeSafe models response exceeds size limit");
+            while let Some(chunk) = response
+                .chunk()
+                .await
+                .context("Cannot read TypeSafe models response")?
+            {
+                anyhow::ensure!(
+                    bytes.len() + chunk.len() <= 65_536,
+                    "TypeSafe models response exceeds size limit"
+                );
                 bytes.extend_from_slice(&chunk);
             }
-            let payload: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("Invalid TypeSafe models response"))?;
-            anyhow::ensure!(payload.get("models").is_some_and(serde_json::Value::is_array), "TypeSafe models response has no models array");
+            let payload: serde_json::Value = serde_json::from_slice(&bytes)
+                .map_err(|_| anyhow::anyhow!("Invalid TypeSafe models response"))?;
+            anyhow::ensure!(
+                payload
+                    .get("models")
+                    .is_some_and(serde_json::Value::is_array),
+                "TypeSafe models response has no models array"
+            );
             Ok("Key accepted by the TypeSafe models endpoint; no judgment request sent".into())
         }
         401 | 403 => anyhow::bail!(

@@ -60,7 +60,7 @@ npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.o
 airs-cli --version
 ```
 
-A fresh machine needs only the harness installation below. It includes CLI 7.1.0
+A fresh machine needs only the harness installation below. It includes CLI 7.1.2
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
@@ -160,8 +160,9 @@ Check access with `airs --environment work doctor --verify-access`.
 Configure gateway MCP using the onboarding steps above.
 
 Setup also offers an optional TypeSafe judge key for red-team ASR scoring. Bind or
-inspect it later with `airs env typesafe set|status|clear`; the harness exports it to
-the agent's tools as `TYPESAFE_API_KEY` unless that variable is already set. See
+inspect it later with `airs env typesafe set|status|clear`. The skill uses
+`airs --environment NAME env typesafe exec -- COMMAND` to pass the key only to
+its child process; existing shell variables take precedence. See
 [GETTING-STARTED.md](GETTING-STARTED.md#optional-typesafe-judge-key-for-red-team-scoring).
 
 `env create` selects the new environment, so subsequent commands need no

@@ -8,7 +8,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, redirect_stderr
 from email.message import Message
 from pathlib import Path
 from unittest.mock import patch
@@ -95,6 +95,7 @@ class Normalization(unittest.TestCase):
                 "records": 10,
                 "skipped_no_prompt": 0,
                 "error_outputs": 1,
+                "objective_proxies": 10,
             },
         )
         self.assertEqual(len(units), 10)
@@ -443,12 +444,22 @@ class Metrics(unittest.TestCase):
 class FailureIsolation(unittest.TestCase):
     def test_malformed_http_success_is_a_sanitized_provider_error(self):
         for body in (b"<html>PRIVATE</html>", b"null", b"[]", b'{"answers":null}'):
+
             class Response:
                 headers = {}
-                def read(self): return body
-                def __enter__(self): return self
-                def __exit__(self, *args): return False
-            provider = asr_judge.TypeSafeHttpProvider("k", opener=lambda *a, **kw: Response())
+
+                def read(self):
+                    return body
+
+                def __enter__(self):
+                    return self
+
+                def __exit__(self, *args):
+                    return False
+
+            provider = asr_judge.TypeSafeHttpProvider(
+                "k", opener=lambda *a, **kw: Response()
+            )
             with self.assertRaises(asr_judge.ProviderError) as error:
                 provider.judge({}, asr_judge.QUESTIONS)
             self.assertNotIn("PRIVATE", str(error.exception))
@@ -462,24 +473,63 @@ class FailureIsolation(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 asr_judge._write_json(destination, {"preserve": False})
             self.assertEqual(json.loads(destination.read_text()), {"preserve": True})
-            self.assertEqual(asr_judge.main([str(SAMPLE_SCAN), "--out", str(out), "--provider", "replay", "--replay", str(SAMPLE_JUDGMENTS)]), 2)
+            self.assertEqual(
+                asr_judge.main(
+                    [
+                        str(SAMPLE_SCAN),
+                        "--out",
+                        str(out),
+                        "--provider",
+                        "replay",
+                        "--replay",
+                        str(SAMPLE_JUDGMENTS),
+                    ]
+                ),
+                2,
+            )
 
     def test_duplicate_ids_and_oversize_text_refuse_ambiguous_scoring(self):
         record = {"uuid": "a", "prompt": "p", "output": "r"}
         with self.assertRaisesRegex(ValueError, "duplicate"):
             asr_judge.normalize_scan([record, record])
-        with self.assertRaisesRegex(ValueError, "truncate"):
-            asr_judge.normalize_scan([{**record, "output": "r" * (asr_judge.MAX_TEXT_CHARS + 1)}])
+        units, notes = asr_judge.normalize_scan(
+            [{**record, "output": "r" * (asr_judge.MAX_TEXT_CHARS + 1)}]
+        )
+        self.assertEqual(notes["oversized_units"], 1)
+
+        class NeverCalled:
+            def judge(self, *args):
+                raise AssertionError("Oversized unit reached provider")
+
+        judgments = asr_judge.judge_units(
+            units, NeverCalled(), asr_judge.SuccessPolicy()
+        )
+        self.assertEqual(judgments[0].status, "skipped_oversized")
+        self.assertIsNone(judgments[0].success)
 
     def test_retry_delays_are_finite_nonnegative_and_bounded(self):
         for value in ("-1", "nan", "inf"):
             self.assertEqual(asr_judge._retry_delay(0, {"Retry-After": value}), 0.5)
         self.assertEqual(asr_judge._retry_delay(0, {"Retry-After": "999999"}), 60)
 
+    def test_invalid_budget_and_policy_fail_before_reading_the_scan(self):
+        for flags in (
+            ["--threshold", "nan"],
+            ["--limit", "0"],
+            ["--concurrency", "0"],
+            ["--timeout", "inf"],
+            ["--uncertain-band", "0.8", "0.2"],
+        ):
+            with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+                asr_judge.main(["missing.json", "--out", "unused", *flags])
+            self.assertEqual(error.exception.code, 2)
+
     def test_changed_prompt_rejects_bound_recording(self):
         units, _ = asr_judge.normalize_scan(json.loads(SAMPLE_SCAN.read_text()))
         unit = units[0]
-        provider = asr_judge.ReplayProvider({unit.unit_id: {"answers": _fake_answers(.9), "prompt_sha256": "changed"}})
+        provider = asr_judge.ReplayProvider(
+            {unit.unit_id: {"answers": _fake_answers(0.9), "prompt_sha256": "changed"}}
+        )
         with self.assertRaisesRegex(asr_judge.ProviderError, "does not match"):
             provider.judge_unit(unit.unit_id, unit)
 

@@ -1,0 +1,52 @@
+{
+  "command": [
+    "dbus-run-session",
+    "--",
+    "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/frozen-verbatim/scripts/validate_airs_onboarding.py",
+    "--binary",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-7e35a40e413c47b09d71411a891268bc/prefix/bin/airs",
+    "--native-binary",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-7e35a40e413c47b09d71411a891268bc/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+    "--output",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/onboarding-c1ddb11f1a8f4464a8a0901c60c3193d"
+  ],
+  "command_sha256": "1bb068498a5f3519874003a690d884d641b940f24896d34b472e6310e0be22ee",
+  "dependencies": {
+    "install": "6d7f941ace7d97b0b30bc8ad5deb9ebb498bd5c3d4329ee45b9b4091f2da3628"
+  },
+  "exit_code": 0,
+  "input_sha256": "0646709aab1dc21820e1aa5232919d8c785b31a928e648d58493e498f4917c03",
+  "inputs": {
+    "binary_sha256": "47c555cc6b5619e36d27396b8ded1582a7542b86459e1eed58130916b04cf896",
+    "candidate_metadata_sha256": "1761ad9183461667189441acfe78e35a9bc6d0d7b90d2973e542c49f580445ff",
+    "candidate_packages_sha256": "fd2f6e6cb85baa39f5c6a23a9f03e220b9c78bc4611e8c5fc6df13a8878d472b",
+    "contract": {
+      "normal_python": true,
+      "selection": "ONBOARDING-ACCEPTANCE.json",
+      "stage": "onboarding",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "tooling_sha256": "c2f12f6018ba8c25285f2268bb705147bef35bc302769fac49c6941b40194271",
+    "version": "0.1.2-alpha.3.mcp.1"
+  },
+  "outputs": {
+    "files/onboarding/ONBOARDING-ACCEPTANCE.json": {
+      "sha256": "eb108ed2a9d0542480494c80d3445784e9ab058209d55067c01ec870822a9f1f",
+      "size": 2799
+    },
+    "logs/onboarding.log": {
+      "sha256": "eb108ed2a9d0542480494c80d3445784e9ab058209d55067c01ec870822a9f1f",
+      "size": 2799
+    }
+  },
+  "schema_version": 1,
+  "stage": "onboarding"
+}

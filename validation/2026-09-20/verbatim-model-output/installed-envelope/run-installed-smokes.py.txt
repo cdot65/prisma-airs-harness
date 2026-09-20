@@ -1,0 +1,29 @@
+from pathlib import Path
+import json,subprocess,shlex,sys,hashlib
+root=Path('/tmp/airs-verbatim-output-20260920');phase=sys.argv[1];assert phase in ['candidate','registry']
+ssh=['ssh','-o','BatchMode=yes','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121']
+files=[root/'installed-envelope-smoke.py',root/'SMOKE-INPUTS.json',root/'smoke-record.json']
+mac='/Users/cdot/.cache/airs-verbatim-output-20260920'
+subprocess.run(['scp',*ssh[1:-1],*map(str,files),ssh[-1]+':'+mac+'/'],check=True)
+for p in files:subprocess.run([*ssh,shlex.join(['/usr/local/bin/docker','cp',mac+'/'+p.name,'airs-native-mcp-20260919-arm64:/home/airs-review/'+p.name])],check=True)
+ubuntu=['ssh','-o','BatchMode=yes','cdot@10.0.44.1'];cache='/home/cdot/.cache/airs-verbatim-output-20260920'
+subprocess.run(['scp',*ubuntu[1:-1],*map(str,files),ubuntu[-1]+':'+cache+'/'],check=True)
+for label,target,base,python,connection,wrapper in [
+ ('mac','aarch64-apple-darwin',mac,'/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python',ssh,[]),
+ ('arm','aarch64-unknown-linux-musl','/home/airs-review','/opt/review-venv/bin/python',ssh,['/usr/local/bin/docker','exec','-u','10001','-e','HOME=/home/airs-review','-e','USER=airs-review','airs-native-mcp-20260919-arm64']),
+ ('ubuntu','x86_64-unknown-linux-musl',cache,'/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python',ubuntu,[])]:
+ code="""import json,subprocess,sys,os
+from pathlib import Path
+base=Path(sys.argv[1]);phase=sys.argv[2];target=sys.argv[3]
+root=base/'verbatim-candidate';local=json.loads((root/(phase+'-acceptance')/(target+'.work')/'LOCAL.json').read_text())
+launcher=Path(local['prefix'])/'bin/airs';assert launcher.resolve().is_relative_to(root)
+os.environ['PATH']=str(Path(sys.executable).parent)+':/opt/homebrew/bin:/usr/local/bin:'+os.environ.get('PATH','')
+subprocess.run([sys.executable,str(base/'installed-envelope-smoke.py'),str(launcher),str(root/('envelope-smoke-'+phase))],check=True)
+"""
+ argv=[*wrapper,python,'-c',code,base,phase,target]
+ result=subprocess.run([*connection,shlex.join(argv)],capture_output=True,text=True)
+ (root/(f'ENVELOPE-{phase}-{label}.log')).write_text(result.stdout+result.stderr)
+ assert result.returncode==0,(label,result.stderr[-2000:])
+ receipt=json.loads(result.stdout.strip().splitlines()[-1]);assert receipt['passed']
+ (root/(f'ENVELOPE-{phase}-{label}.json')).write_text(json.dumps(receipt,indent=2)+'\n')
+ print(label,phase,'passed',flush=True)

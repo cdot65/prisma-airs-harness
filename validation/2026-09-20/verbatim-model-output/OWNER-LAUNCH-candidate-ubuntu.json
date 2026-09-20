@@ -1,0 +1,9 @@
+{
+  "pid": 123339,
+  "root": "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate",
+  "target": "x86_64-unknown-linux-musl",
+  "archive_sha256": "aafe7a591c2a7fb784a4c320ef78b13283db9700417c92a14ae6df25dccf0345",
+  "files_verified": 8157,
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "production_acceptance": false
+}

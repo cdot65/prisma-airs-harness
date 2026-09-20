@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "cli_version": "7.1.4",
+  "checks": [
+    "exact managed CLI version",
+    "selected tenant config preserved; credential env and project dotenv ignored",
+    "doctor distinguishes missing tenant, credentials and skipped network checks",
+    "20 capability command contracts",
+    "real PDF/PNG/JPEG/SVG/DOCX corpus generation including optional native image dependency"
+  ],
+  "live_api_operations": false,
+  "document_detection_tested": false
+}

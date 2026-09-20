@@ -1,0 +1,26 @@
+{
+  "skill_sha256": "69e5e061e91408cd18884d68c58c9473c486de8815adbfffb739fc19fc6082eb",
+  "scan": [
+    {
+      "id": "one",
+      "prompt": "{\"text\":\"literal attack\"}",
+      "output": "{'kind': 'message', 'role': 'user', 'parts': [{'kind': 'text', 'text': 'actual reply'}], 'contextId': 'synthetic-id'}"
+    },
+    {
+      "id": "two",
+      "prompt": "{\"kind\": \"message\", \"parts\": [{\"kind\": \"text\", \"text\": \"plain prompt\"}]}",
+      "output": "  I can't do that.\n"
+    },
+    {
+      "id": "empty",
+      "prompt": "p",
+      "output": ""
+    },
+    {
+      "id": "json",
+      "prompt": "p",
+      "output": "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"literal JSON \ud83d\ude00\"}}]}"
+    }
+  ],
+  "response_sha256": "8793f506437f692f"
+}

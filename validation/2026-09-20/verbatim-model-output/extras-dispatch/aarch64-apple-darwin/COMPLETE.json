@@ -1,0 +1,46 @@
+{
+  "mode": "extras",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "e25dcb3e3a72bcc06ceb499ded5ef6c1ffbf83739469e2f22f798864e70c1120",
+  "tooling_manifest_sha256": "f0ad7ada5f135c30a04ce84d12a34321ca3051fbda44778e2184bc47783a8717",
+  "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "expected_native_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "1761ad9183461667189441acfe78e35a9bc6d0d7b90d2973e542c49f580445ff",
+    "candidate_packages_sha256": "fd2f6e6cb85baa39f5c6a23a9f03e220b9c78bc4611e8c5fc6df13a8878d472b"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-verbatim-output-20260920/release-frozen-verbatim/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-a945c2bc2e534483949d4ce44bbe09f6/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--native-binary",
+        "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-a945c2bc2e534483949d4ce44bbe09f6/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/extra-candidate/aarch64-apple-darwin/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 190.43502291687764
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-verbatim-output-20260920/release-frozen-verbatim/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.8452885830774903
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "c604ea1f6d3ff7e6c2ce76030b01048499d25b0139449d828674ad3e212c12ae"
+  },
+  "passed": true
+}

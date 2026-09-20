@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "jobs": [
+    {
+      "label": "io.cdot.airs.typesafe.20260920.candidate.a067781e80a245c9bb83dcaf3fa62cd2",
+      "unloaded": true,
+      "completed_before_cleanup": true
+    },
+    {
+      "label": "io.cdot.airs.typesafe.20260920.registry.42bc1561f5144730afc38ed07e277497",
+      "unloaded": true,
+      "completed_before_cleanup": true
+    }
+  ],
+  "owner_profiles_modified": false
+}

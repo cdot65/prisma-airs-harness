@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "binary_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3",
+  "entrypoint": "/home/airs-review/verbatim-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-2d551dbc15e64cb8898ce1c667dec74a/prefix/bin/airs",
+  "platform": "Linux",
+  "architecture": "aarch64",
+  "checks": [
+    "isolated native Secret Service accepts and deletes credentials",
+    "untrusted issuer certificate fails closed before authorization or persistence",
+    "invalid custom CA bundle fails closed before authorization or persistence",
+    "cancel before creation leaves no registered environment",
+    "fresh airs: validation, explicit creation, public SSO settings, saved identity and entry into the agent",
+    "browser OAuth callback, PKCE, verified JWT, OS persistence and gateway probe",
+    "returning signed-in startup bypasses onboarding and additional authentication",
+    "device OAuth persists credentials while gateway denial stays distinct",
+    "browser launch failure retains a displayed URL that completes real callback authentication",
+    "browser cancellation preserves public settings without publishing credentials",
+    "storage failure precedes authorization and never claims sign-in success",
+    "invalid signed ID-token nonce cannot publish credentials; inline retry completes a fresh valid flow",
+    "manual browser flow prints a complete long URL and persists the resulting token bundle",
+    "offline gateway retry preserves credentials and does not repeat SSO",
+    "environment picker authenticates the chosen home without changing the default or another history",
+    "workspace key remains hidden, persists in the native store and authorizes the gateway probe",
+    "workspace key stays hidden through paste, cancellation and recovery",
+    "no issued bearer token appears in environment files"
+  ],
+  "local_https_oidc": true,
+  "native_os_store": true,
+  "production_sso": false,
+  "production_servicenow": false,
+  "oauth_exchanges": [
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    }
+  ],
+  "gateway_requests": 8
+}

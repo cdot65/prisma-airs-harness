@@ -1,0 +1,35 @@
+{
+  "mac_gui_label": "io.cdot.airs.typesafe.20260920.registry.42bc1561f5144730afc38ed07e277497",
+  "arm_dispatch_pid": 60929,
+  "mac_files_verified": 108,
+  "arm_files_verified": 108,
+  "archive_sha256": "ce73d86ec67abca37cd11c4fae018eb5df273d4464d2fb348db5a4c291962e6d",
+  "installation": "registry",
+  "spec": {
+    "schema_version": 1,
+    "scope": "owner-authorized-test",
+    "version": "0.1.2-alpha.3.mcp.1",
+    "tag": "mcp",
+    "registry": "https://npm.cdot.io",
+    "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "previous_version": "0.1.2-alpha.2.mcp.1",
+    "developer_id_team": "G5QLZ5A8TA",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "47c555cc6b5619e36d27396b8ded1582a7542b86459e1eed58130916b04cf896"
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3"
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a"
+      }
+    ]
+  },
+  "production_acceptance": false
+}

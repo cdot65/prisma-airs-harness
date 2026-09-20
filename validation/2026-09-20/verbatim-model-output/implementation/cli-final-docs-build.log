@@ -1,0 +1,20 @@
+
+> @cdot65/prisma-airs-cli@7.1.4 docs:build /home/cdot/development/cdot65/prisma-airs-cli
+> pnpm docs:api && pnpm -C docs-site build
+
+
+> @cdot65/prisma-airs-cli@7.1.4 docs:api /home/cdot/development/cdot65/prisma-airs-cli
+> typedoc
+
+[info] Loaded plugin typedoc-plugin-markdown
+[info] markdown generated at ./docs-site/docs/developers/api
+
+> docs-site@0.0.0 build /home/cdot/development/cdot65/prisma-airs-cli/docs-site
+> docusaurus build
+
+
+ ------------------------------------------------------------------------------                                                                                                         Update available 3.10.1 → 3.10.2                                                                                                                To upgrade Docusaurus packages with the latest version, run the                                       following command:                                            `npm i @docusaurus/core@latest @docusaurus/faster@latest                @docusaurus/plugin-content-docs@latest @docusaurus/preset-classic@latest            @docusaurus/theme-common@latest @docusaurus/theme-mermaid@latest               @docusaurus/module-type-aliases@latest @docusaurus/tsconfig@latest                                  @docusaurus/types@latest`                                                                                                             ------------------------------------------------------------------------------ 
+
+[INFO] [en] Creating an optimized production build...
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.

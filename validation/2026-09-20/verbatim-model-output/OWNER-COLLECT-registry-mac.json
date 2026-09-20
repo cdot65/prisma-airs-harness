@@ -1,0 +1,21 @@
+{
+  "archive": "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/registry-portable.tar.gz",
+  "sha256": "c63522bfc893dc9f1be9a26ebb1f80bf50ab0ddf59693108e4d601ea895a9c06",
+  "bytes": 59282,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "native_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a"
+    },
+    "aarch64-unknown-linux-musl": {
+      "registry_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "native_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3"
+    }
+  }
+}

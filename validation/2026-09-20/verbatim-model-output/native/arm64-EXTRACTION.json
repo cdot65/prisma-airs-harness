@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "af8d666b951a3ab9fbbceaa9a0031ee75bb46141e3addacbe01ba47bc3933afe",
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "binary_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3",
+  "target": "aarch64-unknown-linux-musl",
+  "extracted": "/tmp/airs-verbatim-output-20260920/release/arm64-native/extracted/airs-harness-0.1.2-alpha.3.mcp.1-linux-aarch64-musl",
+  "verified_files": 5277,
+  "archive_sidecar_present": true
+}

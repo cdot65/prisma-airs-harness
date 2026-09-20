@@ -1,0 +1,14 @@
+{
+  "archive": "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/portable-registry.tar.gz",
+  "sha256": "165eb6f6ad935396fce371d9a71f13f7f25c3edcbfc43c7ebec6a1c277f78ff7",
+  "bytes": 29607,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "registry",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false
+  }
+}

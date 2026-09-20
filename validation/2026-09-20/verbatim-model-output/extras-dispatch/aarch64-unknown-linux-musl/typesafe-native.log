@@ -1,0 +1,6 @@
+test_key_rotation_child_scope_isolation_and_cleanup (__main__.NativeTypeSafe.test_key_rotation_child_scope_isolation_and_cleanup) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.520s
+
+OK

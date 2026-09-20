@@ -1,0 +1,19 @@
+{
+  "removed_completed_test_copies": [
+    "/Users/cdot/.cache/airs-jev-resume-20260920"
+  ],
+  "before_free_bytes": 96856285184,
+  "after_free_bytes": 109800402944,
+  "compiler_caches_preserved": true,
+  "live_environments_preserved": true,
+  "verified_backup": {
+    "sha256": "7ecf0ca8c6c2c398e7a1e56a37cc9c2c4828e194da2920ef1fa02cfc1b7b3019",
+    "bytes": 7899896522,
+    "roots": [
+      "/Users/cdot/.cache/airs-jev-resume-20260920"
+    ],
+    "completed_tests_only": true,
+    "local_archive": "/tmp/airs-verbatim-output-20260920/mac-test-backup-compressed/completed-alpha2-tests.tar.gz",
+    "verified": true
+  }
+}

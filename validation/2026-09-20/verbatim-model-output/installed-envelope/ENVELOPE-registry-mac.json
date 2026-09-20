@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "skill_sha256": "69e5e061e91408cd18884d68c58c9473c486de8815adbfffb739fc19fc6082eb",
+  "cli_version": "7.1.4",
+  "no_live_jev_call": true,
+  "commands": [
+    {
+      "name": "configure",
+      "exit_code": 0
+    },
+    {
+      "name": "initialize",
+      "exit_code": 1
+    },
+    {
+      "name": "skill-dry",
+      "exit_code": 0
+    },
+    {
+      "name": "skill-replay",
+      "exit_code": 0
+    },
+    {
+      "name": "cli-dry",
+      "exit_code": 0
+    },
+    {
+      "name": "cli-replay",
+      "exit_code": 0
+    },
+    {
+      "name": "cli-version",
+      "exit_code": 0
+    }
+  ]
+}

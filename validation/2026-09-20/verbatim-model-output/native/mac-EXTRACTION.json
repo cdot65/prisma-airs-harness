@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "c5da44945bfed6c365794d80219b971de5ea5b1b9d3667e19c73ddf44125121a",
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "binary_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a",
+  "target": "aarch64-apple-darwin",
+  "extracted": "/tmp/airs-verbatim-output-20260920/release/mac-native/extracted/airs-harness-0.1.2-alpha.3.mcp.1-darwin-arm64",
+  "verified_files": 5197,
+  "archive_sidecar_present": false
+}

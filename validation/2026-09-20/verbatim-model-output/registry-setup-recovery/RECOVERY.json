@@ -1,0 +1,18 @@
+{
+  "cause": "Shared ARM scratch input directory already existed from an earlier release test. Setup stopped before starting registry tests.",
+  "correction": "Use task-specific registry-inputs-verbatim directories. Preserve all previous scratch inputs; verify identical destination file hashes on retry.",
+  "runtime_changed": false,
+  "validators_changed": false,
+  "helpers": [
+    {
+      "path": "native-execution/prepare-native-registry.py",
+      "before_sha256": "7b358860bac763ce3d4f1adcbf3af135a3e4c9d2bd4807c48e705cc97c5cc127",
+      "after_sha256": "a793edd101f6fa6675c491e3325fd3103005e2150b09455cd3ab56786c02c38b"
+    },
+    {
+      "path": "ubuntu-execution/prepare-registry.py",
+      "before_sha256": "569dd2a83ae9ebc7fabc15ecc05bbf44179107724d24612cae9bf6076ad83aa0",
+      "after_sha256": "f0c7b467861b925665e15468213405671b4af723f2fabcfeced5819d5ff78cc2"
+    }
+  ]
+}

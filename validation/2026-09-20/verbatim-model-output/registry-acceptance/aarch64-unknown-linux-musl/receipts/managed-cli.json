@@ -1,0 +1,53 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-verbatim/scripts/validate_prisma_cli.py",
+    "--launcher",
+    "/home/airs-review/verbatim-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/install-536ba31ef1a24612a025298b0752adc0/prefix/lib/node_modules/airs-harness/bin/airs.js",
+    "--receipt",
+    "/home/airs-review/verbatim-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/managed-cli-256a6f413b8c41a08fe27783ddabebbf/MANAGED-CLI.json"
+  ],
+  "command_sha256": "391bf60fb76c2f9366b31ce039bd7d68a68d8036adbaf48b88fa63b133df3f72",
+  "dependencies": {
+    "doctor": "667585dfa7b66ca44ac4b18ede1f3db683cf39d6a6195d8afb3b47c0276ae1b4",
+    "install": "07271f166166bbab6e41d03a1a7dcebbe59b958acfa31c007cbab7f635e8c822",
+    "installed-regressions": "33851fe4b97f0d27b096c9e9b6035948937de7a82b39944676c222bee681edab",
+    "mcp-manager": "4fca8bd702275fed2b660164aac5c42c7b8c5e95d733c0d6552f9579209333e2",
+    "onboarding": "f787cd082c9e7055fc05bad5fee7e3a77bb7234e3b7225e8b9229c2032d4c243",
+    "terminals": "6f2dac37a2f46398339a1f385cbd5ce4db55ad3a5144fc79e60d83a19746fbb8"
+  },
+  "exit_code": 0,
+  "input_sha256": "f194c2daf6979de5370213bfeadef5b8b169ae6998c728c913f37ff57e464cec",
+  "inputs": {
+    "binary_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3",
+    "candidate_metadata_sha256": "a9d571645d970fca320c9d21e97cedd106dc734b59afe57dc1d00b341c28a216",
+    "candidate_packages_sha256": "e9a1e2a87314888760255db3e9297d2f708c04a33c805356f9e03e6aa7d0c470",
+    "contract": {
+      "normal_python": true,
+      "selection": "MANAGED-CLI.json",
+      "stage": "managed-cli",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "tooling_sha256": "c2f12f6018ba8c25285f2268bb705147bef35bc302769fac49c6941b40194271",
+    "version": "0.1.2-alpha.3.mcp.1"
+  },
+  "outputs": {
+    "files/managed-cli/MANAGED-CLI.json": {
+      "sha256": "6b267507fa91a0a35e1714b24e429e1b355ef00a7e5ae3fcb9436588e2ed7eee",
+      "size": 468
+    },
+    "logs/managed-cli.log": {
+      "sha256": "6b267507fa91a0a35e1714b24e429e1b355ef00a7e5ae3fcb9436588e2ed7eee",
+      "size": 468
+    }
+  },
+  "schema_version": 1,
+  "stage": "managed-cli"
+}

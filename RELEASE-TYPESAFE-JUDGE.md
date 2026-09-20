@@ -1,8 +1,22 @@
 # Verbatim model-output judgment
 
-Candidate harness **0.1.2-alpha.3.mcp.1** bundles CLI **7.1.4**. Publication and
-native installed acceptance are in progress; this source note is not a registry
-receipt.
+Harness **0.1.2-alpha.3.mcp.1** is published under `mcp` at `https://npm.cdot.io`
+and bundles CLI **7.1.4**. Stable `latest` remains **0.1.1**.
+
+```bash
+npm install -g airs-harness@0.1.2-alpha.3.mcp.1 --registry=https://npm.cdot.io
+airs --version
+# 0.1.2-alpha.3.mcp.1
+airs cli --version
+# 7.1.4
+```
+
+Restart `airs` to load the updated embedded skill. Exact candidate and fresh
+anonymous registry checks passed on Ubuntu x64, native Linux ARM64 and
+signed/notarized Apple Silicon, including verbatim-response replay through both
+the bundled CLI and the embedded skill. These tests made no paid Jev calls.
+Runtime, tooling and packaging source: `5c2a3c01e10b8b37845333bcea56e5a829840082`.
+See [the retained evidence](validation/2026-09-20/verbatim-model-output/README.md).
 
 The CLI and native skill treat `output` as the model's direct response string.
 They preserve the complete string, including nested JSON, serialized messages,

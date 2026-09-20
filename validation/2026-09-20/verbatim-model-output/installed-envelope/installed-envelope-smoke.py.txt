@@ -1,0 +1,50 @@
+"""Exercise an installed CLI and the skill extracted by the installed native harness.
+Only synthetic input and a rejecting loopback gateway are used; no paid calls.
+"""
+from pathlib import Path
+import hashlib,json,os,subprocess,sys,threading,http.server
+launcher=Path(sys.argv[1]).resolve();out=Path(sys.argv[2]);out.mkdir(mode=0o700)
+source=Path(__file__).resolve().parent
+home=out/'home';home.mkdir();state=out/'state';state.mkdir()
+env={k:v for k,v in os.environ.items() if k in ['PATH','LANG','TERM','TMPDIR','SHELL']}
+env.update(HOME=str(home),CODEX_HOME=str(state),AIRS_FIXTURE_KEY='synthetic-only',PRISMA_AIRS_TENANTS_PATH=str(out/'absent-tenants.json'))
+rows=[]
+def run(name,args,expected=0):
+ p=subprocess.run([str(launcher),*args],env=env,cwd=out,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=60)
+ (out/(name+'.stdout')).write_text(p.stdout);(out/(name+'.stderr')).write_text(p.stderr)
+ rows.append({'name':name,'exit_code':p.returncode})
+ assert p.returncode==expected,(name,p.returncode,p.stderr[-2000:])
+ return p.stdout
+class Gateway(http.server.BaseHTTPRequestHandler):
+ def log_message(self,*a):pass
+ def do_POST(self):
+  self.rfile.read(int(self.headers.get('Content-Length','0')))
+  self.send_response(400);self.send_header('Content-Type','application/json');self.end_headers();self.wfile.write(b'{"error":{"message":"synthetic acceptance stop"}}')
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Gateway);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+try:
+ run('configure',['env','create','envelope-test','--gateway-url',f'http://127.0.0.1:{server.server_port}/v1','--allow-http-loopback','--credential-env','AIRS_FIXTURE_KEY'])
+ run('initialize',['exec','--skip-git-repo-check','-c','features.shell_tool=false','-c','features.multi_agent=false','synthetic acceptance initialization'],expected=1)
+finally:server.shutdown();server.server_close()
+paths=list(home.rglob('prisma-airs-asr-judge/scripts/asr_judge.py'));assert len(paths)==1,paths
+script=paths[0]
+expected=json.loads((source/'SMOKE-INPUTS.json').read_text())
+assert hashlib.sha256(script.read_bytes()).hexdigest()==expected['skill_sha256']
+scan=out/'scan.json';scan.write_text(json.dumps(expected['scan']))
+record=source/'smoke-record.json'
+for name,command in [('skill',[sys.executable,str(script)]),('cli',[str(launcher),'cli','redteam','judge'])]:
+ for mode,flags in [('dry',['--dry-run']),('replay',['--provider','replay','--replay',str(record),'--include-text'])]:
+  dest=out/(name+'-'+mode)
+  p=subprocess.run([*command,str(scan),'--out',str(dest),*flags],env=env,cwd=out,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=60)
+  (out/(name+'-'+mode+'.stdout')).write_text(p.stdout);(out/(name+'-'+mode+'.stderr')).write_text(p.stderr)
+  assert p.returncode==0,(name,mode,p.stderr)
+  if mode=='dry':
+   d=json.loads(p.stdout);assert d['ingestion'].get('normalized_prompt_envelopes')==1;assert 'response_envelopes' not in d['ingestion']
+  else:
+   results=json.loads((dest/'results.json').read_text());assert results['coverage']['judged']==3 and results['coverage']['skipped_error']==1 and results['coverage']['provider_error']==0
+   judgments=json.loads((dest/'judgments.json').read_text());assert judgments[0]['response_sha256']==expected['response_sha256'];assert results['output_level']['successes']==1
+   assert all(j['response_text']==row['output'] for j,row in zip(judgments,expected['scan']))
+  rows.append({'name':name+'-'+mode,'exit_code':p.returncode})
+assert run('cli-version',['cli','--version']).strip()=='7.1.4'
+assert not (out/'absent-tenants.json').exists()
+receipt={'passed':True,'skill_sha256':expected['skill_sha256'],'cli_version':'7.1.4','no_live_jev_call':True,'commands':rows}
+(out/'ENVELOPE-SMOKE.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))

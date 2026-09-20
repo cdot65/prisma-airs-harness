@@ -1,0 +1,5 @@
+
+> @cdot65/prisma-airs-cli@7.1.4 format:check /home/cdot/development/cdot65/prisma-airs-cli
+> biome format --config-path config .
+
+Checked 310 files in 4s. No fixes applied.

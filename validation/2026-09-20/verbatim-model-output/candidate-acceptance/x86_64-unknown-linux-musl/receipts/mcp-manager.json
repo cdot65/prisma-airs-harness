@@ -1,0 +1,53 @@
+{
+  "command": [
+    "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/frozen-verbatim/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/frozen-verbatim/scripts",
+    "--pattern",
+    "test_airs_mcp_manager.py",
+    "--receipt",
+    "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/mcp-manager-b34a3ad8a0c34824a5d8586b4d2083a2/TEST-RESULTS.json"
+  ],
+  "command_sha256": "a4ccbd83c90fa47d1c4556776cca348d0758ef801bf229c06527695643d8394e",
+  "dependencies": {
+    "install": "6d7f941ace7d97b0b30bc8ad5deb9ebb498bd5c3d4329ee45b9b4091f2da3628",
+    "installed-regressions": "03251516be6ddf95615617ef1701a0beaf0d1df9c9222b15a7dd76db6376a838",
+    "onboarding": "6510624253028e0d116111fab862733672e85898574d5765038be0ad69708e14",
+    "terminals": "edbad82de6a117b7b9fefdcf5777be6c10d4b91ae30d0431619f531de7cfde5f"
+  },
+  "exit_code": 0,
+  "input_sha256": "9658a57d43a0ddf3f4dfe0029413924542390c4a69ab41264b5fb377b6919c55",
+  "inputs": {
+    "binary_sha256": "47c555cc6b5619e36d27396b8ded1582a7542b86459e1eed58130916b04cf896",
+    "candidate_metadata_sha256": "1761ad9183461667189441acfe78e35a9bc6d0d7b90d2973e542c49f580445ff",
+    "candidate_packages_sha256": "fd2f6e6cb85baa39f5c6a23a9f03e220b9c78bc4611e8c5fc6df13a8878d472b",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_mcp_manager.py",
+      "stage": "mcp-manager",
+      "target": "x86_64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "x86_64-unknown-linux-musl",
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+    "target": "x86_64-unknown-linux-musl",
+    "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "tooling_sha256": "c2f12f6018ba8c25285f2268bb705147bef35bc302769fac49c6941b40194271",
+    "version": "0.1.2-alpha.3.mcp.1"
+  },
+  "outputs": {
+    "files/mcp-manager/TEST-RESULTS.json": {
+      "sha256": "d6376cac93ed0db1ac6184155a85e2f876e02403de6377184264772d6af70b99",
+      "size": 1087
+    },
+    "logs/mcp-manager.log": {
+      "sha256": "ca1dffa08ae7d4603fb34b968b711965002d3415fdeec010b2cf56ed06aabcb4",
+      "size": 1347
+    }
+  },
+  "schema_version": 1,
+  "stage": "mcp-manager"
+}

@@ -1,0 +1,26 @@
+{
+  "archive": "/home/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/portable-candidate.tar.gz",
+  "sha256": "07f5f8dca7f3a6987641ac92ba39b9add99525a5dd62629093b5206b4c4b91b1",
+  "bytes": 48395,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 177.8555079880025,
+      "post_expiry_cycles": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

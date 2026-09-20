@@ -1,0 +1,45 @@
+{
+  "archive": "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/portable-typesafe.tar.gz",
+  "sha256": "a6eafb88b7d760005460560534a0206693616f8cf886c9e9c30d4ab822137ac2",
+  "bytes": 88057,
+  "summary": {
+    "aarch64-apple-darwin": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 3,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 179.13683425006457,
+        "post_expiry_cycles": {
+          "mcp": 2,
+          "inference": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a"
+    },
+    "aarch64-unknown-linux-musl": {
+      "candidate_verified": true,
+      "native_positive_executed": true,
+      "tests_run": 53,
+      "platform_skips": 1,
+      "quick": {
+        "passed": true,
+        "profile": "quick",
+        "elapsed_seconds": 178.4731477900059,
+        "post_expiry_cycles": {
+          "mcp": 2,
+          "inference": 2
+        },
+        "completed_turns": 3,
+        "event_count": 36,
+        "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+      },
+      "native_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3"
+    }
+  }
+}

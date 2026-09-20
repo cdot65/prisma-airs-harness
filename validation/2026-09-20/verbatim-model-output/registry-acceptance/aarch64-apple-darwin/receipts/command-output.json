@@ -1,0 +1,59 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-verbatim-output-20260920/release-frozen-verbatim/scripts/validate_airs_command_output.py",
+    "--binary",
+    "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/registry-acceptance/aarch64-apple-darwin.work/install-ac5b3a1e01f54533899e029ee934c532/prefix/bin/airs",
+    "--native",
+    "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/registry-acceptance/aarch64-apple-darwin.work/install-ac5b3a1e01f54533899e029ee934c532/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+    "--scripts",
+    "/Users/cdot/.cache/airs-verbatim-output-20260920/release-frozen-verbatim/scripts",
+    "--receipt",
+    "/Users/cdot/.cache/airs-verbatim-output-20260920/verbatim-candidate/registry-acceptance/aarch64-apple-darwin.work/command-output-06d9dacaa320444187e9e3d4393049d0/COMMAND-OUTPUT.json"
+  ],
+  "command_sha256": "057a5d7897eeaf6cfd28621d61e17ae281b040488d57083925a9904aaff94cde",
+  "dependencies": {
+    "doctor": "e77c9f460a7269906d51aebb4b53fc4140b57f6a006dd54377ed25d7bdcd0fc8",
+    "install": "82915e786713b386d69ed8657f0cc4391b15b5ba914213a8c8af1c86164b2245",
+    "installed-regressions": "326bd9959257fb5af2c0212483cac7be15a298f78680d135e72c9e20f752eb01",
+    "managed-cli": "73040c8998d01f9b54af8beb1944d8bcb9c8cad97829bf96dce8f47d736bbaa2",
+    "mcp-manager": "6a89f259ed147d22b658f009d82657c4fcbe58e58cf460f68434ca4e8b002251",
+    "onboarding": "be1127e59159be6a1b770fd4d4b7567f0f07344dd95013be9cbede71873a6676",
+    "terminals": "55724df55538222b2dc748a440a2d0f1d5b81cecfd0083b1341a4b69319bb4df",
+    "upgrade": "247ff54e92e03654165d983216cb52223e54428591e2671ddd3e62924a1d970c"
+  },
+  "exit_code": 0,
+  "input_sha256": "42d7744d55fb13e3ec3f9640fa495b7cf799e2fefb5dddf7d73df18ce5850ae8",
+  "inputs": {
+    "binary_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a",
+    "candidate_metadata_sha256": "a9d571645d970fca320c9d21e97cedd106dc734b59afe57dc1d00b341c28a216",
+    "candidate_packages_sha256": "e9a1e2a87314888760255db3e9297d2f708c04a33c805356f9e03e6aa7d0c470",
+    "contract": {
+      "normal_python": true,
+      "selection": "COMMAND-OUTPUT.json",
+      "stage": "command-output",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "tooling_sha256": "c2f12f6018ba8c25285f2268bb705147bef35bc302769fac49c6941b40194271",
+    "version": "0.1.2-alpha.3.mcp.1"
+  },
+  "outputs": {
+    "files/command-output/COMMAND-OUTPUT.json": {
+      "sha256": "9ba247129f5ae67959c48349ec84e1f39ed30770d160205ce4654b466cc19b36",
+      "size": 3116
+    },
+    "logs/command-output.log": {
+      "sha256": "af15918b1a898358d8aacc966e153ad8a38da4c14ae61a8ef743483692afaa2a",
+      "size": 2192
+    }
+  },
+  "schema_version": 1,
+  "stage": "command-output"
+}

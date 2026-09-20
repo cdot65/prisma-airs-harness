@@ -1,0 +1,379 @@
+{
+  "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "version": "0.1.2-alpha.3.mcp.1",
+  "candidate_metadata_sha256": "1761ad9183461667189441acfe78e35a9bc6d0d7b90d2973e542c49f580445ff",
+  "candidate_packages_sha256": "fd2f6e6cb85baa39f5c6a23a9f03e220b9c78bc4611e8c5fc6df13a8878d472b",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "47c555cc6b5619e36d27396b8ded1582a7542b86459e1eed58130916b04cf896",
+      "acceptance_sha256": "b165d4ca57fbd8429a78729a955946624c2e8f71332ad54aee35a5229a630784",
+      "evidence_sha256": "f4eda9cfcd6a90ae40c9e45a1ac57d674393fb4b6ae1792b1d08f4fab27aba6e",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "b33b7f7552f94d5f3ab4d5f4aa818f5e6ad2c632d1d35a5991494fcec9be01c3",
+      "acceptance_sha256": "c7a06387abddf90ca49ab2bcdbf982a72b464912eaee8ce568a4a373e94e567c",
+      "evidence_sha256": "8dde00d58a24096e5f8429054c82b45999d840c36d64624574e2911591b38929",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "70077e367d628d54c6a8de8075cf51a3d614f6ee73cac744cb593ba055ca6b2a",
+      "acceptance_sha256": "6cf6d09a1e00254f36d794fb701d0e2df77acdab93d2091f6d2656bec6805f7c",
+      "evidence_sha256": "18f9b710a3e0314660e111c4dbea5171277e4298dfee9f2679c99d89e0c3f5cb",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ]
+    }
+  ],
+  "evidence_sha256": "6a4b9943acc52fd82ce5c6aa658b39437bb9f73dc3632f30876d4a5ba6f8a16b"
+}
+{
+  "schema_version": 1,
+  "published": false,
+  "release_scope": "owner-authorized-test",
+  "production_release_ready": false,
+  "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+  "version": "0.1.2-alpha.3.mcp.1",
+  "tag": "mcp",
+  "registry": "https://npm.cdot.io",
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "tooling_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "candidate_metadata_sha256": "1761ad9183461667189441acfe78e35a9bc6d0d7b90d2973e542c49f580445ff",
+  "candidate_packages_sha256": "fd2f6e6cb85baa39f5c6a23a9f03e220b9c78bc4611e8c5fc6df13a8878d472b",
+  "cli_bundle": {
+    "inventory_sha256": "f7c481f5d33b7b69512495cf110f90a885f26e1a42a50f74f94962c67cfe1657",
+    "targets": [
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-musl",
+      "x86_64-unknown-linux-musl"
+    ],
+    "required_pins": {
+      "@cdot65/prisma-airs-cli": "7.1.4",
+      "@cdot65/prisma-airs-sdk": "0.33.0"
+    },
+    "packages": 75,
+    "files": 3114,
+    "license_files": 69,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64",
+      "@img/sharp-libvips-linux-arm64",
+      "@img/sharp-libvips-linux-x64",
+      "@img/sharp-libvips-linuxmusl-arm64",
+      "@img/sharp-libvips-linuxmusl-x64",
+      "@img/sharp-linux-arm64",
+      "@img/sharp-linux-x64",
+      "@img/sharp-linuxmusl-arm64",
+      "@img/sharp-linuxmusl-x64"
+    ],
+    "source_lock_sha256": "be5e9cc6a4cebe0d3eb2c227c04cece4738c276a801d1ea0f161d602ae2b00e1",
+    "windows_command_wrappers": []
+  },
+  "package_tooling": {
+    "packaging_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "native_source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+    "files": {
+      "scripts/package_airs_npm.py": "b96a81f2a49c2a7d37dd5238a49f012f16d7fa2618494b733864c62038fce97a",
+      "npm/airs-harness/package-lock.json": "be5e9cc6a4cebe0d3eb2c227c04cece4738c276a801d1ea0f161d602ae2b00e1",
+      "scripts/airs_bundle.py": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+      "scripts/airs_bundle_archive.py": "5ba7f8d774b68b1b1b2abefa18eb15af20d382457f3c180f77f2ce77a0d98cb5",
+      "scripts/airs_bundle_tree.py": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+      "scripts/airs_bundle_shims.py": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+      "scripts/fixtures/npm-command-shims/LICENSE": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475",
+      "scripts/fixtures/npm-command-shims/README.md": "671a62c3ed988e45ca70b9b0d55ece8bd9690f9f8118241302ac3b4ef74d8a0d",
+      "scripts/fixtures/npm-command-shims/node.json": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+      "npm/airs-harness/package.json": "2870040f75d85a5557a7a650250192c2026f9bcdf62aebbdd0f87f6226584198",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/completion.js": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "npm/airs-harness/lib/launcher.js": "f19e258f731ab2bf89f4d07890d018945720819caff784ff7959e195bee99f73",
+      "npm/airs-harness/lib/migration-check.js": "fd7c75e1aab9ad95e303ec311f0b2e345c7fc04fa700a354e0cfa17b6bea2ef5",
+      "npm/airs-harness/lib/prisma-cli.js": "1884133ee4beae2da34dacae16332d0d6aaf3e992a9590b17771c0e905dea126",
+      "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "npm/airs-harness/bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "npm/airs-harness/bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs-cli.cmd": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    },
+    "cli_bundle": {
+      "inventory_sha256": "f7c481f5d33b7b69512495cf110f90a885f26e1a42a50f74f94962c67cfe1657",
+      "targets": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-musl",
+        "x86_64-unknown-linux-musl"
+      ],
+      "required_pins": {
+        "@cdot65/prisma-airs-cli": "7.1.4",
+        "@cdot65/prisma-airs-sdk": "0.33.0"
+      },
+      "packages": 75,
+      "files": 3114,
+      "license_files": 69,
+      "native_payload_packages": [
+        "@img/sharp-darwin-arm64",
+        "@img/sharp-libvips-darwin-arm64",
+        "@img/sharp-libvips-linux-arm64",
+        "@img/sharp-libvips-linux-x64",
+        "@img/sharp-libvips-linuxmusl-arm64",
+        "@img/sharp-libvips-linuxmusl-x64",
+        "@img/sharp-linux-arm64",
+        "@img/sharp-linux-x64",
+        "@img/sharp-linuxmusl-arm64",
+        "@img/sharp-linuxmusl-x64"
+      ],
+      "source_lock_sha256": "be5e9cc6a4cebe0d3eb2c227c04cece4738c276a801d1ea0f161d602ae2b00e1",
+      "windows_command_wrappers": []
+    }
+  },
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "7.1.4"
+  },
+  "acceptance_sha256": "750e005bc554c4d8689362a5d041d400fb48e8885e1f269d889a63d8ae766dba",
+  "evidence_sha256": "6a4b9943acc52fd82ce5c6aa658b39437bb9f73dc3632f30876d4a5ba6f8a16b",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-linux-x64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "ebb80b128915b9d925b169d41adbb9a854926d8c95a3e6c63643be36cb22b6d3",
+      "integrity": "sha512-Km9Y036DCW8lHiWy2YKhaSD0QV7xNrBrnY6ctVpu4QXLE091xGQnjYNZZYiMcQEa0g2YxhCkNJzPNxQtpI648Q==",
+      "original_candidate_sha256": "c130fabb8dc4cb64b2dc4da8e7f453c3d9cab96896faf3315cfefed1dd11c23d",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-linux-arm64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "e1590ae7ab197b1998ee1045f7791e622a46adffcfd3b76293b05ad3319dcceb",
+      "integrity": "sha512-6hb0m2eViyjrl/VLbbuJJW50xzmsfp6A47il/Ud0fd4Huf9In7P06EGIO3DBJl9esvuwKqZ/De/klSKO3x2WHg==",
+      "original_candidate_sha256": "15f02435e88bbe38aa3a77bf6fbdb51d09316e4add10fcfa4ca9c8c58fe707e8",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-darwin-arm64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "f4756f53a4f729c50d3d492e89e0c0aa50828d078cf482ec7215dbeb2c87286a",
+      "integrity": "sha512-nxFgZlarOj1dALlq0/44fcoVVmZ22LZMum3isqRkLPZVr90/jTqywC4YiOWVw/feOOmIqbfe6lb8RK20dP5GcA==",
+      "original_candidate_sha256": "2479329b632cb8d6f668dd1b3e24a1b0f787d93f86aa4e2128c9b68cbff016a0",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "9a6c9d13f4eca19edbe5689f5bf5f67c108eff69c16878a08327b38ea6c1b8bb",
+      "integrity": "sha512-D/JjJWBcN4pirgnSDCC0pAIUKVYRxkj5gyJM6wmjyWyhggsW0/u42en5XZg5cl8ThdtEPBBzWmDgxwzfcFbN9g==",
+      "original_candidate_sha256": "82c084b4105d5f7d7e294d6193ad77e35c73c9f71ac0ddfddaa60434a1304598",
+      "changed_archive_entries": [
+        "package/package.json"
+      ],
+      "runtime_payload_unchanged": true
+    }
+  ]
+}
+Publishing four packages as 0.1.2-alpha.3.mcp.1 to https://npm.cdot.io under mcp. latest is preserved.
+{
+  "schema_version": 1,
+  "scope": "owner-authorized-test",
+  "identity_sha256": "80ac417962121105ad3442a9c75b4ea1345b5886943284b29e2c87543846b0f0",
+  "spec_sha256": "9b7b0d46bfc57fa61711d63424cd1d1626575a53fdc15f89981a0f69d4bb916f",
+  "source_commit": "5c2a3c01e10b8b37845333bcea56e5a829840082",
+  "version": "0.1.2-alpha.3.mcp.1",
+  "registry": "https://npm.cdot.io",
+  "tag": "mcp",
+  "original_tags": {
+    "airs-harness-linux-x64": {
+      "latest": "0.1.1",
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "mcp": "0.1.2-alpha.2.mcp.1",
+      "stable-candidate": "0.1.1"
+    },
+    "airs-harness-linux-arm64": {
+      "latest": "0.1.1",
+      "gateway-validation": "0.1.0-alpha.21",
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "mcp": "0.1.2-alpha.2.mcp.1",
+      "stable-candidate": "0.1.1"
+    },
+    "airs-harness-darwin-arm64": {
+      "latest": "0.1.1",
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "mcp": "0.1.2-alpha.2.mcp.1",
+      "stable-candidate": "0.1.1"
+    },
+    "airs-harness": {
+      "latest": "0.1.1",
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "mcp": "0.1.2-alpha.2.mcp.1",
+      "stable-candidate": "0.1.1"
+    }
+  },
+  "packages": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-linux-x64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "ebb80b128915b9d925b169d41adbb9a854926d8c95a3e6c63643be36cb22b6d3",
+      "integrity": "sha512-Km9Y036DCW8lHiWy2YKhaSD0QV7xNrBrnY6ctVpu4QXLE091xGQnjYNZZYiMcQEa0g2YxhCkNJzPNxQtpI648Q==",
+      "original_candidate_sha256": "c130fabb8dc4cb64b2dc4da8e7f453c3d9cab96896faf3315cfefed1dd11c23d",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-linux-arm64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "e1590ae7ab197b1998ee1045f7791e622a46adffcfd3b76293b05ad3319dcceb",
+      "integrity": "sha512-6hb0m2eViyjrl/VLbbuJJW50xzmsfp6A47il/Ud0fd4Huf9In7P06EGIO3DBJl9esvuwKqZ/De/klSKO3x2WHg==",
+      "original_candidate_sha256": "15f02435e88bbe38aa3a77bf6fbdb51d09316e4add10fcfa4ca9c8c58fe707e8",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-darwin-arm64-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "f4756f53a4f729c50d3d492e89e0c0aa50828d078cf482ec7215dbeb2c87286a",
+      "integrity": "sha512-nxFgZlarOj1dALlq0/44fcoVVmZ22LZMum3isqRkLPZVr90/jTqywC4YiOWVw/feOOmIqbfe6lb8RK20dP5GcA==",
+      "original_candidate_sha256": "2479329b632cb8d6f668dd1b3e24a1b0f787d93f86aa4e2128c9b68cbff016a0",
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2-alpha.3.mcp.1",
+      "filename": "airs-harness-0.1.2-alpha.3.mcp.1.tgz",
+      "sha256": "9a6c9d13f4eca19edbe5689f5bf5f67c108eff69c16878a08327b38ea6c1b8bb",
+      "integrity": "sha512-D/JjJWBcN4pirgnSDCC0pAIUKVYRxkj5gyJM6wmjyWyhggsW0/u42en5XZg5cl8ThdtEPBBzWmDgxwzfcFbN9g==",
+      "original_candidate_sha256": "82c084b4105d5f7d7e294d6193ad77e35c73c9f71ac0ddfddaa60434a1304598",
+      "changed_archive_entries": [
+        "package/package.json"
+      ],
+      "runtime_payload_unchanged": true,
+      "registry_integrity_verified": true
+    }
+  ],
+  "published": true,
+  "production_acceptance": false,
+  "existing_protected_tags_preserved": true,
+  "existing_non_mcp_tags_preserved": true
+}
+{"archive": "/tmp/airs-verbatim-output-20260920/release/registry-inputs.tar", "sha256": "ce73d86ec67abca37cd11c4fae018eb5df273d4464d2fb348db5a4c291962e6d", "bytes": 771430400, "files": 108}
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-verbatim-output-20260920/prepare-native-registry.py", line 55, in <module>
+    subprocess.run([docker, 'exec', container, 'test', '!', '-e', arm_source], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/local/bin/docker', 'exec', 'airs-native-mcp-20260919-arm64', 'test', '!', '-e', '/home/airs-review/registry-inputs-typesafe']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py", line 293, in <module>
+    globals()[args.phase]()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py", line 282, in verify
+    launch('registry')
+    ~~~~~~^^^^^^^^^^^^
+  File "/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py", line 163, in launch
+    output = remote(host, [python, cache + '/' + filename, checksum], capture=True)
+  File "/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py", line 61, in remote
+    return run([*SSH[host], shlex.join([str(x) for x in argv])], capture=capture)
+  File "/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py", line 50, in run
+    result = subprocess.run([str(x) for x in argv], cwd=cwd, check=True,
+                            text=True, stdout=subprocess.PIPE if capture else None)
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '-i', '/home/cdot/.ssh/airs-jadzia-runner', 'cdot@10.0.1.121', '/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python /Users/cdot/.cache/airs-verbatim-output-20260920/prepare-native-registry.py ce73d86ec67abca37cd11c4fae018eb5df273d4464d2fb348db5a4c291962e6d']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/tmp/airs-verbatim-output-20260920/publish-and-verify.py", line 10, in <module>
+    subprocess.run([sys.executable,str(helper),phase],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/tmp/airs-verbatim-output-20260920/release/owner-handoff/release.py', 'verify']' returned non-zero exit status 1.

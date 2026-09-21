@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 2831787,
+  "evidence_commit": "bb4fa70cbbc35ef3b92333ccb59167c1dd8306f8",
+  "evidence_root": "validation/2026-09-21/stable-0.1.2",
+  "files_checked": 466,
+  "inventory_sha256": "7cdc3926848336b1c7ba5999d36d1bebc445c4633264b5948850e8335a380d1e",
+  "manifest_blob_id": "1118bebf8b10021a67aa1585cc5ecffd072be4ce",
+  "manifest_sha256": "ebbd81b44852021ba48eab936ad980a77ff90872e53807ba98f14afdd2800785",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 56
+}

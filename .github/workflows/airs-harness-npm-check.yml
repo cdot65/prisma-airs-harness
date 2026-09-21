@@ -130,7 +130,7 @@ jobs:
           PYTHON
       - name: Validate owned cache and PR workflow semantics
         run: actionlint -shellcheck= -pyflakes= .github/workflows/airs-harness-identity.yml .github/workflows/airs-harness-macos-release.yml .github/workflows/airs-harness-npm-check.yml .github/workflows/airs-harness-macos-signed.yml .github/workflows/airs-harness-review-publish.yml .github/workflows/airs-harness-registry-acceptance.yml
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 22.23.2
           cache: npm

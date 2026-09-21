@@ -1,0 +1,10 @@
+{
+  "cli": {
+    "commit": "eddbaa0b7060cb5f47850ec1147497719c112816",
+    "branch": "fix/judge-envelopes-20260920"
+  },
+  "reference": {
+    "commit": "5874f02ff758b5ee17eb05390b2f5db692d620db",
+    "branch": "docs/airs-0.1.2"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "spec_sha256": "732425c0f77467b1a43d6e3f8b2ec28a86bea8465d4d4c7f4da12ed3fb398a6b",
+  "scope": "owner-authorized-stable",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "version": "0.1.2",
+  "publish_order": [
+    {
+      "name": "airs-harness-linux-x64",
+      "version": "0.1.2",
+      "filename": "airs-harness-linux-x64-0.1.2.tgz",
+      "integrity": "sha512-m2f7gHjZSx6lWEpNdCxEveZuqihTio6Hmic3DF3XzKU86ycvC57xICA/OiHifF+B+TexM87KLMW5Nnl5suDdXg==",
+      "sha256": "4431934bcb144112fd3440250f1207e20b306e7d673942e8a81b70f7472acff8"
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "version": "0.1.2",
+      "filename": "airs-harness-linux-arm64-0.1.2.tgz",
+      "integrity": "sha512-dWpl6jMggzzoP/dfGoUi/Z6QNjJFGt7o2YB8j+bHf6YojmBnyHP7DP4WT6evRLzJF0UV0HjcIiGilF6BUcAGPg==",
+      "sha256": "26e2f57ef8a1e2aadc49a4d99a68c5e64fc9353f8111f02b7bb6ba4fadbaa43c"
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.2",
+      "filename": "airs-harness-darwin-arm64-0.1.2.tgz",
+      "integrity": "sha512-hqAp13e7pyuYwUWlsBytuou41kEUM03MuC0q2aTO+SsBZIaeL7999ZrwTKYy372XI16PM0hkSWr3JvX07NbnDA==",
+      "sha256": "66b7d2772b0d6c87f109e2cf773c49905edd91d1a3e5a1011d70984ffc544b2f"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.2",
+      "filename": "airs-harness-0.1.2.tgz",
+      "integrity": "sha512-VuYWn0uw+J0plrryEZ9DRZsBvl2wNlbESMBz0fzouaM+Vk6Iaamz0F0lur/eOIg43/wUy2Q7lXr01is4DYxI9w==",
+      "sha256": "3c2f2cbfd58f80904b55c9b4587bbf1fc36a04b69703db0968fa9b1f1f90767e"
+    }
+  ],
+  "production_acceptance": false
+}
+{"archive": "/tmp/airs-012-20260921/release/candidate-transfer.tar", "sha256": "b17260037d3d12f79c8d25ecf38f69376226b5dadce4131fd182c1f55d1a75aa", "bytes": 1508730880, "files": 8167}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'running', 'ubuntu': 'running'}
+candidate {'mac': 'running', 'arm': 'passed', 'ubuntu': 'running'}
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'passed'}
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-012-20260921/collect-native-candidates.py", line 36, in <module>
+    raise RuntimeError('Nonregular portable evidence')
+RuntimeError: Nonregular portable evidence
+Traceback (most recent call last):
+  File "/tmp/airs-012-20260921/release/owner-handoff/release.py", line 297, in <module>
+    globals()[args.phase]()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/airs-012-20260921/release/owner-handoff/release.py", line 259, in accept
+    collect('candidate')
+    ~~~~~~~^^^^^^^^^^^^^
+  File "/tmp/airs-012-20260921/release/owner-handoff/release.py", line 222, in collect
+    report = json.loads(remote(host, [python, cache + '/' + helper.name, *args], capture=True).strip().splitlines()[-1])
+                        ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/airs-012-20260921/release/owner-handoff/release.py", line 61, in remote
+    return run([*SSH[host], shlex.join([str(x) for x in argv])], capture=capture)
+  File "/tmp/airs-012-20260921/release/owner-handoff/release.py", line 50, in run
+    result = subprocess.run([str(x) for x in argv], cwd=cwd, check=True,
+                            text=True, stdout=subprocess.PIPE if capture else None)
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '-i', '/home/cdot/.ssh/airs-jadzia-runner', 'cdot@10.0.1.121', '/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python /Users/cdot/.cache/airs-012-20260921/collect-native-candidates.py']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/tmp/airs-012-20260921/accept-when-built.py", line 13, in <module>
+    subprocess.run([sys.executable,str(release/'owner-handoff/release.py'),'accept'],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/tmp/airs-012-20260921/release/owner-handoff/release.py', 'accept']' returned non-zero exit status 1.

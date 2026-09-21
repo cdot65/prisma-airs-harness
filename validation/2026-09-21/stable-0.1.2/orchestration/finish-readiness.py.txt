@@ -1,0 +1,11 @@
+from pathlib import Path
+import json,subprocess,time,hashlib
+r=Path(__file__).resolve().parent/'release';start=time.monotonic()
+while not (r/'OWNER-CANDIDATE-VERIFIED.json').exists():
+ if time.monotonic()-start>7200:raise TimeoutError('Corrected candidate acceptance incomplete')
+ time.sleep(15)
+spec=json.loads((r/'SPEC.json').read_text());assert spec['packaging_commit']=='8a1dd5324c4c6c2345b8d8737e0400308fe67cab'
+assert json.loads((r/'OWNER-CANDIDATE-VERIFIED.json').read_text())['spec_sha256']==hashlib.sha256((r/'SPEC.json').read_bytes()).hexdigest()
+subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.44.1','/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python','/home/cdot/.cache/airs-012-20260921/check-disabled-upstream.py'],check=True)
+subprocess.run(['scp','cdot@10.0.44.1:/home/cdot/.cache/airs-012-20260921/stable012-candidate/DISABLED-UPSTREAM.json',str(r/'DISABLED-UPSTREAM.json')],check=True)
+subprocess.run(['python3',str(r/'create-stable-readiness.py')],check=True)

@@ -1,0 +1,13 @@
+{
+  "reason": "Stale packaged guide versions and Ubuntu helper default corrected before publication",
+  "old_spec_sha256": "a7c96cb902aad41f4c0a80d8dde8a4211f2c621efe426e260354cea22e6e95cf",
+  "new_spec_sha256": "75b5014246d3ff5d28a013bd1e3fbf8b8a469c14aa222fb6a8517c2fbeb9996c",
+  "native_binaries_unchanged": true,
+  "old_candidate_acceptance_passed": true,
+  "old_packages_published": false,
+  "retained_evidence": "/tmp/airs-012-20260921/release/superseded-packaging",
+  "portable_archives": {
+    "mac": "3150fa87d827c148cbff8fc2a32bfd88e8732b735d5e40e0b53cf4fd375f2e90",
+    "ubuntu": "096caf8eaefe772fce20e043d9d8c8549cf848d9f09ec3679e8c6179145243d7"
+  }
+}

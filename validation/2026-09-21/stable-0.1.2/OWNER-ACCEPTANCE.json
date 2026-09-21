@@ -1,0 +1,17 @@
+{
+  "version": "0.1.2-alpha.5.mcp.1",
+  "reported_date": "2026-09-21",
+  "inference_signin": true,
+  "mcp_signin": true,
+  "servicenow_read": true,
+  "restart_reuse": true,
+  "jev_workflow": true,
+  "source": "Owner reports success in this conversation; outcomes only, no credentials collected",
+  "stable_source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "runtime_behavior_unchanged_since_owner_acceptance": true,
+  "reviewed_runtime_changes": [
+    "codex-rs/utils/home-dir/src/lib.rs",
+    "npm/airs-harness/package-lock.json",
+    "npm/airs-harness/package.json"
+  ]
+}

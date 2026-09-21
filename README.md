@@ -44,8 +44,8 @@ company SSO or a workspace API key, then ServiceNow sign-in through the in-sessi
 verification. MCP connection changes start a new conversation inside AIRS while
 preserving history and the draft.
 
-For 0.1.2 use the exact version below. After stable promotion, an ordinary
-unversioned install selects it through `latest`; prerelease channel tags remain
+For 0.1.2 use the exact version below. An ordinary unversioned install now
+selects it through `latest`; prerelease channel tags remain
 separate. Upgrading preserves existing environments, credentials and history.
 
 ## Installation

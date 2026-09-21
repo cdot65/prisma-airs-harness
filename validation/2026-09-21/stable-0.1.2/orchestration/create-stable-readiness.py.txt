@@ -1,0 +1,43 @@
+"""Bind full GNU results and owner acceptance to the exact stable source."""
+from pathlib import Path
+import hashlib,json,re,subprocess,sys
+r=Path(__file__).resolve().parent
+repo=Path('/tmp/airs-012-promotion-tooling')
+sys.path.insert(0,str(repo/'scripts'))
+from promote_airs_stable import validate_readiness, WORKSPACE_BASELINE_012
+spec=json.loads((r/'SPEC.json').read_text());source=spec['source_commit']
+artifact=json.loads((r/'WORKSPACE-ARTIFACT-283.json').read_text())
+assert artifact['identity_files']['source.txt']==source
+assert artifact['identity_files']['test-scope.txt']=='full-workspace'
+assert artifact['identity_files']['container-tooling-source.txt']==source
+raw=r/'workspace-283/validation.log'
+digest=hashlib.sha256(raw.read_bytes()).hexdigest()
+assert digest==artifact['files']['validation.log']
+text=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',raw.read_text());lines=text.splitlines()
+summaries=[x for x in lines if 'Summary [' in x];assert len(summaries)==1
+summary=summaries[0]
+counts={key:int(re.search(r'(\d+) '+label,summary)[1]) for key,label in [('tests_run','tests run'),('passed','passed'),('skipped','skipped')]}
+m=re.search(r'(\d+) failed',summary);counts['failed']=int(m[1]) if m else 0
+assert counts['tests_run']==counts['passed']+counts['failed']
+failures=sorted({re.search(r'\)\s+(codex-.+)$',line)[1] for line in lines if 'TRY 2 FAIL' in line})
+assert len(failures)==counts['failed']
+workspace={'scope':'full-workspace','source_commit':source,**counts,'failures':failures,'run':'283','summary':summary,'artifact_sha256':artifact['archive_sha256'],'log_sha256':digest}
+if failures:
+ assert set(failures)==set(WORKSPACE_BASELINE_012), failures
+ identity=json.loads((r/'UPSTREAM-BASELINE-IDENTITY.json').read_text())
+ assert identity['passed'] and identity['runtime_source_unchanged'] and identity['release_source_commit']==source
+ assert not subprocess.check_output(['git','diff','--name-only',identity['upstream_revision'],source,'--',*identity['unchanged_paths']],cwd=repo,text=True).strip()
+ disabled=json.loads((r/'DISABLED-UPSTREAM.json').read_text())
+ assert disabled['passed'] and disabled['source_commit']==source
+ assert disabled['binary_sha256']==next(p['binary_sha256'] for p in spec['platforms'] if p['target']==disabled['target'])
+ evidence=r/'baseline-evidence';evidence.mkdir(exist_ok=True);cases={}
+ for index,name in enumerate(failures):
+  record={'test':name,'source_commit':source,'disposition':'disabled-upstream-service','original_failure_retained':True,'upstream_identity_sha256':hashlib.sha256((r/'UPSTREAM-BASELINE-IDENTITY.json').read_bytes()).hexdigest(),'installed_check':disabled,'installed_check_sha256':hashlib.sha256((r/'DISABLED-UPSTREAM.json').read_bytes()).hexdigest()}
+  p=evidence/f'{index+1:02d}.json';p.write_text(json.dumps(record,indent=2)+'\n')
+  cases[name]={'disposition':'disabled-upstream-service','evidence_verified':True,'installed_command_rejected':True,'evidence_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'evidence_file':str(p.relative_to(r))}
+ workspace['baseline_review']={'source_commit':source,'upstream_revision':'rust-v0.154.0','upstream_implementations_unchanged':True,'unresolved_release_blockers':[],'cases':cases,'review_type':'Exact-source disabled-service review; full workspace remains failed'}
+owner=json.loads((r/'OWNER-ACCEPTANCE.json').read_text());assert owner['stable_source_commit']==source
+ready={'version':spec['version'],'source_commit':source,'workspace':workspace,'owner_acceptance':owner,'runtime_behavior_unchanged_since_owner_acceptance':owner['runtime_behavior_unchanged_since_owner_acceptance']}
+validate_readiness(spec,ready)
+(r/'READINESS.json').write_text(json.dumps(ready,indent=2)+'\n')
+print(json.dumps({'version':spec['version'],'full_workspace':counts,'ready_for_default_promotion':True}))

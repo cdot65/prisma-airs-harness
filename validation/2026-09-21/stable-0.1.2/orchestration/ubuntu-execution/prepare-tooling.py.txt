@@ -1,0 +1,16 @@
+from pathlib import Path
+import hashlib,json,tarfile
+cache=Path('/home/cdot/.cache/airs-012-20260921')
+archive=cache/'acceptance-tooling-v2.tar.gz'
+assert hashlib.sha256(archive.read_bytes()).hexdigest()=='fd0855eaf60fdeae12a3c33463d1d7265a469b0a04ce00270f75a7b79763e091'
+root=cache/'frozen-stable012';root.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+ members=tar.getmembers()
+ assert len({m.name for m in members})==len(members)
+ assert all(m.isfile() and not Path(m.name).is_absolute() and '..' not in Path(m.name).parts for m in members)
+ tar.extractall(root,filter='data')
+m=json.loads((root/'ACCEPTANCE-TOOLING.json').read_text())
+assert m['tooling_commit']=='aee13a272b5e79fe0ea6fe62485ca7c164927028'
+assert {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}==set(m['files'])|{'ACCEPTANCE-TOOLING.json'}
+assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in m['files'].items())
+print(json.dumps({'files_verified':len(m['files']),'tooling_commit':m['tooling_commit']}))

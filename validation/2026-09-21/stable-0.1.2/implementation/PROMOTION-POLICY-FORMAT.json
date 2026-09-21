@@ -1,0 +1,24 @@
+{
+  "exit_code": 0,
+  "restored_unrelated_formatter_changes": [
+    "codex-rs/airs-identity/examples/login_diagnostic.rs",
+    "justfile",
+    "scripts/coordinate_gateway_cleanup.py",
+    "scripts/test_airs_gateway_cleanup.py",
+    "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+    "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+    "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+    "validation/2026-09-18/mcp-manager-npm/publish.py",
+    "validation/2026-09-18/mcp-manager-npm/stage.py",
+    "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+    "validation/2026-09-18/workspace-key-release/check-default.py",
+    "validation/2026-09-18/workspace-key-release/check-environments.py",
+    "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+    "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+    "validation/2026-09-18/workspace-key-release/publish.py",
+    "validation/2026-09-18/workspace-key-release/verify-registry.py",
+    "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+    "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+    "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+  ]
+}

@@ -1,0 +1,11 @@
+from pathlib import Path
+import hashlib,json,tarfile
+r=Path('/tmp/airs-012-20260921/release');packages=r/'candidate-npm';spec=json.loads((r/'SPEC.json').read_text());archive=packages/'tarballs/airs-harness-0.1.2.tgz';rows={}
+with tarfile.open(archive) as tar:
+ for name in ['README.md','GETTING-STARTED.md','MACOS.md','PRISMA-AIRS-CLI.md','UBUNTU-TEST-HOST.md','scripts/prepare_airs_ubuntu.sh']:
+  data=tar.extractfile('package/'+name).read();assert data==(packages/'airs-harness'/name).read_bytes();text=data.decode()
+  assert '0.1.2' in text and 'airs-harness@0.1.1' not in text and '0.1.2-alpha.5.mcp.1' not in text
+  if name.endswith('.sh'):assert 'version=${AIRS_TEST_VERSION:-0.1.2}' in text
+  rows[name]=hashlib.sha256(data).hexdigest()
+report={'passed':True,'version':spec['version'],'packaging_commit':spec['packaging_commit'],'launcher_archive_sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'files':rows}
+(r/'PACKAGED-DOCUMENTATION.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'passed':True,'packaged_files_verified':len(rows)}))

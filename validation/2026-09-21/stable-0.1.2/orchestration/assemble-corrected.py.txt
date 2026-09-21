@@ -1,0 +1,22 @@
+from pathlib import Path
+import json,subprocess,hashlib
+r=Path('/tmp/airs-012-20260921/release');repo=Path('/tmp/airs-stable-012-source')
+packaging=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip();assert packaging=='8a1dd5324c4c6c2345b8d8737e0400308fe67cab'
+prior=r/'intermediate-documentation-assembly';prior.mkdir()
+for name in ['corrected-candidate-npm','CORRECTED-SPEC.json','CORRECTED-ASSEMBLY.json','CORRECTED-ASSEMBLY.log']:
+ p=r/name
+ if p.exists():p.rename(prior/name)
+spec=json.loads((r/'SPEC.json').read_text());command=['python3',str(repo/'scripts/package_airs_npm.py')]
+for name in ['x64','arm64','mac']:
+ d=json.loads((r/(name+'-native')/'EXTRACTION.json').read_text());command.extend(['--release-directory',d['extracted']])
+command.extend(['--output-directory',str(r/'corrected-candidate-npm'),'--registry','https://npm.cdot.io','--bundle-cli'])
+with (r/'CORRECTED-ASSEMBLY.log').open('x') as log:subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,check=True)
+spec['packaging_commit']=packaging;(r/'CORRECTED-SPEC.json').write_text(json.dumps(spec,indent=2)+'\n')
+subprocess.run(['python3','/tmp/airs-012-20260921/frozen/scripts/airs_test_release.py','inspect','--spec',str(r/'CORRECTED-SPEC.json'),'--packages',str(r/'corrected-candidate-npm')],stdout=subprocess.DEVNULL,check=True)
+for name in ['README.md','GETTING-STARTED.md','PRISMA-AIRS-CLI.md','MACOS.md','UBUNTU-TEST-HOST.md']:
+ text=(r/'corrected-candidate-npm/airs-harness'/name).read_text();assert '0.1.2' in text
+ assert 'airs-harness@0.1.1' not in text and '0.1.2-alpha.5.mcp.1' not in text
+helper=r/'corrected-candidate-npm/airs-harness/scripts/prepare_airs_ubuntu.sh'
+assert 'version=${AIRS_TEST_VERSION:-0.1.2}' in helper.read_text()
+(r/'CORRECTED-ASSEMBLY.json').write_text(json.dumps({'passed':True,'packaging_commit':packaging,'native_source_commit':spec['source_commit'],'native_binaries_reused':True,'ubuntu_helper_sha256':hashlib.sha256(helper.read_bytes()).hexdigest(),'guides_checked':['README.md','GETTING-STARTED.md','PRISMA-AIRS-CLI.md','MACOS.md','UBUNTU-TEST-HOST.md']},indent=2)+'\n')
+print('Final corrected packages assembled and all installation guides verified.')

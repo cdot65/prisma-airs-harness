@@ -1,0 +1,4 @@
+{
+  "acceptance": "/home/airs-review/stable012-candidate/registry-acceptance/aarch64-unknown-linux-musl/ACCEPTANCE.json",
+  "installation": "registry"
+}

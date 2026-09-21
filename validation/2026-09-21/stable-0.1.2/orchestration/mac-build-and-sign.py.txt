@@ -1,0 +1,22 @@
+from pathlib import Path
+import json,subprocess,sys,time,re
+root=Path('/tmp/airs-012-20260921');r=root/'release';start=time.monotonic()
+source=(r/'SOURCE').read_text().strip();branch='release/0.1.2-candidate'
+subprocess.run([sys.executable,str(r/'dispatch-forgejo.py'),'airs-harness-macos-build.yml',branch,json.dumps({'source_ref':source,'tooling_ref':source,'private_candidate':True,'preflight_only':False})],check=True)
+run=re.search(r'/actions/runs/(\d+)',(r/'airs-harness-macos-build.yml.dispatch.html').read_text())[1];(r/'MAC-BUILD-DISPATCH.json').write_text(json.dumps({'run':run,'source':source},indent=2)+'\n');print('Mac build run '+run,flush=True)
+def wait_run(run):
+ start=time.monotonic()
+ while True:
+  result=json.loads(subprocess.check_output([sys.executable,str(r/'forgejo-status.py'),run],text=True))
+  if result['status']=='failure':raise RuntimeError('Forgejo run failed: '+run)
+  if result['status']=='success':return result
+  if time.monotonic()-start>14400:raise TimeoutError('Workflow pending; no process stopped')
+  time.sleep(30)
+wait_run(run)
+subprocess.run([sys.executable,str(r/'verify-mac-intake.py'),source],check=True)
+a=json.loads((r/'MAC-INTAKE-VERIFICATION.json').read_text())['artifact'];args={'source_ref':source,'archive_sha256':a['archive_sha256'],'binary_sha256':a['binary_sha256'],'fixture_sha256':a['fixture_sha256']}
+subprocess.run([sys.executable,str(r/'dispatch-forgejo.py'),'airs-harness-gateway-package.yml',branch,json.dumps(args)],check=True)
+run=re.search(r'/actions/runs/(\d+)',(r/'airs-harness-gateway-package.yml.dispatch.html').read_text())[1];(r/'MAC-SIGNING-DISPATCH.json').write_text(json.dumps({'run':run,'inputs':args},indent=2)+'\n');print('Mac signing run '+run,flush=True)
+result=wait_run(run);artifact=next(x['name'] for x in result['artifacts']['artifacts'] if 'airs-gateway-package' in x['name']);internal=re.search(r'package-(\d+)',artifact)[1];archive=r/'mac-signed-candidate.zip'
+subprocess.run([sys.executable,str(r/'download-forgejo.py'),internal,artifact,str(archive)],check=True)
+subprocess.run([sys.executable,str(r/'extract-candidate.py'),str(archive),str(r/'mac-native'),'aarch64-apple-darwin'],check=True)

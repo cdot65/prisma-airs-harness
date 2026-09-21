@@ -1,0 +1,34 @@
+{
+  "mode": "accept",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "75b5014246d3ff5d28a013bd1e3fbf8b8a469c14aa222fb6a8517c2fbeb9996c",
+  "tooling_manifest_sha256": "e6c3d1801f93d66e65cf71115ad0621cc89e7fdf260655d265b3a10d52afe4fe",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "expected_native_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "69c5ab25cd4f3f281dd94de47dc1d48c1beaced635fd99210ca385b803f96716",
+    "candidate_packages_sha256": "5a3151de004fd04adea3d8d487df7acabaf13326f886c56bfd7863182dd01f5c"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/SPEC.json",
+        "--packages",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-npm",
+        "--scripts",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts",
+        "--output",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 367.59129290201236
+    }
+  ],
+  "passed": true
+}

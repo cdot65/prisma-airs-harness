@@ -1,0 +1,26 @@
+{
+  "test": "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "disposition": "disabled-upstream-service",
+  "original_failure_retained": true,
+  "upstream_identity_sha256": "45d205c638e2c411943e56791cdcec5ee937d5b0e2bd80ed5cf3cf2f3af09f2c",
+  "installed_check": {
+    "passed": true,
+    "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "version": "0.1.2",
+    "target": "x86_64-unknown-linux-musl",
+    "binary_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d",
+    "command": [
+      "airs",
+      "exec-server",
+      "--listen",
+      "ws://127.0.0.1:0"
+    ],
+    "exit_code": 1,
+    "message": "this upstream service command is not enabled in the AIRS protocol prototype",
+    "isolated_profile": true,
+    "test_credentials_used": false,
+    "scope": "Installed AIRS rejects the upstream remote execution service before starting a listener"
+  },
+  "installed_check_sha256": "7a7e365e3d5b73b982ad76703317c5d7778915f6e59d0674f8585de8356e779d"
+}

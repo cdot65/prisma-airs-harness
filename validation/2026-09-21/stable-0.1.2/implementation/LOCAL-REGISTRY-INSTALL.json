@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "package": "/home/cdot/.local/share/npm-global/lib/node_modules/airs-harness",
+  "command": "/home/cdot/.local/share/npm-global/bin/airs",
+  "version": "0.1.2",
+  "cli_version": "7.1.5",
+  "native_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d",
+  "environment_names_preserved": true,
+  "paid_jev_requests": 0
+}

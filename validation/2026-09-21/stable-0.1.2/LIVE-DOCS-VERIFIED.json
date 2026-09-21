@@ -1,0 +1,103 @@
+{
+  "commit": "5874f02ff758b5ee17eb05390b2f5db692d620db",
+  "run": "35596080558",
+  "passed": true,
+  "pages": [
+    {
+      "slug": "start-here",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/start-here/",
+      "sha256": "39f0fc2bc1e2397c001a0850410d5dcf3bd93e001d5a08835ffdbe3d58f05589",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "architecture",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/architecture/",
+      "sha256": "0814926b423b90e1da93a426edd5afe2ce41087838f1dfc7dd79645fcba55768",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "harness",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+      "sha256": "378bbebf8587d7bea58c6615d20a5db8e843b8d6dede07dcf3944abbff77e147",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "keycloak",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/keycloak/",
+      "sha256": "836bd811a5ccffb8e6093027a99f9b6aeb789de96adbc475e4d7da6e7b755f2c",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "cie",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/cie/",
+      "sha256": "ba34d156c2a1d77a54752b05058abd7cfc7cdddf644ff8ad8b6bf6958df88672",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "login",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+      "sha256": "b98f5ba289cbb8a8b51df707ff8bc18d0a9ec78d09888c399cfc03b33b296284",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "gateway",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/gateway/",
+      "sha256": "6630f208349ea8a4ea8b492732a6812a8a01eda99fd40df9cadf1af9919e9646",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "mcp",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/mcp/",
+      "sha256": "8bacffc2475efc020e58fd4aae0371af07f9b94e23544b502fd148bb6e9d27de",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "walkthrough",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/walkthrough/",
+      "sha256": "79c211b7ae614f41c22d3b662b4cc038f5117aae05dc2cd8a4ba47131e87b8e4",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "lifecycle",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/lifecycle/",
+      "sha256": "1c3aee3b7d73413c6c1b33b544c7dc420770f26f9e524061395d5353e9f8b857",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "operations",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/operations/",
+      "sha256": "bc38ffbab9099e94dcd7b661b7beee35de50a5e355d58f714fea42443463e0c6",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "troubleshooting",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "sha256": "7bdd347c63764129f3d4415f396f7ec5bcdc55cc16064dec49ee001c7ef2aab8",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "labs",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/labs/",
+      "sha256": "e0215103e7b7a2e5dc23c92d29a6249abe165342476262205de90bd0b5c6027b",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "glossary",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/glossary/",
+      "sha256": "9efbaff1d880e65bc2dfb3c6ffb969dcabdbd1ded36723e286d1210bd774bc92",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "evidence",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "sha256": "65f9d6929c633fe8e5b38c20d948b4307442d84f6db69b062920f53f76380064",
+      "matches_deployment_artifact": true
+    },
+    {
+      "slug": "home",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/",
+      "sha256": "090765cf682821c91e65f1651aa615ec4a84159a6b88681bcc35a0a7408ecb46",
+      "matches_deployment_artifact": true
+    }
+  ]
+}

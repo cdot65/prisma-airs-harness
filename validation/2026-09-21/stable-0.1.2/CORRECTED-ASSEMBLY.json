@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "packaging_commit": "8a1dd5324c4c6c2345b8d8737e0400308fe67cab",
+  "native_source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "native_binaries_reused": true,
+  "ubuntu_helper_sha256": "c5658b554a62e8c019954aa90ee1765112d557b57b6bfd5f2635e46751eb4eb8",
+  "guides_checked": [
+    "README.md",
+    "GETTING-STARTED.md",
+    "PRISMA-AIRS-CLI.md",
+    "MACOS.md",
+    "UBUNTU-TEST-HOST.md"
+  ]
+}

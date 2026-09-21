@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "release_source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "upstream_revision": "rust-v0.154.0",
+  "upstream_commit": "6b9826e3aa83b1a5947db50f4332cb9c65f1b340",
+  "unchanged_paths": [
+    "codex-rs/exec-server"
+  ],
+  "runtime_source_unchanged": true,
+  "scope": "Entire upstream exec-server implementation and tests match; native command acceptance is separate"
+}

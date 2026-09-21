@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "b7303f54193d838d8c629e7ea1bb4b40e5fffa30b552ae193334a0179d8c09aa",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "binary_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d",
+  "target": "aarch64-unknown-linux-musl",
+  "extracted": "/tmp/airs-012-20260921/release/arm64-native/extracted/airs-harness-0.1.2-linux-aarch64-musl",
+  "verified_files": 6217,
+  "archive_sidecar_present": true
+}

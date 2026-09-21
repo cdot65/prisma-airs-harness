@@ -1,0 +1,25 @@
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+import json,os,shutil,subprocess
+r=Path(__file__).resolve().parent;promotion=json.loads((r/'promotion/STABLE-PROMOTION.json').read_text());assert promotion['complete'] and promotion['version']=='0.1.2';spec=json.loads((r/'SPEC.json').read_text());root='/Users/cdot/.cache/airs-012-20260921';ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121']
+commands={
+'x86_64-unknown-linux-musl':['ssh','-o','BatchMode=yes','cdot@10.0.44.1','env','PATH=/home/cdot/.cache/airs-native-mcp-20260919/venv/bin:/home/cdot/.local/share/npm-global/bin:/usr/local/bin:/usr/bin:/bin','/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python','/home/cdot/.cache/airs-012-20260921/default-install-worker.py','--root','/home/cdot/.cache/airs-012-20260921/stable012-candidate','--tooling','/home/cdot/.cache/airs-012-20260921/frozen-stable012'],
+'aarch64-apple-darwin':[*ssh,'env','PATH=/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin','/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python',root+'/default-install-worker.py','--root',root+'/stable012-candidate','--tooling',root+'/release-frozen-stable012'],
+'aarch64-unknown-linux-musl':[*ssh,'/usr/local/bin/docker','exec','-u','10001','-e','HOME=/home/airs-review','-e','PATH=/opt/review-venv/bin:/usr/local/bin:/usr/bin:/bin','airs-native-mcp-20260919-arm64','/opt/review-venv/bin/python','/home/airs-review/stable012-default-install-worker.py','--root','/home/airs-review/stable012-candidate','--tooling','/home/airs-review/release-frozen-stable012'],
+}
+logs=r/'default-dispatch';logs.mkdir();out=r/'default-receipts';out.mkdir()
+def run(item):
+ target,cmd=item
+ with (logs/(target+'.log')).open('x') as f:result=subprocess.run(cmd,stdout=f,stderr=subprocess.STDOUT)
+ assert result.returncode==0,(target,result.returncode)
+ return target
+with ThreadPoolExecutor(max_workers=3) as pool:
+ for target in pool.map(run,commands.items()):print(target+' default install passed',flush=True)
+subprocess.run([*ssh,'/usr/local/bin/docker','cp','airs-native-mcp-20260919-arm64:/home/airs-review/stable012-candidate/default-install/aarch64-unknown-linux-musl/INSTALL-VERIFICATION.json',root+'/default-arm64.json'],check=True)
+for target,remote in [('aarch64-unknown-linux-musl',root+'/default-arm64.json'),('aarch64-apple-darwin',root+'/stable012-candidate/default-install/aarch64-apple-darwin/INSTALL-VERIFICATION.json')]:
+ subprocess.run(['scp','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121:'+remote,str(out/(target+'.json'))],check=True)
+subprocess.run(['scp','cdot@10.0.44.1:/home/cdot/.cache/airs-012-20260921/stable012-candidate/default-install/x86_64-unknown-linux-musl/INSTALL-VERIFICATION.json',str(out/'x86_64-unknown-linux-musl.json')],check=True)
+summary={}
+for platform in spec['platforms']:
+ target=platform['target'];receipt=json.loads((out/(target+'.json')).read_text());assert receipt['passed'] and receipt['selection']=='default' and receipt['default_channel_verified_before_and_after_install'];assert receipt['version']=='airs '+spec['version'] and receipt['source_commit']==spec['source_commit'] and receipt['binary_sha256']==platform['binary_sha256'];summary[target]={'passed':True,'binary_sha256':receipt['binary_sha256'],'version':receipt['version'],'bundled_cli':receipt['prisma_airs_cli_version']}
+(r/'DEFAULT-INSTALLS-VERIFIED.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary))

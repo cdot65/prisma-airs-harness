@@ -1,0 +1,65 @@
+candidate {'mac': 'passed', 'arm': 'passed', 'ubuntu': 'passed'}
+{
+  "spec_sha256": "732425c0f77467b1a43d6e3f8b2ec28a86bea8465d4d4c7f4da12ed3fb398a6b",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "packaging_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "version": "0.1.2",
+  "candidate_metadata_sha256": "c6e443f936cc9ec8c0089c1c5e45f9e10c418c12d34a3f2c95f4cb6450d661f3",
+  "candidate_packages_sha256": "a087092dfb15599ac47c84128ea2907a3e01dfb82d31938b4f44ff14b4497773",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d",
+      "acceptance_sha256": "7544416a570373675178ab869bafb3f8af2c8d851aaef760323b1f654876f25b",
+      "evidence_sha256": "3c3e3cb081ca818f4eb9911890047110f0a8e4eb44132e4dfe1f72170a5a2bf5",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d",
+      "acceptance_sha256": "a7561528754f121b1f5866cba2a1a7325785b5b9ed7e262a84ab8e0c5454434e",
+      "evidence_sha256": "1d1f8b7211817110cf4413f3d9f24777af82b4cb2587778fd67427315b46a944",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output"
+      ]
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4",
+      "acceptance_sha256": "941b1afbcc153c38a3ed757c60124acc46db6e0c5748f2e3c7e0a84fe12661c5",
+      "evidence_sha256": "4426b4c7e6661e4c23a6a34bbe74e02e00c62f14f164ae85f9de7360437c60fd",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ]
+    }
+  ],
+  "evidence_sha256": "14693dacf5c0b79137da651b94ff71fb9307b5cce7eca4cddfc13f992fcf4227"
+}

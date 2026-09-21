@@ -1,7 +1,8 @@
 # Prisma AIRS Harness 0.1.2
 
-Stable candidate for the owner-confirmed alpha.5 TypeSafe judge workflow.
-Publication and default-channel promotion are pending release verification.
+Published at `https://npm.cdot.io` under `latest`, bundling CLI **7.1.5**.
+Exact candidates, fresh anonymous registry installs and unversioned default
+installs passed on Linux x64, native Linux ARM64 and Apple Silicon.
 
 ## Changes since 0.1.1
 
@@ -18,7 +19,7 @@ Publication and default-channel promotion are pending release verification.
 - Installation repair, redacted diagnostics and shell recovery guidance from
   the previously validated 0.1.2 previews.
 
-## Installation after publication
+## Installation
 
 ```sh
 npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
@@ -39,8 +40,29 @@ already have one. Invoke `$prisma-airs-asr-judge attacks.json` and approve the
 specific live judge command. Saving a key or a successful doctor probe does not
 grant native-store access to an ordinary sandboxed shell.
 
-The owner confirmed the alpha.5 live workflow works on September 21. Exact stable
-candidate, registry, workspace and default-install results will be recorded here
-before completion. Automated provider fixtures establish execution/credential
-behavior, not model accuracy or calibrated ASR. Follow [Getting started](GETTING-STARTED.md)
-and the [judge guide](https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/).
+The owner confirmed alpha.5 inference, ServiceNow through `/mcp`, a read-only
+query, restart/reuse and the Jev workflow. The stable native runtime changes only
+its version stamp. The Ubuntu preparation helper now defaults to 0.1.2 and passed
+all six isolated keyring/readiness checks against the published package without
+a version override.
+
+Both alpha.5 and stable 0.1.1 upgrade/rollback paths passed with preserved state.
+Apple Silicon is Developer ID signed, hardened and notarized. Automated Jev tests
+exercise the actual agent approval UI, saved keys, inherited-key precedence and
+denied approval with no provider request. Their provider and inference responses
+are fixtures; they do not establish Jev accuracy or calibrated ASR.
+
+The full GNU workspace run recorded **18,374 passed, 3 failed and 34 skipped**.
+It is not a green full-suite result. All three failures exercise unchanged
+upstream remote-execution code; the installed AIRS command rejects that disabled
+service. The original failures and exact-source release review are retained in
+[release evidence](validation/2026-09-21/stable-0.1.2/README.md).
+
+Native source and frozen validation tooling: `aee13a272b5e79fe0ea6fe62485ca7c164927028`.
+Packaging and installation-guide alignment: `8a1dd5324c4c6c2345b8d8737e0400308fe67cab`.
+Promotion policy: `9402e7ec7543a44210883950c5f338903472fd43`.
+An initial package set with stale guide versions was never published; the corrected
+set received fresh acceptance. See `PACKAGING-CORRECTION.json` in the evidence.
+
+Follow [Getting started](GETTING-STARTED.md) and the
+[judge guide](https://cdot65.github.io/prisma-airs-cli/cli/redteam/judge/).

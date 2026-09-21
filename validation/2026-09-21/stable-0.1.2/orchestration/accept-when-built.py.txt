@@ -1,0 +1,14 @@
+from pathlib import Path
+import hashlib,json,subprocess,sys,time
+root=Path('/tmp/airs-012-20260921');release=root/'release';start=time.monotonic()
+while not all((release/(name+'-native')/'EXTRACTION.json').exists() for name in ['x64','arm64','mac']):
+ if time.monotonic()-start>14400:raise TimeoutError('Native artifacts still pending; no acceptance or publication attempted')
+ time.sleep(20)
+subprocess.run([sys.executable,str(release/'assemble.py')],check=True)
+subprocess.run([sys.executable,str(root/'frozen/scripts/airs_test_release.py'),'inspect','--spec',str(release/'SPEC.json'),'--packages',str(release/'candidate-npm')],check=True)
+subprocess.run([sys.executable,str(release/'native-execution/build-transfer.py')],check=True)
+spec=json.loads((release/'SPEC.json').read_text());assert spec['version']=='0.1.2' and spec['previous_version']=='0.1.2-alpha.5.mcp.1'
+receipt={'spec_sha256':hashlib.sha256((release/'SPEC.json').read_bytes()).hexdigest(),'packaging_commit':spec['packaging_commit'],'cli_version':'7.1.5'}
+(release/'OWNER-PREPARE.json').write_text(json.dumps(receipt,indent=2)+'\n')
+subprocess.run([sys.executable,str(release/'owner-handoff/release.py'),'accept'],check=True)
+print('All candidate and installed envelope checks passed.',flush=True)

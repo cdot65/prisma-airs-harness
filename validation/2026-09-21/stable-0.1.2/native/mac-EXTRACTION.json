@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "86fc826e207562881b92fd969be92b8bde32b754d4d03412a62a3cb1c1e3d8b7",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "binary_sha256": "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4",
+  "target": "aarch64-apple-darwin",
+  "extracted": "/tmp/airs-012-20260921/release/mac-native/extracted/airs-harness-0.1.2-darwin-arm64",
+  "verified_files": 6137,
+  "archive_sidecar_present": false
+}

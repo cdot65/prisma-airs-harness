@@ -1,0 +1,15 @@
+{
+  "before_free_bytes": 4745089024,
+  "after_free_bytes": 15014486016,
+  "compiler_caches_preserved": true,
+  "owner_environments_preserved": true,
+  "backup": {
+    "sha256": "3cc639eda37f128065c0fff6de093f7c84ca02292b29ed44cd50b9b63f177f53",
+    "bytes": 6621499068,
+    "roots": [
+      "/home/cdot/.cache/airs-judge-access-20260920"
+    ],
+    "verified": true,
+    "local_archive": "/tmp/airs-012-20260921/ubuntu-artifact-backup/completed-artifacts.tar.gz"
+  }
+}

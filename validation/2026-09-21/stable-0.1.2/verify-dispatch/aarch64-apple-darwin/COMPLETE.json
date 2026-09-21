@@ -1,0 +1,68 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "75b5014246d3ff5d28a013bd1e3fbf8b8a469c14aa222fb6a8517c2fbeb9996c",
+  "tooling_manifest_sha256": "e6c3d1801f93d66e65cf71115ad0621cc89e7fdf260655d265b3a10d52afe4fe",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "expected_native_sha256": "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "951c6492e3d5ee39bcea2e442338bca304b2b4b96143f57817cb6f928c000e4d",
+    "candidate_packages_sha256": "b40375c4411b7d7840dda302ec249c7bc3a93531506d41d6659e12505a3d7e4a"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-012-20260921/release-frozen-stable012/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-012-20260921/release-frozen-stable012/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 341.1612429160159
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-012-20260921/release-frozen-stable012/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.633976833894849
+    },
+    {
+      "name": "stable-upgrade",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-012-20260921/release-frozen-stable012/scripts/validate_airs_npm_upgrade.py",
+        "--packages",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/staged",
+        "--output",
+        "/Users/cdot/.cache/airs-012-20260921/stable012-candidate/verify-dispatch/aarch64-apple-darwin/stable-upgrade",
+        "--previous",
+        "0.1.1",
+        "--registry",
+        "https://npm.cdot.io",
+        "--previous-native-sha256",
+        "74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3",
+        "--previous-source-commit",
+        "b91d706e292791848394f30128b5f97aa53c4b9d"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 72.50976912491024
+    }
+  ],
+  "stable_upgrade_sha256": "310489ce82eedb34785e33d36a89a9085f91ae84a2e818c6ae4e5469e658d795",
+  "passed": true
+}

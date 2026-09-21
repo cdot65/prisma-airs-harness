@@ -1,0 +1,62 @@
+test_airs_project_config_applies_in_trusted_directory (test_airs_harness.TerminalIntegration.test_airs_project_config_applies_in_trusted_directory) ... ok
+test_codex_project_config_does_not_override_airs_route (test_airs_harness.TerminalIntegration.test_codex_project_config_does_not_override_airs_route) ... ok
+test_credential_change_and_repository_destination_override_fail_closed (test_airs_harness.TerminalIntegration.test_credential_change_and_repository_destination_override_fail_closed) ... ok
+test_doctor_accepts_reasoning_only_bounded_probe (test_airs_harness.TerminalIntegration.test_doctor_accepts_reasoning_only_bounded_probe) ... ok
+test_doctor_json_is_redacted_and_reports_missing_credentials (test_airs_harness.TerminalIntegration.test_doctor_json_is_redacted_and_reports_missing_credentials) ... ok
+test_doctor_rejects_oversized_or_fifo_catalog_without_blocking (test_airs_harness.TerminalIntegration.test_doctor_rejects_oversized_or_fifo_catalog_without_blocking) ... ok
+test_doctor_rejects_unsafe_gateway_before_display_or_any_request (test_airs_harness.TerminalIntegration.test_doctor_rejects_unsafe_gateway_before_display_or_any_request) ... ok
+test_doctor_verify_access_denial_preserves_binding_and_redacts_response (test_airs_harness.TerminalIntegration.test_doctor_verify_access_denial_preserves_binding_and_redacts_response) ... ok
+test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route (test_airs_harness.TerminalIntegration.test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route) ... ok
+test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell (test_airs_harness.TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell) ... ok
+test_existing_home_is_reused_without_moving_credentials_or_history (test_airs_harness.TerminalIntegration.test_existing_home_is_reused_without_moving_credentials_or_history) ... ok
+test_explicit_route_local_tool_and_continuation (test_airs_harness.TerminalIntegration.test_explicit_route_local_tool_and_continuation) ... ok
+test_gateway_advertised_reasoning_is_sent (test_airs_harness.TerminalIntegration.test_gateway_advertised_reasoning_is_sent) ... ok
+test_gateway_default_local_tool_and_continuation (test_airs_harness.TerminalIntegration.test_gateway_default_local_tool_and_continuation) ... ok
+test_gateway_ignores_stale_reasoning_and_has_runtime_context (test_airs_harness.TerminalIntegration.test_gateway_ignores_stale_reasoning_and_has_runtime_context) ... ok
+test_history_revision_pins_legacy_environment_key_and_capability_catalog (test_airs_harness.TerminalIntegration.test_history_revision_pins_legacy_environment_key_and_capability_catalog) ... ok
+test_inference_redirect_is_not_followed (test_airs_harness.TerminalIntegration.test_inference_redirect_is_not_followed) ... ok
+test_inline_question_preserves_draft_and_gateway_route (test_airs_harness.TerminalIntegration.test_inline_question_preserves_draft_and_gateway_route) ... ok
+test_interactive_model_switch_omits_unadvertised_reasoning (test_airs_harness.TerminalIntegration.test_interactive_model_switch_omits_unadvertised_reasoning) ... ok
+test_invalid_binding_errors_do_not_echo_record_contents (test_airs_harness.TerminalIntegration.test_invalid_binding_errors_do_not_echo_record_contents) ... ok
+test_legacy_home_override_still_selects_existing_state (test_airs_harness.TerminalIntegration.test_legacy_home_override_still_selects_existing_state) ... ok
+test_legacy_project_config_is_read_until_new_directory_exists (test_airs_harness.TerminalIntegration.test_legacy_project_config_is_read_until_new_directory_exists) ... ok
+test_local_compaction_uses_gateway_responses_and_omits_model (test_airs_harness.TerminalIntegration.test_local_compaction_uses_gateway_responses_and_omits_model) ... ok
+test_mcp_credential_binding_rejects_changed_key_destination_and_removal (test_airs_harness.TerminalIntegration.test_mcp_credential_binding_rejects_changed_key_destination_and_removal) ... ok
+test_mcp_wire_identity_and_separate_credentials (test_airs_harness.TerminalIntegration.test_mcp_wire_identity_and_separate_credentials) ... ok
+test_missing_credential_fails_without_inference (test_airs_harness.TerminalIntegration.test_missing_credential_fails_without_inference) ... ok
+test_named_environments_and_file_credential_without_export (test_airs_harness.TerminalIntegration.test_named_environments_and_file_credential_without_export) ... ok
+test_native_status_and_plain_doctor_inspect_configuration_without_store_access (test_airs_harness.TerminalIntegration.test_native_status_and_plain_doctor_inspect_configuration_without_store_access) ... ok
+test_new_home_override_takes_precedence_over_legacy (test_airs_harness.TerminalIntegration.test_new_home_override_takes_precedence_over_legacy) ... ok
+test_oidc_login_without_keyring_explains_recovery_before_network (test_airs_harness.TerminalIntegration.test_oidc_login_without_keyring_explains_recovery_before_network) ... ok
+test_plain_terminal_setup_retains_public_settings_after_cancelled_login (test_airs_harness.TerminalIntegration.test_plain_terminal_setup_retains_public_settings_after_cancelled_login) ... ok
+test_running_client_stays_revoked_after_subprocess_logout_and_relogin (test_airs_harness.TerminalIntegration.test_running_client_stays_revoked_after_subprocess_logout_and_relogin) ... ok
+test_saved_environment_cannot_enable_unvalidated_upstream_services (test_airs_harness.TerminalIntegration.test_saved_environment_cannot_enable_unvalidated_upstream_services) ... ok
+test_saved_legacy_catalog_uses_new_identity_without_rewriting_history (test_airs_harness.TerminalIntegration.test_saved_legacy_catalog_uses_new_identity_without_rewriting_history) ... ok
+test_saved_legacy_user_agent_uses_current_wire_branding (test_airs_harness.TerminalIntegration.test_saved_legacy_user_agent_uses_current_wire_branding) ... ok
+test_setup_refuses_overwrite (test_airs_harness.TerminalIntegration.test_setup_refuses_overwrite) ... ok
+test_setup_without_context_flag_persists_default (test_airs_harness.TerminalIntegration.test_setup_without_context_flag_persists_default) ... ok
+test_unconfigured_and_invalid_routes_fail_before_inference (test_airs_harness.TerminalIntegration.test_unconfigured_and_invalid_routes_fail_before_inference) ... ok
+test_workspace_login_hides_paste_and_restores_terminal_on_cancel (test_airs_harness.TerminalIntegration.test_workspace_login_hides_paste_and_restores_terminal_on_cancel) ... ok
+test_workspace_login_rejects_multiline_paste_without_echo_or_binding (test_airs_harness.TerminalIntegration.test_workspace_login_rejects_multiline_paste_without_echo_or_binding) ... ok
+test_workspace_login_restores_terminal_when_terminated (test_airs_harness.TerminalIntegration.test_workspace_login_restores_terminal_when_terminated) ... ok
+test_worktree_preserves_gateway_binding_and_isolates_local_edits (test_airs_harness.TerminalIntegration.test_worktree_preserves_gateway_binding_and_isolates_local_edits) ... ok
+test_cancel_restores_terminal_without_token_exchange (test_airs_harness_mcp_login.ManualMcpLogin.test_cancel_restores_terminal_without_token_exchange) ... ok
+test_http_callback_restores_terminal_with_pending_input (test_airs_harness_mcp_login.ManualMcpLogin.test_http_callback_restores_terminal_with_pending_input) ... ok
+test_pasted_callback_is_hidden_and_persists_once (test_airs_harness_mcp_login.ManualMcpLogin.test_pasted_callback_is_hidden_and_persists_once) ... ok
+test_legacy_modes_credentials_and_history_survive_management (test_airs_harness_mcp_preservation.McpPolicyPreservation.test_legacy_modes_credentials_and_history_survive_management) ... ok
+test_new_environment_uses_native_storage_across_processes (test_airs_harness_native_mcp.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes) ... ok
+test_unavailable_native_store_never_falls_back_to_file (test_airs_harness_native_mcp.NativeMcpDefault.test_unavailable_native_store_never_falls_back_to_file) ... ok
+test_logout_keeps_running_environment_after_default_and_binary_change (test_airs_harness_pty.InteractiveTerminal.test_logout_keeps_running_environment_after_default_and_binary_change) ... ok
+test_denied_login_and_cancel_preserve_nondefault_environment (test_airs_harness_recovery.SelectedEnvironmentRecovery.test_denied_login_and_cancel_preserve_nondefault_environment) ... ok
+test_consumed_refresh_response_loss_never_replays_after_restart (test_airs_harness_refresh_faults.RefreshRecovery.test_consumed_refresh_response_loss_never_replays_after_restart) ... ok
+test_rejected_refresh_remains_signin_required_after_restart (test_airs_harness_refresh_faults.RefreshRecovery.test_rejected_refresh_remains_signin_required_after_restart) ... ok
+test_sandbox_denies_injection_that_succeeds_in_control (test_airs_harness_tty.MacTerminalSandboxTests.test_sandbox_denies_injection_that_succeeds_in_control) ... skipped 'requires macOS Seatbelt'
+
+----------------------------------------------------------------------
+Ran 53 tests in 183.690s
+
+OK (skipped=1)
+{"case": "positive", "executable_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5", "inference_preserved": true, "native_logout_verified": true, "native_mode_unmodified": true, "native_record_persisted": true, "oauth_exchanges": 1, "passed": true, "platform": "linux", "second_process_verified": true}
+{"case": "unavailable", "executable_sha256": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5", "fallback_absent": true, "login_failed_safely": true, "native_mode_unmodified": true, "oauth_exchanges": 1, "passed": true, "platform": "linux"}
+{"actual_mcp_calls": 1, "case": "response-lost", "configuration_binding_other_environment_preserved": true, "doctor_no_authentication_or_inference_network": true, "fault_predecessor_consumed": true, "fault_refresh_requests": 1, "independent_mcp_grant_preserved": true, "issuer_generation": 3, "native_cleanup_completed": true, "native_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d", "normal_refresh_control_passed": true, "passed": true, "plaintext_fallback_absent": true, "production_acceptance": false, "real_conversation_preserved": true, "recovery_status": "refresh_outcome_unknown", "refresh_requests": 2, "restarted_helper_checks": 3, "resume_startup_blocked_with_recovery_message": true, "schema_version": 1, "tooling_sha256": "aec913fafa2c2e0c5413b7845edbb627df5b4543d1ea80f47837f1dc5fd30579"}
+{"actual_mcp_calls": 1, "case": "rejected", "configuration_binding_other_environment_preserved": true, "doctor_no_authentication_or_inference_network": true, "fault_predecessor_consumed": true, "fault_refresh_requests": 1, "independent_mcp_grant_preserved": true, "issuer_generation": 2, "native_cleanup_completed": true, "native_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d", "normal_refresh_control_passed": true, "passed": true, "plaintext_fallback_absent": true, "production_acceptance": false, "real_conversation_preserved": true, "recovery_status": "sign_in_required", "refresh_requests": 2, "restarted_helper_checks": 3, "resume_startup_blocked_with_recovery_message": true, "schema_version": 1, "tooling_sha256": "aec913fafa2c2e0c5413b7845edbb627df5b4543d1ea80f47837f1dc5fd30579"}

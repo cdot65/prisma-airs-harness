@@ -1,0 +1,16 @@
+"""Verify the real unversioned install with pinned, prevalidated tooling."""
+import argparse,json,sys
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--tooling',type=Path,required=True);a=p.parse_args()
+r=a.root.resolve(strict=True);t=a.tooling.resolve(strict=True);sys.path.insert(0,str(t/'scripts'))
+from airs_release_receipts import verify_tooling
+from airs_test_release_spec import load_spec,load_json,require
+from airs_release_execution import observed_target
+from validate_airs_test_registry_install import install
+spec=load_spec(r/'SPEC.json');manifest=load_json(t/'ACCEPTANCE-TOOLING.json');verify_tooling(t,manifest,spec['tooling_commit'])
+target=observed_target();out=r/'default-install'/target
+receipt=install(spec,r/'staged',out,selection='default')
+require(receipt['passed'] and receipt['default_channel_verified_before_and_after_install'],'Default install failed')
+require(receipt['source_commit']==spec['source_commit'],'Default source mismatch')
+verify_tooling(t,manifest,spec['tooling_commit'])
+print(json.dumps({'target':target,'version':receipt['version'],'source_commit':receipt['source_commit'],'binary_sha256':receipt['binary_sha256'],'cli':receipt['prisma_airs_cli_version'],'passed':True,'receipt':str(out/'INSTALL-VERIFICATION.json')},indent=2))

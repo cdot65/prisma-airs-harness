@@ -1,0 +1,36 @@
+from pathlib import Path
+import json,subprocess,hashlib,shlex
+r=Path('/tmp/airs-012-20260921/release');baseline=json.loads(Path('/tmp/airs-post011-20260919/release/SPEC.json').read_text())['previous_release']
+block='''    if args.mode in ("extras", "verify"):
+        baseline = BASELINE
+        previous_hash = next(row["binary_sha256"] for row in baseline["platforms"] if row["target"] == target)
+        upgrade = report_root / "stable-upgrade"
+        execute("stable-upgrade", [sys.executable, tooling / "scripts/validate_airs_npm_upgrade.py",
+                "--packages", packages, "--output", upgrade, "--previous", "0.1.1",
+                "--registry", spec["registry"], "--previous-native-sha256", previous_hash,
+                "--previous-source-commit", baseline["source_commit"]])
+        result = load_json(upgrade / "UPGRADE.json")
+        require(result["passed"] and result["roundtrip"]["previous_binary_sha256"] == previous_hash
+                and result["roundtrip"]["candidate_binary_sha256"] == expected,
+                "Stable 0.1.1 upgrade/rollback identity mismatch")
+        report["stable_upgrade_sha256"] = digest_file(upgrade / "UPGRADE.json")
+'''.replace('BASELINE',repr(baseline))
+for area,worker in [('native-execution','stable012-native-worker.py'),('ubuntu-execution','stable012-ubuntu-worker.py')]:
+ p=r/area/worker;s=p.read_text();needle='    verify_tooling(tooling, manifest, spec["tooling_commit"])\n';assert s.count(needle)==1;p.write_text(s.replace(needle,block+needle))
+for area,name in [('native-execution','collect-native-candidates.py'),('ubuntu-execution','collect-evidence.py')]:
+ p=r/area/name;s=p.read_text().replace('(root/area/target).iterdir()',"(root/area/target).rglob('*')").replace('(root / area / target).iterdir()',"(root / area / target).rglob('*')");p.write_text(s)
+p=r/'owner-handoff/release.py';s=p.read_text();needle="        assert receipt['spec_sha256'] == digest(ROOT / 'SPEC.json')\n";assert s.count(needle)==1
+s=s.replace(needle,needle+'''        upgrade = read(directory / 'stable-upgrade/UPGRADE.json')
+        assert upgrade['passed'] and upgrade['previous'] == '0.1.1' and upgrade['version'] == VERSION
+        assert receipt['stable_upgrade_sha256'] == digest(directory / 'stable-upgrade/UPGRADE.json')
+''');p.write_text(s)
+record={}
+for host,ssh,cache,area,worker in [
+ ('mac',['ssh','-o','BatchMode=yes','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121'],'/Users/cdot/.cache/airs-012-20260921','native-execution','stable012-native-worker.py'),
+ ('ubuntu',['ssh','-o','BatchMode=yes','cdot@10.0.44.1'],'/home/cdot/.cache/airs-012-20260921','ubuntu-execution','stable012-ubuntu-worker.py')]:
+ path=r/area/worker;subprocess.run(['scp',*ssh[1:-1],str(path),ssh[-1]+':'+cache+'/'+worker],check=True)
+ if host=='mac':
+  cmd=['/usr/local/bin/docker','cp',cache+'/'+worker,'airs-native-mcp-20260919-arm64:/home/airs-review/'+worker];subprocess.run([*ssh,shlex.join(cmd)],check=True)
+ record[host]={'worker':worker,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+(r/'STABLE-UPGRADE-GATE.json').write_text(json.dumps({'baseline':baseline,'workers':record},indent=2)+'\n')
+print('Added pinned 0.1.1 upgrade/rollback checks to candidate and registry acceptance')

@@ -1,0 +1,11 @@
+{
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "version": "0.1.2",
+  "tooling_files": 171,
+  "tooling_manifest_sha256": "e6c3d1801f93d66e65cf71115ad0621cc89e7fdf260655d265b3a10d52afe4fe",
+  "tooling_archive_sha256": "fd0855eaf60fdeae12a3c33463d1d7265a469b0a04ce00270f75a7b79763e091",
+  "source_tree_clean_before_dispatch": true,
+  "stable_latest_changes_authorized": true,
+  "packaging_commit": "8a1dd5324c4c6c2345b8d8737e0400308fe67cab"
+}

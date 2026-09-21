@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "version": "0.1.2",
+  "packaging_commit": "8a1dd5324c4c6c2345b8d8737e0400308fe67cab",
+  "launcher_archive_sha256": "0b5dea03221cdf19c39ce7df20621a4b42dc17694040c50674d2eb9ee1b428ca",
+  "files": {
+    "README.md": "d61360c5d7a27da16eae5491ab2b37cc2957b3692a369e4a435e4eb826fc4d48",
+    "GETTING-STARTED.md": "ab5034008238ee59a8db06c5e98612565e2d28a22f4e0e34352d182d1c95c0cc",
+    "MACOS.md": "e3858de9d1de0cb661c8c5bb755a753cda0b94f94625939933a57c0eec0b4dad",
+    "PRISMA-AIRS-CLI.md": "b322f5cfe30b992a3120fdaf50f493e09fbe7eee99ca2ebced77d0b5821d365d",
+    "UBUNTU-TEST-HOST.md": "01864b3b1b1477d10c0b47bd8997e25a80b3a4706670ef6fdd8ecbe9e973da3b",
+    "scripts/prepare_airs_ubuntu.sh": "c5658b554a62e8c019954aa90ee1765112d557b57b6bfd5f2635e46751eb4eb8"
+  }
+}

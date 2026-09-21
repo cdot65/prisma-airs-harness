@@ -1,0 +1,66 @@
+"""Verify and collect only portable, task-owned Ubuntu acceptance evidence."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+import tarfile
+
+root = Path('/home/cdot/.cache/airs-012-20260921/stable012-candidate')
+tooling = root.parent / 'frozen-stable012'
+sys.path.insert(0, str(tooling / 'scripts'))
+from airs_release_contract import verify_one
+from airs_release_receipts import verify_tooling
+from airs_test_release_spec import load_spec
+from airs_lifecycle_contract import validate_observation
+
+phase = sys.argv[1]
+if phase not in ('candidate', 'registry'):
+    raise ValueError('Unexpected phase')
+completion = root / ('HOST-COMPLETE.json' if phase == 'candidate' else 'REGISTRY-HOST-COMPLETE.json')
+if json.loads(completion.read_text()).get('passed') is not True:
+    raise RuntimeError('Host gates have not passed')
+target = 'x86_64-unknown-linux-musl'
+spec = load_spec(root / 'SPEC.json')
+manifest = json.loads((tooling / 'ACCEPTANCE-TOOLING.json').read_text())
+verify_tooling(tooling, manifest, spec['tooling_commit'])
+acceptance = root / (phase + '-acceptance') / target
+verify_one(spec, acceptance, target, phase)
+tests = json.loads((acceptance / 'files/installed-regressions/TEST-RESULTS.json').read_text())
+required = 'test_airs_harness_native_mcp.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes'
+if required not in tests['test_ids'] or required in [row['test'] for row in tests['skipped']]:
+    raise RuntimeError('Required native positive did not execute')
+paths = [p for p in acceptance.rglob('*') if p.is_file()]
+areas = ['accept-dispatch', 'extras-dispatch'] if phase == 'candidate' else ['verify-dispatch']
+for area in areas:
+    paths.extend(p for p in (root / area / target).rglob('*') if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(root).parts or (p.parent.name == 'stable-upgrade' and p.suffix in ['.json', '.log'])))
+summary = {'target': target, 'installation': phase, 'verified': True,
+           'native_positive_executed': True, 'tests_run': tests['tests_run'],
+           'platform_skips': len(tests['skipped']), 'production_acceptance': False}
+if phase == 'candidate':
+    extra = root / 'extra-candidate' / target / 'lifecycle-quick'
+    quick = json.loads((extra / 'LIFECYCLE-ACCEPTANCE.json').read_text())
+    observation = (extra / 'OBSERVATION.json').read_bytes()
+    observed = validate_observation(json.loads(observation))
+    native = next(row['binary_sha256'] for row in spec['platforms'] if row['target'] == target)
+    if (quick.get('passed') is not True or quick['native_sha256'] != native
+            or quick['tooling_files'] != manifest['files']
+            or quick.get('native_cleanup_completed') is not True
+            or quick['observation_sha256'] != hashlib.sha256(observation).hexdigest()):
+        raise RuntimeError('Lifecycle receipt binding mismatch')
+    paths.extend(p for p in extra.iterdir() if p.is_file() and p.suffix in ('.json', '.log'))
+    summary['quick'] = observed
+report = root / (phase.upper() + '-COLLECTION.json')
+with report.open('x') as stream:
+    json.dump(summary, stream, indent=2)
+    stream.write('\n')
+paths.extend([report, completion])
+archive = root / ('portable-' + phase + '.tar.gz')
+with tarfile.open(archive, 'x:gz') as tar:
+    for path in sorted(paths):
+        if path.is_symlink():
+            raise RuntimeError('Unexpected linked evidence')
+        tar.add(path, arcname=str(path.relative_to(root)), recursive=False)
+with archive.open('rb') as stream:
+    digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+print(json.dumps({'archive': str(archive), 'sha256': digest,
+                  'bytes': archive.stat().st_size, 'summary': summary}))

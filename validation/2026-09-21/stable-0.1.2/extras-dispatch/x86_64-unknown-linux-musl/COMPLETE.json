@@ -1,0 +1,78 @@
+{
+  "mode": "extras",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "75b5014246d3ff5d28a013bd1e3fbf8b8a469c14aa222fb6a8517c2fbeb9996c",
+  "tooling_manifest_sha256": "e6c3d1801f93d66e65cf71115ad0621cc89e7fdf260655d265b3a10d52afe4fe",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "expected_native_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "69c5ab25cd4f3f281dd94de47dc1d48c1beaced635fd99210ca385b803f96716",
+    "candidate_packages_sha256": "5a3151de004fd04adea3d8d487df7acabaf13326f886c56bfd7863182dd01f5c"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-cef59a5c793d4f928e1b1a1a3fd88dce/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--native-binary",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-cef59a5c793d4f928e1b1a1a3fd88dce/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/extra-candidate/x86_64-unknown-linux-musl/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 188.9896178470226
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6991847940080334
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.692945057991892
+    },
+    {
+      "name": "stable-upgrade",
+      "command": [
+        "/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/home/cdot/.cache/airs-012-20260921/frozen-stable012/scripts/validate_airs_npm_upgrade.py",
+        "--packages",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/candidate-npm",
+        "--output",
+        "/home/cdot/.cache/airs-012-20260921/stable012-candidate/extras-dispatch/x86_64-unknown-linux-musl/stable-upgrade",
+        "--previous",
+        "0.1.1",
+        "--registry",
+        "https://npm.cdot.io",
+        "--previous-native-sha256",
+        "57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9",
+        "--previous-source-commit",
+        "b91d706e292791848394f30128b5f97aa53c4b9d"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 71.69590756000252
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "dbde8e30a1b83bc23af2b0ec42bc81b067d0de5f233125fe2a1c56568b01e6f1"
+  },
+  "stable_upgrade_sha256": "00ad44e2214a253ffc071293b2c73c91b2490d54040bfb4303b79c716debfb39",
+  "passed": true
+}

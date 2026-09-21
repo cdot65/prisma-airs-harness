@@ -1,0 +1,26 @@
+{
+  "before_free_bytes": 92320899072,
+  "after_free_bytes": 107801255936,
+  "compiler_caches_preserved": true,
+  "owner_environments_preserved": true,
+  "backup": {
+    "sha256": "2ec66669c664c69ccccf60574eba65d400c350050169574f487780a9dd192dc5",
+    "bytes": 10871151476,
+    "roots": [
+      "/Users/cdot/.cache/airs-judge-access-20260920",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha15",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha16",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha17",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha18",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha19",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha20",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha21",
+      "/Users/cdot/.local/share/airs-forgejo-runner/gateway-alpha22",
+      "/Users/cdot/.cache/airs-011-20260919",
+      "/Users/cdot/.cache/airs-judge-sandbox-20260920"
+    ],
+    "verified": true,
+    "local_archive": "/tmp/airs-012-20260921/mac-artifact-backup/completed-artifacts.tar.gz"
+  }
+}

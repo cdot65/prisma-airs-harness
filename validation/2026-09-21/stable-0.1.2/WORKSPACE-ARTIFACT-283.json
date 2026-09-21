@@ -1,0 +1,16 @@
+{
+  "run": "283",
+  "status": "failure",
+  "archive_sha256": "88fdf306676ef513262f8b770922d15233fa2485b779f6ee24561c108ed5c315",
+  "files": {
+    "source.txt": "3fdba467e9e83bf8436db88ed41018e76fc97b99df2be209a5b11c964512fbf0",
+    "container-tooling-source.txt": "3fdba467e9e83bf8436db88ed41018e76fc97b99df2be209a5b11c964512fbf0",
+    "test-scope.txt": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e",
+    "validation.log": "633801b1e6b56da725ff623eba7491174b2ce4ed9ab374fbc32208a39ec337ac"
+  },
+  "identity_files": {
+    "source.txt": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "container-tooling-source.txt": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "test-scope.txt": "full-workspace"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "errors": [],
+  "failures": [],
+  "passed": true,
+  "pattern": "test_airs_doctor.py",
+  "schema_version": 1,
+  "skipped": [],
+  "test_ids": [
+    "test_airs_doctor.SessionDoctor.test_cancel_slow_diagnostics_then_retry",
+    "test_airs_doctor.SessionDoctor.test_environment_pinning_explicit_probe_and_failed_report",
+    "test_airs_doctor.SessionDoctor.test_missing_native_service_leaves_binding_and_cleanup_untouched",
+    "test_airs_doctor.SessionDoctor.test_redacted_report_preview_copy_and_save_reuse_one_inspection",
+    "test_airs_doctor.SessionDoctor.test_stalled_native_service_probe_is_bounded"
+  ],
+  "tests_run": 5
+}

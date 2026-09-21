@@ -1,0 +1,17 @@
+{
+  "version": "0.1.2",
+  "helper_sha256": "c5658b554a62e8c019954aa90ee1765112d557b57b6bfd5f2635e46751eb4eb8",
+  "isolated_home_prefix_dbus_keyring": true,
+  "version_override": false,
+  "seconds": 19.227,
+  "exit_code": 0,
+  "checks": [
+    "PASS new encrypted keyring and native write/read/delete",
+    "PASS already-unlocked service is reused",
+    "PASS unlocked check reuses the service without prompting",
+    "PASS quoted rerun command preserves the spaced script path",
+    "PASS locked check and wrong-password diagnosis preserve the keyring",
+    "PASS correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "passed": true
+}

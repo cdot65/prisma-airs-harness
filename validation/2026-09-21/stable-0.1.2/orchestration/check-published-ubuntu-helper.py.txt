@@ -1,0 +1,21 @@
+from pathlib import Path
+import json,subprocess,hashlib
+r=Path(__file__).resolve().parent
+assert json.loads((r/'release/OWNER-REGISTRY-VERIFIED.json').read_text())['passed']
+expected=json.loads((r/'release/CORRECTED-ASSEMBLY.json').read_text())['ubuntu_helper_sha256']
+code=r'''from pathlib import Path
+import json,hashlib,os,subprocess,time
+r=Path('/home/cdot/.cache/airs-012-20260921')
+local=json.loads((r/'stable012-candidate/registry-acceptance/x86_64-unknown-linux-musl.work/LOCAL.json').read_text());prefix=Path(local['prefix']);helper=prefix/'lib/node_modules/airs-harness/scripts/prepare_airs_ubuntu.sh'
+assert hashlib.sha256(helper.read_bytes()).hexdigest()==EXPECTED
+home=r/'helper-012-final-home';home.mkdir();target=home/'.local/share/airs-test-host';target.mkdir(parents=True);(target/'npm').symlink_to(prefix,target_is_directory=True)
+env={k:v for k,v in os.environ.items() if not k.upper().startswith(('NPM','NODE_AUTH_TOKEN')) and k not in ['AIRS_TEST_VERSION','AIRS_HARNESS_HOME','CODEX_HOME','NODE_OPTIONS']};env.update(HOME=str(home),NPM_CONFIG_LOGS_MAX='0',PATH='/home/cdot/.cache/airs-native-mcp-20260919/venv/bin:/usr/local/bin:/usr/bin:/bin')
+start=time.monotonic();logpath=r/'UBUNTU-HELPER-012-FINAL.log'
+with logpath.open('x') as log:result=subprocess.run(['/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python',str(r/'test_prepare_airs_ubuntu.py'),str(helper)],env=env,stdout=log,stderr=subprocess.STDOUT,timeout=600)
+checks=[line for line in logpath.read_text().splitlines() if line.startswith('PASS ')]
+receipt={'version':'0.1.2','helper_sha256':hashlib.sha256(helper.read_bytes()).hexdigest(),'isolated_home_prefix_dbus_keyring':True,'version_override':False,'seconds':round(time.monotonic()-start,3),'exit_code':result.returncode,'checks':checks,'passed':result.returncode==0 and len(checks)==6}
+(r/'UBUNTU-HELPER-012-FINAL.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt));raise SystemExit(0 if receipt['passed'] else 1)
+'''.replace('EXPECTED',repr(expected))
+result=subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.44.1','/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python -'],input=code,text=True)
+subprocess.run(['scp','cdot@10.0.44.1:/home/cdot/.cache/airs-012-20260921/UBUNTU-HELPER-012-FINAL.json','cdot@10.0.44.1:/home/cdot/.cache/airs-012-20260921/UBUNTU-HELPER-012-FINAL.log',str(r)],check=True)
+assert result.returncode==0

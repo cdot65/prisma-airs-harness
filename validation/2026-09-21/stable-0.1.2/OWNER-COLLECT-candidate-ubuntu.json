@@ -1,0 +1,26 @@
+{
+  "archive": "/home/cdot/.cache/airs-012-20260921/stable012-candidate/portable-candidate.tar.gz",
+  "sha256": "cfe7aeb2fc9d9151dfe07b207c062cd4ec04f3fb9bb2496cedb4c3273e21c6cc",
+  "bytes": 52051,
+  "summary": {
+    "target": "x86_64-unknown-linux-musl",
+    "installation": "candidate",
+    "verified": true,
+    "native_positive_executed": true,
+    "tests_run": 53,
+    "platform_skips": 1,
+    "production_acceptance": false,
+    "quick": {
+      "passed": true,
+      "profile": "quick",
+      "elapsed_seconds": 178.4131988689769,
+      "post_expiry_cycles": {
+        "inference": 2,
+        "mcp": 2
+      },
+      "completed_turns": 3,
+      "event_count": 36,
+      "scope": "continuous installed process with synthetic HTTPS OIDC and gateway MCP; not production acceptance"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+"""Promote the immutable verified candidate, then check ordinary default installs."""
+from pathlib import Path
+import json,subprocess,sys
+r=Path(__file__).resolve().parent;release=r/'release';repo=Path('/tmp/airs-012-promotion-tooling')
+assert json.loads((release/'OWNER-REGISTRY-VERIFIED.json').read_text())['passed']
+assert json.loads((release/'READINESS.json').read_text())['version']=='0.1.2'
+assert json.loads((r/'UBUNTU-HELPER-012-FINAL.json').read_text())['passed']
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==json.loads((release/'PROMOTION-TOOLING.json').read_text())['promotion_tooling_commit']
+config=r/'publication.npmrc';assert not config.exists()
+try:
+ subprocess.run([sys.executable,str(r/'authenticate-publication.py')],check=True)
+ command=[sys.executable,str(repo/'scripts/promote_airs_stable.py')]
+ for name,path in [('spec',release/'SPEC.json'),('packages',release/'staged'),('candidate-acceptance',release/'candidate-acceptance'),('registry-acceptance',release/'registry-acceptance'),('readiness',release/'READINESS.json'),('output',release/'promotion'),('userconfig',config)]:command.extend(['--'+name,str(path)])
+ subprocess.run(command,check=True)
+finally:
+ if config.exists():config.unlink()
+subprocess.run([sys.executable,str(release/'run-default-installs.py')],check=True)
+print('Stable latest promotion and all three default installs verified.',flush=True)

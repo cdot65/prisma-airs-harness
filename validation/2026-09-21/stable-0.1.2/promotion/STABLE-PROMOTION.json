@@ -1,0 +1,98 @@
+{
+  "complete": true,
+  "identity_sha256": "9e921a49fd14ae991332eb1b71543aa33b6960eaf983bc701a55a93af19cfcc1",
+  "original_tags": {
+    "airs-harness": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.5.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-darwin-arm64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.5.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-linux-arm64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.5.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-linux-x64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.1",
+      "mcp": "0.1.2-alpha.5.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    }
+  },
+  "promoted": [
+    "airs-harness-linux-x64",
+    "airs-harness-linux-arm64",
+    "airs-harness-darwin-arm64",
+    "airs-harness"
+  ],
+  "schema_version": 1,
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "version": "0.1.2",
+  "workspace": {
+    "artifact_sha256": "88fdf306676ef513262f8b770922d15233fa2485b779f6ee24561c108ed5c315",
+    "baseline_review": {
+      "cases": {
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_file": "baseline-evidence/01.json",
+          "evidence_sha256": "561fc0daa0c47111fb4e221dcb3a343c7b154b27fcc0e42483b79cf3849e8044",
+          "evidence_verified": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_file": "baseline-evidence/02.json",
+          "evidence_sha256": "34b953bd30770ba6165e22ddd2891fc2c03d71e2e3ce5960fb70ab9c2db41691",
+          "evidence_verified": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_file": "baseline-evidence/03.json",
+          "evidence_sha256": "97c4a273339e335d0df26e833e4c1c1904d033663ce8a7b1e9a9be93fc26ebd8",
+          "evidence_verified": true,
+          "installed_command_rejected": true
+        }
+      },
+      "review_type": "Exact-source disabled-service review; full workspace remains failed",
+      "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "unresolved_release_blockers": [],
+      "upstream_implementations_unchanged": true,
+      "upstream_revision": "rust-v0.154.0"
+    },
+    "failed": 3,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "log_sha256": "633801b1e6b56da725ff623eba7491174b2ce4ed9ab374fbc32208a39ec337ac",
+    "passed": 18374,
+    "run": "283",
+    "scope": "full-workspace",
+    "skipped": 34,
+    "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "summary": "     Summary [1983.501s] 18377 tests run: 18374 passed (5 slow), 3 failed, 34 skipped",
+    "tests_run": 18377
+  }
+}

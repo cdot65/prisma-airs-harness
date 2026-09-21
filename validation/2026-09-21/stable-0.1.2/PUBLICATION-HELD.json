@@ -1,0 +1,5 @@
+{
+  "reason": "Correct stale packaged installation documentation before publishing; native binaries unchanged",
+  "publisher_stopped": true,
+  "packages_published": false
+}

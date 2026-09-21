@@ -1,0 +1,36 @@
+dbus-daemon[249209]: [session uid=1000 pid=249209 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.1' (uid=1000 pid=249466 comm="gdbus call --session --dest org.freedesktop.secret" label="unconfined")
+** Message: 11:16:51.247: couldn't access control socket: /tmp/airs-keyring-regression-hxfcrw_5/run/keyring/control: No such file or directory
+discover_other_daemon: 0dbus-daemon[249209]: [session uid=1000 pid=249209 pidfd=5] Successfully activated service 'org.freedesktop.secrets'
+Traceback (most recent call last):
+  File "/home/cdot/.cache/airs-012-20260921/test_prepare_airs_ubuntu.py", line 195, in <module>
+    exercise(sys.argv[2])
+    ~~~~~~~~^^^^^^^^^^^^^
+  File "/home/cdot/.cache/airs-012-20260921/test_prepare_airs_ubuntu.py", line 101, in exercise
+    assert code == 0, output
+           ^^^^^^^^^
+AssertionError: AIRS host preparation: Ubuntu 26.04.1 LTS / x86_64 / user cdot
+Requested package: airs-harness@0.1.2
+Report: /home/cdot/.cache/airs-012-20260921/helper-012-test-home/.local/state/airs-test-host/readiness-20260921T111649-249211.txt
+PASS Node v22.22.1, npm 9.2.0 satisfy the harness engine requirement.
+airs 0.1.2
+PASS Installed airs launches.
+PASS Installed package matches 0.1.2.
+7.1.5
+PASS Bundled product CLI launches.
+PASS Harness sandbox reads an allowed file and denies modification.
+curl: (22) The requested URL returned error: 404
+FAIL Registry TLS/connectivity or package availability failed.
+PASS Gateway TLS/connectivity works (HTTP 401; authentication is not tested).
+PASS User D-Bus session is reachable.
+
+Unlock the existing login keyring, or choose a nonempty password for a new one.
+This is a local keyring password, not your SSO password or API key.
+Keyring password (hidden): 
+Confirm new keyring password: 
+Restarting the locked keyring service to apply the unlock.
+PASS Native credential store write/read passed.
+PASS Disposable credential removed.
+
+Report: /home/cdot/.cache/airs-012-20260921/helper-012-test-home/.local/state/airs-test-host/readiness-20260921T111649-249211.txt
+NOT READY: 1 check(s) failed. Authentication has not been attempted.
+

@@ -1,0 +1,117 @@
+"""Private execution wrapper; requires actual frozen release inputs on its host."""
+
+import argparse
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("mode", choices=("accept", "extras", "verify"))
+parser.add_argument("--root", type=Path, required=True)
+parser.add_argument("--tooling", type=Path, required=True)
+parser.add_argument("--packages", type=Path, required=True)
+args = parser.parse_args()
+root = args.root.resolve(strict=True)
+if args.mode == "extras" and (root / "SUPERSEDED.json").is_file():
+    print("Candidate superseded; extra gates deliberately not started.")
+    raise SystemExit(75)
+tooling = args.tooling.resolve(strict=True)
+packages = args.packages.resolve(strict=True)
+sys.path.insert(0, str(tooling / "scripts"))
+from airs_release_execution import candidate_identity, clean_environment, installed_identity, observed_target
+from airs_release_receipts import verify_tooling
+from airs_test_release_spec import digest_file, load_json, load_spec, require
+
+spec_path = root / "SPEC.json"
+spec = load_spec(spec_path)
+manifest = load_json(tooling / "ACCEPTANCE-TOOLING.json")
+verify_tooling(tooling, manifest, spec["tooling_commit"])
+inputs = candidate_identity(spec, packages)
+target = observed_target()
+require(target in ("aarch64-apple-darwin", "aarch64-unknown-linux-musl"), "Wrong native host")
+expected = next(row["binary_sha256"] for row in spec["platforms"] if row["target"] == target)
+environment = clean_environment()
+environment.update(PYTHONOPTIMIZE="0", PYTHONDONTWRITEBYTECODE="1")
+report_root = root / (args.mode + "-dispatch") / target
+report_root.mkdir(parents=True)
+report = {
+    "mode": args.mode, "target": target, "spec_sha256": digest_file(spec_path),
+    "tooling_manifest_sha256": digest_file(tooling / "ACCEPTANCE-TOOLING.json"),
+    "tooling_commit": spec["tooling_commit"], "expected_native_sha256": expected,
+    "production_acceptance": False, "inputs": inputs, "commands": [],
+}
+
+
+def execute(name, command):
+    command = [str(part) for part in command]
+    started = time.monotonic()
+    with (report_root / (name + ".log")).open("x") as log:
+        result = subprocess.run(command, env=environment, cwd=root, stdout=log, stderr=subprocess.STDOUT)
+    report["commands"].append({"name": name, "command": command, "exit_code": result.returncode,
+                              "elapsed_seconds": time.monotonic() - started})
+    require(result.returncode == 0, "Native stage failed: " + name)
+
+
+try:
+    base = [sys.executable, tooling / "scripts/airs_test_release.py"]
+    if args.mode in ("accept", "verify"):
+        command = [*base, args.mode, "--spec", spec_path, "--packages", packages,
+                   "--scripts", tooling / "scripts", "--output",
+                   root / ("candidate-acceptance" if args.mode == "accept" else "registry-acceptance")]
+        if args.mode == "verify":
+            command.extend(["--acceptance", root / "candidate-acceptance"])
+        execute(args.mode, command)
+    else:
+        local = load_json(root / "candidate-acceptance" / (target + ".work") / "LOCAL.json")
+        prefix = Path(local["prefix"])
+        require(prefix.resolve().is_relative_to(root / "candidate-acceptance" / (target + ".work")),
+                "Installed prefix escapes candidate work")
+        _launcher, native, _package = installed_identity(spec, packages, prefix, target, environment)
+        extra = root / "extra-candidate" / target
+        execute("quick", [sys.executable, tooling / "scripts/validate_airs_lifecycle.py",
+                          "--binary", native, "--native-binary", native,
+                          "--profile", "quick", "--output", extra / "lifecycle-quick"])
+        quick = load_json(extra / "lifecycle-quick/LIFECYCLE-ACCEPTANCE.json")
+        require(quick["passed"] and quick["native_sha256"] == expected
+                and quick["tooling_files"] == manifest["files"], "Quick receipt does not match inputs")
+        report["extra_receipts"] = {"quick_sha256": digest_file(extra / "lifecycle-quick/LIFECYCLE-ACCEPTANCE.json")}
+        environment.update(AIRS_TYPESAFE_NATIVE="1", AIRS_HARNESS_BIN=str(native))
+        execute("typesafe-native", [sys.executable, tooling / "scripts/test_airs_typesafe_native.py", "-v"])
+        environment.pop("AIRS_TYPESAFE_NATIVE")
+        environment.pop("AIRS_HARNESS_BIN")
+        installed_identity(spec, packages, prefix, target, environment)
+    if args.mode in ("extras", "verify"):
+        phase = "candidate" if args.mode == "extras" else "registry"
+        local = load_json(root / (phase + "-acceptance") / (target + ".work") / "LOCAL.json")
+        prefix = Path(local["prefix"])
+        _launcher, native, _package = installed_identity(spec, packages, prefix, target, environment)
+        environment.update(AIRS_TYPESAFE_NATIVE="1", AIRS_HARNESS_BIN=str(native),
+                           AIRS_MANAGED_CLI=str(prefix / "lib/node_modules/airs-harness/managed-cli/airs-cli"))
+        execute("typesafe-node", [sys.executable, tooling / "scripts/test_airs_typesafe_node_native.py", "-v"])
+        for name in ("AIRS_TYPESAFE_NATIVE", "AIRS_HARNESS_BIN", "AIRS_MANAGED_CLI"):
+            environment.pop(name)
+    if args.mode in ("extras", "verify"):
+        baseline = {'source_commit': 'b91d706e292791848394f30128b5f97aa53c4b9d', 'platforms': [{'target': 'x86_64-unknown-linux-musl', 'binary_sha256': '57b58b278ad83d984e024c9c0add6c8c87b9a0cc995f0d9225b3353885884ee9'}, {'target': 'aarch64-unknown-linux-musl', 'binary_sha256': 'fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94'}, {'target': 'aarch64-apple-darwin', 'binary_sha256': '74c3fd99aa7d3a0000dcbdbe4567cebc9c057d28a7b9003ef6674db71936c6d3'}]}
+        previous_hash = next(row["binary_sha256"] for row in baseline["platforms"] if row["target"] == target)
+        upgrade = report_root / "stable-upgrade"
+        execute("stable-upgrade", [sys.executable, tooling / "scripts/validate_airs_npm_upgrade.py",
+                "--packages", packages, "--output", upgrade, "--previous", "0.1.1",
+                "--registry", spec["registry"], "--previous-native-sha256", previous_hash,
+                "--previous-source-commit", baseline["source_commit"]])
+        result = load_json(upgrade / "UPGRADE.json")
+        require(result["passed"] and result["roundtrip"]["previous_binary_sha256"] == previous_hash
+                and result["roundtrip"]["candidate_binary_sha256"] == expected,
+                "Stable 0.1.1 upgrade/rollback identity mismatch")
+        report["stable_upgrade_sha256"] = digest_file(upgrade / "UPGRADE.json")
+    verify_tooling(tooling, manifest, spec["tooling_commit"])
+    require(candidate_identity(spec, packages) == inputs, "Candidate inputs changed")
+    require(digest_file(spec_path) == report["spec_sha256"], "Specification changed")
+    report["passed"] = True
+finally:
+    with (report_root / "COMPLETE.json").open("x") as output:
+        json.dump(report, output, indent=2)
+        output.write("\n")

@@ -1,0 +1,69 @@
+{
+  "version": "0.1.2",
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "workspace": {
+    "scope": "full-workspace",
+    "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "tests_run": 18377,
+    "passed": 18374,
+    "skipped": 34,
+    "failed": 3,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "run": "283",
+    "summary": "     Summary [1983.501s] 18377 tests run: 18374 passed (5 slow), 3 failed, 34 skipped",
+    "artifact_sha256": "88fdf306676ef513262f8b770922d15233fa2485b779f6ee24561c108ed5c315",
+    "log_sha256": "633801b1e6b56da725ff623eba7491174b2ce4ed9ab374fbc32208a39ec337ac",
+    "baseline_review": {
+      "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "upstream_revision": "rust-v0.154.0",
+      "upstream_implementations_unchanged": true,
+      "unresolved_release_blockers": [],
+      "cases": {
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "561fc0daa0c47111fb4e221dcb3a343c7b154b27fcc0e42483b79cf3849e8044",
+          "evidence_file": "baseline-evidence/01.json"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "34b953bd30770ba6165e22ddd2891fc2c03d71e2e3ce5960fb70ab9c2db41691",
+          "evidence_file": "baseline-evidence/02.json"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "installed_command_rejected": true,
+          "evidence_sha256": "97c4a273339e335d0df26e833e4c1c1904d033663ce8a7b1e9a9be93fc26ebd8",
+          "evidence_file": "baseline-evidence/03.json"
+        }
+      },
+      "review_type": "Exact-source disabled-service review; full workspace remains failed"
+    }
+  },
+  "owner_acceptance": {
+    "version": "0.1.2-alpha.5.mcp.1",
+    "reported_date": "2026-09-21",
+    "inference_signin": true,
+    "mcp_signin": true,
+    "servicenow_read": true,
+    "restart_reuse": true,
+    "jev_workflow": true,
+    "source": "Owner reports success in this conversation; outcomes only, no credentials collected",
+    "stable_source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "runtime_behavior_unchanged_since_owner_acceptance": true,
+    "reviewed_runtime_changes": [
+      "codex-rs/utils/home-dir/src/lib.rs",
+      "npm/airs-harness/package-lock.json",
+      "npm/airs-harness/package.json"
+    ]
+  },
+  "runtime_behavior_unchanged_since_owner_acceptance": true
+}

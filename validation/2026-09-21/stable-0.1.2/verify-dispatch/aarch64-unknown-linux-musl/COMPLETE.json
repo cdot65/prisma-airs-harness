@@ -1,0 +1,68 @@
+{
+  "mode": "verify",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "75b5014246d3ff5d28a013bd1e3fbf8b8a469c14aa222fb6a8517c2fbeb9996c",
+  "tooling_manifest_sha256": "e6c3d1801f93d66e65cf71115ad0621cc89e7fdf260655d265b3a10d52afe4fe",
+  "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "expected_native_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "951c6492e3d5ee39bcea2e442338bca304b2b4b96143f57817cb6f928c000e4d",
+    "candidate_packages_sha256": "b40375c4411b7d7840dda302ec249c7bc3a93531506d41d6659e12505a3d7e4a"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-stable012/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/home/airs-review/stable012-candidate/SPEC.json",
+        "--packages",
+        "/home/airs-review/stable012-candidate/staged",
+        "--scripts",
+        "/home/airs-review/release-frozen-stable012/scripts",
+        "--output",
+        "/home/airs-review/stable012-candidate/registry-acceptance",
+        "--acceptance",
+        "/home/airs-review/stable012-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 335.06729032000294
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-stable012/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.294782587996451
+    },
+    {
+      "name": "stable-upgrade",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-stable012/scripts/validate_airs_npm_upgrade.py",
+        "--packages",
+        "/home/airs-review/stable012-candidate/staged",
+        "--output",
+        "/home/airs-review/stable012-candidate/verify-dispatch/aarch64-unknown-linux-musl/stable-upgrade",
+        "--previous",
+        "0.1.1",
+        "--registry",
+        "https://npm.cdot.io",
+        "--previous-native-sha256",
+        "fcb00a9b553b8f1556c32230138d954c8c6ada1a4b72c775bb3a920fccd62f94",
+        "--previous-source-commit",
+        "b91d706e292791848394f30128b5f97aa53c4b9d"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 63.879405487008626
+    }
+  ],
+  "stable_upgrade_sha256": "c7422c3e377f44f586abcd9cb953bf0db93ed39fa66c7598a9557d42ad03c2fe",
+  "passed": true
+}

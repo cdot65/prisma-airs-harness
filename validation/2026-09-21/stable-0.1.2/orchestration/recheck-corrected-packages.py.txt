@@ -1,0 +1,50 @@
+"""Retain the superseded package evidence and accept the documentation correction."""
+from pathlib import Path
+import hashlib,json,subprocess,sys,time,shutil
+root=Path(__file__).resolve().parent;r=root/'release'
+start=time.monotonic()
+while not (r/'OWNER-CANDIDATE-VERIFIED.json').exists():
+ if time.monotonic()-start>7200:raise TimeoutError('Original candidate acceptance remains incomplete')
+ time.sleep(15)
+assert json.loads((r/'OWNER-CANDIDATE-VERIFIED.json').read_text())['passed']
+assert json.loads((r/'CORRECTED-ASSEMBLY.json').read_text())['passed']
+assert not (r/'publication/PUBLICATION.json').exists()
+oldspec=json.loads((r/'SPEC.json').read_text())
+for host in ['mac','ubuntu']:
+ report=json.loads((r/f'OWNER-COLLECT-candidate-{host}.json').read_text())
+ assert hashlib.sha256((r/f'owner-{host}-candidate.tar.gz').read_bytes()).hexdigest()==report['sha256']
+mac=['ssh','-o','BatchMode=yes','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121','/opt/homebrew/bin/python3.13 -']
+ubuntu=['ssh','-o','BatchMode=yes','cdot@10.0.44.1','/home/cdot/.cache/airs-native-mcp-20260919/venv/bin/python -']
+def cleanup(path,extra=''):
+ return f'''from pathlib import Path
+import json,shutil,subprocess
+p=Path({path!r})
+assert p.is_dir() and not p.is_symlink() and p.resolve()==p
+assert json.loads((p/'SPEC.json').read_text())=={oldspec!r}
+assert json.loads((p/'HOST-COMPLETE.json').read_text())['passed']
+{extra}
+shutil.rmtree(p)
+print('Removed only the completed disposable acceptance directory after portable evidence verification')
+'''
+arm=cleanup('/home/airs-review/stable012-candidate')
+maccode=cleanup('/Users/cdot/.cache/airs-012-20260921/stable012-candidate',"label=json.loads((p/'LAUNCH.json').read_text())['mac_gui_label']\nassert label.startswith('io.cdot.airs.')\nassert subprocess.run(['launchctl','print','gui/501/'+label],capture_output=True).returncode!=0")
+maccode+=f"subprocess.run(['/usr/local/bin/docker','exec','-i','-u','10001','airs-native-mcp-20260919-arm64','/opt/review-venv/bin/python','-'],input={arm!r},text=True,check=True)\n"
+subprocess.run(mac,input=maccode,text=True,check=True)
+subprocess.run(ubuntu,input=cleanup('/home/cdot/.cache/airs-012-20260921/stable012-candidate'),text=True,check=True)
+prior=r/'superseded-packaging';prior.mkdir()
+names=['SPEC.json','SOURCE-FREEZE.json','ASSEMBLY.json','ASSEMBLY.log','candidate-npm','candidate-acceptance','extras-dispatch','candidate-transfer.tar','CANDIDATE-TRANSFER.json','OWNER-PREPARE.json','OWNER-CANDIDATE-VERIFIED.json','owner-mac-candidate.tar.gz','owner-ubuntu-candidate.tar.gz','owner-collected-mac-candidate','owner-collected-ubuntu-candidate']
+names += [p.name for p in r.glob('OWNER-LAUNCH-candidate-*.json')]+[p.name for p in r.glob('OWNER-COLLECT-candidate-*.json')]
+for name in names:
+ p=r/name
+ if p.exists():p.rename(prior/name)
+shutil.copy2(root/'ACCEPTANCE.log',prior/'ACCEPTANCE.log')
+(r/'corrected-candidate-npm').rename(r/'candidate-npm')
+shutil.copy2(r/'CORRECTED-SPEC.json',r/'SPEC.json')
+spec=json.loads((r/'SPEC.json').read_text());freeze=json.loads((prior/'SOURCE-FREEZE.json').read_text());freeze['packaging_commit']=spec['packaging_commit'];(r/'SOURCE-FREEZE.json').write_text(json.dumps(freeze,indent=2)+'\n')
+receipt=json.loads((r/'CORRECTED-ASSEMBLY.json').read_text());receipt['exit_code']=0;(r/'ASSEMBLY.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(r/'OWNER-PREPARE.json').write_text(json.dumps({'spec_sha256':hashlib.sha256((r/'SPEC.json').read_bytes()).hexdigest(),'packaging_commit':spec['packaging_commit'],'cli_version':'7.1.5'},indent=2)+'\n')
+record={'reason':'Stale packaged guide versions and Ubuntu helper default corrected before publication','old_spec_sha256':hashlib.sha256((prior/'SPEC.json').read_bytes()).hexdigest(),'new_spec_sha256':hashlib.sha256((r/'SPEC.json').read_bytes()).hexdigest(),'native_binaries_unchanged':oldspec['platforms']==spec['platforms'],'old_candidate_acceptance_passed':True,'old_packages_published':False,'retained_evidence':str(prior),'portable_archives':{host:json.loads((prior/f'OWNER-COLLECT-candidate-{host}.json').read_text())['sha256'] for host in ['mac','ubuntu']}}
+(r/'PACKAGING-CORRECTION.json').write_text(json.dumps(record,indent=2)+'\n')
+subprocess.run([sys.executable,str(r/'native-execution/build-transfer.py')],check=True)
+subprocess.run([sys.executable,str(r/'owner-handoff/release.py'),'accept'],check=True)
+subprocess.run([sys.executable,str(root/'publish-after-acceptance.py')],check=True)

@@ -1,0 +1,9 @@
+from pathlib import Path
+import json,subprocess,sys
+root=Path('/tmp/airs-012-20260921');release=root/'release'
+assert not (release/'SUPERSEDED.json').exists()
+assert json.loads((release/'OWNER-CANDIDATE-VERIFIED.json').read_text())['passed']
+helper=release/'owner-handoff/release.py'
+for phase in ['publish','verify']:
+ subprocess.run([sys.executable,str(helper),phase],check=True)
+print('All anonymous registry acceptance and verbatim-output checks passed.',flush=True)

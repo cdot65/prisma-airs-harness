@@ -1,0 +1,391 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 check
+npm notice run npm run check:content && npm run build && npm run test:browser
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 check:content
+npm notice run node scripts/check-content.mjs
+Checked 15 lessons, 18 Mermaid blocks, provenance, and publication boundaries.
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 build
+npm notice run docusaurus build
+[INFO] [en] Creating an optimized production build...
+[webpackbar] ℹ Compiling Client
+[webpackbar] ℹ Compiling Server
+[webpackbar] ✔ Server: Compiled successfully in 7.88s
+[webpackbar] ✔ Client: Compiled successfully in 31.27s
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 test:browser
+npm notice run playwright test
+[WebServer] npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm notice run prisma-airs-reference-architecture@0.1.0 serve
+[WebServer] npm notice run docusaurus serve --host 127.0.0.1 --port 4173
+[WebServer] (node:846090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:846119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/site.spec.js:6:3 › lesson start-here renders its diagrams without browser errors (1ms)
+(node:846132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/site.spec.js:6:3 › lesson architecture renders its diagrams without browser errors (1ms)
+(node:846144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/site.spec.js:6:3 › lesson harness renders its diagrams without browser errors (1ms)
+(node:846156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/site.spec.js:6:3 › lesson keycloak renders its diagrams without browser errors (1ms)
+(node:846168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/site.spec.js:6:3 › lesson cie renders its diagrams without browser errors (1ms)
+(node:846195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/site.spec.js:6:3 › lesson login renders its diagrams without browser errors (1ms)
+(node:846207) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/site.spec.js:6:3 › lesson gateway renders its diagrams without browser errors (1ms)
+(node:846220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/site.spec.js:6:3 › lesson mcp renders its diagrams without browser errors (1ms)
+(node:846232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/site.spec.js:6:3 › lesson walkthrough renders its diagrams without browser errors (1ms)
+(node:846260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 tests/site.spec.js:6:3 › lesson lifecycle renders its diagrams without browser errors (1ms)
+(node:846272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 tests/site.spec.js:6:3 › lesson operations renders its diagrams without browser errors (1ms)
+(node:846284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 tests/site.spec.js:6:3 › lesson troubleshooting renders its diagrams without browser errors (1ms)
+(node:846297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 tests/site.spec.js:6:3 › lesson labs renders its diagrams without browser errors (1ms)
+(node:846309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 tests/site.spec.js:6:3 › lesson glossary renders its diagrams without browser errors (1ms)
+(node:846321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 tests/site.spec.js:6:3 › lesson evidence renders its diagrams without browser errors (1ms)
+(node:846333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 tests/site.spec.js:22:1 › authorization exercise denies each missing condition (1ms)
+(node:846345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 tests/site.spec.js:32:1 › home works on a small screen and links use the project base path (1ms)
+(node:846358) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 tests/site.spec.js:41:1 › diagrams also render in dark mode (1ms)
+(node:846370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 tests/site.spec.js:48:1 › diagram expansion supports zoom, SVG download and Escape (1ms)
+(node:846382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 tests/site.spec.js:61:1 › ServiceNow onboarding is discoverable and covers both SSO authorizations (1ms)
+
+
+  1) tests/site.spec.js:6:3 › lesson start-here renders its diagrams without browser errors ────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-start-here-ren-d13ff-rams-without-browser-errors/error-context.md
+
+  2) tests/site.spec.js:6:3 › lesson architecture renders its diagrams without browser errors ──────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-architecture-r-92634-rams-without-browser-errors/error-context.md
+
+  3) tests/site.spec.js:6:3 › lesson harness renders its diagrams without browser errors ───────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-harness-render-d09d0-rams-without-browser-errors/error-context.md
+
+  4) tests/site.spec.js:6:3 › lesson keycloak renders its diagrams without browser errors ──────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-keycloak-rende-fd69c-rams-without-browser-errors/error-context.md
+
+  5) tests/site.spec.js:6:3 › lesson cie renders its diagrams without browser errors ───────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-cie-renders-its-diagrams-without-browser-errors/error-context.md
+
+  6) tests/site.spec.js:6:3 › lesson login renders its diagrams without browser errors ─────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-login-renders--5ca9e-rams-without-browser-errors/error-context.md
+
+  7) tests/site.spec.js:6:3 › lesson gateway renders its diagrams without browser errors ───────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-gateway-render-2baa6-rams-without-browser-errors/error-context.md
+
+  8) tests/site.spec.js:6:3 › lesson mcp renders its diagrams without browser errors ───────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-mcp-renders-its-diagrams-without-browser-errors/error-context.md
+
+  9) tests/site.spec.js:6:3 › lesson walkthrough renders its diagrams without browser errors ───────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-walkthrough-re-60c05-rams-without-browser-errors/error-context.md
+
+  10) tests/site.spec.js:6:3 › lesson lifecycle renders its diagrams without browser errors ────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-lifecycle-rend-1bf14-rams-without-browser-errors/error-context.md
+
+  11) tests/site.spec.js:6:3 › lesson operations renders its diagrams without browser errors ───────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-operations-ren-289b3-rams-without-browser-errors/error-context.md
+
+  12) tests/site.spec.js:6:3 › lesson troubleshooting renders its diagrams without browser errors ──
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-troubleshootin-fc878-rams-without-browser-errors/error-context.md
+
+  13) tests/site.spec.js:6:3 › lesson labs renders its diagrams without browser errors ─────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-labs-renders-its-diagrams-without-browser-errors/error-context.md
+
+  14) tests/site.spec.js:6:3 › lesson glossary renders its diagrams without browser errors ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-glossary-rende-d17fb-rams-without-browser-errors/error-context.md
+
+  15) tests/site.spec.js:6:3 › lesson evidence renders its diagrams without browser errors ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-lesson-evidence-rende-c6031-rams-without-browser-errors/error-context.md
+
+  16) tests/site.spec.js:22:1 › authorization exercise denies each missing condition ───────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-authorization-exercise-denies-each-missing-condition/error-context.md
+
+  17) tests/site.spec.js:32:1 › home works on a small screen and links use the project base path ───
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-home-works-on-a-small-0c947-s-use-the-project-base-path/error-context.md
+
+  18) tests/site.spec.js:41:1 › diagrams also render in dark mode ──────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-diagrams-also-render-in-dark-mode/error-context.md
+
+  19) tests/site.spec.js:48:1 › diagram expansion supports zoom, SVG download and Escape ───────────
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-diagram-expansion-supports-zoom-SVG-download-and-Escape/error-context.md
+
+  20) tests/site.spec.js:61:1 › ServiceNow onboarding is discoverable and covers both SSO authorizations 
+
+    Error: browserType.launch: Executable doesn't exist at /cache/xdg/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/site-ServiceNow-onboarding-cfcee-ers-both-SSO-authorizations/error-context.md
+
+  20 failed
+    tests/site.spec.js:6:3 › lesson start-here renders its diagrams without browser errors ─────────
+    tests/site.spec.js:6:3 › lesson architecture renders its diagrams without browser errors ───────
+    tests/site.spec.js:6:3 › lesson harness renders its diagrams without browser errors ────────────
+    tests/site.spec.js:6:3 › lesson keycloak renders its diagrams without browser errors ───────────
+    tests/site.spec.js:6:3 › lesson cie renders its diagrams without browser errors ────────────────
+    tests/site.spec.js:6:3 › lesson login renders its diagrams without browser errors ──────────────
+    tests/site.spec.js:6:3 › lesson gateway renders its diagrams without browser errors ────────────
+    tests/site.spec.js:6:3 › lesson mcp renders its diagrams without browser errors ────────────────
+    tests/site.spec.js:6:3 › lesson walkthrough renders its diagrams without browser errors ────────
+    tests/site.spec.js:6:3 › lesson lifecycle renders its diagrams without browser errors ──────────
+    tests/site.spec.js:6:3 › lesson operations renders its diagrams without browser errors ─────────
+    tests/site.spec.js:6:3 › lesson troubleshooting renders its diagrams without browser errors ────
+    tests/site.spec.js:6:3 › lesson labs renders its diagrams without browser errors ───────────────
+    tests/site.spec.js:6:3 › lesson glossary renders its diagrams without browser errors ───────────
+    tests/site.spec.js:6:3 › lesson evidence renders its diagrams without browser errors ───────────
+    tests/site.spec.js:22:1 › authorization exercise denies each missing condition ─────────────────
+    tests/site.spec.js:32:1 › home works on a small screen and links use the project base path ─────
+    tests/site.spec.js:41:1 › diagrams also render in dark mode ────────────────────────────────────
+    tests/site.spec.js:48:1 › diagram expansion supports zoom, SVG download and Escape ─────────────
+    tests/site.spec.js:61:1 › ServiceNow onboarding is discoverable and covers both SSO authorizations 

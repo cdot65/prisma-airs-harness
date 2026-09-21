@@ -1,0 +1,27 @@
+{
+  "workspace": {
+    "run": "283",
+    "workflow": "airs-harness-linux.yml",
+    "inputs": {
+      "source_ref": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "tooling_ref": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "test_filter": ""
+    }
+  },
+  "x64": {
+    "run": "284",
+    "workflow": "airs-harness-linux-x64.yml",
+    "inputs": {
+      "source_ref": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "private_candidate": true
+    }
+  },
+  "arm64": {
+    "run": "285",
+    "workflow": "airs-harness-linux-arm64.yml",
+    "inputs": {
+      "source_ref": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+      "private_candidate": true
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "container_tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "source_receipt_verification_pending": true,
+  "run": "283",
+  "status": "failure",
+  "summaries": [
+    "     Summary [1983.501s] 18377 tests run: 18374 passed (5 slow), 3 failed, 34 skipped"
+  ],
+  "failures": [
+    "  TRY 2 FAIL [   1.413s] ( 9342/18377) codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "  TRY 2 FAIL [   0.186s] ( 9350/18377) codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox",
+    "  TRY 2 FAIL [   1.415s] ( 9355/18377) codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "  TRY 2 FAIL [   1.413s] ( 9342/18377) codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "  TRY 2 FAIL [   0.186s] ( 9350/18377) codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox",
+    "  TRY 2 FAIL [   1.415s] ( 9355/18377) codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery"
+  ],
+  "log_sha256": "88b6449e8c0de33d3c6da435815a959fd8d23952c651b807063825ed3756e1c3",
+  "tests_run": 18377,
+  "passed": 18374,
+  "failed": 3,
+  "skipped": 34
+}

@@ -1,0 +1,8 @@
+{
+  "promotion_tooling_commit": "9402e7ec7543a44210883950c5f338903472fd43",
+  "native_source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+  "runtime_and_packaging_unchanged": true,
+  "tests_passed": 7,
+  "test_log_sha256": "4d671544d2ef6839e2abb8cb9ccbafcf2b0f9083238bba5a8c01392fb4ee5f06",
+  "scope": "Exact-source 0.1.2 review for three unchanged disabled upstream service tests only; installed evidence still required"
+}

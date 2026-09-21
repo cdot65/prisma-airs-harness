@@ -1,0 +1,58 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-stable012/scripts/validate_airs_npm_upgrade.py",
+    "--packages",
+    "/home/airs-review/stable012-candidate/staged",
+    "--previous",
+    "0.1.2-alpha.5.mcp.1",
+    "--registry",
+    "https://npm.cdot.io",
+    "--output",
+    "/home/airs-review/stable012-candidate/registry-acceptance/aarch64-unknown-linux-musl.work/upgrade-3a3aee51ceb2475ba86d21504b662d58/upgrade"
+  ],
+  "command_sha256": "c57af9a497d1940709c2c40078b0226708fdeee1f8aef01f639b8f02394c9a6c",
+  "dependencies": {
+    "doctor": "1350dc3704aa4325f95bed64ec197ac02ead7bb8181f1109cf1aa1b3b103682c",
+    "install": "ec8f6a37928ba429681425dc1d4a84668dc362a5b7e5c292ae82766624ddd60b",
+    "installed-regressions": "bc06b0ec6dd2cc32c07433ec2adb4cb37d0b666bc464533619f63fb0ccea9ccc",
+    "managed-cli": "78a5574a8f7a0fde621c524d60fdc07ff7347b3b46cff51859ab81c22bc82880",
+    "mcp-manager": "157a817112ea8730c96e3a52af269786c6d67e5bcf5ce33493aea20d817a4b39",
+    "onboarding": "2e587c37c6ca0cd6def378c98a7423bd5029a9b568bf3f455fb662b01f7e7db3",
+    "terminals": "a3db3cb41a28e4b03680f64ef5e0a9a46de7fb6352537d48c0d7f20257cf9748"
+  },
+  "exit_code": 0,
+  "input_sha256": "9c391a890dedc6f961ad82770dad033b5e8ae68831c4a1de6544e8aab3c03f17",
+  "inputs": {
+    "binary_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d",
+    "candidate_metadata_sha256": "951c6492e3d5ee39bcea2e442338bca304b2b4b96143f57817cb6f928c000e4d",
+    "candidate_packages_sha256": "b40375c4411b7d7840dda302ec249c7bc3a93531506d41d6659e12505a3d7e4a",
+    "contract": {
+      "normal_python": true,
+      "selection": "UPGRADE.json",
+      "stage": "upgrade",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "8a1dd5324c4c6c2345b8d8737e0400308fe67cab",
+    "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "spec_sha256": "db4b9c7bb3ce1abcc14632a80f8be86e6b5064116495f8bac5e560e9e3429f60",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "tooling_sha256": "b13376a1c77b1ea00b24fd9ab64c8faf5b756d1299ab94c1b7d198e4b3b0f395",
+    "version": "0.1.2"
+  },
+  "outputs": {
+    "files/upgrade/UPGRADE.json": {
+      "sha256": "333f5d388f620b6f571fdeb3d48b6fc019bab319bb14f7899e05b008fcd36c5d",
+      "size": 1672
+    },
+    "logs/upgrade.log": {
+      "sha256": "9d844134be6c4cd40689ee8040b181112d6f742cc139f0671262ead36ccf76d7",
+      "size": 1442
+    }
+  },
+  "schema_version": 1,
+  "stage": "upgrade"
+}

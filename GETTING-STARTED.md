@@ -121,7 +121,7 @@ airs --environment work doctor --verify-access
 
 ### Optional: TypeSafe judge key for red-team scoring
 
-Preview **0.1.2-alpha.5.mcp.1** makes live skill runs request approval for the
+Release **0.1.2** makes live skill runs request approval for the
 judge command to access your native
 credential store and send scan records to TypeSafe. Approve that specific command
 inside AIRS; dry runs and explicit replay keep normal sandbox permissions. A saved
@@ -129,7 +129,7 @@ key can be readable by `/typesafe` while inaccessible to a sandboxed shell. If a
 shell attempt reports an unreadable key, retry through the command approval path
 before replacing it. The workspace sandbox remains enabled for other commands.
 
-The JavaScript entrypoint requires preview **0.1.2-alpha.5.mcp.1** with CLI
+The JavaScript entrypoint requires release **0.1.2** with CLI
 **7.1.5**. See the [release record](RELEASE-TYPESAFE-JUDGE.md) for publication
 status. Stable 0.1.1 does not include the judge.
 

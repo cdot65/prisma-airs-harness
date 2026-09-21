@@ -81,6 +81,17 @@ WORKSPACE_BASELINE_011 = {
 }
 
 
+# Run 283 reproduced only these unchanged upstream service failures. This review
+# is confined to the exact 0.1.2 native source; it cannot waive later releases or
+# carry forward 0.1.1's corrected-fixture exceptions.
+WORKSPACE_SOURCE_012 = "aee13a272b5e79fe0ea6fe62485ca7c164927028"
+WORKSPACE_BASELINE_012 = {
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": "disabled-upstream-service",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": "disabled-upstream-service",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": "disabled-upstream-service",
+}
+
+
 def validate_workspace(spec, workspace):
     require(
         workspace.get("scope") == "full-workspace"
@@ -94,13 +105,18 @@ def validate_workspace(spec, workspace):
     if workspace["failed"] == 0:
         require(not workspace.get("failures"), "Failure count disagrees with cases")
         return
+    baseline = {}
+    if spec["version"] == "0.1.1":
+        baseline = WORKSPACE_BASELINE_011
+    elif spec["version"] == "0.1.2" and spec["source_commit"] == WORKSPACE_SOURCE_012:
+        baseline = WORKSPACE_BASELINE_012
     failures = workspace.get("failures", [])
     review = workspace.get("baseline_review", {})
     require(
-        spec["version"] == "0.1.1"
+        bool(baseline)
         and len(failures) == workspace["failed"]
         and len(set(failures)) == len(failures)
-        and set(failures) <= WORKSPACE_BASELINE_011.keys()
+        and set(failures) <= baseline.keys()
         and review.get("source_commit") == spec["source_commit"]
         and review.get("upstream_revision") == "rust-v0.154.0"
         and review.get("upstream_implementations_unchanged") is True
@@ -112,7 +128,7 @@ def validate_workspace(spec, workspace):
     for name in failures:
         case = cases[name]
         require(
-            case.get("disposition") == WORKSPACE_BASELINE_011[name]
+            case.get("disposition") == baseline[name]
             and case.get("evidence_verified") is True
             and isinstance(case.get("evidence_sha256"), str)
             and len(case["evidence_sha256"]) == 64

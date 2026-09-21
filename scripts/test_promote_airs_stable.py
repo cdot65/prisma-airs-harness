@@ -7,7 +7,14 @@ import unittest
 from unittest.mock import patch
 
 from airs_test_release_spec import PACKAGE_ORDER, canonical_digest
-from promote_airs_stable import WORKSPACE_BASELINE_011, promote, validate_readiness
+from promote_airs_stable import (
+    WORKSPACE_BASELINE_011,
+    WORKSPACE_BASELINE_012,
+    WORKSPACE_SOURCE_012,
+    promote,
+    validate_readiness,
+    validate_workspace,
+)
 from test_airs_test_release_publish import MemoryRegistry, fixture
 
 
@@ -187,6 +194,66 @@ class StablePromotionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_readiness(self.spec, changed)
         self.assertEqual(self.registry.promoted, [])
+
+    def test_012_review_requires_exact_source_and_rejects_old_fixture_exceptions(self):
+        spec = {"version": "0.1.2", "source_commit": WORKSPACE_SOURCE_012}
+        cases = {
+            name: {
+                "disposition": disposition,
+                "evidence_verified": True,
+                "evidence_sha256": "a" * 64,
+                "installed_command_rejected": True,
+            }
+            for name, disposition in WORKSPACE_BASELINE_012.items()
+        }
+        workspace = {
+            "scope": "full-workspace",
+            "source_commit": WORKSPACE_SOURCE_012,
+            "passed": 100,
+            "failed": len(cases),
+            "failures": list(cases),
+            "baseline_review": {
+                "source_commit": WORKSPACE_SOURCE_012,
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": cases,
+            },
+        }
+        validate_workspace(spec, workspace)
+        for version in ["0.1.3", "0.1.2-alpha.6.mcp.1"]:
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                validate_workspace({**spec, "version": version}, workspace)
+        changed = copy.deepcopy(workspace)
+        changed["source_commit"] = "b" * 40
+        changed["baseline_review"]["source_commit"] = "b" * 40
+        with self.assertRaises(ValueError):
+            validate_workspace({**spec, "source_commit": "b" * 40}, changed)
+        for name, disposition in WORKSPACE_BASELINE_011.items():
+            if disposition == "disabled-upstream-service":
+                continue
+            changed = copy.deepcopy(workspace)
+            changed["failures"].append(name)
+            changed["failed"] += 1
+            changed["baseline_review"]["cases"][name] = {
+                "disposition": disposition,
+                "evidence_verified": True,
+                "evidence_sha256": "a" * 64,
+                "focused_check_passed": True,
+                "runtime_source_unchanged": True,
+            }
+            with self.subTest(old_exception=name), self.assertRaises(ValueError):
+                validate_workspace(spec, changed)
+        for name in cases:
+            for field in ["evidence_verified", "installed_command_rejected"]:
+                changed = copy.deepcopy(workspace)
+                changed["baseline_review"]["cases"][name][field] = False
+                with (
+                    self.subTest(case=name, field=field),
+                    self.assertRaises(ValueError),
+                ):
+                    validate_workspace(spec, changed)
+        self.assertEqual(workspace["failed"], 3)
 
     def test_wrong_registry_mode_or_package_bytes_prevent_promotion(self):
         self.verification["installation"] = "candidate"

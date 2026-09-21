@@ -1,6 +1,6 @@
 # Prisma AIRS Harness
 
-TypeSafe Jev preview: [install the harness with bundled CLI 7.1.4](RELEASE-TYPESAFE-JUDGE.md).
+[Install stable 0.1.2 with bundled CLI 7.1.5 and the Jev judge](RELEASE-0.1.2.md).
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.
 Both inference and remote MCP traffic target Prisma AIRS AI Gateway. The native
@@ -15,18 +15,18 @@ not implement the native MCP connection.
 
 ## Release status
 
-**0.1.1 is the reliability and onboarding release.** It consolidates environment
-onboarding, company SSO and workspace API keys, in-session MCP sign-in and
-connection management, and recovery diagnostics. Desktop MCP sign-in opens the
-browser; remote sign-in supports hidden callback input. New environments use
-native MCP credential storage; existing environments retain their configured mode.
+**0.1.2 includes the reliability, onboarding and TypeSafe Jev judge work.**
+It provides guided environments, company SSO or workspace API keys, in-session
+MCP sign-in, `/doctor` diagnostics and optional `/typesafe` key setup. The bundled
+judge uses Node and CLI 7.1.5; no Python installation is required. Approve the
+specific live judge command for native credential-store and network access.
+Dry runs and explicit replay retain normal sandbox permissions.
 
-The owner confirmed inference sign-in, ServiceNow sign-in, a read-only query and
-credential reuse after restarting the preceding mcp.6 release on Apple Silicon.
-Stable publication requires fresh installed checks of the actual 0.1.1 packages
-on Linux x64, Linux ARM64 and signed/notarized Apple Silicon. See
-[the release notes](RELEASE-0.1.1.md) and
-[the preceding release evidence](validation/2026-09-19/mcp-signin-polish/README.md).
+The owner confirmed alpha.5 inference, ServiceNow through `/mcp`, read-only access,
+restart/reuse and Jev. The stable runtime changes only its version stamp. The
+full GNU workspace recorded 18,374 passed, 3 inherited remote-execution failures
+and 34 skipped; this is not a green full-suite result. See the
+[release notes](RELEASE-0.1.2.md) for publication and verification status.
 
 The npm package remains `airs-harness`; the command is `airs`. The bundled product
 CLI is `airs cli ...`; the standalone product CLI uses `airs-cli`. A temporary
@@ -44,7 +44,7 @@ company SSO or a workspace API key, then ServiceNow sign-in through the in-sessi
 verification. MCP connection changes start a new conversation inside AIRS while
 preserving history and the draft.
 
-For 0.1.1 use the exact version below. After stable promotion, an ordinary
+For 0.1.2 use the exact version below. After stable promotion, an ordinary
 unversioned install selects it through `latest`; prerelease channel tags remain
 separate. Upgrading preserves existing environments, credentials and history.
 
@@ -62,17 +62,17 @@ npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.o
 airs-cli --version
 ```
 
-A fresh machine needs only the harness installation below. It includes CLI 7.1.4
+A fresh machine needs only the harness installation below. It includes CLI 7.1.5
 as `airs cli` and the Prisma AIRS product skills.
 
 ```sh
-npm install -g airs-harness@mcp --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
 
 Downloads are anonymous; no npm login or Rust compiler is required.
-The test channel includes the unified environment commands and in-session
+This release includes the unified environment commands and in-session
 connection dashboards. Check the installed version before reporting a result.
 If an old standalone product CLI owns `airs`, upgrade it to
 `@cdot65/prisma-airs-cli@7.0.1` first so it exports `airs-cli`, then install the
@@ -161,12 +161,11 @@ environment, then starts sign-in. If sign-in is interrupted, resume with
 Check access with `airs --environment work doctor --verify-access`.
 Configure gateway MCP using the onboarding steps above.
 
-In [preview 0.1.2-alpha.3.mcp.1](RELEASE-TYPESAFE-JUDGE.md), setup also offers an
-optional TypeSafe judge key for red-team ASR scoring. Bind or
-inspect it later with `airs env typesafe set|status|clear`. The skill uses
-`airs --environment NAME env typesafe exec -- COMMAND` to pass the key only to
-its child process; existing shell variables take precedence. See
-[GETTING-STARTED.md](GETTING-STARTED.md#optional-typesafe-judge-key-for-red-team-scoring).
+Use `/typesafe` inside AIRS to save, inspect or remove the optional Jev key.
+Invoke `$prisma-airs-asr-judge attacks.json` and approve the specific live judge
+command. The owning environment supplies its saved credential to the judge child;
+existing shell variables take precedence. Dry-run and explicitly requested replay
+need no key. See [Getting started](GETTING-STARTED.md#optional-typesafe-judge-key-for-red-team-scoring).
 
 `env create` selects the new environment, so subsequent commands need no
 environment flag. Use `env use NAME` to change the saved default. The optional

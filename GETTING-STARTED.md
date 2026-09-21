@@ -4,7 +4,7 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release: 0.1.1.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
+**Release: 0.1.2.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
 
 The owner confirmed the complete inference → ServiceNow sign-in → read-only query → restart/reuse workflow on Apple Silicon with the preceding mcp.6 release. Automated package checks and real-account acceptance are recorded separately.
 
@@ -15,7 +15,7 @@ Check Node.js and npm in the terminal you will use. The harness requires **22.13
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@0.1.1 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
 airs --version
 airs cli --version
 ```
@@ -24,9 +24,9 @@ Replace the example registry with your administrator's registry. Ordinary instal
 
 If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness 0.1.1 bundles CLI 7.0.0. For `redteam judge`, install [harness preview 0.1.2-alpha.5.mcp.1](RELEASE-TYPESAFE-JUDGE.md), which bundles CLI 7.1.5. Standalone CLI 7.1.5 is also published on public npm under `next`.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness [0.1.2](RELEASE-0.1.2.md) bundles CLI 7.1.5 and the Jev judge skill. Standalone CLI 7.1.5 is also published on public npm under `next`.
 
-Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.1; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
+Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.2; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
 ### 1. Get the connection details and access
 
@@ -54,7 +54,7 @@ For a new profile, start guided creation:
 airs env create work
 ```
 
-Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by 0.1.1 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
+Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by 0.1.2 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
 
 If `work` already exists, reuse it:
 
@@ -130,8 +130,8 @@ shell attempt reports an unreadable key, retry through the command approval path
 before replacing it. The workspace sandbox remains enabled for other commands.
 
 The JavaScript entrypoint requires release **0.1.2** with CLI
-**7.1.5**. See the [release record](RELEASE-TYPESAFE-JUDGE.md) for publication
-status. Stable 0.1.1 does not include the judge.
+**7.1.5**. See the [release record](RELEASE-0.1.2.md) for publication
+status. The earlier stable 0.1.1 does not include the judge.
 
 Inside `airs`, enter `/typesafe` and choose **Save or replace API key**. Paste the
 key into the hidden field and press Enter. The dialog also shows configuration
@@ -212,7 +212,7 @@ Set `animations = false` under `[tui]` in the environment configuration, or laun
 
 ### 4. Open AIRS and check MCP storage for existing environments
 
-**New environments created by 0.1.1:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
+**New environments created by 0.1.2:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
 
 **Existing environments and mcp.3:** upgrading preserves the existing mode and saved tokens. To inspect the mode, run `airs env show work`, locate `state_directory`, and inspect that directory's `config.toml`. The explicit native-only setting is this **top-level** key, before any `[table]` headers:
 

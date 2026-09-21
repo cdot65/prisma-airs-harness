@@ -108,7 +108,7 @@ jobs:
         shell: bash
         run: |
           cargo fetch --locked --target "$(rustc -vV | sed -n 's/^host: //p')"
-      - uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         if: steps.sources_cache.outputs.cache-hit != 'true'
         continue-on-error: true
         with:
@@ -129,7 +129,7 @@ jobs:
         run: |
           binary=codex-rs/target/debug/examples/store_acceptance
           python scripts/validate_native_credentials.py --binary "$binary" --output native-store.json
-      - uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         if: steps.target_cache.outputs.cache-hit != 'true'
         continue-on-error: true
         with:

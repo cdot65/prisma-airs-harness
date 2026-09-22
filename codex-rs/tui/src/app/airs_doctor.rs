@@ -1,4 +1,5 @@
 use super::App;
+use super::airs_recovery::RecoveryOperation;
 use super::background_requests::fetch_all_mcp_server_statuses;
 use crate::airs_doctor::Event;
 use crate::airs_doctor::process;
@@ -126,7 +127,9 @@ impl App {
                 let Some(thread) = self.current_displayed_thread_id() else {
                     return;
                 };
-                let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
+                let Some((attempt, cancellation)) =
+                    self.airs_recovery.begin(RecoveryOperation::Doctor)
+                else {
                     self.chat_widget.add_error_message("Another diagnostic, sign-in or MCP operation is running. Cancel it before retrying.".into());
                     return;
                 };

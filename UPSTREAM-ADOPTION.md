@@ -30,8 +30,9 @@ keys remain AIRS-owned. TypeSafe remains an independent optional judge credentia
 
 ## Baseline and scoring
 
-Baseline suite in progress: `just test -p codex-cli -E 'test(airs_)'` against
-unmodified 0.1.2, using the existing local musl cache. Installed native acceptance
+The initial `just test -p codex-cli -E 'test(airs_)'` baseline against unmodified
+0.1.2 failed at linking because the persistent home volume filled; no tests ran.
+The build cache was preserved on the larger local volume. Installed native acceptance
 from `validation/2026-09-21/stable-0.1.2` is historical baseline evidence, not proof
 that new code passes. Ubuntu acceptance host has only 431 MiB free; preserve it.
 
@@ -40,4 +41,39 @@ evidence (2), maintainability (1) and user clarity (1). Below 9 requires revisio
 a hard-fail condition overrides the arithmetic. A source/test score is not a
 cross-platform release score. Pending evidence cannot receive passing points.
 
-P0 and feature scores remain pending until their respective validation completes.
+### P1 slice 1: attempt-bound MCP cancellation — 9/10 source score
+
+At `074f00355d`, MCP wait/progress Cancel and Escape carry their originating attempt.
+The shared recovery state rejects delayed/duplicate cancellations; doctor uses the
+same guarded operation. A queued callback from every progress stage is exercised
+after a newer recovery operation starts. No auth protocol, credential, schema or
+visible copy changed.
+
+Local full TUI library run: 4,351 passed, four cursor-color failures, two skips.
+All 58 AIRS tests passed. The four cursor tests subsequently passed with the
+inherited `NO_COLOR` removed, matching owned CI configuration. No snapshots were
+accepted to hide the environment mismatch. Source score: correctness 3/3,
+boundaries 3/3, regression evidence 1/2, maintainability 1/1, clarity 1/1.
+The remaining evidence point requires installed candidate/platform checks.
+
+Additional baseline evidence: installed 0.1.2 MCP/doctor terminal fixtures passed
+11 checks; the opt-in five-minute expiry passed separately (301.355 seconds).
+Existing OAuth client tests: 320 passed, eight skipped. These checks do not claim
+a new real-account gateway or ServiceNow login. Full GNU workspace run 3817 is
+testing `08fd6c2c12884a33c65318e02ca541536e707fa8` via the owned branch-push
+workflow. It does not include subsequent uncommitted lifecycle work.
+
+### P1 slice 2: company sign-in menu ownership — 9/10 source score
+
+Recovery state records whether the active attempt belongs to company SSO,
+doctor, MCP or TypeSafe. Opening a company sign-in menu captures only a company
+attempt; its Cancel action cannot acquire ownership of another operation.
+Pre-login MCP Cancel only dismisses its menu. Delayed cancel/finish and concurrent
+start tests cover all four operation kinds, and UI callbacks retain the captured ID.
+
+The full local TUI library suite passed: **4,357 passed, two skipped**, with
+`NO_COLOR` unset as in owned CI. Existing visible snapshots remain unchanged.
+Score uses the same 3+3+1+1+1 rubric as slice 1; installed candidate checks remain
+pending. No credential policy, browser URL handling or agent API was added.
+
+Other package scores and release readiness remain pending.

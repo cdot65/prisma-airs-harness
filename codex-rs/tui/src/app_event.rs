@@ -540,7 +540,8 @@ pub(crate) enum AppEvent {
     AirsTypeSafe(crate::airs_typesafe::Event),
     AirsMcpManager(crate::airs_mcp_manager::Event),
     AirsSignIn,
-    AirsSignInCancel,
+    AirsSignInMenu,
+    AirsSignInCancel(u64),
     AirsSignInCompleted {
         attempt: u64,
         result: Result<(), String>,

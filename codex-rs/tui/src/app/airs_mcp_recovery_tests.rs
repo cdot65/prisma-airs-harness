@@ -1,4 +1,5 @@
 use super::super::airs_recovery::AirsRecoveryState;
+use super::super::airs_recovery::RecoveryOperation;
 use super::*;
 use crate::airs_mcp_manager::Event;
 use crate::airs_mcp_manager::Progress;
@@ -16,7 +17,7 @@ fn queued_mcp_cancellation_cannot_cancel_a_newer_recovery_operation() {
         Some(Progress::DiscoveringTools),
     ] {
         let mut state = AirsRecoveryState::default();
-        let (first, first_token) = state.begin().unwrap();
+        let (first, first_token) = state.begin(RecoveryOperation::Mcp).unwrap();
         let view = match progress {
             Some(progress) => views::progress(first, progress),
             None => views::waiting(first),
@@ -27,7 +28,7 @@ fn queued_mcp_cancellation_cannot_cancel_a_newer_recovery_operation() {
         (view.items[0].actions[0])(&sender);
         (view.on_cancel.unwrap())(&sender);
         assert!(state.finish(first));
-        let (second, second_token) = state.begin().unwrap();
+        let (second, second_token) = state.begin(RecoveryOperation::Doctor).unwrap();
         for _ in 0..2 {
             let AppEvent::AirsMcpManager(Event::Cancel(attempt)) = rx.try_recv().unwrap() else {
                 panic!("expected an attempt-scoped MCP cancellation");
@@ -42,7 +43,7 @@ fn queued_mcp_cancellation_cannot_cancel_a_newer_recovery_operation() {
         assert!(second_token.is_cancelled());
         assert!(!state.cancel_attempt(second));
         assert!(!state.finish(second));
-        assert!(state.begin().is_some());
+        assert!(state.begin(RecoveryOperation::Mcp).is_some());
     }
 }
 
@@ -69,17 +70,17 @@ fn reconnect_requires_oauth_and_successful_server_initialization() {
 #[test]
 fn cancelling_consent_invalidates_late_completions_and_allows_retry() {
     let mut state = AirsRecoveryState::default();
-    let (first, cancellation) = state.begin().unwrap();
-    assert!(state.begin().is_none());
+    let (first, cancellation) = state.begin(RecoveryOperation::Mcp).unwrap();
+    assert!(state.begin(RecoveryOperation::Mcp).is_none());
     assert!(state.is_current(first));
     state.cancel();
     assert!(cancellation.is_cancelled());
     assert!(!state.is_current(first));
-    let (second, next) = state.begin().unwrap();
+    let (second, next) = state.begin(RecoveryOperation::Mcp).unwrap();
     assert!(!state.finish(first));
     assert!(state.is_current(second));
     assert!(!next.is_cancelled());
     assert!(state.finish(second));
     assert!(!state.finish(second));
-    assert!(state.begin().is_some());
+    assert!(state.begin(RecoveryOperation::Mcp).is_some());
 }

@@ -1,5 +1,6 @@
 //! AIRS-only orchestration, using existing CLI mutation/OAuth and app-server MCP APIs.
 use super::App;
+use super::airs_recovery::RecoveryOperation;
 use super::background_requests::fetch_all_mcp_server_statuses;
 use crate::airs_mcp_manager::Event;
 use crate::airs_mcp_manager::Operation;
@@ -140,7 +141,9 @@ impl App {
                 let Some(thread) = self.current_displayed_thread_id() else {
                     return;
                 };
-                let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
+                let Some((attempt, cancellation)) =
+                    self.airs_recovery.begin(RecoveryOperation::Mcp)
+                else {
                     self.chat_widget.add_info_message("An authentication or MCP operation is already running. Cancel it before opening another.".into(), /*hint*/ None);
                     return;
                 };
@@ -191,7 +194,9 @@ impl App {
                 if !self.chat_widget.airs_mcp_manager_ready() {
                     return;
                 }
-                let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
+                let Some((attempt, cancellation)) =
+                    self.airs_recovery.begin(RecoveryOperation::Mcp)
+                else {
                     self.chat_widget.add_error_message(
                         "Another sign-in or MCP operation is already running.".into(),
                     );

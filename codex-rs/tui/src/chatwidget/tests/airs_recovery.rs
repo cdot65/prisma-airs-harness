@@ -4,11 +4,28 @@ use crate::render::renderable::Renderable;
 use pretty_assertions::assert_eq;
 use ratatui::backend::TestBackend;
 
+#[test]
+fn sign_in_menu_cancel_targets_only_the_attempt_displayed_when_it_opened() {
+    let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
+    let tx = crate::app_event_sender::AppEventSender::new(tx);
+    let idle = sign_in_view(/*attempt*/ None);
+    (idle.items[1].actions[0])(&tx);
+    assert!(rx.try_recv().is_err());
+    let active = sign_in_view(Some(41));
+    (active.items[1].actions[0])(&tx);
+    assert!(matches!(
+        rx.try_recv().unwrap(),
+        AppEvent::AirsSignInCancel(41)
+    ));
+    assert!(rx.try_recv().is_err());
+}
+
 #[tokio::test]
 async fn recovery_view_preserves_a_draft_and_exposes_explicit_actions() {
     let (mut chat, _rx, _ops) = make_chatwidget_manual(None).await;
     chat.insert_str("Keep this unfinished request");
-    chat.bottom_pane.show_selection_view(sign_in_view());
+    chat.bottom_pane
+        .show_selection_view(sign_in_view(/*attempt*/ None));
     let width = 88;
     let mut terminal =
         ratatui::Terminal::new(TestBackend::new(width, chat.desired_height(width))).unwrap();
@@ -150,8 +167,10 @@ fn mcp_recovery_actions_keep_the_origin_thread_and_require_an_explicit_choice() 
         matches!(rx.try_recv().unwrap(), AppEvent::AirsMcpSignIn { server, thread_id: actual }
         if server == "mcp-server-1" && actual == thread_id)
     );
-    (sign_in.items[1].actions[0])(&tx);
-    assert!(matches!(rx.try_recv().unwrap(), AppEvent::AirsSignInCancel));
+    for action in &sign_in.items[1].actions {
+        action(&tx);
+    }
+    assert!(rx.try_recv().is_err());
     let continuation = crate::airs_mcp_manager::views::continue_after_change(thread_id);
     assert!(rx.try_recv().is_err());
     (continuation.items[0].actions[0])(&tx);

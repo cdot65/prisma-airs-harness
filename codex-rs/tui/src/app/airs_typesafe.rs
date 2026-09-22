@@ -1,4 +1,5 @@
 use super::App;
+use super::airs_recovery::RecoveryOperation;
 use crate::airs_typesafe::Event;
 use crate::airs_typesafe::Operation;
 use crate::airs_typesafe::process;
@@ -45,7 +46,8 @@ impl App {
             self.chat_widget.show_airs_typesafe(views::confirm_clear());
             return;
         }
-        let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
+        let Some((attempt, cancellation)) = self.airs_recovery.begin(RecoveryOperation::TypeSafe)
+        else {
             self.chat_widget.add_error_message("Another diagnostic, sign-in or settings operation is running. Finish it before retrying.".into());
             return;
         };

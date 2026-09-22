@@ -104,7 +104,6 @@ pub(super) fn mcp_sign_in_view(server: String, thread_id: ThreadId) -> Selection
                 description: Some(
                     "Keep your conversation and draft. Use /signin when ready.".into(),
                 ),
-                actions: vec![Box::new(|tx| tx.send(AppEvent::AirsSignInCancel))],
                 dismiss_on_select: true,
                 ..Default::default()
             },

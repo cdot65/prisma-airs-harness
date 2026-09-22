@@ -743,7 +743,10 @@ impl App {
             AppEvent::AirsTypeSafe(event) => self.handle_airs_typesafe(app_server, event),
             AppEvent::AirsMcpManager(event) => self.handle_airs_mcp_manager(app_server, event).await,
             AppEvent::AirsSignIn => self.start_airs_sign_in(),
-            AppEvent::AirsSignInCancel => self.airs_recovery.cancel(),
+            AppEvent::AirsSignInMenu => self.chat_widget.show_airs_sign_in(self.airs_recovery.company_sign_in_attempt()),
+            AppEvent::AirsSignInCancel(attempt) => {
+                self.airs_recovery.cancel_attempt(attempt);
+            }
             AppEvent::AirsSignInCompleted { attempt, result } => {
                 if self.airs_recovery.finish(attempt) {
                     self.chat_widget.airs_sign_in_completed(result);

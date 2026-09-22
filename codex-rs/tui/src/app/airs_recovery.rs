@@ -3,28 +3,54 @@ use super::App;
 use crate::app_event::AppEvent;
 use tokio_util::sync::CancellationToken;
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(super) enum RecoveryOperation {
+    CompanySignIn,
+    Doctor,
+    Mcp,
+    TypeSafe,
+}
+
+struct RecoveryAttempt {
+    operation: RecoveryOperation,
+    cancellation: CancellationToken,
+}
+
 #[derive(Default)]
 pub(super) struct AirsRecoveryState {
     attempt: u64,
-    cancellation: Option<CancellationToken>,
+    active: Option<RecoveryAttempt>,
 }
 
 impl AirsRecoveryState {
-    pub(super) fn begin(&mut self) -> Option<(u64, CancellationToken)> {
-        if self.cancellation.is_some() {
+    pub(super) fn begin(
+        &mut self,
+        operation: RecoveryOperation,
+    ) -> Option<(u64, CancellationToken)> {
+        if self.active.is_some() {
             return None;
         }
         self.attempt = self.attempt.wrapping_add(1);
         let cancellation = CancellationToken::new();
-        self.cancellation = Some(cancellation.clone());
+        self.active = Some(RecoveryAttempt {
+            operation,
+            cancellation: cancellation.clone(),
+        });
         Some((self.attempt, cancellation))
     }
 
     pub(super) fn cancel(&mut self) {
-        if let Some(token) = self.cancellation.take() {
-            token.cancel();
+        if let Some(active) = self.active.take() {
+            active.cancellation.cancel();
         }
         self.attempt = self.attempt.wrapping_add(1);
+    }
+
+    pub(super) fn company_sign_in_attempt(&self) -> Option<u64> {
+        self.active
+            .as_ref()
+            .filter(|active| active.operation == RecoveryOperation::CompanySignIn)
+            .map(|_| self.attempt)
     }
 
     pub(super) fn cancel_attempt(&mut self, attempt: u64) -> bool {
@@ -36,14 +62,14 @@ impl AirsRecoveryState {
     }
 
     pub(super) fn is_current(&self, attempt: u64) -> bool {
-        self.attempt == attempt && self.cancellation.is_some()
+        self.attempt == attempt && self.active.is_some()
     }
 
     pub(super) fn finish(&mut self, attempt: u64) -> bool {
         if attempt != self.attempt {
             return false;
         }
-        self.cancellation.take().is_some()
+        self.active.take().is_some()
     }
 }
 
@@ -53,12 +79,18 @@ impl Drop for AirsRecoveryState {
     }
 }
 
+#[cfg(test)]
+#[path = "airs_recovery_tests.rs"]
+mod tests;
+
 impl App {
     pub(super) fn start_airs_sign_in(&mut self) {
         if !codex_utils_home_dir::is_airs_harness() {
             return;
         }
-        let Some((attempt, cancellation)) = self.airs_recovery.begin() else {
+        let Some((attempt, cancellation)) =
+            self.airs_recovery.begin(RecoveryOperation::CompanySignIn)
+        else {
             self.chat_widget.add_info_message(
                 "Sign-in is already open in your browser. Use /signin and Cancel to stop it."
                     .into(),

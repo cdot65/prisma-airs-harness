@@ -11,7 +11,11 @@ impl ChatWidget {
         if !codex_utils_home_dir::is_airs_harness() {
             return;
         }
-        let mut view = sign_in_view();
+        self.app_event_tx.send(AppEvent::AirsSignInMenu);
+    }
+
+    pub(crate) fn show_airs_sign_in(&mut self, attempt: Option<u64>) {
+        let mut view = sign_in_view(attempt);
         if let Some(thread_id) = self.thread_id() {
             for (name, server) in self.config.mcp_servers.get() {
                 if super::airs_mcp_recovery::supports_oauth(server) {
@@ -43,7 +47,7 @@ impl ChatWidget {
     }
 }
 
-pub(super) fn sign_in_view() -> SelectionViewParams {
+pub(super) fn sign_in_view(attempt: Option<u64>) -> SelectionViewParams {
     SelectionViewParams {
         title: Some("Restore company sign-in".into()),
         subtitle: Some("Your conversation and draft stay here. Sign in as the same person.".into()),
@@ -64,7 +68,11 @@ pub(super) fn sign_in_view() -> SelectionViewParams {
                 description: Some(
                     "Keep this conversation and draft; sign in later with /signin.".into(),
                 ),
-                actions: vec![Box::new(|tx| tx.send(AppEvent::AirsSignInCancel))],
+                actions: vec![Box::new(move |tx| {
+                    if let Some(attempt) = attempt {
+                        tx.send(AppEvent::AirsSignInCancel(attempt));
+                    }
+                })],
                 dismiss_on_select: true,
                 ..Default::default()
             },

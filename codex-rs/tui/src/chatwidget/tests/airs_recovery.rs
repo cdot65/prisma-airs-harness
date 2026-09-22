@@ -197,7 +197,7 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
             crate::airs_mcp_manager::Progress::DiscoveringTools,
         ),
     ] {
-        chat.show_airs_mcp_menu(views::progress(stage));
+        chat.show_airs_mcp_menu(views::progress(7, stage));
         insta::assert_snapshot!(name, render_recovery(&chat));
     }
 
@@ -219,11 +219,11 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
             AppEvent::CodexOp(_) | AppEvent::AirsMcpManager(_)
         ));
     }
-    let waiting = views::waiting();
+    let waiting = views::waiting(7);
     waiting.on_cancel.unwrap()(&chat.app_event_tx);
     assert!(matches!(
         rx.try_recv().unwrap(),
-        AppEvent::AirsMcpManager(Event::Cancel)
+        AppEvent::AirsMcpManager(Event::Cancel(7))
     ));
     let confirmation = views::confirm(Operation::Remove("service-now".into()));
     (confirmation.items[0].actions[0])(&chat.app_event_tx);

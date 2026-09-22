@@ -197,7 +197,7 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
             crate::airs_mcp_manager::Progress::DiscoveringTools,
         ),
     ] {
-        chat.show_airs_mcp_menu(views::progress(7, stage));
+        chat.show_airs_mcp_menu(views::progress(/*attempt*/ 7, stage));
         insta::assert_snapshot!(name, render_recovery(&chat));
     }
 
@@ -219,7 +219,7 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
             AppEvent::CodexOp(_) | AppEvent::AirsMcpManager(_)
         ));
     }
-    let waiting = views::waiting(7);
+    let waiting = views::waiting(/*attempt*/ 7);
     waiting.on_cancel.unwrap()(&chat.app_event_tx);
     assert!(matches!(
         rx.try_recv().unwrap(),

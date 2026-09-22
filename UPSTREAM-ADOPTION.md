@@ -101,6 +101,13 @@ Full TUI library: **4,363 passed, two skipped** after the embedded adaptation.
 The imported working-directory snapshot was reviewed and passed unchanged.
 Score: 3+3+1+1+1; installed terminal/platform acceptance remains pending.
 
+Follow-up review found report export still required a nonempty thread identity.
+Corrected the report guard to accept its original optional identity while retaining
+view invalidation and rejection after switching to a different thread. Actual
+overview/export callbacks cover the threadless case. Full TUI run: **4,364 passed
+(one background-exit test passed on retry), two skipped**. The feature returns to
+9/10 after this correction; the first-pass failure is retained in the log.
+
 ### P1/P3 slice: verification belongs to its configuration — 9/10 source score
 
 The verifier previously checked auth generations but could report old-route access
@@ -146,3 +153,11 @@ This is a narrow AIRS-motivated correction in the existing shared classifier,
 not a claim to have imported `d5b29951ac`'s retry API refactor. No error variants,
 wire schemas, dependencies, automatic login or credential fallback were added.
 Score: 3+3+1+1+1; final integrated/platform tests remain pending.
+
+Scoped protocol Clippy passed. Twelve rebuilt-native MCP/environment fixtures
+passed, with the opt-in five-minute expiry fixture skipped in this run (its earlier
+stable-baseline result is separate). They cover cancel/callback behavior, revocation
+after logout/relogin, pinned history/catalog, credential destination changes and
+rejection of unsupported upstream services. Warm metadata status made zero network
+requests across ten measured launches; debug-vs-release timings do not establish
+the release startup performance budget.

@@ -36,7 +36,7 @@ impl Session {
     }
 
     pub(crate) fn allows(&self, thread: Option<ThreadId>) -> bool {
-        thread.is_some() && self.thread == thread && self.active.load(Ordering::Acquire)
+        self.thread == thread && self.active.load(Ordering::Acquire)
     }
 
     pub(crate) fn invalidate(&self) {

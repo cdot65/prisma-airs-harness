@@ -174,6 +174,55 @@ fn local_save_preserves_existing_state_and_rejects_invalid_destination() {
 }
 
 #[test]
+fn threadless_report_callbacks_work_only_while_their_originating_view_survives() {
+    let (sender, mut receiver) = tokio::sync::mpsc::unbounded_channel();
+    let sender = crate::app_event_sender::AppEventSender::new(sender);
+    let overview = views::overview(
+        "work",
+        Err("No conversation loaded".into()),
+        Vec::new(),
+        /*thread*/ None,
+    );
+    let export = overview
+        .items
+        .iter()
+        .find(|item| item.name == "Diagnostic report")
+        .unwrap();
+    (export.actions[0])(&sender);
+    let AppEvent::AirsDoctor(Event::Report {
+        session,
+        action: Action::Open,
+    }) = receiver.try_recv().unwrap()
+    else {
+        panic!("expected report action");
+    };
+    assert!(session.allows(/*thread*/ None));
+    let actions = views::report_actions(session.text.clone(), /*thread*/ None, "");
+    drop(overview);
+    assert!(!session.allows(/*thread*/ None));
+    for item in &actions.items {
+        (item.actions[0])(&sender);
+    }
+    let mut pending = Vec::new();
+    for _ in &actions.items {
+        let AppEvent::AirsDoctor(Event::Report { session, .. }) = receiver.try_recv().unwrap()
+        else {
+            panic!("expected report action");
+        };
+        assert!(session.allows(/*thread*/ None));
+        assert!(!session.allows(Some(ThreadId::new())));
+        pending.push(session);
+    }
+    drop(actions);
+    assert!(
+        pending
+            .iter()
+            .all(|session| !session.allows(/*thread*/ None))
+    );
+    assert!(receiver.try_recv().is_err());
+}
+
+#[test]
 fn report_preview_wraps_in_existing_pager_at_narrow_width() {
     let text = render(None)
         .replace(codex_utils_home_dir::AIRS_HARNESS_VERSION, "[VERSION]")

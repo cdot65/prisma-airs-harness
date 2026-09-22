@@ -61,7 +61,11 @@ Additional baseline evidence: installed 0.1.2 MCP/doctor terminal fixtures passe
 Existing OAuth client tests: 320 passed, eight skipped. These checks do not claim
 a new real-account gateway or ServiceNow login. Full GNU workspace run 3817 is
 testing `08fd6c2c12884a33c65318e02ca541536e707fa8` via the owned branch-push
-workflow. It does not include subsequent uncommitted lifecycle work.
+workflow. It does not include subsequent lifecycle commits. Final result:
+18,375 passed (one passed on retry), three failed, 34 skipped. The failures are
+the same remote shell-snapshot cases recorded for stable 0.1.2:
+`remote_pipe_recovery`, `remote_tty_recovery`, and `remote_sandbox`. They remain
+failures, not an implicit waiver; the final source still needs its integrated run.
 
 ### P1 slice 2: company sign-in menu ownership — 9/10 source score
 
@@ -113,3 +117,19 @@ changes during a successful response. Existing 401/403/446/blocked-200 and nativ
 credential tests passed. The new fixed user-visible message has snapshot coverage.
 An initial snapshot-in-loop test setup error was corrected; the final run is green.
 Score: 3+3+1+1+1, with installed candidate validation still pending.
+
+### P4 slice 2: bounded catalog diagnostics — 9/10 source score
+
+Adapted the filesystem-helper pattern from `b33199b1fb` into AIRS doctor. Catalog
+validation runs in a private child with a two-second wait budget and null output;
+timeout initiates termination without waiting on uninterruptible filesystem I/O.
+The helper rejects links, nonregular files, invalid UTF-8/JSON and files over
+1 MiB. Errors contain no catalog contents. This bounds the catalog check, not
+OS process creation or every earlier configuration read.
+
+All 154 AIRS CLI tests passed, including a stalled child and exit classification.
+Seven native doctor/PTY tests passed against the locally built candidate, including
+actual helper dispatch with zero gateway/credential work, FIFO/oversized catalogs,
+cancel/retry and redacted reports. `just fmt` completed with the installed DotSlash
+on PATH; unrelated baseline formatter changes were removed. Score: 3+3+1+1+1;
+cross-platform installed package validation remains pending.

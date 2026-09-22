@@ -17,7 +17,9 @@ pub async fn run(
     environment: Option<&str>,
 ) -> anyhow::Result<()> {
     let command = super::airs_environment::command(environment);
-    if args.json && super::airs_doctor_storage::child_probe()? {
+    if args.json
+        && (super::airs_doctor_catalog::child_probe() || super::airs_doctor_storage::child_probe()?)
+    {
         return Ok(());
     }
     let mut checks = Vec::new();
@@ -123,16 +125,13 @@ pub async fn run(
             // --verify-access resolves credentials only through the bounded
             // helper below. A second native read here could prompt or block
             // before that deadline starts; gateway_access reports its result.
-            let capabilities = (|| -> anyhow::Result<()> {
+            let capabilities = (async {
                 let path = config.get("model_catalog_json").and_then(toml::Value::as_str)
                     .context("missing model capability catalog")?;
-                let catalog = super::airs_status::public_file(Path::new(path))
-                    .map_err(|_| anyhow::anyhow!("Capability catalog must be readable, regular UTF-8 JSON of at most 1 MiB"))?;
-                let _: serde_json::Value = serde_json::from_str(&catalog)
-                    .map_err(|_| anyhow::anyhow!("Invalid capability catalog JSON"))?;
+                super::airs_doctor_catalog::check(home, Path::new(path)).await?;
                 anyhow::ensure!(config.get("model_context_window").and_then(toml::Value::as_integer).is_some_and(|v| v > 0), "invalid context window");
-                Ok(())
-            })();
+                Ok::<(), anyhow::Error>(())
+            }).await;
             checks.push(Check {
                 name: "capabilities", passed: capabilities.is_ok(),
                 detail: match capabilities { Ok(()) => "Local catalog readable; backend limits still apply".into(), Err(error) => error.to_string() },

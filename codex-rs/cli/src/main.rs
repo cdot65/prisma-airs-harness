@@ -50,6 +50,7 @@ mod airs_access;
 mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_doctor;
+mod airs_doctor_catalog;
 mod airs_doctor_storage;
 mod airs_environment;
 mod airs_harness;

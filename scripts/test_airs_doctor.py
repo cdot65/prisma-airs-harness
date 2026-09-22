@@ -3,10 +3,12 @@
 import base64
 import json
 import os
+from pathlib import Path
 import re
 import socket
 import threading
 import time
+import tomllib
 import unittest
 
 import test_airs_harness as harness
@@ -23,6 +25,26 @@ class SessionDoctor(unittest.TestCase):
     def choose(self, terminal, down=0):
         time.sleep(0.15)
         os.write(terminal.master, b"\x1b[B" * down + b"\r")
+
+    def test_catalog_worker_does_not_inspect_credentials_or_contact_gateway(self):
+        fixture = self.fixture
+        catalog = tomllib.loads((fixture.home / "config.toml").read_text())[
+            "model_catalog_json"
+        ]
+        fixture.env["AIRS_DOCTOR_CATALOG_PROBE"] = catalog
+        # If dispatch accidentally reaches native diagnostics it must fail.
+        fixture.env["AIRS_DOCTOR_STORAGE_PROBE"] = "1"
+        fixture.env["DBUS_SESSION_BUS_ADDRESS"] = "unix:path=/nonexistent/airs-probe"
+        for contents, expected in [("{}", 0), ("PRIVATE-CATALOG-CANARY", 2)]:
+            with self.subTest(expected=expected):
+                Path(catalog).write_text(contents)
+                result = fixture.run_cli("doctor", "--json")
+                self.assertEqual(result.returncode, expected, result.stderr)
+                self.assertEqual(result.stdout, "")
+                self.assertEqual(fixture.health_requests, [])
+                self.assertEqual(fixture.requests, [])
+                self.assertEqual(fixture.mcp_requests, [])
+                self.assertNotIn("PRIVATE-CATALOG-CANARY", result.stderr)
 
     def native_binding(self):
         fixture = self.fixture

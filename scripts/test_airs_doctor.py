@@ -1,6 +1,7 @@
 """Installed-binary connection doctor acceptance; fixtures are not live SSO proof."""
 
 import base64
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -45,6 +46,43 @@ class SessionDoctor(unittest.TestCase):
                 self.assertEqual(fixture.requests, [])
                 self.assertEqual(fixture.mcp_requests, [])
                 self.assertNotIn("PRIVATE-CATALOG-CANARY", result.stderr)
+
+    def test_access_timestamp_describes_only_the_explicit_inference_observation(self):
+        fixture = self.fixture
+        passive = json.loads(fixture.run_cli("doctor", "--json").stdout)
+        self.assertIsNone(passive["gateway_access_checked_at"])
+        self.assertEqual(fixture.requests, [])
+        for status, body, passed in [
+            (
+                200,
+                {
+                    "object": "response",
+                    "status": "completed",
+                    "output": [{"type": "message"}],
+                },
+                True,
+            ),
+            (446, {"error": {"message": "PRIVATE-POLICY-CANARY"}}, False),
+        ]:
+            with self.subTest(status=status):
+                fixture.probe_response = (status, body)
+                started = int(time.time())
+                result = fixture.run_cli("doctor", "--json", "--verify-access")
+                report = json.loads(result.stdout)
+                checked = report["gateway_access_checked_at"]
+                self.assertGreaterEqual(checked, started)
+                self.assertLessEqual(checked, int(time.time()))
+                access = next(
+                    row for row in report["checks"] if row["name"] == "gateway_access"
+                )
+                self.assertEqual(access["passed"], passed)
+                expected = datetime.fromtimestamp(checked, timezone.utc).strftime(
+                    "%Y-%m-%d %H:%M:%S UTC"
+                )
+                self.assertIn("Checked at: " + expected, access["detail"])
+                self.assertNotIn("PRIVATE-POLICY-CANARY", result.stdout + result.stderr)
+        self.assertEqual(len(fixture.requests), 2)
+        self.assertEqual(fixture.mcp_requests, [])
 
     def native_binding(self):
         fixture = self.fixture

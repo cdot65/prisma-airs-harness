@@ -83,6 +83,7 @@ impl Failure {
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct Verification {
     pub(super) request_id: Uuid,
+    pub(super) checked_at: chrono::DateTime<chrono::Utc>,
     pub(super) outcome: Result<(), Failure>,
 }
 
@@ -92,7 +93,11 @@ impl Verification {
             Ok(()) => "Gateway access verified by one inference response. MCP permissions were not tested.".to_owned(),
             Err(reason) => format!("Gateway access not yet verified. {}", reason.detail()),
         };
-        format!("{result}\nRequest / gateway trace ID: {}", self.request_id)
+        format!(
+            "{result}\nChecked at: {} UTC\nRequest / gateway trace ID: {}",
+            self.checked_at.format("%Y-%m-%d %H:%M:%S"),
+            self.request_id
+        )
     }
 
     pub(super) fn after_login(&self, environment: Option<&str>) -> String {
@@ -100,8 +105,9 @@ impl Verification {
         match self.outcome {
             Ok(()) => self.summary(),
             Err(reason) => format!(
-                "Credential saved; gateway access not yet verified. {}\nRequest / gateway trace ID: {}\nRetry: {command} doctor --verify-access.",
+                "Credential saved; gateway access not yet verified. {}\nChecked at: {} UTC\nRequest / gateway trace ID: {}\nRetry: {command} doctor --verify-access.",
                 reason.detail(),
+                self.checked_at.format("%Y-%m-%d %H:%M:%S"),
                 self.request_id,
             ),
         }
@@ -554,6 +560,7 @@ pub(super) async fn verify(home: &Path) -> Verification {
     .unwrap_or(Err(Failure::Timeout));
     Verification {
         request_id,
+        checked_at: chrono::Utc::now(),
         outcome,
     }
 }

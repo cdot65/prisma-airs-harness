@@ -86,8 +86,9 @@ async fn configuration_change_during_probe_is_not_reported_as_current_access_or_
         let outcome = probe(ready, Uuid::new_v4()).await;
         assert_eq!(outcome, Err(Failure::ConfigurationChanged));
         insta::allow_duplicates! {
-        insta::assert_snapshot!(Verification { request_id: Uuid::nil(), outcome }.summary(), @r"
+        insta::assert_snapshot!(Verification { request_id: Uuid::nil(), checked_at: chrono::DateTime::UNIX_EPOCH, outcome }.summary(), @r"
         Gateway access not yet verified. Gateway configuration changed during this check. Verify access again for the current settings; no request was retried.
+        Checked at: 1970-01-01 00:00:00 UTC
         Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
         ");
         }
@@ -250,6 +251,7 @@ async fn denial_offline_and_soft_denial_are_not_verified() {
         assert!(
             !Verification {
                 request_id: Uuid::nil(),
+                checked_at: chrono::DateTime::UNIX_EPOCH,
                 outcome: result
             }
             .after_login(None)
@@ -352,22 +354,36 @@ async fn helper_output_is_bounded_and_failed_helpers_never_disclose_tokens() {
 fn honest_verification_messages_have_snapshot_coverage() {
     let verified = Verification {
         request_id: Uuid::nil(),
+        checked_at: chrono::DateTime::UNIX_EPOCH,
         outcome: Ok(()),
     };
     let offline = Verification {
         request_id: Uuid::nil(),
+        checked_at: chrono::DateTime::UNIX_EPOCH,
         outcome: Err(Failure::Offline),
     };
     insta::assert_snapshot!(format!("{DISCLOSURE}\n\n{}\n\n{}", verified.after_login(None), offline.after_login(None)), @r"
     Checking gateway access with one minimal inference request (up to 16 output tokens). This sends only a fixed connectivity message, with no local files or tools. The request asks the provider not to store the response; gateway logging policy still applies.
 
     Gateway access verified by one inference response. MCP permissions were not tested.
+    Checked at: 1970-01-01 00:00:00 UTC
     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
 
     Credential saved; gateway access not yet verified. The gateway connection failed. Check connectivity, DNS and TLS.
+    Checked at: 1970-01-01 00:00:00 UTC
     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
     Retry: airs doctor --verify-access.
     ");
+}
+
+#[tokio::test]
+async fn verification_records_completion_time_even_when_preparation_fails() {
+    let home = TempDir::new().unwrap();
+    let started = chrono::Utc::now();
+    let verification = verify(home.path()).await;
+    let completed = chrono::Utc::now();
+    assert!(verification.outcome.is_err());
+    assert!(verification.checked_at >= started && verification.checked_at <= completed);
 }
 
 #[test]
@@ -398,6 +414,7 @@ fn gateway_failures_show_actionable_status_without_response_content() {
     .map(|failure| {
         Verification {
             request_id: Uuid::nil(),
+            checked_at: chrono::DateTime::UNIX_EPOCH,
             outcome: Err(failure),
         }
         .after_login(None)
@@ -443,10 +460,12 @@ async fn successful_http_responses_cannot_hide_gateway_policy_denials() {
 fn selected_environment_recovery_message_has_snapshot_coverage() {
     let denied = Verification {
         request_id: Uuid::nil(),
+        checked_at: chrono::DateTime::UNIX_EPOCH,
         outcome: Err(Failure::Denied),
     };
     insta::assert_snapshot!(denied.after_login(Some("-staging")), @r"
     Credential saved; gateway access not yet verified. The gateway denied permission (HTTP 403). Check this credential's workspace and scopes.
+    Checked at: 1970-01-01 00:00:00 UTC
     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
     Retry: airs --environment=-staging doctor --verify-access.
     ");

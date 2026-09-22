@@ -161,3 +161,21 @@ after logout/relogin, pinned history/catalog, credential destination changes and
 rejection of unsupported upstream services. Warm metadata status made zero network
 requests across ten measured launches; debug-vs-release timings do not establish
 the release startup performance budget.
+
+### P1 slice: time-stamped access observations — 9/10 source score
+
+CLI login/doctor and the TUI's private doctor adapter share a completion timestamp
+in the existing verification summary. Doctor JSON adds nullable
+`gateway_access_checked_at` (Unix seconds); passive inspection leaves it null.
+The timestamp records an attempted check, including denial, and is not an access
+grant. Results remain transient and bound to the selected environment/auth
+generation and config/catalog snapshot; no reusable success cache is introduced.
+The generic busy-operation message no longer claims a browser login exists when
+the shared owner is doctor, MCP or TypeSafe.
+
+All 155 AIRS CLI tests passed after reviewing the timestamp-only inline and file
+snapshot changes. Seven native doctor/PTY tests passed, including equal timestamps
+in JSON and visible success/denial details, zero passive inference, exactly two
+explicit probes and zero MCP requests. An initial run failed on the three expected
+inline snapshot updates; corrected snapshots are retained in source. Score:
+3+3+1+1+1; final integrated/package checks remain pending.

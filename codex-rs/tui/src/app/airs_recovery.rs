@@ -92,7 +92,7 @@ impl App {
             self.airs_recovery.begin(RecoveryOperation::CompanySignIn)
         else {
             self.chat_widget.add_info_message(
-                "Sign-in is already open in your browser. Use /signin and Cancel to stop it."
+                "Another diagnostic, sign-in, MCP or TypeSafe operation is running. Finish or cancel it before starting company sign-in."
                     .into(),
                 None,
             );

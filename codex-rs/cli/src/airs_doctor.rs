@@ -174,9 +174,11 @@ pub async fn run(
             detail: typesafe_detail,
         });
     }
+    let mut gateway_access_checked_at = None;
     if args.verify_access {
         eprintln!("{}", super::airs_access::DISCLOSURE);
         let access = super::airs_access::verify(home).await;
+        gateway_access_checked_at = Some(access.checked_at.timestamp());
         checks.push(Check {
             name: "gateway_access",
             passed: access.outcome.is_ok(),
@@ -188,6 +190,7 @@ pub async fn run(
         "schema_version": 1, "product": "Prisma AIRS Harness",
         "version": super::airs_harness::version(), "state_directory": home,
         "authentication": authentication,
+        "gateway_access_checked_at": gateway_access_checked_at,
         "passed": passed, "checks": checks,
     });
     if args.json {

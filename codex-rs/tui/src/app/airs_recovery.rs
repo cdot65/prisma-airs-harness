@@ -27,6 +27,14 @@ impl AirsRecoveryState {
         self.attempt = self.attempt.wrapping_add(1);
     }
 
+    pub(super) fn cancel_attempt(&mut self, attempt: u64) -> bool {
+        if !self.is_current(attempt) {
+            return false;
+        }
+        self.cancel();
+        true
+    }
+
     pub(super) fn is_current(&self, attempt: u64) -> bool {
         self.attempt == attempt && self.cancellation.is_some()
     }

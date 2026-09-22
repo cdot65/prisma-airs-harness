@@ -30,8 +30,10 @@ impl App {
             return;
         }
         match event {
-            Event::Cancel => {
-                self.airs_recovery.cancel();
+            Event::Cancel(attempt) => {
+                if !self.airs_recovery.cancel_attempt(attempt) {
+                    return;
+                }
                 self.chat_widget.dismiss_airs_mcp_manager();
                 self.chat_widget.add_info_message("MCP operation cancelled. Your conversation and draft are preserved. Use /mcp to retry or /new to continue.".into(), /*hint*/ None);
             }
@@ -68,7 +70,7 @@ impl App {
                     && self.current_displayed_thread_id() == Some(thread)
                 {
                     self.chat_widget
-                        .show_airs_mcp_menu(views::progress(progress));
+                        .show_airs_mcp_menu(views::progress(attempt, progress));
                 }
             }
             Event::Done {
@@ -157,7 +159,7 @@ impl App {
                 };
                 self.config.mcp_servers = config.mcp_servers.clone();
                 self.chat_widget.update_airs_mcp_connections(&config);
-                self.chat_widget.show_airs_mcp_menu(views::waiting());
+                self.chat_widget.show_airs_mcp_menu(views::waiting(attempt));
                 let request = app_server.request_handle();
                 let tx = self.app_event_tx.clone();
                 tokio::spawn(async move {
@@ -199,7 +201,7 @@ impl App {
                     self.airs_recovery.cancel();
                     return;
                 }
-                self.chat_widget.show_airs_mcp_menu(views::waiting());
+                self.chat_widget.show_airs_mcp_menu(views::waiting(attempt));
                 let home = self.config.codex_home.to_path_buf();
                 let cwd = self.config.cwd.to_path_buf();
                 let tx = self.app_event_tx.clone();

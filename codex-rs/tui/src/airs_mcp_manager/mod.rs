@@ -48,7 +48,7 @@ pub(crate) enum Event {
     AddUrl(String),
     Confirm(Operation),
     Run(Operation),
-    Cancel,
+    Cancel(u64),
     Overview {
         attempt: u64,
         thread: ThreadId,

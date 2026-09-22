@@ -93,8 +93,7 @@ impl App {
         match event {
             Event::Report { session, action } => self.handle_airs_report(tui, session, action),
             Event::Cancel(attempt) => {
-                if self.airs_recovery.is_current(attempt) {
-                    self.airs_recovery.cancel();
+                if self.airs_recovery.cancel_attempt(attempt) {
                     self.chat_widget.dismiss_airs_doctor();
                 }
             }

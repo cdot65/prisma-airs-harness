@@ -122,13 +122,15 @@ pub(crate) fn confirm(operation: Operation) -> SelectionViewParams {
     }
 }
 
-pub(crate) fn waiting() -> SelectionViewParams {
+pub(crate) fn waiting(attempt: u64) -> SelectionViewParams {
     SelectionViewParams {
         title: Some("Checking gateway MCP…".into()),
         subtitle: Some("Your conversation and draft stay here.".into()),
-        items: vec![action("Cancel", "Stop this operation.", || Event::Cancel)],
-        on_cancel: Some(Box::new(|tx| {
-            tx.send(AppEvent::AirsMcpManager(Event::Cancel))
+        items: vec![action("Cancel", "Stop this operation.", move || {
+            Event::Cancel(attempt)
+        })],
+        on_cancel: Some(Box::new(move |tx| {
+            tx.send(AppEvent::AirsMcpManager(Event::Cancel(attempt)))
         })),
         view_id: Some(VIEW_ID),
         footer_hint: Some(standard_popup_hint_line()),
@@ -160,7 +162,7 @@ pub(crate) fn continue_after_change(thread: codex_protocol::ThreadId) -> Selecti
     }
 }
 
-pub(crate) fn progress(progress: Progress) -> SelectionViewParams {
+pub(crate) fn progress(attempt: u64, progress: Progress) -> SelectionViewParams {
     let (title, subtitle) = match progress {
         Progress::ExchangingCode => (
             "Completing MCP sign-in…",
@@ -178,6 +180,6 @@ pub(crate) fn progress(progress: Progress) -> SelectionViewParams {
     SelectionViewParams {
         title: Some(title.into()),
         subtitle: Some(subtitle.into()),
-        ..waiting()
+        ..waiting(attempt)
     }
 }

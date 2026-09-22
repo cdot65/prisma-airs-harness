@@ -26,6 +26,11 @@ fn config(url: &str, selected: &str) -> (toml::Value, Value) {
 fn prepared(home: &Path, url: &str, selected: &str) -> Prepared {
     let (config, catalog) = config(url, selected);
     let (endpoint, body) = probe_configuration(&config, &catalog).unwrap();
+    let config_text = toml::to_string(&config).unwrap();
+    let catalog_text = serde_json::to_string(&catalog).unwrap();
+    let catalog_path = home.join("models.json");
+    std::fs::write(home.join("config.toml"), &config_text).unwrap();
+    std::fs::write(&catalog_path, &catalog_text).unwrap();
     let mut credential = HeaderValue::from_static("Bearer fixture-secret");
     credential.set_sensitive(true);
     Prepared {
@@ -34,11 +39,60 @@ fn prepared(home: &Path, url: &str, selected: &str) -> Prepared {
         credential,
         header_name: "authorization",
         session: AirsSessionGuard::capture(home).unwrap(),
+        configuration: ConfigurationSnapshot::new(home, &config_text, &catalog_path, &catalog_text),
     }
 }
 
 fn success() -> Value {
     serde_json::json!({"object":"response", "status":"completed", "output":[{"type":"message", "content":[{"type":"output_text","text":"OK"}]}]})
+}
+
+#[tokio::test]
+async fn changed_configuration_never_sends_an_already_resolved_credential() {
+    for filename in ["config.toml", "models.json"] {
+        for remove in [false, true] {
+            let home = TempDir::new().unwrap();
+            let server = MockServer::start().await;
+            let ready = prepared(home.path(), &server.uri(), "airs-gateway-default");
+            let path = home.path().join(filename);
+            if remove {
+                std::fs::remove_file(path).unwrap();
+            } else {
+                std::fs::write(path, "PRIVATE-CHANGED-CONFIGURATION").unwrap();
+            }
+            assert_eq!(
+                probe(ready, Uuid::new_v4()).await,
+                Err(Failure::ConfigurationChanged)
+            );
+            assert!(server.received_requests().await.unwrap().is_empty());
+        }
+    }
+}
+
+#[tokio::test]
+async fn configuration_change_during_probe_is_not_reported_as_current_access_or_retried() {
+    for filename in ["config.toml", "models.json"] {
+        let home = TempDir::new().unwrap();
+        let server = MockServer::start().await;
+        let ready = prepared(home.path(), &server.uri(), "airs-gateway-default");
+        let changed_path = home.path().join(filename);
+        Mock::given(method("POST"))
+            .respond_with(move |_: &wiremock::Request| {
+                std::fs::write(&changed_path, "PRIVATE-CHANGED-CONFIGURATION").unwrap();
+                ResponseTemplate::new(200).set_body_json(success())
+            })
+            .mount(&server)
+            .await;
+        let outcome = probe(ready, Uuid::new_v4()).await;
+        assert_eq!(outcome, Err(Failure::ConfigurationChanged));
+        insta::allow_duplicates! {
+        insta::assert_snapshot!(Verification { request_id: Uuid::nil(), outcome }.summary(), @r"
+        Gateway access not yet verified. Gateway configuration changed during this check. Verify access again for the current settings; no request was retried.
+        Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
+        ");
+        }
+        assert_eq!(server.received_requests().await.unwrap().len(), 1);
+    }
 }
 
 #[tokio::test]

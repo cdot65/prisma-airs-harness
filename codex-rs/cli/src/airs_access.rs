@@ -8,8 +8,11 @@ use codex_model_provider_info::ModelProviderInfo;
 use codex_utils_home_dir::airs_session::AirsSessionGuard;
 use http::HeaderValue;
 use serde_json::Value;
+use sha2::Digest;
+use sha2::Sha256;
 use std::io::Read;
 use std::path::Path;
+use std::path::PathBuf;
 use std::process::Stdio;
 use std::time::Duration;
 use tokio::io::AsyncReadExt;
@@ -26,6 +29,7 @@ const MAX_CONFIG_BYTES: u64 = 1024 * 1024;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(super) enum Failure {
     Configuration,
+    ConfigurationChanged,
     Credential,
     SignedOut,
     Offline,
@@ -43,6 +47,7 @@ impl Failure {
     fn detail(self) -> String {
         match self {
             Self::Configuration => "The selected gateway or model configuration is invalid.",
+            Self::ConfigurationChanged => "Gateway configuration changed during this check. Verify access again for the current settings; no request was retried.",
             Self::Credential => {
                 "The saved credential could not be read or refreshed. Inspect local sign-in for this environment."
             }
@@ -109,6 +114,42 @@ struct Prepared {
     credential: HeaderValue,
     body: Value,
     session: AirsSessionGuard,
+    configuration: ConfigurationSnapshot,
+}
+
+// Bind the observation and resolved credential to the configuration read under
+// the lock. The credential helper must acquire that lock itself, so retaining
+// the lock while waiting for it would deadlock login/refresh.
+struct ConfigurationSnapshot {
+    files: [(PathBuf, [u8; 32]); 2],
+}
+
+impl ConfigurationSnapshot {
+    fn new(home: &Path, config: &str, catalog_path: &Path, catalog: &str) -> Self {
+        Self {
+            files: [
+                (
+                    home.join("config.toml"),
+                    Sha256::digest(config.as_bytes()).into(),
+                ),
+                (
+                    catalog_path.to_path_buf(),
+                    Sha256::digest(catalog.as_bytes()).into(),
+                ),
+            ],
+        }
+    }
+
+    fn check(&self) -> Result<(), Failure> {
+        for (path, expected) in &self.files {
+            let contents = read_public_file(path).map_err(|_| Failure::ConfigurationChanged)?;
+            let actual: [u8; 32] = Sha256::digest(contents.as_bytes()).into();
+            if &actual != expected {
+                return Err(Failure::ConfigurationChanged);
+            }
+        }
+        Ok(())
+    }
 }
 
 fn read_public_file(path: &Path) -> Result<String, Failure> {
@@ -312,14 +353,16 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
         session.check().map_err(|_| Failure::SignedOut)?;
     }
     session.check().map_err(|_| Failure::SignedOut)?;
-    let config: toml::Value = toml::from_str(&read_public_file(&home.join("config.toml"))?)
-        .map_err(|_| Failure::Configuration)?;
+    let config_text = read_public_file(&home.join("config.toml"))?;
+    let config: toml::Value = toml::from_str(&config_text).map_err(|_| Failure::Configuration)?;
     let catalog_path = config
         .get("model_catalog_json")
         .and_then(toml::Value::as_str)
         .ok_or(Failure::Configuration)?;
-    let catalog = serde_json::from_str(&read_public_file(Path::new(catalog_path))?)
-        .map_err(|_| Failure::Configuration)?;
+    let catalog_text = read_public_file(Path::new(catalog_path))?;
+    let catalog = serde_json::from_str(&catalog_text).map_err(|_| Failure::Configuration)?;
+    let configuration =
+        ConfigurationSnapshot::new(home, &config_text, Path::new(catalog_path), &catalog_text);
     let (endpoint, body) = probe_configuration(&config, &catalog)?;
     let bound = if home
         .join("credential-binding.json")
@@ -359,6 +402,7 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
         ("x-portkey-api-key", validate_token(&token)?.to_owned())
     };
     session.check().map_err(|_| Failure::SignedOut)?;
+    configuration.check()?;
     let mut credential = HeaderValue::from_str(&token).map_err(|_| Failure::Credential)?;
     credential.set_sensitive(true);
     Ok(Prepared {
@@ -367,10 +411,12 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
         credential,
         body,
         session,
+        configuration,
     })
 }
 
 async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
+    prepared.configuration.check()?;
     let client = HttpClientBuilder::new()
         .without_redirects()
         .without_request_logging()
@@ -402,6 +448,7 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
                 Failure::Offline
             }
         })?;
+    prepared.configuration.check()?;
     let status = response.status();
     if status.is_redirection() {
         return Err(Failure::Redirect);
@@ -434,6 +481,7 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
         prepared.session.check().map_err(|_| Failure::SignedOut)?;
     }
     prepared.session.check().map_err(|_| Failure::SignedOut)?;
+    prepared.configuration.check()?;
     let body: Value = serde_json::from_slice(&bytes).map_err(|_| Failure::InvalidResponse)?;
     // A gateway can deliberately represent a blocked request as a completed
     // Responses result with HTTP 200. Honor its explicit blocking decisions.

@@ -96,3 +96,20 @@ Full TUI library: **4,363 passed, two skipped** after the embedded adaptation.
 `just fix -p codex-tui --lib --allow-staged` passed without warnings or rewrites.
 The imported working-directory snapshot was reviewed and passed unchanged.
 Score: 3+3+1+1+1; installed terminal/platform acceptance remains pending.
+
+### P1/P3 slice: verification belongs to its configuration — 9/10 source score
+
+The verifier previously checked auth generations but could report old-route access
+after config/catalog replacement. A private digest snapshot now covers both files
+read under the configuration lock. It is checked after the credential helper,
+before network use, after response headers and before accepting the response body.
+Deleted, unreadable or changed files produce a fixed recovery message, not a retry
+or a native-store mutation. The lock is not held across the helper that must acquire
+it itself. No public state/schema or dependencies changed.
+
+All **150 AIRS CLI unit tests passed** (277 unrelated tests filtered), including
+request-count regressions for replacement/deletion before send and config/catalog
+changes during a successful response. Existing 401/403/446/blocked-200 and native
+credential tests passed. The new fixed user-visible message has snapshot coverage.
+An initial snapshot-in-loop test setup error was corrected; the final run is green.
+Score: 3+3+1+1+1, with installed candidate validation still pending.

@@ -202,3 +202,20 @@ The final source needs full GNU validation, installed exact packages on all thre
 supported targets, comparable release-build latency and the documented upgrade/
 rollback checks. Real-account browser consent and ServiceNow reads are separate
 owner acceptance; fixtures do not claim them. Stable remains 0.1.2.
+
+### Integrated follow-up: HTTP 200 policy envelopes
+
+The actual-agent release probe exposed a remaining retry gap for JSON and SSE
+`hooks_failed` denials returned under HTTP 200. The first preview candidate was
+superseded before publication. A private API module now bounds JSON inspection
+at 64 KiB and two seconds, reports explicit gateway policy fields without raw
+body content, and rejects non-stream JSON terminally without pretending every
+invalid response is a policy denial. Streamed invalid requests terminate
+immediately; a later completion or stalled connection cannot override denial.
+Normal SSE bytes are untouched. No auth fallback, dependency or wire-schema
+change is involved. Six focused cases and the complete 195-test API suite pass;
+the actual agent sends one request for each of 401/403/446 and JSON/SSE HTTP 200
+policy denials, with no local tool or MCP execution. Source score returns to 9/10;
+corrected installed-platform checks remain required. Version alpha.2 replaces the
+unpublished alpha.1 candidate. The companion legacy CLI timestamp snapshot also
+passes for both binary targets; original full-workspace failures remain recorded.

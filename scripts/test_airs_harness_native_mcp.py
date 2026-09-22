@@ -163,6 +163,7 @@ def positive(ui, identity, env):
         terminal.wait_for(b"permissions:")
         terminal.send_line("/mcp")
         terminal.wait_for(b"MCP connections")
+        terminal.wait_for(b"Add gateway MCP server")
         ui.choose(terminal)
         terminal.wait_for(b"Reconnect and verify")
         offset = len(terminal.transcript)

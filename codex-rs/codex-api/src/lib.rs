@@ -5,6 +5,7 @@ pub(crate) mod endpoint;
 pub(crate) mod error;
 pub(crate) mod files;
 mod flat_tools;
+mod gateway_denial;
 pub(crate) mod images;
 pub(crate) mod provider;
 pub(crate) mod rate_limits;

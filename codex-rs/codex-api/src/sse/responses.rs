@@ -353,6 +353,15 @@ impl ResponsesEventError {
 pub fn process_responses_event(
     event: ResponsesStreamEvent,
 ) -> std::result::Result<Option<ResponseEvent>, ResponsesEventError> {
+    if event
+        .response
+        .as_ref()
+        .is_some_and(crate::gateway_denial::is_denied)
+    {
+        return Err(ResponsesEventError::Api(ApiError::InvalidRequest {
+            message: crate::gateway_denial::POLICY_DENIED.to_owned(),
+        }));
+    }
     match event.kind.as_str() {
         "response.output_item.done" => {
             if let Some(item_val) = event.item {
@@ -608,8 +617,6 @@ async fn process_sse_with_treatment(
             }
         };
 
-        trace!("SSE event: {}", &sse.data);
-
         let event: ResponsesStreamEvent = match serde_json::from_str(&sse.data) {
             Ok(event) => event,
             Err(e) => {
@@ -623,6 +630,15 @@ async fn process_sse_with_treatment(
                 continue;
             }
         };
+        if event
+            .response
+            .as_ref()
+            .is_some_and(crate::gateway_denial::is_denied)
+        {
+            trace!("SSE gateway policy denial; response details omitted");
+        } else {
+            trace!("SSE event: {}", &sse.data);
+        }
         let model_verifications = event.model_verifications();
         let turn_moderation_metadata = event.turn_moderation_metadata();
         let safety_buffering = event.safety_buffering(&safety_buffering_treatment);
@@ -676,7 +692,12 @@ async fn process_sse_with_treatment(
             }
             Ok(None) => {}
             Err(error) => {
-                response_error = Some(error.into_api_error());
+                let error = error.into_api_error();
+                if matches!(error, ApiError::InvalidRequest { .. }) {
+                    let _ = tx_event.send(Err(error)).await;
+                    return;
+                }
+                response_error = Some(error);
             }
         };
     }

@@ -183,7 +183,7 @@ impl<T: HttpTransport> ResponsesClient<T> {
             Compression::Zstd => RequestCompression::Zstd,
         };
 
-        let stream_response = self
+        let mut stream_response = self
             .session
             .stream_encoded_json_with(
                 Method::POST,
@@ -199,6 +199,12 @@ impl<T: HttpTransport> ResponsesClient<T> {
                 },
             )
             .await?;
+
+        crate::gateway_denial::reject_json(
+            &mut stream_response,
+            self.session.provider().stream_idle_timeout,
+        )
+        .await?;
 
         Ok(flat_tools.restore_stream(spawn_response_stream(
             stream_response,

@@ -8,8 +8,14 @@ import test_airs_harness as harness
 
 class GatewayPolicyRetry(unittest.TestCase):
     def test_terminal_gateway_denials_are_not_replayed(self):
-        for status in (401, 403, 446):
-            with self.subTest(status=status):
+        for status, streamed in (
+            (401, False),
+            (403, False),
+            (446, False),
+            (200, False),
+            (200, True),
+        ):
+            with self.subTest(status=status, streamed=streamed):
                 fixture = harness.TerminalIntegration()
                 fixture.setUp()
                 try:
@@ -27,11 +33,29 @@ class GatewayPolicyRetry(unittest.TestCase):
                             request.rfile.read(int(request.headers["Content-Length"]))
                         )
                         fixture.requests.append((request.path, {}, body))
-                        data = json.dumps({"error": {"message": "Denied"}}).encode()
+                        body = {
+                            "error": {
+                                "type": "hooks_failed",
+                                "message": "PRIVATE-DENIAL-CANARY",
+                            }
+                        }
+                        if streamed:
+                            data = (
+                                "data: "
+                                + json.dumps(
+                                    {"type": "response.failed", "response": body}
+                                )
+                                + "\n\n"
+                            ).encode()
+                        else:
+                            data = json.dumps(body).encode()
                         request.send_response(status)
                         # Retry advice must not override terminal denial semantics.
                         request.send_header("Retry-After", "0")
-                        request.send_header("Content-Type", "application/json")
+                        request.send_header(
+                            "Content-Type",
+                            "text/event-stream" if streamed else "application/json",
+                        )
                         request.send_header("Content-Length", str(len(data)))
                         request.end_headers()
                         request.wfile.write(data)
@@ -44,6 +68,9 @@ class GatewayPolicyRetry(unittest.TestCase):
                         ["/prefix/v1/responses"],
                         result.stderr,
                     )
+                    if status == 200:
+                        self.assertIn("policy denial", result.stderr)
+                        self.assertNotIn("PRIVATE-DENIAL-CANARY", result.stderr)
                     self.assertFalse((fixture.work / "result.txt").exists())
                     self.assertEqual(fixture.mcp_requests, [])
                 finally:

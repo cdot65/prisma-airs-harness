@@ -14,7 +14,7 @@ not ancestry counts. Baseline: `1a6df30b5654ca8b892440b21e4bf1b5442b1f38`
 | `f8ab57359dde6b6d5de1aee613c18fe60b661aeb` | Already present, audit later gaps | `mcp_login`, `oauth_callback_input` and their tests already implement hidden bounded callbacks. AIRS extends this with private TUI progress; retain gateway resource binding. |
 | `b33199b1fbcf96ea1e4035729158f6ecd1760192` | Adapt | AIRS `airs_doctor` is a separate entry point from upstream `doctor`. Bound filesystem probes in the AIRS path rather than importing unrelated desktop/daemon checks. |
 | `0ad18769ad8dfb7a6cf16b1bdd26b6e5f8773f64` | Existing AIRS redaction; audit remaining edges | `airs_status::configuration` already discards TOML error payloads and `airs_doctor` emits a fixed configuration failure. Canary tests must exercise AIRS, not only upstream doctor. |
-| `ef9f3d022aff6bd087c640392dc8608743aa411d` | Adapt if gap reproduced | Inspect AIRS recovery dispatch when the displayed thread is unavailable; preserve drafts and never replay a failed turn. TUI tests and PTY acceptance own validation. |
+| `ef9f3d022aff6bd087c640392dc8608743aa411d` | Adapted | Limited recovery-command dispatch now covers embedded as well as remote replay-only threads. AIRS sign-in, doctor, MCP and TypeSafe are in the command allowlist. Doctor accepts an absent thread. Preserve drafts and never replay a failed turn. |
 | `9ed1b7469921e056b7cdbe2b98d1b3251d08e9f9` | Compare existing startup draft handling | `startup_draft` already exists. Adopt only missing exactly-once behavior, not upstream fullscreen defaults. |
 | `c7828dd0109c75bcb5b07dc2d95c68947e56239a` | Assess narrow correctness delta | Requires changes across StepInputs, Guardian and execution environment ownership. Executor contexts are not AIRS environment UUIDs. Do not import the 40+ file refactor without a demonstrated active-product gap. |
 | `568518357023708ecbeddb764ef8956ecaa076d7` | Defer daemon portion; assess active permission path | Depends on captured executor state. AIRS does not enable managed daemon recovery. Check existing origin-context behavior separately. |
@@ -77,3 +77,22 @@ Score uses the same 3+3+1+1+1 rubric as slice 1; installed candidate checks rema
 pending. No credential policy, browser URL handling or agent API was added.
 
 Other package scores and release readiness remain pending.
+
+### P4 slice 1: recovery from an unavailable conversation — 9/10 source score
+
+Adapted `ef9f3d022aff6bd087c640392dc8608743aa411d`, resolving five overlapping
+files. Excluded unrelated permission-selection and sparkle dependencies. Retained
+the existing AIRS input queue representation and event-channel rebinding.
+
+The upstream remote-only availability guard would miss AIRS's embedded
+history-read fallback. Availability now follows the actual listener attachment
+for both targets. The regression runs recovery/local command dispatch and
+new/clear creation against both, including stale review/MCP activity. Ordinary
+prompts and unknown commands remain editable; uncertain submissions are retained
+without autosend. Pasted commands require another explicit submit after expansion.
+The doctor result remains bound to its original optional thread identity.
+
+Full TUI library: **4,363 passed, two skipped** after the embedded adaptation.
+`just fix -p codex-tui --lib --allow-staged` passed without warnings or rewrites.
+The imported working-directory snapshot was reviewed and passed unchanged.
+Score: 3+3+1+1+1; installed terminal/platform acceptance remains pending.

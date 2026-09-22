@@ -109,14 +109,14 @@ impl App {
             } => {
                 if self.airs_recovery.finish(attempt) {
                     self.chat_widget.dismiss_airs_doctor();
-                    if self.current_displayed_thread_id() != Some(thread) {
+                    if self.current_displayed_thread_id() != thread {
                         return;
                     }
                     self.chat_widget.show_airs_doctor(views::overview(
                         &environment,
                         report,
                         connections,
-                        Some(thread),
+                        thread,
                     ));
                 }
             }
@@ -124,9 +124,7 @@ impl App {
                 if !self.chat_widget.airs_doctor_ready() {
                     return;
                 }
-                let Some(thread) = self.current_displayed_thread_id() else {
-                    return;
-                };
+                let thread = self.current_displayed_thread_id();
                 let Some((attempt, cancellation)) =
                     self.airs_recovery.begin(RecoveryOperation::Doctor)
                 else {
@@ -146,7 +144,7 @@ impl App {
                             &environment,
                             Err("Could not load this environment. Check airs env status.".into()),
                             Vec::new(),
-                            Some(thread),
+                            thread,
                         ));
                         return;
                     }
@@ -164,7 +162,7 @@ impl App {
                                 fetch_all_mcp_server_statuses(
                                     request,
                                     McpServerStatusDetail::ToolsAndAuthOnly,
-                                    Some(thread)
+                                    thread
                                 )
                             )
                         );

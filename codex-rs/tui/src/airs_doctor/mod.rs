@@ -40,7 +40,7 @@ pub(crate) enum Event {
     ConfirmVerify,
     Done {
         attempt: u64,
-        thread: ThreadId,
+        thread: Option<ThreadId>,
         environment: String,
         report: Result<Report, String>,
         connections: Vec<Connection>,

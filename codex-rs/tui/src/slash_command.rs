@@ -225,6 +225,30 @@ impl SlashCommand {
         )
     }
 
+    /// Commands that do not require a writable current thread. The server must still be connected.
+    pub(crate) fn available_when_thread_unavailable(self) -> bool {
+        matches!(
+            self,
+            SlashCommand::New
+                | SlashCommand::Clear
+                | SlashCommand::Resume
+                | SlashCommand::Agents
+                | SlashCommand::MultiAgents
+                | SlashCommand::Quit
+                | SlashCommand::Exit
+                | SlashCommand::Status
+                | SlashCommand::DebugConfig
+                | SlashCommand::Pwd
+                | SlashCommand::Rollout
+                | SlashCommand::Copy
+                | SlashCommand::Raw
+                | SlashCommand::Signin
+                | SlashCommand::Doctor
+                | SlashCommand::Typesafe
+                | SlashCommand::Mcp
+        )
+    }
+
     /// Whether this command can be run while a task is in progress.
     pub fn available_during_task(self) -> bool {
         match self {

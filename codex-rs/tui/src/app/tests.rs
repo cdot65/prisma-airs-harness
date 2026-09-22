@@ -60,6 +60,8 @@ mod thread_usage;
 mod transcript_composer;
 #[path = "tests/turn_submission.rs"]
 mod turn_submission;
+#[path = "tests/unavailable_commands_tests.rs"]
+mod unavailable_commands;
 
 use super::*;
 use crate::app_backtrack::BacktrackSelection;

@@ -154,11 +154,11 @@ impl App {
     }
 
     pub(super) fn thread_unavailable(&self, id: ThreadId) -> bool {
-        !matches!(self.app_server_target, AppServerTarget::Embedded)
-            && self
-                .thread_event_channels
-                .get(&id)
-                .is_some_and(|channel| channel.attachment() != ThreadEventAttachment::Live)
+        // A local history fallback is also replay-only: the embedded server has
+        // not attached a live listener through which a new turn can be observed.
+        self.thread_event_channels
+            .get(&id)
+            .is_some_and(|channel| channel.attachment() != ThreadEventAttachment::Live)
     }
 
     pub(super) fn recover_transport_error(&mut self, error: &color_eyre::Report) -> bool {
@@ -198,8 +198,10 @@ impl App {
                 }
                 ReconnectPresentation::Overview
             } else {
-                self.chat_widget
-                    .handle_disconnected_key(KeyEvent::new(KeyCode::Null, KeyModifiers::NONE));
+                self.chat_widget.handle_restricted_key(
+                    KeyEvent::new(KeyCode::Null, KeyModifiers::NONE),
+                    RestrictedInputMode::Disconnected,
+                );
                 ReconnectPresentation::Conversation
             };
             self.chat_widget.pause_for_disconnect();

@@ -11,13 +11,13 @@ not ancestry counts. Baseline: `1a6df30b5654ca8b892440b21e4bf1b5442b1f38`
 | Upstream commit | Decision | AIRS implementation and validation boundary |
 | --- | --- | --- |
 | `064e701b0fa4f5c0dcaf195a565d088f99bb6af8` | Adapt lifecycle semantics; defer RPC | `airs_status`, `airs_access`, `airs_auth_lifecycle` and TUI `airs_recovery` already share CLI-owned operations. Upstream secondary gateway OAuth would change AIRS SSO-or-key semantics. Audit status and cancellation using existing private adapters; add no protocol or credential service unless a concrete gap requires it. |
-| `f8ab57359dde6b6d5de1aee613c18fe60b661aeb` | Already present, audit later gaps | `mcp_login`, `oauth_callback_input` and their tests already implement hidden bounded callbacks. AIRS extends this with private TUI progress; retain gateway resource binding. |
+| `f8ab57359dde6b6d5de1aee613c18fe60b661aeb` | Already present; retained | `mcp_login`, `oauth_callback_input` and their tests implement hidden bounded callbacks. 320 OAuth tests and the native manager fixtures passed. AIRS private progress and gateway resource binding are retained. |
 | `b33199b1fbcf96ea1e4035729158f6ecd1760192` | Adapt | AIRS `airs_doctor` is a separate entry point from upstream `doctor`. Bound filesystem probes in the AIRS path rather than importing unrelated desktop/daemon checks. |
 | `0ad18769ad8dfb7a6cf16b1bdd26b6e5f8773f64` | Existing AIRS redaction; audit remaining edges | `airs_status::configuration` already discards TOML error payloads and `airs_doctor` emits a fixed configuration failure. Canary tests must exercise AIRS, not only upstream doctor. |
 | `ef9f3d022aff6bd087c640392dc8608743aa411d` | Adapted | Limited recovery-command dispatch now covers embedded as well as remote replay-only threads. AIRS sign-in, doctor, MCP and TypeSafe are in the command allowlist. Doctor accepts an absent thread. Preserve drafts and never replay a failed turn. |
-| `9ed1b7469921e056b7cdbe2b98d1b3251d08e9f9` | Compare existing startup draft handling | `startup_draft` already exists. Adopt only missing exactly-once behavior, not upstream fullscreen defaults. |
-| `c7828dd0109c75bcb5b07dc2d95c68947e56239a` | Assess narrow correctness delta | Requires changes across StepInputs, Guardian and execution environment ownership. Executor contexts are not AIRS environment UUIDs. Do not import the 40+ file refactor without a demonstrated active-product gap. |
-| `568518357023708ecbeddb764ef8956ecaa076d7` | Defer daemon portion; assess active permission path | Depends on captured executor state. AIRS does not enable managed daemon recovery. Check existing origin-context behavior separately. |
+| `9ed1b7469921e056b7cdbe2b98d1b3251d08e9f9` | Defer whole patch; preserve existing draft behavior | The 32-file, 1,987-added-line patch combines deferred submission, fatal-startup recovery and owned-screen rendering. AIRS retains its existing non-submitting startup editor and tested protected-input handoff. This preview improves unavailable-thread recovery; it does not claim upstream's new deferred-submit/fatal-startup recovery behavior. |
+| `c7828dd0109c75bcb5b07dc2d95c68947e56239a` | Defer executor refactor | 44 files, 872 additions, across StepInputs, Guardian and execution environment ownership. Executor selections are not AIRS environment UUIDs. The supported local AIRS boundary passes installed revocation/history/config fixtures; this is not acceptance of remote executor switching. Revisit with a separate remote-execution contract. |
+| `568518357023708ecbeddb764ef8956ecaa076d7` | Defer with captured executor work | Eight files and 187 additions depending on the previous refactor. AIRS blocks upstream service commands and GuardianV2, and does not introduce managed daemon recovery. Do not enable these paths as a side effect of a reliability import. |
 | `2b842962883f2e01526b9c64e383cb2375123a5d` | Defer OpenAI refresh; verify AIRS isolation | Upstream refresh is OpenAI-specific and explicitly a no-op for static catalogs. AIRS uses its local capability catalog; its gateway remains the authority. Credential generation changes invalidate the active session rather than permit adopting another identity. |
 | `d5b29951aca5205bc8415120b56dd4bc295f5c83` | Narrow terminal-status fix; defer retry API refactor | AIRS doctor distinguished denials, but conversation requests replayed 401/403/446. Shared classification now rejects retries for these statuses, even with Retry-After. No retry timing API or schema change. |
 | `3b50349e1a80930e6e9dcf6d9377d65ef55ef052` | Defer | Hosted app/account resource targets are not needed for gateway ServiceNow. No schema import. |
@@ -179,3 +179,26 @@ in JSON and visible success/denial details, zero passive inference, exactly two
 explicit probes and zero MCP requests. An initial run failed on the three expected
 inline snapshot updates; corrected snapshots are retained in source. Score:
 3+3+1+1+1; final integrated/package checks remain pending.
+
+## Import maintenance and remaining gates
+
+The unavailable-thread patch required five conflict resolutions; the adaptation
+keeps AIRS handlers in private modules and avoids new app-server RPC schemas.
+This count measures this patch, not a successful whole-upstream merge rehearsal.
+Future weekly triage should compare behavior against the frozen baseline and record
+newly accepted commits here. Rehearse larger merges in a disposable worktree;
+do not manufacture ancestry for omitted code. Aim to keep the next comparable TUI
+slice within five manually resolved runtime files; reassess for larger features.
+
+No dependency, Cargo/Bazel lock or generated protocol/config schema update is
+needed for the selected code. Fullscreen, remote executor/daemon activation and
+hosted apps remain explicitly deferred. Existing OAuth trust/discovery, PKCE,
+callback, scope and refresh transaction machinery is preserved; there is no new
+MCP device grant or upstream ServiceNow credential path in the harness.
+
+Owned native build workflows accept explicit `airs-preview-*` tag pushes. They produce candidates only; publication still uses installed platform
+acceptance and signing/notarization gates. Inherited workflows remain disabled.
+The final source needs full GNU validation, installed exact packages on all three
+supported targets, comparable release-build latency and the documented upgrade/
+rollback checks. Real-account browser consent and ServiceNow reads are separate
+owner acceptance; fixtures do not claim them. Stable remains 0.1.2.

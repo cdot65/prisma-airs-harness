@@ -1,5 +1,7 @@
 name: AIRS Harness Linux x64 candidate build
 on:
+  push:
+    tags: ['airs-preview-*']
   workflow_dispatch:
     inputs:
       source_ref:

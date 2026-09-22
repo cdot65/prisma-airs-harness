@@ -1,5 +1,7 @@
 name: AIRS Harness Apple Silicon build and acceptance
 on:
+  push:
+    tags: ['airs-preview-*']
   workflow_dispatch:
     inputs:
       tooling_ref:
@@ -42,11 +44,11 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ inputs.tooling_ref }}
+          ref: ${{ inputs.tooling_ref || github.ref }}
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ inputs.source_ref || inputs.tooling_ref }}
+          ref: ${{ inputs.source_ref || inputs.tooling_ref || github.ref }}
           path: runtime
           persist-credentials: false
       - uses: https://github.com/actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
@@ -58,7 +60,7 @@ jobs:
       - name: Check fixtures and private packaging contracts before native compilation
         id: source
         env:
-          AIRS_PRIVATE_CANDIDATE: ${{ inputs.private_candidate }}
+          AIRS_PRIVATE_CANDIDATE: ${{ github.event_name == 'push' || inputs.private_candidate }}
         run: |
           mkdir -p "$RUNNER_TEMP/airs-preflight"
           if [ "$AIRS_PRIVATE_CANDIDATE" != true ]; then
@@ -125,7 +127,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/airs-evidence"
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ inputs.tooling_ref }}
+          ref: ${{ inputs.tooling_ref || github.ref }}
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -297,7 +299,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/airs-evidence"
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ inputs.tooling_ref }}
+          ref: ${{ inputs.tooling_ref || github.ref }}
           persist-credentials: false
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:

@@ -13,6 +13,7 @@ import subprocess
 import sys
 import signal
 import tempfile
+import time
 import unittest
 
 import test_airs_harness as harness
@@ -161,9 +162,26 @@ def positive(ui, identity, env):
     # was already trusted by the first terminal, so no second trust prompt.
     with TerminalSession(harness.BINARY, env, ui.inference.work) as terminal:
         terminal.wait_for(b"permissions:")
-        terminal.send_line("/mcp")
-        terminal.wait_for(b"MCP connections")
-        terminal.wait_for(b"Add gateway MCP server")
+        # The header renders before native MCP startup finishes. Retry only
+        # the passive menu command after its explicit busy response; never
+        # replay sign-in, reconnect, or a tool operation.
+        deadline = time.monotonic() + 30
+        busy = (
+            b"Finish or interrupt the current request before managing MCP connections."
+        )
+        while True:
+            offset = len(terminal.transcript)
+            terminal.send_line("/mcp")
+            terminal.wait_until(
+                lambda: (
+                    b"Add gateway MCP server" in terminal.transcript[offset:]
+                    or busy in terminal.transcript[offset:]
+                ),
+                timeout=max(0, deadline - time.monotonic()),
+            )
+            if b"Add gateway MCP server" in terminal.transcript[offset:]:
+                break
+            require(time.monotonic() < deadline, "MCP startup did not become ready")
         ui.choose(terminal)
         terminal.wait_for(b"Reconnect and verify")
         offset = len(terminal.transcript)

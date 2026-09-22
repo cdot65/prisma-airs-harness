@@ -1,0 +1,226 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling hyper v1.8.1
+   Compiling tokio-rustls v0.26.4
+   Compiling headers v0.4.1
+   Compiling tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+   Compiling hyper-util v0.1.20
+   Compiling event-listener v5.4.2
+   Compiling hyper-rustls v0.27.7
+   Compiling hyper-tls v0.6.0
+   Compiling rama-tls-rustls v0.3.0-alpha.4
+   Compiling reqwest v0.12.28
+   Compiling codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/home-dir)
+   Compiling codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/network-proxy)
+   Compiling codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/http-client)
+   Compiling codex-utils-image v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/image)
+   Compiling event-listener-strategy v0.5.4
+   Compiling tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+   Compiling concurrent-queue v2.5.0
+   Compiling codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/protocol)
+   Compiling async-channel v2.5.0
+   Compiling codex-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-client)
+   Compiling codex-websocket-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/websocket-client)
+   Compiling assert-json-diff v2.0.2
+   Compiling wiremock v0.6.5
+   Compiling codex-api v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 06s
+────────────
+ Nextest run ID bec3d020-e007-4304-a44e-3b3295513deb with nextest profile: local
+    Starting 195 tests across 5 binaries
+        PASS [   0.074s] (  1/195) codex-api api_bridge::tests::map_api_error_maps_server_overloaded
+        PASS [   0.076s] (  2/195) codex-api api_bridge::tests::map_api_error_maps_cyber_policy_from_400_body
+        PASS [   0.076s] (  3/195) codex-api api_bridge::tests::map_api_error_does_not_fallback_limit_name_to_limit_id
+        PASS [   0.076s] (  4/195) codex-api api_bridge::tests::map_api_error_ignores_unparseable_rate_limit_reached_type_headers
+        PASS [   0.075s] (  5/195) codex-api endpoint::images::tests::generate_posts_typed_request_and_parses_image_response
+        PASS [   0.076s] (  6/195) codex-api api_bridge::tests::map_api_error_maps_cloudflare_blocked_response_to_user_message
+        PASS [   0.076s] (  7/195) codex-api api_bridge::tests::map_api_error_maps_misalignment_policy_violation_from_403_body
+        PASS [   0.076s] (  8/195) codex-api api_bridge::tests::map_api_error_maps_misalignment_policy_violation_from_400_body
+        PASS [   0.076s] (  9/195) codex-api api_bridge::tests::map_api_error_maps_server_overloaded_from_503_body
+        PASS [   0.075s] ( 10/195) codex-api api_bridge::tests::map_api_error_uses_cyber_policy_fallback_for_missing_message
+        PASS [   0.076s] ( 11/195) codex-api api_bridge::tests::map_api_error_preserves_misalignment_details_from_wrapped_websocket_error
+        PASS [   0.076s] ( 12/195) codex-api endpoint::memories::tests::path_is_memories_trace_summarize_for_wire_compatibility
+        PASS [   0.076s] ( 13/195) codex-api api_bridge::tests::map_api_error_preserves_misalignment_details_from_403_body
+        PASS [   0.078s] ( 14/195) codex-api api_bridge::tests::map_api_error_keeps_unknown_400_errors_generic
+        PASS [   0.077s] ( 15/195) codex-api endpoint::realtime_call::tests::rejects_location_without_call_id
+        PASS [   0.077s] ( 16/195) codex-api endpoint::images::tests::image_response_requires_image_data
+        PASS [   0.078s] ( 17/195) codex-api api_bridge::tests::map_api_error_extracts_identity_auth_details_from_headers
+        PASS [   0.076s] ( 18/195) codex-api endpoint::realtime_call::tests::accepts_uuid_call_id_from_location
+        PASS [   0.077s] ( 19/195) codex-api endpoint::models::tests::list_models_includes_etag
+        PASS [   0.077s] ( 20/195) codex-api endpoint::realtime_call::tests::errors_when_location_is_missing
+        PASS [   0.076s] ( 21/195) codex-api endpoint::realtime_call::tests::sends_api_session_call_as_multipart_body
+        PASS [   0.079s] ( 22/195) codex-api api_bridge::tests::map_api_error_copies_rate_limit_reached_type_to_usage_limit_snapshot
+        PASS [   0.079s] ( 23/195) codex-api api_bridge::tests::map_api_error_maps_usage_limit_limit_name_header
+        PASS [   0.079s] ( 24/195) codex-api api_bridge::tests::map_api_error_preserves_retry_delay
+        PASS [   0.078s] ( 25/195) codex-api endpoint::models::tests::parses_models_response
+        PASS [   0.078s] ( 26/195) codex-api endpoint::models::tests::appends_client_version_query
+        PASS [   0.079s] ( 27/195) codex-api endpoint::compact::tests::path_is_responses_compact
+        PASS [   0.078s] ( 28/195) codex-api endpoint::realtime_call::tests::extracts_call_id_from_forwarded_backend_location
+        PASS [   0.079s] ( 29/195) codex-api endpoint::images::tests::edit_posts_typed_request_and_parses_image_response
+        PASS [   0.077s] ( 30/195) codex-api endpoint::realtime_call::tests::rejects_v2_session_call_before_sending_request
+        PASS [   0.079s] ( 31/195) codex-api endpoint::memories::tests::summarize_input_posts_expected_payload_and_parses_output
+        PASS [   0.080s] ( 32/195) codex-api api_bridge::tests::map_api_error_maps_wrapped_websocket_cyber_policy_from_400_body
+        PASS [   0.006s] ( 33/195) codex-api endpoint::realtime_call::tests::sends_backend_frameless_session_call_to_realtime_calls
+        PASS [   0.011s] ( 34/195) codex-api endpoint::realtime_websocket::methods::tests::active_transcript_retains_a_bounded_suffix
+        PASS [   0.014s] ( 35/195) codex-api endpoint::realtime_websocket::methods::tests::frameless_websocket_url_rejects_dot_only_call_ids
+        PASS [   0.014s] ( 36/195) codex-api endpoint::realtime_call::tests::sends_sdp_offer_as_raw_body
+        PASS [   0.016s] ( 37/195) codex-api endpoint::realtime_call::tests::sends_frameless_session_call_to_live_without_legacy_query_params
+        PASS [   0.016s] ( 38/195) codex-api endpoint::realtime_websocket::methods::tests::frameless_websocket_url_encodes_call_id_as_one_path_segment
+        PASS [   0.016s] ( 39/195) codex-api endpoint::realtime_websocket::methods::tests::frameless_websocket_url_rewrites_existing_realtime_path
+        PASS [   0.016s] ( 40/195) codex-api endpoint::realtime_websocket::methods::tests::merge_request_headers_matches_http_precedence
+        PASS [   0.016s] ( 41/195) codex-api endpoint::realtime_websocket::methods::tests::parse_conversation_item_added_event
+        PASS [   0.016s] ( 42/195) codex-api endpoint::realtime_websocket::methods::tests::parse_audio_delta_event
+        PASS [   0.017s] ( 43/195) codex-api endpoint::realtime_call::tests::sends_backend_session_call_as_json_body
+        PASS [   0.014s] ( 44/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_conversation_item_created_event
+        PASS [   0.014s] ( 45/195) codex-api endpoint::realtime_websocket::methods::tests::parse_output_transcript_delta_event
+        PASS [   0.015s] ( 46/195) codex-api endpoint::realtime_websocket::methods::tests::parse_handoff_requested_event
+        PASS [   0.015s] ( 47/195) codex-api endpoint::realtime_websocket::methods::tests::parse_input_transcript_delta_event
+        PASS [   0.018s] ( 48/195) codex-api endpoint::realtime_call::tests::sends_session_call_with_avas_query_params
+        PASS [   0.018s] ( 49/195) codex-api endpoint::realtime_websocket::methods::tests::parse_conversation_item_done_event
+        PASS [   0.015s] ( 50/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_noop_tool_call_event
+        PASS [   0.015s] ( 51/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_item_done_output_text_event
+        PASS [   0.015s] ( 52/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_output_audio_delta_defaults_audio_shape
+        PASS [   0.015s] ( 53/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_input_audio_transcription_delta_event
+        PASS [   0.015s] ( 54/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_output_audio_transcript_done_event
+        PASS [   0.015s] ( 55/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_speech_started_event
+        PASS [   0.015s] ( 56/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_response_created_event
+        PASS [   0.015s] ( 57/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_response_cancelled_event
+        PASS [   0.015s] ( 58/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_output_text_done_event
+        PASS [   0.015s] ( 59/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_response_done_event
+        PASS [   0.016s] ( 60/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_response_audio_delta_with_item_id
+        PASS [   0.014s] ( 61/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_input_audio_transcription_completed_event
+        PASS [   0.015s] ( 62/195) codex-api endpoint::realtime_websocket::methods::tests::parse_session_updated_event
+        PASS [   0.019s] ( 63/195) codex-api endpoint::realtime_websocket::methods::tests::parse_realtime_v2_handoff_tool_call_event
+        PASS [   0.011s] ( 64/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_input_transcript_turn_marked_event
+        PASS [   0.015s] ( 65/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_input_audio_transcription_delta_event
+        PASS [   0.008s] ( 66/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_item_done_output_text_event
+        PASS [   0.009s] ( 67/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_output_audio_transcript_delta_event
+        PASS [   0.008s] ( 68/195) codex-api endpoint::realtime_websocket::methods::tests::parse_v1_output_audio_transcript_done_event
+        PASS [   0.012s] ( 69/195) codex-api endpoint::realtime_websocket::methods::tests::takes_only_transcript_after_last_handoff_once
+        PASS [   0.012s] ( 70/195) codex-api endpoint::realtime_websocket::methods::tests::terminal_sideband_handshake_statuses_are_not_retryable
+        PASS [   0.009s] ( 71/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_from_http_base_defaults_to_ws_path
+        PASS [   0.012s] ( 72/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_for_call_id_joins_existing_realtime_session
+        PASS [   0.009s] ( 73/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_from_v1_base_appends_realtime_path
+        PASS [   0.009s] ( 74/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_from_nested_v1_base_appends_realtime_path
+        PASS [   0.010s] ( 75/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_omits_intent_for_realtime_v2_conversational_mode
+        PASS [   0.014s] ( 76/195) codex-api endpoint::realtime_websocket::methods::tests::webrtc_frameless_sideband_ignores_provider_base_url
+        PASS [   0.011s] ( 77/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_from_ws_base_defaults_to_ws_path
+        PASS [   0.011s] ( 78/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_omits_intent_for_realtime_v2_transcription_mode
+        PASS [   0.010s] ( 79/195) codex-api endpoint::realtime_websocket::methods_common::tests::standalone_handoff_uses_session_context_for_frameless
+        PASS [   0.011s] ( 80/195) codex-api endpoint::realtime_websocket::methods_common::tests::frameless_session_update_encodes_explicit_delegation_ack_filler
+        PASS [   0.011s] ( 81/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_v1_ignores_transcription_mode
+        PASS [   0.011s] ( 82/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_url_preserves_existing_realtime_path_and_extra_query_params
+        PASS [   0.010s] ( 83/195) codex-api endpoint::realtime_websocket::protocol_frameless_bidi::tests::frameless_transcript_and_audio_events_reuse_existing_internal_events
+        PASS [   0.011s] ( 84/195) codex-api endpoint::realtime_websocket::methods_common::tests::context_append_channel_only_encodes_for_frameless_handoff_output
+        PASS [   0.011s] ( 85/195) codex-api endpoint::realtime_websocket::methods_frameless_bidi::tests::session_json_encodes_role_bearing_initial_items
+        PASS [   0.017s] ( 86/195) codex-api endpoint::realtime_websocket::methods::tests::transcript_state_survives_reconnect_and_reconciles_done
+        PASS [   0.011s] ( 87/195) codex-api endpoint::realtime_websocket::methods_frameless_bidi::tests::session_json_omits_initial_items_when_empty
+        PASS [   0.016s] ( 88/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_termination_classification_preserves_protocol_behavior
+        PASS [   0.011s] ( 89/195) codex-api endpoint::realtime_websocket::methods_frameless_bidi::tests::context_append_chunks_preserve_text_within_wire_limit
+        PASS [   0.010s] ( 90/195) codex-api endpoint::realtime_websocket::protocol_frameless_bidi::tests::legacy_and_frameless_delegations_decode_to_the_same_handoff
+        PASS [   0.009s] ( 91/195) codex-api endpoint::responses_websocket::tests::parse_wrapped_websocket_error_event_ignores_non_error_payloads
+        PASS [   0.011s] ( 92/195) codex-api endpoint::responses_websocket::tests::direct_serialization_preserves_websocket_request_payload
+        PASS [   0.010s] ( 93/195) codex-api endpoint::responses_websocket::tests::merge_request_headers_matches_http_precedence
+        PASS [   0.006s] ( 94/195) codex-api endpoint::responses_websocket::tests::parse_wrapped_websocket_error_event_maps_to_transport_http
+        PASS [   0.013s] ( 95/195) codex-api endpoint::realtime_websocket::methods_common::tests::completed_handoff_only_prefixes_v1_payload_text
+        PASS [   0.006s] ( 96/195) codex-api endpoint::responses_websocket::tests::parse_wrapped_websocket_error_event_with_connection_limit_maps_retryable
+        PASS [   0.006s] ( 97/195) codex-api endpoint::responses_websocket::tests::parse_wrapped_websocket_error_event_with_status_maps_invalid_request
+        PASS [   0.006s] ( 98/195) codex-api endpoint::responses_websocket::tests::parse_wrapped_websocket_error_event_without_status_is_not_mapped
+        PASS [   0.018s] ( 99/195) codex-api endpoint::realtime_websocket::methods::tests::websocket_handshake_error_preserves_http_status
+        PASS [   0.005s] (100/195) codex-api endpoint::responses_websocket::tests::websocket_config_enables_permessage_deflate
+        PASS [   0.006s] (101/195) codex-api endpoint::responses_websocket::tests::websocket_safety_buffering_event_controls_visibility_when_header_disables_it
+        PASS [   0.006s] (102/195) codex-api endpoint::search::tests::search_response_defaults_missing_results_for_older_endpoints
+        PASS [   0.006s] (103/195) codex-api endpoint::responses_websocket::tests::websocket_safety_buffering_uses_event_before_header_fallback
+        PASS [   0.006s] (104/195) codex-api endpoint::search::tests::search_response_preserves_supported_empty_results
+        PASS [   0.012s] (105/195) codex-api endpoint::search::tests::search_posts_typed_request_and_parses_output
+        PASS [   0.012s] (106/195) codex-api flat_tools::tests::declarations_history_and_choice_share_stable_aliases
+        PASS [   0.013s] (107/195) codex-api gateway_denial::tests::event_stream_bytes_are_not_consumed_by_json_inspection
+        PASS [   0.011s] (108/195) codex-api provider::tests::detects_azure_responses_base_urls
+        PASS [   0.013s] (109/195) codex-api flat_tools::tests::unknown_or_explicitly_namespaced_response_names_are_not_rerouted
+        PASS [   0.014s] (110/195) codex-api flat_tools::tests::ambiguous_names_and_unsupported_namespace_tools_fail_closed
+        PASS [   0.012s] (111/195) codex-api rate_limits::tests::parse_rate_limit_for_limit_reads_secondary_headers
+        PASS [   0.014s] (112/195) codex-api rate_limits::tests::parse_all_rate_limits_includes_default_codex_snapshot
+        PASS [   0.014s] (113/195) codex-api gateway_denial::tests::streamed_failed_and_completed_policy_envelopes_are_terminal
+        PASS [   0.015s] (114/195) codex-api gateway_denial::tests::malformed_unrelated_or_nonblocking_json_is_not_mislabeled_as_policy
+        PASS [   0.016s] (115/195) codex-api flat_tools::tests::streaming_restores_added_and_done_preserving_arguments_ids_and_errors
+        PASS [   0.013s] (116/195) codex-api rate_limits::tests::parse_rate_limit_for_limit_defaults_to_codex_headers
+        PASS [   0.012s] (117/195) codex-api rate_limits::tests::parse_rate_limit_for_limit_prefers_limit_name_header
+        PASS [   0.014s] (118/195) codex-api rate_limits::tests::parse_all_rate_limits_reads_all_limit_families
+        PASS [   0.015s] (119/195) codex-api gateway_denial::tests::stalled_json_body_is_bounded_and_does_not_become_a_retry
+        PASS [   0.015s] (120/195) codex-api gateway_denial::tests::streamed_denial_cannot_be_overwritten_by_later_success_or_stall
+        PASS [   0.018s] (121/195) codex-api gateway_denial::tests::explicit_denials_are_terminal_and_redacted_with_the_real_status
+        PASS [   0.012s] (122/195) codex-api safety_buffering::tests::buffering_enabled_header_does_not_gate_the_faster_model_fallback
+        PASS [   0.010s] (123/195) codex-api safety_buffering::tests::reads_treatment_from_http_headers
+        PASS [   0.009s] (124/195) codex-api sse::responses::tests::context_window_error_with_newline_is_fatal
+        PASS [   0.006s] (125/195) codex-api sse::responses::tests::cyber_policy_error_is_fatal
+        PASS [   0.009s] (126/195) codex-api sse::responses::tests::content_policy_errors_without_type_are_invalid_requests
+        PASS [   0.009s] (127/195) codex-api sse::responses::tests::context_window_error_is_fatal
+        PASS [   0.008s] (128/195) codex-api sse::responses::tests::emits_completed_without_stream_end
+        PASS [   0.009s] (129/195) codex-api sse::responses::tests::error_when_missing_completed
+        PASS [   0.012s] (130/195) codex-api sse::responses::tests::cyber_policy_error_uses_fallback_for_empty_message
+        PASS [   0.012s] (131/195) codex-api sse::responses::tests::misalignment_policy_violation_uses_fallback_for_blank_message
+        PASS [   0.010s] (132/195) codex-api sse::responses::tests::parses_reasoning_summary_done
+        PASS [   0.008s] (133/195) codex-api sse::responses::tests::parses_tool_search_call_items
+        PASS [   0.012s] (134/195) codex-api sse::responses::tests::parses_items_and_completed
+        PASS [   0.014s] (135/195) codex-api sse::responses::tests::malformed_misalignment_details_preserve_the_fatal_policy_error
+        PASS [   0.014s] (136/195) codex-api sse::responses::tests::misalignment_policy_violation_error_is_fatal
+        PASS [   0.014s] (137/195) codex-api sse::responses::tests::misalignment_policy_violation_preserves_public_continuation_details
+        PASS [   0.014s] (138/195) codex-api sse::responses::tests::failed_response_classification_uses_error_code
+        PASS [   0.013s] (139/195) codex-api sse::responses::tests::parses_cache_write_token_usage
+        PASS [   0.009s] (140/195) codex-api sse::responses::tests::process_sse_emits_all_safety_buffering_notifications_without_dropping_response_events
+        PASS [   0.009s] (141/195) codex-api sse::responses::tests::process_sse_emits_server_model_from_response_headers_payload
+        PASS [   0.009s] (142/195) codex-api sse::responses::tests::process_sse_emits_model_verification_field
+        PASS [   0.010s] (143/195) codex-api sse::responses::tests::parses_tool_call_input_deltas
+        PASS [   0.007s] (144/195) codex-api sse::responses::tests::process_sse_ignores_response_model_field_in_payload
+        PASS [   0.010s] (145/195) codex-api sse::responses::tests::process_sse_emits_turn_moderation_metadata_field
+        PASS [   0.008s] (146/195) codex-api sse::responses::tests::quota_exceeded_error_is_fatal
+        PASS [   0.005s] (147/195) codex-api sse::responses::tests::responses_stream_event_model_verification_ignores_non_array_field
+        PASS [   0.005s] (148/195) codex-api sse::responses::tests::responses_stream_event_model_verification_ignores_unknown_field
+        PASS [   0.007s] (149/195) codex-api sse::responses::tests::rate_limit_error_preserves_retry_delay
+        PASS [   0.006s] (150/195) codex-api sse::responses::tests::responses_stream_event_response_model_prefers_response_headers
+        PASS [   0.007s] (151/195) codex-api sse::responses::tests::responses_stream_event_response_model_reads_top_level_headers
+        PASS [   0.007s] (152/195) codex-api sse::responses::tests::safety_buffering_ignores_metadata_field_for_other_event_kinds
+        PASS [   0.007s] (153/195) codex-api sse::responses::tests::responses_stream_event_model_verification_reads_metadata_field
+        PASS [   0.010s] (154/195) codex-api sse::responses::tests::safety_buffering_falls_back_to_response_metadata
+        PASS [   0.010s] (155/195) codex-api sse::responses::tests::safety_buffering_ignores_response_metadata_without_safety_buffering_type
+        PASS [   0.010s] (156/195) codex-api sse::responses::tests::safety_buffering_top_level_presence_wins_over_response_metadata
+        PASS [   0.010s] (157/195) codex-api sse::responses::tests::safety_buffering_prefers_wire_retry_model_and_only_falls_back_when_omitted
+        PASS [   0.008s] (158/195) codex-api sse::responses::tests::test_try_parse_retry_after_no_delay
+        PASS [   0.010s] (159/195) codex-api sse::responses::tests::test_try_parse_retry_after
+        PASS [   0.010s] (160/195) codex-api sse::responses::tests::spawn_response_stream_emits_header_events
+        PASS [   0.008s] (161/195) codex-api::clients azure_store_sends_ids_and_headers
+        PASS [   0.011s] (162/195) codex-api sse::responses::tests::table_driven_event_kinds
+        PASS [   0.009s] (163/195) codex-api::clients flat_tools_client_tests::typed_and_raw_requests_flatten_only_for_gateway_providers
+        PASS [   0.007s] (164/195) codex-api::clients responses_client_uses_guardian_path
+        PASS [   0.008s] (165/195) codex-api::clients responses_client_stream_request_preserves_item_ids
+        PASS [   0.013s] (166/195) codex-api sse::responses::tests::spawn_response_stream_ignores_model_verification_header
+        PASS [   0.008s] (167/195) codex-api::clients streaming_client_does_not_retry_auth_build_error
+        PASS [   0.009s] (168/195) codex-api::clients streaming_client_adds_auth_headers
+        PASS [   0.014s] (169/195) codex-api sse::responses::tests::test_try_parse_retry_after_azure
+        PASS [   0.010s] (170/195) codex-api::clients responses_client_uses_responses_path
+        PASS [   0.065s] (171/195) codex-api endpoint::realtime_websocket::methods::tests::v1_transcription_mode_is_treated_as_conversational
+        PASS [   0.007s] (172/195) codex-api::clients streaming_client_retries_on_transport_error
+        PASS [   0.008s] (173/195) codex-api::clients streaming_client_retries_on_transient_auth_error
+        PASS [   0.005s] (174/195) codex-api::sse_end_to_end responses_stream_parses_items_and_completed_end_to_end
+        PASS [   0.071s] (175/195) codex-api endpoint::realtime_websocket::methods::tests::realtime_v2_session_update_includes_background_agent_tool_and_handoff_output_item
+        PASS [   0.074s] (176/195) codex-api endpoint::realtime_websocket::methods::tests::transcription_mode_session_update_omits_output_audio_and_instructions
+        PASS [   0.060s] (177/195) codex-api endpoint::session::tests::previously_opened_inference_stream_stops_delivering_after_logout
+        PASS [   0.066s] (178/195) codex-api files::tests::upload_hosted_app_context_and_finalizes_reservation
+        PASS [   0.069s] (179/195) codex-api endpoint::session::tests::retryable_remote_failure_cannot_retry_after_logout
+        PASS [   0.068s] (180/195) codex-api files::tests::upload_openai_file_reports_blob_response_diagnostics_without_sas
+        PASS [   0.070s] (181/195) codex-api files::tests::upload_hosted_app_preserves_empty_finalization_for_older_servers
+        PASS [   0.070s] (182/195) codex-api files::tests::upload_openai_file_reuses_client_pool_across_uploads
+        PASS [   0.072s] (183/195) codex-api files::tests::upload_openai_file_reports_blob_transport_diagnostics_without_sas
+        PASS [   0.109s] (184/195) codex-api endpoint::realtime_websocket::methods::tests::e2e_connect_and_exchange_events_against_mock_ws_server
+        PASS [   0.038s] (185/195) codex-api::realtime_websocket_e2e realtime_ws_e2e_realtime_v2_parser_emits_handoff_requested
+        PASS [   0.042s] (186/195) codex-api::realtime_websocket_e2e realtime_ws_e2e_session_create_and_event_flow
+        PASS [   0.044s] (187/195) codex-api::realtime_websocket_e2e realtime_ws_e2e_disconnected_emitted_once
+        PASS [   0.044s] (188/195) codex-api::realtime_websocket_e2e realtime_ws_e2e_ignores_unknown_text_events
+        PASS [   0.109s] (189/195) codex-api endpoint::realtime_websocket::methods::tests::send_does_not_block_while_next_event_waits_for_inbound_data
+        PASS [   0.055s] (190/195) codex-api::models_integration models_client_hits_models_endpoint
+        PASS [   0.107s] (191/195) codex-api endpoint::session::tests::retained_inference_client_stops_sending_after_logout_and_relogin
+        PASS [   0.087s] (192/195) codex-api::realtime_websocket_e2e realtime_ws_e2e_send_while_next_event_waits
+        PASS [   0.175s] (193/195) codex-api::realtime_websocket_e2e realtime_ws_connect_webrtc_sideband_retries_join_until_server_is_available
+        PASS [   0.318s] (194/195) codex-api endpoint::session::tests::pending_inference_headers_cancel_within_logout_deadline
+        PASS [   0.327s] (195/195) codex-api files::tests::upload_openai_file_returns_canonical_uri
+────────────
+     Summary [   0.439s] 195 tests run: 195 passed, 0 skipped

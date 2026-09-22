@@ -1,0 +1,27 @@
+from pathlib import Path
+import json,subprocess,sys
+r=Path(__file__).resolve().parent
+spec=json.loads((r/'SPEC.json').read_text())
+assert spec['scope']=='owner-authorized-test' and spec['tag']=='mcp' and spec['version']=='0.1.3-alpha.2.mcp.1'
+assert json.loads((r/'STAGING.json').read_text())['exit_code']==0
+assert json.loads((r/'CANDIDATE-VERIFICATION.json').read_text())['exit_code']==0
+workspace=json.loads((r/'WORKSPACE-REVIEW.json').read_text())
+assert workspace['only_reviewed_baseline_failures'] and workspace['failed']==3 and workspace['source_commit']==spec['source_commit']
+assert all(x['same_assertion_details'] for x in json.loads((r/'WORKSPACE-BASELINE-COMPARISON.json').read_text())['comparisons'])
+latency=json.loads((r/'release-latency.json').read_text())
+assert latency['startup_budget_met'] and latency['candidate_cancellation_under_one_second']
+assert latency['binary_sha256']['candidate']==next(x['binary_sha256'] for x in spec['platforms'] if x['target'].startswith('x86_64'))
+for row in spec['platforms']:
+ d=json.loads((r/'native-extra-evidence/extras-dispatch'/row['target']/'COMPLETE.json').read_text())
+ assert d['passed'] and d['expected_native_sha256']==row['binary_sha256'] and d['tooling_commit']==spec['tooling_commit']
+base=[sys.executable,str(r/'release-frozen-upstream013r2/scripts/airs_test_release.py')]
+subprocess.run(base+['verify-all','--spec',str(r/'SPEC.json'),'--acceptance',str(r/'candidate-acceptance')],check=True)
+config=r/'publication.npmrc'
+assert not config.exists()
+try:
+ subprocess.run([sys.executable,str(r/'authenticate-publication.py')],check=True)
+ subprocess.run(base+['publish','--spec',str(r/'SPEC.json'),'--packages',str(r/'staged'),'--acceptance',str(r/'candidate-acceptance'),'--output',str(r/'publication'),'--userconfig',str(config)],check=True)
+finally:
+ config.unlink(missing_ok=True)
+assert json.loads((r/'publication/PUBLICATION.json').read_text())['published']
+print('Versioned mcp preview published; stable tags preserved; registry installation checks are next.')

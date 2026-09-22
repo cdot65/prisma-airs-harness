@@ -1,0 +1,45 @@
+"""Paired release-binary timings with loopback-only fixtures, no owner state."""
+import argparse, hashlib, json, os, platform, statistics, sys, time
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('--scripts',type=Path,required=True);p.add_argument('--baseline',type=Path,required=True);p.add_argument('--candidate',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+sys.path.insert(0,str(a.scripts.resolve()))
+import test_airs_harness as harness
+from test_airs_mcp_manager import McpManager
+from airs_harness_pty import TerminalSession
+rows={};network={};identities={}
+for name,binary in [('baseline',a.baseline),('candidate',a.candidate)]:
+ binary=binary.resolve(strict=True)
+ with binary.open('rb') as f:identities[name]=hashlib.file_digest(f,'sha256').hexdigest()
+ rows[name]={'first_status_after_configuration':[],'warm_status':[],'warm_startup_to_trust':[],'warm_continue_to_ready':[],'cancel_to_notice':[]}
+ for attempt in range(11):
+  harness.BINARY=binary;fixture=harness.TerminalIntegration();fixture.setUp()
+  try:
+   fixture.configure()
+   start=time.monotonic();result=fixture.run_cli('env','status');elapsed=time.monotonic()-start
+   assert result.returncode==0,result.stderr
+   rows[name]['first_status_after_configuration'].append(elapsed)
+   start=time.monotonic();result=fixture.run_cli('env','status');elapsed=time.monotonic()-start
+   assert result.returncode==0,result.stderr
+   if attempt:rows[name]['warm_status'].append(elapsed)
+   start=time.monotonic()
+   with TerminalSession(binary,fixture.env,fixture.work) as terminal:
+    terminal.wait_for(b'Yes, continue');trust=time.monotonic()-start
+    time.sleep(.35);offset=len(terminal.transcript);start=time.monotonic();os.write(terminal.master,b'\r')
+    terminal.wait_for(b'permissions:',offset);ready=time.monotonic()-start
+    if attempt:
+     rows[name]['warm_startup_to_trust'].append(trust);rows[name]['warm_continue_to_ready'].append(ready)
+   assert not fixture.requests and not fixture.mcp_requests
+  finally:fixture.doCleanups()
+ for _ in range(10):
+  fixture=McpManager();fixture.setUp()
+  try:
+   with TerminalSession(binary,fixture.env,fixture.inference.work) as terminal:
+    terminal.start();fixture.add(terminal);start=time.monotonic();offset=fixture.key(terminal,b'\x1b')
+    terminal.wait_for(b'MCP sign-in cancelled',offset);rows[name]['cancel_to_notice'].append(time.monotonic()-start)
+   assert not fixture.gateway.tokens and not fixture.inference.requests
+  finally:fixture.doCleanups()
+ network[name]={'inference_requests':0,'mcp_tool_invocations':0,'oauth_token_exchanges':0,'loopback_metadata_and_health':True}
+summary={name:{key:{'samples':v,'median_seconds':statistics.median(v),'maximum_seconds':max(v)} for key,v in values.items()} for name,values in rows.items()}
+ratios={key:summary['candidate'][key]['median_seconds']/summary['baseline'][key]['median_seconds'] for key in rows['candidate']}
+receipt={'host':platform.platform(),'binary_sha256':identities,'scope':'Isolated release binary startup/status/cancellation. Fresh application homes, warm OS page cache; not a cold OS cache benchmark. Trust-dialog input delay excluded.','measurements':summary,'candidate_baseline_ratios':ratios,'network':network,'startup_budget_met':all(ratios[k]<=1.1 for k in ['warm_startup_to_trust','warm_continue_to_ready']),'candidate_cancellation_under_one_second':summary['candidate']['cancel_to_notice']['maximum_seconds']<1}
+a.output.write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in receipt.items() if k not in ['measurements','network']},indent=2))

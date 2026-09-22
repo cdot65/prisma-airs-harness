@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "aarch64-unknown-linux-musl",
+  "spec_sha256": "f62200a8818c411e10c8cd5cdc08a07fe6f1166201defb4c7cb2139a953dfde7",
+  "tooling_manifest_sha256": "74971d256d13c2c18af49682259830af821c20daea6baae184d7ecaeee19e71e",
+  "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+  "expected_native_sha256": "60cfc7cf41a6f40095eee09cfc9e23e15ed514abe0073cca23a18e55ae03cd3f",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "6c5e16a6ea500d862e899483f6e1e3af4e2ad157687f63a81fdd84de87af30ac",
+    "candidate_packages_sha256": "613ab6853bcf627661e2d5e517b096ba791e103d9e31ea8475cf5a4e60328e48"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-upstream013r2/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/home/airs-review/upstream013r2-candidate/SPEC.json",
+        "--packages",
+        "/home/airs-review/upstream013r2-candidate/staged",
+        "--scripts",
+        "/home/airs-review/release-frozen-upstream013r2/scripts",
+        "--output",
+        "/home/airs-review/upstream013r2-candidate/registry-acceptance",
+        "--acceptance",
+        "/home/airs-review/upstream013r2-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 363.26389128901064
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-upstream013r2/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.043645170982927
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-upstream013r2/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.326834917999804
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/opt/review-venv/bin/python",
+        "/home/airs-review/release-frozen-upstream013r2/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.494270714989398
+    }
+  ],
+  "passed": true
+}

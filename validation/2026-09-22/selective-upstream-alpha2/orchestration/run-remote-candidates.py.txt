@@ -1,0 +1,14 @@
+from pathlib import Path
+import json,subprocess,time,sys
+r=Path(__file__).resolve().parent;end=time.monotonic()+8*3600
+while not (r/'ASSEMBLY.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Assembly not ready; no remote installation attempted')
+ time.sleep(30)
+assert json.loads((r/'ASSEMBLY.json').read_text())['exit_code']==0
+subprocess.run([sys.executable,str(r/'native-execution/build-transfer.py')],check=True)
+m=json.loads((r/'CANDIDATE-TRANSFER.json').read_text())
+files=[r/'candidate-transfer.tar',r/'CANDIDATE-TRANSFER.json',r/'SPEC.json',r/'native-execution/prepare-native-candidates.py']
+subprocess.run(['scp','-q','-i','/home/cdot/.ssh/airs-jadzia-runner',*map(str,files),'cdot@10.0.1.121:/Users/cdot/.cache/airs-upstream-r2-20260922/'],check=True)
+ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','cdot@10.0.1.121']
+result=subprocess.check_output(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 /Users/cdot/.cache/airs-upstream-r2-20260922/prepare-native-candidates.py '+m['archive_sha256']],text=True)
+(r/'REMOTE-CANDIDATE-DISPATCH.json').write_text(result);print(result)

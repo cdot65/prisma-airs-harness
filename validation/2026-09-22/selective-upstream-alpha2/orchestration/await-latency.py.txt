@@ -1,0 +1,16 @@
+from pathlib import Path
+import json,subprocess,time
+r=Path(__file__).resolve().parent;end=time.monotonic()+4*3600
+while not (r/'x64-native/EXTRACTION.json').exists():
+ if time.monotonic()>end:raise TimeoutError('Native x64 candidate not available')
+ time.sleep(30)
+d=json.loads((r/'x64-native/EXTRACTION.json').read_text());native=Path(d['extracted'])/'airs-harness'
+assert d['source_commit']==(r/'SOURCE').read_text().strip()
+assert native.is_file(),str(native)
+command=['/tmp/airs-dual-auth-20260918/venv/bin/python',str(r/'measure-latency.py'),'--scripts',str(r/'release-frozen-upstream013r2/scripts'),'--baseline','/home/cdot/.local/share/npm-global/lib/node_modules/airs-harness/node_modules/airs-harness-linux-x64/bin/airs-harness','--candidate',str(native),'--output',str(r/'release-latency.json')]
+with (r/'release-latency.log').open('x') as log:p=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+assert p.returncode==0,'Latency fixture failed'
+result=json.loads((r/'release-latency.json').read_text())
+assert result['binary_sha256']['candidate']==d['binary_sha256']
+assert result['startup_budget_met'] and result['candidate_cancellation_under_one_second'],'Latency budget requires review'
+print('Exact candidate latency checks passed')

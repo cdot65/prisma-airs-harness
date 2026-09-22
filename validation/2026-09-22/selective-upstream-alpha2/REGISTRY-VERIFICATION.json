@@ -1,0 +1,16 @@
+{
+  "exit_code": 0,
+  "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+  "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+  "command": [
+    "/usr/bin/python3",
+    "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/airs_test_release.py",
+    "verify-all",
+    "--spec",
+    "/tmp/airs-upstream-r2-20260922/release/SPEC.json",
+    "--acceptance",
+    "/tmp/airs-upstream-r2-20260922/release/registry-acceptance",
+    "--installation",
+    "registry"
+  ]
+}

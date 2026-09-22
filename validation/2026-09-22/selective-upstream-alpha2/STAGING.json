@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+  "command": [
+    "/usr/bin/python3",
+    "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/airs_test_release.py",
+    "stage",
+    "--spec",
+    "/tmp/airs-upstream-r2-20260922/release/SPEC.json",
+    "--packages",
+    "/tmp/airs-upstream-r2-20260922/release/candidate-npm",
+    "--acceptance",
+    "/tmp/airs-upstream-r2-20260922/release/candidate-acceptance",
+    "--output",
+    "/tmp/airs-upstream-r2-20260922/release/staged"
+  ]
+}

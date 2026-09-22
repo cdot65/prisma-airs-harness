@@ -1,0 +1,93 @@
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+import tarfile
+
+cache = Path('/Users/cdot/.cache/airs-upstream-r2-20260922')
+root = cache / 'upstream013r2-candidate'
+if json.loads((root / 'HOST-COMPLETE.json').read_text()).get('passed') is not True:
+    raise RuntimeError('Mac candidate gates have not passed')
+docker = '/usr/local/bin/docker'
+container = 'airs-native-mcp-20260919-arm64'
+arm_script = '''from pathlib import Path
+import json,tarfile
+root=Path('/home/airs-review/upstream013r2-candidate');target='aarch64-unknown-linux-musl'
+if json.loads((root/'HOST-COMPLETE.json').read_text()).get('passed') is not True:raise RuntimeError('ARM gates have not passed')
+archive=root/'portable-typesafe.tar.gz'
+with tarfile.open(archive,'w:gz') as tar:
+ for p in sorted((root/'candidate-acceptance'/target).rglob('*')):
+  if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(root).parts or (p.parent.name=='stable-upgrade' and p.suffix in ['.json','.log'])):tar.add(p,arcname=str(p.relative_to(root)),recursive=False)
+ for area in ['accept-dispatch','extras-dispatch']:
+  for p in sorted((root/area/target).rglob('*')):
+   if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(root).parts or (p.parent.name=='stable-upgrade' and p.suffix in ['.json','.log'])):tar.add(p,arcname=str(p.relative_to(root)),recursive=False)
+ for area in ['lifecycle-quick']:
+  for p in sorted((root/'extra-candidate'/target/area).iterdir()):
+   if p.is_file() and p.suffix in ['.json','.log']:tar.add(p,arcname=str(p.relative_to(root)),recursive=False)
+'''
+subprocess.run([docker, 'exec', '-u', '10001', container, '/opt/review-venv/bin/python', '-c', arm_script], check=True)
+subprocess.run([docker, 'cp', container + ':/home/airs-review/upstream013r2-candidate/portable-typesafe.tar.gz', str(root / 'arm-portable-typesafe.tar.gz')], check=True)
+out = root / 'portable-typesafe'
+out.mkdir(mode=0o700, exist_ok=True)
+with tarfile.open(root / 'arm-portable-typesafe.tar.gz') as tar:
+    if any(not member.isfile() for member in tar.getmembers()):
+        raise RuntimeError('Nonregular portable evidence')
+    tar.extractall(out, filter='data')
+mac = 'aarch64-apple-darwin'
+shutil.copytree(root / 'candidate-acceptance' / mac, out / 'candidate-acceptance' / mac)
+for area in ['accept-dispatch', 'extras-dispatch']:
+    base = root / area / mac
+    for p in base.rglob('*'):
+        if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(base).parts or (p.parent.name == 'stable-upgrade' and p.suffix in ['.json', '.log'])):
+            dest = out / area / mac / p.relative_to(base)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(p, dest)
+for area in ['lifecycle-quick']:
+    dest = out / 'extra-candidate' / mac / area
+    dest.mkdir(parents=True)
+    for p in (root / 'extra-candidate' / mac / area).iterdir():
+        if p.is_file() and p.suffix in ['.json', '.log']:
+            shutil.copy2(p, dest / p.name)
+tooling = cache / 'release-frozen-upstream013r2'
+sys.path.insert(0, str(tooling / 'scripts'))
+from airs_release_contract import verify_one
+from airs_release_receipts import verify_tooling
+from airs_test_release_spec import load_spec
+from airs_lifecycle_contract import validate_observation
+spec = load_spec(root / 'SPEC.json')
+manifest = json.loads((tooling / 'ACCEPTANCE-TOOLING.json').read_text())
+verify_tooling(tooling, manifest, spec['tooling_commit'])
+summary = {}
+required = 'test_airs_harness_native_mcp.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes'
+for target in [mac, 'aarch64-unknown-linux-musl']:
+    native = next(row['binary_sha256'] for row in spec['platforms'] if row['target'] == target)
+    verify_one(spec, out / 'candidate-acceptance' / target, target, 'candidate')
+    tests = json.loads((out / 'candidate-acceptance' / target / 'files/installed-regressions/TEST-RESULTS.json').read_text())
+    if required not in tests['test_ids'] or required in [row['test'] for row in tests['skipped']]:
+        raise RuntimeError('Required native positive did not execute')
+    extra = out / 'extra-candidate' / target
+    quick = json.loads((extra / 'lifecycle-quick/LIFECYCLE-ACCEPTANCE.json').read_text())
+    observation = (extra / 'lifecycle-quick/OBSERVATION.json').read_bytes()
+    observed = validate_observation(json.loads(observation))
+    if quick.get('passed') is not True or quick['native_sha256'] != native or quick['tooling_files'] != manifest['files'] or quick.get('native_cleanup_completed') is not True or quick['observation_sha256'] != hashlib.sha256(observation).hexdigest():
+        raise RuntimeError('Lifecycle receipt binding mismatch')
+    summary[target] = {'candidate_verified': True, 'native_positive_executed': True, 'tests_run': tests['tests_run'],
+                       'platform_skips': len(tests['skipped']), 'quick': observed, 'native_sha256': native}
+label = json.loads((root / 'LAUNCH.json').read_text())['mac_gui_label']
+if not label.startswith('io.cdot.airs.typesafe.20260920.candidate.'):
+    raise RuntimeError('Unexpected GUI ownership')
+subprocess.run(['launchctl', 'bootout', 'gui/501/' + label], capture_output=True)
+if subprocess.run(['launchctl', 'print', 'gui/501/' + label], capture_output=True).returncode == 0:
+    raise RuntimeError('Owned GUI job remains loaded')
+shutil.copy2(root / 'SPEC.json', out / 'SPEC.json')
+(out / 'SUMMARY.json').write_text(json.dumps({'scope': '0.1.3-alpha.2.mcp.1 synthetic installed candidate and extra gates; not production acceptance', 'targets': summary, 'owned_gui_label_unloaded': label}, indent=2) + '\n')
+archive = root / 'portable-typesafe.tar.gz'
+with tarfile.open(archive, 'w:gz') as tar:
+    for p in sorted(out.rglob('*')):
+        if p.is_file():
+            tar.add(p, arcname=str(p.relative_to(out)), recursive=False)
+with archive.open('rb') as stream:
+    digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+print(json.dumps({'archive': str(archive), 'sha256': digest, 'bytes': archive.stat().st_size, 'summary': summary}))

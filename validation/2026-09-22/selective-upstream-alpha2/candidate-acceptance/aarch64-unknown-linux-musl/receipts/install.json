@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/opt/review-venv/bin/python",
+    "/home/airs-review/release-frozen-upstream013r2/scripts/validate_airs_npm.py",
+    "--packages",
+    "/home/airs-review/upstream013r2-candidate/candidate-npm",
+    "--prefix",
+    "/home/airs-review/upstream013r2-candidate/candidate-acceptance/aarch64-unknown-linux-musl.work/install-489816f28e714c21975789c17f8aec9c/prefix"
+  ],
+  "command_sha256": "edaf74f9e880399769bf532844c96bf2de3019a148499f50846d175d4fa175fa",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "d4cfb4c5dca8e737cd428a66f9ef14ac4a3f723d9d0de990eaf7c8296d8bcc91",
+  "inputs": {
+    "binary_sha256": "60cfc7cf41a6f40095eee09cfc9e23e15ed514abe0073cca23a18e55ae03cd3f",
+    "candidate_metadata_sha256": "2e89fecd071c240c3404897a0bddb4e9fc4cf584ae7ceda67c300bb783b4fa24",
+    "candidate_packages_sha256": "ebcb4ba08c2e4fe5227878fe2b62577b95e5a7c04cdd8aee95775d1987818944",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-unknown-linux-musl"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-unknown-linux-musl",
+    "packaging_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "spec_sha256": "85a2c0a8b6c599ca25ced3c85f208495087c39414cbd3b9b1782c5d2a9a29007",
+    "target": "aarch64-unknown-linux-musl",
+    "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+    "tooling_sha256": "bd64f0a9fd4d580e155a7c55d93074648055f9c512c547f59d51918073fc4aa5",
+    "version": "0.1.3-alpha.2.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "38eb3a2d41a8faa91f5d259da930b0490fa4709888e8c4cf19c7d09cfcac25a4",
+      "size": 459
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "7cdfe803dfc573dbe7750d4ceb065dc60756c60d1470d8cdbb7636bb223c5bb8",
+      "size": 5269
+    },
+    "logs/install.log": {
+      "sha256": "7cdfe803dfc573dbe7750d4ceb065dc60756c60d1470d8cdbb7636bb223c5bb8",
+      "size": 5269
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

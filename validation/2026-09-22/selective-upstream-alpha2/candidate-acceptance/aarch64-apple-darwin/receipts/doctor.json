@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/candidate-acceptance/aarch64-apple-darwin.work/doctor-08bd66d2639844cfad3f98280920591b/TEST-RESULTS.json"
+  ],
+  "command_sha256": "c64a89959c9fc8f64fcec5661bc89109726a5db1f39f5df9df6f6776ffbf96ec",
+  "dependencies": {
+    "install": "948b9e42c2ebfed02a0b2992438fce04ceb9d761cdb83c1ce65fee28ec1eb909",
+    "installed-regressions": "0410aae125c42d1d0cd49e954c4ee4b84d7b9603da767b49ba9f1e10ad9d17fd",
+    "mcp-manager": "0150041839794491a0deceeb8c3b018b1d9fabb98f81357cccbc83a98ae318a1",
+    "onboarding": "5b7050d94183b97d2f0a2e310d66aceee132fc483269d7b5dab34869e98a33e3",
+    "terminals": "98c2a131706975968921f2993832076ae784cece2330b7f6ab58d83d9f7ebd25"
+  },
+  "exit_code": 0,
+  "input_sha256": "a42f139e4121bed64a148bfd3439e50988e134ea02cc4239a6341af09884c67a",
+  "inputs": {
+    "binary_sha256": "3aaefcb2550167d77ff2abb74c6ef25e17556ccdf3d6d621ee73a0db8977c492",
+    "candidate_metadata_sha256": "2e89fecd071c240c3404897a0bddb4e9fc4cf584ae7ceda67c300bb783b4fa24",
+    "candidate_packages_sha256": "ebcb4ba08c2e4fe5227878fe2b62577b95e5a7c04cdd8aee95775d1987818944",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_doctor.py",
+      "stage": "doctor",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "spec_sha256": "85a2c0a8b6c599ca25ced3c85f208495087c39414cbd3b9b1782c5d2a9a29007",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+    "tooling_sha256": "bd64f0a9fd4d580e155a7c55d93074648055f9c512c547f59d51918073fc4aa5",
+    "version": "0.1.3-alpha.2.mcp.1"
+  },
+  "outputs": {
+    "files/doctor/TEST-RESULTS.json": {
+      "sha256": "c18fe4b39dbe417bf769bf53d158ffc46a3e1b3a33a64c8f36282e4bd65b8dc1",
+      "size": 1183
+    },
+    "logs/doctor.log": {
+      "sha256": "f494ae721daa0887eaffe3071abd6a124a877d826309d2604224588f6ff93ad9",
+      "size": 1295
+    }
+  },
+  "schema_version": 1,
+  "stage": "doctor"
+}

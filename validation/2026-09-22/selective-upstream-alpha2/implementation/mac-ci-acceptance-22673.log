@@ -1,0 +1,344 @@
+2026-09-22T22:31:49.1872280Z Runner a3e8db77-1ff2-48f4-a585-23de8dc20bb8 (version:v13.1.0) received task 22673 of job acceptance, triggered by event: push
+2026-09-22T22:31:49.1956670Z workflow prepared
+2026-09-22T22:31:49.2896830Z   ☁️  git fetch 'https://code.forgejo.org/actions/checkout' skipped; ref=11d5960a326750d5838078e36cf38b85af677262 cached
+2026-09-22T22:31:49.4005790Z   ☁️  git fetch 'https://code.forgejo.org/actions/checkout' skipped; ref=11d5960a326750d5838078e36cf38b85af677262 cached
+2026-09-22T22:31:49.4995450Z   ☁️  git fetch 'https://github.com/dtolnay/rust-toolchain' skipped; ref=46817827a5bfabe028bf34e1cce71fd40e2ff697 cached
+2026-09-22T22:31:49.5460440Z ⭐ Run Pre https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+2026-09-22T22:31:49.5463610Z   ✅  Success - Pre https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+2026-09-22T22:31:49.5864250Z   ☁️  git fetch 'https://github.com/actions/setup-node' skipped; ref=53b83947a5a98c8d113130e565377fae1a50d02f cached
+2026-09-22T22:31:49.7044320Z   ☁️  git fetch 'https://code.forgejo.org/actions/download-artifact' skipped; ref=9bc31d5ccc31df68ecc42ccf4149144866c47d8a cached
+2026-09-22T22:31:49.8084250Z   ☁️  git fetch 'https://code.forgejo.org/actions/cache' skipped; ref=0057852bfaa89a56745cba8c7296529d2fc39830 cached
+2026-09-22T22:31:49.9176460Z   ☁️  git fetch 'https://code.forgejo.org/actions/upload-artifact' skipped; ref=ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 cached
+2026-09-22T22:31:50.0203670Z   ☁️  git fetch 'https://code.forgejo.org/actions/upload-artifact' skipped; ref=ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 cached
+2026-09-22T22:31:50.0790950Z ⭐ Run Main Require Apple Silicon and initialize acceptance evidence
+2026-09-22T22:31:50.0921020Z   ✅  Success - Main Require Apple Silicon and initialize acceptance evidence
+2026-09-22T22:31:50.2137410Z ::add-matcher::/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/act/actions/72/dfba0267da49643148188b541f451e6c02bccf73cc1a638f6976d42839d5f0/dist/problem-matcher.json
+2026-09-22T22:31:50.2138850Z Syncing repository: cdot/prisma-airs-harness
+2026-09-22T22:31:50.2140560Z ##[group]Getting Git version info
+2026-09-22T22:31:50.2140650Z Working directory is '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor'
+2026-09-22T22:31:50.2156530Z [command]/usr/bin/git version
+2026-09-22T22:31:50.2285920Z git version 2.50.1 (Apple Git-155)
+2026-09-22T22:31:50.2296980Z ##[endgroup]
+2026-09-22T22:31:50.2301100Z Copying '/Users/cdot/.gitconfig' to '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/bae3dec8-a110-462c-a94a-a422a2a84aa7/.gitconfig'
+2026-09-22T22:31:50.2306540Z Temporarily overriding HOME='/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/bae3dec8-a110-462c-a94a-a422a2a84aa7' before making global git config changes
+2026-09-22T22:31:50.2306620Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-22T22:31:50.2309060Z [command]/usr/bin/git config --global --add safe.directory /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor
+2026-09-22T22:31:50.2426780Z Deleting the contents of '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor'
+2026-09-22T22:31:50.2428750Z ##[group]Initializing the repository
+2026-09-22T22:31:50.2431660Z [command]/usr/bin/git init /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor
+2026-09-22T22:31:50.2604060Z Initialized empty Git repository in /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/.git/
+2026-09-22T22:31:50.2611500Z [command]/usr/bin/git remote add origin https://git.cdot.io/cdot/prisma-airs-harness
+2026-09-22T22:31:50.2728070Z ##[endgroup]
+2026-09-22T22:31:50.2728230Z ##[group]Disabling automatic garbage collection
+2026-09-22T22:31:50.2730480Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-22T22:31:50.2843420Z ##[endgroup]
+2026-09-22T22:31:50.2843550Z ##[group]Setting up auth
+2026-09-22T22:31:50.2847050Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:31:50.2959000Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:31:50.3664110Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:31:50.3786640Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:31:50.4461730Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:31:50.4578670Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:31:50.5255450Z [command]/usr/bin/git config --local http.https://git.cdot.io/.extraheader AUTHORIZATION: basic ***
+2026-09-22T22:31:50.5379320Z ##[endgroup]
+2026-09-22T22:31:50.5379480Z ##[group]Fetching the repository
+2026-09-22T22:31:50.5383030Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/tags/airs-preview-0.1.3-alpha.2.mcp.1:refs/tags/airs-preview-0.1.3-alpha.2.mcp.1
+2026-09-22T22:32:12.8006430Z From https://git.cdot.io/cdot/prisma-airs-harness
+2026-09-22T22:32:12.8006690Z  * [new tag]         airs-preview-0.1.3-alpha.2.mcp.1 -> airs-preview-0.1.3-alpha.2.mcp.1
+2026-09-22T22:32:12.8057360Z ##[endgroup]
+2026-09-22T22:32:12.8057500Z ##[group]Determining the checkout info
+2026-09-22T22:32:12.8058260Z ##[endgroup]
+2026-09-22T22:32:12.8061420Z [command]/usr/bin/git sparse-checkout disable
+2026-09-22T22:32:12.8207570Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-22T22:32:12.8323310Z ##[group]Checking out the ref
+2026-09-22T22:32:12.8325600Z [command]/usr/bin/git checkout --progress --force refs/tags/airs-preview-0.1.3-alpha.2.mcp.1
+2026-09-22T22:32:13.9917630Z Note: switching to 'refs/tags/airs-preview-0.1.3-alpha.2.mcp.1'.
+2026-09-22T22:32:13.9917850Z 
+2026-09-22T22:32:13.9917950Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-22T22:32:13.9918000Z changes and commit them, and you can discard any commits you make in this
+2026-09-22T22:32:13.9918040Z state without impacting any branches by switching back to a branch.
+2026-09-22T22:32:13.9918080Z 
+2026-09-22T22:32:13.9918110Z If you want to create a new branch to retain commits you create, you may
+2026-09-22T22:32:13.9918190Z do so (now or later) by using -c with the switch command. Example:
+2026-09-22T22:32:13.9918230Z 
+2026-09-22T22:32:13.9918270Z   git switch -c <new-branch-name>
+2026-09-22T22:32:13.9918300Z 
+2026-09-22T22:32:13.9918340Z Or undo this operation with:
+2026-09-22T22:32:13.9918380Z 
+2026-09-22T22:32:13.9918410Z   git switch -
+2026-09-22T22:32:13.9918440Z 
+2026-09-22T22:32:13.9918470Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-22T22:32:13.9918530Z 
+2026-09-22T22:32:13.9918560Z HEAD is now at bb31dcd fix(airs): stop retrying gateway policy envelopes under HTTP 200
+2026-09-22T22:32:13.9929890Z ##[endgroup]
+2026-09-22T22:32:14.0065730Z [command]/usr/bin/git log -1 --format=%H
+2026-09-22T22:32:14.0175290Z bb31dcdd813122f577efb1b8b647f2c06f3078c4
+2026-09-22T22:32:14.0182240Z ##[group]Removing auth
+2026-09-22T22:32:14.0184320Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:32:14.0293570Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:32:14.0960110Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:32:14.1067320Z http.https://git.cdot.io/.extraheader
+2026-09-22T22:32:14.1071920Z [command]/usr/bin/git config --local --unset-all http.https://git.cdot.io/.extraheader
+2026-09-22T22:32:14.1180470Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:32:14.1846470Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:32:14.1958120Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:32:14.2617330Z ##[endgroup]
+2026-09-22T22:32:14.2621990Z ::remove-matcher owner=checkout-git::
+2026-09-22T22:32:14.3873100Z ::add-matcher::/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/act/actions/69/d1505454473e3f757f4cc8bfde92da114bd019fa3010463492599769f12f45/dist/problem-matcher.json
+2026-09-22T22:32:14.3874560Z Syncing repository: cdot/prisma-airs-harness
+2026-09-22T22:32:14.3877620Z ##[group]Getting Git version info
+2026-09-22T22:32:14.3877680Z Working directory is '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/runtime'
+2026-09-22T22:32:14.3892460Z [command]/usr/bin/git version
+2026-09-22T22:32:14.4017540Z git version 2.50.1 (Apple Git-155)
+2026-09-22T22:32:14.4028990Z ##[endgroup]
+2026-09-22T22:32:14.4033190Z Copying '/Users/cdot/.gitconfig' to '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/1efc91be-4e88-4da5-bc05-e84f9494a1c8/.gitconfig'
+2026-09-22T22:32:14.4038600Z Temporarily overriding HOME='/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/1efc91be-4e88-4da5-bc05-e84f9494a1c8' before making global git config changes
+2026-09-22T22:32:14.4038730Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-22T22:32:14.4041220Z [command]/usr/bin/git config --global --add safe.directory /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/runtime
+2026-09-22T22:32:14.4160570Z ##[group]Initializing the repository
+2026-09-22T22:32:14.4163820Z [command]/usr/bin/git init /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/runtime
+2026-09-22T22:32:14.4309190Z Initialized empty Git repository in /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/runtime/.git/
+2026-09-22T22:32:14.4316580Z [command]/usr/bin/git remote add origin https://git.cdot.io/cdot/prisma-airs-harness
+2026-09-22T22:32:14.4427550Z ##[endgroup]
+2026-09-22T22:32:14.4427690Z ##[group]Disabling automatic garbage collection
+2026-09-22T22:32:14.4430210Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-22T22:32:14.4543180Z ##[endgroup]
+2026-09-22T22:32:14.4543300Z ##[group]Setting up auth
+2026-09-22T22:32:14.4546910Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:32:14.4657130Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:32:14.5319500Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:32:14.5431380Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:32:14.6090400Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:32:14.6205960Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:32:14.6870950Z [command]/usr/bin/git config --local http.https://git.cdot.io/.extraheader AUTHORIZATION: basic ***
+2026-09-22T22:32:14.6989530Z ##[endgroup]
+2026-09-22T22:32:14.6989770Z ##[group]Fetching the repository
+2026-09-22T22:32:14.6993300Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin bb31dcdd813122f577efb1b8b647f2c06f3078c4
+2026-09-22T22:32:34.7104780Z From https://git.cdot.io/cdot/prisma-airs-harness
+2026-09-22T22:32:34.7105270Z  * branch            bb31dcdd813122f577efb1b8b647f2c06f3078c4 -> FETCH_HEAD
+2026-09-22T22:32:34.7165420Z ##[endgroup]
+2026-09-22T22:32:34.7165570Z ##[group]Determining the checkout info
+2026-09-22T22:32:34.7166600Z ##[endgroup]
+2026-09-22T22:32:34.7170330Z [command]/usr/bin/git sparse-checkout disable
+2026-09-22T22:32:34.7324420Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-22T22:32:34.7449910Z ##[group]Checking out the ref
+2026-09-22T22:32:34.7452160Z [command]/usr/bin/git checkout --progress --force bb31dcdd813122f577efb1b8b647f2c06f3078c4
+2026-09-22T22:32:35.9591600Z Updating files:  97% (12471/12788)Updating files:  98% (12533/12788)Updating files:  99% (12661/12788)Updating files: 100% (12788/12788)Updating files: 100% (12788/12788), done.
+2026-09-22T22:32:35.9718470Z Note: switching to 'bb31dcdd813122f577efb1b8b647f2c06f3078c4'.
+2026-09-22T22:32:35.9718620Z 
+2026-09-22T22:32:35.9718670Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-22T22:32:35.9718710Z changes and commit them, and you can discard any commits you make in this
+2026-09-22T22:32:35.9718780Z state without impacting any branches by switching back to a branch.
+2026-09-22T22:32:35.9718820Z 
+2026-09-22T22:32:35.9718850Z If you want to create a new branch to retain commits you create, you may
+2026-09-22T22:32:35.9718890Z do so (now or later) by using -c with the switch command. Example:
+2026-09-22T22:32:35.9718930Z 
+2026-09-22T22:32:35.9719000Z   git switch -c <new-branch-name>
+2026-09-22T22:32:35.9719030Z 
+2026-09-22T22:32:35.9719060Z Or undo this operation with:
+2026-09-22T22:32:35.9719100Z 
+2026-09-22T22:32:35.9719130Z   git switch -
+2026-09-22T22:32:35.9719170Z 
+2026-09-22T22:32:35.9719200Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-22T22:32:35.9719240Z 
+2026-09-22T22:32:35.9719290Z HEAD is now at bb31dcd fix(airs): stop retrying gateway policy envelopes under HTTP 200
+2026-09-22T22:32:35.9733580Z ##[endgroup]
+2026-09-22T22:32:35.9889680Z [command]/usr/bin/git log -1 --format=%H
+2026-09-22T22:32:36.0013710Z bb31dcdd813122f577efb1b8b647f2c06f3078c4
+2026-09-22T22:32:36.0020760Z ##[group]Removing auth
+2026-09-22T22:32:36.0023170Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:32:36.0150770Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:32:36.0919580Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:32:36.1045820Z http.https://git.cdot.io/.extraheader
+2026-09-22T22:32:36.1050780Z [command]/usr/bin/git config --local --unset-all http.https://git.cdot.io/.extraheader
+2026-09-22T22:32:36.1182620Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:32:36.1900730Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:32:36.2016380Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:32:36.2692360Z ##[endgroup]
+2026-09-22T22:32:36.2697300Z ::remove-matcher owner=checkout-git::
+2026-09-22T22:32:36.3901930Z info: syncing channel updates for '1.95.0-aarch64-apple-darwin'
+2026-09-22T22:32:36.4862010Z 
+2026-09-22T22:32:36.4973210Z   1.95.0-aarch64-apple-darwin unchanged - rustc 1.95.0 (59807616e 2026-04-14)
+2026-09-22T22:32:36.4973360Z 
+2026-09-22T22:32:36.5166720Z info: using existing install for '1.95.0-aarch64-apple-darwin'
+2026-09-22T22:32:36.5182720Z info: default toolchain set to '1.95.0-aarch64-apple-darwin'
+2026-09-22T22:32:36.5182810Z 
+2026-09-22T22:32:36.5264570Z   1.95.0-aarch64-apple-darwin unchanged - rustc 1.95.0 (59807616e 2026-04-14)
+2026-09-22T22:32:36.5264670Z 
+2026-09-22T22:32:36.6881100Z rustc 1.95.0 (59807616e 2026-04-14)
+2026-09-22T22:32:36.6881640Z binary: rustc
+2026-09-22T22:32:36.6881700Z commit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860
+2026-09-22T22:32:36.6881810Z commit-date: 2026-04-14
+2026-09-22T22:32:36.6881870Z host: aarch64-apple-darwin
+2026-09-22T22:32:36.6881910Z release: 1.95.0
+2026-09-22T22:32:36.6885320Z LLVM version: 22.1.2
+2026-09-22T22:32:36.7087650Z Python 3.13.15
+2026-09-22T22:32:36.8972160Z Found in cache @ /Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64
+2026-09-22T22:32:36.8975630Z ##[group]Environment details
+2026-09-22T22:32:37.1106890Z node: v22.23.2
+2026-09-22T22:32:37.1107130Z npm: 10.9.8
+2026-09-22T22:32:37.1107320Z yarn: 
+2026-09-22T22:32:37.1109180Z ##[endgroup]
+2026-09-22T22:32:37.1113180Z ##[add-matcher]/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/act/actions/55/6a8e3c5cd145ca71fd814f862268bb8efc29817b3339a51d067dfccba21914/.github/tsc.json
+2026-09-22T22:32:37.1113460Z ##[add-matcher]/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/act/actions/55/6a8e3c5cd145ca71fd814f862268bb8efc29817b3339a51d067dfccba21914/.github/eslint-stylish.json
+2026-09-22T22:32:37.1113660Z ##[add-matcher]/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/act/actions/55/6a8e3c5cd145ca71fd814f862268bb8efc29817b3339a51d067dfccba21914/.github/eslint-compact.json
+2026-09-22T22:32:37.1774140Z Starting download for airs-harness-darwin-arm64-unvalidated-executables-3829-1
+2026-09-22T22:32:37.2238790Z Directory structure has been setup for the artifact
+2026-09-22T22:32:37.2239560Z Total number of files that will be downloaded: 1
+2026-09-22T22:32:38.2248020Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:39.2257700Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:40.2260720Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:41.2263400Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:42.2260520Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:43.2255260Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:44.2262960Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:45.2265610Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:46.2274900Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:47.2268780Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:48.2268630Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:49.2268760Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:50.2270770Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:51.2280990Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:52.2277850Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:53.2277340Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:54.2280500Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:55.2281990Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:56.2286980Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:57.2296730Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:58.2299050Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:32:59.2306410Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:00.2308020Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:01.2306720Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:02.2310010Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:03.2307980Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:04.2307590Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:05.2319980Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:06.2317460Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:07.2316200Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:08.2323170Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:09.2320920Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:10.2317520Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:11.2329010Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:12.2331830Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:13.2333140Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:14.2336490Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:15.2333510Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:16.2335970Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:17.2345420Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:18.2351200Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:19.2349270Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:20.2356140Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:21.2360850Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:22.2361850Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:23.2362300Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:24.2363570Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:25.2355920Z Total file count: 1 ---- Processed file #0 (0.0%)
+2026-09-22T22:33:25.7271140Z Artifact airs-harness-darwin-arm64-unvalidated-executables-3829-1 was downloaded to /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/download
+2026-09-22T22:33:25.7290990Z Artifact download has finished successfully
+2026-09-22T22:33:27.3831260Z Collecting pyte==0.8.2
+2026-09-22T22:33:27.3842150Z   Using cached pyte-0.8.2-py3-none-any.whl.metadata (3.0 kB)
+2026-09-22T22:33:27.3890480Z Collecting wcwidth (from pyte==0.8.2)
+2026-09-22T22:33:27.3900850Z   Using cached wcwidth-0.8.4-py3-none-any.whl.metadata (23 kB)
+2026-09-22T22:33:27.3928270Z Using cached pyte-0.8.2-py3-none-any.whl (31 kB)
+2026-09-22T22:33:27.3940030Z Using cached wcwidth-0.8.4-py3-none-any.whl (299 kB)
+2026-09-22T22:33:27.4057120Z Installing collected packages: wcwidth, pyte
+2026-09-22T22:33:27.5388270Z 
+2026-09-22T22:33:27.5394130Z Successfully installed pyte-0.8.2 wcwidth-0.8.4
+2026-09-22T22:33:28.4417170Z {
+2026-09-22T22:33:28.4417900Z   "schema_version": 1,
+2026-09-22T22:33:28.4417960Z   "private_candidate": true,
+2026-09-22T22:33:28.4418000Z   "published": false,
+2026-09-22T22:33:28.4418100Z   "release_ready": false,
+2026-09-22T22:33:28.4418170Z   "runtime_source": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+2026-09-22T22:33:28.4418280Z   "build_tooling_source": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+2026-09-22T22:33:28.4418320Z   "compilation_run": "3829",
+2026-09-22T22:33:28.4418350Z   "compilation_attempt": "1",
+2026-09-22T22:33:28.4418400Z   "binary_sha256": "ca85564c531be18ad5d893696f6ba18bd00a8d5f326a1d73bca163d9eb2b399d",
+2026-09-22T22:33:28.4418480Z   "fixture_sha256": "a363e3de9a624130db6570215ba9baeb82791fabad544a5f7a7454107a5f32b0",
+2026-09-22T22:33:28.4418520Z   "cli_opt_level": "1",
+2026-09-22T22:33:28.4418560Z   "signing": {
+2026-09-22T22:33:28.4418590Z     "ad_hoc": true,
+2026-09-22T22:33:28.4418620Z     "developer_id": false,
+2026-09-22T22:33:28.4418720Z     "notarized": false
+2026-09-22T22:33:28.4418760Z   },
+2026-09-22T22:33:28.4418790Z   "archive_sha256": "69d219a2e1a3018bc26ecac0b8f8e031eec2a138c65891edd1aba17ee235ec94",
+2026-09-22T22:33:28.4418830Z   "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+2026-09-22T22:33:28.4418970Z   "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings"
+2026-09-22T22:33:28.4419060Z }
+2026-09-22T22:33:28.7006420Z /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/compiled/airs-harness: valid on disk
+2026-09-22T22:33:28.7011540Z /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/compiled/airs-harness: satisfies its Designated Requirement
+2026-09-22T22:33:28.7274390Z /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/compiled/store_acceptance: valid on disk
+2026-09-22T22:33:28.7274690Z /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/compiled/store_acceptance: satisfies its Designated Requirement
+2026-09-22T22:33:28.7571290Z /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/compiled/airs-harness:
+2026-09-22T22:33:28.7571530Z 	/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)
+2026-09-22T22:33:28.7571590Z 	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 5026.5.4)
+2026-09-22T22:33:28.7571640Z 	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 1226.0.0)
+2026-09-22T22:33:28.7571820Z 	/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration (compatibility version 1.0.0, current version 1405.120.5)
+2026-09-22T22:33:28.7571930Z 	/usr/lib/liblzma.5.dylib (compatibility version 6.0.0, current version 6.3.0)
+2026-09-22T22:33:28.7571970Z 	/usr/lib/libbz2.1.0.dylib (compatibility version 1.0.0, current version 1.0.8)
+2026-09-22T22:33:28.7572110Z 	/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 2685.60.104)
+2026-09-22T22:33:28.7572240Z 	/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics (compatibility version 64.0.0, current version 1965.5.1)
+2026-09-22T22:33:28.7572300Z 	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 5026.5.4)
+2026-09-22T22:33:28.7572360Z 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)
+2026-09-22T22:33:28.7572460Z 	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+2026-09-22T22:33:28.7572510Z 	/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork (compatibility version 1.0.0, current version 3860.255.21)
+2026-09-22T22:33:28.7572570Z 	/System/Library/Frameworks/Security.framework/Versions/A/Security (compatibility version 1.0.0, current version 61901.120.67)
+2026-09-22T22:33:28.7572610Z 	/usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+2026-09-22T22:33:29.1643430Z [32m==>[0m [1mDownloading Homebrew API data[0m
+2026-09-22T22:33:29.5513700Z ✔︎ JSON API packages.arm64_tahoe.jws.json
+2026-09-22T22:33:29.9655910Z [33mWarning:[0m ripgrep 15.2.0 is already installed and up-to-date.
+2026-09-22T22:33:29.9656130Z To reinstall 15.2.0, run:
+2026-09-22T22:33:29.9656180Z   brew reinstall ripgrep
+2026-09-22T22:37:09.3075710Z ⚙️ [runner]: RUN exit status 1
+2026-09-22T22:37:09.4123800Z With the provided path, there will be 51 files uploaded
+2026-09-22T22:37:09.4124100Z Starting artifact upload
+2026-09-22T22:37:09.4124200Z For more detailed logs during the artifact upload process, enable step-debugging: https://docs.github.com/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging#enabling-step-debug-logging
+2026-09-22T22:37:09.4124340Z Artifact name is valid!
+2026-09-22T22:37:09.4504850Z Container for artifact "airs-harness-darwin-arm64-acceptance-evidence-3829-1" successfully created. Starting upload of file(s)
+2026-09-22T22:37:09.8885310Z Total size of all the files uploaded is 420503 bytes
+2026-09-22T22:37:09.8886040Z File upload process has finished. Finalizing the artifact upload
+2026-09-22T22:37:10.2873410Z Artifact has been finalized. All files have been successfully uploaded!
+2026-09-22T22:37:10.2873880Z 
+2026-09-22T22:37:10.2874180Z The raw size of all the files that were specified for upload is 1753096 bytes
+2026-09-22T22:37:10.2874480Z The size of all the files that were uploaded is 420503 bytes. This takes into account any gzip compression used to reduce the upload size, time and storage
+2026-09-22T22:37:10.2874810Z 
+2026-09-22T22:37:10.2875040Z Note: The size of downloaded zips can differ significantly from the reported size. For more information see: https://github.com/actions/upload-artifact#zipped-artifact-downloads 
+2026-09-22T22:37:10.2875390Z 
+2026-09-22T22:37:10.2875640Z Artifact airs-harness-darwin-arm64-acceptance-evidence-3829-1 has been successfully uploaded!
+2026-09-22T22:37:10.3781460Z skipping post step for 'https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5'; main step was skipped
+2026-09-22T22:37:10.4129040Z skipping post step for 'Restore only dependency sources for license inventory'; main step was skipped
+2026-09-22T22:37:10.4798600Z Skipping step 'https://github.com/actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f' due to 'success()'
+2026-09-22T22:37:10.5175970Z ⭐ Run Post https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+2026-09-22T22:37:10.5317940Z   ✅  Success - Post https://github.com/dtolnay/rust-toolchain@46817827a5bfabe028bf34e1cce71fd40e2ff697
+2026-09-22T22:37:10.5588520Z ⭐ Run Post https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-22T22:37:10.6202160Z [command]/usr/bin/git version
+2026-09-22T22:37:10.6328700Z git version 2.50.1 (Apple Git-155)
+2026-09-22T22:37:10.6343600Z   ⚙  ***
+2026-09-22T22:37:10.6347450Z Copying '/Users/cdot/.gitconfig' to '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/f8021489-3f79-46cc-a67b-ea1eaefc12ef/.gitconfig'
+2026-09-22T22:37:10.6353080Z Temporarily overriding HOME='/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/f8021489-3f79-46cc-a67b-ea1eaefc12ef' before making global git config changes
+2026-09-22T22:37:10.6354570Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-22T22:37:10.6357560Z [command]/usr/bin/git config --global --add safe.directory /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor/runtime
+2026-09-22T22:37:10.6473690Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:37:10.6587300Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:37:10.7278660Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:37:10.7396640Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:37:10.8066750Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:37:10.8182520Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:37:10.8875920Z   ✅  Success - Post https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-22T22:37:10.9246390Z ⭐ Run Post https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-22T22:37:10.9829780Z [command]/usr/bin/git version
+2026-09-22T22:37:10.9951970Z git version 2.50.1 (Apple Git-155)
+2026-09-22T22:37:10.9961950Z   ⚙  ***
+2026-09-22T22:37:10.9969330Z Copying '/Users/cdot/.gitconfig' to '/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/e2f08624-e7c0-49f9-b8cf-2c00c858cc8a/.gitconfig'
+2026-09-22T22:37:10.9974840Z Temporarily overriding HOME='/Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/tmp/e2f08624-e7c0-49f9-b8cf-2c00c858cc8a' before making global git config changes
+2026-09-22T22:37:10.9976200Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-22T22:37:10.9979250Z [command]/usr/bin/git config --global --add safe.directory /Users/cdot/.local/share/airs-forgejo-runner/jobs/ae71bccf324671a8/hostexecutor
+2026-09-22T22:37:11.0094570Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-22T22:37:11.0208700Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-22T22:37:11.0888560Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/git\.cdot\.io\/\.extraheader
+2026-09-22T22:37:11.1005190Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/git\.cdot\.io\/\.extraheader' && git config --local --unset-all 'http.https://git.cdot.io/.extraheader' || :"
+2026-09-22T22:37:11.1670490Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-22T22:37:11.1786270Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-22T22:37:11.2476570Z   ✅  Success - Post https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-09-22T22:37:11.2825540Z 🏁  Job failed
+2026-09-22T22:37:13.0039840Z Job 'acceptance' failed

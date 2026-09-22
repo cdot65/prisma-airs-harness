@@ -1,0 +1,9 @@
+{
+  "archive_sha256": "0e0edb38cbca30ed6a0ff018e90ed3a28f2f5a143156765601eed0c4e83a2f03",
+  "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+  "binary_sha256": "3d718ae49b468edbbfa8ec3d9c6803d6eefef17b34f691216772807bc7300c79",
+  "target": "x86_64-unknown-linux-musl",
+  "extracted": "/tmp/airs-upstream-r2-20260922/release/x64-native/extracted/airs-harness-0.1.3-alpha.2.mcp.1-linux-x86_64-musl",
+  "verified_files": 6687,
+  "archive_sidecar_present": true
+}

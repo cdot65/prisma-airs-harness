@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "x86_64-unknown-linux-musl",
+  "spec_sha256": "f62200a8818c411e10c8cd5cdc08a07fe6f1166201defb4c7cb2139a953dfde7",
+  "tooling_manifest_sha256": "74971d256d13c2c18af49682259830af821c20daea6baae184d7ecaeee19e71e",
+  "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+  "expected_native_sha256": "3d718ae49b468edbbfa8ec3d9c6803d6eefef17b34f691216772807bc7300c79",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "6c5e16a6ea500d862e899483f6e1e3af4e2ad157687f63a81fdd84de87af30ac",
+    "candidate_packages_sha256": "613ab6853bcf627661e2d5e517b096ba791e103d9e31ea8475cf5a4e60328e48"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/tmp/airs-upstream-r2-20260922/release/upstream013r2-candidate/SPEC.json",
+        "--packages",
+        "/tmp/airs-upstream-r2-20260922/release/staged",
+        "--scripts",
+        "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts",
+        "--output",
+        "/tmp/airs-upstream-r2-20260922/release/upstream013r2-candidate/registry-acceptance",
+        "--acceptance",
+        "/tmp/airs-upstream-r2-20260922/release/upstream013r2-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 316.6580692161806
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.523928058799356
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.9078146927058697
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/tmp/airs-dual-auth-20260918/venv/bin/python",
+        "/tmp/airs-upstream-r2-20260922/release/release-frozen-upstream013r2/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.670695751905441
+    }
+  ],
+  "passed": true
+}

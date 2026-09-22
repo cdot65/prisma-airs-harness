@@ -1,0 +1,16 @@
+from pathlib import Path
+import json,subprocess,time,shutil
+r=Path(__file__).resolve().parent;end=time.monotonic()+8*3600
+while not (r/'ASSEMBLY.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Assembly not ready; no installation attempted')
+ time.sleep(30)
+assert json.loads((r/'ASSEMBLY.json').read_text())['exit_code']==0
+root=r/'upstream013r2-candidate';root.mkdir(mode=0o700)
+shutil.copy2(r/'SPEC.json',root/'SPEC.json')
+commands=[]
+try:
+ for mode in ['accept','extras']:
+  command=['/tmp/airs-dual-auth-20260918/venv/bin/python',str(r/'native-execution/upstream013r2-native-worker.py'),mode,'--root',str(root),'--tooling',str(r/'release-frozen-upstream013r2'),'--packages',str(r/'candidate-npm')]
+  result=subprocess.run(command);commands.append({'mode':mode,'exit_code':result.returncode})
+  if result.returncode:raise SystemExit(result.returncode)
+finally:(root/'HOST-COMPLETE.json').write_text(json.dumps({'commands':commands,'passed':len(commands)==2 and all(x['exit_code']==0 for x in commands),'host_scope':'Native x86_64 Alpine Linux; isolated fixture credential services, not owner Ubuntu live-account acceptance'})+'\n')

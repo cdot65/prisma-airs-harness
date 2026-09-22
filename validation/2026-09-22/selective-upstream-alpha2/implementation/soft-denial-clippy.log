@@ -1,0 +1,28 @@
+cargo clippy --fix --tests --allow-dirty {args}
+    Blocking waiting for file lock on build directory
+    Checking hyper v1.8.1
+    Checking tokio-rustls v0.26.4
+    Checking headers v0.4.1
+    Checking tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+    Checking hyper-util v0.1.20
+    Checking event-listener v5.4.2
+    Checking rama-tls-rustls v0.3.0-alpha.4
+    Checking codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/home-dir)
+    Checking hyper-rustls v0.27.7
+    Checking hyper-tls v0.6.0
+    Checking codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/network-proxy)
+    Checking reqwest v0.12.28
+    Checking codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/http-client)
+    Checking codex-utils-image v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/image)
+    Checking event-listener-strategy v0.5.4
+    Checking tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+    Checking concurrent-queue v2.5.0
+    Checking deadpool v0.12.3
+    Checking async-channel v2.5.0
+    Checking codex-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-client)
+    Checking codex-websocket-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/websocket-client)
+    Checking codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/protocol)
+    Checking assert-json-diff v2.0.2
+    Checking wiremock v0.6.5
+    Checking codex-api v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-api)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 13s

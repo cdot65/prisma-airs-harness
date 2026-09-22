@@ -1,0 +1,32 @@
+from pathlib import Path
+import hashlib,json,subprocess,sys,time,tarfile
+r=Path(__file__).resolve().parent;cache='/Users/cdot/.cache/airs-upstream-r2-20260922';ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','cdot@10.0.1.121']
+end=time.monotonic()+8*3600
+while not (r/'REMOTE-REGISTRY-DISPATCH.json').exists():
+ if time.monotonic()>end:raise TimeoutError('Remote acceptance not started')
+ time.sleep(30)
+check="""import json,subprocess
+from pathlib import Path
+root=Path('/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate')
+mac=root/'REGISTRY-HOST-COMPLETE.json'
+arm=subprocess.run(['/usr/local/bin/docker','exec','-u','10001','airs-native-mcp-20260919-arm64','cat','/home/airs-review/upstream013r2-candidate/REGISTRY-HOST-COMPLETE.json'],capture_output=True,text=True)
+print(json.dumps({'mac':json.loads(mac.read_text()) if mac.exists() else None,'arm':json.loads(arm.stdout) if arm.returncode==0 else None}))
+"""
+while True:
+ value=json.loads(subprocess.check_output(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=check,text=True))
+ for name,row in value.items():
+  if row is not None and not row.get('passed'):raise RuntimeError(name+' registry acceptance failed; inspect remote logs')
+ if all(value.values()):break
+ if time.monotonic()>end:raise TimeoutError('Remote acceptance still pending')
+ time.sleep(30)
+script=r/'native-execution/collect-native-registry.py'
+subprocess.run(['scp','-q','-i','/home/cdot/.ssh/airs-jadzia-runner',str(script),'cdot@10.0.1.121:'+cache+'/'],check=True)
+result=json.loads(subprocess.check_output(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 '+cache+'/collect-native-registry.py'],text=True))
+(r/'REMOTE-REGISTRY-COLLECTION.json').write_text(json.dumps(result,indent=2)+'\n');a=r/'remote-registry-evidence.tar.gz'
+subprocess.run(['scp','-q','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121:'+result['archive'],str(a)],check=True)
+assert hashlib.sha256(a.read_bytes()).hexdigest()==result['sha256']
+out=r/'remote-registry-evidence';out.mkdir()
+with tarfile.open(a) as t:
+ assert all(m.isfile() for m in t.getmembers())
+ t.extractall(out,filter='data')
+print('Remote registry evidence collected and verified')

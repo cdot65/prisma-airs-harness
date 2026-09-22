@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,subprocess,sys,time
+r=Path(__file__).resolve().parent;repo=r/'signing-source';source=(r/'SOURCE').read_text().strip();plan=json.loads((r/'PLAN.json').read_text());end=time.monotonic()+8*3600
+while not all((r/(name+'-native')/'EXTRACTION.json').is_file() for name in ['x64','arm64','mac']):
+ if time.monotonic()>end:raise TimeoutError('Not all native candidates available; nothing assembled')
+ time.sleep(30)
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+baseline=plan['previous_release'];spec={'schema_version':1,'scope':'owner-authorized-test','version':plan['version'],'tag':'mcp','registry':plan['registry'],'source_commit':source,'tooling_commit':(r/'TOOLING').read_text().strip(),'packaging_commit':source,'previous_version':'0.1.2','developer_id_team':'G5QLZ5A8TA','previous_release':{k:baseline[k] for k in ['source_commit','platforms']},'platforms':[]}
+command=[sys.executable,str(repo/'scripts/package_airs_npm.py')]
+for name,target in zip(['x64','arm64','mac'],plan['required_targets']):
+ data=json.loads((r/(name+'-native')/'EXTRACTION.json').read_text());assert data['source_commit']==source and data['target']==target
+ spec['platforms'].append({'target':target,'binary_sha256':data['binary_sha256']});command+=['--release-directory',data['extracted']]
+sys.path.insert(0,str(repo/'scripts'));from airs_test_release_spec import validate_spec
+validate_spec(spec);(r/'SPEC.json').write_text(json.dumps(spec,indent=2)+'\n')
+command+=['--output-directory',str(r/'candidate-npm'),'--registry',plan['registry'],'--bundle-cli']
+start=time.monotonic()
+with (r/'ASSEMBLY.log').open('x') as log:p=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+(r/'ASSEMBLY.json').write_text(json.dumps({'command':command,'exit_code':p.returncode,'duration_seconds':time.monotonic()-start,'source_commit':source},indent=2)+'\n');raise SystemExit(p.returncode)

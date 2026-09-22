@@ -1,0 +1,12 @@
+test_access_timestamp_describes_only_the_explicit_inference_observation (__main__.SessionDoctor.test_access_timestamp_describes_only_the_explicit_inference_observation) ... ok
+test_cancel_slow_diagnostics_then_retry (__main__.SessionDoctor.test_cancel_slow_diagnostics_then_retry) ... ok
+test_catalog_worker_does_not_inspect_credentials_or_contact_gateway (__main__.SessionDoctor.test_catalog_worker_does_not_inspect_credentials_or_contact_gateway) ... ok
+test_environment_pinning_explicit_probe_and_failed_report (__main__.SessionDoctor.test_environment_pinning_explicit_probe_and_failed_report) ... ok
+test_missing_native_service_leaves_binding_and_cleanup_untouched (__main__.SessionDoctor.test_missing_native_service_leaves_binding_and_cleanup_untouched) ... skipped 'Linux native service diagnostics'
+test_redacted_report_preview_copy_and_save_reuse_one_inspection (__main__.SessionDoctor.test_redacted_report_preview_copy_and_save_reuse_one_inspection) ... ok
+test_stalled_native_service_probe_is_bounded (__main__.SessionDoctor.test_stalled_native_service_probe_is_bounded) ... skipped 'Linux native service diagnostics'
+
+----------------------------------------------------------------------
+Ran 7 tests in 10.539s
+
+OK (skipped=2)

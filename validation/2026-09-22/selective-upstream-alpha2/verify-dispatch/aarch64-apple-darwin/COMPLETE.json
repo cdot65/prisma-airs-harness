@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "f62200a8818c411e10c8cd5cdc08a07fe6f1166201defb4c7cb2139a953dfde7",
+  "tooling_manifest_sha256": "74971d256d13c2c18af49682259830af821c20daea6baae184d7ecaeee19e71e",
+  "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+  "expected_native_sha256": "3aaefcb2550167d77ff2abb74c6ef25e17556ccdf3d6d621ee73a0db8977c492",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "6c5e16a6ea500d862e899483f6e1e3af4e2ad157687f63a81fdd84de87af30ac",
+    "candidate_packages_sha256": "613ab6853bcf627661e2d5e517b096ba791e103d9e31ea8475cf5a4e60328e48"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 366.6881919580046
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.033913833089173
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.2395440412219614
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.62046058406122
+    }
+  ],
+  "passed": true
+}

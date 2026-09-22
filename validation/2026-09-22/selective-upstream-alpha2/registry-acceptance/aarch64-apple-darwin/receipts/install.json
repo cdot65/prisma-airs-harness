@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/release-frozen-upstream013r2/scripts/validate_airs_test_registry_install.py",
+    "--spec",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/registry-acceptance/aarch64-apple-darwin.work/install-c416c3caf9354ecc875440db923970b6/SPEC.json",
+    "--packages",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/staged",
+    "--prefix",
+    "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate/registry-acceptance/aarch64-apple-darwin.work/install-c416c3caf9354ecc875440db923970b6/prefix"
+  ],
+  "command_sha256": "5da25b40ec6a185605d28239e3d6019ddf9a8ab6d64ff21f1a4358d9a9231510",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "56bf603090a66f75c5b29f85d2978ff803ef82eab5165232445732b878358805",
+  "inputs": {
+    "binary_sha256": "3aaefcb2550167d77ff2abb74c6ef25e17556ccdf3d6d621ee73a0db8977c492",
+    "candidate_metadata_sha256": "6c5e16a6ea500d862e899483f6e1e3af4e2ad157687f63a81fdd84de87af30ac",
+    "candidate_packages_sha256": "613ab6853bcf627661e2d5e517b096ba791e103d9e31ea8475cf5a4e60328e48",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+    "spec_sha256": "85a2c0a8b6c599ca25ced3c85f208495087c39414cbd3b9b1782c5d2a9a29007",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "766c9fb83a9bc32deacd2125cefcafd5b6527db7",
+    "tooling_sha256": "bd64f0a9fd4d580e155a7c55d93074648055f9c512c547f59d51918073fc4aa5",
+    "version": "0.1.3-alpha.2.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb",
+      "size": 317
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "489138bcf9d4c0489310ede7c761b9691e1a4ca762ba29cf60e19d535b00b72f",
+      "size": 5324
+    },
+    "logs/install.log": {
+      "sha256": "4303ac9d44254d9e6057d85c0979e95d5635869bda8883f384931e1e4e96c6ee",
+      "size": 5324
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

@@ -1,0 +1,164 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Blocking waiting for file lock on artifact directory
+   Compiling codex-cli v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 09s
+────────────
+ Nextest run ID 02c85598-9b47-4faa-a1f2-87f0665d0700 with nextest profile: local
+    Starting 155 tests across 1 binary (277 tests skipped)
+        PASS [   0.056s] (  1/155) codex-cli::bin/airs-harness airs_access::tests::verification_records_completion_time_even_when_preparation_fails
+        PASS [   0.091s] (  2/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::state_lock_does_not_follow_a_symlink
+        PASS [   0.091s] (  3/155) codex-cli::bin/airs-harness airs_access::tests::workspace_credential_limit_is_preserved_for_probe_headers
+        PASS [   0.091s] (  4/155) codex-cli::bin/airs-harness airs_access::tests::unlisted_routes_and_unsafe_destinations_fail_before_credential_resolution
+        PASS [   0.090s] (  5/155) codex-cli::bin/airs-harness airs_browser_args_tests::builtin_mcp_add_parses_scoped_manual_oauth_onboarding
+        PASS [   0.036s] (  6/155) codex-cli::bin/airs-harness airs_credentials::tests::credential_validation_rejects_controls_and_empty_values
+        PASS [   0.094s] (  7/155) codex-cli::bin/airs-harness airs_credentials::tests::changed_gateway_and_logout_fail_closed
+        PASS [   0.097s] (  8/155) codex-cli::bin/airs-harness airs_access::tests::changed_configuration_never_sends_an_already_resolved_credential
+        PASS [   0.097s] (  9/155) codex-cli::bin/airs-harness airs_browser_args_tests::manual_company_browser_keeps_identity_and_device_constraints
+        PASS [   0.100s] ( 10/155) codex-cli::bin/airs-harness airs_credentials::logout_cleanup::tests::unmarked_state_cannot_resume_destructive_cleanup
+        PASS [   0.100s] ( 11/155) codex-cli::bin/airs-harness airs_credentials::logout_cleanup::tests::malformed_cleanup_and_binding_diagnostics_never_include_file_values
+        PASS [   0.012s] ( 12/155) codex-cli::bin/airs-harness airs_credentials::tests::file_source_rejects_public_files_symlinks_and_changed_identity
+        PASS [   0.012s] ( 13/155) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::conflicting_legacy_persistence_stops_before_even_unrelated_pending_cleanup
+        PASS [   0.012s] ( 14/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::cleanup_rejects_symlinks_without_touching_the_referenced_account
+        PASS [   0.103s] ( 15/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::revocation_does_not_wait_for_a_refresh_configuration_lock
+        PASS [   0.012s] ( 16/155) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::separate_v2_namespace_cleanup_still_preserves_either_legacy_format
+        PASS [   0.013s] ( 17/155) codex-cli::bin/airs-harness airs_credentials::transaction::namespace_tests::conflicting_legacy_cleanup_preserves_shared_root_and_all_metadata
+        PASS [   0.104s] ( 18/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::a_second_completed_login_cancels_the_first_attempt
+        PASS [   0.106s] ( 19/155) codex-cli::bin/airs-harness airs_credentials::logout_cleanup::tests::stale_logout_cannot_delete_another_working_binding
+        PASS [   0.111s] ( 20/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::verified_restore_preserves_the_active_session_epoch
+        PASS [   0.112s] ( 21/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::logout_rejects_an_in_progress_login_before_it_installs
+        PASS [   0.016s] ( 22/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_cleanup_preserves_initial_read_failure_and_previous_binding
+        PASS [   0.014s] ( 23/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_cleanup_retains_only_account_metadata_and_can_retry_in_another_call
+        PASS [   0.113s] ( 24/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::failed_install_leaves_the_session_revoked
+        PASS [   0.011s] ( 25/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_verification_never_deletes_an_existing_working_keyring_binding
+        PASS [   0.011s] ( 26/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::interrupted_install_with_bound_account_remains_recoverable
+        PASS [   0.017s] ( 27/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_rollbacks_preserve_the_initial_installation_failure_and_each_restore_error
+        PASS [   0.019s] ( 28/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_oidc_cleanup_retries_only_the_recorded_native_format
+        PASS [   0.009s] ( 29/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::same_uuid_in_legacy_binding_does_not_own_pending_v2_entry
+        PASS [   0.019s] ( 30/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::interrupted_v2_commit_recovers_without_deleting_owned_credential
+        PASS [   0.011s] ( 31/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::oversized_cleanup_journal_cannot_trigger_deletion
+        PASS [   0.010s] ( 32/155) codex-cli::bin/airs-harness airs_doctor_catalog::tests::catalog_probe_rejects_symlinks_without_reading_the_target
+        PASS [   0.011s] ( 33/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::malformed_binding_does_not_leak_values_in_recovery_or_persistence_errors
+        PASS [   0.010s] ( 34/155) codex-cli::bin/airs-harness airs_doctor_catalog::tests::probe_uses_only_the_exit_status_and_discards_helper_output
+        PASS [   0.012s] ( 35/155) codex-cli::bin/airs-harness airs_doctor_catalog::tests::catalog_validation_is_read_only_and_rejects_oversized_or_invalid_content
+        PASS [   0.035s] ( 36/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::combined_failures_preserve_typed_recovery_and_retry_only_the_pending_account
+        PASS [   0.027s] ( 37/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_v2_install_preserves_legacy_namespace_and_binding
+        PASS [   0.024s] ( 38/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::isolated_primary_and_cleanup_failures_keep_their_typed_recovery
+        PASS [   0.028s] ( 39/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::fresh_partial_install_restores_unbound_configuration_and_removes_the_new_key
+        PASS [   0.132s] ( 40/155) codex-cli::bin/airs-harness airs_credentials::logout_cleanup::tests::deletion_failure_preserves_typed_journal_for_workspace_and_oidc_retries
+        PASS [   0.009s] ( 41/155) codex-cli::bin/airs-harness airs_environment::tests::rename_does_not_change_state_path_and_recreation_has_new_namespace
+        PASS [   0.010s] ( 42/155) codex-cli::bin/airs-harness airs_environment::tests::loaded_registry_rejects_unsafe_names_without_rewriting_or_echoing_them
+        PASS [   0.133s] ( 43/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::relogin_activates_a_new_epoch_without_resurrecting_old_clients
+        PASS [   0.010s] ( 44/155) codex-cli::bin/airs-harness airs_environment::tests::registry_rejects_unknown_versions_and_dangling_active_environment
+        PASS [   0.135s] ( 45/155) codex-cli::bin/airs-harness airs_access::tests::redirects_never_forward_credentials_or_send_second_request
+        PASS [   0.013s] ( 46/155) codex-cli::bin/airs-harness airs_harness::tests::setup_produces_valid_config_and_explicit_capabilities_without_credentials
+        PASS [   0.018s] ( 47/155) codex-cli::bin/airs-harness airs_environment::tests::recovery_commands_parse_valid_names_without_changing_selection
+        PASS [   0.012s] ( 48/155) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_ambiguous_models_and_missing_capability_limits
+        PASS [   0.017s] ( 49/155) codex-cli::bin/airs-harness airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog
+        PASS [   0.013s] ( 50/155) codex-cli::bin/airs-harness airs_harness::tests::setup_rejects_credential_urls_and_nonlocal_plain_http
+        PASS [   0.146s] ( 51/155) codex-cli::bin/airs-harness airs_access::tests::logout_before_send_never_uses_resolved_credential
+        PASS [   0.013s] ( 52/155) codex-cli::bin/airs-harness airs_harness::tests::unrelated_startup_failures_keep_their_original_error_chain
+        PASS [   0.042s] ( 53/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::failed_writes_reads_and_mismatches_clean_new_accounts_before_install
+        PASS [   0.042s] ( 54/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::fresh_oidc_save_read_and_cancelled_commit_failures_leave_no_unowned_token
+        PASS [   0.147s] ( 55/155) codex-cli::bin/airs-harness airs_access::tests::helper_output_is_bounded_and_failed_helpers_never_disclose_tokens
+        PASS [   0.035s] ( 56/155) codex-cli::bin/airs-harness airs_credentials::transaction::tests::partial_install_restores_prior_binding_and_deletes_only_the_uncommitted_key
+        PASS [   0.147s] ( 57/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::restore_cannot_reactivate_a_logged_out_or_replaced_session
+        PASS [   0.030s] ( 58/155) codex-cli::bin/airs-harness airs_environment::tests::atomic_write_replaces_complete_document_privately
+        PASS [   0.151s] ( 59/155) codex-cli::bin/airs-harness airs_access::tests::oversized_response_fails_without_echoing_body
+        PASS [   0.009s] ( 60/155) codex-cli::bin/airs-harness airs_login::tests::bounded_prompt_handles_crlf_empty_and_limit
+        PASS [   0.010s] ( 61/155) codex-cli::bin/airs-harness airs_login::tests::bounded_prompt_rejects_eof_controls_and_overflow
+        PASS [   0.029s] ( 62/155) codex-cli::bin/airs-harness airs_harness::tests::startup_authentication_recovery_preserves_selected_environment_and_restore_mode
+        PASS [   0.015s] ( 63/155) codex-cli::bin/airs-harness airs_login::tests::active_bindings_are_left_to_normal_credential_validation
+        PASS [   0.051s] ( 64/155) codex-cli::bin/airs-harness airs_doctor_catalog::tests::stalled_catalog_helper_times_out_without_waiting_for_its_exit
+        PASS [   0.046s] ( 65/155) codex-cli::bin/airs-harness airs_environment::tests::recovery_name_tracks_bound_home_instead_of_default_and_handles_legacy_home
+        PASS [   0.008s] ( 66/155) codex-cli::bin/airs-harness airs_login::tests::dangling_binding_link_is_not_treated_as_an_unsigned_environment
+        PASS [   0.018s] ( 67/155) codex-cli::bin/airs-harness airs_login::tests::changed_gateway_cannot_reuse_public_settings
+        PASS [   0.016s] ( 68/155) codex-cli::bin/airs-harness airs_login::tests::established_oidc_binding_takes_precedence_over_public_settings
+        PASS [   0.179s] ( 69/155) codex-cli::bin/airs-harness airs_access::tests::default_and_catalog_routes_send_exact_bounded_probe
+        PASS [   0.010s] ( 70/155) codex-cli::bin/airs-harness airs_login::tests::logout_requests_sign_in_without_forgetting_the_identity_boundary
+        PASS [   0.036s] ( 71/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::metadata_links_and_nonregular_files_are_rejected_without_following
+        PASS [   0.016s] ( 72/155) codex-cli::bin/airs-harness airs_login::tests::explicit_settings_change_requires_keyboard_choice
+        PASS [   0.008s] ( 73/155) codex-cli::bin/airs-harness airs_login::tests::rejects_empty_oversized_and_nonprintable_identity_fields
+        PASS [   0.011s] ( 74/155) codex-cli::bin/airs-harness airs_login::tests::malformed_binding_is_not_treated_as_a_fresh_or_logged_out_account
+        PASS [   0.011s] ( 75/155) codex-cli::bin/airs-harness airs_login::tests::malformed_settings_never_echo_their_contents
+        PASS [   0.009s] ( 76/155) codex-cli::bin/airs-harness airs_login::tests::settings_file_cannot_be_a_symbolic_link
+        PASS [   0.016s] ( 77/155) codex-cli::bin/airs-harness airs_login::tests::saved_settings_are_not_printed_until_validated
+        PASS [   0.019s] ( 78/155) codex-cli::bin/airs-harness airs_login::tests::rejects_insecure_issuers_and_terminal_controls_without_replacing_settings
+        PASS [   0.200s] ( 79/155) codex-cli::bin/airs-harness airs_access::tests::reasoning_only_probe_verifies_access_without_requiring_final_text
+        PASS [   0.011s] ( 80/155) codex-cli::bin/airs-harness airs_login::tests::unfinished_onboarding_prompts_unless_legacy_environment_credential_is_present
+        PASS [   0.017s] ( 81/155) codex-cli::bin/airs-harness airs_login::tests::saved_settings_are_owner_only
+        PASS [   0.060s] ( 82/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::inference_path_relocation_preserves_identity_and_session_bytes
+        PASS [   0.060s] ( 83/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::malformed_binding_and_unbounded_metadata_are_rejected
+        PASS [   0.061s] ( 84/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::typed_raw_helper_cannot_impersonate_owned_revision_metadata
+        PASS [   0.011s] ( 85/155) codex-cli::bin/airs-harness airs_mcp::tests::helper_command_quotes_paths_without_shell_expansion
+        PASS [   0.010s] ( 86/155) codex-cli::bin/airs-harness airs_mcp::tests::setup_rejects_insecure_or_credential_bearing_destinations
+        PASS [   0.021s] ( 87/155) codex-cli::bin/airs-harness airs_login::tests::settings_roundtrip_has_only_public_gateway_bound_inputs
+        PASS [   0.012s] ( 88/155) codex-cli::bin/airs-harness airs_oidc::refresh_tests::returned_generation_is_saved_before_becoming_available
+        PASS [   0.013s] ( 89/155) codex-cli::bin/airs-harness airs_oidc::refresh_tests::definitive_rejection_survives_subsequent_credential_reads
+        PASS [   0.012s] ( 90/155) codex-cli::bin/airs-harness airs_oidc::refresh_tests::uncertain_exchange_keeps_the_tokenless_pending_record
+        PASS [   0.011s] ( 91/155) codex-cli::bin/airs-harness airs_oidc::restore_tests::restore_pins_signed_subject_and_configuration_but_not_display_name
+        PASS [   0.010s] ( 92/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::editing_and_cancellation_do_not_submit_a_secret
+        PASS [   0.011s] ( 93/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::release_events_cannot_append_or_submit
+        PASS [   0.012s] ( 94/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::paste_is_bounded_and_cannot_inject_terminal_controls
+        PASS [   0.023s] ( 95/155) codex-cli::bin/airs-harness airs_login::tests::unknown_fields_and_settings_versions_are_rejected
+        PASS [   0.078s] ( 96/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::configuration_first_cannot_bypass_legacy_history_validation
+        PASS [   0.011s] ( 97/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::typed_invalid_characters_are_rejected_without_silently_changing_the_key
+        PASS [   0.010s] ( 98/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::windows_pasted_enter_never_submits_a_prefix
+        PASS [   0.092s] ( 99/155) codex-cli::bin/airs-harness airs_help::tests::standalone_help_tree_uses_the_public_command_in_examples_and_usage
+        PASS [   0.011s] (100/155) codex-cli::bin/airs-harness airs_setup::tests::gateway_validation_rejects_controls_even_in_explicit_setup
+        PASS [   0.015s] (101/155) codex-cli::bin/airs-harness airs_setup::tests::guided_creation_is_parseable_and_keeps_the_million_token_default
+        PASS [   0.013s] (102/155) codex-cli::bin/airs-harness airs_setup::tests::invalid_or_cancelled_setup_input_never_produces_a_configuration
+        PASS [   0.014s] (103/155) codex-cli::bin/airs-harness airs_setup::tests::requested_name_and_explicit_capabilities_survive_the_wizard
+        PASS [   0.014s] (104/155) codex-cli::bin/airs-harness airs_setup::tests::optional_typesafe_offer_defaults_to_skip_and_only_saves_on_yes
+        PASS [   0.015s] (105/155) codex-cli::bin/airs-harness airs_setup::tests::optional_typesafe_offer_reports_a_failed_save
+        PASS [   0.014s] (106/155) codex-cli::bin/airs-harness airs_status::tests::invalid_gateway_and_oversized_public_metadata_fail_closed
+        PASS [   0.018s] (107/155) codex-cli::bin/airs-harness airs_status::tests::file_reference_still_checks_private_file_and_bound_identity
+        PASS [   0.012s] (108/155) codex-cli::bin/airs-harness airs_status::tests::metadata_rejects_symlinks_and_fifos_without_blocking
+        PASS [   0.019s] (109/155) codex-cli::bin/airs-harness airs_status::tests::invalid_or_inactive_bindings_fail_without_repair
+        PASS [   0.098s] (110/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::normalized_revision_first_recovers_before_and_after_configuration_write
+        PASS [   0.012s] (111/155) codex-cli::bin/airs-harness airs_status::tests::missing_environment_reference_remains_an_error
+        PASS [   0.010s] (112/155) codex-cli::bin/airs-harness airs_typesafe::tests::invalid_inputs_are_rejected_before_any_store_write
+        PASS [   0.036s] (113/155) codex-cli::bin/airs-harness airs_setup::tests::wizard_output_cannot_overwrite_an_existing_named_environment
+        PASS [   0.022s] (114/155) codex-cli::bin/airs-harness airs_typesafe::tests::child_command_keeps_credentials_out_of_arguments_and_parent_environment
+        PASS [   0.028s] (115/155) codex-cli::bin/airs-harness airs_typesafe::tests::a_failed_native_save_leaves_settings_untouched
+        PASS [   0.021s] (116/155) codex-cli::bin/airs-harness airs_typesafe::tests::fingerprint_mismatch_refuses_to_export_a_tampered_key
+        PASS [   0.027s] (117/155) codex-cli::bin/airs-harness airs_typesafe::tests::failed_readback_cleans_uncommitted_key_and_preserves_previous_binding
+        PASS [   0.008s] (118/155) codex-cli::bin/airs-harness airs_typesafe::tests::skill_binding_supports_unregistered_legacy_root_only_without_named_selection
+        PASS [   0.031s] (119/155) codex-cli::bin/airs-harness airs_typesafe::tests::failed_cleanup_is_journaled_and_clear_retries_it
+        PASS [   0.133s] (120/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::arbitrary_custom_helpers_stay_literal_and_cannot_impersonate_normalized_metadata
+        PASS [   0.020s] (121/155) codex-cli::bin/airs-harness airs_typesafe::tests::process_variable_wins_over_the_saved_key
+        PASS [   0.013s] (122/155) codex-cli::bin/airs-harness airs_typesafe::tests::skill_binding_uses_owning_environment_not_default_and_rejects_mismatch
+        PASS [   0.011s] (123/155) codex-cli::bin/airs-harness airs_typesafe::tests::unset_environment_exports_nothing_and_reports_optional
+        PASS [   0.012s] (124/155) codex-cli::bin/airs-harness airs_typesafe::tests::unreadable_settings_are_reported_not_ignored
+        PASS [   0.011s] (125/155) codex-cli::bin/airs-harness airs_welcome::tests::animation_preference_uses_the_environment_and_last_explicit_override
+        PASS [   0.028s] (126/155) codex-cli::bin/airs-harness airs_typesafe::tests::replacing_a_key_removes_the_previous_native_entry
+        PASS [   0.144s] (127/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::explicit_mcp_credentials_remain_bound_to_inference_history
+        PASS [   0.025s] (128/155) codex-cli::bin/airs-harness airs_typesafe::tests::save_round_trips_settings_and_exports_saved_values
+        PASS [   0.020s] (129/155) codex-cli::bin/airs-harness airs_typesafe::tests::unreadable_saved_key_preserves_binding_and_explains_execution_access
+        PASS [   0.019s] (130/155) codex-cli::bin/airs-harness airs_welcome::tests::resolving_a_changed_gateway_refuses_to_cross_the_binding_boundary
+        PASS [   0.025s] (131/155) codex-cli::bin/airs-harness airs_welcome::tests::resolving_multiple_environments_preserves_the_saved_default_and_history
+        PASS [   0.330s] (132/155) codex-cli::bin/airs-harness airs_access::tests::gateway_failures_show_actionable_status_without_response_content
+        PASS [   0.346s] (133/155) codex-cli::bin/airs-harness airs_access::tests::selected_environment_recovery_message_has_snapshot_coverage
+        PASS [   0.357s] (134/155) codex-cli::bin/airs-harness airs_access::tests::honest_verification_messages_have_snapshot_coverage
+        PASS [   0.219s] (135/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::native_oauth_catalog_changes_preserve_inference_and_legacy_helper_history
+        PASS [   0.245s] (136/155) codex-cli::bin/airs-harness airs_help::tests::standalone_help_exposes_local_work_and_gateway_configuration
+        PASS [   0.253s] (137/155) codex-cli::bin/airs-harness airs_harness::tests::startup_recovery_messages_offer_shell_commands_before_the_tui_opens
+        PASS [   0.222s] (138/155) codex-cli::bin/airs-harness airs_login::tests::guided_company_prompts_collect_and_reuse_settings
+        PASS [   0.261s] (139/155) codex-cli::bin/airs-harness airs_help::tests::standalone_doctor_help_discloses_optional_inference_probe
+        PASS [   0.273s] (140/155) codex-cli::bin/airs-harness airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle
+        PASS [   0.278s] (141/155) codex-cli::bin/airs-harness airs_help::tests::standalone_login_help_describes_hidden_input
+        PASS [   0.204s] (142/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::typesafe_key_prompt_snapshot
+        PASS [   0.201s] (143/155) codex-cli::bin/airs-harness airs_setup::tests::guided_setup_uses_default_name_without_collecting_credentials
+        PASS [   0.259s] (144/155) codex-cli::bin/airs-harness airs_login::tests::corrupt_public_settings_replacement_requires_explicit_confirmation
+        PASS [   0.284s] (145/155) codex-cli::bin/airs-harness airs_help::tests::standalone_mcp_login_help_describes_manual_callback_input
+        PASS [   0.180s] (146/155) codex-cli::bin/airs-harness airs_typesafe::tests::model_probe_validates_the_response_and_refuses_redirects
+        PASS [   0.432s] (147/155) codex-cli::bin/airs-harness airs_access::tests::configuration_change_during_probe_is_not_reported_as_current_access_or_retried
+        PASS [   0.223s] (148/155) codex-cli::bin/airs-harness airs_status::tests::native_metadata_does_not_require_any_stored_secret
+        PASS [   0.245s] (149/155) codex-cli::bin/airs-harness airs_secret_prompt::tests::workspace_key_prompt_snapshot
+        PASS [   0.241s] (150/155) codex-cli::bin/airs-harness airs_status::tests::oidc_saved_identity_is_bounded_and_never_claims_authentication
+        PASS [   0.480s] (151/155) codex-cli::bin/airs-harness airs_access::tests::denial_offline_and_soft_denial_are_not_verified
+        PASS [   0.348s] (152/155) codex-cli::bin/airs-harness airs_helper_relocation::tests::legacy_and_normalized_revisions_reject_unrelated_changes_before_writing
+        PASS [   0.218s] (153/155) codex-cli::bin/airs-harness airs_welcome::tests::selected_environment_cancellation_has_snapshot_coverage
+        PASS [   0.528s] (154/155) codex-cli::bin/airs-harness airs_access::tests::successful_http_responses_cannot_hide_gateway_policy_denials
+        PASS [   1.098s] (155/155) codex-cli::bin/airs-harness airs_auth_lifecycle::tests::short_state_lock_has_a_bounded_wait
+────────────
+     Summary [   1.102s] 155 tests run: 155 passed, 277 skipped

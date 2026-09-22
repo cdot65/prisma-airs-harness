@@ -1,0 +1,365 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling serde_json v1.0.149
+   Compiling codex-utils-absolute-path v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/absolute-path)
+   Compiling codex-utils-rustls-provider v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/rustls-provider)
+   Compiling codex-utils-cache v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/cache)
+   Compiling codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/home-dir)
+   Compiling schemafy_core v0.5.2
+   Compiling codex-utils-string v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/string)
+   Compiling schemafy_lib v0.5.2
+   Compiling codex-utils-path-uri v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/path-uri)
+   Compiling schemafy v0.5.2
+   Compiling codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/network-proxy)
+   Compiling debugserver-types v0.5.0
+   Compiling starlark v0.14.2
+   Compiling codex-utils-image v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/image)
+   Compiling codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/http-client)
+   Compiling codex-execpolicy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/execpolicy)
+   Compiling codex-extension-items v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/ext/items)
+   Compiling codex-utils-redacted-string v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/redacted-string)
+   Compiling codex-async-utils v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/async-utils)
+   Compiling codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/protocol)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 59.95s
+────────────
+ Nextest run ID f6379dbd-1417-456c-8b88-18eb564c421f with nextest profile: local
+    Starting 338 tests across 1 binary
+        PASS [   0.058s] (  1/338) codex-protocol approvals::tests::guardian_assessment_action_deserializes_command_shape
+        PASS [   0.101s] (  2/338) codex-protocol account::tests::business_plan_types_use_expected_wire_names
+        PASS [   0.101s] (  3/338) codex-protocol account::tests::auth_plan_type_converts_to_account_plan_type
+        PASS [   0.102s] (  4/338) codex-protocol account::tests::workspace_account_helper_includes_business_workspace_plans
+        PASS [   0.103s] (  5/338) codex-protocol error::tests::sandbox_denied_reports_both_streams_when_available
+        PASS [   0.104s] (  6/338) codex-protocol agent_path::tests::invalid_names_and_paths_are_rejected
+        PASS [   0.103s] (  7/338) codex-protocol config_types::tests::profile_v2_name_rejects_paths_and_empty_names
+        PASS [   0.104s] (  8/338) codex-protocol agent_path::tests::resolve_supports_relative_and_absolute_references
+        PASS [   0.104s] (  9/338) codex-protocol agent_path::tests::morpheus_has_expected_name
+        PASS [   0.104s] ( 10/338) codex-protocol config_types::tests::approvals_reviewer_serializes_auto_review_and_accepts_legacy_guardian_subagent
+        PASS [   0.104s] ( 11/338) codex-protocol account::tests::plan_family_helpers_group_business_variants_with_existing_plans
+        PASS [   0.104s] ( 12/338) codex-protocol auth::tests::plan_type_deserializes_raw_aliases
+        PASS [   0.104s] ( 13/338) codex-protocol capabilities::tests::environment_capability_root_accepts_foreign_file_uri
+        PASS [   0.104s] ( 14/338) codex-protocol agent_path::tests::join_builds_child_paths
+        PASS [   0.103s] ( 15/338) codex-protocol config_types::tests::web_search_location_merge_prefers_overlay_values
+        PASS [   0.105s] ( 16/338) codex-protocol config_types::tests::apply_mask_can_clear_optional_fields
+        PASS [   0.104s] ( 17/338) codex-protocol error::tests::unexpected_status_includes_cf_ray_and_request_id
+        PASS [   0.105s] ( 18/338) codex-protocol config_types::tests::tui_visible_collaboration_modes_match_mode_kind_visibility
+        PASS [   0.106s] ( 19/338) codex-protocol approvals::tests::guardian_assessment_action_round_trips_execve_shape
+        PASS [   0.104s] ( 20/338) codex-protocol error::tests::sandbox_denied_uses_aggregated_output_when_stderr_empty
+        PASS [   0.104s] ( 21/338) codex-protocol error::tests::sandbox_denied_reports_exit_code_when_no_output_available
+        PASS [   0.104s] ( 22/338) codex-protocol error::tests::to_error_event_handles_response_stream_failed
+        PASS [   0.105s] ( 23/338) codex-protocol config_types::tests::web_search_mode_restrictions_never_expand_either_mode
+        PASS [   0.106s] ( 24/338) codex-protocol agent_path::tests::root_has_expected_name
+        PASS [   0.104s] ( 25/338) codex-protocol error::tests::unexpected_status_includes_identity_auth_details
+        PASS [   0.104s] ( 26/338) codex-protocol error::tests::terminal_http_denials_ignore_retry_advice_but_transient_errors_remain_retryable
+        PASS [   0.104s] ( 27/338) codex-protocol error::tests::server_overloaded_maps_to_protocol
+        PASS [   0.105s] ( 28/338) codex-protocol error::tests::sandbox_denied_reports_stdout_when_no_stderr
+        PASS [   0.105s] ( 29/338) codex-protocol error::tests::codex_err_debug_preserves_legacy_shape
+        PASS [   0.005s] ( 30/338) codex-protocol error::tests::unexpected_status_prefers_error_message_when_present
+        PASS [   0.049s] ( 31/338) codex-protocol error::tests::unexpected_status_non_html_is_unchanged
+        PASS [   0.006s] ( 32/338) codex-protocol error::tests::unexpected_status_uses_user_message_and_preserves_response_context
+        PASS [   0.106s] ( 33/338) codex-protocol config_types::tests::web_search_tool_config_merge_prefers_overlay_values
+        PASS [   0.006s] ( 34/338) codex-protocol error::tests::unexpected_status_truncates_long_body_with_ellipsis
+        PASS [   0.107s] ( 35/338) codex-protocol error::tests::retryability_preserves_error_details_distinctions
+        PASS [   0.107s] ( 36/338) codex-protocol config_types::tests::mode_kind_deserializes_alias_values_to_default
+        PASS [   0.005s] ( 37/338) codex-protocol error::tests::usage_limit_reached_error_formats_default_for_other_plans
+        PASS [   0.005s] ( 38/338) codex-protocol error::tests::usage_limit_reached_error_formats_enterprise_cbp_usage_based_plan
+        PASS [   0.005s] ( 39/338) codex-protocol error::tests::usage_limit_reached_error_formats_business_plan_without_reset
+        PASS [   0.005s] ( 40/338) codex-protocol error::tests::usage_limit_reached_error_formats_self_serve_business_usage_based_plan
+        PASS [   0.006s] ( 41/338) codex-protocol error::tests::usage_limit_reached_error_formats_rate_limit_reached_types
+        PASS [   0.006s] ( 42/338) codex-protocol error::tests::usage_limit_reached_error_formats_default_when_none
+        PASS [   0.007s] ( 43/338) codex-protocol error::tests::usage_limit_reached_error_formats_free_plan
+        PASS [   0.008s] ( 44/338) codex-protocol error::tests::usage_limit_reached_error_formats_pro_plan_with_reset
+        PASS [   0.008s] ( 45/338) codex-protocol error::tests::usage_limit_reached_error_formats_plus_plan
+        PASS [   0.009s] ( 46/338) codex-protocol error::tests::usage_limit_reached_error_formats_self_serve_business_prolite_plan
+        PASS [   0.010s] ( 47/338) codex-protocol error::tests::usage_limit_reached_error_formats_go_plan
+        PASS [   0.014s] ( 48/338) codex-protocol error::tests::usage_limit_reached_includes_minutes_when_available
+        PASS [   0.014s] ( 49/338) codex-protocol error::tests::usage_limit_reached_less_than_minute
+        PASS [   0.014s] ( 50/338) codex-protocol error::tests::usage_limit_reached_includes_days_hours_minutes
+        PASS [   0.014s] ( 51/338) codex-protocol error::tests::usage_limit_reached_includes_hours_and_minutes
+        PASS [   0.014s] ( 52/338) codex-protocol error::tests::usage_limit_reached_error_formats_team_plan
+        PASS [   0.018s] ( 53/338) codex-protocol error::tests::usage_limit_reached_with_promo_message
+        PASS [   0.018s] ( 54/338) codex-protocol error::tests::usage_limit_reached_error_hides_upsell_for_non_codex_limit_name
+        PASS [   0.017s] ( 55/338) codex-protocol exec_output::tests::test_windows_1252_smart_decoding
+        PASS [   0.018s] ( 56/338) codex-protocol exec_output::tests::test_invalid_bytes_still_fall_back_to_lossy
+        PASS [   0.018s] ( 57/338) codex-protocol exec_output::tests::test_pure_latin1_shell_output
+        PASS [   0.018s] ( 58/338) codex-protocol exec_output::tests::test_cp866_shell_output
+        PASS [   0.018s] ( 59/338) codex-protocol exec_output::tests::test_smart_decoding_improves_over_lossy_utf8
+        PASS [   0.018s] ( 60/338) codex-protocol items::tests::hook_prompt_parses_legacy_single_hook_run_id
+        PASS [   0.016s] ( 61/338) codex-protocol items::tests::sleep_extension_item_preserves_type_and_kind
+        PASS [   0.017s] ( 62/338) codex-protocol items::tests::user_message_item_extracts_audio_attachments
+        PASS [   0.016s] ( 63/338) codex-protocol local_media::tests::rejects_invalid_local_media_without_changing_user_input
+        PASS [   0.019s] ( 64/338) codex-protocol exec_output::tests::test_utf8_shell_output
+        PASS [   0.017s] ( 65/338) codex-protocol items::tests::plugin_relative_paths_use_safe_wire_shape
+        PASS [   0.019s] ( 66/338) codex-protocol exec_output::tests::test_mixed_ascii_and_legacy_encoding
+        PASS [   0.015s] ( 67/338) codex-protocol mcp::tests::resource_size_deserializes_without_narrowing
+        PASS [   0.018s] ( 68/338) codex-protocol items::tests::hook_prompt_roundtrips_multiple_fragments
+        PASS [   0.020s] ( 69/338) codex-protocol exec_output::tests::test_cp1251_shell_output
+        PASS [   0.016s] ( 70/338) codex-protocol mcp::tests::node_repl_backed_tool_recognizes_namespaces_and_legacy_names
+        PASS [   0.017s] ( 71/338) codex-protocol local_media::tests::rejects_oversized_local_media_without_reading_it
+        PASS [   0.017s] ( 72/338) codex-protocol models::configuration_update::tests::configuration_update_preserves_model_defined_effort
+        PASS [   0.015s] ( 73/338) codex-protocol models::executed_tool_calls::tests::model_arguments_cannot_forge_executed_tool_call_truncation
+        PASS [   0.016s] ( 74/338) codex-protocol models::executed_tool_calls::tests::tool_call_completeness_is_host_only_and_fail_closed
+        PASS [   0.017s] ( 75/338) codex-protocol models::configuration_update::tests::configuration_update_round_trips_without_message_fields
+        PASS [   0.021s] ( 76/338) codex-protocol local_media::tests::snapshots_local_audio_user_input_with_supported_mime_types
+        PASS [   0.011s] ( 77/338) codex-protocol models::item_metadata::tests::malformed_content_kinds_do_not_prevent_loading_response_item
+        PASS [   0.010s] ( 78/338) codex-protocol models::tests::additional_permission_profile_is_empty_when_all_fields_are_none
+        PASS [   0.010s] ( 79/338) codex-protocol models::tests::additional_permission_profile_is_not_empty_when_field_is_present_but_nested_empty
+        PASS [   0.011s] ( 80/338) codex-protocol models::item_metadata::tests::content_kinds_round_trip_without_restricting_future_values
+        PASS [   0.011s] ( 81/338) codex-protocol models::executed_tool_calls::tests::tool_result_source_snapshots_replace_atomically
+        PASS [   0.022s] ( 82/338) codex-protocol mcp::tests::client_mcp_extensions_for_mcp_servers_excludes_client_only_extensions
+        PASS [   0.022s] ( 83/338) codex-protocol local_media::tests::snapshots_local_image_user_input_with_requested_detail
+        PASS [   0.008s] ( 84/338) codex-protocol models::tests::convert_mcp_content_to_items_builds_data_urls_when_missing_prefix
+        PASS [   0.008s] ( 85/338) codex-protocol models::tests::base_instructions_preserve_provenance_and_accept_legacy_rollouts
+        PASS [   0.009s] ( 86/338) codex-protocol models::tests::deserializes_compaction_alias
+        PASS [   0.011s] ( 87/338) codex-protocol models::tests::deserializes_array_payload_into_items
+        PASS [   0.011s] ( 88/338) codex-protocol models::tests::convert_mcp_content_to_items_preserves_data_urls
+        PASS [   0.011s] ( 89/338) codex-protocol models::tests::convert_mcp_content_to_items_converts_text_without_media
+        PASS [   0.012s] ( 90/338) codex-protocol models::tests::convert_mcp_audio_content_builds_data_urls_and_preserves_existing_data_urls
+        PASS [   0.010s] ( 91/338) codex-protocol models::tests::deserializes_encrypted_array_payload_into_items
+        PASS [   0.012s] ( 92/338) codex-protocol models::tests::file_system_permissions_rejects_zero_glob_scan_depth
+        PASS [   0.012s] ( 93/338) codex-protocol models::tests::deserializes_context_compaction
+        PASS [   0.011s] ( 94/338) codex-protocol models::tests::function_call_deserializes_optional_namespace
+        PASS [   0.011s] ( 95/338) codex-protocol models::tests::function_call_output_body_to_text_returns_plain_text_content
+        PASS [   0.012s] ( 96/338) codex-protocol models::tests::disabled_permission_profile_ignores_runtime_network_policy
+        PASS [   0.013s] ( 97/338) codex-protocol models::tests::deserializes_compaction_trigger_without_payload
+        PASS [   0.014s] ( 98/338) codex-protocol models::tests::converts_unstructured_mcp_content_to_items
+        PASS [   0.012s] ( 99/338) codex-protocol models::tests::deserializes_legacy_ghost_snapshot_as_other
+        PASS [   0.011s] (100/338) codex-protocol models::tests::function_call_output_body_to_text_uses_content_item_fallback
+        PASS [   0.012s] (101/338) codex-protocol models::tests::file_system_permissions_with_glob_scan_depth_uses_canonical_json
+        PASS [   0.009s] (102/338) codex-protocol models::tests::function_call_output_content_items_to_text_joins_text_segments
+        PASS [   0.009s] (103/338) codex-protocol models::tests::function_call_output_content_items_to_text_ignores_blank_text_and_media
+        PASS [   0.009s] (104/338) codex-protocol models::tests::function_call_preserves_empty_encrypted_function_args
+        PASS [   0.010s] (105/338) codex-protocol models::tests::local_image_read_error_adds_placeholder
+        PASS [   0.010s] (106/338) codex-protocol models::tests::image_user_input_preserves_requested_detail
+        PASS [   0.010s] (107/338) codex-protocol models::tests::local_image_open_tag_preserves_path
+        PASS [   0.010s] (108/338) codex-protocol models::tests::image_detail_roundtrips_all_wire_values
+        PASS [   0.009s] (109/338) codex-protocol models::tests::named_unpaired_function_call_output_round_trips_without_call_id
+        PASS [   0.010s] (110/338) codex-protocol models::tests::local_image_non_image_adds_placeholder
+        PASS [   0.015s] (111/338) codex-protocol models::tests::format_allow_prefixes_limits_output
+        PASS [   0.009s] (112/338) codex-protocol models::tests::paired_function_call_output_preserves_existing_wire_shape
+        PASS [   0.010s] (113/338) codex-protocol models::tests::mixed_remote_and_local_images_share_label_sequence
+        PASS [   0.011s] (114/338) codex-protocol models::tests::local_image_unsupported_image_format_adds_placeholder
+        PASS [   0.008s] (115/338) codex-protocol models::tests::permission_profile_deserializes_legacy_rollout_shape
+        PASS [   0.007s] (116/338) codex-protocol models::tests::permission_profile_from_runtime_permissions_preserves_external_sandbox
+        PASS [   0.007s] (117/338) codex-protocol models::tests::permission_profile_from_runtime_permissions_preserves_unrestricted_managed_network
+        PASS [   0.007s] (118/338) codex-protocol models::tests::permission_profile_round_trip_preserves_disabled_sandbox
+        PASS [   0.011s] (119/338) codex-protocol models::tests::local_image_user_input_preserves_requested_detail
+        PASS [   0.007s] (120/338) codex-protocol models::tests::permission_profile_presets_match_legacy_defaults
+        PASS [   0.011s] (121/338) codex-protocol models::tests::mixed_remote_and_local_audio_share_label_sequence
+        PASS [   0.008s] (122/338) codex-protocol models::tests::permission_profile_round_trip_preserves_ambiguous_native_denies
+        PASS [   0.009s] (123/338) codex-protocol models::tests::preserves_original_detail_metadata_on_mcp_images
+        PASS [   0.009s] (124/338) codex-protocol models::tests::plaintext_agent_message_content_rejects_mixed_encrypted_content
+        PASS [   0.009s] (125/338) codex-protocol models::tests::preserves_structured_mcp_content
+        PASS [   0.009s] (126/338) codex-protocol models::tests::permission_profile_round_trip_preserves_glob_scan_max_depth
+        PASS [   0.009s] (127/338) codex-protocol models::tests::permission_profile_round_trip_preserves_external_sandbox
+        PASS [   0.010s] (128/338) codex-protocol models::tests::preserves_existing_image_data_urls
+        PASS [   0.010s] (129/338) codex-protocol models::tests::render_command_prefix_list_limits_output_to_max_prefixes
+        PASS [   0.010s] (130/338) codex-protocol models::tests::preserves_standard_detail_metadata_on_mcp_images
+        PASS [   0.010s] (131/338) codex-protocol models::tests::render_command_prefix_list_sorts_by_len_then_total_len_then_alphabetical
+        PASS [   0.010s] (132/338) codex-protocol models::tests::replaces_unreadable_local_audio_with_placeholder
+        PASS [   0.011s] (133/338) codex-protocol models::tests::response_input_message_conversion_preserves_phase
+        PASS [   0.011s] (134/338) codex-protocol models::tests::response_item_parses_image_generation_call
+        PASS [   0.011s] (135/338) codex-protocol models::tests::response_item_parses_image_generation_call_without_revised_prompt
+        PASS [   0.012s] (136/338) codex-protocol models::tests::response_item_id_getter_and_setter
+        PASS [   0.013s] (137/338) codex-protocol models::tests::replaces_unsupported_local_audio_format_with_placeholder
+        PASS [   0.012s] (138/338) codex-protocol models::tests::serializes_compaction_trigger_without_payload
+        PASS [   0.012s] (139/338) codex-protocol models::tests::response_item_passthrough_metadata_round_trips_and_stamps_turn_ids
+        PASS [   0.012s] (140/338) codex-protocol models::tests::sandbox_permissions_helpers_match_documented_semantics
+        PASS [   0.013s] (141/338) codex-protocol models::tests::serializes_audio_outputs_as_array
+        PASS [   0.013s] (142/338) codex-protocol models::tests::roundtrips_web_search_call_actions
+        PASS [   0.012s] (143/338) codex-protocol models::tests::serializes_image_outputs_as_array
+        PASS [   0.013s] (144/338) codex-protocol models::tests::tool_search_call_roundtrips
+        PASS [   0.013s] (145/338) codex-protocol models::tests::serializes_success_as_plain_string
+        PASS [   0.013s] (146/338) codex-protocol models::tests::tool_search_server_items_allow_null_call_id
+        PASS [   0.015s] (147/338) codex-protocol models::tests::serializes_encrypted_function_output_content_as_array
+        PASS [   0.015s] (148/338) codex-protocol models::tests::serializes_audio_user_input_without_tags
+        PASS [   0.015s] (149/338) codex-protocol models::tests::serializes_custom_tool_image_outputs_as_array
+        PASS [   0.014s] (150/338) codex-protocol models::tests::serializes_image_user_input_without_tags
+        PASS [   0.014s] (151/338) codex-protocol models::tests::serializes_local_audio_user_input_with_label_and_data_url
+        PASS [   0.011s] (152/338) codex-protocol openai_models::reasoning_effort::tests::preserves_native_efforts_and_translates_persistent_mode
+        PASS [   0.011s] (153/338) codex-protocol openai_models::tests::get_model_instructions_is_empty_when_model_messages_is_missing
+        PASS [   0.017s] (154/338) codex-protocol models::tests::serializes_failure_as_string
+        PASS [   0.014s] (155/338) codex-protocol openai_models::guardian::tests::guardian_policy_is_optional_and_tolerates_future_config
+        PASS [   0.012s] (156/338) codex-protocol openai_models::tests::get_model_instructions_is_empty_when_template_is_missing
+        PASS [   0.012s] (157/338) codex-protocol openai_models::tests::get_model_instructions_strips_placeholder_with_incomplete_variables
+        PASS [   0.013s] (158/338) codex-protocol openai_models::tests::approval_messages_preserve_missing_and_empty_values
+        PASS [   0.017s] (159/338) codex-protocol models::tests::tool_search_output_roundtrips
+        PASS [   0.010s] (160/338) codex-protocol openai_models::tests::get_model_instructions_uses_template_when_placeholder_present
+        PASS [   0.014s] (161/338) codex-protocol openai_models::guardian::tests::guardian_policy_overrides_the_legacy_cua_bit_only_when_present
+        PASS [   0.014s] (162/338) codex-protocol openai_models::tests::auto_review_messages_preserve_missing_and_empty_values
+        PASS [   0.015s] (163/338) codex-protocol openai_models::reasoning_effort::tests::resolves_ultra_using_model_override_and_supported_fallbacks
+        PASS [   0.014s] (164/338) codex-protocol openai_models::tests::collaboration_mode_messages_preserve_missing_and_empty_values
+        PASS [   0.011s] (165/338) codex-protocol openai_models::tests::get_personality_message_returns_default_when_personality_is_none
+        PASS [   0.011s] (166/338) codex-protocol openai_models::tests::model_info_deserializes_multi_agent_reasoning_effort
+        PASS [   0.011s] (167/338) codex-protocol openai_models::tests::model_info_deserializes_known_tool_mode
+        PASS [   0.012s] (168/338) codex-protocol openai_models::tests::model_context_window_limits_preserve_their_distinct_meanings
+        PASS [   0.011s] (169/338) codex-protocol openai_models::tests::model_info_defaults_availability_nux_to_none_when_omitted
+        PASS [   0.013s] (170/338) codex-protocol openai_models::tests::get_personality_message
+        PASS [   0.010s] (171/338) codex-protocol openai_models::tests::model_info_preserves_explicit_apps_guidance_opt_out
+        PASS [   0.013s] (172/338) codex-protocol openai_models::tests::legacy_shell_model_metadata_deserializes_as_unified_exec
+        PASS [   0.011s] (173/338) codex-protocol openai_models::tests::model_info_treats_unknown_multi_agent_version_as_omitted
+        PASS [   0.010s] (174/338) codex-protocol openai_models::tests::model_info_treats_unknown_tool_mode_as_omitted
+        PASS [   0.012s] (175/338) codex-protocol openai_models::tests::model_info_deserializes_optional_upgrade_retirement_at
+        PASS [   0.012s] (176/338) codex-protocol openai_models::tests::model_preset_supports_fast_mode_from_service_tiers
+        PASS [   0.012s] (177/338) codex-protocol openai_models::tests::model_messages_deserialize_without_optional_sections
+        PASS [   0.013s] (178/338) codex-protocol openai_models::tests::model_preset_preserves_availability_nux
+        PASS [   0.013s] (179/338) codex-protocol openai_models::tests::models_response_rejects_model_without_instruction_source
+        PASS [   0.013s] (180/338) codex-protocol openai_models::tests::models_response_prefers_template_and_preserves_message_siblings
+        PASS [   0.011s] (181/338) codex-protocol openai_models::tests::multi_agent_messages_preserve_missing_and_empty_values
+        PASS [   0.010s] (182/338) codex-protocol openai_models::tests::reasoning_effort_accepts_known_and_custom_values
+        PASS [   0.011s] (183/338) codex-protocol openai_models::tests::permission_messages_preserve_missing_and_empty_values
+        PASS [   0.013s] (184/338) codex-protocol openai_models::tests::models_response_serializes_rendered_legacy_base_instructions
+        PASS [   0.014s] (185/338) codex-protocol openai_models::tests::models_response_promotes_legacy_base_instructions
+        PASS [   0.011s] (186/338) codex-protocol openai_models::tests::reasoning_effort_json_schema_is_an_open_string
+        PASS [   0.010s] (187/338) codex-protocol openai_models::tests::service_tier_for_request_filters_unsupported_tiers
+        PASS [   0.012s] (188/338) codex-protocol openai_models::tests::reasoning_effort_rejects_empty_values
+        PASS [   0.013s] (189/338) codex-protocol openai_models::tests::resolved_context_window_prefers_context_window
+        PASS [   0.012s] (190/338) codex-protocol openai_models::tests::send_user_message_async_description_preserves_missing_null_and_empty_values
+        PASS [   0.013s] (191/338) codex-protocol openai_models::tests::resolved_context_window_falls_back_to_max_context_window
+        PASS [   0.012s] (192/338) codex-protocol permission_profile_intersection::tests::identical_unrestricted_and_disabled_profiles_keep_existing_enforcement
+        PASS [   0.013s] (193/338) codex-protocol openai_models::tests::service_tier_for_request_omits_explicit_default_tier
+        PASS [   0.011s] (194/338) codex-protocol permission_profile_intersection::tests::temporary_directory_restrictions_fail_closed
+        PASS [   0.012s] (195/338) codex-protocol permissions::tests::file_system_access_mode_orders_by_conflict_precedence
+        PASS [   0.012s] (196/338) codex-protocol permissions::tests::effective_runtime_roots_preserve_symlinked_paths
+        PASS [   0.017s] (197/338) codex-protocol permission_profile_intersection::tests::canonical_grants_cannot_escape_through_readable_or_writable_symlinks
+        PASS [   0.014s] (198/338) codex-protocol permissions::tests::duplicate_root_deny_prevents_full_disk_write_access
+        PASS [   0.015s] (199/338) codex-protocol permissions::tests::filesystem_policy_blocks_protected_metadata_path_writes_by_default
+        PASS [   0.017s] (200/338) codex-protocol permission_profile_intersection::tests::unsupported_unresolved_and_optional_policy_shapes_fail_closed
+        PASS [   0.016s] (201/338) codex-protocol permissions::tests::glob_patterns_deny_matching_paths
+        PASS [   0.018s] (202/338) codex-protocol permissions::tests::glob_patterns_do_not_cross_path_separators
+        PASS [   0.016s] (203/338) codex-protocol permissions::tests::legacy_current_working_directory_special_path_deserializes_as_project_roots
+        PASS [   0.017s] (204/338) codex-protocol permissions::tests::legacy_bridge_preserves_explicit_deny_entries
+        PASS [   0.022s] (205/338) codex-protocol permission_profile_intersection::tests::effective_workspace_intersection_preserves_network_metadata_and_temp
+        PASS [   0.015s] (206/338) codex-protocol permissions::tests::native_read_deny_matching_uses_uri_matcher_semantics
+        PASS [   0.021s] (207/338) codex-protocol permissions::tests::exact_path_and_descendants_are_denied
+        PASS [   0.016s] (208/338) codex-protocol permissions::tests::permission_paths_preserve_native_strings_across_path_conventions
+        PASS [   0.017s] (209/338) codex-protocol permissions::tests::native_ambiguous_permission_paths_keep_deny_semantics
+        PASS [   0.016s] (210/338) codex-protocol permissions::tests::preserving_deny_entries_keeps_unrestricted_policy_enforceable
+        PASS [   0.013s] (211/338) codex-protocol permissions::tests::same_specificity_write_override_keeps_full_disk_write_access
+        PASS [   0.013s] (212/338) codex-protocol permissions::tests::root_deny_does_not_materialize_as_unreadable_root
+        PASS [   0.018s] (213/338) codex-protocol permissions::tests::legacy_projection_runtime_enforcement_ignores_entry_order
+        PASS [   0.014s] (214/338) codex-protocol permissions::tests::root_write_with_read_only_child_is_not_full_disk_write
+        PASS [   0.014s] (215/338) codex-protocol permissions::tests::resolve_access_for_local_path_with_cwd_uses_most_specific_entry
+        PASS [   0.006s] (216/338) codex-protocol permissions::tests::uri_matcher_resolves_selected_executor_paths
+        PASS [   0.018s] (217/338) codex-protocol permissions::tests::missing_symbolic_metadata_carveouts_need_direct_runtime_enforcement
+        PASS [   0.022s] (218/338) codex-protocol permissions::tests::globstar_patterns_deny_root_and_nested_matches
+        PASS [   0.007s] (219/338) codex-protocol permissions::tests::uri_matcher_fails_closed_without_executor_roots_or_lexical_paths
+        PASS [   0.018s] (220/338) codex-protocol permissions::tests::literal_patterns_and_globs_are_denied
+        PASS [   0.018s] (221/338) codex-protocol permissions::tests::materialize_project_roots_with_workspace_roots_expands_exact_and_glob_entries
+        PASS [   0.019s] (222/338) codex-protocol permissions::tests::legacy_workspace_write_projection_accepts_relative_cwd
+        PASS [   0.019s] (223/338) codex-protocol permissions::tests::legacy_workspace_write_projection_preserves_symbolic_project_root
+        PASS [   0.011s] (224/338) codex-protocol permissions::tests::unknown_special_paths_are_ignored_by_legacy_bridge
+        PASS [   0.015s] (225/338) codex-protocol permissions::tests::project_roots_special_path_preserves_symlinked_root
+        PASS [   0.013s] (226/338) codex-protocol permissions::tests::split_only_nested_carveouts_need_direct_runtime_enforcement
+        PASS [   0.006s] (227/338) codex-protocol permissions::tests::uri_matcher_uses_validated_native_components_for_precedence
+        PASS [   0.006s] (228/338) codex-protocol permissions::tests::with_additional_legacy_workspace_writable_roots_protects_metadata
+        PASS [   0.005s] (229/338) codex-protocol permissions::tests::with_additional_writable_roots_adds_new_root
+        PASS [   0.014s] (230/338) codex-protocol permissions::tests::tmpdir_special_path_preserves_symlinked_tmpdir
+        PASS [   0.006s] (231/338) codex-protocol permissions::tests::with_additional_readable_roots_skips_existing_effective_access
+        PASS [   0.012s] (232/338) codex-protocol permissions::tests::uri_deny_globs_use_executor_home
+        PASS [   0.006s] (233/338) codex-protocol permissions::tests::with_additional_writable_roots_skips_existing_effective_access
+        PASS [   0.015s] (234/338) codex-protocol permissions::tests::unclosed_character_classes_match_literal_brackets
+        PASS [   0.006s] (235/338) codex-protocol permissions::tests::writable_root_presence_matches_materialized_roots
+        PASS [   0.006s] (236/338) codex-protocol permissions::tests::writable_roots_proactively_protect_missing_dot_codex
+        PASS [   0.006s] (237/338) codex-protocol permissions::tests::writable_roots_preserve_explicit_symlinked_carveouts_under_symlinked_roots
+        PASS [   0.006s] (238/338) codex-protocol permissions::tests::writable_roots_preserve_explicit_symlinked_carveouts_that_alias_root
+        PASS [   0.006s] (239/338) codex-protocol permissions::tests::writable_roots_skip_default_dot_codex_when_explicit_user_rule_exists
+        PASS [   0.008s] (240/338) codex-protocol permissions::tests::writable_roots_preserve_symlinked_protected_subpaths
+        PASS [   0.009s] (241/338) codex-protocol permissions::tests::writable_roots_preserve_explicit_symlinked_carveouts_that_escape_root
+        PASS [   0.008s] (242/338) codex-protocol protocol::tests::dynamic_tool_call_item_lifecycle_emits_legacy_dynamic_tool_events
+        PASS [   0.009s] (243/338) codex-protocol protocol::tests::audio_only_user_message_has_placeholder_preview
+        PASS [   0.009s] (244/338) codex-protocol protocol::tests::active_turn_not_steerable_error_does_not_affect_turn_status
+        PASS [   0.019s] (245/338) codex-protocol permissions::tests::uri_deny_and_metadata_matcher_use_executor_paths
+        PASS [   0.009s] (246/338) codex-protocol protocol::tests::command_execution_item_lifecycle_emits_legacy_exec_events
+        PASS [   0.010s] (247/338) codex-protocol protocol::tests::feature_thread_source_serializes_as_its_app_owned_label
+        PASS [   0.010s] (248/338) codex-protocol protocol::tests::external_sandbox_reports_full_access_flags
+        PASS [   0.010s] (249/338) codex-protocol protocol::tests::granular_approval_config_mcp_elicitation_flag_is_field_driven
+        PASS [   0.011s] (250/338) codex-protocol protocol::tests::deserialize_legacy_session_configured_event_uses_sandbox_policy
+        PASS [   0.012s] (251/338) codex-protocol protocol::tests::granular_approval_config_defaults_missing_optional_flags_to_false
+        PASS [   0.012s] (252/338) codex-protocol protocol::tests::granular_approval_config_skill_approval_flag_is_field_driven
+        PASS [   0.014s] (253/338) codex-protocol protocol::tests::granular_approval_config_request_permissions_flag_is_field_driven
+        PASS [   0.015s] (254/338) codex-protocol protocol::tests::generic_error_affects_turn_status
+        PASS [   0.011s] (255/338) codex-protocol protocol::tests::item_completed_event_from_mcp_tool_call_emits_end_event
+        PASS [   0.014s] (256/338) codex-protocol protocol::tests::inter_agent_communication_response_input_item_preserves_commentary_phase
+        PASS [   0.017s] (257/338) codex-protocol protocol::tests::item_completed_event_defaults_missing_completed_at_ms
+        PASS [   0.017s] (258/338) codex-protocol protocol::tests::item_completed_event_from_image_generation_emits_end_event
+        PASS [   0.019s] (259/338) codex-protocol protocol::tests::file_system_policy_rejects_legacy_bridge_for_non_workspace_writes
+        PASS [   0.016s] (260/338) codex-protocol protocol::tests::item_started_event_from_file_change_emits_patch_begin_event
+        PASS [   0.018s] (261/338) codex-protocol protocol::tests::item_completed_event_from_file_change_emits_patch_end_event
+        PASS [   0.015s] (262/338) codex-protocol protocol::tests::item_started_event_from_web_search_emits_begin_event
+        PASS [   0.012s] (263/338) codex-protocol protocol::tests::read_only_reports_network_access_flags
+        PASS [   0.022s] (264/338) codex-protocol protocol::tests::hook_builtin_classification_stays_internal
+        PASS [   0.011s] (265/338) codex-protocol protocol::tests::review_mode_events_deserialize_legacy_payloads
+        PASS [   0.018s] (266/338) codex-protocol protocol::tests::item_started_event_from_non_web_search_emits_no_legacy_events
+        PASS [   0.016s] (267/338) codex-protocol protocol::tests::misalignment_explanation_and_steer_are_never_serialized_into_error_events
+        PASS [   0.013s] (268/338) codex-protocol protocol::tests::restricted_file_system_policy_reports_full_access_from_root_entries
+        PASS [   0.018s] (269/338) codex-protocol protocol::tests::item_started_event_requires_started_at_ms
+        PASS [   0.019s] (270/338) codex-protocol protocol::tests::item_started_event_from_image_generation_emits_begin_event
+        PASS [   0.014s] (271/338) codex-protocol protocol::tests::realtime_voice_list_is_stable
+        PASS [   0.018s] (272/338) codex-protocol protocol::tests::legacy_sandbox_policy_semantics_survive_split_bridge
+        PASS [   0.010s] (273/338) codex-protocol protocol::tests::review_mode_item_completion_emits_legacy_events_with_ids
+        PASS [   0.019s] (274/338) codex-protocol protocol::tests::item_started_event_from_mcp_tool_call_emits_begin_event
+        PASS [   0.013s] (275/338) codex-protocol protocol::tests::restricted_file_system_policy_treats_root_with_carveouts_as_scoped_access
+        PASS [   0.016s] (276/338) codex-protocol protocol::tests::queued_encrypted_inter_agent_communication_renders_message_envelope
+        PASS [   0.008s] (277/338) codex-protocol protocol::tests::session_meta_defaults_legacy_history_mode
+        PASS [   0.015s] (278/338) codex-protocol protocol::tests::restricted_file_system_policy_derives_effective_paths
+        PASS [   0.011s] (279/338) codex-protocol protocol::tests::rollback_failed_error_does_not_affect_turn_status
+        PASS [   0.008s] (280/338) codex-protocol protocol::tests::serialize_mcp_startup_update_event
+        PASS [   0.016s] (281/338) codex-protocol protocol::tests::realtime_conversation_started_event_uses_realtime_session_id
+        PASS [   0.014s] (282/338) codex-protocol protocol::tests::restricted_file_system_policy_treats_read_entries_as_read_only_subpaths
+        PASS [   0.009s] (283/338) codex-protocol protocol::tests::serialize_event
+        PASS [   0.013s] (284/338) codex-protocol protocol::tests::review_decision_denied_round_trip
+        PASS [   0.010s] (285/338) codex-protocol protocol::tests::serialize_mcp_startup_complete_event
+        PASS [   0.006s] (286/338) codex-protocol protocol::tests::session_source_from_startup_arg_maps_known_values
+        PASS [   0.006s] (287/338) codex-protocol protocol::tests::session_meta_normalizes_legacy_dynamic_tools
+        PASS [   0.053s] (288/338) codex-protocol permission_profile_intersection::tests::exact_denies_nested_read_carveouts_and_reopened_writes_are_preserved
+        PASS [   0.007s] (289/338) codex-protocol protocol::tests::session_source_matches_product_restriction
+        PASS [   0.008s] (290/338) codex-protocol protocol::tests::session_source_from_startup_arg_normalizes_custom_values
+        PASS [   0.007s] (291/338) codex-protocol protocol::tests::session_source_restriction_product_does_not_guess_subagent_products
+        PASS [   0.007s] (292/338) codex-protocol protocol::tests::session_source_restriction_product_defaults_non_subagent_sources_to_codex
+        PASS [   0.006s] (293/338) codex-protocol protocol::tests::session_source_restriction_product_maps_custom_sources_to_products
+        PASS [   0.011s] (294/338) codex-protocol protocol::tests::turn_context_item_deserializes_without_network
+        PASS [   0.011s] (295/338) codex-protocol protocol::tests::token_usage_info_new_or_append_preserves_context_window_when_not_provided
+        PASS [   0.012s] (296/338) codex-protocol protocol::tests::user_input_text_serializes_empty_text_elements
+        PASS [   0.012s] (297/338) codex-protocol protocol::tests::vec_u8_as_base64_serialization_and_deserialization
+        PASS [   0.012s] (298/338) codex-protocol protocol::tests::user_message_item_legacy_event_preserves_attachments
+        PASS [   0.013s] (299/338) codex-protocol protocol::tests::turn_context_item_deserializes_legacy_on_failure_as_on_request
+        PASS [   0.014s] (300/338) codex-protocol protocol::tests::turn_context_item_serializes_network_when_present
+        PASS [   0.015s] (301/338) codex-protocol protocol::tests::turn_aborted_event_deserializes_without_turn_id
+        PASS [   0.015s] (302/338) codex-protocol protocol::tests::token_usage_info_new_or_append_updates_context_window_when_provided
+        PASS [   0.014s] (303/338) codex-protocol response_item_id::tests::creates_prefixed_uuid_v7_ids
+        PASS [   0.014s] (304/338) codex-protocol response_item_id::tests::creates_prefixed_ids_with_explicit_suffix
+        PASS [   0.015s] (305/338) codex-protocol sanitized_git_url::tests::git_info_deserialization_accepts_missing_repository_url
+        PASS [   0.015s] (306/338) codex-protocol sanitized_git_url::tests::deserialization_sanitizes_credentials
+        PASS [   0.017s] (307/338) codex-protocol protocol::tests::user_message_event_serializes_empty_metadata_vectors
+        PASS [   0.016s] (308/338) codex-protocol response_item_id::tests::accepts_server_ids_verbatim
+        PASS [   0.017s] (309/338) codex-protocol protocol::tests::user_message_event_deserializes_without_image_detail_fields
+        PASS [   0.016s] (310/338) codex-protocol response_item_id::tests::deserializes_arbitrary_ids_as_strings
+        PASS [   0.016s] (311/338) codex-protocol response_item_id::tests::recognizes_non_empty_prefix_and_suffix
+        PASS [   0.015s] (312/338) codex-protocol sanitized_git_url::tests::git_info_deserialization_discards_malformed_legacy_remote
+        PASS [   0.017s] (313/338) codex-protocol request_user_input::tests::request_user_input_event_defaults_legacy_missing_is_blocking_to_true
+        PASS [   0.016s] (314/338) codex-protocol sanitized_git_url::tests::git_info_deserialization_accepts_null_repository_url
+        PASS [   0.012s] (315/338) codex-protocol sanitized_git_url::tests::removes_https_username_and_password
+        PASS [   0.016s] (316/338) codex-protocol sanitized_git_url::tests::preserves_https_remote_without_credentials
+        PASS [   0.013s] (317/338) codex-protocol sanitized_git_url::tests::rejects_malformed_urls_without_exposing_input
+        PASS [   0.016s] (318/338) codex-protocol sanitized_git_url::tests::git_info_deserialization_sanitizes_legacy_remote_credentials
+        PASS [   0.015s] (319/338) codex-protocol sanitized_git_url::tests::removes_file_url_credentials
+        PASS [   0.010s] (320/338) codex-protocol sanitized_git_url::tests::removes_https_username_without_password
+        PASS [   0.010s] (321/338) codex-protocol sanitized_git_url::tests::removes_percent_encoded_credentials
+        PASS [   0.019s] (322/338) codex-protocol sanitized_git_url::tests::preserves_git_ssh_username
+        PASS [   0.009s] (323/338) codex-protocol sanitized_git_url::tests::removes_ssh_password_for_git_username
+        PASS [   0.008s] (324/338) codex-protocol session_id::tests::test_session_id_default_is_not_zeroes
+        PASS [   0.016s] (325/338) codex-protocol sanitized_git_url::tests::rejects_remote_helper_command_payloads
+        PASS [   0.009s] (326/338) codex-protocol sanitized_git_url::tests::sanitizes_remote_helper_urls
+        PASS [   0.012s] (327/338) codex-protocol sanitized_git_url::tests::removes_other_ssh_usernames
+        PASS [   0.010s] (328/338) codex-protocol sanitized_git_url::tests::sanitizes_deeply_nested_remote_helpers_without_recursion
+        PASS [   0.017s] (329/338) codex-protocol sanitized_git_url::tests::preserves_percent_encoded_path_delimiters
+        PASS [   0.009s] (330/338) codex-protocol sanitized_git_url::tests::sanitizes_scp_style_ipv6_remotes_with_usernames
+        PASS [   0.009s] (331/338) codex-protocol session_id::tests::converts_to_and_from_thread_id
+        PASS [   0.018s] (332/338) codex-protocol sanitized_git_url::tests::preserves_opaque_scp_style_ipv6_paths
+        PASS [   0.007s] (333/338) codex-protocol shell_environment::tests::non_inheritable_environment_is_removed_after_policy_overrides
+        PASS [   0.007s] (334/338) codex-protocol thread_id::tests::test_thread_id_default_is_not_zeroes
+        PASS [   0.008s] (335/338) codex-protocol shell_environment::non_windows_tests::core_inherit_preserves_non_windows_core_vars_case_insensitively
+        PASS [   0.009s] (336/338) codex-protocol shell_environment::tests::command_scrubber_removes_names_from_real_child_environment
+        PASS [   0.197s] (337/338) codex-protocol models::executed_tool_calls::tests::executed_tool_call_prompt_budget_includes_metadata_fields
+        PASS [   0.602s] (338/338) codex-protocol permissions::tests::preserving_writable_roots_cannot_be_rebound_during_projection
+────────────
+     Summary [   0.780s] 338 tests run: 338 passed, 0 skipped

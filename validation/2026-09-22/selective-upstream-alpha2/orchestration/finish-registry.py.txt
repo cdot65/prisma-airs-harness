@@ -1,0 +1,24 @@
+from pathlib import Path
+import json,shutil,subprocess,sys,time
+r=Path(__file__).resolve().parent;local=r/'upstream013r2-candidate';remote=r/'remote-registry-evidence';end=time.monotonic()+4*3600
+while not all(p.exists() for p in [local/'REGISTRY-HOST-COMPLETE.json',remote/'SUMMARY.json']):
+ if (local/'REGISTRY-HOST-COMPLETE.json').exists():assert json.loads((local/'REGISTRY-HOST-COMPLETE.json').read_text())['passed']
+ if time.monotonic()>end:raise TimeoutError('Registry acceptance still pending')
+ time.sleep(30)
+assert json.loads((local/'REGISTRY-HOST-COMPLETE.json').read_text())['passed']
+spec=json.loads((r/'SPEC.json').read_text())
+for row in spec['platforms']:
+ target=row['target'];source=local if target.startswith('x86_64') else remote
+ shutil.copytree(source/'registry-acceptance'/target,r/'registry-acceptance'/target)
+ report=json.loads((source/'verify-dispatch'/target/'COMPLETE.json').read_text())
+ assert report['passed'] and report['expected_native_sha256']==row['binary_sha256'] and report['tooling_commit']==spec['tooling_commit']
+ assert all(c['exit_code']==0 for c in report['commands'])
+ assert {'verify','typesafe-node','test_airs_policy_retry','test_airs_doctor'} <= {c['name'] for c in report['commands']}
+ shutil.copytree(source/'verify-dispatch'/target,r/'verify-dispatch'/target)
+command=[sys.executable,str(r/'release-frozen-upstream013r2/scripts/airs_test_release.py'),'verify-all','--spec',str(r/'SPEC.json'),'--acceptance',str(r/'registry-acceptance'),'--installation','registry']
+with (r/'REGISTRY-VERIFICATION.log').open('x') as log:p=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+(r/'REGISTRY-VERIFICATION.json').write_text(json.dumps({'exit_code':p.returncode,'source_commit':spec['source_commit'],'tooling_commit':spec['tooling_commit'],'command':command},indent=2)+'\n')
+assert p.returncode==0
+publication=json.loads((r/'publication/PUBLICATION.json').read_text());assert publication['published'] and publication['existing_non_mcp_tags_preserved']
+readiness={'version':spec['version'],'registry':spec['registry'],'tag':spec['tag'],'stable_latest':'0.1.2','source_commit':spec['source_commit'],'tooling_commit':spec['tooling_commit'],'candidate_and_registry_verified':True,'targets':spec['platforms'],'fixture_only':True,'real_account_acceptance_pending':True,'workspace':json.loads((r/'WORKSPACE-REVIEW.json').read_text()),'feature_scores':{'MCP cancellation ownership':9,'company sign-in ownership':9,'unavailable-thread recovery':9,'configuration-bound verification':9,'bounded catalog diagnostics':9,'terminal denial handling':9,'time-stamped observations':9},'scoring_scope':'Implemented selective preview with automated installed evidence; excludes production account acceptance and stable promotion.'}
+(r/'READINESS.json').write_text(json.dumps(readiness,indent=2)+'\n');print('Fresh anonymous registry and extra checks verified on all three native platforms')

@@ -1,0 +1,22 @@
+test_new_environment_uses_native_storage_across_processes (__main__.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes) ... FAIL
+
+======================================================================
+FAIL: test_new_environment_uses_native_storage_across_processes (__main__.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-upstream-r2-20260922/test_airs_harness_native_mcp.py", line 373, in test_new_environment_uses_native_storage_across_processes
+    self.run_case("positive")
+    ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/cdot/.cache/airs-upstream-r2-20260922/test_airs_harness_native_mcp.py", line 360, in run_case
+    self.fail(
+    ~~~~~~~~~^
+        f"Native MCP fixture failed (status {result.returncode}); private diagnostics: {diagnostics.name}"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: Native MCP fixture failed (status 1); private diagnostics: /var/folders/x0/t7gzpk8x0d306wj0pllltpr80000gn/T/airs-native-mcp-failure-5w5vmjgw.log
+
+----------------------------------------------------------------------
+Ran 1 test in 48.778s
+
+FAILED (failures=1)

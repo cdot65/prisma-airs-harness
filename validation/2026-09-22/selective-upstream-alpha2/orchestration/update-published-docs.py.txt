@@ -1,0 +1,33 @@
+from pathlib import Path
+import json
+r=Path(__file__).resolve().parent
+assert json.loads((r/'REGISTRY-VERIFICATION.json').read_text())['exit_code']==0
+w=json.loads((r/'WORKSPACE-REVIEW.json').read_text())
+assert w['only_reviewed_baseline_failures']
+base=Path('/home/cdot/Documents/strength-and-honor/Efforts/prisma-airs-harness/Content/Education')
+p=base/'AIRS learning - Harness and agent execution.md';s=p.read_text()
+old="Candidate **0.1.3-alpha.2.mcp.1 is in validation, not yet published**. Stable remains 0.1.2. The preview keeps AIRS's gateway authentication and imports selected Codex reliability behavior rather than replacing the AIRS login contract."
+new="""Test release **0.1.3-alpha.2.mcp.1** is available from the AIRS npm registry. Stable remains **0.1.2**. The preview preserves AIRS's gateway authentication while adopting selected Codex reliability improvements.
+
+Install the preview explicitly, replacing `npm.example.com` with your organization’s approved registry:
+
+```bash
+npm install -g airs-harness@0.1.3-alpha.2.mcp.1 --registry=https://npm.example.com
+airs --version
+airs cli --version
+```
+
+The bundled CLI remains 7.1.5. To return to stable, install `airs-harness@0.1.2` from the same registry. Upgrade and rollback were checked with isolated environments, histories and native credentials; no credential or history migration is required."""
+assert old in s;p.write_text(s.replace(old,new))
+p=base/'AIRS learning - Troubleshooting by trust boundary.md';s=p.read_text();old='**0.1.3-alpha.2.mcp.1 is undergoing validation and is not yet available for installation.** When published, this preview adds these recovery checks while keeping 0.1.2 as stable:';new='**Test release 0.1.3-alpha.2.mcp.1 is published.** Stable remains 0.1.2. The preview adds these recovery checks:';assert old in s;p.write_text(s.replace(old,new))
+p=base/'AIRS learning - Implementation status and public sources.md';s=p.read_text();start=s.index('Version **0.1.3-alpha.2.mcp.1** is a candidate under validation');end=s.index('\nThe adoption is selective.',start)
+new=f"""Test release **0.1.3-alpha.2.mcp.1** is published under the `mcp` tag; stable `latest` remains **0.1.2**. Implemented slices cover attempt-owned cancellation, unavailable-conversation recovery and reports, configuration-bound access checks, time-stamped observations, bounded catalog diagnostics and terminal inference-denial handling, including explicit policy denials returned under HTTP 200. The managed CLI stays at 7.1.5.
+
+Exact candidate and fresh anonymous registry installations passed on native Linux x64, native Linux ARM64 and signed/notarized Apple Silicon. The checks include upgrade/rollback from 0.1.2, native credential reuse, Jev through the actual agent approval path, explicit doctor probes and one-request-only denial handling. Linux x64 acceptance used Alpine; this is not a new Ubuntu or real-account acceptance claim. Apple accepted notarization. Controlled startup and cancellation measurements met the preview budgets; they used a warm OS cache, not a cold-boot benchmark.
+
+The final runtime's full Rust workspace run recorded **{w['passed']:,} passed, {w['failed']} failed and {w['skipped']} skipped**. The three failures are the individually reviewed experimental remote-shell cases already present in the 0.1.2 baseline; the suite is not reported as fully green. The first preview was superseded before publication after an HTTP 200 retry gap was found. A later Mac test-tooling correction waits for MCP startup before selecting its menu; the original failed CI result is retained separately from subsequent passing installed-package checks.
+
+These are controlled fixtures, not new company SSO, ServiceNow consent/read, paid Jev or model-accuracy acceptance. Real-account acceptance remains required before stable promotion.
+"""
+p.write_text(s[:start]+new+s[end:])
+print('Published-preview documentation updated from verified release receipts')

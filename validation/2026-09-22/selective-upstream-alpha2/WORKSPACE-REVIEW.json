@@ -1,0 +1,17 @@
+{
+  "source_commit": "bb31dcdd813122f577efb1b8b647f2c06f3078c4",
+  "run_id": 3826,
+  "duration_seconds": 1994.508,
+  "total": 18408,
+  "passed": 18405,
+  "failed": 3,
+  "skipped": 34,
+  "failures": [
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+  ],
+  "only_reviewed_baseline_failures": true,
+  "suite_all_green": false,
+  "retained_log_sha256": "bbbf61c9222145e653440a2d45e16707e9e73e1450b707eaadbf4ffaaf87c2b3"
+}

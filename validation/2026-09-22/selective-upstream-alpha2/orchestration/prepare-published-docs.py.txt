@@ -1,0 +1,17 @@
+from pathlib import Path
+import json,os,subprocess,sys,time
+r=Path(__file__).resolve().parent;site=Path('/home/cdot/development/cdot65/airs-upstream-docs-20260922');end=time.monotonic()+4*3600
+while not (r/'READINESS.json').exists():
+ if time.monotonic()>end:raise TimeoutError('Registry readiness not available; docs remain unpublished')
+ time.sleep(20)
+assert json.loads((r/'READINESS.json').read_text())['candidate_and_registry_verified']
+steps=[('docs-export',['node','scripts/export-vault.mjs','/home/cdot/Documents/strength-and-honor']),('docs-content',['npm','run','check:content']),('docs-build',['npm','run','build']),('docs-browser',['npm','run','test:browser'])]
+env=dict(os.environ,PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH='/usr/bin/chromium')
+results=[{'name':'docs-update','exit_code':0,'note':'Previously applied; example registry corrected before export'}]
+try:
+ for name,cmd in steps:
+  with (r.parent/(name+'.log')).open('w') as log:p=subprocess.run(cmd,cwd=site,env=env,stdout=log,stderr=subprocess.STDOUT)
+  results.append({'name':name,'exit_code':p.returncode,'command':cmd})
+  if p.returncode:raise SystemExit(p.returncode)
+finally:(r/'DOCS-VALIDATION.json').write_text(json.dumps({'passed':len(results)==len(steps)+1 and all(x['exit_code']==0 for x in results),'steps':results},indent=2)+'\n')
+print('Published-preview documentation built and browser checked; awaiting source review before push')

@@ -1,0 +1,11 @@
+from pathlib import Path
+import json,shutil,subprocess
+r=Path(__file__).resolve().parent;root=r/'upstream013r2-candidate'
+assert json.loads((r/'publication/PUBLICATION.json').read_text())['published']
+for row in json.loads((r/'SPEC.json').read_text())['platforms']:
+ target=row['target'];dest=root/'candidate-acceptance'/target
+ if not dest.exists():shutil.copytree(r/'candidate-acceptance'/target,dest)
+command=['/tmp/airs-dual-auth-20260918/venv/bin/python',str(r/'native-execution/upstream013r2-native-worker.py'),'verify','--root',str(root),'--tooling',str(r/'release-frozen-upstream013r2'),'--packages',str(r/'staged')]
+p=subprocess.run(command)
+(root/'REGISTRY-HOST-COMPLETE.json').write_text(json.dumps({'exit_code':p.returncode,'passed':p.returncode==0})+'\n')
+raise SystemExit(p.returncode)

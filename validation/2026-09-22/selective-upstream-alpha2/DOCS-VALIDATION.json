@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "steps": [
+    {
+      "name": "docs-update",
+      "exit_code": 0,
+      "note": "Previously applied; example registry corrected before export"
+    },
+    {
+      "name": "docs-export",
+      "exit_code": 0,
+      "command": [
+        "node",
+        "scripts/export-vault.mjs",
+        "/home/cdot/Documents/strength-and-honor"
+      ]
+    },
+    {
+      "name": "docs-content",
+      "exit_code": 0,
+      "command": [
+        "npm",
+        "run",
+        "check:content"
+      ]
+    },
+    {
+      "name": "docs-build",
+      "exit_code": 0,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "name": "docs-browser",
+      "exit_code": 0,
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+from pathlib import Path, PurePosixPath
+import hashlib,json,sys,tarfile,zipfile
+archive=Path(sys.argv[1]); output=Path(sys.argv[2])
+output.mkdir(exist_ok=False)
+with zipfile.ZipFile(archive) as z:
+ names=[n for n in z.namelist() if n.startswith(('package/','mac-release/')) and n.endswith('.tar.gz')]
+ if len(names)!=1: raise ValueError('Expected one native archive')
+ info=z.getinfo(names[0])
+ if info.file_size>1024**3: raise ValueError('Archive exceeds limit')
+ packed=output/'native.tar.gz'
+ with z.open(info) as src,packed.open('xb') as dst:
+  while chunk:=src.read(65536):dst.write(chunk)
+ expected=z.read(names[0]+'.sha256').decode().split()[0] if names[0]+'.sha256' in z.namelist() else None
+ sidecar_present=expected is not None
+ actual=hashlib.file_digest(packed.open('rb'),'sha256').hexdigest()
+ if expected is not None and actual!=expected:raise ValueError('Native archive checksum mismatch')
+ with tarfile.open(packed) as t:
+  members=t.getmembers()
+  if len(members)>20000 or sum(m.size for m in members)>2*1024**3:raise ValueError('Native archive limits exceeded')
+  seen=set()
+  for m in members:
+   p=PurePosixPath(m.name)
+   if p.is_absolute() or '..' in p.parts or m.name in seen or not(m.isfile() or m.isdir()):raise ValueError('Invalid native archive entry')
+   seen.add(m.name)
+  t.extractall(output/'extracted',members=members,filter='data')
+ roots=list((output/'extracted').iterdir())
+ if len(roots)!=1 or not roots[0].is_dir():raise ValueError('Expected one native release root')
+ root=roots[0]
+ checked=0
+ for line in (root/'SHA256SUMS').read_text().splitlines():
+  expected,relative=line.split(maxsplit=1);relative=relative.removeprefix('*')
+  path=root/relative
+  if not path.resolve().is_relative_to(root.resolve()) or path.is_symlink():raise ValueError('Invalid checksum path')
+  with path.open('rb') as stream:actual=hashlib.file_digest(stream,'sha256').hexdigest()
+  if actual!=expected:raise ValueError('Extracted checksum mismatch')
+  checked+=1
+ build=json.loads((root/'BUILD-INFO.json').read_text())
+ release=Path(__file__).resolve().parent
+ if build['source_commit']!=(release/'SOURCE').read_text().strip() or build['version']!=(release/'VERSION').read_text().strip():raise ValueError('Native source/version mismatch')
+ if build['target']!=sys.argv[3]:raise ValueError('Native target mismatch')
+ with (root/'airs-harness').open('rb') as f:binary_hash=hashlib.file_digest(f,'sha256').hexdigest()
+ if binary_hash!=build['binary_sha256']:raise ValueError('Native executable hash mismatch')
+ receipt={'archive_sha256':hashlib.file_digest(packed.open('rb'),'sha256').hexdigest(),'source_commit':build['source_commit'],'binary_sha256':build['binary_sha256'],'target':build['target'],'extracted':str(root),'verified_files':checked,'archive_sidecar_present':sidecar_present}
+ (output/'EXTRACTION.json').write_text(json.dumps(receipt,indent=2)+'\n')
+ print(json.dumps(receipt))

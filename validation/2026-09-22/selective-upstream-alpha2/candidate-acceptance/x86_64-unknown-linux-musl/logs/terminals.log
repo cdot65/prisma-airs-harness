@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "platform": "Linux",
+  "architecture": "x86_64",
+  "native_binary_sha256": "3d718ae49b468edbbfa8ec3d9c6803d6eefef17b34f691216772807bc7300c79",
+  "launcher": "/tmp/airs-upstream-r2-20260922/release/upstream013r2-candidate/candidate-acceptance/x86_64-unknown-linux-musl.work/install-a9c01ede7c234a23acd415e1b599f572/prefix/bin/airs",
+  "first_action_seconds": {
+    "bash": 0.051,
+    "zsh": 0.103,
+    "fish": 0.41
+  },
+  "checks": [
+    "bash: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "zsh: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "fish: interactive sign-in cancellation returns to the shell with restored terminal modes",
+    "static: selected environment preference applies and the idle screen does not redraw",
+    "static colorless: selected environment preference applies and the idle screen does not redraw",
+    "resize through large, compact and tiny terminals preserves keyboard selection and cancellation",
+    "redirected plain-terminal environment management emits no interactive escapes",
+    "terminal acceptance preserves the environment registry and performs no authentication"
+  ],
+  "authentication_performed": false
+}

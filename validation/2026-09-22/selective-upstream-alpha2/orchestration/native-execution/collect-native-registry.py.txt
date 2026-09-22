@@ -1,0 +1,75 @@
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+import tarfile
+
+cache = Path('/Users/cdot/.cache/airs-upstream-r2-20260922')
+venv = Path('/Users/cdot/.cache/airs-native-mcp-20260919/venv')
+root = cache / 'upstream013r2-candidate'
+if json.loads((root / 'REGISTRY-HOST-COMPLETE.json').read_text()).get('passed') is not True:
+    raise RuntimeError('Mac registry verification has not passed')
+docker = '/usr/local/bin/docker'
+container = 'airs-native-mcp-20260919-arm64'
+script = '''from pathlib import Path
+import json,tarfile
+root=Path('/home/airs-review/upstream013r2-candidate');target='aarch64-unknown-linux-musl'
+if json.loads((root/'REGISTRY-HOST-COMPLETE.json').read_text()).get('passed') is not True:raise RuntimeError('ARM registry verification has not passed')
+with tarfile.open(root/'registry-portable.tar.gz','w:gz') as tar:
+ for area in ['registry-acceptance','verify-dispatch']:
+  for p in sorted((root/area/target).rglob('*')):
+   if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(root).parts or (p.parent.name=='stable-upgrade' and p.suffix in ['.json','.log'])):tar.add(p,arcname=str(p.relative_to(root)),recursive=False)
+'''
+subprocess.run([docker, 'exec', '-u', '10001', container, '/opt/review-venv/bin/python', '-c', script], check=True)
+subprocess.run([docker, 'cp', container + ':/home/airs-review/upstream013r2-candidate/registry-portable.tar.gz', str(root / 'arm-registry-portable.tar.gz')], check=True)
+out = root / 'registry-portable'
+out.mkdir(mode=0o700)
+with tarfile.open(root / 'arm-registry-portable.tar.gz') as tar:
+    if any(not member.isfile() for member in tar.getmembers()):
+        raise RuntimeError('Nonregular portable evidence')
+    tar.extractall(out, filter='data')
+mac = 'aarch64-apple-darwin'
+for area in ['registry-acceptance', 'verify-dispatch']:
+    base = root / area / mac
+    for p in base.rglob('*'):
+        if p.is_file() and not p.is_symlink() and ('stable-upgrade' not in p.relative_to(base).parts or (p.parent.name == 'stable-upgrade' and p.suffix in ['.json', '.log'])):
+            dest = out / area / mac / p.relative_to(base)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(p, dest)
+tooling = cache / 'release-frozen-upstream013r2'
+sys.path.insert(0, str(tooling / 'scripts'))
+from airs_release_contract import verify_one
+from airs_release_receipts import verify_tooling
+from airs_test_release_spec import load_spec
+spec = load_spec(root / 'SPEC.json')
+manifest = json.loads((tooling / 'ACCEPTANCE-TOOLING.json').read_text())
+verify_tooling(tooling, manifest, spec['tooling_commit'])
+summary = {}
+required = 'test_airs_harness_native_mcp.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes'
+for target in [mac, 'aarch64-unknown-linux-musl']:
+    evidence = out / 'registry-acceptance' / target
+    verify_one(spec, evidence, target, 'registry')
+    tests = json.loads((evidence / 'files/installed-regressions/TEST-RESULTS.json').read_text())
+    if required not in tests['test_ids'] or required in [row['test'] for row in tests['skipped']]:
+        raise RuntimeError('Required native positive did not execute')
+    summary[target] = {'registry_verified': True, 'native_positive_executed': True, 'tests_run': tests['tests_run'],
+                       'platform_skips': len(tests['skipped']), 'native_sha256': next(row['binary_sha256'] for row in spec['platforms'] if row['target'] == target)}
+label = json.loads((root / 'REGISTRY-LAUNCH.json').read_text())['mac_gui_label']
+if not label.startswith('io.cdot.airs.typesafe.20260920.registry.'):
+    raise RuntimeError('Unexpected GUI ownership')
+subprocess.run(['launchctl', 'bootout', 'gui/501/' + label], capture_output=True)
+if subprocess.run(['launchctl', 'print', 'gui/501/' + label], capture_output=True).returncode == 0:
+    raise RuntimeError('Owned GUI job remains loaded')
+shutil.copy2(root / 'SPEC.json', out / 'SPEC.json')
+shutil.copy2(root / 'REGISTRY-LAUNCH.json', out / 'LAUNCH.json')
+(out / 'SUMMARY.json').write_text(json.dumps({'scope': 'Fresh anonymous registry verification, synthetic account fixtures; not production SSO or ServiceNow acceptance', 'targets': summary, 'owned_gui_label_unloaded': label}, indent=2) + '\n')
+archive = root / 'registry-portable.tar.gz'
+with tarfile.open(archive, 'w:gz') as tar:
+    for p in sorted(out.rglob('*')):
+        if p.is_file():
+            tar.add(p, arcname=str(p.relative_to(out)), recursive=False)
+with archive.open('rb') as stream:
+    digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+print(json.dumps({'archive': str(archive), 'sha256': digest, 'bytes': archive.stat().st_size, 'summary': summary}))

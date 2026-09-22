@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-09-22T23:08:39.392886+00:00",
+  "packages": [
+    {
+      "name": "airs-harness",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "latest": "0.1.2",
+      "integrity": "sha512-H1ohNBVnlMfxVmxyOL1DlbwoVN8EXVtKpe44LF4Xokn6fuARSvi6pKZsyfo3UJY5yU1MGyKleLInueaeM9Ss6g=="
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "latest": "0.1.2",
+      "integrity": "sha512-ImE68dZxk6fjNE3Yr13b5N42aoLLLRYSFWZJn4LuXX/5oqiCMqHq15mffNun7QX5mZIwoMZuJ/hwvI9mrIIcRQ=="
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "latest": "0.1.2",
+      "integrity": "sha512-4OWJkvEVZoaNvXSnAm4e8HFP1BLVsmq8YnjfEiorLQmd3O3eq0VL9uXC7PMEB8R1yNzS+BqHNIY84jSwX/iTXQ=="
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "latest": "0.1.2",
+      "integrity": "sha512-z/qYrEZnOJCP40mM7t+GzO4M3LX6SBdO8l5s4gRXirEeuvkQTco00OrnkgVkLUbRMTa5AUUfRavZ9oGTORqIhQ=="
+    }
+  ]
+}

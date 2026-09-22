@@ -1,0 +1,32 @@
+from pathlib import Path
+import hashlib,json,plistlib,subprocess,tarfile
+cache=Path('/Users/cdot/.cache/airs-upstream-r2-20260922');a=cache/'signing-source.tar.gz';m=json.loads((cache/'SIGNING-SOURCE-TRANSPORT.json').read_text())
+with a.open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==m['archive_sha256']
+source='bb31dcdd813122f577efb1b8b647f2c06f3078c4';assert m['source_commit']==source
+repo=cache/'signing-source';assert not repo.exists()
+with tarfile.open(a) as t:t.extractall(cache,filter='data')
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+subprocess.run(['git','clone','--quiet','--shared',str(repo),str(repo/'runtime')],check=True)
+runner=cache/'signing-runner.py'
+runner.write_text('''from pathlib import Path
+import hashlib,json,os,subprocess,time
+cache=Path('/Users/cdot/.cache/airs-upstream-r2-20260922');source='bb31dcdd813122f577efb1b8b647f2c06f3078c4'
+staged=Path('/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates')/source
+end=time.monotonic()+6*3600
+while not (staged/'CANDIDATE.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Native build intake did not arrive; nothing signed')
+ time.sleep(30)
+artifact=json.loads((staged/'ARTIFACT-VERIFIED.json').read_text());candidate=json.loads((staged/'CANDIDATE.json').read_text())
+for r in (artifact,candidate):
+ assert r['runtime_source']==source and r['build_tooling_source']==source
+with (staged/'intake.tar.gz').open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==artifact['archive_sha256']
+env=os.environ.copy();env.update(RUNNER_TEMP=str(cache/'signing-temp'),AIRS_RUNTIME_SOURCE=source,AIRS_ARCHIVE_SHA256=artifact['archive_sha256'],AIRS_BINARY_SHA256=artifact['binary_sha256'],AIRS_FIXTURE_SHA256=artifact['fixture_sha256'],GITHUB_RUN_ID='manual-upstream013r2-signing')
+result=subprocess.run(['bash','scripts/airs_forgejo_gateway_package.sh'],cwd=cache/'signing-source',env=env)
+(cache/'SIGNING-COMPLETE.json').write_text(json.dumps({'source_commit':source,'exit_code':result.returncode,'dispatch':'manual invocation of committed owned signing script in owner GUI session; no Forgejo run claimed'})+'\\n')
+raise SystemExit(result.returncode)
+''')
+label='io.cdot.airs.upstream013r2.signing';plist=cache/'signing-job.plist'
+plist.write_bytes(plistlib.dumps({'Label':label,'ProgramArguments':['/opt/homebrew/opt/python@3.13/libexec/bin/python3',str(runner)],'RunAtLoad':True,'WorkingDirectory':str(repo),'EnvironmentVariables':{'PATH':'/opt/homebrew/opt/python@3.13/libexec/bin:/opt/homebrew/bin:/Users/cdot/.cargo/bin:/usr/local/bin:/usr/bin:/bin','HOME':'/Users/cdot','TERM':'xterm-256color'},'StandardOutPath':str(cache/'SIGNING.log'),'StandardErrorPath':str(cache/'SIGNING.log')}))
+subprocess.run(['launchctl','bootstrap','gui/501',str(plist)],check=True)
+(cache/'SIGNING-LAUNCH.json').write_text(json.dumps({'label':label,'source_commit':source,'archive_sha256':m['archive_sha256'],'waiting_for_native_intake':True})+'\n');print(label)

@@ -1,0 +1,7 @@
+test_new_environment_uses_native_storage_across_processes (__main__.NativeMcpDefault.test_new_environment_uses_native_storage_across_processes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 9.246s
+
+OK
+{"case": "positive", "executable_sha256": "3aaefcb2550167d77ff2abb74c6ef25e17556ccdf3d6d621ee73a0db8977c492", "inference_preserved": true, "native_logout_verified": true, "native_mode_unmodified": true, "native_record_persisted": true, "oauth_exchanges": 1, "passed": true, "platform": "darwin", "second_process_verified": true}

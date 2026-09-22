@@ -1,0 +1,26 @@
+from pathlib import Path
+import subprocess,json,time,sys
+r=Path(__file__).resolve().parent
+ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','-o','ConnectTimeout=10','cdot@10.0.1.121']
+cache='/Users/cdot/.cache/airs-upstream-r2-20260922';end=time.monotonic()+7*3600
+while True:
+ p=subprocess.run(ssh+['cat '+cache+'/SIGNING-COMPLETE.json'],capture_output=True,text=True)
+ if p.returncode==0:
+  result=json.loads(p.stdout);assert result['exit_code']==0,'Mac signing failed; inspect SIGNING.log';break
+ if time.monotonic()>end:raise TimeoutError('Signing has not completed; nothing collected')
+ time.sleep(30)
+code='''from pathlib import Path
+import zipfile,hashlib,json
+r=Path('/Users/cdot/.cache/airs-upstream-r2-20260922/signing-temp/airs-gateway-package');a=r.parent/'signed-candidate.zip'
+with zipfile.ZipFile(a,'x') as z:
+ for p in list((r/'mac-release').glob('*.tar.gz'))+list((r/'evidence').iterdir())+[r/'signed.zip']:
+  if p.is_file() and not p.name.endswith('.private.log'):z.write(p,str(p.relative_to(r)))
+with a.open('rb') as f:print(json.dumps({'archive_sha256':hashlib.file_digest(f,'sha256').hexdigest(),'bytes':a.stat().st_size}))
+'''
+receipt=json.loads(subprocess.check_output(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=code,text=True));(r/'MAC-SIGNED-TRANSPORT.json').write_text(json.dumps(receipt)+'\n')
+a=r/'mac-signed-candidate.zip'
+subprocess.run(['scp','-q','-i','/home/cdot/.ssh/airs-jadzia-runner','cdot@10.0.1.121:'+cache+'/signing-temp/signed-candidate.zip',str(a)],check=True)
+import hashlib
+with a.open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==receipt['archive_sha256']
+subprocess.run([sys.executable,str(r/'extract-candidate.py'),str(a),str(r/'mac-native'),'aarch64-apple-darwin'],check=True)
+subprocess.run([sys.executable,str(r/'collect-signing-evidence.py')],check=True)

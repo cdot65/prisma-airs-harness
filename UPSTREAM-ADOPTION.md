@@ -219,3 +219,44 @@ policy denials, with no local tool or MCP execution. Source score returns to 9/1
 corrected installed-platform checks remain required. Version alpha.2 replaces the
 unpublished alpha.1 candidate. The companion legacy CLI timestamp snapshot also
 passes for both binary targets; original full-workspace failures remain recorded.
+
+## Validated preview handoff: 0.1.3-alpha.2.mcp.1
+
+Runtime/packaging source: `bb31dcdd813122f577efb1b8b647f2c06f3078c4`.
+Frozen validation tooling: `766c9fb83a9bc32deacd2125cefcafd5b6527db7`.
+The validation-only follow-up handles the explicit startup-busy response before
+opening the passive MCP menu. It does not retry sign-in, reconnect or tool calls,
+and did not require changing the runtime binaries. Original failed Mac CI evidence
+is retained separately from the corrected installed checks.
+
+All four packages are published under `mcp` at `https://npm.cdot.io`; stable
+`latest` remains 0.1.2 and the bundled CLI remains 7.1.5. Exact candidate and fresh
+anonymous registry acceptance passed on native Linux x64 (Alpine), native Linux
+ARM64 and signed/notarized Apple Silicon. Each platform also passed Jev through
+the actual agent approval path, native key handling, doctor checks and one-request
+handling for 401/403/446 and explicit HTTP 200 JSON/SSE policy denials. Candidate
+acceptance includes preserved upgrade/rollback from 0.1.2 and timed fixture refresh.
+
+Full GNU workspace run 3826: **18,405 passed, 3 failed, 34 skipped**. The three
+remote-shell snapshot failures have the same normalized assertion details as
+the retained stable 0.1.2 run. They remain failures; no fully green workspace is
+claimed. The final release-binary comparison met the ten-launch startup budget
+and the cancellation budget, with zero inference/tool/token requests. This used
+fresh application homes and a warm OS cache, not a cold-boot measurement.
+
+| Implemented slice | Preview score |
+| --- | --- |
+| Attempt-owned MCP cancellation | 9/10 |
+| Company sign-in operation ownership | 9/10 |
+| Unavailable-conversation recovery and reports | 9/10 |
+| Configuration-bound gateway verification | 9/10 |
+| Bounded catalog diagnostics | 9/10 |
+| Terminal denial handling without automatic replay | 9/10 |
+| Time-stamped access observations | 9/10 |
+
+Scores describe the implemented preview and controlled installed evidence. The
+remaining confidence gap is real-account acceptance, not a claim that fixtures
+prove company SSO, ServiceNow authorization or Jev accuracy. Owner Ubuntu and
+real-account sign-in/consent/read checks remain separate; stable promotion is
+not authorized by these scores. Evidence and immutable audit inputs are retained
+in `validation/2026-09-22/selective-upstream-alpha2/`.

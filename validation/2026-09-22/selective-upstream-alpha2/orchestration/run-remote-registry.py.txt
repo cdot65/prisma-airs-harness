@@ -1,0 +1,10 @@
+from pathlib import Path
+import json,subprocess,sys
+r=Path(__file__).resolve().parent;cache='/Users/cdot/.cache/airs-upstream-r2-20260922';host='cdot@10.0.1.121';key='/home/cdot/.ssh/airs-jadzia-runner'
+assert json.loads((r/'publication/PUBLICATION.json').read_text())['published']
+subprocess.run([sys.executable,str(r/'native-execution/build-registry-transfer.py')],check=True)
+m=json.loads((r/'REGISTRY-TRANSFER.json').read_text())
+for p in [r/'registry-inputs.tar',r/'REGISTRY-TRANSFER.json',r/'native-execution/prepare-native-registry.py']:
+ subprocess.run(['scp','-q','-i',key,str(p),host+':'+cache+'/'],check=True)
+result=json.loads(subprocess.check_output(['ssh','-i',key,'-o','BatchMode=yes',host,'/opt/homebrew/opt/python@3.13/libexec/bin/python3 '+cache+'/prepare-native-registry.py '+m['archive_sha256']],text=True))
+(r/'REMOTE-REGISTRY-DISPATCH.json').write_text(json.dumps(result,indent=2)+'\n');print('Remote registry acceptance started')

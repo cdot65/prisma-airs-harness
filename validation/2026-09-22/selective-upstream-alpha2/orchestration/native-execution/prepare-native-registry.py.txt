@@ -1,0 +1,94 @@
+from pathlib import Path
+import hashlib
+import json
+import plistlib
+import shutil
+import subprocess
+import tarfile
+import uuid
+
+cache = Path('/Users/cdot/.cache/airs-upstream-r2-20260922')
+venv = Path('/Users/cdot/.cache/airs-native-mcp-20260919/venv')
+root = cache / 'upstream013r2-candidate'
+archive = cache / 'registry-inputs.tar'
+manifest = json.loads((cache / 'REGISTRY-TRANSFER.json').read_text())
+with archive.open('rb') as stream:
+    actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+if actual != __import__('sys').argv[1] or actual != manifest['archive_sha256']:
+    raise RuntimeError('Registry transfer hash mismatch')
+source = cache / 'registry-inputs-upstream013r2'
+source.mkdir(mode=0o700)
+with tarfile.open(archive) as tar:
+    members = tar.getmembers()
+    if any(not member.isfile() for member in members) or len(members) != len(manifest['files']) or {member.name for member in members} != set(manifest['files']):
+        raise RuntimeError('Unexpected registry input archive inventory')
+    tar.extractall(source, filter='data')
+for relative, expected in manifest['files'].items():
+    src = source / relative
+    with src.open('rb') as stream:
+        if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
+            raise RuntimeError('Registry input file changed')
+    dest = root / relative
+    if dest.exists():
+        with dest.open('rb') as stream:
+            if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
+                raise RuntimeError('Refusing different existing input: ' + relative)
+    else:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dest)
+shutil.copy2(cache / 'REGISTRY-TRANSFER.json', source / 'TRANSFER.json')
+if json.loads((root / 'SPEC.json').read_text()) != manifest['spec']:
+    raise RuntimeError('Registry SPEC mismatch')
+runner = '''from pathlib import Path
+import subprocess,json,sys
+root=Path(__file__).resolve().parent
+command=[sys.executable,str(root.parent/'upstream013r2-native-worker.py'),'verify','--root',str(root),'--tooling',str(root.parent/'release-frozen-upstream013r2'),'--packages',str(root/'staged')]
+r=subprocess.run(command)
+(root/'REGISTRY-HOST-COMPLETE.json').write_text(json.dumps({'exit_code':r.returncode,'passed':r.returncode==0,'command':command})+'\\n')
+raise SystemExit(r.returncode)
+'''
+(root / 'registry-runner.py').write_text(runner)
+docker = '/usr/local/bin/docker'
+container = 'airs-native-mcp-20260919-arm64'
+arm_source = '/home/airs-review/registry-inputs-upstream013r2'
+arm_root = '/home/airs-review/upstream013r2-candidate'
+subprocess.run([docker, 'exec', container, 'test', '!', '-e', arm_source], check=True)
+subprocess.run([docker, 'cp', str(source), container + ':' + arm_source], check=True)
+subprocess.run([docker, 'exec', container, 'chown', '-R', '10001:10001', arm_source], check=True)
+arm_merge = '''from pathlib import Path
+import hashlib,json,shutil
+source=Path('/home/airs-review/registry-inputs-upstream013r2');root=Path('/home/airs-review/upstream013r2-candidate');m=json.loads((source/'TRANSFER.json').read_text())
+for relative,expected in m['files'].items():
+ src=source/relative;dest=root/relative
+ with src.open('rb') as f:
+  if hashlib.file_digest(f,'sha256').hexdigest()!=expected:raise RuntimeError('ARM registry input mismatch')
+ if dest.exists():
+  with dest.open('rb') as f:
+   if hashlib.file_digest(f,'sha256').hexdigest()!=expected:raise RuntimeError('ARM existing input differs')
+ else:
+  dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dest)
+if json.loads((root/'SPEC.json').read_text())!=m['spec']:raise RuntimeError('ARM registry SPEC mismatch')
+print(len(m['files']))
+'''
+arm_verified = subprocess.check_output([docker, 'exec', '-u', '10001', container, '/opt/review-venv/bin/python', '-c', arm_merge], text=True)
+subprocess.run([docker, 'cp', str(root / 'registry-runner.py'), container + ':' + arm_root + '/registry-runner.py'], check=True)
+subprocess.run([docker, 'exec', container, 'chown', '10001:10001', arm_root + '/registry-runner.py'], check=True)
+tmp = root / 'registry-tmp'
+tmp.mkdir(mode=0o700)
+label = 'io.cdot.airs.typesafe.20260920.registry.' + uuid.uuid4().hex
+plist = root / 'registry-job.plist'
+plist.write_bytes(plistlib.dumps({
+    'Label': label, 'ProgramArguments': [str(venv / 'bin/python'), str(root / 'registry-runner.py')],
+    'RunAtLoad': True, 'WorkingDirectory': str(root),
+    'EnvironmentVariables': {'PATH': str(venv / 'bin') + ':/opt/homebrew/opt/openssl@3/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin',
+                             'HOME': '/Users/cdot', 'TERM': 'xterm-256color', 'TMPDIR': str(tmp), 'PYTHONDONTWRITEBYTECODE': '1'},
+    'StandardOutPath': str(root / 'MAC-REGISTRY.log'), 'StandardErrorPath': str(root / 'MAC-REGISTRY.log'),
+}))
+subprocess.run(['launchctl', 'bootstrap', 'gui/501', str(plist)], check=True)
+command = [docker, 'exec', '-u', '10001', '-e', 'HOME=/home/airs-review', '-e', 'USER=airs-review', '-e', 'TERM=xterm-256color', '-e', 'PYTHONDONTWRITEBYTECODE=1', '-w', '/home/airs-review', container, '/opt/review-venv/bin/python', arm_root + '/registry-runner.py']
+with (root / 'ARM-REGISTRY.log').open('x') as output:
+    child = subprocess.Popen(command, stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
+report = {'mac_gui_label': label, 'arm_dispatch_pid': child.pid, 'mac_files_verified': len(manifest['files']), 'arm_files_verified': int(arm_verified),
+          'archive_sha256': actual, 'installation': 'registry', 'spec': manifest['spec'], 'production_acceptance': False}
+(root / 'REGISTRY-LAUNCH.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps(report))

@@ -1,0 +1,15 @@
+from pathlib import Path
+import subprocess,time,json,re,hashlib
+r=Path(__file__).resolve().parent;end=time.monotonic()+4*3600
+while True:
+ status=subprocess.check_output(['/home/cdot/.local/bin/kubectl','exec','-n','forgejo','forgejo-postgres-4','-c','postgres','--','psql','-U','postgres','-d','forgejo','-Atc','SELECT status FROM action_run WHERE id=3826;'],text=True).strip()
+ if status in ['1','2','3','4','5']:break
+ if time.monotonic()>end:raise TimeoutError('Workspace still running; no process stopped')
+ time.sleep(30)
+subprocess.run(['/tmp/airs-upstream-20260922/log-reader-venv/bin/python',str(r/'read-workspace-log.py')],check=True)
+p=r.parent/'gnu-workspace-3826-retained.log';text=p.read_text();summary=re.search(r'Summary \[([\d.]+)s\] (\d+) tests run: (\d+) passed(?: \([^)]*\))?, (\d+) failed, (\d+) skipped',text)
+assert summary,'No final workspace summary; inspect retained log'
+expected={'codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery','codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery','codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox'}
+actual=set(x.strip() for x in re.findall(r'TRY 2 FAIL \[[^\]]+\] \([^\)]+\) (.+)',text))
+report={'source_commit':(r/'SOURCE').read_text().strip(),'run_id':3826,'duration_seconds':float(summary[1]),'total':int(summary[2]),'passed':int(summary[3]),'failed':int(summary[4]),'skipped':int(summary[5]),'failures':sorted(actual),'only_reviewed_baseline_failures':actual==expected,'suite_all_green':False,'retained_log_sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+(r/'WORKSPACE-REVIEW.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report));assert actual==expected,'New workspace failure requires correction'

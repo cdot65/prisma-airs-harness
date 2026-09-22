@@ -1,0 +1,541 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Blocking waiting for file lock on artifact directory
+   Compiling generic-array v0.14.7
+   Compiling serde_json v1.0.149
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling digest v0.10.7
+   Compiling tokio-util v0.7.18
+   Compiling sha1 v0.10.6
+   Compiling sha2 v0.10.9
+   Compiling rustix v1.1.4
+   Compiling icu_normalizer v2.2.0
+   Compiling ring v0.17.14
+   Compiling idna_adapter v1.2.1
+   Compiling idna v1.1.0
+   Compiling h2 v0.4.16
+   Compiling url v2.5.8
+   Compiling rustls-webpki v0.103.13
+   Compiling rustls v0.23.36
+   Compiling hyper v1.8.1
+   Compiling hyper-util v0.1.20
+   Compiling tokio-rustls v0.26.4
+   Compiling rama-utils v0.3.0-alpha.4
+   Compiling hickory-proto v0.25.2
+   Compiling tower v0.5.3
+   Compiling tokio-graceful v0.2.2
+   Compiling rama-core v0.3.0-alpha.4
+   Compiling hickory-resolver v0.25.2
+   Compiling prodash v31.0.0
+   Compiling gix-features v0.46.2
+   Compiling rama-http-types v0.3.0-alpha.4
+   Compiling tempfile v3.27.0
+   Compiling schemars v0.8.22
+   Compiling rama-net v0.3.0-alpha.4
+   Compiling ts-rs v11.1.0
+   Compiling tower-http v0.6.8
+   Compiling publicsuffix v2.3.0
+   Compiling cookie_store v0.22.1
+   Compiling hyper-tls v0.6.0
+   Compiling codex-utils-absolute-path v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/absolute-path)
+   Compiling hyper-rustls v0.27.7
+   Compiling tracing-subscriber v0.3.22
+   Compiling reqwest v0.12.28
+   Compiling sha1-checked v0.10.0
+   Compiling gix-hash v0.23.0
+   Compiling blake3 v1.8.2
+   Compiling sorted_vector_map v0.2.1
+   Compiling pagable v0.4.1
+   Compiling gix-date v0.15.1
+   Compiling rama-http-headers v0.3.0-alpha.4
+   Compiling rama-dns v0.3.0-alpha.4
+   Compiling codex-utils-rustls-provider v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/rustls-provider)
+   Compiling block-padding v0.3.3
+   Compiling rama-http v0.3.0-alpha.4
+   Compiling rama-tcp v0.3.0-alpha.4
+   Compiling inout v0.1.4
+   Compiling starlark_map v0.14.2
+   Compiling x509-parser v0.18.1
+   Compiling lsp-types v0.97.0
+   Compiling gix-actor v0.40.0
+   Compiling gix-hashtable v0.13.0
+   Compiling tracing-opentelemetry v0.32.1
+   Compiling codex-utils-home-dir v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/home-dir)
+   Compiling fd-lock v4.0.4
+   Compiling rustyline v14.0.0
+   Compiling rcgen v0.14.9
+   Compiling starlark_syntax v0.14.2
+   Compiling rama-http-core v0.3.0-alpha.4
+   Compiling codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/http-client)
+   Compiling gix-object v0.58.0
+   Compiling debugserver-types v0.5.0
+   Compiling cipher v0.4.4
+   Compiling rama-udp v0.3.0-alpha.4
+   Compiling rama-unix v0.3.0-alpha.4
+   Compiling codex-utils-cache v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/cache)
+   Compiling rama-http-backend v0.3.0-alpha.4
+   Compiling rama-socks5 v0.3.0-alpha.4
+   Compiling starlark v0.14.2
+   Compiling rama-tls-rustls v0.3.0-alpha.4
+   Compiling codex-utils-string v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/string)
+   Compiling codex-utils-path-uri v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/path-uri)
+   Compiling codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/network-proxy)
+   Compiling codex-execpolicy v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/execpolicy)
+   Compiling icu_decimal v2.2.0
+   Compiling codex-utils-image v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/image)
+   Compiling codex-extension-items v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/ext/items)
+   Compiling codex-utils-redacted-string v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/redacted-string)
+   Compiling codex-async-utils v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/async-utils)
+   Compiling tinystr v0.8.3
+   Compiling codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/protocol)
+   Compiling unic-langid-impl v0.9.6
+   Compiling gix-fs v0.19.2
+   Compiling headers v0.4.1
+   Compiling unic-langid v0.9.6
+   Compiling either v1.15.0
+   Compiling itertools v0.14.0
+   Compiling tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+   Compiling gix-tempfile v21.0.2
+   Compiling gix-lock v21.0.2
+   Compiling tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+   Compiling prost-derive v0.14.3
+   Compiling hyper-timeout v0.5.2
+   Compiling universal-hash v0.5.1
+   Compiling tonic v0.14.3
+   Compiling prost v0.14.3
+   Compiling gix-commitgraph v0.35.0
+   Compiling hmac v0.12.1
+   Compiling codex-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-client)
+   Compiling gix-revwalk v0.29.0
+   Compiling rust-embed-utils v8.11.0
+   Compiling tonic-prost v0.14.3
+   Compiling codex-websocket-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/websocket-client)
+   Compiling gix-ref v0.61.0
+   Compiling opentelemetry_sdk v0.31.0
+   Compiling smallvec v1.15.1
+   Compiling opentelemetry-proto v0.31.0
+   Compiling codex-api v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/codex-api)
+   Compiling rust-embed-impl v8.11.0
+   Compiling aes v0.8.4
+   Compiling opentelemetry-http v0.31.0
+   Compiling gix-glob v0.24.0
+   Compiling curve25519-dalek v4.1.3
+   Compiling basic-toml v0.1.10
+   Compiling toml v0.5.11
+   Compiling aead v0.5.2
+   Compiling i18n-config v0.4.8
+   Compiling find-crate v0.6.3
+   Compiling gix-pack v0.68.0
+   Compiling gix-transport v0.55.1
+   Compiling opentelemetry-otlp v0.31.0
+   Compiling codex-utils-pty v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/pty)
+   Compiling gix-revision v0.43.0
+   Compiling hkdf v0.12.4
+   Compiling gix-shallow v0.10.0
+   Compiling intl-memoizer v0.5.3
+   Compiling fluent-langneg v0.13.1
+   Compiling intl_pluralrules v7.0.2
+   Compiling opentelemetry-appender-tracing v0.31.1
+   Compiling gethostname v1.1.0
+   Compiling polling v3.11.0
+   Compiling codex-otel v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/otel)
+   Compiling async-io v2.6.0
+   Compiling gix-config v0.54.0
+   Compiling gix-protocol v0.59.0
+   Compiling fluent-bundle v0.15.3
+   Compiling gix-refspec v0.39.0
+   Compiling gix-odb v0.78.0
+   Compiling i18n-embed-impl v0.8.4
+   Compiling parking_lot_core v0.9.12
+   Compiling gix-discover v0.49.0
+   Compiling codex-file-system v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/file-system)
+   Compiling gix-traverse v0.55.0
+   Compiling gix-diff v0.61.0
+   Compiling num-rational v0.4.2
+   Compiling num-iter v0.1.45
+   Compiling num-complex v0.4.6
+   Compiling which v8.0.0
+   Compiling zbus v4.4.0
+   Compiling num v0.4.3
+   Compiling gix v0.81.0
+   Compiling parking_lot v0.12.5
+   Compiling fluent v0.16.1
+   Compiling x25519-dalek v2.0.1
+   Compiling rust-embed v8.11.0
+   Compiling polyval v0.6.2
+   Compiling poly1305 v0.8.0
+   Compiling chacha20 v0.9.1
+   Compiling cbc v0.1.2
+   Compiling similar v2.7.0
+   Compiling codex-git-utils v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/git-utils)
+   Compiling sha3 v0.10.9
+   Compiling secret-service v4.0.0
+   Compiling chacha20poly1305 v0.10.1
+   Compiling ghash v0.5.1
+   Compiling i18n-embed v0.15.4
+   Compiling pbkdf2 v0.12.2
+   Compiling ctr v0.9.2
+   Compiling salsa20 v0.10.2
+   Compiling tracing-appender v0.2.4
+   Compiling age-core v0.11.0
+   Compiling codex-windows-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/windows-sandbox-rs)
+   Compiling codex-install-context v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/install-context)
+   Compiling ml-kem v0.2.3
+   Compiling keyring v3.6.3
+   Compiling scrypt v0.11.0
+   Compiling aes-gcm v0.10.3
+   Compiling codex-shell-command v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/shell-command)
+   Compiling i18n-embed-fl v0.9.4
+   Compiling codex-features v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/features)
+   Compiling codex-model-provider-info v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/model-provider-info)
+   Compiling codex-utils-path v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/utils/path-utils)
+   Compiling axum v0.8.8
+   Compiling age v0.11.2
+   Compiling codex-config v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/config)
+   Compiling schemars v1.2.1
+   Compiling rmcp-macros v3.2.0
+   Compiling codex-exec-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/exec-server-protocol)
+   Compiling clatter v2.2.0
+   Compiling codex-keyring-store v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/keyring-store)
+   Compiling codex-sandboxing v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/sandboxing)
+   Compiling codex-build-info v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/build-info)
+   Compiling oauth2 v5.0.0
+   Compiling process-wrap v9.0.1
+   Compiling reqwest v0.13.4
+   Compiling rmcp v3.2.0
+   Compiling codex-exec-server v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/exec-server)
+   Compiling codex-secrets v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/secrets)
+   Compiling webbrowser v1.2.4
+   Compiling deadpool v0.12.3
+   Compiling assert-json-diff v2.0.2
+   Compiling tracing-test-macro v0.2.5
+   Compiling serial_test v3.3.1
+   Compiling tracing-test v0.2.5
+   Compiling wiremock v0.6.5
+   Compiling codex-rmcp-client v0.154.0 (/home/cdot/development/cdot65/airs-selective-upstream-20260922/codex-rs/rmcp-client)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 12m 47s
+────────────
+ Nextest run ID 09d12402-529c-4244-a1d1-16fdb2394b7f with nextest profile: local
+    Starting 320 tests across 24 binaries (8 tests skipped)
+        PASS [   0.020s] (  1/320) codex-rmcp-client elicitation_client_service::tests::typed_elicitation_result_preserves_response_meta
+        PASS [   0.020s] (  2/320) codex-rmcp-client elicitation_client_service::tests::parses_legacy_custom_elicitation_without_mode
+        PASS [   0.020s] (  3/320) codex-rmcp-client ema_auth_policy::tests::public_clients_require_an_explicitly_advertised_auth_method
+        PASS [   0.020s] (  4/320) codex-rmcp-client elicitation_client_service::tests::parses_openai_form_custom_requests
+        PASS [   0.022s] (  5/320) codex-rmcp-client auth_status::tests::routed_agent_plugin_oauth_discovery_stops_with_configured_headers
+        PASS [   0.022s] (  6/320) codex-rmcp-client elicitation_client_service::tests::typed_elicitation_result_rejects_non_object_meta
+        PASS [   0.022s] (  7/320) codex-rmcp-client auth_status::tests::determine_auth_status_uses_bearer_token_when_env_authorization_header_present
+        PASS [   0.022s] (  8/320) codex-rmcp-client auth_status::tests::routed_oauth_discovery_caps_local_discovery_timeout
+        PASS [   0.022s] (  9/320) codex-rmcp-client auth_status::tests::determine_auth_status_uses_bearer_token_when_authorization_header_present
+        PASS [   0.022s] ( 10/320) codex-rmcp-client elicitation_client_service::tests::legacy_sep1034_elicitation_without_mode_preserves_schema_defaults
+        PASS [   0.023s] ( 11/320) codex-rmcp-client elicitation_client_service::user_verification_dispatch_tests::user_verification_remembers_cancellation_before_request_handler_runs
+        PASS [   0.023s] ( 12/320) codex-rmcp-client ema_exchange::tests::identity_and_credential_destinations_are_bound
+        PASS [   0.025s] ( 13/320) codex-rmcp-client elicitation_client_service::tests::elicitation_response_result_serializes_response_meta
+        PASS [   0.024s] ( 14/320) codex-rmcp-client ema_auth_policy::tests::resource_origin_query_and_path_are_bound
+        PASS [   0.026s] ( 15/320) codex-rmcp-client elicitation_client_service::tests::restore_context_meta_adds_elicitation_meta_and_removes_progress_token
+        PASS [   0.026s] ( 16/320) codex-rmcp-client auth_status::tests::routed_oauth_discovery_preserves_requested_timeout
+        PASS [   0.027s] ( 17/320) codex-rmcp-client elicitation_client_service::user_verification_dispatch_tests::user_verification_dispatch_rejects_malformed_modes_as_invalid_params
+        PASS [   0.026s] ( 18/320) codex-rmcp-client ema_exchange::tests::signed_claims_and_resource_tokens_cannot_widen_authority
+        PASS [   0.010s] ( 19/320) codex-rmcp-client executor_process_transport::tests::closes_on_an_unsequenced_process_failure_without_inventing_missing_output
+        PASS [   0.010s] ( 20/320) codex-rmcp-client executor_process_transport::tests::accepts_input_larger_than_limit_when_each_line_is_bounded
+        PASS [   0.012s] ( 21/320) codex-rmcp-client ema_identity::tests::stored_identity_usability_requires_a_bound_refresh_token_not_a_current_id_token
+        PASS [   0.010s] ( 22/320) codex-rmcp-client executor_process_transport::tests::rejects_oversized_line_without_retaining_its_prefix
+        PASS [   0.011s] ( 23/320) codex-rmcp-client executor_process_transport::tests::recovers_contiguous_output_and_accounts_for_terminal_events
+        PASS [   0.009s] ( 24/320) codex-rmcp-client executor_process_transport::tests::takes_unterminated_remaining_bytes_at_eof
+        PASS [   0.008s] ( 25/320) codex-rmcp-client http_client_adapter::tests::agent_plugin_configured_headers_stop_redirects
+        PASS [   0.008s] ( 26/320) codex-rmcp-client http_client_adapter::tests::an_unterminated_comment_remains_size_limited
+        PASS [   0.012s] ( 27/320) codex-rmcp-client executor_process_transport::tests::retains_complete_lines_before_an_oversized_line
+        PASS [   0.012s] ( 28/320) codex-rmcp-client executor_process_transport::tests::rejects_lagged_recovery_when_all_missing_output_was_evicted
+        PASS [   0.011s] ( 29/320) codex-rmcp-client executor_process_transport::tests::searches_only_new_bytes_after_partial_line
+        PASS [   0.011s] ( 30/320) codex-rmcp-client executor_process_transport::tests::splits_multiple_lines_and_retains_partial_tail
+        PASS [   0.013s] ( 31/320) codex-rmcp-client executor_process_transport::tests::rejects_lagged_recovery_when_retained_output_skips_a_sequence
+        PASS [   0.014s] ( 32/320) codex-rmcp-client executor_process_transport::tests::recovers_contiguous_output_after_a_duplicate_replayed_event
+        PASS [   0.011s] ( 33/320) codex-rmcp-client executor_process_transport::tests::serializes_concurrent_stdin_writes
+        PASS [   0.007s] ( 34/320) codex-rmcp-client http_client_adapter::tests::comments_do_not_reset_accumulated_event_data
+        PASS [   0.010s] ( 35/320) codex-rmcp-client http_client_adapter::tests::authorization_redirects_depend_on_mode
+        PASS [   0.010s] ( 36/320) codex-rmcp-client http_client_adapter::tests::carriage_return_terminators_reset_the_event_limit
+        PASS [   0.009s] ( 37/320) codex-rmcp-client http_client_adapter::tests::completed_keepalive_comments_do_not_accumulate
+        PASS [   0.008s] ( 38/320) codex-rmcp-client http_client_adapter::tests::event_at_the_exact_size_limit_is_accepted
+        PASS [   0.008s] ( 39/320) codex-rmcp-client http_client_adapter::tests::crlf_terminators_split_across_chunks_reset_the_event_limit
+        PASS [   0.008s] ( 40/320) codex-rmcp-client http_client_adapter::tests::protocol_headers_preserve_utf8_values
+        PASS [   0.009s] ( 41/320) codex-rmcp-client http_client_adapter::tests::legacy_configured_headers_follow_redirects
+        PASS [   0.007s] ( 42/320) codex-rmcp-client http_client_adapter::tests::split_keepalive_comments_are_discarded_only_when_complete
+        PASS [   0.008s] ( 43/320) codex-rmcp-client http_client_adapter::tests::size_accounting_saturates_without_overflow
+        PASS [   0.010s] ( 44/320) codex-rmcp-client http_client_adapter::tests::legacy_sse_streams_remain_unlimited
+        PASS [   0.010s] ( 45/320) codex-rmcp-client http_client_adapter::tests::multiline_data_counts_parser_inserted_newlines
+        PASS [   0.008s] ( 46/320) codex-rmcp-client http_client_adapter::tests::rejected_events_remain_rejected
+        PASS [   0.010s] ( 47/320) codex-rmcp-client http_client_adapter::tests::requests_without_sensitive_headers_follow_redirects
+        PASS [   0.013s] ( 48/320) codex-rmcp-client http_client_redirect::tests::plaintext_hostname_redirects_are_rejected_before_dns_can_rebind
+        PASS [   0.017s] ( 49/320) codex-rmcp-client http_client_adapter::tests::lf_terminators_reset_the_event_limit
+        PASS [   0.012s] ( 50/320) codex-rmcp-client http_headers::tests::helper_output_errors_do_not_echo_secrets
+        PASS [   0.012s] ( 51/320) codex-rmcp-client http_headers::tests::nonzero_helper_exit_is_cached
+        PASS [   0.024s] ( 52/320) codex-rmcp-client http_client_redirect::tests::https_redirects_preserve_configured_and_helper_proxy_authorization
+        PASS [   0.067s] ( 53/320) codex-rmcp-client elicitation_client_service::user_verification_dispatch_tests::user_verification_early_cancellation_storage_fails_closed_at_capacity
+        PASS [   0.023s] ( 54/320) codex-rmcp-client http_headers::tests::failed_refresh_is_shared_without_replacing_credentials
+        PASS [   0.012s] ( 55/320) codex-rmcp-client oauth::ema_identity::tests::ordinary_oauth_names_cannot_alias_enterprise_credential_keys
+        PASS [   0.018s] ( 56/320) codex-rmcp-client oauth::ema_identity::tests::keyring_failure_does_not_reuse_the_pinned_refresh_token
+        PASS [   0.008s] ( 57/320) codex-rmcp-client oauth::refresh_lock::tests::refuses_a_symlink_lock_without_modifying_its_target
+        PASS [   0.013s] ( 58/320) codex-rmcp-client oauth::refresh_scopes::tests::sdk_refresh_preserves_granted_scopes_without_adding_offline_access
+        PASS [   0.014s] ( 59/320) codex-rmcp-client oauth::refresh_lock::tests::shared_and_environment_home_can_resolve_to_the_same_directory
+        PASS [   0.084s] ( 60/320) codex-rmcp-client auth_status::tests::issuer_support_without_a_metadata_issuer_falls_back_to_distinct_callbacks
+        PASS [   0.085s] ( 61/320) codex-rmcp-client auth_status::tests::supports_oauth_login_does_not_require_scopes_supported
+        PASS [   0.085s] ( 62/320) codex-rmcp-client auth_status::tests::discover_streamable_http_oauth_follows_protected_resource_metadata
+        PASS [   0.088s] ( 63/320) codex-rmcp-client airs_http::tests::static_header_mcp_and_oauth_requests_stop_after_logout
+        PASS [   0.089s] ( 64/320) codex-rmcp-client auth_status::tests::oauth_metadata_preserves_login_without_probing_anonymous_tools
+        PASS [   0.008s] ( 65/320) codex-rmcp-client oauth::store_lock::tests::auto_save_secrets_lock_failure_does_not_fall_back_to_file
+        PASS [   0.009s] ( 66/320) codex-rmcp-client oauth::store_lock::tests::auto_load_secrets_lock_failure_does_not_fall_back_to_file
+        PASS [   0.092s] ( 67/320) codex-rmcp-client auth_status::tests::discover_streamable_http_oauth_ignores_empty_scopes
+        PASS [   0.092s] ( 68/320) codex-rmcp-client auth_status::tests::oauth_discovery_does_not_follow_cross_origin_redirects
+        PASS [   0.010s] ( 69/320) codex-rmcp-client oauth::store_lock::tests::file_credentials_keep_repeated_local_prefixes_isolated
+        PASS [   0.094s] ( 70/320) codex-rmcp-client auth_status::tests::discover_streamable_http_oauth_returns_normalized_scopes
+        PASS [   0.094s] ( 71/320) codex-rmcp-client ema_exchange::tests::public_client_round_trip_preserves_signed_narrowing
+        PASS [   0.009s] ( 72/320) codex-rmcp-client oauth::store_lock::tests::legacy_rmcp_oauth_keyring_credentials_remain_readable
+        PASS [   0.009s] ( 73/320) codex-rmcp-client oauth::store_lock::tests::oauth_credential_probes_skip_contended_file_and_secrets_stores
+        PASS [   0.007s] ( 74/320) codex-rmcp-client oauth::tests::delete_oauth_tokens_file_mode_removes_keyring_only_entry
+        PASS [   0.068s] ( 75/320) codex-rmcp-client http_headers::revocation_tests::mcp_authentication_retry_is_blocked_when_logout_races_response
+        PASS [   0.006s] ( 76/320) codex-rmcp-client oauth::tests::delete_oauth_tokens_propagates_keyring_errors
+        PASS [   0.061s] ( 77/320) codex-rmcp-client http_headers::tests::refresh_retry_rechecks_deadline_and_redirects
+        PASS [   0.006s] ( 78/320) codex-rmcp-client oauth::tests::delete_oauth_tokens_removes_all_storage
+        PASS [   0.061s] ( 79/320) codex-rmcp-client oauth::refresh_lock::tests::acquisition_times_out_without_stealing
+        PASS [   0.006s] ( 80/320) codex-rmcp-client oauth::tests::exact_store_operations_do_not_adopt_or_mutate_the_other_store
+        PASS [   0.009s] ( 81/320) codex-rmcp-client oauth::tests::fallback_file_is_private_at_creation
+        PASS [   0.007s] ( 82/320) codex-rmcp-client oauth::tests::fallback_file_updates_the_existing_file
+        PASS [   0.007s] ( 83/320) codex-rmcp-client oauth::tests::fallback_file_write_does_not_follow_symlinks
+        PASS [   0.006s] ( 84/320) codex-rmcp-client oauth::tests::load_oauth_tokens_falls_back_when_keyring_errors
+        PASS [   0.006s] ( 85/320) codex-rmcp-client oauth::tests::load_oauth_tokens_with_secrets_backend_ignores_direct_entry
+        PASS [   0.065s] ( 86/320) codex-rmcp-client oauth::refresh_lock::tests::separate_environment_homes_share_the_native_credential_lock
+        PASS [   0.007s] ( 87/320) codex-rmcp-client oauth::tests::load_oauth_tokens_falls_back_when_missing_in_keyring
+        PASS [   0.006s] ( 88/320) codex-rmcp-client oauth::tests::oauth_tokens_are_not_usable_when_client_id_is_blank
+        PASS [   0.005s] ( 89/320) codex-rmcp-client oauth::tests::oauth_tokens_are_not_usable_when_expired_and_unrefreshable
+        PASS [   0.008s] ( 90/320) codex-rmcp-client oauth::tests::oauth_tokens_are_not_usable_when_access_token_is_blank
+        PASS [   0.059s] ( 91/320) codex-rmcp-client oauth::store_lock::tests::file_store_lock_preserves_updates_for_different_servers
+        PASS [   0.005s] ( 92/320) codex-rmcp-client oauth::tests::oauth_tokens_are_not_usable_when_required_refresh_token_is_blank
+        PASS [   0.006s] ( 93/320) codex-rmcp-client oauth::tests::oauth_tokens_are_not_usable_when_near_expiry_and_unrefreshable
+        PASS [   0.005s] ( 94/320) codex-rmcp-client oauth::tests::oauth_tokens_are_usable_when_expired_but_refreshable
+        PASS [   0.126s] ( 95/320) codex-rmcp-client ema_identity::tests::refresh_subject_rereads_pinned_credentials_after_id_token_expiry
+        PASS [   0.005s] ( 96/320) codex-rmcp-client oauth::tests::oauth_tokens_are_usable_when_unexpired_without_refresh_token
+        PASS [   0.006s] ( 97/320) codex-rmcp-client oauth::tests::oauth_tokens_are_usable_when_expiry_is_unknown
+        PASS [   0.060s] ( 98/320) codex-rmcp-client oauth::tests::credential_store_tests::pinned_read_failure_does_not_adopt_fallback_credentials
+        PASS [   0.113s] ( 99/320) codex-rmcp-client http_headers::revocation_tests::cached_mcp_headers_never_send_after_logout_or_relogin
+        PASS [   0.124s] (100/320) codex-rmcp-client http_client_redirect::tests::plaintext_helper_redirects_block_mcp_but_preserve_oauth_stop
+        PASS [   0.121s] (101/320) codex-rmcp-client http_headers::tests::connection_headers_are_cached_and_origin_bound
+        PASS [   0.184s] (102/320) codex-rmcp-client auth_status::tests::determine_auth_status_preserves_transient_http_errors
+        PASS [   0.109s] (103/320) codex-rmcp-client oauth::store_lock::tests::file_store_load_and_delete_observe_aggregate_lock
+        PASS [   0.065s] (104/320) codex-rmcp-client oauth::tests::persistor_tests::changed_issuer_requires_reauthorization_before_refresh
+        PASS [   0.128s] (105/320) codex-rmcp-client oauth::store_lock::tests::store_lock_is_released_when_holder_process_exits
+        PASS [   0.058s] (106/320) codex-rmcp-client oauth::tests::persistor_tests::issuerless_newer_credentials_are_not_adopted_before_refresh
+        PASS [   0.058s] (107/320) codex-rmcp-client oauth::tests::persistor_tests::missing_authoritative_credentials_require_reauthorization
+        PASS [   0.203s] (108/320) codex-rmcp-client http_headers::tests::concurrent_rejected_posts_share_one_headers_refresh
+        PASS [   0.057s] (109/320) codex-rmcp-client oauth::tests::persistor_tests::missing_issuer_requires_reauthorization_before_refresh
+        PASS [   0.215s] (110/320) codex-rmcp-client http_client_redirect::tests::same_origin_redirects_enforce_shared_timeout_and_hop_limit
+        PASS [   0.005s] (111/320) codex-rmcp-client oauth::tests::refresh_expires_in_from_timestamp_marks_expired_tokens
+        PASS [   0.006s] (112/320) codex-rmcp-client oauth::tests::refresh_expires_in_from_timestamp_restores_future_durations
+        PASS [   0.163s] (113/320) codex-rmcp-client oauth::tests::credential_store_tests::save_publishes_persisted_credentials_after_a_transient_write_failure
+        PASS [   0.259s] (114/320) codex-rmcp-client ema_exchange::tests::provider_errors_cannot_reflect_credentials
+        PASS [   0.006s] (115/320) codex-rmcp-client oauth::tests::resolve_oauth_tokens_from_store_policy_uses_keyring_when_available
+        PASS [   0.007s] (116/320) codex-rmcp-client oauth::tests::save_oauth_tokens_with_secrets_backend_falls_back_to_file_when_keyring_fails
+        PASS [   0.008s] (117/320) codex-rmcp-client oauth::tests::save_oauth_tokens_prefers_keyring_when_available
+        PASS [   0.007s] (118/320) codex-rmcp-client oauth::tests::save_oauth_tokens_writes_fallback_when_keyring_fails
+        PASS [   0.006s] (119/320) codex-rmcp-client oauth_callback::tests::callback_redirect_requires_a_server_specific_id_or_issuer_support
+        PASS [   0.129s] (120/320) codex-rmcp-client oauth::tests::persistor_tests::ambiguous_refresh_failure_cannot_replay_a_consumed_grant
+        PASS [   0.007s] (121/320) codex-rmcp-client oauth::tests::stored_oauth_credentials_ignore_derived_expiration_and_track_token_changes
+        PASS [   0.123s] (122/320) codex-rmcp-client oauth::tests::persistor_tests::coordinated_401_refresh_rereads_and_persists_before_retry
+        PASS [   0.007s] (123/320) codex-rmcp-client oauth_callback::tests::resolved_callbacks_follow_the_selected_mix_up_defense
+        PASS [   0.208s] (124/320) codex-rmcp-client oauth::store_lock::tests::aggregate_store_readers_share_access_while_writers_remain_exclusive
+        PASS [   0.123s] (125/320) codex-rmcp-client oauth::tests::persistor_tests::fresh_preparation_skips_storage_and_refresh_lock
+        PASS [   0.058s] (126/320) codex-rmcp-client oauth::tests::persistor_tests::refresh_intent_tests::failed_intent_never_dispatches_refresh
+        PASS [   0.007s] (127/320) codex-rmcp-client oauth_client_registration::tests::legacy_provider_exceptions_require_exact_issuer_and_endpoint_origins
+        PASS [   0.114s] (128/320) codex-rmcp-client oauth::tests::persistor_tests::login_and_logout_follow_the_completed_refresh
+        PASS [   0.285s] (129/320) codex-rmcp-client ema_identity::tests::refresh_subject_reread_is_cancellable_and_releases_guard_on_failure
+        PASS [   0.264s] (130/320) codex-rmcp-client http_headers::revocation_tests::pending_mcp_headers_cancel_within_logout_deadline
+        PASS [   0.065s] (131/320) codex-rmcp-client oauth::tests::persistor_tests::rejected_refresh_token_requires_reauthorization
+        PASS [   0.063s] (132/320) codex-rmcp-client oauth::tests::persistor_tests::resolved_keyring_read_error_preserves_in_memory_credentials
+        PASS [   0.214s] (133/320) codex-rmcp-client oauth::tests::credential_store_tests::storage_roundtrip_preserves_absolute_and_unknown_expiry
+        PASS [   0.006s] (134/320) codex-rmcp-client oauth_http_client::tests::agent_plugin_oauth_stops_only_for_sensitive_headers
+        PASS [   0.006s] (135/320) codex-rmcp-client perform_oauth_login::callback_input::tests::pasted_callback_preserves_configured_query_and_decodes_response
+        PASS [   0.007s] (136/320) codex-rmcp-client perform_oauth_login::callback_input::tests::pasted_callback_rejects_ambiguous_or_unbound_urls_without_echoing_values
+        PASS [   0.006s] (137/320) codex-rmcp-client perform_oauth_login::callback_input::tests::pasted_provider_error_requires_matching_state_and_redacts_description
+        PASS [   0.110s] (138/320) codex-rmcp-client oauth::tests::persistor_tests::provider_timeout_retires_grant_and_releases_lock
+        PASS [   0.008s] (139/320) codex-rmcp-client perform_oauth_login::tests::append_query_param_adds_resource_to_absolute_url
+        PASS [   0.006s] (140/320) codex-rmcp-client perform_oauth_login::tests::append_query_param_handles_unparseable_url
+        PASS [   0.006s] (141/320) codex-rmcp-client perform_oauth_login::tests::append_query_param_ignores_empty_values
+        PASS [   0.006s] (142/320) codex-rmcp-client perform_oauth_login::tests::callback_id_is_appended_before_redirect_uri_query
+        PASS [   0.005s] (143/320) codex-rmcp-client perform_oauth_login::tests::callback_path_comes_from_redirect_uri
+        PASS [   0.007s] (144/320) codex-rmcp-client perform_oauth_login::tests::callback_id_is_bound_to_server_url
+        PASS [   0.011s] (145/320) codex-rmcp-client perform_oauth_login::tests::callback_id_is_appended_to_redirect_uri_path
+        PASS [   0.058s] (146/320) codex-rmcp-client oauth_client_registration::tests::resource_headers_follow_same_origin_registration_redirect_and_sdk_auth_wins
+        PASS [   0.007s] (147/320) codex-rmcp-client perform_oauth_login::tests::interactive_oauth_login_uses_supplied_http_client
+        PASS [   0.006s] (148/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_accepts_callback_id_path
+        PASS [   0.005s] (149/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_accepts_custom_path
+        PASS [   0.007s] (150/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_accepts_default_path
+        PASS [   0.006s] (151/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_preserves_rfc_9207_issuer
+        PASS [   0.007s] (152/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_rejects_missing_callback_id_path
+        PASS [   0.007s] (153/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_rejects_wrong_path
+        PASS [   0.007s] (154/320) codex-rmcp-client perform_oauth_login::tests::parse_oauth_callback_returns_provider_error
+        PASS [   0.269s] (155/320) codex-rmcp-client oauth::tests::credential_store_tests::replacement_or_removal_does_not_acknowledge_a_new_runtime_snapshot
+        PASS [   0.083s] (156/320) codex-rmcp-client oauth_http_client::security_tests::oauth_metadata_fallback_preserves_terminal_failures
+        PASS [   0.007s] (157/320) codex-rmcp-client perform_oauth_login::tests::portless_loopback_callbacks_use_the_active_listener_port
+        PASS [   0.008s] (158/320) codex-rmcp-client perform_oauth_login::tests::silent_oauth_login_uses_supplied_http_client
+        PASS [   0.334s] (159/320) codex-rmcp-client http_client_redirect::tests::cross_origin_redirects_never_reach_their_destination
+        PASS [   0.010s] (160/320) codex-rmcp-client protocol_mode::tests::legacy_stdio_does_not_interpret_existing_protocol_markers
+        PASS [   0.229s] (161/320) codex-rmcp-client oauth::tests::persistor_tests::caller_cancellation_does_not_cancel_refresh_persistence
+        PASS [   0.011s] (162/320) codex-rmcp-client program_resolver::tests::test_unix_executes_script_without_extension
+        PASS [   0.222s] (163/320) codex-rmcp-client oauth::tests::persistor_tests::coordinated_provider_timeout_excludes_lock_wait
+        PASS [   0.007s] (164/320) codex-rmcp-client protocol_mode::tests::stdio_rejects_unknown_protocol_markers
+        PASS [   0.015s] (165/320) codex-rmcp-client program_resolver::tests::test_resolved_program_executes_successfully
+        PASS [   0.008s] (166/320) codex-rmcp-client protocol_mode::tests::protocol_modes_select_compatible_sdk_lifecycles
+        PASS [   0.007s] (167/320) codex-rmcp-client protocol_mode::tests::stdio_requires_both_the_modern_feature_and_a_server_opt_in
+        PASS [   0.007s] (168/320) codex-rmcp-client rmcp_client::streamable_http_retry::tests::retryable_initialize_error_includes_discovery_and_initialized_notification_context
+        PASS [   0.007s] (169/320) codex-rmcp-client rmcp_client::streamable_http_retry::tests::retryable_streamable_http_error_includes_remote_body_stream_failure
+        PASS [   0.007s] (170/320) codex-rmcp-client rmcp_client::streamable_http_retry::tests::startup_http_authentication_challenges_require_reauthorization
+        PASS [   0.008s] (171/320) codex-rmcp-client rmcp_client::tests::client_operation_timeout_rounds_duration
+        PASS [   0.006s] (172/320) codex-rmcp-client startup_error::tests::dispatched_refresh_failure_requires_sign_in_but_store_failure_does_not
+        PASS [   0.010s] (173/320) codex-rmcp-client rmcp_client::user_verification_cancellation_tests::ordinary_elicitations_release_pending_responses_on_cancellation
+        PASS [   0.013s] (174/320) codex-rmcp-client rmcp_client::user_verification_cancellation_tests::cancelling_one_verification_leaves_the_mcp_connection_and_other_requests_alive
+        PASS [   0.009s] (175/320) codex-rmcp-client rmcp_client::user_verification_cancellation_tests::user_verification_service_cancellation_drops_pending_response
+        PASS [   0.008s] (176/320) codex-rmcp-client startup_error::tests::gateway_upstream_auth_requires_the_measured_structured_contract
+        PASS [   0.010s] (177/320) codex-rmcp-client stdio_server_launcher::tests::remote_env_policy_effectively_filters_unrequested_vars
+        PASS [   0.017s] (178/320) codex-rmcp-client rmcp_client::user_verification_cancellation_tests::recovered_connections_accept_elicitations_with_previously_cancelled_ids
+        PASS [   0.008s] (179/320) codex-rmcp-client user_verification::tests::user_verification_acceptance_returns_proof_only_in_content
+        PASS [   0.008s] (180/320) codex-rmcp-client stdio_server_launcher::tests::remote_env_policy_uses_core_env_without_remote_source_vars
+        PASS [   0.008s] (181/320) codex-rmcp-client stdio_server_launcher::tests::remote_env_policy_includes_remote_source_vars_without_full_env
+        PASS [   0.007s] (182/320) codex-rmcp-client user_verification::tests::user_verification_cancels_acceptance_without_a_valid_bounded_proof
+        PASS [   0.008s] (183/320) codex-rmcp-client user_verification::tests::user_verification_request_preserves_signed_bytes_and_display_text
+        PASS [   0.007s] (184/320) codex-rmcp-client utils::tests::create_env_includes_additional_whitelisted_variables
+        PASS [   0.008s] (185/320) codex-rmcp-client user_verification::tests::user_verification_rejects_invalid_or_unbounded_requests_without_echoing_values
+        PASS [   0.009s] (186/320) codex-rmcp-client user_verification::tests::user_verification_decline_and_cancel_discard_proof_material
+        PASS [   0.009s] (187/320) codex-rmcp-client utils::tests::create_env_honors_overrides
+        PASS [   0.007s] (188/320) codex-rmcp-client utils::tests::create_env_preserves_path_when_it_is_not_utf8
+        PASS [   0.008s] (189/320) codex-rmcp-client utils::tests::create_remote_env_overlay_does_not_copy_remote_source_variables
+        PASS [   0.008s] (190/320) codex-rmcp-client utils::tests::create_local_env_rejects_remote_source_variables
+        PASS [   0.007s] (191/320) codex-rmcp-client utils::tests::remote_mcp_env_var_names_returns_remote_source_names
+        PASS [   0.007s] (192/320) codex-rmcp-client www_authenticate::tests::does_not_treat_other_bearer_errors_as_insufficient_scope
+        PASS [   0.006s] (193/320) codex-rmcp-client www_authenticate::tests::extracts_scope_from_bearer_insufficient_scope_challenges
+        PASS [   0.008s] (194/320) codex-rmcp-client utils::tests::create_remote_env_overlay_only_forwards_explicit_variables
+        PASS [   0.084s] (195/320) codex-rmcp-client perform_oauth_login::tests::oauth_login_persists_discovered_issuer
+        PASS [   0.007s] (196/320) codex-rmcp-client www_authenticate::tests::ignores_scope_text_outside_a_scope_parameter
+        PASS [   0.007s] (197/320) codex-rmcp-client::foreign_stdio_cwd executor_stdio_forwards_foreign_absolute_cwd_as_path_uri
+        PASS [   0.009s] (198/320) codex-rmcp-client www_authenticate::tests::rejects_invalid_or_ambiguous_scope_parameters
+        PASS [   0.010s] (199/320) codex-rmcp-client www_authenticate::tests::selects_bearer_challenge_from_a_later_www_authenticate_field_value
+        PASS [   0.151s] (200/320) codex-rmcp-client oauth_client_registration::tests::verified_issuer_can_delegate_authorization_and_token_to_one_origin
+        PASS [   0.160s] (201/320) codex-rmcp-client oauth_http_client::security_tests::oauth_metadata_fallback_shares_the_original_timeout
+        PASS [   0.184s] (202/320) codex-rmcp-client oauth_client_registration::tests::automatic_cimd_uses_stable_or_callback_specific_identity
+        PASS [   0.371s] (203/320) codex-rmcp-client oauth::tests::credential_store_tests::mutations_require_and_retain_the_transaction_guard
+        PASS [   0.139s] (204/320) codex-rmcp-client perform_oauth_login::tests::configured_client_preserves_exact_scopes_and_redirect_without_registration
+        PASS [   0.104s] (205/320) codex-rmcp-client rmcp_client::tests::active_time_timeout_pauses_while_elicitation_is_pending
+        PASS [   0.482s] (206/320) codex-rmcp-client ema_identity::tests::refresh_subject_rejects_removed_replaced_or_missing_credentials
+        PASS [   0.069s] (207/320) codex-rmcp-client::mcp_2026_discovery legacy_mode_never_probes_server_discovery
+        PASS [   0.075s] (208/320) codex-rmcp-client::mcp_2026_discovery legacy_mcp_requests_follow_same_origin_redirects_with_configured_headers
+        PASS [   0.078s] (209/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_accepts_metadata_namespaced_server_identity_over_sse
+        PASS [   0.081s] (210/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_accepts_metadata_namespaced_server_identity
+        PASS [   0.078s] (211/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_accepts_missing_server_identity
+        PASS [   0.077s] (212/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_accepts_native_sse_responses
+        PASS [   0.226s] (213/320) codex-rmcp-client oauth_http_client::security_tests::oauth_registration_redirects_never_forward_resource_only_headers
+        PASS [   0.083s] (214/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_does_not_follow_redirects_with_sensitive_headers
+        PASS [   0.262s] (215/320) codex-rmcp-client oauth_http_client::security_tests::oauth_metadata_fallback_does_not_retry_other_requests_or_statuses
+        PASS [   0.068s] (216/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_rejects_uncorrelated_legacy_version_rejection
+        PASS [   0.074s] (217/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_retries_json_unsupported_protocol_errors
+        PASS [   0.535s] (218/320) codex-rmcp-client http_client_redirect::tests::same_origin_redirects_preserve_method_body_and_headers
+        PASS [   0.076s] (219/320) codex-rmcp-client::mcp_2026_discovery modern_legacy_fallback_preserves_authentication_required_error
+        PASS [   0.447s] (220/320) codex-rmcp-client oauth::tests::persistor_tests::concurrent_refreshes_call_provider_once_and_carry_omitted_fields
+        PASS [   0.184s] (221/320) codex-rmcp-client::mcp_2026_discovery legacy_fallback_does_not_follow_cross_origin_tool_redirects
+        PASS [   0.124s] (222/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_rejects_uncorrelated_method_not_found_errors
+        PASS [   0.008s] (223/320) codex-rmcp-client::mcp_2026_discovery stdio_protocol_marker_rejects_unknown_versions_before_launch
+        PASS [   0.084s] (224/320) codex-rmcp-client::mcp_2026_discovery modern_mode_falls_back_only_for_a_json_rpc_method_not_found
+        PASS [   0.301s] (225/320) codex-rmcp-client perform_oauth_login::tests::oauth_callback_validates_rfc_9207_issuer_before_token_exchange
+        PASS [   0.371s] (226/320) codex-rmcp-client oauth_http_client::security_tests::oauth_metadata_503_falls_back_to_oidc
+        PASS [   0.080s] (227/320) codex-rmcp-client::mcp_2026_discovery modern_mode_uses_sdk_discovery_and_self_contained_request_metadata
+        PASS [   0.140s] (228/320) codex-rmcp-client::mcp_2026_discovery modern_mode_falls_back_for_plain_404_and_405_discovery_responses
+        PASS [   0.203s] (229/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_rejection_does_not_downgrade_to_legacy
+        PASS [   0.087s] (230/320) codex-rmcp-client::mcp_2026_discovery modern_sdk_emits_standard_headers_and_rejects_invalid_header_schemas
+        PASS [   0.138s] (231/320) codex-rmcp-client::mcp_2026_discovery modern_mode_falls_back_when_discovery_only_advertises_legacy_versions
+        PASS [   0.654s] (232/320) codex-rmcp-client http_headers::tests::helper_refresh_preserves_oauth_challenges_and_retries_at_most_once
+        PASS [   0.087s] (233/320) codex-rmcp-client::mcp_2026_mrtr modern_resource_mrtr_retries_with_opaque_request_state
+        PASS [   0.267s] (234/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_never_downgrades_without_valid_legacy_only_version_evidence
+        PASS [   0.079s] (235/320) codex-rmcp-client::mcp_2026_mrtr modern_sse_input_required_preserves_response_metadata
+        PASS [   0.090s] (236/320) codex-rmcp-client::mcp_2026_mrtr modern_tool_mrtr_accepts_sse_discovery_and_metadata_bearing_rounds
+        PASS [   0.194s] (237/320) codex-rmcp-client::mcp_2026_discovery modern_mode_falls_back_when_legacy_server_explicitly_rejects_modern_version
+        PASS [   0.098s] (238/320) codex-rmcp-client::mcp_2026_mrtr modern_tool_mrtr_uses_recovered_protocol_after_legacy_session_expiry
+        PASS [   0.369s] (239/320) codex-rmcp-client::mcp_2026_discovery legacy_http_keeps_existing_large_json_response_behavior
+        PASS [   0.071s] (240/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_rejects_authorization_metadata_redirect_cycles
+        PASS [   0.545s] (241/320) codex-rmcp-client oauth_client_registration::tests::invalid_cimd_metadata_and_redirects_fail_without_dynamic_registration
+        PASS [   0.168s] (242/320) codex-rmcp-client::mcp_2026_mrtr modern_tool_mrtr_drives_form_and_url_elicitation_and_preserves_metadata
+        PASS [   0.073s] (243/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_rejects_cross_origin_resource_metadata_redirects
+        PASS [   0.331s] (244/320) codex-rmcp-client::mcp_2026_discovery modern_legacy_fallback_retries_transient_initialize_failures
+        PASS [   0.337s] (245/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_retries_transient_service_unavailable
+        PASS [   0.089s] (246/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_rejects_cross_origin_authorization_metadata_redirects
+        PASS [   0.017s] (247/320) codex-rmcp-client::mcp_2026_stdio legacy_stdio_supports_sep1034_defaults_without_the_rollout_flag
+        PASS [   0.018s] (248/320) codex-rmcp-client::mcp_2026_stdio modern_executor_stdio_discovers_metadata_only_identity_and_drives_mrtr
+        PASS [   0.016s] (249/320) codex-rmcp-client::mcp_2026_stdio modern_local_stdio_discovers_metadata_only_identity_and_drives_mrtr
+        PASS [   0.019s] (250/320) codex-rmcp-client::mcp_2026_stdio modern_stdio_safely_falls_back_to_legacy_elicitation
+        PASS [   0.081s] (251/320) codex-rmcp-client::mcp_2026_oauth_discovery oauth_discovery_does_not_invent_support_for_an_unauthenticated_legacy_server
+        PASS [   0.350s] (252/320) codex-rmcp-client::mcp_2026_discovery modern_mode_falls_back_for_legacy_http_prevalidation_errors
+        PASS [   0.066s] (253/320) codex-rmcp-client::mcp_2026_sse_discovery modern_sse_discovery_accepts_metadata_namespaced_server_identity
+        PASS [   0.013s] (254/320) codex-rmcp-client::mcp_2026_stdio rollout_flag_alone_preserves_legacy_stdio_and_sep1034_defaults
+        PASS [   0.149s] (255/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_follows_same_origin_metadata_redirects
+        PASS [   0.024s] (256/320) codex-rmcp-client::mcp_2026_stdio_discovery modern_local_and_executor_stdio_discover_metadata_identity_and_catalogs
+        PASS [   0.022s] (257/320) codex-rmcp-client::resources rmcp_client_can_list_and_read_resources
+        PASS [   0.320s] (258/320) codex-rmcp-client::mcp_2026_discovery modern_mode_negotiates_a_server_selected_legacy_protocol_version
+        PASS [   0.081s] (259/320) codex-rmcp-client::mcp_2026_sse_discovery modern_sse_discovery_falls_back_for_correlated_method_not_found
+        PASS [   0.048s] (260/320) codex-rmcp-client::mcp_2026_stdio_discovery legacy_stdio_preserves_existing_protocol_marker_environment
+        PASS [   0.021s] (261/320) codex-rmcp-client::resources rmcp_client_preserves_each_resource_error
+        PASS [   0.246s] (262/320) codex-rmcp-client::mcp_2026_mrtr modern_tool_mrtr_preserves_state_only_rounds_without_elicitation
+        PASS [   0.305s] (263/320) codex-rmcp-client::mcp_2026_message_limits legacy_http_keeps_existing_large_json_response_behavior
+        PASS [   0.644s] (264/320) codex-rmcp-client oauth_client_registration::tests::registration_selection_preserves_dcr_capabilities_and_exact_redirects
+        PASS [   0.067s] (265/320) codex-rmcp-client::mcp_2026_stdio_discovery local_stdio_inherits_ca_certificate_variables
+        PASS [   0.073s] (266/320) codex-rmcp-client::mcp_events plugin_runtime_event_streams_are_isolated_and_cancel_locally
+        PASS [   0.074s] (267/320) codex-rmcp-client::mcp_events plugin_runtime_event_stream_times_out_before_stalled_headers
+        PASS [   0.157s] (268/320) codex-rmcp-client::mcp_2026_oauth_discovery oauth_discovery_uses_get_first_without_starting_a_legacy_mcp_session
+        PASS [   0.480s] (269/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_rejects_unrecognized_or_modern_null_id_errors
+        PASS [   0.143s] (270/320) codex-rmcp-client::mcp_2026_sse_discovery modern_sse_discovery_rejects_uncorrelated_method_not_found
+        PASS [   0.116s] (271/320) codex-rmcp-client::process_group_cleanup drop_kills_wrapper_process_group
+        PASS [   0.100s] (272/320) codex-rmcp-client::streamable_http_oauth_startup does_not_refresh_against_metadata_from_second_discovery
+        PASS [   0.097s] (273/320) codex-rmcp-client::streamable_http_oauth_startup does_not_refresh_unexpired_token_after_issuer_change_401
+        PASS [   0.096s] (274/320) codex-rmcp-client::streamable_http_oauth_startup identifies_expired_unrefreshable_token_startup_error
+        PASS [   0.304s] (275/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_accepts_authorization_metadata_without_an_issuer
+        PASS [   0.285s] (276/320) codex-rmcp-client::mcp_2026_oauth_discovery legacy_oauth_discovery_rejects_an_explicit_mismatched_issuer
+        PASS [   0.111s] (277/320) codex-rmcp-client::streamable_http_oauth_startup refresh_uses_discovered_protected_resource_audience
+        PASS [   0.081s] (278/320) codex-rmcp-client::streamable_http_oauth_startup reports_auth_status_for_persisted_credentials
+        PASS [   0.084s] (279/320) codex-rmcp-client::streamable_http_oauth_startup rejects_refresh_when_authorization_server_issuer_changes_before_startup
+        PASS [   0.105s] (280/320) codex-rmcp-client::streamable_http_oauth_startup refreshes_oauth_after_gateway_rejects_token_request
+        PASS [   0.103s] (281/320) codex-rmcp-client::streamable_http_oauth_startup refreshes_oauth_with_gateway_headers_helper
+        PASS [   0.763s] (282/320) codex-rmcp-client oauth_http_client::security_tests::same_origin_redirects_preserve_timeout_and_response_body_limits
+        PASS [   0.162s] (283/320) codex-rmcp-client::streamable_http_oauth_startup tool_call_preserves_challenge_only_after_silent_refresh_fails
+        PASS [   0.645s] (284/320) codex-rmcp-client::mcp_2026_discovery modern_discovery_rejects_non_legacy_http_prevalidation_errors
+        PASS [   0.141s] (285/320) codex-rmcp-client::streamable_http_oauth_store_pinning transport_provided_bearer_token_avoids_placeholder_headers_and_redirects
+        PASS [   0.191s] (286/320) codex-rmcp-client::streamable_http_oauth_store_pinning auto_store_remains_pinned_across_session_recovery
+        PASS [   0.326s] (287/320) codex-rmcp-client::process_group_cleanup shutdown_kills_initialized_stdio_server_with_in_flight_operation
+        PASS [   0.198s] (288/320) codex-rmcp-client::streamable_http_recovery streamable_http_401_does_not_trigger_recovery
+        PASS [   0.198s] (289/320) codex-rmcp-client::streamable_http_recovery streamable_http_403_finds_bearer_challenge_in_later_header_value
+        PASS [   0.171s] (290/320) codex-rmcp-client::streamable_http_recovery streamable_http_non_session_failure_does_not_trigger_recovery
+        PASS [   0.199s] (291/320) codex-rmcp-client::streamable_http_recovery streamable_http_403_scope_challenge_returns_insufficient_scope
+        PASS [   0.198s] (292/320) codex-rmcp-client::streamable_http_recovery streamable_http_404_recovery_only_retries_once
+        PASS [   0.204s] (293/320) codex-rmcp-client::streamable_http_recovery streamable_http_404_session_expiry_recovers_and_retries_once
+        PASS [   0.059s] (294/320) codex-rmcp-client::streamable_http_user_agent streamable_http_requests_preserve_configured_user_agent
+        PASS [   0.805s] (295/320) codex-rmcp-client::mcp_2026_discovery modern_http_rejects_oversized_discovery_and_tool_json_responses
+        PASS [   0.361s] (296/320) codex-rmcp-client::streamable_http_recovery streamable_http_initialize_retries_remote_no_response_error
+        PASS [   1.177s] (297/320) codex-rmcp-client oauth::tests::persistor_tests::refresh_intent_tests::returned_generation_is_retried_without_repeating_the_exchange
+        PASS [   0.430s] (298/320) codex-rmcp-client::streamable_http_recovery streamable_http_401_challenge_is_a_tool_error_without_replay
+        PASS [   0.415s] (299/320) codex-rmcp-client::streamable_http_recovery streamable_http_retries_initialized_notification_status
+        PASS [   0.425s] (300/320) codex-rmcp-client::streamable_http_recovery streamable_http_initialize_retries_transient_http_status
+        PASS [   0.444s] (301/320) codex-rmcp-client::streamable_http_recovery streamable_http_initialize_retries_json_rpc_transient_status
+        PASS [   0.432s] (302/320) codex-rmcp-client::streamable_http_recovery streamable_http_session_recovery_retries_initialize_failure
+        PASS [   0.880s] (303/320) codex-rmcp-client::mcp_2026_message_limits modern_local_and_executor_stdio_reject_oversized_lines
+        PASS [   0.821s] (304/320) codex-rmcp-client::mcp_2026_oauth_discovery interactive_oauth_rejects_untrusted_authorization_metadata
+        PASS [   0.625s] (305/320) codex-rmcp-client::stdio_message_limits stdio_message_limits_preserve_legacy_local_compatibility
+        PASS [   0.330s] (306/320) codex-rmcp-client::streamable_http_remote streamable_http_remote_client_round_trips_through_exec_server
+        PASS [   0.429s] (307/320) codex-rmcp-client::streamable_http_recovery streamable_http_tools_list_retries_json_rpc_transient_status
+        PASS [   0.429s] (308/320) codex-rmcp-client::streamable_http_recovery streamable_http_tools_list_retries_transient_http_status
+        PASS [   0.959s] (309/320) codex-rmcp-client::mcp_2026_message_limits modern_http_rejects_oversized_json_error_and_sse_bodies
+        PASS [   0.756s] (310/320) codex-rmcp-client::streamable_http_remote streamable_http_handshake_timeout_unblocks_remote_executor
+        PASS [   0.805s] (311/320) codex-rmcp-client::streamable_http_remote streamable_http_discovery_timeout_unblocks_remote_executor
+        PASS [   2.521s] (312/320) codex-rmcp-client oauth::tests::load_oauth_tokens_with_secrets_backend_reads_encrypted_storage
+        PASS [   2.638s] (313/320) codex-rmcp-client oauth::store_lock::tests::aggregate_store_credential_loads_can_share_an_existing_reader
+        PASS [   2.667s] (314/320) codex-rmcp-client http_headers::tests::helper_attempt_is_shared_after_cancellation
+        PASS [   2.475s] (315/320) codex-rmcp-client oauth::tests::save_oauth_tokens_with_secrets_backend_writes_encrypted_storage
+        PASS [   2.105s] (316/320) codex-rmcp-client::streamable_http_oauth_startup refreshes_expired_persisted_token_before_initialize
+        PASS [   2.191s] (317/320) codex-rmcp-client::streamable_http_oauth_startup refreshes_expired_persisted_token_after_oidc_fallback
+        PASS [   4.484s] (318/320) codex-rmcp-client oauth::tests::delete_oauth_tokens_with_secrets_backend_removes_secrets_and_file
+        PASS [   6.408s] (319/320) codex-rmcp-client oauth::store_lock::tests::secrets_store_lock_preserves_updates_for_different_servers
+        PASS [   6.579s] (320/320) codex-rmcp-client oauth::store_lock::tests::secrets_store_load_and_delete_observe_aggregate_lock
+────────────
+     Summary [   6.671s] 320 tests run: 320 passed, 8 skipped

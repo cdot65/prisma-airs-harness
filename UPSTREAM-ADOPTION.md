@@ -19,7 +19,7 @@ not ancestry counts. Baseline: `1a6df30b5654ca8b892440b21e4bf1b5442b1f38`
 | `c7828dd0109c75bcb5b07dc2d95c68947e56239a` | Assess narrow correctness delta | Requires changes across StepInputs, Guardian and execution environment ownership. Executor contexts are not AIRS environment UUIDs. Do not import the 40+ file refactor without a demonstrated active-product gap. |
 | `568518357023708ecbeddb764ef8956ecaa076d7` | Defer daemon portion; assess active permission path | Depends on captured executor state. AIRS does not enable managed daemon recovery. Check existing origin-context behavior separately. |
 | `2b842962883f2e01526b9c64e383cb2375123a5d` | Defer OpenAI refresh; verify AIRS isolation | Upstream refresh is OpenAI-specific and explicitly a no-op for static catalogs. AIRS uses its local capability catalog; its gateway remains the authority. Credential generation changes invalidate the active session rather than permit adopting another identity. |
-| `d5b29951aca5205bc8415120b56dd4bc295f5c83` | Adapt only missing classification | AIRS already distinguishes 401, 403, 446 and blocked-200 probes. Test transport/runtime paths for policy denial and unsafe replay before changing retry architecture. |
+| `d5b29951aca5205bc8415120b56dd4bc295f5c83` | Narrow terminal-status fix; defer retry API refactor | AIRS doctor distinguished denials, but conversation requests replayed 401/403/446. Shared classification now rejects retries for these statuses, even with Retry-After. No retry timing API or schema change. |
 | `3b50349e1a80930e6e9dcf6d9377d65ef55ef052` | Defer | Hosted app/account resource targets are not needed for gateway ServiceNow. No schema import. |
 
 No dependency updates are currently selected. Each accepted patch carries only
@@ -133,3 +133,16 @@ actual helper dispatch with zero gateway/credential work, FIFO/oversized catalog
 cancel/retry and redacted reports. `just fmt` completed with the installed DotSlash
 on PATH; unrelated baseline formatter changes were removed. Score: 3+3+1+1+1;
 cross-platform installed package validation remains pending.
+
+### P3 slice: terminal denial does not replay inference — 9/10 source score
+
+An actual installed 0.1.2 fixture produced three identical requests for each of
+401, 403 and 446 under a two-retry stream budget. The same fixture passes against
+the rebuilt candidate with exactly one request per status and no local tool or
+MCP execution. Server Retry-After cannot override these terminal decisions.
+All 338 protocol tests passed; transient 429/503 retry behavior remains covered.
+
+This is a narrow AIRS-motivated correction in the existing shared classifier,
+not a claim to have imported `d5b29951ac`'s retry API refactor. No error variants,
+wire schemas, dependencies, automatic login or credential fallback were added.
+Score: 3+3+1+1+1; final integrated/platform tests remain pending.

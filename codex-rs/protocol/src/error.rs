@@ -394,11 +394,16 @@ impl CodexErr {
             | CodexErrorDetails::ServerOverloaded
             | CodexErrorDetails::CyberPolicy { .. }
             | CodexErrorDetails::MisalignmentPolicyViolation { .. } => false,
+            // Authentication, permission and gateway guardrail denials require
+            // explicit recovery, not replay of the same inference request.
+            // Provider-specific credential refresh happens before this mapping.
+            CodexErrorDetails::UnexpectedStatus(response) => {
+                !matches!(response.status.as_u16(), 401 | 403 | 446)
+            }
             CodexErrorDetails::Stream(..)
             | CodexErrorDetails::RateLimitExceeded(_)
             | CodexErrorDetails::Timeout
             | CodexErrorDetails::RequestTimeout
-            | CodexErrorDetails::UnexpectedStatus(_)
             | CodexErrorDetails::ResponseStreamFailed(_)
             | CodexErrorDetails::ConnectionFailed(_)
             | CodexErrorDetails::InternalServerError

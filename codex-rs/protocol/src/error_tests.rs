@@ -76,6 +76,33 @@ fn retryability_preserves_error_details_distinctions() {
     }
 }
 
+#[test]
+fn terminal_http_denials_ignore_retry_advice_but_transient_errors_remain_retryable() {
+    for (status, expected) in [
+        (401, false),
+        (403, false),
+        (446, false),
+        (429, true),
+        (503, true),
+    ] {
+        let error = CodexErr::UnexpectedStatus(UnexpectedResponseError {
+            status: StatusCode::from_u16(status).unwrap(),
+            body: "Denied".into(),
+            user_message: None,
+            url: None,
+            cf_ray: None,
+            request_id: None,
+            identity_authorization_error: None,
+            identity_error_code: None,
+        });
+        assert_eq!(error.is_retryable(), expected);
+        assert_eq!(
+            error.with_retry_delay(Duration::ZERO).is_retryable(),
+            expected
+        );
+    }
+}
+
 fn rate_limit_snapshot() -> RateLimitSnapshot {
     let primary_reset_at = Utc
         .with_ymd_and_hms(2024, 1, 1, 1, 0, 0)

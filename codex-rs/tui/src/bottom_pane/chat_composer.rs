@@ -59,7 +59,10 @@
 //! Recall moves the cursor to the end. Question editors copy primary history on recall/search;
 //! draft capture cancels previews, and restoration resets traversal.
 //! Ctrl+R searches history in the footer and previews matches in the composer.
-//! Enter accepts the preview; Esc restores the original draft.
+//! Typing edits the active search query.
+//! Background recovery updates the saved prompt without changing the query or visible preview.
+//! Esc or Ctrl+C restores that prompt, including recovered answers and interrupted input.
+//! Enter accepts a matching preview and discards the saved prompt; without a match, search stays open.
 //! Vim undo/redo snapshots complete drafts and groups direct edits with active Vim transactions.
 //! An active edit keeps one separately capped snapshot; canceling does not evict committed history.
 //! Canceled history previews restore history and active commands; accepting another prompt resets them.
@@ -1561,9 +1564,10 @@ impl ChatComposer {
 
     /// Replace the entire composer content with `text` and reset cursor.
     ///
-    /// This is the "fresh draft" path: it clears pending paste payloads and
-    /// mention link targets. Callers restoring a previously submitted draft
-    /// that must keep sigiled mention target resolution should use
+    /// This is the "fresh draft" path: it discards active history search and
+    /// clears pending paste payloads and mention link targets. Callers restoring
+    /// a previously submitted draft that must keep sigiled mention target
+    /// resolution should use
     /// [`Self::set_text_content_with_mention_bindings`] instead.
     pub(crate) fn set_text_content(
         &mut self,
@@ -1571,6 +1575,10 @@ impl ChatComposer {
         text_elements: Vec<TextElement>,
         local_image_paths: Vec<PathBuf>,
     ) {
+        if self.history_search.take().is_some() {
+            self.history.reset_navigation();
+            self.footer.mode = reset_mode_after_activity(self.footer.mode);
+        }
         self.set_text_content_with_mention_bindings(
             text,
             text_elements,
@@ -1666,7 +1674,7 @@ impl ChatComposer {
             text_elements: self.current_text_elements(),
             local_image_paths: self.attachments.local_image_paths(),
             remote_image_urls: self.attachments.remote_image_urls(),
-            mention_bindings: self.snapshot_mention_bindings(),
+            mention_bindings: self.mention_bindings(),
             pending_pastes: self.draft.pending_pastes.clone(),
             cursor: self.current_cursor(),
         }
@@ -1823,20 +1831,6 @@ impl ChatComposer {
 
     pub(crate) fn text_elements(&self) -> Vec<TextElement> {
         self.current_text_elements()
-    }
-
-    pub(crate) fn draft_snapshot(&self) -> ComposerDraftSnapshot {
-        ComposerDraftSnapshot {
-            text: self.current_text(),
-            cursor: self.current_cursor(),
-            text_elements: self.text_elements(),
-            local_images: self.local_images(),
-            remote_image_urls: self.remote_image_urls(),
-            mention_bindings: self.mention_bindings(),
-            pending_pastes: self.pending_pastes(),
-            startup_local_history: self.history.startup_local_history().to_vec(),
-            last_composer_activity_at: None,
-        }
     }
 
     #[cfg(test)]

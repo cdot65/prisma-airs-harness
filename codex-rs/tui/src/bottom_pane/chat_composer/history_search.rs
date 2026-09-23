@@ -7,16 +7,19 @@
 //!
 //! This module is responsible for the UI-facing lifecycle of a search session: recognizing the
 //! keys that enter and drive search mode, keeping the footer query separate from the textarea
-//! preview, restoring the original draft on cancellation or misses, and translating history search
-//! results into composer-visible state. It deliberately does not decide which history entries
+//! preview, restoring the saved draft on cancellation, and translating history search results into
+//! composer-visible state. It deliberately does not decide which history entries
 //! match, how duplicate results are skipped, or when persistent history should be fetched; those
 //! traversal invariants stay with `ChatComposerHistory`.
 //!
 //! A search session starts idle with an empty footer query, so opening Ctrl+R never previews the
 //! latest history entry by itself. Typing a query restarts traversal from newest to oldest,
 //! repeated Ctrl+R/Up and Ctrl+S/Down move between unique matches, `Enter` accepts the current
-//! preview as an editable draft, and `Esc` or Ctrl+C restores the exact draft that existed before
-//! search started.
+//! preview as an editable draft. Background recovery updates the saved draft without changing
+//! the query or preview; Esc or Ctrl+C restores that saved draft. Accepting a match replaces it.
+
+#[path = "history_search_draft.rs"]
+mod draft;
 
 use std::ops::Range;
 
@@ -51,12 +54,14 @@ use crate::ui_consts::FOOTER_INDENT_COLS;
 /// Active composer-owned state for one Ctrl+R search interaction.
 ///
 /// The session is created only by [`ChatComposer::begin_history_search`] and is cleared only by
-/// accepting, canceling, or replacing the search mode. It stores the original draft and Vim edit
-/// state separately from the footer query so transient previews never destroy in-progress content.
+/// accepting, canceling, or replacing the search mode. It stores the cancellation draft and Vim
+/// edit state separately from the footer query and preview so background edits stay hidden.
 #[derive(Debug)]
 pub(super) struct HistorySearchSession {
-    /// Draft to restore when search is canceled or a query has no match.
+    /// Saved draft to restore on cancellation, including background updates.
     original_draft: ComposerDraft,
+    /// Freeze the fallback only when background edits diverge from the saved draft.
+    preview_draft: Option<ComposerDraft>,
     /// Same-draft Vim edits to restore when a temporary preview is canceled.
     original_vim_history: VimHistory,
     /// Active and completed Vim commands suspended during temporary draft replacement.
@@ -67,11 +72,17 @@ pub(super) struct HistorySearchSession {
     status: HistorySearchStatus,
 }
 
+impl HistorySearchSession {
+    fn preview_draft(&self) -> &ComposerDraft {
+        self.preview_draft.as_ref().unwrap_or(&self.original_draft)
+    }
+}
+
 /// User-visible phase of the active Ctrl+R search session.
 ///
-/// Search keeps the footer query and the composer preview separate: `Idle` leaves the original
-/// draft untouched, `Searching` waits for persistent history, `Match` previews a found entry, and
-/// `NoMatch` restores the original draft while leaving the search input open for more typing.
+/// Search keeps the footer query and composer preview separate: `Idle` shows the frozen fallback
+/// draft, `Searching` waits for persistent history, `Match` previews a found entry, and `NoMatch`
+/// restores the frozen fallback while leaving the search input open for more typing.
 #[derive(Clone, Debug)]
 enum HistorySearchStatus {
     Idle,
@@ -81,8 +92,7 @@ enum HistorySearchStatus {
 }
 
 impl ChatComposer {
-    #[cfg(test)]
-    pub(super) fn history_search_active(&self) -> bool {
+    pub(in crate::bottom_pane) fn history_search_active(&self) -> bool {
         self.history_search.is_some()
     }
 
@@ -127,6 +137,7 @@ impl ChatComposer {
             .textarea
             .swap_vim_persistent_state(&mut original_vim_state);
         self.history_search = Some(HistorySearchSession {
+            preview_draft: None,
             original_draft,
             original_vim_history,
             original_vim_state,
@@ -248,7 +259,7 @@ impl ChatComposer {
         let Some((query, original_draft)) = self
             .history_search
             .as_ref()
-            .map(|search| (search.query.clone(), search.original_draft.clone()))
+            .map(|search| (search.query.clone(), search.preview_draft().clone()))
         else {
             return InputResult::None;
         };
@@ -274,7 +285,7 @@ impl ChatComposer {
         let Some(original_draft) = self
             .history_search
             .as_ref()
-            .map(|search| search.original_draft.clone())
+            .map(|search| search.preview_draft().clone())
         else {
             return;
         };
@@ -349,7 +360,7 @@ impl ChatComposer {
                 let original_draft = self
                     .history_search
                     .as_ref()
-                    .map(|search| search.original_draft.clone());
+                    .map(|search| search.preview_draft().clone());
                 if let Some(search) = self.history_search.as_mut() {
                     search.status = if matches!(result, HistorySearchResult::NotFound) {
                         HistorySearchStatus::NoMatch

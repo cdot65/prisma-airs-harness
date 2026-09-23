@@ -992,13 +992,15 @@ impl BottomPane {
         local_image_paths: Vec<PathBuf>,
         mention_bindings: Vec<MentionBinding>,
     ) {
-        self.composer.set_text_content_with_mention_bindings(
-            text,
-            text_elements,
-            local_image_paths,
-            mention_bindings,
-        );
-        self.composer.move_cursor_to_end();
+        self.composer.edit_stored_draft(|composer| {
+            composer.set_text_content_with_mention_bindings(
+                text,
+                text_elements,
+                local_image_paths,
+                mention_bindings,
+            );
+            composer.move_cursor_to_end();
+        });
         self.request_redraw();
     }
 
@@ -1066,7 +1068,7 @@ impl BottomPane {
     }
 
     pub(crate) fn composer_pending_pastes(&self) -> Vec<(String, String)> {
-        self.composer.pending_pastes()
+        self.composer.draft_snapshot().pending_pastes
     }
 
     pub(crate) fn apply_external_edit(&mut self, text: String) {
@@ -1080,7 +1082,8 @@ impl BottomPane {
     }
 
     pub(crate) fn set_remote_image_urls(&mut self, urls: Vec<String>) {
-        self.composer.set_remote_image_urls(urls);
+        self.composer
+            .edit_stored_draft(|composer| composer.set_remote_image_urls(urls));
         self.request_redraw();
     }
 
@@ -1095,7 +1098,8 @@ impl BottomPane {
     }
 
     pub(crate) fn set_composer_pending_pastes(&mut self, pending_pastes: Vec<(String, String)>) {
-        self.composer.set_pending_pastes(pending_pastes);
+        self.composer
+            .edit_stored_draft(|composer| composer.set_pending_pastes(pending_pastes));
         self.request_redraw();
     }
 

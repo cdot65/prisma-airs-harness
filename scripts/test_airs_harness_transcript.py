@@ -17,6 +17,18 @@ import test_airs_harness as harness
 from airs_harness_pty import TerminalSession
 
 
+def conversation_requests(fixture):
+    # Automatic naming is independent of the conversation turn. It may finish
+    # while the user edits a draft; do not mistake it for answer submission.
+    return [
+        row
+        for row in fixture.requests
+        if not harness.latest_user_text(row[2]).startswith(
+            "Generate a concise, single-line task title"
+        )
+    ]
+
+
 class TranscriptTerminal(unittest.TestCase):
     def test_transcript_resize_restores_draft_without_replaying_inference(self):
         fixture = harness.TerminalIntegration()
@@ -33,7 +45,7 @@ class TranscriptTerminal(unittest.TestCase):
             terminal.wait_for(b"Local tool complete.")
             os.write(terminal.master, b"\x1b[200~" + draft.encode() + b"\x1b[201~")
             terminal.wait_for(draft.encode())
-            count = len(fixture.requests)
+            count = len(conversation_requests(fixture))
             offset = len(terminal.transcript)
             os.write(terminal.master, b"\x14")
             terminal.wait_for(b"\x1b[?1049h", offset)
@@ -48,7 +60,7 @@ class TranscriptTerminal(unittest.TestCase):
                 offset = len(terminal.transcript)
             os.write(terminal.master, b"\x14")
             terminal.wait_for(draft.encode(), offset)
-            self.assertEqual(len(fixture.requests), count)
+            self.assertEqual(len(conversation_requests(fixture)), count)
             self.assertEqual(fixture.mcp_requests, [])
             for path, _, body in fixture.requests:
                 self.assertEqual(path, "/prefix/v1/responses")
@@ -117,12 +129,19 @@ class QuestionRecoveryTerminal(unittest.TestCase):
                 )
             )
             self.assertEqual(
-                len(fixture.requests), 2, "Recovery must not submit the answer"
+                len(conversation_requests(fixture)),
+                2,
+                "Recovery must not submit the answer",
+            )
+            self.assertTrue(
+                all(answer not in json.dumps(body) for _, _, body in fixture.requests)
             )
             os.write(terminal.master, b"\r")
             terminal.wait_for(b"Recovered input received.", offset)
-        self.assertEqual(harness.latest_user_text(fixture.requests[-1][2]), combined)
-        self.assertEqual(len(fixture.requests), 3)
+        self.assertEqual(
+            harness.latest_user_text(conversation_requests(fixture)[-1][2]), combined
+        )
+        self.assertEqual(len(conversation_requests(fixture)), 3)
         self.assertEqual(fixture.mcp_requests, [])
         for path, _, body in fixture.requests:
             self.assertEqual(path, "/prefix/v1/responses")

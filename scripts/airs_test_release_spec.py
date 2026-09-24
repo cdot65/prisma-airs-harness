@@ -1,4 +1,4 @@
-"""Identity and bounded I/O for owner-authorized npm test releases only."""
+"""Identity and bounded I/O for owner-authorized npm releases and explicit Mac-first previews."""
 
 import hashlib
 import json
@@ -11,6 +11,9 @@ from urllib.parse import urlsplit
 from airs_npm_versions import released_version
 
 SCOPE = "owner-authorized-test"
+MAC_SCOPE = "owner-authorized-mac-preview"
+MAC_TAG = "mac-preview"
+MAC_TARGET = "aarch64-apple-darwin"
 STABLE_SCOPE = "owner-authorized-stable"
 STABLE_TAG = "stable-candidate"
 STABLE_VERSION = re.compile(r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\Z")
@@ -27,6 +30,15 @@ COMMIT = re.compile(r"[0-9a-f]{40}\Z")
 VERSION = re.compile(
     r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)-alpha\.(?:0|[1-9]\d*)\.mcp\.(?:0|[1-9]\d*)\Z"
 )
+
+
+def release_targets(spec):
+    """Mac-first previews cannot relax the ordinary three-platform release gate."""
+    return (MAC_TARGET,) if spec.get("scope") == MAC_SCOPE else tuple(TARGETS)
+
+
+def package_order(spec):
+    return [*(TARGETS[target] for target in release_targets(spec)), "airs-harness"]
 
 
 def require(condition, message):
@@ -129,7 +141,7 @@ def validate_spec(document):
     )
     require(
         (document["scope"], document["tag"])
-        in ((SCOPE, "mcp"), (STABLE_SCOPE, STABLE_TAG)),
+        in ((SCOPE, "mcp"), (STABLE_SCOPE, STABLE_TAG), (MAC_SCOPE, MAC_TAG)),
         "Expected an explicitly authorized test or stable candidate scope",
     )
     for key in fields - {"schema_version", "platforms", "previous_release"}:
@@ -208,8 +220,9 @@ def validate_spec(document):
     )
     platforms = document["platforms"]
     require(
-        isinstance(platforms, list) and len(platforms) == 3,
-        "Exactly three native targets are required",
+        isinstance(platforms, list)
+        and len(platforms) == len(release_targets(document)),
+        "Native targets must exactly match the authorized release scope",
     )
     seen = set()
     for platform in platforms:
@@ -219,7 +232,9 @@ def validate_spec(document):
         )
         target, digest = platform["target"], platform["binary_sha256"]
         require(
-            isinstance(target, str) and target in TARGETS and target not in seen,
+            isinstance(target, str)
+            and target in release_targets(document)
+            and target not in seen,
             "Unsupported or duplicate native target",
         )
         require(
@@ -231,7 +246,8 @@ def validate_spec(document):
     result = dict(document)
     result["registry"] = registry.rstrip("/")
     result["platforms"] = [
-        dict(next(p for p in platforms if p["target"] == target)) for target in TARGETS
+        dict(next(p for p in platforms if p["target"] == target))
+        for target in release_targets(document)
     ]
     if previous.stable:
         result["previous_release"] = {

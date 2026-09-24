@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect, accept, stage, publish and verify the owner-authorized mcp test channel."""
+"""Inspect, accept, stage, publish and verify owner-authorized test channels."""
 
 import argparse
 import json

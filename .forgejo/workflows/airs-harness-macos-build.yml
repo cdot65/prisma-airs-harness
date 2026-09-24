@@ -1,7 +1,7 @@
 name: AIRS Harness Apple Silicon build and acceptance
 on:
   push:
-    tags: ['airs-preview-*']
+    tags: ['airs-preview-*', 'airs-mac-preview-*']
   workflow_dispatch:
     inputs:
       tooling_ref:

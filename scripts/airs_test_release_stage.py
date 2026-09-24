@@ -10,9 +10,9 @@ from airs_release_acceptance import verify_acceptance_set
 from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import (
-    PACKAGE_ORDER,
     STABLE_SCOPE,
     TARGETS,
+    package_order,
     canonical_digest,
     digest_file,
     load_json,
@@ -64,8 +64,8 @@ def _candidate_records(spec, root):
         "Invalid package inventory",
     )
     require(
-        [row.get("name") for row in records] == PACKAGE_ORDER,
-        "Expected exactly three natives followed by launcher",
+        [row.get("name") for row in records] == package_order(spec),
+        "Expected the scoped native packages followed by launcher",
     )
     for row in records:
         require(row.get("version") == spec["version"], "Candidate version mismatch")
@@ -88,9 +88,14 @@ def _package_identity(spec, row, inventory):
     if row["name"] == "airs-harness":
         require(
             manifest.get("optionalDependencies")
-            == {name: spec["version"] for name in TARGETS.values()},
-            "Launcher requires exactly three pinned native dependencies",
+            == {name: spec["version"] for name in package_order(spec)[:-1]},
+            "Launcher requires the scoped pinned native dependencies",
         )
+        if spec["scope"] == "owner-authorized-mac-preview":
+            require(
+                manifest.get("os") == ["darwin"] and manifest.get("cpu") == ["arm64"],
+                "Mac preview launcher must reject other platforms",
+            )
         return
     target = next(target for target, name in TARGETS.items() if name == row["name"])
     system, architecture = PLATFORM_MANIFEST[target]
@@ -303,7 +308,7 @@ def _copy(source, destination):
 
 
 def stage_packages(spec, packages_dir, evidence_root, output_dir):
-    """Create an immutable, self-verifiable stage only after three native acceptances."""
+    """Create an immutable, self-verifiable stage only after all native acceptances required by the release scope."""
     spec = validate_spec(spec)
     source, output, evidence = (
         Path(packages_dir).resolve(),

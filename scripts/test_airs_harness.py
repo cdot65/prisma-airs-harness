@@ -44,6 +44,8 @@ class TerminalIntegration(unittest.TestCase):
         for model in catalog["models"]:
             model["experimental_supported_tools"] = ["request_user_input_async"]
         catalog_path.write_text(json.dumps(catalog))
+        self.question_turn_release = threading.Event()
+        self.addCleanup(self.question_turn_release.set)
         self.initial_function_call = (
             "request_user_input_async",
             {
@@ -68,6 +70,8 @@ class TerminalIntegration(unittest.TestCase):
             offset = len(terminal.transcript)
             os.write(terminal.master, b"\r")
             terminal.wait_for(draft.encode(), offset)
+            self.question_turn_release.set()
+            terminal.wait_for(b"Create result file", offset)
             os.write(terminal.master, b"\r")
             terminal.wait_for(b"Draft preserved.", offset)
         self.assertTrue(
@@ -1349,7 +1353,21 @@ class TerminalIntegration(unittest.TestCase):
                 self.send_header("Content-Type", "text/event-stream")
                 self.send_header("Content-Length", str(len(data)))
                 self.end_headers()
-                self.wfile.write(data)
+                release = getattr(owner, "question_turn_release", None)
+                if number == 2 and release is not None:
+                    # Questions are actionable during a live turn. Keep it live until
+                    # the fixture submits the answer; terminal completion now recovers drafts.
+                    completion = ("data: " + json.dumps(events[-1]) + "\n\n").encode()
+                    self.wfile.write(data[: -len(completion)])
+                    self.wfile.flush()
+                    if not release.wait(30):
+                        return
+                    try:
+                        self.wfile.write(completion)
+                    except (BrokenPipeError, ConnectionResetError):
+                        pass  # Steering may have already cancelled this stream.
+                else:
+                    self.wfile.write(data)
 
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), Gateway)
         thread = threading.Thread(target=self.server.serve_forever, daemon=True)

@@ -22,6 +22,7 @@ from airs_release_receipts import (
 )
 from airs_test_release_spec import (
     TARGETS,
+    release_targets,
     canonical_digest,
     digest_file,
     load_json,
@@ -88,7 +89,7 @@ def result_for(name, spec, target):
 def evidence_set(
     root, packages, spec, installation="candidate", verification_tooling_commit=None
 ):
-    for target in TARGETS:
+    for target in release_targets(spec):
         output = root / target
         output.mkdir(parents=True)
         tooling = {

@@ -260,3 +260,38 @@ prove company SSO, ServiceNow authorization or Jev accuracy. Owner Ubuntu and
 real-account sign-in/consent/read checks remain separate; stable promotion is
 not authorized by these scores. Evidence and immutable audit inputs are retained
 in `validation/2026-09-22/selective-upstream-alpha2/`.
+
+## Terminal integration — September 24, 2026
+
+Frozen upstream review: `4891c4e35fe8b306433f6c0f04dd74bd9e4257e9`.
+The following slices follow the prior alpha.2 preview. Each passed its source
+phase before the next began; scores are implementation assessments, not owner
+acceptance or a claim that all upstream features were imported.
+
+| Phase | Upstream provenance | AIRS behavior and evidence | Source score |
+| --- | --- | --- | --- |
+| 1: transcript and copy | `095da4b7e8b70b01afb5c6131ef926dcb8c0d85d`, `dd9512c0008859f6c95fb2dae2290a2cb94b38fb` | Idempotent transcript entry, deferred inline reflow, rendered-height scrolling, latest completed assistant message for `/copy`; 4,367 TUI tests passed | 9/10 |
+| 2: answer draft recovery | `811fe5fa4311d33a4d4626509025b6c61100245e`, `3032b387fa20fd782030587a305a27e6d02a7adc` | Recover typed answers when the live turn ends; preserve the composer, history search and gateway sign-in; no automatic answer submission or historical-event recovery; 4,375 tests passed | 9/10 |
+| 3: terminal size and links | `7d2c58e6e0811d326accdfe9913417a44893dd2f`, `7db578fca663b3e0026996e9c50104784d420744` | Bounded asynchronous tmux size queries and full URL destinations across narrow/wide prompt wrapping; 4,382 tests passed | 9/10 |
+
+All TUI counts exclude two skipped tests. The initial color-environment failure
+and intermediate adaptation failures remain in the work record; final source
+checks ran with the inherited `NO_COLOR` override removed. Scoped Clippy passed.
+
+Phase 4 is explicitly deferred: upstream fullscreen selection/search introduces
+a new logical-source renderer and broad input ownership changes. It is not a
+small compatibility flag and is not represented as implemented or scored. The
+current inline default and transcript overlay remain. Terminal.app SSH detection
+also awaits its dependency/startup-probe review.
+
+Phase 5 targets **0.1.3-alpha.3.mcp.1**, Apple Silicon only, using the explicit
+`owner-authorized-mac-preview` release scope and `mac-preview` registry channel.
+This scope requires signed Mac evidence, restricts the launcher to Darwin ARM64,
+and cannot satisfy an ordinary three-platform or stable release gate. Linux
+distribution builds await the owner's Mac test. Stable and existing `mcp` tags
+must remain unchanged. Installed acceptance and publication are pending.
+
+No gateway authentication, MCP OAuth audience/resource, native-store credential
+boundary, bundled CLI version, protocol schema or dependency upgrade is added by
+these terminal slices. Jev remains behind the existing actual-agent approval
+boundary and is included in regression acceptance.

@@ -14,6 +14,8 @@ from urllib.request import HTTPRedirectHandler, build_opener
 from airs_release_receipts import atomic_json, safe_destination
 from airs_test_release_spec import (
     PACKAGE_ORDER,
+    MAC_TAG,
+    package_order,
     STABLE_TAG,
     canonical_digest,
     digest_file,
@@ -71,7 +73,9 @@ class Registry:
         return document
 
     def publish(self, archive, tag):
-        require(tag in ("mcp", STABLE_TAG), "Only candidate tags can be published")
+        require(
+            tag in ("mcp", STABLE_TAG, MAC_TAG), "Only candidate tags can be published"
+        )
         environment = {
             key: value
             for key, value in os.environ.items()
@@ -172,7 +176,7 @@ def _publish(spec, plan, packages, output, registry):
     """Execute a verified plan; injectable transport keeps behavioral tests local."""
     records = plan["publish_order"]
     require(
-        [record["name"] for record in records] == PACKAGE_ORDER,
+        [record["name"] for record in records] == package_order(spec),
         "Native packages must publish before the launcher",
     )
     identity = canonical_digest({"spec": spec, "plan": plan})
@@ -194,7 +198,7 @@ def _publish(spec, plan, packages, output, registry):
             set(receipt.get("original_tags", {})) == set(PACKAGE_ORDER),
             "Publication checkpoint tags are incomplete",
         )
-    current = {}
+    current = {name: registry.metadata(name) for name in PACKAGE_ORDER}
     for record in records:
         require(record["version"] == spec["version"], "Publication version mismatch")
         require(

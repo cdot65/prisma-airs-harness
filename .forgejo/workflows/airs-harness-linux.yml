@@ -15,7 +15,7 @@ on:
         default: ""
         required: false
   push:
-    branches: [integrate/codex-0.154-candidate, 'feat/airs-selective-upstream-*']
+    branches: [integrate/codex-0.154-candidate, 'feat/airs-selective-upstream-*', 'feat/airs-terminal-upstream-*']
     paths:
       - '.forgejo/workflows/airs-harness-linux.yml'
       - 'scripts/airs_forgejo_linux.sh'

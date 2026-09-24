@@ -17,8 +17,8 @@ from airs_release_receipts import atomic_json, evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive
 from airs_test_release_publish import Registry
 from airs_test_release_spec import (
-    PACKAGE_ORDER,
     TARGETS,
+    package_order,
     digest_file,
     load_json,
     load_spec,
@@ -145,7 +145,8 @@ def install(spec, packages, prefix, *, selection="exact"):
     plan = load_json(evidence_path(packages, "NPM-PACKAGES.json"))
     records = plan.get("publish_order")
     require(
-        isinstance(records, list) and [r.get("name") for r in records] == PACKAGE_ORDER,
+        isinstance(records, list)
+        and [r.get("name") for r in records] == package_order(spec),
         "Registry install requires exactly three natives and one launcher",
     )
     inventories = {}
@@ -246,9 +247,14 @@ def install(spec, packages, prefix, *, selection="exact"):
     manifest = load_json(launcher / "package.json")
     require(
         manifest.get("optionalDependencies")
-        == {name: spec["version"] for name in TARGETS.values()},
+        == {name: spec["version"] for name in package_order(spec)[:-1]},
         "Installed native dependency set changed",
     )
+    if spec["scope"] == "owner-authorized-mac-preview":
+        require(
+            manifest.get("os") == ["darwin"] and manifest.get("cpu") == ["arm64"],
+            "Mac preview launcher must reject other platforms",
+        )
     command = prefix / "bin/airs"
     version = subprocess.check_output(
         [str(command), "--version"], env=environment, text=True, timeout=30

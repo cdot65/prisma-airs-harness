@@ -5,8 +5,10 @@ from pathlib import Path
 from airs_release_receipts import evidence_path, verify_stage
 from airs_test_release_spec import (
     COMMIT,
-    PACKAGE_ORDER,
     TARGETS,
+    MAC_SCOPE,
+    package_order,
+    release_targets,
     canonical_digest,
     digest_file,
     load_json,
@@ -53,7 +55,7 @@ def package_summary(spec, manifest):
     )
     records = manifest.get("publish_order", [])
     require(
-        [row.get("name") for row in records] == PACKAGE_ORDER,
+        [row.get("name") for row in records] == package_order(spec),
         "Incomplete or reordered candidate package set",
     )
     summary = {}
@@ -344,10 +346,13 @@ def verify_acceptance_set(
     verification_commit(spec, installation, verification_tooling_commit)
     actual = {path.parent.name for path in evidence_root.glob("*/ACCEPTANCE.json")}
     require(
-        actual == set(TARGETS), "Exactly three native acceptance roots are required"
+        actual == set(release_targets(spec)),
+        "Mac preview requires exactly Apple Silicon acceptance"
+        if spec["scope"] == MAC_SCOPE
+        else "Exactly three native acceptance roots are required",
     )
     platforms, identities = [], []
-    for target in TARGETS:
+    for target in release_targets(spec):
         result, identity = verify_one(
             spec,
             evidence_root / target,

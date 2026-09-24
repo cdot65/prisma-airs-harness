@@ -14,6 +14,7 @@ import airs_test_release_archive as archive
 import airs_test_release_stage as stage
 from airs_test_release_spec import (
     TARGETS,
+    release_targets,
     canonical_digest,
     digest_file,
     json_bytes,
@@ -58,7 +59,10 @@ def sample_spec():
 def candidates(root, spec):
     (root / "tarballs").mkdir(parents=True)
     records = []
-    for target, name in [*TARGETS.items(), (None, "airs-harness")]:
+    for target, name in [
+        *((t, TARGETS[t]) for t in release_targets(spec)),
+        (None, "airs-harness"),
+    ]:
         manifest = {"name": name, "version": spec["version"], "private": True}
         members = []
         if target:
@@ -94,8 +98,10 @@ def candidates(root, spec):
             )
         else:
             manifest["optionalDependencies"] = {
-                package: spec["version"] for package in TARGETS.values()
+                TARGETS[t]: spec["version"] for t in release_targets(spec)
             }
+            if spec["scope"] == "owner-authorized-mac-preview":
+                manifest.update(os=["darwin"], cpu=["arm64"])
             members.append(("package/bin/launcher.js", b"trusted launcher", 0o755))
         members.append((stage.MANIFEST, encoded(manifest), 0o644))
         filename = f"{name}-{spec['version']}.tgz"

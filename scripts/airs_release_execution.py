@@ -11,6 +11,7 @@ from airs_release_contract import PATTERNS, RESULTS, package_summary
 from airs_release_receipts import atomic_json, evidence_path
 from airs_test_release_spec import (
     TARGETS,
+    package_order,
     canonical_digest,
     digest_file,
     load_json,
@@ -89,9 +90,14 @@ def installed_identity(spec, packages, prefix, target, environment):
     )
     require(
         manifest.get("optionalDependencies")
-        == {name: spec["version"] for name in TARGETS.values()},
+        == {name: spec["version"] for name in package_order(spec)[:-1]},
         "Installed launcher native dependencies mismatch",
     )
+    if spec["scope"] == "owner-authorized-mac-preview":
+        require(
+            manifest.get("os") == ["darwin"] and manifest.get("cpu") == ["arm64"],
+            "Mac preview launcher must reject other platforms",
+        )
     native_manifest = subprocess.check_output(
         [
             "node",

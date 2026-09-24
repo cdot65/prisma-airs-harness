@@ -47,6 +47,11 @@ def main():
         action="store_true",
         help="Bundle the exact locked Prisma AIRS CLI/SDK dependency tree (no publication)",
     )
+    parser.add_argument(
+        "--mac-preview",
+        action="store_true",
+        help="Restrict a Mac-first launcher to Apple Silicon",
+    )
     args = parser.parse_args()
     registry = urlparse(args.registry)
     if (
@@ -77,6 +82,10 @@ def main():
         )
         for release in args.release_directory
     ]
+    if args.mac_preview:
+        if len(releases) != 1 or releases[0][1]["target"] != "aarch64-apple-darwin":
+            raise ValueError("Mac preview requires exactly one Apple Silicon release")
+        manifest.update(os=["darwin"], cpu=["arm64"])
     # A mixed candidate/release set must not publish even an earlier native
     # package before discovering that a later package is private.
     candidate = any(

@@ -1,0 +1,10 @@
+{
+  "anonymous_fresh_install": true,
+  "fresh_npm_cache": true,
+  "isolated_npm_configuration": true,
+  "npm_exit_code": 0,
+  "published_archive_integrities_verified": true,
+  "registry": "https://npm.cdot.io",
+  "scope": "npm configuration isolation; network packet capture is not claimed",
+  "selection": "exact"
+}

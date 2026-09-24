@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-selection-20260924/frozen-tooling-r2/scripts/airs_release_unittest.py",
+    "--scripts",
+    "/Users/cdot/.cache/airs-selection-20260924/frozen-tooling-r2/scripts",
+    "--pattern",
+    "test_airs_doctor.py",
+    "--receipt",
+    "/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate/registry-acceptance/aarch64-apple-darwin.work/doctor-ceed715ccfbd42efb2536d8250076104/TEST-RESULTS.json"
+  ],
+  "command_sha256": "9605bb6c79a5de0d4ce4273b1f4476d3fbf4e5b3476660935d705c251eae76e9",
+  "dependencies": {
+    "install": "7d9a0212b6dabdca2863f03344a9eb1de53c135c4f1fe74dccb04c5c5f9e6f4e",
+    "installed-regressions": "468fb51eb7abad823a795f85d530a7b5e0cd9217bba0da6f4fba7837c36b9412",
+    "mcp-manager": "7c0ca34a52c72e9d65cd8bc847ad55bed2ae726245af3c06da300e2e597d3e60",
+    "onboarding": "88398f39c81f9955b1cad297ca107f70cd34cf6be4684807e7d013248eb5202a",
+    "terminals": "c54d16a5d90a8932af38ece96a99f8d40a2a01de9cec8171c2bd9a3f6b39aee5"
+  },
+  "exit_code": 0,
+  "input_sha256": "fcfcfb102609af19a8e111a82e65dac2a3f0f1da277e2623d864064f60b5d876",
+  "inputs": {
+    "binary_sha256": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973",
+    "candidate_metadata_sha256": "46d84fb5de219fefecf326ed43e3ea7faac6c4dd45ce98084a49c0c4635b7be7",
+    "candidate_packages_sha256": "e0fb75262fcd9eb5a51628dd2f2485b8a897458f5dc4e00c1ab4f0c62bbe8012",
+    "contract": {
+      "normal_python": true,
+      "selection": "test_airs_doctor.py",
+      "stage": "doctor",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+    "source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+    "spec_sha256": "17811c05448bfdbcbe8ef76eb64b6c4eb3d7fff799b01fdd71dbe5ee1ba9a96b",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "061c3c73a3af0348520d3ef2daa6a77cbdb5f054",
+    "tooling_sha256": "a9a6ac3ad96dede356c65ca2787cc4fcb6936c46f4c01c22de9779081c99594e",
+    "version": "0.1.3-alpha.4.mcp.1"
+  },
+  "outputs": {
+    "files/doctor/TEST-RESULTS.json": {
+      "sha256": "c18fe4b39dbe417bf769bf53d158ffc46a3e1b3a33a64c8f36282e4bd65b8dc1",
+      "size": 1183
+    },
+    "logs/doctor.log": {
+      "sha256": "6f6d2679e20cee78d21e17d51b7956fbc2d4af13e5d052bbd1ef4b8ed3fb38ea",
+      "size": 1295
+    }
+  },
+  "schema_version": 1,
+  "stage": "doctor"
+}

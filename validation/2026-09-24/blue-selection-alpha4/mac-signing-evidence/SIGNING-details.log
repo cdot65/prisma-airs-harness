@@ -1,0 +1,28 @@
+Executable=/Users/cdot/.cache/airs-selection-20260924/signing-temp/airs-gateway-package/prisma-airs-harness-signing/airs-harness
+Identifier=airs-harness
+Format=Mach-O thin (arm64)
+CodeDirectory v=20500 size=609048 flags=0x10000(runtime) hashes=19027+2 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=1705216
+Hash type=sha256 size=32
+CandidateCDHash sha256=bb19f6a85927163e1d21e8d745386866d498a0e1
+CandidateCDHashFull sha256=bb19f6a85927163e1d21e8d745386866d498a0e184db67e239c366e8eca86ce3
+Hash choices=sha256
+CMSDigest=bb19f6a85927163e1d21e8d745386866d498a0e184db67e239c366e8eca86ce3
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=247414784
+Executable Segment flags=0x1
+Page size=16384
+CDHash=bb19f6a85927163e1d21e8d745386866d498a0e1
+Signature size=8980
+Authority=Developer ID Application: Calvin Remsburg (G5QLZ5A8TA)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=Sep 24, 2026 at 05:59:32
+Info.plist=not bound
+TeamIdentifier=G5QLZ5A8TA
+Runtime Version=26.5.0
+Sealed Resources=none
+Internal requirements count=1 size=172

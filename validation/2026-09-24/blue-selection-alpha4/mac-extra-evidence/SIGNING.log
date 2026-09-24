@@ -1,0 +1,38 @@
+Collecting pyte==0.8.2
+  Using cached pyte-0.8.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting wcwidth (from pyte==0.8.2)
+  Using cached wcwidth-0.9.1-cp310-abi3-macosx_11_0_arm64.whl.metadata (23 kB)
+Using cached pyte-0.8.2-py3-none-any.whl (31 kB)
+Using cached wcwidth-0.9.1-cp310-abi3-macosx_11_0_arm64.whl (609 kB)
+Installing collected packages: wcwidth, pyte
+
+Successfully installed pyte-0.8.2 wcwidth-0.9.1
+{
+  "schema_version": 1,
+  "private_candidate": true,
+  "published": false,
+  "release_ready": false,
+  "runtime_source": "76d88c609556d1e00fbe1925ce34fe9521920364",
+  "build_tooling_source": "76d88c609556d1e00fbe1925ce34fe9521920364",
+  "compilation_run": "3837",
+  "compilation_attempt": "1",
+  "binary_sha256": "b38a462ee4b081fb81e72ad2e3e63e14a4f59c0705ee591f2e16f454c8e587e8",
+  "fixture_sha256": "dac03ed96c29a23ce4b396333722d6af46d919dc1a314b3f1b672833691828ce",
+  "cli_opt_level": "1",
+  "signing": {
+    "ad_hoc": true,
+    "developer_id": false,
+    "notarized": false
+  },
+  "archive_sha256": "f52bcb46b5c8b2d678f8450907dd7d8503cd9b43e9fcf6d525c728860ce49938",
+  "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings"
+}
+/Users/cdot/.cache/airs-selection-20260924/signing-temp/airs-gateway-package/prisma-airs-harness-signing/airs-harness: replacing existing signature
+  adding: prisma-airs-harness-signing/airs-harness (deflated 65%)
+{"passed": true, "platform": "darwin", "separate_processes": 7, "workspace_v2_max_token_bytes": 16384, "cases": [{"passed": true, "phase": "write"}, {"passed": true, "phase": "read-and-pend"}, {"passed": true, "phase": "read-and-delete"}, {"passed": true, "phase": "workspace-legacy-write"}, {"passed": true, "phase": "workspace-read-and-write-v2"}, {"passed": true, "phase": "workspace-read-both-delete-legacy"}, {"passed": true, "phase": "workspace-read-and-delete-v2"}]}
+{
+  "archive": "/Users/cdot/.cache/airs-selection-20260924/signing-temp/airs-gateway-package/mac-release/airs-harness-0.1.3-alpha.4.mcp.1-darwin-arm64.tar.gz",
+  "sha256": "b9dc85dd7170c4eccc503c771ca80aa4005e23646160e4dc47221a42cb776f74",
+  "source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364"
+}

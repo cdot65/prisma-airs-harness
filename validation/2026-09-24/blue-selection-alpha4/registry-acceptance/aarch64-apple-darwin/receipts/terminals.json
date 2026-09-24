@@ -1,0 +1,54 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-selection-20260924/frozen-tooling-r2/scripts/validate_airs_onboarding_terminals.py",
+    "--binary",
+    "/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate/registry-acceptance/aarch64-apple-darwin.work/install-1768fd31905548128bec1d888eaf16fd/prefix/bin/airs",
+    "--native-binary",
+    "/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate/registry-acceptance/aarch64-apple-darwin.work/install-1768fd31905548128bec1d888eaf16fd/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+    "--output",
+    "/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate/registry-acceptance/aarch64-apple-darwin.work/terminals-cfd9aad94b93490da70f3063be514c7e",
+    "--shells",
+    "bash",
+    "zsh"
+  ],
+  "command_sha256": "e1336c7be13150ec836b1f8b9c9bf8c72c335e9929e27716351cdabf74d7c1cb",
+  "dependencies": {
+    "install": "7d9a0212b6dabdca2863f03344a9eb1de53c135c4f1fe74dccb04c5c5f9e6f4e",
+    "onboarding": "88398f39c81f9955b1cad297ca107f70cd34cf6be4684807e7d013248eb5202a"
+  },
+  "exit_code": 0,
+  "input_sha256": "4ddbbc10563c9eeb28477e4aba9cbdd7ae349cd9de1b082af9e40783acef2e05",
+  "inputs": {
+    "binary_sha256": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973",
+    "candidate_metadata_sha256": "46d84fb5de219fefecf326ed43e3ea7faac6c4dd45ce98084a49c0c4635b7be7",
+    "candidate_packages_sha256": "e0fb75262fcd9eb5a51628dd2f2485b8a897458f5dc4e00c1ab4f0c62bbe8012",
+    "contract": {
+      "normal_python": true,
+      "selection": "TERMINAL-ACCEPTANCE.json",
+      "stage": "terminals",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+    "source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+    "spec_sha256": "17811c05448bfdbcbe8ef76eb64b6c4eb3d7fff799b01fdd71dbe5ee1ba9a96b",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "061c3c73a3af0348520d3ef2daa6a77cbdb5f054",
+    "tooling_sha256": "a9a6ac3ad96dede356c65ca2787cc4fcb6936c46f4c01c22de9779081c99594e",
+    "version": "0.1.3-alpha.4.mcp.1"
+  },
+  "outputs": {
+    "files/terminals/TERMINAL-ACCEPTANCE.json": {
+      "sha256": "49055e8cb13a3f441fbe554c65a48831b22dab5df7647d48800f24844bd73f80",
+      "size": 1141
+    },
+    "logs/terminals.log": {
+      "sha256": "49055e8cb13a3f441fbe554c65a48831b22dab5df7647d48800f24844bd73f80",
+      "size": 1141
+    }
+  },
+  "schema_version": 1,
+  "stage": "terminals"
+}

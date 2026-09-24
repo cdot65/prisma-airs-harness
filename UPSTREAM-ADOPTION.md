@@ -360,4 +360,32 @@ acquire it. No fullscreen renderer, input-state or OAuth change is involved.
 Source TUI gate: 4,388 passed, two skips. Initial failures exposed a lost style
 on truncated lines; applying the style after truncation corrected it. Reviewed
 snapshots reflect the full-width fill and styled padding, with unchanged visible
-text. Native Mac menu/color and release acceptance are pending for alpha.4.
+text. The source entry point is `codex-rs/tui/src/style.rs::selection_style`,
+with contrast/palette resolution in `style/contrast.rs`. Shared menu rendering
+applies it in `bottom_pane/selection_popup_common.rs::apply_row_state_style`,
+including the single-line path after truncation. This keeps the fork difference
+local to the style and shared renderer instead of copying individual AIRS menus.
+
+Runtime/packaging source is `76d88c609556d1e00fbe1925ce34fe9521920364`;
+frozen acceptance tooling is `061c3c73a3af0348520d3ef2daa6a77cbdb5f054`.
+The initial Mac CI check assumed a selected option occupies exactly one screen
+row. Wrapped descriptions invalidate that assumption; the tooling-only correction
+checks contiguous selected rows and movement. Original CI failures are retained.
+The corrected checks passed on the signed binary and the installed candidate,
+with real PTY startup palette negotiation in light and dark themes.
+
+Full GNU workspace: 18,429 passed, three failed, 34 skipped. Each failure matches
+the raw stable baseline after normalizing only timestamps, ANSI, indentation,
+process IDs and temporary paths. This is not an all-green suite. The exact signed/notarized candidate and fresh anonymous registry installation
+passed all ten acceptance stages, plus native TypeSafe and actual-agent Jev
+approval, policy retry and doctor checks. The installed suites each passed 53
+tests with three Linux-only skips. Stable 0.1.2 and previous Mac alpha.3 upgrade/
+rollback preserve configuration, native credentials and conversation history.
+Warm startup/cancellation budgets passed against the exact stable binary.
+
+`0.1.3-alpha.4.mcp.1` is published under `mac-preview`, Apple Silicon only,
+with CLI 7.1.5. Stable and existing `mcp`/Linux channels remain unchanged. Source
+rendering, native acceptance and signed Mac delivery each score **9/10**, using
+the rubric above; owner visual/real-account acceptance reserves the final test
+point. Linux distribution builds remain deferred. The public guide passed 23
+browser checks. Retained evidence: `validation/2026-09-24/blue-selection-alpha4/`.

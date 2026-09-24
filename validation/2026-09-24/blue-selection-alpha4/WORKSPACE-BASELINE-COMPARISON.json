@@ -1,0 +1,83 @@
+{
+  "source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+  "baseline_archive_sha256": "9d4d57b35f9fdb417d859e3e9b0c5526c53a7b0143b8f226bbd511120a627781",
+  "comparison_method": "Compare every assertion block from raw stable and candidate logs; normalize only timestamps, ANSI, whitespace indentation, process IDs and fixture directory names; preserve tuple structure and runtime-bin entries",
+  "comparisons": [
+    {
+      "test": "shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "same_assertion_details": true,
+      "stable": [
+        "thread 'shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery' (PID) panicked at exec-server/tests/exec_process.rs:539:5:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "<xxxx",
+        ">xx"
+      ],
+      "candidate": [
+        "thread 'shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery' (PID) panicked at exec-server/tests/exec_process.rs:539:5:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "<xxxx",
+        ">xx"
+      ],
+      "stable_failure_attempts": 2,
+      "candidate_failure_attempts": 2
+    },
+    {
+      "test": "shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "same_assertion_details": true,
+      "stable": [
+        "thread 'shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery' (PID) panicked at exec-server/tests/exec_process.rs:539:5:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "<xxxx",
+        ">xx"
+      ],
+      "candidate": [
+        "thread 'shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery' (PID) panicked at exec-server/tests/exec_process.rs:539:5:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "<xxxx",
+        ">xx"
+      ],
+      "stable_failure_attempts": 2,
+      "candidate_failure_attempts": 2
+    },
+    {
+      "test": "shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox",
+      "same_assertion_details": true,
+      "stable": [
+        "thread 'shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox' (PID) panicked at exec-server/tests/exec_process.rs:331:9:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "(",
+        ">    \"helper|profile|missing|missing|/tmp/FIXTURE/runtime-bin:/tmp/FIXTURE/profile-bin:/usr/bin:/bin|missing|missing\",",
+        "\"\",",
+        "<    \"/tmp/FIXTURE/.bashrc: line 1: /tmp/FIXTURE/captures: Read-only file system\\n\",",
+        "Some(",
+        "<        41,",
+        ">        0,",
+        "),",
+        "true,",
+        ")"
+      ],
+      "candidate": [
+        "thread 'shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox' (PID) panicked at exec-server/tests/exec_process.rs:331:9:",
+        "assertion failed: `(left == right)`",
+        "Diff < left / right > :",
+        "(",
+        ">    \"helper|profile|missing|missing|/tmp/FIXTURE/runtime-bin:/tmp/FIXTURE/profile-bin:/usr/bin:/bin|missing|missing\",",
+        "\"\",",
+        "<    \"/tmp/FIXTURE/.bashrc: line 1: /tmp/FIXTURE/captures: Read-only file system\\n\",",
+        "Some(",
+        "<        41,",
+        ">        0,",
+        "),",
+        "true,",
+        ")"
+      ],
+      "stable_failure_attempts": 2,
+      "candidate_failure_attempts": 2
+    }
+  ]
+}

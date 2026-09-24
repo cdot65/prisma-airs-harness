@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "platform": "darwin",
+  "architecture": "arm64",
+  "binary_sha256": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973",
+  "entrypoint": "/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate/registry-acceptance/aarch64-apple-darwin.work/install-1768fd31905548128bec1d888eaf16fd/prefix/bin/airs",
+  "checks": [
+    "untrusted issuer certificate fails closed before authorization or persistence",
+    "invalid custom CA bundle fails closed before authorization or persistence",
+    "first-run cancellation restores the terminal and creates no environment",
+    "fresh airs creates the environment, saves device SSO in Keychain, verifies the gateway and enters the agent",
+    "returning signed-in startup bypasses onboarding and additional SSO",
+    "manual browser callback validates PKCE and JWT and persists the identity in Keychain",
+    "gateway denial and exit preserve the saved identity with accurate recovery guidance",
+    "pending device authorization cancels without publishing credentials",
+    "environment picker uses the selected identity home and preserves another history and the saved default",
+    "hidden workspace-key paste persists in Keychain and authorizes a gateway request",
+    "no bearer credential appears in application files",
+    "all owned fixture identities are logged out and temporary state is removed"
+  ],
+  "local_https_oidc": true,
+  "native_os_store": "Keychain",
+  "default_browser_automated": false,
+  "browser_state_changed": false,
+  "production_sso": false,
+  "production_servicenow": false,
+  "oauth_exchanges": [
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "authorization_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    },
+    {
+      "grant": "urn:ietf:params:oauth:grant-type:device_code",
+      "pkce_verified": true
+    }
+  ],
+  "gateway_requests": 5
+}

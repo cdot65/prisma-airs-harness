@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "/tmp/airs-selection-20260924/release/frozen-tooling-r2/scripts/airs_test_release.py",
+    "verify-all",
+    "--spec",
+    "/tmp/airs-selection-20260924/release/SPEC.json",
+    "--acceptance",
+    "/tmp/airs-selection-20260924/release/registry-acceptance",
+    "--installation",
+    "registry"
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,84 @@
+{
+  "existing_protected_tags_preserved": true,
+  "identity_sha256": "15cf2430e13948c35034c5da53a0e0ea33498fa7404237327c2fe8bef67d2146",
+  "original_tags": {
+    "airs-harness": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.2",
+      "mac-preview": "0.1.3-alpha.3.mcp.1",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-darwin-arm64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.2",
+      "mac-preview": "0.1.3-alpha.3.mcp.1",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-linux-arm64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.2",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    },
+    "airs-harness-linux-x64": {
+      "alpha": "0.1.0-alpha.22.onboarding.4",
+      "gateway-validation": "0.1.0-alpha.21",
+      "latest": "0.1.2",
+      "mcp": "0.1.3-alpha.2.mcp.1",
+      "migration": "0.1.0-alpha.22",
+      "onboarding": "0.1.0-alpha.22.onboarding.4",
+      "stable-candidate": "0.1.2"
+    }
+  },
+  "packages": [
+    {
+      "changed_archive_entries": [
+        "package/BUILD-INFO.json",
+        "package/VALIDATION.json",
+        "package/package.json",
+        "package/validation-evidence/original-build-candidate.json"
+      ],
+      "filename": "airs-harness-darwin-arm64-0.1.3-alpha.4.mcp.1.tgz",
+      "integrity": "sha512-cXpqLn2bh0krD2J7qGgMc8y5PAaJSvlJQWdw2280oKkIvS/gKhga2VhYcq/XJkus8LTMYHfy2D38p6ojfeLi+A==",
+      "name": "airs-harness-darwin-arm64",
+      "original_candidate_sha256": "0964371b86c3d8cdec511b9f7258b4bb174c474ee5b8604780b51cc6a83a5d50",
+      "registry_integrity_verified": true,
+      "runtime_payload_unchanged": true,
+      "sha256": "6da22e938387e5333093dca8dd00541caed8121cc33e2c993a3d5356b597a973",
+      "version": "0.1.3-alpha.4.mcp.1"
+    },
+    {
+      "changed_archive_entries": [
+        "package/package.json"
+      ],
+      "filename": "airs-harness-0.1.3-alpha.4.mcp.1.tgz",
+      "integrity": "sha512-OMisZjlHNwe4+vBUgHsLx4isRFGC+156KxWo6cVsKlFWxjrG4G9QXxujUZjN8M3nLXJ0hx0GMvfo0tGZ4PZ3EQ==",
+      "name": "airs-harness",
+      "original_candidate_sha256": "6bf7c02bbb7998c93233a9ca88dfb741ada3d3fe62940b66c16ac650613655a8",
+      "registry_integrity_verified": true,
+      "runtime_payload_unchanged": true,
+      "sha256": "3cae89b12aa7e361cd7520cb46fd8ecb491124a20eb6decadd9a3a2835ae5a58",
+      "version": "0.1.3-alpha.4.mcp.1"
+    }
+  ],
+  "production_acceptance": false,
+  "published": true,
+  "registry": "https://npm.cdot.io",
+  "schema_version": 1,
+  "scope": "owner-authorized-mac-preview",
+  "source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+  "spec_sha256": "17811c05448bfdbcbe8ef76eb64b6c4eb3d7fff799b01fdd71dbe5ee1ba9a96b",
+  "tag": "mac-preview",
+  "version": "0.1.3-alpha.4.mcp.1"
+}

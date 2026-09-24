@@ -1,0 +1,17 @@
+{
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "binary_sha256": {
+    "baseline": "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4",
+    "candidate": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973"
+  },
+  "scope": "Isolated release binary startup/status/cancellation. Fresh application homes, warm OS page cache; not a cold OS cache benchmark. Trust-dialog input delay excluded.",
+  "candidate_baseline_ratios": {
+    "first_status_after_configuration": 0.9742885296470776,
+    "warm_status": 0.9353559397841712,
+    "warm_startup_to_trust": 1.0077932745467524,
+    "warm_continue_to_ready": 1.0169258708672841,
+    "cancel_to_notice": 0.9858092841820405
+  },
+  "startup_budget_met": true,
+  "candidate_cancellation_under_one_second": true
+}

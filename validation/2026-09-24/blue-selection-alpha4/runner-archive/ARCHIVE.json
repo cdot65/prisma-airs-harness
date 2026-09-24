@@ -1,0 +1,10 @@
+{
+  "names": [
+    "terminal013r3-candidate",
+    "alpha2-roundtrip",
+    "alpha2-upgrade"
+  ],
+  "archive_sha256": "da08bb015e39477b7b056bdbd8325e5527f030c6fea1fd94d242373cbb858db5",
+  "members": 75123,
+  "fully_read": true
+}

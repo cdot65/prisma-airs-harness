@@ -1,0 +1,28 @@
+from pathlib import Path
+import json,subprocess,sys,tarfile,time,hashlib
+r=Path(__file__).resolve().parent;mode=sys.argv[1];assert mode in ['candidate','registry'];remote='/Users/cdot/.cache/airs-selection-20260924/selection013r4-candidate';ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','cdot@10.0.1.121'];end=time.monotonic()+2*3600
+marker='HOST-COMPLETE.json' if mode=='candidate' else 'REGISTRY-HOST-COMPLETE.json'
+while True:
+ p=subprocess.run(ssh+['cat '+remote+'/'+marker],capture_output=True,text=True)
+ if p.returncode==0:
+  complete=json.loads(p.stdout);break
+ if time.monotonic()>end:raise TimeoutError('Native checks not complete')
+ time.sleep(20)
+areas=['candidate-acceptance/aarch64-apple-darwin','accept-dispatch','extras-dispatch','extra-candidate'] if mode=='candidate' else ['registry-acceptance/aarch64-apple-darwin','verify-dispatch']
+code='''from pathlib import Path
+import sys,tarfile
+r=Path('''+repr(remote)+''');areas='''+repr(areas)+'''
+with tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz') as archive:
+ for area in areas:
+  for p in sorted((r/area).rglob('*')):
+   if p.is_file() and p.suffix in ['.json','.log','.txt'] and not p.name.endswith('.private.log'):
+    assert p.stat().st_size<20*1024**2
+    archive.add(p,arcname=str(p.relative_to(r)),recursive=False)
+'''
+a=r/(mode+'-evidence.tar.gz')
+with a.open('xb') as output:subprocess.run(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=code.encode(),stdout=output,check=True)
+dest=r/(mode+'-collected');dest.mkdir()
+with tarfile.open(a) as t:t.extractall(dest,filter='data')
+(r/(mode.upper()+'-NATIVE-COMPLETE.json')).write_text(json.dumps({'native':complete,'archive_sha256':hashlib.sha256(a.read_bytes()).hexdigest(),'areas':areas},indent=2)+'\n')
+assert complete['passed'],'Native check failed; collected evidence retained'
+print('Collected passing '+mode+' native checks')

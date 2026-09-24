@@ -5,6 +5,7 @@ import fcntl
 import os
 from pathlib import Path
 import struct
+import signal
 import termios
 import threading
 import tomllib
@@ -49,17 +50,35 @@ class TranscriptTerminal(unittest.TestCase):
             offset = len(terminal.transcript)
             os.write(terminal.master, b"\x14")
             terminal.wait_for(b"\x1b[?1049h", offset)
+            terminal.wait_for(b"q close", offset)
+            screen = pyte.Screen(120, 40)
+            stream = pyte.Stream(screen)
+            decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+            consumed = 0
+
+            def rendered():
+                nonlocal consumed
+                stream.feed(decoder.decode(terminal.transcript[consumed:]))
+                consumed = len(terminal.transcript)
+                return "\n".join(screen.display)
+
+            rendered()
             for rows, columns in [(16, 40), (40, 120)]:
-                offset = len(terminal.transcript)
+                screen.resize(lines=rows, columns=columns)
+                screen.reset()
                 fcntl.ioctl(
                     terminal.master,
                     termios.TIOCSWINSZ,
                     struct.pack("HHHH", rows, columns, 0, 0),
                 )
-                terminal.wait_until(lambda: len(terminal.transcript) > offset)
-                offset = len(terminal.transcript)
+                # Explicitly deliver the window-change signal for this PTY's
+                # process group; a heartbeat is not evidence of resized layout.
+                os.killpg(terminal.process.pid, signal.SIGWINCH)
+                terminal.wait_until(lambda: "q close" in rendered().splitlines()[-2])
+            offset = len(terminal.transcript)
             os.write(terminal.master, b"\x14")
-            terminal.wait_for(draft.encode(), offset)
+            terminal.wait_for(b"\x1b[?1049l", offset)
+            terminal.wait_until(lambda: draft in rendered())
             self.assertEqual(len(conversation_requests(fixture)), count)
             self.assertEqual(fixture.mcp_requests, [])
             for path, _, body in fixture.requests:

@@ -1354,7 +1354,13 @@ class TerminalIntegration(unittest.TestCase):
                 self.send_header("Content-Length", str(len(data)))
                 self.end_headers()
                 release = getattr(owner, "question_turn_release", None)
-                if number == 2 and release is not None:
+                if (
+                    number > 1
+                    and release is not None
+                    and latest_user_text(body) in owner.phase_replies
+                ):
+                    # Background naming can arrive between the initial tool call
+                    # and its follow-up, so identify the conversation by its prompt.
                     # Questions are actionable during a live turn. Keep it live until
                     # the fixture submits the answer; terminal completion now recovers drafts.
                     completion = ("data: " + json.dumps(events[-1]) + "\n\n").encode()

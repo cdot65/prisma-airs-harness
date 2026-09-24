@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 2132474,
+  "evidence_commit": "59755f74732821f40165e268d0f1579fd694ff08",
+  "evidence_root": "validation/2026-09-24/blue-selection-alpha4",
+  "files_checked": 161,
+  "inventory_sha256": "7c60be84285e405884b470d36fbfea39a7fd2ffb5f09e56d6cf1a2c6d37acb70",
+  "manifest_blob_id": "f72ec271138aeca4b0a269c2a879b1bd4a596dda",
+  "manifest_sha256": "64396f72278b2a5bfe45862387f2ff380f104a09b3efe23307c34075381de042",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 20
+}

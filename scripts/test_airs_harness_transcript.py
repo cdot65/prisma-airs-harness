@@ -100,13 +100,15 @@ class TranscriptTerminal(unittest.TestCase):
                         offset = len(terminal.transcript)
                         terminal.send_line(command)
                         terminal.wait_for(heading, offset)
-                        terminal.wait_until(lambda: len(selections()) == 1)
-                        first = selections()[0]
+                        terminal.wait_until(lambda: bool(selections()))
+                        # A selected choice may occupy several adjacent wrapped rows.
+                        first = selections()
                         os.write(terminal.master, b"\x1b[B")
                         terminal.wait_until(
-                            lambda: len(selections()) == 1 and selections()[0] != first
+                            lambda: bool(selections()) and selections() != first
                         )
-                        self.assertEqual(len(selections()), 1)
+                        rows = [y for y, _text in selections()]
+                        self.assertEqual(rows, list(range(rows[0], rows[-1] + 1)))
                         os.write(terminal.master, b"\x1b")
                         terminal.wait_until(lambda: not selections())
                 self.assertEqual(fixture.requests, [])

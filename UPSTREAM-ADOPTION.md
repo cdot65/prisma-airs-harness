@@ -345,3 +345,19 @@ owner checks are not awarded the final test point. Fullscreen/search is a deferr
 compatibility decision, not an implemented phase awarded a score. Stable remains
 0.1.2; the prior cross-platform `mcp` tag remains alpha.2. Evidence is retained in
 `validation/2026-09-24/terminal-upstream-alpha3/`.
+
+## Selected menu fill — September 24 follow-up
+
+The requested blue selection comes from upstream contrast/picker work
+`132c2be239ecbc1f2a9bb22d9210fefe887986a5` and its shared-menu adoption in
+`c9d13e8c757cd330a572e9a39e365866069aef07`. Selectively adapt the contrast resolver
+and selected-row fill, preserving existing AIRS menu layout and authentication.
+Known truecolor/256-color palettes use light/dark blue with at least 4.5:1 text
+contrast after conversion; unknown/limited palettes use terminal-owned reverse
+video. Wrapped rows and truncated ellipses retain the fill; disabled rows do not
+acquire it. No fullscreen renderer, input-state or OAuth change is involved.
+
+Source TUI gate: 4,388 passed, two skips. Initial failures exposed a lost style
+on truncated lines; applying the style after truncation corrected it. Reviewed
+snapshots reflect the full-width fill and styled padding, with unchanged visible
+text. Native Mac menu/color and release acceptance are pending for alpha.4.

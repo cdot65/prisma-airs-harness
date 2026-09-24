@@ -1,3 +1,7 @@
+//! Shared AIRS styles; picker fills selectively adapted from upstream Codex.
+
+mod contrast;
+
 use crate::color::blend;
 use crate::color::is_light;
 use crate::terminal_palette::StdoutColorLevel;
@@ -9,6 +13,15 @@ use crate::terminal_palette::rgb_color;
 use crate::terminal_palette::stdout_color_level;
 use ratatui::style::Color;
 use ratatui::style::Style;
+
+// Upstream picker palette. Kept local to selection surfaces; AIRS branding is unchanged.
+const CHATGPT_BLUE_100: (u8, u8, u8) = (164, 205, 251);
+const CHATGPT_BLUE_200: (u8, u8, u8) = (99, 168, 248);
+
+/// Selected menu rows use a contrast-checked blue fill or terminal-owned reverse video.
+pub(crate) fn selection_style() -> Style {
+    contrast::selection_style(default_bg(), effective_stdout_color_level())
+}
 
 const LIGHT_BG_ACCENT_RGB: (u8, u8, u8) = (0, 95, 135);
 

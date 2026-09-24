@@ -13,7 +13,7 @@ use crate::line_truncation::line_width;
 use crate::line_truncation::truncate_line_with_ellipsis_if_overflow;
 use crate::render::Insets;
 use crate::render::RectExt as _;
-use crate::style::accent_style;
+use crate::style::selection_style;
 use crate::style::user_message_style;
 use crate::width::display_width;
 
@@ -328,9 +328,12 @@ fn wrap_row_lines(
 
 fn apply_row_state_style(lines: &mut [Line<'static>], selected: bool, is_disabled: bool) {
     if selected {
+        let style = selection_style();
         for line in lines.iter_mut() {
+            // Fill the whole row, including wrapped continuations and trailing cells.
+            line.style = style;
             line.spans.iter_mut().for_each(|span| {
-                span.style = accent_style();
+                span.style = style;
             });
         }
     }
@@ -684,19 +687,15 @@ pub(crate) fn render_rows_single_line_with_col_width_mode(
             break;
         }
 
-        let mut full_line = build_full_line(row, desc_col, column_width.description_layout);
-        if Some(i) == state.selected_idx && !row.is_disabled {
-            full_line.spans.iter_mut().for_each(|span| {
-                span.style = accent_style();
-            });
-        }
-        if row.is_disabled {
-            full_line.spans.iter_mut().for_each(|span| {
-                span.style = span.style.dim();
-            });
-        }
+        let full_line = build_full_line(row, desc_col, column_width.description_layout);
+        let mut full_line = truncate_line_with_ellipsis_if_overflow(full_line, area.width as usize);
+        // Truncation can rebuild the line: apply the fill after the ellipsis is inserted.
+        apply_row_state_style(
+            std::slice::from_mut(&mut full_line),
+            Some(i) == state.selected_idx && !row.is_disabled,
+            row.is_disabled,
+        );
 
-        let full_line = truncate_line_with_ellipsis_if_overflow(full_line, area.width as usize);
         full_line.render(
             Rect {
                 x: area.x,
@@ -945,7 +944,7 @@ mod tests {
     }
 
     #[test]
-    fn selected_rows_use_the_shared_accent_style() {
+    fn selected_rows_use_the_shared_selection_style() {
         let rows = vec![GenericDisplayRow {
             name: "selected".to_string(),
             ..Default::default()
@@ -962,8 +961,12 @@ mod tests {
         );
 
         let style = buf[(0, 0)].style();
-        let expected = accent_style();
+        let expected = selection_style();
         assert_eq!(style.fg, expected.fg);
         assert!(style.add_modifier.contains(Modifier::BOLD));
     }
 }
+
+#[cfg(test)]
+#[path = "selection_fill_tests.rs"]
+mod selection_fill_tests;

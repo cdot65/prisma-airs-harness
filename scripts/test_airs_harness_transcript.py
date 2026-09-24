@@ -30,7 +30,88 @@ def conversation_requests(fixture):
     ]
 
 
+class PaletteTerminal(TerminalSession):
+    """Answer the real startup color probe without modifying product configuration."""
+
+    def __init__(self, *args, background, **kwargs):
+        self.background = background
+        self.answered = {}
+        super().__init__(*args, **kwargs)
+
+    def wait_until(self, predicate, timeout=30):
+        def observe():
+            replies = {
+                b"\x1b]10;?\x1b\\": b"\x1b]10;rgb:eeee/eeee/eeee\x1b\\",
+                b"\x1b]11;?\x1b\\": b"\x1b]11;rgb:" + self.background + b"\x1b\\",
+                b"\x1b[6n": b"\x1b[1;1R",
+                b"\x1b[?u": b"\x1b[?0u",
+                b"\x1b[c": b"\x1b[?1;2c",
+            }
+            for query, reply in replies.items():
+                count = self.transcript.count(query)
+                if count > self.answered.get(query, 0):
+                    os.write(self.master, reply * (count - self.answered.get(query, 0)))
+                    self.answered[query] = count
+            return predicate()
+
+        super().wait_until(observe, timeout)
+
+
 class TranscriptTerminal(unittest.TestCase):
+    def test_airs_menus_paint_blue_selection_and_move_it_with_keyboard(self):
+        for background, expected in [
+            (b"1111/1111/1111", "63a8f8"),
+            (b"ffff/ffff/ffff", "a4cdfb"),
+        ]:
+            with self.subTest(background=background):
+                fixture = harness.TerminalIntegration()
+                fixture.setUp()
+                self.addCleanup(fixture.doCleanups)
+                fixture.configure()
+                environment = dict(fixture.env, COLORTERM="truecolor", FORCE_COLOR="3")
+                environment.pop("NO_COLOR", None)
+                with PaletteTerminal(
+                    harness.BINARY, environment, fixture.work, background=background
+                ) as terminal:
+                    fixture.terminal_transcript = terminal.transcript
+                    terminal.start()
+                    screen = pyte.Screen(120, 40)
+                    stream = pyte.Stream(screen)
+                    decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+                    consumed = 0
+
+                    def selections():
+                        nonlocal consumed
+                        stream.feed(decoder.decode(terminal.transcript[consumed:]))
+                        consumed = len(terminal.transcript)
+                        return [
+                            (y, text.strip())
+                            for y, text in enumerate(screen.display)
+                            if text.strip()
+                            and any(
+                                screen.buffer[y][x].bg == expected for x in range(120)
+                            )
+                        ]
+
+                    for command, heading in [
+                        ("/mcp", b"MCP connections"),
+                        ("/typesafe", b"TypeSafe Jev"),
+                    ]:
+                        offset = len(terminal.transcript)
+                        terminal.send_line(command)
+                        terminal.wait_for(heading, offset)
+                        terminal.wait_until(lambda: len(selections()) == 1)
+                        first = selections()[0]
+                        os.write(terminal.master, b"\x1b[B")
+                        terminal.wait_until(
+                            lambda: len(selections()) == 1 and selections()[0] != first
+                        )
+                        self.assertEqual(len(selections()), 1)
+                        os.write(terminal.master, b"\x1b")
+                        terminal.wait_until(lambda: not selections())
+                self.assertEqual(fixture.requests, [])
+                self.assertEqual(fixture.mcp_requests, [])
+
     def test_transcript_resize_restores_draft_without_replaying_inference(self):
         fixture = harness.TerminalIntegration()
         fixture.setUp()

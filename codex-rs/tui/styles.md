@@ -19,3 +19,12 @@
 - Avoid ANSI `blue` and `yellow` because for now the style guide doesn't use them. Prefer a foreground color mentioned above.
 
 (There are some rules to try to catch this in `clippy.toml`.)
+
+## Selected menu rows
+
+Selected picker rows use the upstream contrast-aware blue fill: lighter blue on
+light backgrounds and stronger blue on dark backgrounds, adjusted when the canvas
+is itself blue. Text must retain at least 4.5:1 contrast after palette reduction.
+This is a bounded exception to the custom-color guidance above. Unknown background,
+16-color and color-disabled terminals use terminal-owned reverse video with a bold
+selection marker. Disabled and unselected rows keep their existing treatment.

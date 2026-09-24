@@ -1,5 +1,6 @@
 """Exercise the installed AIRS transcript overlay with a draft and terminal resize."""
 
+import codecs
 import fcntl
 import os
 from pathlib import Path
@@ -9,6 +10,8 @@ import threading
 import tomllib
 import json
 import unittest
+
+import pyte
 
 import test_airs_harness as harness
 from airs_harness_pty import TerminalSession
@@ -92,11 +95,27 @@ class QuestionRecoveryTerminal(unittest.TestCase):
             os.write(terminal.master, b"\x1b[1;3A")
             terminal.wait_for(b"enter submit", offset)
             os.write(terminal.master, b"\x1b[200~" + answer.encode() + b"\x1b[201~")
-            terminal.wait_for(answer.encode(), offset)
+            screen = pyte.Screen(120, 40)
+            stream = pyte.Stream(screen)
+            decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+            consumed = 0
+
+            def rendered():
+                nonlocal consumed
+                stream.feed(decoder.decode(terminal.transcript[consumed:]))
+                consumed = len(terminal.transcript)
+                return "\n".join(screen.display)
+
+            terminal.wait_until(lambda: answer in rendered())
             offset = len(terminal.transcript)
             fixture.question_turn_release.set()
-            terminal.wait_for(draft.encode(), offset)
-            terminal.wait_for(answer.encode(), offset)
+            terminal.wait_until(
+                lambda: (
+                    draft in rendered()
+                    and answer in rendered()
+                    and "enter submit" not in rendered()
+                )
+            )
             self.assertEqual(
                 len(fixture.requests), 2, "Recovery must not submit the answer"
             )

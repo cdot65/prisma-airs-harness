@@ -2,7 +2,8 @@
 
 use super::markdown_render_cache::MarkdownRenderCache;
 use super::*;
-use crate::terminal_hyperlinks::annotate_web_urls_in_line;
+use crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines;
+use crate::terminal_hyperlinks::annotate_web_urls;
 use crate::terminal_hyperlinks::remap_wrapped_line;
 use crate::wrapping::url_preserving_wrap_options;
 use crate::wrapping::word_wrap_line;
@@ -192,45 +193,41 @@ impl HistoryCell for UserHistoryCell {
         } else {
             let wrap_options = RtOptions::new(usize::from(wrap_width))
                 .wrap_algorithm(textwrap::WrapAlgorithm::FirstFit);
-            let mut wrapped = if text_elements.is_empty() {
-                let message_without_trailing_newlines = message.trim_end_matches(['\r', '\n']);
-                adaptive_wrap_lines(
-                    message_without_trailing_newlines
-                        .split('\n')
-                        .map(|line| Line::from(line).style(style)),
-                    wrap_options,
-                )
+            let logical_lines = if text_elements.is_empty() {
+                message
+                    .trim_end_matches(['\r', '\n'])
+                    .split('\n')
+                    .map(|line| Line::from(line.to_owned()).style(style))
+                    .collect()
             } else {
-                adaptive_wrap_lines(
-                    build_user_message_lines_with_elements(
-                        message.as_ref(),
-                        text_elements,
-                        style,
-                        element_style,
-                    ),
-                    wrap_options,
+                build_user_message_lines_with_elements(
+                    message.as_ref(),
+                    text_elements,
+                    style,
+                    element_style,
                 )
-            }
-            .into_iter()
-            .flat_map(|line| {
-                if line.width() <= usize::from(wrap_width) {
-                    return vec![HyperlinkLine::new(line)];
-                }
+            };
+            let mut wrapped =
+                adaptive_wrap_hyperlink_lines(&annotate_web_urls(logical_lines), wrap_options)
+                    .into_iter()
+                    .flat_map(|line| {
+                        if line.width() <= usize::from(wrap_width) {
+                            return vec![line];
+                        }
 
-                // Terminal autowrap loses the message gutter and background. Explicitly split
-                // oversized URL tokens while retaining their complete OSC-8 destination.
-                let line = annotate_web_urls_in_line(line);
-                let forced_lines = word_wrap_line(
-                    &line.line,
-                    url_preserving_wrap_options(RtOptions::new(usize::from(wrap_width)))
-                        .break_words(/*break_words*/ true),
-                )
-                .iter()
-                .map(line_to_static)
-                .collect();
-                remap_wrapped_line(&line, forced_lines)
-            })
-            .collect::<Vec<_>>();
+                        // Terminal autowrap loses the message gutter and background. Explicitly split
+                        // oversized URL tokens while retaining their complete OSC-8 destination.
+                        let forced_lines = word_wrap_line(
+                            &line.line,
+                            url_preserving_wrap_options(RtOptions::new(usize::from(wrap_width)))
+                                .break_words(/*break_words*/ true),
+                        )
+                        .iter()
+                        .map(line_to_static)
+                        .collect();
+                        remap_wrapped_line(&line, forced_lines)
+                    })
+                    .collect::<Vec<_>>();
             while wrapped.last().is_some_and(|line| {
                 line.line
                     .spans

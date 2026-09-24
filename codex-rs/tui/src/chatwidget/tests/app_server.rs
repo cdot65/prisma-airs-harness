@@ -1526,7 +1526,14 @@ async fn live_app_server_turn_completion_repairs_dropped_message_deltas() {
         })
         .collect::<Vec<_>>();
     assert_eq!(consolidations.len(), 1);
-    assert_eq!(chat.bottom_pane.question_editor().unanswered_count(), 0);
+    assert_eq!(
+        chat.bottom_pane
+            .questions
+            .as_ref()
+            .unwrap()
+            .unanswered_count(),
+        0
+    );
 }
 
 #[tokio::test]

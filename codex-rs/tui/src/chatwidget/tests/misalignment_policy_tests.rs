@@ -175,11 +175,15 @@ async fn misalignment_turn_end_discards_history_search_and_question_drafts() {
     );
 
     assert_eq!(chat.capture_thread_input_state().unwrap().composer, None);
-    assert_eq!(chat.bottom_pane.question_editor().unanswered_count(), 0);
-    chat.clear_misalignment_for_new_turn(
-        "acknowledged-turn",
-        MisalignmentTurnSource::AcknowledgedContinuation,
+    assert_eq!(
+        chat.bottom_pane
+            .questions
+            .as_ref()
+            .unwrap()
+            .unanswered_count(),
+        0
     );
+    chat.clear_misalignment_for_new_turn("acknowledged-turn");
     assert!(chat.bottom_pane.no_modal_or_popup_active());
     chat.handle_key_event(KeyEvent::from(KeyCode::Esc));
     assert_eq!(chat.capture_thread_input_state().unwrap().composer, None);

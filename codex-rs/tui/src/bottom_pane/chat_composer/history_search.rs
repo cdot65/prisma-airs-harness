@@ -310,7 +310,7 @@ impl ChatComposer {
         self.apply_history_search_result(result);
     }
 
-    /// Cancels active history search and restores the draft from before search mode opened.
+    /// Cancels active history search and restores the saved draft including background recovery.
     ///
     /// This clears normal history navigation as well as search traversal because previewing a match
     /// temporarily updates the shared history cursor. Callers that handle global cancellation, such
@@ -334,7 +334,7 @@ impl ChatComposer {
     ///
     /// `Found` previews the matching entry, `Pending` keeps the footer in a waiting state while an
     /// async persistent entry lookup is outstanding, `AtBoundary` preserves the current match, and
-    /// `NotFound` restores the original draft while keeping the query available for further edits,
+    /// `NotFound` restores the frozen preview draft while keeping the query available for further edits,
     /// and `Unavailable` does the same without claiming there was no match. Treating `AtBoundary`
     /// like `NotFound` would produce the visible "no match" flicker at the end of a one-result
     /// search and desynchronize Up/Down counts.

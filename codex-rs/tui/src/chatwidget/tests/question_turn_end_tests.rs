@@ -45,7 +45,11 @@ async fn question_turn_end_appends_open_drafts_in_order_once() {
         (
             chat.bottom_pane.composer_text(),
             chat.bottom_pane.composer_text_elements(),
-            chat.bottom_pane.question_editor().unanswered_count()
+            chat.bottom_pane
+                .questions
+                .as_ref()
+                .unwrap()
+                .unanswered_count()
         ),
         (
             "$tool existing draft\nOver-ear\nUnder 250".into(),
@@ -235,8 +239,81 @@ fn assert_recovered_draft(chat: &mut ChatWidget, text: &str) {
     assert_eq!(
         (
             chat.bottom_pane.composer_text(),
-            chat.bottom_pane.question_editor().unanswered_count()
+            chat.bottom_pane
+                .questions
+                .as_ref()
+                .unwrap()
+                .unanswered_count()
         ),
         (text.into(), 0)
     );
+}
+
+#[tokio::test]
+async fn question_recovery_preserves_gateway_sign_in_and_never_submits_the_draft() {
+    let (mut chat, _rx, mut ops) = make_chatwidget_manual(/*model_override*/ None).await;
+    chat.thread_id = Some(ThreadId::new());
+    handle_turn_started(&mut chat, "turn");
+    chat.bottom_pane
+        .set_composer_text("existing request".into(), Vec::new(), Vec::new());
+    questions(&mut chat, "question");
+    chat.handle_key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::ALT));
+    chat.bottom_pane.handle_paste("unsent answer".into());
+    chat.handle_key_event(KeyEvent::new(KeyCode::Down, KeyModifiers::ALT));
+    chat.input_queue.authentication_pending = true;
+    chat.bottom_pane
+        .show_selection_view(crate::chatwidget::airs_recovery::sign_in_view(
+            /*attempt*/ None,
+        ));
+
+    handle_turn_completed(&mut chat, "turn", /*duration_ms*/ None);
+
+    assert_eq!(
+        chat.bottom_pane.composer_text(),
+        "existing request\nunsent answer"
+    );
+    assert!(chat.input_queue.authentication_pending);
+    assert!(!chat.bottom_pane.no_modal_or_popup_active());
+    assert!(!chat.maybe_send_next_queued_input());
+    assert!(ops.try_recv().is_err());
+    chat.airs_sign_in_completed(Err("Sign-in cancelled".into()));
+    assert_eq!(
+        chat.bottom_pane.composer_text(),
+        "existing request\nunsent answer"
+    );
+    assert!(chat.input_queue.authentication_pending);
+    assert!(ops.try_recv().is_err());
+}
+
+#[tokio::test]
+async fn historical_completion_cannot_consume_live_question_drafts() {
+    let (mut chat, _rx, mut ops) = make_chatwidget_manual(/*model_override*/ None).await;
+    chat.thread_id = Some(ThreadId::new());
+    questions(&mut chat, "live-question");
+    chat.handle_key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::ALT));
+    chat.bottom_pane.handle_paste("live answer".into());
+    chat.handle_turn_completed_notification(
+        TurnCompletedNotification {
+            thread_id: chat.thread_id.unwrap().to_string(),
+            turn: app_server_turn(
+                "historical",
+                AppServerTurnStatus::Completed,
+                /*duration_ms*/ None,
+                /*error*/ None,
+            ),
+        },
+        Some(ReplayKind::ResumeInitialMessages),
+    );
+    assert_eq!(
+        chat.bottom_pane
+            .questions
+            .as_ref()
+            .unwrap()
+            .unanswered_count(),
+        1
+    );
+    assert_eq!(chat.bottom_pane.composer_text(), "");
+    handle_turn_completed(&mut chat, "live", /*duration_ms*/ None);
+    assert_recovered_draft(&mut chat, "live answer");
+    assert!(ops.try_recv().is_err());
 }

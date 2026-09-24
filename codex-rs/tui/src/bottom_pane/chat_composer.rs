@@ -77,7 +77,7 @@
 //! # Question Draft Recovery
 //!
 //! Live terminal turns recover typed, unsubmitted question answers into the main composer.
-//! The append flushes buffered input, dismisses unused sparkle eligibility, and adds a newline
+//! The append flushes buffered input, dismisses the active composer animation, and adds a newline
 //! after existing text. The separator and recovered answer form one Vim edit; large answers
 //! use atomic paste placeholders backed by their original text.
 //!

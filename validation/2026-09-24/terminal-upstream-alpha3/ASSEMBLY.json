@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/tmp/airs-terminal-20260924/release/signing-source/scripts/package_airs_npm.py",
+    "--release-directory",
+    "/tmp/airs-terminal-20260924/release/mac-native/extracted/airs-harness-0.1.3-alpha.3.mcp.1-darwin-arm64",
+    "--output-directory",
+    "/tmp/airs-terminal-20260924/release/candidate-npm",
+    "--registry",
+    "https://npm.cdot.io",
+    "--bundle-cli",
+    "--mac-preview"
+  ],
+  "exit_code": 0,
+  "duration_seconds": 23.55835048900917,
+  "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1"
+}

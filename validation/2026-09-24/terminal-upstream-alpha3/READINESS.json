@@ -1,0 +1,61 @@
+{
+  "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+  "packaging_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "version": "0.1.3-alpha.3.mcp.1",
+  "scope": "owner-authorized-mac-preview",
+  "tag": "mac-preview",
+  "registry": "https://npm.cdot.io",
+  "candidate_and_registry_verified": true,
+  "signed_and_notarized": true,
+  "platforms": [
+    "aarch64-apple-darwin"
+  ],
+  "bundled_cli": "7.1.5",
+  "feature_scores": {
+    "transcript_and_copy": 9,
+    "question_draft_and_history_search": 9,
+    "tmux_and_links": 9,
+    "signed_mac_delivery": 9
+  },
+  "scoring_rubric": {
+    "correctness": 3,
+    "airs_boundaries": 2,
+    "tests": 2,
+    "maintainability": 1,
+    "clarity": 1
+  },
+  "score_limit": "Owner real-account and terminal checks remain; no score point awarded for unrun acceptance.",
+  "workspace": {
+    "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+    "run_id": 3833,
+    "duration_seconds": 1981.938,
+    "total": 18426,
+    "passed": 18423,
+    "failed": 3,
+    "skipped": 34,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "only_reviewed_baseline_failures": true,
+    "suite_all_green": false,
+    "retained_log_sha256": "597222a4579bb4a12e32a064b00669c18687ae20bf9c6576ff7911499fe227e6",
+    "log_source": "Complete uploaded CI validation artifact 19829; source-verified GNU container and terminal CI run status checked separately"
+  },
+  "protected_tags_preserved": true,
+  "previous_versions_checked": [
+    "0.1.2",
+    "0.1.3-alpha.2.mcp.1"
+  ],
+  "deferred": [
+    "fullscreen selection and transcript search renderer migration",
+    "Terminal.app SSH detection dependency review",
+    "Linux distribution builds until owner Mac acceptance",
+    "stable promotion"
+  ],
+  "production_acceptance": false,
+  "paid_jev_calls": false,
+  "documentation_source_commit": "283fcb1a776b7e0bdfabb592ac0c163c6ea558d8"
+}

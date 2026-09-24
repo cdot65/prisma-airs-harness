@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "/tmp/airs-terminal-20260924/release/frozen-tooling-r5/scripts/airs_test_release.py",
+    "stage",
+    "--spec",
+    "/tmp/airs-terminal-20260924/release/SPEC.json",
+    "--packages",
+    "/tmp/airs-terminal-20260924/release/candidate-npm",
+    "--acceptance",
+    "/tmp/airs-terminal-20260924/release/candidate-acceptance",
+    "--output",
+    "/tmp/airs-terminal-20260924/release/staged"
+  ],
+  "exit_code": 0,
+  "seconds": 28.013238257262856
+}

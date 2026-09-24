@@ -1,0 +1,22 @@
+{
+  "native": {
+    "commands": [
+      {
+        "mode": "accept",
+        "exit_code": 0
+      },
+      {
+        "mode": "extras",
+        "exit_code": 0
+      }
+    ],
+    "passed": true
+  },
+  "archive_sha256": "637ea0c17975df7ad01ff4653ed6dfc02d38e2871fa5f43049492cbd192751eb",
+  "areas": [
+    "candidate-acceptance/aarch64-apple-darwin",
+    "accept-dispatch",
+    "extras-dispatch",
+    "extra-candidate"
+  ]
+}

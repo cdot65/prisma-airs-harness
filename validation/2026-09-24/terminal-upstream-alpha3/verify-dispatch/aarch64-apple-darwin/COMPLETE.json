@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "2d7b43aa3395c8ced510a7bdc7c7396634f78d3850514417cf8154140fe61d24",
+  "tooling_manifest_sha256": "5965e8237ba6313405ada01b02d32136205e4e078c4e13f895ad252a9c4d2bb5",
+  "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+  "expected_native_sha256": "ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "40c831528f0e290bbafc3e19520b3e1e8ba89a2ef54450ea6122b00313ff731b",
+    "candidate_packages_sha256": "a9c7eb0380adc0d3fcf5166979c8577299d7436b3801f4af56531864fe79a82c"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 350.59243333293125
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.042485875077546
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.214175458997488
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.114987500011921
+    }
+  ],
+  "passed": true
+}

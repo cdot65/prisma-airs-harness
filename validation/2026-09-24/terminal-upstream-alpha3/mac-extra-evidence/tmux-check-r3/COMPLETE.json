@@ -1,0 +1,8 @@
+{
+  "passed": false,
+  "binary_sha256": "ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99",
+  "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+  "tmux_version": "tmux 3.7c",
+  "status_bar": false,
+  "scope": "Actual isolated tmux; open transcript, resize to 16x40 and 40x120, close and retain unsent draft without conversation replay"
+}

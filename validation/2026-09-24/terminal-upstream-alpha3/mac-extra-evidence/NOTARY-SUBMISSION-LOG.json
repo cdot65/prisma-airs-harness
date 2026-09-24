@@ -1,0 +1,19 @@
+{
+  "logFormatVersion": 1,
+  "jobId": "ac1ee738-0157-42dd-8e7e-9906a9171019",
+  "status": "Accepted",
+  "statusSummary": "Ready for distribution",
+  "statusCode": 0,
+  "archiveFilename": "signed.zip",
+  "uploadDate": "2026-09-24T02:31:31.199Z",
+  "sha256": "926ccdc7962d8e4af969c995b5f1d690c2e52f8a943d0ac4c6ae4342edcd18fd",
+  "ticketContents": [
+    {
+      "path": "signed.zip/prisma-airs-harness-signing/airs-harness",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "a656be8c2753761368bf84e84584ccabf2c57926",
+      "arch": "arm64"
+    }
+  ],
+  "issues": null
+}

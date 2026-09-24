@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "export",
+      "command": [
+        "npm",
+        "run",
+        "export:vault",
+        "--",
+        "/home/cdot/Documents/strength-and-honor"
+      ],
+      "exit_code": 0,
+      "seconds": 0.12343329889699817
+    },
+    {
+      "name": "content",
+      "command": [
+        "npm",
+        "run",
+        "check:content"
+      ],
+      "exit_code": 0,
+      "seconds": 0.11689295526593924
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 11.405710693914443
+    },
+    {
+      "name": "browser",
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "exit_code": 0,
+      "seconds": 10.890618515666574
+    }
+  ]
+}

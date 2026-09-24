@@ -1,0 +1,31 @@
+from pathlib import Path
+import codecs,fcntl,hashlib,json,os,signal,struct,subprocess,sys,termios,uuid
+cache=Path('/Users/cdot/.cache/airs-terminal-20260924');root=cache/'tmux-check-r4';work=cache/'terminal013r3-candidate';spec=json.loads((work/'SPEC.json').read_text());prefix=Path(json.loads((work/'candidate-acceptance/aarch64-apple-darwin.work/LOCAL.json').read_text())['prefix']);binaries=list(prefix.rglob('airs-harness-darwin-arm64/bin/airs-harness'));assert len(binaries)==1;binary=binaries[0]
+with binary.open('rb') as f:sha=hashlib.file_digest(f,'sha256').hexdigest()
+assert sha==spec['platforms'][0]['binary_sha256'];os.environ['AIRS_HARNESS_BIN']=str(binary);sys.path.insert(0,str(cache/'frozen-tooling-r5/scripts'))
+import pyte
+import test_airs_harness as harness
+from airs_harness_pty import TerminalSession
+from test_airs_harness_transcript import conversation_requests
+socket='/tmp/airs-tmux-'+uuid.uuid4().hex[:12];config=root/'tmux.conf';config.write_text('set -g status off\n');wrapper=root/'airs-in-tmux'
+wrapper.write_text('#!'+sys.executable+'\nimport os,sys\nos.execv("/opt/homebrew/bin/tmux", ["tmux", "-u", "-S", '+repr(socket)+', "-f", '+repr(str(config))+', "new-session", "-s", "airs-fixture", "-c", os.getcwd(), '+repr(str(binary))+', *sys.argv[1:]])\n');wrapper.chmod(0o700)
+fixture=harness.TerminalIntegration();fixture.setUp();passed=False
+try:
+ fixture.configure();draft='Keep this unsent AIRS draft'
+ with TerminalSession(wrapper,fixture.env,fixture.work,arguments=[]) as terminal:
+  fixture.terminal_transcript=terminal.transcript
+  def rendered():
+   return subprocess.check_output(['/opt/homebrew/bin/tmux','-S',socket,'capture-pane','-p'],text=True)
+  terminal.start();terminal.send_line('Create result.txt using a local shell tool.');terminal.wait_for(b'Local tool complete.')
+  os.write(terminal.master,b'\x1b[200~'+draft.encode()+b'\x1b[201~');terminal.wait_until(lambda:draft in rendered());count=len(conversation_requests(fixture))
+  os.write(terminal.master,b'\x14');terminal.wait_until(lambda:'q close' in rendered())
+  for rows,columns in [(16,40),(40,120)]:
+   fcntl.ioctl(terminal.master,termios.TIOCSWINSZ,struct.pack('HHHH',rows,columns,0,0));os.killpg(terminal.process.pid,signal.SIGWINCH)
+   terminal.wait_until(lambda:subprocess.check_output(['/opt/homebrew/bin/tmux','-S',socket,'display-message','-p','#{pane_height} #{pane_width}'],text=True).strip()==f'{rows} {columns}' and 'q close' in rendered().splitlines()[-2])
+  os.write(terminal.master,b'\x14');terminal.wait_until(lambda:draft in rendered() and 'q close' not in rendered())
+  assert len(conversation_requests(fixture))==count and not fixture.mcp_requests
+  assert all(path=='/prefix/v1/responses' and 'model' not in body for path,_,body in fixture.requests)
+ passed=True;print('Actual tmux transcript resize and draft restoration passed')
+finally:
+ subprocess.run(['/opt/homebrew/bin/tmux','-S',socket,'kill-server'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);fixture.doCleanups()
+ (root/'COMPLETE.json').write_text(json.dumps({'passed':passed,'binary_sha256':sha,'tooling_commit':spec['tooling_commit'],'tmux_version':subprocess.check_output(['/opt/homebrew/bin/tmux','-V'],text=True).strip(),'status_bar':False,'observation':'tmux capture-pane and pane dimensions; outer terminal escape transport is not interpreted as inner-screen protocol','scope':'Actual isolated tmux; open transcript, resize to 16x40 and 40x120, close and retain unsent draft without conversation replay'},indent=2)+'\n')

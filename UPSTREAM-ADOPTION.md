@@ -284,14 +284,64 @@ small compatibility flag and is not represented as implemented or scored. The
 current inline default and transcript overlay remain. Terminal.app SSH detection
 also awaits its dependency/startup-probe review.
 
-Phase 5 targets **0.1.3-alpha.3.mcp.1**, Apple Silicon only, using the explicit
+Phase 5 delivered **0.1.3-alpha.3.mcp.1**, Apple Silicon only, using the explicit
 `owner-authorized-mac-preview` release scope and `mac-preview` registry channel.
 This scope requires signed Mac evidence, restricts the launcher to Darwin ARM64,
 and cannot satisfy an ordinary three-platform or stable release gate. Linux
 distribution builds await the owner's Mac test. Stable and existing `mcp` tags
-must remain unchanged. Installed acceptance and publication are pending.
+remain unchanged. Exact candidate and fresh anonymous registry acceptance passed;
+the signed/notarized Mac native package and Mac-only launcher are published.
+The immutable Mac-only version cannot later gain Linux packages; the eventual
+all-platform handoff will use a new version.
 
 No gateway authentication, MCP OAuth audience/resource, native-store credential
 boundary, bundled CLI version, protocol schema or dependency upgrade is added by
 these terminal slices. Jev remains behind the existing actual-agent approval
 boundary and is included in regression acceptance.
+
+### Terminal preview acceptance and assessment
+
+Runtime/packaging: `7b177cc58a875f7f35ab91960cbc06f57784d7e1`.
+Frozen validators: `a7488be6ed6f526717a7e3c970f38cdf51f35bd7`.
+The tooling follow-ups corrected terminal fixture assumptions, without changing
+runtime bytes: rendered text can be split by cursor movements, title generation
+is separate from user submission, resize checks need observed layout, and active
+question streams must be keyed by their originating prompt rather than request
+arrival order. Every intermediate failure remains in the retained record.
+
+Apple accepted notarization submission `ac1ee738-0157-42dd-8e7e-9906a9171019`.
+Immediate online ticket verification initially failed; bounded rechecks of the
+unchanged signed bytes passed. Final candidate and fresh registry checks verify
+the Developer ID and explicit notarization requirement. No verification gate was
+bypassed. The package binary SHA-256 is
+`ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99`.
+
+Installed checks cover native-store access, transcript resize and preserved drafts,
+question recovery without automatic submission, MCP management, policy denials,
+diagnostics and Jev through the actual agent approval UI. An additional real tmux
+3.7c pane test passed narrow/wide resizing and draft recovery. Stable 0.1.2 and
+alpha.2 upgrade/rollback both preserve native credentials and conversation history
+while completing three synthetic MCP turns. These are isolated fixtures, not
+owner-account SSO, ServiceNow or paid Jev acceptance.
+
+Full GNU run 3833: **18,423 passed, 3 failed, 34 skipped**. All three remote-shell
+assertion blocks match the retained raw stable baseline after normalizing only
+ANSI/timestamps, whitespace, process IDs and temporary paths. The complete original
+log is retained; the workspace is not reported as fully green. Release contract
+checks passed 82 tests, workflow/cache checks passed three, and scoped Clippy passed.
+Ten measured warm starts met the 10% comparison budget; maximum cancellation was
+11.7 ms. Measurements use fresh homes and warm OS caches, not cold boots.
+
+| Implemented phase | Final preview score | Remaining confidence limit |
+| --- | --- | --- |
+| Transcript navigation and copying | 9/10 | Owner terminal and clipboard acceptance |
+| Answer draft recovery and history search | 9/10 | Owner real-session workflow acceptance |
+| Terminal size and hyperlink resilience | 9/10 | Broader terminal/remote combinations |
+| Integrated signed Mac handoff | 9/10 | Owner real-account acceptance before Linux builds |
+
+Scores use correctness 3, AIRS boundaries 2, tests 2 of 3, maintainability 1 and
+clarity 1. Automated source and installed checks earn the preview gate; unrun
+owner checks are not awarded the final test point. Fullscreen/search is a deferred
+compatibility decision, not an implemented phase awarded a score. Stable remains
+0.1.2; the prior cross-platform `mcp` tag remains alpha.2. Evidence is retained in
+`validation/2026-09-24/terminal-upstream-alpha3/`.

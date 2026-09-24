@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "scope": "owner-authorized-mac-preview",
+  "version": "0.1.3-alpha.3.mcp.1",
+  "tag": "mac-preview",
+  "registry": "https://npm.cdot.io",
+  "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+  "packaging_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "previous_version": "0.1.2",
+  "developer_id_team": "G5QLZ5A8TA",
+  "previous_release": {
+    "source_commit": "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "ef8939ea0ee37ae67b14f9a6eec007abf204fe41a760bd8dffcf8ffc2d91f37d"
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "12e904699348f0bf3be68651d3ec45550eb42ce48ee19d6abe34273c1511775d"
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4"
+      }
+    ]
+  },
+  "platforms": [
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "mode": "accept",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "2d7b43aa3395c8ced510a7bdc7c7396634f78d3850514417cf8154140fe61d24",
+  "tooling_manifest_sha256": "5965e8237ba6313405ada01b02d32136205e4e078c4e13f895ad252a9c4d2bb5",
+  "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+  "expected_native_sha256": "ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "f2a7a28f2108e9deb6626ef053d194af15e106103a2486fe181b5e8a3eeb3b20",
+    "candidate_packages_sha256": "437bcae45a28cc6ef1aedf10418d1d94fc987d9e29e8c2da50bc3de3c36c4399"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/candidate-npm",
+        "--scripts",
+        "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 340.73992612492293
+    }
+  ],
+  "passed": true
+}

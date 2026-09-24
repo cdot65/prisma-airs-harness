@@ -1,0 +1,22 @@
+{
+  "native": {
+    "exit_code": 0,
+    "passed": true,
+    "command": [
+      "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+      "/Users/cdot/.cache/airs-terminal-20260924/native-worker.py",
+      "verify",
+      "--root",
+      "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate",
+      "--tooling",
+      "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5",
+      "--packages",
+      "/Users/cdot/.cache/airs-terminal-20260924/terminal013r3-candidate/staged"
+    ]
+  },
+  "archive_sha256": "0331b7d6579812c68816970d8e47484c59fd1640f3613eb4c7e36cd8b4c4384c",
+  "areas": [
+    "registry-acceptance/aarch64-apple-darwin",
+    "verify-dispatch"
+  ]
+}

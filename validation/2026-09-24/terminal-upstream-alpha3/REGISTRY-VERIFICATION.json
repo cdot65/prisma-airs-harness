@@ -1,0 +1,44 @@
+{
+  "command": [
+    "python3",
+    "/tmp/airs-terminal-20260924/release/frozen-tooling-r5/scripts/airs_test_release.py",
+    "verify-all",
+    "--spec",
+    "/tmp/airs-terminal-20260924/release/SPEC.json",
+    "--acceptance",
+    "/tmp/airs-terminal-20260924/release/registry-collected/registry-acceptance",
+    "--installation",
+    "registry"
+  ],
+  "exit_code": 0,
+  "verification": {
+    "spec_sha256": "f151d1438c4b380912a04aef6509796d283343e45a4a38b1c9bd328f4eefa7e7",
+    "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+    "tooling_commit": "a7488be6ed6f526717a7e3c970f38cdf51f35bd7",
+    "packaging_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+    "version": "0.1.3-alpha.3.mcp.1",
+    "candidate_metadata_sha256": "40c831528f0e290bbafc3e19520b3e1e8ba89a2ef54450ea6122b00313ff731b",
+    "candidate_packages_sha256": "a9c7eb0380adc0d3fcf5166979c8577299d7436b3801f4af56531864fe79a82c",
+    "platforms": [
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "ba2e7656805bd21f3ad3718f982680df1743a03fb37776d90493a1ae3d772b99",
+        "acceptance_sha256": "616ad1abcc87f385f4a4fc466df9b7826731d7c6ecc12e2cdc8648ca3bb7bfa9",
+        "evidence_sha256": "c7360c43d0259d2e891fdd999dd744d9da94fc5b87345b437053b68df245a5bb",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ]
+      }
+    ],
+    "evidence_sha256": "9276e572d88dac29a58d33a8c0433ecad49284ce918031cf533ca6274ccd2c7f"
+  }
+}

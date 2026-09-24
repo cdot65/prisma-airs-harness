@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "anonymous": true,
+  "registry": "https://npm.cdot.io",
+  "packages": [
+    {
+      "name": "airs-harness",
+      "dist_tags": {
+        "latest": "0.1.2",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.2",
+        "mac-preview": "0.1.3-alpha.3.mcp.1"
+      },
+      "old_versions_preserved": true,
+      "only_expected_version_added": true,
+      "new_version_present": true,
+      "new_version_os": [
+        "darwin"
+      ],
+      "new_version_cpu": [
+        "arm64"
+      ]
+    },
+    {
+      "name": "airs-harness-darwin-arm64",
+      "dist_tags": {
+        "latest": "0.1.2",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.2",
+        "mac-preview": "0.1.3-alpha.3.mcp.1"
+      },
+      "old_versions_preserved": true,
+      "only_expected_version_added": true,
+      "new_version_present": true,
+      "new_version_os": [
+        "darwin"
+      ],
+      "new_version_cpu": [
+        "arm64"
+      ]
+    },
+    {
+      "name": "airs-harness-linux-x64",
+      "dist_tags": {
+        "latest": "0.1.2",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.2"
+      },
+      "old_versions_preserved": true,
+      "only_expected_version_added": true,
+      "new_version_present": false,
+      "new_version_os": null,
+      "new_version_cpu": null
+    },
+    {
+      "name": "airs-harness-linux-arm64",
+      "dist_tags": {
+        "latest": "0.1.2",
+        "gateway-validation": "0.1.0-alpha.21",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.2"
+      },
+      "old_versions_preserved": true,
+      "only_expected_version_added": true,
+      "new_version_present": false,
+      "new_version_os": null,
+      "new_version_cpu": null
+    }
+  ]
+}

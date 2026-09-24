@@ -1,0 +1,6 @@
+{
+  "archived_at": "/home/cdot/.cache/airs-terminal-mac-archive-20260924/upstream013r2-candidate.tar.gz",
+  "archive_sha256": "358673fdee4f7af35695a9cf98ad844ac4f0ed91dfb272a530140f4f9ca33830",
+  "removed": "/Users/cdot/.cache/airs-upstream-r2-20260922/upstream013r2-candidate",
+  "disk_after": "Filesystem   1024-blocks      Used Available Capacity iused      ifree %iused  Mounted on\n/dev/disk3s5   482766932 345478636 112632256    76% 2600437 1126322560    0%   /System/Volumes/Data\n"
+}

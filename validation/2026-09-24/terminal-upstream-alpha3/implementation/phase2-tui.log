@@ -1,0 +1,78 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tui)
+error[E0624]: method `question_editor` is private
+    --> tui/src/chatwidget/tests/app_server.rs:1529:33
+     |
+1529 |     assert_eq!(chat.bottom_pane.question_editor().unanswered_count(), 0);
+     |                                 ^^^^^^^^^^^^^^^ private method
+     |
+    ::: tui/src/bottom_pane/questions.rs:16:5
+     |
+  16 |     fn question_editor(&mut self) -> &mut AsyncQuestions {
+     |     ---------------------------------------------------- private method defined here
+
+error[E0624]: method `question_editor` is private
+   --> tui/src/chatwidget/tests/misalignment_policy_tests.rs:178:33
+    |
+178 |     assert_eq!(chat.bottom_pane.question_editor().unanswered_count(), 0);
+    |                                 ^^^^^^^^^^^^^^^ private method
+    |
+   ::: tui/src/bottom_pane/questions.rs:16:5
+    |
+ 16 |     fn question_editor(&mut self) -> &mut AsyncQuestions {
+    |     ---------------------------------------------------- private method defined here
+
+error[E0433]: cannot find type `MisalignmentTurnSource` in this scope
+   --> tui/src/chatwidget/tests/misalignment_policy_tests.rs:181:9
+    |
+181 |         MisalignmentTurnSource::AcknowledgedContinuation,
+    |         ^^^^^^^^^^^^^^^^^^^^^^ use of undeclared type `MisalignmentTurnSource`
+
+error[E0061]: this method takes 1 argument but 2 arguments were supplied
+   --> tui/src/chatwidget/tests/misalignment_policy_tests.rs:179:10
+    |
+179 |     chat.clear_misalignment_for_new_turn(
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+180 |         "acknowledged-turn",
+181 |         MisalignmentTurnSource::AcknowledgedContinuation,
+    |         ------------------------------------------------ unexpected argument #2
+    |
+note: method defined here
+   --> tui/src/chatwidget/misalignment_policy.rs:214:19
+    |
+214 |     pub(crate) fn clear_misalignment_for_new_turn(&mut self, turn_id: &str) {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: remove the extra argument
+    |
+180 -         "acknowledged-turn",
+181 -         MisalignmentTurnSource::AcknowledgedContinuation,
+180 +         "acknowledged-turn",
+    |
+
+error[E0624]: method `question_editor` is private
+  --> tui/src/chatwidget/tests/question_turn_end_tests.rs:48:30
+   |
+48 |             chat.bottom_pane.question_editor().unanswered_count()
+   |                              ^^^^^^^^^^^^^^^ private method
+   |
+  ::: tui/src/bottom_pane/questions.rs:16:5
+   |
+16 |     fn question_editor(&mut self) -> &mut AsyncQuestions {
+   |     ---------------------------------------------------- private method defined here
+
+error[E0624]: method `question_editor` is private
+   --> tui/src/chatwidget/tests/question_turn_end_tests.rs:238:30
+    |
+238 |             chat.bottom_pane.question_editor().unanswered_count()
+    |                              ^^^^^^^^^^^^^^^ private method
+    |
+   ::: tui/src/bottom_pane/questions.rs:16:5
+    |
+ 16 |     fn question_editor(&mut self) -> &mut AsyncQuestions {
+    |     ---------------------------------------------------- private method defined here
+
+Some errors have detailed explanations: E0061, E0433, E0624.
+For more information about an error, try `rustc --explain E0061`.
+error: could not compile `codex-tui` (lib test) due to 6 previous errors
+error: command `/home/cdot/.rustup/toolchains/1.95.0-x86_64-unknown-linux-musl/bin/cargo '--color=auto' test --no-run --message-format json-render-diagnostics --package codex-tui --lib` exited with code 101
+error: Recipe `test` failed on line 88 with exit code 101

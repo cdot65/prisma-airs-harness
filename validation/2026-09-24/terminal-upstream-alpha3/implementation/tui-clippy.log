@@ -1,0 +1,7 @@
+cargo clippy --fix --tests --allow-dirty {args}
+error: the argument '--allow-dirty' cannot be used multiple times
+
+Usage: cargo fix [OPTIONS]
+
+For more information, try '--help'.
+error: Recipe `fix` failed on line 58 with exit code 1

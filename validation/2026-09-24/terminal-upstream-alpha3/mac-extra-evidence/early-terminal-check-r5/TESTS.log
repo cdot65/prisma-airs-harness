@@ -1,0 +1,8 @@
+test_completed_turn_recovers_unsent_answer_into_existing_draft (test_airs_harness_transcript.QuestionRecoveryTerminal.test_completed_turn_recovers_unsent_answer_into_existing_draft) ... ok
+test_transcript_resize_restores_draft_without_replaying_inference (test_airs_harness_transcript.TranscriptTerminal.test_transcript_resize_restores_draft_without_replaying_inference) ... ok
+test_inline_question_preserves_draft_and_gateway_route (test_airs_harness.TerminalIntegration.test_inline_question_preserves_draft_and_gateway_route) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.652s
+
+OK

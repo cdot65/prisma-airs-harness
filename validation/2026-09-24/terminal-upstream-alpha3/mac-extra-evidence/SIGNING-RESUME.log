@@ -1,0 +1,114 @@
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 238, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 226, in main
+    verify(
+    ~~~~~~^
+        args.binary,
+        ^^^^^^^^^^^^
+    ...<5 lines>...
+        args.submission,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 164, in verify
+    run(
+    ~~~^
+        "notarization",
+        ^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 139, in run
+    raise ValueError(f"Native {name} verification failed; inspect retained log")
+ValueError: Native notarization verification failed; inspect retained log
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 238, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 226, in main
+    verify(
+    ~~~~~~^
+        args.binary,
+        ^^^^^^^^^^^^
+    ...<5 lines>...
+        args.submission,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 164, in verify
+    run(
+    ~~~^
+        "notarization",
+        ^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 139, in run
+    raise ValueError(f"Native {name} verification failed; inspect retained log")
+ValueError: Native notarization verification failed; inspect retained log
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 238, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 226, in main
+    verify(
+    ~~~~~~^
+        args.binary,
+        ^^^^^^^^^^^^
+    ...<5 lines>...
+        args.submission,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 164, in verify
+    run(
+    ~~~^
+        "notarization",
+        ^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 139, in run
+    raise ValueError(f"Native {name} verification failed; inspect retained log")
+ValueError: Native notarization verification failed; inspect retained log
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 238, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 226, in main
+    verify(
+    ~~~~~~^
+        args.binary,
+        ^^^^^^^^^^^^
+    ...<5 lines>...
+        args.submission,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 164, in verify
+    run(
+    ~~~^
+        "notarization",
+        ^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 139, in run
+    raise ValueError(f"Native {name} verification failed; inspect retained log")
+ValueError: Native notarization verification failed; inspect retained log
+{"passed": true, "platform": "darwin", "separate_processes": 7, "workspace_v2_max_token_bytes": 16384, "cases": [{"passed": true, "phase": "write"}, {"passed": true, "phase": "read-and-pend"}, {"passed": true, "phase": "read-and-delete"}, {"passed": true, "phase": "workspace-legacy-write"}, {"passed": true, "phase": "workspace-read-and-write-v2"}, {"passed": true, "phase": "workspace-read-both-delete-legacy"}, {"passed": true, "phase": "workspace-read-and-delete-v2"}]}
+{
+  "archive": "/Users/cdot/.cache/airs-terminal-20260924/signing-temp/airs-gateway-package/mac-release/airs-harness-0.1.3-alpha.3.mcp.1-darwin-arm64.tar.gz",
+  "sha256": "5c137eb41bff114f68c9252ae7e66b4c470489da3936828b606bfecb465d9ded",
+  "source_commit": "7b177cc58a875f7f35ab91960cbc06f57784d7e1"
+}

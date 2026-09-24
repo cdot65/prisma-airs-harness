@@ -1,0 +1,48 @@
+test_candidate_and_registry_acceptances_cannot_substitute (test_airs_release_acceptance.AcceptanceEvidenceTests.test_candidate_and_registry_acceptances_cannot_substitute) ... ok
+test_changed_candidate_archive_is_not_resumable (test_airs_release_acceptance.AcceptanceEvidenceTests.test_changed_candidate_archive_is_not_resumable) ... ok
+test_missing_native_target_and_missing_stage_never_pass (test_airs_release_acceptance.AcceptanceEvidenceTests.test_missing_native_target_and_missing_stage_never_pass) ... FAIL
+test_output_hash_verification_survives_optimized_python (test_airs_release_acceptance.AcceptanceEvidenceTests.test_output_hash_verification_survives_optimized_python) ... ok
+test_portable_receipts_bind_all_native_targets_and_exact_archives (test_airs_release_acceptance.AcceptanceEvidenceTests.test_portable_receipts_bind_all_native_targets_and_exact_archives) ... ok
+test_rehashed_zero_or_all_skipped_suite_still_rejected (test_airs_release_acceptance.AcceptanceEvidenceTests.test_rehashed_zero_or_all_skipped_suite_still_rejected) ... ok
+test_resume_stage_checks_actual_outputs_inputs_dependencies_and_command (test_airs_release_acceptance.AcceptanceEvidenceTests.test_resume_stage_checks_actual_outputs_inputs_dependencies_and_command) ... ok
+test_symlinked_evidence_and_parent_destinations_are_rejected (test_airs_release_acceptance.AcceptanceEvidenceTests.test_symlinked_evidence_and_parent_destinations_are_rejected) ... ok
+test_top_level_identity_and_stage_set_changes_fail_closed (test_airs_release_acceptance.AcceptanceEvidenceTests.test_top_level_identity_and_stage_set_changes_fail_closed) ... ok
+test_upgrade_consumes_archive_only_inputs_and_rejects_changed_integrity (test_airs_release_acceptance.AcceptanceEvidenceTests.test_upgrade_consumes_archive_only_inputs_and_rejects_changed_integrity) ... ok
+test_interrupted_run_resumes_only_rehashed_completed_stages (test_airs_release_acceptance.AcceptanceRunnerTests.test_interrupted_run_resumes_only_rehashed_completed_stages) ... ok
+test_registry_revision_is_bound_through_run_and_resume (test_airs_release_acceptance.AcceptanceRunnerTests.test_registry_revision_is_bound_through_run_and_resume) ... ok
+test_child_environment_drops_credentials_and_disables_optimization (test_airs_release_acceptance.StructuredExecutionTests.test_child_environment_drops_credentials_and_disables_optimization) ... ok
+test_installed_identity_rehashes_native_launcher_and_managed_bundle (test_airs_release_acceptance.StructuredExecutionTests.test_installed_identity_rehashes_native_launcher_and_managed_bundle) ... ok
+test_real_subprocess_results_distinguish_success_failure_zero_and_skipped (test_airs_release_acceptance.StructuredExecutionTests.test_real_subprocess_results_distinguish_success_failure_zero_and_skipped) ... ok
+test_registry_install_and_upgrade_receive_explicit_registry (test_airs_release_acceptance.StructuredExecutionTests.test_registry_install_and_upgrade_receive_explicit_registry) ... ok
+test_tooling_transfer_binds_nested_fixture_files_and_detects_mutation (test_airs_release_acceptance.StructuredExecutionTests.test_tooling_transfer_binds_nested_fixture_files_and_detects_mutation) ... ok
+test_acceptance_references_and_duplicate_json_fields_reject (test_airs_release_git_audit.GitEvidenceAudit.test_acceptance_references_and_duplicate_json_fields_reject) ... ok
+test_extra_committed_file_not_in_manifest_is_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_extra_committed_file_not_in_manifest_is_rejected) ... ok
+test_failed_cli_does_not_overwrite_receipt (test_airs_release_git_audit.GitEvidenceAudit.test_failed_cli_does_not_overwrite_receipt) ... ok
+test_gitlink_is_rejected_and_executable_regular_file_is_allowed (test_airs_release_git_audit.GitEvidenceAudit.test_gitlink_is_rejected_and_executable_regular_file_is_allowed) ... ok
+test_ignored_and_staged_log_cannot_rescue_committed_reference (test_airs_release_git_audit.GitEvidenceAudit.test_ignored_and_staged_log_cannot_rescue_committed_reference) ... ok
+test_limits_fail_before_unbounded_blob_read (test_airs_release_git_audit.GitEvidenceAudit.test_limits_fail_before_unbounded_blob_read) ... ok
+test_manifest_paths_duplicates_and_digests_are_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_manifest_paths_duplicates_and_digests_are_rejected) ... ok
+test_replacement_refs_and_git_environment_cannot_redirect_audit (test_airs_release_git_audit.GitEvidenceAudit.test_replacement_refs_and_git_environment_cannot_redirect_audit) ... ok
+test_stage_output_input_command_and_dependency_corruption_reject (test_airs_release_git_audit.GitEvidenceAudit.test_stage_output_input_command_and_dependency_corruption_reject) ... ok
+test_symlink_root_and_output_are_never_followed (test_airs_release_git_audit.GitEvidenceAudit.test_symlink_root_and_output_are_never_followed) ... ok
+test_unsafe_roots_and_noncommit_revisions_are_rejected (test_airs_release_git_audit.GitEvidenceAudit.test_unsafe_roots_and_noncommit_revisions_are_rejected) ... ok
+test_valid_commit_is_reproducible_without_checkout_or_worktree_bytes (test_airs_release_git_audit.GitEvidenceAudit.test_valid_commit_is_reproducible_without_checkout_or_worktree_bytes) ... ok
+test_wrong_committed_bytes_cannot_be_rescued_locally (test_airs_release_git_audit.GitEvidenceAudit.test_wrong_committed_bytes_cannot_be_rescued_locally) ... ok
+
+======================================================================
+FAIL: test_missing_native_target_and_missing_stage_never_pass (test_airs_release_acceptance.AcceptanceEvidenceTests.test_missing_native_target_and_missing_stage_never_pass)
+----------------------------------------------------------------------
+ValueError: Native acceptance roots must match the release scope
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/cdot/development/cdot65/airs-terminal-upstream-20260924/scripts/test_airs_release_acceptance.py", line 196, in test_missing_native_target_and_missing_stage_never_pass
+    with self.assertRaisesRegex(ValueError, "three native"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "three native" does not match "Native acceptance roots must match the release scope"
+
+----------------------------------------------------------------------
+Ran 30 tests in 4.861s
+
+FAILED (failures=1)

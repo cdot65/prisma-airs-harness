@@ -1,0 +1,21 @@
+test_completed_turn_recovers_unsent_answer_into_existing_draft (test_airs_harness_transcript.QuestionRecoveryTerminal.test_completed_turn_recovers_unsent_answer_into_existing_draft) ... FAIL
+test_transcript_resize_restores_draft_without_replaying_inference (test_airs_harness_transcript.TranscriptTerminal.test_transcript_resize_restores_draft_without_replaying_inference) ... ok
+test_inline_question_preserves_draft_and_gateway_route (test_airs_harness.TerminalIntegration.test_inline_question_preserves_draft_and_gateway_route) ... ok
+
+======================================================================
+FAIL: test_completed_turn_recovers_unsent_answer_into_existing_draft (test_airs_harness_transcript.QuestionRecoveryTerminal.test_completed_turn_recovers_unsent_answer_into_existing_draft)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r3/scripts/test_airs_harness_transcript.py", line 119, in test_completed_turn_recovers_unsent_answer_into_existing_draft
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        len(fixture.requests), 2, "Recovery must not submit the answer"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: 3 != 2 : Recovery must not submit the answer
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.368s
+
+FAILED (failures=1)

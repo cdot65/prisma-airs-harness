@@ -1,0 +1,39 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tui)
+error[E0597]: `message` does not live long enough
+    --> tui/src/history_cell/messages.rs:197:17
+     |
+ 161 |         let message = sanitize_user_text((&self.message).into());
+     |             ------- binding `message` declared here
+...
+ 197 |                 message.trim_end_matches(['\r', '\n'])
+     |                 ^^^^^^^ borrowed value does not live long enough
+ 198 |                     .split('\n')
+ 199 |                     .map(|line| Line::from(line).style(style))
+     |                                 ----------------------------- returning this value requires that `message` is borrowed for `'static`
+...
+ 266 |     }
+     |     - `message` dropped here while still borrowed
+     |
+note: requirements that the value outlives `'static` introduced here
+    --> /home/cdot/.rustup/toolchains/1.95.0-x86_64-unknown-linux-musl/lib/rustlib/src/rust/library/core/src/iter/traits/iterator.rs:792:12
+     |
+ 792 |         F: FnMut(Self::Item) -> B,
+     |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+2051 |     fn collect<B: FromIterator<Self::Item>>(self) -> B
+     |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: lifetime may not live long enough
+   --> tui/src/history_cell/messages.rs:199:33
+    |
+160 |     fn display_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+    |                                - let's call the lifetime of this reference `'1`
+...
+199 |                     .map(|line| Line::from(line).style(style))
+    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ returning this value requires that `'1` must outlive `'static`
+
+For more information about this error, try `rustc --explain E0597`.
+error: could not compile `codex-tui` (lib test) due to 2 previous errors
+error: command `/home/cdot/.rustup/toolchains/1.95.0-x86_64-unknown-linux-musl/bin/cargo '--color=auto' test --no-run --message-format json-render-diagnostics --package codex-tui --lib` exited with code 101
+error: Recipe `test` failed on line 88 with exit code 101

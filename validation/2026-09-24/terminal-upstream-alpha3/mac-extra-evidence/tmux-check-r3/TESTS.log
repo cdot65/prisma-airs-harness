@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/tmux-check.py", line 21, in <module>
+    os.write(terminal.master,b'\x1b[200~'+draft.encode()+b'\x1b[201~');terminal.wait_until(lambda:draft in rendered());count=len(conversation_requests(fixture))
+                                                                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/frozen-tooling-r5/scripts/airs_harness_pty.py", line 89, in wait_until
+    while not predicate() and time.monotonic() < deadline:
+              ~~~~~~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/tmux-check.py", line 21, in <lambda>
+    os.write(terminal.master,b'\x1b[200~'+draft.encode()+b'\x1b[201~');terminal.wait_until(lambda:draft in rendered());count=len(conversation_requests(fixture))
+                                                                                                           ~~~~~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/tmux-check.py", line 19, in rendered
+    stream.feed(decoder.decode(terminal.transcript[consumed:]));consumed=len(terminal.transcript);return '\n'.join(screen.display)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cdot/.cache/airs-native-mcp-20260919/venv/lib/python3.13/site-packages/pyte/streams.py", line 205, in feed
+    taking_plain_text = send(data[offset:offset + 1])
+  File "/Users/cdot/.cache/airs-native-mcp-20260919/venv/lib/python3.13/site-packages/pyte/streams.py", line 213, in _send_to_parser
+    return self._parser.send(data)
+           ~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/cdot/.cache/airs-native-mcp-20260919/venv/lib/python3.13/site-packages/pyte/streams.py", line 353, in _parser_fsm
+    csi_dispatch[char](*params, private=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Screen.report_device_status() got an unexpected keyword argument 'private'

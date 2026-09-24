@@ -1,0 +1,60 @@
+Collecting pyte==0.8.2
+  Using cached pyte-0.8.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting wcwidth (from pyte==0.8.2)
+  Downloading wcwidth-0.9.1-cp310-abi3-macosx_11_0_arm64.whl.metadata (23 kB)
+Using cached pyte-0.8.2-py3-none-any.whl (31 kB)
+Downloading wcwidth-0.9.1-cp310-abi3-macosx_11_0_arm64.whl (609 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 609.0/609.0 kB 8.0 MB/s  0:00:00
+Installing collected packages: wcwidth, pyte
+
+Successfully installed pyte-0.8.2 wcwidth-0.9.1
+{
+  "schema_version": 1,
+  "private_candidate": true,
+  "published": false,
+  "release_ready": false,
+  "runtime_source": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "build_tooling_source": "7b177cc58a875f7f35ab91960cbc06f57784d7e1",
+  "compilation_run": "3834",
+  "compilation_attempt": "1",
+  "binary_sha256": "4b2cb9d027dde8b16a6fb68d46c5e09243df09c3c0474189bcd37a0b13acee32",
+  "fixture_sha256": "8fd2704d5c828a9e0891317d7e6a094906bc34a392925edd6df0951f8f0489fd",
+  "cli_opt_level": "1",
+  "signing": {
+    "ad_hoc": true,
+    "developer_id": false,
+    "notarized": false
+  },
+  "archive_sha256": "44b9c48edabb805d40dc5fd234cf12a0385a836ae044e5c29587ab644ea33d24",
+  "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings"
+}
+/Users/cdot/.cache/airs-terminal-20260924/signing-temp/airs-gateway-package/prisma-airs-harness-signing/airs-harness: replacing existing signature
+  adding: prisma-airs-harness-signing/airs-harness (deflated 65%)
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 238, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 226, in main
+    verify(
+    ~~~~~~^
+        args.binary,
+        ^^^^^^^^^^^^
+    ...<5 lines>...
+        args.submission,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 164, in verify
+    run(
+    ~~~^
+        "notarization",
+        ^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/Users/cdot/.cache/airs-terminal-20260924/signing-source/scripts/airs_signed_macos_artifact.py", line 139, in run
+    raise ValueError(f"Native {name} verification failed; inspect retained log")
+ValueError: Native notarization verification failed; inspect retained log

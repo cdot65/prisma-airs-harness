@@ -1,0 +1,8 @@
+test_acceptance_cannot_compile_or_promote_and_pipelines_fail_closed (test_macos_workflow_split.MacWorkflowBoundary.test_acceptance_cannot_compile_or_promote_and_pipelines_fail_closed) ... ok
+test_command_line_tools_without_full_xcode (test_airs_ci_cache_key.CacheIdentityTests.test_command_line_tools_without_full_xcode) ... ok
+test_sdk_compiler_profile_and_lock_changes_invalidate (test_airs_ci_cache_key.CacheIdentityTests.test_sdk_compiler_profile_and_lock_changes_invalidate) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.010s
+
+OK

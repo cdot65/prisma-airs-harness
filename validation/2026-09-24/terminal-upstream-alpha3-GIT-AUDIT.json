@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 3838023,
+  "evidence_commit": "dc70cd7c4bbbbdbbcfbd2911da993c954df02d25",
+  "evidence_root": "validation/2026-09-24/terminal-upstream-alpha3",
+  "files_checked": 197,
+  "inventory_sha256": "53d026858fd791695528c2d066965d75852e88a3cd5364cd7b2da57661c08461",
+  "manifest_blob_id": "b401faac1f50256cf4e10fd12d6ab0b856734be8",
+  "manifest_sha256": "a617ed07bfe9c7806533e580ec89741272c38597a86723431532f88fb2d4d671",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 20
+}

@@ -108,6 +108,11 @@ class GatewayRouting(unittest.TestCase):
                 offset = len(terminal.transcript)
                 terminal.send_line(command)
                 terminal.wait_for(title, offset)
+                frame = terminal.transcript.index(title, offset) + len(title)
+                terminal.wait_for(b"\x1b[?2026l", frame)
+                # Match the other real-terminal key helpers: a partial header
+                # write is not the end of the interactive-screen input boundary.
+                time.sleep(0.2)
                 os.write(terminal.master, b"\x1b")
                 # Wait for the rendered composer, rather than sending another
                 # command while the terminal is still processing cancellation.

@@ -44,6 +44,9 @@ use crate::cloud_config;
 use crate::mcp_login::McpLoginMode;
 use crate::mcp_login::perform_oauth_login_retry_without_scopes;
 use crate::plugin_cmd::load_cli_auth_manager;
+use codex_protocol::airs_mcp_failure::ConnectionState;
+use codex_protocol::airs_mcp_failure::FailureCode;
+use codex_protocol::airs_mcp_failure::McpFailure;
 
 /// Subcommands:
 /// - `list`   — list configured servers (with `--json`)
@@ -234,6 +237,18 @@ pub struct LogoutArgs {
 
 impl McpCli {
     pub async fn run(self, loader_overrides: LoaderOverrides) -> Result<()> {
+        let result = self.run_inner(loader_overrides).await;
+        if crate::mcp_login::is_ui_session()
+            && let Err(error) = result
+        {
+            let failure = crate::airs_mcp_failure::classify(&error);
+            println!("{}", serde_json::json!({"airs_mcp": 1, "error": failure}));
+            return Err(failure.into());
+        }
+        result
+    }
+
+    async fn run_inner(self, loader_overrides: LoaderOverrides) -> Result<()> {
         let McpCli {
             config_overrides,
             subcommand,
@@ -245,25 +260,55 @@ impl McpCli {
 
         match subcommand {
             McpSubcommand::List(args) => {
-                let config = cloud_config::load_config(&config_overrides, loader_overrides).await?;
+                let config = cloud_config::load_config(&config_overrides, loader_overrides)
+                    .await
+                    .context(McpFailure::new(
+                        FailureCode::Configuration,
+                        ConnectionState::Unchanged,
+                    ))?;
                 run_list(&config, args).await?;
             }
             McpSubcommand::Get(args) => {
-                let config = cloud_config::load_config(&config_overrides, loader_overrides).await?;
+                let config = cloud_config::load_config(&config_overrides, loader_overrides)
+                    .await
+                    .context(McpFailure::new(
+                        FailureCode::Configuration,
+                        ConnectionState::Unchanged,
+                    ))?;
                 run_get(&config, args).await?;
             }
             McpSubcommand::Add(args) => {
-                run_add(&config_overrides, args).await?;
+                run_add(&config_overrides, args).await.map_err(|error| {
+                    crate::airs_mcp_failure::with_fallback(
+                        error,
+                        McpFailure::new(FailureCode::Configuration, ConnectionState::Unknown),
+                    )
+                })?;
             }
             McpSubcommand::Remove(args) => {
-                run_remove(&config_overrides, args).await?;
+                run_remove(&config_overrides, args).await.map_err(|error| {
+                    crate::airs_mcp_failure::with_fallback(
+                        error,
+                        McpFailure::new(FailureCode::Configuration, ConnectionState::Unknown),
+                    )
+                })?;
             }
             McpSubcommand::Login(args) => {
-                let config = cloud_config::load_config(&config_overrides, loader_overrides).await?;
+                let config = cloud_config::load_config(&config_overrides, loader_overrides)
+                    .await
+                    .context(McpFailure::new(
+                        FailureCode::Configuration,
+                        ConnectionState::Unchanged,
+                    ))?;
                 run_login(&config, args).await?;
             }
             McpSubcommand::Logout(args) => {
-                let config = cloud_config::load_config(&config_overrides, loader_overrides).await?;
+                let config = cloud_config::load_config(&config_overrides, loader_overrides)
+                    .await
+                    .context(McpFailure::new(
+                        FailureCode::Configuration,
+                        ConnectionState::Unchanged,
+                    ))?;
                 run_logout(&config, args).await?;
             }
         }
@@ -373,6 +418,8 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
     let http_client: Arc<dyn HttpClient> = Arc::new(
         RouteAwareHttpClient::new(config.http_client_factory()).with_tls_backend_fallback(),
     );
+    let diagnostics = Arc::new(crate::airs_mcp_http::McpHttpDiagnostics::new(http_client));
+    let http_client: Arc<dyn HttpClient> = diagnostics.clone();
     let login_support = oauth_login_support(
         &transport,
         Arc::clone(&http_client),
@@ -435,10 +482,9 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
         .await
         .with_context(|| format!("failed to load MCP servers from {}", codex_home.display()))?;
     let credential_name = new_entry.oauth_credential_name(&name);
-    if crate::mcp_login::is_ui_session() {
-        anyhow::ensure!(
-            !servers.contains_key(&name),
-            "An MCP connection with this name already exists"
+    if crate::mcp_login::is_ui_session() && servers.contains_key(&name) {
+        return Err(
+            McpFailure::new(FailureCode::DuplicateConnection, ConnectionState::Unchanged).into(),
         );
     }
     servers.insert(name.clone(), new_entry);
@@ -488,6 +534,12 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
             println!("Successfully logged in.");
         }
         McpOAuthLoginSupport::Unsupported => {}
+        McpOAuthLoginSupport::Unknown(error) if crate::mcp_login::is_ui_session() => {
+            return Err(error.context(McpFailure::new(
+                diagnostics.failure().unwrap_or(FailureCode::Discovery),
+                ConnectionState::Saved,
+            )));
+        }
         McpOAuthLoginSupport::Unknown(_) => println!(
             "MCP server may or may not require login. Run `{cli} mcp login {name}` to login.",
             cli = crate::airs_harness::bin_name()
@@ -553,7 +605,12 @@ async fn run_login(config: &Config, login_args: LoginArgs) -> Result<()> {
         .unwrap_or_default();
 
     let Some(server) = mcp_servers.get(&name) else {
-        bail!("No MCP server named '{name}' found.");
+        return Err(
+            anyhow!("No MCP server named '{name}' found.").context(McpFailure::new(
+                FailureCode::MissingConnection,
+                ConnectionState::Unchanged,
+            )),
+        );
     };
 
     let (url, http_headers, env_http_headers) = match &server.transport {
@@ -643,7 +700,12 @@ async fn run_logout(config: &Config, logout_args: LogoutArgs) -> Result<()> {
     {
         Ok(true) => println!("Removed OAuth credentials for '{name}'."),
         Ok(false) => println!("No OAuth credentials stored for '{name}'."),
-        Err(err) => return Err(anyhow!("failed to delete OAuth credentials: {err}")),
+        Err(err) => {
+            return Err(err.context(McpFailure::new(
+                FailureCode::CredentialStore,
+                ConnectionState::Unchanged,
+            )));
+        }
     }
 
     Ok(())

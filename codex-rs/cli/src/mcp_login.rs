@@ -4,12 +4,17 @@
 //! callback, and dropping terminal input restores the terminal immediately.
 //! Ctrl-C also cancels token exchange and scope retries in manual login mode.
 
+use codex_protocol::airs_mcp_failure::ConnectionState;
+use codex_protocol::airs_mcp_failure::FailureCode;
+use codex_protocol::airs_mcp_failure::McpFailure;
 use std::collections::HashMap;
 use std::io;
 use std::io::BufRead;
 use std::io::IsTerminal;
 use std::io::Write;
 use std::sync::Arc;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 
 use anyhow::Context;
 use anyhow::Result;
@@ -67,6 +72,8 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
     http_client: Arc<dyn HttpClient>,
     mode: McpLoginMode,
 ) -> Result<()> {
+    let diagnostics = Arc::new(crate::airs_mcp_http::McpHttpDiagnostics::new(http_client));
+    let http_client: Arc<dyn HttpClient> = diagnostics.clone();
     let mut pending_input = None;
     // Tokio retains its process-wide signal handler, so keep listening throughout
     // token exchange and scope retries after the callback input reader is dropped.
@@ -76,6 +83,7 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
         .into_iter()
         .enumerate()
     {
+        let saving = AtomicBool::new(false);
         let login = async {
             match mode {
                 McpLoginMode::Browser => {
@@ -116,6 +124,10 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
                         Arc::clone(&http_client),
                         move |authorization_url| read_callback(authorization_url, input),
                         |progress| {
+                            saving.store(
+                                matches!(progress, McpOAuthLoginProgress::SavingCredential),
+                                Ordering::Relaxed,
+                            );
                             if is_ui_session() {
                                 let stage = match progress {
                                     McpOAuthLoginProgress::ExchangingCode => "exchanging_code",
@@ -137,7 +149,7 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
             result = login => result,
             result = &mut ctrl_c, if matches!(mode, McpLoginMode::PasteCallback) => {
                 result.context("failed to listen for Ctrl-C")?;
-                bail!("OAuth login cancelled");
+                return Err(anyhow::anyhow!("OAuth login cancelled").context(McpFailure::new(FailureCode::Cancelled, ConnectionState::Saved)));
             }
         };
         match result {
@@ -156,7 +168,17 @@ pub(crate) async fn perform_oauth_login_retry_without_scopes(
                     );
                     let _ = io::stdout().flush();
                 }
-                return result;
+                return result.map_err(|error| {
+                    let code = if saving.load(Ordering::Relaxed) {
+                        FailureCode::CredentialStore
+                    } else {
+                        diagnostics.failure().unwrap_or(FailureCode::Authorization)
+                    };
+                    crate::airs_mcp_failure::with_fallback(
+                        error,
+                        McpFailure::new(code, ConnectionState::Saved),
+                    )
+                });
             }
         }
     }
@@ -262,36 +284,40 @@ async fn read_terminal_callback() -> Result<String> {
             .context("callback input stream closed")?
             .context("failed to read callback input")?;
         match event {
-            Event::Key(key) if key.kind != KeyEventKind::Release => match key.code {
-                KeyCode::Enter => {
-                    if input.is_empty() {
-                        bail!("No OAuth callback URL entered");
+            Event::Key(key) if key.kind != KeyEventKind::Release => {
+                match key.code {
+                    KeyCode::Enter => {
+                        if input.is_empty() {
+                            bail!("No OAuth callback URL entered");
+                        }
+                        return Ok(input);
                     }
-                    return Ok(input);
-                }
-                KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-                    bail!("OAuth login cancelled");
-                }
-                KeyCode::Char('d') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-                    bail!("No OAuth callback URL received before input closed");
-                }
-                KeyCode::Char('u') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-                    input.clear()
-                }
-                KeyCode::Backspace => {
-                    input.pop();
-                }
-                KeyCode::Char(character)
-                    if !character.is_control()
-                        && !key.modifiers.contains(KeyModifiers::CONTROL) =>
-                {
-                    if input.len() + character.len_utf8() > MAX_CALLBACK_BYTES {
-                        bail!("OAuth callback URL exceeds 64 KiB");
+                    KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
+                        return Err(anyhow::anyhow!("OAuth login cancelled").context(
+                            McpFailure::new(FailureCode::Cancelled, ConnectionState::Saved),
+                        ));
                     }
-                    input.push(character);
+                    KeyCode::Char('d') if key.modifiers.contains(KeyModifiers::CONTROL) => {
+                        bail!("No OAuth callback URL received before input closed");
+                    }
+                    KeyCode::Char('u') if key.modifiers.contains(KeyModifiers::CONTROL) => {
+                        input.clear()
+                    }
+                    KeyCode::Backspace => {
+                        input.pop();
+                    }
+                    KeyCode::Char(character)
+                        if !character.is_control()
+                            && !key.modifiers.contains(KeyModifiers::CONTROL) =>
+                    {
+                        if input.len() + character.len_utf8() > MAX_CALLBACK_BYTES {
+                            bail!("OAuth callback URL exceeds 64 KiB");
+                        }
+                        input.push(character);
+                    }
+                    _ => {}
                 }
-                _ => {}
-            },
+            }
             Event::Paste(paste) => {
                 if input.len() + paste.len() > MAX_CALLBACK_BYTES {
                     bail!("OAuth callback URL exceeds 64 KiB");

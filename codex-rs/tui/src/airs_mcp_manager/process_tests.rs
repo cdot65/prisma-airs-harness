@@ -125,3 +125,26 @@ fn progress_messages_are_typed_and_timeout_never_echoes_provider_details() {
             .contains("PRIVATE")
     );
 }
+
+#[test]
+fn structured_failures_preserve_partial_state_and_reject_untrusted_details() {
+    let expected = McpFailure::new(FailureCode::Discovery, ConnectionState::Saved);
+    let line = serde_json::json!({"airs_mcp":1,"error":expected}).to_string();
+    assert_eq!(operation_failure(&line), Ok(Some(expected)));
+    assert_eq!(authorization_url(&line), Ok(None));
+    assert_eq!(login_progress(&line), Ok(None));
+    assert_eq!(
+        operation_failure(r#"{"error":{"code":"authorization"}}"#),
+        Ok(None)
+    );
+    for error in [
+        serde_json::json!({"code":"PRIVATE", "connection":"saved"}),
+        serde_json::json!({"code":"authorization", "connection":"saved", "details":"PRIVATE"}),
+        serde_json::json!({"code":"authorization", "connection":"PRIVATE"}),
+    ] {
+        let message =
+            operation_failure(&serde_json::json!({"airs_mcp":1,"error":error}).to_string())
+                .unwrap_err();
+        assert!(!message.contains("PRIVATE"));
+    }
+}

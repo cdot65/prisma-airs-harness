@@ -58,6 +58,8 @@ mod airs_help;
 mod airs_helper_relocation;
 mod airs_login;
 mod airs_mcp;
+mod airs_mcp_failure;
+mod airs_mcp_http;
 mod airs_oidc;
 mod airs_secret_prompt;
 mod airs_session_binding;

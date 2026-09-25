@@ -9,6 +9,7 @@ import json
 from airs_fixture_config import set_mcp_store
 import os
 import re
+import subprocess
 import time
 import unittest
 from urllib.parse import parse_qs, urlencode, urlsplit, urlunsplit
@@ -97,6 +98,67 @@ class McpManager(unittest.TestCase):
                 )
             )
         )
+
+    def test_helper_reports_policy_denial_and_saved_connection_without_provider_body(
+        self,
+    ):
+        self.gateway.registration_failure = (446, {"error": "PRIVATE-PROVIDER-DETAIL"})
+        result = subprocess.run(
+            [
+                str(harness.BINARY),
+                "mcp",
+                "add",
+                "--no-browser",
+                "--url",
+                self.gateway.endpoint,
+                "service-now",
+            ],
+            cwd=self.inference.work,
+            env=dict(self.env, AIRS_MCP_INTERACTION="json-v1"),
+            input="",
+            capture_output=True,
+            text=True,
+            timeout=45,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        frames = [
+            json.loads(line)
+            for line in result.stdout.splitlines()
+            if line.startswith('{"airs_mcp"')
+        ]
+        self.assertEqual(
+            frames[-1],
+            {
+                "airs_mcp": 1,
+                "error": {"code": "policy_denied", "connection": "saved"},
+            },
+        )
+        self.assertNotIn("PRIVATE-PROVIDER-DETAIL", result.stdout + result.stderr)
+        self.assertIn(
+            "[mcp_servers.service-now]", (self.home / "config.toml").read_text()
+        )
+
+    def test_permission_denial_in_tui_preserves_saved_connection(self):
+        self.gateway.registration_failure = (403, {"error": "PRIVATE-PROVIDER-DETAIL"})
+        with TerminalSession(harness.BINARY, self.env, self.inference.work) as terminal:
+            terminal.start()
+            terminal.send_line("/mcp")
+            terminal.wait_for(b"Add gateway MCP server")
+            self.choose(terminal)
+            terminal.wait_for(b"Name this MCP connection")
+            terminal.send_line("service-now")
+            terminal.wait_for(b"https://gateway-mcp.example.com/service-now/mcp")
+            time.sleep(0.15)
+            terminal.send_line(self.gateway.endpoint)
+            terminal.wait_for(b"HTTP 403", timeout=45)
+            terminal.wait_for(b"Do not add it again")
+            terminal.send_line("/mcp")
+            terminal.wait_for(b"service-now")
+            self.assertNotIn(b"PRIVATE-PROVIDER-DETAIL", terminal.transcript)
+            self.assertEqual(len(self.gateway.registrations), 1)
+            self.assertIn(
+                "[mcp_servers.service-now]", (self.home / "config.toml").read_text()
+            )
 
     def test_remote_callback_add_verify_logout_remove_and_environment_pinning(self):
         self.env["SSH_CONNECTION"] = "fixture"  # deterministic OSC52 clipboard

@@ -255,3 +255,23 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
         matches!(rx.try_recv().unwrap(), AppEvent::AirsMcpManager(Event::Run(Operation::Remove(name))) if name == "service-now")
     );
 }
+
+#[tokio::test]
+async fn mcp_typed_failure_renders_recovery_without_changing_draft() {
+    let (mut chat, mut rx, mut ops) = make_chatwidget_manual(None).await;
+    chat.insert_str("Keep this unfinished request");
+    let failure: codex_protocol::airs_mcp_failure::McpFailure =
+        serde_json::from_str(r#"{"code":"permission_denied","connection":"saved"}"#).unwrap();
+    chat.add_error_message(failure.to_string());
+    let rendered = drain_insert_history(&mut rx)
+        .iter()
+        .map(|lines| lines_to_single_string(lines))
+        .collect::<Vec<_>>()
+        .join("\n");
+    insta::assert_snapshot!("airs_mcp_permission_denied_recovery", rendered);
+    assert_eq!(
+        chat.bottom_pane.composer_text(),
+        "Keep this unfinished request"
+    );
+    assert!(ops.try_recv().is_err());
+}

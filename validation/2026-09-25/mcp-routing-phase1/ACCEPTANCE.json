@@ -1,0 +1,52 @@
+{
+  "phase": 1,
+  "scope": "MCP helper diagnostics; source and isolated runtime acceptance",
+  "score": 9,
+  "score_basis": {
+    "completeness": "Typed recovery and saved-state reporting cover observed errors; unknown errors remain unknown.",
+    "capability": "Actual helper and TUI handle permission/policy denials, cancellation, expiry and callback login.",
+    "practices": "Bounded private schema, no raw provider errors, preserved OAuth request bytes and environment pinning.",
+    "optimization": "Constant-size outcome tracking; no added network requests."
+  },
+  "rust": {
+    "passed": 5762,
+    "skipped": 6,
+    "retried_pass": [
+      "app::tests::active_reconnect::reconnect_restores_history_permissions_and_keeps_old_input_paused"
+    ]
+  },
+  "terminal": {
+    "passed": 8,
+    "skipped": 1,
+    "separate_real_expiry_passed": 1
+  },
+  "format": "passed; unrelated historical formatting restored",
+  "clippy": "passed",
+  "remaining_release_gates": [
+    "Full workspace at final runtime revision",
+    "Signed Apple Silicon candidate and installed npm acceptance",
+    "Live account acceptance remains separate from loopback fixtures"
+  ],
+  "files": {
+    "phase1-tests-retry.log.gz": {
+      "sha256": "e57f37dad1be284c5e7746d9c123db6293ced7e70c75fe8e92da1bb22697c3a7",
+      "uncompressed_bytes": 749250
+    },
+    "phase1-pty.log.gz": {
+      "sha256": "662d6275d9bf9524493c9f0cfb3a65b9e5562a895f0b7a1a262502e0f8dd2410",
+      "uncompressed_bytes": 1699
+    },
+    "phase1-expiry.log.gz": {
+      "sha256": "883f7d6f3a6c344cb19f46d0d854d7160550b3fcfad8a26004f439971c63c930",
+      "uncompressed_bytes": 269
+    },
+    "phase1-fmt.log.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressed_bytes": 0
+    },
+    "phase1-clippy.log.gz": {
+      "sha256": "4b48d18d62501aa19450800b5295262ecb269c9f4b7233f8ab446c88959afdbd",
+      "uncompressed_bytes": 44849
+    }
+  }
+}

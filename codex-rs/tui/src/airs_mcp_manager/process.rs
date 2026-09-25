@@ -4,6 +4,9 @@ use super::Operation;
 use super::Progress;
 use crate::app_event::AppEvent;
 use crate::app_event_sender::AppEventSender;
+use codex_protocol::airs_mcp_failure::ConnectionState;
+use codex_protocol::airs_mcp_failure::FailureCode;
+use codex_protocol::airs_mcp_failure::McpFailure;
 use std::path::Path;
 use std::process::Stdio;
 use tokio::io::AsyncBufRead;
@@ -104,7 +107,7 @@ pub(crate) fn authorization_url(line: &str) -> Result<Option<String>, String> {
     if value.get("airs_mcp").and_then(serde_json::Value::as_u64) != Some(1) {
         return Ok(None);
     }
-    if value.get("progress").is_some() {
+    if value.get("progress").is_some() || value.get("error").is_some() {
         return Ok(None);
     }
     let value = value
@@ -123,6 +126,22 @@ pub(crate) fn authorization_url(line: &str) -> Result<Option<String>, String> {
         return Err("The gateway returned an unsafe authorization URL.".into());
     }
     Ok(Some(value.to_string()))
+}
+
+fn operation_failure(line: &str) -> Result<Option<McpFailure>, String> {
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(line) else {
+        return Ok(None);
+    };
+    if value.get("airs_mcp").and_then(serde_json::Value::as_u64) != Some(1) {
+        return Ok(None);
+    }
+    value
+        .get("error")
+        .map(|error| {
+            serde_json::from_value(error.clone())
+                .map_err(|_| "Invalid MCP failure response. Refresh /mcp before retrying.".into())
+        })
+        .transpose()
 }
 
 fn login_progress(line: &str) -> Result<Option<Progress>, String> {
@@ -172,12 +191,21 @@ pub(crate) async fn run(
     let mut callback: Option<oneshot::Receiver<String>> = None;
     let mut buffer = Vec::new();
     let mut total = 0;
+    let mut failure = None;
     loop {
         tokio::select! {
             line = bounded_line(&mut reader, &mut buffer) => {
                 let Some(line) = line? else { break; };
                 total += line.len();
                 if total > 256 * 1024 { return Err("MCP interaction exceeded its size limit.".into()); }
+                if failure.is_some() {
+                    return Err("MCP helper sent events after its failure response. Refresh /mcp before retrying.".into());
+                }
+                if let Some(reported) = operation_failure(&line)? {
+                    failure = Some(reported);
+                    callback = None;
+                    continue;
+                }
                 if let Some(url) = authorization_url(&line)? {
                     let (sender, receiver) = oneshot::channel();
                     callback = Some(receiver);
@@ -204,15 +232,17 @@ pub(crate) async fn run(
             }
         }
     }
-    if child
+    let status = child
         .wait()
         .await
-        .map_err(|_| "MCP operation did not complete.")?
-        .success()
-    {
+        .map_err(|_| "MCP operation did not complete.")?;
+    if let Some(failure) = failure {
+        return Err(failure.to_string());
+    }
+    if status.success() {
         Ok(())
     } else {
-        Err("MCP operation did not complete. Check the gateway URL, permission and unlocked credential store, then retry from /mcp. A saved connection may still need sign-in.".into())
+        Err(McpFailure::new(FailureCode::Unknown, ConnectionState::Unknown).to_string())
     }
 }
 

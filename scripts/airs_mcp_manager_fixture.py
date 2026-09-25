@@ -20,6 +20,7 @@ class McpGatewayFixture:
         self.tokens, self.requests, self.registrations = [], [], []
         self.network_requests = []
         self.reject_tools = False
+        self.registration_failure = None
         owner = self
 
         class Handler(BaseHTTPRequestHandler):
@@ -74,6 +75,9 @@ class McpGatewayFixture:
                 if self.path == "/register":
                     request = json.loads(raw)
                     owner.registrations.append(request)
+                    if owner.registration_failure is not None:
+                        self.reply(*owner.registration_failure)
+                        return
                     self.reply(
                         201,
                         {

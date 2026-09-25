@@ -1,5 +1,6 @@
 pub mod account;
 mod agent_path;
+pub mod airs_mcp_failure;
 pub mod auth;
 mod response_item_id;
 mod response_usage;

@@ -1,0 +1,6 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+assertion_line: 271
+expression: rendered
+---
+■ The gateway or authorization server denied this MCP request (HTTP 403). Check this identity's workspace and MCP permissions before retrying. The connection was saved; it may still need sign-in. Do not add it again.

@@ -25,7 +25,7 @@ fn config(url: &str, selected: &str) -> (toml::Value, Value) {
 
 fn prepared(home: &Path, url: &str, selected: &str) -> Prepared {
     let (config, catalog) = config(url, selected);
-    let (endpoint, body) = probe_configuration(&config, &catalog).unwrap();
+    let (endpoint, body, routing) = probe_configuration(&config, &catalog).unwrap();
     let config_text = toml::to_string(&config).unwrap();
     let catalog_text = serde_json::to_string(&catalog).unwrap();
     let catalog_path = home.join("models.json");
@@ -34,6 +34,8 @@ fn prepared(home: &Path, url: &str, selected: &str) -> Prepared {
     let mut credential = HeaderValue::from_static("Bearer fixture-secret");
     credential.set_sensitive(true);
     Prepared {
+        routing,
+        saved_config: None,
         endpoint,
         body,
         credential,
@@ -469,4 +471,76 @@ fn selected_environment_recovery_message_has_snapshot_coverage() {
     Request / gateway trace ID: 00000000-0000-0000-0000-000000000000
     Retry: airs --environment=-staging doctor --verify-access.
     ");
+}
+
+#[tokio::test]
+async fn routing_probe_sends_only_the_candidate_pair_and_fixed_connectivity_input() {
+    for selection in [
+        RoutingSelection {
+            saved_config: Some("pc-example-123".into()),
+            model: Some("@allowed/override".into()),
+        },
+        RoutingSelection {
+            saved_config: Some("pc-example-456".into()),
+            model: None,
+        },
+        RoutingSelection {
+            saved_config: None,
+            model: None,
+        },
+    ] {
+        let home = TempDir::new().unwrap();
+        let server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .respond_with(ResponseTemplate::new(200).set_body_json(success()))
+            .mount(&server)
+            .await;
+        let mut ready = prepared(home.path(), &server.uri(), "@fixture/chat");
+        ready.apply_routing(&selection).unwrap();
+        assert_eq!(probe(ready, Uuid::new_v4()).await, Ok(()));
+        let requests = server.received_requests().await.unwrap();
+        assert_eq!(requests.len(), 1);
+        assert_eq!(
+            requests[0]
+                .headers
+                .get("x-portkey-config")
+                .map(|value| value.to_str().unwrap()),
+            selection.saved_config.as_deref()
+        );
+        let mut expected = serde_json::json!({"input":"Reply only with OK. This is a Prisma AIRS Harness connectivity check.","max_output_tokens":16,"store":false,"stream":false});
+        if let Some(model) = selection.model {
+            expected["model"] = model.into();
+        }
+        assert_eq!(requests[0].body_json::<Value>().unwrap(), expected);
+    }
+}
+
+#[test]
+fn routing_probe_rejects_inline_configs_and_unqualified_models() {
+    let home = TempDir::new().unwrap();
+    for selection in [
+        RoutingSelection {
+            saved_config: Some("{\"targets\":[]}".into()),
+            model: None,
+        },
+        RoutingSelection {
+            saved_config: Some("pc-ok\r\nx-secret: value".into()),
+            model: None,
+        },
+        RoutingSelection {
+            saved_config: None,
+            model: Some("unqualified".into()),
+        },
+        RoutingSelection {
+            saved_config: None,
+            model: Some(format!("@provider/{}", "x".repeat(2048))),
+        },
+    ] {
+        let mut ready = prepared(
+            home.path(),
+            "https://gateway.example/v1",
+            "airs-gateway-default",
+        );
+        assert_eq!(ready.apply_routing(&selection), Err(Failure::Configuration));
+    }
 }

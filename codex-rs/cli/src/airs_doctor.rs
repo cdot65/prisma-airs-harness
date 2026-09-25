@@ -22,6 +22,23 @@ pub async fn run(
     {
         return Ok(());
     }
+    if args.routing_probe {
+        let selection = super::airs_access::RoutingSelection {
+            saved_config: args.gateway_config.clone(),
+            model: args.gateway_model.clone(),
+        };
+        let access = super::airs_access::verify_selection(home, Some(&selection)).await;
+        let passed = access.outcome.is_ok();
+        println!(
+            "{}",
+            serde_json::json!({
+                "schema_version": 1, "product": "Prisma AIRS Harness", "authentication": "Selected environment",
+                "passed": passed, "checks": [{"name": "gateway_access", "passed": passed, "detail": access.summary()}],
+            })
+        );
+        anyhow::ensure!(passed, "routing verification failed");
+        return Ok(());
+    }
     let mut checks = Vec::new();
     let (authentication, native) = super::airs_doctor_storage::authentication(home);
     // Keep plain CLI doctor a metadata-only credential inspection. The session

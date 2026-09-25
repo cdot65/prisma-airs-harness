@@ -114,13 +114,48 @@ impl Verification {
     }
 }
 
+pub(super) struct RoutingSelection {
+    pub(super) saved_config: Option<String>,
+    pub(super) model: Option<String>,
+}
+
 struct Prepared {
+    routing: codex_model_provider_info::GatewayRouting,
+    saved_config: Option<HeaderValue>,
     endpoint: Url,
     header_name: &'static str,
     credential: HeaderValue,
     body: Value,
     session: AirsSessionGuard,
     configuration: ConfigurationSnapshot,
+}
+
+impl Prepared {
+    fn apply_routing(&mut self, selection: &RoutingSelection) -> Result<(), Failure> {
+        self.saved_config = selection
+            .saved_config
+            .as_deref()
+            .map(|id| {
+                codex_model_provider_info::GatewayRouting::validate_saved_config(id)
+                    .map_err(|_| Failure::Configuration)?;
+                HeaderValue::from_str(id).map_err(|_| Failure::Configuration)
+            })
+            .transpose()?;
+        let model = match selection.model.as_deref() {
+            Some(model) if model.len() <= 2048 => self
+                .routing
+                .request_model(model)
+                .map_err(|_| Failure::Configuration)?,
+            Some(_) => return Err(Failure::Configuration),
+            None => None,
+        };
+        let body = self.body.as_object_mut().ok_or(Failure::Configuration)?;
+        body.remove("model");
+        if let Some(model) = model {
+            body.insert("model".into(), Value::String(model));
+        }
+        Ok(())
+    }
 }
 
 // Bind the observation and resolved credential to the configuration read under
@@ -202,7 +237,10 @@ fn read_public_file(path: &Path) -> Result<String, Failure> {
     Ok(value)
 }
 
-fn probe_configuration(config: &toml::Value, catalog: &Value) -> Result<(Url, Value), Failure> {
+fn probe_configuration(
+    config: &toml::Value,
+    catalog: &Value,
+) -> Result<(Url, Value, codex_model_provider_info::GatewayRouting), Failure> {
     let provider: ModelProviderInfo = config
         .get("model_providers")
         .and_then(|providers| providers.get("airs"))
@@ -266,7 +304,11 @@ fn probe_configuration(config: &toml::Value, catalog: &Value) -> Result<(Url, Va
         "{}/responses",
         endpoint.path().trim_end_matches('/')
     ));
-    Ok((endpoint, body))
+    Ok((
+        endpoint,
+        body,
+        provider.gateway.ok_or(Failure::Configuration)?,
+    ))
 }
 
 fn validate_token(token: &str) -> Result<&str, Failure> {
@@ -369,7 +411,7 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
     let catalog = serde_json::from_str(&catalog_text).map_err(|_| Failure::Configuration)?;
     let configuration =
         ConfigurationSnapshot::new(home, &config_text, Path::new(catalog_path), &catalog_text);
-    let (endpoint, body) = probe_configuration(&config, &catalog)?;
+    let (endpoint, body, routing) = probe_configuration(&config, &catalog)?;
     let bound = if home
         .join("credential-binding.json")
         .try_exists()
@@ -412,6 +454,8 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
     let mut credential = HeaderValue::from_str(&token).map_err(|_| Failure::Credential)?;
     credential.set_sensitive(true);
     Ok(Prepared {
+        routing,
+        saved_config: None,
         endpoint,
         header_name,
         credential,
@@ -434,7 +478,7 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
         )
         .map_err(|_| Failure::Offline)?;
     prepared.session.check().map_err(|_| Failure::SignedOut)?;
-    let mut response = client
+    let mut request = client
         .post(prepared.endpoint.as_str())
         .header(prepared.header_name, prepared.credential)
         .header("x-client-request-id", request_id.to_string())
@@ -444,16 +488,17 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
             format!("airs-harness/{}", super::airs_harness::version()),
         )
         .json(&prepared.body)
-        .timeout(OVERALL_TIMEOUT)
-        .send()
-        .await
-        .map_err(|error| {
-            if error.is_timeout() {
-                Failure::Timeout
-            } else {
-                Failure::Offline
-            }
-        })?;
+        .timeout(OVERALL_TIMEOUT);
+    if let Some(config) = prepared.saved_config {
+        request = request.header("x-portkey-config", config);
+    }
+    let mut response = request.send().await.map_err(|error| {
+        if error.is_timeout() {
+            Failure::Timeout
+        } else {
+            Failure::Offline
+        }
+    })?;
     prepared.configuration.check()?;
     let status = response.status();
     if status.is_redirection() {
@@ -536,11 +581,21 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
 
 /// The caller discloses the probe first; failures preserve all saved credentials.
 pub(super) async fn verify(home: &Path) -> Verification {
+    verify_selection(home, /*selection*/ None).await
+}
+
+pub(super) async fn verify_selection(
+    home: &Path,
+    selection: Option<&RoutingSelection>,
+) -> Verification {
     let request_id = Uuid::new_v4();
     let outcome = tokio::time::timeout(OVERALL_TIMEOUT, async {
         let session = AirsSessionGuard::capture(home).map_err(|_| Failure::SignedOut)?;
         let operation = async {
-            let prepared = preparation(home).await?;
+            let mut prepared = preparation(home).await?;
+            if let Some(selection) = selection {
+                prepared.apply_routing(selection)?;
+            }
             probe(prepared, request_id).await
         };
         tokio::pin!(operation);

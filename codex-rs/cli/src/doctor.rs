@@ -163,6 +163,16 @@ pub struct DoctorCommand {
     #[arg(long, hide = !super::airs_harness::is_standalone())]
     pub(super) verify_access: bool,
 
+    /// Private TUI routing check; sends only one disclosed inference probe.
+    #[arg(long, hide = true, requires_all = ["json", "verify_access"])]
+    pub(super) routing_probe: bool,
+
+    #[arg(long, hide = true, requires = "routing_probe")]
+    pub(super) gateway_config: Option<String>,
+
+    #[arg(long, hide = true, requires = "routing_probe")]
+    pub(super) gateway_model: Option<String>,
+
     /// Limit database integrity scans when collecting a feedback attachment.
     #[arg(long, hide = true, default_value_t = false)]
     feedback: bool,

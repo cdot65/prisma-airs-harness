@@ -6,6 +6,8 @@ import threading
 import time
 import unittest
 
+import pyte
+
 import test_airs_harness as harness
 from airs_harness_pty import TerminalSession
 
@@ -107,7 +109,20 @@ class GatewayRouting(unittest.TestCase):
                 terminal.send_line(command)
                 terminal.wait_for(title, offset)
                 os.write(terminal.master, b"\x1b")
-                time.sleep(0.3)
+                # Wait for the rendered composer, rather than sending another
+                # command while the terminal is still processing cancellation.
+                screen = pyte.Screen(120, 40)
+                stream = pyte.ByteStream(screen)
+                consumed = 0
+
+                def composer_restored():
+                    nonlocal consumed
+                    stream.feed(bytes(terminal.transcript[consumed:]))
+                    consumed = len(terminal.transcript)
+                    visible = "\n".join(screen.display)
+                    return "Ask AIRS Harness to work on your project" in visible
+
+                terminal.wait_until(composer_restored)
             terminal.send_line('/config {"targets":[]}')
             terminal.wait_for(b"select a saved gateway config ID")
             self.assertEqual(fixture.requests, [])

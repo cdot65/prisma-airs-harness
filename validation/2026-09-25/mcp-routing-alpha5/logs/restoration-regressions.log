@@ -1,0 +1,108 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Blocking waiting for file lock on artifact directory
+   Compiling pagable v0.4.1
+   Compiling rmcp v3.2.0
+   Compiling starlark_map v0.14.2
+   Compiling starlark_syntax v0.14.2
+   Compiling starlark v0.14.2
+   Compiling serial_test v3.3.1
+   Compiling tracing-test v0.2.5
+   Compiling insta v1.46.3
+   Compiling codex-execpolicy v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/execpolicy)
+   Compiling codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/protocol)
+   Compiling codex-api v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-api)
+   Compiling codex-otel v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/otel)
+   Compiling codex-file-system v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/file-system)
+   Compiling codex-git-utils v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/git-utils)
+   Compiling codex-features v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/features)
+   Compiling codex-model-provider-info v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/model-provider-info)
+   Compiling codex-config v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/config)
+   Compiling codex-shell-command v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/shell-command)
+   Compiling codex-windows-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/windows-sandbox-rs)
+   Compiling codex-sandboxing v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/sandboxing)
+   Compiling codex-exec-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server-protocol)
+   Compiling codex-secrets v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/secrets)
+   Compiling codex-agent-identity v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-identity)
+   Compiling codex-exec-server v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server)
+   Compiling codex-login v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/login)
+   Compiling codex-history v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/history)
+   Compiling codex-utils-output-truncation v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/output-truncation)
+   Compiling codex-utils-plugins v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/plugins)
+   Compiling codex-plugin v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/plugin)
+   Compiling codex-models-manager v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/models-manager)
+   Compiling codex-feedback v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/feedback)
+   Compiling codex-response-debug-context v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/response-debug-context)
+   Compiling codex-code-mode-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/code-mode-protocol)
+   Compiling codex-model-provider v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/model-provider)
+   Compiling codex-code-mode v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/code-mode)
+   Compiling codex-connectors v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/connectors)
+   Compiling codex-state v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/state)
+   Compiling codex-rmcp-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rmcp-client)
+   Compiling codex-rollout v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rollout)
+   Compiling codex-mcp v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-mcp)
+   Compiling codex-tools v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tools)
+   Compiling codex-app-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/app-server-protocol)
+   Compiling codex-context-fragments v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/context-fragments)
+   Compiling codex-extension-api v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/extension-api)
+   Compiling codex-skills v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/skills)
+   Compiling codex-hooks v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/hooks)
+   Compiling codex-apply-patch v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/apply-patch)
+   Compiling codex-shell-escalation v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/shell-escalation)
+   Compiling codex-prompts v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/prompts)
+   Compiling codex-agent-graph-store v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-graph-store)
+   Compiling codex-rollout-trace v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rollout-trace)
+   Compiling codex-analytics v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/analytics)
+   Compiling codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core-plugins)
+   Compiling codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/skills)
+   Compiling codex-thread-store v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/thread-store)
+   Compiling codex-guardian-context v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/guardian-context)
+   Compiling codex-agent-roles v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-roles)
+   Compiling codex-memories-read v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/memories/read)
+   Compiling codex-utils-git-discovery v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/git-discovery)
+   Compiling codex-utils-audio v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/audio)
+   Compiling codex-core v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core)
+   Compiling codex-linux-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/linux-sandbox)
+   Compiling codex-arg0 v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/arg0)
+   Compiling codex-home v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-home)
+   Compiling codex-backend-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/backend-client)
+   Compiling codex-connectors-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/connectors)
+   Compiling codex-utils-cli v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/cli)
+   Compiling codex-git-attribution v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/git-attribution)
+   Compiling codex-test-binary-support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/test-binary-support)
+   Compiling codex-exec-server-test-support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server/tests/support)
+   Compiling codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/image-generation)
+   Compiling codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/web-search)
+   Compiling codex-memories-write v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/memories/write)
+   Compiling codex-external-agent-migration v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/external-agent-migration)
+   Compiling core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core/tests/common)
+   Compiling codex-agent-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/agent)
+   Compiling codex-goal-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/goal)
+   Compiling codex-mcp-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/mcp)
+   Compiling codex-cloud-config v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/cloud-config)
+   Compiling codex-app-server-transport v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/app-server-transport)
+   Compiling codex-history-notes-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/history-notes)
+   Compiling codex-queue-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/queue)
+   Compiling codex-guardian-v2 v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/guardian-v2)
+   Compiling codex-chatgpt v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/chatgpt)
+   Compiling codex-memories-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/memories)
+   Compiling app_test_support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/app-server/tests/common)
+   Compiling codex-app-server v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/app-server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 14m 03s
+────────────
+ Nextest run ID 9d08049f-e1e2-40e1-8414-723dcf338126 with nextest profile: local
+    Starting 13 tests across 9 binaries (5687 tests skipped)
+        PASS [   0.316s] ( 1/13) codex-core::all suite::resume::resume_restores_windows_sandbox_override
+        PASS [   0.333s] ( 2/13) codex-core::all suite::settings_commits::settings_notifications_keep_their_commit_across_postcommit_work::standalone_notification_retains_its_committed_settings
+        PASS [   0.347s] ( 3/13) codex-core::all suite::settings_commits::settings_notifications_keep_their_commit_across_postcommit_work::turn_start_retains_its_committed_settings_and_notification
+        PASS [   0.420s] ( 4/13) codex-core::all suite::gateway_tool_sequence::restored_settings_keep_gateway_selection_scoped_to_its_provider
+        PASS [   0.420s] ( 5/13) codex-core::all suite::gateway_tool_sequence::saved_gateway_config_changes_reset_model_and_invalid_edits_preserve_both
+        PASS [   0.476s] ( 6/13) codex-core::all suite::gateway_tool_sequence::saved_gateway_config_survives_restart_with_an_explicit_model
+        PASS [   0.608s] ( 7/13) codex-core::all suite::remote_env::environment_permissions_follow_configuration_ownership
+        PASS [   0.702s] ( 8/13) codex-core::all suite::gateway_tool_sequence::gateway_routes_request_serial_tools_and_preserve_model_selection
+        PASS [   1.062s] ( 9/13) codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_model_selected_multi_agent_version::live_reload
+        PASS [   1.298s] (10/13) codex-app-server::all suite::v2::thread_revert::thread_revert_interrupts_active_turn_and_keeps_thread_loaded
+        PASS [   1.337s] (11/13) codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_model_selected_multi_agent_version::cold_resume
+        PASS [   1.211s] (12/13) codex-app-server::all suite::v2::thread_revert::thread_revert_replaces_paginated_history_before_turn
+        PASS [   2.395s] (13/13) codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_fork_cutoff_after_cold_resume
+────────────
+     Summary [   2.415s] 13 tests run: 13 passed, 5687 skipped

@@ -1,0 +1,105 @@
+cargo clippy --fix --tests --allow-dirty {args}
+    Blocking waiting for file lock on build directory
+    Checking rustix v1.1.4
+    Checking tracing-subscriber v0.3.22
+    Checking clap_builder v4.5.58
+    Checking pagable v0.4.1
+    Checking tracing-opentelemetry v0.32.1
+    Checking tempfile v3.27.0
+    Checking clap v4.5.58
+    Checking codex-http-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/http-client)
+    Checking fd-lock v4.0.4
+    Checking starlark_map v0.14.2
+    Checking rustyline v14.0.0
+    Checking starlark_syntax v0.14.2
+    Checking codex-network-proxy v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/network-proxy)
+    Checking starlark v0.14.2
+    Checking gix-tempfile v21.0.2
+    Checking codex-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-client)
+    Checking gix-lock v21.0.2
+    Checking codex-websocket-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/websocket-client)
+    Checking gix-ref v0.61.0
+    Checking gethostname v1.1.0
+    Checking opentelemetry-appender-tracing v0.31.1
+    Checking gix-shallow v0.10.0
+    Checking gix-config v0.54.0
+    Checking gix-protocol v0.59.0
+    Checking gix-odb v0.78.0
+    Checking gix-discover v0.49.0
+    Checking gix v0.81.0
+    Checking codex-utils-path v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/path-utils)
+    Checking which v8.0.0
+    Checking polling v3.11.0
+    Checking async-io v2.6.0
+    Checking tracing-appender v0.2.4
+    Checking zbus v4.4.0
+    Checking codex-execpolicy v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/execpolicy)
+    Checking codex-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/protocol)
+    Checking secret-service v4.0.0
+    Checking keyring v3.6.3
+    Checking codex-keyring-store v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/keyring-store)
+    Checking codex-workload-identity v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/workload-identity)
+    Checking codex-file-search v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/file-search)
+    Checking tracing-test v0.2.5
+    Checking serial_test v3.3.1
+    Checking insta v1.46.3
+    Checking codex-api v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-api)
+    Checking codex-file-system v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/file-system)
+    Checking codex-git-utils v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/git-utils)
+    Checking codex-shell-command v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/shell-command)
+    Checking codex-exec-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server-protocol)
+    Checking codex-otel v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/otel)
+    Checking codex-model-provider-info v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/model-provider-info)
+    Checking codex-secrets v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/secrets)
+    Checking codex-agent-identity v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-identity)
+    Checking codex-features v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/features)
+    Checking codex-windows-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/windows-sandbox-rs)
+    Checking codex-sandboxing v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/sandboxing)
+    Checking codex-history v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/history)
+    Checking codex-config v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/config)
+    Checking codex-utils-output-truncation v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/output-truncation)
+    Checking codex-state v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/state)
+    Checking codex-response-debug-context v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/response-debug-context)
+    Checking codex-code-mode-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/code-mode-protocol)
+    Checking codex-code-mode v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/code-mode)
+    Checking codex-exec-server v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server)
+    Checking codex-login v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/login)
+    Checking codex-models-manager v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/models-manager)
+    Checking codex-feedback v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/feedback)
+    Checking codex-model-provider v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/model-provider)
+    Checking codex-rollout v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rollout)
+    Checking codex-app-server-protocol v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/app-server-protocol)
+    Checking codex-utils-plugins v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/plugins)
+    Checking codex-plugin v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/plugin)
+    Checking codex-connectors v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/connectors)
+    Checking codex-rmcp-client v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rmcp-client)
+    Checking codex-mcp v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-mcp)
+    Checking codex-tools v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tools)
+    Checking codex-context-fragments v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/context-fragments)
+    Checking codex-extension-api v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/extension-api)
+    Checking codex-apply-patch v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/apply-patch)
+    Checking codex-skills v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/skills)
+    Checking codex-shell-escalation v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/shell-escalation)
+    Checking codex-hooks v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/hooks)
+    Checking codex-prompts v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/prompts)
+    Checking codex-rollout-trace v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/rollout-trace)
+    Checking codex-agent-roles v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-roles)
+    Checking codex-agent-graph-store v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/agent-graph-store)
+    Checking codex-guardian-context v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/guardian-context)
+    Checking codex-memories-read v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/memories/read)
+    Checking codex-utils-git-discovery v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/git-discovery)
+    Checking codex-utils-audio v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/utils/audio)
+    Checking codex-linux-sandbox v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/linux-sandbox)
+    Checking codex-arg0 v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/arg0)
+    Checking codex-home v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/codex-home)
+    Checking codex-test-binary-support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/test-binary-support)
+    Checking codex-exec-server-test-support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/exec-server/tests/support)
+    Checking codex-analytics v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/analytics)
+    Checking codex-thread-store v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/thread-store)
+    Checking codex-skills-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/skills)
+    Checking codex-core-plugins v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core-plugins)
+    Checking codex-core v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core)
+    Checking codex-image-generation-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/image-generation)
+    Checking core_test_support v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core/tests/common)
+    Checking codex-web-search-extension v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/ext/web-search)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6m 20s

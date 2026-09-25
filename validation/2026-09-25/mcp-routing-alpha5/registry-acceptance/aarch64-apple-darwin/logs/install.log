@@ -1,0 +1,81 @@
+{
+  "anonymous_fresh_install": true,
+  "selection": "exact",
+  "isolated_npm_configuration": true,
+  "fresh_npm_cache": true,
+  "npm_exit_code": 0,
+  "registry": "https://npm.cdot.io",
+  "published_archive_integrities_verified": true,
+  "scope": "npm configuration isolation; network packet capture is not claimed",
+  "passed": true,
+  "published": true,
+  "version": "airs 0.1.3-alpha.5.mcp.1",
+  "candidate_channel_verified_before_and_after_install": "mac-preview",
+  "default_channel_verified_before_and_after_install": false,
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "binary_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+  "launcher_package": "airs-harness",
+  "native_package": "airs-harness-darwin-arm64",
+  "package_tooling": {
+    "packaging_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "native_source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "files": {
+      "scripts/package_airs_npm.py": "a9a2952def7ccf03267f65e6af3bc2e9bcafd024ba362a29b08d1766884744cc",
+      "npm/airs-harness/package-lock.json": "4c64dda18fa97fd587aa33fda98ff31b334ed2a86ad649ea8e032d59aba50510",
+      "scripts/airs_bundle.py": "4238c3157dbab0fa96f80d88b5bf465607bf2f83c9ba208774671ee3c7058db0",
+      "scripts/airs_bundle_archive.py": "5ba7f8d774b68b1b1b2abefa18eb15af20d382457f3c180f77f2ce77a0d98cb5",
+      "scripts/airs_bundle_tree.py": "9662658daf1cd5585f913e6defda3db41c7e34b11df6cde7f3a78379619b4cfd",
+      "scripts/airs_bundle_shims.py": "323cca005136e80c200c6e9e3ae3c7e18280e6db208d9762b921e82961921818",
+      "scripts/fixtures/npm-command-shims/LICENSE": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475",
+      "scripts/fixtures/npm-command-shims/README.md": "671a62c3ed988e45ca70b9b0d55ece8bd9690f9f8118241302ac3b4ef74d8a0d",
+      "scripts/fixtures/npm-command-shims/node.json": "fbf57fc9dc4032c0efb34a9827cd47c8c197dfc7b92cb5c70cb4aeb2b1422bd1",
+      "npm/airs-harness/package.json": "33ac03fb5cc7c306164c459242d6ef3b788e38d025409419fa88635cfebf6889",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/completion.js": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "npm/airs-harness/lib/launcher.js": "1122419c074a29b1ca4b9105149db2635c3d3b6f3ec5314008d4782545207d90",
+      "npm/airs-harness/lib/migration-check.js": "fd7c75e1aab9ad95e303ec311f0b2e345c7fc04fa700a354e0cfa17b6bea2ef5",
+      "npm/airs-harness/lib/native.js": "fdf5f5c7a637890a33e62fbdc2aa2c78b362c9f63e77c83393b654be71d971a0",
+      "npm/airs-harness/lib/prisma-cli.js": "c9803da6dcdfa3dda15c629f5cf759777a15ed36b1b40a9ee4dd61de06be8128",
+      "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "npm/airs-harness/bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "npm/airs-harness/bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs-cli.cmd": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    },
+    "cli_bundle": {
+      "inventory_sha256": "9cb232b3e1760f62962a1661afb764f67409636cc4b2869bbbc33c739109e844",
+      "targets": [
+        "aarch64-apple-darwin"
+      ],
+      "required_pins": {
+        "@cdot65/prisma-airs-cli": "7.1.5",
+        "@cdot65/prisma-airs-sdk": "0.33.0"
+      },
+      "packages": 68,
+      "files": 3079,
+      "license_files": 66,
+      "native_payload_packages": [
+        "@img/sharp-darwin-arm64",
+        "@img/sharp-libvips-darwin-arm64"
+      ],
+      "source_lock_sha256": "4c64dda18fa97fd587aa33fda98ff31b334ed2a86ad649ea8e032d59aba50510",
+      "windows_command_wrappers": []
+    }
+  },
+  "prisma_airs_cli_version": "7.1.5",
+  "bundle_verification": {
+    "packages": 68,
+    "files": 3075,
+    "license_files": 66,
+    "native_payload_packages": [
+      "@img/sharp-darwin-arm64",
+      "@img/sharp-libvips-darwin-arm64"
+    ],
+    "source_lock_sha256": "4c64dda18fa97fd587aa33fda98ff31b334ed2a86ad649ea8e032d59aba50510",
+    "windows_command_wrappers": []
+  },
+  "command": "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/registry-acceptance/aarch64-apple-darwin.work/install-a87c55b6008e49229f874b3469276eaf/prefix/bin/airs",
+  "platform": "Darwin",
+  "architecture": "arm64"
+}

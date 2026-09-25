@@ -1,0 +1,30 @@
+{
+  "spec_sha256": "b884fdc40ec903b79c4ccfcd39cf923141b81619d07db5ec90a7a9dabc5ec1d6",
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "packaging_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "version": "0.1.3-alpha.5.mcp.1",
+  "candidate_metadata_sha256": "405f656cf6057115ed5384b21e6d9f091d7d011592f81c1957e25afc262c3c09",
+  "candidate_packages_sha256": "3ef72e506806778905d357ca0eefa645fa0340ae799c0a819318a18fb2ef8e54",
+  "platforms": [
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+      "acceptance_sha256": "91c299d31b8f2ee6fd8278fddd07b91c6456a4f55edad2202a06a6ca1854288f",
+      "evidence_sha256": "a99e35916dd7363750a0a85b1510860f45885333f1ba77d70e1e683dbd6dd337",
+      "stages": [
+        "install",
+        "onboarding",
+        "terminals",
+        "installed-regressions",
+        "mcp-manager",
+        "doctor",
+        "managed-cli",
+        "upgrade",
+        "command-output",
+        "mac-signature"
+      ]
+    }
+  ],
+  "evidence_sha256": "b5f096a4becf2279ffa32626e5489b7cf59d24a3014101b3e155733925f34cbf"
+}

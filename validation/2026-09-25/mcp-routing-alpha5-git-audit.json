@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 1409262,
+  "evidence_commit": "39da6c1ec1c02a3b086c8f1fe2fc0f47feb2bf50",
+  "evidence_root": "validation/2026-09-25/mcp-routing-alpha5",
+  "files_checked": 163,
+  "inventory_sha256": "5f855d9e4a7a93992565ea70ff8fc5cd16ccb179bed5d2dec1ef8e552ee55500",
+  "manifest_blob_id": "0da86fd3be6949363e9fdac0ff687c729f748d61",
+  "manifest_sha256": "c156c9ea8a17ceb4896e2779f824a7ef9ba2ca28799692665d99f12e04c42c72",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 20
+}

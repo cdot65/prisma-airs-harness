@@ -282,3 +282,60 @@ async fn saved_gateway_config_survives_restart_with_an_explicit_model() -> anyho
     assert_eq!(request.body_json()["model"], json!("@provider/model"));
     Ok(())
 }
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn restored_settings_keep_gateway_selection_scoped_to_its_provider() -> anyhow::Result<()> {
+    use codex_protocol::protocol::Op;
+    use codex_protocol::protocol::ThreadSettingsOverrides;
+
+    for gateway_enabled in [false, true] {
+        let server = start_mock_server().await;
+        let test = test_codex()
+            .with_model("gpt-5.4")
+            .with_config(move |config| {
+                config.service_tier = Some("default".into());
+                config.model_provider.gateway = gateway_enabled.then(|| GatewayRouting {
+                    default_route: "gpt-5.4".into(),
+                });
+                config.model_provider.supports_websockets = false;
+            })
+            .build_with_auto_env(&server)
+            .await?;
+        let original = test.codex.thread_settings_snapshot().await;
+        let restore_default = test.codex.restorable_thread_settings().await;
+        assert_eq!(
+            restore_default.gateway_config,
+            gateway_enabled.then_some(None)
+        );
+
+        if gateway_enabled {
+            test.codex
+                .submit(Op::ThreadSettings {
+                    thread_settings: ThreadSettingsOverrides {
+                        gateway_config: Some(Some("pc-restored".into())),
+                        ..Default::default()
+                    },
+                })
+                .await?;
+            wait_for_event(&test.codex, |event| {
+                matches!(event, EventMsg::ThreadSettingsApplied(_))
+            })
+            .await;
+            let selected = test.codex.thread_settings_snapshot().await;
+            let restore_selected = test.codex.restorable_thread_settings().await;
+            assert_eq!(
+                restore_selected.gateway_config,
+                Some(Some("pc-restored".into()))
+            );
+            test.codex.restore_thread_settings(restore_default).await?;
+            assert_eq!(test.codex.thread_settings_snapshot().await, original);
+            test.codex.restore_thread_settings(restore_selected).await?;
+            assert_eq!(test.codex.thread_settings_snapshot().await, selected);
+        } else {
+            // Ordinary upstream providers must not receive an AIRS-only edit.
+            test.codex.restore_thread_settings(restore_default).await?;
+            assert_eq!(test.codex.thread_settings_snapshot().await, original);
+        }
+    }
+    Ok(())
+}

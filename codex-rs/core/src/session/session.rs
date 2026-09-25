@@ -310,7 +310,12 @@ impl SessionConfiguration {
         environment_selections: Vec<TurnEnvironmentSelection>,
     ) -> CodexThreadSettingsOverrides {
         CodexThreadSettingsOverrides {
-            gateway_config: Some(self.step_settings.gateway_config.clone()),
+            gateway_config: self
+                .original_config_do_not_use
+                .model_provider
+                .gateway
+                .as_ref()
+                .map(|_| self.step_settings.gateway_config.clone()),
             environments: Some(TurnEnvironmentSelections::new(
                 self.legacy_fallback_cwd.clone(),
                 environment_selections,

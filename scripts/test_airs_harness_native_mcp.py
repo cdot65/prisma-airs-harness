@@ -136,7 +136,7 @@ def positive(ui, identity, env):
         callback = ui.callback(terminal)
         ui.key(terminal, b"\x1b[200~" + callback.encode() + b"\x1b[201~\r")
         terminal.wait_for(b"MCP connection updated", timeout=45)
-        terminal.wait_for(b"connected")
+        terminal.wait_for(b"gateway tool discovery verified")
         require(
             record_exists(identity, env),
             "OAuth did not persist a native record",

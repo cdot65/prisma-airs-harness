@@ -9,7 +9,10 @@ import type { AskForApproval } from "./AskForApproval";
 import type { SandboxPolicy } from "./SandboxPolicy";
 import type { Thread } from "./Thread";
 
-export type ThreadStartResponse = {thread: Thread, model: string, modelProvider: string, serviceTier: string | null, cwd: AbsolutePathBuf, /**
+export type ThreadStartResponse = {/**
+ * Saved AI Gateway routing selected for this thread.
+ */
+gatewayConfig: string | null, thread: Thread, model: string, modelProvider: string, serviceTier: string | null, cwd: AbsolutePathBuf, /**
  * Environment-native paths to instruction source files currently loaded for this thread.
  */
 instructionSources: Array<LegacyAppPathString>, approvalPolicy: AskForApproval, /**

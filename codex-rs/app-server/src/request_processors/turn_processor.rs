@@ -114,6 +114,7 @@ fn map_additional_context(
 }
 
 struct ThreadSettingsBuildParams {
+    gateway_config: Option<Option<String>>,
     method: &'static str,
     environments: Option<TurnEnvironmentSelections>,
     approval_policy: Option<codex_app_server_protocol::AskForApproval>,
@@ -620,6 +621,7 @@ impl TurnRequestProcessor {
                 thread.as_ref(),
                 ThreadSettingsBuildParams {
                     method: "turn/start",
+                    gateway_config: None,
                     environments,
                     approval_policy: params.approval_policy,
                     approvals_reviewer: params.approvals_reviewer,
@@ -767,6 +769,7 @@ impl TurnRequestProcessor {
         params: ThreadSettingsBuildParams,
     ) -> Result<codex_protocol::protocol::ThreadSettingsOverrides, JSONRPCErrorError> {
         let ThreadSettingsBuildParams {
+            gateway_config,
             method,
             environments,
             approval_policy,
@@ -800,6 +803,7 @@ impl TurnRequestProcessor {
         };
 
         let has_any_overrides = has_environment_override
+            || gateway_config.is_some()
             || approval_policy.is_some()
             || approvals_reviewer.is_some()
             || sandbox_policy.is_some()
@@ -864,6 +868,7 @@ impl TurnRequestProcessor {
         if has_any_overrides {
             thread
                 .preview_thread_settings_overrides(CodexThreadSettingsOverrides {
+                    gateway_config: gateway_config.clone(),
                     environments: environments.clone(),
                     approval_policy,
                     approvals_reviewer,
@@ -886,6 +891,7 @@ impl TurnRequestProcessor {
         }
 
         Ok(codex_protocol::protocol::ThreadSettingsOverrides {
+            gateway_config,
             environments,
             profile_workspace_roots,
             approval_policy,
@@ -925,6 +931,7 @@ impl TurnRequestProcessor {
                 thread.as_ref(),
                 ThreadSettingsBuildParams {
                     method: "thread/settings/update",
+                    gateway_config: params.gateway_config,
                     environments,
                     approval_policy: params.approval_policy,
                     approvals_reviewer: params.approvals_reviewer,

@@ -40,6 +40,7 @@ pub(super) async fn update(
 /// Converts protocol overrides into the internal settings update shape.
 pub(super) fn prepare_update(overrides: ThreadSettingsOverrides) -> SessionSettingsUpdate {
     let ThreadSettingsOverrides {
+        gateway_config,
         environments,
         profile_workspace_roots,
         approval_policy,
@@ -57,6 +58,7 @@ pub(super) fn prepare_update(overrides: ThreadSettingsOverrides) -> SessionSetti
     } = overrides;
     SessionSettingsUpdate {
         step_settings: StepSettingsUpdate {
+            gateway_config,
             model,
             effort,
             collaboration_mode,

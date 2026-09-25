@@ -17,6 +17,8 @@ use tokio_util::sync::CancellationToken;
 /// API request payload for a single model turn
 #[derive(Debug, Clone)]
 pub struct Prompt {
+    /// Request-scoped saved gateway config, never included in model context.
+    pub gateway_config: Option<String>,
     /// Conversation context input items.
     pub input: Vec<ResponseItem>,
 
@@ -41,6 +43,7 @@ pub struct Prompt {
 impl Default for Prompt {
     fn default() -> Self {
         Self {
+            gateway_config: None,
             input: Vec::new(),
             tools: Arc::default(),
             parallel_tool_calls: false,

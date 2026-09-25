@@ -49,6 +49,7 @@ pub(crate) struct Session {
     /// Orders accepted settings commits and their persisted events with compaction checkpoints.
     /// Keep this separate from `state` so storage I/O does not block runtime state access.
     pub(super) thread_settings_persistence: Semaphore,
+    pub(super) gateway_settings_checkpointed: std::sync::atomic::AtomicBool,
     /// Serializes rebuild/apply cycles for the running proxy; each cycle
     /// rebuilds from the current SessionState while holding this lock.
     pub(super) managed_network_proxy_refresh_lock: Semaphore,
@@ -246,6 +247,7 @@ impl SessionConfiguration {
             .map(|config| config.permission_profile.clone())
             .unwrap_or_else(|| self.permission_profile_state.snapshot());
         ThreadConfigSnapshot {
+            gateway_config: self.step_settings.gateway_config.clone(),
             model: self.step_settings.collaboration_mode.model().to_string(),
             model_provider_id: self.original_config_do_not_use.model_provider_id.clone(),
             service_tier: self.step_settings.service_tier.clone(),
@@ -286,6 +288,7 @@ impl SessionConfiguration {
         environment_selections: &[TurnEnvironmentSelection],
     ) -> ThreadSettingsSnapshot {
         ThreadSettingsSnapshot {
+            gateway_config: self.step_settings.gateway_config.clone(),
             model: self.step_settings.collaboration_mode.model().to_string(),
             model_provider_id: self.original_config_do_not_use.model_provider_id.clone(),
             service_tier: self.step_settings.service_tier.clone(),
@@ -307,6 +310,7 @@ impl SessionConfiguration {
         environment_selections: Vec<TurnEnvironmentSelection>,
     ) -> CodexThreadSettingsOverrides {
         CodexThreadSettingsOverrides {
+            gateway_config: Some(self.step_settings.gateway_config.clone()),
             environments: Some(TurnEnvironmentSelections::new(
                 self.legacy_fallback_cwd.clone(),
                 environment_selections,
@@ -496,10 +500,41 @@ impl SessionConfiguration {
         super::environment::validate_environment_selections(next_environments)?;
         // Apply step settings last: the proposed permissions and environment
         // selections must be complete before deriving their validation constraints.
+        let mut step_update = updates.step_settings.clone();
+        let invalid = |reason: String| ConstraintError::InvalidValue {
+            field_name: "gateway_routing",
+            candidate: "requested routing selection".into(),
+            allowed: reason,
+            requirement_source: codex_config::RequirementSource::Unknown,
+        };
+        if let Some(selection) = &step_update.gateway_config {
+            let gateway = self
+                .original_config_do_not_use
+                .model_provider
+                .gateway
+                .as_ref()
+                .ok_or_else(|| invalid("an AI Gateway provider".into()))?;
+            if let Some(id) = selection {
+                codex_model_provider_info::GatewayRouting::validate_saved_config(id)
+                    .map_err(invalid)?;
+            }
+            gateway.validate().map_err(invalid)?;
+            if selection != &self.step_settings.gateway_config
+                && step_update.model.is_none()
+                && step_update.collaboration_mode.is_none()
+            {
+                step_update.model = Some(gateway.default_route.clone());
+            }
+        }
         next_configuration.step_settings = Arc::new(self.step_settings.apply(
-            &updates.step_settings,
+            &step_update,
             &next_configuration.step_settings_constraints(next_environments),
         )?);
+        if let Some(gateway) = &self.original_config_do_not_use.model_provider.gateway {
+            gateway
+                .request_model(next_configuration.step_settings.collaboration_mode.model())
+                .map_err(invalid)?;
+        }
         Ok(next_configuration)
     }
 
@@ -1507,6 +1542,7 @@ impl Session {
                 agent_status,
                 state: Mutex::new(state),
                 thread_settings_persistence: Semaphore::new(/*permits*/ 1),
+                gateway_settings_checkpointed: std::sync::atomic::AtomicBool::new(config.model_provider.gateway.is_none()),
                 managed_network_proxy_refresh_lock: Semaphore::new(/*permits*/ 1),
                 features: config.features.clone(),
                 guardian_context_mode,

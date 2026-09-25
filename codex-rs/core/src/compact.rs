@@ -283,6 +283,7 @@ async fn run_compact_task_inner_impl(
             .for_prompt(&turn_context.model_info().input_modalities);
         let turn_input_len = turn_input.len();
         let prompt = Prompt {
+            gateway_config: turn_context.initial_settings.gateway_config(),
             input: turn_input,
             base_instructions: sess.get_prompt_base_instructions().await,
             ..Default::default()

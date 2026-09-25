@@ -3155,6 +3155,7 @@ mod tests {
         let response = ClientResponse::ThreadStart {
             request_id: RequestId::Integer(7),
             response: v2::ThreadStartResponse {
+                gateway_config: None,
                 thread: v2::Thread {
                     originator: None,
                     environments: None,
@@ -3215,6 +3216,7 @@ mod tests {
                 "method": "thread/start",
                 "id": 7,
                 "response": {
+                    "gatewayConfig": null,
                     "thread": {
                         "id": "67e55044-10b1-426f-9247-bb680e5fe0c8",
                         "environments": null,
@@ -4448,6 +4450,7 @@ mod tests {
             ServerNotification::ThreadSettingsUpdated(v2::ThreadSettingsUpdatedNotification {
                 thread_id: "thr_123".to_string(),
                 thread_settings: v2::ThreadSettings {
+                    gateway_config: None,
                     cwd: absolute_path("/tmp/repo"),
                     approval_policy: v2::AskForApproval::Never,
                     approvals_reviewer: v2::ApprovalsReviewer::User,

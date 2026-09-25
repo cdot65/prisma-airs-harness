@@ -1578,6 +1578,7 @@ impl ThreadRequestProcessor {
         let thread_originator = config_snapshot.originator.clone();
 
         let response = ThreadStartResponse {
+            gateway_config: config_snapshot.gateway_config,
             thread: thread.clone(),
             model: config_snapshot.model,
             model_provider: config_snapshot.model_provider_id,
@@ -4074,6 +4075,7 @@ impl ThreadRequestProcessor {
 
                 let thread_originator = config_snapshot.originator.clone();
                 let response = ThreadResumeResponse {
+                    gateway_config: config_snapshot.gateway_config,
                     thread,
                     model: session_configured.model,
                     model_provider: session_configured.model_provider_id,
@@ -5239,6 +5241,7 @@ impl ThreadRequestProcessor {
             thread_response_active_permission_profile(config_snapshot.active_permission_profile);
         let thread_originator = config_snapshot.originator.clone();
         let response = ThreadForkResponse {
+            gateway_config: config_snapshot.gateway_config,
             thread: thread.clone(),
             model: session_configured.model,
             model_provider: session_configured.model_provider_id,

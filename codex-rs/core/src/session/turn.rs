@@ -1391,6 +1391,7 @@ pub(crate) fn build_prompt(
 ) -> Prompt {
     let turn_context = &step_context.turn;
     Prompt {
+        gateway_config: step_context.settings.gateway_config(),
         input,
         tools: step_context.tool_router.model_visible_specs(),
         parallel_tool_calls: true,

@@ -292,6 +292,7 @@ async fn environment_only_update_revalidates_existing_step_settings() {
 
 fn configured_settings() -> StepSettings {
     StepSettings {
+        gateway_config: None,
         collaboration_mode: CollaborationMode {
             mode: ModeKind::Default,
             settings: Settings {

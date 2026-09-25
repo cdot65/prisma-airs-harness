@@ -61,6 +61,7 @@ pub(super) async fn run_remote_compact_attempt(
     let prompt_input = history.for_prompt(&turn_context.model_info().input_modalities);
     let tool_router = &step_context.tool_router;
     let prompt = Prompt {
+        gateway_config: step_context.settings.gateway_config(),
         input: prompt_input,
         tools: tool_router.model_visible_specs(),
         parallel_tool_calls: true,

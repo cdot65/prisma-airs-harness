@@ -642,6 +642,7 @@ impl ModelClient {
         };
 
         let mut extra_headers = ApiHeaderMap::new();
+        self.add_gateway_config_header(prompt, &mut extra_headers)?;
         if let Ok(header_value) = HeaderValue::from_str(&responses_metadata.installation_id) {
             extra_headers.insert(X_CODEX_INSTALLATION_ID_HEADER, header_value);
         }
@@ -900,6 +901,22 @@ impl ModelClient {
                 .use_responses_lite
                 .then_some(ReasoningContext::AllTurns),
         }
+    }
+
+    fn add_gateway_config_header(&self, prompt: &Prompt, headers: &mut ApiHeaderMap) -> Result<()> {
+        if let Some(id) = &prompt.gateway_config {
+            if self.state.provider.info().gateway.is_none() {
+                return Err(CodexErr::InvalidRequest(
+                    "Saved configs require an AI Gateway provider".into(),
+                ));
+            }
+            codex_model_provider_info::GatewayRouting::validate_saved_config(id)
+                .map_err(CodexErr::InvalidRequest)?;
+            let value = HeaderValue::from_str(id)
+                .map_err(|_| CodexErr::InvalidRequest("Invalid saved gateway config ID".into()))?;
+            headers.insert("x-portkey-config", value);
+        }
+        Ok(())
     }
 
     fn build_responses_request(
@@ -1638,6 +1655,8 @@ impl ModelClientSession {
                 )
                 .await;
 
+            self.client
+                .add_gateway_config_header(prompt, &mut options.extra_headers)?;
             let mut request = self.client.build_responses_request(
                 prompt,
                 model_info,

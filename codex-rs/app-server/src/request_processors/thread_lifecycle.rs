@@ -725,6 +725,7 @@ pub(super) async fn handle_pending_thread_resume_request(
     let sandbox = config_snapshot.sandbox_policy().into();
     let cwd = config_snapshot.cwd().clone();
     let ThreadConfigSnapshot {
+        gateway_config,
         model,
         model_provider_id,
         service_tier,
@@ -743,6 +744,7 @@ pub(super) async fn handle_pending_thread_resume_request(
     thread.session_id = session_id;
 
     let response = ThreadResumeResponse {
+        gateway_config,
         thread,
         model,
         model_provider: model_provider_id,

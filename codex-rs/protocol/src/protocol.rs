@@ -519,6 +519,9 @@ pub enum TurnSettingsUpdateOutcome {
 /// own. Standalone updates change the settings inherited by future turns.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct ThreadSettingsOverrides {
+    /// Saved AI Gateway config. Omission preserves it; Some(None) resets it.
+    /// A config-only change resets the model; an explicit model in the same update is retained.
+    pub gateway_config: Option<Option<String>>,
     /// Updated fallback `cwd` and environments supplied together as a complete pair.
     pub environments: Option<TurnEnvironmentSelections>,
 
@@ -2192,6 +2195,10 @@ pub struct ThreadSettingsAppliedEvent {
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, JsonSchema, TS)]
 pub struct ThreadSettingsSnapshot {
+    /// Saved AI Gateway config selected for this thread, separate from history.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub gateway_config: Option<String>,
     pub model: String,
     pub model_provider_id: String,
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -1414,6 +1414,25 @@ consumers, including model-specific world-state instructions, still use initial-
 settings. Saved threads are supported, but complete model-instruction correctness,
 model attribution, and resume behavior for these switches are not guaranteed.
 
+### AIRS saved gateway routing
+
+For an AIRS gateway provider, `thread/settings/update` accepts `gatewayConfig`:
+provide a saved config ID to send `x-portkey-config`, omit the field to preserve
+it, or pass `null` to return to gateway-default configuration. Inline config JSON
+is rejected. Changing only the config resets the model to the provider's local
+default route, which omits the request `model`. An explicitly supplied model or
+collaboration mode in the same update preserves that paired selection; callers
+must not silently copy the previous model when changing config.
+
+Validation is atomic. These settings apply to future captured requests, including
+compaction, and are restored from the owning conversation's persisted settings.
+They are request metadata, never conversation instructions. Start, resume and
+fork responses and settings notifications expose the selected `gatewayConfig`.
+Wait for `thread/settings/updated` to display an applied change; the response only
+acknowledges submission. This API does not perform an inference probe or grant
+access. AI Gateway retains authentication, guardrails and effective routing; a
+saved config can override the requested model.
+
 ### Example: Steer an active turn
 
 Use `turn/steer` to append additional user input to the currently active regular turn. This does

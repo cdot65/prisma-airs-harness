@@ -179,6 +179,9 @@ pub struct MockExperimentalMethodResponse {
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]
 pub struct ThreadStartResponse {
+    /// Saved AI Gateway routing selected for this thread.
+    #[serde(default)]
+    pub gateway_config: Option<String>,
     pub thread: Thread,
     pub model: String,
     pub model_provider: String,
@@ -224,6 +227,16 @@ impl ThreadStartResponse {
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]
 pub struct ThreadSettingsUpdateParams {
+    /// Saved AI Gateway config ID. Null resets routing; omission preserves it.
+    /// A config-only change resets the model to gateway routing atomically.
+    #[serde(
+        default,
+        deserialize_with = "crate::protocol::serde_helpers::deserialize_double_option",
+        serialize_with = "crate::protocol::serde_helpers::serialize_double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
+    #[ts(optional = nullable)]
+    pub gateway_config: Option<Option<String>>,
     pub thread_id: String,
     /// Override the working directory for subsequent turns.
     #[ts(optional = nullable)]
@@ -287,6 +300,8 @@ pub struct ThreadSettingsUpdateResponse {}
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]
 pub struct ThreadSettings {
+    #[serde(default)]
+    pub gateway_config: Option<String>,
     pub cwd: AbsolutePathBuf,
     pub approval_policy: AskForApproval,
     pub approvals_reviewer: ApprovalsReviewer,
@@ -413,6 +428,9 @@ pub struct ThreadResumeParams {
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]
 pub struct ThreadResumeResponse {
+    /// Saved AI Gateway routing selected for this thread.
+    #[serde(default)]
+    pub gateway_config: Option<String>,
     pub thread: Thread,
     pub model: String,
     pub model_provider: String,
@@ -604,6 +622,9 @@ pub struct ThreadForkParams {
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]
 pub struct ThreadForkResponse {
+    /// Saved AI Gateway routing selected for this thread.
+    #[serde(default)]
+    pub gateway_config: Option<String>,
     pub thread: Thread,
     pub model: String,
     pub model_provider: String,

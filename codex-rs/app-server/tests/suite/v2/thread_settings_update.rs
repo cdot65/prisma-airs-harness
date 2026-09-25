@@ -167,6 +167,88 @@ async fn thread_settings_update_emits_notification_and_updates_future_turns() ->
 }
 
 #[tokio::test]
+async fn gateway_routing_updates_are_atomic_and_null_resets_the_saved_config() -> Result<()> {
+    let server = create_mock_responses_server_sequence_unchecked(vec![
+        create_final_assistant_message_sse_response("first")?,
+        create_final_assistant_message_sse_response("second")?,
+        create_final_assistant_message_sse_response("third")?,
+    ])
+    .await;
+    let home = TempDir::new()?;
+    MockResponsesConfig::new(&server.uri())
+        .with_provider_config(
+            "supports_websockets = false\ngateway = { default_route = \"mock-model\" }",
+        )
+        .write(home.path())?;
+    let mut client = TestAppServer::builder()
+        .with_codex_home(home.path())
+        .build_initialized_with_timeout(DEFAULT_TIMEOUT)
+        .await?;
+    let thread = start_thread(&mut client).await?.thread;
+    for (config, model) in [
+        (Some("pc-first"), Some("@provider/model")),
+        (Some("pc-second"), None),
+        (None, None),
+    ] {
+        let mut params = json!({"threadId": thread.id, "gatewayConfig": config});
+        if let Some(model) = model {
+            params["model"] = json!(model);
+        }
+        let id = client
+            .send_raw_request("thread/settings/update", Some(params))
+            .await?;
+        let _: ThreadSettingsUpdateResponse =
+            timeout(DEFAULT_TIMEOUT, client.read_response(id)).await??;
+        let updated = read_thread_settings_updated(&mut client).await?;
+        assert_eq!(
+            (
+                updated.thread_settings.gateway_config.as_deref(),
+                updated.thread_settings.model.as_str()
+            ),
+            (config, model.unwrap_or("mock-model"))
+        );
+        // An invalid model paired with a different valid config must not commit either field.
+        let id = client.send_raw_request("thread/settings/update", Some(json!({
+            "threadId": thread.id, "gatewayConfig": "pc-rejected", "model": "unqualified-model"
+        }))).await?;
+        let _error: JSONRPCError = timeout(
+            DEFAULT_TIMEOUT,
+            client.read_stream_until_error_message(RequestId::Integer(id)),
+        )
+        .await??;
+        start_text_turn(&mut client, thread.id.clone()).await?;
+        timeout(
+            DEFAULT_TIMEOUT,
+            client.read_stream_until_notification_message("turn/completed"),
+        )
+        .await??;
+    }
+    let requests = server.received_requests().await.context("requests")?;
+    let requests: Vec<_> = requests
+        .iter()
+        .filter(|request| request.url.path().ends_with("/responses"))
+        .collect();
+    assert_eq!(requests.len(), 3);
+    for (request, (config, model)) in requests.iter().zip([
+        (Some("pc-first"), Some("@provider/model")),
+        (Some("pc-second"), None),
+        (None, None),
+    ]) {
+        assert_eq!(
+            request
+                .headers
+                .get("x-portkey-config")
+                .map(|value| value.to_str().unwrap()),
+            config
+        );
+        let body: Value = request.body_json()?;
+        assert_eq!(body.get("model").and_then(Value::as_str), model);
+        assert!(!body.to_string().contains("pc-"));
+    }
+    Ok(())
+}
+
+#[tokio::test]
 async fn thread_settings_update_cwd_retargets_default_environment() -> Result<()> {
     let server = responses::start_mock_server().await;
     let body = responses::sse(vec![

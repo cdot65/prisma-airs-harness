@@ -243,6 +243,7 @@ mod tests {
 
     fn test_thread_settings() -> ThreadSettings {
         ThreadSettings {
+            gateway_config: None,
             cwd: test_path_buf("/tmp/thread-settings").abs(),
             approval_policy: codex_app_server_protocol::AskForApproval::Never,
             approvals_reviewer: codex_app_server_protocol::ApprovalsReviewer::User,

@@ -74,3 +74,20 @@ fn only_gateway_routing_selects_flat_function_tools() {
         codex_api::ResponseToolFormat::FlatFunctions
     );
 }
+
+#[test]
+fn saved_config_identifiers_reject_inline_configs_and_header_injection() {
+    for valid in ["pc-example-123", "b9075d69-b6a5-442d-a279-32a1ba801a22"] {
+        assert_eq!(GatewayRouting::validate_saved_config(valid), Ok(()));
+    }
+    for invalid in [
+        "",
+        "{}",
+        "config\r\nx-other: value",
+        "two words",
+        "../config",
+        &"x".repeat(129),
+    ] {
+        assert!(GatewayRouting::validate_saved_config(invalid).is_err());
+    }
+}

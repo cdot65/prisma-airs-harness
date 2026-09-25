@@ -20766,6 +20766,14 @@
           "cwd": {
             "$ref": "#/definitions/v2/AbsolutePathBuf"
           },
+          "gatewayConfig": {
+            "default": null,
+            "description": "Saved AI Gateway routing selected for this thread.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "instructionSources": {
             "default": [],
             "description": "Environment-native paths to instruction source files currently loaded for this thread.",
@@ -23014,6 +23022,14 @@
           "cwd": {
             "$ref": "#/definitions/v2/AbsolutePathBuf"
           },
+          "gatewayConfig": {
+            "default": null,
+            "description": "Saved AI Gateway routing selected for this thread.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "instructionSources": {
             "default": [],
             "description": "Environment-native paths to instruction source files currently loaded for this thread.",
@@ -23503,6 +23519,13 @@
               }
             ]
           },
+          "gatewayConfig": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "model": {
             "type": "string"
           },
@@ -23765,6 +23788,14 @@
           },
           "cwd": {
             "$ref": "#/definitions/v2/AbsolutePathBuf"
+          },
+          "gatewayConfig": {
+            "default": null,
+            "description": "Saved AI Gateway routing selected for this thread.",
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "instructionSources": {
             "default": [],

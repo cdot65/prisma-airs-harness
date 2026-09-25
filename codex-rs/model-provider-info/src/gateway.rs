@@ -14,6 +14,20 @@ pub struct GatewayRouting {
 }
 
 impl GatewayRouting {
+    /// Accept only bounded saved configuration identifiers, never inline JSON.
+    /// This validates syntax; the gateway retains all authorization decisions.
+    pub fn validate_saved_config(selection: &str) -> Result<(), String> {
+        if selection.is_empty()
+            || selection.len() > 128
+            || !selection
+                .bytes()
+                .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+        {
+            return Err("select a saved gateway config ID (1–128 letters, digits, dots, underscores or hyphens)".into());
+        }
+        Ok(())
+    }
+
     pub fn validate(&self) -> Result<(), String> {
         if self.default_route.is_empty()
             || self.default_route.starts_with('@')

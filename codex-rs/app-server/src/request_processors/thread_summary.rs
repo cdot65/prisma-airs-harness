@@ -176,6 +176,7 @@ pub(crate) fn thread_settings_from_config_snapshot(
     config_snapshot: &ThreadConfigSnapshot,
 ) -> ThreadSettings {
     ThreadSettings {
+        gateway_config: config_snapshot.gateway_config.clone(),
         cwd: config_snapshot.cwd().clone(),
         approval_policy: config_snapshot.approval_policy.into(),
         approvals_reviewer: config_snapshot.approvals_reviewer.into(),

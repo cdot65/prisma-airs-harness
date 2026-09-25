@@ -5869,6 +5869,13 @@
             }
           ]
         },
+        "gatewayConfig": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "model": {
           "type": "string"
         },

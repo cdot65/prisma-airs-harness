@@ -75,6 +75,7 @@ pub(super) async fn run_remote_compact_v2_attempt(
     let tool_router = &step_context.tool_router;
     input.push(ResponseItem::CompactionTrigger {});
     let prompt = Prompt {
+        gateway_config: step_context.settings.gateway_config(),
         input,
         tools: tool_router.model_visible_specs(),
         parallel_tool_calls: true,

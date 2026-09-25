@@ -4467,6 +4467,7 @@ async fn set_rate_limits_retains_previous_credits() {
     let session_configuration = SessionConfiguration {
         provider: create_model_provider(config.model_provider.clone(), /*auth_manager*/ None),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -4586,6 +4587,7 @@ async fn set_rate_limits_updates_plan_type_when_present() {
     let session_configuration = SessionConfiguration {
         provider: create_model_provider(config.model_provider.clone(), /*auth_manager*/ None),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -5230,6 +5232,7 @@ pub(crate) async fn make_session_configuration_for_tests() -> SessionConfigurati
     SessionConfiguration {
         provider: create_model_provider(config.model_provider.clone(), /*auth_manager*/ None),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -6285,6 +6288,7 @@ async fn session_new_fails_when_zsh_fork_enabled_without_packaged_zsh() {
             Some(Arc::clone(&auth_manager)),
         ),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -6439,6 +6443,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
             Some(Arc::clone(&auth_manager)),
         ),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -6620,6 +6625,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
         agent_status: agent_status_tx,
         state: Mutex::new(state),
         thread_settings_persistence: Semaphore::new(/*permits*/ 1),
+        gateway_settings_checkpointed: std::sync::atomic::AtomicBool::new(false),
         managed_network_proxy_refresh_lock: Semaphore::new(/*permits*/ 1),
         features: config.features.clone(),
         guardian_context_mode: GuardianContextMode::from_features(&config.features),
@@ -6742,6 +6748,7 @@ async fn make_session_with_config_and_rx(
             Some(Arc::clone(&auth_manager)),
         ),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -6869,6 +6876,7 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
             Some(Arc::clone(&auth_manager)),
         ),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -8743,6 +8751,7 @@ where
             Some(Arc::clone(&auth_manager)),
         ),
         step_settings: Arc::new(StepSettings {
+            gateway_config: None,
             collaboration_mode,
             reasoning_summary: config.model_reasoning_summary,
             service_tier: None,
@@ -8927,6 +8936,7 @@ where
         agent_status: agent_status_tx,
         state: Mutex::new(state),
         thread_settings_persistence: Semaphore::new(/*permits*/ 1),
+        gateway_settings_checkpointed: std::sync::atomic::AtomicBool::new(false),
         managed_network_proxy_refresh_lock: Semaphore::new(/*permits*/ 1),
         features: config.features.clone(),
         guardian_context_mode: GuardianContextMode::from_features(&config.features),

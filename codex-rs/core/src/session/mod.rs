@@ -222,6 +222,7 @@ mod code_mode_warning;
 pub(crate) mod context_window;
 mod environment;
 pub(crate) mod extension_metrics;
+mod gateway_routing;
 mod handlers;
 mod inject;
 mod input_queue;
@@ -747,6 +748,7 @@ impl Session {
                 Some(Arc::clone(&auth_manager)),
             ),
             step_settings: Arc::new(StepSettings {
+                gateway_config: gateway_routing::restored_config(&conversation_history, &config)?,
                 collaboration_mode,
                 reasoning_summary: config.model_reasoning_summary,
                 service_tier,
@@ -4580,7 +4582,7 @@ impl Session {
         let turn_item = TurnItem::UserMessage(user_message_item);
         self.emit_turn_item_started(turn_context, &turn_item).await;
         self.emit_turn_item_completed(turn_context, turn_item).await;
-        self.ensure_rollout_materialized(persist_context).await;
+        gateway_routing::persist_after_input(self, persist_context).await;
     }
 
     pub(crate) async fn notify_stream_error(

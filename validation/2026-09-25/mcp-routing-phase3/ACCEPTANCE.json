@@ -1,0 +1,70 @@
+{
+  "phase": 3,
+  "scope": "saved gateway routing in captured requests, atomic thread settings, first-input persistence and owning-thread restore",
+  "score": 9,
+  "scoring": {
+    "correctness": 3,
+    "identity_and_policy_boundaries": 2,
+    "automated_validation": 2,
+    "maintainability": 1,
+    "clarity": 1
+  },
+  "integration": {
+    "passed": 38,
+    "filtered_out": 2917
+  },
+  "app_server_protocol": {
+    "passed": 302,
+    "ignored_schema_writer": 1
+  },
+  "schema_exports": {
+    "standard": 1,
+    "experimental": 1
+  },
+  "format_exit": 0,
+  "clippy_exit": 0,
+  "remaining_gates": [
+    "routing selectors and verification UX",
+    "final full GNU workspace",
+    "signed Apple Silicon candidate and registry acceptance",
+    "owner live-account acceptance"
+  ],
+  "notes": [
+    "Prior test failures are retained in the private cache and are not counted as passes.",
+    "Fixed missing developer sandbox helper and static OpenSSL libraries; no sandbox restrictions were bypassed.",
+    "Corrected pre-first-input routing persistence and the one-shot provider fixture on restart.",
+    "Gateway authorization is not established by accepting settings."
+  ],
+  "files": [
+    {
+      "path": "phase3-focused5.log.gz",
+      "sha256": "08b3f49c352fc8fbe7f1ead6ac8339d2733e83c3bc76c060953bef26e16a6eb7",
+      "bytes": 2101
+    },
+    {
+      "path": "phase3-protocol-tests.log.gz",
+      "sha256": "ad9f9b9641846f18e9cb3ee59c61109a2f8105b6b7551e7e49ff99363c49ace1",
+      "bytes": 6588
+    },
+    {
+      "path": "phase3-schema3.log.gz",
+      "sha256": "e9413cc60f37f68d8cfe88083a0f2b201bf0579026bf3e483e03660012ffd3f0",
+      "bytes": 462
+    },
+    {
+      "path": "phase3-schema-experimental.log.gz",
+      "sha256": "d305f31a7ab5b85c5e086369e5f03decdea79653bd8f1bbc6f0069fdc3ffacd0",
+      "bytes": 494
+    },
+    {
+      "path": "phase3-fmt3.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    {
+      "path": "phase3-clippy.log.gz",
+      "sha256": "b30314af54dcc3d371e22863d2c9e992b43460dd781ed15b4e0f57fd83a658eb",
+      "bytes": 2922
+    }
+  ]
+}

@@ -22,6 +22,7 @@ use std::sync::Arc;
 /// a turn. A turn may contain several steps, each using its own captured settings.
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) struct StepSettings {
+    pub(crate) gateway_config: Option<String>,
     pub(crate) collaboration_mode: CollaborationMode,
     /// `None` follows the pinned model's default.
     pub(crate) reasoning_summary: Option<ReasoningSummary>,
@@ -53,6 +54,9 @@ pub(crate) struct ResolvedStepSettings {
 }
 
 impl ResolvedStepSettings {
+    pub(crate) fn gateway_config(&self) -> Option<String> {
+        self.selected.gateway_config.clone()
+    }
     /// Derives request values from selected settings and pinned metadata.
     pub(super) fn new(
         selected: Arc<StepSettings>,
@@ -221,6 +225,7 @@ impl ModelInfoOverrides {
 /// that full value for another. Merge the requested edits with each target.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub(crate) struct StepSettingsUpdate {
+    pub(crate) gateway_config: Option<Option<String>>,
     pub(crate) model: Option<String>,
     pub(crate) effort: Option<Option<ReasoningEffort>>,
     /// A complete collaboration mode takes precedence over model and effort edits.
@@ -264,6 +269,9 @@ impl StepSettings {
         constraints: &StepSettingsConstraints<'_>,
     ) -> ConstraintResult<Self> {
         let mut next = self.clone();
+        if let Some(selection) = &update.gateway_config {
+            next.gateway_config = selection.clone();
+        }
         next.collaboration_mode = update.collaboration_mode.clone().unwrap_or_else(|| {
             self.collaboration_mode.with_updates(
                 update.model.clone(),

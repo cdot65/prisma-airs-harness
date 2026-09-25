@@ -408,7 +408,7 @@ async fn temporary_recap_threads_disable_memories_and_remote_mcp_servers() -> Re
     let codex_home = tempdir()?;
     std::fs::write(
         codex_home.path().join("config.toml"),
-        "features.context_management.experimental_mode = true\n[mcp_servers.filesystem]\ncommand = 'true'\n",
+        "features.context_management.experimental_mode = true\n[mcp_servers.filesystem]\ncommand = 'true'\n[model_providers.airs]\nname = 'Gateway fixture'\nbase_url = 'https://gateway.invalid/v1'\nwire_api = 'responses'\nrequires_openai_auth = false\n[model_providers.airs.gateway]\ndefault_route = 'airs-gateway-default'\n",
     )?;
     app.config.codex_home = codex_home.path().to_path_buf().abs();
     app.config.sqlite = codex_state::SqliteConfig::new_for_testing(codex_home.path().abs());
@@ -416,8 +416,9 @@ async fn temporary_recap_threads_disable_memories_and_remote_mcp_servers() -> Re
 
     let config = app.chat_widget.config_ref();
     let options = crate::temporary_structured_request::TemporaryStructuredThreadOptions {
-        model: app.chat_widget.current_model().to_string(),
-        model_provider: config.model_provider_id.clone(),
+        gateway_config: Some("pc-structured-origin".into()),
+        model: "airs-gateway-default".into(),
+        model_provider: "airs".into(),
         cwd: config.cwd.display().to_string(),
         active_permission_profile: config
             .permissions
@@ -433,6 +434,10 @@ async fn temporary_recap_threads_disable_memories_and_remote_mcp_servers() -> Re
 
     let starts = recorded_params(&requests, "thread/start");
     assert_eq!(starts.len(), 1);
+    assert_eq!(
+        starts[0]["config"]["model_providers.airs.http_headers.x-portkey-config"],
+        "pc-structured-origin"
+    );
     assert_eq!(starts[0]["config"]["features.memories"], false);
     assert_eq!(starts[0]["config"]["features.context_management"], false);
     assert!(starts[0]["config"].get("features.memory_tool").is_none());

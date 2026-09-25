@@ -81,12 +81,14 @@ impl App {
             if session.thread_id != thread_id {
                 // `thread/read` does not include all thread settings, so do not carry
                 // thread-scoped state from the currently active session.
+                session.gateway_config = None;
                 session.collaboration_mode = None;
                 session.personality = None;
             }
             session
         } else {
             ThreadSessionState {
+                gateway_config: None,
                 thread_id,
                 forked_from_id: None,
                 fork_parent_title: None,
@@ -169,6 +171,7 @@ mod tests {
 
     fn test_thread_session(thread_id: ThreadId, cwd: PathBuf) -> ThreadSessionState {
         ThreadSessionState {
+            gateway_config: None,
             thread_id,
             forked_from_id: None,
             fork_parent_title: None,
@@ -403,6 +406,7 @@ mod tests {
         let read_thread_id =
             ThreadId::from_string("00000000-0000-0000-0000-000000000405").expect("valid thread");
         let primary_session = ThreadSessionState {
+            gateway_config: Some("pc-other-conversation".into()),
             permission_profile: PermissionProfile::workspace_write(),
             ..test_thread_session(primary_thread_id, test_path_buf("/tmp/primary"))
         };
@@ -454,6 +458,7 @@ mod tests {
             .permissions
             .permission_profile()
             .clone();
+        assert_eq!(session.gateway_config, None);
         assert_eq!(session.permission_profile, expected_permission_profile);
         assert_ne!(
             session.permission_profile,

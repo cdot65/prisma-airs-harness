@@ -1,0 +1,75 @@
+---
+source: tui/src/chatwidget/tests/airs_routing.rs
+expression: "snapshots.join(\"\\n\\n\")"
+---
+airs_routing_config
+
+
+  AI Gateway configuration
+  Config: pc-example-123 · Model: @provider/model
+  Requested routing for this conversation. The gateway controls the effective model. Opening this menu sends
+  no request.
+
+› 1. Enter saved config ID  Use a saved gateway config ID, not inline JSON.
+  2. Use gateway default    Verify the proposed routing before using it.
+
+  Press enter to confirm or esc to go back
+
+airs_routing_model_narrow
+
+
+  AI Gateway model
+  Config: gateway default · Model: follow config
+  routing
+  Requested routing for this conversation. The
+  gateway controls the effective model. Opening this
+  menu sends no request.
+
+› 1. Enter model override
+     Use @integration/model; the gateway must permit
+     the request.
+  2. Follow config routing
+     Verify the proposed routing before using it.
+  3. @fixture/model
+     Configured route; verify gateway access before
+     use.
+
+  Press enter to confirm or esc to go back
+
+airs_routing_confirm_narrow
+
+
+  Verify and use this routing?
+  Config: pc-other-456 · Model: follow config routing
+  One fixed connectivity message, up to 16 output
+  tokens. No conversation, files or tools. May incur
+  a charge; store=false is requested and gateway
+  logging still applies. A saved config may override
+  the requested model.
+
+› 1. Verify and use
+     Apply only after the gateway accepts this
+     request.
+
+  Press enter to confirm or esc to go back
+
+airs_routing_waiting
+
+
+  Verifying gateway routing…
+  Your current routing and draft remain. Esc cancels before application.
+
+› 1. Cancel  Keep the current routing.
+
+  Press enter to confirm or esc to go back
+
+airs_routing_applying
+
+
+  Applying gateway routing…
+  Waiting for the conversation to confirm the change. Queued input remains
+  paused.
+
+›    Waiting for confirmation
+
+  Waiting for session confirmation

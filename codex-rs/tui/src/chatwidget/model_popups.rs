@@ -14,6 +14,13 @@ impl ChatWidget {
     /// Open a popup to choose a quick auto model. Selecting "All models"
     /// opens the full picker with every available preset.
     pub(crate) fn open_model_popup(&mut self) {
+        if self.config.model_provider.gateway.is_some() {
+            self.app_event_tx
+                .send(AppEvent::AirsRouting(crate::airs_routing::Event::Open(
+                    crate::airs_routing::Kind::Model,
+                )));
+            return;
+        }
         if !self.is_session_configured() {
             self.add_info_message(
                 "Model selection is disabled until startup completes.".to_string(),

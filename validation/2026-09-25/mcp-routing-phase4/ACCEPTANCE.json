@@ -1,0 +1,89 @@
+{
+  "phase": 4,
+  "scope": "in-session config/model routing, bounded candidate verification, authoritative application, auxiliary request routing and documentation",
+  "score": 9,
+  "scoring": {
+    "correctness": 3,
+    "identity_and_policy_boundaries": 2,
+    "automated_validation": 2,
+    "maintainability": 1,
+    "clarity": 1
+  },
+  "cli_passed": 1025,
+  "tui_unit_passed": 4394,
+  "tui_unit_skipped": 2,
+  "routing_terminal_passed": 3,
+  "doctor_terminal_passed": 7,
+  "documentation_browser_passed": 23,
+  "format_exit": 0,
+  "clippy_exit": 0,
+  "notes": [
+    "CLI counts are an identified subset of the broader run; two TUI failures were repaired and the complete TUI unit suite subsequently passed.",
+    "Development terminal checks preceded only the final waiting-view copy and equivalent nonpanicking gateway guard; exact signed Mac tests remain mandatory.",
+    "Opening a selector sends no request; verification is disclosed and confirms acceptance of the requested pair, not the effective provider/model.",
+    "The current environment credential could not be read on the Alpine host; no live routing permission is claimed."
+  ],
+  "remaining_gates": [
+    "final exact-revision GNU workspace",
+    "signed and notarized Apple Silicon build",
+    "installed candidate and registry acceptance including Jev approval and upgrade/rollback",
+    "owner real-account acceptance before Linux distribution builds"
+  ],
+  "files": [
+    {
+      "path": "phase4-cli-subset.log.gz",
+      "sha256": "f813e66e3a0348175d220608bd644b2000cfafd937e0b366a0bab6d5f35879b9",
+      "bytes": 24360
+    },
+    {
+      "path": "phase4-tui-final.log.gz",
+      "sha256": "25a789deea42926fbf336fc6cb3a2d0b888051884be71900a604ade09b5ea298",
+      "bytes": 98269
+    },
+    {
+      "path": "phase4-clippy2.log.gz",
+      "sha256": "3e2b824f15d5da26fa82334efa2cae4772601245564bd0586579a75872564d15",
+      "bytes": 305
+    },
+    {
+      "path": "phase4-fmt-final.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    {
+      "path": "phase4-routing-pty2.log.gz",
+      "sha256": "dffe0fc7cbb4bc271387438a17b2efb1a070ac3613644d7c439a506b4ab0a521",
+      "bytes": 207
+    },
+    {
+      "path": "phase4-doctor-pty.log.gz",
+      "sha256": "f8615950a2cbcb3b67551bc19e30c253d8d20ffd2aa60e75c7693a69966b97a3",
+      "bytes": 353
+    },
+    {
+      "path": "phase4-packaging.log.gz",
+      "sha256": "2e007d9562486e505928efdda1aee2c250e5cc616955b4b516835e03a12bbd33",
+      "bytes": 564
+    },
+    {
+      "path": "phase4-launcher.log.gz",
+      "sha256": "1ecca993fdaade18226da6b98f7d5ceb0488b8e6cd59dfaea9a01e503292b77b",
+      "bytes": 1589
+    },
+    {
+      "path": "phase4-docs-content.log.gz",
+      "sha256": "14ec0e71542e6d38064a194740483ab40d8d221f1a6451319a05a26b454dea5a",
+      "bytes": 289
+    },
+    {
+      "path": "phase4-docs-build2.log.gz",
+      "sha256": "2de24c737ade69bcb1a72e2811983fb32cfe1da127718867c2fa25ce6f236b3a",
+      "bytes": 404
+    },
+    {
+      "path": "phase4-docs-browser2.log.gz",
+      "sha256": "2a3be5820941ebfe60e38d4247773cae12b028a5a2c2e17c0d6df22f67a5693b",
+      "bytes": 973
+    }
+  ]
+}

@@ -241,7 +241,8 @@ impl App {
                     self.chat_widget
                         .add_error_message(format!("Export failed: {error}"));
                 }
-                if self.chat_widget.no_modal_or_popup_active() {
+                if self.chat_widget.no_modal_or_popup_active()
+                    && !self.chat_widget.airs_routing_blocked() {
                     self.chat_widget
                         .set_queue_autosend_suppressed(/*suppressed*/ false);
                     self.chat_widget.maybe_send_next_queued_input();
@@ -739,6 +740,7 @@ impl App {
                     }
                 }
             },
+            AppEvent::AirsRouting(event) => self.handle_airs_routing(app_server, event),
             AppEvent::AirsDoctor(event) => self.handle_airs_doctor(tui, app_server, event).await,
             AppEvent::AirsTypeSafe(event) => self.handle_airs_typesafe(app_server, event),
             AppEvent::AirsMcpManager(event) => self.handle_airs_mcp_manager(app_server, event).await,
@@ -1680,6 +1682,7 @@ impl App {
             }
             AppEvent::SettingsSelectionSettled => {
                 if self.chat_widget.no_modal_or_popup_active()
+                    && !self.chat_widget.airs_routing_blocked()
                     && !self
                         .chat_widget
                         .thread_id()

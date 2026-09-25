@@ -261,6 +261,7 @@ fn apply_thread_settings_to_session(session: &mut ThreadSessionState, settings: 
         session.reasoning_effort = settings.effort.clone();
     }
     session.model_provider_id = settings.model_provider.clone();
+    session.gateway_config = settings.gateway_config.clone();
     session.service_tier = settings.service_tier.clone();
     session.approval_policy = settings.approval_policy;
     session.approvals_reviewer = settings.approvals_reviewer.to_core();
@@ -286,6 +287,7 @@ fn thread_settings_update_has_changes(params: &ThreadSettingsUpdateParams) -> bo
         || params.approvals_reviewer.is_some()
         || params.sandbox_policy.is_some()
         || params.permissions.is_some()
+        || params.gateway_config.is_some()
         || params.model.is_some()
         || params.service_tier.is_some()
         || params.effort.is_some()

@@ -9,6 +9,10 @@ impl ChatWidget {
         display: SessionConfiguredDisplay,
         fork_parent_title: Option<String>,
     ) {
+        self.airs_routing = crate::airs_routing::State {
+            saved_config: session.gateway_config.clone(),
+            ..Default::default()
+        };
         self.invalidate_permission_discovery();
         self.permission_profiles_menu_opened = false;
         self.transcript.reset_copy_history();

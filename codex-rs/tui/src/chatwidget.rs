@@ -442,6 +442,7 @@ mod airs_doctor;
 mod airs_mcp_manager;
 pub(crate) mod airs_mcp_recovery;
 mod airs_recovery;
+mod airs_routing;
 mod airs_typesafe;
 mod turn_lifecycle;
 mod turn_runtime;
@@ -570,6 +571,7 @@ pub(crate) struct ChatWidget {
     /// The unmasked collaboration mode settings (always Default mode).
     ///
     /// Masks are applied on top of this base mode to derive the effective mode.
+    airs_routing: crate::airs_routing::State,
     current_collaboration_mode: CollaborationMode,
     /// The currently active collaboration mask, if any.
     active_collaboration_mask: Option<CollaborationModeMask>,

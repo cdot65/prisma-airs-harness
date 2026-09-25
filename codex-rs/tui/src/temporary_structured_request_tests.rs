@@ -74,6 +74,7 @@ async fn preserves_custom_permissions_and_disables_required_mcp_servers() -> col
     let response = start_temporary_thread(
         &app_server.request_handle(),
         TemporaryStructuredThreadOptions {
+            gateway_config: None,
             model: "gpt-5.2".to_string(),
             model_provider: config.model_provider_id.clone(),
             cwd: config.cwd.display().to_string(),

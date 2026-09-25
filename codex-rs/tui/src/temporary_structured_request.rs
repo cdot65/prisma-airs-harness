@@ -34,6 +34,7 @@ const STRUCTURED_RESPONSE_MAX_BYTES: usize = 8 * 1024;
 pub(crate) struct TemporaryStructuredThreadOptions {
     pub(crate) model: String,
     pub(crate) model_provider: String,
+    pub(crate) gateway_config: Option<String>,
     pub(crate) cwd: String,
     pub(crate) active_permission_profile: Option<String>,
     pub(crate) mcp_server_names: Vec<String>,
@@ -50,6 +51,7 @@ pub(crate) async fn start_temporary_thread(
     let TemporaryStructuredThreadOptions {
         model,
         model_provider,
+        gateway_config,
         cwd,
         active_permission_profile,
         mcp_server_names,
@@ -95,6 +97,23 @@ pub(crate) async fn start_temporary_thread(
         ("tools.update_plan.enabled".to_string(), false.into()),
         ("web_search".to_string(), "disabled".into()),
     ]);
+    if let Some(id) = gateway_config {
+        codex_model_provider_info::GatewayRouting::validate_saved_config(&id)
+            .map_err(|_| eyre!("invalid saved gateway config for structured request"))?;
+        if model_provider.is_empty()
+            || !model_provider
+                .bytes()
+                .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_'))
+        {
+            return Err(eyre!("invalid gateway provider for structured request"));
+        }
+        // This override belongs only to the ephemeral helper thread. Retain the
+        // originating conversation's requested route without changing user config.
+        config.insert(
+            format!("model_providers.{model_provider}.http_headers.x-portkey-config"),
+            id.into(),
+        );
+    }
     let response: ThreadStartResponse = tokio::time::timeout(STRUCTURED_TURN_TIMEOUT, async {
         // Fail closed if the remote-effective MCP configuration cannot be read.
         let effective_config: ConfigReadResponse = request_handle

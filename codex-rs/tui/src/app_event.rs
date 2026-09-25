@@ -537,6 +537,7 @@ pub(crate) enum AppEvent {
     /// Request app-server account logout, then exit after it succeeds.
     Logout,
     AirsDoctor(crate::airs_doctor::Event),
+    AirsRouting(crate::airs_routing::Event),
     AirsTypeSafe(crate::airs_typesafe::Event),
     AirsMcpManager(crate::airs_mcp_manager::Event),
     AirsSignIn,

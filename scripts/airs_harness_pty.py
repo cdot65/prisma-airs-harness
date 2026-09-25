@@ -125,10 +125,10 @@ class TerminalSession:
 
     def choose_model(self, direction, expected):
         offset = len(self.transcript)
-        self.send_line("/model")
-        self.wait_for(b"Select Model", offset)
-        os.write(self.master, b"\x1b[B" if direction == "down" else b"\x1b[A")
+        selection = "default" if expected == "airs-gateway-default" else expected
+        self.send_line("/model " + selection)
+        self.wait_for(b"Verify and use this routing?", offset)
         time.sleep(0.25)
         os.write(self.master, b"\r")
-        self.wait_for(f"Model changed to {expected}".encode(), offset)
+        self.wait_for(b"Gateway routing applied", offset, timeout=60)
         time.sleep(0.35)

@@ -428,6 +428,12 @@ impl ChatWidget {
             SlashCommand::Logout => {
                 self.app_event_tx.send(AppEvent::Logout);
             }
+            SlashCommand::Config => {
+                self.app_event_tx
+                    .send(AppEvent::AirsRouting(crate::airs_routing::Event::Open(
+                        crate::airs_routing::Kind::Config,
+                    )))
+            }
             SlashCommand::Doctor => {
                 if codex_utils_home_dir::is_airs_harness() {
                     self.app_event_tx
@@ -752,6 +758,24 @@ impl ChatWidget {
         } = prepared;
         let trimmed = args.trim();
         match cmd {
+            SlashCommand::Config | SlashCommand::Model
+                if self.config.model_provider.gateway.is_some() =>
+            {
+                let kind = if cmd == SlashCommand::Config {
+                    crate::airs_routing::Kind::Config
+                } else {
+                    crate::airs_routing::Kind::Model
+                };
+                let event = if trimmed.is_empty() {
+                    crate::airs_routing::Event::Open(kind)
+                } else {
+                    crate::airs_routing::Event::Propose(
+                        kind,
+                        (trimmed != "default").then(|| trimmed.to_owned()),
+                    )
+                };
+                self.app_event_tx.send(AppEvent::AirsRouting(event));
+            }
             SlashCommand::Export if trimmed.is_empty() => self.show_transcript_export_popup(),
             SlashCommand::Export => {
                 self.set_queue_autosend_suppressed(/*suppressed*/ true);
@@ -1243,6 +1267,7 @@ impl ChatWidget {
             | SlashCommand::Quit
             | SlashCommand::Exit
             | SlashCommand::Logout
+            | SlashCommand::Config
             | SlashCommand::Doctor
             | SlashCommand::Typesafe
             | SlashCommand::Signin

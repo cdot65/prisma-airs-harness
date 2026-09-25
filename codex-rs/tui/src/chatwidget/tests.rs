@@ -292,3 +292,6 @@ mod airs_typesafe;
 
 #[path = "tests/question_turn_end_tests.rs"]
 mod question_turn_end_tests;
+
+#[path = "tests/airs_routing.rs"]
+mod airs_routing;

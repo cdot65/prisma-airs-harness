@@ -389,6 +389,7 @@ async fn submission_preserves_text_elements_and_local_images() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -498,6 +499,7 @@ async fn submission_includes_configured_active_permission_profile() {
     };
     let expected_active_permission_profile = ActivePermissionProfile::new("custom");
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -553,6 +555,7 @@ async fn submission_omits_active_permission_profile_for_legacy_snapshot() {
         file_system: ManagedFileSystemPermissions::Unrestricted,
     };
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -598,6 +601,7 @@ async fn submission_with_remote_and_local_images_keeps_local_placeholder_numberi
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -696,6 +700,7 @@ async fn enter_with_only_remote_images_submits_user_turn() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -763,6 +768,7 @@ async fn shift_enter_with_only_remote_images_does_not_submit_user_turn() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -804,6 +810,7 @@ async fn enter_with_only_remote_images_does_not_submit_when_modal_is_active() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -845,6 +852,7 @@ async fn enter_with_only_remote_images_does_not_submit_when_input_disabled() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,
@@ -889,6 +897,7 @@ async fn submission_prefers_selected_duplicate_skill_path() {
     let thread_id = ThreadId::new();
     let rollout_file = NamedTempFile::new().unwrap();
     let configured = crate::session_state::ThreadSessionState {
+        gateway_config: None,
         thread_id,
         forked_from_id: None,
         fork_parent_title: None,

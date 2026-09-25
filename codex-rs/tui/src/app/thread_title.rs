@@ -81,6 +81,10 @@ impl App {
         let effort = (model == THREAD_TITLE_MODEL).then_some(ReasoningEffort::Low);
         let config = self.chat_widget.config_ref();
         let options = TemporaryStructuredThreadOptions {
+            gateway_config: self
+                .chat_widget
+                .airs_routing_selection()
+                .and_then(|selection| selection.saved_config),
             model,
             model_provider: config.model_provider_id.clone(),
             cwd: config.cwd.display().to_string(),

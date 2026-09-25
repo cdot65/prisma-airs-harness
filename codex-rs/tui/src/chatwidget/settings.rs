@@ -393,7 +393,9 @@ impl ChatWidget {
             return;
         }
 
+        self.airs_routing.saved_config = notification.thread_settings.gateway_config.clone();
         self.apply_thread_settings(notification.thread_settings);
+        self.airs_routing_settings_applied();
     }
 
     #[cfg(test)]

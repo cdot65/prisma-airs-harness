@@ -36,6 +36,26 @@ Environment lifecycle commands live under `env`: create, list, show, status, use
 rename and remove. `env use` saves the default; `--environment` selects an
 environment for one command. The old top-level `setup` and `status` are removed.
 
+## Routing update under validation
+
+The next Apple Silicon preview adds `/config` for saved gateway config IDs and
+an explicit gateway `/model` picker. This is not part of stable 0.1.2 or alpha.4.
+
+- `/config pc-example-123456` requests that saved config; `/config default` returns
+  to the gateway default. Changing configs resets the model to follow config
+  routing; selecting the same config preserves an explicit model override.
+- `/model @integration/model` requests an override; `/model default` follows the
+  selected config. The gateway controls permissions and the effective model.
+- Opening either menu sends no request. **Verify and use** confirms one fixed,
+  bounded inference check without conversation content, files or tools. Quota and
+  gateway logging can apply. A rejected or cancelled check preserves the old pair.
+- Settings apply only after the session confirms them. An unknown update outcome
+  pauses input until resume. Saved conversations restore their routing; new
+  conversations use environment defaults. MCP and TypeSafe credentials are separate.
+
+`/doctor` checks environment defaults; reselect the current config or model to
+verify a conversation override. Saved IDs are not inline gateway configurations.
+
 ## Getting started
 
 Follow [Getting started](GETTING-STARTED.md) for installation, local environments,

@@ -601,6 +601,9 @@ class TerminalIntegration(unittest.TestCase):
                 terminal.wait_for(reply.encode(), offset)
         counts = dict.fromkeys(prompts, 0)
         for _, _, body in self.requests:
+            if body.get("stream") is False:
+                self.assertEqual(body["max_output_tokens"], 16)
+                continue
             prompt = latest_user_text(body)
             if prompt in prompts:
                 counts[prompt] += 1

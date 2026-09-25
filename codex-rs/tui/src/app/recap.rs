@@ -292,6 +292,10 @@ impl App {
             config.cwd.display().to_string()
         };
         let options = TemporaryStructuredThreadOptions {
+            gateway_config: self
+                .chat_widget
+                .airs_routing_selection()
+                .and_then(|selection| selection.saved_config),
             model,
             model_provider: config.model_provider_id.clone(),
             cwd,

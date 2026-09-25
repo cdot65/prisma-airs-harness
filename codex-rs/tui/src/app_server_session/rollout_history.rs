@@ -46,6 +46,7 @@ impl AppServerSession {
             thread.path.clone(),
             thread.model.clone().unwrap_or_default(),
             thread.model_provider.clone(),
+            /*gateway_config*/ None,
             config.service_tier.clone(),
             AskForApproval::from(config.permissions.approval_policy.value()),
             config.approvals_reviewer,

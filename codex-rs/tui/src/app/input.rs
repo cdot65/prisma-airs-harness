@@ -557,9 +557,9 @@ impl App {
 
     fn should_handle_unavailable_thread_key(&self, key_event: KeyEvent) -> bool {
         !self.chat_widget.has_active_view()
-            && self
-                .current_displayed_thread_id()
-                .is_some_and(|id| self.thread_unavailable(id))
+            && self.current_displayed_thread_id().is_some_and(|id| {
+                self.thread_unavailable(id) || self.chat_widget.airs_routing_blocked()
+            })
             && !(key_event.modifiers.contains(KeyModifiers::CONTROL)
                 && matches!(key_event.code, KeyCode::Char('c' | 'd')))
     }

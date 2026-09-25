@@ -104,6 +104,7 @@ pub(crate) use worktree_startup::ManagedTuiWorktree;
 mod airs_doctor;
 mod airs_mcp_manager;
 mod airs_onboarding;
+mod airs_routing;
 mod airs_typesafe;
 pub use airs_onboarding::AirsOnboarding;
 pub use airs_onboarding::OnboardingContext;

@@ -39,6 +39,23 @@ pub(super) fn parse(bytes: &[u8]) -> Result<Report, String> {
 }
 
 pub(crate) async fn run(home: &Path, cwd: &Path, mode: Mode) -> Result<Report, String> {
+    run_selected(home, cwd, mode, /*selection*/ None).await
+}
+
+pub(crate) async fn routing(
+    home: &Path,
+    cwd: &Path,
+    selection: &crate::airs_routing::Selection,
+) -> Result<Report, String> {
+    run_selected(home, cwd, Mode::Verify, Some(selection)).await
+}
+
+async fn run_selected(
+    home: &Path,
+    cwd: &Path,
+    mode: Mode,
+    selection: Option<&crate::airs_routing::Selection>,
+) -> Result<Report, String> {
     #[cfg(target_os = "linux")]
     let executable = std::path::PathBuf::from("/proc/self/exe");
     #[cfg(not(target_os = "linux"))]
@@ -49,12 +66,22 @@ pub(crate) async fn run(home: &Path, cwd: &Path, mode: Mode) -> Result<Report, S
     if mode == Mode::Verify {
         command.arg("--verify-access");
     }
+    if let Some(selection) = selection {
+        command.arg("--routing-probe");
+        if let Some(config) = &selection.saved_config {
+            command.arg("--gateway-config").arg(config);
+        }
+        if let Some(model) = &selection.model {
+            command.arg("--gateway-model").arg(model);
+        }
+    }
     #[cfg(unix)]
     command.process_group(0);
     let mut child = command
         .env("AIRS_HARNESS_HOME", home)
         .env("AIRS_DOCTOR_CONNECTION_HEALTH", "1")
         .env_remove("AIRS_DOCTOR_STORAGE_PROBE")
+        .env_remove("AIRS_DOCTOR_CATALOG_PROBE")
         .current_dir(cwd)
         .stdin(Stdio::null())
         .stdout(Stdio::piped())

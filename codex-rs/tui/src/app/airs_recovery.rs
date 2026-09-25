@@ -9,6 +9,7 @@ pub(super) enum RecoveryOperation {
     Doctor,
     Mcp,
     TypeSafe,
+    Routing,
 }
 
 struct RecoveryAttempt {

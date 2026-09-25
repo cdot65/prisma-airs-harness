@@ -1,0 +1,13 @@
+{
+  "commands": [
+    {
+      "mode": "accept",
+      "exit_code": 0
+    },
+    {
+      "mode": "extras",
+      "exit_code": 0
+    }
+  ],
+  "passed": true
+}

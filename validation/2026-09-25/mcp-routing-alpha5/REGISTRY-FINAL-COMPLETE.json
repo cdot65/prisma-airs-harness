@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "registry": {
+    "exit_code": 0,
+    "passed": true,
+    "command": [
+      "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+      "/Users/cdot/.cache/airs-routing-20260925-r2/native-worker.py",
+      "verify",
+      "--root",
+      "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate",
+      "--tooling",
+      "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling",
+      "--packages",
+      "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/staged"
+    ]
+  },
+  "alpha4": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "version": "0.1.3-alpha.5.mcp.1",
+  "platform": "aarch64-apple-darwin"
+}

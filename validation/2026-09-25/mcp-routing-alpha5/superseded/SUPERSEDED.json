@@ -1,0 +1,6 @@
+{
+  "runtime_source": "b7108c8a39a4afa4f36e228461ed70d1f98cf1c1",
+  "published": false,
+  "reason": "Full GNU suite found non-gateway session restoration regressions; Mac-only candidate acceptance was insufficient",
+  "replacement_required": true
+}

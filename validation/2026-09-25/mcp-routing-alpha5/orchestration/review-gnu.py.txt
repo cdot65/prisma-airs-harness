@@ -1,0 +1,34 @@
+from pathlib import Path
+import re,json,hashlib,time,subprocess,gzip
+r=Path('/home/cdot/.cache/airs-routing-20260925-r2');p=r/'gnu-3844-validation.log';end=time.monotonic()+3*3600
+while True:
+ s=p.read_text(errors='replace') if p.exists() else ''
+ summary=re.search(r'Summary \[([\d.]+)s\] (\d+) tests run: (\d+) passed(?: \([^)]*\))?, (?:(\d+) failed, )?(\d+) skipped',s)
+ if summary:
+  status=subprocess.check_output(['/home/cdot/.local/bin/kubectl','exec','-n','forgejo','forgejo-postgres-4','-c','postgres','--','psql','-U','postgres','-d','forgejo','-Atc','SELECT status FROM action_run WHERE id=3844'],text=True).strip()
+  if status in ['1','2','3','4','5']:break
+ if time.monotonic()>end:raise TimeoutError('Full workspace has not finished; no build stopped')
+ time.sleep(20)
+clean=lambda s:re.sub(r'^\d{4}-\d\d-\d\dT\S+\s?', '', re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', s),flags=re.M)
+s=clean(p.read_text());baseline=json.loads(Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924/validation/2026-09-24/blue-selection-alpha4/WORKSPACE-BASELINE-COMPARISON.json').read_text())
+expected={'codex-exec-server::exec_process '+row['test'] for row in baseline['comparisons']}
+actual={x.strip() for x in re.findall(r'TRY 2 FAIL \[[^\]]+\] \([^\)]+\) (.+)',s)}
+baseline_path=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924/validation/2026-09-21/stable-0.1.2/workspace-283.log.gz')
+baseline_text=clean(gzip.decompress(baseline_path.read_bytes()).decode())
+def assertions(text, test):
+ token="thread '"+test+"'";blocks=[]
+ for match in re.finditer(re.escape(token),text):
+  block=text[match.start():text.index('note: run with',match.start())]
+  lines=[line.strip() for line in block.splitlines() if line.strip()]
+  lines=[re.sub(r'\(\d+\) panicked','(PID) panicked',x) for x in lines]
+  lines=[re.sub(r'/tmp/(?:airstests/)?\.tmp[0-9A-Za-z_]+','/tmp/FIXTURE',x) for x in lines]
+  blocks.append(lines)
+ return blocks
+comparisons=[]
+for old in baseline['comparisons']:
+ before=assertions(baseline_text,old['test']);after=assertions(s,old['test'])
+ comparisons.append({'test':old['test'],'same_assertion_details':bool(before and after) and all(x==before[0] for x in before+after),'stable':before[0],'candidate':after[0] if after else None,'stable_failure_attempts':len(before),'candidate_failure_attempts':len(after)})
+
+report={'source_commit':(r/'gnu-3844-source.txt').read_text().strip(),'run_id':3844,'duration_seconds':float(summary[1]),'total':int(summary[2]),'passed':int(summary[3]),'failed':int(summary[4] or 0),'skipped':int(summary[5]),'failures':sorted(actual),'only_reviewed_baseline_failures':actual==expected and all(x['same_assertion_details'] for x in comparisons),'suite_all_green':not int(summary[4] or 0),'retained_log_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'log_source':'Complete uploaded CI validation artifact (queried for run 3844); source-verified GNU container and terminal CI run status checked separately'}
+(r/'WORKSPACE-REVIEW.json').write_text(json.dumps(report,indent=2)+'\n');(r/'WORKSPACE-BASELINE-COMPARISON.json').write_text(json.dumps({'source_commit':report['source_commit'],'baseline_archive_sha256':hashlib.sha256(baseline_path.read_bytes()).hexdigest(),'comparison_method':'Compare every assertion block from raw stable and candidate logs; normalize only timestamps, ANSI, whitespace indentation, process IDs and fixture directory names; preserve tuple structure and runtime-bin entries','comparisons':comparisons},indent=2)+'\n');print(json.dumps(report))
+assert report['only_reviewed_baseline_failures'] or report['suite_all_green'],'New or changed workspace failure requires investigation'

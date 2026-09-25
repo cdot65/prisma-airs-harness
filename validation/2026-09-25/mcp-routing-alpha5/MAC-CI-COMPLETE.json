@@ -1,0 +1,9 @@
+{
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "run_id": 3845,
+  "passed": true,
+  "preflight": true,
+  "build": true,
+  "acceptance": true,
+  "signing": "separately recorded owner-GUI Developer ID signing and notarization"
+}

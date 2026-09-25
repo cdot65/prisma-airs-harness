@@ -1,0 +1,16 @@
+from pathlib import Path
+import hashlib,json,os,subprocess,time
+cache=Path('/Users/cdot/.cache/airs-routing-20260925-r2');source='fd038ac880d2155654b3db3d4032290460b69833'
+staged=Path('/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates')/source
+end=time.monotonic()+6*3600
+while not (staged/'CANDIDATE.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Native build intake did not arrive; nothing signed')
+ time.sleep(30)
+artifact=json.loads((staged/'ARTIFACT-VERIFIED.json').read_text());candidate=json.loads((staged/'CANDIDATE.json').read_text())
+for r in (artifact,candidate):
+ assert r['runtime_source']==source and r['build_tooling_source']==source
+with (staged/'intake.tar.gz').open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==artifact['archive_sha256']
+env=os.environ.copy();env.update(RUNNER_TEMP=str(cache/'signing-temp'),AIRS_RUNTIME_SOURCE=source,AIRS_ARCHIVE_SHA256=artifact['archive_sha256'],AIRS_BINARY_SHA256=artifact['binary_sha256'],AIRS_FIXTURE_SHA256=artifact['fixture_sha256'],GITHUB_RUN_ID='manual-routing013r5b-signing')
+result=subprocess.run(['bash','scripts/airs_forgejo_gateway_package.sh'],cwd=cache/'signing-source',env=env)
+(cache/'SIGNING-COMPLETE.json').write_text(json.dumps({'source_commit':source,'exit_code':result.returncode,'dispatch':'manual invocation of committed owned signing script in owner GUI session; no Forgejo run claimed'})+'\n')
+raise SystemExit(result.returncode)

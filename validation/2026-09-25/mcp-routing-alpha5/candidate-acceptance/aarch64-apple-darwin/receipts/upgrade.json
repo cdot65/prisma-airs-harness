@@ -1,0 +1,62 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/validate_airs_npm_upgrade.py",
+    "--packages",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-npm",
+    "--previous",
+    "0.1.2",
+    "--registry",
+    "https://npm.cdot.io",
+    "--output",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance/aarch64-apple-darwin.work/upgrade-ce971764a7b549dc80256ec806f44304/upgrade",
+    "--previous-source-commit",
+    "aee13a272b5e79fe0ea6fe62485ca7c164927028",
+    "--previous-native-sha256",
+    "e5ba55132fde1c5f78aa112713e0c1f44ed1a0df4dbc334ce96abb38619476b4"
+  ],
+  "command_sha256": "57347785a90e7f2e93b35ef27d6b96414e40d6107a1fe04158a673f1067caf0b",
+  "dependencies": {
+    "doctor": "29ed720184a99b5a7457d4e7f8e315580d42151cb62c922afcbd1c806319f7fd",
+    "install": "6d8920006e22c3e52cbca46cb1ff910c29fbb4da648d7460bca5f298367581ab",
+    "installed-regressions": "d86c128a420ab31a88fcfaac35cccf23e1e7ee9a6c2bc8bccc77067904493021",
+    "managed-cli": "28c79d68dde3ffb78be086da9e0bf5a774834accf5914af39f94acccebcf2f83",
+    "mcp-manager": "af76cfef50fba9179d529873b25c2022058226100adad4f702c3be170d5da89a",
+    "onboarding": "b8c9d39de187015ba6a177a26a58cdb7ba9d8f53b017d072e87124e19d3aba68",
+    "terminals": "3291776b789a876e42c9d9d783b424c140a43e19a99425223b1ab5ccbb11193a"
+  },
+  "exit_code": 0,
+  "input_sha256": "8299a6d0bf1b815adc7aba4e4ba60be0b9c7eba885cfba224d28649776f5724e",
+  "inputs": {
+    "binary_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+    "candidate_metadata_sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942",
+    "candidate_packages_sha256": "1f5d9e4115641e7246790ce435bbb56e06df8a79d1c7f793c161f5492e55447f",
+    "contract": {
+      "normal_python": true,
+      "selection": "UPGRADE.json",
+      "stage": "upgrade",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "spec_sha256": "b884fdc40ec903b79c4ccfcd39cf923141b81619d07db5ec90a7a9dabc5ec1d6",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "tooling_sha256": "1a1ffac60fe7d555b9d5c8d543ead657b1938d988c15465eed5d283218f25866",
+    "version": "0.1.3-alpha.5.mcp.1"
+  },
+  "outputs": {
+    "files/upgrade/UPGRADE.json": {
+      "sha256": "abac7f9e3c740157e1160858461cd977ef6969f13d221895fc7db03cf5176dba",
+      "size": 2672
+    },
+    "logs/upgrade.log": {
+      "sha256": "1d9bca2e6c060714516684a496e8c051f73704efb0cdaad3839ce602bc863ed2",
+      "size": 2366
+    }
+  },
+  "schema_version": 1,
+  "stage": "upgrade"
+}

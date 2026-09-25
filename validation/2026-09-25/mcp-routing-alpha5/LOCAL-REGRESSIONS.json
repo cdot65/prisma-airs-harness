@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "tests_passed": 13,
+  "test_log_sha256": "e58560e24ddf10f7f89fdbab0452ff42527bda6848597ff4eb663f052f3b9362",
+  "clippy_exit_code": 0,
+  "format_exit_code": 0,
+  "scope": "Gateway selection/reset restoration plus all nine regressions found by GNU run 3843"
+}

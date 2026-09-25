@@ -1,0 +1,22 @@
+import configparser,subprocess,boto3,gzip,json,time,hashlib,re
+from pathlib import Path
+root=Path('/home/cdot/.cache/airs-routing-20260925-r2'); kubectl='/home/cdot/.local/bin/kubectl'; run=3844
+q=['-n','forgejo','exec','forgejo-postgres-4','-c','postgres','--','psql','-U','postgres','-d','forgejo','-Atc']
+def query(sql):return subprocess.check_output([kubectl,*q,sql],text=True).strip()
+end=time.monotonic()+10000
+while True:
+ status=query(f'SELECT status FROM action_run WHERE id={run};')
+ if status in ('1','2','3','4','5'):break
+ if time.monotonic()>end:raise TimeoutError('GNU validation did not finish')
+ time.sleep(30)
+config=configparser.ConfigParser(interpolation=None);config.read_string('[DEFAULT]\n'+subprocess.check_output([kubectl,'-n','forgejo','exec','forgejo-77c7c84858-269zm','-c','forgejo','--','cat','/data/gitea/conf/app.ini'],text=True));s=config['storage']
+client=boto3.client('s3',endpoint_url='http://10.108.136.97:9000',aws_access_key_id=s['MINIO_ACCESS_KEY_ID'],aws_secret_access_key=s['MINIO_SECRET_ACCESS_KEY'],region_name=s.get('MINIO_LOCATION','us-east-1'))
+rows=query(f"SELECT storage_path,artifact_path FROM action_artifact WHERE run_id={run} AND artifact_name='airs-linux-validation';")
+for line in rows.splitlines():
+ storage,name=line.split('|');assert name in {'source.txt','test-scope.txt','container-tooling-source.txt','validation.log'}
+ data=client.get_object(Bucket=s['MINIO_BUCKET'],Key='actions_artifacts/'+storage)['Body'].read()
+ if storage.endswith('.gz'):data=gzip.decompress(data)
+ p=root/f'gnu-{run}-{name}';p.write_bytes(data);p.chmod(0o600)
+ if name=='validation.log':
+  text=data.decode();print('Summary lines:',*[x for x in text.splitlines() if 'Summary [' in x or 'FAIL [' in x],sep='\n')
+  (root/'GNU-RUN-COMPLETE.json').write_text(json.dumps({'run_id':run,'status':status,'log_sha256':hashlib.sha256(data).hexdigest()},indent=2)+'\n')

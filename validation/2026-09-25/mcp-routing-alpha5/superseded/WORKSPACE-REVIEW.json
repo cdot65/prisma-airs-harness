@@ -1,0 +1,27 @@
+{
+  "source_commit": "25462fb3a9319a1c2419b516eaa13d4218837e8a",
+  "run_id": 3843,
+  "duration_seconds": 2002.666,
+  "total": 18457,
+  "passed": 18445,
+  "failed": 12,
+  "skipped": 34,
+  "failures": [
+    "codex-app-server::all suite::v2::thread_revert::thread_revert_interrupts_active_turn_and_keeps_thread_loaded",
+    "codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_fork_cutoff_after_cold_resume",
+    "codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_model_selected_multi_agent_version::cold_resume",
+    "codex-app-server::all suite::v2::thread_revert::thread_revert_preserves_model_selected_multi_agent_version::live_reload",
+    "codex-app-server::all suite::v2::thread_revert::thread_revert_replaces_paginated_history_before_turn",
+    "codex-core::all suite::remote_env::environment_permissions_follow_configuration_ownership",
+    "codex-core::all suite::resume::resume_restores_windows_sandbox_override",
+    "codex-core::all suite::settings_commits::settings_notifications_keep_their_commit_across_postcommit_work::standalone_notification_retains_its_committed_settings",
+    "codex-core::all suite::settings_commits::settings_notifications_keep_their_commit_across_postcommit_work::turn_start_retains_its_committed_settings_and_notification",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+  ],
+  "only_reviewed_baseline_failures": false,
+  "suite_all_green": false,
+  "retained_log_sha256": "843896d69a0c6b173fc75dedf67bb63b5fceedb408631c8df26c397f15edf4aa",
+  "log_source": "Complete uploaded CI validation artifact (queried for run 3843); source-verified GNU container and terminal CI run status checked separately"
+}

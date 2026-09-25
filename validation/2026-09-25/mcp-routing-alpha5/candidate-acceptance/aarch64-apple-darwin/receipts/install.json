@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/validate_airs_npm.py",
+    "--packages",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-npm",
+    "--prefix",
+    "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-6a1c05ddef504bc18b2725c9e7547ac7/prefix"
+  ],
+  "command_sha256": "ef64e217ee6278b643b96bef1101d803ed40be5f3d664373023a11520bed2721",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "73bd3338ade04825ba40327779b03799abcc386bda1808dbe75641a43aa259ff",
+  "inputs": {
+    "binary_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+    "candidate_metadata_sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942",
+    "candidate_packages_sha256": "1f5d9e4115641e7246790ce435bbb56e06df8a79d1c7f793c161f5492e55447f",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "candidate",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "spec_sha256": "b884fdc40ec903b79c4ccfcd39cf923141b81619d07db5ec90a7a9dabc5ec1d6",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+    "tooling_sha256": "1a1ffac60fe7d555b9d5c8d543ead657b1938d988c15465eed5d283218f25866",
+    "version": "0.1.3-alpha.5.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "ca0677e486f26519fea299be8be2d9d0e014fb27bc7698e405fb0cbafb70b437",
+      "size": 397
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "5e4d927ad136e4265c45415e16b1ca16c5285723a90d2f74c2e96eae9a4995d4",
+      "size": 4544
+    },
+    "logs/install.log": {
+      "sha256": "5e4d927ad136e4265c45415e16b1ca16c5285723a90d2f74c2e96eae9a4995d4",
+      "size": 4544
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

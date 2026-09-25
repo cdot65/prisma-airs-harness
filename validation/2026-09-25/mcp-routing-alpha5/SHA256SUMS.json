@@ -1,0 +1,814 @@
+{
+  "files": [
+    {
+      "path": "ACCEPTANCE-TOOLING.json",
+      "bytes": 19555,
+      "sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa"
+    },
+    {
+      "path": "CANDIDATE-HOST-COMPLETE.json",
+      "bytes": 157,
+      "sha256": "12c628ecb305be277dddc07a3a319aeefa80a1399b654e2403fd82bc1e615b7f"
+    },
+    {
+      "path": "CANDIDATE-PACKAGING-COMPLETE.json",
+      "bytes": 78,
+      "sha256": "0d1993078aec34229c554d67cbe641b9191522777ffa44c2fc93081c4ad179f1"
+    },
+    {
+      "path": "CI-DISPATCH.txt",
+      "bytes": 66,
+      "sha256": "2ba734a8932a427f5267c79310e22a9fc4aa8a67018a97a2914e15c3a1882952"
+    },
+    {
+      "path": "DOCS-SOURCE-PUBLICATION.json",
+      "bytes": 222,
+      "sha256": "5f89d26f5a73a3d69a6838465d46c3616c40173896866bd225eaa0d10946298d"
+    },
+    {
+      "path": "GNU-RUN-COMPLETE.json",
+      "bytes": 122,
+      "sha256": "ea3713919f9ac9e4261431e1ac703cfddde4a6cb82316743c08a2c188429b45f"
+    },
+    {
+      "path": "LIVE-DOCS-VERIFIED.json",
+      "bytes": 9095,
+      "sha256": "026ab639aa7c607e0d721ade0af58034d3f07961e3a3ee431329855621ea4b81"
+    },
+    {
+      "path": "LOCAL-REGRESSIONS.json",
+      "bytes": 343,
+      "sha256": "9e1802070a3c2522bed72bc3557593dd841fd0424de334af2c0d2d5291a566f5"
+    },
+    {
+      "path": "MAC-CI-COMPLETE.json",
+      "bytes": 246,
+      "sha256": "b1f60df82da1e42fba10b63fbba1c8c1b96682d7c9f7ddf56aaf9341a9e8db2b"
+    },
+    {
+      "path": "READINESS.json",
+      "bytes": 2314,
+      "sha256": "54d4f67137312cc39a99c98155a4b39bf1353a2e631ea68383893c9c3cf3ec10"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2092,
+      "sha256": "4e4bc9ff9c570617293b839edd6e1af090951dcc7edd5653860aaf57fff4cddf"
+    },
+    {
+      "path": "REGISTRY-FINAL-COMPLETE.json",
+      "bytes": 673,
+      "sha256": "678548edcb11b5a27fcef60199f309120ae4c690430bd7dcb00082d5cc188d79"
+    },
+    {
+      "path": "REGISTRY-TAGS-VERIFIED.json",
+      "bytes": 341,
+      "sha256": "daef02a4095a0d2dbd7fe184ca11a36b6ea6044a7cc8ef29d14d73433a1e6549"
+    },
+    {
+      "path": "SIGNING-COMPLETE.json",
+      "bytes": 198,
+      "sha256": "0bbc4273e492d6b6aee3282b3e88f0301a484c6a00f9c8b508a48eed1140f529"
+    },
+    {
+      "path": "SOURCE.json",
+      "bytes": 62,
+      "sha256": "e561968eaa8c6d101b693bc3ddfca71e7767a73819553b166e51d464d081eddc"
+    },
+    {
+      "path": "SPEC.json",
+      "bytes": 1173,
+      "sha256": "736812266ae85cff20f3862d8bbcdf68941d1d3203856a8aba97bd49b67cb1c0"
+    },
+    {
+      "path": "STAGING-COMPLETE.json",
+      "bytes": 49,
+      "sha256": "7fdfd8eacb1fc30c8d326576ed384f3d09bda4ce45a4a4fc19d98f65c5f8c21d"
+    },
+    {
+      "path": "WORKSPACE-BASELINE-COMPARISON.json",
+      "bytes": 3553,
+      "sha256": "24749373af552a50a6ae3f2aaf9383cc26e0b3dfc8217876da66193a74e1ac95"
+    },
+    {
+      "path": "WORKSPACE-REVIEW.json",
+      "bytes": 881,
+      "sha256": "1b3d961497546076afdd8ca5b689098c2fa995f2860dffd25c2a7cc5ca9096c1"
+    },
+    {
+      "path": "accept-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 1449,
+      "sha256": "baa75b2d90308d844fd8670af5d9e8f59a7dc88d5faf1d3c0a908f1856640574"
+    },
+    {
+      "path": "accept-dispatch/aarch64-apple-darwin/accept.log",
+      "bytes": 178,
+      "sha256": "290ff6e47f036187fb530b286820b11c73143b7d5019bee5138984b101624d8c"
+    },
+    {
+      "path": "alpha4-roundtrip/0-previous-airs-harness.log",
+      "bytes": 25,
+      "sha256": "51a6852c9ddb84ccec82bf671674fa183e2d2b83fd90c5c750f62e3ea5c938a4"
+    },
+    {
+      "path": "alpha4-roundtrip/0-previous-airs.log",
+      "bytes": 25,
+      "sha256": "51a6852c9ddb84ccec82bf671674fa183e2d2b83fd90c5c750f62e3ea5c938a4"
+    },
+    {
+      "path": "alpha4-roundtrip/0-previous-install.log",
+      "bytes": 25,
+      "sha256": "5ae399544346f6401cefdb69c9e865b2585abd34adbd712c6aaa89827a968a1b"
+    },
+    {
+      "path": "alpha4-roundtrip/1-candidate-airs-harness.log",
+      "bytes": 25,
+      "sha256": "c2c4ffb1cd6d0c231e9816dbd66528d4a34f69f66963e36f8f4cec6f8b7aac18"
+    },
+    {
+      "path": "alpha4-roundtrip/1-candidate-airs.log",
+      "bytes": 25,
+      "sha256": "c2c4ffb1cd6d0c231e9816dbd66528d4a34f69f66963e36f8f4cec6f8b7aac18"
+    },
+    {
+      "path": "alpha4-roundtrip/1-candidate-install.log",
+      "bytes": 27,
+      "sha256": "d7c5b47702ac02669b3d913c82e7088aa4b38d98e70ff982c60057c2f5975aa5"
+    },
+    {
+      "path": "alpha4-roundtrip/2-previous-airs-harness.log",
+      "bytes": 25,
+      "sha256": "51a6852c9ddb84ccec82bf671674fa183e2d2b83fd90c5c750f62e3ea5c938a4"
+    },
+    {
+      "path": "alpha4-roundtrip/2-previous-airs.log",
+      "bytes": 25,
+      "sha256": "51a6852c9ddb84ccec82bf671674fa183e2d2b83fd90c5c750f62e3ea5c938a4"
+    },
+    {
+      "path": "alpha4-roundtrip/2-previous-install.log",
+      "bytes": 26,
+      "sha256": "9c3e73082a33f405e0cb386104192e280032a65a027ee086ad3043b8bf2a0525"
+    },
+    {
+      "path": "alpha4-roundtrip/COMPLETE.json",
+      "bytes": 33,
+      "sha256": "390337d9fa85b77035448fdff77adc190396f821fbdaf04c47377ac09a4fa909"
+    },
+    {
+      "path": "alpha4-roundtrip/MAC.log",
+      "bytes": 96,
+      "sha256": "9e530b92cea357f87dd10e41815500927747810b59413477afaa81fcfacc445a"
+    },
+    {
+      "path": "alpha4-roundtrip/ROUNDTRIP.json",
+      "bytes": 1003,
+      "sha256": "cc94cd97b0f696650d7175d1a62c2b3d87f0059d4e91cdbe9e5773c72fcdb0d9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/ACCEPTANCE.json",
+      "bytes": 2050,
+      "sha256": "26f5cd09d920df438d13e970dd84900477348b922302c1c3127ff90becf789b2"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 4922,
+      "sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/TOOLING.json",
+      "bytes": 19555,
+      "sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 3076,
+      "sha256": "672cbddfca21f035e923b0123d7f6ec8bee9a33a2323368c5336253fa3d518a7"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/doctor/TEST-RESULTS.json",
+      "bytes": 1183,
+      "sha256": "c18fe4b39dbe417bf769bf53d158ffc46a3e1b3a33a64c8f36282e4bd65b8dc1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/install/INSTALL-NETWORK.json",
+      "bytes": 397,
+      "sha256": "ca0677e486f26519fea299be8be2d9d0e014fb27bc7698e405fb0cbafb70b437"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 4544,
+      "sha256": "5e4d927ad136e4265c45415e16b1ca16c5285723a90d2f74c2e96eae9a4995d4"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 7046,
+      "sha256": "6608aa636b5cb1a7833660d14da34ac3f6e41e6c47edb49a5b3a5c380bd77cc9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/mac-signature/INSTALLED-MAC-SIGNATURE.json",
+      "bytes": 205,
+      "sha256": "d3f59546d96c8af86ff37577d9b54e1cb32723fbd1e91396ae913128c876fc3c"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1575,
+      "sha256": "2b1397afc83acabb01af9060dbf9297ef231d1fbc71bd93f2e19870be62fe166"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/onboarding/CREDENTIAL-CLEANUP.json",
+      "bytes": 533,
+      "sha256": "60d1231c75164a0f3419746390ce7fcb6d397d4100f8f1ec9d0623c64361befa"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2032,
+      "sha256": "5d0893c963ae422f5972281f57ffac7bde87e76ec5752f81917146536ee4f5a9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1141,
+      "sha256": "8a04e490501146ab893beafda32877c168b74a44f8e9477a078629c1df80f160"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/files/upgrade/UPGRADE.json",
+      "bytes": 2672,
+      "sha256": "abac7f9e3c740157e1160858461cd977ef6969f13d221895fc7db03cf5176dba"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/command-output.log",
+      "bytes": 2152,
+      "sha256": "9cf8f7a00ec5111e4d10525e78783fcf74a0e5e590febc591389d460297bbef1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/doctor.log",
+      "bytes": 1295,
+      "sha256": "ad32b5ca65618861c5abc32e69a6e1ae38ea1752ec5bcbf4748cdd7f6b143518"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/install.log",
+      "bytes": 4544,
+      "sha256": "5e4d927ad136e4265c45415e16b1ca16c5285723a90d2f74c2e96eae9a4995d4"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/installed-regressions.log",
+      "bytes": 12128,
+      "sha256": "9c14fbbb66e969687d21801889048efd3a3d9e999827440e12103e5524b15e47"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/mac-signature.log",
+      "bytes": 1658,
+      "sha256": "a501378c9707dd6195b29379205327c47b9f8de026d5963e13053208a4ea1c8a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/mcp-manager.log",
+      "bytes": 1906,
+      "sha256": "fa79f6631610aac7a91c2c4223138a925e9228c2010f5ccf620f1155152ab813"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/onboarding.log",
+      "bytes": 2032,
+      "sha256": "5d0893c963ae422f5972281f57ffac7bde87e76ec5752f81917146536ee4f5a9"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/terminals.log",
+      "bytes": 1141,
+      "sha256": "8a04e490501146ab893beafda32877c168b74a44f8e9477a078629c1df80f160"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/logs/upgrade.log",
+      "bytes": 2366,
+      "sha256": "1d9bca2e6c060714516684a496e8c051f73704efb0cdaad3839ce602bc863ed2"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/command-output.json",
+      "bytes": 3246,
+      "sha256": "3b429ded8e03c7ceb6956f50a45e29e6c8e1c8abbf2d70b6f3f81cf19e11ab87"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/doctor.json",
+      "bytes": 2522,
+      "sha256": "29ed720184a99b5a7457d4e7f8e315580d42151cb62c922afcbd1c806319f7fd"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/install.json",
+      "bytes": 2209,
+      "sha256": "6d8920006e22c3e52cbca46cb1ff910c29fbb4da648d7460bca5f298367581ab"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/installed-regressions.json",
+      "bytes": 2418,
+      "sha256": "d86c128a420ab31a88fcfaac35cccf23e1e7ee9a6c2bc8bccc77067904493021"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/mac-signature.json",
+      "bytes": 3393,
+      "sha256": "63a2ce46f6e8b97245c5a4d05b629222df5d47c758e3e07c40430a85e4b3682f"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/managed-cli.json",
+      "bytes": 2714,
+      "sha256": "28c79d68dde3ffb78be086da9e0bf5a774834accf5914af39f94acccebcf2f83"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/mcp-manager.json",
+      "bytes": 2470,
+      "sha256": "af76cfef50fba9179d529873b25c2022058226100adad4f702c3be170d5da89a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/onboarding.json",
+      "bytes": 2689,
+      "sha256": "b8c9d39de187015ba6a177a26a58cdb7ba9d8f53b017d072e87124e19d3aba68"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/terminals.json",
+      "bytes": 2650,
+      "sha256": "3291776b789a876e42c9d9d783b424c140a43e19a99425223b1ab5ccbb11193a"
+    },
+    {
+      "path": "candidate-acceptance/aarch64-apple-darwin/receipts/upgrade.json",
+      "bytes": 2908,
+      "sha256": "1fa9f5bef479113f4cc719c37be350573e91582c345a2fea7a2c3a6b968bb471"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/LIFECYCLE-ACCEPTANCE.json",
+      "bytes": 20236,
+      "sha256": "f6949d8a281ecfc7666682ee64d64068caf3ffec23eac985f26d5adf4b44ed94"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/OBSERVATION.json",
+      "bytes": 11848,
+      "sha256": "dd0766d029af223386c8d2506a3ffd8fff576c116b40ac5f5b082f7a75e8ff62"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/PROGRESS.json",
+      "bytes": 143,
+      "sha256": "88a048ea02ebb8e0cf30060079f3cefb03ce28b0a7cc8ad06039162cb34b6316"
+    },
+    {
+      "path": "extra-candidate/aarch64-apple-darwin/lifecycle-quick/RUN-IDENTITY.json",
+      "bytes": 19563,
+      "sha256": "4c12832051f1118697d51ed264b7b9016f652adcf75ccb33ad6b0f25c47e073f"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 3189,
+      "sha256": "afc9aee6209eba570fd4f42f9fece601c6e9ffbb769c79e2341bc5c9e8d0ef5d"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/quick.log",
+      "bytes": 197,
+      "sha256": "4ab931b708c77b6dea4d95897a1a3a731a72beaa79c5a695525d53717dc081e1"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/test_airs_doctor.log",
+      "bytes": 1239,
+      "sha256": "6d98141eb34241fba520028d890a4c34d2ba83e3d93a7a048b2abd60f7d784f6"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/test_airs_policy_retry.log",
+      "bytes": 228,
+      "sha256": "d2f614703f4ee90b7bee3ddc54b3bff9b483501fb9582781d0dc2847ba3302e2"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/typesafe-native.log",
+      "bytes": 234,
+      "sha256": "3d80a772483920d07dcd70691f7e2cd8ce95386e5037730763b853c88bf7d7a3"
+    },
+    {
+      "path": "extras-dispatch/aarch64-apple-darwin/typesafe-node.log",
+      "bytes": 280,
+      "sha256": "5d03f9d498eb4c98f65fa01bbd40a28b20dfbd9cccf1b9e7cd391482a0780418"
+    },
+    {
+      "path": "gnu-workspace-3844.log.gz",
+      "bytes": 413008,
+      "sha256": "ccf8920157d04e8489ad97eedcc2adbf06fe7e8dee7abc91e7af41a4c8123730"
+    },
+    {
+      "path": "logs/candidate-packaging.log",
+      "bytes": 5346,
+      "sha256": "07f4b6d1c0bf40c50896119715bb65d365081b68b06a0f8189b060f514fa7bcd"
+    },
+    {
+      "path": "logs/candidate-verify-all.log",
+      "bytes": 1211,
+      "sha256": "8c066b12ad38f990e4fe2ec44e0dae7dcb1df6eed840ef7e1cd4ffcdb631c62c"
+    },
+    {
+      "path": "logs/clippy.log",
+      "bytes": 9987,
+      "sha256": "df4a3ca1df81a8d127bf8b49fba44b11039b02b05bf70ff56a7a39cc7a8ec5eb"
+    },
+    {
+      "path": "logs/fmt-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/registry-verify-all.log",
+      "bytes": 1211,
+      "sha256": "3c175251ca104bce5eff8a4f722bdcd0fd1c634d96f263ddecfe65e4e3a363fe"
+    },
+    {
+      "path": "logs/release-docs-browser.log",
+      "bytes": 3191,
+      "sha256": "d8490dad7d6712141a499460131e534e732d9ae1de6ccc9d7b04516142e6be7c"
+    },
+    {
+      "path": "logs/release-docs-build.log",
+      "bytes": 648,
+      "sha256": "ce015c8c36ce6d58614f5e632800cbcef1f4a9c78ff96d62daa853bd558b788a"
+    },
+    {
+      "path": "logs/release-docs-content.log",
+      "bytes": 407,
+      "sha256": "e980cbc94175eda88d05293373ed812177dd2c0114f264407673eb7c58bdeffa"
+    },
+    {
+      "path": "logs/restoration-regressions.log",
+      "bytes": 12746,
+      "sha256": "e58560e24ddf10f7f89fdbab0452ff42527bda6848597ff4eb663f052f3b9362"
+    },
+    {
+      "path": "logs/stage.log",
+      "bytes": 6128,
+      "sha256": "0256720d1341bb564633ab3ff355bdb52e0b519099b7714d128b14f9affab484"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-BUILD.json",
+      "bytes": 945,
+      "sha256": "bf41982ba05e720066a491d7c039866c0e8b9613e3a8241b82ca2886365d4fc8"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-KEYCHAIN.json",
+      "bytes": 492,
+      "sha256": "92d7e60cd55d608eaab856417ab44d8a9f0d6ce1f822ed5070c1267e579b4b73"
+    },
+    {
+      "path": "mac-signing-evidence/NATIVE-STORE.json",
+      "bytes": 644,
+      "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed"
+    },
+    {
+      "path": "mac-signing-evidence/NOTARIZATION.json",
+      "bytes": 98,
+      "sha256": "1f99a97685ce9eeaf515fe2f79407ee1b405f72e16ab87e25f834ac2daece18d"
+    },
+    {
+      "path": "mac-signing-evidence/SIGNING.json",
+      "bytes": 1330,
+      "sha256": "e2aec57dc0826e7ad89cce1db38beb5949f57def258ef3788841be9287ac02a6"
+    },
+    {
+      "path": "mac-signing-evidence/native-tests.log",
+      "bytes": 12160,
+      "sha256": "1c7a0050e2c7e1ca0e42501530600af0df82fa1ecaf55c6e8bf9b664d79f9e4d"
+    },
+    {
+      "path": "orchestration/alpha4-roundtrip.py.txt",
+      "bytes": 1547,
+      "sha256": "fde2e4741c096cae4f480417489b5c3565bedd64e2a62ba10bb4e8324663e98f"
+    },
+    {
+      "path": "orchestration/assemble-evidence.py.txt",
+      "bytes": 6929,
+      "sha256": "38fcde1d62827da7b3d8d540d214c56aca39c922bf85e134f02e0f70e7f0e0f9"
+    },
+    {
+      "path": "orchestration/collect-candidate.py.txt",
+      "bytes": 2041,
+      "sha256": "ae1aacd4956da5c372977839a0b7297778159c6ce76547a5da44033a116f33c2"
+    },
+    {
+      "path": "orchestration/dispatch-candidate-r4.py.txt",
+      "bytes": 2345,
+      "sha256": "34a69d9835a1f3393ad28fa184b2b714f0b2addedb1da718720dafd4f078815c"
+    },
+    {
+      "path": "orchestration/dispatch-ci.py.txt",
+      "bytes": 1229,
+      "sha256": "a53918234f170cd223882068924f154d4f1fde57c4a72c387900a240b626a9f5"
+    },
+    {
+      "path": "orchestration/finalize-docs.py.txt",
+      "bytes": 3142,
+      "sha256": "609766603c85273c1c3fe4fa340b467b60b386211c1bf3e16e639c25aa16f9e4"
+    },
+    {
+      "path": "orchestration/monitor-gnu.py.txt",
+      "bytes": 1894,
+      "sha256": "732a654ec36c0ff041b5f3ff250b248766c6732f99d901542488bce272b11b32"
+    },
+    {
+      "path": "orchestration/native-worker.py.txt",
+      "bytes": 6073,
+      "sha256": "d37eec3798060b36c1b513ca17d54a84d0335d61c8c5b8e123ae26a47a975af6"
+    },
+    {
+      "path": "orchestration/prepare-attempt.py.txt",
+      "bytes": 3061,
+      "sha256": "98788fc5e6e81e1853749fd220f9e70244776de12ebde2db15514442d111e013"
+    },
+    {
+      "path": "orchestration/prepare-native-candidates.py.txt",
+      "bytes": 3315,
+      "sha256": "e073860217d33dff12208399f0afecc2ddfc86e41d17dcc90c63a649928e5263"
+    },
+    {
+      "path": "orchestration/prepare-native-registry.py.txt",
+      "bytes": 3470,
+      "sha256": "4bd185a7f902458de7ad7bcd67c9df46c53635ccdadb8dbf21d4edb637b61e71"
+    },
+    {
+      "path": "orchestration/prepare-registry-inputs.py.txt",
+      "bytes": 1335,
+      "sha256": "8ad948a79d88e3fc116426792820ecc32ebf78631b0a88a3d9d00c59e284a6e9"
+    },
+    {
+      "path": "orchestration/publish-when-validated.py.txt",
+      "bytes": 2507,
+      "sha256": "3c6810c8fc0e330e12f82051145177b2a9cb9f9361fa5481c33f1ce3f2e83bce"
+    },
+    {
+      "path": "orchestration/review-gnu.py.txt",
+      "bytes": 3669,
+      "sha256": "4b62c31da625b856c332c65edab0e6f8ec2cc6c726a46645cc565e2e4b22c229"
+    },
+    {
+      "path": "orchestration/signing-runner.py.txt",
+      "bytes": 1458,
+      "sha256": "1051e595caba4aafedb66518ff9ca32e55f2ce6e70c915eb4e1afa95b3ff9b08"
+    },
+    {
+      "path": "orchestration/stage-after-native.py.txt",
+      "bytes": 2081,
+      "sha256": "7d8da7124f1ffd4951b90a5ff5a1e60e4f8673ad403261a5900967a27782b6e0"
+    },
+    {
+      "path": "orchestration/verify-live-docs.py.txt",
+      "bytes": 3216,
+      "sha256": "7b845e500452a2bb1aaaa7fefc0184c2d97aad13e92d545c11d3471fce6c6827"
+    },
+    {
+      "path": "orchestration/verify-registry-final.py.txt",
+      "bytes": 3993,
+      "sha256": "98614587d2b9581390ad8668dcd5bb098fe5e44eba9b20c74e387976999094b7"
+    },
+    {
+      "path": "packages/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 4922,
+      "sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942"
+    },
+    {
+      "path": "packages/STAGED-NPM-PACKAGES.json",
+      "bytes": 6128,
+      "sha256": "405f656cf6057115ed5384b21e6d9f091d7d011592f81c1957e25afc262c3c09"
+    },
+    {
+      "path": "publication/PUBLICATION.json",
+      "bytes": 3260,
+      "sha256": "2fd65ca7172632f737106d905631f60ea036c6c3de18eb58406965aea7888cf3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/ACCEPTANCE.json",
+      "bytes": 2049,
+      "sha256": "91c299d31b8f2ee6fd8278fddd07b91c6456a4f55edad2202a06a6ca1854288f"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/CANDIDATE-NPM-PACKAGES.json",
+      "bytes": 6128,
+      "sha256": "405f656cf6057115ed5384b21e6d9f091d7d011592f81c1957e25afc262c3c09"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/TOOLING.json",
+      "bytes": 19555,
+      "sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/command-output/COMMAND-OUTPUT.json",
+      "bytes": 3112,
+      "sha256": "05221bf987a466e14f0ed48eef51cd3e4e8b6cd332c2f7799972a930822f2cf8"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/doctor/TEST-RESULTS.json",
+      "bytes": 1183,
+      "sha256": "c18fe4b39dbe417bf769bf53d158ffc46a3e1b3a33a64c8f36282e4bd65b8dc1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/install/INSTALL-NETWORK.json",
+      "bytes": 317,
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/install/INSTALL-VERIFICATION.json",
+      "bytes": 4647,
+      "sha256": "70f7f91f4185775b3fc98e1c78e6dec9010871c97baf14c5a8035e1bec325bc9"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/installed-regressions/TEST-RESULTS.json",
+      "bytes": 7046,
+      "sha256": "6608aa636b5cb1a7833660d14da34ac3f6e41e6c47edb49a5b3a5c380bd77cc9"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/mac-signature/INSTALLED-MAC-SIGNATURE.json",
+      "bytes": 205,
+      "sha256": "d3f59546d96c8af86ff37577d9b54e1cb32723fbd1e91396ae913128c876fc3c"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/managed-cli/MANAGED-CLI.json",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/mcp-manager/TEST-RESULTS.json",
+      "bytes": 1575,
+      "sha256": "2b1397afc83acabb01af9060dbf9297ef231d1fbc71bd93f2e19870be62fe166"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/onboarding/CREDENTIAL-CLEANUP.json",
+      "bytes": 533,
+      "sha256": "90e9ec9373cde331ca53df61f95f736b53d51e4a229d2d987ffd2bd6435ff10d"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/onboarding/ONBOARDING-ACCEPTANCE.json",
+      "bytes": 2031,
+      "sha256": "fc05228f13bc5b3fef5998f59de8320b47c6b0d009e7d4c48123ce87f07f6b17"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/terminals/TERMINAL-ACCEPTANCE.json",
+      "bytes": 1140,
+      "sha256": "34979d018f6ebb87dd7fb23b6b8638e9f6e9f2a73dabb6e38906c8f4a2b862f4"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/files/upgrade/UPGRADE.json",
+      "bytes": 2672,
+      "sha256": "abac7f9e3c740157e1160858461cd977ef6969f13d221895fc7db03cf5176dba"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/command-output.log",
+      "bytes": 2188,
+      "sha256": "1407dac03638075079e9be29f329b2ac6bff23f5e740c1a6fc3cd6d2772bdb7d"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/doctor.log",
+      "bytes": 1295,
+      "sha256": "52a73eac34a6a08da4b70df5e3832f66f56acf820201df2e607eb0c358e269ff"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/install.log",
+      "bytes": 4647,
+      "sha256": "9c32f827d453fc191a361093eb71a963dca3ea7b5c140a9353586366e03aaf92"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/installed-regressions.log",
+      "bytes": 12128,
+      "sha256": "378291fa2b459065206693595a0daa42bd971b4c679ea7ad0004e408e95e30b0"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/mac-signature.log",
+      "bytes": 1652,
+      "sha256": "5a8c648190940b688047cb0e1d992c732bbc6bc51349ee6d616018f9b462e52b"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/managed-cli.log",
+      "bytes": 468,
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/mcp-manager.log",
+      "bytes": 1906,
+      "sha256": "e21c5fb45ce9a56d05a4826a586f9f35c8731aa9d05ebcd59c16acbad32d26f3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/onboarding.log",
+      "bytes": 2031,
+      "sha256": "fc05228f13bc5b3fef5998f59de8320b47c6b0d009e7d4c48123ce87f07f6b17"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/terminals.log",
+      "bytes": 1140,
+      "sha256": "34979d018f6ebb87dd7fb23b6b8638e9f6e9f2a73dabb6e38906c8f4a2b862f4"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/logs/upgrade.log",
+      "bytes": 2366,
+      "sha256": "1d9bca2e6c060714516684a496e8c051f73704efb0cdaad3839ce602bc863ed2"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/command-output.json",
+      "bytes": 3242,
+      "sha256": "0b9c41a3c5182cdc081f0f835e9d0d76cc3775d8eb8d3c1206bd448dc073c63a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/doctor.json",
+      "bytes": 2520,
+      "sha256": "926e7421854bc0ab1e7c58d99832a92ecf55cb3d8f363a13c2f701688e08455a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/install.json",
+      "bytes": 2403,
+      "sha256": "c866fb96d6afec4adc0317db4ceb12d4abeba6676da819d2b2ab87bd9629516c"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/installed-regressions.json",
+      "bytes": 2416,
+      "sha256": "cdc26a59c1464a8a35c99b748663f89c717ab190fe075fbf9b16b5c92431f12f"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/mac-signature.json",
+      "bytes": 3390,
+      "sha256": "c3adf29268a5a0431f09b3c91d6816e219155c22cffffd098fa427c343a7aac0"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/managed-cli.json",
+      "bytes": 2711,
+      "sha256": "4f20ca0d561f22416e76646271dff4bb77078d52106ecbc08d2bcfc061510d14"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/mcp-manager.json",
+      "bytes": 2468,
+      "sha256": "fa77b1c61df42c866c5ddd76727079b7ae5ae17df4c270ffbce6662b5bd099e3"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/onboarding.json",
+      "bytes": 2685,
+      "sha256": "b839207aa5c098f84c3006e74539bd500b8bbd643e864479d525e3ba5a46c75a"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/terminals.json",
+      "bytes": 2646,
+      "sha256": "c00de5dcabe8a2b743ae964c06d0006fa8381a66e63dea8f5eaafaec04aa6619"
+    },
+    {
+      "path": "registry-acceptance/aarch64-apple-darwin/receipts/upgrade.json",
+      "bytes": 2899,
+      "sha256": "04d7d6bfd8c62d24fe99d24c6c8a091e1c7272e6e4208e1a9769ac3cd054c680"
+    },
+    {
+      "path": "superseded/SUPERSEDED.json",
+      "bytes": 249,
+      "sha256": "df605655b9beb81c4f28c42343134a15c90ece838c2504c04c5836262dbc5b56"
+    },
+    {
+      "path": "superseded/WORKSPACE-BASELINE-COMPARISON.json",
+      "bytes": 3553,
+      "sha256": "afab700012d55c149b1d54537462e086361a38904d1887bc1c07e50457fb886c"
+    },
+    {
+      "path": "superseded/WORKSPACE-REVIEW.json",
+      "bytes": 1986,
+      "sha256": "3d4424b182e0a0831809a4c18c876535787af9617e28e3d50c18804b60b6e464"
+    },
+    {
+      "path": "superseded/gnu-workspace-3841.log.gz",
+      "bytes": 9303,
+      "sha256": "bab44eee94f85f5209b6db1c137922fd6365eee41ff50c130a2a976b554a9ecf"
+    },
+    {
+      "path": "superseded/gnu-workspace-3843.log.gz",
+      "bytes": 481095,
+      "sha256": "5447a7bd9fa5b3a99602bead9c79f97749bb892d87d0af105a83d352c84d97b1"
+    },
+    {
+      "path": "superseded/initial-restoration-fixture.log.gz",
+      "bytes": 2831,
+      "sha256": "a38d178a1f8c550787e3edab665ab5c282ca4ade34863595cba7c3b7896feb03"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/COMPLETE.json",
+      "bytes": 2556,
+      "sha256": "2704d4359f0c8c36169559cd7f54df4d39691f034b3cbf8513cd8e96ebe11210"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/test_airs_doctor.log",
+      "bytes": 1239,
+      "sha256": "97588f490768b2111e406cf200717dceabc48de66eb0f671f512d7ba77be9050"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/test_airs_policy_retry.log",
+      "bytes": 228,
+      "sha256": "d13574ffaddc834d768573f41575deab542a1bb815a21bc8830bb46f0782b1f5"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/typesafe-node.log",
+      "bytes": 280,
+      "sha256": "4094d19422dbd36b49bec7b345a66a6dd5311a958ace4ea04c0567433d31f31a"
+    },
+    {
+      "path": "verify-dispatch/aarch64-apple-darwin/verify.log",
+      "bytes": 176,
+      "sha256": "f71c5ca703c849e7f457e136d6d74393c331da4f47f7ac0ccf8856f3e835f379"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "previous_version": "0.1.3-alpha.4.mcp.1",
+  "candidate_version": "0.1.3-alpha.5.mcp.1",
+  "restored_version": "0.1.3-alpha.4.mcp.1",
+  "previous_binary_sha256": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973",
+  "candidate_binary_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+  "restored_binary_sha256": "848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973",
+  "candidate_source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "previous_source_commit": "76d88c609556d1e00fbe1925ce34fe9521920364",
+  "command_links_preserved": true,
+  "configuration_preserved": true,
+  "real_conversation_preserved": true,
+  "inference_credential_reused": true,
+  "mcp_credential_reused": true,
+  "native_cleanup_completed": true,
+  "real_mcp_turns": 3,
+  "uninstall_used": false,
+  "force_used": false,
+  "production_acceptance": false,
+  "tooling_sha256": "c96488baaaf7378e3df6b4a986394d53c6ba2c782ff5db305a09073a1e1895b2"
+}

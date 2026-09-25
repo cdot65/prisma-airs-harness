@@ -1,0 +1,40 @@
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+import hashlib,json,re,time,urllib.request
+r=Path('/home/cdot/.cache/airs-routing-20260925-r2')
+wait_end=time.monotonic()+7200
+while not (r/'DOCS-SOURCE-PUBLICATION.json').is_file():
+ if time.monotonic()>wait_end:raise TimeoutError('Documentation source not published')
+ time.sleep(20)
+site=Path('/home/cdot/development/cdot65/airs-upstream-docs-20260922');commit=json.loads((r/'DOCS-SOURCE-PUBLICATION.json').read_text())['commit'];deadline=time.monotonic()+20*60
+api='https://api.github.com/repos/cdot65/prisma-airs-reference-architecture/actions/workflows/pages.yml/runs?per_page=10'
+def get(url):
+ request=urllib.request.Request(url,headers={'User-Agent':'airs-release-check','Cache-Control':'no-cache'})
+ with urllib.request.urlopen(request,timeout=30) as f:return f.read()
+while True:
+ runs=json.loads(get(api))['workflow_runs'];matching=[x for x in runs if x['head_sha']==commit]
+ if matching:
+  state=matching[0]
+  if state['status']=='completed':
+   assert state['conclusion']=='success','Documentation deployment did not pass';break
+ if time.monotonic()>deadline:raise TimeoutError('Documentation deployment not completed')
+ time.sleep(30)
+slugs=[x['slug'] for x in json.loads((site/'content-provenance.json').read_text())]+['home']
+def check(slug):
+ rel='index.html' if slug=='home' else 'learn/'+slug+'/index.html'
+ url='https://cdot65.github.io/prisma-airs-reference-architecture/'+('' if slug=='home' else 'learn/'+slug+'/')
+ expected=(site/'build'/rel).read_bytes()
+ def main(text):
+  body=re.search(rb'<main\b[^>]*>.*?</main>',text,re.S).group(0)
+  # Docusaurus CSS module hashes differ by build path; preserve class names,
+  # all other attributes, markup and text while normalizing only that suffix.
+  return re.sub(rb'class="([^"]*)"',lambda m:b'class="'+re.sub(rb'_[A-Za-z0-9_-]{4}(?=\s|$)',b'_HASH',m[1])+b'"',body)
+ for attempt in range(8):
+  actual=get(url)
+  if main(actual)==main(expected):break
+  time.sleep(15)
+ else:raise AssertionError('Live content differs from reviewed build: '+slug)
+ return {'slug':slug,'url':url,'reviewed_html_sha256':hashlib.sha256(expected).hexdigest(),'live_html_sha256':hashlib.sha256(actual).hexdigest(),'full_html_match':actual==expected,'normalized_main_content_sha256':hashlib.sha256(main(actual)).hexdigest(),'matches_reviewed_content_after_css_hash_normalization':True}
+with ThreadPoolExecutor(max_workers=4) as pool:pages=list(pool.map(check,slugs))
+result={'passed':True,'commit':commit,'run_id':state['id'],'deployment_url':state['html_url'],'deployment_conclusion':state['conclusion'],'comparison_scope':'Main HTML matches the reviewed production build after normalizing only four-character CSS-module class hash suffixes. All other main markup, attributes and text are compared exactly; raw full HTML hashes and equality are recorded separately. CI source and successful deployment independently checked through public GitHub API.','pages':pages}
+(r/'LIVE-DOCS-VERIFIED.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':True,'commit':commit,'run_id':state['id'],'pages':len(pages),'full_html_matches':sum(x['full_html_match'] for x in pages)}))

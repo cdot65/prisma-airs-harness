@@ -1,0 +1,34 @@
+{
+  "mode": "accept",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "736812266ae85cff20f3862d8bbcdf68941d1d3203856a8aba97bd49b67cb1c0",
+  "tooling_manifest_sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa",
+  "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "expected_native_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942",
+    "candidate_packages_sha256": "1f5d9e4115641e7246790ce435bbb56e06df8a79d1c7f793c161f5492e55447f"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-npm",
+        "--scripts",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 373.98722620797344
+    }
+  ],
+  "passed": true
+}

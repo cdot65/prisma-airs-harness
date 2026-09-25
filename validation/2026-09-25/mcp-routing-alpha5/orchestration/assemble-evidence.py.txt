@@ -1,0 +1,78 @@
+from pathlib import Path
+import gzip,hashlib,json,shutil,subprocess,re
+r=Path('/home/cdot/.cache/airs-routing-20260925-r2')
+old=r.parent/'airs-routing-20260925'
+repo=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924')
+out=repo/'validation/2026-09-25/mcp-routing-alpha5'
+load=lambda p:json.loads(p.read_text())
+for name in ['REGISTRY-FINAL-COMPLETE.json','LIVE-DOCS-VERIFIED.json','LOCAL-REGRESSIONS.json']:
+ assert load(r/name)['passed'],name
+spec=load(r/'SPEC.json');source=spec['source_commit']
+assert source=='fd038ac880d2155654b3db3d4032290460b69833'
+assert load(r/'publication/PUBLICATION.json')['published']
+workspace=load(r/'WORKSPACE-REVIEW.json')
+workspace['passed_on_retry']=re.findall(r'TRY 2 PASS \[[^\]]+\] \([^\)]+\) (.+)',(r/'gnu-3844-validation.log').read_text())
+assert workspace['source_commit']==source and (workspace['only_reviewed_baseline_failures'] or workspace['suite_all_green'])
+out.mkdir()
+def copy(src,rel):
+ dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dest)
+for name in ['SPEC.json','SOURCE.json','LOCAL-REGRESSIONS.json','WORKSPACE-REVIEW.json','WORKSPACE-BASELINE-COMPARISON.json','GNU-RUN-COMPLETE.json','SIGNING-COMPLETE.json','CANDIDATE-PACKAGING-COMPLETE.json','CANDIDATE-HOST-COMPLETE.json','STAGING-COMPLETE.json','REGISTRY-FINAL-COMPLETE.json','DOCS-SOURCE-PUBLICATION.json','LIVE-DOCS-VERIFIED.json','CI-DISPATCH.txt','MAC-CI-COMPLETE.json','REGISTRY-TAGS-VERIFIED.json']:
+ copy(r/name,name)
+copy(r/'frozen-tooling/ACCEPTANCE-TOOLING.json','ACCEPTANCE-TOOLING.json')
+for name in ['restoration-regressions.log','clippy.log','fmt-final.log','release-docs-content.log','release-docs-build.log','release-docs-browser.log','candidate-packaging.log','candidate-verify-all.log','registry-verify-all.log','stage.log']:
+ copy(r/name,'logs/'+name)
+for area in ['candidate-acceptance/aarch64-apple-darwin','registry-acceptance/aarch64-apple-darwin','extra-candidate','accept-dispatch','extras-dispatch','verify-dispatch','alpha4-roundtrip','publication','mac-signing-evidence']:
+ for p in sorted((r/area).rglob('*')):
+  if p.is_file() and p.suffix in ['.json','.log','.txt'] and not p.name.endswith('.private.log'):
+   assert p.stat().st_size<20*1024**2,p
+   copy(p,p.relative_to(r))
+for p in sorted((r/'signed-output').glob('*.json')):copy(p,'mac-signing-evidence/'+p.name)
+copy(r/'staged/NPM-PACKAGES.json','packages/STAGED-NPM-PACKAGES.json')
+copy(r/'candidate-npm/NPM-PACKAGES.json','packages/CANDIDATE-NPM-PACKAGES.json')
+for p in sorted(r.glob('*.py')):copy(p,'orchestration/'+p.name+'.txt')
+for name in ['WORKSPACE-REVIEW.json','WORKSPACE-BASELINE-COMPARISON.json','SUPERSEDED.json']:
+ copy(old/name,'superseded/'+name)
+for src,rel in [(r/'gnu-3844-validation.log','gnu-workspace-3844.log.gz'),(old/'gnu-3843-validation.log','superseded/gnu-workspace-3843.log.gz'),(old/'gnu-3841-validation.log','superseded/gnu-workspace-3841.log.gz'),(old/'restoration-regressions.log','superseded/initial-restoration-fixture.log.gz')]:
+ dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(gzip.compress(src.read_bytes(),mtime=0))
+readiness={'source_commit':source,'tooling_commit':spec['tooling_commit'],'packaging_commit':spec['packaging_commit'],'version':spec['version'],'scope':spec['scope'],'tag':spec['tag'],'registry':spec['registry'],'candidate_and_registry_verified':True,'signed_and_notarized':True,'platforms':['aarch64-apple-darwin'],'bundled_cli':'7.1.5','feature_scores':{'actionable_mcp_recovery':9,'guided_gateway_mcp_onboarding':9,'atomic_conversation_routing_and_resume':9,'config_model_tui_and_verified_mac_delivery':9},'scoring_rubric':{'correctness':3,'airs_boundaries':2,'tests':2,'maintainability':1,'clarity':1},'score_limit':'Owner live gateway routing policy and real-account acceptance remain. No point awarded for unrun acceptance.','workspace':workspace,'previous_versions_checked':['0.1.2','0.1.3-alpha.4.mcp.1'],'deferred':['Linux distributions until owner Mac acceptance','stable promotion'],'production_acceptance':False,'paid_jev_calls':False,'documentation_source_commit':load(r/'DOCS-SOURCE-PUBLICATION.json')['commit']}
+(out/'READINESS.json').write_text(json.dumps(readiness,indent=2)+'\n')
+(out/'README.md').write_text(f'''# Gateway routing and MCP recovery: {spec['version']}
+
+Runtime, packaging and frozen tooling: `{source}`. The Apple Silicon package is
+Developer ID signed, Apple notarized, and published under `mac-preview` at
+https://npm.cdot.io. Stable and Linux distributions are unchanged; CLI remains 7.1.5.
+
+This preview adds actionable MCP recovery, guided gateway MCP onboarding and
+conversation-scoped `/config` and `/model`. Changing config clears the override;
+selecting the same config preserves it. Following config routing is the default.
+A fixed minimal request verifies the proposed pair before application; gateway
+policy remains authoritative. Settings are applied only on confirmation from the
+session. Failure/cancellation preserves the prior pair and draft. Resume restores
+routing; new conversations use environment defaults. Requested routing is not a
+claim about the gateway's effective backend. Inference, MCP OAuth and Jev credential
+boundaries remain separate.
+
+All 13 restoration regression tests passed. Full GNU: {workspace['passed']} passed,
+{workspace['failed']} failed, {workspace['skipped']} skipped. The retained raw baseline
+comparison identifies the inherited failures; the suite is not described as green.
+The first signed candidate was withheld after nine NEW restoration failures; the
+corrected runtime was rebuilt and signed again. The superseded failure logs remain.
+
+Exact candidate and fresh registry installs passed all ten standard stages, native
+TypeSafe checks and the actual agent approval path. Stable and alpha.4 roundtrips
+preserved native credentials and conversation state. These are isolated fixtures,
+not owner SSO/ServiceNow or paid Jev acceptance. Documentation passed 23 browser
+checks; all 16 live pages match reviewed content after CSS hash normalization.
+
+Implementation evidence is in the adjacent mcp-routing-phase1 through phase4
+folders. READINESS.json scores the bounded phases at 9/10; owner real-account
+routing acceptance remains separate. SHA256SUMS inventories this evidence and the
+subsequent immutable Git audit verifies stage references and output hashes.
+''')
+rows=[]
+for p in sorted(out.rglob('*')):
+ if p.is_file():rows.append({'path':p.relative_to(out).as_posix(),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+(out/'SHA256SUMS.json').write_text(json.dumps({'files':rows},indent=2)+'\n')
+p=out/'SHA256SUMS.json';rows.append({'path':p.name,'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+(out/'SHA256SUMS').write_text(''.join(x['sha256']+'  '+x['path']+'\n' for x in sorted(rows,key=lambda x:x['path'])))
+print('Assembled',len(rows),'files at',out)

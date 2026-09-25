@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "736812266ae85cff20f3862d8bbcdf68941d1d3203856a8aba97bd49b67cb1c0",
+  "tooling_manifest_sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa",
+  "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "expected_native_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "405f656cf6057115ed5384b21e6d9f091d7d011592f81c1957e25afc262c3c09",
+    "candidate_packages_sha256": "3ef72e506806778905d357ca0eefa645fa0340ae799c0a819318a18fb2ef8e54"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 394.54230983299203
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.466629083035514
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.2087227921001613
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.409806417068467
+    }
+  ],
+  "passed": true
+}

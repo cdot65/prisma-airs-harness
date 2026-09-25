@@ -1,0 +1,76 @@
+{
+  "mode": "extras",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "736812266ae85cff20f3862d8bbcdf68941d1d3203856a8aba97bd49b67cb1c0",
+  "tooling_manifest_sha256": "e17b97bbc8e09c88700d1e545fe180249bcdac332b9620a4d416e66f4ac60bfa",
+  "tooling_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "expected_native_sha256": "3137fa14709b45ac7a7463770ec11601e47bd843d24dd32ab17712a3a6875e7d",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "dbf19d636b59755dd9136bfac2c0353bfbd24a59c3adcec9243b8d448b88d942",
+    "candidate_packages_sha256": "1f5d9e4115641e7246790ce435bbb56e06df8a79d1c7f793c161f5492e55447f"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-6a1c05ddef504bc18b2725c9e7547ac7/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--native-binary",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-6a1c05ddef504bc18b2725c9e7547ac7/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/routing013r5-candidate/extra-candidate/aarch64-apple-darwin/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 189.93684966606088
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.8302044160664082
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.104616458062083
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.2192602921277285
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-routing-20260925-r2/frozen-tooling/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.485136832809076
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "f6949d8a281ecfc7666682ee64d64068caf3ffec23eac985f26d5adf4b44ed94"
+  },
+  "passed": true
+}

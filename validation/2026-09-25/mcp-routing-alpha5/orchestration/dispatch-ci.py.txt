@@ -1,0 +1,16 @@
+from pathlib import Path
+import subprocess,json,time
+r=Path('/home/cdot/.cache/airs-routing-20260925-r2');repo=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924')
+source=json.loads((r/'SOURCE.json').read_text())['source_commit']
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+subprocess.run(['git','push','origin','HEAD:refs/heads/feat/airs-mcp-routing-20260925','HEAD:refs/heads/feat/airs-terminal-upstream-routing-20260925'],cwd=repo,check=True)
+tag='airs-mac-preview-0.1.3-alpha.5.mcp.1-r2'
+subprocess.run(['git','tag',tag,source],cwd=repo,check=True)
+subprocess.run(['git','push','origin','refs/tags/'+tag],cwd=repo,check=True)
+q=['/home/cdot/.local/bin/kubectl','-n','forgejo','exec','forgejo-postgres-4','-c','postgres','--','psql','-U','postgres','-d','forgejo','-Atc']
+for attempt in range(30):
+ rows=subprocess.check_output(q+["SELECT id,workflow_id,status FROM action_run WHERE commit_sha='"+source+"' ORDER BY id"],text=True).strip()
+ if 'airs-harness-linux.yml' in rows and 'airs-harness-macos-build.yml' in rows:break
+ time.sleep(3)
+else:raise RuntimeError('Both CI dispatch records not found')
+(r/'CI-DISPATCH.txt').write_text(rows+'\n');print(rows)

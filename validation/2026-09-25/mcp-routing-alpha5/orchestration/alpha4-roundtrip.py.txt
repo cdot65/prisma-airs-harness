@@ -1,0 +1,17 @@
+from pathlib import Path
+import json,sys
+cache=Path('/Users/cdot/.cache/airs-routing-20260925-r2');root=cache/'alpha4-roundtrip';sys.path.insert(0,str(cache/'frozen-tooling/scripts'))
+from airs_npm_registry import install_environment
+from validate_airs_npm_upgrade import native_info,run
+from airs_npm_roundtrip import observe_roundtrip
+prefix=root/'prefix';prefix.mkdir(mode=0o700);count=0;previous='0.1.3-alpha.4.mcp.1';candidate='0.1.3-alpha.5.mcp.1'
+def install(phase):
+ global count
+ version=previous if phase=='previous' else candidate;environment=install_environment(prefix,'https://npm.cdot.io',False)
+ run(['npm','install','-g','--prefix',str(prefix),'--ignore-scripts','--no-audit','--no-fund','--registry=https://npm.cdot.io','airs-harness@'+version],environment,root/f'{count}-{phase}-install.log')
+ for name in ['airs','airs-harness']:
+  assert run([str(prefix/'bin'/name),'--version'],environment,root/f'{count}-{phase}-{name}.log')=='airs '+version
+ count+=1
+receipt=observe_roundtrip(prefix,previous,candidate,install,native_info,'848739b335697ab8e74a8bbc10b51efb02528a7700dc7fa6621a7eac6178a973','76d88c609556d1e00fbe1925ce34fe9521920364')
+spec=json.loads((cache/'routing013r5-candidate/SPEC.json').read_text());assert receipt['candidate_binary_sha256']==spec['platforms'][0]['binary_sha256'] and receipt['candidate_source_commit']==spec['source_commit']
+(root/'ROUNDTRIP.json').write_text(json.dumps(receipt,indent=2)+'\n');print('Alpha.4 registry upgrade and rollback passed with native credentials and conversation preserved')

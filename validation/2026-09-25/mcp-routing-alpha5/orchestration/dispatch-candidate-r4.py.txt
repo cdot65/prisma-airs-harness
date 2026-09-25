@@ -1,0 +1,28 @@
+from pathlib import Path
+import hashlib,json,subprocess,sys,tarfile,time
+root=Path('/home/cdot/.cache/airs-routing-20260925-r2');repo=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924')
+source='fd038ac880d2155654b3db3d4032290460b69833';end=time.monotonic()+7200
+while not (root/'CANDIDATE-PACKAGING-COMPLETE.json').is_file():
+ if (root/'SIGNING-COMPLETE.json').is_file() and json.loads((root/'SIGNING-COMPLETE.json').read_text())['exit_code']:raise RuntimeError('Signing gate failed')
+ if time.monotonic()>end:raise TimeoutError('Candidate packaging did not complete')
+ time.sleep(20)
+assert json.loads((root/'CANDIDATE-PACKAGING-COMPLETE.json').read_text())['exit_code']==0
+spec=json.loads((repo/'validation/2026-09-24/blue-selection-alpha4/SPEC.json').read_text())
+signing=json.loads((root/'signed-output/SIGNING.json').read_text())
+spec['source_commit']=source
+for field in ('tooling_commit','packaging_commit'):spec[field]='fd038ac880d2155654b3db3d4032290460b69833'
+spec['version']='0.1.3-alpha.5.mcp.1';spec['platforms'][0]['binary_sha256']=signing['binary_sha256']
+(root/'SPEC.json').write_text(json.dumps(spec,indent=2)+'\n')
+subprocess.run([sys.executable,str(root/'frozen-tooling/scripts/airs_test_release.py'),'inspect','--spec',str(root/'SPEC.json'),'--packages',str(root/'candidate-npm')],check=True)
+files={}
+with tarfile.open(root/'candidate-transfer.tar','w') as t:
+ for p in sorted((root/'candidate-npm').rglob('*')):
+  if p.is_file():
+   rel=p.relative_to(root/'candidate-npm').as_posix();files[rel]=hashlib.sha256(p.read_bytes()).hexdigest();t.add(p,arcname=rel)
+with (root/'candidate-transfer.tar').open('rb') as f:h=hashlib.file_digest(f,'sha256').hexdigest()
+(root/'CANDIDATE-TRANSFER.json').write_text(json.dumps({'archive_sha256':h,'files':files,'spec':spec},indent=2)+'\n')
+remote='/Users/cdot/.cache/airs-routing-20260925-r2';key='/home/cdot/.ssh/airs-jadzia-runner'
+subprocess.run(['scp','-i',key,'-o','BatchMode=yes',str(root/'SPEC.json'),str(root/'CANDIDATE-TRANSFER.json'),str(root/'candidate-transfer.tar'),'cdot@10.0.1.121:'+remote+'/'],check=True)
+cmd='/opt/homebrew/opt/python@3.13/libexec/bin/python3 '+remote+'/prepare-native-candidates.py '+h
+subprocess.run(['ssh','-i',key,'-o','BatchMode=yes','cdot@10.0.1.121',cmd],check=True)
+print('Signed candidate installation acceptance dispatched')

@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "commit": "db73aece8702c6b1ccb092aba1d8ca8c8daea681",
+  "run_id": 36159651921,
+  "deployment_url": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/36159651921",
+  "deployment_conclusion": "success",
+  "comparison_scope": "Main HTML matches the reviewed production build after normalizing only four-character CSS-module class hash suffixes. All other main markup, attributes and text are compared exactly; raw full HTML hashes and equality are recorded separately. CI source and successful deployment independently checked through public GitHub API.",
+  "pages": [
+    {
+      "slug": "start-here",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/start-here/",
+      "reviewed_html_sha256": "94d8fcd89e111922b7a2c91450f800559c85aa76fab7b11472f6e2fb4bcf5041",
+      "live_html_sha256": "861cc761c5d14842fcefda5bf421af5c049ea525a1b49029536e191133e5c69d",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "b4b3be564a7b58d87b57c2ccbd79a0edbe6527c43b810e3130b36ac0152d3908",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "architecture",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/architecture/",
+      "reviewed_html_sha256": "aec5c6fe5ccbc569eba55b76f10c037067d3ee0d527d6b4610584c872d2581f3",
+      "live_html_sha256": "a93601c36b9d94e32ae46b9702c413aad99ba5d285e6ec31b0347f10c480b1e3",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "58f639e7425e685b35287635ff4c303862e94a3cfb921a6aea869640b21c426b",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "harness",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/harness/",
+      "reviewed_html_sha256": "2c4a37d33e3966c5eefc9eb6c3fe6faab4ea2f5e27bb364648cfc6a3d8d1bf16",
+      "live_html_sha256": "a9c553e34152f3d7422b917b7d80698fc9f1e8dac76cbbe7f4791fc5452e2973",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "3afd24a8dee39d6a0a2e999e73415b1fdb23dee2ac6f3237be1230c433a1e1f4",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "keycloak",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/keycloak/",
+      "reviewed_html_sha256": "cb8c043f57e96812e0667574186ff88364f36b96283def990242343cbf172d47",
+      "live_html_sha256": "0a84b1a43d82e8425a25c007556df64564981ad78f0fe9f11b27e0b7d54d0244",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "7e37812ab536bafa03155f5eb5035f8f2e51810e50bc856c4bb98669c7b8ff3a",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "cie",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/cie/",
+      "reviewed_html_sha256": "f64c2ec44c10c0bda8ce91b1a27a91a071ba36be31302affe2468ef2c016b2b1",
+      "live_html_sha256": "3f22428c5003b3cbb4d7b71df32dd3a881051c5a5099b8d7ce8e57329f0afe5b",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "fd56120b2840aae7912e827b0ae2b5f89c8e3cbf73f4cd9751a84835561cb186",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "login",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/",
+      "reviewed_html_sha256": "d091944d8014efc84889a6497c7a12f626b81860ab638494cb1581e21d82aa44",
+      "live_html_sha256": "a02374d44c376c0971f7b965ebaaa205437bd2bda9d35eb6f238527012b16e1c",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "0fbe33f12af015831e31aa3e4a9744c9aac7b7738358c512ba94b1c0327c11bb",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "gateway",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/gateway/",
+      "reviewed_html_sha256": "e6d3b0a2558b9cd3a37394876fe52e18ebe0a183ab68eb133b4b3506b8bc8f90",
+      "live_html_sha256": "1b45e648d8170b3e3d274cb28d5aa1aefa3dcab72fcc517a72c495429c9a8f2f",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "d516961736c9a4188f44858930fcef7436e0372d7f3cb65f2079928be8997903",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "mcp",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/mcp/",
+      "reviewed_html_sha256": "135c12b94b11d6c64b4f779874e9f388b8588f5ecd3b5c71ec0b6da513f3061d",
+      "live_html_sha256": "077d875155da9bc036209fcb23165b98112eefc4b895ac9e3818806dc8323922",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "c75d13d5ba1fbc102b8dc97978e1e2dc1f11d34a8c03d8b5536f750abfc19187",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "walkthrough",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/walkthrough/",
+      "reviewed_html_sha256": "ce3ea0629637133ae2726de042b743e442971595e82ea46298c528a7ccce9181",
+      "live_html_sha256": "b186b9ed714e0227821080ac3532812ce9cfb8e667ad94439d25eca7890f6078",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "5f63aa008c6721a1cbfbbf30fe383218fd85954cb22d49b417143a89b50526f8",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "lifecycle",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/lifecycle/",
+      "reviewed_html_sha256": "0f5dd3ecee5fdd5b92885c28c329fb1e488e0b7df3d926b146259b747da582b9",
+      "live_html_sha256": "844f40a1b95b58432f4dd59582402a6aaf47a20b35a5ed40ac5bcb65e67bba35",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "e6581db5c087ce1d4b2f9540d2c466cf3d392a6eebbc663d3dd30d25cf49a8db",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "operations",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/operations/",
+      "reviewed_html_sha256": "8f43568380d582948ab892dc5495044fa3331503f26a929356ac32efbda26362",
+      "live_html_sha256": "b02f5acfb4fc3fa47a803da63c97eadd6b2e3829c5e0f0ebeadfeac5b8009a1c",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "008cd2cd8f3a8295cb73511e0f2605c63d25f5fa2d3f5b72fa63246555622d23",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "troubleshooting",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/troubleshooting/",
+      "reviewed_html_sha256": "c9bc0047e153385f4e0bb7ff898aea80ad5878968fa95d84e7c1ceb74951c551",
+      "live_html_sha256": "31203881fcde243e690e15e18396439c305ad5ba1fa6eea8410a2c5d4f407d0b",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "a316db14bf0fd71892f31deb13468565c5cbcf5cd00600848654879eafbdc833",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "labs",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/labs/",
+      "reviewed_html_sha256": "b6f96f2a110179aadaf1e3861013ce364a4e1f1cab1add03d984d13eb5c6d82f",
+      "live_html_sha256": "c88c9c3cba2785d01cbadf1d77cd78852ea91d1192d71f1640c796996b8dd252",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "caf13a9dd95049d60d5024b72b454164070558bb68a714ef5bb59ac572aa1d6a",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "glossary",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/glossary/",
+      "reviewed_html_sha256": "cc7065324a0f9a8e16a3b1ab819ea78732090aadbad6f08f87e54e08f84ce782",
+      "live_html_sha256": "159201f35b40831af0ea9a6b3a8226763ae5b72f91d805daf1c962b02f5b5110",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "2e4b4519df254dbb7a83fefe85c72cd8fd240f05eafec9d2146ee2b876f0f3e8",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "evidence",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/",
+      "reviewed_html_sha256": "23143c1aa4724063c7dfd61f7d54bbe66ae987b4ce51dc63748953b575157ce3",
+      "live_html_sha256": "6267b46feefc37ad1164248be41823f15821324fa69b2fa255a5016691a03975",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "62e3871242006b73a597e2f149e278d6d9cce5bd3d8a194ecb705725a19032b3",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    },
+    {
+      "slug": "home",
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/",
+      "reviewed_html_sha256": "1c63598c57699d5e19cf0f5e84e5c8c80cbe1eea40ca519e620855e48e11d68e",
+      "live_html_sha256": "2cb19f9f72182da33a9b8b81d2b94659d3d074ab682d108e99ebd674741ecfef",
+      "full_html_match": false,
+      "normalized_main_content_sha256": "32078ab4f39afb4aa028a422b62e9e4aebdd6e3feb4e03a4ee07fda19f6ee2bc",
+      "matches_reviewed_content_after_css_hash_normalization": true
+    }
+  ]
+}

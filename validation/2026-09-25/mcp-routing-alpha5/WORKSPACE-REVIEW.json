@@ -1,0 +1,18 @@
+{
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "run_id": 3844,
+  "duration_seconds": 1981.475,
+  "total": 18458,
+  "passed": 18455,
+  "failed": 3,
+  "skipped": 34,
+  "failures": [
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+    "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+  ],
+  "only_reviewed_baseline_failures": true,
+  "suite_all_green": false,
+  "retained_log_sha256": "f30f161fb9a70d732092d7847cc458a482b81b7d70734d0c1c97fff9afc9e9de",
+  "log_source": "Complete uploaded CI validation artifact (queried for run 3844); source-verified GNU container and terminal CI run status checked separately"
+}

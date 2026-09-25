@@ -1,0 +1,5 @@
+{
+  "source_commit": "fd038ac880d2155654b3db3d4032290460b69833",
+  "exit_code": 0,
+  "dispatch": "manual invocation of committed owned signing script in owner GUI session; no Forgejo run claimed"
+}

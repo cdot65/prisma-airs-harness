@@ -70,7 +70,11 @@ impl ChatWidget {
             title.into(),
             placeholder.into(),
             String::new(),
-            Some("Use your administrator's AI Gateway endpoint. Esc cancels.".into()),
+            Some(if name.is_some() {
+                "Use your gateway MCP URL; upstream and inference /v1 URLs are separate.".into()
+            } else {
+                "Local connection name; your gateway workspace stays unchanged.".into()
+            }),
             Box::new(move |value| {
                 let event = match &name {
                     Some(name) => Event::Run(Operation::Add {

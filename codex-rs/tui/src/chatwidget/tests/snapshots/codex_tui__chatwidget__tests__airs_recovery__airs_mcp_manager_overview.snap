@@ -4,11 +4,12 @@ expression: render_recovery(&chat)
 ---
 
 
-  MCP connections
-  Connections belong to this environment. Inference sign-in stays separate.
+  MCP connections · work
+  Saved in this environment. MCP sign-in is separate from inference.
 
 › 1. service-now             Not connected
-  2. Add gateway MCP server  Connect a server through its AI Gateway MCP URL.
+  2. Add gateway MCP server  Use the gateway-facing MCP URL, not the upstream server or inference
+                             URL.
   3. Refresh connections     Check the gateway connection and available tools.
 
   Press enter to confirm or esc to go back

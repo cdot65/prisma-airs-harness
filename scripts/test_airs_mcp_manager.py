@@ -99,6 +99,30 @@ class McpManager(unittest.TestCase):
             )
         )
 
+    def test_cancel_name_and_endpoint_steps_do_not_save_or_contact_mcp(self):
+        with TerminalSession(harness.BINARY, self.env, self.inference.work) as terminal:
+            terminal.start()
+            # Startup may persist workspace trust before MCP onboarding begins.
+            before_onboarding = (self.home / "config.toml").read_bytes()
+            for reach_endpoint in [False, True]:
+                offset = len(terminal.transcript)
+                terminal.send_line("/mcp")
+                terminal.wait_for(b"Add gateway MCP server", offset)
+                selected = self.choose(terminal)
+                terminal.wait_for(b"Name this MCP connection", selected)
+                if reach_endpoint:
+                    named = len(terminal.transcript)
+                    terminal.send_line("service-now")
+                    terminal.wait_for(
+                        b"https://gateway-mcp.example.com/service-now/mcp", named
+                    )
+                self.key(terminal, b"\x1b")
+                time.sleep(0.2)
+            self.assertEqual(
+                (self.home / "config.toml").read_bytes(), before_onboarding
+            )
+            self.assertEqual(self.gateway.network_requests, [])
+
     def test_helper_reports_policy_denial_and_saved_connection_without_provider_body(
         self,
     ):
@@ -180,7 +204,7 @@ class McpManager(unittest.TestCase):
             callback = self.callback(terminal)
             self.key(terminal, b"\x1b[200~" + callback.encode() + b"\x1b[201~\r")
             terminal.wait_for(b"MCP connection updated", timeout=45)
-            terminal.wait_for(b"connected")
+            terminal.wait_for(b"gateway tool discovery verified")
             self.choose(terminal)  # explicit new conversation
             terminal.wait_for(b"Review your draft")
             terminal.send_line("/mcp")

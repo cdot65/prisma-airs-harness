@@ -9,7 +9,7 @@ expression: render_recovery(&chat)
 
 › 1. Sign in               Company SSO in your browser; callback entry works over SSH.
   2. Sign out              Clear saved MCP OAuth credentials; keep inference sign-in.
-  3. Reconnect and verify  Refresh this connection and check tool discovery.
+  3. Reconnect and verify  List gateway tools; a real tool call verifies its authorization.
   4. Remove connection     Remove this environment's configuration. Sign out first to clear
                            credentials.
   5. Back                  Return to MCP connections.

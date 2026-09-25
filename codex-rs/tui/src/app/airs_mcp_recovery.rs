@@ -3,7 +3,7 @@ use super::App;
 use crate::app_event::AppEvent;
 use crate::app_server_session::AppServerSession;
 use crate::tui;
-use codex_app_server_protocol::McpAuthStatus;
+use codex_app_server_protocol::McpServerConnectionStatus;
 use codex_app_server_protocol::McpServerStatus;
 use codex_protocol::ThreadId;
 
@@ -58,12 +58,27 @@ impl App {
     }
 }
 
-pub(super) fn connected_tools(server: &str, statuses: &[McpServerStatus]) -> Result<usize, String> {
-    let status = statuses.iter().find(|status| status.name == server);
-    match status {
-        Some(status) if status.auth_status == McpAuthStatus::OAuth
-            && status.server_info.is_some() && status.tools_error.is_none() => Ok(status.tools.len()),
-        _ => Err("Sign-in was saved, but the gateway did not confirm the MCP connection. Use /signin to retry or /new to reconnect.".into()),
+/// Tool discovery is evidence of reachability, not permission to execute every tool.
+pub(super) fn discovered_tools(
+    server: &str,
+    statuses: &[McpServerStatus],
+) -> Result<usize, String> {
+    let Some(status) = statuses.iter().find(|status| status.name == server) else {
+        return Err(
+            "The saved connection was not found during discovery. Refresh /mcp before retrying."
+                .into(),
+        );
+    };
+    match status.runtime_status {
+        Some(McpServerConnectionStatus::AuthenticationRequired) => {
+            Err("The saved connection requires sign-in. Select it in /mcp and choose Sign in; inference sign-in stays separate.".into())
+        }
+        Some(McpServerConnectionStatus::Connected) | None
+            if status.server_info.is_some() && status.tools_error.is_none() => Ok(status.tools.len()),
+        Some(McpServerConnectionStatus::Connected) | None if status.server_info.is_some() => {
+            Err("The gateway responded, but tool discovery failed. Check this identity's MCP tool-list permission, then retry Reconnect and verify from /mcp.".into())
+        }
+        _ => Err("The gateway did not confirm the MCP connection. Check that it is enabled, then sign in or retry from /mcp.".into()),
     }
 }
 

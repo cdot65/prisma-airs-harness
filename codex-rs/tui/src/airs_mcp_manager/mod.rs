@@ -127,8 +127,10 @@ pub(crate) fn connections(
             };
             let auth = status
                 .map(|s| match s.auth_status {
-                    codex_app_server_protocol::McpAuthStatus::OAuth => "OAuth saved",
-                    codex_app_server_protocol::McpAuthStatus::NotLoggedIn => "Sign-in required",
+                    codex_app_server_protocol::McpAuthStatus::OAuth => "OAuth credential saved",
+                    codex_app_server_protocol::McpAuthStatus::NotLoggedIn => {
+                        "No saved OAuth credential"
+                    }
                     codex_app_server_protocol::McpAuthStatus::BearerToken => "Bearer credential",
                     codex_app_server_protocol::McpAuthStatus::CredentialHelper => {
                         "Credential helper"

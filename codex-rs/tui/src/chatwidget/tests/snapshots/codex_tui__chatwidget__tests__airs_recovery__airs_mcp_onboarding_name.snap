@@ -1,0 +1,11 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+▌ Name this MCP connection
+▌ Local connection name; your gateway workspace stays unchanged.
+▌
+▌ service-now
+
+Press enter to confirm or esc to go back

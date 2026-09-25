@@ -58,8 +58,11 @@ impl App {
                 if self.airs_recovery.finish(attempt)
                     && self.current_displayed_thread_id() == Some(thread)
                 {
+                    let environment =
+                        crate::airs_branding::environment_name(self.config.codex_home.as_path())
+                            .unwrap_or_else(|| "current environment".into());
                     self.chat_widget
-                        .show_airs_mcp_menu(views::overview(connections));
+                        .show_airs_mcp_menu(views::overview(&environment, connections));
                 }
             }
             Event::Progress {
@@ -104,18 +107,14 @@ impl App {
                     Operation::Remove(name) => Ok(format!(
                         "{name}: removed from this environment. Other connections are unchanged."
                     )),
-                    Operation::Verify(name) => {
-                        statuses.iter().find(|status| {
-                            status.name == *name && status.server_info.is_some() && status.tools_error.is_none()
-                        }).map(|status| format!("{name}: connected · {} tools. Nothing has been replayed.", status.tools.len()))
-                        .ok_or_else(|| "The gateway did not confirm this connection. Check that it is enabled, then sign in or retry from /mcp.".into())
-                    },
-                    Operation::Add { name, .. }
+                    Operation::Verify(name)
+                    | Operation::Add { name, .. }
                     | Operation::Login(name) => {
-                        super::airs_mcp_recovery::connected_tools(name, &statuses).map(|count| {
-                            format!("{name}: connected · {count} tools. Nothing has been replayed.")
+                        super::airs_mcp_recovery::discovered_tools(name, &statuses).map(|count| {
+                            format!("{name}: gateway tool discovery verified · {count} tools. Discovery does not verify tool-call permissions. Nothing has been replayed.")
                         })
                     }
+
                 });
                 match result {
                     Ok(message) => self.chat_widget.airs_mcp_manager_changed(message, thread),

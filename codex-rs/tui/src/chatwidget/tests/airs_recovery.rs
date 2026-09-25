@@ -196,7 +196,7 @@ async fn mcp_manager_menus_preserve_draft_and_cancel_without_model_actions() {
         status: "Not connected".into(),
         can_login: true,
     };
-    chat.show_airs_mcp_menu(views::overview(vec![connection.clone()]));
+    chat.show_airs_mcp_menu(views::overview("work", vec![connection.clone()]));
     insta::assert_snapshot!("airs_mcp_manager_overview", render_recovery(&chat));
     chat.show_airs_mcp_menu(views::connection(connection));
     insta::assert_snapshot!("airs_mcp_manager_connection", render_recovery(&chat));
@@ -273,5 +273,34 @@ async fn mcp_typed_failure_renders_recovery_without_changing_draft() {
         chat.bottom_pane.composer_text(),
         "Keep this unfinished request"
     );
+    assert!(ops.try_recv().is_err());
+}
+
+#[tokio::test]
+async fn mcp_onboarding_explains_gateway_endpoint_and_preserves_draft_on_cancel() {
+    let (mut chat, mut rx, mut ops) = make_chatwidget_manual(None).await;
+    chat.insert_str("Keep my ServiceNow question");
+    for (name, snapshot) in [
+        (None, "airs_mcp_onboarding_name"),
+        (
+            Some("service-now".into()),
+            "airs_mcp_onboarding_gateway_url",
+        ),
+    ] {
+        chat.prompt_airs_mcp_connection(name);
+        insta::assert_snapshot!(snapshot, render_recovery(&chat));
+        chat.bottom_pane
+            .handle_key_event(KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
+        assert_eq!(
+            chat.bottom_pane.composer_text(),
+            "Keep my ServiceNow question"
+        );
+    }
+    while let Ok(event) = rx.try_recv() {
+        assert!(!matches!(
+            event,
+            AppEvent::AirsMcpManager(_) | AppEvent::CodexOp(_)
+        ));
+    }
     assert!(ops.try_recv().is_err());
 }

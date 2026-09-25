@@ -1,0 +1,11 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: render_recovery(&chat)
+---
+
+▌ AI Gateway MCP URL
+▌ Use your gateway MCP URL; upstream and inference /v1 URLs are separate.
+▌
+▌ https://gateway-mcp.example.com/service-now/mcp
+
+Press enter to confirm or esc to go back

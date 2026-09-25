@@ -25,7 +25,7 @@ fn action(
     }
 }
 
-pub(crate) fn overview(connections: Vec<Connection>) -> SelectionViewParams {
+pub(crate) fn overview(environment: &str, connections: Vec<Connection>) -> SelectionViewParams {
     let mut items: Vec<_> = connections
         .into_iter()
         .map(|connection| {
@@ -38,7 +38,7 @@ pub(crate) fn overview(connections: Vec<Connection>) -> SelectionViewParams {
         .collect();
     items.push(action(
         "Add gateway MCP server",
-        "Connect a server through its AI Gateway MCP URL.",
+        "Use the gateway-facing MCP URL, not the upstream server or inference URL.",
         || Event::AddName,
     ));
     items.push(action(
@@ -47,10 +47,8 @@ pub(crate) fn overview(connections: Vec<Connection>) -> SelectionViewParams {
         || Event::Open,
     ));
     SelectionViewParams {
-        title: Some("MCP connections".into()),
-        subtitle: Some(
-            "Connections belong to this environment. Inference sign-in stays separate.".into(),
-        ),
+        title: Some(format!("MCP connections · {environment}")),
+        subtitle: Some("Saved in this environment. MCP sign-in is separate from inference.".into()),
         items,
         view_id: Some(VIEW_ID),
         footer_hint: Some(standard_popup_hint_line()),
@@ -77,7 +75,7 @@ pub(crate) fn connection(connection: Connection) -> SelectionViewParams {
     let name = connection.name.clone();
     items.push(action(
         "Reconnect and verify",
-        "Refresh this connection and check tool discovery.",
+        "List gateway tools; a real tool call verifies its authorization.",
         move || Event::Run(Operation::Verify(name.clone())),
     ));
     let name = connection.name.clone();

@@ -54,6 +54,25 @@ pub struct CloudRequirementsTomlBundle {
     pub enterprise_managed: Vec<CloudRequirementsFragment>,
 }
 
+impl CloudRequirementsTomlBundle {
+    pub(crate) fn into_layers(self) -> Vec<RequirementsLayerEntry> {
+        // Bundle fragments arrive highest-priority first; requirements merge in reverse order.
+        self.enterprise_managed
+            .into_iter()
+            .rev()
+            .map(|fragment| {
+                RequirementsLayerEntry::from_toml(
+                    RequirementSource::EnterpriseManaged {
+                        id: fragment.id,
+                        name: fragment.name,
+                    },
+                    fragment.contents,
+                )
+            })
+            .collect()
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct CloudRequirementsFragment {
     pub id: String,
@@ -112,22 +131,13 @@ impl CloudConfigBundleLayers {
             cloud_config_layers_from_fragments(config_enterprise_managed, base_dir)?
         };
 
-        let mut enterprise_managed_requirements = requirements_enterprise_managed
-            .into_iter()
-            .map(|fragment| {
-                RequirementsLayerEntry::from_toml(
-                    RequirementSource::EnterpriseManaged {
-                        id: fragment.id,
-                        name: fragment.name,
-                    },
-                    fragment.contents,
-                )
-                .with_base_dir(base_dir.clone())
-            })
-            .collect::<Vec<_>>();
-        // Bundle fragments arrive highest-priority first, while requirements
-        // layers are merged lowest-priority to highest-priority.
-        enterprise_managed_requirements.reverse();
+        let enterprise_managed_requirements = CloudRequirementsTomlBundle {
+            enterprise_managed: requirements_enterprise_managed,
+        }
+        .into_layers()
+        .into_iter()
+        .map(|layer| layer.with_base_dir(base_dir.clone()))
+        .collect();
 
         Ok(Self {
             enterprise_managed_config,

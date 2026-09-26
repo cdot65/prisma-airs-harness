@@ -3692,6 +3692,7 @@ dependencies = [
  "codex-utils-rustls-provider",
  "futures",
  "http 1.4.0",
+ "http-body 1.0.1",
  "native-tls",
  "opentelemetry",
  "opentelemetry_sdk",

@@ -120,6 +120,20 @@ fn load_managed_admin_requirements() -> io::Result<Option<String>> {
         .transpose()
 }
 
+pub(super) fn synchronize_managed_preferences() -> io::Result<()> {
+    #[link(name = "CoreFoundation", kind = "framework")]
+    unsafe extern "C" {
+        fn CFPreferencesAppSynchronize(application_id: CFStringRef) -> u8;
+    }
+    let application_id = CFString::new(MANAGED_PREFERENCES_APPLICATION_ID);
+    if unsafe { CFPreferencesAppSynchronize(application_id.as_concrete_TypeRef()) } == 0 {
+        return Err(io::Error::other(
+            "Failed to synchronize managed preferences",
+        ));
+    }
+    Ok(())
+}
+
 fn load_managed_preference(key_name: &str) -> io::Result<Option<String>> {
     #[link(name = "CoreFoundation", kind = "framework")]
     unsafe extern "C" {

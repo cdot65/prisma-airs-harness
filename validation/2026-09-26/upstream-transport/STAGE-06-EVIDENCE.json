@@ -1,0 +1,19 @@
+{
+  "upstream": "22a3f6d5d89c026c6b4f606ae5604f9e00059b23",
+  "feature_complete": false,
+  "scores": null,
+  "sha256": {
+    "stage-06-linux-policy-foundation-linux-junit.xml.gz": "99637b0752569e282a53865109d6462c2afd8ee4129a9de4b2fbee4273f2d483",
+    "stage-06-linux-policy-foundation-lint.log.gz": "42e929a80c23c5bf421f987c54b78a2d8f8b66c9f10b5c4e1a3c11e3d14f07c1",
+    "stage-06-linux-policy-frame-final.log.gz": "8f81d185e4dfd1ca39ca88de2df87244b329b6e70006f4ed69cffda8164a4704",
+    "stage-06-mac-policy-foundation-tests.log.gz": "8286325b7176babcd2d5268998a07f0d86e69b27ef5e2364ade18862485180cd",
+    "stage-06-mac-policy-frame-final.log.gz": "088c985363ef10abad3e77756a96c4def479982e544a11aa3bf63a61c5897527",
+    "stage-06-linux-policy-foundation-tests-final.log.gz": "e7345f97cd9364c64e0103bf49917b4f5e49dfa3996de5eb5c8e503d7f73b143",
+    "stage-06-mac-policy-foundation-junit.xml.gz": "6fa29ddd4e50ff73f92eb77ddd74d2500adbc808c1a5340e95fc7cd83d2518a9",
+    "stage-06-review.md": "8faf17015151b54b9d43b14d29ba383c13dd530139495edc6f3465d94bf98b0b",
+    "stage-06-mac-policy-foundation-bazel-update.log.gz": "130b568991b4bcd896fa801f955455fd20d98e3008123af586f4c5b8a3db7be1",
+    "stage-06-linux-policy-foundation-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-06-mac-policy-foundation-bazel-check.log.gz": "961cc69393151640407d21398dcbaf45b57fd366c2cd88d7193278dd5dcd6c9f",
+    "stage-06-mac-policy-foundation-lint.log.gz": "b217adbec37665e8bb9d23474c665421076e0e34d2587abb638b46ef4a46e523"
+  }
+}

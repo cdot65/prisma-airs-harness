@@ -1,3 +1,4 @@
+mod application;
 mod layer_io;
 mod local;
 #[cfg(target_os = "macos")]
@@ -5,6 +6,9 @@ mod macos;
 mod project_discovery;
 #[cfg(test)]
 mod tests;
+
+pub use application::LocalApplicationRequirements;
+pub use application::load_local_application_requirements;
 
 use self::layer_io::LoadedConfigLayers;
 use crate::CONFIG_TOML_FILE;

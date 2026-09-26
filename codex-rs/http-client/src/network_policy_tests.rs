@@ -8,6 +8,32 @@ use reqwest::Url;
 use super::*;
 
 #[test]
+fn endpoint_restriction_only_narrows_existing_policy() {
+    let controller = NetworkPolicyController::default();
+    let policy = controller.policy();
+    controller.publish(
+        policy.revision(),
+        DestinationPolicy::Restricted {
+            allowed_hosts: BTreeSet::from(["gateway.example".to_string()]),
+        },
+    );
+    let allowed = Url::parse("https://gateway.example/token").unwrap();
+    let denied = Url::parse("https://other.example/token").unwrap();
+    let restricted =
+        policy.restrict_to_endpoints(BTreeSet::from([allowed.clone(), denied.clone()]));
+    assert!(restricted.acquire(&allowed).is_ok());
+    assert!(restricted.acquire(&denied).is_err());
+    assert!(
+        restricted
+            .acquire(&Url::parse("https://gateway.example/other").unwrap())
+            .is_err()
+    );
+    let narrower = restricted.restrict_to_endpoints(BTreeSet::from([denied.clone()]));
+    assert!(narrower.acquire(&allowed).is_err());
+    assert!(narrower.acquire(&denied).is_err());
+}
+
+#[test]
 fn restricted_policy_matches_exact_secure_hosts() {
     let controller = NetworkPolicyController::default();
     let policy = controller.policy();

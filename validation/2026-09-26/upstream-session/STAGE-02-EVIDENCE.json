@@ -1,0 +1,52 @@
+{
+  "upstream_commit": "286d4ecf44",
+  "feature_complete": false,
+  "scores": null,
+  "scope": "Atomic compaction resume metadata; bounded replay and connected native/workspace gates remain.",
+  "local": {
+    "passed": 649,
+    "filtered": 3927
+  },
+  "protocol": {
+    "passed": 302,
+    "ignored": 1,
+    "both_schema_generators_passed": true
+  },
+  "initial_compile": "Failed on missing initializer/import; corrected before passing run.",
+  "lint": {
+    "exit": 0,
+    "warnings": 0
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "native": "Deferred to connected metadata and bounded-resume feature validation.",
+  "sha256": {
+    "stage-02-resume-metadata-tests.log.gz": "17cfb24c343449b6b54168a91079338a2c79f9c8ed1685354afe5af8f1aaabe3",
+    "stage-02-resume-metadata-tests-broad.log.gz": "6e7755827ffdaa58bbd88bf4fe832676019a8003fd71c4af740fe70e6250725e",
+    "stage-02-resume-metadata-local-junit.xml.gz": "9008e29b0590c54f507ec44688c0857de69486aaaeb0cdcee577578fc8dfe692",
+    "stage-02-resume-metadata-schema.log.gz": "a115315b1cf384e18d09e686b0e9304aa7a7399c07502a05163e6dba1682710c",
+    "stage-02-resume-metadata-protocol-junit.xml.gz": "ec6c7fbdaee53772ad04453af74ca2979f81de2226112ff8a2b2b73f94da0012",
+    "stage-02-resume-metadata-lint.log.gz": "4b6738fd530e313957d9f9bb55fe35ad3306623a2f572bc0b5f8f6a7f3382e3f",
+    "stage-02-resume-metadata-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+}

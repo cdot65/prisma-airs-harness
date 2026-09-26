@@ -1,3 +1,6 @@
+#[path = "compaction_resume_tests.rs"]
+mod compaction_resume;
+
 use super::mcp_refresh::McpRefresh;
 use super::step_settings::ResolvedStepSettings;
 use super::step_settings::StepSettings;
@@ -2235,6 +2238,7 @@ async fn reconstruct_history_uses_replacement_history_verbatim() {
         window_id: Some(window_id.to_string()),
         compaction_response_id: None,
         latest_token_usage_record: None,
+        resume_metadata: None,
     })];
 
     let reconstructed = session
@@ -2917,6 +2921,7 @@ fn latest_token_usage_record_stops_at_compaction_checkpoint() {
             window_id: None,
             compaction_response_id: None,
             latest_token_usage_record,
+            resume_metadata: None,
         })
     };
 
@@ -4185,6 +4190,7 @@ async fn thread_rollback_restores_cleared_reference_context_item_after_compactio
             window_id: Some(compacted_window_id.to_string()),
             compaction_response_id: None,
             latest_token_usage_record: None,
+            resume_metadata: None,
         }),
         RolloutItem::EventMsg(EventMsg::TurnComplete(TurnCompleteEvent {
             turn_id: compact_turn_id,
@@ -5981,6 +5987,14 @@ async fn compaction_checkpoint_waits_for_accepted_settings_persistence() {
         .expect("restore current settings")
         .snapshot;
     assert_ne!(committed, restored);
+    let previous = PreviousTurnSettings {
+        model: "model-during-persistence".into(),
+        comp_hash: Some("producer-during-persistence".into()),
+        realtime_active: None,
+    };
+    session
+        .set_previous_turn_settings(Some(previous.clone()))
+        .await;
     drop(refresh_guard);
     update.await.expect("accepted settings update");
     checkpoint.await;
@@ -5989,6 +6003,15 @@ async fn compaction_checkpoint_waits_for_accepted_settings_persistence() {
     let (items, _, _) = RolloutRecorder::load_rollout_items(&rollout_path)
         .await
         .expect("read persisted settings");
+    let resume = items
+        .iter()
+        .rev()
+        .find_map(|item| match item {
+            RolloutItem::Compacted(item) => item.resume_metadata.as_ref(),
+            _ => None,
+        })
+        .expect("compaction resume metadata");
+    assert_eq!(resume.previous_turn_settings, Some(previous));
     let snapshots = items
         .into_iter()
         .filter_map(|item| match item {
@@ -12509,6 +12532,7 @@ async fn sample_rollout(
         window_id: Some(window_ids.window_id.to_string()),
         compaction_response_id: None,
         latest_token_usage_record: None,
+        resume_metadata: None,
     }));
 
     let user2 = user_message("second user");
@@ -12543,6 +12567,7 @@ async fn sample_rollout(
         window_id: Some(window_ids.window_id.to_string()),
         compaction_response_id: None,
         latest_token_usage_record: None,
+        resume_metadata: None,
     }));
 
     let user3 = user_message("third user");

@@ -26,6 +26,7 @@ mod sqlite_metrics;
 pub mod state_db;
 
 pub use codex_history::CompactedItem;
+pub use codex_history::CompactionResumeMetadata;
 pub use codex_history::InitialHistory;
 pub use codex_history::ResponseItemEnvelope;
 pub use codex_history::ResumedHistory;

@@ -1027,6 +1027,14 @@ impl AgentControl {
                 RolloutItem::Compacted(compacted) => {
                     // This checkpoint belongs to the inherited parent prefix.
                     compacted.latest_token_usage_record = None;
+                    if let Some(resume_metadata) = &mut compacted.resume_metadata {
+                        resume_metadata.multi_agent_version = Some(multi_agent_version);
+                        // A child must not inherit a parent's automatic continuation identity.
+                        resume_metadata.last_started_turn_id = None;
+                        if !preserve_reference_context_item {
+                            resume_metadata.previous_turn_settings = None;
+                        }
+                    }
                     // Parent-local review evidence must not become the child's authorization.
                     // Root user authorization is collected separately by the host.
                     compacted.guardian_history = None;

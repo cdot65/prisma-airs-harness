@@ -17,8 +17,8 @@ use codex_app_server_protocol::ScheduledTaskSummary;
 use codex_app_server_protocol::SkillInterface;
 use codex_http_client::ClientRouteClass;
 use codex_http_client::HttpClientFactory;
+use codex_http_client::RequestBuilder;
 use codex_http_client::RouteAwareClientPool;
-use codex_http_client::RouteAwareRequestBuilder;
 use codex_http_client::RouteAwareRequestError;
 use codex_login::CodexAuth;
 use codex_login::default_client::default_headers;
@@ -163,7 +163,7 @@ impl RemotePluginServiceConfig {
         }
     }
 
-    pub(crate) fn http_request(&self, method: Method, url: &str) -> RouteAwareRequestBuilder {
+    pub(crate) fn http_request(&self, method: Method, url: &str) -> RequestBuilder {
         self.http_clients
             .request(method, url)
             .headers(default_headers())
@@ -2303,10 +2303,7 @@ fn ensure_chatgpt_auth(auth: Option<&CodexAuth>) -> Result<&CodexAuth, RemotePlu
     Ok(auth)
 }
 
-fn authenticated_request(
-    request: RouteAwareRequestBuilder,
-    auth: &CodexAuth,
-) -> RouteAwareRequestBuilder {
+fn authenticated_request(request: RequestBuilder, auth: &CodexAuth) -> RequestBuilder {
     request
         .timeout(REMOTE_PLUGIN_CATALOG_TIMEOUT)
         .headers(codex_model_provider::auth_provider_from_auth(auth).to_auth_headers())
@@ -2314,7 +2311,7 @@ fn authenticated_request(
 }
 
 async fn send_and_decode<T: for<'de> Deserialize<'de>>(
-    request: RouteAwareRequestBuilder,
+    request: RequestBuilder,
     url: &str,
 ) -> Result<T, RemotePluginCatalogError> {
     let response = request
@@ -2325,7 +2322,13 @@ async fn send_and_decode<T: for<'de> Deserialize<'de>>(
             source,
         })?;
     let status = response.status();
-    let body = response.text().await.unwrap_or_default();
+    let body = response
+        .text()
+        .await
+        .map_err(|source| RemotePluginCatalogError::Request {
+            url: url.to_string(),
+            source,
+        })?;
     if !status.is_success() {
         return Err(RemotePluginCatalogError::UnexpectedStatus {
             url: url.to_string(),

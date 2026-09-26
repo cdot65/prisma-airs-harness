@@ -198,3 +198,6 @@ async fn responses_stream_parses_items_and_completed_end_to_end() -> Result<()> 
 
     Ok(())
 }
+
+#[path = "sse_end_to_end/policy_tests.rs"]
+mod policy_tests;

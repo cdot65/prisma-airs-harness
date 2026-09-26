@@ -7,8 +7,8 @@ use std::time::SystemTime;
 use anyhow::Context;
 use anyhow::Result;
 use bytes::Bytes;
+use codex_http_client::RequestBuilder;
 use codex_http_client::RouteAwareClientPool;
-use codex_http_client::RouteAwareRequestBuilder;
 use flate2::Compression;
 use flate2::write::GzEncoder;
 use http::HeaderMap;
@@ -35,7 +35,7 @@ pub(super) fn gzip_envelope_request(
     dsn: &Dsn,
     body: Bytes,
     timeout: Duration,
-) -> RouteAwareRequestBuilder {
+) -> RequestBuilder {
     let sentry_options = ClientOptions::default();
     let sentry_auth = dsn.to_auth(Some(sentry_options.user_agent.as_ref()));
     client_pool

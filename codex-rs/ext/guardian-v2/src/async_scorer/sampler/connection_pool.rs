@@ -67,7 +67,7 @@ pub(super) struct PooledConnection {
 
 enum Connection {
     Websocket(PooledConnection),
-    Http(ResponsesClient<ReqwestTransport>),
+    Http(Box<ResponsesClient<ReqwestTransport>>),
 }
 
 pub(super) struct ConnectionLease {
@@ -225,7 +225,7 @@ impl ConnectionPool {
                 let client =
                     ResponsesClient::new(transport, provider, auth).with_endpoint(endpoint);
                 (
-                    Connection::Http(client),
+                    Connection::Http(Box::new(client)),
                     ThreadId::new().to_string(),
                     endpoint,
                 )

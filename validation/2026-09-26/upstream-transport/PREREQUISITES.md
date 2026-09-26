@@ -21,3 +21,11 @@ HTTP suite: 105 passed, zero skips, including real custom-CA TLS and intercepted
 ## Stage 4: shared request construction
 
 Import HTTP-client portions of `6ea62c4396`: draft construction preserves reqwest URL authentication and ordered header precedence once, then reuses the built request for redirects and TLS fallback. Route-aware transports resolve each redirect independently; fixed transports retain their existing route. No web-search consumer or default-client behavior is imported. HTTP tests: 111 passed, zero skipped. Scoped lint, formatting and source diff checks pass. Connected enforcement and native validation remain pending; no feature score yet.
+
+## AIRS refresh transaction constraint for ownership integration
+
+`airs_oidc::credential` deliberately writes a secret-free RefreshPending marker before sending a rotating CAS refresh grant. Discovery happens before that marker. Policy refusal before any refresh transmission must preserve the active credential, but revocation after transmission can have an unknown token-consumption outcome and must not resurrect/replay the predecessor. Do not mechanically transplant upstream refresh handling that assumes reusable refresh tokens. Distinguish preflight denial from in-flight revocation in tests and recovery copy; retain the existing transaction boundary. Private CAS requests must remain no-redirect, issuer/resource bound and response-size limited.
+
+## Stage 5: connected HTTP and WebSocket enforcement
+
+Request/body/redirect/WebSocket permits are wired, SSE and realtime preserve terminal denials, and caller body errors propagate. Realtime uses the shared connector without importing ChatGPT WebSocket cookies or voice defaults. Review and evidence are in `stage-05-review.md` and `stage-05.json`. Mac transport (334), retry (1), SSE (2), and caller (1,380) runs pass; Linux transport (432), proxy (1), retry (1), and corrected guardian (99) runs pass. The broader musl caller run has 146 documented platform/fixture failures; final GNU workspace validation remains required. Scoped lint/format pass after enum sizing correction. Application ownership and private AIRS propagation remain pending, so this is not a completed feature or release.

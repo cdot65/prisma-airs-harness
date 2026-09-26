@@ -1,0 +1,28 @@
+{
+  "test_log": "enforcement-callers-retest.log",
+  "passed": 1454,
+  "failed": 146,
+  "skipped": 3,
+  "failure_signatures": {
+    "unrecognized_listen": 144,
+    "delayed_child_dispatch": 1,
+    "birthtime_mismatch": 1
+  },
+  "fixture_source_changed": false,
+  "ctor_probe": "constructor argument count: 0; main argument count: 4",
+  "interpretation": "145 failures use constructor dispatch before musl Rust runtime arguments exist; the separate birthtime test assumes std inability implies no OS birthtime, but rustix exposes BTIME on this host",
+  "native_comparison": {
+    "passed": 1380,
+    "failed": 0,
+    "skipped": 3,
+    "log": "transport-native-callers-tests.log"
+  },
+  "full_gnu_validation": "required before release; owned Linux validation workflow does not publish packages",
+  "birthtime_probe": "std metadata.created() unavailable; rustix statx reports BTIME mask 2048",
+  "unchanged_sources": {
+    "codex-rs/test-binary-support/lib.rs": "4fb67850b78b8f84d7cec475b30a40f8120a2d180531814b174c47a37540c482",
+    "codex-rs/exec-server/tests/common/mod.rs": "db2a88a94430302251b036725473ef542fa92a859667ba06b720cfb13857ea3b",
+    "codex-rs/exec-server/tests/file_system_unix.rs": "4f2a6a2bc54bad3f7c48b057204aa111f03027ddc162d865bfd5fff4e2a168b5",
+    "codex-rs/exec-server/src/no_follow/unix.rs": "5dc4f301ae785da27782046df33499e79118e346f705a77fa5b593ad32ee9945"
+  }
+}

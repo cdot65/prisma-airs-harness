@@ -1,0 +1,59 @@
+{
+  "upstream": [
+    "888e02db34",
+    "142360dac8 (shared realtime connector prerequisite; preserve existing platform trust behavior)"
+  ],
+  "status": "transport boundary tested; ownership integration pending",
+  "release_ready": false,
+  "scores": null,
+  "linux": {
+    "transport_passed": 432,
+    "callers_passed": 1454,
+    "callers_failed": 146,
+    "callers_skipped": 3,
+    "retry_passed": 1,
+    "core_proxy_passed": 1,
+    "core_proxy_filtered": 1709,
+    "guardian_after_boxing_passed": 99
+  },
+  "mac": {
+    "transport_passed": 334,
+    "retry_passed": 1,
+    "sse_passed": 2,
+    "callers_passed": 1380,
+    "callers_failed": 0,
+    "callers_skipped": 3
+  },
+  "lint": "scoped lint completed; guardian enum warning corrected and follow-up clean",
+  "format": "passed; unrelated formatter changes restored",
+  "bazel_lock": "native regenerate and strict check passed; no drift",
+  "evidence": {
+    "airs-musl-ctor-probe.rs.txt": "ca7b394d10954d7a20b4480199c76dc7610178a7b18d17d2f488b48467424b9e",
+    "airs-musl-statx-probe.rs.txt": "e0555f2d4918f2cc658cac281c22317a85381303cf3a57bc7341281d89625d65",
+    "enforcement-callers-junit.xml.gz": "6a52e46bb50d57d9c46b7f11d8680f43603b27c5262b4a003a7ffc0fd52a770d",
+    "enforcement-callers-retest.log.gz": "9f1f83a7313ac4e1e4a068ee38321ddb6e1933de949bdb091a3dcc0a4e2f943b",
+    "enforcement-clippy.log.gz": "6dc324b1328d5e881237d189860b727ede61a41914e61cc8ce8d532a5c860c35",
+    "enforcement-core-proxy-junit.xml.gz": "8d1e24bc6b904c8f2b1f757579b9dff5c4b92c8da2b5952cc0306344c045f5ea",
+    "enforcement-core-proxy-tests.log.gz": "ad9f5733ad03f80c822e9789694c2d99b168e3c6e52bde842f07bd1dd444124c",
+    "enforcement-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "enforcement-guardian-clippy.log.gz": "1199a2fbb9f6cb106c2c5dd2df146eb68d9b8a932c7f498028446809282d6081",
+    "enforcement-guardian-junit.xml.gz": "cb336937966963e79ecd4d08c308fdac920f75289479891a620e526a145c4f08",
+    "enforcement-guardian-tests.log.gz": "43777f13fdc8c2b79ef0a1b6aff77cf8b3385f5adcfc2fe47048ee6561644adf",
+    "enforcement-junit.xml.gz": "74a29972c98c61f752e5f4a81e579f9c824d3fb9191953edbdad38fba10a4364",
+    "enforcement-retry-tests.log.gz": "b8a4935047bcdf6a1c57ca11b4388bb8f0dbafbe908bc4706c39211fe5b40e94",
+    "enforcement-tests.log.gz": "565b376175b9e00559a87bd92f950dce49360f58682f7b77e6f8f042081f54b5",
+    "musl-ctor-probe.log.gz": "3af9ae19954ffac292acad011fd2c2148f007cfd13d8bbc634372216c8d83f78",
+    "musl-executor-limitations.json": "d6bfdaf2baafd82c375aa5031d43512fab7d071cfa26930e45d22b2f6d0c0368",
+    "musl-statx-probe.log.gz": "be3ddafe2794496848f7ba051a0b8a69d83c4f736b5f68004e6b33633bbedf31",
+    "stage-05-review.md": "b0d9ba876283adeffcd9ad731ed6099c28d849987fe98325c4b27def78bc41a8",
+    "transport-bazel-check.log.gz": "9db0cbf3c54d571324883c9f7bfde770e9c42dbef10d918f73249482c6c0d875",
+    "transport-bazel.log.gz": "d17ffe0dd0d20bf5b5b8f8ec8faa2f52f33a9cc98ed0ca33a3903fe66397c1b9",
+    "transport-native-callers-junit.xml.gz": "a50779434571c2413bdebf746fd258765eb2822728c58326f3eb8597678bf201",
+    "transport-native-callers-tests.log.gz": "ae404b04a1f3a18fd179f37dbcc7801b704b139be88851aea0a7165c995f1ccc",
+    "transport-native-clippy.log.gz": "973e7a95a2aa4c735005dcadd58c635b2933cc35fd621efa09138bde1e397933",
+    "transport-native-junit.xml.gz": "e8061e1a015beca72c0da8a605b91fe98a8aedb4097b2d24db51eb777cfa6b61",
+    "transport-native-retry-tests.log.gz": "1e87fb4b32e16d2a962d32c9e6420bfce14fec829c66b93a4508abe6fa816b95",
+    "transport-native-sse-tests.log.gz": "d66b8376df03a808e97bf4148d07840352f82dded8b2d44e16005ad7d3336c58",
+    "transport-native-tests.log.gz": "ce6d5bff076fee2c3728cf1748492c3d95dcaa97c535cd7ca0d13dd088cdc0fc"
+  }
+}

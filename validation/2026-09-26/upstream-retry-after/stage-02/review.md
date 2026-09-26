@@ -1,0 +1,9 @@
+# HTTP deadline and logout-guard review
+
+The HTTP stage preserves RetryOn eligibility and the configured attempt limit. Advice is captured before bounded or unbounded error-body reads, survives exhausted attempts and uses the same monotonic deadline in each layer. Expired advice remains explicit zero. WebSocket handshake/wrapped HTTP errors also retain advice. Constructor changes in other consumers only add absent timing metadata; they do not activate a provider.
+
+Adversarial review identified a concrete gap: SessionGuard watched requests but not the delay between them. Moving the existing guard around the complete retry future closes that gap without adding authentication services or widening retry eligibility. Authentication still applies on every attempt, followed by its generation check. The telemetry-synchronized regression revokes credentials only after the first request finishes; both buffered and streamed cases stop without waiting an hour or sending again. Live network-policy revocation during backoff also prevents another request.
+
+Validation: initial 404 tests passed; the expanded 428-test selection passed with retries disabled, including all HTTP client/API/model-provider/response-debug tests and selected core retry integration tests. A later WebSocket expired-advice case passed separately after correcting its boxed test response. Local six-package lint passed without warnings; formatting passed and 17 unrelated paths were restored. No tests were repeated after lint/format alone.
+
+The implementation is split into a 326-line HTTP commit and the smaller logout-guard change for reviewability. Evidence here applies to their connected final source. Native and full-workspace validation are grouped with the next API/protocol/core integration stage. No complete-feature score or signed-release claim is made yet.

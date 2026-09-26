@@ -101,25 +101,23 @@ impl<T: HttpTransport> EndpointSession<T> {
             req
         };
 
-        let response = run_with_request_telemetry(
-            self.provider.retry.to_policy(),
-            self.request_telemetry.clone(),
-            make_request,
-            |req| {
-                let auth = self.auth.clone();
-                let transport = &self.transport;
-                async move {
-                    self.guard
-                        .run(async {
-                            let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
-                            self.guard.check()?;
-                            transport.execute(req).await
-                        })
-                        .await
-                }
-            },
-        )
-        .await?;
+        let response = self
+            .guard
+            .run(run_with_request_telemetry(
+                self.provider.retry.to_policy(),
+                self.request_telemetry.clone(),
+                make_request,
+                |req| {
+                    let auth = self.auth.clone();
+                    let transport = &self.transport;
+                    async move {
+                        let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
+                        self.guard.check()?;
+                        transport.execute(req).await
+                    }
+                },
+            ))
+            .await?;
 
         Ok(response)
     }
@@ -147,25 +145,23 @@ impl<T: HttpTransport> EndpointSession<T> {
         let request = request.into_prepared().map_err(TransportError::Build)?;
         let make_request = || request.clone();
 
-        let stream = run_with_request_telemetry(
-            self.provider.retry.to_policy(),
-            self.request_telemetry.clone(),
-            make_request,
-            |req| {
-                let auth = self.auth.clone();
-                let transport = &self.transport;
-                async move {
-                    self.guard
-                        .run(async {
-                            let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
-                            self.guard.check()?;
-                            transport.stream(req).await
-                        })
-                        .await
-                }
-            },
-        )
-        .await?;
+        let stream = self
+            .guard
+            .run(run_with_request_telemetry(
+                self.provider.retry.to_policy(),
+                self.request_telemetry.clone(),
+                make_request,
+                |req| {
+                    let auth = self.auth.clone();
+                    let transport = &self.transport;
+                    async move {
+                        let req = auth.apply_auth(req).await.map_err(TransportError::from)?;
+                        self.guard.check()?;
+                        transport.stream(req).await
+                    }
+                },
+            ))
+            .await?;
 
         Ok(self.guard.stream(stream))
     }

@@ -177,3 +177,119 @@ async fn retryable_remote_failure_cannot_retry_after_logout() {
     assert!(send(&client(server.uri(), home.path())).await.is_err());
     assert_eq!(server.received_requests().await.unwrap().len(), 1);
 }
+
+struct CompletedRequest(tokio::sync::Notify);
+
+impl RequestTelemetry for CompletedRequest {
+    fn on_request(
+        &self,
+        _attempt: u64,
+        _status: Option<http::StatusCode>,
+        _error: Option<&TransportError>,
+        _duration: Duration,
+    ) {
+        self.0.notify_one();
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+enum RetryDelivery {
+    Buffered,
+    Streamed,
+}
+
+#[tokio::test]
+async fn logout_interrupts_server_retry_wait_without_another_request() {
+    for delivery in [RetryDelivery::Buffered, RetryDelivery::Streamed] {
+        let home = TempDir::new().unwrap();
+        let server = MockServer::start().await;
+        Mock::given(method("POST"))
+            .respond_with(ResponseTemplate::new(503).insert_header("Retry-After", "3600"))
+            .mount(&server)
+            .await;
+        let completed = Arc::new(CompletedRequest(tokio::sync::Notify::new()));
+        let retained =
+            client(server.uri(), home.path()).with_request_telemetry(Some(completed.clone()));
+        let pending = tokio::spawn(async move {
+            match delivery {
+                RetryDelivery::Buffered => send(&retained).await.map(|_| ()),
+                RetryDelivery::Streamed => retained
+                    .stream_encoded_json_with(
+                        Method::POST,
+                        "responses",
+                        HeaderMap::new(),
+                        None,
+                        |_| {},
+                    )
+                    .await
+                    .map(|_| ()),
+            }
+        });
+        // Telemetry fires after the request guard has completed; logout happens during backoff.
+        tokio::time::timeout(Duration::from_secs(5), completed.0.notified())
+            .await
+            .unwrap();
+        publish(
+            home.path(),
+            AuthGenerationState::Revoked,
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        );
+        let outcome = tokio::time::timeout(Duration::from_secs(2), pending)
+            .await
+            .expect("logout must interrupt even an hour-long server delay")
+            .unwrap();
+        assert!(
+            matches!(outcome, Err(ApiError::Transport(TransportError::Build(_)))),
+            "{delivery:?}: {outcome:?}"
+        );
+        assert_eq!(
+            server.received_requests().await.unwrap().len(),
+            1,
+            "{delivery:?}"
+        );
+    }
+}
+
+#[tokio::test]
+async fn policy_revocation_during_retry_wait_prevents_followup_traffic() {
+    use codex_http_client::ClientRouteClass;
+    use codex_http_client::DestinationPolicy;
+    use codex_http_client::HttpClientFactory;
+    use codex_http_client::NetworkPolicyController;
+    use codex_http_client::OutboundProxyPolicy;
+    use codex_http_client::RouteAwareClientPool;
+    let home = TempDir::new().unwrap();
+    let server = MockServer::start().await;
+    Mock::given(method("POST"))
+        .respond_with(ResponseTemplate::new(503).insert_header("Retry-After", "1"))
+        .mount(&server)
+        .await;
+    let controller = NetworkPolicyController::default();
+    let policy = controller.policy();
+    controller.publish(policy.revision(), DestinationPolicy::Unrestricted);
+    let transport =
+        ReqwestTransport::from_route_aware_client_pool(RouteAwareClientPool::with_builder(
+            HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault)
+                .with_network_policy(policy.clone()),
+            ClientRouteClass::Api,
+            HttpClientBuilder::new(),
+        ));
+    let completed = Arc::new(CompletedRequest(tokio::sync::Notify::new()));
+    let mut retained =
+        client(server.uri(), home.path()).with_request_telemetry(Some(completed.clone()));
+    retained.transport = transport;
+    let pending = tokio::spawn(async move { send(&retained).await });
+    tokio::time::timeout(Duration::from_secs(5), completed.0.notified())
+        .await
+        .unwrap();
+    controller.unavailable(policy.revision());
+    let outcome = tokio::time::timeout(Duration::from_secs(3), pending)
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(matches!(
+        outcome,
+        Err(ApiError::Transport(TransportError::Policy(_)))
+    ));
+    assert_eq!(server.received_requests().await.unwrap().len(), 1);
+}

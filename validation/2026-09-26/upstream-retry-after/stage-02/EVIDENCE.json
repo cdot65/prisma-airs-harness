@@ -1,0 +1,60 @@
+{
+  "stage": "HTTP retry deadlines and logout guard",
+  "feature_complete": false,
+  "http_plumbing_commit": "ce7eb41bea777d3ece34aacbb2e5da7659bdfa15",
+  "local_tests": {
+    "initial": 404,
+    "expanded": 428,
+    "additional_websocket_case": 1,
+    "failures": 0,
+    "retries": 0
+  },
+  "test_only_correction": "WebSocket handshake fixture required boxed response; initial compile failure and corrected pass retained",
+  "lint": {
+    "exit_code": 0,
+    "warnings": 0,
+    "elapsed": "4m15s",
+    "packages": [
+      "codex-core",
+      "codex-api",
+      "codex-client",
+      "codex-http-client",
+      "codex-model-provider",
+      "codex-response-debug-context"
+    ]
+  },
+  "format": {
+    "exit_code": 0,
+    "unrelated_paths_restored": 17
+  },
+  "native": "deferred to connected API/protocol/core deadline gate",
+  "source_sha256": {
+    "codex-rs/codex-api/src/api_bridge.rs": "f777562b0816f62f0844b4b477e44c1cc7f6bb75024b0ab0927ce5ba8fc325f2",
+    "codex-rs/codex-api/src/api_bridge_tests.rs": "a4c2673ee8e271ada8c69edaf454c4c6797909194d812b1302ca5c9a7d776ed9",
+    "codex-rs/codex-api/src/endpoint/responses_websocket.rs": "ae3c4150b6b078920c58ebbb4886257e1c1706ed98aca5d2faf40cfd3dfbff64",
+    "codex-rs/codex-api/src/endpoint/session.rs": "54b0af24915cffa1567d2639c0eef3e71101ad0ba1ea1ba260b19b3a10707290",
+    "codex-rs/codex-api/src/endpoint/session_tests.rs": "144e945b2d2ef5a2fda1b3ed67c7aa493a1a5f8e181f6bbf18518acbfb0ad02d",
+    "codex-rs/codex-client/src/retry.rs": "a9ca75ae7ac2c0f7f1de6814f548f4d99d38ad3d158fe62789425cfcd783f475",
+    "codex-rs/core/src/client_tests.rs": "70a62f01305f9923747ad0ca6a5e8e6a35483837457e7bda166ff6f9a93f12b6",
+    "codex-rs/core/tests/suite/mod.rs": "6a7231d86f2c566d4896d82b93b741ef0bd1dd02031c111b09d2b929aedf8488",
+    "codex-rs/core/tests/suite/retry_after.rs": "9562cd0610c868c090e7d5e1eee5f8f613333d326079a8171fc46fa944e7eead",
+    "codex-rs/core/tests/suite/retry_deadline.rs": "cb9b3d2fdb95a2d4fbd3796859e1b3301405324b52bdffe31309219b20db2f45",
+    "codex-rs/http-client/src/error.rs": "2d1b153d1f9e89504bb5847b0b06b290c0d05de7a29b8309d82064b4c14d9309",
+    "codex-rs/http-client/src/transport.rs": "72f36a793d9114ce369989ed4d5a1fe969175682fba985bb86221869a587aaf4",
+    "codex-rs/http-client/src/transport_retry_tests.rs": "2eafdc8cb7b9a1b42307ed885b76f46d903959b292433051d57cb12eb970d819",
+    "codex-rs/model-provider/src/amazon_bedrock/error_tests.rs": "406c7fc8cbf4f9da64a4593e4cf31bb39777761a4e2e043aba4d75ec2abec630",
+    "codex-rs/model-provider/src/provider.rs": "809cb702ddca8597dd2ec02b01f2413a62dcc2db5a1b62ccfcbe21cf2c4558a1",
+    "codex-rs/response-debug-context/src/lib.rs": "d4d5be071865f02f1bcd430eb847caaa3c9a078b16597d3d60b8f7b63933886e"
+  },
+  "artifacts": {
+    "fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "initial-tests.log.gz": "ebe147b77d9328a35611586870ea4df3ef80c91102931f33a963d1f45a30be9e",
+    "initial-tests.xml.gz": "aa7dd6f8a4985a99bf35d173145bad7561cce320a5c9509ae9a297e129d701ee",
+    "lint.log.gz": "eb4359e7befe4bc02b069fbdee1b94057791070710bd8da0c4f47e3c7757dfc1",
+    "tests.log.gz": "12e695b32b6693118873ba6b85c537d40afcfc7cb2c5f1040ea6914bb01c4495",
+    "tests.xml.gz": "a0c227ccab1466e546cb6a9cbf17228391c19d13d8cf46d7dba3a09d293caab7",
+    "websocket-tests-corrected.log.gz": "1f5288a529160b6a416a66dc4044122a948ac76dc67009b3514830b6f01d7ccc",
+    "websocket-tests.log.gz": "d026982c28b6290486ec843e5bf5cc72ca38a69f4380fb2c2e9767317bffd4e0",
+    "websocket-tests.xml.gz": "40f5764ce1c5458390556e2f37b38195cfb448e30b8836cacfb589fa748639be"
+  }
+}

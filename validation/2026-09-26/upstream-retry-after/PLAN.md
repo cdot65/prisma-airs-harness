@@ -17,3 +17,9 @@ Initial local invocation omitted the existing test runner that removes inherited
 Bazel cannot execute its GNU binary directly on this Alpine host; actual regeneration runs on the existing Apple Silicon builder. The native default lock-check wrapper selected system Python 3.9 and failed before invoking Bazel; run the same helper explicitly with Python 3.13. Keep both failure and successful check logs.
 
 Stage 1 native result: 122/122 passed with retries disabled; scoped native lint passed. All six changed-source/lock files match local bytes. Bazel regeneration and strict check passed with no MODULE lock delta. This prerequisite has no connected feature score yet.
+
+## Connected review questions still open
+
+The request layer rebuilds unary requests and clones the prepared **unauthenticated** streaming request (`codex-api/src/endpoint/session.rs`). Both paths then apply authentication and check the AIRS generation guard on every attempt. Review found the guard previously watched attempts but not backoff. Stage 2 moves the existing guard around the complete retry operation while retaining the post-auth check. A one-hour Retry-After is interrupted by logout within the existing 250 ms guard cadence on both paths. A separate policy-revocation fixture returns a terminal local-policy error with only one observed gateway request. Both regressions passed in the 428-test connected run.
+
+Still open for stage 3: wrapped WebSocket errors whose retryable code conflicts with a terminal authentication/policy status, and stream/core notification delays. No completed-feature score until those checks, full workspace and native validation close.

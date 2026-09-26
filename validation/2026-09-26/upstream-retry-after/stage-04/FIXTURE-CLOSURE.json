@@ -30,7 +30,14 @@
     "failed": 0,
     "retries": 0
   },
-  "native_lint": "running after disk cleanup",
+  "native_lint": {
+    "packages": 10,
+    "exit_code": 0,
+    "warnings": 0,
+    "incremental_compilation": false
+  },
   "gnu_workspace_run": 3852,
-  "feature_scores": "withheld pending final lint/workspace"
+  "feature_scores": "withheld pending full workspace",
+  "native_initial_skipped": 24,
+  "skips_note": "Nextest reports 24 skipped cases outside the 4,972 executed tests; JUnit contains only executed cases. Required new regressions were explicitly verified as executed."
 }

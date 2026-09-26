@@ -1,0 +1,77 @@
+{
+  "existing_cases": {
+    "replacement_defaults": 7,
+    "startup_precedence": 6
+  },
+  "source_comparison": {
+    "codex-rs/tui/src/app/tests/new_session_tests.rs": "Scenario body and assertions unchanged; only the outer loop is replaced.",
+    "codex-rs/tui/src/app/tests/startup_defaults_tests.rs": "Scenario body and assertions unchanged; only the outer loop is replaced."
+  },
+  "timeout_seconds": 60,
+  "retries_for_new_validation": 0,
+  "dependencies_added": false,
+  "feature_complete": false,
+  "scores": null,
+  "local": {
+    "passed": 14,
+    "failed": 0,
+    "seconds": 1.261,
+    "includes_unchanged_mcp_registration": true
+  },
+  "lint": {
+    "exit": 0,
+    "warnings": 0,
+    "duration": "3m17s"
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "native_connected": {
+    "total": 5641,
+    "passed": 5638,
+    "timed_out": 3,
+    "retried_then_passed": 2,
+    "seconds": 785.768
+  },
+  "native_first_isolation": {
+    "passed": 105,
+    "repetitions": 5,
+    "retries": 0,
+    "lint": "Failed due to exhausted disk after all repetitions passed; rerun after verified stale-fixture cleanup."
+  },
+  "native_remaining": "13 isolated scenarios plus unchanged MCP fixture await native validation.",
+  "sha256": {
+    "stage-06-cold-resume-more-isolation-tests.log.gz": "8a0e08a39b0ca3b59d25410bdffc9074b267b307a8d6913c84764b67262e3fdc",
+    "stage-06-cold-resume-more-isolation-junit.xml.gz": "4af736b7bfc452c32420b2f33cbc5d1416b55478dd2ebcd7cf144d35322059bf",
+    "stage-06-cold-resume-more-isolation-lint.log.gz": "aaf3b3994d3e6332c5575ae87fe99c058141a77144c9af922840faae91cc795a",
+    "stage-06-cold-resume-more-isolation-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-06-cold-resume-committed-native-tests.log.gz": "64c53f2cdb6398c34d6b6693e323721e5cafdf0c45fb63375f3913aeeb9c990c",
+    "stage-06-cold-resume-committed-native-junit.xml.gz": "eb305539a031f72ce800cd5014b1d63c317a79b190cdaa3cbd797188f9123880",
+    "stage-06-cold-resume-case-isolation-native.log.gz": "c2682f8d0710560219180941891add7e2ba26301a80e4d46ff7a06f89b57eecd",
+    "stage-06-cold-resume-committed-native-lint.log.gz": "b18cd3d0864c68521b2b4a8abf9c079eed0ad223abde60a3d38236b70df39373",
+    "stage-06-cold-resume-case-isolation-native-1-junit.xml.gz": "83849425928d64c855766cc71321cc082d3fdf862c72eebabc91bebf0ad7dc79",
+    "stage-06-cold-resume-case-isolation-native-2-junit.xml.gz": "3caa140aea050d58f8cda5c6c2b6dc199f8aad5a971b6e9502d731930929a88f",
+    "stage-06-cold-resume-case-isolation-native-3-junit.xml.gz": "98ebbb8ba211fc91389f09d28a0265dca7c1dbb561507f343921a0aa2c60f7f5",
+    "stage-06-cold-resume-case-isolation-native-4-junit.xml.gz": "0493e195259a62a88765b4995da744064c21b246252a3fa0af8bf186715086a3",
+    "stage-06-cold-resume-case-isolation-native-5-junit.xml.gz": "2a65edc725493ab5e201fa18f1566bbec20439020ef1ecea04c965b1bf206153"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "source_commit": "42a39c07d3",
+  "full_passed": 4417,
+  "skipped": 6,
+  "flaky": 1,
+  "leaky": 1,
+  "isolated_recheck_passed": 2,
+  "sha256": {
+    "stage-08-ownership-tui-recheck.log.gz": "67c6bf46dd80a02c85e802f7563ddd61f9ef26375d9e362fc16e73cc56fac051",
+    "stage-08-ownership-tui-junit.xml.gz": "1c8b17099be4f916ccfeaac531188984d68cc80fcaf494f83178ec12ffc667a5",
+    "stage-08-ownership-tui-tests.log.gz": "307a3592af7075461071b1c66a4d273b0c527dd57192acf756f7f2f3f38d0101"
+  },
+  "source_note": "Native stage-08 source plus the corrected test picker helper, before local formatting. This is affected-source validation, not exact release artifact acceptance."
+}

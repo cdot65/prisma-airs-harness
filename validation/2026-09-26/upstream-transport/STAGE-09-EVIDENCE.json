@@ -1,0 +1,13 @@
+{
+  "upstream": "9d4d34d436b4f92f2e4e4058a991f1fff44da688",
+  "feature_complete": false,
+  "scores": null,
+  "scope": "Prerequisite slice of the unfinished connected transport feature; full workspace and delivery gates remain.",
+  "sha256": {
+    "stage-09-embedded-cas-junit-initial.xml.gz": "eb32f71d7b39180f51dfa8d09f581d1978beda17c3d09a6b2ec13fcfc85a1959",
+    "stage-09-embedded-cas-tests.log.gz": "ebede36ad336e51c3c0460d42c48bb3ff946b4721b46576f9225961bfd13e4d4",
+    "stage-09-embedded-check-final.log.gz": "f4da1133e5d731769b26e7293314d83a49f1533926443522a881012a14ca0ebc",
+    "stage-09-embedded-focused-tests.log.gz": "c993e3c7bb0c1b625a987717b199de6527a4d9bb52327c25a86829e6abb69d85",
+    "stage-09-review.md": "2faa31b47e48f8141857d86adc803b21ae1fe9fb155dfcb0a43c0764b002fa0f"
+  }
+}

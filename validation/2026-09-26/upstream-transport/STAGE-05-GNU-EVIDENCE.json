@@ -1,0 +1,12 @@
+{
+  "source_commit": "1925e70106a09a8da86679b72da8c5e863b13e01",
+  "all_green": false,
+  "baseline_assertions_match": true,
+  "sha256": {
+    "stage-05-gnu-gnu-3848-source.txt": "b4d86218b391b9bdbb468ac9903e80ed7438bcf6620986d284acca74067eda4e",
+    "stage-05-gnu-gnu-3848-test-scope.txt": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e",
+    "stage-05-gnu-WORKSPACE-BASELINE-COMPARISON.json": "2a3d0d7659561991ae8ab58f14b9689820f62c71016e419615ad271c678efba1",
+    "stage-05-gnu-workspace.log.gz": "c608fdd8a9aabb7b97f22bae90257eae52c0a3e423fc89b7c9d0af3e62688c44",
+    "stage-05-gnu-WORKSPACE-REVIEW.json": "f0054da5c23ddb10d053d4d04646f1738f45bd5625d8e3bc533425e9c4faca25"
+  }
+}

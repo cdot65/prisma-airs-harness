@@ -1,0 +1,9 @@
+{
+  "source_commit": "63920760fc7a5e6434e2dc8741194530b6a6f926",
+  "exit_code": 0,
+  "command": "just fix --locked -p codex-app-server -p codex-exec -p codex-tui -p codex-cli -p codex-login -p codex-model-provider -p codex-airs-identity --allow-no-vcs",
+  "sha256": {
+    "stage-10-native-lint.log.gz": "206216dd2451f9a536acee2c8490e3530a189714689ef3576b73bd25c03a4193"
+  },
+  "warnings": []
+}

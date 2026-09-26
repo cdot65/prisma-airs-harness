@@ -1,0 +1,16 @@
+{
+  "source_commit": "63920760fc7a5e6434e2dc8741194530b6a6f926",
+  "source_note": "Affected source before final formatting and Clippy-only style edits; not release artifact validation.",
+  "passed": 5800,
+  "skipped": 6,
+  "duration_seconds": 557.153,
+  "flaky": [
+    "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session"
+  ],
+  "flake_detail": "First attempt hit 60-second test timeout; retry passed in 29.503 seconds. The test sequentially creates twelve embedded sessions; a prior isolated recheck passed. Not claimed flake-free.",
+  "previous_attempt": "Aborted ENOSPC, retained separately and not counted as passing. Only task incremental compiler cache removed before unchanged-binary recheck.",
+  "sha256": {
+    "stage-10-mac-embedded-cas-full-packages-recheck.log.gz": "3298b8908a674fcb890d18f34f8c50e387a008e25f84a33a41a490c9641d502f",
+    "stage-10-mac-embedded-cas-full-packages-junit.xml.gz": "5c585db9db5a5ba30444065540caf16c4ab2aa5ede9ae398aad223e5c9eb7c0a"
+  }
+}

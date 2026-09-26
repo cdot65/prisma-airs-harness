@@ -16,6 +16,7 @@ fn http_error(status: StatusCode, body: &str) -> ApiError {
     let mut headers = HeaderMap::new();
     headers.insert("x-request-id", HeaderValue::from_static("req-bedrock"));
     ApiError::Transport(TransportError::Http {
+        retry_after: None,
         status,
         url: Some(BEDROCK_RESPONSES_URL.to_string()),
         headers: Some(headers),
@@ -115,6 +116,7 @@ fn classifies_only_refreshable_bedrock_auth_failures() {
 
     for (status, body, expected) in cases {
         let error = TransportError::Http {
+            retry_after: None,
             status,
             url: Some(BEDROCK_RESPONSES_URL.to_string()),
             headers: None,

@@ -588,6 +588,7 @@ fn map_ws_error(err: WsError, url: &Url) -> ApiError {
                 .as_ref()
                 .and_then(|bytes| String::from_utf8(bytes.clone()).ok());
             ApiError::Transport(TransportError::Http {
+                retry_after: codex_http_client::RetryAfter::from_headers(&headers),
                 status,
                 url: Some(url.to_string()),
                 headers: Some(headers),
@@ -663,10 +664,14 @@ fn map_wrapped_websocket_error_event(
         return None;
     }
 
+    let headers = headers.as_ref().map(json_headers_to_http_headers);
     Some(ApiError::Transport(TransportError::Http {
+        retry_after: headers
+            .as_ref()
+            .and_then(codex_http_client::RetryAfter::from_headers),
         status,
         url: None,
-        headers: headers.as_ref().map(json_headers_to_http_headers),
+        headers,
         body: Some(original_payload),
     }))
 }
@@ -935,6 +940,7 @@ fn serialize_websocket_request(request: &ResponsesWsRequest<'_>) -> Result<Strin
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
     use crate::common::ResponseCreateWsRequest;
     use crate::common::ResponsesApiRequest;
@@ -947,6 +953,39 @@ mod tests {
     use serde_json::value::to_raw_value;
     use std::collections::HashMap;
     use std::sync::Arc;
+
+    #[test]
+    fn websocket_http_errors_preserve_expired_retry_advice() {
+        let payload = serde_json::json!({
+            "type": "error", "status": 503,
+            "headers": { "Retry-After": "0" },
+            "error": { "message": "try later" }
+        })
+        .to_string();
+        let event = super::parse_wrapped_websocket_error_event(&payload).unwrap();
+        let wrapped = super::map_wrapped_websocket_error_event(event, payload).unwrap();
+        let handshake = super::map_ws_error(
+            super::WsError::Http(Box::new(
+                http::Response::builder()
+                    .status(503)
+                    .header("retry-after", "0")
+                    .body(None)
+                    .unwrap(),
+            )),
+            &url::Url::parse("wss://gateway.example.test/responses").unwrap(),
+        );
+        for error in [wrapped, handshake] {
+            let super::ApiError::Transport(error) = error else {
+                panic!("expected HTTP transport error")
+            };
+            assert_eq!(
+                error
+                    .retry_after()
+                    .map(codex_http_client::RetryAfter::remaining_delay),
+                Some(std::time::Duration::ZERO)
+            );
+        }
+    }
 
     #[test]
     fn direct_serialization_preserves_websocket_request_payload() {

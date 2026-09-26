@@ -241,10 +241,9 @@ async fn wait_for_turn_completion(test: &TestCodex) {
     assert_eq!(completed.error, None, "turn should complete successfully");
 }
 
-// TODO(anp) respect Retry-After
-/// HTTP overloads currently retry with local backoff instead of the upstream header delay.
+/// HTTP overloads respect server advice before another request.
 #[tokio::test(flavor = "current_thread")]
-async fn responses_http_uses_local_backoff_despite_retry_after() -> Result<()> {
+async fn responses_http_uses_retry_after() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
     let mut telemetry = RetryTelemetryCapture::install();
@@ -272,7 +271,7 @@ async fn responses_http_uses_local_backoff_despite_retry_after() -> Result<()> {
 
     submit_user_input(&test, "retry the upstream overload").await?;
     let retry = telemetry.next_retry().await;
-    assert!((FIRST_RETRY_MIN_DELAY..FIRST_RETRY_MAX_DELAY).contains(&retry.delay));
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
@@ -282,7 +281,7 @@ async fn responses_http_uses_local_backoff_despite_retry_after() -> Result<()> {
             operation: "request".into(),
         }
     );
-    wait_for_retry(&mut telemetry, &retry).await;
+    assert!(wait_for_retry(&mut telemetry, &retry).await >= Duration::from_secs(1));
     wait_for_turn_completion(&test).await;
 
     assert_eq!(response_mock.requests().len(), 2);
@@ -314,6 +313,7 @@ async fn http_retry_backoff_exhausts_attempts() {
                 .expect("retry attempts should not be poisoned")
                 .push((attempt, tokio::time::Instant::now()));
             std::future::ready(Err::<(), _>(TransportError::Http {
+                retry_after: None,
                 status: StatusCode::SERVICE_UNAVAILABLE,
                 url: None,
                 headers: None,
@@ -416,10 +416,9 @@ async fn responses_http_overload_without_retry_after_exhausts_request_retries() 
     Ok(())
 }
 
-// TODO(anp) respect Retry-After
-/// Remote compaction v2 currently retries with local backoff instead of the upstream header delay.
+/// Remote compaction v2 respects server advice before another HTTP request.
 #[tokio::test(flavor = "current_thread")]
-async fn compact_v2_uses_local_backoff_despite_retry_after() -> Result<()> {
+async fn compact_v2_uses_retry_after() -> Result<()> {
     skip_if_no_network!(Ok(()));
 
     let mut telemetry = RetryTelemetryCapture::install();
@@ -459,7 +458,7 @@ async fn compact_v2_uses_local_backoff_despite_retry_after() -> Result<()> {
 
     test.codex.submit(Op::Compact).await?;
     let retry = telemetry.next_retry().await;
-    assert!((FIRST_RETRY_MIN_DELAY..FIRST_RETRY_MAX_DELAY).contains(&retry.delay));
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
@@ -469,7 +468,7 @@ async fn compact_v2_uses_local_backoff_despite_retry_after() -> Result<()> {
             operation: "request".into(),
         }
     );
-    wait_for_retry(&mut telemetry, &retry).await;
+    assert!(wait_for_retry(&mut telemetry, &retry).await >= Duration::from_secs(1));
     wait_for_turn_completion(&test).await;
 
     let requests = response_mock.requests();

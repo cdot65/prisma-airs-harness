@@ -99,9 +99,16 @@ where
                     .should_retry(&err, attempt, policy.max_attempts) =>
             {
                 let retry_attempt = attempt + 1;
-                let delay = backoff(policy.base_delay, retry_attempt);
+                let retry_after = err.retry_after();
+                let delay = retry_after
+                    .map(|advice| advice.remaining_delay())
+                    .unwrap_or_else(|| backoff(policy.base_delay, retry_attempt));
                 crate::record_retry!(retry_attempt, delay, RetryOperation::HttpRequest);
-                tokio::time::sleep(delay).await;
+                if let Some(advice) = retry_after {
+                    tokio::time::sleep_until(advice.deadline()).await;
+                } else {
+                    tokio::time::sleep(delay).await;
+                }
             }
             Err(err) => return Err(err),
         }

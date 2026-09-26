@@ -866,6 +866,7 @@ mod tests {
                 (http::StatusCode::FORBIDDEN, "AccessDeniedException", false),
             ] {
                 let error = TransportError::Http {
+                    retry_after: None,
                     status,
                     url: None,
                     headers: None,

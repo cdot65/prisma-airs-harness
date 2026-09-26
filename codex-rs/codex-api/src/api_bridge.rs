@@ -69,6 +69,7 @@ pub fn map_api_error(err: ApiError) -> CodexErr {
                 url,
                 headers,
                 body,
+                ..
             } => {
                 let body_text = body.unwrap_or_default();
 

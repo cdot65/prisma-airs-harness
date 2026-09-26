@@ -4,6 +4,7 @@
 //! declared content lengths are only an additional early-rejection check.
 
 use crate::HttpResponse;
+use crate::RetryAfter;
 use crate::RouteAwareClientPool;
 use crate::RouteAwareRequestError;
 use crate::client::HttpClient;
@@ -179,6 +180,7 @@ impl HttpTransport for ReqwestTransport {
         let resp = self.send(req).await?;
         let status = resp.status();
         let headers = resp.headers().clone();
+        let retry_after = RetryAfter::from_headers(&headers);
         let bytes = match response_body_limit_bytes {
             Some(max_bytes) => bounded_response_bytes(resp, max_bytes).await,
             None => resp.bytes().await.map_err(Self::map_error),
@@ -194,6 +196,7 @@ impl HttpTransport for ReqwestTransport {
                 Err(error) => return Err(error),
             };
             return Err(TransportError::Http {
+                retry_after,
                 status,
                 url: Some(url),
                 headers: Some(headers),
@@ -215,6 +218,7 @@ impl HttpTransport for ReqwestTransport {
         let resp = self.send(req).await?;
         let status = resp.status();
         let headers = resp.headers().clone();
+        let retry_after = RetryAfter::from_headers(&headers);
         if !status.is_success() {
             let body = match response_body_limit_bytes {
                 Some(max_bytes) => match bounded_response_bytes(resp, max_bytes).await {
@@ -238,6 +242,7 @@ impl HttpTransport for ReqwestTransport {
                 },
             };
             return Err(TransportError::Http {
+                retry_after,
                 status,
                 url: Some(url),
                 headers: Some(headers),
@@ -309,3 +314,7 @@ mod tests;
 #[cfg(test)]
 #[path = "transport_limit_tests.rs"]
 mod limit_tests;
+
+#[cfg(test)]
+#[path = "transport_retry_tests.rs"]
+mod retry_tests;

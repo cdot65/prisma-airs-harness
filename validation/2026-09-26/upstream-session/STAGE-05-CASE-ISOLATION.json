@@ -1,0 +1,62 @@
+{
+  "existing_cases": {
+    "background_destinations": 9,
+    "new_clear_recovery": 12
+  },
+  "source_comparison": {
+    "codex-rs/tui/src/app/tests/background_task_defaults_tests.rs": "Scenario body and assertions unchanged; parameterization replaces only the outer loop.",
+    "codex-rs/tui/src/app/tests/unavailable_commands_tests.rs": "Scenario body and assertions unchanged; parameterization replaces only the outer loop."
+  },
+  "timeout_seconds": 60,
+  "retries_for_new_validation": 0,
+  "dependencies_added": false,
+  "prior_native_observation": {
+    "background_destination_seconds": 58.884,
+    "new_clear_seconds": 29.503,
+    "new_clear_required_retry": true
+  },
+  "feature_complete": false,
+  "scores": null,
+  "local": {
+    "passed": 21,
+    "failed": 0,
+    "seconds": 1.288,
+    "filtered": 10944,
+    "retries": 0
+  },
+  "lint": {
+    "exit": 0,
+    "warnings": 0,
+    "duration": "3m18s"
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "native": "Pending after current production-source suite completes.",
+  "sha256": {
+    "cold-resume-case-isolation-tests.log.gz": "f7ad39912c693bafcf420a11243d4ad26dbd5f04dc117dfeb9afede25ed2cb0b",
+    "cold-resume-case-isolation-fixed-tests.log.gz": "e264758a05cf72b0be70eac552ffaf273dd5b129a5d8913b4307cf194f59abba",
+    "cold-resume-case-isolation-junit.xml.gz": "32f8a7bcb7d50a759f449523da560d0e94288d4d3eea2debdffb9a1f880b98df",
+    "cold-resume-case-isolation-lint.log.gz": "b6ccb114fb130ca8f2c9cdb2dbc41295e19d2691b04c6aa6799359a8a4795325",
+    "cold-resume-case-isolation-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+}

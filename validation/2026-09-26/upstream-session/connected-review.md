@@ -37,3 +37,11 @@ The retained production source matches the initial connected run (5,633 passes) 
 The native diagnostic still in flight contains the rejected persistence write. Preserve its results as diagnostics and synchronize the final source before counting native acceptance. Neither that diagnostic nor the existing transport workspace receipt can satisfy this feature's gate.
 
 Scoped lint completed in 6m57s without warnings. Formatting and `git diff --check` passed; 17 unrelated formatter changes were restored. No Rust dependency changed. The patch is committed in two review slices: storage/core reconstruction and mode restoration, followed by app-server/TUI propagation with generated protocol fixtures. Native and full-workspace gates remain pending.
+
+## Native timeout investigation
+
+The rejected-write diagnostic completed 5,641 cases: 5,635 passed, the expected four lifecycle assertions failed, and two TUI tests timed out on both attempts. The prior transport receipt shows `background_task_reads_server_defaults_for_actual_destination` taking 58.884 seconds against the unchanged 60-second deadline. `unavailable_thread_new_and_clear_start_a_writable_session` passed in 29.503 seconds only after a failed attempt. These are not treated as clean baseline passes.
+
+Both tests aggregate independent server scenarios. Their nine destination scenarios and twelve recovery combinations are now isolated into named tests using local macros and the existing Tokio harness. Source comparison proves the scenario bodies and assertions are unchanged. No deadline increase, skipped scenario or new dependency is introduced. An initial compile attempt used an unavailable parameterization helper; the local macro implementation replaces it. Targeted validation runs with retries disabled, followed by native confirmation. Production session code is unchanged by this test correction.
+
+All 21 isolated cases passed locally with retries disabled (1.288 seconds). Scoped lint passed without warnings (3m18s); formatting passed with unrelated churn restored. Native validation is pending after the current production-source suite finishes.

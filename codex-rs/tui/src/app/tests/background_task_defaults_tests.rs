@@ -9,194 +9,270 @@ use crate::test_support::PathBufExt;
 use codex_state::SqliteConfig;
 use pretty_assertions::assert_eq;
 
-#[tokio::test]
-async fn background_task_reads_server_defaults_for_actual_destination() -> Result<()> {
-    for (mode, explicit_cwd, launch_override, expected_cwd, expected_model) in [
-        ("local", false, false, "launch", "server-model"),
-        ("local", true, false, "destination", "destination-model"),
-        ("local-cli-provider", false, false, "launch", "server-model"),
-        ("local-cli-model", false, false, "launch", "cli-model"),
-        (
-            "local-default-provider",
-            false,
-            false,
-            "launch",
-            "server-model",
-        ),
-        ("remote", true, true, "destination", "destination-model"),
-        ("remote", false, true, "launch", "server-model"),
-        ("remote", false, false, ".", "server-model"),
-        ("remote-null-fast", false, false, ".", ""),
-    ] {
-        let client_home = tempdir()?;
-        let server_home = tempdir()?;
-        let launch = tempdir()?;
-        let destination = tempdir()?;
-        std::fs::write(
-            client_home.path().join("config.toml"),
-            format!(
-                "model = \"{}\"\nmodel_reasoning_effort = \"low\"\n{}",
-                if mode == "remote-null-fast" {
-                    "gpt-5.2"
-                } else {
-                    "client-model"
-                },
-                if mode == "local-default-provider" {
-                    "model_provider = \"ollama\"\n"
-                } else {
-                    ""
-                }
-            ),
-        )?;
-        std::fs::write(
-            server_home.path().join("config.toml"),
-            format!(
-                "{}model_reasoning_effort = \"high\"\n{}",
-                if mode == "remote-null-fast" {
-                    ""
-                } else {
-                    "model = \"server-model\"\n"
-                },
-                if mode == "local" || mode == "local-cli-provider" || mode == "local-cli-model" {
-                    "model_provider = \"ollama\"\n"
-                } else {
-                    ""
-                }
-            ),
-        )?;
-        std::fs::create_dir(destination.path().join(".codex"))?;
-        std::fs::write(
-            destination.path().join(".codex/config.toml"),
-            "model = \"destination-model\"\nservice_tier = \"flex\"\n",
-        )?;
-        for home in [client_home.path(), server_home.path()] {
-            crate::legacy_core::config::set_project_trust_level(
-                home,
-                destination.path(),
-                codex_protocol::config_types::TrustLevel::Trusted,
+// Each destination owns its fixture and timeout; the full matrix can exceed the Mac test deadline.
+macro_rules! background_destination_case {
+    ($name:ident, $mode:expr, $explicit_cwd:expr, $launch_override:expr, $cwd:expr, $model:expr) => {
+        #[tokio::test]
+        async fn $name() -> Result<()> {
+            background_task_destination_case(
+                $mode,
+                /*explicit_cwd*/ $explicit_cwd,
+                /*launch_override*/ $launch_override,
+                $cwd,
+                $model,
             )
-            .map_err(|error| color_eyre::eyre::eyre!(error.to_string()))?;
+            .await
         }
-        let mut app = make_test_app_with_channels().await.0;
-        if mode == "local" && explicit_cwd {
-            app.harness_overrides.model_provider = Some("openai".into());
-        }
-        if mode == "local-cli-provider" {
-            app.cli_kv_overrides
-                .push(("model_provider".into(), TomlValue::String("openai".into())));
-        }
-        if mode == "local-cli-model" {
-            app.harness_overrides.model = Some("cli-model".into());
-        }
-        app.chat_widget.set_service_tier(Some("priority".into()));
-        app.harness_overrides.cwd = Some(launch.path().to_path_buf());
-        app.config = ConfigBuilder::default()
-            .codex_home(client_home.path().to_path_buf())
-            .loader_overrides(app.loader_overrides.clone())
-            .cli_overrides(app.cli_kv_overrides.clone())
-            .harness_overrides(app.harness_overrides.clone())
-            .build()
-            .await?;
-        if mode == "remote-null-fast" {
-            app.config.features.enable(Feature::FastMode)?;
-        }
-        app.chat_widget
-            .handle_thread_session_quiet(test_thread_session(
-                ThreadId::new(),
-                launch.path().to_path_buf(),
-            ));
-        let mut server_config = app.config.clone();
-        server_config.codex_home = server_home.path().to_path_buf().abs();
-        server_config.sqlite = SqliteConfig::new_for_testing(server_home.path().abs());
-        let thread_mode = if mode.starts_with("remote") {
-            crate::app_server_session::ThreadParamsMode::Remote
-        } else {
-            crate::app_server_session::ThreadParamsMode::Embedded
-        };
-        let (mut server, requests, proxy) = start_recording_app_server_with_history(
-            &server_config,
-            HistoryCapabilities::Current,
-            /*blocked_thread_list*/ None,
-            /*failed_thread_name*/ None,
-            thread_mode,
-            LoaderOverrides {
-                user_config_path: Some(server_home.path().join("config.toml").abs()),
-                ..LoaderOverrides::default()
+    };
+}
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_local_launch,
+    "local",
+    false,
+    false,
+    "launch",
+    "server-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_local_destination,
+    "local",
+    true,
+    false,
+    "destination",
+    "destination-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_local_cli_provider,
+    "local-cli-provider",
+    false,
+    false,
+    "launch",
+    "server-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_local_cli_model,
+    "local-cli-model",
+    false,
+    false,
+    "launch",
+    "cli-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_local_default_provider,
+    "local-default-provider",
+    false,
+    false,
+    "launch",
+    "server-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_remote_destination,
+    "remote",
+    true,
+    true,
+    "destination",
+    "destination-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_remote_launch,
+    "remote",
+    false,
+    true,
+    "launch",
+    "server-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_remote_default,
+    "remote",
+    false,
+    false,
+    ".",
+    "server-model"
+);
+background_destination_case!(
+    background_task_reads_server_defaults_for_actual_destination_remote_null_fast,
+    "remote-null-fast",
+    false,
+    false,
+    ".",
+    ""
+);
+
+async fn background_task_destination_case(
+    mode: &str,
+    explicit_cwd: bool,
+    launch_override: bool,
+    expected_cwd: &str,
+    expected_model: &str,
+) -> Result<()> {
+    let client_home = tempdir()?;
+    let server_home = tempdir()?;
+    let launch = tempdir()?;
+    let destination = tempdir()?;
+    std::fs::write(
+        client_home.path().join("config.toml"),
+        format!(
+            "model = \"{}\"\nmodel_reasoning_effort = \"low\"\n{}",
+            if mode == "remote-null-fast" {
+                "gpt-5.2"
+            } else {
+                "client-model"
             },
+            if mode == "local-default-provider" {
+                "model_provider = \"ollama\"\n"
+            } else {
+                ""
+            }
+        ),
+    )?;
+    std::fs::write(
+        server_home.path().join("config.toml"),
+        format!(
+            "{}model_reasoning_effort = \"high\"\n{}",
+            if mode == "remote-null-fast" {
+                ""
+            } else {
+                "model = \"server-model\"\n"
+            },
+            if mode == "local" || mode == "local-cli-provider" || mode == "local-cli-model" {
+                "model_provider = \"ollama\"\n"
+            } else {
+                ""
+            }
+        ),
+    )?;
+    std::fs::create_dir(destination.path().join(".codex"))?;
+    std::fs::write(
+        destination.path().join(".codex/config.toml"),
+        "model = \"destination-model\"\nservice_tier = \"flex\"\n",
+    )?;
+    for home in [client_home.path(), server_home.path()] {
+        crate::legacy_core::config::set_project_trust_level(
+            home,
+            destination.path(),
+            codex_protocol::config_types::TrustLevel::Trusted,
         )
-        .await?;
-        if launch_override {
-            server = server.with_remote_cwd_override(Some(launch.path().to_path_buf()));
-        }
-        let bootstrap = server.bootstrap(&app.config).await?;
-        let expected_model = if mode == "remote-null-fast" {
-            let default_model = bootstrap
-                .available_models
-                .iter()
-                .find(|model| model.is_default)
-                .or_else(|| bootstrap.available_models.first())
-                .expect("server catalog model")
-                .model
-                .clone();
-            app.model_catalog = Arc::new(ModelCatalog::new(bootstrap.available_models));
-            default_model
-        } else {
-            expected_model.to_string()
-        };
-        app.dispatch_agents_overview_task(
-            &mut server,
-            "background prompt".into(),
-            explicit_cwd.then(|| destination.path().to_path_buf().abs()),
-        )
-        .await;
-        let cwd = match expected_cwd {
-            "launch" => launch.path().display().to_string(),
-            "destination" => destination.path().display().to_string(),
-            "." => ".".to_string(),
-            _ => unreachable!(),
-        };
-        assert_eq!(
-            recorded_params(&requests, "config/read"),
-            vec![serde_json::json!({"cwd": cwd})],
-            "{mode} {expected_cwd}"
-        );
-        let starts = recorded_params(&requests, "thread/start");
-        assert_eq!(starts.len(), 1, "{mode} {expected_cwd}");
-        assert_eq!(
-            (
-                &starts[0]["cwd"],
-                &starts[0]["model"],
-                &starts[0]["modelProvider"],
-                &starts[0]["config"]["model_reasoning_effort"],
-                &starts[0]["serviceTier"],
-            ),
-            (
-                &if mode.starts_with("remote") && !explicit_cwd && !launch_override {
-                    serde_json::Value::Null
-                } else {
-                    serde_json::json!(cwd)
-                },
-                &serde_json::json!(expected_model),
-                &if mode.starts_with("remote") {
-                    serde_json::Value::Null
-                } else if mode == "local" && !explicit_cwd {
-                    serde_json::json!("ollama")
-                } else {
-                    serde_json::json!("openai")
-                },
-                &serde_json::json!("high"),
-                &serde_json::json!(if mode == "local" && explicit_cwd {
-                    "flex"
-                } else {
-                    "priority"
-                }),
-            ),
-            "{mode} {expected_cwd}"
-        );
-        assert_eq!(recorded_params(&requests, "turn/start").len(), 1);
-        server.shutdown().await?;
-        proxy.await??;
+        .map_err(|error| color_eyre::eyre::eyre!(error.to_string()))?;
     }
+    let mut app = make_test_app_with_channels().await.0;
+    if mode == "local" && explicit_cwd {
+        app.harness_overrides.model_provider = Some("openai".into());
+    }
+    if mode == "local-cli-provider" {
+        app.cli_kv_overrides
+            .push(("model_provider".into(), TomlValue::String("openai".into())));
+    }
+    if mode == "local-cli-model" {
+        app.harness_overrides.model = Some("cli-model".into());
+    }
+    app.chat_widget.set_service_tier(Some("priority".into()));
+    app.harness_overrides.cwd = Some(launch.path().to_path_buf());
+    app.config = ConfigBuilder::default()
+        .codex_home(client_home.path().to_path_buf())
+        .loader_overrides(app.loader_overrides.clone())
+        .cli_overrides(app.cli_kv_overrides.clone())
+        .harness_overrides(app.harness_overrides.clone())
+        .build()
+        .await?;
+    if mode == "remote-null-fast" {
+        app.config.features.enable(Feature::FastMode)?;
+    }
+    app.chat_widget
+        .handle_thread_session_quiet(test_thread_session(
+            ThreadId::new(),
+            launch.path().to_path_buf(),
+        ));
+    let mut server_config = app.config.clone();
+    server_config.codex_home = server_home.path().to_path_buf().abs();
+    server_config.sqlite = SqliteConfig::new_for_testing(server_home.path().abs());
+    let thread_mode = if mode.starts_with("remote") {
+        crate::app_server_session::ThreadParamsMode::Remote
+    } else {
+        crate::app_server_session::ThreadParamsMode::Embedded
+    };
+    let (mut server, requests, proxy) = start_recording_app_server_with_history(
+        &server_config,
+        HistoryCapabilities::Current,
+        /*blocked_thread_list*/ None,
+        /*failed_thread_name*/ None,
+        thread_mode,
+        LoaderOverrides {
+            user_config_path: Some(server_home.path().join("config.toml").abs()),
+            ..LoaderOverrides::default()
+        },
+    )
+    .await?;
+    if launch_override {
+        server = server.with_remote_cwd_override(Some(launch.path().to_path_buf()));
+    }
+    let bootstrap = server.bootstrap(&app.config).await?;
+    let expected_model = if mode == "remote-null-fast" {
+        let default_model = bootstrap
+            .available_models
+            .iter()
+            .find(|model| model.is_default)
+            .or_else(|| bootstrap.available_models.first())
+            .expect("server catalog model")
+            .model
+            .clone();
+        app.model_catalog = Arc::new(ModelCatalog::new(bootstrap.available_models));
+        default_model
+    } else {
+        expected_model.to_string()
+    };
+    app.dispatch_agents_overview_task(
+        &mut server,
+        "background prompt".into(),
+        explicit_cwd.then(|| destination.path().to_path_buf().abs()),
+    )
+    .await;
+    let cwd = match expected_cwd {
+        "launch" => launch.path().display().to_string(),
+        "destination" => destination.path().display().to_string(),
+        "." => ".".to_string(),
+        _ => unreachable!(),
+    };
+    assert_eq!(
+        recorded_params(&requests, "config/read"),
+        vec![serde_json::json!({"cwd": cwd})],
+        "{mode} {expected_cwd}"
+    );
+    let starts = recorded_params(&requests, "thread/start");
+    assert_eq!(starts.len(), 1, "{mode} {expected_cwd}");
+    assert_eq!(
+        (
+            &starts[0]["cwd"],
+            &starts[0]["model"],
+            &starts[0]["modelProvider"],
+            &starts[0]["config"]["model_reasoning_effort"],
+            &starts[0]["serviceTier"],
+        ),
+        (
+            &if mode.starts_with("remote") && !explicit_cwd && !launch_override {
+                serde_json::Value::Null
+            } else {
+                serde_json::json!(cwd)
+            },
+            &serde_json::json!(expected_model),
+            &if mode.starts_with("remote") {
+                serde_json::Value::Null
+            } else if mode == "local" && !explicit_cwd {
+                serde_json::json!("ollama")
+            } else {
+                serde_json::json!("openai")
+            },
+            &serde_json::json!("high"),
+            &serde_json::json!(if mode == "local" && explicit_cwd {
+                "flex"
+            } else {
+                "priority"
+            }),
+        ),
+        "{mode} {expected_cwd}"
+    );
+    assert_eq!(recorded_params(&requests, "turn/start").len(), 1);
+    server.shutdown().await?;
+    proxy.await??;
     Ok(())
 }
 

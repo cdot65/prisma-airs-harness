@@ -137,77 +137,153 @@ async fn unavailable_thread_routes_local_and_recovery_commands() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
-async fn unavailable_thread_new_and_clear_start_a_writable_session() -> Result<()> {
-    for remote in [false, true] {
-        for (command, activity) in ["/new", "/clear"]
-            .into_iter()
-            .flat_map(|command| ["idle", "review", "mcp"].map(|activity| (command, activity)))
-        {
-            let (mut app, mut events, _) = make_test_app_with_channels().await;
-            let id = ThreadId::new();
-            app.active_thread_id = Some(id);
-            app.primary_thread_id = Some(id);
-            app.app_server_target = if remote {
-                AppServerTarget::Remote {
-                    endpoint: crate::resolve_remote_addr("ws://127.0.0.1:1")?,
-                }
-            } else {
-                AppServerTarget::Embedded
-            };
-            app.chat_widget
-                .handle_thread_session(test_thread_session(id, app.config.cwd.to_path_buf()));
-            app.ensure_thread_channel(id).mark_replay_only();
-            match activity {
-                "review" => app.chat_widget.replay_thread_turns(
-                    vec![test_turn(
-                        "review",
-                        TurnStatus::InProgress,
-                        vec![ThreadItem::EnteredReviewMode {
-                            id: "review-start".into(),
-                            review: "changes against main".into(),
-                        }],
-                    )],
-                    ReplayKind::ResumeInitialMessages,
-                ),
-                "mcp" => app.chat_widget.handle_server_notification(
-                    ServerNotification::McpServerStatusUpdated(
-                        McpServerStatusUpdatedNotification {
-                            thread_id: Some(id.to_string()),
-                            name: "slow".into(),
-                            status: McpServerStartupState::Starting,
-                            error: None,
-                            failure_reason: None,
-                        },
-                    ),
-                    /*replay_kind*/ None,
-                ),
-                _ => {}
-            }
-            app.chat_widget.pause_unavailable_thread();
-            app.chat_widget
-                .set_local_worktree_operations(/*enabled*/ false);
-            let mut session = start_config_write_test_app_server(&app).await?;
-            let mut tui = crate::tui::test_support::make_test_tui()?;
-            while events.try_recv().is_ok() {}
-            app.chat_widget
-                .restore_user_message_to_composer(command.into());
-            app.handle_tui_event(&mut tui, &mut session, TuiEvent::Key(KeyCode::Enter.into()))
-                .await?;
-            while let Ok(event) = events.try_recv() {
-                if matches!(
-                    event,
-                    AppEvent::NewSession { .. } | AppEvent::ClearUi { .. }
-                ) {
-                    app.handle_event(&mut tui, &mut session, event).await?;
-                    break;
-                }
-            }
-            let new_id = app.chat_widget.thread_id().expect("new thread");
-            assert_ne!(new_id, id, "{command}");
-            assert!(!app.thread_unavailable(new_id), "{command}");
-            session.shutdown().await?;
+// Keep each recovery path independently visible and bounded by the normal test deadline.
+macro_rules! unavailable_recovery_case {
+    ($name:ident, $remote:expr, $command:expr, $activity:expr) => {
+        #[tokio::test]
+        async fn $name() -> Result<()> {
+            unavailable_thread_recovery_case(/*remote*/ $remote, $command, $activity).await
+        }
+    };
+}
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_new_idle,
+    false,
+    "/new",
+    "idle"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_new_review,
+    false,
+    "/new",
+    "review"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_new_mcp,
+    false,
+    "/new",
+    "mcp"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_clear_idle,
+    false,
+    "/clear",
+    "idle"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_clear_review,
+    false,
+    "/clear",
+    "review"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_local_clear_mcp,
+    false,
+    "/clear",
+    "mcp"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_new_idle,
+    true,
+    "/new",
+    "idle"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_new_review,
+    true,
+    "/new",
+    "review"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_new_mcp,
+    true,
+    "/new",
+    "mcp"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_idle,
+    true,
+    "/clear",
+    "idle"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_review,
+    true,
+    "/clear",
+    "review"
+);
+unavailable_recovery_case!(
+    unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_mcp,
+    true,
+    "/clear",
+    "mcp"
+);
+
+async fn unavailable_thread_recovery_case(
+    remote: bool,
+    command: &str,
+    activity: &str,
+) -> Result<()> {
+    let (mut app, mut events, _) = make_test_app_with_channels().await;
+    let id = ThreadId::new();
+    app.active_thread_id = Some(id);
+    app.primary_thread_id = Some(id);
+    app.app_server_target = if remote {
+        AppServerTarget::Remote {
+            endpoint: crate::resolve_remote_addr("ws://127.0.0.1:1")?,
+        }
+    } else {
+        AppServerTarget::Embedded
+    };
+    app.chat_widget
+        .handle_thread_session(test_thread_session(id, app.config.cwd.to_path_buf()));
+    app.ensure_thread_channel(id).mark_replay_only();
+    match activity {
+        "review" => app.chat_widget.replay_thread_turns(
+            vec![test_turn(
+                "review",
+                TurnStatus::InProgress,
+                vec![ThreadItem::EnteredReviewMode {
+                    id: "review-start".into(),
+                    review: "changes against main".into(),
+                }],
+            )],
+            ReplayKind::ResumeInitialMessages,
+        ),
+        "mcp" => app.chat_widget.handle_server_notification(
+            ServerNotification::McpServerStatusUpdated(McpServerStatusUpdatedNotification {
+                thread_id: Some(id.to_string()),
+                name: "slow".into(),
+                status: McpServerStartupState::Starting,
+                error: None,
+                failure_reason: None,
+            }),
+            /*replay_kind*/ None,
+        ),
+        _ => {}
+    }
+    app.chat_widget.pause_unavailable_thread();
+    app.chat_widget
+        .set_local_worktree_operations(/*enabled*/ false);
+    let mut session = start_config_write_test_app_server(&app).await?;
+    let mut tui = crate::tui::test_support::make_test_tui()?;
+    while events.try_recv().is_ok() {}
+    app.chat_widget
+        .restore_user_message_to_composer(command.into());
+    app.handle_tui_event(&mut tui, &mut session, TuiEvent::Key(KeyCode::Enter.into()))
+        .await?;
+    while let Ok(event) = events.try_recv() {
+        if matches!(
+            event,
+            AppEvent::NewSession { .. } | AppEvent::ClearUi { .. }
+        ) {
+            app.handle_event(&mut tui, &mut session, event).await?;
+            break;
         }
     }
+    let new_id = app.chat_widget.thread_id().expect("new thread");
+    assert_ne!(new_id, id, "{command}");
+    assert!(!app.thread_unavailable(new_id), "{command}");
+    session.shutdown().await?;
     Ok(())
 }

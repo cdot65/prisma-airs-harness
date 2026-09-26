@@ -1,0 +1,10 @@
+{
+  "removed": {
+    "SSL_CERT_FILE": true,
+    "SSL_CERT_DIR": true,
+    "CODEX_CA_CERTIFICATE": true,
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": true,
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER": true
+  },
+  "sentinel": "keep"
+}

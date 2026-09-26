@@ -1,0 +1,55 @@
+{
+  "upstream": "e5a2094817",
+  "versions": {
+    "aws-lc-rs": [
+      "1.16.2",
+      "1.18.1"
+    ],
+    "aws-lc-sys": [
+      "0.39.0",
+      "0.45.0"
+    ],
+    "rustls": [
+      "0.23.36",
+      "0.23.45"
+    ],
+    "rustls-webpki": [
+      "0.103.13",
+      "0.103.15"
+    ]
+  },
+  "linux": {
+    "passed": 458,
+    "ignored": 8,
+    "runner": "airs_rust_test_runner.py (musl, CA-clean test-only child)"
+  },
+  "macos": {
+    "passed": 466,
+    "ignored": 8,
+    "excluded": "3 upstream remote-executor cases; product service disabled"
+  },
+  "bazel": "native regeneration and strict lockfile check passed",
+  "format": "passed",
+  "rust_source_changes": false,
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "release_ready": false,
+  "evidence": {
+    "REVIEW.md": "6e70aeaee197ff755e4ee1cdecf287d8ba81dc6337c6459bc7a29c6ff2ba25ce",
+    "tls-bazel-check.log.gz": "ce7a4223ceec3b5b139898e2bfcfe75cfa9e2c5171c64a3bc7c0d4587f67e5f4",
+    "tls-bazel-delta.json": "33fc03064ab5593edc4b46dc6ba9e7e10f5afd37910de5b512b9deeae9c4fa37",
+    "tls-bazel-lock.log.gz": "78e1d2c9d8963b32f798107cead6e9156fed1ae4088f3719ea18f863b65f42f2",
+    "tls-format-final.log.gz": "c1982b30363f06a42bf4336efec51f1deea73f5159d85b72bd38369e6303afb4",
+    "tls-linux-junit.xml.gz": "986e6d98a4352063f5bdffb77f10e0cfa302b5240e59b0d5d3419f839c65ab2d",
+    "tls-macos-junit.xml.gz": "8746b66ba117518413256357d9225d3e0af7235adb0d746f9b3b8ea91e60448d",
+    "tls-macos-tests.log.gz": "b9e2ab9cd448f8e9fb8f20f36d1bc83ecd39254c601bbe7e9de35376db566a32",
+    "tls-test-runner-check.json": "030d0aa68997fd7067825a8f8f122309b0f82d6f5c8275fedf2bcd7c54b70083",
+    "tls-tests-normalized.log.gz": "cb36dc3529d71d5783e7ad979afee4cf8b02f657f3362cc6facc6ac17a28682b",
+    "tls-tests.log.gz": "4a3a6905349e1b23aac543db846435d0ff981ca18d0f70bad07770192a80c737",
+    "tls-version-delta.json": "27034fe03ad4b831224d67dc405feec77fa77f6861d352530b477d0c26f52616"
+  }
+}

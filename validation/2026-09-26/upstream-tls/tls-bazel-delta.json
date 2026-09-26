@@ -1,0 +1,9 @@
+[
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/aws-lc-rs_1.16.2",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/aws-lc-rs_1.18.1",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/aws-lc-sys_0.39.0",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/aws-lc-sys_0.45.0",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/rustls-webpki_0.103.15",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/rustls_0.23.36",
+  "facts/@@rules_rs+//rs:extensions.bzl%crate/rustls_0.23.45"
+]

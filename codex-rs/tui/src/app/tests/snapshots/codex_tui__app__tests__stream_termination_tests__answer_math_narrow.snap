@@ -1,0 +1,12 @@
+---
+source: tui/src/app/tests/stream_termination_tests.rs
+assertion_line: 108
+expression: rendered
+---
+• Intro.
+
+  $$
+  \frac{a+b+c+d+e+f}
+  {g+h}
+
+■ Conversation interrupted - tell the model what to do differently. Something went wrong? Hit `/feedback` to report the issue.

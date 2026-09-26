@@ -1,0 +1,48 @@
+{
+  "upstream": "529bcb2fdf (PR 45549)",
+  "linux": {
+    "passed": 4409,
+    "skipped": 6,
+    "terminal": "NO_COLOR unset, TERM=xterm-256color, COLORTERM=truecolor; test-only CA-clean runner"
+  },
+  "macos": {
+    "passed": 4414,
+    "skipped": 6,
+    "leaky": 1,
+    "diagnostic": "existing agent-overview test passed isolated without leak; original warning retained"
+  },
+  "corrections": [
+    "Linux color environment normalized with unchanged binaries/assertions",
+    "Stale Mac-only command-popup snapshot updated for existing full-row fallback; no widget behavior change"
+  ],
+  "lint": "Linux and native standard scoped fix pass; strict native warning failure on existing rmcp static-header expect_used retained",
+  "format": "passed",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "release_ready": false,
+  "production_source_sha256": {
+    "codex-rs/tui/src/chatwidget/streaming.rs": "6bb72b0713aac3c49884592ed345cfe6a0be7e3fc26264b51883b1932ed481d8",
+    "codex-rs/tui/src/chatwidget/turn_runtime.rs": "347e9f2162ba71ab7a30c2de5d21c18fcc1b4c296c514fe327b39b98f6217c9e"
+  },
+  "evidence": {
+    "REVIEW.md": "18df70a77c4f0aa796957b62fb41e662660551bd66247f9f2a32f9253a1dff56",
+    "stream-focused.log.gz": "3edf37d6215d6f205fcd96893cf01b30141067a5cc49c96b0411aa48df71ce69",
+    "stream-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stream-generate-snapshots.log.gz": "71e1954078ad5c6b51ca7b9f678160c2117c71f1c57f9e790e794d0b5cb8db70",
+    "stream-linux-clippy.log.gz": "7a615fb76d7595138b8294c9ce93243eff6f0d6ba9ddfc517275b463fbeba793",
+    "stream-linux-junit.xml.gz": "7cad0dfc80ad7a66c8fce4a3cb6a332654e54b81526213a100c3bbc95cf30d77",
+    "stream-linux-suite-terminal.log.gz": "4410186ed19ddb1790747a90d6789e562d2893e66dee8b30bf1ff1582bd524a9",
+    "stream-linux-suite.log.gz": "b58107b9ae0534a9418e4f7414339f4b5007f095ef9e55eaa7d9918e98a319ce",
+    "stream-mac-clippy.log.gz": "f7a781150256f073b5aa7230e7316efcad39e9f1370c07abe0dc899d349c7b2e",
+    "stream-mac-fix.log.gz": "30b79c22f25f1bf943f6ef62619c3cb909faa50274e5f3866a3d7a323778fe0e",
+    "stream-mac-handle-check.log.gz": "8b1224831d0a84dcb56d7233f0a839827e51073cd6516b769a2a466a4326e669",
+    "stream-mac-junit.xml.gz": "f59360f42dccf86933b378a7d663e66928dfac65257adf46cd60fb87f0e1d4a6",
+    "stream-mac-suite-reviewed.log.gz": "df5f304470468c2c5928d0e4a7d196778079c8427e6e947b09536f99c7ad7507",
+    "stream-mac-suite.log.gz": "153ac4b2f80c2384dc46b5113462de1992eb7e9f6315bb497e7a0c4039a11912"
+  },
+  "diff_check": "source passes; rendered plan snapshots retain intentional whitespace-only indentation rows"
+}

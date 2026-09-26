@@ -1,0 +1,16 @@
+---
+source: tui/src/app/tests/stream_termination_tests.rs
+assertion_line: 108
+expression: rendered
+---
+• Proposed Plan
+ 
+ 
+  Intro.
+  
+  $$
+  \frac{a+b+c+d+e+
+  f}{g+h}
+ 
+
+■ Gateway policy denial (HTTP 446): hooks_failed

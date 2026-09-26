@@ -304,3 +304,52 @@ async fn mcp_onboarding_explains_gateway_endpoint_and_preserves_draft_on_cancel(
     }
     assert!(ops.try_recv().is_err());
 }
+
+#[tokio::test]
+async fn auth_recovery_flushes_partial_output_once_without_submitting_queued_input() {
+    for plan in [false, true] {
+        let (mut chat, mut events, mut ops) = make_chatwidget_manual(None).await;
+        if plan {
+            chat.set_feature_enabled(Feature::CollaborationModes, /*enabled*/ true);
+            chat.set_collaboration_mask(CollaborationModeMask {
+                name: "Plan".into(),
+                mode: Some(ModeKind::Plan),
+                model: None,
+                reasoning_effort: None,
+                developer_instructions: None,
+            });
+        }
+        chat.on_task_started();
+        chat.insert_str("Preserve this unsent draft");
+        chat.input_queue
+            .queued_user_messages
+            .push_back(UserMessage::from("Do not replay this request").into());
+        let source = "Received partial output: λ and 日本語";
+        if plan {
+            chat.on_plan_delta(source.into());
+        } else {
+            chat.on_agent_message_delta(source.into());
+        }
+        // Both AIRS recovery branches set this gate before finalizing the turn.
+        chat.input_queue.authentication_pending = true;
+        chat.finalize_turn();
+        chat.finalize_turn();
+        assert!(!chat.maybe_send_next_queued_input());
+        assert!(ops.try_recv().is_err());
+        assert_eq!(chat.input_queue.queued_user_messages.len(), 1);
+        assert_eq!(
+            chat.bottom_pane.composer_text(),
+            "Preserve this unsent draft"
+        );
+        let saved = std::iter::from_fn(|| events.try_recv().ok())
+            .filter_map(|event| match event {
+                AppEvent::ConsolidateAgentMessage { source, .. }
+                | AppEvent::ConsolidateProposedPlan(source) => {
+                    Some(source.trim_end_matches('\n').to_owned())
+                }
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(saved, vec![source.to_owned()]);
+    }
+}

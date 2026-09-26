@@ -9227,3 +9227,6 @@ mod active_reconnect;
 #[cfg(unix)]
 #[path = "tests/navigation_reconnect_tests.rs"]
 mod navigation_reconnect;
+
+#[path = "tests/stream_termination_tests.rs"]
+mod stream_termination_tests;

@@ -17,3 +17,7 @@ Affected HTTP/API/client/reviewer/debug-context suites: 403 passed, zero skips. 
 Apply the behavior-preserving request execution extraction in `3c6f32ca82`. Import only HTTP-client helpers from `3bb0a530d1` and `888be42a20`: route changes retain the factory and policy, redirect observation remains opt-in, request diagnostics can be disabled without rebuilding a differently routed client, and transport errors remove URLs. Proxy fallback still defaults off; no config feature defaults, login retry behavior or alternate model-catalog URLs are activated. These interfaces are prerequisites for the connected request/policy implementation.
 
 HTTP suite: 105 passed, zero skips, including real custom-CA TLS and intercepted-proxy fixtures, error-response limits and redirect timeouts. Scoped lint/format and source diff checks pass. No final transport feature score yet.
+
+## Stage 4: shared request construction
+
+Import HTTP-client portions of `6ea62c4396`: draft construction preserves reqwest URL authentication and ordered header precedence once, then reuses the built request for redirects and TLS fallback. Route-aware transports resolve each redirect independently; fixed transports retain their existing route. No web-search consumer or default-client behavior is imported. HTTP tests: 111 passed, zero skipped. Scoped lint, formatting and source diff checks pass. Connected enforcement and native validation remain pending; no feature score yet.

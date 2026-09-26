@@ -1,0 +1,74 @@
+bazel mod deps --lockfile_mode=update
+INFO: Invocation ID: 26164881-bddb-4e6b-96b0-905e6dd755ad
+WARNING: For repository 'platforms', the root module requires module version platforms@1.0.0, but got platforms@1.1.0 in the resolved dependency graph. Please update the version in your MODULE.bazel or set --check_direct_dependencies=off
+WARNING: For repository 'rules_cc', the root module requires module version rules_cc@0.2.18, but got rules_cc@0.2.20 in the resolved dependency graph. Please update the version in your MODULE.bazel or set --check_direct_dependencies=off
+ no actions running
+DEBUG: /Users/cdot/Library/Caches/bazel/_bazel_cdot/2d4722208fe8699b0a4cf90d3dc71519/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for tikv-jemalloc-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "jemalloc", version = "5.3.0-bcr.alpha.4")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "tikv-jemalloc-sys",
+    gen_build_script = "off",
+    deps = ["@jemalloc"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "tikv-jemalloc-sys",
+    gen_build_script = "on",
+)
+```
+DEBUG: /Users/cdot/Library/Caches/bazel/_bazel_cdot/2d4722208fe8699b0a4cf90d3dc71519/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for libgit2-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "libgit2", version = "1.9.1")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "libgit2-sys",
+    gen_build_script = "off",
+    deps = ["@libgit2"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "libgit2-sys",
+    gen_build_script = "on",
+)
+```
+DEBUG: /Users/cdot/Library/Caches/bazel/_bazel_cdot/2d4722208fe8699b0a4cf90d3dc71519/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for libssh2-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "libssh2", version = "1.11.1.bcr.1")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "libssh2-sys",
+    gen_build_script = "off",
+    deps = ["@libssh2"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "libssh2-sys",
+    gen_build_script = "on",
+)
+```
+ no actions running
+<root> (codex@_)
+

@@ -1,0 +1,35 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Updating crates.io index
+     Locking 102 packages to latest compatible versions
+      Adding base64 v0.22.1 (available: v0.23.1)
+      Adding serial_test v3.5.0 (available: v4.0.1)
+      Adding signal-hook v0.3.18 (available: v0.4.4)
+      Adding signal-hook-mio v0.2.5 (available: v0.3.0)
+ Downloading crates ...
+  Downloaded async-executor v1.14.0
+  Downloaded async-global-executor v2.4.1
+  Downloaded event-listener v2.5.3
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded cfg-if v1.0.5
+  Downloaded tokio-macros v2.7.2
+  Downloaded serial_test_derive v3.5.0
+  Downloaded serial_test v3.5.0
+  Downloaded blocking v1.7.0
+  Downloaded piper v0.2.5
+  Downloaded value-bag v1.14.1
+  Downloaded unicode-ident v1.0.26
+  Downloaded temp-env v0.3.6
+  Downloaded socket2 v0.6.5
+  Downloaded smallvec v1.16.2
+  Downloaded mio v1.2.3
+  Downloaded pin-project-lite v0.2.17
+  Downloaded kv-log-macro v1.0.7
+  Downloaded async-std v1.13.2
+  Downloaded futures-timer v3.0.4
+  Downloaded bitflags v2.13.2
+  Downloaded async-channel v1.9.0
+  Downloaded syn v3.0.6
+  Downloaded rustix v1.1.5
+  Downloaded tokio v1.53.1
+error: profile `local` not found (known profiles: default, default-miri)
+error: recipe `test` failed on line 88 with exit code 96

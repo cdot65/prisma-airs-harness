@@ -1,0 +1,9 @@
+['just', 'test', '--locked', '-p', 'codex-tui', '--test-threads', '4', '--retries', '0']
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-tui v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tui)
+error: failed to build archive at `/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/libcodex_tui-f17667aae92d6505.rlib`: failed to open object file: No such file or directory (os error 2)
+
+error: could not compile `codex-tui` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: command `/Users/cdot/.rustup/toolchains/1.95.0-aarch64-apple-darwin/bin/cargo test --no-run --message-format json-render-diagnostics --package codex-tui --locked` exited with code 101
+error: recipe `test` failed on line 88 with exit code 101

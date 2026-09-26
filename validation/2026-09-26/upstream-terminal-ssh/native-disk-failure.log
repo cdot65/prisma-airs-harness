@@ -1,0 +1,949 @@
+['just', 'test', '--locked', '-p', 'codex-tui', '--test-threads', '4', '--retries', '0']
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Updating git repository `https://github.com/openai-oss-forks/crossterm`
+   Compiling codex-utils-absolute-path v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/absolute-path)
+   Compiling codex-utils-rustls-provider v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/rustls-provider)
+   Compiling codex-http-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/http-client)
+   Compiling codex-utils-home-dir v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/home-dir)
+   Compiling codex-utils-cache v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cache)
+   Compiling codex-utils-image v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/image)
+   Compiling codex-execpolicy v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/execpolicy)
+   Compiling codex-network-proxy v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/network-proxy)
+   Compiling codex-utils-path-uri v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/path-uri)
+   Compiling codex-extension-items v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/items)
+   Compiling codex-utils-redacted-string v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/redacted-string)
+   Compiling codex-utils-string v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/string)
+   Compiling codex-async-utils v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/async-utils)
+   Compiling codex-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/protocol)
+   Compiling codex-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-client)
+   Compiling codex-websocket-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/websocket-client)
+   Compiling codex-utils-pty v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/pty)
+   Compiling codex-utils-path v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/path-utils)
+   Compiling codex-api v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-api)
+   Compiling codex-file-system v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-system)
+   Compiling codex-otel v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/otel)
+   Compiling codex-git-utils v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/git-utils)
+   Compiling codex-features v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/features)
+   Compiling codex-model-provider-info v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/model-provider-info)
+   Compiling codex-shell-command v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/shell-command)
+   Compiling codex-config v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/config)
+   Compiling codex-install-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/install-context)
+   Compiling codex-windows-sandbox v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/windows-sandbox-rs)
+   Compiling codex-keyring-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/keyring-store)
+   Compiling codex-build-info v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/build-info)
+   Compiling codex-secrets v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/secrets)
+   Compiling codex-uds v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/uds)
+   Compiling codex-sandboxing v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/sandboxing)
+   Compiling codex-exec-server-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/exec-server-protocol)
+   Compiling codex-exec-server v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/exec-server)
+   Compiling codex-utils-template v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/template)
+   Compiling codex-agent-identity v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-identity)
+   Compiling codex-workload-identity v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/workload-identity)
+   Compiling codex-terminal-detection v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/terminal-detection)
+   Compiling codex-login v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/login)
+   Compiling codex-history v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/history)
+   Compiling codex-utils-output-truncation v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/output-truncation)
+   Compiling codex-utils-plugins v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/plugins)
+   Compiling codex-code-mode-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/code-mode-protocol)
+   Compiling codex-plugin v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/plugin)
+   Compiling codex-collaboration-mode-templates v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/collaboration-mode-templates)
+   Compiling codex-models-manager v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/models-manager)
+   Compiling codex-feedback v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/feedback)
+   Compiling codex-aws-auth v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/aws-auth)
+   Compiling codex-response-debug-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/response-debug-context)
+   Compiling codex-model-provider v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/model-provider)
+   Compiling codex-state v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/state)
+   Compiling codex-code-mode v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/code-mode)
+   Compiling codex-connectors v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/connectors)
+   Compiling codex-file-search v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-search)
+   Compiling codex-rmcp-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rmcp-client)
+   Compiling codex-diagnostics v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/diagnostics)
+   Compiling codex-tools v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tools)
+   Compiling codex-rollout v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rollout)
+   Compiling codex-mcp v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-mcp)
+   Compiling codex-experimental-api-macros v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-experimental-api-macros)
+   Compiling codex-app-server-protocol-noop-macros v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-protocol-noop-macros)
+   Compiling codex-app-server-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-protocol)
+   Compiling codex-context-fragments v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/context-fragments)
+   Compiling codex-skills v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/skills)
+   Compiling codex-extension-api v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/extension-api)
+   Compiling codex-hooks v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/hooks)
+   Compiling codex-apply-patch v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/apply-patch)
+   Compiling codex-shell-escalation v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/shell-escalation)
+   Compiling codex-utils-audio v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/audio)
+   Compiling codex-prompts v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/prompts)
+   Compiling codex-agent-graph-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-graph-store)
+   Compiling codex-rollout-trace v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rollout-trace)
+   Compiling codex-analytics v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/analytics)
+   Compiling codex-core-plugins v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core-plugins)
+   Compiling codex-skills-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/skills)
+   Compiling codex-thread-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/thread-store)
+   Compiling codex-guardian-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/guardian-context)
+   Compiling codex-agent-roles v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-roles)
+   Compiling codex-memories-read v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/memories/read)
+   Compiling codex-utils-git-discovery v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/git-discovery)
+   Compiling codex-attachment-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/attachment-store)
+   Compiling codex-utils-stream-parser v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/stream-parser)
+   Compiling codex-backend-openapi-models v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-backend-openapi-models)
+   Compiling codex-core v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core)
+   Compiling codex-linux-sandbox v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/linux-sandbox)
+   Compiling codex-backend-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/backend-client)
+   Compiling codex-arg0 v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/arg0)
+   Compiling codex-home v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-home)
+   Compiling crossterm v0.29.0 (https://github.com/openai-oss-forks/crossterm?rev=efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4#efa17785)
+   Compiling codex-connectors-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/connectors)
+   Compiling codex-utils-cli v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cli)
+   Compiling ratatui-crossterm v0.1.2
+   Compiling codex-file-watcher v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-watcher)
+   Compiling codex-git-attribution v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/git-attribution)
+   Compiling codex-utils-json-to-toml v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/json-to-toml)
+   Compiling ratatui v0.30.2
+   Compiling codex-ansi-escape v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ansi-escape)
+   Compiling codex-message-history v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/message-history)
+   Compiling codex-worktree v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/worktree)
+   Compiling codex-utils-sandbox-summary v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/sandbox-summary)
+   Compiling codex-utils-approval-presets v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/approval-presets)
+   Compiling codex-utils-sleep-inhibitor v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/sleep-inhibitor)
+   Compiling codex-utils-elapsed v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/elapsed)
+   Compiling codex-utils-fuzzy-match v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/fuzzy-match)
+   Compiling codex-utils-cargo-bin v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cargo-bin)
+   Compiling codex-memories-write v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/memories/write)
+   Compiling codex-external-agent-migration v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/external-agent-migration)
+   Compiling codex-guardian-v2 v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/guardian-v2)
+   Compiling codex-goal-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/goal)
+   Compiling codex-chatgpt v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/chatgpt)
+   Compiling codex-memories-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/memories)
+   Compiling codex-queue-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/queue)
+   Compiling codex-history-notes-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/history-notes)
+   Compiling codex-web-search-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/web-search)
+   Compiling codex-cloud-config v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/cloud-config)
+   Compiling codex-app-server-transport v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-transport)
+   Compiling codex-agent-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/agent)
+   Compiling codex-image-generation-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/image-generation)
+   Compiling codex-mcp-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/mcp)
+   Compiling codex-ollama v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ollama)
+   Compiling codex-app-server v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server)
+   Compiling codex-lmstudio v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/lmstudio)
+   Compiling codex-utils-oss v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/oss)
+   Compiling core_test_support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core/tests/common)
+   Compiling app_test_support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server/tests/common)
+   Compiling codex-app-server-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-client)
+   Compiling codex-tui v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tui)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 48s
+info: using target runner `/Users/cdot/.cache/airs-upstream-20260926/source/scripts/airs_rust_test_runner.py` defined by environment variable `CARGO_TARGET_AARCH64_APPLE_DARWIN_RUNNER`
+────────────
+ Nextest run ID da40a07c-d13c-40d1-b633-a1b388740dc5 with nextest profile: local
+    Starting 4461 tests across 6 binaries (6 tests skipped)
+        PASS [   0.047s] (   1/4461) codex-tui additional_dirs::tests::returns_none_when_no_additional_dirs
+        PASS [   0.047s] (   2/4461) codex-tui additional_dirs::tests::returns_none_for_danger_full_access
+        PASS [   0.047s] (   3/4461) codex-tui additional_dirs::tests::returns_none_for_external_sandbox
+        PASS [   0.048s] (   4/4461) codex-tui additional_dirs::tests::returns_none_for_workspace_write
+        PASS [   0.039s] (   5/4461) codex-tui airs_doctor::report::tests::explicit_access_and_authentication_are_distinct_from_health
+        PASS [   0.040s] (   6/4461) codex-tui additional_dirs::tests::warns_when_profile_can_write_elsewhere_but_not_cwd
+        PASS [   0.040s] (   7/4461) codex-tui additional_dirs::tests::warns_for_read_only
+        PASS [   0.039s] (   8/4461) codex-tui airs_doctor::report::tests::local_save_preserves_existing_state_and_rejects_invalid_destination
+        PASS [   0.042s] (   9/4461) codex-tui airs_doctor::report::tests::report_ignores_private_fields_and_uses_pessimistic_known_checks
+        PASS [   0.043s] (  10/4461) codex-tui airs_doctor::report::tests::report_actions_keep_snapshot_and_expire_with_view_or_thread
+        PASS [   0.044s] (  11/4461) codex-tui airs_doctor::report::tests::overview_replacement_expires_queued_export_action
+        PASS [   0.047s] (  12/4461) codex-tui airs_doctor::report::tests::report_preview_wraps_in_existing_pager_at_narrow_width
+        PASS [   0.040s] (  13/4461) codex-tui airs_doctor::tests::failed_checks_remain_a_report_and_invalid_output_is_redacted
+        PASS [   0.040s] (  14/4461) codex-tui airs_doctor::tests::verify_requires_an_explicit_action_and_cancel_keeps_attempt_identity
+        PASS [   0.041s] (  15/4461) codex-tui airs_doctor::report::tests::threadless_report_callbacks_work_only_while_their_originating_view_survives
+        PASS [   0.037s] (  16/4461) codex-tui airs_mcp_manager::authorization::tests::callback_is_hidden_in_rendering_and_sent_only_to_its_private_receiver
+        PASS [   0.039s] (  17/4461) codex-tui airs_mcp_manager::authorization::tests::cancel_closes_callback_channel_without_submitting_and_oversize_paste_is_rejected
+        PASS [   0.041s] (  18/4461) codex-tui airs_mcp_manager::authorization::tests::desktop_launch_success_and_failure_have_actionable_instructions
+        PASS [   0.040s] (  19/4461) codex-tui airs_mcp_manager::authorization::tests::narrow_terminal_keeps_callback_instructions_and_full_link_action_visible
+        PASS [   0.048s] (  20/4461) codex-tui airs_mcp_manager::authorization::tests::long_links_are_scrollable_and_callback_paste_returns_to_hidden_input
+        PASS [   0.038s] (  21/4461) codex-tui airs_mcp_manager::authorization::tests::ssh_detection_takes_precedence_over_a_forwarded_display
+        PASS [   0.037s] (  22/4461) codex-tui airs_mcp_manager::process::tests::add_rejects_unsafe_inputs_and_passes_arguments_without_shell_interpretation
+        PASS [   0.034s] (  23/4461) codex-tui airs_mcp_manager::process::tests::only_versioned_https_authorization_events_can_open_a_dialog
+        PASS [   0.049s] (  24/4461) codex-tui airs_mcp_manager::process::tests::line_reader_preserves_partial_input_on_cancellation_and_bounds_output
+        PASS [   0.037s] (  25/4461) codex-tui airs_mcp_manager::process::tests::progress_messages_are_typed_and_timeout_never_echoes_provider_details
+        PASS [   0.032s] (  26/4461) codex-tui airs_onboarding::tests::cancel_keys_are_distinct_from_ordinary_text_input
+        PASS [   0.037s] (  27/4461) codex-tui airs_mcp_manager::process::tests::structured_failures_preserve_partial_state_and_reject_untrusted_details
+        PASS [   0.036s] (  28/4461) codex-tui airs_onboarding::tests::input_and_progress_snapshots_keep_context_and_recovery_visible
+        PASS [   0.036s] (  29/4461) codex-tui airs_onboarding::tests::multiline_control_and_oversized_paste_cannot_submit_or_replace_a_field
+        PASS [   0.037s] (  30/4461) codex-tui airs_onboarding::tests::long_unicode_input_keeps_the_cursor_visible_on_a_character_boundary
+        PASS [   0.040s] (  31/4461) codex-tui airs_onboarding::tests::long_authorization_links_remain_complete_and_scroll_to_the_end
+        PASS [   0.034s] (  32/4461) codex-tui airs_onboarding::tests::outcome_message_snapshot_shows_saved_credentials_and_denied_access
+        PASS [   0.035s] (  33/4461) codex-tui airs_onboarding::tests::release_events_do_not_duplicate_typed_characters_and_clear_is_explicit
+        PASS [   0.038s] (  34/4461) codex-tui airs_onboarding::tests::public_text_cannot_inject_terminal_or_direction_controls
+        PASS [   0.039s] (  35/4461) codex-tui airs_onboarding::tests::prisma_mark_preserves_its_silhouette_and_transparency_during_animation
+        PASS [   0.034s] (  36/4461) codex-tui airs_onboarding::tests::unicode_editing_and_middle_paste_preserve_character_boundaries
+        PASS [   0.035s] (  37/4461) codex-tui airs_onboarding::tests::selected_action_remains_visible_when_the_menu_scrolls_in_a_small_terminal
+        PASS [   0.035s] (  38/4461) codex-tui airs_onboarding::tests::static_colorless_rendering_uses_terminal_foreground_for_every_cell
+        PASS [   0.034s] (  39/4461) codex-tui airs_typesafe::input::tests::invalid_pastes_and_cancel_never_submit_a_key
+        PASS [   0.034s] (  40/4461) codex-tui airs_typesafe::input::tests::clear_and_backspace_edit_without_exposing_input
+        PASS [   0.038s] (  41/4461) codex-tui airs_onboarding::tests::welcome_snapshots_cover_desktop_compact_and_tiny_layouts
+        PASS [   0.035s] (  42/4461) codex-tui airs_typesafe::input::tests::key_is_hidden_and_reaches_only_the_private_receiver
+        PASS [   0.149s] (  43/4461) codex-tui airs_onboarding::tests::resize_extremes_never_panic_or_lose_the_buffers_dimensions
+        PASS [   0.033s] (  44/4461) codex-tui app::agent_navigation::tests::active_agent_label_tracks_current_thread
+        PASS [   0.031s] (  45/4461) codex-tui app::agent_navigation::tests::adjacent_thread_id_wraps_in_spawn_order
+        PASS [   0.031s] (  46/4461) codex-tui app::agent_navigation::tests::parent_owned_state_is_removed_with_thread_metadata
+        PASS [   0.031s] (  47/4461) codex-tui app::agent_navigation::tests::picker_refresh_rejects_responses_from_before_clear
+        PASS [   0.032s] (  48/4461) codex-tui app::agent_navigation::tests::picker_subtitle_mentions_shortcuts
+        PASS [   0.033s] (  49/4461) codex-tui app::agent_navigation::tests::upsert_preserves_first_seen_order
+        PASS [   0.034s] (  50/4461) codex-tui app::agent_status_feed::tests::agent_status_uses_bounded_buffered_activity
+        PASS [   0.033s] (  51/4461) codex-tui app::agent_status_feed::tests::agent_status_uses_reasoning_summaries_only
+        PASS [   0.212s] (  52/4461) codex-tui airs_typesafe::process::tests::unix::failure_output_is_not_exposed_and_oversized_status_is_rejected
+        PASS [   0.061s] (  53/4461) codex-tui app::agents_overview::tests::agents_overview_reasoning_uses_existing_events_and_expires_with_attachment
+        PASS [   0.070s] (  54/4461) codex-tui app::agents_overview::tests::command_center_cursor_tracks_wrapped_footer
+        PASS [   0.355s] (  55/4461) codex-tui airs_typesafe::process::tests::unix::set_binds_home_and_passes_key_only_over_stdin
+        PASS [   1.555s] (  56/4461) codex-tui app::agents_overview::tests::agents_overview_details_show_available_attention_without_expanding_rows
+        PASS [   1.680s] (  57/4461) codex-tui app::agents_overview::tests::cancelling_resume_picker_preserves_command_center_state
+        PASS [   0.054s] (  58/4461) codex-tui app::agents_overview::tests::empty_command_center_can_open_resume_picker
+        PASS [   1.598s] (  59/4461) codex-tui app::agents_overview::tests::daemon_start_result_snapshots
+        PASS [   0.052s] (  60/4461) codex-tui app::agents_overview::tests::filtered_dashboard_actions_use_configured_shortcuts
+        PASS [   1.355s] (  61/4461) codex-tui app::agents_overview::tests::embedded_sessions_offer_to_start_a_background_server_without_migrating
+        PASS [   0.052s] (  62/4461) codex-tui app::agents_overview::tests::offline_overview_preserves_unbracketed_paste_newlines
+        PASS [   1.602s] (  63/4461) codex-tui app::agents_overview::tests::failed_root_switch_keeps_background_requests_on_the_active_session
+        PASS [   0.052s] (  64/4461) codex-tui app::agents_overview::tests::overview_composer_flushes_pending_typing_after_refresh
+        PASS [   1.616s] (  65/4461) codex-tui app::agents_overview::tests::hidden_system_thread_does_not_refresh_shared_overview
+        PASS [   0.053s] (  66/4461) codex-tui app::agents_overview::tests::overview_composer_preserves_pastes_and_editor_bindings
+        PASS [   1.603s] (  67/4461) codex-tui app::agents_overview::tests::overview_composer_preserves_editing_and_routes_focus
+        PASS [  11.862s] (  68/4461) codex-tui app::agents_overview::tests::command_center_handles_resume_failure_and_success
+        PASS [   0.076s] (  69/4461) codex-tui app::agents_overview::tests::resume_failure_keeps_command_center_available
+        PASS [   9.762s] (  70/4461) codex-tui app::agents_overview::tests::restored_server_permission_profile_survives_cd_without_turn_override
+        PASS [   1.090s] (  71/4461) codex-tui app::agents_overview::tests::resuming_active_session_closes_command_center
+        PASS [  13.018s] (  72/4461) codex-tui app::agents_overview::tests::overview_selection_applies_user_permissions_only_to_unloaded_threads
+        PASS [  14.839s] (  73/4461) codex-tui app::agents_overview::tests::resume_picker_round_trip_preserves_each_threads_input
+        PASS [   1.069s] (  74/4461) codex-tui app::agents_overview::tests::shared_overview_keeps_rows_and_replays_changes_over_stale_reads
+        PASS [  13.180s] (  75/4461) codex-tui app::agents_overview::tests::root_switch_preserves_idle_root_with_running_subagent
+        PASS [   0.067s] (  76/4461) codex-tui app::agents_overview::tests::shared_overview_shows_only_root_sessions
+        PASS [   0.061s] (  77/4461) codex-tui app::agents_overview::tests::worktrees_overview_grouping_requires_feature
+        PASS [   0.037s] (  78/4461) codex-tui app::airs_mcp_recovery::tests::cancelling_consent_invalidates_late_completions_and_allows_retry
+        PASS [   0.037s] (  79/4461) codex-tui app::airs_mcp_recovery::tests::discovery_requires_successful_initialization_without_assuming_tool_permissions
+        PASS [   0.035s] (  80/4461) codex-tui app::airs_mcp_recovery::tests::queued_mcp_cancellation_cannot_cancel_a_newer_recovery_operation
+        PASS [   0.035s] (  81/4461) codex-tui app::airs_recovery::tests::sign_in_cancellation_does_not_take_ownership_of_other_recovery_operations
+        PASS [   0.036s] (  82/4461) codex-tui app::app_server_event_targets::tests::guardian_warning_notifications_route_to_threads
+        PASS [   0.034s] (  83/4461) codex-tui app::app_server_event_targets::tests::mcp_startup_notifications_route_to_threads
+        PASS [   0.035s] (  84/4461) codex-tui app::app_server_event_targets::tests::mcp_startup_notifications_without_threads_are_app_scoped
+        PASS [   0.036s] (  85/4461) codex-tui app::app_server_event_targets::tests::thread_settings_updated_notifications_route_to_threads
+        PASS [   0.037s] (  86/4461) codex-tui app::app_server_event_targets::tests::warning_notifications_route_to_threads_when_thread_id_is_present
+        PASS [   0.035s] (  87/4461) codex-tui app::app_server_event_targets::tests::warning_notifications_without_threads_are_global
+        PASS [   0.036s] (  88/4461) codex-tui app::app_server_requests::tests::colliding_approvals_resolve_only_on_their_own_thread
+        PASS [   0.037s] (  89/4461) codex-tui app::app_server_requests::tests::correlates_mcp_elicitation_server_request_with_resolution
+        PASS [   0.042s] (  90/4461) codex-tui app::app_server_requests::tests::does_not_mark_chatgpt_auth_refresh_as_unsupported
+        PASS [   0.037s] (  91/4461) codex-tui app::app_server_requests::tests::rejects_permissions_with_paths_that_cannot_be_localized
+        PASS [   0.038s] (  92/4461) codex-tui app::app_server_requests::tests::resolve_notification_returns_resolved_exec_request
+        PASS [   0.036s] (  93/4461) codex-tui app::app_server_requests::tests::resolve_notification_returns_resolved_mcp_request
+        PASS [   0.036s] (  94/4461) codex-tui app::app_server_requests::tests::resolve_notification_returns_resolved_user_input_item_id
+        PASS [   0.035s] (  95/4461) codex-tui app::app_server_requests::tests::resolves_exec_approval_through_app_server_request_id
+        PASS [   0.037s] (  96/4461) codex-tui app::app_server_requests::tests::resolves_patch_approval_through_app_server_request_id
+        PASS [   0.037s] (  97/4461) codex-tui app::app_server_requests::tests::resolves_permissions_and_user_input_through_app_server_request_id
+        PASS [   0.036s] (  98/4461) codex-tui app::app_server_requests::tests::same_turn_user_input_answers_resolve_app_server_requests_fifo
+        PASS [   0.036s] (  99/4461) codex-tui app::background_requests::tests::build_feedback_upload_params_includes_thread_id_and_rollout_path
+        PASS [   0.036s] ( 100/4461) codex-tui app::background_requests::tests::build_feedback_upload_params_omits_rollout_path_without_logs
+        PASS [   0.979s] ( 101/4461) codex-tui app::background_requests::tests::fetch_thread_usage_uses_app_server_auth_after_persisted_account_changes
+        PASS [   0.036s] ( 102/4461) codex-tui app::background_requests::tests::hide_cli_only_plugin_marketplaces_removes_openai_bundled
+        PASS [  15.800s] ( 103/4461) codex-tui app::agents_overview::tests::root_switch_loads_local_preferences_from_disk
+        PASS [   0.037s] ( 104/4461) codex-tui app::background_requests::tests::marketplace_add_source_for_request_resolves_relative_local_paths
+        PASS [   0.037s] ( 105/4461) codex-tui app::background_requests::tests::mcp_inventory_maps_prefix_tool_names_by_server
+        PASS [   0.036s] ( 106/4461) codex-tui app::background_requests::tests::plugin_location_request_params_select_exactly_one_location
+        PASS [   0.052s] ( 107/4461) codex-tui app::background_requests::tests::mcp_inventory_omits_thread_id_for_closed_agent_thread
+        PASS [   0.035s] ( 108/4461) codex-tui app::background_requests::tests::plugin_remote_section_error_message_adds_concrete_next_steps
+        PASS [   0.034s] ( 109/4461) codex-tui app::background_requests::tests::plugin_sharing_disabled_remote_section_error_targets_shared_with_me
+        PASS [   0.050s] ( 110/4461) codex-tui app::config_persistence::tests::conversation_reasoning_keeps_previous_default_for_ultra_only_model
+        PASS [   0.051s] ( 111/4461) codex-tui app::config_persistence::tests::conversation_reasoning_updates_active_plan_without_changing_plan_default
+        PASS [   0.059s] ( 112/4461) codex-tui app::config_persistence::tests::conversation_reasoning_uses_compatible_default_for_new_threads
+        PASS [   0.051s] ( 113/4461) codex-tui app::config_persistence::tests::leaving_conversation_ultra_in_default_clears_the_ephemeral_plan_effort
+        PASS [   0.053s] ( 114/4461) codex-tui app::config_persistence::tests::leaving_conversation_ultra_in_plan_clears_the_ephemeral_default_effort
+        PASS [   0.051s] ( 115/4461) codex-tui app::config_persistence::tests::overridden_disabled_guardian_does_not_apply_auto_review_companions
+        PASS [   0.053s] ( 116/4461) codex-tui app::config_persistence::tests::rebuild_config_for_resume_or_fallback_errors_when_cwd_changes
+        PASS [   0.053s] ( 117/4461) codex-tui app::config_persistence::tests::rebuild_config_for_resume_or_fallback_uses_current_config_on_same_cwd_error
+        PASS [   0.050s] ( 118/4461) codex-tui app::config_persistence::tests::refresh_in_memory_config_from_disk_best_effort_keeps_current_config_on_error
+        PASS [   0.052s] ( 119/4461) codex-tui app::config_persistence::tests::refresh_in_memory_config_from_disk_keeps_cloud_requirements_for_thread_transitions
+        PASS [   0.051s] ( 120/4461) codex-tui app::config_persistence::tests::refresh_in_memory_config_from_disk_loads_latest_apps_state
+        PASS [   0.052s] ( 121/4461) codex-tui app::config_persistence::tests::refresh_in_memory_config_from_disk_updates_resize_reflow_config
+        PASS [   0.053s] ( 122/4461) codex-tui app::config_persistence::tests::refresh_in_memory_config_from_disk_uses_active_chat_widget_cwd
+        PASS [   0.051s] ( 123/4461) codex-tui app::config_persistence::tests::replacement_preserves_live_local_settings_and_server_auth_requirement
+        PASS [   0.049s] ( 124/4461) codex-tui app::config_persistence::tests::resume_model_settings_preserves_only_explicit_model_overrides
+        PASS [   0.048s] ( 125/4461) codex-tui app::config_persistence::tests::sync_tui_pet_disabled_updates_chat_widget_config_copy
+        PASS [   0.049s] ( 126/4461) codex-tui app::config_persistence::tests::sync_tui_pet_selection_updates_chat_widget_config_copy
+        PASS [   0.050s] ( 127/4461) codex-tui app::config_persistence::tests::sync_tui_theme_selection_updates_chat_widget_config_copy
+        PASS [   0.052s] ( 128/4461) codex-tui app::config_persistence::tests::update_reasoning_effort_updates_collaboration_mode
+        PASS [   0.039s] ( 129/4461) codex-tui app::connector_mentions::tests::installed_connector_mentions_fall_back_for_legacy_app_servers
+        PASS [   0.038s] ( 130/4461) codex-tui app::connector_mentions::tests::installed_connector_mentions_read_callable_apps_in_bounded_thread_scoped_batches
+        PASS [   0.035s] ( 131/4461) codex-tui app::exit_summary::tests::airs_resume_summary_quotes_environment_before_coloring_command
+        PASS [   0.035s] ( 132/4461) codex-tui app::exit_summary::tests::airs_resume_summary_retains_environment_and_user_supplied_name
+        SLOW [> 30.000s] (─────────) codex-tui app::agents_overview::tests::overview_cold_resume_honors_working_directory_selection
+        PASS [   1.058s] ( 133/4461) codex-tui app::config_persistence::tests::new_session_and_config_rebuilds_keep_the_live_application_network_policy
+        PASS [   0.035s] ( 134/4461) codex-tui app::history_ui::tests::desktop_thread_open_error_history_snapshot
+        PASS [   0.035s] ( 135/4461) codex-tui app::history_ui::tests::desktop_thread_opened_history_snapshot
+        PASS [   0.049s] ( 136/4461) codex-tui app::input::tests::app_keymap_shortcuts_are_disabled_while_keymap_view_is_active
+        PASS [   0.036s] ( 137/4461) codex-tui app::loaded_threads::tests::finds_loaded_subagent_tree_for_primary_thread
+        PASS [   0.034s] ( 138/4461) codex-tui app::pending_interactive_replay::tests::request_user_input_does_not_count_as_pending_thread_approval
+        PASS [   0.036s] ( 139/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_answered_request_user_input_for_multi_prompt_turn
+        PASS [   0.035s] ( 140/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_pending_approvals_when_turn_completes
+        PASS [   0.034s] ( 141/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_pending_requests_when_thread_closes
+        PASS [   0.035s] ( 142/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_elicitation_after_outbound_resolution
+        PASS [   0.035s] ( 143/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_exec_approval_after_outbound_approval_id
+        PASS [   0.035s] ( 144/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_exec_approval_after_server_resolution
+        PASS [   0.035s] ( 145/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_patch_approval_after_outbound_approval
+        PASS [   0.035s] ( 146/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_request_user_input_after_server_resolution
+        PASS [   0.035s] ( 147/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_request_user_input_after_user_answer
+        PASS [   0.036s] ( 148/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_keeps_newer_request_user_input_pending_when_same_turn_has_queue
+        PASS [   0.036s] ( 149/4461) codex-tui app::pending_interactive_replay::tests::thread_event_snapshot_keeps_pending_request_user_input
+        PASS [   0.036s] ( 150/4461) codex-tui app::pending_interactive_replay::tests::thread_event_store_reports_pending_thread_approvals
+        PASS [   0.038s] ( 151/4461) codex-tui app::platform_actions::tests::side_return_shortcuts_match_ctrl_c_and_ctrl_d
+        PASS [   0.036s] ( 152/4461) codex-tui app::plugin_mentions::tests::plugin_mentions_use_plugin_list_summaries_and_gui_eligibility
+        PASS [   0.035s] ( 153/4461) codex-tui app::recap::tests::another_recap_requires_two_additional_completed_turns
+        PASS [   0.052s] ( 154/4461) codex-tui app::recap::tests::auto_recap_opt_out_cancels_scheduling_after_restored_progress
+        PASS [   0.052s] ( 155/4461) codex-tui app::recap::tests::auto_recap_opt_out_discards_results_without_retrying
+        PASS [   0.038s] ( 156/4461) codex-tui app::recap::tests::completed_turn_resets_recap_deadline_while_unfocused
+        PASS [   0.040s] ( 157/4461) codex-tui app::recap::tests::dropping_recap_state_cancels_timer
+        PASS [   0.036s] ( 158/4461) codex-tui app::recap::tests::failed_turn_invalidates_ready_recap_without_counting_as_completed
+        PASS [   0.038s] ( 159/4461) codex-tui app::recap::tests::generated_recap_is_normalized_and_bounded
+        PASS [   0.055s] ( 160/4461) codex-tui app::recap::tests::generated_recap_is_returned_for_synchronous_insertion
+        PASS [   0.054s] ( 161/4461) codex-tui app::recap::tests::manual_recap_failure_does_not_schedule_retry
+        PASS [   0.054s] ( 162/4461) codex-tui app::recap::tests::newer_terminal_turn_invalidates_generated_recap
+        PASS [   0.053s] ( 163/4461) codex-tui app::recap::tests::obsolete_recap_result_does_not_clear_the_current_request
+        PASS [   0.053s] ( 164/4461) codex-tui app::recap::tests::recap_failure_retries_once_for_the_same_turn_revision
+        PASS [   0.040s] ( 165/4461) codex-tui app::recap::tests::recap_history_caps_utf8_bytes_without_splitting_characters
+        PASS [   0.040s] ( 166/4461) codex-tui app::recap::tests::recap_history_cell_preserves_explicit_line_breaks
+        PASS [   0.039s] ( 167/4461) codex-tui app::recap::tests::recap_history_cell_preserves_heading_in_raw_history
+        PASS [   0.040s] ( 168/4461) codex-tui app::recap::tests::recap_history_cell_uses_labeled_checkpoint_layout
+        PASS [   0.038s] ( 169/4461) codex-tui app::recap::tests::recap_history_cell_wraps_in_narrow_terminals
+        PASS [   0.039s] ( 170/4461) codex-tui app::recap::tests::recap_history_ignores_activity_previous_recaps_and_empty_messages
+        PASS [   0.039s] ( 171/4461) codex-tui app::recap::tests::recap_history_keeps_only_the_most_recent_eight_user_turns
+        PASS [   0.039s] ( 172/4461) codex-tui app::recap::tests::recap_history_preserves_chronological_user_and_assistant_messages
+        PASS [   0.040s] ( 173/4461) codex-tui app::recap::tests::recap_history_preserves_latest_user_turn_when_latest_response_is_oversized
+        PASS [   0.040s] ( 174/4461) codex-tui app::recap::tests::recap_requires_focus_loss_and_three_completed_turns
+        PASS [   0.041s] ( 175/4461) codex-tui app::recap::tests::recap_waits_after_focus_loss_even_if_turn_completed_earlier
+        PASS [   0.037s] ( 176/4461) codex-tui app::recap::tests::regaining_focus_cancels_scheduled_check
+        PASS [   0.040s] ( 177/4461) codex-tui app::recap::tests::regaining_focus_preserves_only_manual_in_flight_request
+        PASS [   0.039s] ( 178/4461) codex-tui app::recap::tests::regaining_focus_prevents_recap_generation
+        PASS [   0.047s] ( 179/4461) codex-tui app::recap::tests::repeated_focus_loss_does_not_restart_recap_delay
+        PASS [   0.039s] ( 180/4461) codex-tui app::recap::tests::replacing_the_primary_thread_resets_progress_but_preserves_focus
+        PASS [   0.054s] ( 181/4461) codex-tui app::recap::tests::rescheduling_check_cancels_the_earlier_timer
+        PASS [   0.043s] ( 182/4461) codex-tui app::recap::tests::restored_history_counts_only_completed_turns
+        PASS [   0.041s] ( 183/4461) codex-tui app::recap::tests::restored_history_never_reduces_observed_completed_turns
+        PASS [   0.057s] ( 184/4461) codex-tui app::recap::tests::scheduled_check_fires_at_recap_deadline
+        PASS [   0.065s] ( 185/4461) codex-tui app::resize_reflow::tests::capped_resize_reflow_counts_wrapped_notice_rows
+        PASS [   0.054s] ( 186/4461) codex-tui app::resize_reflow::tests::capped_resize_reflow_prepends_transcript_notice_without_changing_transcript
+        PASS [   0.056s] ( 187/4461) codex-tui app::resize_reflow::tests::initial_resume_replay_retains_scrollback_beyond_the_visible_viewport
+        PASS [   0.054s] ( 188/4461) codex-tui app::resize_reflow::tests::one_row_history_cap_preserves_conversation_instead_of_notice
+        PASS [   0.053s] ( 189/4461) codex-tui app::resize_reflow::tests::paginated_resize_reflow_prepends_transcript_notice_for_unloaded_history
+        PASS [   0.055s] ( 190/4461) codex-tui app::resize_reflow::tests::resize_reflow_preserves_configured_scrollback_beyond_the_visible_viewport
+        PASS [   0.056s] ( 191/4461) codex-tui app::resize_reflow::tests::resize_reflow_preserves_configured_scrollback_when_the_terminal_height_changes
+        PASS [   0.056s] ( 192/4461) codex-tui app::resize_reflow::tests::resize_reflow_preserves_explicitly_unlimited_history
+        PASS [   0.054s] ( 193/4461) codex-tui app::resize_reflow::tests::scrollback_refill_only_loads_older_pages_for_an_underfilled_row_cap
+        PASS [   0.038s] ( 194/4461) codex-tui app::safety_buffering::tests::retry_accepts_a_targeted_latest_turn_and_its_completed_predecessor
+        PASS [   0.038s] ( 195/4461) codex-tui app::safety_buffering::tests::retry_rejects_a_stale_or_in_progress_turn
+        PASS [   0.043s] ( 196/4461) codex-tui app::session_lifecycle::tests::closed_state_for_thread_read_error_marks_terminal_uncached_threads_closed
+        PASS [   0.052s] ( 197/4461) codex-tui app::session_lifecycle::tests::closed_state_for_thread_read_error_preserves_live_state_without_cache_on_transient_error
+        PASS [   0.037s] ( 198/4461) codex-tui app::session_lifecycle::tests::include_turns_fallback_detection_handles_unmaterialized_and_ephemeral_threads
+        PASS [   0.040s] ( 199/4461) codex-tui app::session_lifecycle::tests::terminal_thread_read_error_detection_ignores_transient_failures
+        PASS [   0.038s] ( 200/4461) codex-tui app::session_lifecycle::tests::terminal_thread_read_error_detection_matches_not_loaded_errors
+        PASS [   0.036s] ( 201/4461) codex-tui app::side::tests::side_boundary_prompt_marks_inherited_history_reference_only
+        PASS [   0.036s] ( 202/4461) codex-tui app::side::tests::side_developer_instructions_appends_existing_policy
+        PASS [   0.037s] ( 203/4461) codex-tui app::side::tests::side_start_error_message_explains_missing_first_prompt
+        PASS [   0.036s] ( 204/4461) codex-tui app::side::tests::side_start_error_message_uses_generic_start_wording
+        PASS [   0.040s] ( 205/4461) codex-tui app::startup_prompts::tests::normalize_harness_overrides_resolves_relative_add_dirs
+        PASS [   0.038s] ( 206/4461) codex-tui app::startup_prompts::tests::repeated_active_skill_load_warning_renders_once
+        PASS [   0.036s] ( 207/4461) codex-tui app::startup_prompts::tests::skill_load_warning_state_clear_allows_active_error_again
+        PASS [   0.037s] ( 208/4461) codex-tui app::startup_prompts::tests::skill_load_warning_state_displays_new_message_for_active_path
+        PASS [   0.037s] ( 209/4461) codex-tui app::startup_prompts::tests::skill_load_warning_state_reemits_after_error_clears
+        PASS [   0.037s] ( 210/4461) codex-tui app::startup_prompts::tests::skill_load_warning_state_suppresses_repeated_active_errors
+        PASS [   0.053s] ( 211/4461) codex-tui app::tests::active_history_batch_is_delivered_without_replay_buffering
+        PASS [   0.052s] ( 212/4461) codex-tui app::tests::active_non_primary_shutdown_target_returns_ids_for_non_primary_shutdown
+        PASS [   0.054s] ( 213/4461) codex-tui app::tests::active_non_primary_shutdown_target_returns_none_for_non_shutdown_event
+        PASS [   0.053s] ( 214/4461) codex-tui app::tests::active_non_primary_shutdown_target_returns_none_for_primary_thread_shutdown
+        PASS [   0.050s] ( 215/4461) codex-tui app::tests::active_non_primary_shutdown_target_returns_none_when_shutdown_exit_is_pending
+        PASS [   0.050s] ( 216/4461) codex-tui app::tests::active_non_primary_shutdown_target_still_switches_for_other_pending_exit_thread
+        PASS [   1.012s] ( 217/4461) codex-tui app::tests::active_reconnect::reconnect_allows_slow_hydration_but_bounds_a_stalled_server
+        PASS [   0.051s] ( 218/4461) codex-tui app::tests::active_reconnect::reconnect_exhaustion_and_unknown_initial_thread_stay_offline
+        PASS [   9.758s] ( 219/4461) codex-tui app::agents_overview::tests::shared_overview_seeds_once_and_retains_locally_resumed_history
+        PASS [   1.457s] ( 220/4461) codex-tui app::tests::active_reconnect::reconnect_reconciles_offscreen_pending_profile_before_restoring_permissions
+        PASS [   1.030s] ( 221/4461) codex-tui app::tests::active_side_thread_renders_live_mcp_startup_notifications
+        PASS [   0.051s] ( 222/4461) codex-tui app::tests::active_thread_drain_yields_after_frame_deadline_without_dropping_events
+        PASS [   0.054s] ( 223/4461) codex-tui app::tests::active_thread_file_change_approval_recovers_buffered_changes
+        PASS [   0.049s] ( 224/4461) codex-tui app::tests::active_turn_id_for_thread_uses_snapshot_turns
+        PASS [   0.034s] ( 225/4461) codex-tui app::tests::active_turn_interrupt_race_extracts_actual_turn_id_from_mismatch
+        PASS [   0.034s] ( 226/4461) codex-tui app::tests::active_turn_not_steerable_turn_error_extracts_structured_server_error
+        PASS [   0.034s] ( 227/4461) codex-tui app::tests::active_turn_steer_race_detects_missing_active_turn
+        PASS [   0.034s] ( 228/4461) codex-tui app::tests::active_turn_steer_race_extracts_actual_turn_id_from_mismatch
+        PASS [  10.594s] ( 229/4461) codex-tui app::experimental_features::tests::experimental_features_use_selected_server_profile_and_preserve_task_settings
+        PASS [   0.053s] ( 230/4461) codex-tui app::tests::advanced_reasoning_tests::switching_from_ultra_thread_restores_configured_plan_effort
+        PASS [   0.035s] ( 231/4461) codex-tui app::tests::agent_picker_item_name_snapshot
+        PASS [   0.978s] ( 232/4461) codex-tui app::tests::agents_navigation_tests::agents_navigation_requires_local_daemon
+        PASS [   0.050s] ( 233/4461) codex-tui app::tests::airs_doctor::report_save_dispatch_rejects_wrong_thread_and_stale_view
+        PASS [   1.018s] ( 234/4461) codex-tui app::tests::app_scoped_mcp_startup_notifications_do_not_render_in_active_thread
+        PASS [   0.053s] ( 235/4461) codex-tui app::tests::apply_permission_profile_selection_preserves_loader_overrides
+        PASS [   7.896s] ( 236/4461) codex-tui app::tests::active_reconnect::reconnect_restores_history_permissions_and_keeps_old_input_paused
+        PASS [  43.120s] ( 237/4461) codex-tui app::agents_overview::tests::overview_cold_resume_honors_working_directory_selection
+        PASS [   1.572s] ( 238/4461) codex-tui app::tests::archived_untracked_threads_do_not_appear_in_agent_picker
+        PASS [   0.103s] ( 239/4461) codex-tui app::tests::backend_banner_fallback_tests::backend_banner_fallback_handles_settings_failure_and_queued_manual_selection
+        PASS [   9.558s] ( 240/4461) codex-tui app::tests::advanced_reasoning_tests::fork_current_session_preserves_conversation_ultra
+        PASS [  12.135s] ( 241/4461) codex-tui app::tests::attach_live_thread_for_selection_rejects_unmaterialized_fallback_threads
+        PASS [  12.570s] ( 242/4461) codex-tui app::tests::attach_live_thread_for_selection_rejects_empty_non_ephemeral_fallback_threads
+        PASS [  10.940s] ( 243/4461) codex-tui app::tests::backend_banner_fallback_tests::backend_banner_fallback_keeps_existing_recovery_without_candidate
+        PASS [   9.730s] ( 244/4461) codex-tui app::tests::backend_banner_fallback_tests::backend_banner_fallback_preserves_permissions_for_first_eligible_cyber_model
+        PASS [   1.653s] ( 245/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_account_changes_invalidate_pending_recovery
+        PASS [   0.037s] ( 246/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_post_reset_read_preserves_newer_recovery_hold
+        PASS [   0.036s] ( 247/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_recovery_coalesces_until_newer_epoch_can_be_read
+        PASS [   0.033s] ( 248/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_recovery_follows_rolling_invalidation_without_another_error
+        PASS [   1.284s] ( 249/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_reset_redemption_rejects_pre_reset_content
+        PASS [   1.626s] ( 250/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_limit_error_refreshes_again_after_intervening_rolling_hard_stop
+        PASS [   1.355s] ( 251/4461) codex-tui app::tests::backend_banner_recovery_tests::backend_banner_rolling_only_recovery_holds_new_input
+        PASS [   1.374s] ( 252/4461) codex-tui app::tests::backend_banner_recovery_tests::luna_reserve_periodic_refresh_adapts_without_an_experiment_banner
+        PASS [   1.365s] ( 253/4461) codex-tui app::tests::background_exit_tests::cancel_task_interrupts_without_exiting
+        PASS [  11.923s] ( 254/4461) codex-tui app::tests::backend_banner_fallback_tests::backend_banner_fallback_uses_current_task_and_accepted_generation
+        PASS [   0.955s] ( 255/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_during_mcp_startup_does_not_show_background_exit_menu
+        PASS [   1.001s] ( 256/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_during_paste_burst_does_not_show_exit_menu
+        PASS [   0.984s] ( 257/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_hides_background_exit_for_running_background_side_thread
+        PASS [   1.018s] ( 258/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_hides_background_exit_with_queued_follow_up
+        PASS [  10.117s] ( 259/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_closes_running_side_thread_and_returns_to_parent
+        PASS [   1.401s] ( 260/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_shows_background_exit_menu_and_escape_dismisses_it
+        PASS [   1.401s] ( 261/4461) codex-tui app::tests::background_exit_tests::daemon_ctrl_c_with_draft_preserves_composer_cancellation
+        PASS [  13.971s] ( 262/4461) codex-tui app::tests::backend_banner_startup_tests::backend_banner_fallback_applies_before_initial_and_queued_startup_prompts
+        PASS [   1.355s] ( 263/4461) codex-tui app::tests::background_exit_tests::daemon_disconnect_exit_summary_includes_reconnect_and_stop_instructions
+        PASS [   1.360s] ( 264/4461) codex-tui app::tests::background_exit_tests::embedded_exit_keeps_the_session_summary
+        PASS [   1.631s] ( 265/4461) codex-tui app::tests::background_exit_tests::external_writer_view_preserves_draft_from_keys_and_paste
+        PASS [   1.606s] ( 266/4461) codex-tui app::tests::background_exit_tests::external_writer_view_quits_with_escape_ctrl_c_or_q
+        PASS [   0.049s] ( 267/4461) codex-tui app::tests::background_exit_tests::remote_disconnect_exit_summary_does_not_require_a_local_rollout_or_print_credentials
+        PASS [   1.369s] ( 268/4461) codex-tui app::tests::background_exit_tests::non_daemon_ctrl_c_keeps_interrupt_behavior
+        PASS [   1.305s] ( 269/4461) codex-tui app::tests::background_exit_tests::run_in_background_detaches_without_interrupting_main_or_side_threads
+        PASS [   1.301s] ( 270/4461) codex-tui app::tests::background_side_cleanup_removes_local_state_and_ignores_late_events
+        PASS [  24.941s] ( 271/4461) codex-tui app::tests::backend_banner_fallback_tests::backend_banner_fallback_updates_task_settings_and_keeps_notice
+        PASS [  12.004s] ( 272/4461) codex-tui app::tests::background_exit_tests::exit_interrupts_before_requesting_shutdown
+        PASS [  11.903s] ( 273/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_cli_model
+        PASS [  10.432s] ( 274/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_cli_provider
+        PASS [  19.798s] ( 275/4461) codex-tui app::tests::background_task_defaults_tests::background_task_read_failure_keeps_prompt_and_does_not_start
+        PASS [  11.912s] ( 276/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_default_provider
+        SLOW [> 30.000s] (─────────) codex-tui app::tests::background_task_defaults_tests::background_task_preserves_explicit_choices_and_managed_defaults
+        PASS [  14.445s] ( 277/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_destination
+        PASS [  12.543s] ( 278/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_launch
+        PASS [  11.058s] ( 279/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_default
+        PASS [  43.773s] ( 280/4461) codex-tui app::tests::background_task_defaults_tests::background_task_preserves_explicit_choices_and_managed_defaults
+        PASS [   0.050s] ( 281/4461) codex-tui app::tests::backtrack_branch_failure_restores_selected_prompt_snapshot
+        PASS [   0.048s] ( 282/4461) codex-tui app::tests::backtrack_esc_does_not_steal_empty_vim_insert_escape
+        PASS [   0.093s] ( 283/4461) codex-tui app::tests::backtrack_selection_preserves_selected_prompt_and_requests_branch
+        PASS [   0.035s] ( 284/4461) codex-tui app::tests::buffered_replay::buffered_replay_keeps_unfinished_and_unrelated_deltas_in_order
+        PASS [   0.033s] ( 285/4461) codex-tui app::tests::buffered_replay::buffered_replay_preserves_text_before_interactive_requests
+        PASS [   0.049s] ( 286/4461) codex-tui app::tests::buffered_replay::buffered_replay_renders_completed_text_without_streaming_again
+        PASS [   0.058s] ( 287/4461) codex-tui app::tests::buffered_replay::misalignment_buffered_replay_preserves_input_after_continuation
+        PASS [   0.076s] ( 288/4461) codex-tui app::tests::buffered_replay::misalignment_replay_blocks_when_turn_start_was_evicted
+        PASS [   0.036s] ( 289/4461) codex-tui app::tests::bypass_hook_trust_startup_warning_snapshot
+        PASS [   0.049s] ( 290/4461) codex-tui app::tests::capped_resize_reflow_renders_recent_suffix_only
+        PASS [  13.601s] ( 291/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_launch
+        PASS [   0.051s] ( 292/4461) codex-tui app::tests::chat_widget_frame_reuses_active_cell_height_across_frame_passes
+        PASS [   0.049s] ( 293/4461) codex-tui app::tests::clear_only_ui_reset_allows_active_skill_warning_to_render_again
+        PASS [   0.050s] ( 294/4461) codex-tui app::tests::clear_only_ui_reset_preserves_chat_session_state
+        PASS [   0.049s] ( 295/4461) codex-tui app::tests::clear_ui_after_long_transcript_snapshots_fresh_header_only
+        PASS [   0.050s] ( 296/4461) codex-tui app::tests::clear_ui_header_shows_fast_status_for_fast_capable_models
+        PASS [   0.050s] ( 297/4461) codex-tui app::tests::closing_fullscreen_inline_overlay_restores_history_once
+        PASS [   0.048s] ( 298/4461) codex-tui app::tests::collab_receiver_notification_caches_thread_without_app_server_read
+        PASS [   0.047s] ( 299/4461) codex-tui app::tests::collab_receiver_notification_does_not_cache_not_found_thread
+        PASS [   1.057s] ( 300/4461) codex-tui app::tests::connector_policy::app_list_notifications_revalidate_installed_mentions_and_the_current_directory
+        PASS [   1.096s] ( 301/4461) codex-tui app::tests::connector_policy::installed_connector_mentions_ignore_stale_thread_workspace_and_account
+        PASS [   1.024s] ( 302/4461) codex-tui app::tests::connector_policy::queued_connector_fetches_are_bound_to_their_original_account
+        PASS [   0.090s] ( 303/4461) codex-tui app::tests::copy_picker_opening_preserves_terminal_scrollback_without_reflow
+        PASS [   0.051s] ( 304/4461) codex-tui app::tests::ctrl_l_clear_ui_after_long_transcript_reuses_clear_header_snapshot
+        PASS [  13.289s] ( 305/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_null_fast
+        PASS [  18.392s] ( 306/4461) codex-tui app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_destination
+        PASS [   0.050s] ( 307/4461) codex-tui app::tests::directive_only_completion_removes_streamed_directive
+        PASS [   0.048s] ( 308/4461) codex-tui app::tests::discard_closed_side_thread_removes_local_state_without_server_rpc
+        PASS [   1.215s] ( 309/4461) codex-tui app::tests::cyber_model_auto_review_notice_snapshot
+        PASS [   1.537s] ( 310/4461) codex-tui app::tests::discard_side_thread_keeps_local_state_when_server_close_fails
+        PASS [   2.720s] ( 311/4461) codex-tui app::tests::daybreak_tests::cyber_refusal_reads_eligibility_without_changing_the_model
+        PASS [   0.055s] ( 312/4461) codex-tui app::tests::disconnect::lost_initial_thread_reply_keeps_startup_draft_offline
+        PASS [   0.073s] ( 313/4461) codex-tui app::tests::disconnect::lost_mutation_reply_preserves_work_without_resubmitting
+        PASS [   1.110s] ( 314/4461) codex-tui app::tests::disconnect::disconnected_command_center_keeps_input_and_blocks_actions
+        PASS [  10.985s] ( 315/4461) codex-tui app::tests::changing_cyber_model_reasoning_preserves_selected_permissions
+        PASS [   0.053s] ( 316/4461) codex-tui app::tests::enqueue_primary_thread_session_replays_turns_before_initial_prompt_submit
+        PASS [   0.049s] ( 317/4461) codex-tui app::tests::enqueue_thread_event_does_not_block_when_channel_full
+        PASS [   0.054s] ( 318/4461) codex-tui app::tests::external_editor_writable_directory_rejected_snapshot
+        PASS [   0.050s] ( 319/4461) codex-tui app::tests::feedback_submission_for_inactive_thread_replays_into_origin_thread
+        PASS [   0.049s] ( 320/4461) codex-tui app::tests::feedback_submission_without_thread_emits_error_history_cell
+        PASS [   0.048s] ( 321/4461) codex-tui app::tests::fresh_session_config_uses_current_service_tier
+        PASS [   0.047s] ( 322/4461) codex-tui app::tests::handle_mcp_inventory_result_respects_origin_thread
+        PASS [   1.360s] ( 323/4461) codex-tui app::tests::duplicate_named_resume_renders_error_without_replacing_current_session
+        PASS [   0.048s] ( 324/4461) codex-tui app::tests::height_shrink_schedules_resize_reflow
+        PASS [   0.049s] ( 325/4461) codex-tui app::tests::history_lookup_response_is_routed_to_requesting_thread
+        PASS [   1.442s] ( 326/4461) codex-tui app::tests::enqueue_primary_thread_session_replays_buffered_approval_after_attach
+        PASS [   1.730s] ( 327/4461) codex-tui app::tests::in_app_resume_session_cwd_without_metadata_is_non_fatal
+        PASS [   0.090s] ( 328/4461) codex-tui app::tests::inactive_thread_approval_badge_clears_after_turn_completion_notification
+        PASS [   0.093s] ( 329/4461) codex-tui app::tests::inactive_thread_approval_bubbles_into_active_view
+        PASS [   0.052s] ( 330/4461) codex-tui app::tests::inactive_thread_exec_approval_preserves_context
+        PASS [   0.051s] ( 331/4461) codex-tui app::tests::inactive_thread_exec_approval_splits_shell_wrapped_command
+        PASS [   0.091s] ( 332/4461) codex-tui app::tests::inactive_thread_file_change_approval_recovers_buffered_changes
+        PASS [   0.050s] ( 333/4461) codex-tui app::tests::inactive_thread_invalid_url_elicitation_is_declined
+        PASS [   0.050s] ( 334/4461) codex-tui app::tests::inactive_thread_permissions_approval_preserves_file_system_permissions
+        PASS [   0.051s] ( 335/4461) codex-tui app::tests::inactive_thread_settings_notification_updates_cached_collaboration_mode
+        PASS [   0.049s] ( 336/4461) codex-tui app::tests::inactive_thread_started_notification_initializes_replay_session
+        PASS [   0.049s] ( 337/4461) codex-tui app::tests::inactive_thread_started_notification_preserves_primary_model_when_path_missing
+        PASS [   0.048s] ( 338/4461) codex-tui app::tests::inactive_thread_url_elicitation_routes_to_app_link
+        PASS [   0.050s] ( 339/4461) codex-tui app::tests::initial_replay_buffer_keeps_recent_rows_when_row_cap_present
+        PASS [  13.015s] ( 340/4461) codex-tui app::tests::discard_side_thread_removes_agent_navigation_entry
+        PASS [   1.021s] ( 341/4461) codex-tui app::tests::key_chords::completed_global_chord_reuses_the_existing_action_handler
+        PASS [  11.128s] ( 342/4461) codex-tui app::tests::handle_start_side_seeds_navigation_before_thread_started
+        PASS [  10.587s] ( 343/4461) codex-tui app::tests::in_app_resume_uses_configured_or_explicit_cwd
+        PASS [   0.055s] ( 344/4461) codex-tui app::tests::key_chords::dashboard_chord_hint_survives_refresh_and_clears_on_cancel
+        PASS [   1.187s] ( 345/4461) codex-tui app::tests::key_chords::completed_global_chords_toggle_output_and_request_external_editor
+        PASS [   1.664s] ( 346/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_active_global_alt_shortcuts
+        PASS [   1.735s] ( 347/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_active_alt_chords
+        PASS [   1.667s] ( 348/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_agent_shortcuts_without_editor_word_bindings
+        PASS [  11.599s] ( 349/4461) codex-tui app::tests::interrupt_without_active_turn_is_treated_as_handled
+        PASS [   1.614s] ( 350/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_configured_composer_alt_shortcuts
+        PASS [   1.835s] ( 351/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_default_and_configured_editor_alt_bindings
+        PASS [   1.644s] ( 352/4461) codex-tui app::tests::key_chords::legacy_terminal_preserves_image_paste_without_reading_clipboard
+        PASS [   1.682s] ( 353/4461) codex-tui app::tests::key_chords::legacy_terminal_recovers_vim_escape_before_normal_commands
+        PASS [   1.547s] ( 354/4461) codex-tui app::tests::key_chords::physical_chords_route_list_and_mixed_request_input_modals
+        PASS [   1.561s] ( 355/4461) codex-tui app::tests::key_chords::physical_dispatch_band_events_are_dropped
+        PASS [   1.583s] ( 356/4461) codex-tui app::tests::key_chords::recovered_vim_escape_cancels_a_pending_key_chord_first
+        PASS [   0.048s] ( 357/4461) codex-tui app::tests::late_usage_result_can_follow_finalized_plan
+        PASS [   1.681s] ( 358/4461) codex-tui app::tests::key_chords::vim_escape_recovery_preserves_enhanced_terminals_and_altgr
+        PASS [   1.827s] ( 359/4461) codex-tui app::tests::key_chords::vim_buffer_jumps_route_default_chords_in_normal_and_operator_contexts
+        PASS [   1.522s] ( 360/4461) codex-tui app::tests::key_chords::wrong_second_stroke_passes_through_but_escape_is_consumed
+        PASS [  10.824s] ( 361/4461) codex-tui app::tests::luna_reserve_recovery_tests::luna_reserve_recovery_requires_permission_and_no_remaining_blocker
+        PASS [   9.836s] ( 362/4461) codex-tui app::tests::luna_reserve_recovery_tests::luna_reserve_recovery_survives_task_reconstruction
+        PASS [  20.662s] ( 363/4461) codex-tui app::tests::luna_reserve_recovery_tests::luna_reserve_recovery_does_not_override_manual_choice_or_account_change
+        PASS [   0.053s] ( 364/4461) codex-tui app::tests::mcp_startup::side_conversations_wait_for_every_configured_mcp_server
+        PASS [   0.053s] ( 365/4461) codex-tui app::tests::mcp_startup::resumed_subagent_mcp_startup_settles_while_cached_servers_remain_deferred
+        PASS [   1.362s] ( 366/4461) codex-tui app::tests::mcp_startup::subagent_mcp_startup_settles_while_cached_servers_remain_deferred
+        PASS [   0.924s] ( 367/4461) codex-tui app::tests::model_catalog::accepted_model_migration_persists_target_default_reasoning_effort
+        PASS [   0.038s] ( 368/4461) codex-tui app::tests::model_catalog::model_migration_prompt_only_shows_for_deprecated_models
+        PASS [   0.038s] ( 369/4461) codex-tui app::tests::model_catalog::model_migration_prompt_respects_hide_flag_and_self_target
+        PASS [  23.326s] ( 370/4461) codex-tui app::tests::luna_reserve_recovery_tests::luna_reserve_recovery_restores_task_and_pending_turn_after_fresh_backend_read
+        PASS [  24.428s] ( 371/4461) codex-tui app::tests::luna_reserve_recovery_tests::luna_reserve_entry_dispatches_an_already_queued_turn_with_accepted_settings
+        PASS [   0.039s] ( 372/4461) codex-tui app::tests::model_catalog::model_migration_prompt_skips_when_target_missing_or_hidden
+        PASS [   1.297s] ( 373/4461) codex-tui app::tests::model_catalog::model_migration_prompt_shows_for_hidden_model
+        PASS [   0.038s] ( 374/4461) codex-tui app::tests::model_catalog::select_model_availability_nux_does_not_fall_back_to_older_announcement
+        PASS [   0.038s] ( 375/4461) codex-tui app::tests::model_catalog::select_model_availability_nux_picks_only_eligible_model
+        PASS [   0.036s] ( 376/4461) codex-tui app::tests::model_catalog::select_model_availability_nux_returns_none_when_all_models_are_exhausted
+        PASS [   0.036s] ( 377/4461) codex-tui app::tests::model_catalog::select_model_availability_nux_uses_existing_model_order_as_priority
+        PASS [   1.559s] ( 378/4461) codex-tui app::tests::model_catalog::prepare_startup_tooltip_override_persists_model_availability_nux_count
+        PASS [   1.221s] ( 379/4461) codex-tui app::tests::model_defaults::model_default_saves_report_server_outcomes_and_target_server_profile
+        PASS [   1.250s] ( 380/4461) codex-tui app::tests::new_session_requests_shutdown_for_previous_conversation
+        PASS [   2.137s] ( 381/4461) codex-tui app::tests::navigation_reconnect::reconnect_daemon_command_center_after_socket_replacement_without_a_conversation
+        PASS [   1.300s] ( 382/4461) codex-tui app::tests::open_agent_picker_allows_existing_agent_threads_when_feature_is_disabled
+        PASS [   1.325s] ( 383/4461) codex-tui app::tests::open_agent_picker_clears_running_hint_from_completed_snapshot
+        PASS [   1.318s] ( 384/4461) codex-tui app::tests::open_agent_picker_keeps_missing_threads_for_replay
+        PASS [   9.054s] ( 385/4461) codex-tui app::tests::misalignment_policy::misalignment_continuation_requires_current_review_and_submits_once
+        PASS [   1.364s] ( 386/4461) codex-tui app::tests::open_agent_picker_marks_terminal_read_errors_closed
+        PASS [   1.347s] ( 387/4461) codex-tui app::tests::open_agent_picker_preserves_cached_metadata_for_replay_threads
+        PASS [   1.315s] ( 388/4461) codex-tui app::tests::open_agent_picker_preserves_running_hints_until_observed_completion
+        PASS [   1.319s] ( 389/4461) codex-tui app::tests::open_agent_picker_prompts_when_subagents_disabled
+        PASS [   1.315s] ( 390/4461) codex-tui app::tests::open_agent_picker_prunes_terminal_metadata_only_threads
+        PASS [   1.311s] ( 391/4461) codex-tui app::tests::open_agent_picker_refreshes_replay_only_path_backed_liveness
+        PASS [   1.292s] ( 392/4461) codex-tui app::tests::open_agent_picker_selects_path_backed_agent
+        PASS [   0.995s] ( 393/4461) codex-tui app::tests::pasted_text_normalizes_mixed_line_endings_at_app_boundary
+        PASS [   0.081s] ( 394/4461) codex-tui app::tests::patch_approval_tests::active_patch_approval_cancel_and_resolved_replay
+        PASS [  12.750s] ( 395/4461) codex-tui app::tests::model_catalog::model_picker_refresh_updates_app_catalog_from_app_server
+        PASS [   0.081s] ( 396/4461) codex-tui app::tests::patch_approval_tests::active_patch_approval_preserves_deferred_startup_protection
+        PASS [   0.034s] ( 397/4461) codex-tui app::tests::patch_approval_tests::patch_approval_lookup_keeps_turn_and_item_identity
+        PASS [   0.052s] ( 398/4461) codex-tui app::tests::patch_approval_tests::replayed_patch_approval_pager_recovers_stored_turn_changes
+        PASS [   1.227s] ( 399/4461) codex-tui app::tests::patch_approval_tests::active_patch_approval_pager_preserves_changes_and_accepts_once
+        PASS [   1.074s] ( 400/4461) codex-tui app::tests::permission_shortcuts_tests::permission_shortcut_rejections_leave_state_unchanged
+        PASS [   1.003s] ( 401/4461) codex-tui app::tests::plugin_catalog::successful_plugin_uninstall_dispatches_plugin_list_refresh
+        PASS [   0.981s] ( 402/4461) codex-tui app::tests::primary_thread_ignores_child_mcp_startup_notifications
+        PASS [  13.917s] ( 403/4461) codex-tui app::tests::open_agent_picker_marks_loaded_threads_open
+        PASS [  13.042s] ( 404/4461) codex-tui app::tests::override_turn_context_sends_thread_settings_update
+        PASS [   0.973s] ( 405/4461) codex-tui app::tests::rate_limits::backend_banner_reads_ignore_older_completions
+        PASS [   0.064s] ( 406/4461) codex-tui app::tests::rate_limits::backend_banner_state_survives_widget_replacement
+        PASS [   1.001s] ( 407/4461) codex-tui app::tests::rate_limits::failed_rate_limit_read_preserves_visible_backend_banner
+        PASS [  12.781s] ( 408/4461) codex-tui app::tests::permission_shortcuts_tests::permission_shortcut_confirms_without_persisting
+        PASS [   1.244s] ( 409/4461) codex-tui app::tests::rate_limits::post_hard_stop_rate_limit_read_clears_recovered_workspace_limit
+        PASS [  10.046s] ( 410/4461) codex-tui app::tests::prompt_edit_before_first_prompt_starts_fresh_thread
+        PASS [   1.309s] ( 411/4461) codex-tui app::tests::rate_limits::rolling_workspace_hard_stops_invalidate_older_rate_limit_reads
+        PASS [   1.581s] ( 412/4461) codex-tui app::tests::rate_limits::stale_rate_limit_read_does_not_dismiss_visible_workspace_advisory
+        PASS [   1.931s] ( 413/4461) codex-tui app::tests::rate_limits::stale_rate_limit_reads_preserve_newer_workspace_hard_stop_for_every_origin
+        PASS [   1.807s] ( 414/4461) codex-tui app::tests::recap_generation::auto_recap_opt_out_blocks_requests_and_cleans_up_pending_start
+        PASS [  10.815s] ( 415/4461) codex-tui app::tests::prompt_edit_forks_before_selected_prompt_and_preserves_source
+        PASS [   1.986s] ( 416/4461) codex-tui app::tests::recap_generation::manual_recap_works_when_auto_recap_disabled
+        PASS [   1.555s] ( 417/4461) codex-tui app::tests::recap_generation::recap_check_rejects_a_running_turn
+        PASS [   1.565s] ( 418/4461) codex-tui app::tests::recap_generation::recap_check_rejects_a_non_displayed_thread
+        PASS [   1.913s] ( 419/4461) codex-tui app::tests::refresh_agent_picker_thread_liveness_prunes_closed_metadata_only_threads
+        PASS [   2.104s] ( 420/4461) codex-tui app::tests::recap_generation::recap_generation_uses_remote_workspace_cwd
+        PASS [   1.958s] ( 421/4461) codex-tui app::tests::recap_generation::temporary_recap_threads_disable_memories_and_remote_mcp_servers
+        PASS [   0.051s] ( 422/4461) codex-tui app::tests::refresh_pending_thread_approvals_only_lists_inactive_threads
+        PASS [   0.051s] ( 423/4461) codex-tui app::tests::refreshed_snapshot_session_persists_resumed_turns
+        PASS [   1.672s] ( 424/4461) codex-tui app::tests::remote_exec_resume_current_cwd_is_rejected
+        PASS [   1.671s] ( 425/4461) codex-tui app::tests::remote_resume_current_cwd_rejection_snapshot
+        PASS [   1.388s] ( 426/4461) codex-tui app::tests::remote_resume_rejects_explicit_permission_override
+        PASS [   0.054s] ( 427/4461) codex-tui app::tests::replace_chat_widget_reseeds_collab_agent_metadata_for_replay
+        PASS [   0.056s] ( 428/4461) codex-tui app::tests::replace_goal_confirmation_snapshot
+        PASS [   0.057s] ( 429/4461) codex-tui app::tests::replay_only_thread_keeps_restored_queue_visible
+        PASS [   0.094s] ( 430/4461) codex-tui app::tests::replay_snapshot_with_pending_request_suppresses_replay_notices
+        PASS [   0.058s] ( 431/4461) codex-tui app::tests::replay_thread_snapshot_does_not_submit_queue_before_replay_catches_up
+        PASS [   0.056s] ( 432/4461) codex-tui app::tests::replay_thread_snapshot_in_progress_turn_restores_running_queue_state
+        PASS [   0.054s] ( 433/4461) codex-tui app::tests::replay_thread_snapshot_in_progress_turn_restores_running_state_without_input_state
+        PASS [   0.055s] ( 434/4461) codex-tui app::tests::replay_thread_snapshot_keeps_queue_when_running_state_only_comes_from_snapshot
+        PASS [   0.910s] ( 435/4461) codex-tui app::tests::replay_thread_snapshot_renders_only_retained_agent_message_deltas
+        PASS [   0.097s] ( 436/4461) codex-tui app::tests::replay_thread_snapshot_replays_turn_history_in_order
+        PASS [   0.056s] ( 437/4461) codex-tui app::tests::replay_thread_snapshot_restores_collaboration_mode_for_draft_submit
+        PASS [   0.055s] ( 438/4461) codex-tui app::tests::replay_thread_snapshot_restores_collaboration_mode_without_input
+        PASS [   0.055s] ( 439/4461) codex-tui app::tests::replay_thread_snapshot_restores_draft_and_queued_input
+        PASS [   0.054s] ( 440/4461) codex-tui app::tests::replay_thread_snapshot_restores_pending_pastes_for_submit
+        PASS [   0.054s] ( 441/4461) codex-tui app::tests::replay_thread_snapshot_restores_the_matching_safety_buffer_prompt
+        PASS [   0.055s] ( 442/4461) codex-tui app::tests::replayed_file_change_approval_recovers_snapshot_changes
+        PASS [   0.055s] ( 443/4461) codex-tui app::tests::replayed_interrupted_turn_restores_queued_input_to_composer
+        PASS [   0.055s] ( 444/4461) codex-tui app::tests::replayed_turn_complete_submits_restored_queued_follow_up
+        PASS [   0.051s] ( 445/4461) codex-tui app::tests::required_stream_reflow_during_capped_initial_replay_survives_transcript_overlay
+        PASS [   0.050s] ( 446/4461) codex-tui app::tests::required_stream_reflow_during_capped_initial_replay_uses_transcript_tail
+        PASS [   0.992s] ( 447/4461) codex-tui app::tests::reset_memories_clears_local_memory_directories
+        PASS [   0.049s] ( 448/4461) codex-tui app::tests::reset_thread_event_state_aborts_listener_tasks
+        PASS [   0.050s] ( 449/4461) codex-tui app::tests::resize_reflow_wraps_transcript_early_when_pet_is_enabled
+        PASS [   0.127s] ( 450/4461) codex-tui app::tests::resizing_empty_transcript_schedules_settled_size_recheck
+        PASS [   0.050s] ( 451/4461) codex-tui app::tests::resolved_buffered_approval_does_not_become_actionable_after_drain
+        PASS [   0.041s] ( 452/4461) codex-tui app::tests::resume_rejects_selected_config_profile_permission_definitions
+        PASS [  10.053s] ( 453/4461) codex-tui app::tests::recap_generation::recap_generation_uses_bounded_structured_request_and_inserts_result
+        PASS [  11.412s] ( 454/4461) codex-tui app::tests::remembered_current_cwd_stays_at_launch_across_in_app_resumes
+        PASS [  11.646s] ( 455/4461) codex-tui app::tests::remote_resume_keeps_server_only_cwd_out_of_local_config
+        PASS [  11.294s] ( 456/4461) codex-tui app::tests::safety_buffering::active_turn_interrupt_is_nonblocking_and_coalesces_repeated_requests
+        PASS [  12.114s] ( 457/4461) codex-tui app::tests::safety_buffering::agents_overview_acknowledges_inactive_steer_before_interrupt
+        PASS [  12.184s] ( 458/4461) codex-tui app::tests::safety_buffering::safety_retry_branch_failure_preserves_unsent_draft
+        PASS [  12.167s] ( 459/4461) codex-tui app::tests::safety_buffering::safety_retry_can_retry_a_first_turn_a_second_time
+        PASS [  11.168s] ( 460/4461) codex-tui app::tests::safety_buffering::safety_retry_forks_after_the_previous_turn_and_uses_faster_settings
+        PASS [  11.160s] ( 461/4461) codex-tui app::tests::safety_buffering::safety_retry_forks_first_turn_and_continues_without_duplicating_prompt
+        PASS [   1.013s] ( 462/4461) codex-tui app::tests::select_uncached_agent_thread_still_refreshes_liveness
+        PASS [  11.475s] ( 463/4461) codex-tui app::tests::safety_buffering::safety_retry_preserves_a_committed_steer_from_the_interrupted_turn
+        PASS [  11.475s] ( 464/4461) codex-tui app::tests::safety_buffering::safety_retry_rejects_unsupported_permissions_before_interrupting
+        PASS [  12.420s] ( 465/4461) codex-tui app::tests::safety_buffering::safety_retry_replays_older_interruption_notices
+        PASS [   0.050s] ( 466/4461) codex-tui app::tests::selecting_cyber_model_falls_back_to_user_when_auto_review_is_unavailable
+        PASS [  11.869s] ( 467/4461) codex-tui app::tests::selected_and_resumed_threads_use_server_capability_for_v1_and_v2_children
+        PASS [  10.958s] ( 468/4461) codex-tui app::tests::selected_side_thread_close_is_handled_by_foreground_event_owner
+        PASS [  11.423s] ( 469/4461) codex-tui app::tests::selecting_cyber_model_defaults_active_thread_to_auto_review
+        PASS [  11.380s] ( 470/4461) codex-tui app::tests::selecting_cyber_model_respects_auto_review_requirements
+        PASS [   1.012s] ( 471/4461) codex-tui app::tests::session_lifecycle_requests::agents_overview_stop_uses_history_mode_for_turn_lookup
+        PASS [   1.011s] ( 472/4461) codex-tui app::tests::session_lifecycle_requests::archive_current_thread_reports_success_only_after_archiving
+        PASS [  11.431s] ( 473/4461) codex-tui app::tests::server_only_profile_selection_keeps_turns_on_the_selected_profile
+        PASS [  12.941s] ( 474/4461) codex-tui app::tests::session_lifecycle_requests::agents_overview_stop_uses_full_history_after_legacy_negotiation
+        PASS [  10.323s] ( 475/4461) codex-tui app::tests::session_lifecycle_requests::cold_paginated_subagent_transcript_excludes_inherited_parent_history
+        PASS [   1.022s] ( 476/4461) codex-tui app::tests::session_lifecycle_requests::embedded_server_rejects_unowned_dynamic_tool_calls
+        PASS [  22.217s] ( 477/4461) codex-tui app::tests::session_lifecycle_requests::agents_overview_seeds_loaded_threads_when_recent_listing_is_unavailable
+        PASS [  11.688s] ( 478/4461) codex-tui app::tests::session_lifecycle_requests::dynamic_tool_requests_ignore_other_namespaces_and_dispatch_tui_namespace
+        PASS [  16.250s] ( 479/4461) codex-tui app::tests::session_lifecycle_requests::fresh_session_applies_requested_name
+        PASS [  29.740s] ( 480/4461) codex-tui app::tests::session_lifecycle_requests::changing_directory_preserves_project_trust_permissions_history_and_hooks
+        PASS [  25.016s] ( 481/4461) codex-tui app::tests::session_lifecycle_requests::external_transport_registers_dynamic_tools_and_finds_task_mentions
+        PASS [   1.146s] ( 482/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_failure_keeps_current_task_and_restores_input
+        PASS [  27.495s] ( 483/4461) codex-tui app::tests::session_lifecycle_requests::local_daemon_registers_approval_gated_mcp_tools_for_both_start_paths
+        PASS [  10.381s] ( 484/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_effort
+        SLOW [> 30.000s] (─────────) codex-tui app::tests::session_lifecycle_requests::local_mcp_respects_configured_servers_and_managed_requirements
+        SLOW [> 30.000s] (─────────) codex-tui app::tests::session_lifecycle_requests::managed_worktree_transitions_bind_owner_and_preserve_only_fork_history
+        PASS [  33.319s] ( 485/4461) codex-tui app::tests::session_lifecycle_requests::managed_worktree_transitions_bind_owner_and_preserve_only_fork_history
+        PASS [  10.735s] ( 486/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_managed_effort
+        SLOW [> 30.000s] (─────────) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_preserves_remote_launch_paths_and_older_servers
+        PASS [  42.993s] ( 487/4461) codex-tui app::tests::session_lifecycle_requests::local_mcp_respects_configured_servers_and_managed_requirements
+        PASS [  12.202s] ( 488/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_managed_model
+        PASS [  10.867s] ( 489/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_model
+        PASS [  40.937s] ( 490/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_preserves_remote_launch_paths_and_older_servers
+        PASS [  11.448s] ( 491/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_profile_effort
+        PASS [  11.326s] ( 492/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_profile_model
+        PASS [  12.374s] ( 493/4461) codex-tui app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_saved
+        PASS [  11.322s] ( 494/4461) codex-tui app::tests::session_lifecycle_requests::older_external_server_starts_without_unsupported_dynamic_tools_or_history
+        PASS [  11.720s] ( 495/4461) codex-tui app::tests::session_lifecycle_requests::older_pagination_reconciles_review_prompts_across_page_boundaries
+        PASS [  11.820s] ( 496/4461) codex-tui app::tests::session_lifecycle_requests::paginated_fork_survives_post_response_hydration_failure
+        PASS [  11.901s] ( 497/4461) codex-tui app::tests::session_lifecycle_requests::remote_legacy_history_fork_avoids_unsupported_fields
+        PASS [  11.902s] ( 498/4461) codex-tui app::tests::session_lifecycle_requests::paginated_workflows_never_request_full_thread_history
+        PASS [  11.911s] ( 499/4461) codex-tui app::tests::session_lifecycle_requests::remote_legacy_history_resume_retries_generic_method_not_found
+        PASS [  11.680s] ( 500/4461) codex-tui app::tests::session_lifecycle_requests::remote_legacy_history_start_negotiates_once_for_resume_and_fork
+        PASS [  12.674s] ( 501/4461) codex-tui app::tests::session_lifecycle_requests::remote_legacy_history_start_retries_unsupported_paginated_variant
+        PASS [   1.113s] ( 502/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::cli_fork_omits_implicit_model_and_effort
+        PASS [  10.813s] ( 503/4461) codex-tui app::tests::session_lifecycle_requests::same_thread_retry_keeps_subscription_and_restores_draft
+        PASS [  11.582s] ( 504/4461) codex-tui app::tests::session_lifecycle_requests::session_lifecycle_avoids_redundant_subagent_metadata_reads
+        PASS [  22.660s] ( 505/4461) codex-tui app::tests::session_lifecycle_requests::removing_remote_thread_omits_disconnect_guidance
+        PASS [  11.337s] ( 506/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_cli_effort
+        PASS [  20.626s] ( 507/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_falls_back_only_for_unsupported_config_read
+        PASS [  12.215s] ( 508/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_cli_model
+        PASS [  10.287s] ( 509/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_managed
+        PASS [  11.407s] ( 510/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_profile_model
+        SLOW [> 30.000s] (─────────) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_reads_destination_and_cleared_model_uses_catalog
+        PASS [  12.414s] ( 511/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_profile_effort
+        PASS [   1.415s] ( 512/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::startup_read_failure_exits_before_thread_creation
+        PASS [  33.957s] ( 513/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_reads_destination_and_cleared_model_uses_catalog
+        PASS [  12.126s] ( 514/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_saved
+        PASS [   0.894s] ( 515/4461) codex-tui app::tests::session_summary::session_summary_includes_resume_hint_for_persisted_rollout
+        PASS [   0.922s] ( 516/4461) codex-tui app::tests::session_summary::session_summary_names_picker_item_when_thread_has_name
+        PASS [   0.035s] ( 517/4461) codex-tui app::tests::session_summary::session_summary_skips_resume_hint_until_rollout_exists
+        PASS [   0.034s] ( 518/4461) codex-tui app::tests::session_summary::session_summary_skips_when_no_usage_or_resume_hint
+        PASS [  12.074s] ( 519/4461) codex-tui app::tests::session_lifecycle_requests::transcript_home_loads_every_older_history_page
+        PASS [   0.051s] ( 520/4461) codex-tui app::tests::should_attach_live_thread_for_selection_skips_closed_metadata_only_threads
+        PASS [  13.488s] ( 521/4461) codex-tui app::tests::session_lifecycle_requests::startup_defaults_tests::startup_reads_server_defaults_before_starting_thread
+        PASS [   1.333s] ( 522/4461) codex-tui app::tests::shutdown_first_exit_returns_immediate_exit_when_shutdown_submit_fails
+        PASS [   0.052s] ( 523/4461) codex-tui app::tests::side_backtrack_rejection_reports_unavailable_message_snapshot
+        PASS [   0.050s] ( 524/4461) codex-tui app::tests::side_conversations_reject_backtrack_esc_without_stealing_vim_insert_escape
+        PASS [   0.091s] ( 525/4461) codex-tui app::tests::side_defers_parent_approval_overlay_until_parent_replay
+        PASS [   0.090s] ( 526/4461) codex-tui app::tests::side_defers_subagent_approval_overlay_until_side_exits
+        PASS [   0.049s] ( 527/4461) codex-tui app::tests::side_discard_selection_keeps_current_side_thread
+        PASS [   0.054s] ( 528/4461) codex-tui app::tests::side_fork_config_inherits_parent_thread_runtime_settings
+        PASS [   1.242s] ( 529/4461) codex-tui app::tests::shutdown_first_exit_uses_app_server_shutdown_without_submitting_op
+        PASS [   0.050s] ( 530/4461) codex-tui app::tests::side_fork_config_is_ephemeral_and_appends_developer_guardrails
+        PASS [   0.048s] ( 531/4461) codex-tui app::tests::side_parent_status_prioritizes_input_over_approval
+        PASS [   0.049s] ( 532/4461) codex-tui app::tests::side_parent_status_tracks_parent_turn_lifecycle
+        PASS [   0.048s] ( 533/4461) codex-tui app::tests::side_restore_user_message_puts_inline_question_back_in_composer
+        PASS [   0.049s] ( 534/4461) codex-tui app::tests::side_start_block_message_allows_replacing_open_side_conversation
+        PASS [   0.047s] ( 535/4461) codex-tui app::tests::side_thread_snapshot_does_not_refresh_from_fork_history
+        PASS [   0.034s] ( 536/4461) codex-tui app::tests::side_thread_snapshot_hides_forked_parent_transcript
+        PASS [   0.049s] ( 537/4461) codex-tui app::tests::side_thread_snapshot_skips_session_header_preamble
+        PASS [   0.055s] ( 538/4461) codex-tui app::tests::startup::auto_declined_mcp_elicitations_do_not_leave_startup_quarantine_armed
+        PASS [   0.051s] ( 539/4461) codex-tui app::tests::startup::external_writer_startup_keeps_initial_prompt_as_draft
+        PASS [   0.049s] ( 540/4461) codex-tui app::tests::startup::ignore_same_thread_resume_allows_reattaching_displayed_inactive_thread
+        PASS [  11.675s] ( 541/4461) codex-tui app::tests::session_lifecycle_requests::underfilled_scrollback_fetches_older_pages_without_opening_the_transcript
+        PASS [   0.050s] ( 542/4461) codex-tui app::tests::startup::ignore_same_thread_resume_reports_noop_for_current_thread
+        PASS [   0.050s] ( 543/4461) codex-tui app::tests::startup::known_thread_started_preserves_session_without_reading_unmaterialized_rollout
+        PASS [   1.601s] ( 544/4461) codex-tui app::tests::startup::fresh_startup_thread_drains_buffered_approval_before_draft_handoff
+        PASS [   1.626s] ( 545/4461) codex-tui app::tests::startup::ignore_same_thread_resume_allows_retrying_read_only_view
+        PASS [   1.711s] ( 546/4461) codex-tui app::tests::startup::later_thread_approval_preserves_input_after_startup_boundary_ends
+        PASS [   0.090s] ( 547/4461) codex-tui app::tests::startup::queued_startup_requests_block_draft_restore_until_drained
+        PASS [   0.092s] ( 548/4461) codex-tui app::tests::startup::queued_startup_requests_block_terminal_input_after_draft_handoff
+        PASS [   1.653s] ( 549/4461) codex-tui app::tests::startup::queued_startup_app_event_owns_protected_view_before_draft_restore
+        PASS [   1.499s] ( 550/4461) codex-tui app::tests::startup::remotely_resolved_startup_approvals_release_the_draft_after_the_last_request
+        PASS [  11.275s] ( 551/4461) codex-tui app::tests::set_thread_goal_draft_materializes_long_objective_and_confirms_before_paste
+        PASS [   1.476s] ( 552/4461) codex-tui app::tests::startup::stale_startup_thread_started_removes_local_routing_state
+        PASS [   0.051s] ( 553/4461) codex-tui app::tests::startup::startup_draft_handoff_keeps_approval_shortcuts_in_recently_active_composer
+        PASS [   0.051s] ( 554/4461) codex-tui app::tests::startup::startup_draft_handoff_recognizes_late_user_input_as_new_protected_view
+        PASS [   0.035s] ( 555/4461) codex-tui app::tests::startup::startup_paused_goal_prompt_gate_is_only_for_quiet_resume
+        PASS [   1.663s] ( 556/4461) codex-tui app::tests::startup::startup_draft_delayed_approval_becomes_protected_on_redraw
+        PASS [   1.683s] ( 557/4461) codex-tui app::tests::startup::startup_thread_started_discards_another_threads_buffered_events
+        PASS [   1.691s] ( 558/4461) codex-tui app::tests::startup::startup_thread_start_failure_returns_error
+        PASS [   0.034s] ( 559/4461) codex-tui app::tests::startup::startup_waiting_gate_holds_active_thread_events_until_primary_thread_configured
+        PASS [   0.034s] ( 560/4461) codex-tui app::tests::startup::startup_waiting_gate_is_only_for_fresh_or_exit_session_selection
+        PASS [   0.033s] ( 561/4461) codex-tui app::tests::startup::startup_waiting_gate_not_applied_for_resume_or_fork_session_selection
+        PASS [   0.050s] ( 562/4461) codex-tui app::tests::startup::terminal_color_probe_waits_for_delayed_world_writable_scan_failure
+        PASS [   0.048s] ( 563/4461) codex-tui app::tests::startup::terminal_color_probe_waits_for_startup_sandbox_choice
+        PASS [   0.055s] ( 564/4461) codex-tui app::tests::startup_warnings_tests::mcp_startup_summary_counts_servers_and_sign_in_subset
+        PASS [   1.573s] ( 565/4461) codex-tui app::tests::startup::startup_thread_started_does_not_replay_resolved_approval
+        PASS [   0.049s] ( 566/4461) codex-tui app::tests::startup_warnings_tests::startup_warnings_preserve_stream_repair_and_backtrack_selection
+        PASS [   0.049s] ( 567/4461) codex-tui app::tests::startup_warnings_tests::startup_warnings_wait_for_splash_and_coalesce_with_full_details
+        PASS [   1.536s] ( 568/4461) codex-tui app::tests::startup::startup_thread_started_submits_queued_startup_input
+        PASS [   1.608s] ( 569/4461) codex-tui app::tests::startup_warnings_tests::startup_skill_load_order_preserves_runtime_error_recurrence
+        PASS [   0.051s] ( 570/4461) codex-tui app::tests::thread_read_session_state_does_not_reuse_primary_permission_profile
+        PASS [   0.050s] ( 571/4461) codex-tui app::tests::thread_setting_update_params_sync_model_and_default_reasoning
+        PASS [   0.049s] ( 572/4461) codex-tui app::tests::thread_switch_replay_buffer_is_disabled_without_row_cap
+        PASS [   0.050s] ( 573/4461) codex-tui app::tests::thread_switch_replay_buffer_uses_transcript_tail_mode_when_row_cap_present
+        PASS [   1.453s] ( 574/4461) codex-tui app::tests::stream_animation_tests::stream_animation_preserves_pacing_and_discards_stopped_ticks
+        PASS [   1.531s] ( 575/4461) codex-tui app::tests::thread_usage::account_change_discards_thread_usage_deferred_while_overlay_is_open
+        PASS [   1.504s] ( 576/4461) codex-tui app::tests::thread_usage::account_updated_with_backend_only_auth_enables_thread_usage
+        PASS [   2.290s] ( 577/4461) codex-tui app::tests::stream_termination_tests::unicode_math_termination_preserves_source_through_mode_and_resize
+        PASS [   9.243s] ( 578/4461) codex-tui app::tests::startup::owned_subagent_approval_before_thread_started_is_preserved
+        PASS [   1.631s] ( 579/4461) codex-tui app::tests::thread_usage::completed_thread_usage_updates_status_without_scrollback_reflow
+        PASS [   1.650s] ( 580/4461) codex-tui app::tests::thread_usage::failed_thread_usage_after_intervening_history_does_not_duplicate_status
+        PASS [   0.050s] ( 581/4461) codex-tui app::tests::token_usage_update_refreshes_status_line_with_runtime_context_window
+        PASS [   1.639s] ( 582/4461) codex-tui app::tests::thread_usage::terminal_reflow_rebases_pending_status_update_to_new_width
+        PASS [   1.607s] ( 583/4461) codex-tui app::tests::thread_usage::thread_usage_after_intervening_history_appends_refreshed_status
+        PASS [   1.589s] ( 584/4461) codex-tui app::tests::thread_usage::thread_usage_finishing_during_overlay_updates_history_after_close
+        PASS [   0.052s] ( 585/4461) codex-tui app::tests::turn_submission::misalignment_policy_in_parent_stops_active_side_conversation
+        PASS [   1.604s] ( 586/4461) codex-tui app::tests::transcript_composer::transcript_flag_off_preserves_viewer_and_backtracking
+        PASS [   1.623s] ( 587/4461) codex-tui app::tests::transcript_composer::transcript_viewer_close_repaints_preserved_inline_draft
+        PASS [   1.706s] ( 588/4461) codex-tui app::tests::turn_submission::turn_start_failure_is_shown_without_exiting
+        PASS [   1.716s] ( 589/4461) codex-tui app::tests::turn_submission::unsupported_legacy_permissions_are_shown_without_exiting
+        PASS [   1.726s] ( 590/4461) codex-tui app::tests::turn_submission::worktree_creation_event_requires_feature
+        PASS [   1.724s] ( 591/4461) codex-tui app::tests::turn_submission::worktree_creation_rejects_running_agent_before_allocation
+        PASS [   1.729s] ( 592/4461) codex-tui app::tests::turn_submission::worktree_creation_rejects_untrusted_source_before_allocation
+        PASS [  12.701s] ( 593/4461) codex-tui app::tests::turn_submission::misalignment_policy_blocks_queued_turns_and_goal_resumption
+        PASS [  10.691s] ( 594/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_mcp
+        PASS [  12.178s] ( 595/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_idle
+        PASS [  13.429s] ( 596/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_review
+        PASS [  10.640s] ( 597/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_idle
+        PASS [  10.609s] ( 598/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_review
+        PASS [  12.944s] ( 599/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_mcp
+        PASS [  12.438s] ( 600/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_idle
+        PASS [  10.918s] ( 601/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_mcp
+        PASS [  10.387s] ( 602/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_review
+        PASS [   1.042s] ( 603/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_routes_local_and_recovery_commands
+        PASS [   0.049s] ( 604/4461) codex-tui app::tests::uncapped_resize_reflow_renders_all_cells_under_row_limit
+        PASS [   0.049s] ( 605/4461) codex-tui app::tests::uncapped_resize_reflow_renders_all_cells_when_row_cap_absent
+        PASS [   1.032s] ( 606/4461) codex-tui app::tests::update_feature_flags_disabling_guardian_clears_manual_review_policy_without_history
+        PASS [  11.128s] ( 607/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_idle
+        PASS [   0.971s] ( 608/4461) codex-tui app::tests::update_feature_flags_disabling_guardian_clears_review_policy_and_restores_default
+        FAIL [   0.100s] ( 609/4461) codex-tui app::tests::update_feature_flags_enabling_guardian_selects_auto_review
+  stdout ───
+
+    running 1 test
+    test app::tests::update_feature_flags_enabling_guardian_selects_auto_review ... FAILED
+
+    failures:
+
+    failures:
+        app::tests::update_feature_flags_enabling_guardian_selects_auto_review
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.06s
+
+  stderr ───
+    Error: failed to initialize sqlite local db at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-nZmqNr/state_5.sqlite: failed to initialize state runtime at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-nZmqNr: failed to migrate log DB at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-nZmqNr/logs_2.sqlite: while executing migrations: error returned from database: (code: 4874) disk I/O error: while executing migrations: error returned from database: (code: 4874) disk I/O error: error returned from database: (code: 4874) disk I/O error: (code: 4874) disk I/O error
+
+    Location:
+        tui/src/lib.rs:614:20
+
+        FAIL [   0.082s] ( 610/4461) codex-tui app::tests::update_memory_settings_persists_and_updates_widget_config
+  stdout ───
+
+    running 1 test
+    test app::tests::update_memory_settings_persists_and_updates_widget_config ... FAILED
+
+    failures:
+
+    failures:
+        app::tests::update_memory_settings_persists_and_updates_widget_config
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.05s
+
+  stderr ───
+    Error: failed to initialize sqlite local db at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-pETcF0/state_5.sqlite: failed to initialize state runtime at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-pETcF0: failed to migrate state DB at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-pETcF0/state_5.sqlite: while executing migrations: error returned from database: (code: 13) database or disk is full: while executing migrations: error returned from database: (code: 13) database or disk is full: error returned from database: (code: 13) database or disk is full: (code: 13) database or disk is full
+
+    Location:
+        tui/src/lib.rs:614:20
+
+        FAIL [   0.106s] ( 611/4461) codex-tui app::tests::update_memory_settings_updates_current_thread_memory_mode
+  stdout ───
+
+    running 1 test
+    test app::tests::update_memory_settings_updates_current_thread_memory_mode ... FAILED
+
+    failures:
+
+    failures:
+        app::tests::update_memory_settings_updates_current_thread_memory_mode
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.07s
+
+  stderr ───
+    WARNING: proceeding, even though we could not create PATH aliases: No space left on device (os error 28) at path "/Users/cdot/.codex/tmp/arg0/codex-arg0zk1mvd"
+
+    thread 'app::tests::update_memory_settings_updates_current_thread_memory_mode' (22349886) panicked at tui/src/chatwidget/tests/helpers.rs:12:10:
+    tempdir: Custom { kind: StorageFull, error: PathError { path: "/private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-IycSWT", err: Os { code: 28, kind: StorageFull, message: "No space left on device" } } }
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.040s] ( 612/4461) codex-tui app::thread_event_buffer::tests::thread_event_store_coalesces_only_adjacent_matching_agent_message_deltas
+        PASS [   0.034s] ( 613/4461) codex-tui app::thread_events::tests::refresh_retains_live_questions_without_replaying_their_text
+        PASS [   0.034s] ( 614/4461) codex-tui app::thread_events::tests::thread_event_store_clear_active_turn_id_resets_cached_turn
+        PASS [   0.034s] ( 615/4461) codex-tui app::thread_events::tests::thread_event_store_preserves_recap_progress_across_replay
+        PASS [   0.034s] ( 616/4461) codex-tui app::thread_events::tests::thread_event_store_rebase_preserves_hook_notifications
+        PASS [   0.033s] ( 617/4461) codex-tui app::thread_events::tests::thread_event_store_rebase_preserves_mcp_startup_notifications
+        PASS [   0.033s] ( 618/4461) codex-tui app::thread_events::tests::thread_event_store_rebase_preserves_resolved_request_state
+        PASS [   0.035s] ( 619/4461) codex-tui app::thread_events::tests::thread_event_store_restores_active_turn_from_snapshot_turns
+        PASS [   0.036s] ( 620/4461) codex-tui app::thread_events::tests::thread_event_store_skips_large_replay_irrelevant_notifications
+        PASS [   0.033s] ( 621/4461) codex-tui app::thread_events::tests::thread_event_store_tracks_active_turn_lifecycle
+        PASS [   0.034s] ( 622/4461) codex-tui app::thread_goal_actions::tests::completed_goal_does_not_require_replace_confirmation
+        PASS [   0.035s] ( 623/4461) codex-tui app::thread_goal_actions::tests::thread_goal_ephemeral_error_message_renders_snapshot
+        PASS [   0.034s] ( 624/4461) codex-tui app::thread_goal_actions::tests::thread_goal_error_message_explains_temporary_session
+        PASS [   0.034s] ( 625/4461) codex-tui app::thread_goal_actions::tests::thread_goal_error_message_preserves_generic_failure_context
+        PASS [   0.034s] ( 626/4461) codex-tui app::thread_goal_actions::tests::unfinished_goals_require_replace_confirmation
+        PASS [   1.048s] ( 627/4461) codex-tui app::tests::update_feature_flags_enabling_guardian_overrides_explicit_manual_review_policy
+        PASS [   1.221s] ( 628/4461) codex-tui app::thread_routing::tests::turn_permissions_preserve_server_snapshot_without_local_override
+        PASS [   1.211s] ( 629/4461) codex-tui app::thread_routing::tests::turn_permissions_send_legacy_sandbox_for_local_override
+        PASS [   0.049s] ( 630/4461) codex-tui app::thread_session_state::tests::permission_settings_sync_preserves_active_profile_only_rules
+        PASS [   0.050s] ( 631/4461) codex-tui app::thread_session_state::tests::permission_settings_sync_updates_active_snapshot_without_rewriting_side_thread
+        PASS [   0.050s] ( 632/4461) codex-tui app::thread_session_state::tests::service_tier_sync_updates_active_cached_session
+        PASS [   0.049s] ( 633/4461) codex-tui app::thread_session_state::tests::thread_read_fallback_uses_active_permission_settings
+        PASS [   1.112s] ( 634/4461) codex-tui app::thread_routing::tests::turn_permissions_use_active_profile_when_available
+        PASS [  14.005s] ( 635/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_mcp
+        PASS [   0.036s] ( 636/4461) codex-tui app::thread_title::tests::bounds_the_entire_title_prompt_for_dense_unicode
+        PASS [   0.033s] ( 637/4461) codex-tui app::thread_title::tests::normalizes_generated_title_whitespace
+        PASS [   0.034s] ( 638/4461) codex-tui app::thread_title::tests::preserves_meaningful_leading_punctuation_in_generated_titles
+        PASS [   0.034s] ( 639/4461) codex-tui app::thread_title::tests::recent_conversation_messages_escape_markup_and_ignore_commentary
+        PASS [   0.033s] ( 640/4461) codex-tui app::thread_title::tests::recent_conversation_messages_keep_only_the_latest_substantive_items
+        PASS [   0.032s] ( 641/4461) codex-tui app::thread_title::tests::recent_conversation_messages_require_substantive_content
+        PASS [   0.033s] ( 642/4461) codex-tui app::thread_title::tests::recent_conversation_messages_strip_ide_context_before_escaping
+        PASS [   0.032s] ( 643/4461) codex-tui app::thread_title::tests::recent_conversation_prompt_keeps_latest_unicode_characters
+        PASS [   0.033s] ( 644/4461) codex-tui app::thread_title::tests::recent_conversation_prompt_never_splits_an_escaped_markup_entity
+        PASS [   0.032s] ( 645/4461) codex-tui app::thread_title::tests::recent_conversation_prompt_preserves_latest_user_request_and_complete_markup
+        PASS [   0.032s] ( 646/4461) codex-tui app::thread_title::tests::recent_conversation_prompt_trims_messages_and_prioritizes_latest_request
+        PASS [   0.032s] ( 647/4461) codex-tui app::thread_title::tests::rejects_invalid_or_empty_generated_titles
+        PASS [   0.033s] ( 648/4461) codex-tui app::thread_title::tests::removes_wrapping_quotes_and_trailing_punctuation_from_generated_titles
+        PASS [  10.657s] ( 649/4461) codex-tui app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_review
+        FAIL [   0.086s] ( 650/4461) codex-tui app::thread_title::tests::thread_title_progress_clears_failed_requests_and_follows_thread_switches
+  stdout ───
+
+    running 1 test
+    test app::thread_title::tests::thread_title_progress_clears_failed_requests_and_follows_thread_switches ... FAILED
+
+    failures:
+
+    failures:
+        app::thread_title::tests::thread_title_progress_clears_failed_requests_and_follows_thread_switches
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.05s
+
+  stderr ───
+    Error: failed to initialize sqlite local db at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-hdVvEw/state_5.sqlite: failed to initialize state runtime at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-hdVvEw: failed to migrate state DB at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-hdVvEw/state_5.sqlite: while executing migrations: error returned from database: (code: 13) database or disk is full: while executing migrations: error returned from database: (code: 13) database or disk is full: error returned from database: (code: 13) database or disk is full: (code: 13) database or disk is full
+
+    Location:
+        tui/src/lib.rs:614:20
+
+        PASS [   0.033s] ( 651/4461) codex-tui app::thread_title::tests::trims_user_message_in_title_prompt
+        PASS [   0.033s] ( 652/4461) codex-tui app::thread_title::tests::truncates_generated_titles_without_splitting_unicode
+        PASS [   0.033s] ( 653/4461) codex-tui app::thread_title::tests::truncates_title_prompt_without_splitting_unicode
+        PASS [   0.033s] ( 654/4461) codex-tui app::transcript_export::tests::markdown_transcript_preserves_messages_and_formats_activity
+        PASS [   0.034s] ( 655/4461) codex-tui app::transcript_export::tests::persisted_transcript_includes_file_and_mcp_details
+        PASS [   0.032s] ( 656/4461) codex-tui app::transcript_export::tests::transcript_export_excludes_hidden_review_prompts_and_nested_duplicates
+        FAIL [   0.069s] ( 657/4461) codex-tui app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite
+  stdout ───
+
+    running 1 test
+    test app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite ... FAILED
+
+    failures:
+
+    failures:
+        app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.04s
+
+  stderr ───
+    WARNING: proceeding, even though we could not create PATH aliases: No space left on device (os error 28) at path "/Users/cdot/.codex/tmp/arg0/codex-arg0W5uKBW"
+
+    thread 'app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite' (22350460) panicked at tui/src/app/transcript_export_tests.rs:176:41:
+    temporary directory: Custom { kind: StorageFull, error: PathError { path: "/private/tmp/airs-terminal-native-4404ri1m/.tmpFM6wpy", err: Os { code: 28, kind: StorageFull, message: "No space left on device" } } }
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.035s] ( 658/4461) codex-tui app_backtrack::tests::agent_group_count_ignores_context_compacted_marker
+        PASS [   0.034s] ( 659/4461) codex-tui app_backtrack::tests::backtrack_fork_before_turn_id_rejects_in_progress_and_missing_prompts
+        PASS [   0.034s] ( 660/4461) codex-tui app_backtrack::tests::backtrack_fork_before_turn_id_rejects_mid_turn_steers
+  Cancelling due to reporting error: 3 tests still running
+        FAIL [   1.024s] ( 662/4461) codex-tui app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server
+  stdout ───
+
+    running 1 test
+    test app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server ... FAILED
+
+    failures:
+
+    failures:
+        app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 0.99s
+
+  stderr ───
+    Error: thread/start failed during TUI bootstrap: thread/start failed: error creating thread: Fatal error: Failed to initialize session: thread-store internal error: failed to create thread writer lock directory /private/tmp/airs-terminal-native-4404ri1m/.tmpEa0EhD/thread-writer-locks: No space left on device (os error 28) (code -32603)
+
+    Caused by:
+        thread/start failed: error creating thread: Fatal error: Failed to initialize session: thread-store internal error: failed to create thread writer lock directory /private/tmp/airs-terminal-native-4404ri1m/.tmpEa0EhD/thread-writer-locks: No space left on device (os error 28) (code -32603)
+
+    Location:
+        tui/src/app_server_session.rs:193:5
+
+        PASS [   7.653s] ( 663/4461) codex-tui app::thread_title::tests::automatic_thread_title_generates_without_a_provisional_name
+        FAIL [  10.601s] ( 664/4461) codex-tui app::thread_title::tests::automatic_thread_title_respects_origin_metadata_after_switching
+  stdout ───
+
+    running 1 test
+    test app::thread_title::tests::automatic_thread_title_respects_origin_metadata_after_switching ... FAILED
+
+    failures:
+
+    failures:
+        app::thread_title::tests::automatic_thread_title_respects_origin_metadata_after_switching
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4441 filtered out; finished in 10.56s
+
+  stderr ───
+    Error: failed to initialize sqlite local db at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-xZKAKY/state_5.sqlite: failed to initialize state runtime at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-xZKAKY: failed to migrate state DB at /private/tmp/airs-terminal-native-4404ri1m/chatwidget-tests-xZKAKY/state_5.sqlite: while executing migrations: error returned from database: (code: 13) database or disk is full: while executing migrations: error returned from database: (code: 13) database or disk is full: error returned from database: (code: 13) database or disk is full: (code: 13) database or disk is full
+
+    Location:
+        tui/src/lib.rs:614:20
+
+────────────
+     Summary [ 493.568s] 664/4461 tests run: 657 passed (6 slow), 7 failed, 6 skipped
+        FAIL [   0.100s] ( 609/4461) codex-tui app::tests::update_feature_flags_enabling_guardian_selects_auto_review
+        FAIL [   0.082s] ( 610/4461) codex-tui app::tests::update_memory_settings_persists_and_updates_widget_config
+        FAIL [   0.106s] ( 611/4461) codex-tui app::tests::update_memory_settings_updates_current_thread_memory_mode
+        FAIL [   0.086s] ( 650/4461) codex-tui app::thread_title::tests::thread_title_progress_clears_failed_requests_and_follows_thread_switches
+        FAIL [   0.069s] ( 657/4461) codex-tui app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite
+        FAIL [   1.024s] ( 662/4461) codex-tui app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server
+        FAIL [  10.601s] ( 664/4461) codex-tui app::thread_title::tests::automatic_thread_title_respects_origin_metadata_after_switching
+warning: 3797/4461 tests were not run due to reporting error
+error: error reporting results: error writing to output
+error: recipe `test` failed on line 88 with exit code 110

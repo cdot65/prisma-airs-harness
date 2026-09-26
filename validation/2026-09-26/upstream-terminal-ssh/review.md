@@ -3,7 +3,7 @@
 | Criterion | Score | Evidence |
 | --- | --- | --- |
 | Implementation | 9/10 | Complete DA1/DA2 matching, bounded unknown fallback, preserved typeahead/paste, and real TUI/CLI screen-policy checks on Linux and Apple Silicon. |
-| Code quality | 9/10 | Small private parser, existing startup/replay ownership, generated Cargo/Bazel locks, zero-warning scoped lint on both hosts, and 7,182 matching Rust source files. |
+| Code quality | 9/10 | Small private parser, existing startup/replay ownership, generated Cargo/Bazel locks, zero-warning scoped lint on both hosts, and 7,182 matching tracked `codex-rs` files. |
 | Design | 9/10 | Detection applies only to SSH without a detected multiplexer. Explicit screen overrides win. Compatibility applies before startup dialogs/pickers and after configuration reload. |
 | Feature completeness | 9/10 | Full local/native TUI suites, both dependency input implementations, seven PTY scenarios per host, actual CLI resume picker checks and built debug binaries. Signed release acceptance remains part of the broader delivery phase. |
 
@@ -25,7 +25,7 @@ The pinned crossterm change (`45fecb9..efa1778`) consumes secondary replies in b
 - Seven new real-PTY scenarios pass on each host: Apple auto/always/CLI override, non-Apple auto, missing secondary reply, local query exclusion, and tmux query exclusion.
 - Fresh `codex` and `airs-harness` debug CLI binaries built on both hosts. Actual `resume` picker checks pass four mode/override combinations on each host.
 - Dependency tests: 2/2 for mio and 2/2 for tty on Linux. The initial invocation selected this repository's absent `local` profile in the dependency checkout; its `default` profile runs the same tests successfully.
-- Local/native scoped lint: zero warnings. Formatting passed. Post-lint source audit: all 7,182 tracked Rust files match.
+- Local/native scoped lint: zero warnings. Formatting passed. Post-lint source audit: all 7,182 tracked `codex-rs` files match.
 - Local coverage includes 72 AIRS-named cases, seven TypeSafe cases, eight routing cases, 28 terminal-probe cases and 164 startup cases; these groups overlap.
 
 ## Adversarial findings and retained failures
@@ -38,3 +38,5 @@ The pinned crossterm change (`45fecb9..efa1778`) consumes secondary replies in b
 ## Remaining delivery boundary
 
 This feature clears its four 9/10 source-integration gates. No new signed/notarized or npm preview is claimed. Actual Terminal.app-over-SSH behavior is represented by controlled protocol replies; live owner acceptance and the remaining Unicode, math, fullscreen/search, tmux ownership and signed Mac release gates remain in the broader PRD.
+
+Audit terminology correction during the Unicode-list review: the 7,182-file parity check covers the entire tracked `codex-rs` tree, including manifests, schemas and snapshots. The previous prose incorrectly called every file Rust source. The unchanged receipts and matching-file count remain valid.

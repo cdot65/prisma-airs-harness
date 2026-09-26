@@ -19,4 +19,14 @@ The implementation reuses existing renderer style/indent owners. Parser recovery
 
 ## Gate
 
-Scores withheld pending corrected local suite, native suite, lint, full workspace validation and source audit. No signed or distributed preview is claimed.
+Scores withheld pending full GNU workspace validation. Corrected local/native suites, lint and the final source audit pass. No signed or distributed preview is claimed.
+
+
+## Native diagnostic and closure
+
+Initial native execution reports 4,761/4,764 passes, six skips, retries disabled. All three reported failures contain successful Rust assertions followed by Python cleanup errors: a Node helper was still writing `jiti` or its compile cache after its parent test returned. This is retained as an infrastructure failure, not a clean test pass. The final test runner retries only `ENOTEMPTY` cleanup races, bounded to two seconds; other errors still fail. The subsequent fresh full suite on the formatted committed source passed, as recorded below. No product behavior changed for this correction.
+
+Local four-package lint passed with zero warnings; formatting completed and 17 unrelated preexisting Python formatting changes were restored. Full GNU run 3856 (Actions run 311) uses exact source/tooling `d07ec0743140b4fb710a5b99c436ea29862bd192`.
+
+
+Native closure: the complete fresh suite passed **4,764/4,764**, six skips, retries disabled, including all three previously reported wrapper failures. The corrected wrapper cleaned successful temporary roots. The source audit matches all **7,190 tracked codex-rs files**, including schemas and snapshots (4,018 are Rust files). Final native four-package lint passed with zero warnings, and all 7,190 tracked workspace files still match after lint. Full GNU remains pending; no score is assigned yet.

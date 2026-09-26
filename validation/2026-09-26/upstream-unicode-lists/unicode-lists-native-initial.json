@@ -1,0 +1,28 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "--test-threads",
+    "4",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 100,
+  "elapsed_seconds": 611.0565981864929,
+  "owned_tmp": "/private/tmp/airs-terminal-native-px9ungf9",
+  "junit": {
+    "name": "nextest-run",
+    "tests": "4764",
+    "skipped": "0",
+    "failures": "3",
+    "errors": "0",
+    "uuid": "9cf996c3-57b6-42c7-b67a-961d428f6103",
+    "timestamp": "2026-09-26T18:12:29.650-05:00",
+    "time": "299.323"
+  }
+}

@@ -1,0 +1,469 @@
+cargo clippy --fix --tests --allow-dirty {args}
+   Compiling zeroize_derive v1.4.3
+    Checking parking_lot v0.12.5
+    Checking tokio v1.52.3
+    Checking zeroize v1.8.2
+    Checking generic-array v0.14.7
+    Checking crypto-common v0.1.7
+    Checking block-buffer v0.10.4
+    Checking digest v0.10.7
+   Compiling syn v3.0.3
+    Checking either v1.15.0
+   Compiling zerocopy-derive v0.8.37
+    Checking zerocopy v0.8.37
+   Compiling futures-macro v0.3.34
+    Checking futures-util v0.3.34
+    Checking tinystr v0.8.3
+   Compiling serde v1.0.228
+    Checking icu_locale_core v2.2.0
+    Checking tokio-util v0.7.18
+    Checking ppv-lite86 v0.2.21
+    Checking icu_provider v2.2.0
+    Checking sha2 v0.10.9
+    Checking rustls-pki-types v1.14.0
+    Checking aws-lc-rs v1.18.1
+    Checking icu_normalizer v2.2.0
+    Checking icu_properties v2.2.0
+    Checking sha1 v0.10.6
+    Checking rustls-webpki v0.103.15
+    Checking rand_chacha v0.9.0
+    Checking idna_adapter v1.2.1
+    Checking idna v1.1.0
+    Checking rustls v0.23.45
+    Checking url v2.5.8
+    Checking rand v0.9.3
+    Checking h2 v0.4.16
+    Checking futures-executor v0.3.34
+    Checking itertools v0.14.0
+    Checking rustls-native-certs v0.8.3
+    Checking tokio-rustls v0.26.4
+    Checking hyper v1.8.1
+    Checking tower v0.5.3
+    Checking webpki-roots v1.0.5
+    Checking hyper-util v0.1.20
+    Checking futures v0.3.34
+    Checking ahash v0.8.12
+    Checking rama-utils v0.3.0-alpha.4
+    Checking tokio-graceful v0.2.2
+    Checking hyper-rustls v0.27.7
+    Checking num-bigint v0.4.6
+    Checking rama-core v0.3.0-alpha.4
+    Checking tokio-stream v0.1.18
+    Checking tracing-serde v0.2.0
+    Checking tracing-subscriber v0.3.22
+    Checking rama-http-types v0.3.0-alpha.4
+    Checking tokio-native-tls v0.3.1
+    Checking tower-http v0.6.8
+    Checking publicsuffix v2.3.0
+    Checking cookie_store v0.22.1
+    Checking schemars v0.8.22
+    Checking rama-net v0.3.0-alpha.4
+    Checking hyper-tls v0.6.0
+    Checking reqwest v0.12.28
+    Checking ts-rs v11.1.0
+    Checking arrayvec v0.7.6
+    Checking codex-utils-absolute-path v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/absolute-path)
+    Checking lock_free_hashtable v0.1.4
+    Checking moka v0.12.13
+    Checking asn1-rs v0.7.1
+    Checking hickory-proto v0.25.2
+   Compiling fax_derive v0.2.0
+    Checking dashmap v6.1.0
+    Checking blake3 v1.8.2
+    Checking allocative v0.3.6
+    Checking hickory-resolver v0.25.2
+    Checking fax v0.2.6
+    Checking sorted_vector_map v0.2.1
+    Checking static_interner v0.1.2
+   Compiling schemafy_core v0.5.2
+    Checking codex-utils-rustls-provider v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/rustls-provider)
+    Checking half v2.7.1
+    Checking pagable v0.4.1
+    Checking tiff v0.10.3
+   Compiling schemafy_lib v0.5.2
+    Checking rama-dns v0.3.0-alpha.4
+    Checking oid-registry v0.8.1
+    Checking rama-http-headers v0.3.0-alpha.4
+    Checking der-parser v10.0.0
+    Checking tracing-opentelemetry v0.32.1
+    Checking rama-http v0.3.0-alpha.4
+    Checking codex-http-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/http-client)
+    Checking clap v4.5.58
+    Checking rama-tcp v0.3.0-alpha.4
+    Checking x509-parser v0.18.1
+   Compiling schemafy v0.5.2
+    Checking starlark_map v0.14.2
+    Checking image v0.25.9
+    Checking lsp-types v0.97.0
+    Checking codex-utils-home-dir v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/home-dir)
+    Checking tokio-test v0.4.5
+    Checking rustyline v14.0.0
+    Checking rcgen v0.14.9
+    Checking rama-http-core v0.3.0-alpha.4
+    Checking debugserver-types v0.5.0
+    Checking starlark_syntax v0.14.2
+    Checking display_container v0.9.0
+    Checking rama-udp v0.3.0-alpha.4
+    Checking rama-unix v0.3.0-alpha.4
+    Checking codex-utils-cache v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cache)
+    Checking codex-utils-image v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/image)
+    Checking rama-http-backend v0.3.0-alpha.4
+    Checking rama-socks5 v0.3.0-alpha.4
+    Checking starlark v0.14.2
+    Checking icu_locale v2.2.0
+    Checking rama-tls-rustls v0.3.0-alpha.4
+   Compiling strum_macros v0.27.2
+    Checking icu_decimal v2.2.0
+    Checking strum v0.27.2
+    Checking codex-network-proxy v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/network-proxy)
+    Checking codex-utils-path-uri v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/path-uri)
+    Checking codex-extension-items v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/items)
+    Checking codex-utils-redacted-string v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/redacted-string)
+    Checking codex-execpolicy v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/execpolicy)
+    Checking codex-utils-string v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/string)
+    Checking codex-async-utils v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/async-utils)
+    Checking codex-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/protocol)
+    Checking prodash v31.0.0
+    Checking gix-features v0.46.2
+    Checking sha1-checked v0.10.0
+   Compiling zerofrom v0.1.6
+   Compiling yoke v0.8.2
+    Checking gix-hash v0.23.0
+   Compiling prost-derive v0.14.3
+   Compiling zerovec v0.11.6
+    Checking headers v0.4.1
+    Checking gix-hashtable v0.13.0
+    Checking tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+    Checking gix-object v0.58.0
+    Checking tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+    Checking gix-fs v0.19.2
+    Checking prost v0.14.3
+    Checking gix-tempfile v21.0.2
+    Checking axum v0.8.8
+    Checking gix-lock v21.0.2
+    Checking hyper-timeout v0.5.2
+    Checking inout v0.1.4
+    Checking cipher v0.4.4
+    Checking tonic v0.14.3
+    Checking gix-commitgraph v0.35.0
+    Checking gix-revwalk v0.29.0
+    Checking codex-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-client)
+    Checking tonic-prost v0.14.3
+    Checking gix-ref v0.61.0
+    Checking codex-websocket-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/websocket-client)
+    Checking codex-api v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-api)
+    Checking gix-glob v0.24.0
+    Checking opentelemetry_sdk v0.31.0
+    Checking opentelemetry-proto v0.31.0
+    Checking gix-pack v0.68.0
+    Checking gix-transport v0.55.1
+    Checking codex-utils-pty v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/pty)
+    Checking gix-revision v0.43.0
+    Checking gix-shallow v0.10.0
+    Checking opentelemetry-http v0.31.0
+    Checking universal-hash v0.5.1
+    Checking gix-config v0.54.0
+    Checking opentelemetry-otlp v0.31.0
+    Checking gix-protocol v0.59.0
+    Checking gix-refspec v0.39.0
+    Checking gix-odb v0.78.0
+    Checking gix-discover v0.49.0
+    Checking os_info v3.14.0
+    Checking gix-traverse v0.55.0
+    Checking codex-file-system v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-system)
+    Checking gix-diff v0.61.0
+    Checking opentelemetry-appender-tracing v0.31.1
+    Checking codex-otel v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/otel)
+    Checking gix v0.81.0
+    Checking rand_chacha v0.3.1
+    Checking hmac v0.12.1
+    Checking rand v0.8.6
+    Checking codex-git-utils v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/git-utils)
+    Checking aead v0.5.2
+    Checking curve25519-dalek v4.1.3
+   Compiling unic-langid-impl v0.9.6
+    Checking codex-utils-path v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/path-utils)
+   Compiling unic-langid v0.9.6
+    Checking x25519-dalek v2.0.1
+    Checking codex-features v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/features)
+    Checking codex-model-provider-info v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/model-provider-info)
+   Compiling thiserror v1.0.69
+    Checking bytes-utils v0.1.4
+    Checking aws-smithy-types v1.4.7
+    Checking der v0.7.10
+    Checking codex-config v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/config)
+    Checking spki v0.7.3
+   Compiling rust-embed-impl v8.11.0
+    Checking codex-shell-command v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/shell-command)
+    Checking pkcs8 v0.10.2
+    Checking poly1305 v0.8.0
+    Checking aws-smithy-async v1.2.14
+   Compiling basic-toml v0.1.10
+   Compiling toml v0.5.11
+   Compiling aws-smithy-runtime-api-macros v1.0.0
+    Checking aws-smithy-runtime-api v1.12.0
+   Compiling find-crate v0.6.3
+   Compiling i18n-config v0.4.8
+   Compiling intl-memoizer v0.5.3
+   Compiling fluent-syntax v0.11.1
+   Compiling fluent-langneg v0.13.1
+   Compiling intl_pluralrules v7.0.2
+    Checking salsa20 v0.10.2
+   Compiling fluent-bundle v0.15.3
+    Checking codex-install-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/install-context)
+   Compiling i18n-embed-impl v0.8.4
+   Compiling windows-interface v0.58.0
+   Compiling windows-implement v0.58.0
+    Checking windows-core v0.58.0
+   Compiling fluent v0.16.1
+   Compiling rust-embed v8.11.0
+    Checking pbkdf2 v0.12.2
+    Checking polyval v0.6.2
+    Checking aes v0.8.4
+    Checking chacha20 v0.9.1
+    Checking rust-embed-utils v8.11.0
+    Checking signature v2.2.0
+   Compiling proc-macro-error-attr2 v2.0.0
+    Checking sha3 v0.10.9
+    Checking windows v0.58.0
+   Compiling proc-macro-error2 v2.0.1
+   Compiling i18n-embed v0.15.4
+    Checking chacha20poly1305 v0.10.1
+    Checking ghash v0.5.1
+    Checking hkdf v0.12.4
+    Checking ctr v0.9.2
+    Checking tracing-appender v0.2.4
+   Compiling thiserror-impl-no-std v2.0.2
+    Checking cookie-factory v0.3.3
+    Checking secrecy v0.10.3
+    Checking kem v0.3.0-pre.0
+    Checking thiserror-no-std v2.0.2
+    Checking codex-windows-sandbox v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/windows-sandbox-rs)
+    Checking age-core v0.11.0
+    Checking ml-kem v0.2.3
+   Compiling i18n-embed-fl v0.9.4
+    Checking aes-gcm v0.10.3
+    Checking scrypt v0.11.0
+   Compiling potential_utf v0.1.4
+   Compiling zerotrie v0.2.4
+    Checking codex-uds v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/uds)
+    Checking age v0.11.2
+   Compiling icu_collections v2.2.0
+    Checking codex-sandboxing v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/sandboxing)
+    Checking codex-keyring-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/keyring-store)
+    Checking clatter v2.2.0
+    Checking codex-build-info v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/build-info)
+    Checking aws-credential-types v1.2.11
+    Checking aws-smithy-http v0.62.6
+    Checking codex-exec-server-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/exec-server-protocol)
+    Checking codex-secrets v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/secrets)
+    Checking aws-smithy-observability v0.1.5
+    Checking aws-smithy-http-client v1.1.12
+    Checking codex-exec-server v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/exec-server)
+    Checking debugid v0.8.0
+    Checking sentry-types v0.46.1
+    Checking aws-smithy-runtime v1.9.5
+    Checking aws-types v1.3.11
+    Checking aws-sigv4 v1.3.7
+    Checking ed25519 v2.2.3
+    Checking crypto_secretbox v0.1.1
+    Checking simple_asn1 v0.6.4
+    Checking blake2 v0.10.6
+    Checking sec1 v0.7.3
+    Checking crypto_box v0.9.1
+    Checking jsonwebtoken v9.3.1
+    Checking aws-runtime v1.5.17
+    Checking ed25519-dalek v2.2.0
+    Checking sentry-core v0.46.1
+    Checking webbrowser v1.2.4
+    Checking aws-smithy-json v0.61.9
+   Compiling darling_core v0.24.0
+    Checking crypto-bigint v0.5.5
+    Checking elliptic-curve v0.13.8
+    Checking codex-agent-identity v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-identity)
+   Compiling prettyplease v0.2.37
+   Compiling darling_macro v0.24.0
+    Checking codex-workload-identity v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/workload-identity)
+    Checking codex-terminal-detection v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/terminal-detection)
+   Compiling prost-types v0.14.3
+    Checking codex-login v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/login)
+   Compiling tracing v0.1.44
+   Compiling darling v0.24.0
+   Compiling thiserror v2.0.18
+    Checking rfc6979 v0.4.0
+   Compiling schemars_derive v1.2.1
+   Compiling prost-build v0.14.3
+    Checking schemars v1.2.1
+   Compiling sqlx-core v0.9.0
+    Checking ecdsa v0.16.9
+   Compiling rmcp-macros v3.2.0
+   Compiling tonic-build v0.14.3
+    Checking primeorder v0.13.6
+    Checking sentry-backtrace v0.46.1
+    Checking aws-smithy-query v0.60.9
+    Checking oauth2 v5.0.0
+    Checking process-wrap v9.0.1
+    Checking codex-utils-output-truncation v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/output-truncation)
+    Checking codex-history v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/history)
+    Checking reqwest v0.13.4
+    Checking sse-stream v0.2.5
+    Checking sentry-contexts v0.46.1
+    Checking rmcp v3.2.0
+    Checking aws-sdk-sts v1.95.0
+   Compiling sqlx-sqlite v0.9.0
+    Checking sentry-panic v0.46.1
+    Checking p256 v0.13.2
+   Compiling tonic-prost-build v0.14.3
+    Checking sentry-debug-images v0.46.1
+    Checking aws-sdk-ssooidc v1.93.0
+    Checking aws-sdk-sso v1.91.0
+    Checking aws-sdk-signin v1.2.0
+    Checking codex-utils-plugins v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/plugins)
+    Checking futures-intrusive v0.5.0
+   Compiling sqlx-macros-core v0.9.0
+   Compiling codex-code-mode-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/code-mode-protocol)
+    Checking codex-plugin v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/plugin)
+    Checking aws-config v1.8.12
+    Checking sentry v0.46.1
+    Checking codex-models-manager v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/models-manager)
+    Checking codex-aws-auth v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/aws-auth)
+    Checking codex-feedback v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/feedback)
+   Compiling sqlx-macros v0.9.0
+    Checking codex-response-debug-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/response-debug-context)
+    Checking symphonia-core v0.6.0
+    Checking sqlx v0.9.0
+    Checking codex-model-provider v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/model-provider)
+    Checking rayon v1.11.0
+    Checking codex-code-mode v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/code-mode)
+    Checking nucleo v0.5.0 (https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9f)
+    Checking codex-state v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/state)
+    Checking codex-connectors v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/connectors)
+    Checking codex-file-search v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-search)
+    Checking symphonia-metadata v0.6.0
+    Checking codex-rmcp-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rmcp-client)
+    Checking codex-tools v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tools)
+    Checking codex-rollout v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rollout)
+   Compiling codex-experimental-api-macros v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-experimental-api-macros)
+    Checking codex-mcp v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-mcp)
+    Checking codex-app-server-protocol v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-protocol)
+    Checking symphonia-common v0.6.0
+    Checking codex-context-fragments v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/context-fragments)
+   Compiling darling_core v0.20.11
+   Compiling include_dir_macros v0.7.4
+    Checking serde_yaml v0.9.34+deprecated
+    Checking include_dir v0.7.4
+   Compiling darling_macro v0.20.11
+   Compiling darling v0.20.11
+    Checking codex-skills v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/skills)
+    Checking codex-extension-api v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/extension-api)
+    Checking symphonia-format-riff v0.6.0
+    Checking zip v2.4.2
+   Compiling cached_proc_macro v0.25.0
+    Checking symphonia-format-isomp4 v0.6.0
+    Checking symphonia-format-mkv v0.6.0
+    Checking symphonia-format-ogg v0.6.0
+    Checking symphonia-bundle-mp3 v0.6.0
+    Checking codex-hooks v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/hooks)
+    Checking codex-apply-patch v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/apply-patch)
+    Checking codex-shell-escalation v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/shell-escalation)
+    Checking cached v0.56.0
+    Checking symphonia v0.6.0
+    Checking rust-stemmers v1.2.0
+    Checking bm25 v2.3.2
+    Checking codex-utils-audio v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/audio)
+    Checking codex-prompts v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/prompts)
+    Checking codex-agent-graph-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-graph-store)
+    Checking codex-rollout-trace v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/rollout-trace)
+    Checking codex-analytics v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/analytics)
+    Checking codex-core-plugins v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core-plugins)
+    Checking codex-skills-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/skills)
+    Checking codex-thread-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/thread-store)
+    Checking codex-guardian-context v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/guardian-context)
+    Checking codex-agent-roles v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/agent-roles)
+    Checking codex-memories-read v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/memories/read)
+    Checking codex-utils-git-discovery v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/git-discovery)
+    Checking codex-attachment-store v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/attachment-store)
+    Checking codex-arg0 v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/arg0)
+    Checking deadpool v0.12.3
+    Checking codex-home v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-home)
+    Checking assert-json-diff v2.0.2
+    Checking wiremock v0.6.5
+   Compiling darling_core v0.23.0
+    Checking codex-core v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core)
+   Compiling darling_macro v0.23.0
+    Checking unicode-truncate v2.0.1
+    Checking codex-backend-openapi-models v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/codex-backend-openapi-models)
+    Checking strum v0.28.0
+    Checking kasuari v0.4.12
+    Checking ratatui-core v0.1.2
+    Checking codex-backend-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/backend-client)
+   Compiling darling v0.23.0
+   Compiling instability v0.3.11
+   Compiling derive_more-impl v2.1.1
+    Checking codex-utils-cargo-bin v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cargo-bin)
+    Checking derive_more v2.1.1
+    Checking ratatui-widgets v0.3.2
+    Checking crossterm v0.29.0 (https://github.com/openai-oss-forks/crossterm?rev=efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4#efa17785)
+    Checking codex-connectors-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/connectors)
+    Checking codex-utils-cli v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/cli)
+   Compiling serial_test_derive v3.3.1
+   Compiling async-stream-impl v0.3.6
+    Checking async-stream v0.3.6
+    Checking serial_test v3.3.1
+    Checking plist v1.9.0
+    Checking ratatui-crossterm v0.1.2
+    Checking codex-git-attribution v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/git-attribution)
+    Checking codex-file-watcher v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/file-watcher)
+    Checking tracing-error v0.2.1
+    Checking bincode v1.3.3
+    Checking ansi-to-tui v8.0.1
+    Checking syntect v5.3.0
+    Checking color-spantrace v0.3.0
+    Checking ratatui v0.30.2
+    Checking color-eyre v0.6.5
+    Checking codex-ansi-escape v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ansi-escape)
+    Checking two-face v0.5.1
+    Checking ratatui-macros v0.7.2
+    Checking arboard v3.6.1
+    Checking codex-message-history v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/message-history)
+    Checking codex-worktree v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/worktree)
+    Checking codex-utils-sandbox-summary v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/sandbox-summary)
+    Checking codex-utils-approval-presets v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/approval-presets)
+    Checking vte v0.15.0
+    Checking codex-utils-sleep-inhibitor v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/sleep-inhibitor)
+    Checking vt100 v0.16.2
+   Compiling test-case-core v3.3.1
+   Compiling test-case-macros v3.3.1
+   Compiling test-log-macros v0.2.19
+   Compiling tracing-test-macro v0.2.5
+    Checking petgraph v0.8.3
+    Checking tracing-test v0.2.5
+    Checking test-log v0.2.19
+    Checking test-case v3.3.1
+    Checking codex-exec-server-test-support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/exec-server/tests/support)
+    Checking codex-test-binary-support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/test-binary-support)
+    Checking codex-image-generation-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/image-generation)
+    Checking codex-web-search-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/web-search)
+    Checking core_test_support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core/tests/common)
+    Checking codex-memories-write v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/memories/write)
+    Checking codex-external-agent-migration v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/external-agent-migration)
+    Checking codex-cloud-config v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/cloud-config)
+    Checking codex-guardian-v2 v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/guardian-v2)
+    Checking codex-mcp-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/mcp)
+    Checking codex-chatgpt v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/chatgpt)
+    Checking codex-queue-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/queue)
+    Checking codex-app-server-transport v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-transport)
+    Checking codex-goal-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/goal)
+    Checking codex-history-notes-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/history-notes)
+    Checking codex-memories-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/memories)
+    Checking codex-agent-extension v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ext/agent)
+    Checking codex-lmstudio v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/lmstudio)
+    Checking codex-ollama v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/ollama)
+    Checking codex-app-server v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server)
+    Checking codex-utils-oss v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/utils/oss)
+    Checking app_test_support v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server/tests/common)
+    Checking codex-core-api v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/core-api)
+    Checking codex-thread-manager-sample v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/thread-manager-sample)
+    Checking codex-app-server-client v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/app-server-client)
+    Checking codex-tui v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tui)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4m 01s

@@ -24,9 +24,9 @@
     "native_real_cli_picker_cases": 4,
     "local_lint_warnings": 0,
     "native_lint_warnings": 0,
-    "matching_rust_source_files": 7182,
     "actual_bazel_lock_update_and_strict_check": true,
-    "local_and_native_cli_debug_binaries_built": true
+    "local_and_native_cli_debug_binaries_built": true,
+    "matching_codex_rs_files": 7182
   },
   "skips": [
     "four preexisting manual tmux resize tests",

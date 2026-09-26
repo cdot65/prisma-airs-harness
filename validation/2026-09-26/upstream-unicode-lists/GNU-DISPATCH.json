@@ -1,0 +1,12 @@
+{
+  "source": "d07ec0743140b4fb710a5b99c436ea29862bd192",
+  "http_status": 204,
+  "payload": {
+    "ref": "feat/airs-upstream-20260926",
+    "inputs": {
+      "source_ref": "d07ec0743140b4fb710a5b99c436ea29862bd192",
+      "tooling_ref": "d07ec0743140b4fb710a5b99c436ea29862bd192",
+      "test_filter": ""
+    }
+  }
+}

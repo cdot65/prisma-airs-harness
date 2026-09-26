@@ -234,8 +234,8 @@ fn blockquote_with_list_items() {
     let md = "> - item 1\n> - item 2\n";
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
-        Line::from_iter(["> ", "- ", "item 1"]).green(),
-        Line::from_iter(["> ", "- ", "item 2"]).green(),
+        Line::from_iter(["> ", "• ", "item 1"]).green(),
+        Line::from_iter(["> ", "• ", "item 2"]).green(),
     ]);
     assert_eq!(text, expected);
 }
@@ -266,7 +266,7 @@ fn blockquote_list_then_nested_blockquote() {
     let md = "> - parent\n>   > child\n";
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
-        Line::from_iter(["> ", "- ", "parent"]).green(),
+        Line::from_iter(["> ", "• ", "parent"]).green(),
         Line::from_iter(["> ", "  ", "> ", "child"]).green(),
     ]);
     assert_eq!(text, expected);
@@ -344,7 +344,7 @@ fn blockquote_in_unordered_list_on_next_line() {
                 .collect::<String>()
         })
         .collect();
-    assert_eq!(lines, vec!["- > quoted".to_string()]);
+    assert_eq!(lines, vec!["• > quoted".to_string()]);
 }
 
 #[test]
@@ -387,7 +387,7 @@ fn blockquote_inside_nested_list() {
                 .collect::<String>()
         })
         .collect();
-    assert_eq!(lines, vec!["1. A", "    - B", "      > inner"]);
+    assert_eq!(lines, vec!["1. A", "    • B", "      > inner"]);
 }
 
 #[test]
@@ -564,7 +564,7 @@ fn nested_blockquote_with_inline_and_fenced_code() {
 #[test]
 fn list_unordered_single() {
     let text = render_markdown_text("- List item 1\n");
-    let expected = Text::from_iter([Line::from_iter(["- ", "List item 1"])]);
+    let expected = Text::from_iter([Line::from_iter(["• ", "List item 1"])]);
     assert_eq!(text, expected);
 }
 
@@ -572,8 +572,8 @@ fn list_unordered_single() {
 fn list_unordered_multiple() {
     let text = render_markdown_text("- List item 1\n- List item 2\n");
     let expected = Text::from_iter([
-        Line::from_iter(["- ", "List item 1"]),
-        Line::from_iter(["- ", "List item 2"]),
+        Line::from_iter(["• ", "List item 1"]),
+        Line::from_iter(["• ", "List item 2"]),
     ]);
     assert_eq!(text, expected);
 }
@@ -592,8 +592,8 @@ fn list_ordered() {
 fn list_nested() {
     let text = render_markdown_text("- List item 1\n  - Nested list item 1\n");
     let expected = Text::from_iter([
-        Line::from_iter(["- ", "List item 1"]),
-        Line::from_iter(["    - ", "Nested list item 1"]),
+        Line::from_iter(["• ", "List item 1"]),
+        Line::from_iter(["    • ", "Nested list item 1"]),
     ]);
     assert_eq!(text, expected);
 }
@@ -614,8 +614,8 @@ fn nested_unordered_in_ordered() {
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
         Line::from_iter(["1. ".light_blue(), "Outer".into()]),
-        Line::from_iter(["    - ", "Inner A"]),
-        Line::from_iter(["    - ", "Inner B"]),
+        Line::from_iter(["    • ", "Inner A"]),
+        Line::from_iter(["    • ", "Inner B"]),
         Line::default(),
         Line::from_iter(["2. ".light_blue(), "Next".into()]),
     ]);
@@ -627,11 +627,11 @@ fn nested_ordered_in_unordered() {
     let md = "- Outer\n    1. One\n    2. Two\n- Last\n";
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
-        Line::from_iter(["- ", "Outer"]),
+        Line::from_iter(["• ", "Outer"]),
         Line::from_iter(["    1. ".light_blue(), "One".into()]),
         Line::from_iter(["    2. ".light_blue(), "Two".into()]),
         Line::default(),
-        Line::from_iter(["- ", "Last"]),
+        Line::from_iter(["• ", "Last"]),
     ]);
     assert_eq!(text, expected);
 }
@@ -655,7 +655,7 @@ fn tight_item_with_soft_break() {
     let md = "- item line1\n  item line2\n";
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
-        Line::from_iter(["- ", "item line1"]),
+        Line::from_iter(["• ", "item line1"]),
         Line::from_iter(["  ", "item line2"]),
     ]);
     assert_eq!(text, expected);
@@ -667,7 +667,7 @@ fn deeply_nested_mixed_three_levels() {
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
         Line::from_iter(["1. ".light_blue(), "A".into()]),
-        Line::from_iter(["    - ", "B"]),
+        Line::from_iter(["    • ", "B"]),
         Line::from_iter(["        1. ".light_blue(), "C".into()]),
         Line::default(),
         Line::from_iter(["2. ".light_blue(), "D".into()]),
@@ -1148,7 +1148,7 @@ fn unordered_list_local_file_link_stays_inline_with_following_text() {
     assert_eq!(
         rendered,
         vec![
-            "- binary (codex-rs/README.md:93): core is the agent/business logic, tui",
+            "• binary (codex-rs/README.md:93): core is the agent/business logic, tui",
             "  is the terminal UI, exec is the headless automation surface, and cli",
             "  is the top-level multitool binary.",
         ]
@@ -1174,7 +1174,7 @@ fn unordered_list_local_file_link_soft_break_before_colon_stays_inline() {
         .collect::<Vec<_>>();
     assert_eq!(
         rendered,
-        vec!["- binary (codex-rs/README.md:93): core is the agent/business logic.",]
+        vec!["• binary (codex-rs/README.md:93): core is the agent/business logic.",]
     );
 }
 
@@ -1198,8 +1198,8 @@ fn consecutive_unordered_list_local_file_links_do_not_detach_paths() {
     assert_eq!(
         rendered,
         vec![
-            "- binary (codex-rs/README.md:93): cli is the top-level multitool binary.",
-            "- expectations (codex-rs/core/README.md:1): codex-core owns the real",
+            "• binary (codex-rs/README.md:93): cli is the top-level multitool binary.",
+            "• expectations (codex-rs/core/README.md:1): codex-core owns the real",
             "  runtime behavior.",
         ]
     );
@@ -1391,7 +1391,7 @@ fn code_block_inside_unordered_list_item_is_indented() {
                 .collect::<String>()
         })
         .collect();
-    assert_eq!(lines, vec!["- Item", "", "  code line"]);
+    assert_eq!(lines, vec!["• Item", "", "  code line"]);
 }
 
 #[test]
@@ -1408,7 +1408,7 @@ fn code_block_multiple_lines_inside_unordered_list() {
                 .collect::<String>()
         })
         .collect();
-    assert_eq!(lines, vec!["- Item", "", "  first", "  second"]);
+    assert_eq!(lines, vec!["• Item", "", "  first", "  second"]);
 }
 
 #[test]
@@ -1425,7 +1425,7 @@ fn code_block_inside_unordered_list_item_multiple_lines() {
                 .collect::<String>()
         })
         .collect();
-    assert_eq!(lines, vec!["- Item", "", "  first", "  second"]);
+    assert_eq!(lines, vec!["• Item", "", "  first", "  second"]);
 }
 
 #[test]
@@ -1453,7 +1453,7 @@ fn outer_list_item_after_nested_code_block_keeps_blank_separator() {
         lines,
         vec![
             "1. First:",
-            "    - Nested:",
+            "    • Nested:",
             "",
             "      fn first() {}",
             "",
@@ -1604,7 +1604,7 @@ fn ordered_item_with_code_block_and_nested_bullet() {
             "2. item 2".to_string(),
             String::new(),
             "   code".to_string(),
-            "    - PROCESS_START (a OnceLock<Instant>) keeps the start time for the entire process.".to_string(),
+            "    • PROCESS_START (a OnceLock<Instant>) keeps the start time for the entire process.".to_string(),
         ]
     );
 }
@@ -1615,11 +1615,11 @@ fn nested_five_levels_mixed_lists() {
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
         Line::from_iter(["1. ".light_blue(), "First".into()]),
-        Line::from_iter(["    - ", "Second level"]),
+        Line::from_iter(["    • ", "Second level"]),
         Line::from_iter(["        1. ".light_blue(), "Third level (ordered)".into()]),
-        Line::from_iter(["            - ", "Fourth level (bullet)"]),
+        Line::from_iter(["            • ", "Fourth level (bullet)"]),
         Line::from_iter([
-            "                - ",
+            "                • ",
             "Fifth level to test indent consistency",
         ]),
     ]);
@@ -1662,7 +1662,7 @@ fn html_continuation_paragraph_in_unordered_item_indented() {
     let md = "- Item\n\n  <em>continued</em>\n";
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
-        Line::from_iter(["- ", "Item"]),
+        Line::from_iter(["• ", "Item"]),
         Line::default(),
         Line::from_iter(["  ", "<em>", "continued", "</em>"]),
     ]);
@@ -1686,7 +1686,7 @@ fn unordered_item_continuation_paragraph_is_indented() {
     assert_eq!(
         lines,
         vec![
-            "- Intro".to_string(),
+            "• Intro".to_string(),
             String::new(),
             "  Continuation paragraph line 1".to_string(),
             "  Continuation paragraph line 2".to_string(),
@@ -1712,7 +1712,7 @@ fn nested_item_continuation_paragraph_is_indented() {
     let text = render_markdown_text(md);
     let expected = Text::from_iter([
         Line::from_iter(["1. ".light_blue(), "A".into()]),
-        Line::from_iter(["    - ", "B"]),
+        Line::from_iter(["    • ", "B"]),
         Line::default(),
         Line::from_iter(["      ", "Continuation for B"]),
         Line::default(),

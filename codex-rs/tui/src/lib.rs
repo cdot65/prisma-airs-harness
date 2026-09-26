@@ -1116,6 +1116,7 @@ async fn run_ratatui_app(
         prev_hook(info);
     }));
     let (mut tui, mut terminal_restore_guard, mut startup_draft) = startup_draft.into_parts();
+    crate::markdown_render::preferences::init(initial_config.tui_rendering);
     // Apply compatibility before startup dialogs or the session picker can enter alternate screen.
     tui.set_alt_screen_enabled(determine_alt_screen_mode(
         cli.no_alt_screen,
@@ -1390,6 +1391,7 @@ async fn run_ratatui_app(
             .alternate_screen,
         tui.terminal_app_over_ssh,
     ));
+    crate::markdown_render::preferences::init(config.tui_rendering);
     startup_draft.apply_config(&config);
     if !(cli.resume_picker || cli.fork_picker || cli.agents_overview)
         && let Err(err) = startup_draft.show(&mut tui)
@@ -1729,6 +1731,7 @@ async fn run_ratatui_app(
     if app_server_target.uses_embedded_network_policy() {
         embedded_network_policy.bind_config(&mut config);
     }
+    crate::markdown_render::preferences::init(config.tui_rendering);
     startup_draft.apply_config(&config);
 
     let local_settings = crate::local_settings::LocalSettings::from(&config);

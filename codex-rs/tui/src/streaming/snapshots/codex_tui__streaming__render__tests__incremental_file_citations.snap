@@ -17,7 +17,7 @@ expression: rendered_cases
         },
         HyperlinkLine {
             line: Line::from_iter([
-                Span::from("- "),
+                Span::from("• "),
                 Span::from("Quarterly Report.xlsx").cyan(),
             ]),
             hyperlinks: [],
@@ -45,7 +45,7 @@ expression: rendered_cases
         },
         HyperlinkLine {
             line: Line::from_iter([
-                Span::from("- "),
+                Span::from("• "),
                 Span::from("Résumé *final* ✨.xlsx").cyan(),
             ]),
             hyperlinks: [],

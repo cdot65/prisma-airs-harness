@@ -1,0 +1,18 @@
+---
+source: tui/src/markdown_render/preferences_tests.rs
+expression: "format!(\"plain:\\n{plain}\\n\\nrich:\\n{rich}\\n\\nsource:\\n{source}\")"
+---
+plain:
+- [ ] Pending
+- [x] Done
+- Ordinary
+
+rich:
+☐ Pending
+☑ Done
+• Ordinary
+
+source:
+- [ ] Pending
+- [x] **Done**
+- Ordinary

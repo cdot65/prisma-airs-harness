@@ -44,6 +44,8 @@ pub use crate::tui_keymap::TuiVimNormalKeymap;
 pub use crate::tui_keymap::TuiVimOperatorKeymap;
 pub use crate::tui_keymap::TuiVimSearchKeymap;
 
+pub use crate::tui_rendering::TuiRendering;
+
 pub const DEFAULT_OTEL_ENVIRONMENT: &str = "dev";
 pub const DEFAULT_MEMORIES_MAX_ROLLOUTS_PER_STARTUP: usize = 2;
 pub const DEFAULT_MEMORIES_MAX_ROLLOUT_AGE_DAYS: i64 = 10;
@@ -736,6 +738,10 @@ pub struct Tui {
     #[serde(default = "default_true")]
     pub whimsy: bool,
 
+    /// Rich content rendering, independent of animation settings.
+    #[serde(default)]
+    pub rendering: TuiRendering,
+
     /// Show startup tooltips in the TUI welcome screen.
     /// Defaults to `true`.
     #[serde(default = "default_true")]
@@ -768,7 +774,8 @@ pub struct Tui {
 
     /// Controls whether the TUI uses the terminal's alternate screen buffer.
     ///
-    /// - `auto` (default): Use alternate screen.
+    /// - `auto` (default): Use alternate screen, except for Terminal.app over SSH
+    ///   outside a multiplexer, where inline mode preserves native scrollback.
     /// - `always`: Always use alternate screen.
     /// - `never`: Never use alternate screen (inline mode only, preserves scrollback).
     #[serde(default)]

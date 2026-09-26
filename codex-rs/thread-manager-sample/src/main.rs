@@ -228,6 +228,7 @@ fn new_config(model: Option<String>, arg0_paths: Arg0DispatchPaths) -> anyhow::R
         tui_notifications: TuiNotificationSettings::default(),
         animations: true,
         tui_whimsy: true,
+        tui_rendering: Default::default(),
         show_tooltips: true,
         tui_auto_recap: true,
         model_availability_nux: ModelAvailabilityNuxConfig::default(),

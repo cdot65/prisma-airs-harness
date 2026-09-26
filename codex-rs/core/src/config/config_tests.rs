@@ -1257,6 +1257,7 @@ fn config_toml_deserializes_model_availability_nux() {
             notification_settings: TuiNotificationSettings::default(),
             animations: true,
             whimsy: true,
+            rendering: Default::default(),
             show_tooltips: true,
             auto_recap: true,
             disable_paste_burst: None,
@@ -1349,10 +1350,12 @@ fn test_tui_vim_mode_default_true() {
 }
 
 #[tokio::test]
-async fn runtime_config_uses_tui_raw_output_mode() {
+async fn runtime_config_uses_tui_raw_output_mode_and_rendering() {
     let toml = r#"
         [tui]
         raw_output_mode = true
+        [tui.rendering]
+        lists = false
     "#;
     let cfg_toml: ConfigToml = toml::from_str(toml).expect("deserialize raw_output_mode=true");
     let cfg = Config::load_from_base_config_with_overrides(
@@ -1364,6 +1367,10 @@ async fn runtime_config_uses_tui_raw_output_mode() {
     .expect("load config");
 
     assert!(cfg.tui_raw_output_mode);
+    assert_eq!(
+        cfg.tui_rendering,
+        codex_config::types::TuiRendering { lists: false }
+    );
 }
 
 #[tokio::test]
@@ -4272,6 +4279,7 @@ fn tui_config_missing_notifications_field_defaults_to_enabled() {
             notification_settings: TuiNotificationSettings::default(),
             animations: true,
             whimsy: true,
+            rendering: Default::default(),
             show_tooltips: true,
             auto_recap: true,
             disable_paste_burst: None,

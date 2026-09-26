@@ -38,6 +38,7 @@ mod strict_config;
 pub mod test_support;
 mod thread_config;
 mod tui_keymap;
+mod tui_rendering;
 pub mod types;
 
 pub const CONFIG_TOML_FILE: &str = "config.toml";

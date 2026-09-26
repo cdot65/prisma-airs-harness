@@ -1,0 +1,5 @@
+cargo run -p codex-config-schema --bin codex-write-config-schema
+   Compiling codex-config v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/config)
+   Compiling codex-config-schema v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/config-schema)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 15.88s
+     Running `/home/cdot/.cache/airs-routing-build-target/debug/codex-write-config-schema`

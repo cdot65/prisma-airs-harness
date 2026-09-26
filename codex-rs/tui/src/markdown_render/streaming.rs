@@ -39,6 +39,10 @@ pub(crate) fn render_streaming_markdown_lines_with_width_and_cwd(
     let mut options = Options::empty();
     options.insert(Options::ENABLE_STRIKETHROUGH);
     options.insert(Options::ENABLE_TABLES);
+    options.set(
+        Options::ENABLE_TASKLISTS,
+        super::preferences::current().lists,
+    );
     let citations = FileCitations::new(input, options);
     let parser = Parser::new_ext(&citations.markdown, options);
     let has_reference_link_definition = parser.reference_definitions().iter().next().is_some();

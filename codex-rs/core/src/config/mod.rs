@@ -750,6 +750,9 @@ pub struct Config {
     /// Enable decorative TUI effects such as Astra composer stars.
     pub tui_whimsy: bool,
 
+    /// Rich content rendering preferences, independent of animations.
+    pub tui_rendering: codex_config::types::TuiRendering,
+
     /// Show startup tooltips in the TUI welcome screen.
     pub show_tooltips: bool,
 
@@ -4435,6 +4438,7 @@ impl Config {
                 .unwrap_or_default(),
             animations: cfg.tui.as_ref().map(|t| t.animations).unwrap_or(true),
             tui_whimsy: cfg.tui.as_ref().map(|t| t.whimsy).unwrap_or(true),
+            tui_rendering: cfg.tui.as_ref().map(|t| t.rendering).unwrap_or_default(),
             show_tooltips: cfg.tui.as_ref().map(|t| t.show_tooltips).unwrap_or(true),
             tui_auto_recap: cfg.tui.as_ref().map(|t| t.auto_recap).unwrap_or(/*default*/ true),
             model_availability_nux: cfg

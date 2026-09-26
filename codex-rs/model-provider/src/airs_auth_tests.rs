@@ -35,6 +35,7 @@ async fn gateway_preserves_auth_recovery_classification_before_dispatch() {
         CredentialRecovery::OutcomeUnknown,
         CredentialRecovery::StoreUnavailable,
         CredentialRecovery::TemporarilyUnavailable,
+        CredentialRecovery::PolicyDenied,
     ] {
         let manager =
             AuthManager::from_auth_for_testing(CodexAuth::from_api_key("test-provider-token"));

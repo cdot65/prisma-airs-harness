@@ -172,25 +172,27 @@ impl Provider {
         })
     }
 
-    pub async fn refresh(&self, previous: &Tokens) -> anyhow::Result<Tokens> {
+    /// Admit refresh before the caller persists its durable pending marker.
+    pub fn prepare_refresh<'a>(
+        &'a self,
+        previous: &'a Tokens,
+    ) -> anyhow::Result<super::PreparedRefresh<'a>> {
         anyhow::ensure!(
             previous.identity.config == self.config,
             "refresh identity configuration changed"
         );
-        let response = self
-            .token_request(&[
-                ("client_id", &self.config.client_id),
-                ("grant_type", "refresh_token"),
-                ("refresh_token", &previous.refresh_token),
-            ])
-            .await?;
-        let tokens = self.verify(response, NoncePolicy::Refresh(previous.nonce.as_deref()))?;
-        anyhow::ensure!(
-            tokens.identity.subject == previous.identity.subject
-                && tokens.refresh_token != previous.refresh_token,
-            "refresh identity changed or token was not rotated"
-        );
-        Ok(tokens)
+        let permit = self
+            .network_policy
+            .acquire(&self.discovery.token_endpoint)?;
+        Ok(super::PreparedRefresh {
+            provider: self,
+            previous,
+            permit,
+        })
+    }
+
+    pub async fn refresh(&self, previous: &Tokens) -> anyhow::Result<Tokens> {
+        self.prepare_refresh(previous)?.complete().await
     }
 
     pub async fn revoke(&self, tokens: &Tokens) -> anyhow::Result<()> {
@@ -203,18 +205,23 @@ impl Provider {
             .revocation_endpoint
             .as_ref()
             .context("issuer does not support revocation")?;
-        let response = self
-            .http
-            .post(endpoint.clone())
-            .form(&[
-                ("client_id", self.config.client_id.as_str()),
-                ("token_type_hint", "refresh_token"),
-                ("token", tokens.refresh_token.as_str()),
-            ])
-            .send()
-            .await
-            .map_err(|_| anyhow::anyhow!("issuer revocation unavailable"))?;
-        anyhow::ensure!(response.status().is_success(), "issuer revocation rejected");
-        Ok(())
+        let permit = self.network_policy.acquire(endpoint)?;
+        permit
+            .run(async {
+                let response = self
+                    .http
+                    .post(endpoint.clone())
+                    .form(&[
+                        ("client_id", self.config.client_id.as_str()),
+                        ("token_type_hint", "refresh_token"),
+                        ("token", tokens.refresh_token.as_str()),
+                    ])
+                    .send()
+                    .await
+                    .map_err(|_| anyhow::anyhow!("issuer revocation unavailable"))?;
+                anyhow::ensure!(response.status().is_success(), "issuer revocation rejected");
+                Ok(())
+            })
+            .await?
     }
 }

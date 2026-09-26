@@ -1,0 +1,5 @@
+---
+source: tui/src/chatwidget/tests/airs_recovery.rs
+expression: rendered
+---
+■ Fatal error: Application network policy blocked company sign-in. Inspect managed network requirements; your saved credential was preserved. Signing in again does not remove this restriction.

@@ -1,0 +1,22 @@
+{
+  "upstream": null,
+  "feature_complete": false,
+  "scores": null,
+  "scope": "Prerequisite slice of the unfinished connected transport feature; full workspace and delivery gates remain.",
+  "sha256": {
+    "stage-10-cas-classification-linux-junit-initial.xml.gz": "ad7528fb51df26c0b47a46edb4b3dc6e473f305781559af5b502b6c3abc9f572",
+    "stage-10-cas-classification-tests-final.log.gz": "795514549de33a594b3e9d248ea82b2765c05ed5cdf50fbdd9c358eca53b4863",
+    "stage-10-cas-cli-junit-initial.xml.gz": "fedbb01a5ec7f0bfecc0af7e3f87aa5761dd46585a84c8578516f3d8453a17e3",
+    "stage-10-cas-cli-tests.log.gz": "286f20583f6671a10b4901b4e879813d231bd81174c1c4c41e46a07d499f909c",
+    "stage-10-cas-identity-junit.xml.gz": "2275025b80ad0a603652f1ccf4d6dcc7ccfd361a694773fbd8118eecab1488f1",
+    "stage-10-cas-identity-tests.log.gz": "01c00abadbac7ec606fad3b86f0311ddf67757198c7523c5738ae8200947e18f",
+    "stage-10-cas-review.md": "46e93a0a233ed124bb4d774454df5464eb33c1fde51b7fba227960144520b36e",
+    "stage-10-cas-snapshot-recheck.log.gz": "d379feaceefeb5ea4848e2dd9dae9f6467dba57da7538dc2d405504ff33076d9",
+    "stage-10-embedded-cas-fmt-final.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-10-embedded-cas-lint-final.log.gz": "eaec1f49edd6992f485a78bfec2814a5cca128521621c2d474a5df0b0ea4abfb",
+    "stage-10-embedded-cas-lint.log.gz": "929260a20f17d476169a9f383a5efe29f84c5d5ee100760f30ff81ef975d1058",
+    "stage-10-mac-cas-classification-junit.xml.gz": "c04ad77bd74de48b7bbaa62613616e8989ea323dba29a17cf0a951623921a2ea",
+    "stage-10-mac-cas-classification-tests.log.gz": "7a82c1e168a5c1879c7409033c38113571be59e348ea9cf2b8cdb52f7aa6c6e6",
+    "stage-10-mac-full-packages-enospc.log.gz": "3686fdfc8a700c3025cc5b3b74b3c9ceb5b4f14e1b523209abbd23a7761886c1"
+  }
+}

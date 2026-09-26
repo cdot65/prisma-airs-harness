@@ -46,6 +46,7 @@ pub struct Provider {
     pub(crate) config: IdentityConfig,
     pub(crate) discovery: Discovery,
     pub(crate) http: reqwest::Client,
+    pub(crate) network_policy: codex_http_client::NetworkPolicy,
     pub(crate) oidc_keys: CoreJsonWebKeySet,
     pub(crate) access_keys: jsonwebtoken::jwk::JwkSet,
 }
@@ -81,7 +82,10 @@ pub(crate) async fn bounded_json(response: reqwest::Response) -> anyhow::Result<
 }
 
 impl Provider {
-    pub async fn discover(config: IdentityConfig) -> anyhow::Result<Self> {
+    pub async fn discover(
+        config: IdentityConfig,
+        network_policy: codex_http_client::NetworkPolicy,
+    ) -> anyhow::Result<Self> {
         let issuer = Url::parse(&config.issuer).context("invalid issuer URL")?;
         secure_url(&issuer)?;
         anyhow::ensure!(
@@ -95,18 +99,24 @@ impl Provider {
                 .redirect(reqwest::redirect::Policy::none())
                 .timeout(Duration::from_secs(15)),
         )?;
-        let response = http
-            .get(format!(
-                "{}/.well-known/openid-configuration",
-                config.issuer
-            ))
-            .send()
-            .await
-            .map_err(reqwest::Error::without_url)
-            .context("issuer discovery unavailable")?;
-        anyhow::ensure!(response.status().is_success(), "issuer discovery rejected");
-        let discovery: Discovery = serde_json::from_value(bounded_json(response).await?)
-            .map_err(|_| anyhow::anyhow!("invalid issuer metadata"))?;
+        let discovery_url = Url::parse(&format!(
+            "{}/.well-known/openid-configuration",
+            config.issuer
+        ))?;
+        let discovery_permit = network_policy.acquire(&discovery_url)?;
+        let discovery: Discovery = discovery_permit
+            .run(async {
+                let response = http
+                    .get(discovery_url)
+                    .send()
+                    .await
+                    .map_err(reqwest::Error::without_url)
+                    .context("issuer discovery unavailable")?;
+                anyhow::ensure!(response.status().is_success(), "issuer discovery rejected");
+                serde_json::from_value(bounded_json(response).await?)
+                    .map_err(|_| anyhow::anyhow!("invalid issuer metadata"))
+            })
+            .await??;
         anyhow::ensure!(
             discovery.issuer == config.issuer,
             "discovery issuer mismatch"
@@ -133,14 +143,19 @@ impl Provider {
                 "identity endpoint must share the issuer origin"
             );
         }
-        let response = http
-            .get(discovery.jwks_uri.clone())
-            .send()
-            .await
-            .map_err(reqwest::Error::without_url)
-            .context("issuer keys unavailable")?;
-        anyhow::ensure!(response.status().is_success(), "issuer keys rejected");
-        let keys = bounded_json(response).await?;
+        let keys_permit = network_policy.acquire(&discovery.jwks_uri)?;
+        let keys = keys_permit
+            .run(async {
+                let response = http
+                    .get(discovery.jwks_uri.clone())
+                    .send()
+                    .await
+                    .map_err(reqwest::Error::without_url)
+                    .context("issuer keys unavailable")?;
+                anyhow::ensure!(response.status().is_success(), "issuer keys rejected");
+                bounded_json(response).await
+            })
+            .await??;
         let oidc_keys =
             serde_json::from_value(keys.clone()).context("invalid issuer public keys")?;
         let access_keys = serde_json::from_value(keys).context("invalid issuer public keys")?;
@@ -148,12 +163,24 @@ impl Provider {
             config,
             discovery,
             http,
+            network_policy,
             oidc_keys,
             access_keys,
         })
     }
 
     pub(crate) async fn token_request(
+        &self,
+        fields: &[(&str, &str)],
+    ) -> anyhow::Result<openidconnect::core::CoreTokenResponse> {
+        let permit = self
+            .network_policy
+            .acquire(&self.discovery.token_endpoint)?;
+        permit.run(self.token_request_under_permit(fields)).await?
+    }
+
+    // Only call while holding the request's permit through response parsing.
+    pub(crate) async fn token_request_under_permit(
         &self,
         fields: &[(&str, &str)],
     ) -> anyhow::Result<openidconnect::core::CoreTokenResponse> {
@@ -185,3 +212,7 @@ impl Provider {
 #[cfg(test)]
 #[path = "provider_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "policy_tests.rs"]
+mod policy_tests;

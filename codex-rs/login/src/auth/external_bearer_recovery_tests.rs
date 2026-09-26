@@ -8,6 +8,7 @@ fn only_bounded_explicit_markers_classify_a_helper_failure() {
         CredentialRecovery::OutcomeUnknown,
         CredentialRecovery::StoreUnavailable,
         CredentialRecovery::TemporarilyUnavailable,
+        CredentialRecovery::PolicyDenied,
     ] {
         assert_eq!(
             CredentialRecovery::from_stderr(reason.marker().as_bytes()),

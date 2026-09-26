@@ -47,6 +47,7 @@ use std::sync::Arc;
 use supports_color::Stream;
 
 mod airs_access;
+mod airs_application_network;
 mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_doctor;
@@ -1226,11 +1227,20 @@ async fn cli_main(
         match &subcommand {
             Some(Subcommand::Credential(args)) => {
                 let result = airs_credentials::helper(args).await;
-                if let Err(error) = &result
-                    && let Some(reason) =
-                        error.downcast_ref::<codex_login::auth::CredentialRecovery>()
-                {
-                    eprintln!("{}", reason.marker());
+                if let Err(error) = &result {
+                    let reason = if error
+                        .downcast_ref::<codex_http_client::NetworkPolicyDenied>()
+                        .is_some()
+                    {
+                        Some(codex_login::auth::CredentialRecovery::PolicyDenied)
+                    } else {
+                        error
+                            .downcast_ref::<codex_login::auth::CredentialRecovery>()
+                            .copied()
+                    };
+                    if let Some(reason) = reason {
+                        eprintln!("{}", reason.marker());
+                    }
                 }
                 return result;
             }

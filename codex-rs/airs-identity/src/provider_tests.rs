@@ -18,11 +18,14 @@ async fn discovery_transport_failure_preserves_cause_without_request_url() {
             .await
             .ok();
     });
-    let result = Provider::discover(IdentityConfig {
-        issuer: format!("https://{address}"),
-        client_id: "test-client".into(),
-        audience: "test-audience".into(),
-    })
+    let result = Provider::discover(
+        IdentityConfig {
+            issuer: format!("https://{address}"),
+            client_id: "test-client".into(),
+            audience: "test-audience".into(),
+        },
+        codex_http_client::NetworkPolicy::unmanaged(),
+    )
     .await;
     let error = match result {
         Ok(_) => panic!("plain HTTP must not complete issuer TLS"),

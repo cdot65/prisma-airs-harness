@@ -416,7 +416,8 @@ async fn run_add(config_overrides: &CliConfigOverrides, add_args: AddArgs) -> Re
     // Discover once before saving so a new registered client keeps the exact
     // callback its provider expects, including issuer-bound stable callbacks.
     let http_client: Arc<dyn HttpClient> = Arc::new(
-        RouteAwareHttpClient::new(config.http_client_factory()).with_tls_backend_fallback(),
+        RouteAwareHttpClient::new(crate::airs_application_network::for_config(&config))
+            .with_tls_backend_fallback(),
     );
     let diagnostics = Arc::new(crate::airs_mcp_http::McpHttpDiagnostics::new(http_client));
     let http_client: Arc<dyn HttpClient> = diagnostics.clone();
@@ -626,7 +627,8 @@ async fn run_login(config: &Config, login_args: LoginArgs) -> Result<()> {
     // Standalone `mcp login` runs OAuth from the local CLI process; execution
     // environment routing belongs to app-server and session MCP flows.
     let http_client: Arc<dyn HttpClient> = Arc::new(
-        RouteAwareHttpClient::new(config.http_client_factory()).with_tls_backend_fallback(),
+        RouteAwareHttpClient::new(crate::airs_application_network::for_config(config))
+            .with_tls_backend_fallback(),
     );
     let http_client = apply_http_headers_helper(http_client, server, config.cwd.to_path_buf())
         .map_err(anyhow::Error::msg)?;
@@ -725,7 +727,7 @@ async fn run_list(config: &Config, list_args: ListArgs) -> Result<()> {
     // never initialized or routed through remote execution environments.
     let runtime_context = McpRuntimeContext::new(
         Arc::new(EnvironmentManager::without_environments(
-            config.http_client_factory(),
+            crate::airs_application_network::for_config(config),
         )),
         config.cwd.to_path_buf(),
     );

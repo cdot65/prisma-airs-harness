@@ -105,3 +105,68 @@ async fn returned_generation_is_saved_before_becoming_available() {
         ("new-access", "new-refresh")
     );
 }
+
+#[tokio::test]
+async fn policy_denied_admission_preserves_active_credential_bytes() {
+    let binding = binding();
+    let store = MockKeyringStore::default();
+    let Some(Source::Oidc { identity }) = &binding.source else {
+        panic!("OIDC fixture")
+    };
+    save_in(
+        &binding,
+        &Stored::Active {
+            tokens: Tokens {
+                identity: identity.clone(),
+                access_token: "previous-access".into(),
+                refresh_token: "previous-refresh".into(),
+                expires_at: 1,
+                nonce: None,
+            },
+        },
+        &store,
+    )
+    .unwrap();
+    let before = store.saved_value(&binding.id.to_string());
+    let admission: anyhow::Result<std::future::Ready<anyhow::Result<Tokens>>> =
+        Err(codex_http_client::NetworkPolicyDenied::Destination.into());
+    let error = refresh_after_admission(&binding, admission, &store)
+        .await
+        .unwrap_err();
+    assert_eq!(
+        error.downcast_ref::<codex_http_client::NetworkPolicyDenied>(),
+        Some(&codex_http_client::NetworkPolicyDenied::Destination)
+    );
+    assert_eq!(store.saved_value(&binding.id.to_string()), before);
+    assert_eq!(
+        load_active_from(&binding, &store).unwrap().refresh_token,
+        "previous-refresh"
+    );
+}
+
+#[tokio::test]
+async fn policy_revoked_after_admission_never_restores_rotating_predecessor() {
+    let binding = binding();
+    let store = MockKeyringStore::default();
+    let exchange = async {
+        assert!(matches!(
+            load_active_from(&binding, &store)
+                .err()
+                .unwrap()
+                .downcast_ref::<CredentialRecovery>(),
+            Some(CredentialRecovery::OutcomeUnknown)
+        ));
+        Err(codex_http_client::NetworkPolicyDenied::Revoked.into())
+    };
+    let error = refresh_after_admission(&binding, Ok(exchange), &store)
+        .await
+        .unwrap_err();
+    assert_eq!(
+        error.downcast_ref::<CredentialRecovery>(),
+        Some(&CredentialRecovery::OutcomeUnknown)
+    );
+    assert_eq!(
+        store.saved_value(&binding.id.to_string()),
+        Some("{\"state\":\"refresh-pending\"}".into())
+    );
+}

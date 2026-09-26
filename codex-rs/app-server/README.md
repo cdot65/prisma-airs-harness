@@ -2953,3 +2953,44 @@ supplies request headers. Status inspection does not invoke the helper, inspect
 its secrets, or imply that login is valid. Use `runtimeStatus` and actual tool
 results to assess connectivity. Clients that exhaustively decode this enum must
 support the new value before connecting to the updated app-server.
+
+## AIRS application network requirements
+
+Managed requirements can restrict the harness's own HTTP and WebSocket clients:
+
+```toml
+[application.network]
+enabled = true
+
+[application.network.domains]
+'gateway.example' = 'allow'
+'identity.example' = 'allow'
+```
+
+These rules use the existing managed-requirements precedence. Conflicting values
+come from the higher-priority layer; non-conflicting domain entries are retained.
+Domain names are exact ASCII hosts, normalized to lowercase without a trailing
+dot. Wildcards, URLs, ports and duplicate normalized names are rejected. Allowed
+hosts permit HTTPS/WSS only. A present network block defaults to enabled with no
+allowed hosts; an effective `enabled = false` disables this application policy.
+Agent command-network requirements remain separate.
+
+Embedded TUI/exec startup shares the effective policy with app-server. Explicit
+config/account reloads update retained clients and revoke operations that are no
+longer allowed. Failed policy loads block application traffic. Rebuilding a
+session or permission profile retains the live policy. Bootstrap authentication
+and requirements discovery use local managed rules and narrowly bound endpoints.
+SDK transports that cannot enforce destinations are disabled while restrictions
+apply; user-directed subprocesses retain their execution and sandbox policies.
+
+AIRS keeps gateway-only inference and remote MCP routing. Its CAS client retains
+issuer/resource binding, PKCE and redirect refusal. Short-lived credential and
+diagnostic helpers read local managed requirements for each invocation; standalone
+MCP helpers use their loaded effective requirements. These helper processes do
+not share the parent's live controller. An admitted rotating refresh persists a
+pending marker before transmission and finishes within its deadline; cancelling
+the parent does not authorize replaying that refresh token. A denial before
+admission preserves the existing credential. External browsers and approved Jev
+SDK/CLI children retain their separate user-approval and sandbox boundaries.
+Local policy denial does not establish a gateway authentication failure or grant
+permission to bypass gateway guardrails.

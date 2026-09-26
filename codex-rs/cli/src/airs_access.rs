@@ -33,6 +33,7 @@ pub(super) enum Failure {
     Credential,
     SignedOut,
     Offline,
+    ApplicationPolicy,
     Timeout,
     Unauthenticated,
     Denied,
@@ -52,6 +53,7 @@ impl Failure {
                 "The saved credential could not be read or refreshed. Inspect local sign-in for this environment."
             }
             Self::SignedOut => "Authentication changed or this environment was signed out.",
+            Self::ApplicationPolicy => "Application network policy blocked or could not authorize this check. Inspect managed network requirements; signing in again does not remove this restriction.",
             Self::Offline => "The gateway connection failed. Check connectivity, DNS and TLS.",
             Self::Timeout => "The gateway access check reached its time limit.",
             Self::Unauthenticated => {
@@ -466,13 +468,25 @@ async fn preparation(home: &Path) -> Result<Prepared, Failure> {
 }
 
 async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
+    let policy = super::airs_application_network::load()
+        .await
+        .map_err(|_| Failure::ApplicationPolicy)?;
+    probe_with_policy(prepared, request_id, policy).await
+}
+
+async fn probe_with_policy(
+    prepared: Prepared,
+    request_id: Uuid,
+    policy: codex_http_client::NetworkPolicy,
+) -> Result<(), Failure> {
     prepared.configuration.check()?;
     let client = HttpClientBuilder::new()
         .without_redirects()
         .without_request_logging()
         .connect_timeout(CONNECT_TIMEOUT)
         .build_respecting_outbound_proxy_policy(
-            &HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault),
+            &HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault)
+                .with_network_policy(policy),
             prepared.endpoint.as_str(),
             ClientRouteClass::Api,
         )
@@ -493,7 +507,9 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
         request = request.header("x-portkey-config", config);
     }
     let mut response = request.send().await.map_err(|error| {
-        if error.is_timeout() {
+        if matches!(error, codex_http_client::HttpError::Policy(_)) {
+            Failure::ApplicationPolicy
+        } else if error.is_timeout() {
             Failure::Timeout
         } else {
             Failure::Offline
@@ -519,7 +535,9 @@ async fn probe(prepared: Prepared, request_id: Uuid) -> Result<(), Failure> {
     }
     let mut bytes = Vec::new();
     while let Some(chunk) = response.chunk().await.map_err(|error| {
-        if error.is_timeout() {
+        if matches!(error, codex_http_client::HttpError::Policy(_)) {
+            Failure::ApplicationPolicy
+        } else if error.is_timeout() {
             Failure::Timeout
         } else {
             Failure::InvalidResponse

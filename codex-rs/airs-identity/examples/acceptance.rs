@@ -6,11 +6,14 @@ use std::io::Write;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> anyhow::Result<()> {
-    let provider = Provider::discover(IdentityConfig {
-        issuer: "https://auth.dev.cdot.io/realms/truffles".into(),
-        client_id: "airs-terminal-pilot".into(),
-        audience: "airs-terminal-inference".into(),
-    })
+    let provider = Provider::discover(
+        IdentityConfig {
+            issuer: "https://auth.dev.cdot.io/realms/truffles".into(),
+            client_id: "airs-terminal-pilot".into(),
+            audience: "airs-terminal-inference".into(),
+        },
+        codex_http_client::NetworkPolicy::unmanaged(),
+    )
     .await?;
     let tokens = if std::env::args().any(|a| a == "--device") {
         let login = provider.device_login().await?;

@@ -5,6 +5,7 @@ fn provider() -> Provider {
     let keys: serde_json::Value =
         serde_json::from_str(include_str!("fixtures/test-only-jwks.json")).unwrap();
     Provider {
+        network_policy: codex_http_client::NetworkPolicy::unmanaged(),
         config: super::super::IdentityConfig { issuer: "https://issuer.example/realm".into(), client_id: "terminal".into(), audience: "inference".into() },
         discovery: serde_json::from_value(json!({"issuer":"https://issuer.example/realm",
             "authorization_endpoint":"https://issuer.example/auth", "token_endpoint":"https://issuer.example/token",

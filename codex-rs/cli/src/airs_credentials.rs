@@ -393,7 +393,7 @@ pub async fn logout(home: &Path) -> anyhow::Result<()> {
     if oidc {
         if let Some(tokens) = revoke {
             let provider =
-                codex_airs_identity::Provider::discover(tokens.identity.config.clone()).await;
+                super::airs_oidc::discover_provider(tokens.identity.config.clone()).await;
             match provider {
                 Ok(provider) if provider.revoke(&tokens).await.is_ok() => println!(
                     "Signed out locally and revoked the issuer refresh token. Stop running sessions to discard cached access tokens."

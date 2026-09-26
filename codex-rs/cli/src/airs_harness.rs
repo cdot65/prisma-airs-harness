@@ -226,7 +226,11 @@ pub(super) fn startup_recovery(error: anyhow::Error, environment: Option<&str>) 
     let detail = match error.downcast_ref::<CredentialRecovery>() {
         Some(CredentialRecovery::SignInRequired) => "Your work session has ended.",
         Some(CredentialRecovery::OutcomeUnknown) => "Your sign-in needs to be restored.",
-        Some(CredentialRecovery::StoreUnavailable | CredentialRecovery::TemporarilyUnavailable)
+        Some(
+            CredentialRecovery::StoreUnavailable
+            | CredentialRecovery::TemporarilyUnavailable
+            | CredentialRecovery::PolicyDenied,
+        )
         | None => return error,
     };
     let command = super::airs_environment::command(environment);

@@ -392,7 +392,7 @@ pub(super) async fn logout(home: &Path) -> anyhow::Result<()> {
         }
     }
     for tokens in revoke {
-        match codex_airs_identity::Provider::discover(tokens.identity.config.clone()).await {
+        match super::airs_oidc::discover_provider(tokens.identity.config.clone()).await {
             Ok(provider) => failures |= provider.revoke(&tokens).await.is_err(),
             Err(_) => failures = true,
         }

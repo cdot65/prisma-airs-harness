@@ -353,3 +353,23 @@ async fn auth_recovery_flushes_partial_output_once_without_submitting_queued_inp
         assert_eq!(saved, vec![source.to_owned()]);
     }
 }
+
+#[tokio::test]
+async fn application_policy_failure_preserves_draft_without_offering_sign_in() {
+    let (mut chat, mut events, mut ops) = make_chatwidget_manual(None).await;
+    chat.insert_str("Keep my unsent question");
+    let error = codex_protocol::error::CodexErr::Fatal(
+        codex_login::auth::CredentialRecovery::PolicyDenied.to_string(),
+    );
+    chat.add_error_message(error.to_string());
+    let rendered = drain_insert_history(&mut events)
+        .iter()
+        .map(|lines| lines_to_single_string(lines))
+        .collect::<Vec<_>>()
+        .join("\n");
+    insta::assert_snapshot!("airs_application_policy_failure", rendered);
+    assert_eq!(chat.bottom_pane.composer_text(), "Keep my unsent question");
+    assert!(!chat.input_queue.authentication_pending);
+    assert!(!rendered.contains("/signin"));
+    assert!(ops.try_recv().is_err());
+}

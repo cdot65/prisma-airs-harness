@@ -258,9 +258,9 @@ pub(crate) async fn resolve_provider_auth_for_scope(
                     ),
                 ))
             }
-            CredentialRecovery::StoreUnavailable | CredentialRecovery::TemporarilyUnavailable => {
-                CodexErr::Fatal(reason.to_string())
-            }
+            CredentialRecovery::StoreUnavailable
+            | CredentialRecovery::TemporarilyUnavailable
+            | CredentialRecovery::PolicyDenied => CodexErr::Fatal(reason.to_string()),
         });
     }
     let ProviderAuthScope {

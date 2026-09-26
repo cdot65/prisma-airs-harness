@@ -544,3 +544,26 @@ fn routing_probe_rejects_inline_configs_and_unqualified_models() {
         assert_eq!(ready.apply_routing(&selection), Err(Failure::Configuration));
     }
 }
+
+#[tokio::test]
+async fn denied_application_policy_does_not_send_gateway_credential_or_inference() {
+    let home = TempDir::new().unwrap();
+    let server = MockServer::start().await;
+    let controller = codex_http_client::NetworkPolicyController::default();
+    controller.publish(
+        controller.policy().revision(),
+        codex_http_client::DestinationPolicy::Restricted {
+            allowed_hosts: Default::default(),
+        },
+    );
+    assert_eq!(
+        probe_with_policy(
+            prepared(home.path(), &server.uri(), "airs-gateway-default"),
+            Uuid::new_v4(),
+            controller.policy()
+        )
+        .await,
+        Err(Failure::ApplicationPolicy)
+    );
+    assert!(server.received_requests().await.unwrap().is_empty());
+}

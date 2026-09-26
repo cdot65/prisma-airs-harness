@@ -20,6 +20,10 @@ pub enum CredentialRecovery {
         "The sign-in service is temporarily unavailable. Retry when the connection recovers; your saved session has been preserved."
     )]
     TemporarilyUnavailable,
+    #[error(
+        "Application network policy blocked company sign-in. Inspect managed network requirements; your saved credential was preserved. Signing in again does not remove this restriction."
+    )]
+    PolicyDenied,
 }
 
 impl CredentialRecovery {
@@ -29,6 +33,7 @@ impl CredentialRecovery {
             Self::OutcomeUnknown => "AIRS_CREDENTIAL_STATUS:refresh_outcome_unknown",
             Self::StoreUnavailable => "AIRS_CREDENTIAL_STATUS:credential_store_unavailable",
             Self::TemporarilyUnavailable => "AIRS_CREDENTIAL_STATUS:temporarily_unavailable",
+            Self::PolicyDenied => "AIRS_CREDENTIAL_STATUS:application_policy_denied",
         }
     }
 
@@ -42,6 +47,7 @@ impl CredentialRecovery {
             Self::OutcomeUnknown,
             Self::StoreUnavailable,
             Self::TemporarilyUnavailable,
+            Self::PolicyDenied,
         ]
         .into_iter()
         .find(|reason| text.lines().any(|line| line == reason.marker()))

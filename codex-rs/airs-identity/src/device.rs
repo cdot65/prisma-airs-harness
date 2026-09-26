@@ -32,48 +32,53 @@ impl Provider {
             .device_authorization_endpoint
             .as_ref()
             .context("issuer does not support device login")?;
-        let (challenge, verifier) = PkceCodeChallenge::new_random_sha256();
-        let response = self
-            .http
-            .post(endpoint.clone())
-            .form(&[
-                ("client_id", self.config.client_id.as_str()),
-                ("scope", "openid"),
-                ("code_challenge", challenge.as_str()),
-                ("code_challenge_method", "S256"),
-            ])
-            .send()
-            .await
-            .map_err(|_| anyhow::anyhow!("device authorization unavailable"))?;
-        anyhow::ensure!(
-            response.status().is_success(),
-            "device authorization rejected"
-        );
-        let details: DeviceDetails = serde_json::from_value(bounded_json(response).await?)
-            .map_err(|_| anyhow::anyhow!("invalid device authorization response"))?;
-        anyhow::ensure!(
-            (1..=900).contains(&details.expires_in)
-                && !details.device_code.is_empty()
-                && details.device_code.len() <= 4096
-                && !details.user_code.is_empty()
-                && details.user_code.len() <= 128
-                && details.user_code.bytes().all(|c| c.is_ascii_graphic()),
-            "invalid device code or lifetime"
-        );
-        anyhow::ensure!(
-            details.verification_uri.origin() == endpoint.origin()
-                && details.verification_uri.username().is_empty()
-                && details.verification_uri.password().is_none()
-                && details.verification_uri.fragment().is_none(),
-            "untrusted device verification URL"
-        );
-        let deadline = Instant::now() + Duration::from_secs(details.expires_in);
-        Ok(DeviceLogin {
-            config: self.config.clone(),
-            details,
-            verifier,
-            deadline,
-        })
+        let permit = self.network_policy.acquire(endpoint)?;
+        permit
+            .run(async {
+                let (challenge, verifier) = PkceCodeChallenge::new_random_sha256();
+                let response = self
+                    .http
+                    .post(endpoint.clone())
+                    .form(&[
+                        ("client_id", self.config.client_id.as_str()),
+                        ("scope", "openid"),
+                        ("code_challenge", challenge.as_str()),
+                        ("code_challenge_method", "S256"),
+                    ])
+                    .send()
+                    .await
+                    .map_err(|_| anyhow::anyhow!("device authorization unavailable"))?;
+                anyhow::ensure!(
+                    response.status().is_success(),
+                    "device authorization rejected"
+                );
+                let details: DeviceDetails = serde_json::from_value(bounded_json(response).await?)
+                    .map_err(|_| anyhow::anyhow!("invalid device authorization response"))?;
+                anyhow::ensure!(
+                    (1..=900).contains(&details.expires_in)
+                        && !details.device_code.is_empty()
+                        && details.device_code.len() <= 4096
+                        && !details.user_code.is_empty()
+                        && details.user_code.len() <= 128
+                        && details.user_code.bytes().all(|c| c.is_ascii_graphic()),
+                    "invalid device code or lifetime"
+                );
+                anyhow::ensure!(
+                    details.verification_uri.origin() == endpoint.origin()
+                        && details.verification_uri.username().is_empty()
+                        && details.verification_uri.password().is_none()
+                        && details.verification_uri.fragment().is_none(),
+                    "untrusted device verification URL"
+                );
+                let deadline = Instant::now() + Duration::from_secs(details.expires_in);
+                Ok(DeviceLogin {
+                    config: self.config.clone(),
+                    details,
+                    verifier,
+                    deadline,
+                })
+            })
+            .await?
     }
 }
 
@@ -91,9 +96,16 @@ impl DeviceLogin {
             "login provider changed during authorization"
         );
         let deadline = self.deadline;
-        tokio::time::timeout_at(deadline, self.poll(provider))
-            .await
-            .context("device authorization expired")?
+        let permit = provider
+            .network_policy
+            .acquire(&provider.discovery.token_endpoint)?;
+        permit
+            .run(async {
+                tokio::time::timeout_at(deadline, self.poll(provider))
+                    .await
+                    .context("device authorization expired")?
+            })
+            .await?
     }
 
     async fn poll(self, provider: &Provider) -> anyhow::Result<Tokens> {

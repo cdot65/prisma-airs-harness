@@ -82,6 +82,13 @@ pub(super) fn fingerprint(gateway: &str, identity: &Identity) -> anyhow::Result<
     ))
 }
 
+pub(super) async fn discover_provider(config: IdentityConfig) -> anyhow::Result<Provider> {
+    let policy = super::airs_application_network::load()
+        .await
+        .map_err(|_| codex_http_client::NetworkPolicyDenied::Unavailable)?;
+    Provider::discover(config, policy).await
+}
+
 pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
     let previous = load_active(binding)?;
     let now = SystemTime::now()
@@ -94,15 +101,43 @@ pub(super) async fn credential(binding: &Binding) -> anyhow::Result<String> {
     // pending so an IdP metadata outage can be retried without losing a session.
     let provider = tokio::time::timeout(
         std::time::Duration::from_secs(5),
-        Provider::discover(previous.identity.config.clone()),
+        discover_provider(previous.identity.config.clone()),
     )
     .await
     .context(CredentialRecovery::TemporarilyUnavailable)?
-    .context(CredentialRecovery::TemporarilyUnavailable)?;
+    .map_err(|error| {
+        if error
+            .downcast_ref::<codex_http_client::NetworkPolicyDenied>()
+            .is_some()
+        {
+            error.context(CredentialRecovery::PolicyDenied)
+        } else {
+            error.context(CredentialRecovery::TemporarilyUnavailable)
+        }
+    })?;
     // Durable pending state precedes the request. Cancellation, network failure,
     // or failed persistence requires login; never replay a possibly consumed token.
-    save(binding, &Stored::RefreshPending)?;
-    complete_refresh(binding, provider.refresh(&previous).await, &CredentialStore).await
+    refresh_after_admission(
+        binding,
+        provider
+            .prepare_refresh(&previous)
+            .map(codex_airs_identity::PreparedRefresh::complete),
+        &CredentialStore,
+    )
+    .await
+}
+
+async fn refresh_after_admission(
+    binding: &Binding,
+    admitted: anyhow::Result<impl std::future::Future<Output = anyhow::Result<Tokens>>>,
+    store: &impl KeyringStore,
+) -> anyhow::Result<String> {
+    // Admission errors prove no request started and preserve the original bytes.
+    let exchange = admitted?;
+    save_in(binding, &Stored::RefreshPending, store)?;
+    // From this point even policy revocation is ambiguous: never restore a
+    // rotating predecessor after the exchange could have been polled.
+    complete_refresh(binding, exchange.await, store).await
 }
 
 async fn complete_refresh(
@@ -316,7 +351,7 @@ async fn authenticate_with_progress(
         "Discovering your organization's sign-in service.",
         /*link*/ None,
     );
-    let provider = Provider::discover(config).await?;
+    let provider = discover_provider(config).await?;
     let tokens = match flow {
         LoginFlow::Browser | LoginFlow::BrowserManual => {
             let login = provider.browser_login().await?;

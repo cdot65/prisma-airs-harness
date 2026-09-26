@@ -330,13 +330,15 @@ pub(super) async fn probe(home: &Path) -> anyhow::Result<String> {
 async fn probe_key(key: &str, base_url: &str) -> anyhow::Result<String> {
     validate_token(key)?;
     let endpoint = url::Url::parse(&format!("{}/v1/models", validate_base_url(base_url)?))?;
+    let policy = super::airs_application_network::load().await?;
     let mut response = codex_http_client::HttpClientBuilder::new()
         .without_request_logging()
         .without_redirects()
         .build_respecting_outbound_proxy_policy(
             &codex_http_client::HttpClientFactory::new(
                 codex_http_client::OutboundProxyPolicy::ReqwestDefault,
-            ),
+            )
+            .with_network_policy(policy),
             endpoint.as_str(),
             codex_http_client::ClientRouteClass::Other,
         )?
@@ -345,8 +347,9 @@ async fn probe_key(key: &str, base_url: &str) -> anyhow::Result<String> {
         .timeout(Duration::from_secs(8))
         .send()
         .await
-        .map_err(|_| {
-            anyhow::anyhow!("TypeSafe API unreachable; check network access to {base_url}")
+        .map_err(|error| match error {
+            codex_http_client::HttpError::Policy(denied) => anyhow::Error::from(denied),
+            _ => anyhow::anyhow!("TypeSafe API unreachable; check network access to {base_url}"),
         })?;
     match response.status().as_u16() {
         200..=299 => {

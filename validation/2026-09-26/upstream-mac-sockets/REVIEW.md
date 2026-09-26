@@ -1,0 +1,11 @@
+# Mac privileged socket directory isolation review
+
+Narrowly adapt the Mac portion of 49305d74b4 (PR 45984). Protect the upstream reserved per-user /tmp/codex-daemon-UID namespace even though AIRS does not enable daemon commands; another Codex process on the host may own privileged sockets there. Existing gateway authentication and embedded operation are unchanged. No listener migration, daemon activation or new authentication service is introduced.
+
+Shared directory discovery is independent of HOME, TMPDIR and CODEX_HOME, canonicalizes the system /tmp alias and uses effective UID. The private Seatbelt generator adds filesystem and Unix-socket connection denials only for filesystem-restricted policies. Full access remains full access. JSON quoting escapes the policy path. Added only the helper actually used in production; test-only creation and ownership checks stay in the native test.
+
+Native counterexamples: host connection proves fixture reachable; restricted child cannot reach direct or symlink socket; hardlink escape is denied despite /tmp write, enabled networking and explicit socket allowlist. Unrelated socket and child-created socket traffic still work. The test changes CODEX_HOME to prove no dependency on user-selected home. Fixture uses a unique temporary child within an owned 0700 reserved root and does not remove other sockets.
+
+Linux affected suites 74 pass (this does not test Mac enforcement). Mac 110 pass, one ignored fcntl child fixture invoked by parent. This is specifically Mac Seatbelt protection; Linux daemon mount masking and listener relocation are not imported, and no Linux protection claim is made. Those need their own mount/backend/native acceptance before Linux distribution or daemon enablement. Host Codex versions using other arbitrary socket paths are outside the reserved-namespace contract.
+
+Scoped Linux Clippy and strict native Mac Clippy pass. Formatting and diff checks pass. Native Bazel lock regeneration succeeds with no resulting MODULE.bazel.lock change. Implementation 9, code quality 9, design 9, feature completeness 9 for this bounded Mac feature, not all-platform daemon isolation. Separate adversarial inspection is a self-review, not a claim of unbiased independent review. Full workspace and signed package checks remain pending.

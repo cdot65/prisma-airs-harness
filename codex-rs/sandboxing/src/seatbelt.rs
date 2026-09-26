@@ -1027,6 +1027,18 @@ pub(crate) fn create_seatbelt_command_args_with_profile(
         file_write_policy,
         network_policy,
     ];
+    // Network grants and Unix-socket allowlists must not expose privileged
+    // app-server RPC sockets to filesystem-restricted commands.
+    if !file_system_sandbox_policy.has_full_disk_write_access() {
+        let directory = codex_uds::shared_daemon_socket_directory()
+            .map_err(|error| SeatbeltPreparationError::FileSystem(error.to_string()))?;
+        let directory = serde_json::to_string(&directory.to_string_lossy())
+            .map_err(|error| SeatbeltPreparationError::FileSystem(error.to_string()))?;
+        policy_sections.push(format!(
+            "(deny file-read* file-write* (subpath {directory}))\n\
+             (deny network-outbound (remote unix-socket (subpath {directory})))"
+        ));
+    }
     if file_system_sandbox_policy.has_full_disk_read_access() {
         policy_sections.push(MACOS_SEATBELT_PREFERENCES_POLICY.to_string());
     }
@@ -1084,3 +1096,7 @@ mod tests;
 #[cfg(test)]
 #[path = "seatbelt_fcntl_tests.rs"]
 mod fcntl_tests;
+
+#[cfg(test)]
+#[path = "seatbelt_daemon_socket_tests.rs"]
+mod daemon_socket_tests;

@@ -1,0 +1,30 @@
+{
+  "upstream": "49305d74b4 (Mac-only subset)",
+  "linux": {
+    "passed": 74,
+    "skipped": 0
+  },
+  "macos": {
+    "passed": 110,
+    "ignored": 1,
+    "note": "ignored child fixture is invoked by parent"
+  },
+  "scope": "Mac restricted Seatbelt reserved daemon namespace",
+  "excluded": "Linux mount masking and listener relocation",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "release_ready": false,
+  "evidence": {
+    "REVIEW.md": "604175035cb41e14280c32edbff1b9b1ac0fa57e0dca9b0e38beb0a5d93483a6",
+    "daemon-socket-bazel.log.gz": "4da30b32df050578307a86de297103d20adade8526686a73d15b81b3374d199c",
+    "daemon-socket-clippy.log.gz": "1ec934aaafa18037d6598d8b047ef336a7d3e211851cbca44f14e3ea385352fb",
+    "daemon-socket-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "daemon-socket-linux-clippy.log.gz": "09d55d2f9d6e3a40365d17d6dd7bcb1692d2b86ce314fd6c468028e8893adabb",
+    "daemon-socket-linux-tests-r2.log.gz": "79969548fc51574c747c3e7c8b82c56882f803597c9017efae7f753bd7ad7471",
+    "daemon-socket-tests.log.gz": "9371644a92e38ebcba8418d5648f6eb308ba37537cd77fe4618dd2fa49c6282b"
+  }
+}

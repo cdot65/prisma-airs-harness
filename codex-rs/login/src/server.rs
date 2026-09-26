@@ -821,10 +821,8 @@ pub(crate) async fn exchange_code_for_tokens(
         refresh_token: String,
     }
 
-    // The route selected for the issuer is reused for token exchange; the token endpoint path is
-    // not resolved separately.
-    let client = create_raw_auth_client(issuer.trim_end_matches('/'), auth_route_config)?;
     let token_endpoint = format!("{}/oauth/token", issuer.trim_end_matches('/'));
+    let client = create_raw_auth_client(&token_endpoint, auth_route_config)?;
     info!(
         issuer = %sanitize_url_for_logging(issuer),
         token_endpoint = %sanitize_url_for_logging(&token_endpoint),

@@ -137,6 +137,7 @@ async fn psp_feature_configures_first_party_routing() -> Result<()> {
     assert_eq!(
         config.http_client_factory(),
         HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault)
+            .with_network_policy(config.application_network_policy.clone())
             .with_chatgpt_cookies([HeaderValue::from_static("oai-chat-psp=true")])
     );
     assert_eq!(

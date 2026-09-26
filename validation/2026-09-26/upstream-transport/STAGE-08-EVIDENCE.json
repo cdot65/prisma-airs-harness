@@ -1,0 +1,21 @@
+{
+  "upstream": "22a3f6d5d89c026c6b4f606ae5604f9e00059b23",
+  "feature_complete": false,
+  "scores": null,
+  "sha256": {
+    "stage-08-linux-packages-initial.log.gz": "3a1712df7c4f367e3c25aa40db7ac79346ce826b260b95defe4b7b0a7d6cd3f0",
+    "stage-08-linux-zsh-fixture.txt": "2c33ea2badfec1b0d51780606aefee4862e223b811d7dcf3b23a0ada8fc4c0ec",
+    "stage-08-mac-login-profile-probe.log.gz": "110daa4814954243efb72b93361917b88f9dad254bc92b2244d0da560c476aef",
+    "stage-08-ownership-check.log.gz": "5641119efb5ff0e46383a9b1f8038c4d318eeac35a497bd3c4a50a2ce091aabc",
+    "stage-08-ownership-core-refresh-junit.xml.gz": "e814a3e20a6bb105fd673bd13cb3f0f0155f412063fd6cb811e71f33f6c629c8",
+    "stage-08-ownership-core-refresh.log.gz": "556412eb9aea144acc5ab50a0b2431455f50cd0a1eebe0d38b4d374786853861",
+    "stage-08-ownership-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-08-ownership-focused-linux-junit.xml.gz": "6af532de45d5c8c4cd397f80ed5a6c065e15e827c38207753d7d00dbb504364a",
+    "stage-08-ownership-lint-final.log.gz": "7b8062dd0c6ce09261358456a1bda743be79458c14a12849858cc5d5c0adfe69",
+    "stage-08-ownership-mac-fixture-recheck-junit.xml.gz": "978ab235b3751d5dd65f60cf5c2637fbb9558e9de2e0064de1dfd536029e7f0b",
+    "stage-08-ownership-mac-fixture-recheck.log.gz": "c7683a53d817f2e26a524eb7302528f9397307418b5899eeac2ff22bc203f2fc",
+    "stage-08-ownership-package-linux-junit.xml.gz": "758c688640b5cf55f7de74baa764fadac77236eb3f049ce655855b2f2c7c12ab",
+    "stage-08-ownership-package-mac-junit-initial.xml.gz": "12baabe0d3d429373aa52868e8ae2b71defa033cbe236ec68e928720a6227600",
+    "stage-08-review.md": "1a7a70b1b9551abaace12892b75cf592f857952e293a23e9177b5aa1aa1c0704"
+  }
+}

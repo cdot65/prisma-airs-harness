@@ -16,6 +16,7 @@ child_env = dict(os.environ)
 # callers retaining only get_program() lose the actual binary argument.
 child_env.pop("CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER", None)
 child_env.pop("CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUNNER", None)
+child_env.pop("CARGO_TARGET_AARCH64_APPLE_DARWIN_RUNNER", None)
 for name in ("SSL_CERT_FILE", "SSL_CERT_DIR", "CODEX_CA_CERTIFICATE"):
     child_env.pop(name, None)
 os.execve(sys.argv[1], sys.argv[1:], child_env)

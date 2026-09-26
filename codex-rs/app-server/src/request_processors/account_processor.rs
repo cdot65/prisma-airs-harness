@@ -969,11 +969,11 @@ impl AccountRequestProcessor {
             }
         }
 
+        self.config_manager.clear_cloud_config_bundle_loader();
+
         if config.model_provider.is_amazon_bedrock() {
             clear_user_model_provider_if_bedrock(&self.config_manager, &config).await?;
         }
-
-        self.config_manager.clear_cloud_config_bundle_loader();
 
         Self::maybe_refresh_plugin_caches_for_current_config(
             &self.config_manager,
@@ -1130,7 +1130,9 @@ impl AccountRequestProcessor {
         &self,
         params: GetAccountRateLimitsParams,
     ) -> Result<GetAccountRateLimitsResponse, JSONRPCErrorError> {
-        let Some(auth) = self.auth_manager.auth().await else {
+        let Some((auth, http_client_factory)) =
+            self.auth_manager.auth_with_http_client_factory().await
+        else {
             return Err(invalid_request(
                 "codex account authentication required to read rate limits",
             ));
@@ -1145,7 +1147,7 @@ impl AccountRequestProcessor {
         let client = BackendClient::from_auth(
             self.config.chatgpt_base_url.clone(),
             &auth,
-            self.config.http_client_factory(),
+            http_client_factory,
         );
 
         let usage_request = async {
@@ -1241,7 +1243,9 @@ impl AccountRequestProcessor {
             })
             .transpose()?;
 
-        let Some(auth) = self.auth_manager.auth().await else {
+        let Some((auth, http_client_factory)) =
+            self.auth_manager.auth_with_http_client_factory().await
+        else {
             return Err(invalid_request(
                 "codex account authentication required to read token usage",
             ));
@@ -1256,7 +1260,7 @@ impl AccountRequestProcessor {
         let client = BackendClient::from_auth(
             self.config.chatgpt_base_url.clone(),
             &auth,
-            self.config.http_client_factory(),
+            http_client_factory,
         );
         if let Some(thread_id) = thread_id {
             let thread_id = thread_id.to_string();
@@ -1326,7 +1330,9 @@ impl AccountRequestProcessor {
     async fn get_workspace_messages_response(
         &self,
     ) -> Result<GetWorkspaceMessagesResponse, JSONRPCErrorError> {
-        let Some(auth) = self.auth_manager.auth().await else {
+        let Some((auth, http_client_factory)) =
+            self.auth_manager.auth_with_http_client_factory().await
+        else {
             return Err(invalid_request(
                 "codex account authentication required to read workspace messages",
             ));
@@ -1341,7 +1347,7 @@ impl AccountRequestProcessor {
         let client = BackendClient::from_auth(
             self.config.chatgpt_base_url.clone(),
             &auth,
-            self.config.http_client_factory(),
+            http_client_factory,
         );
         let messages = tokio::time::timeout(
             ACCOUNT_WORKSPACE_MESSAGES_FETCH_TIMEOUT,
@@ -1418,7 +1424,9 @@ impl AccountRequestProcessor {
         &self,
         params: SendAddCreditsNudgeEmailParams,
     ) -> Result<AddCreditsNudgeEmailStatus, JSONRPCErrorError> {
-        let Some(auth) = self.auth_manager.auth().await else {
+        let Some((auth, http_client_factory)) =
+            self.auth_manager.auth_with_http_client_factory().await
+        else {
             return Err(invalid_request(
                 "codex account authentication required to notify workspace owner",
             ));
@@ -1433,7 +1441,7 @@ impl AccountRequestProcessor {
         let client = BackendClient::from_auth(
             self.config.chatgpt_base_url.clone(),
             &auth,
-            self.config.http_client_factory(),
+            http_client_factory,
         );
 
         match client

@@ -209,6 +209,9 @@ pub enum RefreshTokenError {
     Permanent(#[from] RefreshTokenFailedError),
     #[error(transparent)]
     Transient(#[from] std::io::Error),
+    /// Denied by application policy; neither retry nor cache as a credential failure.
+    #[error(transparent)]
+    Policy(#[from] codex_http_client::NetworkPolicyDenied),
 }
 
 /// Error returned when constructing an [`AuthManager`] from resolved configuration.
@@ -286,7 +289,16 @@ impl RefreshTokenError {
     pub fn failed_reason(&self) -> Option<RefreshTokenFailedReason> {
         match self {
             Self::Permanent(error) => Some(error.reason),
-            Self::Transient(_) => None,
+            Self::Transient(_) | Self::Policy(_) => None,
+        }
+    }
+}
+
+impl From<codex_http_client::HttpError> for RefreshTokenError {
+    fn from(error: codex_http_client::HttpError) -> Self {
+        match error {
+            codex_http_client::HttpError::Policy(denied) => Self::Policy(denied),
+            error => Self::Transient(std::io::Error::other(error)),
         }
     }
 }
@@ -296,6 +308,9 @@ impl From<RefreshTokenError> for std::io::Error {
         match err {
             RefreshTokenError::Permanent(failed) => std::io::Error::other(failed),
             RefreshTokenError::Transient(inner) => inner,
+            RefreshTokenError::Policy(error) => {
+                std::io::Error::new(std::io::ErrorKind::PermissionDenied, error)
+            }
         }
     }
 }
@@ -1604,17 +1619,21 @@ async fn request_chatgpt_token_refresh(
         .json(&refresh_request)
         .send()
         .await
-        .map_err(|err| RefreshTokenError::Transient(std::io::Error::other(err)))?;
+        .map_err(RefreshTokenError::from)?;
 
     let status = response.status();
     if status.is_success() {
         let refresh_response = response
             .json::<RefreshResponse>()
             .await
-            .map_err(|err| RefreshTokenError::Transient(std::io::Error::other(err)))?;
+            .map_err(RefreshTokenError::from)?;
         Ok(refresh_response)
     } else {
-        let body = response.text().await.unwrap_or_default();
+        let body = match response.text().await {
+            Ok(body) => body,
+            Err(codex_http_client::HttpError::Policy(denied)) => return Err(denied.into()),
+            Err(_) => String::new(),
+        };
         tracing::error!("Failed to refresh token: {status}: {body}");
         let code = extract_refresh_token_error_code(&body);
         // RFC 6749 reports an unusable refresh token as invalid_grant without preserving
@@ -2122,6 +2141,21 @@ fn default_agent_identity_authapi_base_url() -> Option<String> {
 }
 
 impl AuthManager {
+    /// Returns the application policy associated with this account owner.
+    pub fn application_network_policy(&self) -> codex_http_client::NetworkPolicy {
+        self.auth_route_config
+            .http_client_factory()
+            .network_policy()
+            .clone()
+    }
+
+    /// Creates content clients bound to the account currently owned by this manager.
+    pub fn http_client_factory(&self) -> HttpClientFactory {
+        self.auth_route_config
+            .http_client_factory()
+            .clone()
+            .with_network_policy(self.application_network_policy().for_current_account())
+    }
     /// Create a new manager loading the initial auth using the provided
     /// preferred auth method. Errors loading auth are swallowed; `auth()` will
     /// simply return `None` in that case so callers can treat it as an
@@ -2379,6 +2413,13 @@ impl AuthManager {
         self.external_auth_provider()?.credential_recovery()
     }
 
+    /// Capture credentials and their account-bound factory under the same auth read lock.
+    pub async fn auth_with_http_client_factory(&self) -> Option<(CodexAuth, HttpClientFactory)> {
+        self.auth().await;
+        let cached = self.inner.read().ok()?;
+        Some((cached.auth.clone()?, self.http_client_factory()))
+    }
+
     pub async fn agent_identity_auth(
         &self,
         policy: AgentIdentityAuthPolicy,
@@ -2559,6 +2600,7 @@ impl AuthManager {
                             cached_auth
                         }
                         RefreshTokenError::Transient(_) => None,
+                        RefreshTokenError::Policy(_) => cached_auth,
                     }
                 }
             };
@@ -2598,6 +2640,12 @@ impl AuthManager {
                 !Self::auths_equal_for_refresh(previous, new_auth.as_ref());
             let owner_changed =
                 auth_changed_for_refresh && !same_owner(previous, new_auth.as_ref());
+            if owner_changed {
+                self.auth_route_config
+                    .http_client_factory()
+                    .network_policy()
+                    .invalidate();
+            }
             if auth_changed_for_refresh {
                 guard.permanent_refresh_failure = None;
             }

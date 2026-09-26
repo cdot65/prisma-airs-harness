@@ -556,6 +556,8 @@ async fn start_app_server(
 pub(crate) async fn start_app_server_for_picker(
     config: &Config,
     target: &AppServerTarget,
+    cli_kv_overrides: Vec<(String, toml::Value)>,
+    loader_overrides: LoaderOverrides,
     state_db: Option<StateDbHandle>,
     environment_manager: Arc<EnvironmentManager>,
 ) -> color_eyre::Result<AppServerSession> {
@@ -565,8 +567,8 @@ pub(crate) async fn start_app_server_for_picker(
         &mut target,
         Arg0DispatchPaths::default(),
         config.clone(),
-        Vec::new(),
-        LoaderOverrides::default(),
+        cli_kv_overrides,
+        loader_overrides,
         /*strict_config*/ false,
         CloudConfigBundleLoader::default(),
         codex_feedback::CodexFeedback::new(),
@@ -589,6 +591,8 @@ pub(crate) async fn start_embedded_app_server_for_picker(
     start_app_server_for_picker(
         config,
         &AppServerTarget::Embedded,
+        Vec::new(),
+        LoaderOverrides::without_managed_config_for_tests(),
         state_db,
         Arc::new(EnvironmentManager::default_for_tests()),
     )
@@ -2538,6 +2542,8 @@ requires_openai_auth = {requires_openai_auth}
             let mut app_server = start_app_server_for_picker(
                 &final_config,
                 &AppServerTarget::Embedded,
+                Vec::new(),
+                LoaderOverrides::without_managed_config_for_tests(),
                 state_db,
                 Arc::new(EnvironmentManager::default_for_tests()),
             )

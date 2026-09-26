@@ -608,6 +608,10 @@ pub enum ThreadStoreConfig {
 /// Application configuration loaded from disk and merged with overrides.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Config {
+    /// App-server-owned destination policy; other runtimes remain unmanaged.
+    pub application_network_policy: codex_http_client::NetworkPolicy,
+    /// Auth bootstrap routing installed by the app-server configuration owner.
+    pub application_auth_route_config: Option<AuthRouteConfig>,
     /// Provenance for how this [`Config`] was derived (merged layers + enforced
     /// requirements).
     pub config_layer_stack: ConfigLayerStack,
@@ -1631,7 +1635,14 @@ impl Config {
 
     /// Returns auth routing resolved from the effective feature configuration.
     pub fn auth_route_config(&self) -> AuthRouteConfig {
-        AuthRouteConfig::from_http_client_factory(self.http_client_factory())
+        self.application_auth_route_config
+            .clone()
+            .unwrap_or_else(|| {
+                AuthRouteConfig::from_http_client_factory(
+                    self.http_client_factory()
+                        .with_network_policy(self.application_network_policy.clone()),
+                )
+            })
     }
 
     /// Creates the HTTP client factory resolved from the effective feature configuration.
@@ -1641,7 +1652,8 @@ impl Config {
         } else {
             OutboundProxyPolicy::ReqwestDefault
         };
-        let factory = HttpClientFactory::new(outbound_proxy_policy);
+        let factory = HttpClientFactory::new(outbound_proxy_policy)
+            .with_network_policy(self.application_network_policy.clone());
         if self.features.enabled(Feature::Psp) {
             factory.with_chatgpt_cookies([HeaderValue::from_static("oai-chat-psp=true")])
         } else {
@@ -4325,6 +4337,8 @@ impl Config {
             sqlite: codex_state::SqliteConfig::from_sqlite_home(sqlite_home),
             log_dir,
             config_layer_stack,
+            application_network_policy: Default::default(),
+            application_auth_route_config: None,
             history,
             ephemeral: ephemeral.unwrap_or_default(),
             extra_config: None,

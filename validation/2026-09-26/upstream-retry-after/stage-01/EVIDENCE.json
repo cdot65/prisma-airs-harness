@@ -1,0 +1,47 @@
+{
+  "stage": "Shared deadline foundation",
+  "upstream": "9d8de196748b57d7f463a7757eaa447b6483a331",
+  "feature_complete": false,
+  "source_sha256": {
+    "codex-rs/Cargo.lock": "16ee6a14184afca31d7850084947029e757fdcf53798316ad9414544c47be724",
+    "codex-rs/http-client/Cargo.toml": "5b254c9febe7efe181c3119dd3ee6222959f417baf4c9b9f66ff90476073b973",
+    "codex-rs/http-client/src/lib.rs": "b0877ac2c93a7e10f39722fa7022ed230dbf339c2396ba1206e08b39b7f3f695",
+    "codex-rs/http-client/src/retry_after.rs": "025334619c1f6a419ea670fc3728737e78b61238deae3ca0f7d6cd2ae67d9313",
+    "codex-rs/http-client/src/retry_after_tests.rs": "5b8597793d1f1709986294e8f940e56af48159d99f8ae1b485f1c611bb7e5bf4",
+    "MODULE.bazel.lock": "dbb82bfe8080f71f7dd316f2c870a452a0038a43da34e7554448d9a500062816"
+  },
+  "local_tests": {
+    "passed": 120,
+    "failed": 0,
+    "retries": 0
+  },
+  "native_tests": {
+    "passed": 122,
+    "failed": 0,
+    "retries": 0
+  },
+  "local_lint": 0,
+  "native_lint": 0,
+  "format": 0,
+  "unrelated_format_paths_restored": 17,
+  "bazel_regeneration": 0,
+  "bazel_strict_check_python313": 0,
+  "bazel_lock_unchanged": true,
+  "initial_failures": [
+    "Local unwrapped TLS fixtures: 6 failures; existing CA-clearing runner closes all six",
+    "Native default lock-check Python 3.9 failed before Bazel; same helper with Python 3.13 passes"
+  ],
+  "artifacts": {
+    "fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "initial-unwrapped-tests.xml.gz": "e6632353bf2f57bb60c88d3c43f6fa664c2d867afbaba69df282513029c537a0",
+    "lint.log.gz": "cde0072657768f07f106dae4c96b1cbe60d912e26972eb19cadc1295cea7f09d",
+    "native-bazel-check-py313.log.gz": "14cbdd31dc7e2808da4f0f7ef5c4530fcc62aaa38b1cddee1f95af918d411eb1",
+    "native-bazel-check.log.gz": "9db0cbf3c54d571324883c9f7bfde770e9c42dbef10d918f73249482c6c0d875",
+    "native-bazel-update.log.gz": "32ea53177ee29dba39dcf90853a16632fa4940f61f2cc72d90c94366f4b308b5",
+    "native-lint.log.gz": "376ada7a6e3a2f82d9ac33a62e355e139d0148bb96194543d50e8c23c6989206",
+    "native-tests.log.gz": "89b219f636312a502090392998ceae629cea4e3661ed2ebc2cd21bb48d989b45",
+    "native-tests.xml.gz": "c8c35d6878fb0bbc87194d3e568ebd9945b884d715fcbf6c6959e160f2ac4377",
+    "tests.log.gz": "64502d2bc26f3a914a365ec0b81e086a1203d0d24c7636a7d79d56df25694317",
+    "tests.xml.gz": "af0181962c50bd05f4d5239ac384bdc975d6e828dd343466d06a37e839b0c349"
+  }
+}

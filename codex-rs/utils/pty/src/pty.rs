@@ -530,8 +530,12 @@ pub fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
     }
 }
 
-// Other Unix platforms keep their existing fd cleanup.
-#[cfg(all(unix, not(target_os = "macos")))]
+#[cfg(target_os = "linux")]
+pub(crate) use crate::linux_fds::close_inherited_fds_except;
+
+// Other Unix platforms use best-effort /dev/fd cleanup.
+// Directory enumeration allocates, so this path is not guaranteed fork-safe.
+#[cfg(all(unix, not(any(target_os = "linux", target_os = "macos"))))]
 pub(crate) fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
     if let Ok(dir) = std::fs::read_dir("/dev/fd") {
         let mut fds = Vec::new();

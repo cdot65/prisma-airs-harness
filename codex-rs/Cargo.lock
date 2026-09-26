@@ -4996,6 +4996,7 @@ dependencies = [
  "portable-pty",
  "pretty_assertions",
  "shared_library",
+ "tempfile",
  "tokio",
  "winapi",
 ]

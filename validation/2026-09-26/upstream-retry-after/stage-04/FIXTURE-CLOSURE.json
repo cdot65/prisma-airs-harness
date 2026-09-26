@@ -1,0 +1,36 @@
+{
+  "production_source_commit": "0da5d68cf1d7ce78bbd9ec87161f6ca9992fa05a",
+  "scope": "test fixtures only",
+  "source_sha256": {
+    "codex-rs/core/tests/suite/mcp_optional_startup_grace.rs": "00dde4e641af68df3e72d58b899f4319f290385403312a8978dd7437626b4c6e",
+    "codex-rs/core/tests/suite/tool_parallelism.rs": "0dbc7d47595b5180eb9a4acade826362ff81612e2f56f3d6acad2997164b3998",
+    "codex-rs/core/tests/suite/tool_parallelism_mixed.rs": "e3f7451bba1d98785d01106c9b6a1fa6e96ced95d8ec3dacc0151cffb2211c1c"
+  },
+  "local_fixture_tests": {
+    "total": 7,
+    "passed": 7,
+    "retries": 0
+  },
+  "local_lint": {
+    "packages": 10,
+    "exit_code": 0
+  },
+  "format": {
+    "exit_code": 0,
+    "unrelated_restored": 17
+  },
+  "native_final_closure": {
+    "total": 221,
+    "passed": 221,
+    "retries": 0
+  },
+  "native_stability": {
+    "repetitions": 3,
+    "per_repetition": 7,
+    "failed": 0,
+    "retries": 0
+  },
+  "native_lint": "running after disk cleanup",
+  "gnu_workspace_run": 3852,
+  "feature_scores": "withheld pending final lint/workspace"
+}

@@ -1,0 +1,9 @@
+{
+  "exit_code": 101,
+  "tests_ran": false,
+  "cause": "ambiguous assert_eq glob import; corrected with explicit imports",
+  "stale_junit_duplicate_discarded": true,
+  "duplicate_of": "final-api-corrected-tests.xml.gz",
+  "uncompressed_sha256": "10c98968d457e2dd419ebfe8419630506d6cfab0fe0806021dbf7e68d60546fe",
+  "runner_correction": "copy JUnit only when its mtime follows run start"
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "profile": "host-profile",
+    "capture_exit": 0,
+    "validation_exit": 2,
+    "stderr_categories": [
+      "syntax error"
+    ],
+    "line_numbers": [
+      2476
+    ],
+    "stderr_bytes": 102
+  },
+  {
+    "profile": "isolated-profile",
+    "capture_exit": 0,
+    "validation_exit": 0,
+    "stderr_categories": [],
+    "line_numbers": [],
+    "stderr_bytes": 0
+  }
+]

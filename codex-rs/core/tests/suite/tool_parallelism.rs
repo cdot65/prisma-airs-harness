@@ -36,6 +36,9 @@ use serde_json::Value;
 use serde_json::json;
 use tokio::sync::oneshot;
 
+#[path = "tool_parallelism_mixed.rs"]
+mod mixed;
+
 async fn run_turn(test: &TestCodex, prompt: &str) -> anyhow::Result<()> {
     let session_model = test.session_configured.model.clone();
     let (sandbox_policy, permission_profile) =
@@ -188,38 +191,7 @@ async fn shell_tools_run_in_parallel() -> anyhow::Result<()> {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn mixed_parallel_tools_run_in_parallel() -> anyhow::Result<()> {
-    skip_if_no_network!(Ok(()));
-
-    let server = start_mock_server().await;
-    let test = build_codex_with_test_tool(&server).await?;
-
-    let sync_args = json!({
-        "sleep_after_ms": 300
-    })
-    .to_string();
-    let shell_args = serde_json::to_string(&json!({
-        "cmd": "sleep 0.25",
-        // Avoid user-specific shell startup cost in timing assertions.
-        "login": false,
-        "yield_time_ms": 1_000,
-    }))?;
-
-    let first_response = sse(vec![
-        json!({"type": "response.created", "response": {"id": "resp-1"}}),
-        ev_function_call("call-1", "test_sync_tool", &sync_args),
-        ev_function_call("call-2", "exec_command", &shell_args),
-        ev_completed("resp-1"),
-    ]);
-    let second_response = sse(vec![
-        ev_assistant_message("msg-1", "done"),
-        ev_completed("resp-2"),
-    ]);
-    mount_sse_sequence(&server, vec![first_response, second_response]).await;
-
-    let duration = run_turn_and_measure(&test, "mix tools").await?;
-    assert_parallel_duration(duration);
-
-    Ok(())
+    mixed::assert_mixed_tools_overlap().await
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

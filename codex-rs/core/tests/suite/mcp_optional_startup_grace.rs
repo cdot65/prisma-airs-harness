@@ -45,11 +45,14 @@ async fn optional_mcp_startup_grace_controls_initial_turn_tool_catalog(
         StartupGraceScenario::DisabledGraceWaitsForStartup
         | StartupGraceScenario::DisabledGraceRespectsStartupTimeout => Duration::ZERO,
     };
+    // This deadline includes cold transport construction, before the held initialize request.
+    // Keep it distinct from the short catalog grace being tested; native client setup must
+    // reach the gate before the fixture can exercise that behavior.
     let startup_timeout = match scenario {
-        StartupGraceScenario::DisabledGraceRespectsStartupTimeout => Duration::from_millis(250),
+        StartupGraceScenario::DisabledGraceRespectsStartupTimeout => Duration::from_secs(5),
         StartupGraceScenario::ShortGraceOmitsPending
         | StartupGraceScenario::CustomGraceIncludesReady
-        | StartupGraceScenario::DisabledGraceWaitsForStartup => Duration::from_secs(1),
+        | StartupGraceScenario::DisabledGraceWaitsForStartup => Duration::from_secs(10),
     };
     let responses_server = responses::start_mock_server().await;
     let mcp_server = responses::start_mock_server().await;
@@ -92,16 +95,29 @@ async fn optional_mcp_startup_grace_controls_initial_turn_tool_catalog(
 
     tokio::time::timeout(Duration::from_secs(5), async {
         while startup_control.initialize_attempts() == 0 {
-            tokio::task::yield_now().await;
+            tokio::select! {
+                event = fixture.codex.next_event() => {
+                    if let codex_protocol::protocol::EventMsg::McpStartupUpdate(update) = event?.msg
+                        && update.server == SERVER_NAME
+                        && let codex_protocol::protocol::McpStartupStatus::Failed { error, .. } = update.status
+                    {
+                        anyhow::bail!("optional MCP startup failed before initialization: {error}");
+                    }
+                }
+                () = tokio::time::sleep(Duration::from_millis(10)) => {}
+            }
         }
+        Ok::<_, anyhow::Error>(())
     })
     .await
-    .context("optional MCP initialization should begin before the first turn")?;
+    .context("optional MCP initialization should begin before the first turn")??;
 
     let mut turn = Box::pin(fixture.submit_turn("show optional MCP tools"));
     match scenario {
         StartupGraceScenario::ShortGraceOmitsPending => {
-            tokio::time::timeout(Duration::from_millis(500), &mut turn)
+            // Completing while initialization is still held proves grace-based omission.
+            // This bound includes inference and remains well below the 10-second startup limit.
+            tokio::time::timeout(Duration::from_secs(3), &mut turn)
                 .await
                 .context("the configured grace should omit the pending server")??;
             release_startup
@@ -118,7 +134,7 @@ async fn optional_mcp_startup_grace_controls_initial_turn_tool_catalog(
             release_startup
                 .send(())
                 .expect("optional MCP startup should remain in flight");
-            tokio::time::timeout(Duration::from_secs(2), &mut turn)
+            tokio::time::timeout(Duration::from_secs(3), &mut turn)
                 .await
                 .context("a server ready within the configured grace should reach the model")??;
         }
@@ -132,7 +148,7 @@ async fn optional_mcp_startup_grace_controls_initial_turn_tool_catalog(
             release_startup
                 .send(())
                 .expect("zero-grace optional MCP startup should remain in flight");
-            tokio::time::timeout(Duration::from_secs(2), &mut turn)
+            tokio::time::timeout(Duration::from_secs(3), &mut turn)
                 .await
                 .context("zero grace should include a server ready before its startup timeout")??;
         }
@@ -143,7 +159,7 @@ async fn optional_mcp_startup_grace_controls_initial_turn_tool_catalog(
                     .is_err(),
                 "zero grace should keep waiting until the server-specific startup timeout"
             );
-            tokio::time::timeout(Duration::from_secs(1), &mut turn)
+            tokio::time::timeout(Duration::from_secs(8), &mut turn)
                 .await
                 .context("zero grace should stop waiting once the server startup times out")??;
             release_startup

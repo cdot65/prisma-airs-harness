@@ -1,0 +1,17 @@
+{
+  "feature_complete": false,
+  "native_total": 4972,
+  "native_passed": 4956,
+  "native_failed": 16,
+  "retries": 0,
+  "required_regressions": {
+    "queued_retry_notification_does_not_restart_server_deadline": "passed",
+    "websocket_fallback_waits_for_the_same_gateway_deadline": "passed",
+    "interrupt_cancels_a_turn_waiting_on_stream_retry_advice": "passed",
+    "http_deadline_survives_processing_and_exhausted_attempts": "passed",
+    "logout_interrupts_server_retry_wait_without_another_request": "passed"
+  },
+  "closure": "running; complete API package and every failed case; assertions retained; fixture-only home and Python isolation",
+  "gnu_run": 3852,
+  "gnu_source": "0da5d68cf1d7ce78bbd9ec87161f6ca9992fa05a"
+}

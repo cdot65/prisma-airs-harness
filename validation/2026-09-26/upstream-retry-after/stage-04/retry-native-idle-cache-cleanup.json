@@ -1,0 +1,577 @@
+{
+  "scope": "Idle task-owned target only; production executables and all compiled dependency libraries retained",
+  "removed": [
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_protocol-2ov75wv1mijab/s-hmnxom2om0-1rzqpfa-working",
+      "kib": 198864,
+      "kind": "abandoned failed compiler scratch"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_response_debug_context-3k06nup6ciffj",
+      "kib": 13460,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_protocol-16wqdiq0mhjwg",
+      "kib": 249240,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_protocol-29tqh4hgu3jov",
+      "kib": 253220,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_execpolicy-0f6j6injxihlj",
+      "kib": 23380,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_client-0gnxyfuoly5dg",
+      "kib": 8524,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_airs_identity-3iqnlq8rszbym",
+      "kib": 12040,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_airs_identity-0f6oejihh6i69",
+      "kib": 45428,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_airs_identity-2vh6oj7yukp3s",
+      "kib": 20008,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_http_client-3l9rb9xpyvz2r",
+      "kib": 18756,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_http_client-2pdskkvfsdqam",
+      "kib": 61628,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_http_client-1ea23r9yd6kxe",
+      "kib": 29132,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_http_client-06c1cet59wurk",
+      "kib": 17088,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_websocket_client-22mcf9wpeark1",
+      "kib": 11444,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/ca_env-0qf2gkeefg26z",
+      "kib": 2160,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_model_provider-0mtwjt3g38iwx",
+      "kib": 60776,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_core-2zf3r16m4v458",
+      "kib": 1041132,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_workload_identity-0poojz9h5bvh9",
+      "kib": 6588,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/custom_ca_probe-0mq5mc345wk3a",
+      "kib": 5108,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/custom_ca_probe-28p294irvsaze",
+      "kib": 1080,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/custom_ca_probe-2xmyg3hdj8cbx",
+      "kib": 952,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_api-18aqplwe5ypgt",
+      "kib": 130760,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_uds-2ju7hf3nafplg",
+      "kib": 1116,
+      "kind": "older incremental variant; newest retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/debug_clear_memories-0601f72ce3b2ee39",
+      "kib": 46436,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_add_remove-85a1329196fe1822",
+      "kib": 130556,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_history-146c844a94d8e96b",
+      "kib": 59008,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/stdio_message_limits-afa8aca725d9ea27",
+      "kib": 124616,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_remote-a7c62e9ddce755c3",
+      "kib": 85812,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_protocol-ba9e8d52d0768110",
+      "kib": 68308,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/airs_environments-5f5327cc1a82e545",
+      "kib": 3204,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_http_client-d6e06664847ad9ef",
+      "kib": 29076,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_http_client-9cd9bf7555ab1692",
+      "kib": 30676,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_http_client-ba8e9641a963f6a4",
+      "kib": 30024,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_http_client-bfed125a57d904fc",
+      "kib": 29192,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_oauth_startup-07b854a56e57afa0",
+      "kib": 127088,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-c1e818a079e4aace",
+      "kib": 109824,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/resources-fa9ac5f3bd45bbb4",
+      "kib": 69184,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/exec_server-ba94b63634f4f0cc",
+      "kib": 63768,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/clients-1400aeeacf14fba7",
+      "kib": 47252,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-df3605e5d0d4627b",
+      "kib": 95308,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-abc8df77a0e0afbb",
+      "kib": 95312,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-39b559d4c1dd9e2c",
+      "kib": 95316,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-f57efc4e29db9dd5",
+      "kib": 95268,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/marketplace_remove-88a5ab0b01084e35",
+      "kib": 41620,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/transport_policy_tests-064008b1e6411fee",
+      "kib": 4204,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_websocket_client-a7225bc346fb90e7",
+      "kib": 16352,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_events-27b5a05501459c5f",
+      "kib": 126316,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/worktree-25f8717e98380c7a",
+      "kib": 100956,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/app_server-97b2bb965fd68ffa",
+      "kib": 85516,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/debug_models-47750e94ddf0f272",
+      "kib": 2412,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/sandbox_cloud_config-2b225a322e0e1ed3",
+      "kib": 137320,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/ca_env-9739549a257f1047",
+      "kib": 7592,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/ca_env-748b709664fcd84e",
+      "kib": 7744,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/ca_env-5decc780890c6772",
+      "kib": 7772,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/ca_env-93ee61884a4746f6",
+      "kib": 7752,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/queue-5fa319b07de8ab66",
+      "kib": 43748,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/sse_end_to_end-083f8bda07e3cc4c",
+      "kib": 46420,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/sse_end_to_end-afe9125b0a81e9b4",
+      "kib": 46300,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_core-fdc0ef445be3a52f",
+      "kib": 458416,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/stdio_descriptor_boundary-e2903e7cf1d44022",
+      "kib": 70524,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_login-2b5482907078d491",
+      "kib": 14448,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/login-4d8fe1fb40bfe9d0",
+      "kib": 95332,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/test_backend-e1fed00fef8e03e5",
+      "kib": 984,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/test_backend-1107db04bed33185",
+      "kib": 984,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/test_backend-46d027defc048746",
+      "kib": 984,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/test_backend-29c6049cf2674f4c",
+      "kib": 984,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/manager_dependency_regression-3a736670ee482114",
+      "kib": 1472,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/manager_dependency_regression-0d95272a27836bbf",
+      "kib": 1472,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/manager_dependency_regression-2987b178e1ddf818",
+      "kib": 1472,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/manager_dependency_regression-43cfd307729394ca",
+      "kib": 1472,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_model_provider-ff4656ba99adc84d",
+      "kib": 93360,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_user_agent-e5ed7fc3dd4385f1",
+      "kib": 124876,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_mrtr-e61600780728498d",
+      "kib": 126056,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/all-9b51f0d1cb74bb8d",
+      "kib": 444296,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/marketplace_add-5debb25f7bf344d7",
+      "kib": 41396,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_airs_identity-625ec435fdbf2560",
+      "kib": 28280,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_airs_identity-da5ae4b4ef366440",
+      "kib": 27736,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_sse_discovery-fda15c30c57b112a",
+      "kib": 125188,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/delete-d1f96453d13d7370",
+      "kib": 2316,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_stdio_discovery-ec88d40134408396",
+      "kib": 125484,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_oauth_store_pinning-e407419e50823eb6",
+      "kib": 124884,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/plugin_cli-9d7fbfe5f0656126",
+      "kib": 98996,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_test_support-2c8af4e797244308",
+      "kib": 36404,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_login-adcc6c88971b1f35",
+      "kib": 110792,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_list-8ba131c7274705e9",
+      "kib": 131596,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_thread_store-eaec887942c28d36",
+      "kib": 97308,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/process_group_cleanup-3cca45c2742b0967",
+      "kib": 68980,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_rollout-72d6775d15d3fc27",
+      "kib": 80560,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/models_integration-fabad5832a062b14",
+      "kib": 61236,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/foreign_stdio_cwd-433d7f37185fc9bd",
+      "kib": 59084,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/responses_headers-a5b63750c5580917",
+      "kib": 359460,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/responses_headers-4c0599c7eba112b9",
+      "kib": 358864,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_oauth_discovery-a3422fce9f2ea599",
+      "kib": 109860,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/features-04e9d598576bab00",
+      "kib": 137772,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_discovery-2504f2161f71c14a",
+      "kib": 126816,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_stdio-20929beb996cc698",
+      "kib": 125332,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_cli-2e32585bcab31016",
+      "kib": 164264,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/doctor_path_safety-4bbc5f9286b41a67",
+      "kib": 119236,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/marketplace_upgrade-0eba743afe28c7dc",
+      "kib": 40600,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/doctor_enterprise_network-7b98d83461178195",
+      "kib": 96128,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_sandboxing-86d4d9eb2b861282",
+      "kib": 83156,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/mcp_2026_message_limits-107ec6cd173cd27c",
+      "kib": 126212,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/cloud_config-9efc5115b77ed786",
+      "kib": 137684,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/streamable_http_recovery-364d43e2cd8d88e8",
+      "kib": 125024,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/sandbox_tty-941a3fef7ce3fe2e",
+      "kib": 5292,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/execpolicy-1c6fc05c606d5992",
+      "kib": 2644,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_api-90f03c5ec3782f05",
+      "kib": 75560,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/realtime_websocket_e2e-ff10cb381781c221",
+      "kib": 51960,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_rmcp_client-988182790e5f9f2f",
+      "kib": 145140,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/codex_backend_client-54be18d2cc8061b1",
+      "kib": 68504,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/update-ff10682f3f8f2541",
+      "kib": 3896,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/sandbox_network_proxy-2602003ed89251e5",
+      "kib": 984,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/cloud_auth-f7786264ec15723d",
+      "kib": 12496,
+      "kind": "older test executable; newest per package and target retained"
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/deps/gateway_auth_recovery-95dab127a4207f41",
+      "kib": 90148,
+      "kind": "older test executable; newest per package and target retained"
+    }
+  ],
+  "removed_kib": 9553540,
+  "free_bytes": 9551310848
+}

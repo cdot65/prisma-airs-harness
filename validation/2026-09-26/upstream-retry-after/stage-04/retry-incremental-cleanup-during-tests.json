@@ -1,0 +1,270 @@
+{
+  "scope": "Task target incremental variants only; newest per crate retained; no compiled binaries/libraries removed",
+  "excluded_modified_within_seconds": 3600,
+  "no_active_compiler_checked_before_each_deletion": true,
+  "tests_running_but_no_compilation": true,
+  "removed": [
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_response_debug_context-2p0hgywmu9z88",
+      "kib": 6472
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_protocol-2btm7jxfjxbi6",
+      "kib": 140996
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_rollout-2dgmrv2ld5v6y",
+      "kib": 56560
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_tools-1h912ksd59d44",
+      "kib": 24128
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_core_plugins-2zcvcu9lo3ers",
+      "kib": 69928
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_core-0j6uhbrycx4dk",
+      "kib": 538220
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_context_fragments-2ihq0qh3nsxqb",
+      "kib": 7080
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_utils_git_discovery-1nq99i9vr9qh4",
+      "kib": 3720
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_config-1s5llni5rq56s",
+      "kib": 72532
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_login-383vgszb879py",
+      "kib": 34276
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_arg0-1uc86ird4jl78",
+      "kib": 9552
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_prompts-16xn3bfbgh1la",
+      "kib": 9044
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_rollout_trace-1i3uyw34wua14",
+      "kib": 31260
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_code_mode-2lzyb4q56a4e5",
+      "kib": 22784
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_thread_store-15l77fxysgcgw",
+      "kib": 106768
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_client-2jtpao6bodd72",
+      "kib": 3768
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_sandboxing-2h4ovdwbmaxgz",
+      "kib": 13232
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_skills_extension-1y5ytn23oobb1",
+      "kib": 46780
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_model_provider_info-0wtlbmkgtu25l",
+      "kib": 12204
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_home-1kr8mzzmtjxmh",
+      "kib": 6176
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_agent_roles-2ssr08jmm8vs3",
+      "kib": 11384
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_secrets-1vam14exe211d",
+      "kib": 14620
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_shell_command-17ij87tza6ryh",
+      "kib": 12700
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_exec_server_protocol-17lxs904e7gxu",
+      "kib": 25636
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_shell_escalation-2rew5bk6157nq",
+      "kib": 15304
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_exec_server-2wb3c9ctyw45f",
+      "kib": 80804
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_git_utils-3odzrh4r122hs",
+      "kib": 18396
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_execpolicy-2tml7bvh2vq4c",
+      "kib": 9980
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_file_system-2vb3dh0rqg24n",
+      "kib": 13312
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_utils_output_truncation-35x6ybbrnp5zh",
+      "kib": 2380
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_features-2n23yvmi0lali",
+      "kib": 18768
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_state-0h2qhdhgug7jw",
+      "kib": 33536
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_test_binary_support-3qjljqmkp890l",
+      "kib": 900
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_connectors-3u43flfmoqixh",
+      "kib": 19768
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_memories_read-0s6ttwqy2thtg",
+      "kib": 7916
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_websocket_client-20ee9ymbumkqx",
+      "kib": 6644
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_mcp-3jrdwiq9ygij3",
+      "kib": 46596
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_models_manager-1oowjiydmlli0",
+      "kib": 18160
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_code_mode_protocol-0qg6hb0x3gbds",
+      "kib": 31660
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_utils_plugins-1eqd25hfptq1d",
+      "kib": 12336
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_model_provider-0na6izcap46tk",
+      "kib": 19136
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_workload_identity-1dlkyb5pbt9yh",
+      "kib": 5404
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_app_server_protocol-313cowytzshrn",
+      "kib": 462000
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/all-2rysqi1ld7y83",
+      "kib": 446580
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_plugin-278m71oaipo9j",
+      "kib": 11464
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_agent_graph_store-3mpuwm2rxcalt",
+      "kib": 9448
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_guardian_context-2zqbktwlfgeym",
+      "kib": 10296
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_skills-08059n4rqqbvh",
+      "kib": 14108
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_analytics-3u988p8gbbkms",
+      "kib": 48708
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_apply_patch-0pc1wrlq6z5hy",
+      "kib": 16136
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_feedback-12yjycbiqd966",
+      "kib": 16544
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_web_search_extension-3aufvmtxlmh5n",
+      "kib": 9296
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_extension_api-1e9sochfk5c5f",
+      "kib": 19040
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_utils_audio-21vtu8nied9od",
+      "kib": 4488
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_history-302p0r6ojhk5a",
+      "kib": 23084
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/responses_headers-3g8fx64h2bbao",
+      "kib": 9352
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_otel-14fi9km5ji1ei",
+      "kib": 27680
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_exec_server_test_support-3stse1xyexgji",
+      "kib": 13636
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_rmcp_client-37x4ketam1r64",
+      "kib": 50732
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_api-3afx2gvlfldlg",
+      "kib": 39400
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_windows_sandbox-3frq5lqatz3tu",
+      "kib": 10108
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/core_test_support-17hd07jp41qy9",
+      "kib": 33556
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_hooks-0q2hkq244fyav",
+      "kib": 30680
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_agent_identity-19r6svocuixl7",
+      "kib": 13360
+    },
+    {
+      "path": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental/codex_image_generation_extension-05oxqhak5kifx",
+      "kib": 18760
+    }
+  ],
+  "kib_removed": 2979276,
+  "disk_free_bytes": 4442193920
+}

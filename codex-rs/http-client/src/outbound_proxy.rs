@@ -323,7 +323,7 @@ impl HttpClientFactory {
     }
 
     /// Builds a reqwest client for a concrete outbound route.
-    pub fn build_reqwest_client(
+    pub(crate) fn build_reqwest_client(
         &self,
         builder: reqwest::ClientBuilder,
         request_url: &str,

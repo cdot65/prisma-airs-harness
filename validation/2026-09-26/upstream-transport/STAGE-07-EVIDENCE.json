@@ -1,0 +1,20 @@
+{
+  "upstream": "22a3f6d5d89c026c6b4f606ae5604f9e00059b23",
+  "feature_complete": false,
+  "scores": null,
+  "sha256": {
+    "stage-07-linux-policy-grpc-linux-junit.xml.gz": "3bfc2e7fe6b9e39095ecd8a70b7959791f94c3a88efe63a6fa84c359e3230dea",
+    "stage-07-review.md": "f17b90cf7444c85aa1c00076f14c1e8d04671290e342bb6624bc0313b9bf325b",
+    "stage-07-mac-policy-grpc-tests.log.gz": "048e69376cc969a1d67f89007716ff1ff5c332a814483b855a7b42a1e2de3a46",
+    "stage-07-linux-policy-grpc-client-tests.log.gz": "775fc83a5536b730b052a544ad5a3a0a5507201a3941f6f9c440fa3a9724d49f",
+    "stage-07-linux-policy-grpc-tests-verified-v8.log.gz": "35b1178b393a975f71d0d06776a89e0cf27caa04281063d71bd8fc2200c5c931",
+    "stage-07-linux-policy-grpc-lint.log.gz": "3ace9255af9b0304b1ceb7e67b27dbf45503536bb43badcd7b9d5774a6db2b65",
+    "stage-07-mac-policy-grpc-junit.xml.gz": "a0e2e338bcb58c873cf904098adb0ecf045d3ce36bdc4b834b11295c42ffc0f8",
+    "stage-07-linux-policy-grpc-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-07-mac-policy-grpc-tests-verified-v8.log.gz": "0d5a5dcaaef6999ba111e04e47ef24c622fc75849f2708f142f5814bcdd09d1f",
+    "stage-07-mac-policy-grpc-bazel-update.log.gz": "2807bf84e1ed0dda6a89137a2d65ebcf14899c8040052f9639ac0d0684e4e89f",
+    "stage-07-mac-policy-grpc-bazel-check.log.gz": "51e38cb0441257966db6c8e3cac8db7c8727ea87b70d484dd8048d797cd27da5",
+    "stage-07-mac-policy-grpc-lint.log.gz": "dcd906447e725bc7034db0b25546b04fa35ab0e722b80c555495883088c5637f",
+    "stage-07-linux-policy-grpc-tests.log.gz": "2a59e5a8ea9d6e54614d67e160cbd84f0ce80c25d28e27123abd5d9f060f3853"
+  }
+}

@@ -2820,6 +2820,7 @@ dependencies = [
  "codex-code-mode",
  "codex-code-mode-protocol",
  "codex-code-mode-runtime",
+ "codex-http-client",
  "codex-otel",
  "codex-otel-trace-websocket",
  "codex-protocol",

@@ -1,0 +1,61 @@
+{
+  "feature": "restricted macOS fcntl protection",
+  "upstream_commit": "04e4d2b40ffdeb7768319bec80bad6b2951c92e4",
+  "baseline": "f8ba5ec356bf97fc5b98fc7dbda252f69d091265",
+  "linux": {
+    "command": "just test --locked -p codex-sandboxing",
+    "passed": 69,
+    "skipped": 0,
+    "nextest_run": "e4f54734-3d16-4acc-a1bf-a5ea43e40d37",
+    "limitation": "Linux excludes native Seatbelt cases"
+  },
+  "clippy": {
+    "command": "just fix -p codex-sandboxing",
+    "exit": 0
+  },
+  "format": {
+    "command": "just fmt",
+    "exit": 0,
+    "unrelated_changes": "restored to baseline after full formatter"
+  },
+  "native": {
+    "passed": 104,
+    "skipped": 1,
+    "skip": "ignored child fixture invoked by parent",
+    "early_return": false,
+    "source_hashes_match": true,
+    "clippy": "just clippy --locked -p codex-sandboxing -- -D warnings passed",
+    "baseline_findings": "two Homebrew Bash exact-stderr failures reproduced without change; system Bash suite passed without altering assertions"
+  },
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "files": {
+    "codex-rs/sandboxing/src/seatbelt.rs": "2855de3d2d8001ad8b41e0f8979e2422286e475afd1a9d1f37f943d277fd8794",
+    "codex-rs/sandboxing/src/seatbelt_fcntl_tests.rs": "4422bd8dcac6f5dd84625a0f422dcec9efbfd532ec3fd60652be2bc6f1721f3d"
+  },
+  "score_basis": {
+    "implementation": "native read-only/workspace-write rejection and unrestricted control; 104 Mac and 69 Linux passes",
+    "code_quality": "narrow upstream adaptation; scoped Clippy both platforms and formatting; separate unchanged upstream tests",
+    "design": "restriction at existing policy generator, no auth/routing or broad launcher changes",
+    "feature_completeness": "bounded feature complete on supported native Mac; signed distributable and whole integration remain separate gates"
+  },
+  "limitations": [
+    "Native test covers this Mac OS/filesystem, not every supported macOS revision.",
+    "Extent-transfer unrestricted control explicitly permits unsupported filesystem result; restricted calls must still return EPERM.",
+    "Not a release readiness score."
+  ],
+  "evidence": {
+    "REVIEW.md": "86c146bbb4357ebd2fbffff436c4965b66c7aeb58533e2eab42c139e936b4327",
+    "format.log.gz": "6b79079d1b6de011dd996c098eba512ea3a90d6c35ffc696ebbdfadfeee9774b",
+    "seatbelt-baseline.log.gz": "f34380b43341906e9c6b3e25d42a818c1236f5145c4568ab47c4c76b5101edce",
+    "seatbelt-clippy.log.gz": "94e13a1e126fde02c127dd6d07c5390030714c2f624c563ed0f01665084d008e",
+    "seatbelt-linux-junit.xml.gz": "5233959cad8a944b07e1cd74fea5e67d80c7d57f02cf37d4baf1ffdb4e7d5bad",
+    "seatbelt-macos-clippy.log.gz": "2fecaa7453ffa49296e98098c5536647d0f4febc44bdbc01685182ec4c4ee0a9",
+    "seatbelt-macos-junit.xml.gz": "e6e43c46ff7528b1672adbb410c79add376b742da0f8f7f5645804a3b9692098",
+    "seatbelt-system-bash.log.gz": "71be0177cea73436fc24ccc7f1739bc5b3673550961010dc7754df11d101e416"
+  }
+}

@@ -1048,6 +1048,13 @@ pub(crate) fn create_seatbelt_command_args_with_profile(
         }),
     );
 
+    // These fcntls mutate files through read-only descriptors, bypassing
+    // file-write* and file-ioctl. Even deny-default needs this explicit deny.
+    // F_MAKECOMPRESSED = 80, F_TRANSFEREXTENTS = 110.
+    if !file_system_sandbox_policy.has_full_disk_write_access() {
+        policy_sections.push("(deny system-fcntl (fcntl-command 80 110))".to_string());
+    }
+
     let full_policy = policy_sections.join("\n");
 
     let dir_params = [
@@ -1073,3 +1080,7 @@ pub(crate) fn create_seatbelt_command_args_with_profile(
 #[cfg(test)]
 #[path = "seatbelt_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "seatbelt_fcntl_tests.rs"]
+mod fcntl_tests;

@@ -389,3 +389,12 @@ rendering, native acceptance and signed Mac delivery each score **9/10**, using
 the rubric above; owner visual/real-account acceptance reserves the final test
 point. Linux distribution builds remain deferred. The public guide passed 23
 browser checks. Retained evidence: `validation/2026-09-24/blue-selection-alpha4/`.
+
+
+## September 26: reliability and fullscreen integration
+
+Work proceeds in separately scored slices; source scores do not imply release readiness.
+
+### Restricted macOS fcntl protection — 9/10 in each dimension
+
+Adapted `04e4d2b40ffdeb7768319bec80bad6b2951c92e4` (PR 46500) to the existing Seatbelt generator. Restrict mutation through read-only descriptors under restricted filesystem profiles; unrestricted execution is retained. Separate unchanged upstream native canary tests prove denial and positive controls. Linux affected suite: 69 passed; native Mac: 104 passed, one ignored child fixture invoked by the parent. Both initial Homebrew Bash stderr failures reproduced on baseline; system Bash passes without weakened assertions. Formatting and scoped Clippy pass on applicable platforms. No native-test early skip was observed. Implementation, code quality, design and bounded feature completeness: 9/10 each. Evidence and limitations: `validation/2026-09-26/upstream-seatbelt/ACCEPTANCE.json`. Remaining integrations, full-workspace and signed-package acceptance are pending.

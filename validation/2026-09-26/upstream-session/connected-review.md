@@ -1,13 +1,13 @@
-# Session recovery adversarial review — in progress
+# Session recovery adversarial review — feature gate passed
 
-This is a self-review with reproducible tests, not an independent certification. Scores remain pending until the connected source passes its required gates; earlier transport receipts do not validate this patch.
+This is a self-review with reproducible tests, not an independent certification. The bounded session feature meets all four 9/10 engineering gates. Exact signed-artifact acceptance remains a later delivery gate; this is not a release-completion claim.
 
-| Dimension | Required evidence before 9/10 | Current state |
+| Dimension | Score | Evidence and limits |
 | --- | --- | --- |
-| Implementation | Atomic persistence; equivalent bounded reconstruction; surviving/discarded rollback checkpoints; actual resumed request and owning gateway config | Targeted cases pass; connected package/native runs pending |
-| Code quality | Small shared metadata/helper APIs; reviewed schema/snapshots; scoped lint and formatting; no unrelated refactor | Data prerequisite lint passed; connected lint/format pending |
-| Design | Canonical thread ownership; explicit-empty versus absent metadata; no parent continuation identity; current route/effort overrides; old-server fallback | Source reviewed and adversarial regressions added; native/full-workspace confirmation pending |
-| Feature completeness | Storage, core, app-server and TUI agree on resumed state; first prompt and disconnected draft behavior; native executables rebuilt | Connected source implemented; tests, native build and workspace comparison pending |
+| Implementation | 9/10 | Atomic metadata, bounded/full reconstruction, surviving and discarded rollback checkpoints, actual resumed gateway requests, first resumed prompt and draft reconnect pass. |
+| Code quality | 9/10 | Shared metadata and narrow helpers, generated schemas, reviewed snapshots, clean scoped lint on both platforms and formatting; 7,173 tracked Rust-workspace files match native source. |
+| Design | 9/10 | Canonical ownership, absent/empty distinction, stripped parent continuation identity, current route/model/effort authority, read-only quiet resume and old-server fallback are preserved. |
+| Feature completeness | 9/10 | Storage/core/app-server/TUI coverage is connected; full GNU has 18,548 passes and only three exactly matched baseline failures. Native failures/flakes are closed by 175 no-retry case executions. Signed package acceptance remains pending. |
 
 ## Challenges that changed the implementation
 
@@ -57,3 +57,11 @@ The first 21 isolated native cases passed five consecutive repetitions without r
 The first controlled 14-case native run passed three repetitions, then reproduced the MCP registration failure on repetition four. Its five-second event deadline included complete child configuration/state-database startup. The existing shared `core_test_support::startup::STARTUP_TIMEOUT` is 30 seconds expressly for loaded startup fixtures. This one test now uses that shared bound; production limits and the outer 60-second test limit are unchanged. Registration must still arrive before creation completes, and approval acknowledgment is still required. This is distinct from the scenario splits, whose deadlines were not changed.
 
 The corrected native run passed five repetitions of all 14 cases without retries (70 passes). The local MCP case, lint and formatting passed. Tests run in an owned temporary root that is cleared after each successful repetition. Native lint is still required before assigning the connected feature scores.
+
+## Connected gate decision
+
+Full GNU run 3851 validated production source `639fda5722`: 18,548 passes, three failures and 34 skips in 1,994.583 seconds. Every assertion from both attempts of all three disabled exec-server failures matches the stable baseline. There were no additional retry passes. The suite is explicitly not all green. Subsequent Rust changes are limited to five test modules; production code is unchanged.
+
+The original native suite's three failures and two flaky cases all map to the final repeated case sets: nine background destinations, twelve unavailable-session recovery combinations, seven replacement configurations, six startup precedence cases, and the MCP registration fixture. Each final case passed five times with retries disabled (175 executions). Native scoped lint passed without warnings in 5m18s. The full tracked `codex-rs` source audit matches all 7,173 files after two formatting-only syncs; those changes do not require another test run.
+
+Implementation, code quality, design and bounded feature completeness each score 9/10. Retain the baseline failures, diagnostic attempts, fixture deadline correction and temporary-home cleanup receipts. No signed package, new npm version, whole-goal completion, live company sign-in or owner acceptance is implied by this gate. Retry-After is the next separate feature.

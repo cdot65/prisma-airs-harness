@@ -1,0 +1,15 @@
+{
+  "source": "639fda5722f0206d7b30e5200b100e5acb2d8c1e",
+  "profile": "debug",
+  "signed_release": false,
+  "files": {
+    "codex": {
+      "sha256": "02533f150a82b63a54460e2e68c534c51573c8bcc90e51e0cba100897e5562ff",
+      "bytes": 609763736
+    },
+    "airs-harness": {
+      "sha256": "30657a1a073c33522e7dd0dedcb8972d99e8b7ba835175f2d330c05c1bd98a60",
+      "bytes": 609807504
+    }
+  }
+}

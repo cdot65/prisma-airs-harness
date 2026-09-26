@@ -1,0 +1,147 @@
+{
+  "feature": "2d \u2014 checkpoint provenance, bounded cold resume and collaboration-mode restoration",
+  "feature_complete": true,
+  "release_complete": false,
+  "review_type": "Adversarial self-review with reproducible evidence; not independent certification",
+  "source_commit": "b24b553de651fd8388d4f9f83ab1dc159449fd8c",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "gnu": {
+    "source_commit": "639fda5722f0206d7b30e5200b100e5acb2d8c1e",
+    "run_id": 3851,
+    "duration_seconds": 1994.583,
+    "total": 18551,
+    "passed": 18548,
+    "failed": 3,
+    "skipped": 34,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "only_reviewed_baseline_failures": true,
+    "suite_all_green": false,
+    "retained_log_sha256": "6bf750248933412447e7a68673639a97f6c3b2176de53187f5d734ea3959613a",
+    "log_source": "Complete uploaded CI validation artifact (queried for run 3851); source-verified GNU container and terminal CI run status checked separately",
+    "retry_passes": [],
+    "first_attempt_failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ]
+  },
+  "post_workspace_rust_changes": [
+    "codex-rs/tui/src/app/tests/background_task_defaults_tests.rs",
+    "codex-rs/tui/src/app/tests/new_session_tests.rs",
+    "codex-rs/tui/src/app/tests/session_lifecycle_requests.rs",
+    "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+    "codex-rs/tui/src/app/tests/unavailable_commands_tests.rs"
+  ],
+  "native_connected": {
+    "total": 5641,
+    "passed": 5638,
+    "timed_out": 3,
+    "retried_passes": 2,
+    "suite_all_green": false
+  },
+  "native_closure": {
+    "passed": 175,
+    "repetitions_per_case": 5,
+    "retries": 0,
+    "resolved_failures_and_flakes": {
+      "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination": [
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_cli_model",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_cli_provider",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_default_provider",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_destination",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_local_launch",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_default",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_destination",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_launch",
+        "app::tests::background_task_defaults_tests::background_task_reads_server_defaults_for_actual_destination_remote_null_fast"
+      ],
+      "app::tests::session_lifecycle_requests::local_daemon_registers_approval_gated_mcp_tools_for_both_start_paths": [
+        "app::tests::session_lifecycle_requests::local_daemon_registers_approval_gated_mcp_tools_for_both_start_paths"
+      ],
+      "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings": [
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_effort",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_managed_effort",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_managed_model",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_model",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_profile_effort",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_profile_model",
+        "app::tests::session_lifecycle_requests::new_session_tests::replacement_uses_server_defaults_and_preserves_explicit_launch_settings_saved"
+      ],
+      "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence": [
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_cli_effort",
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_cli_model",
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_managed",
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_profile_effort",
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_profile_model",
+        "app::tests::session_lifecycle_requests::startup_defaults_tests::fresh_startup_uses_server_defaults_with_explicit_and_managed_precedence_saved"
+      ],
+      "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session": [
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_idle",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_mcp",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_clear_review",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_idle",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_mcp",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_local_new_review",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_idle",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_mcp",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_clear_review",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_idle",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_mcp",
+        "app::tests::unavailable_commands::unavailable_thread_new_and_clear_start_a_writable_session_remote_new_review"
+      ]
+    }
+  },
+  "native_lint": {
+    "exit": 0,
+    "warnings": 0,
+    "seconds": 318
+  },
+  "native_source": {
+    "tracked_codex_rs_files": 7173,
+    "mismatches": 0,
+    "format_only_resync_after_validation": [
+      "codex-rs/core/src/context_manager/history_tests.rs",
+      "codex-rs/uds/src/daemon_directory.rs"
+    ],
+    "tests_not_repeated_for_format_only_edits": true
+  },
+  "local_closure": {
+    "resume_and_reconnect_passed": 75,
+    "isolated_cases_passed": 35,
+    "mcp_shared_startup_bound_passed": 1
+  },
+  "invariants": [
+    "Newest checkpoint provenance remains authoritative even when unusable",
+    "Missing versus explicitly empty resume metadata stays distinct",
+    "Rollback resolves surviving checkpoints before bounded replay",
+    "Fork strips parent continuation identity and owns gateway config",
+    "Resume restores saved mode while current model and effort win",
+    "Quiet resume preserves durable cwd, settings and recency",
+    "New server mode wins over recovered draft; old-server omission preserves local mode",
+    "Gateway, CAS, credential and denial boundaries remain intact"
+  ],
+  "limitations": [
+    "Three disabled exec-server baseline failures match all stable assertions; GNU suite is not all green",
+    "Original native aggregate timeouts and MCP fixture deadline failure retained, then closed by isolated cases/shared startup budget",
+    "Final signed/notarized npm artifact acceptance remains a later goal gate",
+    "No managed-daemon continuation, fullscreen default change or upstream MCP/auth fallback introduced"
+  ],
+  "sha256": {
+    "gnu-3851-validation.log.gz": "70847bedb3d0ab569e52443721fb3bb607048f5346b7a4df5ab59c9dc5cb1de4",
+    "GNU-WORKSPACE-REVIEW.json": "76c6d3e8309e4d71455ee8e2a30cc26d7dd246fc1b86205af54f3ef880e47977",
+    "GNU-BASELINE-COMPARISON.json": "f694e635d8da938c621a46be7d26921e12225e73f627cf0ab18de2cc5d6c714f",
+    "native-all-rust-source.json.gz": "5cdea72192f79d41b8978333dac6488c43f016516e9a7027fcbb8084a9e80e7d",
+    "NATIVE-SOURCE-REVIEW.json": "5c9196748698796803bcbe1d005f7950a6e3765af1b3d6f19e1cc2d6ce2b2c3a",
+    "native-final-lint.log.gz": "b7d9349d8b935e4fdd3d9b35d283ed4d3a4c926b5ea8b7d78c597751a6ebbe3e",
+    "NATIVE-DEBUG-BUILD.json": "29d4df5ab918b9e03ae03df6ec728c5bda7a218bc2c0327613bd494a54d272a8"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "feature": "2c connected application network policy",
+  "source_commit": "63920760fc7a5e6434e2dc8741194530b6a6f926",
+  "bounded_feature_complete": true,
+  "whole_goal_complete": false,
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "review_kind": "Evidence-based adversarial self-review; not an independent certification",
+  "workspace": {
+    "source_commit": "63920760fc7a5e6434e2dc8741194530b6a6f926",
+    "run_id": 3850,
+    "duration_seconds": 1993.606,
+    "total": 18538,
+    "passed": 18535,
+    "failed": 3,
+    "skipped": 34,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "only_reviewed_baseline_failures": true,
+    "suite_all_green": false,
+    "retained_log_sha256": "03ba80a716ba0920813dd62193038a03cfa6b8e6482326b4091b881231a0514b",
+    "log_source": "Complete uploaded CI validation artifact (queried for run 3850); source-verified GNU container and terminal CI run status checked separately"
+  },
+  "native": {
+    "passed": 5800,
+    "skipped": 6,
+    "flaky": 1,
+    "lint_warnings": 0,
+    "source_files_matched": 98
+  },
+  "limitations": [
+    "Workspace has three persistent failures matching every retained stable assertion, not an all-green suite.",
+    "GNU deadline flake passed configured retry and 10 consecutive no-retry repetitions; Mac twelve-session case passed retry and prior isolated rechecks. Neither flake is claimed fixed.",
+    "Short-lived helper policy is a per-invocation local snapshot; approved children and browsers retain separate execution boundaries.",
+    "Native package tests preceded formatting/style-only lint edits; final native source hashes and lint verified. Exact signed installed artifact validation remains pending.",
+    "MCP capability failure retains its existing generic wire interface; no-send policy enforcement is covered."
+  ],
+  "next_gate": "Session provenance and cold-resume integration, then terminal/fullscreen and signed Mac delivery",
+  "evidence_sha256": {
+    "stage-10-gnu-3850-validation.log.gz": "3123bd069ede2521a82690a25b567d1a2b8883da824ded955e6871002df3b919",
+    "stage-10-gnu-3850-source.txt": "790a21c26a971163f47a61797b299038b415561b8015ad09d564ad3566be8ab6",
+    "stage-10-gnu-3850-container-tooling-source.txt": "790a21c26a971163f47a61797b299038b415561b8015ad09d564ad3566be8ab6",
+    "stage-10-gnu-3850-test-scope.txt": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e",
+    "stage-10-GNU-RUN-COMPLETE.json": "d995bd5cfd9d068633fc373232e7f2195027b63270af24f5997f01584520b2c8",
+    "stage-10-WORKSPACE-REVIEW.json": "9f630d697d560d42a8af030641857f722cf4c3554c85a478c71c932df449b1dc",
+    "stage-10-WORKSPACE-BASELINE-COMPARISON.json": "981f67545f2c031e222a5c2683f66e86c16ac38b71582d4c226b49a819ae8034"
+  }
+}

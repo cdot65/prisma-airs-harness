@@ -1,0 +1,14 @@
+{
+  "source_commit": "63920760fc7a5e6434e2dc8741194530b6a6f926",
+  "reason": "Full workspace first attempt hit a 10-second deadline; configured retry passed in 0.428 seconds.",
+  "test": "suite::subagent_notifications::grandchild_full_fork_preserves_context_baseline::legacy_full_history",
+  "command": "just test --locked --features codex-v8-poc/sandbox --profile default -E test(=suite::subagent_notifications::grandchild_full_fork_preserves_context_baseline::legacy_full_history) --test-threads 1 --retries 0 --stress-count 10",
+  "passed_iterations": 10,
+  "total_iterations": 10,
+  "duration_seconds": 5.013,
+  "conditions": "Same live GNU container and compiled source, while main workspace run continued; separate nextest profile avoids overwriting its JUnit. No assertions/timeouts modified.",
+  "interpretation": "Transient deadline failure not reproduced in 10 consecutive runs; remains recorded as a flake, not proof that timing flakiness is resolved.",
+  "sha256": {
+    "stage-10-gnu-subagent-stress.log.gz": "4d0661749ed014ba967993a1d231692761ab1329fa18c900cd3dba607ef45329"
+  }
+}

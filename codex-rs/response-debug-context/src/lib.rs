@@ -87,7 +87,7 @@ pub fn telemetry_api_error_message(error: &ApiError) -> String {
         ApiError::InvalidRequest { .. } => "invalid request".to_string(),
         ApiError::CyberPolicy { .. } => "cyber policy".to_string(),
         ApiError::MisalignmentPolicyViolation { .. } => "misalignment policy violation".to_string(),
-        ApiError::ServerOverloaded => "server overloaded".to_string(),
+        ApiError::ServerOverloaded { .. } => "server overloaded".to_string(),
     }
 }
 
@@ -155,7 +155,7 @@ mod tests {
         assert_eq!(
             telemetry_api_error_message(&ApiError::RateLimitExceeded {
                 message: "private upstream diagnostic".to_string(),
-                delay: Some(std::time::Duration::from_secs(1)),
+                retry_after: codex_api::RetryAfter::from_delay(std::time::Duration::from_secs(1)),
             }),
             "rate limit exceeded"
         );

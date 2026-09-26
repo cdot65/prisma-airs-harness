@@ -35,7 +35,11 @@ async fn refresh_rejection_is_distinct_from_a_lost_or_invalid_provider_response(
         let server = MockServer::start().await;
         Mock::given(method("POST"))
             .and(path("/token"))
-            .respond_with(ResponseTemplate::new(status).set_body_json(body))
+            .respond_with(
+                ResponseTemplate::new(status)
+                    .insert_header("Retry-After", "0")
+                    .set_body_json(body),
+            )
             .expect(1)
             .mount(&server)
             .await;

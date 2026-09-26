@@ -1,23 +1,24 @@
 use super::*;
 use base64::Engine;
+use codex_http_client::RetryAfter;
 use codex_protocol::protocol::CodexErrorInfo;
 use codex_protocol::protocol::RateLimitReachedType;
 use pretty_assertions::assert_eq;
 
 #[test]
 fn map_api_error_maps_server_overloaded() {
-    let err = map_api_error(ApiError::ServerOverloaded);
+    let err = map_api_error(ApiError::ServerOverloaded { retry_after: None });
     assert!(matches!(err.details(), CodexErrorDetails::ServerOverloaded));
 }
 
-#[test]
-fn map_api_error_preserves_retry_delay() {
+#[tokio::test(start_paused = true)]
+async fn map_api_error_preserves_retry_delay() {
     let retry_delay = std::time::Duration::from_secs(17);
     for (error, expected_code, expected_message) in [
         (
             ApiError::Retryable {
                 message: "retry later".to_string(),
-                delay: Some(retry_delay),
+                retry_after: RetryAfter::from_delay(retry_delay),
             },
             CodexErrorInfo::Other,
             "stream disconnected before completion: retry later",
@@ -25,7 +26,7 @@ fn map_api_error_preserves_retry_delay() {
         (
             ApiError::RateLimitExceeded {
                 message: "retry later".to_string(),
-                delay: Some(retry_delay),
+                retry_after: RetryAfter::from_delay(retry_delay),
             },
             CodexErrorInfo::RateLimitExceeded,
             "rate limit exceeded: retry later",
@@ -534,4 +535,40 @@ fn map_api_error_extracts_identity_auth_details_from_headers() {
         Some("missing_authorization_header")
     );
     assert_eq!(err.identity_error_code.as_deref(), Some("token_expired"));
+}
+
+#[tokio::test(start_paused = true)]
+async fn retry_deadlines_preserve_auth_policy_and_capacity_classification() {
+    let advice = RetryAfter::from_delay(std::time::Duration::from_secs(10)).unwrap();
+    tokio::time::advance(std::time::Duration::from_secs(4)).await;
+    for (status, body, retryable) in [
+        (401, "", false),
+        (403, "", false),
+        (446, "", false),
+        (429, "", false),
+        (500, "", true),
+        (503, "", true),
+        (503, r#"{"error":{"code":"server_is_overloaded"}}"#, false),
+    ] {
+        let error = map_api_error(ApiError::Transport(TransportError::Http {
+            status: http::StatusCode::from_u16(status).unwrap(),
+            url: None,
+            headers: None,
+            body: Some(body.into()),
+            retry_after: Some(advice),
+        }));
+        assert_eq!(
+            (
+                error.retry_after(),
+                error.retry_delay(),
+                error.is_retryable()
+            ),
+            (
+                Some(advice),
+                Some(std::time::Duration::from_secs(6)),
+                retryable
+            ),
+            "status {status}"
+        );
+    }
 }

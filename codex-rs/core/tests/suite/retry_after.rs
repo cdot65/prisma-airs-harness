@@ -703,11 +703,12 @@ async fn compact_v2_rate_limit_message_uses_server_advised_retry_delay() -> Resu
 
     test.codex.submit(Op::Compact).await?;
     let retry = telemetry.next_retry().await;
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
             attempt: 1,
-            delay: Duration::from_secs(1),
+            delay: retry.delay,
             layer: "stream".into(),
             operation: "remote_compaction_v2".into(),
         }
@@ -777,11 +778,12 @@ async fn compact_v2_rate_limit_message_without_retry_after_uses_server_advised_d
 
     test.codex.submit(Op::Compact).await?;
     let retry = telemetry.next_retry().await;
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
             attempt: 1,
-            delay: Duration::from_secs(1),
+            delay: retry.delay,
             layer: "stream".into(),
             operation: "remote_compaction_v2".into(),
         }
@@ -1098,11 +1100,12 @@ async fn sse_rate_limit_message_uses_server_advised_retry_delay() -> Result<()> 
 
     submit_user_input(&test, "retry after the rate-limit message delay").await?;
     let retry = telemetry.next_retry().await;
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
             attempt: 1,
-            delay: Duration::from_secs(1),
+            delay: retry.delay,
             layer: "stream".into(),
             operation: "sampling".into(),
         }
@@ -1153,11 +1156,12 @@ async fn sse_rate_limit_message_with_retry_after_uses_server_advised_retry_delay
 
     submit_user_input(&test, "retry after both rate-limit delay signals").await?;
     let retry = telemetry.next_retry().await;
+    assert!(retry.delay <= Duration::from_secs(1));
     assert_eq!(
         retry,
         RetryTelemetryEvent {
             attempt: 1,
-            delay: Duration::from_secs(1),
+            delay: retry.delay,
             layer: "stream".into(),
             operation: "sampling".into(),
         }

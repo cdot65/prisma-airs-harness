@@ -1,0 +1,224 @@
+{
+  "time": 1790456504.194365,
+  "root": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/incremental",
+  "rust_processes": 0,
+  "removed": [
+    {
+      "name": "codex_utils_cargo_bin-0169iz1dw1hin",
+      "mtime": 1790454338.5907764,
+      "kib": 2120
+    },
+    {
+      "name": "codex_thread_store-3j4cdzz2rlkz4",
+      "mtime": 1790453342.467739,
+      "kib": 75300
+    },
+    {
+      "name": "codex_rollout-083rkynqdptjb",
+      "mtime": 1790453319.8976974,
+      "kib": 42592
+    },
+    {
+      "name": "codex_core-2gbinpwjssiia",
+      "mtime": 1790453380.0368547,
+      "kib": 317364
+    },
+    {
+      "name": "codex_analytics-2xnjibitgjimq",
+      "mtime": 1790453338.7789688,
+      "kib": 34776
+    },
+    {
+      "name": "all-1b2o2brjgv6bm",
+      "mtime": 1790453491.2460632,
+      "kib": 362752
+    },
+    {
+      "name": "all-2f3vw40mh69kc",
+      "mtime": 1790453466.259411,
+      "kib": 15976
+    },
+    {
+      "name": "codex_http_client-1d5dpgqwq3ajt",
+      "mtime": 1790454411.8765342,
+      "kib": 28856
+    },
+    {
+      "name": "codex_http_client-32378crmo1k5l",
+      "mtime": 1790454344.0639906,
+      "kib": 59552
+    },
+    {
+      "name": "codex_http_client-12pbc3rbaoggc",
+      "mtime": 1790454341.1000583,
+      "kib": 27580
+    },
+    {
+      "name": "codex_http_client-1mvsnaxzvr1ar",
+      "mtime": 1790452355.6292577,
+      "kib": 15248
+    },
+    {
+      "name": "custom_ca_probe-0q027yjp3hmmw",
+      "mtime": 1790454342.1689603,
+      "kib": 5500
+    },
+    {
+      "name": "custom_ca_probe-3ewqtgjot29nx",
+      "mtime": 1790454341.5086045,
+      "kib": 1004
+    },
+    {
+      "name": "codex_tui-2ufs2xoxawamg",
+      "mtime": 1790453464.7961218,
+      "kib": 660116
+    },
+    {
+      "name": "codex_tui-3u61nbkx9ccxt",
+      "mtime": 1790453425.6740496,
+      "kib": 301372
+    },
+    {
+      "name": "codex_tui-0wmb5qhgcs3ne",
+      "mtime": 1790453071.888844,
+      "kib": 2037136
+    },
+    {
+      "name": "codex_app_server_protocol-0s0983gjno4bu",
+      "mtime": 1790453337.5358531,
+      "kib": 331556
+    },
+    {
+      "name": "codex_app_server-0jh1kxnkpz9xa",
+      "mtime": 1790453410.5858176,
+      "kib": 202244
+    },
+    {
+      "name": "codex_app_server-1qjylyj3cuif6",
+      "mtime": 1790453399.7327533,
+      "kib": 181464
+    },
+    {
+      "name": "ca_env-3g2oy6328r365",
+      "mtime": 1790454343.0408876,
+      "kib": 7372
+    },
+    {
+      "name": "codex_history-01h596ln7m08g",
+      "mtime": 1790453312.340353,
+      "kib": 20696
+    },
+    {
+      "name": "codex_utils_rustls_provider-2h6vvhe4k6v9j",
+      "mtime": 1790454336.7530012,
+      "kib": 660
+    }
+  ],
+  "retained_newest": [
+    "codex_history_notes_extension-2tnz7yrmbb40r",
+    "codex_utils_cargo_bin-0kf7jnjzon13v",
+    "codex_thread_store-15l77fxysgcgw",
+    "codex_rollout-2dgmrv2ld5v6y",
+    "codex_tools-1h912ksd59d44",
+    "codex_core-0j6uhbrycx4dk",
+    "codex_context_fragments-2ihq0qh3nsxqb",
+    "codex_connectors_extension-193pkonr2s5a7",
+    "codex_ollama-0dviendajru2l",
+    "codex_analytics-3u988p8gbbkms",
+    "test_notify_capture-0wrshxucfrcft",
+    "codex_goal_extension-0tidu5um3hbxw",
+    "all-2rysqi1ld7y83",
+    "codex_login-383vgszb879py",
+    "codex_prompts-16xn3bfbgh1la",
+    "codex_config-1s5llni5rq56s",
+    "codex_sandboxing-2h4ovdwbmaxgz",
+    "codex_skills_extension-1y5ytn23oobb1",
+    "codex_model_provider_info-0wtlbmkgtu25l",
+    "codex_http_client-06c1cet59wurk",
+    "test_backend-2pos5lvkps306",
+    "codex_home-1kr8mzzmtjxmh",
+    "codex_agent_roles-2ssr08jmm8vs3",
+    "codex_secrets-1vam14exe211d",
+    "codex_shell_command-17ij87tza6ryh",
+    "codex_client-2jtpao6bodd72",
+    "codex_shell_escalation-2rew5bk6157nq",
+    "manager_dependency_regression-1b42njrcdyk8b",
+    "custom_ca_probe-2xmyg3hdj8cbx",
+    "codex_exec_server-2wb3c9ctyw45f",
+    "codex_execpolicy-2tml7bvh2vq4c",
+    "codex_chatgpt-0jnl0w6koa3rk",
+    "exec_server-3bb5r6vikcblc",
+    "codex_utils_cli-0h8x7vsch6762",
+    "app_test_support-2it3osxcum48m",
+    "codex_tui-12eeuz8srufkj",
+    "codex_exec_server_protocol-17lxs904e7gxu",
+    "codex_mcp-3jrdwiq9ygij3",
+    "codex_models_manager-1oowjiydmlli0",
+    "codex_code_mode_protocol-0qg6hb0x3gbds",
+    "codex_utils_plugins-1eqd25hfptq1d",
+    "codex_memories_read-0s6ttwqy2thtg",
+    "codex_state-0h2qhdhgug7jw",
+    "codex_websocket_client-20ee9ymbumkqx",
+    "codex_app_server_protocol-313cowytzshrn",
+    "codex_lmstudio-0pfvw6xry1rkd",
+    "codex_agent_extension-1cl63bkjgdrrb",
+    "codex_cloud_config-1cvv74kkj0scg",
+    "codex_features-2n23yvmi0lali",
+    "codex_app_server-2dmj4pvqcghd1",
+    "codex_file_system-2vb3dh0rqg24n",
+    "codex_guardian_v2-35mix0kiq1jz0",
+    "codex_external_agent_migration-1tjyr5fsq87wy",
+    "codex_app_server_client-08xqanxkttf8l",
+    "codex_test_binary_support-3qjljqmkp890l",
+    "codex_apply_patch-0pc1wrlq6z5hy",
+    "codex_feedback-12yjycbiqd966",
+    "ca_env-0qf2gkeefg26z",
+    "codex_web_search_extension-3aufvmtxlmh5n",
+    "codex_extension_api-1e9sochfk5c5f",
+    "codex_utils_audio-21vtu8nied9od",
+    "responses_headers-3g8fx64h2bbao",
+    "codex_git_utils-3odzrh4r122hs",
+    "codex_core_plugins-2zcvcu9lo3ers",
+    "codex_backend_client-2bvc94visyikb",
+    "codex_response_debug_context-2p0hgywmu9z88",
+    "codex_guardian_context-2zqbktwlfgeym",
+    "codex_protocol-2btm7jxfjxbi6",
+    "codex_memories_extension-08cpv8r0tl81j",
+    "codex_queue_extension-2caxg0njemd4y",
+    "codex_git_attribution-25776rwzcgqwg",
+    "codex_model_provider-0na6izcap46tk",
+    "md_events-1id3on5n0y44g",
+    "codex_history-302p0r6ojhk5a",
+    "codex_code_mode-2lzyb4q56a4e5",
+    "codex_arg0-1uc86ird4jl78",
+    "codex_utils_output_truncation-35x6ybbrnp5zh",
+    "codex_connectors-3u43flfmoqixh",
+    "codex_windows_sandbox-3frq5lqatz3tu",
+    "codex_app_server_transport-1hs64jcyt62g6",
+    "codex_utils_git_discovery-1nq99i9vr9qh4",
+    "codex_memories_write-22uv1b3xlvhpq",
+    "codex_api-3afx2gvlfldlg",
+    "codex_workload_identity-1dlkyb5pbt9yh",
+    "codex_utils_approval_presets-3j83ojofy47ye",
+    "codex_mcp_extension-04zbsl61ysmj5",
+    "codex_hooks-0q2hkq244fyav",
+    "codex_utils_sandbox_summary-2ois61p1nj68r",
+    "codex_utils_oss-2ixl81lxw4xxd",
+    "codex_skills-08059n4rqqbvh",
+    "codex_rollout_trace-1i3uyw34wua14",
+    "codex_utils_rustls_provider-1tjzab14m5l0h",
+    "codex_worktree-0qamxa51bwdaq",
+    "codex_agent_identity-19r6svocuixl7",
+    "core_test_support-17hd07jp41qy9",
+    "codex_exec_server_test_support-3stse1xyexgji",
+    "codex_message_history-0wwb0p90a8qz2",
+    "codex_otel-14fi9km5ji1ei",
+    "codex_rmcp_client-37x4ketam1r64",
+    "codex_plugin-278m71oaipo9j",
+    "codex_agent_graph_store-3mpuwm2rxcalt",
+    "codex_image_generation_extension-05oxqhak5kifx",
+    "codex_app_server_test_notify_capture-1vvyed02mzx5k"
+  ],
+  "compiled_artifacts_removed": false,
+  "free_bytes_after": 11825881088
+}

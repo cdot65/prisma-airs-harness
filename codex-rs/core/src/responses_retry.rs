@@ -8,6 +8,7 @@ use crate::session::turn_context::TurnContext;
 use crate::util::backoff;
 use codex_client::RetryOperation;
 use codex_features::Feature;
+use codex_http_client::RetryAfter;
 use codex_protocol::error::CodexErr;
 use codex_protocol::error::CodexErrorDetails;
 use codex_protocol::protocol::EventMsg;
@@ -95,6 +96,10 @@ pub(crate) async fn handle_retryable_response_stream_error(
             }),
         )
         .await;
+        // Switching transports still follows the same gateway retry deadline.
+        if let Some(advice) = err.retry_after() {
+            tokio::time::sleep_until(advice.deadline()).await;
+        }
         retry_state.retries = 0;
         return Ok(());
     }
@@ -102,6 +107,7 @@ pub(crate) async fn handle_retryable_response_stream_error(
     if retry_state.retries < max_retries {
         retry_state.retries += 1;
         let retry_count = retry_state.retries;
+        let retry_after = err.retry_after();
         let delay = err.retry_delay().unwrap_or_else(|| backoff(retry_count));
         log_retry(request, turn_context, &err, retry_count, max_retries, delay);
 
@@ -120,8 +126,15 @@ pub(crate) async fn handle_retryable_response_stream_error(
             )
             .await;
         }
+        let delay = retry_after
+            .map(RetryAfter::remaining_delay)
+            .unwrap_or(delay);
         codex_client::record_retry!(retry_count, delay, operation);
-        tokio::time::sleep(delay).await;
+        if let Some(advice) = retry_after {
+            tokio::time::sleep_until(advice.deadline()).await;
+        } else {
+            tokio::time::sleep(delay).await;
+        }
         return Ok(());
     }
 

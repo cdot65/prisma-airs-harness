@@ -38,6 +38,9 @@ async fn explicit_denials_are_terminal_and_redacted_with_the_real_status() {
             "x-portkey-trace-id",
             HeaderValue::from_static("00000000-0000-0000-0000-000000000000"),
         );
+        response
+            .headers
+            .insert("retry-after", HeaderValue::from_static("3600"));
         let error = reject_json(&mut response, Duration::from_secs(10))
             .await
             .unwrap_err();
@@ -71,6 +74,9 @@ async fn malformed_unrelated_or_nonblocking_json_is_not_mislabeled_as_policy() {
             "x-portkey-trace-id",
             HeaderValue::from_static("PRIVATE-TRACE"),
         );
+        response
+            .headers
+            .insert("retry-after", HeaderValue::from_static("3600"));
         let error = reject_json(&mut response, Duration::from_secs(10))
             .await
             .unwrap_err();

@@ -11,8 +11,8 @@ use http::StatusCode;
 use pretty_assertions::assert_eq;
 use std::time::Duration;
 
-#[test]
-fn codex_err_debug_preserves_legacy_shape() {
+#[tokio::test(start_paused = true)]
+async fn codex_err_debug_preserves_legacy_shape() {
     let actual = [
         CodexErr::Timeout,
         CodexErr::Stream("disconnected".to_string()),

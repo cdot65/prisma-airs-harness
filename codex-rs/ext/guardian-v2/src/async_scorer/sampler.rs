@@ -208,7 +208,7 @@ impl LunaSampler {
                 ApiError::Retryable { .. }
                 | ApiError::RateLimitExceeded { .. }
                 | ApiError::Stream(_)
-                | ApiError::ServerOverloaded,
+                | ApiError::ServerOverloaded { .. },
             )
             | LunaSamplerError::Api(ApiError::Transport(
                 TransportError::RetryLimit

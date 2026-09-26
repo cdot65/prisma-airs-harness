@@ -18,6 +18,7 @@ pub(crate) mod telemetry;
 pub use crate::requests::headers::build_session_headers;
 pub use codex_client::RequestTelemetry;
 pub use codex_client::ReqwestTransport;
+pub use codex_client::RetryAfter;
 pub use codex_client::TransportError;
 
 pub use crate::api_bridge::map_api_error;

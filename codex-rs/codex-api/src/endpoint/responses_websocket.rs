@@ -640,7 +640,23 @@ fn map_wrapped_websocket_error_event(
         ..
     } = event;
 
-    if let Some(error) = error.as_ref()
+    // An explicit gateway denial wins over transport-recovery hints in the same envelope.
+    if serde_json::from_str::<Value>(&original_payload)
+        .ok()
+        .as_ref()
+        .is_some_and(crate::gateway_denial::is_denied)
+    {
+        return Some(ApiError::InvalidRequest {
+            message: crate::gateway_denial::POLICY_DENIED.to_owned(),
+        });
+    }
+
+    let headers = headers.as_ref().map(json_headers_to_http_headers);
+    let retry_after = headers
+        .as_ref()
+        .and_then(codex_http_client::RetryAfter::from_headers);
+    if !matches!(status, Some(401 | 403 | 446))
+        && let Some(error) = error.as_ref()
         && let Some(code) = error.code.as_deref()
         && let Some(fallback_message) = match code {
             WEBSOCKET_CONNECTION_LIMIT_REACHED_CODE => {
@@ -655,7 +671,7 @@ fn map_wrapped_websocket_error_event(
                 .message
                 .clone()
                 .unwrap_or_else(|| fallback_message.to_string()),
-            delay: None,
+            retry_after,
         });
     }
 
@@ -664,11 +680,8 @@ fn map_wrapped_websocket_error_event(
         return None;
     }
 
-    let headers = headers.as_ref().map(json_headers_to_http_headers);
     Some(ApiError::Transport(TransportError::Http {
-        retry_after: headers
-            .as_ref()
-            .and_then(codex_http_client::RetryAfter::from_headers),
+        retry_after,
         status,
         url: None,
         headers,
@@ -955,6 +968,58 @@ mod tests {
     use std::sync::Arc;
 
     #[test]
+    fn wrapped_gateway_denial_wins_over_retry_code_status_and_advice() {
+        for status in [200, 401, 403, 446, 503] {
+            for denial in [
+                serde_json::json!({"error": {"type": "hooks_failed"}}),
+                serde_json::json!({"hook_results": {"before_request_hooks": [{"verdict": false, "softDeny200": true}]}}),
+            ] {
+                let mut payload = serde_json::json!({
+                    "type": "error", "status": status,
+                    "headers": { "Retry-After": "3600" },
+                    "error": { "code": PREVIOUS_RESPONSE_NOT_FOUND_CODE, "message": "PRIVATE-DIAGNOSTIC" }
+                });
+                if let Some(error) = denial.get("error") {
+                    payload["error"]["type"] = error["type"].clone();
+                } else {
+                    payload["hook_results"] = denial["hook_results"].clone();
+                }
+                let text = payload.to_string();
+                let event = parse_wrapped_websocket_error_event(&text).unwrap();
+                let error =
+                    crate::map_api_error(map_wrapped_websocket_error_event(event, text).unwrap());
+                assert!(!error.is_retryable());
+                assert_eq!(error.retry_after(), None);
+                assert_eq!(error.to_string(), crate::gateway_denial::POLICY_DENIED);
+            }
+        }
+    }
+
+    #[test]
+    fn terminal_status_wins_over_a_retryable_websocket_code_and_advice() {
+        for status in [401, 403, 446] {
+            for code in [
+                WEBSOCKET_CONNECTION_LIMIT_REACHED_CODE,
+                PREVIOUS_RESPONSE_NOT_FOUND_CODE,
+            ] {
+                let payload = serde_json::json!({
+                    "type": "error", "status": status,
+                    "headers": { "Retry-After": "3600" },
+                    "error": { "code": code, "message": "Sign-in or policy recovery required" }
+                })
+                .to_string();
+                let event = parse_wrapped_websocket_error_event(&payload).unwrap();
+                let error = crate::map_api_error(
+                    map_wrapped_websocket_error_event(event, payload).unwrap(),
+                );
+                assert_eq!(error.http_status_code_value(), Some(status));
+                assert!(!error.is_retryable());
+                assert!(error.retry_after().is_some());
+            }
+        }
+    }
+
+    #[test]
     fn websocket_http_errors_preserve_expired_retry_advice() {
         let payload = serde_json::json!({
             "type": "error", "status": 503,
@@ -1163,11 +1228,15 @@ mod tests {
             .expect("expected websocket error payload to be parsed");
         let api_error = map_wrapped_websocket_error_event(wrapped_error, payload)
             .expect("expected websocket error payload to map to ApiError");
-        let ApiError::Retryable { message, delay } = api_error else {
+        let ApiError::Retryable {
+            message,
+            retry_after,
+        } = api_error
+        else {
             panic!("expected ApiError::Retryable");
         };
         assert_eq!(message, WEBSOCKET_CONNECTION_LIMIT_REACHED_MESSAGE);
-        assert_eq!(delay, None);
+        assert_eq!(retry_after, None);
     }
 
     #[test]

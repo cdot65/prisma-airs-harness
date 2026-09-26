@@ -1,0 +1,7 @@
+{
+  "update": 0,
+  "strict_check": 0,
+  "lock_unchanged": true,
+  "sha256": "dbb82bfe8080f71f7dd316f2c870a452a0038a43da34e7554448d9a500062816",
+  "runner": "Apple Silicon; Python 3.13 for strict-check helper"
+}

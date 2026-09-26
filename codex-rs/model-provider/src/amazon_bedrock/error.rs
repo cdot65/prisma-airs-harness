@@ -19,8 +19,8 @@ pub(super) fn map_api_error(error: ApiError) -> CodexErr {
         let mut response = response.clone();
         response.user_message = Some(BEDROCK_EXPIRED_SIGNATURE_MESSAGE.to_string());
         let mapped_error = CodexErr::new(CodexErrorDetails::UnexpectedStatus(response));
-        return match error.retry_delay() {
-            Some(retry_delay) => mapped_error.with_retry_delay(retry_delay),
+        return match error.retry_after() {
+            Some(advice) => mapped_error.with_retry_after(advice),
             None => mapped_error,
         };
     }

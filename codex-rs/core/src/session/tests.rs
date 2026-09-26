@@ -1,5 +1,7 @@
 #[path = "compaction_resume_tests.rs"]
 mod compaction_resume;
+#[path = "retry_deadline_tests.rs"]
+mod retry_deadline;
 
 use super::mcp_refresh::McpRefresh;
 use super::step_settings::ResolvedStepSettings;

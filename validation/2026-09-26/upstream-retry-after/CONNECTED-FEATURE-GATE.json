@@ -1,0 +1,96 @@
+{
+  "feature": "2e: monotonic Retry-After across HTTP and stream recovery",
+  "status": "accepted for bounded source integration",
+  "review_type": "adversarial self-review backed by executable evidence; not independent certification",
+  "upstream_commit": "9d8de196748b57d7f463a7757eaa447b6483a331",
+  "production_source": "0da5d68cf1d7ce78bbd9ec87161f6ca9992fa05a",
+  "test_only_closure_commit": "42fb30eb11",
+  "native_lint_and_parity_commit": "5fe54f7e33",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "gnu": {
+    "source_commit": "0da5d68cf1d7ce78bbd9ec87161f6ca9992fa05a",
+    "run_id": 3852,
+    "duration_seconds": 2004.297,
+    "total": 18599,
+    "passed": 18596,
+    "failed": 3,
+    "skipped": 34,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "only_reviewed_baseline_failures": true,
+    "suite_all_green": false,
+    "retained_log_sha256": "eb5305953d600219c3e2e14ca6a7a996209c181480a00e2eb1d39a9c85eb1b47",
+    "log_source": "Complete uploaded CI validation artifact (queried for run 3852); source-verified GNU container and terminal CI run status checked separately",
+    "retry_passes": [],
+    "first_attempt_failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ]
+  },
+  "gnu_required_cases_confirmed": [
+    "queued_retry_notification_does_not_restart_server_deadline",
+    "websocket_fallback_waits_for_the_same_gateway_deadline",
+    "interrupt_cancels_a_turn_waiting_on_stream_retry_advice",
+    "wrapped_gateway_denial_wins_over_retry_code_status_and_advice",
+    "logout_interrupts_server_retry_wait_without_another_request",
+    "retry_deadlines_preserve_auth_policy_and_capacity_classification"
+  ],
+  "changes_after_full_workspace_source": [
+    "codex-rs/core/tests/suite/mcp_optional_startup_grace.rs",
+    "codex-rs/core/tests/suite/tool_parallelism.rs",
+    "codex-rs/core/tests/suite/tool_parallelism_mixed.rs"
+  ],
+  "native": {
+    "initial_executed": 4972,
+    "initial_passed": 4956,
+    "initial_failed": 16,
+    "skipped": 24,
+    "final_failure_closure_and_api": {
+      "executed": 221,
+      "passed": 221,
+      "retries": 0
+    },
+    "additional_stability": {
+      "runs": 3,
+      "tests_each": 7,
+      "failed": 0,
+      "retries": 0
+    },
+    "all_initial_failures_closed": true,
+    "tracked_source_files_matched": 7179,
+    "lint_packages": 10,
+    "lint_warnings": 0
+  },
+  "local": {
+    "connected_selection_passed": 806,
+    "complete_api_package_passed": 206,
+    "final_fixture_tests_passed": 7,
+    "lint_packages": 10,
+    "lint_warnings": 0,
+    "format_passed": true
+  },
+  "limits": [
+    "Full GNU suite is not all-green: three exact inherited failures remain; 34 nextest skips.",
+    "Native aggregate originally failed; its complete failed-case closure and all diagnostic attempts are retained.",
+    "No signed/notarized distribution or actual installed Mac acceptance is claimed for the overall adoption yet."
+  ],
+  "next": "Terminal.app over SSH, then rendering; tmux mouse policy gates with actual fullscreen ownership",
+  "artifacts_sha256": {
+    "stage-05/GNU-RUN-COMPLETE.json": "575322645e53303da685d69d8c20423419e561b1c86467587ff2665dcd8f85d9",
+    "stage-05/WORKSPACE-BASELINE-COMPARISON.json": "85a5b7763a3bb2c3c36e412740f97cf5f4ac9bb21ab7d39bc1969fae03b1ee27",
+    "stage-05/WORKSPACE-REVIEW.json": "e92239c61ff806c054f0584c3d37301224d9e0196fec157f85d66b614333a254",
+    "stage-05/gnu-3852-container-tooling-source.txt": "e84afed9393de85d7eb127f3cc5310933f0363d2c117a07c154af65738c13e6e",
+    "stage-05/gnu-3852-source.txt": "e84afed9393de85d7eb127f3cc5310933f0363d2c117a07c154af65738c13e6e",
+    "stage-05/gnu-3852-test-scope.txt": "0bc45522c8b4cc894ed0cfa3cce4c14b81b7f03a86301f5e5cb7ae2bcbf5eb5e",
+    "stage-05/gnu-3852-validation.log.gz": "289470dbd0f4a76241276e4cf33ba50c898c8ac50b14b7b5fc799e32da50c8b0"
+  }
+}

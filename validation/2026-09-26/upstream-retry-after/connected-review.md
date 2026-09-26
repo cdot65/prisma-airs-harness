@@ -1,32 +1,33 @@
-# Retry-After connected feature review — validation in progress
+# Retry-After connected feature review — accepted source integration
 
-This is an adversarial self-review backed by executable checks, not independent certification. All four completed-feature scores are withheld until the remaining gates close. The accepted scope remains monotonic retry advice for eligible requests, with AIRS authentication, authorization and routing boundaries preserved.
+This is an adversarial self-review backed by executable checks, not independent certification. The four scores apply only to this bounded feature. Terminal rendering, fullscreen and signed Apple Silicon distribution remain required parts of the overall goal.
 
-| Requirement | Current evidence | Remaining gate |
+| Dimension | Score | Evidence and limit |
 | --- | --- | --- |
-| Delta/date/zero/expired/invalid/overflow advice | Shared parser: 120 local and 122 Apple Silicon package tests passed | Connected native source validation |
-| Capture before error-body processing | Buffered/streamed, bounded/unbounded slow-body fixture passed | Full workspace/native |
-| Bounded HTTP retries and expired advice | Attempt counts, preserved exhausted deadline and cancelled wait passed | Full workspace/native |
-| Login/logout and network policy | Existing guard now wraps whole retry operation; logout during hour-long advice and policy revocation each observe only one request | Connected native |
-| Rotating OAuth tokens | Real token-request fixture with Retry-After:0 retains exactly one request and rejection/ambiguous-response distinction | Full workspace/native |
-| Session notification backpressure | Ten-second deadline still ends near ten seconds after six seconds of queue backpressure; restarted sixteen-second wait is rejected | Connected native |
-| Transport fallback | Wiremock records at least the advised second between final WebSocket attempt and HTTP fallback | Full workspace/native |
-| Turn cancellation | Real core turn interrupts an hour-long stream retry wait and observes one inference request | Full workspace/native |
-| Terminal denials | 401/403/446 precedence, 200 HTTP hook rejection and terminal capacity classification passed with advice | All 206 API tests pass, including wrapped denial conflict; native/workspace pending |
-| Local backoff compatibility | Ordinary backoff keeps its original duration; only server advice is reduced by elapsed time | Full workspace/native |
-| Error/API compatibility | Existing CodexErr retry eligibility preserved; no RPC/schema change, daemon continuation or provider activation | Ten-package CLI/Guardian-inclusive lint passed; full workspace pending |
-| Dependency consistency | Native Bazel regeneration and strict drift check passed; existing httpdate dependency reused, no package upgrade | Commit/audit final source |
+| Implementation | 9/10 | One monotonic deadline survives body reads, error mapping, stream notifications, exhausted HTTP attempts and WebSocket-to-HTTP fallback. Expired advice remains explicit zero. Cancellation, logout and policy revocation have executable regressions. |
+| Code quality | 9/10 | Shared parser with explicit API/error propagation; ten-package lint is clean on Linux and Mac, formatting passed, Cargo/Bazel consistency was checked natively, and all 7,179 tracked Rust-workspace files match the Mac. Failed attempts and fixture corrections are retained. |
+| Design | 9/10 | Retry eligibility remains separate from advice. Authentication and explicit gateway denials stay terminal; rotating-token exchanges remain one-shot. Existing guard covers request backoff. Local backoff timing retains its original semantics. No new authentication path, provider activation or daemon continuation is introduced. |
+| Feature completeness | 9/10 | Full GNU runtime-source validation: 18,596 passed, three exact inherited failures, 34 skipped; no retry-pass flakes. Native 4,972 executed cases have all 16 initial failures closed through the 221/221 final closure. Seven revised fixture cases pass locally and in three additional no-retry native runs. Distribution/owner acceptance is a separate later gate. |
 
-The corrected stage-3 selection passed 806/806 with retries disabled. The initial 771/773 result remains in the artifacts. One failure exposed millisecond truncation from calculating a fresh remaining local-backoff duration; local timing now retains its original semantics. The other test polled at an exact paused-clock boundary before the timer wheel delivered readiness; it now awaits completion and allows at most 10 ms rounding, still rejecting a restarted delay by six seconds.
+## Evidence
 
-A subsequent review found that a wrapped WebSocket envelope could combine an explicit hooks_failed/soft-denial field with a retryable code. The existing gateway denial classifier now runs first, without searching model text or exposing the upstream diagnostic. Its first 206-test API run passed 205 tests and failed only the new assertion: the expected text incorrectly added an `invalid request:` prefix, whereas the established `CodexErr` display returns the policy message directly. The expectation is corrected; no production behavior changed. Corrected local and native validation remain required.
+Runtime commit: `0da5d68cf1`. Full workspace run: [Actions 310](https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/310), database run 3852, exact matching source/tooling inputs. The comparison checks every failure assertion against the retained stable baseline, normalizing only timestamps, ANSI, indentation, process IDs and temporary paths. The suite is **not all-green**; the three inherited exec-server failures are explicitly recorded in `stage-05/WORKSPACE-BASELINE-COMPARISON.json`.
 
-No release, complete feature score or signed binary is implied by these intermediate receipts. Fullscreen, terminal polish and signed Apple Silicon delivery remain separate parts of the overall goal.
+The only Rust changes after that workspace source are three test-fixture files in `42fb30eb11`, validated on Linux and Apple Silicon. They separate optional-MCP cold startup from catalog grace, expose actual startup failures, and prove mixed-tool concurrency with a barrier rather than total turn duration. Clean native lint/source parity is recorded in `5fe54f7e33`.
 
-The corrected API package passed 206/206 with retries disabled. Ten-package lint and formatting passed. The native connected run started before the one assertion correction; its source manifest is retained and the corrected test must be synchronized and validated afterward. Full workspace validation will use the committed corrected source. Scores remain withheld.
+Parser prerequisites passed 120 local and 122 native tests. The connected selection passed 806/806; the final complete API package passed 206/206 locally. Required GNU and native regressions were checked individually as executed, including backpressure, transport fallback, turn cancellation, terminal-denial precedence, token refresh and logout while waiting. Native nextest had 24 skipped cases outside its 4,972 executed count; those are not counted as passes.
 
-The first full native affected-package run completed 4,972 tests: 4,956 passed and 16 failed, with retries disabled. The original-deadline, logout, interruption and transport-fallback regressions passed. Failures include the known corrected assertion, host shell-profile contamination (reproduced independently with the same snapshot script: host profile fails validation, isolated profile passes), Apple Python launcher cache writes denied by Seatbelt, and MCP-startup/timing cases still under investigation. Follow-up tests retain every assertion, isolate only test-process profiles, use the installed Python interpreter directly, and include every failed test plus the complete API package. No environment failure is waived merely because it appears unrelated.
+## Review findings resolved
 
-Native failures are now closed: the complete API package plus every original failed case passed 221/221, and all seven revised fixture cases passed locally and in three additional no-retry native repetitions. See `stage-04/CLOSURE-REVIEW.md` for causes and retained failed attempts. Ten-package local lint and formatting passed. Native lint is being completed after its disk-exhaustion failure; the full workspace still runs against exact production source 0da5d68cf1. Subsequent source edits are restricted to the three reviewed test-fixture files. No completed-feature score is assigned yet.
+- Logout monitoring originally covered individual requests but not the retry wait. The existing guard now wraps the complete endpoint retry operation, preserving post-auth policy checks.
+- Mapping and notification work could restart a relative delay. The original deadline now crosses both boundaries, including fallback after retries are exhausted.
+- Subtracting elapsed time from a newly created local backoff changed millisecond telemetry. Only server advice uses remaining time; ordinary backoff keeps its prior duration.
+- Wrapped WebSocket envelopes could combine an explicit hook denial with a retryable code. The field-based denial classifier now wins without exposing private diagnostics or searching model text.
+- Streamed numeric advice could panic on oversized floating-point durations. Checked conversion rejects overflow and preserves fractional milliseconds.
+- Native validation exposed host-profile, Python-launcher and timing-fixture assumptions. The initial failures, targeted isolation, stronger causal assertion and successful closures are documented in `stage-04/CLOSURE-REVIEW.md`. No sandbox policy or owner profile was relaxed to obtain a pass.
 
-Corrected ten-package native lint passed with zero warnings. A full source parity check matched all 7,179 tracked Rust-workspace files. The initial native run also had 24 nextest skips outside its 4,972 executed cases; the required new retry regressions were all explicitly found and passed. The full GNU result is the only remaining connected feature gate.
+## Boundaries
+
+AIRS AI Gateway routing, CAS/OAuth and workspace-key ownership remain intact. Retry-After cannot grant replay permission for 401, 403, 446, explicit HTTP-200 hook denial, local-policy denial or rejected/ambiguous token exchange. Existing retry limits and eligibility are retained. Dependency reuse did not activate Bedrock or hosted-account behavior.
+
+Scores remain 9 rather than 10 because this is a source-integration gate with recorded inherited suite failures and platform skips, not a claim of universal production behavior. No new signed package has been produced by this gate. Continue the accepted terminal/fullscreen work, then build, sign, notarize, publish and validate the actual Apple Silicon preview.

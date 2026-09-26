@@ -1,0 +1,39 @@
+{
+  "upstream": "e29eceb751 (PR 46867), adapted without unrelated dynamic activity renderer",
+  "linux": {
+    "passed": 4412,
+    "skipped": 6
+  },
+  "macos": {
+    "passed": 4417,
+    "skipped": 6,
+    "slow": 1
+  },
+  "focused": "eight passed on each platform; full suites also include all these cases",
+  "lint": "standard scoped fix passes on Linux and Mac",
+  "format": "passed; source diff check clean",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "release_ready": false,
+  "production_source_sha256_matching_native": {
+    "codex-rs/tui/src/chatwidget/interrupts.rs": "9ec6294f5b5a7e043932932b26d04f48e7ddff728c07cc986f12a6a7aec50b48",
+    "codex-rs/tui/src/chatwidget/streaming.rs": "a3ff9ebc852ec3fccfbff217ce9ef85b18bdd17dc358371d6e9b234229698a23",
+    "codex-rs/tui/src/chatwidget/tool_lifecycle.rs": "d5dddff41809acb1474a3a78d519bc84b1113a5e76a3d5e711b39ac98ac37532",
+    "codex-rs/tui/src/chatwidget/turn_runtime.rs": "c8a9a02eae41b0a2a45a589bab58ffa01c9cd63cb618c300c2032770f251c065"
+  },
+  "evidence": {
+    "REVIEW.md": "c47792020fdbcf9bea099a4f5544758f35b6e21227111fe128a547078421ab98",
+    "subagent-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "subagent-linux-clippy.log.gz": "25ac55b38d60434cbc3cbb8ada1ea9b3e71fbf56cc327a4cdc958936c990e696",
+    "subagent-linux-junit.xml.gz": "9b2d954e059a8de1dd1a7af662ee2d59fc76e8a217b6609521bfe0e042705331",
+    "subagent-linux-suite.log.gz": "830398d3713863aa0a361eeaabaa143bb51bac55b4f8fd25ffa36f4d06dda4f5",
+    "subagent-mac-clippy.log.gz": "ff21abf886e58d684a8713391ec91cbb7783621c7a603dc727151dfa545a270a",
+    "subagent-mac-focused.log.gz": "6e6ddcf0efc6d5370977c7dc1f6d57dce62c0ed976f905507797c2874779aafe",
+    "subagent-mac-junit.xml.gz": "2a4d6ad79d3ffdf61182302ccd36a21b490ad9e3eb5d20c13004512e1e395d8f",
+    "subagent-mac-suite.log.gz": "3f72e157f0923361f8c5184174a2715682bb399f4510c301164d703b919fb94e"
+  }
+}

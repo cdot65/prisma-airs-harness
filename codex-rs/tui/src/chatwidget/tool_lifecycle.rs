@@ -146,6 +146,20 @@ impl ChatWidget {
     }
 
     pub(super) fn on_sub_agent_activity(&mut self, item: ThreadItem) {
+        // Keep the parent's answer intact until authoritative completion. Late
+        // child activity must not wait behind prompts from a terminated turn.
+        if !self.turn_lifecycle.agent_turn_running && self.stream_controller.is_none() {
+            self.handle_sub_agent_activity_now(item);
+        } else {
+            self.defer_or_handle(
+                item,
+                InterruptManager::push_item_completed,
+                Self::handle_sub_agent_activity_now,
+            );
+        }
+    }
+
+    fn handle_sub_agent_activity_now(&mut self, item: ThreadItem) {
         if let Some(cell) = multi_agents::sub_agent_activity_history_cell(&item) {
             self.on_collab_event(cell);
         }
@@ -274,6 +288,7 @@ impl ChatWidget {
             }
             item @ ThreadItem::FileChange { .. } => self.handle_file_change_completed_now(item),
             item @ ThreadItem::McpToolCall { .. } => self.handle_mcp_tool_call_completed_now(item),
+            item @ ThreadItem::SubAgentActivity { .. } => self.handle_sub_agent_activity_now(item),
             _ => {}
         }
     }

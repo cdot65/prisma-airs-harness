@@ -295,3 +295,6 @@ mod question_turn_end_tests;
 
 #[path = "tests/airs_routing.rs"]
 mod airs_routing;
+
+#[path = "tests/subagent_activity_tests.rs"]
+mod subagent_activity_tests;

@@ -1,0 +1,52 @@
+{
+  "upstream_commit": "7f0ab958275e5a3ec40eff993aa077b3f0636abf",
+  "feature_complete": false,
+  "scores": null,
+  "scope": "Checkpoint provenance prerequisite of session recovery; persistence and bounded replay remain.",
+  "local": {
+    "passed": 169,
+    "filtered": 4132
+  },
+  "native": {
+    "passed": 169,
+    "filtered": 4153
+  },
+  "lint": {
+    "local_exit": 0,
+    "native_exit": 0,
+    "warnings": 0
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "validation_note": "Tests precede formatting and lint as repository guidance requires; no signed artifact or completed session feature claimed.",
+  "sha256": {
+    "stage-01-checkpoint-provenance-tests.log.gz": "152bce87d618c247143a8ddbaa1dd5f8d8068779491fb0de32c836a98ca14cf0",
+    "stage-01-checkpoint-provenance-tests-corrected.log.gz": "329c8ddd01ad6d339964ee9a9713a66c5981aedb8a5c42fd81eb9ce408a76a22",
+    "stage-01-checkpoint-provenance-local-junit.xml.gz": "9872a54a98cdbef0307d471c20ace60f8cb6ca377543f2275f782a3dee1d133d",
+    "stage-01-checkpoint-provenance-native-tests.log.gz": "0aa51ab138b403a08e0481e2bb6e59ffaf191fc924c338e9c95d7ee029f34dc4",
+    "stage-01-checkpoint-provenance-native-junit.xml.gz": "4a438ff7c21dac2f3f75c756ae0f548e727334ccbc56e16bcf92f1e8593d1b29",
+    "stage-01-checkpoint-provenance-lint.log.gz": "695b6c87c3f072fe63b1589de46ed3fd78d495742350df2c8ccc984a40ff3f87",
+    "stage-01-checkpoint-provenance-native-lint.log.gz": "dd9ed0feaacc6116ee8acb3ec694a0a9f75f17df9060fb3125f8615fafcab6dd",
+    "stage-01-checkpoint-provenance-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+}

@@ -178,11 +178,14 @@ fn conversation_history_snapshot_binds_compaction_hash_to_the_latest_item() {
     assert_eq!(
         history
             .conversation_history_snapshot()
-            .latest_compaction_model_hash(),
+            .latest_compaction()
+            .and_then(|checkpoint| checkpoint.model_hash),
         None
     );
     assert_eq!(
-        snapshot.latest_compaction_model_hash(),
+        snapshot
+            .latest_compaction()
+            .and_then(|checkpoint| checkpoint.model_hash),
         Some("producer-hash")
     );
     // Checkpoint replay/rollback restores the item's own provenance, not a new model's metadata.
@@ -190,7 +193,8 @@ fn conversation_history_snapshot_binds_compaction_hash_to_the_latest_item() {
     assert_eq!(
         history
             .conversation_history_snapshot()
-            .latest_compaction_model_hash(),
+            .latest_compaction()
+            .and_then(|checkpoint| checkpoint.model_hash),
         Some("producer-hash")
     );
 }

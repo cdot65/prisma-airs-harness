@@ -162,7 +162,7 @@ async fn cancelled_wait_can_still_kill_and_reap_child() -> anyhow::Result<()> {
 }
 
 #[tokio::test]
-async fn descriptor_inheritance_matches_command() -> anyhow::Result<()> {
+async fn native_stdio_closes_unrelated_descriptors() -> anyhow::Result<()> {
     let root = tempfile::tempdir()?;
     symlink("/bin/sh", root.path().join("shell"))?;
     let file = fs::File::open("/dev/null")?;
@@ -190,8 +190,10 @@ async fn descriptor_inheritance_matches_command() -> anyhow::Result<()> {
         let mut output = String::new();
         stdout.read_to_string(&mut output).await?;
         assert!(child.wait().await?.success());
-        assert_eq!(output, expected);
-        assert_eq!(command.output()?.stdout, output.as_bytes());
+        assert_eq!(output, "closed");
+        // The ordinary command is the control: an inheritable sentinel must
+        // remain visible there, proving that the native policy removed it.
+        assert_eq!(command.output()?.stdout, expected.as_bytes());
     }
     Ok(())
 }

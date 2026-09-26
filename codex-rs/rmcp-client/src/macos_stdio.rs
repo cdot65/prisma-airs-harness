@@ -188,11 +188,13 @@ impl NativeChild {
             cvt_errno(libc::sigemptyset(&mut defaults))?;
             cvt_errno(libc::sigaddset(&mut defaults, libc::SIGPIPE))?;
             cvt(libc::posix_spawnattr_setsigdefault(&mut attrs.0, &defaults))?;
-            // Match Command's descriptor inheritance: honor FD_CLOEXEC rather
-            // than introducing a different policy with CLOEXEC_DEFAULT.
+            // Native spawning bypasses Command's pre_exec hook. Apply the same
+            // stdio-only boundary here; explicit dup2 actions retain the pipes.
             cvt(libc::posix_spawnattr_setflags(
                 &mut attrs.0,
-                (libc::POSIX_SPAWN_SETPGROUP | libc::POSIX_SPAWN_SETSIGDEF) as _,
+                (libc::POSIX_SPAWN_SETPGROUP
+                    | libc::POSIX_SPAWN_SETSIGDEF
+                    | libc::POSIX_SPAWN_CLOEXEC_DEFAULT) as _,
             ))?;
             let mut spawn = |executable: &CString| {
                 libc::posix_spawn(

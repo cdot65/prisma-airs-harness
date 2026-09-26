@@ -460,7 +460,8 @@ fn set_cloexec(fd: RawFd) -> std::io::Result<()> {
     Ok(())
 }
 
-// macOS needs a fork-safe sweep because recvmsg cannot set close-on-exec.
+/// Close unrelated child descriptors while preserving stdio and the allowlist.
+/// Cleanup is best effort; macOS uses a fork-safe sweep because recvmsg cannot set CLOEXEC.
 #[cfg(target_os = "macos")]
 pub fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
     let mut descriptors = [libc::proc_fdinfo {
@@ -531,7 +532,7 @@ pub fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
 }
 
 #[cfg(target_os = "linux")]
-pub(crate) use crate::linux_fds::close_inherited_fds_except;
+pub use crate::linux_fds::close_inherited_fds_except;
 
 // Other Unix platforms use best-effort /dev/fd cleanup.
 // Directory enumeration allocates, so this path is not guaranteed fork-safe.

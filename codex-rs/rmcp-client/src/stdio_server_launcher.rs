@@ -280,6 +280,17 @@ impl LocalStdioServerLauncher {
                 .args(&args);
             #[cfg(unix)]
             command.process_group(0);
+            // Local MCP servers need only their transport stdio. Do not leak
+            // unrelated orchestrator descriptors into servers or descendants.
+            #[cfg(any(target_os = "linux", target_os = "macos"))]
+            // SAFETY: supported platforms use fork-safe, child-local cleanup;
+            // CLOEXEC descriptors retain Rust's spawn-error channel until exec.
+            unsafe {
+                command.pre_exec(|| {
+                    codex_utils_pty::pty::close_inherited_fds_except(&[]);
+                    Ok(())
+                });
+            }
             command
         };
         #[cfg(windows)]

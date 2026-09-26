@@ -7,7 +7,9 @@ use std::ffi::CStr;
 use std::io;
 use std::os::fd::RawFd;
 
-pub(crate) fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
+/// Mark unrelated child descriptors close-on-exec, preserving stdio and the allowlist.
+/// Cleanup is best effort if the host rejects both descriptor enumeration mechanisms.
+pub fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
     // Mark rather than close: std::process still needs its CLOEXEC error
     // pipe if exec fails. Do not alter flags on explicitly preserved FDs.
     let mut first = 3_u32;

@@ -1,0 +1,38 @@
+{
+  "upstream": "afe4249cfe",
+  "adaptation": "existing Tokio pre_exec plus macOS native CLOEXEC_DEFAULT; preserve existing launch architecture",
+  "linux": {
+    "passed": 352,
+    "ignored": 8
+  },
+  "macos": {
+    "passed": 357,
+    "ignored": 8,
+    "excluded_binary": "streamable_http_remote (3 tests require non-AIRS exec-server fixture; product service remains disabled)"
+  },
+  "lint": "scoped fix completed both platforms; one unchanged expect_used warning in rmcp-client/src/utils.rs",
+  "format": "passed; unrelated baseline formatting restored",
+  "source_hashes_match": true,
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "remaining": [
+    "Newly built CLI fixture/full workspace at release gate",
+    "Signed exact-package validation",
+    "Live account acceptance remains separate"
+  ],
+  "evidence": {
+    "NATIVE-SOURCE.sha256": "2076c79e6a1e87341a180091d15ca0409abe5c7ec6a29bcc0143763cc17b13b2",
+    "REVIEW.md": "c07e34e44e7989886ff5088d61b7f2761ccdb0de2842997d0011a12ea6384994",
+    "mcp-descriptors-clippy.log.gz": "391f8bd30bc0f38f96d513028ad0f348c63b5f12f9685a0f64fabb0220784ced",
+    "mcp-descriptors-format.log.gz": "5a3bb06a28e1662329044afaec9fd82efb51ab65afdcc4254c4fcd4538af44bf",
+    "mcp-descriptors-linux-junit.xml.gz": "58747b900aa29043afdb1c64a62b0cb9c9f40d3501d59bc34b5b852d33935d6a",
+    "mcp-descriptors-macos-clippy.log.gz": "26f5abf2619e0a35cb22be5ea182bbfb897e544c0698bf1af805d1a175bd6d71",
+    "mcp-descriptors-macos-junit.xml.gz": "5cadcb29253e0d9ad26325bbbf84b5476cfe4876ce5e2a1a03cd874cc1001d63",
+    "mcp-descriptors-macos-tests.log.gz": "682875682a30833f140e2b1c27c590c525436d40b09835d9f26dd5ce8ca4afff",
+    "mcp-descriptors-tests-r2.log.gz": "6135ad354c50f83c2ca53927de435392021cfdbd713e9c7911e63a7b4773fa94"
+  }
+}

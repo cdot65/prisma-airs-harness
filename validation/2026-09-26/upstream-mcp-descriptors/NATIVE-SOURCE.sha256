@@ -1,0 +1,6 @@
+212b12cf6bdd2844a2d3d44b271fd845e76066065423b73da17cdc9b2841ec1f  codex-rs/rmcp-client/src/macos_stdio.rs
+1ffa13bbc34fec37db491b406078143eef76305e00693a81f6478bdd3b3b87a8  codex-rs/rmcp-client/src/macos_stdio_tests.rs
+e683193539ea6bdf23b5fe10d135b8bb7c169fa3f077cd80042a20b3e81d3e08  codex-rs/rmcp-client/src/stdio_server_launcher.rs
+99ec98bcdb9afb38b7ce479e4e87259db55be3c17681a89ea9d51cef5a3bfced  codex-rs/utils/pty/src/linux_fds.rs
+59f8af9042e73fc993be80a7989ad0fd8cddf4fe3e20f0d906d75fa9aaa1e091  codex-rs/utils/pty/src/pty.rs
+d86fd4e6580539daadb72b12d3bdaf82daa513851e85eeb81c53695afb103660  codex-rs/rmcp-client/tests/stdio_descriptor_boundary.rs

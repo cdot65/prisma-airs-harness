@@ -1,0 +1,24 @@
+# Connected application network policy review
+
+Source: `63920760fc7a5e6434e2dc8741194530b6a6f926`. This is a self-review against counterexamples and retained test evidence, not an independent certification. Final feature scores remain unassigned while GNU workspace run 3850 is active.
+
+| Invariant | Counterexample checked | Evidence |
+| --- | --- | --- |
+| Admission precedes network access | Denied DNS/connect, HTTP draft, standalone MCP endpoint, CAS discovery/refresh and gateway diagnostic | Policy primitive/request tests; stage-10 identity/CLI tests |
+| Permits cover response lifetime | Revocation while body/frame/SSE/WebSocket/gRPC data is pending | Stages 5–7 transport and caller tests |
+| Redirects cannot broaden authority | Destination changes, URL credentials, issuer endpoint mismatch | HTTP redirect tests; CAS redirect refusal; exact bootstrap endpoint tests |
+| Retained clients observe revocation | Account switch, local load failure, overlapping stale publication, config reload | Policy/account ownership tests, stages 7–9 |
+| Embedded startup shares policy | Pre-start clients and later config/session/permission rebuilds | Stage-9 activation and rebuild tests |
+| CAS rotating-token state remains safe | Pre-admission denial versus cancellation after a request could start | Stage-10 byte-preservation, no-connect and pending-state tests |
+| Denial does not cause auth fallback | Local denial marker, 401 recovery dispatch and user draft | Core credential-preservation integration; model-provider fatal classification; AIRS recovery snapshot |
+| AIRS boundaries stay intact | Gateway route, issuer/resource checks, redirects, Jev child execution | Existing AIRS package tests plus scoped source audit |
+
+The CAS transaction is intentionally stricter than ordinary retryable network operations. Admission failure preserves the original credential. Once the durable pending record is written, an unknown outcome never restores a rotating predecessor. This remains true when policy changes while the request is in flight.
+
+Short-lived CLI helpers load a local requirements snapshot for each invocation. They do not share the parent's live controller. The managed parent transport still enforces its own effective policy. Approved Jev/CLI child processes and user-directed browsers retain their existing separate execution boundaries; this feature is not a claim of a process-wide network firewall. The existing MCP capability error interface remains generic, with no-send enforcement tested underneath.
+
+The final native affected-package run passed 5,800 tests with six skips. One twelve-session recovery test exceeded its 60-second timeout before passing the configured retry in 29.503 seconds. Earlier isolated rechecks passed. Keep this known timing flake visible; do not call the run flake-free. An earlier ENOSPC-aborted run remains retained and is not counted as passing.
+
+Scoped local lint and native lint pass. Native lint made no source changes, and all 98 changed source files across the final ownership/embedded/CAS stages match the final local source. Tests preceding style-only formatting/lint edits are identified as such; no signed artifact or installed-package equivalence is inferred.
+
+The stage-5 GNU run had three failures whose complete assertions match the retained stable baseline. The current source requires its own comparison: run 3850 must finish and any new failure must be investigated before feature scores are assigned. Full integration, later feature gates, and signed Mac delivery remain separate requirements even after this bounded feature passes.

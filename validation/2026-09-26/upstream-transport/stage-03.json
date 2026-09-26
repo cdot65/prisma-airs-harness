@@ -1,0 +1,23 @@
+{
+  "upstream": [
+    "3c6f32ca82",
+    "3bb0a530d1 (HTTP helpers only)",
+    "888be42a20 (HTTP helpers only)"
+  ],
+  "status": "prerequisite tested; transport feature incomplete",
+  "linux": {
+    "passed": 105,
+    "skipped": 0
+  },
+  "lint": "passed",
+  "format": "passed",
+  "proxy_fallback_enabled": false,
+  "scores": null,
+  "release_ready": false,
+  "evidence": {
+    "request-execution-tests.log.gz": "14f7d7df807fb52a2d1958ac0127a2d98f79e13f0b077356636dbf419e6fa4f2",
+    "request-execution-clippy.log.gz": "7c3dfb16babe5a819d6a5a401b120c6de4272b49f71133e9761549c32912c9f1",
+    "request-execution-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "request-execution-junit.xml.gz": "f4f39aa83b18bc637b883c3c30d6a9d113faccdab75a767b87e1f371a1872497"
+  }
+}

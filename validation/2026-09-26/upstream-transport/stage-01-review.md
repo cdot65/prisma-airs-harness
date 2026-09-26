@@ -1,0 +1,7 @@
+# Transport enforcement — in progress
+
+Stage 1 adapts upstream 973ec2942c (PR 45503): destination policy, revocable request permits, stale publication rejection, account-bound handles and factory identity. Four new policy regressions plus the existing HTTP suite pass: 96 tests, zero skips. Scoped lint/fix, format and source diff checks pass. Mac socket-fixture blocking/read-timeout corrections are included as upstream supplied.
+
+Review: configured-but-unavailable state denies acquisition; policy load failure revokes outstanding work without changing account identity; account invalidation permanently rejects retained old clients; secure exact-host matching excludes subdomains/lookalikes and insecure schemes; unsupported SDK permits cannot bypass restrictions. Factory equality includes shared policy identity so policy owners are not conflated. Existing unmanaged behavior is retained until explicit policy ownership is wired.
+
+This is a tested prerequisite, not completed request enforcement. Feature scores and release readiness remain pending HTTP/body/redirect/WebSocket integration, application ownership/reload propagation, AIRS gateway and CAS coverage, terminal denial/no-replay checks, full tests and signed delivery. The schema already exists in config while current core discards application requirements. AIRS inference explicitly refuses redirects in core/src/client.rs::build_api_transport; preserve that stronger boundary. No new proxy fallback is enabled by this stage.

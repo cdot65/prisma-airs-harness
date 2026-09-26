@@ -106,11 +106,13 @@ impl StartupDraft {
         let terminal_restore_guard = TerminalRestoreGuard::new();
         initialized_terminal.terminal.clear()?;
 
-        let tui = Tui::new(
+        let mut tui = Tui::new(
             initialized_terminal.terminal,
             initialized_terminal.enhanced_keys_supported,
             initialized_terminal.stderr_guard,
         );
+        // Startup renders inline; retain the probe for subsequent loaded screen policies.
+        tui.terminal_app_over_ssh = initialized_terminal.terminal_app_over_ssh;
         let (app_event_tx, app_event_rx) = unbounded_channel();
         let bottom_pane = startup_draft_bottom_pane(
             AppEventSender::new(app_event_tx),

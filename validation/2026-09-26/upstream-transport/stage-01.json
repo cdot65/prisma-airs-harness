@@ -1,0 +1,19 @@
+{
+  "upstream": "973ec2942c",
+  "status": "prerequisite tested; feature incomplete",
+  "tests": {
+    "linux_passed": 96,
+    "skipped": 0
+  },
+  "lint": "passed",
+  "format": "passed",
+  "scores": null,
+  "release_ready": false,
+  "evidence": {
+    "PREREQUISITES.md": "ac7039f6273cd3a6b2f24da423ec330675d6640c4b1da19a0d23612310bbafa6",
+    "policy-primitives-clippy.log.gz": "ff6925accc694418302a3b039fd19ece72e969cb9119f87d354f8ffb332919f1",
+    "policy-primitives-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "policy-primitives-junit.xml.gz": "2ebfd54f03260f9a223c8d8ef3ee7f03869a199a9c11d7ad723cff0472175c50",
+    "policy-primitives-tests.log.gz": "ff1070ec0e365625d24c2c731bb0760a107ccaa802a5bc0064012b33bbb053c0"
+  }
+}

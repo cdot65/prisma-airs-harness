@@ -422,3 +422,7 @@ Adapted `529bcb2fdf` (PR 45549). Consolidate received answer/plan source before 
 ### Subagent activity ordering — 9/10 in each dimension
 
 Adapted `e29eceb751` (PR 46867) using existing AIRS controllers and interrupt queue, without importing the unrelated dynamic-activity renderer. Child completion cannot prematurely split the parent answer; authoritative completion repairs missing deltas. Terminal cleanup drains lifecycle events while retaining unopened prompts, and late child activity remains visible. Eight focused cases pass on both platforms, including existing AIRS question recovery. Full TUI: Linux 4,412 passes/six skips; Mac 4,417 passes/six skips (one slow). Scoped standard lint, format and source diff checks pass; production hashes match native validation. Four bounded feature scores 9/10; signed delivery and live acceptance remain pending. Evidence: `validation/2026-09-26/upstream-subagent-ordering/ACCEPTANCE.json`.
+
+### Transport policy enforcement — in progress
+
+Stage 1 imports `973ec2942c` (PR 45503) policy/permit primitives and factory identity. HTTP suite: 96 passed, zero skips; scoped lint/format pass. This is a prerequisite only: HTTP/redirect/body/WebSocket enforcement and AIRS policy ownership are not yet connected, and no final feature scores or release readiness are claimed. Evidence: `validation/2026-09-26/upstream-transport/stage-01.json`.

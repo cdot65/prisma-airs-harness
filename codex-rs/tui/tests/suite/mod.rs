@@ -12,3 +12,5 @@ mod worktree_stack;
 
 #[cfg(unix)]
 mod terminal_ssh;
+#[cfg(unix)]
+mod unicode_lists;

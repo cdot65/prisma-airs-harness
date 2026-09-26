@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="3" skipped="0" failures="0" errors="0" uuid="492c36ff-237e-4697-b15d-192f626e2e85" timestamp="2026-09-26T23:45:43.699+00:00" time="0.668">
+    <testsuite name="codex-tui::all" tests="3" skipped="0" errors="0" failures="0">
+        <testcase name="suite::unicode_lists::disabled_lists_keep_textual_markers_in_the_terminal" classname="codex-tui::all" timestamp="2026-09-26T23:45:43.715+00:00" time="0.625"/>
+        <testcase name="suite::unicode_lists::raw_mode_keeps_source_markers_in_the_terminal" classname="codex-tui::all" timestamp="2026-09-26T23:45:43.715+00:00" time="0.651"/>
+        <testcase name="suite::unicode_lists::unicode_lists_render_in_the_terminal" classname="codex-tui::all" timestamp="2026-09-26T23:45:43.715+00:00" time="0.651"/>
+    </testsuite>
+</testsuites>

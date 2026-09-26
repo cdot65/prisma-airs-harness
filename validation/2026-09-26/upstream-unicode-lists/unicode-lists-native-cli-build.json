@@ -1,0 +1,15 @@
+{
+  "command": [
+    "cargo",
+    "build",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "--bin",
+    "codex",
+    "--bin",
+    "airs-harness"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 136.2992217540741
+}

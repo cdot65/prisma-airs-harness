@@ -1,0 +1,6 @@
+cargo clippy --fix --tests --allow-dirty {args}
+    Checking codex-tui v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tui)
+    Checking codex-core v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/core)
+    Checking codex-thread-manager-sample v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/thread-manager-sample)
+    Checking codex-config v0.154.0 (/home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/config)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 16s

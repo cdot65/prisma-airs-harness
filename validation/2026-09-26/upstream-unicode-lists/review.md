@@ -30,3 +30,10 @@ Local four-package lint passed with zero warnings; formatting completed and 17 u
 
 
 Native closure: the complete fresh suite passed **4,764/4,764**, six skips, retries disabled, including all three previously reported wrapper failures. The corrected wrapper cleaned successful temporary roots. The source audit matches all **7,190 tracked codex-rs files**, including schemas and snapshots (4,018 are Rust files). Final native four-package lint passed with zero warnings, and all 7,190 tracked workspace files still match after lint. Full GNU remains pending; no score is assigned yet.
+
+
+## Additional terminal acceptance
+
+A further review found the dedicated list PTY requirement was not yet covered by the renderer snapshots. Three new integration cases now stream a controlled local response through the real TUI process: default Unicode markers, disabled-list textual markers, and raw Markdown output. All three pass on Linux and Apple Silicon with retries disabled. Filtered-suite skip counts are exclusions, not additional platform skips. Fresh `codex` and `airs-harness` debug binaries built on both hosts and passed version probes; their byte hashes are retained. These are development builds, not new signed/notarized packages.
+
+The extra tests passed scoped lint on both hosts with zero warnings, then formatting. All 7,191 tracked workspace files match the native source. Full GNU 3856 runs runtime source `d07ec07431`; these subsequent test-only additions have separate local/native receipts and are not claimed as part of that earlier full-run count.

@@ -1,0 +1,14 @@
+['just', 'test', '--locked', '-p', 'codex-tui', '-p', 'codex-config', '--test-threads', '3', '--retries', '0', '-E', 'test(suite::unicode_lists::)']
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Blocking waiting for file lock on artifact directory
+   Compiling codex-tui v0.154.0 (/Users/cdot/.cache/airs-upstream-20260926/source/codex-rs/tui)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 00s
+info: using target runner `/Users/cdot/.cache/airs-upstream-20260926/unicode-native-test-process.py` defined by environment variable `CARGO_TARGET_AARCH64_APPLE_DARWIN_RUNNER`
+────────────
+ Nextest run ID 826ebc6d-595a-4892-8077-fbd560aadda0 with nextest profile: local
+    Starting 3 tests across 7 binaries (4770 tests skipped)
+        PASS [   8.009s] (1/3) codex-tui::all suite::unicode_lists::unicode_lists_render_in_the_terminal
+        PASS [   8.009s] (2/3) codex-tui::all suite::unicode_lists::raw_mode_keeps_source_markers_in_the_terminal
+        PASS [   8.009s] (3/3) codex-tui::all suite::unicode_lists::disabled_lists_keep_textual_markers_in_the_terminal
+────────────
+     Summary [   8.044s] 3 tests run: 3 passed, 4770 skipped

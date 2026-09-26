@@ -1,0 +1,83 @@
+{
+  "feature_complete": false,
+  "scores": null,
+  "change": "Use the existing 30-second core_test_support fixture-startup budget for MCP child startup; preserve registration/approval ordering and the outer 60-second test deadline. Production timeouts unchanged.",
+  "previous_native": {
+    "successful_repetitions": 3,
+    "fourth_repetition_passed": 13,
+    "fourth_repetition_failed": 1,
+    "failure": "Five-second MCP registration startup timeout"
+  },
+  "local": {
+    "passed": 1,
+    "failed": 0,
+    "retries": 0
+  },
+  "native": {
+    "passed": 70,
+    "failed": 0,
+    "repetitions": 5,
+    "retries": 0,
+    "duration_seconds": [
+      40.427,
+      39.506,
+      40.255,
+      39.76,
+      39.701
+    ]
+  },
+  "lint_local": {
+    "exit": 0,
+    "warnings": 0,
+    "duration": "1m42s"
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "native_lint": "Running; prior ENOSPC is retained in stage 06.",
+  "fixture_cleanup": {
+    "removed_stale_directories": 10832,
+    "open_handles_excluded": true,
+    "task_time_window_only": true,
+    "private_tmp_root_for_followup": true
+  },
+  "sha256": {
+    "stage-07-cold-resume-startup-bound-tests.log.gz": "658c1c142b2b9ec2f5c688db6ab8343fd7f9404fac0c00749b35e9b07a8fd6f4",
+    "stage-07-cold-resume-startup-bound-junit.xml.gz": "78d4c652bf35afd00ab954bba02d149e7a1624d7b4979029875fccb913499169",
+    "stage-07-cold-resume-startup-bound-lint.log.gz": "e251e21c464996300c709c76b4c40b9f105978de2e145d816a9e325b4bb48f65",
+    "stage-07-cold-resume-startup-bound-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "stage-07-cold-resume-more-isolation-native.log.gz": "010b2a97babc015314de17e35c621dbe923c2585d28f0ebb14f9c3eed191f3a7",
+    "stage-07-cold-resume-more-isolation-native-1-junit.xml.gz": "b6429cdaf0e36e0afa5cabd7a520144aa22e9553cec257056c8e19a1bd0f78b4",
+    "stage-07-cold-resume-more-isolation-native-2-junit.xml.gz": "393fe4c338e7f47938697b55be0dc9356c721855503c712fd79f31e5a9902559",
+    "stage-07-cold-resume-more-isolation-native-3-junit.xml.gz": "09966e41d13f43a9251d83390164298bb0705d1d51b36706cd39bee1ba03c8ae",
+    "stage-07-cold-resume-more-isolation-native-4-junit.xml.gz": "55e7befb32c5fbbabcc5f25fb19bb86f6f69fbd3bd669abb02f9f99dfc93848f",
+    "stage-07-cold-resume-startup-bound-native.log.gz": "3c75be55d95f667c44a28906b1b409a08e9c18e4be0c482cdfd57707ba91c28f",
+    "stage-07-cold-resume-startup-bound-native-1-junit.xml.gz": "077824c3d8b42e24653a315c9c9a5dacd38c454194c85486a201a6f6156214f9",
+    "stage-07-cold-resume-startup-bound-native-2-junit.xml.gz": "4688e06818f808f50cb341f61cc8255def0e5da945285319cd291674f3ffd955",
+    "stage-07-cold-resume-startup-bound-native-3-junit.xml.gz": "7a0c9e5a496d202b0f26fbcba858db76f7ae3d4c22c3f6e8ccbb250fbe73278a",
+    "stage-07-cold-resume-startup-bound-native-4-junit.xml.gz": "d5c9f4e732ba89b2e6aa02fd3e3aa31a7f57a1e540ce0ce8adeb2d7fb5d34b3f",
+    "stage-07-cold-resume-startup-bound-native-5-junit.xml.gz": "b769cffa888a9908ee6ee9be140b62d1cf9fa8b90abad920a42dcb924094e3ac",
+    "stage-07-cold-resume-startup-bound-owned-temp-cleanup.json.gz": "352b330171c1131fd93113b0db0a7570141cac8b4f1b8ebd652d01845259125e",
+    "stage-07-stale-chatwidget-fixture-candidates.json.gz": "8a30889be2253e9af3d6620c5899e4b188048fedf5d83b3efa54ac1a1d8e5257",
+    "stage-07-stale-chatwidget-fixture-cleanup.jsonl.gz": "50a799f38602267d1c55a4256dcb39af9a4b718e12c92e4e4a2c96f953edfaad"
+  }
+}

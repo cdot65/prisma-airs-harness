@@ -1004,7 +1004,9 @@ async fn local_daemon_registers_approval_gated_mcp_tools_for_both_start_paths() 
             let response = response??;
             panic!("MCP task creation completed without registration: {}", response.text().await?);
         }
-        _ = tokio::time::sleep(std::time::Duration::from_secs(/*secs*/ 5)) => {
+        // Creating the child also initializes configuration and its state database.
+        // Use the shared fixture-startup bound rather than a shorter event-only deadline.
+        _ = tokio::time::sleep(core_test_support::startup::STARTUP_TIMEOUT) => {
             panic!("timed out waiting for MCP task registration");
         }
     };

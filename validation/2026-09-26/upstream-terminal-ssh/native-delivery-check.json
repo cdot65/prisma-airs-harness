@@ -1,0 +1,46 @@
+[
+  {
+    "step": "cli-build",
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "-p",
+      "codex-cli",
+      "--bin",
+      "codex",
+      "--bin",
+      "airs-harness"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.6854579448699951
+  },
+  {
+    "step": "cli-picker",
+    "command": [
+      "/opt/homebrew/bin/python3.13",
+      "/Users/cdot/.cache/airs-upstream-20260926/terminal-picker-pty.py",
+      "--repo",
+      "/Users/cdot/.cache/airs-upstream-20260926/source",
+      "--binary",
+      "/Users/cdot/.cache/airs-upstream-20260926/target/debug/codex",
+      "--out",
+      "/Users/cdot/.cache/airs-upstream-20260926/terminal-ssh-cli-picker.json"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 8.785207033157349
+  },
+  {
+    "step": "lint",
+    "command": [
+      "just",
+      "fix",
+      "--allow-no-vcs",
+      "--locked",
+      "-p",
+      "codex-tui"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 106.71958804130554
+  }
+]

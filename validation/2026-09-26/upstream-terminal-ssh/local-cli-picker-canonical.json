@@ -1,0 +1,34 @@
+{
+  "binary": "/home/cdot/.cache/airs-routing-build-target/debug/codex",
+  "binary_sha256": "f8a4a905cfe4b0bdc4e48aba0aacf24d7303938d56c1d12558a2f69a161f829e",
+  "cases": [
+    {
+      "mode": "auto",
+      "no_alt_screen": false,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 0.16009991616010666
+    },
+    {
+      "mode": "always",
+      "no_alt_screen": false,
+      "entered_alt_screen": true,
+      "picker_visible": true,
+      "elapsed_seconds": 0.16040923818945885
+    },
+    {
+      "mode": "always",
+      "no_alt_screen": true,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 0.1558760148473084
+    },
+    {
+      "mode": "never",
+      "no_alt_screen": false,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 0.14843338122591376
+    }
+  ]
+}

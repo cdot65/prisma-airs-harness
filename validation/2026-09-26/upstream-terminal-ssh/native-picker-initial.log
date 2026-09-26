@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-upstream-20260926/terminal-picker-pty.py", line 28, in <module>
+    assert b'No sessions' in output or b'Resume a' in output,output.decode(errors='replace')[-3000:]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [?2004h[>4;0m[>7u[?1004h[6n]10;?\]11;?\[?u[c[>c[?2026h[1;1H[J[6;19H[0m[49m[K[1;1H>[1;3H[1mYou are in [22m/private/var/folders/x0/t7gzpk8x0d306wj0pllltpr80000gn/T/airs-terminal-picker-jiwwf5gt/workspace[3;3HDo[3;6Hyou[3;10Htrust[3;16Hthe[3;20Hcontents[3;29Hof[3;32Hthis[3;37Hdirectory?[3;48HWorking[3;56Hwith[3;61Huntrusted[3;71Hcontents[3;80Hcomes[3;86Hwith[3;91Hhigher[3;98Hrisk[3;103Hof[3;106Hprompt[4;3Hinjection.[4;14HTrusting[4;23Hthe[4;27Hdirectory[4;37Hallows[4;44Hproject-local[4;58Hconfig,[4;66Hhooks,[4;73Hand[4;77Hexec[4;82Hpolicies[4;91Hto[4;94Hload.[6;1H[38;5;6;49m› 1. Yes, continue[7;3H[39;49m2.[7;6HNo,[7;10Hquit[9;3H[2mPress enter to continue[39m[49m[0m[?25l[?2026l

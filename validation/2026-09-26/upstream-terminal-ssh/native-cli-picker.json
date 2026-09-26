@@ -1,0 +1,34 @@
+{
+  "binary": "/Users/cdot/.cache/airs-upstream-20260926/target/debug/codex",
+  "binary_sha256": "0cdbc141e8618dc65bcde9a8bbb2897facc10340fde5f5381a3d254cf0003ce4",
+  "cases": [
+    {
+      "mode": "auto",
+      "no_alt_screen": false,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 8.152603916125372
+    },
+    {
+      "mode": "always",
+      "no_alt_screen": false,
+      "entered_alt_screen": true,
+      "picker_visible": true,
+      "elapsed_seconds": 0.09355449979193509
+    },
+    {
+      "mode": "always",
+      "no_alt_screen": true,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 0.09279191703535616
+    },
+    {
+      "mode": "never",
+      "no_alt_screen": false,
+      "entered_alt_screen": false,
+      "picker_visible": true,
+      "elapsed_seconds": 0.09125570906326175
+    }
+  ]
+}

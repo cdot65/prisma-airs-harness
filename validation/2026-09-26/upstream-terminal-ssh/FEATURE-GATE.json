@@ -1,0 +1,47 @@
+{
+  "feature": "Terminal.app over SSH",
+  "scope": "Bounded source integration and native debug CLI validation; signed distribution belongs to the remaining release phase",
+  "upstream": "2925d06f5a91703548575e6b52f17591e8af85b2",
+  "runtime_commit": "512108644c",
+  "pty_commit": "f57f67d2bd",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "review_type": "Adversarial self-review with executable evidence; not independent certification",
+  "validation": {
+    "local_tui_passed": 4456,
+    "native_tui_passed": 4461,
+    "skipped_each": 6,
+    "retries": 0,
+    "parser_dependency_regressions": {
+      "mio": 2,
+      "tty": 2
+    },
+    "local_real_cli_picker_cases": 4,
+    "native_real_cli_picker_cases": 4,
+    "local_lint_warnings": 0,
+    "native_lint_warnings": 0,
+    "matching_rust_source_files": 7182,
+    "actual_bazel_lock_update_and_strict_check": true,
+    "local_and_native_cli_debug_binaries_built": true
+  },
+  "skips": [
+    "four preexisting manual tmux resize tests",
+    "one ignored PTY child invoked by its parent test",
+    "one Windows-only AltGr case"
+  ],
+  "limitations": [
+    "No new signed/notarized or npm-distributed preview yet",
+    "Real Terminal.app over SSH is simulated with protocol replies; owner live acceptance remains",
+    "Other accepted Unicode, math, fullscreen/search and release features remain incomplete"
+  ],
+  "retained_failures": [
+    "Seven initial PTY fixture timing failures closed by waiting for loaded app",
+    "Native run aborted by disk exhaustion; superseded by complete successful run",
+    "Cleanup/rebuild overlap caused an archive failure before any tests; subsequent build and suite passed",
+    "Native picker fixture used a noncanonical trusted path; canonical fixture passed with same binaries"
+  ]
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/cdot/.cache/airs-upstream-20260926/terminal-picker-pty.py", line 27, in <module>
+    assert b'\x1b[>c' in output,'SSH identity not queried'
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: SSH identity not queried

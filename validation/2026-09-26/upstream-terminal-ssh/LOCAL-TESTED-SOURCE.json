@@ -1,0 +1,14 @@
+{
+  "MODULE.bazel.lock": "fa1b5fdabdc197f4c1bb625c2c4d36b348408c799961ab5feb43d711b207ce61",
+  "codex-rs/Cargo.lock": "ea9f5a6661a3948fa8e76dea679895e9bf57ea8a98df579e16b73e5c65cc2870",
+  "codex-rs/Cargo.toml": "7496b46073823dab366e172c7793e590d1b38d05036ac476aa057e059789e3ad",
+  "codex-rs/tui/src/lib.rs": "ddc751be4be34275aa83c850917c25e45b426d773e17e156bb52a33c40ed7521",
+  "codex-rs/tui/src/startup_draft.rs": "f7135c186527828e8ebfde758d8121515e1d718f65d5940df19e7a0dd713edca",
+  "codex-rs/tui/src/terminal_probe.rs": "1f4c925134d406e637bac17c4a1bf04e1decb3718c02c4e8c26a64c12f3f9165",
+  "codex-rs/tui/src/tui.rs": "906fb4c86cc8c3ec1551a7049ed6d9fbfc7b4d68f8e7c7d6bd296a6fdbe7f083",
+  "codex-rs/tui/tests/suite/focus_palette.rs": "86edc4dc7d772df36440a0ea241a0fb858f0cd75c40618ded1661b534c3f2954",
+  "codex-rs/tui/tests/suite/mod.rs": "ee5118b9863c29c529deb5dffa41316e53e26dbb147603f70f6f3588bcfb0bce",
+  "codex-rs/tui/src/terminal_probe/terminal_identity.rs": "168ac9e6b0147d06cd457f55f28975b6d4fc178a6a23af2a5713b00929de19d3",
+  "codex-rs/tui/src/terminal_probe/terminal_identity_tests.rs": "3820044e6a9eceacd1dd4672e2d53f44acb1239e62c8c244cf1489f1c0df6479",
+  "codex-rs/tui/tests/suite/terminal_ssh.rs": "53ded4e81650a326a5cd32b2d34228b335d7e2ec08009ae57759b35b5fe0294b"
+}

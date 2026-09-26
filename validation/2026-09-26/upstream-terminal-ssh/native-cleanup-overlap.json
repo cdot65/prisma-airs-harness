@@ -1,0 +1,16 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "--test-threads",
+    "4",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 60.34032416343689,
+  "owned_tmp": "/private/tmp/airs-terminal-native-gi9_pt9f"
+}

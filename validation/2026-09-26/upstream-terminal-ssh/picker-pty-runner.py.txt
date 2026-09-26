@@ -1,0 +1,31 @@
+from pathlib import Path
+import argparse,json,os,select,sys,tempfile,time,hashlib
+p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,required=True);p.add_argument('--binary',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();sys.path.insert(0,str(a.repo/'scripts'))
+from airs_harness_pty import TerminalSession
+cases=[]
+for mode,override,expected in [('auto',False,False),('always',False,True),('always',True,False),('never',False,False)]:
+ with tempfile.TemporaryDirectory(prefix='airs-terminal-picker-') as temporary:
+  root=Path(temporary);state=root/'state';state.mkdir();workspace=root/'workspace';workspace.mkdir()
+  (state/'config.toml').write_text('model="gpt-5.6-terra"\nmodel_provider="openai"\nanalytics.enabled=false\nsuppress_unstable_features_warning=true\n[tui]\nalternate_screen='+json.dumps(mode)+'\n[projects.'+json.dumps(str(workspace))+']\ntrust_level="trusted"\n')
+  (state/'auth.json').write_text('{"OPENAI_API_KEY":"terminal-picker-fixture","tokens":null,"last_refresh":null}')
+  env={k:v for k,v in os.environ.items() if k not in ['TMUX','TMUX_PANE','STY','TERM_PROGRAM','SSH_TTY','CODEX_HOME','NO_COLOR'] and not k.startswith(('AIRS_','OPENAI_'))};env.update(CODEX_HOME=str(state),OPENAI_API_KEY='terminal-picker-fixture',SSH_CONNECTION='192.0.2.1 1234 192.0.2.2 22')
+  args=['resume'];
+  if override:args.append('--no-alt-screen')
+  with TerminalSession(a.binary,env,workspace,arguments=args) as t:
+   answered=set();start=time.monotonic();deadline=start+30
+   while time.monotonic()<deadline:
+    ready,_,_=select.select([t.master],[],[],0.05)
+    if ready:
+     try:chunk=os.read(t.master,65536)
+     except OSError:break
+     if not chunk:break
+     t.transcript.extend(chunk)
+    for query,response in [(b'\x1b[6n',b'\x1b[1;1R'),(b'\x1b[?u',b'\x1b[?0u'),(b'\x1b[c',b'\x1b[?1;2c'),(b'\x1b[>c',b'\x1b[>1;95;0c'),(b'\x1b]10;?',b'\x1b]10;rgb:ffff/ffff/ffff\x07'),(b'\x1b]11;?',b'\x1b]11;rgb:0000/0000/0000\x07')]:
+     if query in t.transcript and query not in answered:os.write(t.master,response);answered.add(query)
+    if b'No sessions' in t.transcript or b'Resume a' in t.transcript:break
+   output=bytes(t.transcript)
+   assert b'\x1b[>c' in output,'SSH identity not queried'
+   assert b'No sessions' in output or b'Resume a' in output,output.decode(errors='replace')[-3000:]
+   assert (b'\x1b[?1049h' in output)==expected,(mode,override,output.decode(errors='replace')[-3000:])
+   cases.append({'mode':mode,'no_alt_screen':override,'entered_alt_screen':expected,'picker_visible':True,'elapsed_seconds':time.monotonic()-start})
+a.out.write_text(json.dumps({'binary':str(a.binary),'binary_sha256':hashlib.file_digest(a.binary.open('rb'),'sha256').hexdigest(),'cases':cases},indent=2)+'\n');print(json.dumps(cases))

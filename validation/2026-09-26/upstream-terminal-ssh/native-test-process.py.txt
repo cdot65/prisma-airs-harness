@@ -1,0 +1,13 @@
+#!/opt/homebrew/bin/python3.13
+"""Give each native test its own disposable tmp root; retain failures for review."""
+import json,os,shutil,subprocess,sys,tempfile
+from pathlib import Path
+root=Path('/Users/cdot/.cache/airs-upstream-20260926')
+owned=Path(tempfile.mkdtemp(prefix='airs-t-',dir='/tmp')).resolve()
+env=dict(os.environ,TMPDIR=str(owned)+'/',TMP=str(owned),TEMP=str(owned))
+result=subprocess.run([sys.executable,str(root/'source/scripts/airs_rust_test_runner.py'),*sys.argv[1:]],env=env)
+if result.returncode==0:
+ shutil.rmtree(owned)
+else:
+ with (root/'terminal-ssh-native-failed-temp.jsonl').open('a') as f:f.write(json.dumps({'test_args':sys.argv[1:],'tmp':str(owned),'exit':result.returncode})+'\n')
+raise SystemExit(result.returncode)

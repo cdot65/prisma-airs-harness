@@ -166,6 +166,17 @@ impl PtyCodex {
         codex_home: TempDir,
         extra_args: &[&str],
     ) -> Result<Self> {
+        let mut args = extra_args.to_vec();
+        args.push("--no-alt-screen");
+        Self::start_with_env(repo_root, codex_home, &args, &[])
+    }
+
+    pub(super) fn start_with_env(
+        repo_root: &Path,
+        codex_home: TempDir,
+        extra_args: &[&str],
+        env: &[(&str, Option<&str>)],
+    ) -> Result<Self> {
         let mut master_fd = -1;
         let mut slave_fd = -1;
         let mut window_size = libc::winsize {
@@ -199,9 +210,16 @@ impl PtyCodex {
 
         let codex = codex_utils_cargo_bin::cargo_bin("codex-tui")
             .or_else(|_| codex_utils_cargo_bin::cargo_bin("codex"))?;
-        let child = Command::new(codex)
+        let mut command = Command::new(codex);
+        for (name, value) in env {
+            if let Some(value) = value {
+                command.env(name, value);
+            } else {
+                command.env_remove(name);
+            }
+        }
+        let child = command
             .args(extra_args)
-            .arg("--no-alt-screen")
             .arg("-C")
             .arg(repo_root)
             .env("TERM", "xterm-256color")
@@ -279,7 +297,7 @@ impl PtyCodex {
         );
     }
 
-    fn answer_startup_queries(&mut self) -> Result<()> {
+    pub(super) fn answer_startup_queries(&mut self) -> Result<()> {
         if !self.cursor_answered && contains_bytes(&self.output, b"\x1b[6n") {
             self.write_input(b"\x1b[1;1R")?;
             self.cursor_answered = true;
@@ -335,6 +353,10 @@ impl PtyCodex {
         self.master.write_all(bytes)?;
         self.master.flush()?;
         Ok(())
+    }
+
+    pub(super) fn output_contains(&self, bytes: &[u8]) -> bool {
+        contains_bytes(&self.output, bytes)
     }
 
     pub(super) fn screen_contains(&self, text: &str) -> bool {

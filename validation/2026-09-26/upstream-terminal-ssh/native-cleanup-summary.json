@@ -1,0 +1,8 @@
+{
+  "failure": "nextest stopped at 664/4461 with output reporting error; runner receipt write also failed ENOSPC",
+  "free_before": 1129283584,
+  "free_after": 44248039424,
+  "removed_entries": 240411,
+  "full_receipt_sha256": "bf0e5b20014bd0fb345f7bd220152efa188775af382ffb4d99207c5b8c6035bf",
+  "overlap": "Rerun started before cleanup finished, failed to open a removed intermediate object. No tests executed. Cleanup now finished; retry rebuild follows."
+}

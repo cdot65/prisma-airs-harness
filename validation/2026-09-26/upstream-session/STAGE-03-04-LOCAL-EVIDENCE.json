@@ -1,0 +1,61 @@
+{
+  "upstream_commits": [
+    "e7bbc79f482acf285e50a09a9f898aeb2ce3881c",
+    "91d54f1667e627538db9d44d2ce88a260b4213b0"
+  ],
+  "feature_complete": false,
+  "scores": null,
+  "connected_initial": {
+    "passed": 5633,
+    "failed": 3,
+    "filtered": 5310
+  },
+  "rejected_persistence_diagnostic": {
+    "passed": 5632,
+    "failed": 4,
+    "retained": false
+  },
+  "compatibility_closure": {
+    "passed": 75,
+    "failed": 0,
+    "seconds": 17.305
+  },
+  "lint": {
+    "exit": 0,
+    "warnings": 0
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_paths_restored": [
+      "scripts/coordinate_gateway_cleanup.py",
+      "scripts/test_airs_gateway_cleanup.py",
+      "validation/2026-09-15/alpha15-owner-testing/publish-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/stage-alpha15-owner-test.py",
+      "validation/2026-09-15/alpha15-owner-testing/verify-alpha15-registry.py",
+      "validation/2026-09-18/mcp-manager-npm/publish.py",
+      "validation/2026-09-18/mcp-manager-npm/stage.py",
+      "validation/2026-09-18/workspace-key-release/aggregate-acceptance.py",
+      "validation/2026-09-18/workspace-key-release/check-default.py",
+      "validation/2026-09-18/workspace-key-release/check-environments.py",
+      "validation/2026-09-18/workspace-key-release/check-installed-candidate.py",
+      "validation/2026-09-18/workspace-key-release/collect-installed-evidence.py",
+      "validation/2026-09-18/workspace-key-release/publish.py",
+      "validation/2026-09-18/workspace-key-release/verify-registry.py",
+      "validation/2026-09-19/authentication-recovery/native-service-fixture.py",
+      "validation/2026-09-19/reliability-baseline/onboarding-baseline/reproduce.py",
+      "validation/2026-09-19/reliability-baseline/reproduce-doctor-backend.py"
+    ]
+  },
+  "native": "Diagnostic source includes rejected persistence write; final-source validation required.",
+  "full_workspace": "Not dispatched yet. Previous transport gate does not validate this feature.",
+  "sha256": {
+    "stage-03-04-cold-resume-connected-tests.log.gz": "805b1535c8e789c294cd67f4cd95dd89099b68dfa5ef5e6027662bb767da0de6",
+    "stage-03-04-cold-resume-connected-initial-junit.xml.gz": "3fda3f9a5791d198760a47001832b91a28857782ec5dfe5d419b3947cc9cbadc",
+    "stage-03-04-cold-resume-connected-fixed-tests.log.gz": "9538bbbe066d31d0d61c1bd38cdf84744bceb664bedd01daa7f293fe9d9831d3",
+    "stage-03-04-cold-resume-connected-checkpoint-junit.xml.gz": "f47081c3b89e92b8adf2cacc12a0eca77d9a7abc89a7d6090889297e18b638d8",
+    "stage-03-04-cold-resume-compatibility-tests.log.gz": "b4dd436b55627a7f41a1436620fbdd17d2deb46cc2fd76659761da8d680d9222",
+    "stage-03-04-cold-resume-compatibility-junit.xml.gz": "266f095499b24ef7e69100cb0520f3b914b45687de0291925a96e129e4e230cd",
+    "stage-03-04-cold-resume-lint.log.gz": "b8ccf6192b4c65690b15c4e1d33d7b0594703981a83f00f65d8670277913c1b0",
+    "stage-03-04-cold-resume-fmt.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+}

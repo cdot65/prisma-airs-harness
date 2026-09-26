@@ -173,7 +173,6 @@ async fn thread_resume_paginated_model_context_preserves_original_metadata() -> 
         /*git_info*/ None,
     )?;
     let path = rollout_path(codex_home.path(), "2025-01-05T12-00-00", &conversation_id);
-    let startup_cwd = read_session_meta_line(&path).await?.meta.cwd;
     let settings: ThreadSettingsAppliedEvent = serde_json::from_value(json!({
         "thread_id": conversation_id,
         "thread_settings": {
@@ -186,11 +185,6 @@ async fn thread_resume_paginated_model_context_preserves_original_metadata() -> 
             "collaboration_mode": { "mode": "default", "settings": { "model": "gpt-5.4" } },
         },
     }))?;
-    append_rollout_item_to_path(
-        &path,
-        &RolloutItem::EventMsg(EventMsg::ThreadSettingsApplied(settings)),
-    )
-    .await?;
     append_rollout_item_to_path(
         &path,
         &RolloutItem::Compacted(CompactedItem {
@@ -207,6 +201,11 @@ async fn thread_resume_paginated_model_context_preserves_original_metadata() -> 
             latest_token_usage_record: None,
             resume_metadata: None,
         }),
+    )
+    .await?;
+    append_rollout_item_to_path(
+        &path,
+        &RolloutItem::EventMsg(EventMsg::ThreadSettingsApplied(settings)),
     )
     .await?;
 
@@ -266,9 +265,8 @@ async fn thread_resume_paginated_model_context_preserves_original_metadata() -> 
         cwd,
         ..
     } = timeout(DEFAULT_READ_TIMEOUT, secondary.read_response(resume_id)).await??;
-    // The completed turn now permits a bounded replay ending at the compaction,
-    // so the earlier settings snapshot is outside the normal resume window.
-    assert_eq!(cwd.as_path(), startup_cwd);
+    // The settings companion follows the checkpoint and survives a cold bounded resume.
+    assert_eq!(cwd.as_path(), saved_cwd);
     assert_eq!(resumed.preview, "Saved user message");
     assert!(resumed.turns.is_empty());
 
@@ -1169,11 +1167,11 @@ async fn thread_resume_preserves_acknowledged_model_effort_and_approvals_reviewe
             thread_id: thread_id.clone(),
             cwd: Some(persisted_cwd.clone()),
             collaboration_mode: Some(CollaborationMode {
-                mode: ModeKind::Default,
+                mode: ModeKind::Plan,
                 settings: Settings {
                     model: "gpt-5.2-codex".to_string(),
                     reasoning_effort: None,
-                    developer_instructions: None,
+                    developer_instructions: Some("Persisted plan instructions".to_string()),
                 },
             }),
             ..Default::default()
@@ -1202,18 +1200,114 @@ async fn thread_resume_preserves_acknowledged_model_effort_and_approvals_reviewe
         .await?;
     let resume_id = mcp
         .send_thread_resume_request(ThreadResumeParams {
-            thread_id,
+            thread_id: thread_id.clone(),
+            model: Some("gpt-5.4".to_string()),
             ..Default::default()
         })
         .await?;
     let ThreadResumeResponse {
         cwd,
         reasoning_effort,
+        collaboration_mode,
         ..
     } = timeout(DEFAULT_READ_TIMEOUT, mcp.read_response(resume_id)).await??;
-    assert_eq!(reasoning_effort, None);
+    assert_eq!(reasoning_effort, Some(ReasoningEffort::High));
     assert_eq!(cwd.as_path(), persisted_cwd);
+    let (items, _, _) = RolloutRecorder::load_rollout_items(&rollout_path).await?;
+    let mode = items.iter().rev().find_map(|item| match item {
+        RolloutItem::EventMsg(EventMsg::ThreadSettingsApplied(event))
+            if event
+                .thread_id
+                .is_some_and(|id| id.to_string() == thread_id) =>
+        {
+            Some(event.thread_settings.collaboration_mode.clone())
+        }
+        _ => None,
+    });
+    assert_eq!(
+        collaboration_mode,
+        Some(CollaborationMode {
+            mode: ModeKind::Plan,
+            settings: Settings {
+                model: "gpt-5.4".to_string(),
+                reasoning_effort: Some(ReasoningEffort::High),
+                developer_instructions: Some("Persisted plan instructions".to_string())
+            },
+        })
+    );
+    // AIRS keeps resume-time overrides transient until a turn or explicit settings update.
+    // Reporting the effective mode must not rewrite the accepted snapshot or recency.
+    assert_eq!(
+        mode,
+        Some(CollaborationMode {
+            mode: ModeKind::Plan,
+            settings: Settings {
+                model: "gpt-5.2-codex".to_string(),
+                reasoning_effort: None,
+                developer_instructions: Some("Persisted plan instructions".to_string())
+            },
+        })
+    );
 
+    Ok(())
+}
+
+#[tokio::test]
+async fn thread_resume_restores_collaboration_mode_from_legacy_turn_context() -> Result<()> {
+    let server = create_mock_responses_server_repeating_assistant("Done").await;
+    let codex_home = TempDir::new()?;
+    let fixture = setup_rollout_fixture(codex_home.path(), &server.uri()).await?;
+    mock_responses_config(&server.uri())
+        .with_root_config("model_reasoning_effort = \"high\"")
+        .write(codex_home.path())?;
+    let saved_mode = CollaborationMode {
+        mode: ModeKind::Plan,
+        settings: Settings {
+            model: "gpt-5.2-codex".into(),
+            reasoning_effort: Some(ReasoningEffort::Low),
+            developer_instructions: Some("Legacy plan instructions".into()),
+        },
+    };
+    let context = serde_json::from_value(json!({
+        "cwd": codex_home.path(),
+        "approval_policy": "never",
+        "sandbox_policy": {"type": "read-only"},
+        "model": saved_mode.settings.model,
+        "effort": saved_mode.settings.reasoning_effort,
+        "summary": "auto",
+        "collaboration_mode": saved_mode,
+    }))?;
+    append_rollout_item_to_path(
+        &fixture.rollout_file_path,
+        &RolloutItem::TurnContext(context),
+    )
+    .await?;
+    let (items, _, _) = RolloutRecorder::load_rollout_items(&fixture.rollout_file_path).await?;
+    assert!(!items.iter().any(|item| matches!(
+        item,
+        RolloutItem::EventMsg(EventMsg::ThreadSettingsApplied(_))
+    )));
+    let mut mcp = TestAppServer::builder()
+        .with_codex_home(codex_home.path())
+        .build_initialized()
+        .await?;
+    let resume_id = mcp
+        .send_thread_resume_request(ThreadResumeParams {
+            thread_id: fixture.conversation_id,
+            model: Some("gpt-5.4".into()),
+            ..Default::default()
+        })
+        .await?;
+    let response: ThreadResumeResponse =
+        timeout(DEFAULT_READ_TIMEOUT, mcp.read_response(resume_id)).await??;
+    assert_eq!(
+        response.collaboration_mode,
+        Some(saved_mode.with_updates(
+            Some("gpt-5.4".into()),
+            Some(Some(ReasoningEffort::High)),
+            /*developer_instructions*/ None,
+        ))
+    );
     Ok(())
 }
 

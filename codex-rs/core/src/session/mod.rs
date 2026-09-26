@@ -233,6 +233,7 @@ mod mcp_runtime;
 pub(crate) mod multi_agents;
 mod realtime_history;
 mod reasoning_effort;
+mod resume_settings;
 mod retained_context;
 mod review;
 mod rollout_budget;
@@ -722,6 +723,8 @@ impl Session {
                 developer_instructions: None,
             },
         };
+        let collaboration_mode =
+            resume_settings::collaboration_mode(&conversation_history, collaboration_mode);
         let fast_mode_enabled = config.features.enabled(Feature::FastMode);
         let initial_service_tier_warning = unsupported_service_tier_warning(
             config.service_tier.as_deref(),

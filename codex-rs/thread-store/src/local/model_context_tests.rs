@@ -7,7 +7,6 @@ use codex_protocol::ThreadId;
 use codex_protocol::config_types::ReasoningSummary;
 use codex_protocol::items::TurnItem;
 use codex_protocol::items::UserMessageItem;
-use codex_protocol::models::AgentMessageInputContent;
 use codex_protocol::models::ContentItem;
 use codex_protocol::models::ResponseItem;
 use codex_protocol::protocol::AskForApproval;
@@ -34,29 +33,28 @@ use crate::local::test_support::test_config;
 use crate::local::test_support::write_session_file_with_history_mode;
 
 #[tokio::test]
-async fn loads_latest_checkpoint_with_required_turn_metadata() {
+async fn stops_at_newest_usable_compaction_and_keeps_companions() {
     let home = TempDir::new().expect("temp dir");
     let uuid = Uuid::from_u128(/*v*/ 1001);
-    let thread_id = codex_protocol::ThreadId::from_string(&uuid.to_string()).expect("thread id");
-    write_paginated_rollout(
+    let thread_id = ThreadId::from_string(&uuid.to_string()).expect("thread id");
+    let world_state = RolloutItem::WorldState(WorldStateItem::full(Default::default()));
+    let turn_context = turn_context(home.path(), "companion");
+    let path = write_paginated_rollout(
         home.path(),
         "2025-01-03T13-00-00",
         uuid,
         [
-            turn_started("turn-1"),
-            user_message("older turn"),
-            completed_user_message("turn-1", "older turn"),
-            turn_context(home.path(), "turn-1"),
-            compacted("older checkpoint", Some(Vec::new())),
-            turn_complete("turn-1"),
-            turn_started("turn-2"),
-            user_message("latest turn"),
-            completed_user_message("turn-2", "latest turn"),
-            turn_context(home.path(), "turn-2"),
-            compacted("latest checkpoint", Some(Vec::new())),
-            turn_complete("turn-2"),
+            user_message("older history"),
+            compacted("older compaction", Some(Vec::new())),
+            user_message("superseded suffix"),
+            compacted("latest compaction", Some(Vec::new())),
+            world_state.clone(),
+            turn_context.clone(),
         ],
     );
+    let session_meta = codex_rollout::read_session_meta_line(path.as_path())
+        .await
+        .expect("read session metadata");
     let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
 
     let context = store
@@ -67,19 +65,16 @@ async fn loads_latest_checkpoint_with_required_turn_metadata() {
         .await
         .expect("load model context");
 
-    assert!(matches!(
-        context.items.first(),
-        Some(RolloutItem::SessionMeta(_))
-    ));
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::Compacted(compacted) if compacted.message == "latest checkpoint")
-    }));
-    assert!(!context.items.iter().any(|item| {
-        matches!(item, RolloutItem::Compacted(compacted) if compacted.message == "older checkpoint")
-    }));
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-2"))
-    }));
+    assert_eq!(
+        serde_json::to_value(context.items).expect("serialize context"),
+        serde_json::to_value(vec![
+            RolloutItem::SessionMeta(session_meta),
+            compacted("latest compaction", Some(Vec::new())),
+            world_state,
+            turn_context,
+        ])
+        .expect("serialize expected context")
+    );
 }
 
 #[tokio::test]
@@ -103,10 +98,10 @@ async fn loads_recent_context_after_many_empty_wake_turns() {
     for index in 0..32 {
         let turn_id = format!("wake-{index}");
         let mut items = vec![turn_started(&turn_id)];
-        if index % 8 == 0 {
-            expected_suffix.clear();
+        let starts_new_window = index % 8 == 0;
+        if starts_new_window {
             items.extend([
-                compacted(&format!("checkpoint-{index}"), Some(Vec::new())),
+                compacted(&format!("compaction-{index}"), Some(Vec::new())),
                 RolloutItem::WorldState(WorldStateItem::full(Default::default())),
             ]);
         }
@@ -116,7 +111,11 @@ async fn loads_recent_context_after_many_empty_wake_turns() {
             turn_complete(&turn_id),
         ]);
         append_items(&path, items.clone());
-        expected_suffix.extend(items);
+        if starts_new_window {
+            expected_suffix = items.into_iter().skip(1).collect();
+        } else {
+            expected_suffix.extend(items);
+        }
     }
     let session_meta = codex_rollout::read_session_meta_line(&path)
         .await
@@ -135,59 +134,6 @@ async fn loads_recent_context_after_many_empty_wake_turns() {
         serde_json::to_value(context.items).expect("serialize context"),
         serde_json::to_value(expected_suffix).expect("serialize expected context")
     );
-}
-
-#[tokio::test]
-async fn empty_wake_requires_surviving_full_world_state_and_matching_context() {
-    enum MissingBaseline {
-        SnapshotBeforeCompaction,
-        PatchOnly,
-        MissingContext,
-        IncompatibleContext,
-    }
-    for baseline in [
-        MissingBaseline::SnapshotBeforeCompaction,
-        MissingBaseline::PatchOnly,
-        MissingBaseline::MissingContext,
-        MissingBaseline::IncompatibleContext,
-    ] {
-        let home = TempDir::new().expect("temp dir");
-        let path = write_paginated_rollout(
-            home.path(),
-            "2025-01-03T13-00-08",
-            Uuid::from_u128(/*v*/ 1009),
-            [
-                turn_started("user-turn"),
-                completed_user_message("user-turn", "keep working"),
-                turn_context(home.path(), "user-turn"),
-                turn_complete("user-turn"),
-                turn_started("wake"),
-            ],
-        );
-        let full = RolloutItem::WorldState(WorldStateItem::full(Default::default()));
-        let checkpoint = compacted("checkpoint", Some(Vec::new()));
-        let context = turn_context(home.path(), "wake");
-        let items = match baseline {
-            MissingBaseline::SnapshotBeforeCompaction => vec![full, checkpoint, context],
-            MissingBaseline::PatchOnly => vec![
-                checkpoint,
-                RolloutItem::WorldState(WorldStateItem::patch(Default::default())),
-                context,
-            ],
-            MissingBaseline::MissingContext => vec![checkpoint, full],
-            MissingBaseline::IncompatibleContext => {
-                vec![
-                    checkpoint,
-                    full,
-                    turn_context(home.path(), "different-turn"),
-                ]
-            }
-        };
-        append_items(&path, items);
-        append_items(&path, [turn_complete("wake")]);
-
-        assert_reverse_scan_matches_full_history(home.path(), &path).await;
-    }
 }
 
 #[tokio::test]
@@ -229,72 +175,39 @@ async fn fork_context_excludes_items_after_frozen_cutoff() {
 }
 
 #[tokio::test]
-async fn loads_turn_metadata_across_an_older_checkpoint() {
-    let home = TempDir::new().expect("temp dir");
-    let uuid = Uuid::from_u128(/*v*/ 1006);
-    let thread_id = codex_protocol::ThreadId::from_string(&uuid.to_string()).expect("thread id");
-    write_paginated_rollout(
-        home.path(),
-        "2025-01-03T13-00-05",
-        uuid,
-        [
-            turn_started("turn-0"),
-            user_message("oldest turn"),
-            completed_user_message("turn-0", "oldest turn"),
-            turn_context(home.path(), "turn-0"),
-            turn_complete("turn-0"),
-            turn_started("turn-1"),
-            user_message("metadata turn"),
-            completed_user_message("turn-1", "metadata turn"),
-            turn_context(home.path(), "turn-1"),
-            compacted("older checkpoint", Some(Vec::new())),
-            turn_complete("turn-1"),
-            turn_started("turn-2"),
-            compacted("latest checkpoint", Some(Vec::new())),
-            turn_complete("turn-2"),
-        ],
-    );
-    let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
-
-    let context = store
-        .load_latest_model_context(LoadThreadHistoryParams {
-            thread_id,
-            include_archived: false,
-        })
-        .await
-        .expect("load model context");
-
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::Compacted(compacted) if compacted.message == "latest checkpoint")
-    }));
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-1"))
-    }));
-    assert!(!context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-0"))
-    }));
-}
-
-#[tokio::test]
 async fn returns_scanned_full_history_for_unsupported_compaction() {
-    let home = TempDir::new().expect("temp dir");
-    let uuid = Uuid::from_u128(/*v*/ 1002);
-    let path = write_paginated_rollout(
-        home.path(),
-        "2025-01-03T13-00-01",
-        uuid,
-        [
-            turn_started("turn-1"),
-            user_message("turn"),
-            completed_user_message("turn-1", "turn"),
-            turn_context(home.path(), "turn-1"),
-            compacted("usable checkpoint", Some(Vec::new())),
-            compacted("legacy checkpoint", /*replacement_history*/ None),
-            turn_complete("turn-1"),
-        ],
-    );
+    enum MissingField {
+        ReplacementHistory,
+        WindowNumber,
+    }
 
-    assert_reverse_scan_matches_full_history(home.path(), path.as_path()).await;
+    for (index, missing_field) in [MissingField::ReplacementHistory, MissingField::WindowNumber]
+        .into_iter()
+        .enumerate()
+    {
+        let home = TempDir::new().expect("temp dir");
+        let uuid = Uuid::from_u128(1002 + index as u128);
+        let mut unsupported = compacted("unsupported compaction", Some(Vec::new()));
+        let RolloutItem::Compacted(unsupported_compaction) = &mut unsupported else {
+            unreachable!("compacted helper returns a compaction");
+        };
+        match missing_field {
+            MissingField::ReplacementHistory => unsupported_compaction.replacement_history = None,
+            MissingField::WindowNumber => unsupported_compaction.window_number = None,
+        }
+        let path = write_paginated_rollout(
+            home.path(),
+            "2025-01-03T13-00-01",
+            uuid,
+            [
+                user_message("older history"),
+                compacted("older usable compaction", Some(Vec::new())),
+                unsupported,
+            ],
+        );
+
+        assert_reverse_scan_matches_full_history(home.path(), path.as_path()).await;
+    }
 }
 
 #[tokio::test]
@@ -315,83 +228,6 @@ async fn returns_scanned_full_history_at_bof_without_checkpoint() {
     );
 
     assert_reverse_scan_matches_full_history(home.path(), path.as_path()).await;
-}
-
-#[tokio::test]
-async fn uses_agent_message_turn_context_without_scanning_older_turn() {
-    let home = TempDir::new().expect("temp dir");
-    let uuid = Uuid::from_u128(/*v*/ 1004);
-    let thread_id = codex_protocol::ThreadId::from_string(&uuid.to_string()).expect("thread id");
-    write_paginated_rollout(
-        home.path(),
-        "2025-01-03T13-00-03",
-        uuid,
-        [
-            turn_started("turn-1"),
-            user_message("older turn"),
-            completed_user_message("turn-1", "older turn"),
-            turn_context(home.path(), "turn-1"),
-            compacted("checkpoint", Some(Vec::new())),
-            turn_complete("turn-1"),
-            turn_started("turn-2"),
-            turn_context(home.path(), "turn-2"),
-            agent_message("child done"),
-            turn_complete("turn-2"),
-        ],
-    );
-    let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
-
-    let context = store
-        .load_latest_model_context(LoadThreadHistoryParams {
-            thread_id,
-            include_archived: false,
-        })
-        .await
-        .expect("load model context");
-
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-2"))
-    }));
-    assert!(!context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-1"))
-    }));
-}
-
-#[tokio::test]
-async fn ignores_contextual_user_messages_when_selecting_turn_context() {
-    let home = TempDir::new().expect("temp dir");
-    let uuid = Uuid::from_u128(/*v*/ 1005);
-    let thread_id = codex_protocol::ThreadId::from_string(&uuid.to_string()).expect("thread id");
-    write_paginated_rollout(
-        home.path(),
-        "2025-01-03T13-00-04",
-        uuid,
-        [
-            turn_started("turn-1"),
-            user_message("real user turn"),
-            completed_user_message("turn-1", "real user turn"),
-            turn_context(home.path(), "turn-1"),
-            compacted("checkpoint", Some(Vec::new())),
-            turn_complete("turn-1"),
-            turn_started("turn-2"),
-            contextual_user_message(),
-            turn_context(home.path(), "turn-2"),
-            turn_complete("turn-2"),
-        ],
-    );
-    let store = LocalThreadStore::new(test_config(home.path()), /*state_db*/ None);
-
-    let context = store
-        .load_latest_model_context(LoadThreadHistoryParams {
-            thread_id,
-            include_archived: false,
-        })
-        .await
-        .expect("load model context");
-
-    assert!(context.items.iter().any(|item| {
-        matches!(item, RolloutItem::TurnContext(context) if context.turn_id.as_deref() == Some("turn-1"))
-    }));
 }
 
 #[tokio::test]
@@ -711,21 +547,6 @@ fn completed_user_message(turn_id: &str, message: &str) -> RolloutItem {
     }))
 }
 
-fn agent_message(message: &str) -> RolloutItem {
-    RolloutItem::ResponseItem(
-        ResponseItem::AgentMessage {
-            id: None,
-            author: "worker".to_string(),
-            recipient: "root".to_string(),
-            content: vec![AgentMessageInputContent::InputText {
-                text: message.to_string(),
-            }],
-            internal_chat_message_metadata_passthrough: None,
-        }
-        .into(),
-    )
-}
-
 fn turn_context(root: &Path, turn_id: &str) -> RolloutItem {
     RolloutItem::TurnContext(TurnContextItem {
         turn_id: Some(turn_id.to_string()),
@@ -770,4 +591,31 @@ fn compacted(message: &str, replacement_history: Option<Vec<ResponseItem>>) -> R
         latest_token_usage_record: None,
         resume_metadata: None,
     })
+}
+
+#[tokio::test]
+async fn rollback_after_current_checkpoint_requires_full_scan() {
+    let home = TempDir::new().expect("temp dir");
+    let mut checkpoint = compacted("current checkpoint", Some(Vec::new()));
+    let RolloutItem::Compacted(value) = &mut checkpoint else {
+        unreachable!()
+    };
+    value.resume_metadata = Some(codex_rollout::CompactionResumeMetadata {
+        multi_agent_version: None,
+        last_started_turn_id: None,
+        previous_turn_settings: None,
+    });
+    let path = write_paginated_rollout(
+        home.path(),
+        "2025-01-03T13-00-09",
+        Uuid::new_v4(),
+        [
+            user_message("older input"),
+            checkpoint,
+            RolloutItem::EventMsg(EventMsg::ThreadRolledBack(
+                codex_protocol::protocol::ThreadRolledBackEvent { num_turns: 1 },
+            )),
+        ],
+    );
+    assert_reverse_scan_matches_full_history(home.path(), path.as_path()).await;
 }

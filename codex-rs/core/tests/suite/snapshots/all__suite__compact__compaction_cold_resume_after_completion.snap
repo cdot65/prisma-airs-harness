@@ -1,0 +1,45 @@
+---
+source: core/tests/suite/compact.rs
+assertion_line: 4430
+expression: "format_labeled_requests_snapshot(\"AIRS paginated mid-turn compaction and cold resume from the bounded suffix.\",\n&[(\"Initial request\", &requests[0]), (\"Compaction request\", &requests[1]),\n(\"Continuation request\", &requests[2]),\n(\"Cold resume request\", &requests[3]),],)"
+---
+Scenario: AIRS paginated mid-turn compaction and cold resume from the bounded suffix.
+
+## Initial request
+00:message/developer[2]:
+    [01] <PERMISSIONS_INSTRUCTIONS>
+    [02] <collaboration_mode>Preserve the compaction's plan instructions....
+01:message/developer:You are `/root`, the primary agent in a team of agents collabora...
+02:message/developer:<multi_agent_mode>Any earlier instruction enabling proactive mul...
+03:message/user:function call limit push
+
+## Compaction request
+00:message/developer[2]:
+    [01] <PERMISSIONS_INSTRUCTIONS>
+    [02] <collaboration_mode>Preserve the compaction's plan instructions....
+01:message/developer:You are `/root`, the primary agent in a team of agents collabora...
+02:message/developer:<multi_agent_mode>Any earlier instruction enabling proactive mul...
+03:message/user:function call limit push
+04:function_call/test_tool
+05:function_call_output:unsupported call: test_tool
+06:message/user:<SUMMARIZATION_PROMPT>
+
+## Continuation request
+00:message/developer[2]:
+    [01] <PERMISSIONS_INSTRUCTIONS>
+    [02] <collaboration_mode>Preserve the compaction's plan instructions....
+01:message/developer:You are `/root`, the primary agent in a team of agents collabora...
+02:message/developer:<multi_agent_mode>Any earlier instruction enabling proactive mul...
+03:message/user:function call limit push
+04:message/user:<COMPACTION_SUMMARY>\nAUTO_SUMMARY
+
+## Cold resume request
+00:message/developer[2]:
+    [01] <PERMISSIONS_INSTRUCTIONS>
+    [02] <collaboration_mode>Preserve the compaction's plan instructions....
+01:message/developer:You are `/root`, the primary agent in a team of agents collabora...
+02:message/developer:<multi_agent_mode>Any earlier instruction enabling proactive mul...
+03:message/user:function call limit push
+04:message/user:<COMPACTION_SUMMARY>\nAUTO_SUMMARY
+05:message/assistant:continued
+06:message/user:continue after cold resume

@@ -1,0 +1,18 @@
+{
+  "upstream": "ced02c5c38",
+  "status": "prerequisite tested; transport feature incomplete",
+  "linux": {
+    "passed": 403,
+    "skipped": 0
+  },
+  "lint": "completed with large_enum_variant warning; review item remains open",
+  "format": "passed",
+  "scores": null,
+  "release_ready": false,
+  "evidence": {
+    "body-limits-tests.log.gz": "fba828b5dee2a365bd39ca87db07d29a4d9f0063f8168f10f5cc6cb4d79a5a28",
+    "body-limits-clippy.log.gz": "1818f41fb1bfa5eea1997ae71af064b730e9b6c75f41c51de8b3c11560014788",
+    "body-limits-format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "body-limits-junit.xml.gz": "9b2c52bf1ba99988e7397f3175544cfd9514440c387d1fdfe9c6e60f64723258"
+  }
+}

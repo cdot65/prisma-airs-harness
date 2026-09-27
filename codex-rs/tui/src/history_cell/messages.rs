@@ -14,7 +14,6 @@ use std::borrow::Cow;
 pub(crate) struct UserHistoryCell {
     pub message: String,
     pub text_elements: Vec<TextElement>,
-    #[allow(dead_code)]
     pub local_image_paths: Vec<PathBuf>,
     pub remote_image_urls: Vec<String>,
 }
@@ -149,8 +148,19 @@ fn build_user_message_lines_with_elements(
     raw_lines
 }
 
-fn remote_image_display_line(style: Style, index: usize) -> Line<'static> {
-    Line::from(local_image_label_text(index)).style(style)
+impl UserHistoryCell {
+    fn image_labels_not_in_message(&self) -> impl Iterator<Item = String> + '_ {
+        // Composer images already have placeholders; command-line images may not.
+        // Both kinds must keep an image-only user turn visible after submission.
+        (1..=self.remote_image_urls.len() + self.local_image_paths.len())
+            .map(local_image_label_text)
+            .filter(|label| {
+                !self
+                    .text_elements
+                    .iter()
+                    .any(|element| element.placeholder(&self.message) == Some(label.as_str()))
+            })
+    }
 }
 
 impl HistoryCell for UserHistoryCell {
@@ -174,20 +184,12 @@ impl HistoryCell for UserHistoryCell {
         let style = user_message_style();
         let element_style = style.fg(Color::Cyan);
 
-        let wrapped_remote_images = if self.remote_image_urls.is_empty() {
-            None
-        } else {
-            Some(plain_hyperlink_lines(adaptive_wrap_lines(
-                self.remote_image_urls
-                    .iter()
-                    .enumerate()
-                    .map(|(idx, _url)| {
-                        remote_image_display_line(element_style, idx.saturating_add(1))
-                    }),
-                RtOptions::new(usize::from(wrap_width))
-                    .wrap_algorithm(textwrap::WrapAlgorithm::FirstFit),
-            )))
-        };
+        let wrapped_images = plain_hyperlink_lines(adaptive_wrap_lines(
+            self.image_labels_not_in_message()
+                .map(|label| Line::from(label).style(element_style)),
+            RtOptions::new(usize::from(wrap_width))
+                .wrap_algorithm(textwrap::WrapAlgorithm::FirstFit),
+        ));
 
         let wrapped_message = if message.is_empty() && text_elements.is_empty() {
             None
@@ -237,15 +239,15 @@ impl HistoryCell for UserHistoryCell {
             (!wrapped.is_empty()).then_some(wrapped)
         };
 
-        if wrapped_remote_images.is_none() && wrapped_message.is_none() {
+        if wrapped_images.is_empty() && wrapped_message.is_none() {
             return Vec::new();
         }
 
         let mut lines = vec![HyperlinkLine::new(Line::from("").style(style))];
 
-        if let Some(wrapped_remote_images) = wrapped_remote_images {
+        if !wrapped_images.is_empty() {
             lines.extend(prefix_hyperlink_lines(
-                wrapped_remote_images,
+                wrapped_images,
                 "  ".into(),
                 "  ".into(),
             ));
@@ -276,16 +278,12 @@ impl HistoryCell for UserHistoryCell {
     fn raw_lines(&self) -> Vec<Line<'static>> {
         let message = sanitize_user_text((&self.message).into());
         let mut lines = raw_lines_from_source(message.as_ref().trim_end_matches(['\r', '\n']));
-        if !self.remote_image_urls.is_empty() {
+        let mut image_labels = self.image_labels_not_in_message().peekable();
+        if image_labels.peek().is_some() {
             if !lines.is_empty() {
                 lines.push(Line::from(""));
             }
-            lines.extend(
-                self.remote_image_urls
-                    .iter()
-                    .enumerate()
-                    .map(|(idx, _url)| Line::from(local_image_label_text(idx.saturating_add(1)))),
-            );
+            lines.extend(image_labels.map(Line::from));
         }
         lines
     }

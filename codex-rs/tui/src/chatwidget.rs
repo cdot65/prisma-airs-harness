@@ -440,6 +440,7 @@ mod tool_lifecycle;
 mod tool_requests;
 mod transcript;
 mod transcript_export;
+mod tui_mode_picker;
 use self::transcript::TranscriptState;
 mod airs_doctor;
 mod airs_mcp_manager;

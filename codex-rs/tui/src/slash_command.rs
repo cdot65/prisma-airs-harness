@@ -48,6 +48,7 @@ pub enum SlashCommand {
     Copy,
     Export,
     Raw,
+    Tui,
     Diff,
     Mention,
     Status,
@@ -116,6 +117,7 @@ impl SlashCommand {
             SlashCommand::Copy => "copy the last response or part of it",
             SlashCommand::Export => "export the conversation as markdown",
             SlashCommand::Raw => "toggle raw scrollback mode for copy-friendly terminal selection",
+            SlashCommand::Tui => "choose the TUI mode for the next launch",
             SlashCommand::Diff => "show git diff (including untracked files)",
             SlashCommand::Mention => "mention a file",
             SlashCommand::Skills => "use skills to improve how Codex performs specific tasks",
@@ -268,6 +270,7 @@ impl SlashCommand {
             | SlashCommand::Recap
             | SlashCommand::Export
             | SlashCommand::Keymap
+            | SlashCommand::Tui
             | SlashCommand::Vim
             | SlashCommand::ElevateSandbox
             | SlashCommand::SandboxReadRoot

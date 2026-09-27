@@ -1,0 +1,23 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(tui_mode) | test(slash_command) | test(command_popup) | test(local_settings) | test(terminal_mode)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 53.5737407207489
+}

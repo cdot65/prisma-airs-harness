@@ -3015,6 +3015,9 @@ impl App {
                     ));
                 }
             },
+            AppEvent::FullscreenTranscriptSelected { enabled } => {
+                self.save_fullscreen_transcript(enabled).await;
+            }
             AppEvent::StatusLineSetup {
                 items,
                 use_theme_colors,

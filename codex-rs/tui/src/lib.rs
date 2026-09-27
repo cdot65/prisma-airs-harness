@@ -226,6 +226,7 @@ mod terminal_probe;
 mod terminal_title;
 mod terminal_visualization_instructions;
 mod text_formatting;
+mod text_selection;
 mod theme_picker;
 mod thread_transcript;
 mod token_usage;

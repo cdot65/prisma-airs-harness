@@ -28,6 +28,42 @@ async fn check_private_dialogs(search: SearchState) -> Result<()> {
     app.transcript_cells = vec![Arc::new(history_cell::PlainHistoryCell::new(vec![
         "public transcript content".into(),
     ]))];
+    let size = tui.terminal.size()?;
+    app.render_owned_transcript(&mut tui, size)?;
+    let end = tui.terminal.last_known_cursor_pos;
+    let start = end.x - "preserve this unsent draft".len() as u16;
+    for (kind, column) in [
+        (
+            crossterm::event::MouseEventKind::Down(crossterm::event::MouseButton::Left),
+            start,
+        ),
+        (
+            crossterm::event::MouseEventKind::Drag(crossterm::event::MouseButton::Left),
+            start + 8,
+        ),
+        (
+            crossterm::event::MouseEventKind::Up(crossterm::event::MouseButton::Left),
+            start + 8,
+        ),
+    ] {
+        app.handle_owned_transcript_event(
+            &mut tui,
+            &mut server,
+            &TuiEvent::Mouse(crossterm::event::MouseEvent {
+                kind,
+                column,
+                row: end.y,
+                modifiers: KeyModifiers::NONE,
+            }),
+        )?;
+    }
+    let copy_event = TuiEvent::Key(KeyEvent::new(KeyCode::Char('c'), KeyModifiers::SUPER));
+    assert!(
+        app.handle_composer_copy_event(&mut tui, &copy_event, |_, text| {
+            assert_eq!(text, "preserve");
+            Ok(crate::clipboard_copy::CopyStatus::Confirmed)
+        })
+    );
     if matches!(search, SearchState::Active) {
         app.transcript_view.begin_search();
         app.transcript_view.paste_search("public transcript");
@@ -51,6 +87,11 @@ async fn check_private_dialogs(search: SearchState) -> Result<()> {
         app.chat_widget.show_bottom_pane_view(view);
         app.handle_tui_event(&mut tui, &mut server, TuiEvent::Paste(private.into()))
             .await?;
+        assert!(
+            !app.handle_composer_copy_event(&mut tui, &copy_event, |_, _| {
+                panic!("private dialog must block the underlying draft clipboard")
+            })
+        );
         // Selection's fixed shortcut must not steal a private dialog's input.
         app.handle_tui_event(
             &mut tui,

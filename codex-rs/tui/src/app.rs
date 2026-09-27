@@ -854,6 +854,9 @@ impl App {
         app_server: &mut AppServerSession,
         event: TuiEvent,
     ) -> Result<AppRunControl> {
+        if self.handle_composer_copy_event(tui, &event, tui::Tui::copy_transcript_selection) {
+            return Ok(AppRunControl::Continue);
+        }
         let transcript_owns_input = match (&event, &self.overlay) {
             (TuiEvent::Key(key), Some(Overlay::Transcript(overlay))) => {
                 overlay.owns_interaction_key(*key)

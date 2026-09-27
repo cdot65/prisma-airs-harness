@@ -1,4 +1,4 @@
-//! Compose the owned transcript above the existing composer and route transcript-only gestures.
+//! Compose the owned transcript above the composer and route their selection gestures.
 //! Reserve a cleared row between transcript content and the composer. Slash suggestions overlay
 //! already-painted rows so opening or closing them leaves transcript geometry unchanged.
 //! Fresh-thread decoration is painted separately in unused cells and never enters history.
@@ -15,6 +15,30 @@ use crate::transcript_view::ViewAction;
 use ratatui::widgets::Widget;
 
 impl App {
+    /// Copy draft selections before interrupt/exit shortcuts and configurable chords can consume C.
+    pub(super) fn handle_composer_copy_event(
+        &mut self,
+        tui: &mut tui::Tui,
+        event: &TuiEvent,
+        copy: impl FnOnce(&mut tui::Tui, &str) -> Result<crate::clipboard_copy::CopyStatus, String>,
+    ) -> bool {
+        if let TuiEvent::Key(key) = event
+            && tui.is_owned_screen()
+            && self.overlay.is_none()
+            && !self.transcript_view.has_active_interaction()
+            && let Some(text) = self.chat_widget.composer_selection_for_copy(*key)
+        {
+            self.cancel_pending_key_chord();
+            self.chat_widget.end_composer_drag();
+            let result = copy(tui, &text);
+            self.transcript_view
+                .show_copy_feedback(&result, text.chars().count());
+            tui.frame_requester().schedule_frame();
+            return true;
+        }
+        false
+    }
+
     fn sync_owned_transcript(&mut self, width: u16) -> bool {
         let chat_widget = &self.chat_widget;
         let transcript_width = chat_widget.history_wrap_width(width);
@@ -177,6 +201,12 @@ impl App {
         {
             self.transcript_view.end_drag();
         }
+        if !tui.is_owned_screen()
+            || matches!(event, TuiEvent::FocusLost | TuiEvent::Resume)
+            || self.overlay.is_some()
+        {
+            self.chat_widget.end_composer_drag();
+        }
         if !tui.is_owned_screen() || self.overlay.is_some() {
             return Ok(false);
         }
@@ -198,14 +228,36 @@ impl App {
             }
             return Ok(false);
         }
+        if let TuiEvent::Mouse(mouse) = event {
+            let composer_ready = self.chat_widget.prepare_composer_mouse(*mouse);
+            if mouse.kind != crossterm::event::MouseEventKind::Moved {
+                let size = tui.prepare_draw_size()?;
+                self.render_owned_transcript(tui, size)?;
+            }
+            if composer_ready && self.chat_widget.handle_composer_mouse(*mouse) {
+                // An explicit composer gesture ends prompt navigation before typing resumes.
+                if self.backtrack.overlay_preview_active {
+                    self.cancel_transcript_browsing(tui);
+                }
+                self.transcript_view.end_selection(&self.transcript_cells);
+                self.transcript_view.cancel_search();
+                self.transcript_view.clear_activity_focus();
+                tui.frame_requester().schedule_frame();
+                return Ok(true);
+            }
+        }
         if !self.chat_widget.no_modal_or_popup_active() {
+            self.chat_widget.end_composer_drag();
             return Ok(false);
         }
-        let input = matches!(event, TuiEvent::Key(key) if key.kind != KeyEventKind::Release)
-            || matches!(event, TuiEvent::Mouse(mouse) if mouse.kind != crossterm::event::MouseEventKind::Moved);
-        if input {
+        if matches!(event, TuiEvent::Key(key) if key.kind != KeyEventKind::Release) {
             let size = tui.prepare_draw_size()?;
             self.render_owned_transcript(tui, size)?;
+        }
+        if matches!(event, TuiEvent::Key(_))
+            || matches!(event, TuiEvent::Mouse(mouse) if matches!(mouse.kind, crossterm::event::MouseEventKind::Down(_)))
+        {
+            self.chat_widget.end_composer_drag();
         }
         if !self.transcript_view.has_active_interaction()
             && self.chat_widget.shortcut_overlay_visible()

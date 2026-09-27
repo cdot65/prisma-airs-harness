@@ -1,0 +1,33 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(transcript_view) | test(mouse) | test(composer) | test(textarea) | test(private_dialog) | test(paste_burst) | test(owned_transcript)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 100,
+  "elapsed_seconds": 208.5698595046997,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "799",
+    "skipped": "0",
+    "failures": "1",
+    "errors": "0",
+    "uuid": "7f65071c-9d48-49e6-9228-10b9bb1dda1f",
+    "timestamp": "2026-09-27T07:30:54.076+00:00",
+    "time": "16.001"
+  }
+}

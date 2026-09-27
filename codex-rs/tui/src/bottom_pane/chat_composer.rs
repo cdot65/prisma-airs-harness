@@ -197,6 +197,7 @@
 //! The burst detector can also be disabled (`disable_paste_burst`), which bypasses the state
 //! machine and treats the key stream as normal typing. When toggling from enabled → disabled, the
 //! composer flushes/clears any in-flight burst state so it cannot leak into subsequent input.
+//! Mouse edits flush pending typing; selection and copy behavior lives in [`mouse`].
 //!
 //! For the detailed burst state machine, see `codex-rs/tui/src/bottom_pane/paste_burst.rs`.
 //!
@@ -320,6 +321,7 @@ mod draft_state;
 mod footer_state;
 mod history_search;
 mod inline_input;
+mod mouse;
 mod popup_state;
 mod reconnect;
 pub(crate) use reconnect::RestrictedInputMode;
@@ -1218,6 +1220,7 @@ impl ChatComposer {
             return true;
         }
         let started_vim_edit = self.begin_direct_vim_edit();
+        let elements_before = self.draft.textarea.element_payloads();
         let char_count = pasted.chars().count();
         if char_count > LARGE_PASTE_CHAR_THRESHOLD {
             let placeholder = self.next_large_paste_placeholder(char_count);
@@ -1235,6 +1238,7 @@ impl ChatComposer {
             self.insert_str(&pasted);
         }
         self.draft.paste_burst.clear_after_explicit_paste();
+        self.reconcile_deleted_elements(elements_before);
         self.sync_popups();
         if started_vim_edit {
             self.finish_vim_edit();
@@ -1846,8 +1850,10 @@ impl ChatComposer {
     /// Insert an attachment placeholder and track it for the next submission.
     pub fn attach_image(&mut self, path: PathBuf) {
         let started_vim_edit = self.begin_direct_vim_edit();
+        let elements_before = self.draft.textarea.element_payloads();
         self.attachments
             .attach_image(&mut self.draft.textarea, path);
+        self.reconcile_deleted_elements(elements_before);
         if started_vim_edit {
             self.finish_vim_edit();
         }
@@ -1972,16 +1978,6 @@ impl ChatComposer {
             base
         } else {
             format!("{base} #{}", max_suffix + 1)
-        }
-    }
-
-    pub(crate) fn insert_str(&mut self, text: &str) {
-        let started_vim_edit = self.begin_direct_vim_edit();
-        self.draft.textarea.insert_str(text);
-        self.sync_bash_mode_from_text();
-        self.sync_popups();
-        if started_vim_edit {
-            self.finish_vim_edit();
         }
     }
 
@@ -2127,12 +2123,9 @@ impl ChatComposer {
         if let Some(pasted) = self.draft.paste_burst.flush_before_modified_input() {
             self.handle_paste(pasted);
         }
+        let elements_before = self.draft.textarea.element_payloads();
         self.draft.textarea.input(input);
-
-        let text_after = self.draft.textarea.text();
-        self.draft
-            .pending_pastes
-            .retain(|(placeholder, _)| text_after.contains(placeholder));
+        self.reconcile_deleted_elements(elements_before);
         (InputResult::None, true)
     }
 
@@ -3467,6 +3460,9 @@ impl ChatComposer {
         &mut self,
         key_event: &KeyEvent,
     ) -> Option<(InputResult, bool)> {
+        if self.draft.textarea.mouse_selection_range().is_some() {
+            return None;
+        }
         let removes_remote_image = matches!(key_event.code, KeyCode::Delete | KeyCode::Backspace)
             && self.attachments.selected_remote_image_index.is_some();
         let started_vim_edit = removes_remote_image && self.begin_direct_vim_edit();
@@ -3573,9 +3569,11 @@ impl ChatComposer {
             )
         };
         if history_up_pressed || history_down_pressed {
-            if self
-                .history
-                .should_handle_navigation(&self.current_text(), self.history_navigation_cursor())
+            if self.draft.textarea.mouse_selection_range().is_none()
+                && self.history.should_handle_navigation(
+                    &self.current_text(),
+                    self.history_navigation_cursor(),
+                )
             {
                 let replace_entry = if history_up_pressed {
                     self.history.navigate_up(&self.app_event_tx)
@@ -3962,7 +3960,7 @@ impl ChatComposer {
             self.popups.dismissed_mention_token = None;
             return;
         }
-        if !self.popups_enabled() {
+        if !self.popups_enabled() || self.draft.textarea.mouse_selection_range().is_some() {
             self.popups.active = ActivePopup::None;
             return;
         }

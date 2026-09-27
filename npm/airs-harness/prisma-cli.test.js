@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, mkdirSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, mkdirSync, realpathSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
-function fixture(t, version = "7.1.5") {
+const expectedCliVersion = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")).dependencies["@cdot65/prisma-airs-cli"];
+
+function fixture(t, version = expectedCliVersion) {
   const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), "airs-cli-integration-")));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const harness = path.join(root, "node_modules", "airs-harness");

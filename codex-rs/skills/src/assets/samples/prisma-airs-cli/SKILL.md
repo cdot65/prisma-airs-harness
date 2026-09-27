@@ -5,7 +5,7 @@ description: "Configure and diagnose the harness-managed Prisma AIRS CLI, select
 
 # Prisma AIRS CLI setup and diagnosis
 
-The harness bundles `@cdot65/prisma-airs-cli` **7.1.2**, pinned to SDK **0.33.0**. Users invoke `airs cli ...` from their terminal. Agent shell tools must use `"$AIRS_MANAGED_CLI" ...` (POSIX) or `& $env:AIRS_MANAGED_CLI ...` (PowerShell). This absolute managed executable stays correct if a login shell changes PATH. `airs` is the harness; a global `airs-cli` may be a different version. Do not install another CLI as a workaround.
+The harness bundles an exact version of `@cdot65/prisma-airs-cli` and its SDK dependency. Check the managed `--version`; use that version’s help as the command contract. Users invoke `airs cli ...` from their terminal. Agent shell tools must use `"$AIRS_MANAGED_CLI" ...` (POSIX) or `& $env:AIRS_MANAGED_CLI ...` (PowerShell). This absolute managed executable stays correct if a login shell changes PATH. `airs` is the harness; a global `airs-cli` may be a different version. Do not install another CLI as a workaround.
 
 ## Diagnose the selected tenant
 

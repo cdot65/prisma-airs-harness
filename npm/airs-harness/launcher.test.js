@@ -25,9 +25,9 @@ function fixture(t, native, layout = "legacy") {
   const cli = path.join(root, "node_modules", "@cdot65", "prisma-airs-cli");
   mkdirSync(cli, { recursive: true });
   writeFileSync(path.join(cli, "package.json"), JSON.stringify({
-    name: "@cdot65/prisma-airs-cli", version: "7.1.5", bin: { "airs-cli": "index.js" },
+    name: "@cdot65/prisma-airs-cli", version: manifest.dependencies["@cdot65/prisma-airs-cli"], bin: { "airs-cli": "index.js" },
   }));
-  writeFileSync(path.join(cli, "index.js"), "console.log('7.1.5')");
+  writeFileSync(path.join(cli, "index.js"), `console.log(${JSON.stringify(manifest.dependencies["@cdot65/prisma-airs-cli"])});`);
   if (native !== undefined) {
     const target = path.join(root, "node_modules", dependency);
     mkdirSync(path.join(target, "bin"), { recursive: true });

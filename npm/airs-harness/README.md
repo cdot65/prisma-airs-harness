@@ -4,6 +4,16 @@
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
 the gateway owns upstream OAuth. The npm package remains `airs-harness`.
 
+## Apple Silicon Gateway preview
+
+The 0.1.3-alpha.7.mcp.1 preview bundles CLI 7.2.0 and SDK 0.34.0, adding explicit
+organisation guardrails with `airs cli aigateway admin-guardrails`. Workspace
+policies remain under `guardrails`. This management surface uses the selected
+product tenant; `/config`, `/model` and `/mcp` retain their session routing and
+login roles. Admin listing has live read acceptance; mutations are specification-tested.
+See the [command guide](https://cdot65.github.io/prisma-airs-cli/cli/aigateway/official-spec-alignment/).
+Stable installation instructions follow below.
+
 ## Install or update
 
 Use Node.js **22.13.0 or newer in the 22.x line**, or **23.5.0 or newer**

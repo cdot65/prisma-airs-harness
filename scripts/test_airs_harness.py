@@ -1529,7 +1529,7 @@ class TerminalIntegration(unittest.TestCase):
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
-            (self.work / "managed-version.txt").read_text().strip(), "7.1.5"
+            (self.work / "managed-version.txt").read_text().strip(), "7.2.0"
         )
         statuses = {
             row["name"]: row["status"]
@@ -1554,6 +1554,24 @@ class TerminalIntegration(unittest.TestCase):
         self.assertIn(
             "Doctor is not proof", context, "invoked skill body must reach the agent"
         )
+
+    @unittest.skipUnless(
+        os.environ.get("AIRS_MANAGED_CLI_ACCEPTANCE"), "requires npm-managed CLI"
+    )
+    def test_embedded_gateway_skill_runs_admin_help_in_agent_shell(self):
+        self.prompt = "$prisma-airs-gateway Inspect the admin guardrail list options without calling the gateway."
+        self.tool_command = (
+            '"$AIRS_MANAGED_CLI" aigateway admin-guardrails list --help > admin-help.txt'
+        )
+        self.configure()
+        result = self.execute()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        help_text = (self.work / "admin-help.txt").read_text()
+        for option in ("--workspace", "--page-size", "--current-page"):
+            self.assertIn(option, help_text)
+        context = json.dumps(self.requests[0][2]["input"])
+        self.assertIn("Official API contract and admin guardrails", context)
+        self.assertIn("Never switch scopes", context)
 
     def test_gateway_default_local_tool_and_continuation(self):
         self.assert_tool_loop(None)

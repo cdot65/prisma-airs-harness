@@ -5,14 +5,22 @@ description: "Configure Prisma AIRS AI Gateway workspaces, routing, guardrails, 
 
 # AI Gateway
 
-Use the harness-managed CLI 7.1.2. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Verify the managed version is 7.1.2. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
+Use the harness-managed Prisma AIRS CLI. On POSIX invoke `"$AIRS_MANAGED_CLI"`; on PowerShell invoke `& $env:AIRS_MANAGED_CLI`. Examples use `airs cli` from the user terminal; agent shell tools must use the absolute managed path. Do not substitute a global installation. Check the managed `--version` and command-specific help before choosing flags. Check the selected product tenant before operations; harness environment selection does not select a CLI tenant.
 
 For missing credentials or setup, read [Prisma AIRS CLI setup](../prisma-airs-cli/SKILL.md). Use command-specific `--help` and structured output to establish exact flags and schemas. Existing task authorization applies; request additional authorization only when the proposed target or action falls outside it. Keep secrets out of prompts, command arguments, reports and debug logs.
 
-Use `airs cli aigateway --help` and the exact resource help. CLI 7.1.2 includes `workspaces`, `configs`, `guardrails`, providers/integrations, MCP resources, deployment resources, telemetry and inference. Use supported pagination flags for complete inventories and disclose any limit or unavailable page.
+Use `airs cli aigateway --help` and the exact resource help. The managed CLI includes `workspaces`, `configs`, `guardrails`, providers/integrations, MCP resources, deployment resources, telemetry and inference. Use supported pagination flags for complete inventories and disclose any limit or unavailable page.
 
 Follow copy-and-adjust workflows: read the intended workspace/object, capture its current configuration, build a narrowly changed candidate using the documented JSON/schema or `--set` fields, inspect the diff, then apply the already-authorized change and read it back. Preserve unrelated integrations, policies, audiences and routing entries. Redact API keys, provider credentials and tokens from saved evidence.
 
-Separate management OAuth credentials from inference credentials and from the harness's Keycloak JWT. Validate the selected workspace and permission scope. For this harness, the default route omits `model`; an explicit authorized route is `@provider/model`. Do not silently insert a concrete model into default-route requests.
+Separate management OAuth credentials from inference credentials and from the harness's company SSO credential. Validate the selected workspace and permission scope. For this harness, the default route omits `model`; an explicit authorized route is `@provider/model`. Do not silently insert a concrete model into default-route requests.
 
 When testing a changed gateway, verify the actual request path/authentication, response or stream, remote-tool behavior if relevant, and policy decision. A successful configuration write or green doctor does not establish inference compatibility. Keep the previous configuration and a concrete supported rollback available. Preserve the target deployment’s existing realm, issuer and JWKS configuration unless the task authorizes changing it; verify that topology from trusted deployment configuration.
+
+## Official API contract and admin guardrails
+
+Use `aigateway admin-guardrails --help` when the requested policy is organisation-scoped. This separate group requires CLI 7.2 or later and management OAuth on the admin endpoint. Ordinary `aigateway guardrails` remains workspace-scoped. Never switch scopes or retry a write at another path after a permission denial.
+
+For read-only discovery, use `airs cli aigateway admin-guardrails list --page-size 100 --current-page 0 --output json`. Pages start at zero; the optional workspace filter can be denied by deployment policy. Admin records may have no workspace. Distinguish the organisation UUID from the numeric TSG. Create/update and MCP mapping commands accept structured input; inspect their help. Full mapping replacement and deletion require confirmation. Admin list has bounded live acceptance; mutation support is specification-tested, not proof of tenant authorization.
+
+The official OpenAPI file describes runtime, control and admin planes. Do not infer credential interchangeability from its global bearer scheme. Keep deployed API-key `user`/`service` commands; the combined collection is denied on the tested tenant. Omitted workspace/prompt/telemetry extensions remain available where supported; Assistants/Threads and unverified plane changes are not new Harness capabilities. MCP mapping management does not perform MCP login: use the harness `/mcp` flow through AI Gateway/CAS. `/config` and `/model` choose session inference routing; they do not change management tenants or admin policy scope.

@@ -1,5 +1,8 @@
 //! App-level orchestration tests for the TUI.
 
+#[path = "tests/owned_history_fixture.rs"]
+mod owned_history_fixture;
+
 #[path = "tests/airs_doctor_tests.rs"]
 mod airs_doctor;
 
@@ -5755,6 +5758,74 @@ async fn ctrl_l_clear_ui_after_long_transcript_reuses_clear_header_snapshot() {
 }
 
 #[tokio::test]
+async fn ctrl_l_clears_owned_history_and_preserves_the_draft() -> Result<()> {
+    let (mut app, _codex_home, thread_id) =
+        owned_history_fixture::completed_history_app(&["Oldest", "Newest"]).await?;
+    let mut tui = crate::tui::test_support::make_test_tui()?;
+    let mut app_server = crate::start_embedded_app_server_for_picker(&app.config).await?;
+    let started = app_server
+        .resume_thread(
+            &app.local_settings,
+            app.config.clone(),
+            thread_id,
+            crate::app_server_session::ResumeModelSettings::RestoreFromThread,
+        )
+        .await?;
+    app.enqueue_primary_thread_session(started.session, started.turns)
+        .await?;
+    app.scrollback_has_older_history = app_server.has_older_history(thread_id);
+    assert!(app.scrollback_has_older_history);
+    let cursor = app_server
+        .begin_older_history_page(thread_id)
+        .expect("older page");
+    let page = app_server
+        .thread_items_page(
+            thread_id,
+            /*turn_id*/ None,
+            Some(cursor.clone()),
+            /*limit*/ 100,
+        )
+        .await?;
+    app.chat_widget.set_model("gpt-test");
+    app.chat_widget.insert_str("draft survives");
+    app.transcript_cells = vec![Arc::new(history_cell::PlainHistoryCell::new(
+        (0..50).map(|_| "old transcript row".into()).collect(),
+    ))];
+    tui.set_owned_screen(/*owned*/ true)?;
+    let size = ratatui::layout::Size::new(/*width*/ 80, /*height*/ 12);
+    app.render_owned_transcript(&mut tui, size)?;
+    app.handle_tui_event(
+        &mut tui,
+        &mut app_server,
+        TuiEvent::Key(KeyEvent::new(KeyCode::Char('l'), KeyModifiers::CONTROL)),
+    )
+    .await?;
+    app.render_owned_transcript(&mut tui, size)?;
+    app.handle_older_history_page(&mut tui, &mut app_server, thread_id, &cursor, Ok(page))
+        .await?;
+    assert!(app_server.has_older_history(thread_id));
+    app.request_owned_history(&mut tui, &mut app_server);
+    assert!(!app_server.is_older_history_page_pending(thread_id, &cursor));
+    assert_eq!(app.transcript_cells.len(), 1);
+    assert!(
+        app.transcript_cells[0]
+            .as_any()
+            .is::<history_cell::SessionHeaderHistoryCell>()
+    );
+    let header = lines_to_single_string(&app.transcript_cells[0].display_lines(/*width*/ 80));
+    assert!(header.contains("gpt-test"));
+    assert!(!header.contains("old transcript row"));
+    assert_eq!(
+        app.chat_widget.composer_text_with_pending(),
+        "draft survives"
+    );
+    assert!(tui.is_owned_screen());
+    tui.set_owned_screen(/*owned*/ false)?;
+    app_server.shutdown().await?;
+    Ok(())
+}
+
+#[tokio::test]
 #[cfg_attr(
     target_os = "windows",
     ignore = "snapshot path rendering differs on Windows"
@@ -5817,6 +5888,7 @@ async fn make_test_app() -> Box<App> {
         file_search,
         transcript_cells: Vec::new(),
         native_history: Default::default(),
+        transcript_view: Default::default(),
         last_rendered_history_tail: None,
         last_thread_usage_status_cell: None,
         pending_thread_usage_history_refresh: false,
@@ -5913,6 +5985,7 @@ pub(super) async fn make_test_app_with_channels() -> (
             file_search,
             transcript_cells: Vec::new(),
             native_history: Default::default(),
+            transcript_view: Default::default(),
             last_rendered_history_tail: None,
             last_thread_usage_status_cell: None,
             pending_thread_usage_history_refresh: false,
@@ -7811,6 +7884,7 @@ async fn prompt_edit_forks_before_selected_prompt_and_preserves_source() -> Resu
     let selected_turn = started.turns[1].clone();
     app.enqueue_primary_thread_session(started.session, started.turns)
         .await?;
+    app.scrollback_has_older_history = app_server.has_older_history(source_thread_id);
     {
         let mut store = app
             .thread_event_channels

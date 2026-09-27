@@ -146,6 +146,14 @@ impl App {
 
     /// Open transcript overlay (enters alternate screen and shows full transcript).
     pub(crate) fn open_transcript_overlay(&mut self, tui: &mut tui::Tui) {
+        if tui.is_owned_screen() {
+            self.transcript_view.set_presentation(
+                /*detailed*/ true,
+                self.chat_widget.history_render_mode(),
+            );
+            tui.frame_requester().schedule_frame();
+            return;
+        }
         let _ = tui.enter_alt_screen();
         self.overlay = Some(Overlay::new_transcript(
             self.transcript_cells.clone(),
@@ -161,6 +169,16 @@ impl App {
 
     /// Close transcript overlay and restore normal UI.
     pub(crate) fn close_transcript_overlay(&mut self, tui: &mut tui::Tui) {
+        if tui.is_owned_screen() && self.overlay.is_none() {
+            self.transcript_view.set_presentation(
+                /*detailed*/ false,
+                self.chat_widget.history_render_mode(),
+            );
+            self.backtrack.overlay_preview_active = false;
+            self.reset_backtrack_state();
+            tui.frame_requester().schedule_frame();
+            return;
+        }
         let _ = tui.leave_alt_screen();
         let was_backtrack = self.backtrack.overlay_preview_active;
         if !self.deferred_history_lines.is_empty() {

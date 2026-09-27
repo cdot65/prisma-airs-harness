@@ -728,7 +728,11 @@ impl App {
     pub(super) fn reset_for_thread_switch(&mut self, tui: &mut tui::Tui) -> Result<()> {
         self.reset_transcript_state_after_clear();
         tui.clear_pending_history_lines();
-        Self::clear_terminal_for_thread_switch(&mut tui.terminal)?;
+        if tui.is_owned_screen() {
+            tui.terminal.clear_visible_screen()?;
+        } else {
+            Self::clear_terminal_for_thread_switch(&mut tui.terminal)?;
+        }
         Ok(())
     }
 
@@ -923,7 +927,7 @@ impl App {
                         tracing::warn!("failed to unsubscribe tracked thread {thread_id}: {err}");
                     }
                 }
-                self.local_settings = crate::local_settings::LocalSettings::from(&config);
+                self.local_settings = self.local_settings.reloaded(&config);
                 self.config = config;
 
                 let name_error = if let Some(name) = new_thread_name {

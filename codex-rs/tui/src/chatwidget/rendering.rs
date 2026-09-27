@@ -180,14 +180,7 @@ impl ChatWidget {
                 })),
             );
         }
-        let bottom = if self.external_writer_view && !self.bottom_pane.has_active_view() {
-            RenderableItem::Owned(Box::new(ExternalWriterNotice {
-                transcript_hint: self.bottom_pane.transcript_shortcut_hint(),
-            }))
-        } else {
-            self.bottom_pane
-                .as_renderable_with_composer_right_reserve(active_cell_right_reserve)
-        };
+        let bottom = self.bottom_pane_renderable(/*footer*/ None);
         flex.push(
             /*flex*/ 0,
             bottom.inset(Insets::tlbr(
@@ -195,6 +188,24 @@ impl ChatWidget {
             )),
         );
         RenderableItem::Owned(Box::new(flex))
+    }
+
+    /// Render only the composer and its local surfaces beneath an owned transcript.
+    pub(crate) fn bottom_pane_renderable<'a>(
+        &'a self,
+        footer: Option<&'a crate::bottom_pane::TranscriptFooter>,
+    ) -> RenderableItem<'a> {
+        if self.external_writer_view && !self.bottom_pane.has_active_view() {
+            RenderableItem::Owned(Box::new(ExternalWriterNotice {
+                transcript_hint: self.bottom_pane.transcript_shortcut_hint(),
+            }))
+        } else {
+            self.bottom_pane
+                .as_renderable_with_options(crate::bottom_pane::ComposerRenderOptions {
+                    textarea_right_reserve: self.ambient_pet_wrap_reserved_cols(),
+                    footer,
+                })
+        }
     }
 
     pub(crate) fn note_rendered_width(&self, width: u16) {

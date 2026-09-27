@@ -1,0 +1,34 @@
+{
+  "kind": "local musl debug binaries; not signed distribution packages",
+  "source_parent": "1f7baa55df",
+  "runtime": "uncommitted stage28 source tested by expanded full suite",
+  "binaries": [
+    {
+      "binary": "codex",
+      "path": "/home/cdot/.cache/airs-routing-build-target/debug/codex",
+      "sha256": "c0bf41d75265884909381b0f5456f9ad5ad9222789900a92de0997ea06c440f6",
+      "bytes": 1417974472,
+      "version_exit_code": 0,
+      "version_stdout": "codex 0.154.0",
+      "version_stderr": ""
+    },
+    {
+      "binary": "airs-harness",
+      "path": "/home/cdot/.cache/airs-routing-build-target/debug/airs-harness",
+      "sha256": "eaee1d7c89dc9c5b00d337bdb041f351474d131cc162518b0272815677c6c842",
+      "bytes": 1418115400,
+      "version_exit_code": 0,
+      "version_stdout": "airs 0.1.3-alpha.5.mcp.1",
+      "version_stderr": ""
+    },
+    {
+      "binary": "codex-tui",
+      "path": "/home/cdot/.cache/airs-routing-build-target/debug/codex-tui",
+      "sha256": "49eb11000f7d4be36d3e7c6cc2e7ed3006b4ea407ab5074e6ef17a91fa837ac5",
+      "bytes": 1318381304,
+      "version_exit_code": 0,
+      "version_stdout": "codex-tui 0.154.0",
+      "version_stderr": ""
+    }
+  ]
+}

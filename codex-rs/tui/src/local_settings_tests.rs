@@ -143,3 +143,45 @@ async fn fullscreen_preference_is_independent_of_deprecated_flag() -> anyhow::Re
     }
     Ok(())
 }
+
+#[tokio::test]
+async fn launch_screen_mode_survives_configuration_reload() -> anyhow::Result<()> {
+    use crate::transcript_mode::TranscriptMode;
+    use codex_config::types::AltScreenMode;
+
+    let home = tempfile::tempdir()?;
+    let mut config = ConfigBuilder::default()
+        .codex_home(home.path().to_path_buf())
+        .loader_overrides(LoaderOverrides::without_managed_config_for_tests())
+        .build()
+        .await?;
+    config.tui_fullscreen_transcript = true;
+    config.tui_alternate_screen = AltScreenMode::Auto;
+
+    for (alternate_screen, owned, expected_mode, expected_alt) in [
+        (true, true, TranscriptMode::Owned, AltScreenMode::Auto),
+        (true, false, TranscriptMode::Terminal, AltScreenMode::Auto),
+        (false, true, TranscriptMode::Terminal, AltScreenMode::Never),
+    ] {
+        let mut tui = crate::tui::test_support::make_test_tui()?;
+        tui.set_alt_screen_enabled(alternate_screen);
+        tui.set_owned_screen(owned)?;
+        let local = LocalSettings::for_tui(&config, &tui);
+        assert_eq!(
+            (local.transcript_mode, local.tui.alternate_screen),
+            (expected_mode, expected_alt),
+        );
+
+        let mut reloaded_config = config.clone();
+        reloaded_config.tui_fullscreen_transcript = false;
+        reloaded_config.tui_alternate_screen = AltScreenMode::Never;
+        reloaded_config.tui_theme = Some("nord".into());
+        let mut expected = LocalSettings::from(&reloaded_config);
+        expected.transcript_mode = expected_mode;
+        expected.tui.alternate_screen = expected_alt;
+        assert_eq!(local.reloaded(&reloaded_config), expected);
+        assert_eq!(LocalSettings::for_tui(&reloaded_config, &tui), expected);
+        tui.set_owned_screen(/*owned*/ false)?;
+    }
+    Ok(())
+}

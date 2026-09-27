@@ -29,7 +29,7 @@ fn focus_gained_with_unanswered_palette_queries_preserves_immediate_input() -> R
     let codex_home = tempfile::tempdir()?;
     write_test_config(codex_home.path(), &repo_root)?;
 
-    let mut terminal = PtyCodex::start(&repo_root, codex_home, &[])?;
+    let mut terminal = PtyCodex::start(&repo_root, codex_home, &["--no-alt-screen"])?;
     terminal.wait_for_startup()?;
 
     let startup_output_len = terminal.output.len();
@@ -122,7 +122,12 @@ async fn interactive_startup_honors_codex_home_symlink_opt_out() -> Result<()> {
     let mut terminal = PtyCodex::start(
         &workspace_path,
         codex_home,
-        &["-c", "model_provider=\"test\"", "Write ready.txt"],
+        &[
+            "--no-alt-screen",
+            "-c",
+            "model_provider=\"test\"",
+            "Write ready.txt",
+        ],
     )?;
     terminal.wait_for_startup()?;
     let deadline = Instant::now() + STARTUP_TIMEOUT;
@@ -149,6 +154,168 @@ async fn interactive_startup_honors_codex_home_symlink_opt_out() -> Result<()> {
     );
 }
 
+#[test]
+fn owned_screen_entry_paints_before_sync_ends_and_exit_clears_inline_draft() -> Result<()> {
+    let repo_root = codex_utils_cargo_bin::repo_root()?;
+    let codex_home = tempfile::tempdir()?;
+    write_test_config(codex_home.path(), &repo_root)?;
+    let mut terminal = PtyCodex::start_with_env(
+        &repo_root,
+        codex_home,
+        &[
+            "-c",
+            "tui.alternate_screen=\"always\"",
+            "-c",
+            "tui.fullscreen_transcript=true",
+        ],
+        &[],
+    )?;
+    terminal.wait_for_startup()?;
+    let deadline = Instant::now() + STARTUP_TIMEOUT;
+    while !terminal.parser.screen().alternate_screen() && Instant::now() < deadline {
+        terminal.read_output(Duration::from_millis(/*millis*/ 50))?;
+        terminal.answer_startup_queries()?;
+        terminal.ensure_running()?;
+    }
+    ensure!(
+        terminal.parser.screen().alternate_screen(),
+        "owned screen did not open"
+    );
+    terminal.wait_for_screen("gpt-5.6-terra")?;
+    let enter_alt = b"\x1b[?1049h";
+    let begin_sync = b"\x1b[?2026h";
+    let end_sync = b"\x1b[?2026l";
+    let entry = terminal
+        .output
+        .windows(enter_alt.len())
+        .position(|bytes| bytes == enter_alt)
+        .context("missing owned-screen entry")?;
+    let begin = terminal.output[..entry]
+        .windows(begin_sync.len())
+        .rposition(|bytes| bytes == begin_sync)
+        .context("missing synchronized update before owned-screen entry")?;
+    ensure!(
+        !terminal.output[begin..entry]
+            .windows(end_sync.len())
+            .any(|bytes| bytes == end_sync),
+        "owned-screen entry happened outside a synchronized update"
+    );
+    let end = entry
+        + terminal.output[entry..]
+            .windows(end_sync.len())
+            .position(|bytes| bytes == end_sync)
+            .context("missing synchronized update end after owned-screen entry")?;
+    let (rows, cols) = terminal.parser.screen().size();
+    let mut first_frame = vt100::Parser::new(rows, cols, /*scrollback_len*/ 0);
+    first_frame.process(&terminal.output[..end]);
+    let first_contents = first_frame.screen().contents();
+    ensure!(
+        first_contents.contains("OpenAI Codex")
+            && first_contents.contains("Ask Codex to do anything"),
+        "owned-screen synchronization ended before its first complete loading frame:\n{first_contents}"
+    );
+    let composer_row = first_contents
+        .lines()
+        .position(|line| line.contains("Ask Codex to do anything"))
+        .context("missing composer in first owned-screen frame")?;
+    assert_eq!(
+        (
+            first_contents.matches("Ask Codex to do anything").count(),
+            first_frame.screen().cursor_position(),
+            first_frame.screen().hide_cursor(),
+        ),
+        (1, (u16::try_from(composer_row)?, 2), false),
+        "first owned-screen frame must contain one composer with its visible cursor"
+    );
+    terminal.write_input(b"\x1b[99;5u")?;
+    let deadline = Instant::now() + STARTUP_TIMEOUT;
+    loop {
+        terminal.read_output(Duration::from_millis(/*millis*/ 50))?;
+        if let Some(status) = terminal.child.try_wait()? {
+            ensure!(status.success(), "owned screen exited with {status}");
+            break;
+        }
+        ensure!(
+            Instant::now() < deadline,
+            "owned screen did not exit; screen:\n{}",
+            terminal.screen_contents()
+        );
+    }
+    ensure!(
+        !terminal.parser.screen().alternate_screen(),
+        "alternate screen was not restored"
+    );
+    ensure!(
+        !terminal
+            .screen_contents()
+            .contains("Ask Codex to do anything"),
+        "owned-screen exit left the inline composer visible"
+    );
+    Ok(())
+}
+
+#[test]
+fn fullscreen_preference_respects_launch_and_ssh_screen_restrictions() -> Result<()> {
+    let repo_root = codex_utils_cargo_bin::repo_root()?;
+    for (args, env) in [
+        (
+            vec!["-c", "tui.fullscreen_transcript=true", "--no-alt-screen"],
+            vec![],
+        ),
+        (
+            vec![
+                "-c",
+                "tui.fullscreen_transcript=true",
+                "-c",
+                "tui.alternate_screen=\"never\"",
+            ],
+            vec![],
+        ),
+        (
+            vec!["-c", "tui.fullscreen_transcript=true"],
+            vec![
+                ("TERM_PROGRAM", Some("Apple_Terminal")),
+                ("SSH_CONNECTION", Some("192.0.2.1 10000 192.0.2.2 22")),
+            ],
+        ),
+    ] {
+        let codex_home = tempfile::tempdir()?;
+        write_test_config(codex_home.path(), &repo_root)?;
+        let mut terminal = PtyCodex::start_with_env(&repo_root, codex_home, &args, &env)?;
+        if env
+            .iter()
+            .any(|(name, value)| *name == "SSH_CONNECTION" && value.is_some())
+        {
+            // SSH detection uses the terminal's actual DA2 reply, not TERM_PROGRAM.
+            let deadline = Instant::now() + STARTUP_TIMEOUT;
+            loop {
+                terminal.read_output(Duration::from_millis(/*millis*/ 5))?;
+                terminal.answer_startup_queries()?;
+                if terminal.output_contains(b"\x1b[>c") {
+                    terminal.write_input(b"\x1b[>1;95;0c")?;
+                    break;
+                }
+                terminal.ensure_running()?;
+                ensure!(
+                    Instant::now() < deadline,
+                    "missing SSH terminal identity query"
+                );
+            }
+        }
+        terminal.wait_for_startup()?;
+        terminal.wait_for_screen("gpt-5.6-terra")?;
+        ensure!(
+            !terminal.parser.screen().alternate_screen(),
+            "restriction lost: {args:?} {env:?}"
+        );
+        ensure!(
+            !contains_bytes(&terminal.output, b"\x1b[?1049h"),
+            "first frame ignored restriction: {args:?} {env:?}"
+        );
+    }
+    Ok(())
+}
+
 pub(super) struct PtyCodex {
     master: File,
     child: Child,
@@ -166,12 +333,48 @@ impl PtyCodex {
         codex_home: TempDir,
         extra_args: &[&str],
     ) -> Result<Self> {
+        let codex = codex_utils_cargo_bin::cargo_bin("codex-tui")
+            .or_else(|_| codex_utils_cargo_bin::cargo_bin("codex"))?;
+        Self::start_binary(&codex, repo_root, codex_home, extra_args)
+    }
+
+    /// Include the CLI dispatch futures when testing production stack headroom.
+    pub(super) fn start_cli(
+        repo_root: &Path,
+        codex_home: TempDir,
+        extra_args: &[&str],
+    ) -> Result<Self> {
+        let codex = codex_utils_cargo_bin::cargo_bin("codex")
+            .context("build codex-cli and set CARGO_BIN_EXE_codex to its executable")?;
+        Self::start_binary(&codex, repo_root, codex_home, extra_args)
+    }
+
+    fn start_binary(
+        codex: &Path,
+        repo_root: &Path,
+        codex_home: TempDir,
+        extra_args: &[&str],
+    ) -> Result<Self> {
         let mut args = extra_args.to_vec();
-        args.push("--no-alt-screen");
-        Self::start_with_env(repo_root, codex_home, &args, &[])
+        if !args.contains(&"--no-alt-screen") {
+            args.push("--no-alt-screen");
+        }
+        Self::start_binary_with_env(codex, repo_root, codex_home, &args, &[])
     }
 
     pub(super) fn start_with_env(
+        repo_root: &Path,
+        codex_home: TempDir,
+        extra_args: &[&str],
+        env: &[(&str, Option<&str>)],
+    ) -> Result<Self> {
+        let codex = codex_utils_cargo_bin::cargo_bin("codex-tui")
+            .or_else(|_| codex_utils_cargo_bin::cargo_bin("codex"))?;
+        Self::start_binary_with_env(&codex, repo_root, codex_home, extra_args, env)
+    }
+
+    fn start_binary_with_env(
+        codex: &Path,
         repo_root: &Path,
         codex_home: TempDir,
         extra_args: &[&str],
@@ -208,9 +411,22 @@ impl PtyCodex {
         let stdin = slave.try_clone().context("clone pseudo-terminal stdin")?;
         let stdout = slave.try_clone().context("clone pseudo-terminal stdout")?;
 
-        let codex = codex_utils_cargo_bin::cargo_bin("codex-tui")
-            .or_else(|_| codex_utils_cargo_bin::cargo_bin("codex"))?;
         let mut command = Command::new(codex);
+        command
+            .args(extra_args)
+            .arg("-C")
+            .arg(repo_root)
+            .env("TERM", "xterm-256color")
+            .env_remove("TMUX")
+            .env_remove("TMUX_PANE")
+            .env_remove("STY")
+            .env("TERM_PROGRAM", "kitty")
+            .env_remove("TERM_PROGRAM_VERSION")
+            .env("OPENAI_API_KEY", "focus-palette-test")
+            .env("CODEX_HOME", codex_home.path())
+            .stdin(stdin)
+            .stdout(stdout)
+            .stderr(slave);
         for (name, value) in env {
             if let Some(value) = value {
                 command.env(name, value);
@@ -219,15 +435,6 @@ impl PtyCodex {
             }
         }
         let child = command
-            .args(extra_args)
-            .arg("-C")
-            .arg(repo_root)
-            .env("TERM", "xterm-256color")
-            .env("OPENAI_API_KEY", "focus-palette-test")
-            .env("CODEX_HOME", codex_home.path())
-            .stdin(stdin)
-            .stdout(stdout)
-            .stderr(slave)
             .spawn()
             .context("start Codex in focus-test pseudo-terminal")?;
 
@@ -304,7 +511,8 @@ impl PtyCodex {
         }
 
         if !self.keyboard_answered && contains_bytes(&self.output, b"\x1b[?u") {
-            self.write_input(b"\x1b[?0u\x1b[?1;2c")?;
+            self.write_input(b"\x1b[?7u")?;
+            self.write_input(b"\x1b[?1;2c")?;
             self.keyboard_answered = true;
         }
 

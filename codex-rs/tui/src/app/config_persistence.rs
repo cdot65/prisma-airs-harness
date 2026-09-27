@@ -413,7 +413,7 @@ impl App {
             .rebuild_config_for_cwd(self.chat_widget.config_ref().cwd.to_path_buf())
             .await?;
         self.apply_runtime_policy_overrides(&mut config, RuntimePolicyOverrideScope::All);
-        self.local_settings = crate::local_settings::LocalSettings::from(&config);
+        self.local_settings = self.local_settings.reloaded(&config);
         // Other preferences have runtime caches and are adopted when the widget is replaced.
         self.chat_widget
             .local_settings
@@ -464,7 +464,7 @@ impl App {
     ) -> Result<(Config, crate::local_settings::LocalSettings)> {
         match self.rebuild_config_for_cwd(resume_cwd.clone()).await {
             Ok(config) => {
-                let local_settings = crate::local_settings::LocalSettings::from(&config);
+                let local_settings = self.local_settings.reloaded(&config);
                 Ok((config, local_settings))
             }
             Err(err) => {

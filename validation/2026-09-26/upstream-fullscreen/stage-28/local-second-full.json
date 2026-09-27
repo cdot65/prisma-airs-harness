@@ -1,0 +1,31 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 100,
+  "elapsed_seconds": 261.9730808734894,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "6103",
+    "skipped": "0",
+    "failures": "1",
+    "errors": "0",
+    "uuid": "ccb97a3b-49b3-4a72-92f6-43955e379027",
+    "timestamp": "2026-09-27T06:21:32.311+00:00",
+    "time": "73.280"
+  }
+}

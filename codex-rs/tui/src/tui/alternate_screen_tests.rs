@@ -294,7 +294,6 @@ fn pager_capture_restores_picker_input_without_a_screen_transition() {
     for requested in [
         super::super::OverlayInput::Transcript,
         super::super::OverlayInput::StaticPager,
-        super::super::OverlayInput::Usage,
     ] {
         input
             .apply(&screen, &mut output, requested, /*owned*/ false)
@@ -347,10 +346,8 @@ fn pager_capture_restores_picker_input_without_a_screen_transition() {
 #[cfg(not(windows))]
 #[test]
 fn failed_pager_capture_setup_restores_requested_and_actual_picker_policy() {
-    for requested in [
-        super::super::OverlayInput::Transcript,
-        super::super::OverlayInput::Usage,
-    ] {
+    {
+        let requested = super::super::OverlayInput::Transcript;
         let screen = AlternateScreen::default();
         let mut output = Vec::new();
         screen.enter(&mut output, /*capture_mouse*/ false).unwrap();

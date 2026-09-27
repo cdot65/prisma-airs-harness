@@ -1,4 +1,6 @@
 //! Display an editable, non-submitting composer while startup work continues.
+//! Local screen and editing policy are resolved before the first paint. Fullscreen entry
+//! occurs inside the first synchronized frame; alternate-screen restrictions always win.
 
 use std::future::Future;
 use std::io;
@@ -48,6 +50,14 @@ use crate::version::CODEX_CLI_VERSION;
 
 const STARTUP_EVENT_BATCH_SIZE: usize = 64;
 const STARTUP_PASTE_NEWLINE_TIMEOUT: Duration = Duration::from_millis(120);
+
+/// Local launch presentation, resolved with the selected environment's normal config loader.
+#[derive(Default)]
+pub(crate) struct StartupScreen {
+    pub(crate) no_alt_screen: bool,
+    pub(crate) settings: codex_config::types::Tui,
+    pub(crate) disable_paste_burst: bool,
+}
 
 /// Identifies the first interactive surface expected for the current invocation.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -101,6 +111,7 @@ impl StartupDraft {
     pub(crate) fn new(
         initial_screen: StartupDraftInitialScreen,
         session_action: StartupDraftSessionAction,
+        screen: StartupScreen,
     ) -> io::Result<Self> {
         let mut initialized_terminal = tui::init()?;
         let terminal_restore_guard = TerminalRestoreGuard::new();
@@ -111,13 +122,29 @@ impl StartupDraft {
             initialized_terminal.enhanced_keys_supported,
             initialized_terminal.stderr_guard,
         );
-        // Startup renders inline; retain the probe for subsequent loaded screen policies.
         tui.terminal_app_over_ssh = initialized_terminal.terminal_app_over_ssh;
+        tui.set_alt_screen_enabled(crate::determine_alt_screen_mode(
+            screen.no_alt_screen,
+            screen.settings.alternate_screen,
+            tui.terminal_app_over_ssh,
+        ));
+        tui.prepare_owned_screen(screen.settings.fullscreen_transcript)?;
         let (app_event_tx, app_event_rx) = unbounded_channel();
-        let bottom_pane = startup_draft_bottom_pane(
+        let mut bottom_pane = startup_draft_bottom_pane(
             AppEventSender::new(app_event_tx),
             tui.frame_requester(),
             tui.enhanced_keys_supported(),
+        );
+        let keymap =
+            RuntimeKeymap::from_config(&screen.settings.keymap).map_err(io::Error::other)?;
+        bottom_pane.set_keymap_bindings(&keymap);
+        bottom_pane.set_disable_paste_burst(screen.disable_paste_burst);
+        bottom_pane.set_status_line_enabled(
+            screen
+                .settings
+                .status_line
+                .as_ref()
+                .is_none_or(|items| !items.is_empty()),
         );
         let events = tui.event_stream();
         let mut draft = Self {
@@ -384,7 +411,11 @@ impl StartupDraftPump {
         self.bottom_pane.pre_draw_tick();
         let renderable =
             startup_draft_renderable(&self.header, &self.bottom_pane, self.session_action);
-        let desired_height = renderable.desired_height(screen_size.width);
+        let desired_height = if tui.is_owned_screen() {
+            screen_size.height
+        } else {
+            renderable.desired_height(screen_size.width)
+        };
         tui.draw_with_resize_reflow(desired_height, screen_size, |frame| {
             let area = frame.area();
             renderable.render(area, frame.buffer);

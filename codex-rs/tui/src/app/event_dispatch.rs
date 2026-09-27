@@ -224,6 +224,10 @@ impl App {
                     .await
                 {
                     app_server.cancel_older_history_page(thread_id, &cursor);
+                    if tui.is_owned_screen() && self.chat_widget.thread_id() == Some(thread_id) {
+                        self.transcript_view.history = TranscriptHistoryState::Failed;
+                        tui.frame_requester().schedule_frame();
+                    }
                     if self.chat_widget.thread_id() == Some(thread_id)
                         && let Some(Overlay::Transcript(overlay)) = self.overlay.as_mut()
                     {
@@ -610,6 +614,11 @@ impl App {
                     .chat_widget
                     .thread_id()
                     .is_some_and(|thread_id| app_server.has_older_history(thread_id));
+                if tui.is_owned_screen() {
+                    self.transcript_view.history = if self.scrollback_has_older_history {
+                        TranscriptHistoryState::Partial
+                    } else { TranscriptHistoryState::Complete };
+                }
                 self.finish_initial_history_replay_buffer(tui);
             }
             AppEvent::ConsolidateAgentMessage {
@@ -640,6 +649,7 @@ impl App {
 
                 if start < end {
                     self.native_history.consolidate(&self.transcript_cells[start..end], &consolidated);
+                    self.transcript_view.replace_range(&self.transcript_cells, start..end, &consolidated);
                     self.transcript_cells
                         .splice(start..end, std::iter::once(consolidated.clone()));
 
@@ -650,7 +660,7 @@ impl App {
 
                     self.finish_required_stream_reflow(tui)?;
                 } else {
-                    let deferred = self.native_history.insert(&consolidated);
+                    let deferred = tui.is_owned_screen() || self.native_history.insert(&consolidated);
                     self.transcript_cells.push(consolidated.clone());
                     if let Some(Overlay::Transcript(t)) = &mut self.overlay {
                         t.insert_cell(consolidated.clone());

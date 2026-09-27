@@ -192,12 +192,9 @@ pub(super) async fn run_main_inner(
     } else {
         startup_draft::StartupDraftSessionAction::New
     };
-    let mut startup_draft = startup_draft::StartupDraft::new(initial_screen, session_action)?;
 
     let default_daemon = if explicit_remote_endpoint.is_none() && reuse_implicit_local_daemon {
-        startup_draft
-            .run_until(maybe_probe_default_daemon_socket(&codex_home))
-            .await?
+        maybe_probe_default_daemon_socket(&codex_home).await
     } else {
         None
     };
@@ -219,13 +216,9 @@ pub(super) async fn run_main_inner(
     )?;
     let prepared_environment_manager =
         if should_load_configured_environments(&loader_overrides, &app_server_target) {
-            startup_draft
-                .run_until(EnvironmentManager::prepare_from_codex_home(&codex_home))
-                .await?
+            EnvironmentManager::prepare_from_codex_home(&codex_home).await
         } else {
-            startup_draft
-                .run_until(EnvironmentManager::prepare_from_env())
-                .await?
+            EnvironmentManager::prepare_from_env().await
         }
         .map_err(std::io::Error::other)?;
     if cli.shared.worktree
@@ -250,16 +243,28 @@ pub(super) async fn run_main_inner(
     }
     loader_overrides.ignore_login_requirements = app_server_target.uses_remote_workspace();
 
-    let bootstrap_config = startup_draft
-        .run_until(load_bootstrap_config_or_exit(
-            &codex_home,
-            config_cwd.as_ref(),
-            cli_kv_overrides.clone(),
-            loader_overrides.clone(),
-            strict_config,
-            CloudConfigBundleLoader::default(),
-        ))
-        .await?;
+    // Resolve only local presentation before the first terminal paint. Cloud loading
+    // and session startup below keep the provisional composer responsive.
+    let bootstrap_config = load_bootstrap_config_or_exit(
+        &codex_home,
+        config_cwd.as_ref(),
+        cli_kv_overrides.clone(),
+        loader_overrides.clone(),
+        strict_config,
+        CloudConfigBundleLoader::default(),
+    )
+    .await;
+    let startup_tui = bootstrap_config.config_toml.tui.clone().unwrap_or_default();
+    let screen = startup_draft::StartupScreen {
+        no_alt_screen: cli.no_alt_screen,
+        disable_paste_burst: startup_tui
+            .disable_paste_burst
+            .or(bootstrap_config.config_toml.disable_paste_burst)
+            .unwrap_or(false),
+        settings: startup_tui,
+    };
+    let mut startup_draft =
+        startup_draft::StartupDraft::new(initial_screen, session_action, screen)?;
     let cloud_config_bundle = startup_draft
         .run_until(cloud_config_bundle_for_app_server_target(
             &app_server_target,
@@ -613,7 +618,8 @@ pub(super) async fn run_main_inner(
         .with(otel_tracing_layer)
         .try_init();
 
-    let app_result = run_ratatui_app(
+    // Keep the large app future off the enclosing CLI startup stack during transitions.
+    let app_result = Box::pin(run_ratatui_app(
         cli,
         arg0_paths,
         loader_overrides,
@@ -632,7 +638,7 @@ pub(super) async fn run_main_inner(
         embedded_network_policy,
         managed_worktree.clone(),
         startup_draft,
-    )
+    ))
     .await
     .map_err(|err| {
         err.downcast::<std::io::Error>()

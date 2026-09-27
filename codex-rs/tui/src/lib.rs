@@ -1395,6 +1395,7 @@ async fn run_ratatui_app(
             .alternate_screen,
         tui.terminal_app_over_ssh,
     ));
+    tui.prepare_owned_screen(config.tui_fullscreen_transcript)?;
     crate::markdown_render::preferences::init(config.tui_rendering);
     startup_draft.apply_config(&config);
     if !(cli.resume_picker || cli.fork_picker || cli.agents_overview)
@@ -1735,6 +1736,7 @@ async fn run_ratatui_app(
     if app_server_target.uses_embedded_network_policy() {
         embedded_network_policy.bind_config(&mut config);
     }
+    tui.prepare_owned_screen(config.tui_fullscreen_transcript)?;
     crate::markdown_render::preferences::init(config.tui_rendering);
     startup_draft.apply_config(&config);
 

@@ -1,3 +1,5 @@
+//! Archived-session confirmation retries retain the first request settings.
+
 use super::*;
 use crate::legacy_core::config::ConfigBuilder;
 use app_test_support::create_fake_rollout;
@@ -15,8 +17,22 @@ async fn start_session(
     action: SessionStartAction,
     confirm: impl AsyncFnOnce() -> Result<UnarchiveChoice>,
 ) -> Result<Option<AppServerStartedThread>> {
-    let initial_result = action.start(app_server, config, target).await;
-    complete_session_start(app_server, config, target, action, initial_result, confirm).await
+    let local_settings = LocalSettings::from(config);
+    let initial_result = action
+        .start(app_server, config, &local_settings, target)
+        .await;
+    complete_session_start(
+        app_server,
+        SessionStartConfig {
+            config,
+            local_settings: &local_settings,
+        },
+        target,
+        action,
+        initial_result,
+        confirm,
+    )
+    .await
 }
 
 #[tokio::test]

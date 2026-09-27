@@ -5,6 +5,7 @@
 
 use super::*;
 use crate::session_start::SessionStartAction;
+use crate::session_start::SessionStartConfig;
 use crate::session_start::cancel_session_start;
 use crate::session_start::complete_session_start;
 use crate::unarchive_prompt::run_unarchive_prompt;
@@ -174,7 +175,9 @@ impl App {
             Ok(())
         }
 
-        let mut local_settings = crate::local_settings::LocalSettings::from(&config);
+        // Adopt actual launch ownership before constructing session-local preferences.
+        tui.prepare_owned_screen(config.tui_fullscreen_transcript)?;
+        let mut local_settings = crate::local_settings::LocalSettings::for_tui(&config, tui);
         let startup_started_at = Instant::now();
         let (app_event_tx, mut app_event_rx) = unbounded_channel();
         let app_event_tx = AppEventSender::new(app_event_tx);
@@ -490,7 +493,10 @@ impl App {
                     let action = SessionStartAction::Resume(model_settings);
                     let Some(resumed) = complete_session_start(
                         &mut app_server,
-                        &config,
+                        SessionStartConfig {
+                            config: &config,
+                            local_settings: &local_settings,
+                        },
                         &target_session,
                         action,
                         resumed,
@@ -581,7 +587,10 @@ impl App {
                 let action = SessionStartAction::Fork(permission_mode);
                 let Some(forked) = complete_session_start(
                     &mut app_server,
-                    &config,
+                    SessionStartConfig {
+                        config: &config,
+                        local_settings: &local_settings,
+                    },
                     &target_session,
                     action,
                     forked,
@@ -683,6 +692,7 @@ See the Codex keymap documentation for supported actions and examples."
             keymap: runtime_keymap,
             key_chord_matcher: KeyChordMatcher::default(),
             transcript_cells: Vec::new(),
+            transcript_view: Default::default(),
             native_history: Default::default(),
             last_rendered_history_tail: None,
             last_thread_usage_status_cell: None,

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="17" skipped="0" failures="0" errors="0" uuid="52e31df2-54e4-4cfa-b239-8799551d0770" timestamp="2026-09-27T06:24:14.363+00:00" time="2.736">
+    <testsuite name="codex-tui" tests="6" skipped="0" errors="0" failures="0">
+        <testcase name="local_settings::tests::local_load_preserves_defaults_and_resolved_overrides" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.031"/>
+        <testcase name="local_settings::tests::launch_screen_mode_survives_configuration_reload" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.031"/>
+        <testcase name="local_settings::tests::local_writes_preserve_selected_user_file_and_home_destinations" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.035"/>
+        <testcase name="app::config_persistence::tests::replacement_preserves_live_local_settings_and_server_auth_requirement" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.044"/>
+        <testcase name="local_settings::tests::fullscreen_preference_is_independent_of_deprecated_flag" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.047"/>
+        <testcase name="app::owned_transcript::private_tests::fullscreen_private_dialogs_do_not_copy_or_submit_credentials" classname="codex-tui" timestamp="2026-09-27T06:24:14.385+00:00" time="0.160"/>
+    </testsuite>
+    <testsuite name="codex-tui::all" tests="11" skipped="0" errors="0" failures="0">
+        <testcase name="suite::focus_palette::focus_gained_with_unanswered_palette_queries_preserves_immediate_input" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.416+00:00" time="0.205"/>
+        <testcase name="suite::terminal_ssh::apple_terminal_ssh_always_override_enters_alternate_screen" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.429+00:00" time="0.353"/>
+        <testcase name="suite::terminal_ssh::apple_terminal_ssh_auto_keeps_native_scrollback_and_typeahead" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.432+00:00" time="0.353"/>
+        <testcase name="suite::terminal_ssh::apple_terminal_ssh_cli_override_wins_over_always" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.545+00:00" time="0.371"/>
+        <testcase name="suite::terminal_ssh::local_terminal_does_not_query_remote_identity" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.621+00:00" time="0.298"/>
+        <testcase name="suite::focus_palette::owned_screen_entry_paints_before_sync_ends_and_exit_clears_inline_draft" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.419+00:00" time="0.572"/>
+        <testcase name="suite::terminal_ssh::other_terminal_ssh_auto_retains_alternate_screen" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.785+00:00" time="0.340"/>
+        <testcase name="suite::terminal_ssh::missing_secondary_reply_finishes_startup_without_claiming_apple_terminal" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.782+00:00" time="0.464"/>
+        <testcase name="suite::terminal_ssh::tmux_over_ssh_does_not_apply_outer_terminal_identity" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.916+00:00" time="0.337"/>
+        <testcase name="suite::focus_palette::fullscreen_preference_respects_launch_and_ssh_screen_restrictions" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.416+00:00" time="1.053"/>
+        <testcase name="suite::worktree_stack::picker_worktree_fork_and_cd_run_on_the_production_stack" classname="codex-tui::all" timestamp="2026-09-27T06:24:14.920+00:00" time="2.179"/>
+    </testsuite>
+</testsuites>

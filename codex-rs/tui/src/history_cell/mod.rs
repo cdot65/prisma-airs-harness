@@ -103,6 +103,12 @@ use url::Url;
 
 const RAW_DIFF_SUMMARY_WIDTH: usize = 10_000;
 
+mod activity_details;
+#[allow(
+    dead_code,
+    reason = "Used by the following compact command integration stage."
+)]
+pub(crate) mod activity_preview;
 mod approvals;
 mod base;
 mod exec;
@@ -119,6 +125,7 @@ mod separators;
 mod session;
 mod startup_warnings;
 
+pub(crate) use activity_details::ActivityDetails;
 pub(crate) use approvals::*;
 pub(crate) use base::*;
 pub(crate) use exec::*;
@@ -135,7 +142,6 @@ pub(crate) use search::*;
 pub(crate) use separators::*;
 pub(crate) use session::*;
 pub(crate) use startup_warnings::StartupWarningsCell;
-
 #[cfg(test)]
 mod tests;
 
@@ -197,15 +203,47 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
     /// Returns copy-friendly plain logical lines for raw scrollback mode.
     fn raw_lines(&self) -> Vec<Line<'static>>;
 
+    /// Raw live presentation may omit transcript-only diagnostics without losing their source.
+    fn live_raw_lines(&self) -> Vec<Line<'static>> {
+        self.raw_lines()
+    }
+
     /// Returns rich visible lines plus terminal hyperlink metadata.
     fn display_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         plain_hyperlink_lines(self.display_lines(width))
     }
 
+    /// Compact presentation for the owned transcript, which can reveal details in place.
+    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
+    fn compact_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        self.display_hyperlink_lines(width)
+    }
+
+    /// Stable, namespaced member identities used to retain disclosure across grouping and replay.
+    /// Empty identities indicate ordinary content without a local disclosure control.
+    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
+    fn activity_ids(&self) -> Vec<String> {
+        Vec::new()
+    }
+
+    /// Available activity details, preserving source order and any upstream truncation notices.
+    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
+    fn expanded_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        self.transcript_hyperlink_lines(width)
+    }
+
+    /// Whether differing activity presentations can contain genuinely hidden details.
+    /// The caller also compares compact and expanded content; overrides suppress differences
+    /// that only change headings, status decoration, or ordering of already-visible information.
+    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
+    fn has_hidden_activity_details(&self, _width: u16) -> bool {
+        true
+    }
+
     fn display_lines_for_mode(&self, width: u16, mode: HistoryRenderMode) -> Vec<Line<'static>> {
         match mode {
             HistoryRenderMode::Rich => visible_lines(self.display_hyperlink_lines(width)),
-            HistoryRenderMode::Raw => self.raw_lines(),
+            HistoryRenderMode::Raw => self.live_raw_lines(),
         }
     }
 
@@ -216,7 +254,7 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
     ) -> Vec<HyperlinkLine> {
         match mode {
             HistoryRenderMode::Rich => self.display_hyperlink_lines(width),
-            HistoryRenderMode::Raw => plain_hyperlink_lines(self.raw_lines()),
+            HistoryRenderMode::Raw => plain_hyperlink_lines(self.live_raw_lines()),
         }
     }
 
@@ -257,9 +295,6 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
         plain_hyperlink_lines(self.transcript_lines(width))
     }
 
-    /// Returns the number of viewport rows for the transcript overlay.
-    ///
-    /// Uses the same `Paragraph::line_count` measurement as `desired_height`.
     fn desired_transcript_height(&self, width: u16) -> u16 {
         let lines = visible_lines(self.transcript_hyperlink_lines(width));
         Paragraph::new(Text::from(lines))
@@ -269,10 +304,10 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
             .unwrap_or(0)
     }
 
-    /// Whether the transcript height remains valid across later overlay renders.
+    /// Whether the cached transcript layout remains valid across later frames.
     ///
-    /// Cells backed by external state should return `false` so the pager remeasures them before
-    /// rendering instead of reusing a height that may now clip their content.
+    /// Cells backed by external state should return `false` so the shared viewport refreshes
+    /// their rendered text and source mapping each frame instead of reusing stale content.
     fn has_stable_transcript_height(&self) -> bool {
         true
     }

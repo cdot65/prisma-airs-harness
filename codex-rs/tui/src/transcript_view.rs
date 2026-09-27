@@ -134,6 +134,7 @@ impl TranscriptView {
             if highlight == Some(first.index) {
                 for (offset, row) in rows.iter().enumerate() {
                     row.layout.highlight(
+                        0..row.layout.text().len(),
                         Rect::new(area.x, y + offset as u16, area.width, /*height*/ 1),
                         buf,
                         row.row,
@@ -398,7 +399,10 @@ impl TranscriptView {
                 return Some(Arc::clone(live));
             }
             return Some(Arc::clone(self.live_separated.get_or_insert_with(|| {
-                Arc::new(live.as_ref().clone().with_leading_separator())
+                Arc::new(
+                    live.rewrap(self.area.width.max(/*other*/ 1))
+                        .with_leading_separator(),
+                )
             })));
         };
         let width = self.area.width.max(/*other*/ 1);

@@ -25,6 +25,9 @@
 //! negatives let a URL get split. The heuristic is intentionally
 //! conservative: file paths like `src/main.rs` are not matched.
 
+mod within_width;
+pub(crate) use within_width::adaptive_wrap_line_to_width;
+
 use ratatui::text::Line;
 use ratatui::text::Span;
 use std::borrow::Cow;

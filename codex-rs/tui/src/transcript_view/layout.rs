@@ -97,13 +97,13 @@ impl LayoutCache {
         let mut bytes = self
             .entries
             .iter()
-            .map(|entry| entry.layout.byte_len)
+            .map(|entry| entry.layout.text().len())
             .sum::<usize>();
         // Retain a single oversized entry rather than repeatedly laying it out while visible.
         while self.entries.len() > 1
             && (self.entries.len() > MAX_CACHED_ENTRIES || bytes > MAX_CACHED_TEXT_BYTES)
         {
-            bytes -= self.entries.remove(/*index*/ 0).layout.byte_len;
+            bytes -= self.entries.remove(/*index*/ 0).layout.text().len();
         }
     }
 }

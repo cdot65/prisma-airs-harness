@@ -54,7 +54,7 @@ fn layouts_refresh_for_width_animation_and_mutable_frames() {
         cell.tick.store(/*val*/ 2, Ordering::Relaxed);
         cache.begin_frame();
         let next = cache.get(&history, /*width*/ 20, /*separated*/ false);
-        assert_eq!(next.rows[0].line.line.to_string(), "tick 2");
+        assert_eq!(next.text(), "tick 2");
         cache.get(&history, /*width*/ 10, /*separated*/ false);
         assert_eq!(
             cell.renders.load(Ordering::Relaxed),
@@ -123,7 +123,7 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
     assert!(Arc::ptr_eq(&cache.entries[0].layout, &recent));
     let large = cache.get(&oversized, /*width*/ 120, /*separated*/ false);
     assert_eq!(cache.entries.len(), 1);
-    assert!(large.byte_len > MAX_CACHED_TEXT_BYTES);
+    assert!(large.text().len() > MAX_CACHED_TEXT_BYTES);
     cache.begin_frame();
     assert!(Arc::ptr_eq(
         &large,
@@ -131,7 +131,7 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
     ));
     cache.get(&second, /*width*/ 120, /*separated*/ false);
     assert_eq!(cache.entries.len(), 1);
-    assert!(cache.entries[0].layout.byte_len <= MAX_CACHED_TEXT_BYTES);
+    assert!(cache.entries[0].layout.text().len() <= MAX_CACHED_TEXT_BYTES);
 }
 
 #[test]

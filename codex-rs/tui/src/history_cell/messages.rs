@@ -328,28 +328,30 @@ impl ReasoningSummaryCell {
         }
     }
 
-    fn lines(&self, width: u16) -> Vec<Line<'static>> {
-        let mut lines: Vec<Line<'static>> = Vec::new();
-        append_markdown(
+    fn lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        let lines = crate::markdown_render::render_markdown_lines_with_width_and_cwd(
             &self.content,
             crate::width::usable_content_width_u16(width, /*reserved_cols*/ 2),
             Some(self.cwd.as_path()),
-            &mut lines,
         );
         let summary_style = Style::default().dim().italic();
         let summary_lines = lines
             .into_iter()
             .map(|mut line| {
-                line.spans = line
+                line.line.spans = line
+                    .line
                     .spans
                     .into_iter()
                     .map(|span| span.patch_style(summary_style))
                     .collect();
+                if let Some(source) = &mut line.source {
+                    source.span_style = source.span_style.patch(summary_style);
+                }
                 line
             })
             .collect::<Vec<_>>();
 
-        adaptive_wrap_lines(
+        crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines(
             &summary_lines,
             RtOptions::new(width as usize)
                 .initial_indent("• ".dim().into())
@@ -360,6 +362,10 @@ impl ReasoningSummaryCell {
 
 impl HistoryCell for ReasoningSummaryCell {
     fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
+        visible_lines(self.display_hyperlink_lines(width))
+    }
+
+    fn display_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         if self.transcript_only {
             Vec::new()
         } else {
@@ -368,6 +374,10 @@ impl HistoryCell for ReasoningSummaryCell {
     }
 
     fn transcript_lines(&self, width: u16) -> Vec<Line<'static>> {
+        visible_lines(self.transcript_hyperlink_lines(width))
+    }
+
+    fn transcript_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         self.lines(width)
     }
 

@@ -2648,10 +2648,8 @@ fn reasoning_summary_height_matches_wrapped_rendering_for_url_like_content() {
         "expected wrapped height to be at least logical line count ({logical_height}), got {wrapped_height}"
     );
 
-    let wrapped_transcript_height =
-        crate::transcript_view::TextLayout::new(cell.transcript_hyperlink_lines(width), width)
-            .row_count();
-    assert_eq!(wrapped_transcript_height, usize::from(wrapped_height));
+    // Source-layout measurement and rendering have separate coverage in
+    // transcript_view::text::source_cell_tests: its continuation gutter occupies columns.
 
     let area = Rect::new(0, 0, width, wrapped_height);
     let mut buf = ratatui::buffer::Buffer::empty(area);

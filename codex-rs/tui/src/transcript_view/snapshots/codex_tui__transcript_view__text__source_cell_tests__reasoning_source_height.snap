@@ -1,0 +1,40 @@
+---
+source: tui/src/transcript_view/source_cell_tests.rs
+assertion_line: 158
+expression: "format!(\"{buffer:?}\")"
+---
+Buffer {
+    area: Rect { x: 0, y: 0, width: 24, height: 9 },
+    content: [
+        "• example.test/api/v1/  ",
+        "  projects/alpha-team/  ",
+        "  releases/2026-02-17/  ",
+        "  builds/1234567890/    ",
+        "  artifacts/reports/    ",
+        "  performance/summary/  ",
+        "  detail/with/a/very/   ",
+        "  long/path/that/keeps/ ",
+        "  going                 ",
+    ],
+    styles: [
+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 22, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 22, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 2, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 22, y: 2, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 3, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 20, y: 3, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 4, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 20, y: 4, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 5, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 22, y: 5, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 6, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 21, y: 6, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 7, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 23, y: 7, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 2, y: 8, fg: Reset, bg: Reset, underline: Reset, modifier: DIM | ITALIC,
+        x: 7, y: 8, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+    ]
+}

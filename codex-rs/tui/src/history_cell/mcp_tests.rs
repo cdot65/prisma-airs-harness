@@ -4,6 +4,7 @@ use codex_protocol::mcp::CallToolResult;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
+use std::sync::Arc;
 
 const PNG: &str = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg==";
 
@@ -139,7 +140,7 @@ fn mcp_preview_shares_one_limit_across_blocks_and_preserves_transcript() {
         McpInvocation {
             server: "search".into(),
             tool: "lookup".into(),
-            arguments: None,
+            arguments: Some(json!({"title": "Search query"})),
         },
         /*animations_enabled*/ false,
     );
@@ -153,7 +154,12 @@ fn mcp_preview_shares_one_limit_across_blocks_and_preserves_transcript() {
     let display = cell.display_lines(/*width*/ 80);
     let transcript = cell.transcript_lines(/*width*/ 80);
     insta::assert_snapshot!(format!(
-        "history:\n{}\n\ntranscript:\n{}",
+        "compact:\n{}\n\nhistory:\n{}\n\ntranscript:\n{}",
+        visible_lines(cell.compact_hyperlink_lines(/*width*/ 80))
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>()
+            .join("\n"),
         display
             .iter()
             .map(ToString::to_string)
@@ -171,7 +177,7 @@ fn mcp_preview_shares_one_limit_across_blocks_and_preserves_transcript() {
             .map(ToString::to_string)
             .collect::<Vec<_>>(),
         [
-            "Called search.lookup()",
+            "Called search.lookup({\"title\":\"Search query\"})",
             "first",
             "second",
             "third",
@@ -295,6 +301,16 @@ fn code_mode_output_row_budget_applies_after_wrapping_and_to_errors() {
             );
             cell.complete(Duration::ZERO, completion);
             for width in [20, 40, 80] {
+                let compact = cell.compact_hyperlink_lines(width);
+                assert!(compact.len() <= 4);
+                assert!(
+                    compact
+                        .last()
+                        .unwrap()
+                        .line
+                        .to_string()
+                        .ends_with("transcript tail")
+                );
                 let display = cell.display_lines(width);
                 assert_eq!(display.len(), 5); // Header, three output rows, and omission hint.
                 assert!(
@@ -396,9 +412,20 @@ fn code_mode_preserves_text_fields_on_nontext_and_unknown_blocks() {
         json!({"type": "future_block", "text": "Script completed\nOutput:\nunknown-side output"});
     let tool_result = result(vec![
         json!({"type": "image", "mimeType": "image/png", "data": PNG, "text": "Script completed\nOutput:\nimage-side output"}),
-        unknown.clone(),
+        unknown,
     ]);
     cell.complete(Duration::ZERO, Ok(tool_result.clone()));
+
+    let narrow = cell.display_lines(/*width*/ 16);
+    assert!(narrow.iter().all(|line| line.width() <= 16));
+    let compact = cell.compact_hyperlink_lines(/*width*/ 80);
+    let compact = visible_lines(compact)
+        .iter()
+        .map(ToString::to_string)
+        .collect::<Vec<_>>()
+        .join("\n");
+    let narrow_compact = cell.compact_hyperlink_lines(/*width*/ 16);
+    assert!(narrow_compact.iter().all(|line| line.width() <= 16));
 
     let display = cell
         .display_lines(/*width*/ 200)
@@ -412,7 +439,12 @@ fn code_mode_preserves_text_fields_on_nontext_and_unknown_blocks() {
         .map(ToString::to_string)
         .collect::<Vec<_>>()
         .join("\n");
-    insta::assert_snapshot!(format!("history:\n{display}\n\ntranscript:\n{transcript}"), @r#"
+    insta::assert_snapshot!(format!("compact:\n{compact}\n\nhistory:\n{display}\n\ntranscript:\n{transcript}"), @r#"
+    compact:
+    • Called Inspect results
+      └ image-side output
+        unknown-side output
+
     history:
     • Called Inspect results
       └ image-side output
@@ -431,8 +463,12 @@ fn code_mode_preserves_text_fields_on_nontext_and_unknown_blocks() {
         cell.raw_lines(),
         vec![
             Line::from("Called node_repl.js({\"title\":\"Inspect results\"})"),
-            Line::from("<image content>"),
-            Line::from(format_json_compact(&unknown.to_string()).unwrap()),
+            Line::from("Script completed"),
+            Line::from("Output:"),
+            Line::from("image-side output"),
+            Line::from("Script completed"),
+            Line::from("Output:"),
+            Line::from("unknown-side output"),
         ],
     );
 
@@ -505,5 +541,133 @@ fn helper_authentication_does_not_imply_connection_success() {
             "failed"
         };
         assert!(rendered.contains(&format!("security: {expected}")));
+    }
+}
+
+/// Reconstruct only from explicit provenance, checking every displayed source slice on the way.
+fn source_lines(lines: &[HyperlinkLine]) -> Vec<String> {
+    let mut sources: Vec<Arc<str>> = Vec::new();
+    for line in lines {
+        let source = line.source.as_ref().expect("MCP row source");
+        let visible = line.line.to_string();
+        assert_eq!(
+            &visible[source.prefix_bytes..source.prefix_bytes + source.range.len()],
+            &source.text[source.range.clone()],
+        );
+        if !sources
+            .last()
+            .is_some_and(|previous| Arc::ptr_eq(previous, &source.text))
+        {
+            sources.push(Arc::clone(&source.text));
+        }
+    }
+    sources
+        .into_iter()
+        .map(|source| source.to_string())
+        .collect()
+}
+
+#[test]
+fn code_mode_transcript_preserves_long_code_and_indentation_across_wrapping() {
+    let code = "const values = await tools.fetch_values({ project: 'selected-project', include_details: true });\n  const total = values.reduce((sum, item) => sum + item.value, 0);\n\ntext({ total, label: 'exact code output' });";
+    let mut cell = new_active_mcp_tool_call(
+        "call-code".to_owned(),
+        McpInvocation {
+            server: "node_repl".to_owned(),
+            tool: "js".to_owned(),
+            arguments: None,
+        },
+        /*animations_enabled*/ false,
+    );
+    cell.complete(
+        Duration::ZERO,
+        Ok(result(vec![json!({"type": "text", "text": code})])),
+    );
+    let expected = code.split('\n').map(str::to_owned).collect::<Vec<_>>();
+    for width in [16, 24, 40, 80] {
+        let lines = cell.transcript_hyperlink_lines(width);
+        let source = source_lines(&lines);
+        assert!(source.ends_with(&expected), "{source:?}");
+        assert!(
+            lines.len() > expected.len(),
+            "long code should wrap at width {width}"
+        );
+    }
+}
+
+#[test]
+fn mcp_result_preview_preserves_source_text_and_excludes_tree_gutters() {
+    let text = "one long result line with repeated spaces  and enough content to wrap across several narrow rows";
+    let mut cell = new_active_mcp_tool_call(
+        "call-mcp".to_owned(),
+        McpInvocation {
+            server: "docs".to_owned(),
+            tool: "read".to_owned(),
+            arguments: None,
+        },
+        /*animations_enabled*/ false,
+    );
+    cell.complete(
+        Duration::ZERO,
+        Ok(result(vec![json!({"type": "text", "text": text})])),
+    );
+    for width in [16, 24, 40, 80] {
+        let lines = cell.display_hyperlink_lines(width);
+        let backed = lines
+            .into_iter()
+            .filter(|line| line.source.is_some())
+            .collect::<Vec<_>>();
+        let source = source_lines(&backed);
+        let output = source
+            .iter()
+            .find(|line| line.starts_with("one long result"))
+            .expect("result source");
+        assert!(
+            text.starts_with(output),
+            "preview must retain the original whitespace"
+        );
+        if width >= 40 {
+            assert_eq!(output, text);
+        }
+        assert!(
+            source
+                .iter()
+                .all(|line| !line.starts_with('•') && !line.starts_with("  └ "))
+        );
+    }
+}
+
+#[test]
+fn preview_titles_bound_normalization_without_changing_retained_arguments() {
+    for title in [
+        "界".repeat(10_000),
+        format!("e{}", "\u{301}".repeat(10_000)),
+        " ".repeat(10_000),
+    ] {
+        let mut cell = new_active_mcp_tool_call(
+            "bounded-title".to_owned(),
+            McpInvocation {
+                server: "node_repl".to_owned(),
+                tool: "js".to_owned(),
+                arguments: Some(json!({"title": title})),
+            },
+            /*animations_enabled*/ false,
+        );
+        cell.complete(Duration::ZERO, Ok(result(vec![])));
+        assert!(cell.preview_title().len() <= 1024);
+        assert!(cell.preview_title().graphemes(true).count() <= 80);
+        assert_eq!(cell.invocation.arguments.as_ref().unwrap()["title"], title);
+        for width in [1, 4, 16, 80] {
+            assert!(
+                cell.compact_hyperlink_lines(width)
+                    .iter()
+                    .all(|line| line.width() <= usize::from(width))
+            );
+        }
+        assert!(
+            cell.raw_lines()
+                .iter()
+                .any(|line| line.to_string().contains(&title))
+        );
     }
 }

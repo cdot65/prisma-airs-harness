@@ -1,0 +1,9 @@
+Executable=/Users/cdot/.local/share/airs-forgejo-runner/jobs/7eb83e5f7d18d695/tmp/airs-harness
+Identifier=airs-harness-555549444588daa0d73b33de8c5a4fe21e05d98f
+Format=Mach-O thin (arm64)
+CodeDirectory v=20400 size=615022 flags=0x2(adhoc) hashes=19213+2 location=embedded
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements count=0 size=12

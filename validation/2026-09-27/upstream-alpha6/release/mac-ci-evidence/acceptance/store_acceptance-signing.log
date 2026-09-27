@@ -1,0 +1,9 @@
+Executable=/Users/cdot/.local/share/airs-forgejo-runner/jobs/a36cf40ded93c980/tmp/compiled/store_acceptance
+Identifier=store_acceptance-55554944abbd00f50aed35d5b43836f81ca11a79
+Format=Mach-O thin (arm64)
+CodeDirectory v=20400 size=3186 flags=0x2(adhoc) hashes=93+2 location=embedded
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements count=0 size=12

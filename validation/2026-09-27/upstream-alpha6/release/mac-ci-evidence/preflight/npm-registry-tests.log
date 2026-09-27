@@ -1,0 +1,9 @@
+test_bundle_environment_replaces_proxy_and_registry_credentials (test_airs_npm_registry.RegistryContracts.test_bundle_environment_replaces_proxy_and_registry_credentials) ... ok
+test_bundle_serves_only_staged_paths_and_preserves_legacy_redirect (test_airs_npm_registry.RegistryContracts.test_bundle_serves_only_staged_paths_and_preserves_legacy_redirect) ... ok
+test_missing_optional_and_direct_url_dependency_fail_without_public_fetch (test_airs_npm_registry.RegistryContracts.test_missing_optional_and_direct_url_dependency_fail_without_public_fetch) ... ok
+test_tampered_native_is_rejected_before_any_native_execution (test_airs_npm_registry.RegistryContracts.test_tampered_native_is_rejected_before_any_native_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.446s
+
+OK

@@ -1,0 +1,6 @@
+test_acceptance_cannot_compile_or_promote_and_pipelines_fail_closed (test_macos_workflow_split.MacWorkflowBoundary.test_acceptance_cannot_compile_or_promote_and_pipelines_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK

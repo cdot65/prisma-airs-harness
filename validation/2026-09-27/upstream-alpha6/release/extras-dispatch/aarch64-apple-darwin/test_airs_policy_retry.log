@@ -1,0 +1,6 @@
+test_terminal_gateway_denials_are_not_replayed (__main__.GatewayPolicyRetry.test_terminal_gateway_denials_are_not_replayed) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.181s
+
+OK

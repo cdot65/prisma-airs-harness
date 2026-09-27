@@ -1,0 +1,8 @@
+test_legacy_artifact_does_not_invent_its_build_profile_or_builder (test_airs_macos_artifact.ImmutableMacArtifact.test_legacy_artifact_does_not_invent_its_build_profile_or_builder) ... ok
+test_links_duplicates_and_publishable_manifests_are_rejected (test_airs_macos_artifact.ImmutableMacArtifact.test_links_duplicates_and_publishable_manifests_are_rejected) ... ok
+test_roundtrip_and_each_independent_identity_fail_closed (test_airs_macos_artifact.ImmutableMacArtifact.test_roundtrip_and_each_independent_identity_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.018s
+
+OK

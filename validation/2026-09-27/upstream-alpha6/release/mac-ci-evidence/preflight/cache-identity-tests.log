@@ -1,0 +1,7 @@
+test_command_line_tools_without_full_xcode (test_airs_ci_cache_key.CacheIdentityTests.test_command_line_tools_without_full_xcode) ... ok
+test_sdk_compiler_profile_and_lock_changes_invalidate (test_airs_ci_cache_key.CacheIdentityTests.test_sdk_compiler_profile_and_lock_changes_invalidate) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK

@@ -1,0 +1,14 @@
+{
+  "aggregate_bytes": 3631235,
+  "evidence_commit": "4a360fc82b5f235f68bec71e22ee53906f7880ad",
+  "evidence_root": "validation/2026-09-27/upstream-alpha6/release",
+  "files_checked": 229,
+  "inventory_sha256": "9c60a58daa1d5097202473cc3a70c0c971581391f2b2ae19abd6fcc7a558ac6e",
+  "manifest_blob_id": "305e930448ceabb0ce0f71434f1a56ad7e37c587",
+  "manifest_sha256": "3802a890f8d521f4c12b14b0ceba3ba3b3e832f71a19f18aab42fd5b35072b00",
+  "passed": true,
+  "product_acceptance_claimed": false,
+  "schema_version": 1,
+  "scope": "committed-release-evidence",
+  "stage_receipts_checked": 20
+}

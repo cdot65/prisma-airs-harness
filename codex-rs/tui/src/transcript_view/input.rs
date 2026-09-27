@@ -313,6 +313,15 @@ impl TranscriptView {
                 .link_at(visible.row, event.column.saturating_sub(self.area.x))
                 .map(ViewAction::OpenLink);
         }
+        // Retain the original text unit and anchor across a new Shift-click gesture.
+        if event.modifiers == KeyModifiers::SHIFT && self.has_selection_range() {
+            self.last_click = None;
+            self.extend_selection(event.column, event.row);
+            if let Some(selection) = &mut self.selection {
+                selection.dragging = true;
+            }
+            return Some(ViewAction::Changed);
+        }
         let clicks =
             crate::text_selection::click_count(&mut self.last_click, event.column, event.row);
         if clicks >= 2
@@ -331,3 +340,7 @@ impl TranscriptView {
 #[cfg(test)]
 #[path = "right_click_copy_tests.rs"]
 mod right_click_copy_tests;
+
+#[cfg(test)]
+#[path = "shift_click_tests.rs"]
+mod shift_click_tests;

@@ -1,0 +1,7 @@
+# Aligned equations and annotations
+
+Adapt `639d2478cc` cleanly. Structured layout lives in its own 267-line module; the existing parser remains 490 lines. No extra extraction is needed to meet the module target. Production changes stay below 500 lines, with behavioral tests and five snapshots in separate files.
+
+Review inspected all five snapshots and every new parser path. Aligned cells share the depth limit, have explicit row/column caps, preserve the rectangle of each numerator/denominator and align surrounding text to the first row's baseline. Sum limits and annotations share width before centering, avoiding cumulative rounding. Nested arguments use compact notation without flattening fractions. Scripts without Unicode equivalents keep explicit grouped notation. Physical TeX spacing is accepted only for finite numbers with recognized units; the terminal retains the row break rather than claiming physical spacing. Unknown/malformed/oversized or too-narrow layouts preserve source.
+
+Tests cover malformed closers/groups, excessive depth, 16/17-row and column boundaries, narrow fallback, fraction geometry and character-by-character streaming equality in rich/raw modes. Local full TUI/config: 4,796 passes, six skips, no retries. Scoped lint has zero warnings; formatting passes. Preferences and connected local/native/terminal gates remain open; no math feature score or package claim yet.

@@ -243,6 +243,7 @@ mod compaction_tests;
 mod composer_submission;
 #[path = "tests/config_errors_tests.rs"]
 mod config_errors;
+mod dynamic_activity_tests;
 #[path = "tests/exec_compact_tests.rs"]
 mod exec_compact;
 mod exec_flow;

@@ -277,6 +277,7 @@ impl ChatWidget {
             item @ ThreadItem::McpToolCall { .. } => {
                 self.handle_mcp_tool_call_started_now(item);
             }
+            item @ ThreadItem::DynamicToolCall { .. } => self.handle_dynamic_tool_item_now(item),
             _ => {}
         }
     }
@@ -289,6 +290,7 @@ impl ChatWidget {
             item @ ThreadItem::FileChange { .. } => self.handle_file_change_completed_now(item),
             item @ ThreadItem::McpToolCall { .. } => self.handle_mcp_tool_call_completed_now(item),
             item @ ThreadItem::SubAgentActivity { .. } => self.handle_sub_agent_activity_now(item),
+            item @ ThreadItem::DynamicToolCall { .. } => self.handle_dynamic_tool_item_now(item),
             _ => {}
         }
     }

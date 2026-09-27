@@ -20,7 +20,6 @@ use std::sync::RwLock;
 
 #[derive(Clone, Debug)]
 pub(crate) struct DynamicToolCallCell {
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     call_id: String,
     data: Arc<RwLock<DynamicToolCallData>>,
 }
@@ -44,12 +43,10 @@ impl DynamicToolCallCell {
         })
     }
 
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     pub(crate) fn call_id(&self) -> &str {
         &self.call_id
     }
 
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     pub(crate) fn is_active(&self) -> bool {
         self.data
             .read()
@@ -58,8 +55,6 @@ impl DynamicToolCallCell {
     }
 
     /// Updates the original retained row when concurrent calls complete in a different order.
-    /// Callers revising an already-terminal cell must rebuild its cached renderables.
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     pub(crate) fn update_from_item(&self, item: ThreadItem) -> bool {
         let Some((call_id, data)) = DynamicToolCallData::from_item(item) else {
             return false;
@@ -74,7 +69,6 @@ impl DynamicToolCallCell {
         true
     }
 
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     pub(crate) fn mark_interrupted(&self) {
         let mut data = self
             .data
@@ -137,7 +131,6 @@ impl DynamicToolCallData {
         ))
     }
 
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     fn is_active(&self) -> bool {
         matches!(self.status, DynamicToolCallStatus::InProgress)
     }
@@ -180,7 +173,7 @@ impl DynamicToolCallData {
 
 impl HistoryCell for DynamicToolCallCell {
     fn has_stable_transcript_height(&self) -> bool {
-        !self.is_active()
+        false
     }
 
     fn activity_ids(&self) -> Vec<String> {

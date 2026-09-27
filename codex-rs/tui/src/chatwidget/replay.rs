@@ -278,7 +278,7 @@ impl ChatWidget {
                 agents_states,
             }),
             item @ ThreadItem::SubAgentActivity { .. } => self.on_sub_agent_activity(item),
-            ThreadItem::DynamicToolCall { .. } => {}
+            item @ ThreadItem::DynamicToolCall { .. } => self.on_dynamic_tool_item(item),
             ThreadItem::Sleep(_) => {}
         }
 

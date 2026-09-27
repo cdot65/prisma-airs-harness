@@ -36,11 +36,33 @@ impl App {
             tui.frame_requester().schedule_frame();
         }
         self.transcript_cells.push(cell.clone());
+        let deferred = self.native_history.insert(&cell);
+        self.render_inserted_history_cell(tui, &cell, deferred);
+        // A committed cell can unblock a settled /usage card that was waiting
+        // behind a transient active cell or a provisional stream tail.
+        self.chat_widget.request_pending_usage_output_insertion();
+        if is_session_header {
+            self.merge_startup_warnings(tui, &history_cell::StartupWarningsCell::default());
+        }
+    }
+
+    /// Track mutable status cards before choosing retained or terminal-owned rendering.
+    pub(super) fn render_inserted_history_cell(
+        &mut self,
+        tui: &mut tui::Tui,
+        cell: &Arc<dyn HistoryCell>,
+        deferred: bool,
+    ) {
         let width = self
             .chat_widget
             .history_wrap_width(tui.terminal.last_known_screen_size.width);
-        let lines =
-            cell.display_hyperlink_lines_for_mode(width, self.chat_widget.history_render_mode());
+        // Owned replay must not eagerly format every historical entry. Composite status cards are
+        // the only committed cells whose mutable usage data needs insertion-time bookkeeping.
+        let lines = if !deferred || cell.as_any().is::<history_cell::CompositeHistoryCell>() {
+            cell.display_hyperlink_lines_for_mode(width, self.chat_widget.history_render_mode())
+        } else {
+            Vec::new()
+        };
         if cell.as_any().is::<history_cell::CompositeHistoryCell>()
             && lines.first().is_some_and(|line| {
                 line.line.spans.len() == 1 && line.line.spans[0].content.as_ref() == "/status"
@@ -49,9 +71,13 @@ impl App {
         {
             self.last_thread_usage_status_cell = Some(ThreadUsageStatusHistory {
                 thread_id,
-                cell: Arc::downgrade(&cell),
+                cell: Arc::downgrade(cell),
                 lines: lines.clone(),
             });
+        }
+        if deferred {
+            tui.frame_requester().schedule_frame();
+            return;
         }
         if self.initial_history_replay_buffer.as_ref().is_some() {
             self.insert_history_cell_lines_with_initial_replay_buffer(tui, cell.as_ref(), width);
@@ -60,18 +86,12 @@ impl App {
             self.insert_history_cell_lines(tui, cell.as_ref(), width);
             self.last_rendered_history_tail = if self.overlay.is_none() && !lines.is_empty() {
                 Some(RenderedHistoryTail {
-                    cell: Arc::downgrade(&cell),
+                    cell: Arc::downgrade(cell),
                     lines,
                 })
             } else {
                 None
             };
-        }
-        // A committed cell can unblock a settled /usage card that was waiting
-        // behind a transient active cell or a provisional stream tail.
-        self.chat_widget.request_pending_usage_output_insertion();
-        if is_session_header {
-            self.merge_startup_warnings(tui, &history_cell::StartupWarningsCell::default());
         }
     }
 
@@ -119,6 +139,12 @@ impl App {
             self.pending_thread_usage_history_refresh = false;
             return Ok(());
         };
+
+        // A queued card reads the latest usage when it is first emitted.
+        if self.native_history.contains(&status_cell) {
+            self.pending_thread_usage_history_refresh = false;
+            return Ok(());
+        }
 
         let width = self
             .chat_widget
@@ -318,6 +344,7 @@ impl App {
     pub(super) fn reset_transcript_state_after_clear(&mut self) {
         self.overlay = None;
         self.transcript_cells.clear();
+        self.native_history = Default::default();
         self.last_rendered_history_tail = None;
         self.last_thread_usage_status_cell = None;
         self.pending_thread_usage_history_refresh = false;

@@ -433,6 +433,7 @@ mod thread_usage;
 pub(crate) use self::thread_usage::ThreadUsageOutcome;
 mod tokens;
 pub(crate) use self::tokens::TokenActivityView;
+mod dynamic_activity;
 mod tool_lifecycle;
 mod tool_requests;
 mod transcript;

@@ -138,6 +138,7 @@ impl ChatWidget {
         // If a stream is currently active, finalize it.
         self.flush_answer_and_plan_streams();
         self.flush_interrupt_activity();
+        self.finish_dynamic_activity();
         self.flush_unified_exec_wait_streak();
         if !from_replay {
             self.collect_runtime_metrics_delta();
@@ -311,6 +312,7 @@ impl ChatWidget {
     pub(super) fn finalize_turn(&mut self) {
         self.flush_answer_and_plan_streams();
         self.flush_interrupt_activity();
+        self.finish_dynamic_activity();
         self.clear_context_compaction();
         self.clear_safety_buffering();
         // Drop preview-only stream tail content on any termination path before

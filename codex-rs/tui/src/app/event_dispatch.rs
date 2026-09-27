@@ -639,6 +639,7 @@ impl App {
                     Arc::new(history_cell::new_proposed_plan(source, &self.config.cwd));
 
                 if start < end {
+                    self.native_history.consolidate(&self.transcript_cells[start..end], &consolidated);
                     self.transcript_cells
                         .splice(start..end, std::iter::once(consolidated.clone()));
 
@@ -649,17 +650,13 @@ impl App {
 
                     self.finish_required_stream_reflow(tui)?;
                 } else {
+                    let deferred = self.native_history.insert(&consolidated);
                     self.transcript_cells.push(consolidated.clone());
                     if let Some(Overlay::Transcript(t)) = &mut self.overlay {
                         t.insert_cell(consolidated.clone());
                         tui.frame_requester().schedule_frame();
                     }
-                    self.insert_history_cell_lines(
-                        tui,
-                        consolidated.as_ref(),
-                        self.chat_widget
-                            .history_wrap_width(tui.terminal.last_known_screen_size.width),
-                    );
+                    self.render_inserted_history_cell(tui, &consolidated, deferred);
 
                     self.maybe_finish_stream_reflow(tui)?;
                 }

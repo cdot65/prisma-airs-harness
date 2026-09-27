@@ -818,6 +818,8 @@ enum CodexOpTarget {
 /// it cheaply decide when to recompute that tail as the active cell evolves.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) struct ActiveCellTranscriptKey {
+    /// External mutable sources refresh even without a revision change.
+    pub(crate) cacheable: bool,
     /// Cache-busting revision for in-place updates.
     ///
     /// Many active cells are updated incrementally while streaming (for example when exec groups
@@ -1915,8 +1917,8 @@ impl ChatWidget {
     /// returns `None` so the overlay can drop the tail entirely.
     ///
     /// If callers mutate the active cell's transcript output without bumping the revision (or
-    /// providing an appropriate animation tick), the overlay will keep showing a stale tail while
-    /// the main viewport updates.
+    /// providing an appropriate animation tick), stable cells can show a stale tail. Externally
+    /// mutable sources declare themselves non-cacheable and refresh each frame.
     pub(crate) fn active_cell_transcript_key(&self) -> Option<ActiveCellTranscriptKey> {
         let cell = self.transcript.active_cell.as_ref();
         let token_activity_cell = self.pending_token_activity_output();
@@ -1924,7 +1926,16 @@ impl ChatWidget {
         if cell.is_none() && token_activity_cell.is_none() && rate_limit_reset_hint.is_none() {
             return None;
         }
+        let live_sources: [Option<&dyn HistoryCell>; 3] = [
+            cell.map(AsRef::as_ref),
+            token_activity_cell,
+            rate_limit_reset_hint.map(|cell| cell as &dyn HistoryCell),
+        ];
         Some(ActiveCellTranscriptKey {
+            cacheable: live_sources
+                .into_iter()
+                .flatten()
+                .all(HistoryCell::has_stable_transcript_height),
             revision: self.transcript.active_cell_revision,
             is_stream_continuation: cell
                 .map(|cell| cell.is_stream_continuation())

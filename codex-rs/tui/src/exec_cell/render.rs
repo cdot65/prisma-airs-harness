@@ -1335,10 +1335,12 @@ mod tests {
         let cell = ExecCell::new(call, /*animations_enabled*/ false);
         let width: u16 = 36;
         let logical_height = cell.transcript_lines(width).len() as u16;
-        let wrapped_height = cell.desired_transcript_height(width);
+        let wrapped_height =
+            crate::transcript_view::TextLayout::new(cell.transcript_hyperlink_lines(width), width)
+                .row_count();
 
         assert!(
-            wrapped_height > logical_height,
+            wrapped_height > usize::from(logical_height),
             "expected transcript height to account for wrapped URL-like rows, logical_height={logical_height}, wrapped_height={wrapped_height}"
         );
     }

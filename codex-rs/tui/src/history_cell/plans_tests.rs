@@ -6,7 +6,11 @@ fn finalized_plan_reuses_lines_primed_by_transcript_height() {
     let cell = new_proposed_plan("1. Inspect **markdown**".to_string(), Path::new("/tmp"));
     let width = 48;
 
-    assert_eq!(cell.desired_transcript_height(width), 5);
+    assert_eq!(
+        crate::transcript_view::TextLayout::new(cell.transcript_hyperlink_lines(width), width)
+            .row_count(),
+        5
+    );
     cell.rendered_lines
         .cached
         .lock()

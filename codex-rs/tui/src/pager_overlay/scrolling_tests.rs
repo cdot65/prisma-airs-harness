@@ -95,6 +95,7 @@ fn scrolled_test_renderables(lines: &[HyperlinkLine]) -> Vec<(&'static str, Box<
         (
             "uncached history cell",
             Box::new(CellRenderable {
+                cache: Default::default(),
                 cell: cell.clone(),
                 highlighted: false,
             }),
@@ -102,6 +103,7 @@ fn scrolled_test_renderables(lines: &[HyperlinkLine]) -> Vec<(&'static str, Box<
         (
             "highlighted cached user history cell",
             Box::new(CachedRenderable::new(CellRenderable {
+                cache: Default::default(),
                 cell: user,
                 highlighted: true,
             })),
@@ -110,6 +112,7 @@ fn scrolled_test_renderables(lines: &[HyperlinkLine]) -> Vec<(&'static str, Box<
             "inset cached history cell",
             Box::new(InsetRenderable::new(
                 Box::new(CachedRenderable::new(CellRenderable {
+                    cache: Default::default(),
                     cell,
                     highlighted: false,
                 })) as Box<dyn Renderable>,

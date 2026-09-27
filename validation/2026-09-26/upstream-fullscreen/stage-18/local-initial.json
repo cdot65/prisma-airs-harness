@@ -1,0 +1,19 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-E",
+    "test(pager_overlay) | test(transcript) | test(rendering_tests) | test(history_cell) | test(exec_cell) | test(token_activity) | test(tokens::tests)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 69.40309762954712
+}

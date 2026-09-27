@@ -122,6 +122,11 @@ pub(super) fn new_token_activity_output(
 }
 
 impl HistoryCell for TokenActivityHistoryCell {
+    fn has_stable_transcript_height(&self) -> bool {
+        // Completion handles can replace even terminal state without changing this cell.
+        false
+    }
+
     fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
         #[expect(clippy::expect_used)]
         let state = self.state.read().expect("token activity state poisoned");

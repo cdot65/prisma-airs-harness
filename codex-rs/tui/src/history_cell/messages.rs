@@ -4,6 +4,7 @@ use super::markdown_render_cache::MarkdownRenderCache;
 use super::*;
 use crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines;
 use crate::terminal_hyperlinks::annotate_web_urls;
+use crate::terminal_hyperlinks::lines_with_sources_eq;
 use crate::terminal_hyperlinks::remap_wrapped_line;
 use crate::wrapping::url_preserving_wrap_options;
 use crate::wrapping::word_wrap_line;
@@ -557,11 +558,18 @@ mod tests;
 ///
 /// During streaming, lines that have not yet been committed to scrollback because they belong to
 /// an in-progress table are displayed via this cell in the `active_cell` slot. It is replaced on
-/// deltas that change the visible tail and cleared when the stream finalizes.
-#[derive(Debug, Eq, PartialEq)]
+/// deltas that change the visible tail or retained source, and cleared when the stream finalizes.
+#[derive(Debug, Eq)]
 pub(crate) struct StreamingAgentTailCell {
     lines: Vec<HyperlinkLine>,
     is_first_line: bool,
+}
+
+impl PartialEq for StreamingAgentTailCell {
+    fn eq(&self, other: &Self) -> bool {
+        self.is_first_line == other.is_first_line
+            && lines_with_sources_eq(&self.lines, &other.lines)
+    }
 }
 
 impl StreamingAgentTailCell {

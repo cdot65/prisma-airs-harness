@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="320" skipped="0" failures="2" errors="0" uuid="d38931c8-44b7-4d7e-9020-d56f685d66a9" timestamp="2026-09-27T01:42:26.899+00:00" time="3.780">
+    <testsuite name="codex-config" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="mcp_requirements::tests::regex_matcher_validation_rejects_expression_that_cannot_be_wrapped" classname="codex-config" timestamp="2026-09-27T01:42:26.914+00:00" time="0.019"/>
+    </testsuite>
+    <testsuite name="codex-tui" tests="315" skipped="0" errors="0" failures="2">
+        <testcase name="app::agent_navigation::tests::adjacent_thread_id_wraps_in_spawn_order" classname="codex-tui" timestamp="2026-09-27T01:42:26.914+00:00" time="0.022"/>
+        <testcase name="app::recap::tests::recap_history_cell_wraps_in_narrow_terminals" classname="codex-tui" timestamp="2026-09-27T01:42:26.914+00:00" time="0.023"/>
+        <testcase name="airs_doctor::report::tests::report_preview_wraps_in_existing_pager_at_narrow_width" classname="codex-tui" timestamp="2026-09-27T01:42:26.914+00:00" time="0.026"/>
+        <testcase name="app::resize_reflow::tests::capped_resize_reflow_counts_wrapped_notice_rows" classname="codex-tui" timestamp="2026-09-27T01:42:26.914+00:00" time="0.040"/>
+        <testcase name="app::thread_title::tests::removes_wrapping_quotes_and_trailing_punctuation_from_generated_titles" classname="codex-tui" timestamp="2026-09-27T01:42:26.937+00:00" time="0.019"/>
+        <testcase name="bottom_pane::approval_overlay::tests::exec_history_cell_wraps_with_two_space_indent" classname="codex-tui" timestamp="2026-09-27T01:42:26.940+00:00" time="0.019"/>
+        <testcase name="app::tests::resize_reflow_wraps_transcript_early_when_pet_is_enabled" classname="codex-tui" timestamp="2026-09-27T01:42:26.937+00:00" time="0.035"/>
+        <testcase name="app::tests::inactive_thread_exec_approval_splits_shell_wrapped_command" classname="codex-tui" timestamp="2026-09-27T01:42:26.934+00:00" time="0.038"/>
+        <testcase name="app::agents_overview::tests::command_center_cursor_tracks_wrapped_footer" classname="codex-tui" timestamp="2026-09-27T01:42:26.914+00:00" time="0.059"/>
+        <testcase name="bottom_pane::chat_composer::history_search::tests::history_search_no_match_restores_preview_but_keeps_search_open" classname="codex-tui" timestamp="2026-09-27T01:42:26.959+00:00" time="0.021"/>
+        <testcase name="bottom_pane::async_questions::tests::question_wrapped_other_shares_the_text_indent" classname="codex-tui" timestamp="2026-09-27T01:42:26.956+00:00" time="0.033"/>
+        <testcase name="bottom_pane::chat_composer::history_search::tests::vim_normal_history_search_preview_places_cursor_on_last_char" classname="codex-tui" timestamp="2026-09-27T01:42:26.972+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::reconnect::tests::reconnect_edit_cancels_history_preview_without_losing_original_draft" classname="codex-tui" timestamp="2026-09-27T01:42:26.974+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::history_search::tests::history_search_opens_without_previewing_latest_entry" classname="codex-tui" timestamp="2026-09-27T01:42:26.971+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::status_line_hyperlink_marks_pr_number_cells" classname="codex-tui" timestamp="2026-09-27T01:42:26.980+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::vim_history::tests::accepted_reverse_history_preview_starts_a_fresh_vim_edit_history" classname="codex-tui" timestamp="2026-09-27T01:42:26.989+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::vim_history::tests::canceled_reverse_history_preview_preserves_vim_undo_and_repeat" classname="codex-tui" timestamp="2026-09-27T01:42:26.994+00:00" time="0.021"/>
+        <testcase name="bottom_pane::list_selection_view::tests::page_and_jump_navigation_skip_trailing_disabled_rows_without_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:26.995+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::vim_history::tests::canceled_history_preview_preserves_active_vim_commands" classname="codex-tui" timestamp="2026-09-27T01:42:26.994+00:00" time="0.025"/>
+        <testcase name="bottom_pane::list_selection_view::tests::single_line_row_display_truncates_instead_of_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:27.004+00:00" time="0.026"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::desired_height_empty" classname="codex-tui" timestamp="2026-09-27T01:42:27.017+00:00" time="0.018"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::desired_height_one_message" classname="codex-tui" timestamp="2026-09-27T01:42:27.019+00:00" time="0.019"/>
+        <testcase name="bottom_pane::list_selection_view::tests::snapshot_footer_note_wraps" classname="codex-tui" timestamp="2026-09-27T01:42:27.012+00:00" time="0.028"/>
+        <testcase name="bottom_pane::list_selection_view::tests::wraps_long_option_without_overflowing_columns" classname="codex-tui" timestamp="2026-09-27T01:42:27.016+00:00" time="0.030"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::long_url_like_message_does_not_expand_into_wrapped_ellipsis_rows" classname="codex-tui" timestamp="2026-09-27T01:42:27.030+00:00" time="0.021"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_many_line_message" classname="codex-tui" timestamp="2026-09-27T01:42:27.035+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_more_than_three_messages" classname="codex-tui" timestamp="2026-09-27T01:42:27.038+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_multiline_pending_steer_uses_single_prefix_and_truncates" classname="codex-tui" timestamp="2026-09-27T01:42:27.039+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_one_message" classname="codex-tui" timestamp="2026-09-27T01:42:27.046+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_one_message_with_shift_left_binding" classname="codex-tui" timestamp="2026-09-27T01:42:27.051+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_one_pending_steer" classname="codex-tui" timestamp="2026-09-27T01:42:27.056+00:00" time="0.022"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_one_pending_steer_with_remapped_interrupt_binding" classname="codex-tui" timestamp="2026-09-27T01:42:27.058+00:00" time="0.021"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_pending_steers_above_queued_messages" classname="codex-tui" timestamp="2026-09-27T01:42:27.060+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_two_messages" classname="codex-tui" timestamp="2026-09-27T01:42:27.067+00:00" time="0.020"/>
+        <testcase name="bottom_pane::pending_input_preview::tests::render_wrapped_message" classname="codex-tui" timestamp="2026-09-27T01:42:27.071+00:00" time="0.020"/>
+        <testcase name="bottom_pane::request_user_input::tests::footer_wraps_tips_without_splitting_individual_tips" classname="codex-tui" timestamp="2026-09-27T01:42:27.078+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::layout_allocates_all_wrapped_options_when_space_allows" classname="codex-tui" timestamp="2026-09-27T01:42:27.080+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_footer_wrap_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.080+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_wrapped_options_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.087+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::selected_long_wrapped_option_stays_visible" classname="codex-tui" timestamp="2026-09-27T01:42:27.091+00:00" time="0.024"/>
+        <testcase name="bottom_pane::scroll_state::tests::wrap_navigation_and_visibility" classname="codex-tui" timestamp="2026-09-27T01:42:27.099+00:00" time="0.019"/>
+        <testcase name="bottom_pane::selection_popup_common::tests::one_cell_width_falls_back_without_panic_for_wrapped_two_column_rows" classname="codex-tui" timestamp="2026-09-27T01:42:27.103+00:00" time="0.019"/>
+        <testcase name="bottom_pane::selection_popup_common::selection_fill_tests::selection_fill_covers_wrapping_and_moves_without_coloring_disabled_rows" classname="codex-tui" timestamp="2026-09-27T01:42:27.103+00:00" time="0.026"/>
+        <testcase name="bottom_pane::selection_popup_common::tests::wrapped_two_column_rows_count_halfwidth_sound_marks" classname="codex-tui" timestamp="2026-09-27T01:42:27.111+00:00" time="0.021"/>
+        <testcase name="bottom_pane::selection_popup_common::tests::wrapped_two_column_rows_preserve_hard_line_breaks" classname="codex-tui" timestamp="2026-09-27T01:42:27.115+00:00" time="0.019"/>
+        <testcase name="bottom_pane::status_line_setup::tests::preview_includes_thread_title" classname="codex-tui" timestamp="2026-09-27T01:42:27.118+00:00" time="0.026"/>
+        <testcase name="bottom_pane::status_line_setup::tests::preview_uses_placeholders_when_runtime_values_are_missing" classname="codex-tui" timestamp="2026-09-27T01:42:27.122+00:00" time="0.025"/>
+        <testcase name="bottom_pane::status_line_setup::tests::preview_uses_runtime_values" classname="codex-tui" timestamp="2026-09-27T01:42:27.129+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::composer_wrapped_url_fragments_keep_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T01:42:27.135+00:00" time="0.022"/>
+        <testcase name="bottom_pane::status_line_setup::tests::setup_view_snapshot_uses_runtime_preview_values" classname="codex-tui" timestamp="2026-09-27T01:42:27.132+00:00" time="0.029"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::distinct_urls_respect_punctuation_wide_prefixes_and_tabs" classname="codex-tui" timestamp="2026-09-27T01:42:27.144+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::hyperlink_cache_is_invalidated_when_text_changes" classname="codex-tui" timestamp="2026-09-27T01:42:27.147+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::joined_emoji_preserve_complete_url_cell_ranges" classname="codex-tui" timestamp="2026-09-27T01:42:27.155+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::masked_url_input_never_exposes_hyperlink_destinations" classname="codex-tui" timestamp="2026-09-27T01:42:27.165+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::scrolled_url_fragments_keep_the_offscreen_destination" classname="codex-tui" timestamp="2026-09-27T01:42:27.179+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::unicode_whitespace_separates_url_destinations" classname="codex-tui" timestamp="2026-09-27T01:42:27.186+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::url_hyperlinks_preserve_existing_highlight_styles" classname="codex-tui" timestamp="2026-09-27T01:42:27.201+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::wrapped_url_fragments_keep_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T01:42:27.211+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_wraps_after_filling_the_final_line" classname="codex-tui" timestamp="2026-09-27T01:42:27.223+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::halfwidth_sound_marks_wrap_and_align_with_the_cursor" classname="codex-tui" timestamp="2026-09-27T01:42:27.233+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::leading_space_reflows_across_following_wrapped_fragments" classname="codex-tui" timestamp="2026-09-27T01:42:27.247+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::tabs_wrap_at_their_rendered_width" classname="codex-tui" timestamp="2026-09-27T01:42:27.256+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::trailing_spaces_wrap_without_letting_the_cursor_escape" classname="codex-tui" timestamp="2026-09-27T01:42:27.272+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_across_visual_lines" classname="codex-tui" timestamp="2026-09-27T01:42:27.278+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_with_wide_graphemes" classname="codex-tui" timestamp="2026-09-27T01:42:27.299+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_with_newlines_and_spaces" classname="codex-tui" timestamp="2026-09-27T01:42:27.296+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::wrapping_and_cursor_positions" classname="codex-tui" timestamp="2026-09-27T01:42:27.318+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::breakable_unicode_spaces_hang_before_following_words" classname="codex-tui" timestamp="2026-09-27T01:42:27.340+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::explicit_indentation_and_trailing_spaces_do_not_hang" classname="codex-tui" timestamp="2026-09-27T01:42:27.360+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::hanging_spaces_preserve_source_editing_and_visual_navigation" classname="codex-tui" timestamp="2026-09-27T01:42:27.380+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::hanging_tabs_keep_cursor_scrolling_and_navigation_aligned" classname="codex-tui" timestamp="2026-09-27T01:42:27.402+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::mandatory_breaks_keep_distinct_cursor_positions" classname="codex-tui" timestamp="2026-09-27T01:42:27.423+00:00" time="0.029"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::nonbreaking_spaces_never_hang" classname="codex-tui" timestamp="2026-09-27T01:42:27.453+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::preserves_textwrap_word_boundaries" classname="codex-tui" timestamp="2026-09-27T01:42:27.474+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::prose_wraps_like_the_queued_input_preview" classname="codex-tui" timestamp="2026-09-27T01:42:27.495+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::typing_after_eol_spaces_reflows_without_changing_text" classname="codex-tui" timestamp="2026-09-27T01:42:27.519+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::vertical_navigation_clamps_saved_column_after_resize" classname="codex-tui" timestamp="2026-09-27T01:42:27.541+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::vertical_navigation_preserves_destination_tab_columns" classname="codex-tui" timestamp="2026-09-27T01:42:27.563+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::long_drafts_reuse_hyperlink_detection_across_cursor_redraws" classname="codex-tui" timestamp="2026-09-27T01:42:27.157+00:00" time="0.509"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::maximum_length_urls_render_without_osc8_annotations" classname="codex-tui" timestamp="2026-09-27T01:42:27.168+00:00" time="0.504"/>
+        <testcase name="chatwidget::input_queue::tests::preview_keeps_queue_categories_separate" classname="codex-tui" timestamp="2026-09-27T01:42:27.672+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::many_urls_render_with_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T01:42:27.161+00:00" time="0.549"/>
+        <testcase name="chatwidget::pets::tests::stale_pet_preview_completion_keeps_current_preview" classname="codex-tui" timestamp="2026-09-27T01:42:27.694+00:00" time="0.037"/>
+        <testcase name="chatwidget::rendering::tests::active_transcript_preserves_clipped_markdown_hyperlinks" classname="codex-tui" timestamp="2026-09-27T01:42:27.711+00:00" time="0.023"/>
+        <testcase name="chatwidget::tests::airs_recovery::mcp_recovery_recognizes_the_core_error_wrapper" classname="codex-tui" timestamp="2026-09-27T01:42:27.731+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::approval_requests::app_server_exec_approval_request_splits_shell_wrapped_command" classname="codex-tui" timestamp="2026-09-27T01:42:27.751+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::app_server::live_app_server_command_execution_strips_shell_wrapper" classname="codex-tui" timestamp="2026-09-27T01:42:27.734+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::config_errors::chained_config_error_wraps_in_history_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.771+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::exec_flow::app_server_exec_approval_request_splits_shell_wrapped_command" classname="codex-tui" timestamp="2026-09-27T01:42:27.808+00:00" time="0.022"/>
+        <testcase name="chatwidget::tests::review_mode::failed_pending_steer_submit_does_not_add_pending_preview" classname="codex-tui" timestamp="2026-09-27T01:42:27.809+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::slash_commands::slash_copy_picker_previews_whole_response_code_blocks_and_blockquotes" classname="codex-tui" timestamp="2026-09-27T01:42:27.831+00:00" time="0.039"/>
+        <testcase name="chatwidget::tests::status_and_layout::ambient_pet_reserves_history_wrap_width" classname="codex-tui" timestamp="2026-09-27T01:42:27.848+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_surface_previews::missing_project_root_uses_different_status_and_title_preview_sources" classname="codex-tui" timestamp="2026-09-27T01:42:27.871+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_line_setup_popup_hardcoded_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.884+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_line_setup_popup_live_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.907+00:00" time="0.039"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_line_setup_popup_mixed_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.921+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_line_setup_popup_rate_limits_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.946+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_line_setup_popup_workspace_headline_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.958+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_hostname_preview_uses_current_machine_hostname" classname="codex-tui" timestamp="2026-09-27T01:42:27.984+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_lines_hardcoded_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:27.996+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_lines_live_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.021+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_lines_mixed_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.031+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_lines_rate_limits_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.057+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_lines_thread_usage_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.067+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_preview_omits_unavailable_rate_limit_items" classname="codex-tui" timestamp="2026-09-27T01:42:28.093+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_surface_previews::status_surface_thread_usage_previews_omit_unavailable_usd_estimates" classname="codex-tui" timestamp="2026-09-27T01:42:28.109+00:00" time="0.040"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::wraps_maximum_length_unbroken_word_in_one_pass" classname="codex-tui" timestamp="2026-09-27T01:42:27.666+00:00" time="0.490"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_preview_uses_title_truncation_for_live_values" classname="codex-tui" timestamp="2026-09-27T01:42:28.130+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_setup_popup_hardcoded_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.149+00:00" time="0.041"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_setup_popup_live_only_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.156+00:00" time="0.043"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_setup_popup_mixed_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.167+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_setup_popup_rate_limits_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.191+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::status_surface_previews::terminal_title_setup_popup_thread_usage_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.198+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::status_surface_previews::thread_title_falls_back_to_thread_id_when_unnamed" classname="codex-tui" timestamp="2026-09-27T01:42:28.204+00:00" time="0.036"/>
+        <testcase name="chatwidget::transcript::tests::active_cell_revision_wraps" classname="codex-tui" timestamp="2026-09-27T01:42:28.237+00:00" time="0.018"/>
+        <testcase name="clipboard_copy::tests::osc52_wraps_tmux_passthrough" classname="codex-tui" timestamp="2026-09-27T01:42:28.240+00:00" time="0.019"/>
+        <testcase name="chatwidget::tests::usage::rate_limit_reset_picker_wraps_expiry_details_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.231+00:00" time="0.040"/>
+        <testcase name="clipboard_html::tests::markdown_clipboard_unwraps_table_fences_like_the_tui" classname="codex-tui" timestamp="2026-09-27T01:42:28.255+00:00" time="0.020"/>
+        <testcase name="custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs" classname="codex-tui" timestamp="2026-09-27T01:42:28.259+00:00" time="0.021"/>
+        <testcase name="diff_render::tests::light_theme_wrapped_lines_keep_number_gutter_contrast" classname="codex-tui" timestamp="2026-09-27T01:42:28.280+00:00" time="0.019"/>
+        <testcase name="diff_render::tests::fallback_wrapping_uses_display_width_for_tabs_and_wide_chars" classname="codex-tui" timestamp="2026-09-27T01:42:28.275+00:00" time="0.026"/>
+        <testcase name="custom_terminal::tests::terminal_draw_coalesces_wrapped_hyperlink_output" classname="codex-tui" timestamp="2026-09-27T01:42:28.272+00:00" time="0.031"/>
+        <testcase name="diff_render::tests::ui_snapshot_apply_update_block_wraps_long_lines" classname="codex-tui" timestamp="2026-09-27T01:42:28.299+00:00" time="0.062"/>
+        <testcase name="diff_render::tests::ui_snapshot_apply_update_block_wraps_long_lines_text" classname="codex-tui" timestamp="2026-09-27T01:42:28.300+00:00" time="0.063"/>
+        <testcase name="diff_render::tests::ui_snapshot_syntax_highlighted_insert_wraps" classname="codex-tui" timestamp="2026-09-27T01:42:28.303+00:00" time="0.064"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_flushes_at_span_boundary" classname="codex-tui" timestamp="2026-09-27T01:42:28.367+00:00" time="0.019"/>
+        <testcase name="diff_render::tests::ui_snapshot_wrap_behavior_insert" classname="codex-tui" timestamp="2026-09-27T01:42:28.364+00:00" time="0.026"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_preserves_styles" classname="codex-tui" timestamp="2026-09-27T01:42:28.386+00:00" time="0.018"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_single_line" classname="codex-tui" timestamp="2026-09-27T01:42:28.390+00:00" time="0.019"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_splits_long_content" classname="codex-tui" timestamp="2026-09-27T01:42:28.405+00:00" time="0.021"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_tabs_have_visible_width" classname="codex-tui" timestamp="2026-09-27T01:42:28.410+00:00" time="0.018"/>
+        <testcase name="diff_render::tests::ui_snapshot_syntax_highlighted_insert_wraps_text" classname="codex-tui" timestamp="2026-09-27T01:42:28.361+00:00" time="0.067"/>
+        <testcase name="exec_cell::render::tests::streamed_output_renders_head_tail_previews" classname="codex-tui" timestamp="2026-09-27T01:42:28.429+00:00" time="0.021"/>
+        <testcase name="diff_render::tests::wrap_styled_spans_wraps_before_first_overflowing_char" classname="codex-tui" timestamp="2026-09-27T01:42:28.426+00:00" time="0.024"/>
+        <testcase name="exec_command::tests::split_command_string_round_trips_shell_wrappers" classname="codex-tui" timestamp="2026-09-27T01:42:28.450+00:00" time="0.024"/>
+        <testcase name="exec_cell::render::tests::desired_transcript_height_accounts_for_wrapped_url_like_rows" classname="codex-tui" timestamp="2026-09-27T01:42:28.427+00:00" time="0.063"/>
+        <testcase name="history_cell::tests::agent_markdown_cell_survives_insert_history_rewrap" classname="codex-tui" timestamp="2026-09-27T01:42:28.474+00:00" time="0.022"/>
+        <testcase name="history_cell::tests::completed_mcp_tool_call_wrapped_outputs_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.491+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::empty_mcp_output_preserves_docs_hyperlink" classname="codex-tui" timestamp="2026-09-27T01:42:28.496+00:00" time="0.021"/>
+        <testcase name="exec_cell::render::tests::truncated_live_output_preview_and_transcript_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.450+00:00" time="0.069"/>
+        <testcase name="history_cell::tests::multiline_command_both_lines_wrap_with_correct_prefixes" classname="codex-tui" timestamp="2026-09-27T01:42:28.512+00:00" time="0.065"/>
+        <testcase name="history_cell::tests::multiline_command_wraps_with_extra_indent_on_subsequent_lines" classname="codex-tui" timestamp="2026-09-27T01:42:28.519+00:00" time="0.061"/>
+        <testcase name="history_cell::tests::multiline_command_without_wrap_uses_branch_then_eight_spaces" classname="codex-tui" timestamp="2026-09-27T01:42:28.518+00:00" time="0.069"/>
+        <testcase name="history_cell::tests::prefixed_wrapped_history_cell_does_not_split_url_like_token" classname="codex-tui" timestamp="2026-09-27T01:42:28.580+00:00" time="0.019"/>
+        <testcase name="history_cell::tests::plan_update_with_note_and_wrapping_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.578+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::prefixed_wrapped_history_cell_height_matches_wrapped_rendering" classname="codex-tui" timestamp="2026-09-27T01:42:28.586+00:00" time="0.019"/>
+        <testcase name="history_cell::tests::prefixed_wrapped_history_cell_indents_wrapped_lines" classname="codex-tui" timestamp="2026-09-27T01:42:28.600+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::proposed_plan_cell_preserves_wrapped_table_web_links" classname="codex-tui" timestamp="2026-09-27T01:42:28.600+00:00" time="0.028"/>
+        <testcase name="history_cell::tests::proposed_plan_cell_unwraps_markdown_fenced_table" classname="codex-tui" timestamp="2026-09-27T01:42:28.606+00:00" time="0.026"/>
+        <testcase name="history_cell::tests::reasoning_summary_height_matches_wrapped_rendering_for_url_like_content" classname="codex-tui" timestamp="2026-09-27T01:42:28.620+00:00" time="0.022"/>
+        <testcase name="history_cell::tests::render_uses_wrapping_for_long_url_like_line" classname="codex-tui" timestamp="2026-09-27T01:42:28.628+00:00" time="0.022"/>
+        <testcase name="history_cell::tests::streamed_agent_list_paragraph_preserves_item_indent_when_wrapped" classname="codex-tui" timestamp="2026-09-27T01:42:28.642+00:00" time="0.020"/>
+        <testcase name="history_cell::tests::unified_exec_interaction_cell_height_matches_wrapped_rendering" classname="codex-tui" timestamp="2026-09-27T01:42:28.650+00:00" time="0.019"/>
+        <testcase name="history_cell::tests::user_history_cell_wraps_and_prefixes_each_line_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.662+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::user_history_cell_wraps_long_urls_inside_the_message_gutter" classname="codex-tui" timestamp="2026-09-27T01:42:28.669+00:00" time="0.022"/>
+        <testcase name="history_cell::tests::single_line_command_wraps_with_four_space_continuation" classname="codex-tui" timestamp="2026-09-27T01:42:28.631+00:00" time="0.064"/>
+        <testcase name="history_cell::tests::web_search_history_cell_short_query_does_not_wrap" classname="codex-tui" timestamp="2026-09-27T01:42:28.683+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::web_search_history_cell_wraps_with_indented_continuation" classname="codex-tui" timestamp="2026-09-27T01:42:28.690+00:00" time="0.020"/>
+        <testcase name="history_cell::tests::wrapped_and_prefixed_cells_handle_tiny_widths" classname="codex-tui" timestamp="2026-09-27T01:42:28.695+00:00" time="0.024"/>
+        <testcase name="inline_visualization::tests::unterminated_visualization_preview_uses_the_stream_context" classname="codex-tui" timestamp="2026-09-27T01:42:28.704+00:00" time="0.022"/>
+        <testcase name="insert_history::tests::vt100_blockquote_wrap_preserves_color_on_all_wrapped_lines" classname="codex-tui" timestamp="2026-09-27T01:42:28.719+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::markdown_link_label_survives_history_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:28.711+00:00" time="0.034"/>
+        <testcase name="insert_history::tests::vt100_long_unwrapped_url_does_not_insert_extra_blank_gap_before_content" classname="codex-tui" timestamp="2026-09-27T01:42:28.726+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_prefixed_mixed_url_line_preserves_prefix_on_wrapped_rows" classname="codex-tui" timestamp="2026-09-27T01:42:28.740+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_prefixed_mixed_url_line_wraps_suffix_words_together" classname="codex-tui" timestamp="2026-09-27T01:42:28.744+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_prefixed_non_url_line_preserves_prefix_on_wrapped_rows" classname="codex-tui" timestamp="2026-09-27T01:42:28.747+00:00" time="0.020"/>
+        <testcase name="insert_history::tests::vt100_terminal_wrap_policy_does_not_pre_wrap_long_paragraph" classname="codex-tui" timestamp="2026-09-27T01:42:28.761+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_unwrapped_url_like_clears_continuation_rows" classname="codex-tui" timestamp="2026-09-27T01:42:28.765+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_user_message_url_wrap_preserves_gutter_and_background" classname="codex-tui" timestamp="2026-09-27T01:42:28.767+00:00" time="0.021"/>
+        <testcase name="insert_history::tests::vt100_zellij_raw_insert_keeps_soft_wrapped_tail_above_viewport" classname="codex-tui" timestamp="2026-09-27T01:42:28.782+00:00" time="0.022"/>
+        <testcase name="insert_history::tests::vt100_zellij_raw_replay_keeps_overflowing_soft_wrapped_tail_above_viewport" classname="codex-tui" timestamp="2026-09-27T01:42:28.786+00:00" time="0.021"/>
+        <testcase name="keymap_setup::capture::tests::chord_capture_instructions_wrap_to_narrow_panes" classname="codex-tui" timestamp="2026-09-27T01:42:28.787+00:00" time="0.021"/>
+        <testcase name="live_wrap::tests::fragmentation_invariance_long_token" classname="codex-tui" timestamp="2026-09-27T01:42:28.804+00:00" time="0.020"/>
+        <testcase name="live_wrap::tests::newline_splits_rows" classname="codex-tui" timestamp="2026-09-27T01:42:28.808+00:00" time="0.019"/>
+        <testcase name="live_wrap::tests::halfwidth_sound_marks_stay_with_their_grapheme_when_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:28.807+00:00" time="0.020"/>
+        <testcase name="live_wrap::tests::rewrap_on_width_change" classname="codex-tui" timestamp="2026-09-27T01:42:28.824+00:00" time="0.020"/>
+        <testcase name="live_wrap::tests::rows_do_not_exceed_width_emoji_cjk" classname="codex-tui" timestamp="2026-09-27T01:42:28.828+00:00" time="0.018"/>
+        <testcase name="live_wrap::tests::rows_do_not_exceed_width_ascii" classname="codex-tui" timestamp="2026-09-27T01:42:28.827+00:00" time="0.019"/>
+        <testcase name="markdown::tests::append_markdown_agent_unwraps_blockquoted_markdown_fence_table" classname="codex-tui" timestamp="2026-09-27T01:42:28.845+00:00" time="0.021"/>
+        <testcase name="markdown::tests::append_markdown_agent_unwraps_markdown_fences_for_no_outer_table_rendering" classname="codex-tui" timestamp="2026-09-27T01:42:28.845+00:00" time="0.029"/>
+        <testcase name="markdown::tests::append_markdown_agent_unwraps_markdown_fences_for_single_column_table" classname="codex-tui" timestamp="2026-09-27T01:42:28.846+00:00" time="0.032"/>
+        <testcase name="markdown::tests::append_markdown_agent_unwraps_markdown_fences_for_table_rendering" classname="codex-tui" timestamp="2026-09-27T01:42:28.866+00:00" time="0.027"/>
+        <testcase name="markdown::tests::unwrap_markdown_fences_repro_keeps_fence_without_header_delimiter_pair" classname="codex-tui" timestamp="2026-09-27T01:42:28.878+00:00" time="0.019"/>
+        <testcase name="markdown::tests::append_markdown_agent_unwraps_markdown_fences_for_two_column_no_outer_table" classname="codex-tui" timestamp="2026-09-27T01:42:28.874+00:00" time="0.026"/>
+        <testcase name="markdown_render::markdown_render_tests::bare_url_with_tilde_keeps_complete_hyperlink" classname="codex-tui" timestamp="2026-09-27T01:42:28.893+00:00" time="0.022"/>
+        <testcase name="markdown_render::markdown_render_tests::mixed_url_markdown_wraps_prose_without_splitting_words_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.897+00:00" time="0.022"/>
+        <testcase name="markdown_render::markdown_render_tests::table_separates_logical_rows_after_wrapped_content" classname="codex-tui" timestamp="2026-09-27T01:42:28.901+00:00" time="0.026"/>
+        <testcase name="markdown_render::markdown_render_tests::table_url_with_tilde_keeps_complete_hyperlink" classname="codex-tui" timestamp="2026-09-27T01:42:28.915+00:00" time="0.028"/>
+        <testcase name="markdown_render::markdown_render_tests::table_wraps_file_paths_before_collapsing_narrative_columns_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:28.919+00:00" time="0.027"/>
+        <testcase name="markdown_render::markdown_render_tests::web_link_labels_keep_link_style_in_wrapped_prose_and_tables" classname="codex-tui" timestamp="2026-09-27T01:42:28.928+00:00" time="0.027"/>
+        <testcase name="markdown_render::markdown_render_tests::wrapped_list_item_is_separated_from_next_sibling" classname="codex-tui" timestamp="2026-09-27T01:42:28.943+00:00" time="0.021"/>
+        <testcase name="markdown_render::tests::does_not_wrap_code_blocks" classname="codex-tui" timestamp="2026-09-27T01:42:28.946+00:00" time="0.019"/>
+        <testcase name="markdown_render::tests::wrap_cell_preserves_hard_break_lines" classname="codex-tui" timestamp="2026-09-27T01:42:28.954+00:00" time="0.021"/>
+        <testcase name="markdown_render::tests::wraps_blockquotes" classname="codex-tui" timestamp="2026-09-27T01:42:28.966+00:00" time="0.020">
+            <failure message="thread &apos;markdown_render::tests::wraps_blockquotes&apos; (2500133) panicked at tui/src/markdown_render.rs:2283:50" type="test failure with exit code 101">thread &apos;markdown_render::tests::wraps_blockquotes&apos; (2500133) panicked at tui/src/markdown_render.rs:2283:50:
+blockquote source
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test markdown_render::tests::wraps_blockquotes ... FAILED
+
+failures:
+
+failures:
+    markdown_render::tests::wraps_blockquotes
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4481 filtered out; finished in 0.00s
+
+</system-out>
+            <system-err>
+thread &apos;markdown_render::tests::wraps_blockquotes&apos; (2500133) panicked at tui/src/markdown_render.rs:2283:50:
+blockquote source
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="bottom_pane::textarea::wrapping::tests::ascii_wrapped_rows_fit_and_preserve_cursor_positions" classname="codex-tui" timestamp="2026-09-27T01:42:27.320+00:00" time="1.667"/>
+        <testcase name="markdown_render::tests::wrapped_table_url_fragments_keep_complete_web_destination" classname="codex-tui" timestamp="2026-09-27T01:42:28.965+00:00" time="0.027"/>
+        <testcase name="markdown_render::tests::wraps_blockquotes_inside_lists" classname="codex-tui" timestamp="2026-09-27T01:42:28.975+00:00" time="0.022"/>
+        <testcase name="markdown_render::tests::wraps_list_items_preserving_indent" classname="codex-tui" timestamp="2026-09-27T01:42:28.987+00:00" time="0.021"/>
+        <testcase name="markdown_render::tests::wraps_list_items_containing_blockquotes" classname="codex-tui" timestamp="2026-09-27T01:42:28.987+00:00" time="0.021"/>
+        <testcase name="markdown_render::tests::wraps_nested_lists" classname="codex-tui" timestamp="2026-09-27T01:42:28.992+00:00" time="0.022"/>
+        <testcase name="markdown_render::tests::wraps_ordered_lists" classname="codex-tui" timestamp="2026-09-27T01:42:28.998+00:00" time="0.020"/>
+        <testcase name="markdown_render::tests::wraps_plain_text_when_width_provided" classname="codex-tui" timestamp="2026-09-27T01:42:29.008+00:00" time="0.019"/>
+        <testcase name="markdown_render::web_links::tests::label_only_web_links_keep_targets_after_prose_and_table_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:29.008+00:00" time="0.028"/>
+        <testcase name="markdown_stream::tests::e2e_stream_blockquote_wrap_preserves_green_style" classname="codex-tui" timestamp="2026-09-27T01:42:29.018+00:00" time="0.022"/>
+        <testcase name="markdown_stream::tests::collector_source_chunks_round_trip_into_agent_fence_unwrapping" classname="codex-tui" timestamp="2026-09-27T01:42:29.013+00:00" time="0.027"/>
+        <testcase name="notifications::osc9::tests::post_notification_writes_tmux_dcs_wrapped_osc9_sequence" classname="codex-tui" timestamp="2026-09-27T01:42:29.037+00:00" time="0.020"/>
+        <testcase name="onboarding::auth::tests::mark_url_hyperlink_sanitizes_control_chars" classname="codex-tui" timestamp="2026-09-27T01:42:29.041+00:00" time="0.020"/>
+        <testcase name="onboarding::auth::tests::mark_url_hyperlink_wraps_cyan_underlined_cells" classname="codex-tui" timestamp="2026-09-27T01:42:29.056+00:00" time="0.019"/>
+        <testcase name="pager_overlay::tests::pager_view_is_scrolled_to_bottom_accounts_for_wrapped_height" classname="codex-tui" timestamp="2026-09-27T01:42:29.060+00:00" time="0.021"/>
+        <testcase name="pager_overlay::tests::static_overlay_wraps_long_lines" classname="codex-tui" timestamp="2026-09-27T01:42:29.075+00:00" time="0.022"/>
+        <testcase name="onboarding::auth::tests::chatgpt_success_message_renders_osc8_hyperlinks" classname="codex-tui" timestamp="2026-09-27T01:42:29.039+00:00" time="0.058"/>
+        <testcase name="pets::image_protocol::tests::tmux_passthrough_wraps_and_escapes_control_sequence" classname="codex-tui" timestamp="2026-09-27T01:42:29.081+00:00" time="0.019"/>
+        <testcase name="resume_picker::tests::row_display_preview_prefers_thread_name" classname="codex-tui" timestamp="2026-09-27T01:42:29.100+00:00" time="0.018"/>
+        <testcase name="resume_picker::tests::dense_session_line_prefers_thread_name_over_preview" classname="codex-tui" timestamp="2026-09-27T01:42:29.098+00:00" time="0.021"/>
+        <testcase name="pets::preview::tests::centered_text_area_centers_vertically" classname="codex-tui" timestamp="2026-09-27T01:42:29.098+00:00" time="0.022"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_falls_back_when_rollback_is_in_the_tail" classname="codex-tui" timestamp="2026-09-27T01:42:29.120+00:00" time="0.030"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_falls_back_for_oversized_visible_record" classname="codex-tui" timestamp="2026-09-27T01:42:29.119+00:00" time="0.051"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_falls_back_for_oversized_hidden_record" classname="codex-tui" timestamp="2026-09-27T01:42:29.118+00:00" time="0.054"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_scans_tail_across_compaction" classname="codex-tui" timestamp="2026-09-27T01:42:29.171+00:00" time="0.020"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_stops_before_rollback_outside_the_tail" classname="codex-tui" timestamp="2026-09-27T01:42:29.172+00:00" time="0.020"/>
+        <testcase name="resume_picker::transcript_preview::tests::legacy_transcript_preview_falls_back_when_scan_budget_is_exhausted" classname="codex-tui" timestamp="2026-09-27T01:42:29.150+00:00" time="0.048"/>
+        <testcase name="resume_picker::transcript_preview::tests::transcript_preview_reverse_scan_stops_before_older_items" classname="codex-tui" timestamp="2026-09-27T01:42:29.199+00:00" time="0.022"/>
+        <testcase name="status_indicator_widget::tests::renders_wrapped_details_panama_two_lines" classname="codex-tui" timestamp="2026-09-27T01:42:29.220+00:00" time="0.020"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_raw_preview_preserves_line_on_newline" classname="codex-tui" timestamp="2026-09-27T01:42:29.241+00:00" time="0.019"/>
+        <testcase name="streaming::controller::preview_tests::long_unicode_preview_keeps_recent_text_and_finalizes_full_source" classname="codex-tui" timestamp="2026-09-27T01:42:29.260+00:00" time="0.035"/>
+        <testcase name="streaming::controller::preview_tests::partial_markdown_structures_remain_newline_gated" classname="codex-tui" timestamp="2026-09-27T01:42:29.295+00:00" time="0.027"/>
+        <testcase name="streaming::controller::preview_tests::prose_after_a_table_is_previewed_until_another_table_starts" classname="codex-tui" timestamp="2026-09-27T01:42:29.322+00:00" time="0.029"/>
+        <testcase name="named_session_lookup::tests::resolves_name_and_preview_from_server_list" classname="codex-tui" timestamp="2026-09-27T01:42:29.026+00:00" time="0.396"/>
+        <testcase name="streaming::controller::preview_tests::prose_preview_resumes_after_fenced_code" classname="codex-tui" timestamp="2026-09-27T01:42:29.351+00:00" time="0.073"/>
+        <testcase name="streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail" classname="codex-tui" timestamp="2026-09-27T01:42:29.422+00:00" time="0.021">
+            <failure message="thread &apos;streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail&apos; (2500434) panicked at tui/src/streaming/controller_preview_tests.rs:13:5" type="test failure with exit code 101">thread &apos;streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail&apos; (2500434) panicked at tui/src/streaming/controller_preview_tests.rs:13:5:
+assertion failed: controller.push(&quot;&amp;#32;&quot;)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail ... FAILED
+
+failures:
+
+failures:
+    streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4481 filtered out; finished in 0.00s
+
+</system-out>
+            <system-err>
+thread &apos;streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail&apos; (2500434) panicked at tui/src/streaming/controller_preview_tests.rs:13:5:
+assertion failed: controller.push(&quot;&amp;#32;&quot;)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_wrapped_emit_keeps_wrapped_remainder" classname="codex-tui" timestamp="2026-09-27T01:42:29.444+00:00" time="0.023"/>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_wrapped_emit_preserves_remaining_content" classname="codex-tui" timestamp="2026-09-27T01:42:29.467+00:00" time="0.021"/>
+        <testcase name="streaming::controller::preview_tests::unterminated_prose_reflows_and_finishes_without_duplication" classname="codex-tui" timestamp="2026-09-27T01:42:29.424+00:00" time="0.088"/>
+        <testcase name="terminal_hyperlinks::regression_tests::decorated_hyperlinks_preserve_joined_emoji_columns" classname="codex-tui" timestamp="2026-09-27T01:42:29.513+00:00" time="0.020"/>
+        <testcase name="streaming::render::tests::paragraphs_after_unwrapped_table_fence_advance_stable_source" classname="codex-tui" timestamp="2026-09-27T01:42:29.488+00:00" time="0.070"/>
+        <testcase name="terminal_hyperlinks::regression_tests::oversized_destinations_remain_plain_text" classname="codex-tui" timestamp="2026-09-27T01:42:29.559+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::regression_tests::trims_long_runs_of_unmatched_closing_delimiters" classname="codex-tui" timestamp="2026-09-27T01:42:29.578+00:00" time="0.027"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_scrolled_wrapped_rows" classname="codex-tui" timestamp="2026-09-27T01:42:29.605+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_word_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:29.626+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_halfwidth_dakuten" classname="codex-tui" timestamp="2026-09-27T01:42:29.647+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_wide_glyphs" classname="codex-tui" timestamp="2026-09-27T01:42:29.669+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T01:42:29.689+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::decorates_a_contiguous_web_link_with_one_osc8_pair" classname="codex-tui" timestamp="2026-09-27T01:42:29.709+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::discovers_punctuated_web_url_columns" classname="codex-tui" timestamp="2026-09-27T01:42:29.729+00:00" time="0.018"/>
+        <testcase name="terminal_hyperlinks::tests::forced_width_hyperlinks_render_wide_and_halfwidth_cells_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:29.747+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::visible_prefix_bounds_long_hanging_runs_without_splitting_graphemes" classname="codex-tui" timestamp="2026-09-27T01:42:27.586+00:00" time="2.189"/>
+        <testcase name="terminal_hyperlinks::tests::hyperlink_columns_follow_a_long_prefix_without_wrapping" classname="codex-tui" timestamp="2026-09-27T01:42:29.769+00:00" time="0.025"/>
+        <testcase name="terminal_hyperlinks::tests::matching_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T01:42:29.775+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::regression_tests::discovers_many_web_urls_with_incremental_columns" classname="codex-tui" timestamp="2026-09-27T01:42:29.533+00:00" time="0.268"/>
+        <testcase name="terminal_hyperlinks::tests::only_web_destinations_receive_osc8" classname="codex-tui" timestamp="2026-09-27T01:42:29.794+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::tests::preserves_balanced_parentheses_in_bare_web_urls" classname="codex-tui" timestamp="2026-09-27T01:42:29.795+00:00" time="0.018"/>
+        <testcase name="terminal_hyperlinks::tests::trusted_file_destination_receives_osc8_without_enabling_plain_file_links" classname="codex-tui" timestamp="2026-09-27T01:42:29.801+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_multiple_links_across_indented_unicode_lines" classname="codex-tui" timestamp="2026-09-27T01:42:29.813+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_repeated_link_labels_by_source_position" classname="codex-tui" timestamp="2026-09-27T01:42:29.813+00:00" time="0.020"/>
+        <testcase name="theme_picker::tests::subtitle_falls_back_to_preview_instructions_without_tilde_path" classname="codex-tui" timestamp="2026-09-27T01:42:29.833+00:00" time="0.019"/>
+        <testcase name="theme_picker::tests::theme_picker_items_include_search_values_for_preview_mapping" classname="codex-tui" timestamp="2026-09-27T01:42:29.852+00:00" time="0.027"/>
+        <testcase name="theme_picker::tests::deleted_preview_code_uses_dim_overlay_like_real_diff_renderer" classname="codex-tui" timestamp="2026-09-27T01:42:29.820+00:00" time="0.061"/>
+        <testcase name="theme_picker::tests::narrow_preview_renders_single_add_and_single_remove_in_four_lines" classname="codex-tui" timestamp="2026-09-27T01:42:29.833+00:00" time="0.062"/>
+        <testcase name="theme_picker::tests::theme_picker_uses_half_width_with_stacked_fallback_preview" classname="codex-tui" timestamp="2026-09-27T01:42:29.879+00:00" time="0.027"/>
+        <testcase name="tui::history_tail::tests::replacing_soft_wrapped_history_counts_physical_terminal_rows" classname="codex-tui" timestamp="2026-09-27T01:42:29.895+00:00" time="0.020"/>
+        <testcase name="tui::scrollback::tests::zellij_only_uses_full_screen_insertion_for_terminal_wrapped_history" classname="codex-tui" timestamp="2026-09-27T01:42:29.907+00:00" time="0.019"/>
+        <testcase name="unarchive_prompt::tests::narrow_inline_prompt_wraps_snapshot" classname="codex-tui" timestamp="2026-09-27T01:42:29.915+00:00" time="0.020"/>
+        <testcase name="theme_picker::tests::wide_preview_renders_all_lines_with_vertical_center_and_left_inset" classname="codex-tui" timestamp="2026-09-27T01:42:29.881+00:00" time="0.064"/>
+        <testcase name="wrapping::reuse_tests::custom_word_separator_reprocesses_the_remainder" classname="codex-tui" timestamp="2026-09-27T01:42:29.926+00:00" time="0.019"/>
+        <testcase name="wrapping::reuse_tests::first_fit_reuse_preserves_styled_rows_and_source_ranges" classname="codex-tui" timestamp="2026-09-27T01:42:29.935+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_keeps_long_url_like_token_intact" classname="codex-tui" timestamp="2026-09-27T01:42:29.945+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_keeps_url_split_across_styled_spans_intact" classname="codex-tui" timestamp="2026-09-27T01:42:29.945+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_line_counts_leading_spaces_before_first_word" classname="codex-tui" timestamp="2026-09-27T01:42:29.955+00:00" time="0.021"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_line_resplits_long_token_for_continuation_width" classname="codex-tui" timestamp="2026-09-27T01:42:29.965+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_line_keeps_regular_words_intact" classname="codex-tui" timestamp="2026-09-27T01:42:29.965+00:00" time="0.021"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_line_wraps_long_non_url_token" classname="codex-tui" timestamp="2026-09-27T01:42:29.976+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_url_counts_halfwidth_sound_marks" classname="codex-tui" timestamp="2026-09-27T01:42:29.985+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_mixed_url_makes_progress_for_an_indivisible_grapheme" classname="codex-tui" timestamp="2026-09-27T01:42:29.986+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::adaptive_wrap_line_preserves_default_behavior_for_non_url_tokens" classname="codex-tui" timestamp="2026-09-27T01:42:29.995+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::borrowed_slice_range_rejects_slices_outside_source_text" classname="codex-tui" timestamp="2026-09-27T01:42:30.006+00:00" time="0.019"/>
+        <testcase name="bottom_pane::async_questions::tests::question_wrapped_options_and_other_share_the_text_indent" classname="codex-tui" timestamp="2026-09-27T01:42:26.954+00:00" time="3.071"/>
+        <testcase name="wrapping::tests::ascii_space_separator_with_no_hyphenation_keeps_url_intact" classname="codex-tui" timestamp="2026-09-27T01:42:30.006+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::break_words_false_allows_overflow_for_long_word" classname="codex-tui" timestamp="2026-09-27T01:42:30.015+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::empty_initial_indent_subsequent_spaces" classname="codex-tui" timestamp="2026-09-27T01:42:30.025+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::empty_input_yields_single_empty_line" classname="codex-tui" timestamp="2026-09-27T01:42:30.025+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::hyphen_splitter_breaks_at_hyphen" classname="codex-tui" timestamp="2026-09-27T01:42:30.026+00:00" time="0.021"/>
+        <testcase name="wrapping::tests::indent_consumes_width_leaving_one_char_space" classname="codex-tui" timestamp="2026-09-27T01:42:30.035+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::leading_spaces_preserved_on_first_line" classname="codex-tui" timestamp="2026-09-27T01:42:30.045+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::line_contains_url_like_checks_across_spans" classname="codex-tui" timestamp="2026-09-27T01:42:30.045+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::line_has_mixed_url_and_non_url_tokens_detects_prose_plus_url" classname="codex-tui" timestamp="2026-09-27T01:42:30.047+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::line_has_mixed_url_and_non_url_tokens_ignores_ordered_list_marker" classname="codex-tui" timestamp="2026-09-27T01:42:30.054+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::line_has_mixed_url_and_non_url_tokens_ignores_pipe_prefix" classname="codex-tui" timestamp="2026-09-27T01:42:30.064+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::map_owned_wrapped_line_to_range_indent_coincides_with_source" classname="codex-tui" timestamp="2026-09-27T01:42:30.067+00:00" time="0.018"/>
+        <testcase name="wrapping::tests::line_height_counts_double_width_emoji" classname="codex-tui" timestamp="2026-09-27T01:42:30.066+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::map_owned_wrapped_line_to_range_recovers_on_non_prefix_mismatch" classname="codex-tui" timestamp="2026-09-27T01:42:30.074+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::map_owned_wrapped_line_to_range_repro_overconsumes_repeated_prefix_patterns" classname="codex-tui" timestamp="2026-09-27T01:42:30.084+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::multiple_spaces_between_words_dont_start_next_line_with_spaces" classname="codex-tui" timestamp="2026-09-27T01:42:30.085+00:00" time="0.021"/>
+        <testcase name="wrapping::tests::narrow_wrap_ranges_preserve_compound_graphemes" classname="codex-tui" timestamp="2026-09-27T01:42:30.086+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::simple_styled_wrap_preserves_styles" classname="codex-tui" timestamp="2026-09-27T01:42:30.093+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::simple_unstyled_wrap_narrow_width" classname="codex-tui" timestamp="2026-09-27T01:42:30.104+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::text_contains_url_like_accepts_custom_scheme_with_separator" classname="codex-tui" timestamp="2026-09-27T01:42:30.106+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::styled_split_within_span_preserves_style" classname="codex-tui" timestamp="2026-09-27T01:42:30.106+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::text_contains_url_like_matches_expected_tokens" classname="codex-tui" timestamp="2026-09-27T01:42:30.112+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::text_contains_url_like_rejects_invalid_ports" classname="codex-tui" timestamp="2026-09-27T01:42:30.123+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::text_contains_url_like_rejects_non_urls" classname="codex-tui" timestamp="2026-09-27T01:42:30.125+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::trivial_unstyled_no_indents_wide_width" classname="codex-tui" timestamp="2026-09-27T01:42:30.125+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wide_unicode_wraps_by_display_width" classname="codex-tui" timestamp="2026-09-27T01:42:30.131+00:00" time="0.018"/>
+        <testcase name="wrapping::tests::with_initial_and_subsequent_indents" classname="codex-tui" timestamp="2026-09-27T01:42:30.143+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::word_wrap_does_not_split_words_simple_english" classname="codex-tui" timestamp="2026-09-27T01:42:30.145+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wrap_lines_accepts_borrowed_iterators" classname="codex-tui" timestamp="2026-09-27T01:42:30.145+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wrap_lines_accepts_str_slices" classname="codex-tui" timestamp="2026-09-27T01:42:30.149+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::wrap_lines_without_indents_is_concat_of_single_wraps" classname="codex-tui" timestamp="2026-09-27T01:42:30.164+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wrap_lines_applies_initial_indent_only_once" classname="codex-tui" timestamp="2026-09-27T01:42:30.163+00:00" time="0.022"/>
+        <testcase name="wrapping::tests::wrap_ranges_count_halfwidth_sound_marks_without_changing_byte_offsets" classname="codex-tui" timestamp="2026-09-27T01:42:30.166+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wrap_ranges_indent_prefix_coincides_with_source_char" classname="codex-tui" timestamp="2026-09-27T01:42:30.168+00:00" time="0.018"/>
+        <testcase name="wrapping::tests::wrap_ranges_preserve_crlf_source_boundaries_without_splitting_graphemes" classname="codex-tui" timestamp="2026-09-27T01:42:30.184+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::wrap_ranges_trim_handles_owned_lines_with_penalty_char" classname="codex-tui" timestamp="2026-09-27T01:42:30.185+00:00" time="0.019"/>
+        <testcase name="wrapping::tests::wrap_ranges_recovers_with_non_space_indents" classname="codex-tui" timestamp="2026-09-27T01:42:30.185+00:00" time="0.020"/>
+        <testcase name="resume_picker::transcript_preview::tests::transcript_preview_preserves_legacy_and_paginated_output" classname="codex-tui" timestamp="2026-09-27T01:42:29.192+00:00" time="1.134"/>
+        <testcase name="resume_picker::transcript_preview::tests::paginated_transcript_preview_pages_past_old_item_budget" classname="codex-tui" timestamp="2026-09-27T01:42:29.191+00:00" time="1.488"/>
+    </testsuite>
+    <testsuite name="codex-tui::all" tests="4" skipped="0" errors="0" failures="0">
+        <testcase name="suite::vt100_history::basic_insertion_no_wrap" classname="codex-tui::all" timestamp="2026-09-27T01:42:30.186+00:00" time="0.012"/>
+        <testcase name="suite::vt100_history::em_dash_and_space_word_wrap" classname="codex-tui::all" timestamp="2026-09-27T01:42:30.198+00:00" time="0.014"/>
+        <testcase name="suite::vt100_history::word_wrap_no_mid_word_split" classname="codex-tui::all" timestamp="2026-09-27T01:42:30.204+00:00" time="0.012"/>
+        <testcase name="suite::vt100_history::long_token_wraps" classname="codex-tui::all" timestamp="2026-09-27T01:42:30.204+00:00" time="0.015"/>
+    </testsuite>
+</testsuites>

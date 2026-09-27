@@ -87,11 +87,19 @@ async fn check_private_dialogs(search: SearchState) -> Result<()> {
         app.chat_widget.show_bottom_pane_view(view);
         app.handle_tui_event(&mut tui, &mut server, TuiEvent::Paste(private.into()))
             .await?;
-        assert!(
-            !app.handle_composer_copy_event(&mut tui, &copy_event, |_, _| {
+        for event in [
+            copy_event.clone(),
+            TuiEvent::Mouse(crossterm::event::MouseEvent {
+                kind: crossterm::event::MouseEventKind::Down(crossterm::event::MouseButton::Right),
+                column: start + 2,
+                row: end.y,
+                modifiers: KeyModifiers::NONE,
+            }),
+        ] {
+            assert!(!app.handle_composer_copy_event(&mut tui, &event, |_, _| {
                 panic!("private dialog must block the underlying draft clipboard")
-            })
-        );
+            }));
+        }
         // Selection's fixed shortcut must not steal a private dialog's input.
         app.handle_tui_event(
             &mut tui,

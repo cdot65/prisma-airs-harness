@@ -1,5 +1,7 @@
 //! The chat composer is the bottom-pane text input state machine.
 //! Borrowed transcript feedback uses the footer without changing the draft cursor.
+//! Copy shortcuts and right clicks preserve draft text; only a confirmed right-click copy
+//! clears its selection. Mouse copy uses the current rendered editor bounds.
 //!
 //! It edits the [`TextArea`] buffer and attachment elements, routes popup keys, promotes
 //! completed slash commands to atomic elements, and handles Enter submission/newlines.

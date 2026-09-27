@@ -11,6 +11,8 @@ use std::sync::Arc;
 pub(crate) enum LineWrapPolicy {
     #[default]
     Word,
+    /// Preserve hard source-line wrapping, including diff signs.
+    Hard,
 }
 
 /// A displayed line's contiguous fragment of one original logical line.

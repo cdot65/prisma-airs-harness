@@ -56,10 +56,6 @@ impl ToolOutputPreview {
         self.push_rendered_line(line, /*source*/ None, Vec::new());
     }
 
-    #[allow(
-        dead_code,
-        reason = "Used by the following compact MCP integration stage."
-    )]
     pub(crate) fn push_hyperlink_line(&mut self, line: HyperlinkLine) {
         self.push_rendered_line(line.line, line.source, line.hyperlinks);
     }

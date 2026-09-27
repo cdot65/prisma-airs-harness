@@ -22,6 +22,12 @@ impl<B> Terminal<B>
 where
     B: Backend<Error = io::Error> + Write,
 {
+    /// A screen transition or external program may show a previously hidden cursor.
+    /// AIRS re-emits cursor styles on every frame and has no style cache to invalidate.
+    pub(crate) fn invalidate_cursor_state(&mut self) {
+        self.hidden_cursor = false;
+    }
+
     pub(super) fn set_cursor_style_with_repair(
         &mut self,
         cursor_style: SetCursorStyle,

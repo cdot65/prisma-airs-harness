@@ -1,0 +1,21 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(transcript_view) | test(pager_overlay) | test(tui::) | test(transcript) | test(clipboard) | test(key_chord)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 49.36426782608032
+}

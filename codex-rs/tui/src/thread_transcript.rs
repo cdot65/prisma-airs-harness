@@ -22,6 +22,12 @@ use codex_protocol::items::UserMessageItem;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use ratatui::style::Stylize as _;
 
+mod activity_pages;
+mod exploration_groups;
+pub(crate) use activity_pages::fold_trailing_activity_details;
+pub(crate) use activity_pages::is_hidden_activity_detail;
+pub(crate) use exploration_groups::join_exploration_groups;
+pub(crate) use exploration_groups::older_exploration_group;
 mod other_items;
 mod projection;
 pub(crate) mod tools;

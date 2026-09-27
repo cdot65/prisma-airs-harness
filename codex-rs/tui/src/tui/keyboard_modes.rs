@@ -1,11 +1,11 @@
 //! Terminal keyboard enhancement setup and teardown helpers.
 //!
-//! The TUI uses crossterm's keyboard enhancement stack while it owns the terminal, but
+//! The TUI pairs pushes and pops on each screen's keyboard enhancement stack, but
 //! process exit gets a stronger reset so the parent shell does not inherit enhanced key
 //! reporting if a terminal misses the normal stack pop.
 
 use std::fmt;
-use std::io::stdout;
+use std::io::Write;
 
 use codex_terminal_detection::TerminalName;
 use codex_terminal_detection::terminal_info;
@@ -127,7 +127,7 @@ fn read_windows_term_program() -> Option<String> {
         .filter(|value| !value.trim().is_empty())
 }
 
-pub(super) fn enable_keyboard_enhancement() {
+pub(super) fn enable_keyboard_enhancement(writer: &mut impl Write) {
     if keyboard_enhancement_disabled() {
         return;
     }
@@ -140,7 +140,7 @@ pub(super) fn enable_keyboard_enhancement() {
     };
 
     let _ = execute!(
-        stdout(),
+        writer,
         DisableModifyOtherKeys,
         PushKeyboardEnhancementFlags(keyboard_enhancement_flags(
             terminal_info().name,
@@ -153,7 +153,7 @@ pub(super) fn enable_keyboard_enhancement() {
         running_in_tmux_session,
         tmux_extended_keys_format.as_deref(),
     ) {
-        let _ = execute!(stdout(), EnableModifyOtherKeys);
+        let _ = execute!(writer, EnableModifyOtherKeys);
     }
 }
 
@@ -230,17 +230,13 @@ fn read_tmux_extended_keys_format() -> Option<String> {
     None
 }
 
-pub(super) fn restore_keyboard_enhancement_stack() {
-    let _ = execute!(
-        stdout(),
-        PopKeyboardEnhancementFlags,
-        DisableModifyOtherKeys
-    );
+pub(super) fn restore_keyboard_enhancement_stack(writer: &mut impl Write) {
+    let _ = execute!(writer, PopKeyboardEnhancementFlags, DisableModifyOtherKeys);
 }
 
-pub(super) fn reset_keyboard_reporting_after_exit() {
+pub(super) fn reset_keyboard_reporting_after_exit(writer: &mut impl Write) {
     let _ = execute!(
-        stdout(),
+        writer,
         PopKeyboardEnhancementFlags,
         ResetKeyboardEnhancementFlags,
         DisableModifyOtherKeys

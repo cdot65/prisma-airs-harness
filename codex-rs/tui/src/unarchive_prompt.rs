@@ -58,7 +58,7 @@ pub(crate) async fn run_unarchive_prompt(
             | TuiEvent::Resize(_)
             | TuiEvent::Resume
             | TuiEvent::FocusGained => {}
-            TuiEvent::FocusLost => continue,
+            TuiEvent::Mouse(_) | TuiEvent::FocusLost => continue,
         }
         guard.draw(&screen)?;
     }

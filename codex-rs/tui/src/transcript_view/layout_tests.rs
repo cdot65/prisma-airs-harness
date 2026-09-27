@@ -41,21 +41,29 @@ fn layouts_refresh_for_width_animation_and_mutable_frames() {
         });
         let history = cell.clone() as Arc<dyn HistoryCell>;
         let mut cache = LayoutCache::default();
+        let get = |cache: &mut LayoutCache, width| {
+            cache.get(
+                &history,
+                width,
+                CellPresentation { separated: false },
+                || TextLayout::new(history.transcript_hyperlink_lines(width), width),
+            )
+        };
         cache.begin_frame();
-        cache.get(&history, /*width*/ 20, /*separated*/ false);
-        cache.get(&history, /*width*/ 20, /*separated*/ false);
+        get(&mut cache, /*width*/ 20);
+        get(&mut cache, /*width*/ 20);
         assert_eq!(cell.renders.load(Ordering::Relaxed), 1);
         cache.begin_frame();
-        cache.get(&history, /*width*/ 20, /*separated*/ false);
+        get(&mut cache, /*width*/ 20);
         assert_eq!(
             cell.renders.load(Ordering::Relaxed),
             1 + usize::from(mutable)
         );
         cell.tick.store(/*val*/ 2, Ordering::Relaxed);
         cache.begin_frame();
-        let next = cache.get(&history, /*width*/ 20, /*separated*/ false);
+        let next = get(&mut cache, /*width*/ 20);
         assert_eq!(next.text(), "tick 2");
-        cache.get(&history, /*width*/ 10, /*separated*/ false);
+        get(&mut cache, /*width*/ 10);
         assert_eq!(
             cell.renders.load(Ordering::Relaxed),
             3 + usize::from(mutable)
@@ -67,7 +75,7 @@ fn layouts_refresh_for_width_animation_and_mutable_frames() {
             },
             || {
                 cache.begin_frame();
-                cache.get(&history, /*width*/ 10, /*separated*/ false);
+                get(&mut cache, /*width*/ 10);
                 assert_eq!(
                     cell.renders.load(Ordering::Relaxed),
                     4 + usize::from(mutable)
@@ -83,17 +91,31 @@ fn recent_entries_are_reused_and_old_entries_are_evicted() {
     let mut cache = LayoutCache::default();
     cache.begin_frame();
     for cell in &cells {
+        let history = cell.clone() as Arc<dyn HistoryCell>;
         cache.get(
-            &(cell.clone() as Arc<dyn HistoryCell>),
+            &history,
             /*width*/ 20,
-            /*separated*/ false,
+            CellPresentation { separated: false },
+            || {
+                TextLayout::new(
+                    history.transcript_hyperlink_lines(/*width*/ 20),
+                    /*width*/ 20,
+                )
+            },
         );
     }
     for index in [99, 98, 0] {
+        let history = cells[index].clone() as Arc<dyn HistoryCell>;
         cache.get(
-            &(cells[index].clone() as Arc<dyn HistoryCell>),
+            &history,
             /*width*/ 20,
-            /*separated*/ false,
+            CellPresentation { separated: false },
+            || {
+                TextLayout::new(
+                    history.transcript_hyperlink_lines(/*width*/ 20),
+                    /*width*/ 20,
+                )
+            },
         );
     }
     assert_eq!(
@@ -117,19 +139,44 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
     ]));
     let mut cache = LayoutCache::default();
     cache.begin_frame();
-    cache.get(&first, /*width*/ 120, /*separated*/ false);
-    let recent = cache.get(&second, /*width*/ 120, /*separated*/ false);
+    cache.get(
+        &first,
+        /*width*/ 120,
+        CellPresentation { separated: false },
+        || TextLayout::new(first.transcript_hyperlink_lines(120), 120),
+    );
+    let recent = cache.get(
+        &second,
+        /*width*/ 120,
+        CellPresentation { separated: false },
+        || TextLayout::new(second.transcript_hyperlink_lines(120), 120),
+    );
     assert_eq!(cache.entries.len(), 1);
     assert!(Arc::ptr_eq(&cache.entries[0].layout, &recent));
-    let large = cache.get(&oversized, /*width*/ 120, /*separated*/ false);
+    let large = cache.get(
+        &oversized,
+        /*width*/ 120,
+        CellPresentation { separated: false },
+        || TextLayout::new(oversized.transcript_hyperlink_lines(120), 120),
+    );
     assert_eq!(cache.entries.len(), 1);
     assert!(large.text().len() > MAX_CACHED_TEXT_BYTES);
     cache.begin_frame();
     assert!(Arc::ptr_eq(
         &large,
-        &cache.get(&oversized, /*width*/ 120, /*separated*/ false)
+        &cache.get(
+            &oversized,
+            /*width*/ 120,
+            CellPresentation { separated: false },
+            || TextLayout::new(oversized.transcript_hyperlink_lines(120), 120)
+        )
     ));
-    cache.get(&second, /*width*/ 120, /*separated*/ false);
+    cache.get(
+        &second,
+        /*width*/ 120,
+        CellPresentation { separated: false },
+        || TextLayout::new(second.transcript_hyperlink_lines(120), 120),
+    );
     assert_eq!(cache.entries.len(), 1);
     assert!(cache.entries[0].layout.text().len() <= MAX_CACHED_TEXT_BYTES);
 }
@@ -141,8 +188,18 @@ fn cached_layout_does_not_keep_source_cell_alive_and_separator_changes_refresh_i
     let weak = Arc::downgrade(&cell);
     let mut cache = LayoutCache::default();
     cache.begin_frame();
-    let plain = cache.get(&cell, /*width*/ 20, /*separated*/ false);
-    let separated = cache.get(&cell, /*width*/ 20, /*separated*/ true);
+    let plain = cache.get(
+        &cell,
+        /*width*/ 20,
+        CellPresentation { separated: false },
+        || TextLayout::new(cell.transcript_hyperlink_lines(20), 20),
+    );
+    let separated = cache.get(
+        &cell,
+        /*width*/ 20,
+        CellPresentation { separated: true },
+        || TextLayout::new(cell.transcript_hyperlink_lines(20), 20),
+    );
     assert_eq!(separated.row_count(), plain.row_count() + 1);
     assert_eq!(concrete.renders.load(Ordering::Relaxed), 2);
     drop(concrete);

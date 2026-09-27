@@ -202,6 +202,7 @@ use tokio::sync::mpsc::unbounded_channel;
 use tokio::task::JoinHandle;
 use toml::Value as TomlValue;
 use uuid::Uuid;
+mod activity_groups;
 mod agent_message_consolidation;
 mod agent_navigation;
 mod agent_picker;
@@ -852,6 +853,7 @@ impl App {
     ) -> Result<AppRunControl> {
         if self.reconnect.offline
             && let TuiEvent::Key(key) = &event
+            && !matches!(&self.overlay, Some(Overlay::Transcript(overlay)) if overlay.owns_interaction_key(*key))
             && matches!(key.kind, KeyEventKind::Press | KeyEventKind::Repeat)
             && key.modifiers.contains(KeyModifiers::CONTROL)
             && let KeyCode::Char(character) = key.code
@@ -865,7 +867,7 @@ impl App {
         let screen_size = tui.screen_size_for_event(&event)?;
         if !matches!(
             &event,
-            TuiEvent::Key(_) | TuiEvent::Paste(_) | TuiEvent::FocusLost
+            TuiEvent::Key(_) | TuiEvent::Mouse(_) | TuiEvent::Paste(_) | TuiEvent::FocusLost
         ) {
             self.expire_pending_key_chord();
             self.handle_draw_pre_render(tui, screen_size)?;
@@ -890,6 +892,7 @@ impl App {
         };
 
         if self.reconnect.offline
+            && !matches!(&self.overlay, Some(Overlay::Transcript(_)))
             && let TuiEvent::Key(key) = &event
         {
             if self.reconnect.presentation == reconnect::ReconnectPresentation::Overview {
@@ -998,7 +1001,7 @@ impl App {
                         self.app_event_tx.send(AppEvent::LaunchExternalEditor);
                     }
                 }
-                TuiEvent::FocusLost => {}
+                TuiEvent::FocusLost | TuiEvent::Mouse(_) => {}
             }
         }
         Ok(AppRunControl::Continue)

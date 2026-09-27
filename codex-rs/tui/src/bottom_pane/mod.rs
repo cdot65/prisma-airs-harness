@@ -2168,6 +2168,12 @@ impl Renderable for BottomPane {
     }
 }
 
+/// Transcript status and selection feedback shared with the fullscreen composer.
+pub(crate) struct TranscriptFooter {
+    pub(crate) text: ratatui::text::Text<'static>,
+    pub(crate) cursor_column: Option<u16>,
+}
+
 #[cfg(test)]
 mod tests {
     #[path = "actionable_banner_tests.rs"]

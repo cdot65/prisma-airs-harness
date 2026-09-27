@@ -1,5 +1,5 @@
 ---
-source: tui/src/pager_overlay/transcript_tests.rs
+source: tui/src/pager_overlay/legacy_transcript_tests.rs
 assertion_line: 291
 expression: "format!(\"{:?}\", term.backend().buffer())"
 ---
@@ -17,10 +17,10 @@ Buffer {
         "• A styled ]8;;https://example.com/transcriptl]8;;]8;;https://example.com/transcripti]8;;]8;;https://example.com/transcriptn]8;;]8;;https://example.com/transcriptk]8;;         ",
         "  (]8;;https://example.com/transcripth]8;;]8;;https://example.com/transcriptt]8;;]8;;https://example.com/transcriptt]8;;]8;;https://example.com/transcriptp]8;;]8;;https://example.com/transcripts]8;;]8;;https://example.com/transcript:]8;;]8;;https://example.com/transcript/]8;;]8;;https://example.com/transcript/]8;;]8;;https://example.com/transcripte]8;;]8;;https://example.com/transcriptx]8;;]8;;https://example.com/transcripta]8;;]8;;https://example.com/transcriptm]8;;]8;;https://example.com/transcriptp]8;;]8;;https://example.com/transcriptl]8;;]8;;https://example.com/transcripte]8;;]8;;https://example.com/transcript.]8;;]8;;https://example.com/transcriptc]8;;]8;;https://example.com/transcripto]8;;]8;;https://example.com/transcriptm]8;;]8;;https://example.com/transcript/]8;; ",
         "  ]8;;https://example.com/transcriptt]8;;]8;;https://example.com/transcriptr]8;;]8;;https://example.com/transcripta]8;;]8;;https://example.com/transcriptn]8;;]8;;https://example.com/transcripts]8;;]8;;https://example.com/transcriptc]8;;]8;;https://example.com/transcriptr]8;;]8;;https://example.com/transcripti]8;;]8;;https://example.com/transcriptp]8;;]8;;https://example.com/transcriptt]8;;)           ",
-        "~                       ",
-        "───────────────── 100% ─",
+        "                        ",
+        "Ctrl+Space select       ",
         " ↑/↓ to scroll   pgup/pg",
-        " q close   esc to edit p",
+        " q close   esc edit prev",
         "                        ",
     ],
     styles: [
@@ -47,6 +47,8 @@ Buffer {
         x: 2, y: 10, fg: Cyan, bg: Reset, underline: Reset, modifier: UNDERLINED,
         x: 12, y: 10, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
         x: 0, y: 12, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 17, y: 12, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+        x: 0, y: 13, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
         x: 0, y: 15, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
     ]
 }

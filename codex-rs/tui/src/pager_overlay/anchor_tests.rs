@@ -36,7 +36,7 @@ fn content_rows(overlay: &TranscriptOverlay, buffer: &Buffer) -> Vec<String> {
 }
 
 #[test]
-fn reading_live_output_updates_in_place_and_stays_on_the_committed_entry() {
+fn reading_live_output_retains_its_revision_until_explicit_navigation() {
     let mut overlay =
         TranscriptOverlay::new(vec![user("first prompt")], RuntimeKeymap::defaults().pager);
     let area = Rect::new(
@@ -49,13 +49,13 @@ fn reading_live_output_updates_in_place_and_stays_on_the_committed_entry() {
         overlay.sync_live_tail(area.width, /*key*/ None, |_| Some(lines));
         if revision == "streaming" {
             render(&mut overlay, area);
-            overlay.scroll(/*rows*/ -2);
+            overlay.view.scroll(&overlay.cells, /*rows*/ -2);
         }
         let buffer = render(&mut overlay, area);
         assert_eq!(
             content_rows(&overlay, &buffer),
             (2..6)
-                .map(|row| format!("{revision} row {row}"))
+                .map(|row| format!("streaming row {row}"))
                 .collect::<Vec<_>>()
         );
         assert!(!overlay.view.is_following());
@@ -71,10 +71,10 @@ fn reading_live_output_updates_in_place_and_stays_on_the_committed_entry() {
     assert_eq!(
         content_rows(&overlay, &completed),
         [
-            "completed row 2",
-            "completed row 3",
-            "completed row 4",
-            "completed row 5"
+            "streaming row 2",
+            "streaming row 3",
+            "streaming row 4",
+            "streaming row 5"
         ]
     );
     overlay.set_highlight_cell(Some(2));

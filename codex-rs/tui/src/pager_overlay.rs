@@ -17,6 +17,9 @@
 
 mod scrolling;
 mod transcript;
+#[cfg(test)]
+#[path = "pager_overlay/transcript_tests.rs"]
+mod transcript_tests;
 
 pub(crate) use transcript::TranscriptOverlay;
 
@@ -25,7 +28,6 @@ use std::sync::Arc;
 
 use crate::chatwidget::ActiveCellTranscriptKey;
 use crate::history_cell::HistoryCell;
-use crate::history_cell::SessionInfoCell;
 use crate::key_hint;
 use crate::key_hint::KeyBinding;
 use crate::key_hint::KeyBindingListExt;
@@ -81,10 +83,19 @@ impl Overlay {
     }
 
     pub(crate) fn handle_event(&mut self, tui: &mut tui::Tui, event: TuiEvent) -> Result<()> {
-        match self {
+        let input = match self {
+            Overlay::Transcript(_) => tui::OverlayInput::Transcript,
+            Overlay::Static(_) => tui::OverlayInput::StaticPager,
+        };
+        tui.set_overlay_input(input)?;
+        let result = match self {
             Overlay::Transcript(o) => o.handle_event(tui, event),
             Overlay::Static(o) => o.handle_event(tui, event),
+        };
+        if result.is_err() || self.is_done() {
+            return result.and(tui.set_overlay_input(tui::OverlayInput::Default));
         }
+        result
     }
 
     pub(crate) fn is_done(&self) -> bool {
@@ -392,15 +403,6 @@ impl TranscriptHistoryState {
             self,
             Self::LoadingOlder | Self::LoadingBeginning | Self::Partial | Self::Failed
         )
-    }
-
-    pub(crate) fn session_header_placeholder(self) -> Option<&'static str> {
-        match self {
-            Self::LoadingOlder | Self::LoadingBeginning => Some("Loading earlier messages..."),
-            Self::Partial => Some("Earlier messages are available — scroll up to load them"),
-            Self::Failed => Some("Earlier messages unavailable — scroll up to retry"),
-            Self::Idle | Self::Complete => None,
-        }
     }
 }
 

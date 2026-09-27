@@ -304,10 +304,6 @@ impl ReasoningSummaryCell {
         self.source_item_id = Some(id);
     }
 
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following paginated-history integration slice."
-    )]
     pub(crate) fn source_item_id(&self) -> Option<&str> {
         self.source_item_id.as_deref()
     }

@@ -93,10 +93,6 @@ impl TextLayout {
     }
 
     /// Source text between adjacent retained fragments; distinct logical lines have a hard break.
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn separator_after(&self, next: &Self) -> &str {
         if let Some(previous) = self.logical.last()
             && let Some(next) = next.logical.first()
@@ -133,10 +129,6 @@ impl TextLayout {
     }
 
     /// Resolve a cell coordinate to a grapheme boundary, clamping padding to the row's text.
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn position_at(&self, row: usize, column: u16) -> usize {
         let Some(row) = self.rows.get(row) else {
             return self.text.len();
@@ -154,20 +146,12 @@ impl TextLayout {
     }
 
     /// Find the display row containing a source position, including omitted wrapping whitespace.
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn row_for_offset(&self, offset: usize) -> usize {
         self.rows
             .partition_point(|row| row.source.start <= offset)
             .saturating_sub(/*rhs*/ 1)
     }
 
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn column_for_offset(&self, offset: usize) -> u16 {
         let Some(row) = self.rows.get(self.row_for_offset(offset)) else {
             return 0;
@@ -211,10 +195,6 @@ impl TextLayout {
         }
     }
 
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn word_range(&self, offset: usize) -> Range<usize> {
         self.text
             .split_word_bound_indices()
@@ -224,10 +204,6 @@ impl TextLayout {
     }
 
     /// Resolve the displayed link using the same destination policy as terminal OSC-8 output.
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn link_at(&self, row: usize, column: u16) -> Option<String> {
         let row = self.rows.get(row)?;
         let column = usize::from(column).checked_sub(row.first_column - row.prefix_columns)?;
@@ -239,10 +215,6 @@ impl TextLayout {
     }
 
     /// Select a logical line, including its terminating hard newline when present.
-    #[allow(
-        dead_code,
-        reason = "Consumed by the following transcript selection integration."
-    )]
     pub(super) fn line_range(&self, offset: usize) -> Range<usize> {
         let offset = self.text.floor_char_boundary(offset.min(self.text.len()));
         let start = self.text[..offset]

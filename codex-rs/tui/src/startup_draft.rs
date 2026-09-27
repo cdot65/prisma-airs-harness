@@ -314,7 +314,7 @@ impl StartupDraftPump {
                     }
                     return Ok(());
                 }
-                TuiEvent::FocusLost => {
+                TuiEvent::FocusLost | TuiEvent::Mouse(_) => {
                     self.pending_paste_newline = Some((started_at, newlines));
                     return Ok(());
                 }
@@ -366,7 +366,7 @@ impl StartupDraftPump {
                 }
             }
             TuiEvent::Draw | TuiEvent::Resize(_) | TuiEvent::Resume | TuiEvent::FocusGained => {}
-            TuiEvent::FocusLost => return Ok(()),
+            TuiEvent::FocusLost | TuiEvent::Mouse(_) => return Ok(()),
         }
         if self.initial_screen == StartupDraftInitialScreen::Composer {
             self.draw(tui, screen_size)?;

@@ -1,14 +1,15 @@
 ---
-source: tui/src/pager_overlay/transcript_tests.rs
+source: tui/src/pager_overlay/legacy_transcript_tests.rs
+assertion_line: 345
 expression: term.backend()
 ---
 "/ T R A N S C R I P T / / / / / / / / / "
 "alpha                                   "
 "                                        "
 "tail                                    "
-"~                                       "
-"~                                       "
-"───────────────────────────────── 100% ─"
+"                                        "
+"                                        "
+"Ctrl+Space select                       "
 " ↑/↓ to scroll   pgup/pgdn to page   hom"
-" q close   esc to edit prev             "
+" q close   esc edit previous            "
 "                                        "

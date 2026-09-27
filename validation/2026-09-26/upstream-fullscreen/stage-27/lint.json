@@ -1,0 +1,17 @@
+{
+  "command": [
+    "just",
+    "fix",
+    "--locked",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-core",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-features"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 151.85670375823975
+}

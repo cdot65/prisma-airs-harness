@@ -1,5 +1,6 @@
 ---
-source: tui/src/pager_overlay/transcript_tests.rs
+source: tui/src/pager_overlay/legacy_transcript_tests.rs
+assertion_line: 513
 expression: snapshot
 ---
 / T R A N S C R I P T / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
@@ -10,6 +11,4 @@ expression: snapshot
 • Added foo.txt (+2 -0)
     1 +hello
     2 +world
-────────────────────────────────────────────────────────────────────────────────
- ↑/↓ to scroll   pgup/pgdn to page   home/end to jump
- q close   esc to edit prev
+end latest

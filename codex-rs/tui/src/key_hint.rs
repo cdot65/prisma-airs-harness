@@ -242,6 +242,11 @@ fn key_hint_style() -> Style {
     Style::default().dim()
 }
 
+/// Style a complete shortcut label consistently with the existing AIRS key hints.
+pub(crate) fn key_label_spans(label: &str) -> Vec<Span<'static>> {
+    vec![Span::styled(label.to_owned(), key_hint_style())]
+}
+
 pub(crate) fn has_ctrl_or_alt(mods: KeyModifiers) -> bool {
     (mods.contains(KeyModifiers::CONTROL) || mods.contains(KeyModifiers::ALT)) && !is_altgr(mods)
 }

@@ -85,6 +85,16 @@ impl WebSearchCell {
     pub(crate) fn complete(&mut self) {
         self.completed = true;
     }
+    fn summary(&self) -> Text<'static> {
+        let header = web_search_header(self.completed);
+        let detail = web_search_detail(self.action.as_ref(), &self.query);
+        if detail.is_empty() {
+            Line::from(vec![header.bold()]).into()
+        } else {
+            let separator = if self.completed { " for " } else { " " };
+            Line::from(vec![header.bold(), separator.into(), detail.into()]).into()
+        }
+    }
 }
 
 impl HistoryCell for WebSearchCell {
@@ -99,15 +109,13 @@ impl HistoryCell for WebSearchCell {
             )
             .unwrap_or_else(|| "•".dim())
         };
-        let header = web_search_header(self.completed);
-        let detail = web_search_detail(self.action.as_ref(), &self.query);
-        let text: Text<'static> = if detail.is_empty() {
-            Line::from(vec![header.bold()]).into()
-        } else {
-            let separator = if self.completed { " for " } else { " " };
-            Line::from(vec![header.bold(), separator.into(), detail.into()]).into()
-        };
+        let text = self.summary();
         PrefixedWrappedHistoryCell::new(text, vec![bullet, " ".into()], "  ").display_lines(width)
+    }
+
+    fn transcript_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        PrefixedWrappedHistoryCell::new(self.summary(), vec!["• ".dim()], "  ")
+            .display_hyperlink_lines(width)
     }
 
     fn raw_lines(&self) -> Vec<Line<'static>> {

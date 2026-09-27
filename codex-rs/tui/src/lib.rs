@@ -228,6 +228,7 @@ mod text_formatting;
 mod theme_picker;
 mod thread_transcript;
 mod token_usage;
+mod tool_output;
 mod tooltips;
 mod transcript_reflow;
 mod tui;

@@ -1,4 +1,6 @@
 //! MCP tool-call, inventory, and output history cells.
+//! Tool output previews share a three-row budget across all result blocks;
+//! the expanded transcript retains the full text.
 
 use super::*;
 
@@ -10,9 +12,12 @@ mod result;
 use crate::style::StatusTone;
 use crate::style::accent_style;
 use crate::style::status_style;
+use crate::text_formatting::format_json_compact;
+use crate::tool_output::ToolOutputPreview;
 use codex_app_server_protocol::McpServerConnectionStatus;
 use result::McpResultKind;
 use result::McpToolResult;
+use std::borrow::Cow;
 
 #[cfg(test)]
 #[path = "mcp_tests.rs"]
@@ -194,6 +199,7 @@ impl McpToolCallCell {
         let mut detail_lines: Vec<Line<'static>> = Vec::new();
         // Reserve four columns for the tree prefix ("  └ "/"    ") and ensure the wrapper still has at least one cell to work with.
         let detail_wrap_width = (width as usize).saturating_sub(4).max(1);
+        let mut preview = ToolOutputPreview::new(detail_wrap_width, /*omitted*/ 0);
 
         if let Some(result) = &self.result {
             match result {
@@ -205,30 +211,44 @@ impl McpToolCallCell {
                                     if text.starts_with("Script completed\n") {
                                         return text
                                             .split_once("\nOutput:\n")
-                                            .map(|(_, output)| output.to_string());
+                                            .map(|(_, output)| Cow::Borrowed(output));
                                     }
                                     serde_json::from_str::<NodeReplExecOutput>(text)
                                         .ok()
                                         .filter(|output| output.exit_code == 0)
-                                        .map(|output| output.output)
+                                        .map(|output| Cow::Owned(output.output))
                                 });
                                 match meaningful_output {
                                     Some(output) if output.is_empty() => continue,
-                                    Some(output) => format_and_truncate_tool_result(
-                                        &output,
-                                        TOOL_CALL_MAX_LINES,
-                                        detail_wrap_width,
+                                    Some(output) => format_json_compact(&output)
+                                        .map(Cow::Owned)
+                                        .unwrap_or(output),
+                                    None => block.text().map_or_else(
+                                        || block.render(),
+                                        |text| {
+                                            format_json_compact(text)
+                                                .map(Cow::Owned)
+                                                .unwrap_or(Cow::Borrowed(text))
+                                        },
                                     ),
-                                    None => block.render(detail_wrap_width),
                                 }
-                            } else if node_repl
-                                && mode == McpToolCallRenderMode::Transcript
-                                && let Some(output) = block.text()
-                            {
-                                output.trim_end_matches('\n').to_string()
+                            } else if node_repl && let Some(output) = block.text() {
+                                if mode == McpToolCallRenderMode::Transcript {
+                                    Cow::Borrowed(output.trim_end_matches('\n'))
+                                } else {
+                                    format_json_compact(output)
+                                        .map(Cow::Owned)
+                                        .unwrap_or(Cow::Borrowed(output))
+                                }
                             } else {
-                                block.render(detail_wrap_width)
+                                block.render()
                             };
+                            if mode == McpToolCallRenderMode::Display {
+                                for line in text.lines() {
+                                    preview.push_line(Line::from(line.dim()));
+                                }
+                                continue;
+                            }
                             for segment in text.split('\n') {
                                 let line = Line::from(segment.to_string().dim());
                                 let wrapped = adaptive_wrap_line(
@@ -244,27 +264,25 @@ impl McpToolCallCell {
                 }
                 Err(err) => {
                     let err_text = format!("Error: {err}");
-                    let err_text = if node_repl && mode == McpToolCallRenderMode::Transcript {
-                        err_text
+                    if mode == McpToolCallRenderMode::Display {
+                        for line in err_text.lines() {
+                            preview.push_line(Line::from(line.dim()));
+                        }
                     } else {
-                        format_and_truncate_tool_result(
-                            &err_text,
-                            TOOL_CALL_MAX_LINES,
-                            width as usize,
-                        )
-                    };
-                    let err_line = Line::from(err_text.dim());
-                    let wrapped = adaptive_wrap_line(
-                        &err_line,
-                        RtOptions::new(detail_wrap_width)
-                            .initial_indent("".into())
-                            .subsequent_indent("    ".into()),
-                    );
-                    detail_lines.extend(wrapped.iter().map(line_to_static));
+                        let err_line = Line::from(err_text.dim());
+                        let wrapped = adaptive_wrap_line(
+                            &err_line,
+                            RtOptions::new(detail_wrap_width).subsequent_indent("    ".into()),
+                        );
+                        detail_lines.extend(wrapped.iter().map(line_to_static));
+                    }
                 }
             }
         }
 
+        if mode == McpToolCallRenderMode::Display {
+            detail_lines = preview.finish();
+        }
         if !detail_lines.is_empty() {
             let initial_prefix: Span<'static> = if inline_invocation {
                 "  └ ".dim()
@@ -302,7 +320,7 @@ impl HistoryCell for McpToolCallCell {
             match result {
                 Ok(McpToolResult { content, .. }) => {
                     for block in content {
-                        let text = block.render(RAW_TOOL_OUTPUT_WIDTH);
+                        let text = block.render();
                         lines.extend(raw_lines_from_source(&text));
                     }
                 }

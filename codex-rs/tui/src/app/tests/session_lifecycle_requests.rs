@@ -1957,8 +1957,37 @@ async fn transcript_home_loads_every_older_history_page() -> Result<()> {
         let event = tokio::time::timeout(Duration::from_secs(5), app_event_rx.recv())
             .await?
             .ok_or_else(|| color_eyre::eyre::eyre!("history event channel closed"))?;
-        if matches!(event, AppEvent::OlderThreadHistoryLoaded { .. }) {
+        if let AppEvent::OlderThreadHistoryLoaded { cursor, .. } = &event {
+            assert!(app_server.is_older_history_page_pending(thread_id, cursor));
+            // A delayed cancellation or error from another page cannot steal this request.
+            app_server.cancel_older_history_page(thread_id, "stale-page");
+            Box::pin(app.handle_event(
+                &mut tui,
+                &mut app_server,
+                AppEvent::OlderThreadHistoryLoaded {
+                    thread_id,
+                    cursor: "stale-page".to_string(),
+                    result: Err("delayed stale failure".to_string()),
+                },
+            ))
+            .await?;
+            assert!(app_server.is_older_history_page_pending(thread_id, cursor));
+            let completed_cursor = cursor.clone();
             Box::pin(app.handle_event(&mut tui, &mut app_server, event)).await?;
+            assert!(!app_server.is_older_history_page_pending(thread_id, &completed_cursor));
+            let cell_count = app.transcript_cells.len();
+            // A duplicate completion must be ignored, even when it carries an error.
+            Box::pin(app.handle_event(
+                &mut tui,
+                &mut app_server,
+                AppEvent::OlderThreadHistoryLoaded {
+                    thread_id,
+                    cursor: completed_cursor,
+                    result: Err("duplicate completion failure".to_string()),
+                },
+            ))
+            .await?;
+            assert_eq!(app.transcript_cells.len(), cell_count);
         }
     }
 
@@ -2810,7 +2839,11 @@ async fn cold_paginated_subagent_transcript_excludes_inherited_parent_history() 
         )
         .await?;
     let child_turn_page = app_server
-        .thread_turns_page(child_thread_id, /*cursor*/ None)
+        .thread_turns_page(
+            child_thread_id,
+            /*cursor*/ None,
+            crate::app_server_session::INITIAL_HISTORY_TURN_LIMIT,
+        )
         .await?;
     let child_item_page = app_server
         .thread_items_page(
@@ -3990,3 +4023,6 @@ fn session_lifecycle_avoids_redundant_subagent_metadata_reads() -> Result<()> {
 mod new_session_tests;
 #[path = "startup_defaults_tests.rs"]
 mod startup_defaults_tests;
+
+#[path = "pagination_cursor_tests.rs"]
+mod pagination_cursor_tests;

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-E",
+    "test(session_lifecycle_requests) | test(history_tests) | test(history_replay) | test(pager_overlay) | test(airs_recovery)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 24.16515016555786
+}

@@ -115,7 +115,7 @@ impl App {
                     .await?;
             } else {
                 let page = app_server
-                    .thread_turns_page(thread_id, /*cursor*/ None)
+                    .thread_turns_page(thread_id, /*cursor*/ None, crate::app_server_session::INITIAL_HISTORY_TURN_LIMIT)
                     .await?;
                 thread.turns = page.data.into_iter().rev().collect();
                 if let Some(turn_index) = thread.turns.iter().position(|turn| turn.id == turn_id) {

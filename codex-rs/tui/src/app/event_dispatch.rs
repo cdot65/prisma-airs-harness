@@ -223,7 +223,7 @@ impl App {
                     .handle_older_history_page(tui, app_server, thread_id, &cursor, result)
                     .await
                 {
-                    app_server.cancel_older_history_page(thread_id);
+                    app_server.cancel_older_history_page(thread_id, &cursor);
                     if self.chat_widget.thread_id() == Some(thread_id)
                         && let Some(Overlay::Transcript(overlay)) = self.overlay.as_mut()
                     {

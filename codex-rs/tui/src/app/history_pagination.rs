@@ -62,8 +62,11 @@ impl App {
         cursor: &str,
         result: Result<ThreadItemsListResponse, String>,
     ) -> Result<()> {
+        if !app_server.is_older_history_page_pending(thread_id, cursor) {
+            return Ok(());
+        }
         if self.chat_widget.thread_id() != Some(thread_id) {
-            app_server.cancel_older_history_page(thread_id);
+            app_server.cancel_older_history_page(thread_id, cursor);
             return Ok(());
         }
         let page = result.map_err(|err| color_eyre::eyre::eyre!(err))?;
@@ -72,7 +75,7 @@ impl App {
             .get(&thread_id)
             .map(|channel| Arc::clone(&channel.store))
         else {
-            app_server.cancel_older_history_page(thread_id);
+            app_server.cancel_older_history_page(thread_id, cursor);
             return Ok(());
         };
         let (cwd, mut turns) = {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="21" skipped="0" failures="0" errors="0" uuid="7db61c3d-53b1-4a16-8a37-1ca2d3e640da" timestamp="2026-09-27T05:56:46.845+00:00" time="1.111">
+    <testsuite name="codex-tui" tests="21" skipped="0" errors="0" failures="0">
+        <testcase name="app::tests::key_chords::dashboard_chord_hint_survives_refresh_and_clears_on_cancel" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.045"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_preserves_active_global_alt_shortcuts" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.173"/>
+        <testcase name="app::tests::key_chords::completed_global_chord_reuses_the_existing_action_handler" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.173"/>
+        <testcase name="app::tests::key_chords::completed_global_chords_toggle_output_and_request_external_editor" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.173"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_preserves_configured_composer_alt_shortcuts" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.179"/>
+        <testcase name="app::tests::key_chords::physical_chords_route_list_and_mixed_request_input_modals" classname="codex-tui" timestamp="2026-09-27T05:56:47.033+00:00" time="0.183"/>
+        <testcase name="app::tests::key_chords::physical_dispatch_band_events_are_dropped" classname="codex-tui" timestamp="2026-09-27T05:56:47.038+00:00" time="0.180"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_preserves_active_alt_chords" classname="codex-tui" timestamp="2026-09-27T05:56:46.860+00:00" time="0.363"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_preserves_image_paste_without_reading_clipboard" classname="codex-tui" timestamp="2026-09-27T05:56:47.033+00:00" time="0.352"/>
+        <testcase name="app::tests::key_chords::selection_after_live_commit_uses_the_refreshed_frame" classname="codex-tui" timestamp="2026-09-27T05:56:47.219+00:00" time="0.172"/>
+        <testcase name="app::tests::key_chords::transcript_fixed_keys_take_precedence_over_pager_chord_prefixes" classname="codex-tui" timestamp="2026-09-27T05:56:47.223+00:00" time="0.174"/>
+        <testcase name="app::tests::key_chords::recovered_vim_escape_cancels_a_pending_key_chord_first" classname="codex-tui" timestamp="2026-09-27T05:56:47.217+00:00" time="0.185"/>
+        <testcase name="app::transcript_export::tests::markdown_transcript_preserves_messages_and_formats_activity" classname="codex-tui" timestamp="2026-09-27T05:56:47.401+00:00" time="0.019"/>
+        <testcase name="app::transcript_export::tests::persisted_transcript_includes_file_and_mcp_details" classname="codex-tui" timestamp="2026-09-27T05:56:47.420+00:00" time="0.021"/>
+        <testcase name="app::transcript_export::tests::transcript_export_excludes_hidden_review_prompts_and_nested_duplicates" classname="codex-tui" timestamp="2026-09-27T05:56:47.441+00:00" time="0.020"/>
+        <testcase name="app::transcript_export::tests::transcript_file_resolves_relative_paths_and_refuses_to_overwrite" classname="codex-tui" timestamp="2026-09-27T05:56:47.463+00:00" time="0.018"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_recovers_vim_escape_before_normal_commands" classname="codex-tui" timestamp="2026-09-27T05:56:47.033+00:00" time="0.465"/>
+        <testcase name="app::tests::key_chords::wrong_second_stroke_passes_through_but_escape_is_consumed" classname="codex-tui" timestamp="2026-09-27T05:56:47.397+00:00" time="0.181"/>
+        <testcase name="app::tests::key_chords::legacy_terminal_preserves_default_and_configured_editor_alt_bindings" classname="codex-tui" timestamp="2026-09-27T05:56:46.905+00:00" time="0.675"/>
+        <testcase name="app::tests::key_chords::vim_escape_recovery_preserves_enhanced_terminals_and_altgr" classname="codex-tui" timestamp="2026-09-27T05:56:47.391+00:00" time="0.337"/>
+        <testcase name="app::tests::key_chords::vim_buffer_jumps_route_default_chords_in_normal_and_operator_contexts" classname="codex-tui" timestamp="2026-09-27T05:56:47.385+00:00" time="0.571"/>
+    </testsuite>
+</testsuites>

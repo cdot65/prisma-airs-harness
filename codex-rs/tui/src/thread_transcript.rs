@@ -95,6 +95,11 @@ pub(crate) fn thread_items_to_transcript_cells(
     let mut cells: TranscriptCells = Vec::new();
     for item in items {
         match item {
+            item @ ThreadItem::DynamicToolCall { .. } => {
+                if let Some(cell) = crate::history_cell::DynamicToolCallCell::from_item(item) {
+                    cells.push(Arc::new(cell));
+                }
+            }
             ThreadItem::UserMessage {
                 id,
                 client_id,

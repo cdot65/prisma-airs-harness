@@ -1,0 +1,19 @@
+from pathlib import Path
+import json,subprocess,sys
+r=Path('/tmp/airs-gateway-release-20260927')
+source=json.loads((r/'SOURCE.json').read_text())['source_commit']
+for name in ['STAGING-COMPLETE.json','CANDIDATE-HOST-COMPLETE.json','LOCAL-REGRESSIONS.json','MAC-CI-COMPLETE.json']:
+ assert json.loads((r/name).read_text())['passed'],name
+spec=json.loads((r/'SPEC.json').read_text())
+assert spec['source_commit']==source==spec['tooling_commit']==spec['packaging_commit']
+assert spec['scope']=='owner-authorized-mac-preview' and spec['tag']=='mac-preview'
+assert spec['version']=='0.1.3-alpha.7.mcp.1'
+assert [p['target'] for p in spec['platforms']]==['aarch64-apple-darwin']
+base=[sys.executable,str(r/'frozen-tooling/scripts/airs_test_release.py')]
+subprocess.run(base+['verify-all','--spec',str(r/'SPEC.json'),'--acceptance',str(r/'candidate-acceptance')],check=True)
+with (r/'publish.log').open('w') as log:
+ subprocess.run(base+['publish','--spec',str(r/'SPEC.json'),'--packages',str(r/'staged'),'--acceptance',str(r/'candidate-acceptance'),'--output',str(r/'publication'),'--userconfig','/home/cdot/.cache/airs-routing-20260925/publish.npmrc'],stdout=log,stderr=subprocess.STDOUT,check=True)
+assert json.loads((r/'publication/PUBLICATION.json').read_text())['published']
+transfer=json.loads((r/'REGISTRY-INPUTS.json').read_text())
+subprocess.run(['ssh','-o','BatchMode=yes','cdot@10.0.1.121','/opt/homebrew/opt/python@3.13/libexec/bin/python3 /Users/cdot/.cache/airs-gateway-release-20260927/prepare-native-registry.py '+transfer['archive_sha256']],check=True)
+(r/'REGISTRY-VERIFICATION-DISPATCHED.json').write_text(json.dumps({'published':True,'verification_dispatched':True,'spec':spec})+'\n')

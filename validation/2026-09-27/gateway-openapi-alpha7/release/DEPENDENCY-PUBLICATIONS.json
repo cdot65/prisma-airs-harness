@@ -1,0 +1,24 @@
+[
+  {
+    "isPrerelease": false,
+    "tagName": "v0.34.0",
+    "url": "https://github.com/cdot65/prisma-airs-sdk/releases/tag/v0.34.0",
+    "workflow": {
+      "conclusion": "success",
+      "headSha": "009270be7b0b0132a59a92066122227909f07ce5",
+      "status": "completed",
+      "url": "https://github.com/cdot65/prisma-airs-sdk/actions/runs/36337596119"
+    }
+  },
+  {
+    "isPrerelease": true,
+    "tagName": "v7.2.0",
+    "url": "https://github.com/cdot65/prisma-airs-cli/releases/tag/v7.2.0",
+    "workflow": {
+      "conclusion": "success",
+      "headSha": "110a1a11ea77beed8533ef922ee2f2c5f6fd3b81",
+      "status": "completed",
+      "url": "https://github.com/cdot65/prisma-airs-cli/actions/runs/36338306903"
+    }
+  }
+]

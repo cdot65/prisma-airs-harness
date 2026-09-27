@@ -1,0 +1,88 @@
+{
+  "mode": "extras",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "006fc1f2c7438e667111df6946678f180e21267576f6ed787ae210898acdcbba",
+  "tooling_manifest_sha256": "237c02079e8b2137c5d623fca876525d987be41c7ff6ff277a2abc9764e9d970",
+  "tooling_commit": "61013886e841c8996e952692f1fcb8475cdd9ec3",
+  "expected_native_sha256": "36f33604c92f4805e8708dea901109feddeaefa01111c74d05eeb1572f5376a3",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "8a13cb86b2bb16634ddb029b5f1b7603d66b5aa30a276ff4b071c0ac3b6b8c07",
+    "candidate_packages_sha256": "e93257a796a16800ddfc8a5eba749aaef153f9f93e55c232d2df9611c7a67edf"
+  },
+  "commands": [
+    {
+      "name": "quick",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/validate_airs_lifecycle.py",
+        "--binary",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/gateway013r7-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-17ab6fe980e24fcfb14986dfcdc090fc/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--native-binary",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/gateway013r7-candidate/candidate-acceptance/aarch64-apple-darwin.work/install-17ab6fe980e24fcfb14986dfcdc090fc/prefix/lib/node_modules/airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+        "--profile",
+        "quick",
+        "--output",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/gateway013r7-candidate/extra-candidate/aarch64-apple-darwin/lifecycle-quick"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 189.68542604194954
+    },
+    {
+      "name": "typesafe-native",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/test_airs_typesafe_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.9331672920379788
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.29406016599387
+    },
+    {
+      "name": "gateway-agent-skill",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/test_airs_harness.py",
+        "TerminalIntegration.test_embedded_gateway_skill_runs_admin_help_in_agent_shell",
+        "TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0504167079925537
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.2273112090770155
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.560520292026922
+    }
+  ],
+  "extra_receipts": {
+    "quick_sha256": "88b88f30d68154496d6e7daad4757c4025ec8261f5df750f7b4fe0b476d902d0"
+  },
+  "passed": true
+}

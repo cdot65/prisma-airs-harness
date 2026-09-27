@@ -1,0 +1,28 @@
+{
+  "source_commit": "61013886e841c8996e952692f1fcb8475cdd9ec3",
+  "review_method": "Evidence-backed adversarial self-review; not independent certification",
+  "scope": "Selective official Gateway OpenAPI alignment, managed CLI bundle and Mac preview",
+  "findings_resolved": [
+    "Use a separate explicit admin client and command group; never infer admin scope after a workspace permission denial",
+    "Preserve deployed user/service API key adapters after live combined collection returned 403",
+    "Keep optional organisation and workspace UUIDs distinct from numeric TSG",
+    "Validate pagination before OAuth; return CLI usage exit 2",
+    "Replace temporary SDK package override with actual registry SDK 0.34.0 and integrity",
+    "Read the bundled CLI version/help instead of stale version claims in embedded skills",
+    "Run new Gateway skill help and managed doctor through actual installed agent shell in candidate and registry checks"
+  ],
+  "limitations": [
+    "Only read-only live Gateway requests were made; admin writes and nonempty admin records are contract/fixture-tested",
+    "Official spec describes inherited and unverified routes; no claim to implement all 187 operations",
+    "No changes to Gateway/CAS authentication, native MCP OAuth or Jev credential handoff",
+    "No fresh paid Jev evaluation or owner SSO/MCP interaction claimed",
+    "Linux and stable promotion deferred pending owner Mac acceptance"
+  ],
+  "delivery_complete": true,
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  }
+}

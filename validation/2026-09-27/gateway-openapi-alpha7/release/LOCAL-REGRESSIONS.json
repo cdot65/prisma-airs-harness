@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "scope": "CLI bundle, embedded Gateway skill, and version stamp; no Rust core logic changes",
+  "source_commit": "61013886e841c8996e952692f1fcb8475cdd9ec3",
+  "launcher_tests": 33,
+  "sdk_tests": 11755,
+  "cli_tests": 2041,
+  "home_dir_tests": 8,
+  "skills_tests": 51,
+  "preflight_run": 3866,
+  "preflight_task": 22766,
+  "full_workspace_rerun": false
+}

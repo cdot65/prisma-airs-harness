@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "registry": {
+    "exit_code": 0,
+    "passed": true,
+    "command": [
+      "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+      "/Users/cdot/.cache/airs-gateway-release-20260927/native-worker.py",
+      "verify",
+      "--root",
+      "/Users/cdot/.cache/airs-gateway-release-20260927/gateway013r7-candidate",
+      "--tooling",
+      "/Users/cdot/.cache/airs-gateway-release-20260927/frozen-tooling",
+      "--packages",
+      "/Users/cdot/.cache/airs-gateway-release-20260927/gateway013r7-candidate/staged"
+    ]
+  },
+  "previous_preview": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "version": "0.1.3-alpha.7.mcp.1",
+  "platform": "aarch64-apple-darwin"
+}

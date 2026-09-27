@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "url": "https://cdot65.github.io/prisma-airs-cli/cli/aigateway/official-spec-alignment/",
+      "http_status": 200,
+      "new_content_present": true
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-sdk/developer/official-gateway-alignment/",
+      "http_status": 200,
+      "new_content_present": true
+    },
+    {
+      "url": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/gateway/",
+      "http_status": 200,
+      "new_content_present": true
+    }
+  ],
+  "mac_preview_version_verified": true,
+  "documentation_commit": "83980eac5fe54f276fb4249c26615dbfde8d6671"
+}

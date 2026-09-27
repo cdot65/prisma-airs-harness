@@ -1,0 +1,11 @@
+{
+  "commit": "83980eac5fe54f276fb4249c26615dbfde8d6671",
+  "workflow": {
+    "conclusion": "success",
+    "headSha": "83980eac5fe54f276fb4249c26615dbfde8d6671",
+    "status": "completed",
+    "url": "https://github.com/cdot65/prisma-airs-reference-architecture/actions/runs/36341882081"
+  },
+  "public_page": "https://cdot65.github.io/prisma-airs-reference-architecture/learn/gateway/",
+  "preview_version_present": true
+}

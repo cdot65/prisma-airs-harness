@@ -1,39 +1,41 @@
-# Unicode lists — validation in progress
+# Unicode lists — completed source integration
 
-Adapt upstream `5a11c456060c2ce131de1ba195fc7729f7d7db66`, with the applicable shared rendering-preference interface from `a86631502d`. This fork has no Mermaid renderer or upstream ListSpacing interface; neither is introduced merely to satisfy neighboring upstream contexts.
+| Criterion | Score | Evidence |
+| --- | --- | --- |
+| Implementation | 9/10 | Shared streamed/completed rendering, client-owned configuration, nested/ordered/quoted/wrapped task lists and real terminal checks pass. |
+| Code quality | 9/10 | Small private helper modules, zero-warning local/native four-package lint, generated schema, formatting and 7,191 matching tracked workspace files. |
+| Design | 9/10 | Applicable upstream preference interface; no inert Mermaid/table fields, extra dependencies, transcript rewriting or authentication changes. Startup and replacement widgets retain the client's choice. |
+| Feature completeness | 9/10 | Local/native affected suites, three PTY cases per host, real debug builds/version probes, full GNU baseline comparison and documented textual fallback. Signed distribution remains in the delivery phase. |
 
-## Acceptance and counterexamples
+These are bounded engineering self-review scores backed by executable evidence, not independent certification or completion of the broader PRD.
 
-- Render unordered markers and valid GFM task markers as Unicode, preserving ordered numbering and hanging indent.
-- Match streaming and completed output, including character-by-character partial markers, Unicode and widths 1/8/24/80.
-- Preserve raw source and raw-mode output; keep code, escaped markers and ordinary bracket text intact.
-- Support `tui.rendering.lists = false`, independently of animation/whimsy; seed before startup previews and preserve the client setting across widget replacement.
-- Keep existing gateway, authentication, tool and routing behavior.
-- Generate the real config schema and exercise full workspace compatibility because resolved core configuration gains a field.
+## Behavior
 
-## Review observations
+Adapt upstream `5a11c45606`, using the applicable preference interface from `a86631502d`. Default rendering uses Unicode bullets and task checkboxes. `[tui.rendering] lists = false` retains textual list/task markers independently of animations and other inline Markdown styles. Raw output remains unchanged. Ordered numbering, hanging indent, code/escaped text and block/HTML starts are covered.
 
-The initial 4,758-test local run had 31 failures. All 26 assertion failures were expected bullet changes; three existing snapshots changed only rich marker presentation; two new snapshots required acceptance. Every difference was inspected. Raw portions of the transcript-toggle snapshot remain unchanged. A bare `- [x]` without trailing whitespace/content remains textual under the parser's GFM rules; valid markers preceding empty/block content are recovered without duplicating marker events.
+The current fork lacks upstream ListSpacing and Mermaid interfaces; neither is imported merely to satisfy adjacent patch context. Core configuration gains one resolved preference field, with the real generated schema. The current owner's local setting is seeded before startup previews and restored on widget replacement, even if legacy/server configuration differs. There are no new provider, credential, gateway, model-routing or fullscreen-default behaviors.
 
-The implementation reuses existing renderer style/indent owners. Parser recovery is bounded to the current item prefix. Tests cover nested/ordered/quoted/wrapped items, HTML/block starts, code and escapes. No provider calls, new dependencies, transcript rewriting, fullscreen default changes, or credential access are added.
+## Verified evidence
 
-## Gate
+- Local full TUI/config: **4,758/4,758**, six skips, retries disabled.
+- Apple Silicon full TUI/config: **4,764/4,764**, six skips, retries disabled.
+- Three additional PTY cases per host pass without retries: Unicode defaults, disabled-list textual markers, and raw Markdown. Each drives a local streamed response through the real TUI process. Filtered-suite exclusions are not platform skip counts.
+- Character-by-character streaming matches completed/emitted output for both list settings, rich/raw modes and widths 1/8/24/80, including Unicode. The source round-trip fixture is newline-terminated; no new claim is made about preexisting unterminated-input normalization.
+- All five snapshot changes were reviewed. Existing raw transcript sections are identical; only rich marker presentation changes.
+- Fresh `codex` and `airs-harness` debug builds on Linux and Apple Silicon pass all four version probes. Byte hashes are retained. These are development artifacts, not a new signed/notarized npm release.
+- Local/native four-package lint has zero warnings, including the additional PTY tests. Formatting passed; 17 unrelated preexisting Python formatting changes were restored. All **7,191 tracked codex-rs files** match the Mac after lint/format.
+- Full GNU run **3856 / Actions 311**, exact runtime/tooling `d07ec07431`: **18,612 passed, three failed, 34 skipped**, 2,027.984 seconds, no retry-pass flakes. Every assertion from both attempts of each failure matches the retained stable baseline after only timestamp/ANSI/indent/PID/fixture-path normalization. The suite is explicitly **not all green**.
+- PTY test commit `3766c4dab8` follows the full-run source and changes only test code. Its separate local/native receipts are not folded into the earlier full-workspace count.
 
-Scores withheld pending full GNU workspace validation. Corrected local/native suites, lint and the final source audit pass. No signed or distributed preview is claimed.
+## Adversarial findings and closure
 
+1. Initial local execution had 31 failures: 26 old marker assertions, three existing rich snapshots and two new snapshots. Each difference was inspected; the corrected full run passes. No source Markdown input was changed to manufacture the expected output.
+2. The first native run reported three failures after their Rust assertions passed. Node helpers were still writing compile caches during temporary-root cleanup. The validation wrapper now retries only `ENOTEMPTY` for at most two seconds; other errors remain failures. The fresh complete native rerun passes. No product behavior changed for this correction.
+3. Review caught a missing dedicated terminal acceptance check. The three PTY cases now cover actual terminal output, complementing renderer snapshots and streaming tests.
+4. Review corrected an earlier audit label: the preceding terminal feature's 7,182-file count covered all tracked `codex-rs` files, not exclusively `.rs` files. Its receipts/count remain valid; the prose and field name are corrected.
 
-## Native diagnostic and closure
+A bare `- [x]` without trailing whitespace/content remains textual under the parser's GFM rules. Valid markers before empty/block content are recovered without duplicate marker events. No new dependencies or Cargo/Bazel lock changes are required for this slice.
 
-Initial native execution reports 4,761/4,764 passes, six skips, retries disabled. All three reported failures contain successful Rust assertions followed by Python cleanup errors: a Node helper was still writing `jiti` or its compile cache after its parent test returned. This is retained as an infrastructure failure, not a clean test pass. The final test runner retries only `ENOTEMPTY` cleanup races, bounded to two seconds; other errors still fail. The subsequent fresh full suite on the formatted committed source passed, as recorded below. No product behavior changed for this correction.
+## Remaining boundary
 
-Local four-package lint passed with zero warnings; formatting completed and 17 unrelated preexisting Python formatting changes were restored. Full GNU run 3856 (Actions run 311) uses exact source/tooling `d07ec0743140b4fb710a5b99c436ea29862bd192`.
-
-
-Native closure: the complete fresh suite passed **4,764/4,764**, six skips, retries disabled, including all three previously reported wrapper failures. The corrected wrapper cleaned successful temporary roots. The source audit matches all **7,190 tracked codex-rs files**, including schemas and snapshots (4,018 are Rust files). Final native four-package lint passed with zero warnings, and all 7,190 tracked workspace files still match after lint. Full GNU remains pending; no score is assigned yet.
-
-
-## Additional terminal acceptance
-
-A further review found the dedicated list PTY requirement was not yet covered by the renderer snapshots. Three new integration cases now stream a controlled local response through the real TUI process: default Unicode markers, disabled-list textual markers, and raw Markdown output. All three pass on Linux and Apple Silicon with retries disabled. Filtered-suite skip counts are exclusions, not additional platform skips. Fresh `codex` and `airs-harness` debug binaries built on both hosts and passed version probes; their byte hashes are retained. These are development builds, not new signed/notarized packages.
-
-The extra tests passed scoped lint on both hosts with zero warnings, then formatting. All 7,191 tracked workspace files match the native source. Full GNU 3856 runs runtime source `d07ec07431`; these subsequent test-only additions have separate local/native receipts and are not claimed as part of that earlier full-run count.
+The list feature clears its four 9/10 source-integration gates. Math, connected fullscreen/search/mouse behavior, final signed/notarized Mac packaging, fresh registry acceptance and owner visual/real-account testing remain in the broader PRD. Linux distribution still waits for owner Mac acceptance.

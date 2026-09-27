@@ -1,0 +1,61 @@
+{
+  "feature": "Unicode list rendering and client-owned fallback preferences",
+  "scope": "Completed source integration and native terminal validation; signed distribution remains a separate pending phase",
+  "upstream": "5a11c456060c2ce131de1ba195fc7729f7d7db66",
+  "preference_foundation": "Applicable interface from a86631502d; no unavailable Mermaid/table options",
+  "runtime_commit": "d07ec0743140b4fb710a5b99c436ea29862bd192",
+  "terminal_test_commit": "3766c4dab8",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "review_type": "Adversarial self-review with executable evidence, not independent certification",
+  "validation": {
+    "local_tui_config_passed": 4758,
+    "native_tui_config_passed": 4764,
+    "full_affected_suite_skips_each": 6,
+    "affected_retries": 0,
+    "new_pty_cases_each_host": 3,
+    "lint_warnings_each_host": 0,
+    "matching_tracked_codex_rs_files": 7191,
+    "actual_schema_generator_passed": true,
+    "debug_cli_binaries_built_each_host": 2,
+    "gnu_workspace": {
+      "source_commit": "d07ec0743140b4fb710a5b99c436ea29862bd192",
+      "run_id": 3856,
+      "duration_seconds": 2027.984,
+      "total": 18615,
+      "passed": 18612,
+      "failed": 3,
+      "skipped": 34,
+      "failures": [
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+      ],
+      "only_reviewed_baseline_failures": true,
+      "suite_all_green": false,
+      "retained_log_sha256": "a0e3e552cb7690fc1dc29a9723261e80df7f9cf368789802608c49f1ff8e4404",
+      "log_source": "Complete uploaded CI validation artifact (queried for run 3856); source-verified GNU container and terminal CI run status checked separately",
+      "retry_passes": [],
+      "first_attempt_failures": [
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+      ]
+    }
+  },
+  "limitations": [
+    "Full GNU suite is not all green: three retained baseline assertion failures match",
+    "Three later test-only PTY additions have separate local/native receipts; not included in the earlier full-GNU count",
+    "No new signed/notarized or npm preview yet",
+    "Real terminal font and owner usability acceptance remain explicit"
+  ],
+  "retained_failures": [
+    "Initial local 31 expected marker/snapshot failures, reviewed and closed by full successful rerun",
+    "Initial native three runner cleanup races after successful Rust assertions; bounded ENOTEMPTY retry and full native rerun close them"
+  ],
+  "source_preservation": "Raw transcript snapshot sections unchanged; newline-terminated source fixture round-trips exactly; textual list option retains Markdown inline styling"
+}

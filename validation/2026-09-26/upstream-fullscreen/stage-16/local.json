@@ -1,0 +1,29 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-E",
+    "test(history_cell) | test(exec_cell) | test(history_replay) | test(tool_output) | test(exec_flow) | test(terminal_hyperlinks) | test(recap) | test(insert_history) | test(thread_transcript) | test(app_server_approval_conversions)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 68.98318409919739,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "396",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "c52cff9a-e4f1-4add-be25-18541ad68f6f",
+    "timestamp": "2026-09-27T03:26:02.590+00:00",
+    "time": "2.459"
+  }
+}

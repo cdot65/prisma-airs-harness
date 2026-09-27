@@ -1,0 +1,19 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-E",
+    "test(history_cell) | test(exec_cell) | test(history_replay) | test(tool_output) | test(exec_flow) | test(terminal_hyperlinks) | test(recap) | test(insert_history) | test(thread_transcript) | test(app_server_approval_conversions)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 63.99756908416748
+}

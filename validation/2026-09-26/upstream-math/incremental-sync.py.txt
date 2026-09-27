@@ -1,0 +1,22 @@
+"""Sync committed source without changing unchanged file mtimes or touching build outputs."""
+from pathlib import Path
+import subprocess,hashlib,json,time,shlex,sys
+r=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924');c=Path('/home/cdot/.cache/airs-upstream-20260926');remote='/Users/cdot/.cache/airs-upstream-20260926';host='cdot@10.0.1.121';ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes',host];label=sys.argv[1]
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=r).strip(), 'Commit source first'
+# Do not mutate a source tree used by a live compiler/test runner.
+subprocess.run(ssh+['if pgrep -x cargo >/dev/null || pgrep -x rustc >/dev/null || pgrep -x cargo-nextest >/dev/null; then exit 3; fi'],check=True)
+head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=r,text=True).strip();files=subprocess.check_output(['git','ls-files','-z'],cwd=r);names=files.decode().rstrip('\0').split('\0');start=time.time()
+manifest=remote+'/source-manifest.json'
+old=subprocess.run(ssh+['cat '+shlex.quote(manifest)],text=True,capture_output=True,check=True);old=json.loads(old.stdout)
+removed=sorted(set(old['files'])-set(names))
+if removed:
+ code='from pathlib import Path\nimport json,sys\nr=Path('+repr(remote+'/source')+')\nfor p in json.load(sys.stdin):\n path=r/p\n if path.is_file() or path.is_symlink():path.unlink()\n'
+ subprocess.run(ssh+['/opt/homebrew/bin/python3.13 -c '+shlex.quote(code)],input=json.dumps(removed),text=True,check=True)
+# Deliberately omit --times/-a. --checksum skips identical contents without retouching mtimes.
+cmd=['rsync','-rlpc','--from0','--files-from=-','-e','ssh -i /home/cdot/.ssh/airs-jadzia-runner -o BatchMode=yes',str(r)+'/',host+':'+remote+'/source/']
+subprocess.run(cmd,input=files,check=True)
+tracked=[x for x in names if x.startswith('codex-rs/') and (r/x).is_file()];expected={x:hashlib.sha256((r/x).read_bytes()).hexdigest() for x in tracked}
+check='from pathlib import Path\nimport hashlib,json,sys\nr=Path('+repr(remote+'/source')+')\nexpected=json.load(sys.stdin)\nbad=[p for p,h in expected.items() if not (r/p).is_file() or hashlib.sha256((r/p).read_bytes()).hexdigest()!=h]\nprint(json.dumps({"matching_codex_rs_files":len(expected)-len(bad),"mismatches":bad}))\nraise SystemExit(bool(bad))'
+result=subprocess.run(ssh+['/opt/homebrew/bin/python3.13 -c '+shlex.quote(check)],input=json.dumps(expected),text=True,capture_output=True,check=True)
+subprocess.run(ssh+['cat > '+shlex.quote(manifest)],input=json.dumps({'source_commit':head,'files':names}),text=True,check=True)
+receipt={'source_commit':head,'method':'rsync checksum without times; remove only previously tracked paths; refuse active Rust jobs','elapsed_seconds':time.time()-start,'removed_tracked_paths':removed,**json.loads(result.stdout)};(c/f'{label}-native-source-parity.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))

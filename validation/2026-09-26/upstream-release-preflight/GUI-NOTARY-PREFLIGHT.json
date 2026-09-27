@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-09-27T01:12:30.867913+00:00",
+  "host": "10.0.1.121",
+  "user": "cdot",
+  "direct_ssh_notary_access": false,
+  "desktop_launch_domain": "gui/501",
+  "temporary_job": "io.cdot.airs.notary-preflight-20260927",
+  "notary_history_exit_code": 0,
+  "valid_json_response": true,
+  "submission_count": 40,
+  "job_removed": true,
+  "profile": "prisma-airs-harness-notary",
+  "credential_material_read_or_exported": false,
+  "conclusion": "Existing profile accessible in unlocked desktop session; use bounded temporary desktop-session job for signing/notarization. Direct SSH remains locked. Actual signing and submission still untested for new source."
+}

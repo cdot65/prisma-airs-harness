@@ -12,10 +12,6 @@ pub(crate) enum LineWrapPolicy {
     #[default]
     Word,
     /// Keep fitting URL tokens intact and split oversized tokens to fit the viewport.
-    #[allow(
-        dead_code,
-        reason = "The AIRS recap adapter will use URL-aware source layout."
-    )]
     UrlAware,
     /// Preserve hard source-line wrapping, including diff signs.
     Hard,

@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="521" skipped="0" failures="1" errors="0" uuid="731e656f-be19-43ac-a12a-a656bf6d3a35" timestamp="2026-09-27T08:32:37.883+00:00" time="5.386">
+    <testsuite name="codex-cli::bin/airs-harness" tests="6" skipped="0" errors="0" failures="0">
+        <testcase name="doctor::updates::tests::update_action_labels_install_contexts" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.017"/>
+        <testcase name="doctor::output::tests::update_note_emphasizes_available_version_and_dims_context" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.018"/>
+        <testcase name="airs_mcp_failure::tests::untyped_errors_are_not_guessed_from_provider_text" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.018"/>
+        <testcase name="airs_mcp_failure::tests::innermost_typed_failure_survives_generic_context_without_exposing_details" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.019"/>
+        <testcase name="airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.024"/>
+        <testcase name="airs_access::tests::reasoning_only_probe_verifies_access_without_requiring_final_text" classname="codex-cli::bin/airs-harness" timestamp="2026-09-27T08:32:37.902+00:00" time="0.040"/>
+    </testsuite>
+    <testsuite name="codex-cli::bin/codex" tests="6" skipped="0" errors="0" failures="0">
+        <testcase name="airs_mcp_failure::tests::untyped_errors_are_not_guessed_from_provider_text" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.921+00:00" time="0.015"/>
+        <testcase name="airs_mcp_failure::tests::innermost_typed_failure_survives_generic_context_without_exposing_details" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.920+00:00" time="0.019"/>
+        <testcase name="doctor::output::tests::update_note_emphasizes_available_version_and_dims_context" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.926+00:00" time="0.015"/>
+        <testcase name="airs_harness::tests::setup_context_default_and_override_reach_config_and_catalog" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.920+00:00" time="0.028"/>
+        <testcase name="doctor::updates::tests::update_action_labels_install_contexts" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.937+00:00" time="0.015"/>
+        <testcase name="airs_access::tests::reasoning_only_probe_verifies_access_without_requiring_final_text" classname="codex-cli::bin/codex" timestamp="2026-09-27T08:32:37.920+00:00" time="0.040"/>
+    </testsuite>
+    <testsuite name="codex-config" tests="5" skipped="0" errors="0" failures="0">
+        <testcase name="hook_config::tests::hook_handler_omits_unset_additional_context_limit" classname="codex-config" timestamp="2026-09-27T08:32:37.939+00:00" time="0.012"/>
+        <testcase name="tui_keymap::tests::action_under_global_context_is_accepted" classname="codex-config" timestamp="2026-09-27T08:32:37.941+00:00" time="0.012"/>
+        <testcase name="tui_keymap::tests::minus_bindings_under_global_context_are_accepted" classname="codex-config" timestamp="2026-09-27T08:32:37.942+00:00" time="0.012"/>
+        <testcase name="tui_keymap::tests::misspelled_action_under_context_is_rejected" classname="codex-config" timestamp="2026-09-27T08:32:37.947+00:00" time="0.013"/>
+        <testcase name="tui_keymap::tests::misspelled_vim_text_object_action_is_rejected" classname="codex-config" timestamp="2026-09-27T08:32:37.952+00:00" time="0.011"/>
+    </testsuite>
+    <testsuite name="codex-features" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="tests::guardian_thread_context_resolves_nested_config_and_profile_overrides" classname="codex-features" timestamp="2026-09-27T08:32:37.952+00:00" time="0.011"/>
+    </testsuite>
+    <testsuite name="codex-tui" tests="500" skipped="0" errors="0" failures="1">
+        <testcase name="airs_onboarding::tests::cancel_keys_are_distinct_from_ordinary_text_input" classname="codex-tui" timestamp="2026-09-27T08:32:37.953+00:00" time="0.018"/>
+        <testcase name="airs_onboarding::tests::input_and_progress_snapshots_keep_context_and_recovery_visible" classname="codex-tui" timestamp="2026-09-27T08:32:37.954+00:00" time="0.022"/>
+        <testcase name="airs_onboarding::tests::public_text_cannot_inject_terminal_or_direction_controls" classname="codex-tui" timestamp="2026-09-27T08:32:37.960+00:00" time="0.022"/>
+        <testcase name="app::recap::tests::another_recap_requires_two_additional_completed_turns" classname="codex-tui" timestamp="2026-09-27T08:32:37.971+00:00" time="0.020"/>
+        <testcase name="app::owned_transcript::tests::owned_transcript_keeps_text_out_of_the_pet_columns" classname="codex-tui" timestamp="2026-09-27T08:32:37.963+00:00" time="0.040"/>
+        <testcase name="app::recap::tests::completed_turn_resets_recap_deadline_while_unfocused" classname="codex-tui" timestamp="2026-09-27T08:32:37.991+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::auto_recap_opt_out_cancels_scheduling_after_restored_progress" classname="codex-tui" timestamp="2026-09-27T08:32:37.977+00:00" time="0.037"/>
+        <testcase name="app::recap::tests::auto_recap_opt_out_discards_results_without_retrying" classname="codex-tui" timestamp="2026-09-27T08:32:37.982+00:00" time="0.036"/>
+        <testcase name="app::recap::tests::dropping_recap_state_cancels_timer" classname="codex-tui" timestamp="2026-09-27T08:32:38.003+00:00" time="0.019"/>
+        <testcase name="app::recap::tests::failed_turn_invalidates_ready_recap_without_counting_as_completed" classname="codex-tui" timestamp="2026-09-27T08:32:38.011+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::generated_recap_is_normalized_and_bounded" classname="codex-tui" timestamp="2026-09-27T08:32:38.014+00:00" time="0.019"/>
+        <testcase name="app::activity_groups::tests::trailing_reasoning_identity_rejects_identical_text_from_another_turn" classname="codex-tui" timestamp="2026-09-27T08:32:37.961+00:00" time="0.073"/>
+        <testcase name="app::recap::tests::generated_recap_is_returned_for_synchronous_insertion" classname="codex-tui" timestamp="2026-09-27T08:32:38.018+00:00" time="0.037"/>
+        <testcase name="app::recap::tests::manual_recap_failure_does_not_schedule_retry" classname="codex-tui" timestamp="2026-09-27T08:32:38.022+00:00" time="0.035"/>
+        <testcase name="app::recap::tests::newer_terminal_turn_invalidates_generated_recap" classname="codex-tui" timestamp="2026-09-27T08:32:38.031+00:00" time="0.037"/>
+        <testcase name="app::recap::tests::obsolete_recap_result_does_not_clear_the_current_request" classname="codex-tui" timestamp="2026-09-27T08:32:38.033+00:00" time="0.036"/>
+        <testcase name="app::recap::tests::recap_failure_retries_once_for_the_same_turn_revision" classname="codex-tui" timestamp="2026-09-27T08:32:38.033+00:00" time="0.036"/>
+        <testcase name="app::recap::tests::recap_history_caps_utf8_bytes_without_splitting_characters" classname="codex-tui" timestamp="2026-09-27T08:32:38.055+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::recap_history_cell_preserves_explicit_line_breaks" classname="codex-tui" timestamp="2026-09-27T08:32:38.058+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::recap_history_cell_preserves_heading_in_raw_history" classname="codex-tui" timestamp="2026-09-27T08:32:38.068+00:00" time="0.021"/>
+        <testcase name="app::recap::tests::recap_history_cell_wraps_in_narrow_terminals" classname="codex-tui" timestamp="2026-09-27T08:32:38.069+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::recap_history_cell_uses_labeled_checkpoint_layout" classname="codex-tui" timestamp="2026-09-27T08:32:38.069+00:00" time="0.022"/>
+        <testcase name="app::recap::tests::recap_history_ignores_activity_previous_recaps_and_empty_messages" classname="codex-tui" timestamp="2026-09-27T08:32:38.075+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::recap_history_keeps_only_the_most_recent_eight_user_turns" classname="codex-tui" timestamp="2026-09-27T08:32:38.078+00:00" time="0.019"/>
+        <testcase name="app::recap::tests::recap_requires_focus_loss_and_three_completed_turns" classname="codex-tui" timestamp="2026-09-27T08:32:38.091+00:00" time="0.018"/>
+        <testcase name="app::recap::tests::recap_history_preserves_chronological_user_and_assistant_messages" classname="codex-tui" timestamp="2026-09-27T08:32:38.089+00:00" time="0.021"/>
+        <testcase name="app::recap::tests::recap_history_preserves_latest_user_turn_when_latest_response_is_oversized" classname="codex-tui" timestamp="2026-09-27T08:32:38.089+00:00" time="0.021"/>
+        <testcase name="app::recap::tests::recap_waits_after_focus_loss_even_if_turn_completed_earlier" classname="codex-tui" timestamp="2026-09-27T08:32:38.095+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::regaining_focus_cancels_scheduled_check" classname="codex-tui" timestamp="2026-09-27T08:32:38.096+00:00" time="0.019"/>
+        <testcase name="app::recap::tests::regaining_focus_preserves_only_manual_in_flight_request" classname="codex-tui" timestamp="2026-09-27T08:32:38.110+00:00" time="0.020"/>
+        <testcase name="app::recap::tests::repeated_focus_loss_does_not_restart_recap_delay" classname="codex-tui" timestamp="2026-09-27T08:32:38.110+00:00" time="0.022"/>
+        <testcase name="app::recap::tests::regaining_focus_prevents_recap_generation" classname="codex-tui" timestamp="2026-09-27T08:32:38.110+00:00" time="0.023"/>
+        <testcase name="app::recap::tests::replacing_the_primary_thread_resets_progress_but_preserves_focus" classname="codex-tui" timestamp="2026-09-27T08:32:38.115+00:00" time="0.019"/>
+        <testcase name="app::owned_transcript::input_tests::empty_enter_returns_to_latest_with_contextual_hints" classname="codex-tui" timestamp="2026-09-27T08:32:37.963+00:00" time="0.187"/>
+        <testcase name="app::recap::tests::restored_history_counts_only_completed_turns" classname="codex-tui" timestamp="2026-09-27T08:32:38.130+00:00" time="0.021"/>
+        <testcase name="app::recap::tests::restored_history_never_reduces_observed_completed_turns" classname="codex-tui" timestamp="2026-09-27T08:32:38.132+00:00" time="0.018"/>
+        <testcase name="app::recap::tests::rescheduling_check_cancels_the_earlier_timer" classname="codex-tui" timestamp="2026-09-27T08:32:38.116+00:00" time="0.035"/>
+        <testcase name="app::tests::buffered_replay::buffered_replay_preserves_text_before_interactive_requests" classname="codex-tui" timestamp="2026-09-27T08:32:38.134+00:00" time="0.018"/>
+        <testcase name="app::recap::tests::scheduled_check_fires_at_recap_deadline" classname="codex-tui" timestamp="2026-09-27T08:32:38.133+00:00" time="0.039"/>
+        <testcase name="app::tests::inactive_thread_exec_approval_preserves_context" classname="codex-tui" timestamp="2026-09-27T08:32:38.150+00:00" time="0.039"/>
+        <testcase name="app::tests::buffered_replay::buffered_replay_renders_completed_text_without_streaming_again" classname="codex-tui" timestamp="2026-09-27T08:32:38.150+00:00" time="0.041"/>
+        <testcase name="app::tests::pasted_text_normalizes_mixed_line_endings_at_app_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:38.152+00:00" time="0.160"/>
+        <testcase name="app::tests::recap_generation::recap_check_rejects_a_non_displayed_thread" classname="codex-tui" timestamp="2026-09-27T08:32:38.191+00:00" time="0.173"/>
+        <testcase name="app::tests::override_turn_context_sends_thread_settings_update" classname="codex-tui" timestamp="2026-09-27T08:32:38.151+00:00" time="0.293"/>
+        <testcase name="app::tests::recap_generation::auto_recap_opt_out_blocks_requests_and_cleans_up_pending_start" classname="codex-tui" timestamp="2026-09-27T08:32:38.172+00:00" time="0.301"/>
+        <testcase name="app::tests::recap_generation::recap_check_rejects_a_running_turn" classname="codex-tui" timestamp="2026-09-27T08:32:38.312+00:00" time="0.368"/>
+        <testcase name="app::tests::token_usage_update_refreshes_status_line_with_runtime_context_window" classname="codex-tui" timestamp="2026-09-27T08:32:38.680+00:00" time="0.038"/>
+        <testcase name="app::tests::recap_generation::manual_recap_works_when_auto_recap_disabled" classname="codex-tui" timestamp="2026-09-27T08:32:38.189+00:00" time="0.556"/>
+        <testcase name="app::thread_events::tests::refresh_retains_live_questions_without_replaying_their_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.745+00:00" time="0.020"/>
+        <testcase name="app::thread_events::tests::thread_event_store_preserves_recap_progress_across_replay" classname="codex-tui" timestamp="2026-09-27T08:32:38.765+00:00" time="0.019"/>
+        <testcase name="app::thread_goal_actions::tests::thread_goal_error_message_preserves_generic_failure_context" classname="codex-tui" timestamp="2026-09-27T08:32:38.784+00:00" time="0.018"/>
+        <testcase name="app::thread_title::tests::recent_conversation_messages_strip_ide_context_before_escaping" classname="codex-tui" timestamp="2026-09-27T08:32:38.803+00:00" time="0.020"/>
+        <testcase name="app::tests::recap_generation::temporary_recap_threads_disable_memories_and_remote_mcp_servers" classname="codex-tui" timestamp="2026-09-27T08:32:38.474+00:00" time="0.360"/>
+        <testcase name="app_backtrack::tests::agent_group_count_ignores_context_compacted_marker" classname="codex-tui" timestamp="2026-09-27T08:32:38.823+00:00" time="0.020"/>
+        <testcase name="bottom_pane::async_questions::tests::existing_cross_context_keymaps_load_without_misleading_submit_hints" classname="codex-tui" timestamp="2026-09-27T08:32:38.843+00:00" time="0.026"/>
+        <testcase name="app::tests::key_chords::vim_buffer_jumps_route_default_chords_in_normal_and_operator_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:38.151+00:00" time="0.729"/>
+        <testcase name="app::tests::recap_generation::recap_generation_uses_bounded_structured_request_and_inserts_result" classname="codex-tui" timestamp="2026-09-27T08:32:38.364+00:00" time="0.517"/>
+        <testcase name="app::tests::transcript_selection::text_selection_temporarily_replaces_the_rendered_backtrack_highlight" classname="codex-tui" timestamp="2026-09-27T08:32:38.718+00:00" time="0.163"/>
+        <testcase name="bottom_pane::approval_overlay::tests::network_access_command_history_uses_target_without_structured_context" classname="codex-tui" timestamp="2026-09-27T08:32:38.834+00:00" time="0.067"/>
+        <testcase name="bottom_pane::chat_composer::completion_target::tests::current_prefixed_token_affinity_does_not_cross_separator_before_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.881+00:00" time="0.022"/>
+        <testcase name="app::tests::recap_generation::recap_generation_uses_remote_workspace_cwd" classname="codex-tui" timestamp="2026-09-27T08:32:38.445+00:00" time="0.459"/>
+        <testcase name="bottom_pane::chat_composer::embedded_input_tests::plain_text_composer_keeps_command_prefixes_literal" classname="codex-tui" timestamp="2026-09-27T08:32:38.881+00:00" time="0.023"/>
+        <testcase name="bottom_pane::async_questions::tests::question_wrapped_other_shares_the_text_indent" classname="codex-tui" timestamp="2026-09-27T08:32:38.880+00:00" time="0.033"/>
+        <testcase name="bottom_pane::chat_composer::mouse::tests::selected_text_navigation_does_not_recall_history_or_select_images" classname="codex-tui" timestamp="2026-09-27T08:32:38.901+00:00" time="0.025"/>
+        <testcase name="bottom_pane::chat_composer::tests::apply_external_edit_rebuilds_text_and_attachments" classname="codex-tui" timestamp="2026-09-27T08:32:38.902+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::attach_image_without_text_submits_empty_text_and_images" classname="codex-tui" timestamp="2026-09-27T08:32:38.904+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::backspace_with_multibyte_text_before_placeholder_does_not_panic" classname="codex-tui" timestamp="2026-09-27T08:32:38.904+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::current_text_with_pending_expands_placeholders" classname="codex-tui" timestamp="2026-09-27T08:32:38.927+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::tests::deleting_reordered_image_one_renumbers_text_in_place" classname="codex-tui" timestamp="2026-09-27T08:32:38.928+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::current_text_with_pending_expands_overlapping_placeholders" classname="codex-tui" timestamp="2026-09-27T08:32:38.926+00:00" time="0.025"/>
+        <testcase name="bottom_pane::chat_composer::tests::deleting_first_text_element_renumbers_following_text_element" classname="codex-tui" timestamp="2026-09-27T08:32:38.927+00:00" time="0.026"/>
+        <testcase name="bottom_pane::chat_composer::tests::handle_paste_small_inserts_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.950+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::tests::image_placeholder_backspace_behaves_like_text_placeholder" classname="codex-tui" timestamp="2026-09-27T08:32:38.951+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::tests::large_paste_preserves_image_text_elements_on_submit" classname="codex-tui" timestamp="2026-09-27T08:32:38.953+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::tests::esc_keeps_shell_mode_when_paste_burst_flushes_pending_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.947+00:00" time="0.032"/>
+        <testcase name="bottom_pane::chat_composer::tests::bang_prefixed_slash_text_submits_literal_shell_command" classname="codex-tui" timestamp="2026-09-27T08:32:38.913+00:00" time="0.078"/>
+        <testcase name="bottom_pane::chat_composer::tests::non_text_input_flushes_pending_paste_without_inserting_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.972+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::platform_specific_altgr_input_remains_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.973+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::prepare_submission_with_only_remote_images_returns_empty_text" classname="codex-tui" timestamp="2026-09-27T08:32:38.974+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::remote_images_do_not_modify_textarea_text_or_elements" classname="codex-tui" timestamp="2026-09-27T08:32:38.980+00:00" time="0.025"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_reattaches_images_without_placeholder_metadata" classname="codex-tui" timestamp="2026-09-27T08:32:38.991+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_rebinds_at_sigiled_mentions" classname="codex-tui" timestamp="2026-09-27T08:32:38.997+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_rebinds_at_mentions_after_punctuation" classname="codex-tui" timestamp="2026-09-27T08:32:38.996+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_rebinds_at_mentions_after_email_substrings" classname="codex-tui" timestamp="2026-09-27T08:32:38.995+00:00" time="0.027"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_rebinds_both_sigil_forms" classname="codex-tui" timestamp="2026-09-27T08:32:39.005+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::tests::set_text_content_rebinds_matching_sigil_only" classname="codex-tui" timestamp="2026-09-27T08:32:39.014+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_command_disabled_while_task_running_keeps_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.022+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::tests::skill_popup_closes_between_spaces_before_plain_text_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:39.021+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::skill_popup_closes_at_plain_text_after_whitespace" classname="codex-tui" timestamp="2026-09-27T08:32:39.021+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_context_enter_ignores_paste_burst_enter_suppression" classname="codex-tui" timestamp="2026-09-27T08:32:39.027+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_popup_not_activated_for_slash_space_text_history_like_input" classname="codex-tui" timestamp="2026-09-27T08:32:39.046+00:00" time="0.021"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_with_leading_space_submits_as_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.049+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_key_completes_selected_slash_command_as_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.043+00:00" time="0.043"/>
+        <testcase name="bottom_pane::chat_composer::tests::status_line_hyperlink_marks_pr_number_cells" classname="codex-tui" timestamp="2026-09-27T08:32:39.067+00:00" time="0.024"/>
+        <testcase name="bottom_pane::chat_composer::tests::submit_captures_recent_mention_bindings_before_clearing_textarea" classname="codex-tui" timestamp="2026-09-27T08:32:39.071+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_init_dispatches_command_and_does_not_submit_literal_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.037+00:00" time="0.069"/>
+        <testcase name="bottom_pane::chat_composer::tests::tab_queues_leading_space_slash_as_plain_text_while_task_running" classname="codex-tui" timestamp="2026-09-27T08:32:39.086+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::tests::unified_popup_preserves_empty_at_before_existing_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.092+00:00" time="0.023"/>
+        <testcase name="bottom_pane::chat_composer::vim_history::tests::vim_replace_paste_bursts_preserve_overwritten_text_and_repeat" classname="codex-tui" timestamp="2026-09-27T08:32:39.093+00:00" time="0.022"/>
+        <testcase name="bottom_pane::chat_composer::tests::slash_plan_args_preserve_text_elements" classname="codex-tui" timestamp="2026-09-27T08:32:39.045+00:00" time="0.079"/>
+        <testcase name="bottom_pane::custom_prompt_view::tests::background_prefill_failure_clears_loading_without_changing_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.107+00:00" time="0.021"/>
+        <testcase name="bottom_pane::custom_prompt_view::tests::background_prefill_preserves_pasted_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.108+00:00" time="0.023"/>
+        <testcase name="bottom_pane::custom_prompt_view::tests::background_prefill_preserves_typing_even_after_the_text_is_deleted" classname="codex-tui" timestamp="2026-09-27T08:32:39.115+00:00" time="0.022"/>
+        <testcase name="bottom_pane::hooks_browser_view::tests::renders_handler_additional_context_limit" classname="codex-tui" timestamp="2026-09-27T08:32:39.116+00:00" time="0.023"/>
+        <testcase name="bottom_pane::mcp_server_elicitation::tests::text_fields_inherit_composer_chord_context_and_submit_binding" classname="codex-tui" timestamp="2026-09-27T08:32:39.128+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_in_notes_mode_with_text_clears_notes_and_hides_ui" classname="codex-tui" timestamp="2026-09-27T08:32:39.132+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_enter_with_empty_text_is_unanswered" classname="codex-tui" timestamp="2026-09-27T08:32:39.137+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_requires_enter_with_text_to_mark_answered" classname="codex-tui" timestamp="2026-09-27T08:32:39.139+00:00" time="0.021"/>
+        <testcase name="bottom_pane::status_line_setup::tests::context_remaining_is_selectable_id" classname="codex-tui" timestamp="2026-09-27T08:32:39.158+00:00" time="0.019"/>
+        <testcase name="bottom_pane::request_user_input::tests::switching_from_freeform_with_text_resets_focus_and_keeps_last_option_empty" classname="codex-tui" timestamp="2026-09-27T08:32:39.156+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_long_option_text_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:39.153+00:00" time="0.025"/>
+        <testcase name="bottom_pane::status_line_setup::tests::context_used_accepts_context_usage_legacy_id" classname="codex-tui" timestamp="2026-09-27T08:32:39.161+00:00" time="0.019"/>
+        <testcase name="bottom_pane::list_selection_view::tests::theme_picker_subtitle_uses_fallback_text_in_94x35_terminal" classname="codex-tui" timestamp="2026-09-27T08:32:39.124+00:00" time="0.070"/>
+        <testcase name="bottom_pane::status_line_style::tests::status_line_segments_soften_rgb_theme_styles_without_dimming_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.177+00:00" time="0.021"/>
+        <testcase name="bottom_pane::status_line_style::tests::status_line_segments_preserve_order_and_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.177+00:00" time="0.022"/>
+        <testcase name="bottom_pane::tests::apply_text_suggestion_updates_matching_prompt_beneath_an_overlay" classname="codex-tui" timestamp="2026-09-27T08:32:39.178+00:00" time="0.023"/>
+        <testcase name="bottom_pane::tests::remote_images_render_above_composer_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.180+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::composer_wrapped_url_fragments_keep_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T08:32:39.194+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::distinct_urls_respect_punctuation_wide_prefixes_and_tabs" classname="codex-tui" timestamp="2026-09-27T08:32:39.198+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::hyperlink_cache_is_invalidated_when_text_changes" classname="codex-tui" timestamp="2026-09-27T08:32:39.199+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::joined_emoji_preserve_complete_url_cell_ranges" classname="codex-tui" timestamp="2026-09-27T08:32:39.201+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::scrolled_url_fragments_keep_the_offscreen_destination" classname="codex-tui" timestamp="2026-09-27T08:32:39.225+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::masked_url_input_never_exposes_hyperlink_destinations" classname="codex-tui" timestamp="2026-09-27T08:32:39.222+00:00" time="0.026"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::url_hyperlinks_preserve_existing_highlight_styles" classname="codex-tui" timestamp="2026-09-27T08:32:39.248+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::unicode_whitespace_separates_url_destinations" classname="codex-tui" timestamp="2026-09-27T08:32:39.246+00:00" time="0.026"/>
+        <testcase name="bottom_pane::textarea::mouse::tests::mouse_click_maps_wrapping_unicode_tabs_and_empty_lines" classname="codex-tui" timestamp="2026-09-27T08:32:39.272+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::wrapped_url_fragments_keep_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T08:32:39.269+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::mouse::tests::mouse_multiclick_preserves_the_initial_word_or_wrapped_line_when_reversing" classname="codex-tui" timestamp="2026-09-27T08:32:39.293+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::mouse::tests::mouse_drag_highlights_and_edits_wrapped_selection" classname="codex-tui" timestamp="2026-09-27T08:32:39.292+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::c0_control_chars_respect_remapped_editor_movement" classname="codex-tui" timestamp="2026-09-27T08:32:39.317+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::breakable_unicode_space_hangs_before_following_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.317+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::c0_control_chars_respect_unbound_editor_movement" classname="codex-tui" timestamp="2026-09-27T08:32:39.341+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::c0_line_feed_inserts_newline_through_insert_newline_keymap" classname="codex-tui" timestamp="2026-09-27T08:32:39.342+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::control_b_f_fallback_control_chars_move_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.365+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::control_b_and_f_move_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.364+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::control_delete_variants_delete_forward_word" classname="codex-tui" timestamp="2026-09-27T08:32:39.388+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::control_backspace_variants_delete_backward_word" classname="codex-tui" timestamp="2026-09-27T08:32:39.388+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_left_and_right_handle_graphemes" classname="codex-tui" timestamp="2026-09-27T08:32:39.412+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::control_h_backspace" classname="codex-tui" timestamp="2026-09-27T08:32:39.412+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_pos_with_state_after_movements" classname="codex-tui" timestamp="2026-09-27T08:32:39.435+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_pos_with_state_basic_and_scroll_behaviors" classname="codex-tui" timestamp="2026-09-27T08:32:39.436+00:00" time="0.027"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_vertical_movement_across_lines_and_bounds" classname="codex-tui" timestamp="2026-09-27T08:32:39.459+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::cursor_wraps_after_filling_the_final_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.463+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_and_forward_edges" classname="codex-tui" timestamp="2026-09-27T08:32:39.482+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_keeps_thai_elements_atomic" classname="codex-tui" timestamp="2026-09-27T08:32:39.486+00:00" time="0.028"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_preserves_other_grapheme_behavior" classname="codex-tui" timestamp="2026-09-27T08:32:39.507+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_removes_thai_marks_one_at_a_time" classname="codex-tui" timestamp="2026-09-27T08:32:39.514+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_word_alt_keys" classname="codex-tui" timestamp="2026-09-27T08:32:39.530+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_word_and_kill_line_variants" classname="codex-tui" timestamp="2026-09-27T08:32:39.536+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_word_handles_narrow_no_break_space" classname="codex-tui" timestamp="2026-09-27T08:32:39.555+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_backward_word_respects_word_separators" classname="codex-tui" timestamp="2026-09-27T08:32:39.559+00:00" time="0.028"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_deletes_element_at_left_edge" classname="codex-tui" timestamp="2026-09-27T08:32:39.578+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_word_alt_d" classname="codex-tui" timestamp="2026-09-27T08:32:39.587+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_word_handles_atomic_elements" classname="codex-tui" timestamp="2026-09-27T08:32:39.601+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_word_respects_word_separators" classname="codex-tui" timestamp="2026-09-27T08:32:39.610+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_word_variants" classname="codex-tui" timestamp="2026-09-27T08:32:39.625+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::delete_forward_word_with_without_alt_modifier" classname="codex-tui" timestamp="2026-09-27T08:32:39.634+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::empty_textarea_areas_do_not_have_a_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.649+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::end_of_line_or_down_at_end_of_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.658+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::full_final_line_scrolls_to_its_visible_cursor_row" classname="codex-tui" timestamp="2026-09-27T08:32:39.672+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::full_non_final_line_cursor_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:39.680+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::long_drafts_reuse_hyperlink_detection_across_cursor_redraws" classname="codex-tui" timestamp="2026-09-27T08:32:39.202+00:00" time="0.510"/>
+        <testcase name="bottom_pane::textarea::tests::full_non_final_lines_reserve_visible_cursor_rows" classname="codex-tui" timestamp="2026-09-27T08:32:39.695+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::maximum_length_urls_render_without_osc8_annotations" classname="codex-tui" timestamp="2026-09-27T08:32:39.222+00:00" time="0.512"/>
+        <testcase name="bottom_pane::textarea::tests::halfwidth_sound_marks_wrap_and_align_with_the_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.712+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::home_end_and_emacs_style_home_end" classname="codex-tui" timestamp="2026-09-27T08:32:39.719+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::insert_and_replace_update_cursor_and_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.734+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::insert_str_at_clamps_to_char_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:39.735+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::kill_buffer_persists_across_set_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.740+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::hyperlinks::tests::many_urls_render_with_the_complete_destination" classname="codex-tui" timestamp="2026-09-27T08:32:39.219+00:00" time="0.549"/>
+        <testcase name="bottom_pane::textarea::tests::kill_current_line_removes_current_line_linewise" classname="codex-tui" timestamp="2026-09-27T08:32:39.757+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::kill_current_line_keeps_previous_newline_for_final_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.757+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::kill_whole_line_keymap_dispatch_uses_linewise_kill" classname="codex-tui" timestamp="2026-09-27T08:32:39.762+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::leading_space_reflows_across_following_wrapped_fragments" classname="codex-tui" timestamp="2026-09-27T08:32:39.768+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::overwide_halfwidth_sound_marks_keep_the_final_cursor_visible" classname="codex-tui" timestamp="2026-09-27T08:32:39.781+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::masked_graphemes_align_with_the_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.780+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::reflow_keeps_fitting_remainder_on_current_row" classname="codex-tui" timestamp="2026-09-27T08:32:39.783+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::reflow_preserves_hyphenated_word_breakpoint_when_rendering" classname="codex-tui" timestamp="2026-09-27T08:32:39.792+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::render_highlights_apply_style_without_mutating_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.804+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::set_text_clamps_cursor_to_char_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:39.805+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::separator_after_full_line_hangs_before_following_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.805+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::shift_backspace_and_shift_delete_keep_grapheme_delete_behavior" classname="codex-tui" timestamp="2026-09-27T08:32:39.815+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::space_runs_hang_before_later_text" classname="codex-tui" timestamp="2026-09-27T08:32:39.827+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::styled_text_rendering_does_not_overwrite_cells_outside_the_textarea" classname="codex-tui" timestamp="2026-09-27T08:32:39.828+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::tabs_render_as_spaces_and_align_with_cursor_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:39.829+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::tabs_wrap_at_their_rendered_width" classname="codex-tui" timestamp="2026-09-27T08:32:39.840+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::trailing_spaces_wrap_without_letting_the_cursor_escape" classname="codex-tui" timestamp="2026-09-27T08:32:39.851+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::text_rendering_does_not_overwrite_cells_outside_the_textarea" classname="codex-tui" timestamp="2026-09-27T08:32:39.850+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_c_at_line_end_enters_insert_without_removing_newline" classname="codex-tui" timestamp="2026-09-27T08:32:39.851+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_change_inner_word_deletes_word_and_enters_insert" classname="codex-tui" timestamp="2026-09-27T08:32:39.863+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_d_at_line_end_does_not_remove_newline" classname="codex-tui" timestamp="2026-09-27T08:32:39.874+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::vim_delete_word" classname="codex-tui" timestamp="2026-09-27T08:32:39.875+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::tests::vim_delete_to_word_end_advances_from_existing_word_end" classname="codex-tui" timestamp="2026-09-27T08:32:39.874+00:00" time="0.026"/>
+        <testcase name="bottom_pane::textarea::tests::vim_delimiter_text_objects_select_innermost_pair_and_aliases" classname="codex-tui" timestamp="2026-09-27T08:32:39.886+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_e_advances_across_atomic_element_word_ends" classname="codex-tui" timestamp="2026-09-27T08:32:39.895+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_dollar_lands_on_line_end_character" classname="codex-tui" timestamp="2026-09-27T08:32:39.895+00:00" time="0.029"/>
+        <testcase name="bottom_pane::textarea::tests::vim_e_advances_from_each_word_end" classname="codex-tui" timestamp="2026-09-27T08:32:39.900+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_e_from_word_end_can_land_on_trailing_space" classname="codex-tui" timestamp="2026-09-27T08:32:39.909+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_e_lands_on_word_end_character" classname="codex-tui" timestamp="2026-09-27T08:32:39.919+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_empty_inner_text_objects_are_valid_targets" classname="codex-tui" timestamp="2026-09-27T08:32:39.924+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_escape_from_insert_at_line_start_stays_on_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.924+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_escape_from_insert_at_start_does_not_underflow" classname="codex-tui" timestamp="2026-09-27T08:32:39.932+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_escape_moves_by_grapheme_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:39.941+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_escape_respects_atomic_element_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:39.946+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_insert_and_escape" classname="codex-tui" timestamp="2026-09-27T08:32:39.948+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_insert_key_enters_insert_mode" classname="codex-tui" timestamp="2026-09-27T08:32:39.955+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_linewise_yank_pastes_below_current_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.964+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_normal_arrow_keys_move_cursor" classname="codex-tui" timestamp="2026-09-27T08:32:39.968+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_o_opens_line_below_final_line_and_moves_to_new_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.971+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::vim_o_opens_line_below_on_inserted_line" classname="codex-tui" timestamp="2026-09-27T08:32:39.978+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_operator_invalid_motion_is_consumed" classname="codex-tui" timestamp="2026-09-27T08:32:39.987+00:00" time="0.025"/>
+        <testcase name="bottom_pane::textarea::tests::vim_quote_text_objects_are_line_local_and_handle_escapes" classname="codex-tui" timestamp="2026-09-27T08:32:39.991+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_s_on_empty_line_enters_insert_without_deleting_newline" classname="codex-tui" timestamp="2026-09-27T08:32:39.992+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_s_substitutes_current_character_and_enters_insert_mode" classname="codex-tui" timestamp="2026-09-27T08:32:40.001+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_shift_a_enters_insert_at_line_end_with_shift_only_binding" classname="codex-tui" timestamp="2026-09-27T08:32:40.012+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::vim_shift_i_enters_insert_at_first_non_blank_with_shift_only_binding" classname="codex-tui" timestamp="2026-09-27T08:32:40.014+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::vim_shift_c_changes_to_line_end_and_enters_insert_mode" classname="codex-tui" timestamp="2026-09-27T08:32:40.014+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_shift_o_opens_line_above_with_shift_only_binding" classname="codex-tui" timestamp="2026-09-27T08:32:40.023+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::tests::vim_text_object_cancellation_does_not_edit" classname="codex-tui" timestamp="2026-09-27T08:32:40.034+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::vim_uppercase_c_changes_to_line_end" classname="codex-tui" timestamp="2026-09-27T08:32:40.036+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::vim_word_text_objects_accept_cursor_at_word_end" classname="codex-tui" timestamp="2026-09-27T08:32:40.036+00:00" time="0.027"/>
+        <testcase name="bottom_pane::textarea::tests::vim_word_text_objects_cover_delete_yank_and_big_word" classname="codex-tui" timestamp="2026-09-27T08:32:40.048+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::word_navigation_cjk_each_char_is_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:40.056+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::word_navigation_cjk_forward" classname="codex-tui" timestamp="2026-09-27T08:32:40.058+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::word_navigation_helpers" classname="codex-tui" timestamp="2026-09-27T08:32:40.063+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::word_navigation_mixed_ascii_cjk" classname="codex-tui" timestamp="2026-09-27T08:32:40.071+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_across_visual_lines" classname="codex-tui" timestamp="2026-09-27T08:32:40.080+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::word_navigation_preserves_separator_breaks_within_unicode_segments" classname="codex-tui" timestamp="2026-09-27T08:32:40.077+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_with_newlines_and_spaces" classname="codex-tui" timestamp="2026-09-27T08:32:40.086+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::wrapped_navigation_with_wide_graphemes" classname="codex-tui" timestamp="2026-09-27T08:32:40.094+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::tests::wrapping_and_cursor_positions" classname="codex-tui" timestamp="2026-09-27T08:32:40.101+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::tests::yank_restores_last_kill" classname="codex-tui" timestamp="2026-09-27T08:32:40.101+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::buffer_jumps_target_first_non_blank_and_support_operators" classname="codex-tui" timestamp="2026-09-27T08:32:40.108+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::change_accepts_word_line_and_repeated_operator_motions" classname="codex-tui" timestamp="2026-09-27T08:32:40.117+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::character_find_and_operator_motion_use_configured_bindings" classname="codex-tui" timestamp="2026-09-27T08:32:40.124+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::character_find_is_line_local_and_works_as_operator_motion" classname="codex-tui" timestamp="2026-09-27T08:32:40.124+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::character_find_never_splits_extended_graphemes" classname="codex-tui" timestamp="2026-09-27T08:32:40.132+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::dot_repeat_has_visual_snapshot_coverage" classname="codex-tui" timestamp="2026-09-27T08:32:40.139+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::editor_commands_have_visual_snapshot_coverage" classname="codex-tui" timestamp="2026-09-27T08:32:40.147+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::dot_repeat_replays_character_find_and_buffer_jump_operators" classname="codex-tui" timestamp="2026-09-27T08:32:40.146+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::find_and_navigation_have_visual_snapshot_coverage" classname="codex-tui" timestamp="2026-09-27T08:32:40.156+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::find_and_till_handle_missing_cancelled_and_adjacent_targets" classname="codex-tui" timestamp="2026-09-27T08:32:40.163+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_aborts_when_change_motion_cannot_start" classname="codex-tui" timestamp="2026-09-27T08:32:40.169+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::pending_replacement_owns_escape_before_turn_interruption" classname="codex-tui" timestamp="2026-09-27T08:32:40.168+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_distinguishes_insert_mode_deletions_from_noops" classname="codex-tui" timestamp="2026-09-27T08:32:40.177+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_omits_ineffective_deletions_before_inserted_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.185+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_records_pasted_insertions_and_survives_keymap_changes" classname="codex-tui" timestamp="2026-09-27T08:32:40.190+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_replays_delete_replace_and_complete_change" classname="codex-tui" timestamp="2026-09-27T08:32:40.190+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_replays_literal_newlines_with_custom_editor_bindings" classname="codex-tui" timestamp="2026-09-27T08:32:40.199+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_replays_literal_tab_insertions" classname="codex-tui" timestamp="2026-09-27T08:32:40.206+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_uses_configured_binding_and_supports_unbinding" classname="codex-tui" timestamp="2026-09-27T08:32:40.212+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::repeat_replays_resolved_insert_actions_after_editor_keymap_changes" classname="codex-tui" timestamp="2026-09-27T08:32:40.212+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_character_preserves_normal_mode_and_grapheme_boundaries" classname="codex-tui" timestamp="2026-09-27T08:32:40.221+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_character_uses_configured_binding_and_supports_unbinding" classname="codex-tui" timestamp="2026-09-27T08:32:40.228+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_overwrites_explicit_paste" classname="codex-tui" timestamp="2026-09-27T08:32:40.234+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_backspace_restores_original_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.234+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_overwrites_graphemes_and_appends_at_line_end" classname="codex-tui" timestamp="2026-09-27T08:32:40.243+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_preserves_atomic_attachments" classname="codex-tui" timestamp="2026-09-27T08:32:40.251+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_uses_configured_binding_and_respects_unbinding" classname="codex-tui" timestamp="2026-09-27T08:32:40.256+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replace_mode_replays_with_dot" classname="codex-tui" timestamp="2026-09-27T08:32:40.255+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::replacing_the_buffer_discards_incomplete_dot_repeat_history" classname="codex-tui" timestamp="2026-09-27T08:32:40.265+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::search_motions_compose_with_operators_and_repeat" classname="codex-tui" timestamp="2026-09-27T08:32:40.274+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::search_skips_atomic_elements_and_partial_graphemes" classname="codex-tui" timestamp="2026-09-27T08:32:40.277+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::vim_commands::tests::uppercase_commands_accept_shift_only_terminal_events" classname="codex-tui" timestamp="2026-09-27T08:32:40.277+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::breakable_unicode_spaces_hang_before_following_words" classname="codex-tui" timestamp="2026-09-27T08:32:40.296+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::explicit_indentation_and_trailing_spaces_do_not_hang" classname="codex-tui" timestamp="2026-09-27T08:32:40.298+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::hanging_spaces_preserve_source_editing_and_visual_navigation" classname="codex-tui" timestamp="2026-09-27T08:32:40.300+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::tests::fuzz_textarea_randomized" classname="codex-tui" timestamp="2026-09-27T08:32:39.703+00:00" time="0.636"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::nonbreaking_spaces_never_hang" classname="codex-tui" timestamp="2026-09-27T08:32:40.321+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::hanging_tabs_keep_cursor_scrolling_and_navigation_aligned" classname="codex-tui" timestamp="2026-09-27T08:32:40.318+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::mandatory_breaks_keep_distinct_cursor_positions" classname="codex-tui" timestamp="2026-09-27T08:32:40.319+00:00" time="0.026"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::preserves_textwrap_word_boundaries" classname="codex-tui" timestamp="2026-09-27T08:32:40.339+00:00" time="0.022"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::typing_after_eol_spaces_reflows_without_changing_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.342+00:00" time="0.023"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::prose_wraps_like_the_queued_input_preview" classname="codex-tui" timestamp="2026-09-27T08:32:40.342+00:00" time="0.024"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::vertical_navigation_clamps_saved_column_after_resize" classname="codex-tui" timestamp="2026-09-27T08:32:40.344+00:00" time="0.021"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::vertical_navigation_preserves_destination_tab_columns" classname="codex-tui" timestamp="2026-09-27T08:32:40.361+00:00" time="0.024"/>
+        <testcase name="chatwidget::rendering::tests::active_transcript_preserves_clipped_markdown_hyperlinks" classname="codex-tui" timestamp="2026-09-27T08:32:40.366+00:00" time="0.022"/>
+        <testcase name="chatwidget::tests::approval_requests::app_server_exec_approval_request_preserves_permissions_context" classname="codex-tui" timestamp="2026-09-27T08:32:40.385+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::composer_submission::committed_user_message_with_hidden_prompt_context_renders_local_images" classname="codex-tui" timestamp="2026-09-27T08:32:40.389+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::composer_submission::interrupt_prepends_queued_messages_before_existing_composer_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.405+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::composer_submission::submission_preserves_text_elements_and_local_images" classname="codex-tui" timestamp="2026-09-27T08:32:40.424+00:00" time="0.039"/>
+        <testcase name="chatwidget::tests::composer_submission::user_message_display_from_inputs_hides_prompt_context" classname="codex-tui" timestamp="2026-09-27T08:32:40.443+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::goal_validation::goal_slash_command_emits_only_inserted_paste_text_element" classname="codex-tui" timestamp="2026-09-27T08:32:40.464+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::composer_submission::user_submission_does_not_commit_recap_loading_to_history" classname="codex-tui" timestamp="2026-09-27T08:32:40.463+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_message_preserves_text_elements_and_local_images" classname="codex-tui" timestamp="2026-09-27T08:32:40.500+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::permissions::permissions_selection_sends_approvals_reviewer_in_override_turn_context" classname="codex-tui" timestamp="2026-09-27T08:32:40.500+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::plan_mode::plan_implementation_clear_context_requires_default_mode_and_plan" classname="codex-tui" timestamp="2026-09-27T08:32:40.540+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::plan_mode::plan_implementation_popup_clear_context_emits_clear_submit_event" classname="codex-tui" timestamp="2026-09-27T08:32:40.542+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::plan_mode::plan_implementation_popup_context_usage_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.578+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::popups_and_settings::plugin_detail_popup_shows_local_share_context_as_read_only_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.579+00:00" time="0.041"/>
+        <testcase name="chatwidget::tests::review_mode::review_restores_context_window_indicator" classname="codex-tui" timestamp="2026-09-27T08:32:40.620+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::review_mode::item_completed_pops_pending_steer_with_local_image_and_text_elements" classname="codex-tui" timestamp="2026-09-27T08:32:40.619+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::side::side_context_label_shows_hidden_side_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.656+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::side::side_context_label_preserves_status_line_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.655+00:00" time="0.041"/>
+        <testcase name="chatwidget::tests::slash_commands::goal_slash_command_uses_plain_text_for_mentions" classname="codex-tui" timestamp="2026-09-27T08:32:40.696+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::side::side_context_label_shows_parent_status_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.694+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::slash_commands::merged_history_record_preserves_raw_text_and_rebased_elements" classname="codex-tui" timestamp="2026-09-27T08:32:40.734+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::slash_commands::slash_copy_uses_agent_message_item_when_turn_complete_omits_final_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.735+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::slash_commands::slash_recap_requests_generation_for_current_thread" classname="codex-tui" timestamp="2026-09-27T08:32:40.754+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::status_and_layout::ambient_pet_hides_notification_text_overlay" classname="codex-tui" timestamp="2026-09-27T08:32:40.773+00:00" time="0.044"/>
+        <testcase name="chatwidget::tests::status_and_layout::ambient_pet_reduces_stream_width_and_composer_text_width" classname="codex-tui" timestamp="2026-09-27T08:32:40.793+00:00" time="0.043"/>
+        <testcase name="chatwidget::tests::status_and_layout::context_indicator_shows_used_tokens_when_window_unknown" classname="codex-tui" timestamp="2026-09-27T08:32:40.817+00:00" time="0.035"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::wraps_maximum_length_unbroken_word_in_one_pass" classname="codex-tui" timestamp="2026-09-27T08:32:40.366+00:00" time="0.492"/>
+        <testcase name="chatwidget::tests::status_and_layout::context_only_hook_completed_before_reveal_stays_out_of_history" classname="codex-tui" timestamp="2026-09-27T08:32:40.836+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::status_and_layout::goal_status_indicator_line_formats_goal_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.858+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::status_and_layout::flush_answer_stream_keeps_default_reflow_for_plain_text_tail" classname="codex-tui" timestamp="2026-09-27T08:32:40.852+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_and_layout::status_line_context_remaining_renders_labeled_percent" classname="codex-tui" timestamp="2026-09-27T08:32:40.873+00:00" time="0.039"/>
+        <testcase name="chatwidget::tests::status_and_layout::status_line_context_used_renders_labeled_percent" classname="codex-tui" timestamp="2026-09-27T08:32:40.879+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_and_layout::status_line_legacy_context_usage_renders_context_used_percent" classname="codex-tui" timestamp="2026-09-27T08:32:40.889+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_and_layout::stopped_hook_hides_model_context_and_preserves_stop_reason_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.914+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::status_and_layout::status_line_model_with_reasoning_context_remaining_footer_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:40.912+00:00" time="0.043"/>
+        <testcase name="chatwidget::tests::status_and_layout::token_count_none_resets_context_indicator" classname="codex-tui" timestamp="2026-09-27T08:32:40.925+00:00" time="0.034"/>
+        <testcase name="custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs" classname="codex-tui" timestamp="2026-09-27T08:32:40.956+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::status_and_layout::token_usage_update_uses_runtime_context_window" classname="codex-tui" timestamp="2026-09-27T08:32:40.951+00:00" time="0.037"/>
+        <testcase name="custom_terminal::tests::terminal_draw_coalesces_wrapped_hyperlink_output" classname="codex-tui" timestamp="2026-09-27T08:32:40.960+00:00" time="0.031"/>
+        <testcase name="diff_render::tests::ui_snapshot_apply_update_block_line_numbers_three_digits_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.976+00:00" time="0.053"/>
+        <testcase name="diff_render::tests::ui_snapshot_apply_update_block_wraps_long_lines_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.988+00:00" time="0.053"/>
+        <testcase name="git_action_directives::tests::preserves_non_directive_and_malformed_code_comment_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.029+00:00" time="0.020"/>
+        <testcase name="diff_render::tests::ui_snapshot_syntax_highlighted_insert_wraps_text" classname="codex-tui" timestamp="2026-09-27T08:32:40.990+00:00" time="0.065"/>
+        <testcase name="history_cell::activity_preview::tests::compact_copy_excludes_only_explicit_gutters_and_hidden_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.040+00:00" time="0.023"/>
+        <testcase name="history_cell::base::tests::prefixed_wrapping_keeps_hard_lines_distinct_even_when_their_text_repeats" classname="codex-tui" timestamp="2026-09-27T08:32:41.049+00:00" time="0.022"/>
+        <testcase name="history_cell::hook_cell::tests::completed_hook_non_context_entries_are_not_truncated" classname="codex-tui" timestamp="2026-09-27T08:32:41.055+00:00" time="0.020"/>
+        <testcase name="history_cell::hook_cell::tests::completed_hook_system_message_uses_dim_provenance_and_hides_context" classname="codex-tui" timestamp="2026-09-27T08:32:41.064+00:00" time="0.021"/>
+        <testcase name="history_cell::hook_cell::tests::completed_hook_with_only_context_is_quiet_on_every_tui_surface" classname="codex-tui" timestamp="2026-09-27T08:32:41.071+00:00" time="0.022"/>
+        <testcase name="history_cell::mcp::tests::code_mode_preserves_text_fields_on_nontext_and_unknown_blocks" classname="codex-tui" timestamp="2026-09-27T08:32:41.075+00:00" time="0.022"/>
+        <testcase name="history_cell::mcp::tests::mcp_result_preview_preserves_source_text_and_excludes_tree_gutters" classname="codex-tui" timestamp="2026-09-27T08:32:41.085+00:00" time="0.022"/>
+        <testcase name="history_cell::messages::tests::sanitizer_borrows_clean_text_and_removes_control_sequences" classname="codex-tui" timestamp="2026-09-27T08:32:41.093+00:00" time="0.021"/>
+        <testcase name="history_cell::messages::tests::sanitizer_preallocates_owned_multi_fragment_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.097+00:00" time="0.018"/>
+        <testcase name="history_cell::messages::tests::sanitizer_preserves_owned_buffer_for_clean_and_edge_trimmed_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.107+00:00" time="0.018"/>
+        <testcase name="history_cell::tests::completed_mcp_tool_call_image_after_text_returns_extra_cell" classname="codex-tui" timestamp="2026-09-27T08:32:41.114+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::empty_mcp_output_preserves_docs_hyperlink" classname="codex-tui" timestamp="2026-09-27T08:32:41.116+00:00" time="0.020"/>
+        <testcase name="history_cell::tests::thread_recap_loading_without_animations_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:41.137+00:00" time="0.018"/>
+        <testcase name="history_cell::tests::structured_tool_cell_renders_raw_plain_text_without_prefix_or_style" classname="codex-tui" timestamp="2026-09-27T08:32:41.135+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::single_line_command_over_highlight_limit_uses_plain_text_fallback" classname="codex-tui" timestamp="2026-09-27T08:32:41.126+00:00" time="0.030"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_does_not_fall_back_after_primary_timeout" classname="codex-tui" timestamp="2026-09-27T08:32:41.156+00:00" time="0.020"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_does_not_fall_back_after_primary_protocol_error" classname="codex-tui" timestamp="2026-09-27T08:32:41.155+00:00" time="0.021"/>
+        <testcase name="history_cell::tests::user_history_cell_trims_trailing_blank_message_lines_with_text_elements" classname="codex-tui" timestamp="2026-09-27T08:32:41.155+00:00" time="0.022"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_falls_back_to_uid_zero_legacy_socket" classname="codex-tui" timestamp="2026-09-27T08:32:41.177+00:00" time="0.021"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_falls_back_to_pre_migration_uid_zero_legacy_socket" classname="codex-tui" timestamp="2026-09-27T08:32:41.177+00:00" time="0.022"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_falls_back_to_legacy_socket" classname="codex-tui" timestamp="2026-09-27T08:32:41.176+00:00" time="0.022"/>
+        <testcase name="ide_context::ipc::tests::primary_ipc_socket_path_uses_codex_home" classname="codex-tui" timestamp="2026-09-27T08:32:41.199+00:00" time="0.021"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_prefers_primary_socket" classname="codex-tui" timestamp="2026-09-27T08:32:41.199+00:00" time="0.022"/>
+        <testcase name="ide_context::ipc::tests::validate_unix_socket_path_rejects_unsafe_parent_directory" classname="codex-tui" timestamp="2026-09-27T08:32:41.221+00:00" time="0.019"/>
+        <testcase name="ide_context::ipc::tests::fetch_ide_context_uses_unregistered_request_route" classname="codex-tui" timestamp="2026-09-27T08:32:41.199+00:00" time="0.055"/>
+        <testcase name="ide_context::prompt::tests::apply_ide_context_uses_desktop_prompt_request_delimiter" classname="codex-tui" timestamp="2026-09-27T08:32:41.240+00:00" time="0.021"/>
+        <testcase name="ide_context::prompt::tests::extract_prompt_request_returns_text_after_last_delimiter" classname="codex-tui" timestamp="2026-09-27T08:32:41.254+00:00" time="0.020"/>
+        <testcase name="ide_context::prompt::tests::render_prompt_context_includes_selection_ranges_without_content" classname="codex-tui" timestamp="2026-09-27T08:32:41.260+00:00" time="0.019"/>
+        <testcase name="ide_context::ipc::tests::unix_deadline_stream_uses_remaining_deadline_for_blocking_reads" classname="codex-tui" timestamp="2026-09-27T08:32:41.220+00:00" time="0.069"/>
+        <testcase name="ide_context::prompt::tests::render_prompt_context_matches_app_format" classname="codex-tui" timestamp="2026-09-27T08:32:41.274+00:00" time="0.020"/>
+        <testcase name="ide_context::prompt::tests::render_prompt_context_omits_empty_context" classname="codex-tui" timestamp="2026-09-27T08:32:41.279+00:00" time="0.019"/>
+        <testcase name="ide_context::prompt::tests::render_prompt_context_omits_excess_open_tabs" classname="codex-tui" timestamp="2026-09-27T08:32:41.289+00:00" time="0.021"/>
+        <testcase name="ide_context::prompt::tests::render_prompt_context_truncates_large_selection" classname="codex-tui" timestamp="2026-09-27T08:32:41.294+00:00" time="0.020"/>
+        <testcase name="ide_context::tests::deserializes_existing_ide_context_shape" classname="codex-tui" timestamp="2026-09-27T08:32:41.298+00:00" time="0.019"/>
+        <testcase name="inline_visualization::tests::unterminated_visualization_preview_uses_the_stream_context" classname="codex-tui" timestamp="2026-09-27T08:32:41.310+00:00" time="0.024"/>
+        <testcase name="insert_history::tests::vt100_colored_prefix_then_plain_text_resets_color" classname="codex-tui" timestamp="2026-09-27T08:32:41.315+00:00" time="0.021"/>
+        <testcase name="keymap::chords::tests::activity_context_preserves_list_chords_and_its_remapped_focus_toggle" classname="codex-tui" timestamp="2026-09-27T08:32:41.317+00:00" time="0.022"/>
+        <testcase name="keymap::chords::tests::allows_plain_prefixes_in_vim_and_repeated_chords_in_all_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.334+00:00" time="0.023"/>
+        <testcase name="keymap::chords::tests::context_transition_discards_prefix_before_routing_the_next_stroke" classname="codex-tui" timestamp="2026-09-27T08:32:41.336+00:00" time="0.022"/>
+        <testcase name="keymap::chords::tests::default_vim_jump_top_uses_contextual_gg_chords" classname="codex-tui" timestamp="2026-09-27T08:32:41.340+00:00" time="0.022"/>
+        <testcase name="keymap::chords::tests::matching_chords_dispatches_the_active_context_action" classname="codex-tui" timestamp="2026-09-27T08:32:41.358+00:00" time="0.022"/>
+        <testcase name="keymap::chords::tests::matcher_cancels_on_escape_context_change_and_timeout" classname="codex-tui" timestamp="2026-09-27T08:32:41.357+00:00" time="0.025"/>
+        <testcase name="keymap::chords::tests::permits_the_same_chord_in_non_overlapping_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.362+00:00" time="0.022"/>
+        <testcase name="keymap::chords::tests::resolves_chords_for_actions_in_different_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.382+00:00" time="0.023"/>
+        <testcase name="keymap::chords::tests::rejects_duplicate_chords_in_overlapping_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.380+00:00" time="0.028"/>
+        <testcase name="keymap::conflict_tests::conflicting_contexts_report_the_first_conflict_in_validation_order" classname="codex-tui" timestamp="2026-09-27T08:32:41.384+00:00" time="0.029"/>
+        <testcase name="keymap::tests::configured_legacy_vim_operator_bindings_prune_new_text_object_defaults" classname="codex-tui" timestamp="2026-09-27T08:32:41.408+00:00" time="0.022"/>
+        <testcase name="keymap::global_find_tests::global_find_resolves_remaps_unbinding_and_dispatch_in_main_and_activity_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.405+00:00" time="0.028"/>
+        <testcase name="keymap::tests::falls_back_to_global_binding_when_context_override_is_not_set" classname="codex-tui" timestamp="2026-09-27T08:32:41.413+00:00" time="0.021"/>
+        <testcase name="markdown::tests::append_markdown_keeps_ordered_list_line_unsplit_in_context" classname="codex-tui" timestamp="2026-09-27T08:32:41.432+00:00" time="0.020"/>
+        <testcase name="markdown::tests::append_markdown_preserves_full_text_line" classname="codex-tui" timestamp="2026-09-27T08:32:41.434+00:00" time="0.020"/>
+        <testcase name="keymap::tests::permission_shortcuts_reserve_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.431+00:00" time="0.036"/>
+        <testcase name="markdown_render::markdown_render_tests::bare_url_with_tilde_keeps_complete_hyperlink" classname="codex-tui" timestamp="2026-09-27T08:32:41.454+00:00" time="0.022"/>
+        <testcase name="markdown::tests::citations_render_as_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.453+00:00" time="0.023"/>
+        <testcase name="markdown_render::markdown_render_tests::list_item_blockquote_then_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.467+00:00" time="0.022"/>
+        <testcase name="markdown_render::markdown_render_tests::list_item_text_then_blockquote" classname="codex-tui" timestamp="2026-09-27T08:32:41.476+00:00" time="0.021"/>
+        <testcase name="markdown_render::markdown_render_tests::list_item_text_blockquote_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.476+00:00" time="0.024"/>
+        <testcase name="markdown_render::markdown_render_tests::merged_text_events_preserve_entity_decoding" classname="codex-tui" timestamp="2026-09-27T08:32:41.488+00:00" time="0.022"/>
+        <testcase name="markdown_render::markdown_render_tests::unordered_list_local_file_link_stays_inline_with_following_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.500+00:00" time="0.022"/>
+        <testcase name="markdown_render::markdown_render_tests::table_url_with_tilde_keeps_complete_hyperlink" classname="codex-tui" timestamp="2026-09-27T08:32:41.497+00:00" time="0.026"/>
+        <testcase name="markdown_render::math::tests::unicode_math_preserves_markdown_contexts" classname="codex-tui" timestamp="2026-09-27T08:32:41.510+00:00" time="0.023"/>
+        <testcase name="markdown_render::tests::wraps_plain_text_when_width_provided" classname="codex-tui" timestamp="2026-09-27T08:32:41.524+00:00" time="0.021"/>
+        <testcase name="markdown_render::preferences::tests::disabled_lists_keep_textual_markers_and_restore_without_changing_source" classname="codex-tui" timestamp="2026-09-27T08:32:41.522+00:00" time="0.024"/>
+        <testcase name="markdown_stream::tests::pipe_text_without_table_prefix_is_not_delayed" classname="codex-tui" timestamp="2026-09-27T08:32:41.533+00:00" time="0.022"/>
+        <testcase name="markdown_stream::tests::streaming_html_block_then_text_matches_full" classname="codex-tui" timestamp="2026-09-27T08:32:41.544+00:00" time="0.022"/>
+        <testcase name="motion::tests::reduced_motion_shimmer_text_is_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.546+00:00" time="0.021"/>
+        <testcase name="onboarding::auth::tests::mark_url_hyperlink_sanitizes_control_chars" classname="codex-tui" timestamp="2026-09-27T08:32:41.567+00:00" time="0.021"/>
+        <testcase name="onboarding::auth::tests::mark_url_hyperlink_wraps_cyan_underlined_cells" classname="codex-tui" timestamp="2026-09-27T08:32:41.568+00:00" time="0.021"/>
+        <testcase name="pets::preview::tests::centered_text_area_centers_vertically" classname="codex-tui" timestamp="2026-09-27T08:32:41.588+00:00" time="0.020"/>
+        <testcase name="render::highlight::tests::long_single_line_bash_skips_highlighting_and_preserves_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.589+00:00" time="0.026"/>
+        <testcase name="onboarding::auth::tests::chatgpt_success_message_renders_osc8_hyperlinks" classname="codex-tui" timestamp="2026-09-27T08:32:41.554+00:00" time="0.065"/>
+        <testcase name="startup_draft::tests::startup_draft_preserves_literal_text_without_popups_or_startup_actions" classname="codex-tui" timestamp="2026-09-27T08:32:41.608+00:00" time="0.024"/>
+        <testcase name="status::tests::status_context_window_uses_last_usage" classname="codex-tui" timestamp="2026-09-27T08:32:41.615+00:00" time="0.028"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_treats_indented_fence_text_as_plain_content" classname="codex-tui" timestamp="2026-09-27T08:32:41.643+00:00" time="0.019"/>
+        <testcase name="streaming::controller::preview_tests::long_unicode_preview_keeps_recent_text_and_finalizes_full_source" classname="codex-tui" timestamp="2026-09-27T08:32:41.632+00:00" time="0.040"/>
+        <testcase name="streaming::render::tests::inline_visualization_context_without_directives_keeps_stable_prefix" classname="codex-tui" timestamp="2026-09-27T08:32:41.663+00:00" time="0.022"/>
+        <testcase name="streaming::render::tests::inline_visualizations_without_context_use_canonical_full_render" classname="codex-tui" timestamp="2026-09-27T08:32:41.672+00:00" time="0.024"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_rejected_display_keeps_its_closer_and_following_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.620+00:00" time="0.079"/>
+        <testcase name="style::contrast::tests::selection_text_stays_readable_after_palette_conversion" classname="codex-tui" timestamp="2026-09-27T08:32:41.685+00:00" time="0.022"/>
+        <testcase name="task_mentions::tests::task_reference_context_deduplicates_and_merges_with_ide_context" classname="codex-tui" timestamp="2026-09-27T08:32:41.696+00:00" time="0.021"/>
+        <testcase name="task_mentions::tests::task_reference_heading_inside_selected_title_is_not_a_context_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:41.699+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::regression_tests::decorated_hyperlinks_preserve_joined_emoji_columns" classname="codex-tui" timestamp="2026-09-27T08:32:41.707+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::regression_tests::oversized_destinations_remain_plain_text" classname="codex-tui" timestamp="2026-09-27T08:32:41.720+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::regression_tests::trims_long_runs_of_unmatched_closing_delimiters" classname="codex-tui" timestamp="2026-09-27T08:32:41.729+00:00" time="0.028"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_scrolled_wrapped_rows" classname="codex-tui" timestamp="2026-09-27T08:32:41.740+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_word_wrapping" classname="codex-tui" timestamp="2026-09-27T08:32:41.757+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_halfwidth_dakuten" classname="codex-tui" timestamp="2026-09-27T08:32:41.762+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_wide_glyphs" classname="codex-tui" timestamp="2026-09-27T08:32:41.778+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T08:32:41.781+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::discovers_punctuated_web_url_columns" classname="codex-tui" timestamp="2026-09-27T08:32:41.802+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::decorates_a_contiguous_web_link_with_one_osc8_pair" classname="codex-tui" timestamp="2026-09-27T08:32:41.800+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::forced_width_hyperlinks_render_wide_and_halfwidth_cells_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:41.822+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::hyperlink_columns_follow_a_long_prefix_without_wrapping" classname="codex-tui" timestamp="2026-09-27T08:32:41.822+00:00" time="0.025"/>
+        <testcase name="terminal_hyperlinks::tests::matching_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T08:32:41.844+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::only_web_destinations_receive_osc8" classname="codex-tui" timestamp="2026-09-27T08:32:41.847+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::tests::preserves_balanced_parentheses_in_bare_web_urls" classname="codex-tui" timestamp="2026-09-27T08:32:41.865+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::trusted_file_destination_receives_osc8_without_enabling_plain_file_links" classname="codex-tui" timestamp="2026-09-27T08:32:41.866+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_multiple_links_across_indented_unicode_lines" classname="codex-tui" timestamp="2026-09-27T08:32:41.886+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_repeated_link_labels_by_source_position" classname="codex-tui" timestamp="2026-09-27T08:32:41.886+00:00" time="0.023"/>
+        <testcase name="terminal_probe::terminal_identity::tests::unrelated_csi_replies_cannot_consume_typed_text_as_device_attributes" classname="codex-tui" timestamp="2026-09-27T08:32:41.907+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_center_truncate_doesnt_truncate_short_path" classname="codex-tui" timestamp="2026-09-27T08:32:41.910+00:00" time="0.018"/>
+        <testcase name="text_formatting::tests::test_center_truncate_truncates_long_path" classname="codex-tui" timestamp="2026-09-27T08:32:41.928+00:00" time="0.019"/>
+        <testcase name="text_formatting::tests::test_center_truncate_handles_long_segment" classname="codex-tui" timestamp="2026-09-27T08:32:41.927+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_already_compact" classname="codex-tui" timestamp="2026-09-27T08:32:41.947+00:00" time="0.021"/>
+        <testcase name="text_formatting::tests::test_center_truncate_truncates_long_windows_path" classname="codex-tui" timestamp="2026-09-27T08:32:41.947+00:00" time="0.023"/>
+        <testcase name="terminal_hyperlinks::regression_tests::discovers_many_web_urls_with_incremental_columns" classname="codex-tui" timestamp="2026-09-27T08:32:41.718+00:00" time="0.267"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_empty_array" classname="codex-tui" timestamp="2026-09-27T08:32:41.970+00:00" time="0.018"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_array" classname="codex-tui" timestamp="2026-09-27T08:32:41.969+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_empty_object" classname="codex-tui" timestamp="2026-09-27T08:32:41.985+00:00" time="0.021"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_invalid_json" classname="codex-tui" timestamp="2026-09-27T08:32:41.988+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_nested_object" classname="codex-tui" timestamp="2026-09-27T08:32:41.989+00:00" time="0.020"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::ascii_wrapped_rows_fit_and_preserve_cursor_positions" classname="codex-tui" timestamp="2026-09-27T08:32:40.288+00:00" time="1.723"/>
+        <testcase name="bottom_pane::async_questions::tests::question_wrapped_options_and_other_share_the_text_indent" classname="codex-tui" timestamp="2026-09-27T08:32:38.869+00:00" time="3.154"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_simple_object" classname="codex-tui" timestamp="2026-09-27T08:32:42.009+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_primitive_values" classname="codex-tui" timestamp="2026-09-27T08:32:42.006+00:00" time="0.022"/>
+        <testcase name="text_formatting::tests::test_format_json_compact_with_whitespace" classname="codex-tui" timestamp="2026-09-27T08:32:42.009+00:00" time="0.019"/>
+        <testcase name="text_formatting::tests::test_proper_join" classname="codex-tui" timestamp="2026-09-27T08:32:42.011+00:00" time="0.019"/>
+        <testcase name="text_formatting::tests::test_truncate_emoji" classname="codex-tui" timestamp="2026-09-27T08:32:42.024+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_truncate_max_graphemes_three_boundary" classname="codex-tui" timestamp="2026-09-27T08:32:42.029+00:00" time="0.021"/>
+        <testcase name="text_formatting::tests::test_truncate_max_graphemes_one" classname="codex-tui" timestamp="2026-09-27T08:32:42.028+00:00" time="0.022"/>
+        <testcase name="text_formatting::tests::test_truncate_empty_string" classname="codex-tui" timestamp="2026-09-27T08:32:42.028+00:00" time="0.023"/>
+        <testcase name="text_formatting::tests::test_truncate_max_graphemes_two" classname="codex-tui" timestamp="2026-09-27T08:32:42.031+00:00" time="0.022"/>
+        <testcase name="text_formatting::tests::test_truncate_max_graphemes_zero" classname="codex-tui" timestamp="2026-09-27T08:32:42.044+00:00" time="0.021"/>
+        <testcase name="text_formatting::tests::test_truncate_text" classname="codex-tui" timestamp="2026-09-27T08:32:42.050+00:00" time="0.019"/>
+        <testcase name="text_formatting::tests::test_truncate_unicode_combining_characters" classname="codex-tui" timestamp="2026-09-27T08:32:42.053+00:00" time="0.018"/>
+        <testcase name="text_formatting::tests::test_truncate_text_shorter_than_limit" classname="codex-tui" timestamp="2026-09-27T08:32:42.051+00:00" time="0.019"/>
+        <testcase name="text_formatting::tests::test_truncate_text_exact_length" classname="codex-tui" timestamp="2026-09-27T08:32:42.050+00:00" time="0.020"/>
+        <testcase name="text_formatting::tests::test_truncate_very_long_text" classname="codex-tui" timestamp="2026-09-27T08:32:42.066+00:00" time="0.020"/>
+        <testcase name="tool_output::tests::preview_preserves_hyperlinks_and_original_logical_source" classname="codex-tui" timestamp="2026-09-27T08:32:42.070+00:00" time="0.021"/>
+        <testcase name="tool_output::tests::preview_caps_combining_text_across_styled_spans" classname="codex-tui" timestamp="2026-09-27T08:32:42.069+00:00" time="0.025"/>
+        <testcase name="transcript_view::activity::tests::unchanged_live_revisions_do_not_report_activity_but_hidden_text_does" classname="codex-tui" timestamp="2026-09-27T08:32:42.071+00:00" time="0.024"/>
+        <testcase name="transcript_view::footer::tests::selection_hints_follow_selected_text_instead_of_mouse_down" classname="codex-tui" timestamp="2026-09-27T08:32:42.071+00:00" time="0.024"/>
+        <testcase name="transcript_view::footer::tests::transcript_footer_keys_remain_distinct_from_prose_and_query_text" classname="codex-tui" timestamp="2026-09-27T08:32:42.086+00:00" time="0.025"/>
+        <testcase name="transcript_view::layout::tests::cached_layout_does_not_keep_source_cell_alive_and_separator_changes_refresh_it" classname="codex-tui" timestamp="2026-09-27T08:32:42.091+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::prompt_style_tests::prompt_margin_and_blank_background_survive_resize_without_changing_copy" classname="codex-tui" timestamp="2026-09-27T08:32:42.113+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::legacy_tests::scrolled_text_layout_preserves_complete_links_styles_and_wide_glyphs" classname="codex-tui" timestamp="2026-09-27T08:32:42.111+00:00" time="0.028"/>
+        <testcase name="transcript_view::text::diff_source_tests::updated_diff_copy_includes_signs_but_no_line_number_gutters" classname="codex-tui" timestamp="2026-09-27T08:32:42.094+00:00" time="0.056"/>
+        <testcase name="transcript_view::text::diff_source_tests::wrapped_added_code_keeps_indentation_and_graphemes_when_copied_and_resized" classname="codex-tui" timestamp="2026-09-27T08:32:42.095+00:00" time="0.058"/>
+        <testcase name="transcript_view::text::diff_source_tests::annotated_diff_preserves_the_existing_hard_wrapped_visual_output" classname="codex-tui" timestamp="2026-09-27T08:32:42.093+00:00" time="0.059"/>
+        <testcase name="transcript_view::text::prompt_style_tests::reserved_margin_uses_the_same_alignment_for_painting_and_selection" classname="codex-tui" timestamp="2026-09-27T08:32:42.135+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::prompt_style_tests::visible_rows_fill_inherited_styles_without_painting_outside_the_viewport" classname="codex-tui" timestamp="2026-09-27T08:32:42.139+00:00" time="0.021"/>
+        <testcase name="transcript_view::text::source_cell_tests::long_reasoning_source_height_matches_complete_guttered_rendering" classname="codex-tui" timestamp="2026-09-27T08:32:42.153+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::recap_source_tests::recap_source_preserves_unicode_whitespace_and_long_url_across_resize" classname="codex-tui" timestamp="2026-09-27T08:32:42.152+00:00" time="0.025"/>
+        <testcase name="transcript_view::text::source_cell_tests::plan_copy_retains_checkboxes_but_omits_wrapping_gutters" classname="codex-tui" timestamp="2026-09-27T08:32:42.157+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::source_cell_tests::question_copy_retains_answer_labels_masks_secrets_and_keeps_unanswered_suffixes" classname="codex-tui" timestamp="2026-09-27T08:32:42.159+00:00" time="0.024"/>
+        <testcase name="transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering" classname="codex-tui" timestamp="2026-09-27T08:32:42.150+00:00" time="0.048">
+            <failure message="thread &apos;transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering&apos; (3692585) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13" type="test failure with exit code 101">thread &apos;transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering&apos; (3692585) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13:
+snapshot assertion for &apos;recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering&apos; failed in line 36
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Snapshot Summary ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Snapshot file: tui/src/transcript_view/snapshots/codex_tui__transcript_view__text__recap_source_tests__recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering.snap
+Snapshot: recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering
+Source: tui/src/transcript_view/recap_source_tests.rs:36
+────────────────────────────────────────────────────────────────────────────────
+Expression: frames.join(&quot;\n\n&quot;)
+────────────────────────────────────────────────────────────────────────────────
++new results
+────────────┬───────────────────────────────────────────────────────────────────
+          1 │+width=24
+          2 │+Buffer {
+          3 │+    area: Rect { x: 0, y: 0, width: 24, height: 9 },
+          4 │+    content: [
+          5 │+        &quot;─ Conversation recap ───&quot;,
+          6 │+        &quot;                        &quot;,
+          7 │+        &quot;  Preserve the existing &quot;,
+          8 │+        &quot;  checkpoint layout and &quot;,
+          9 │+        &quot;  source spacing.       &quot;,
+         10 │+        &quot;                        &quot;,
+         11 │+        &quot;  Next: visit           &quot;,
+         12 │+        &quot;  ␛]8;;https://a.io␇h␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇p␛]8;;␇␛]8;;https://a.io␇s␛]8;;␇␛]8;;https://a.io␇:␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇a␛]8;;␇␛]8;;https://a.io␇.␛]8;;␇␛]8;;https://a.io␇i␛]8;;␇␛]8;;https://a.io␇o␛]8;;␇ and run  &quot;,␊
+         13 │+        &quot;  the focused tests.    &quot;,
+         14 │+    ],
+         15 │+    styles: [
+         16 │+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         17 │+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+         18 │+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         19 │+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+         20 │+    ]
+         21 │+}
+         22 │+
+         23 │+width=40
+         24 │+Buffer {
+         25 │+    area: Rect { x: 0, y: 0, width: 40, height: 7 },
+         26 │+    content: [
+         27 │+        &quot;─ Conversation recap ───────────────────&quot;,
+         28 │+        &quot;                                        &quot;,
+         29 │+        &quot;  Preserve the existing checkpoint      &quot;,
+         30 │+        &quot;  layout and source spacing.            &quot;,
+         31 │+        &quot;                                        &quot;,
+         32 │+        &quot;  Next: visit ␛]8;;https://a.io␇h␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇p␛]8;;␇␛]8;;https://a.io␇s␛]8;;␇␛]8;;https://a.io␇:␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇a␛]8;;␇␛]8;;https://a.io␇.␛]8;;␇␛]8;;https://a.io␇i␛]8;;␇␛]8;;https://a.io␇o␛]8;;␇ and run the  &quot;,␊
+         33 │+        &quot;  focused tests.                        &quot;,
+         34 │+    ],
+         35 │+    styles: [
+         36 │+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         37 │+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+         38 │+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         39 │+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+         40 │+    ]
+         41 │+}
+         42 │+
+         43 │+width=80
+         44 │+Buffer {
+         45 │+    area: Rect { x: 0, y: 0, width: 80, height: 5 },
+         46 │+    content: [
+         47 │+        &quot;─ Conversation recap ───────────────────────────────────────────────────────────&quot;,
+         48 │+        &quot;                                                                                &quot;,
+         49 │+        &quot;  Preserve the existing checkpoint layout and source spacing.                   &quot;,
+         50 │+        &quot;                                                                                &quot;,
+         51 │+        &quot;  Next: visit ␛]8;;https://a.io␇h␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇t␛]8;;␇␛]8;;https://a.io␇p␛]8;;␇␛]8;;https://a.io␇s␛]8;;␇␛]8;;https://a.io␇:␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇/␛]8;;␇␛]8;;https://a.io␇a␛]8;;␇␛]8;;https://a.io␇.␛]8;;␇␛]8;;https://a.io␇i␛]8;;␇␛]8;;https://a.io␇o␛]8;;␇ and run the focused tests.                           &quot;,␊
+         52 │+    ],
+         53 │+    styles: [
+         54 │+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         55 │+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+         56 │+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+         57 │+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+         58 │+    ]
+         59 │+}
+────────────┴───────────────────────────────────────────────────────────────────
+To update snapshots run `cargo insta review`
+Stopped on the first failure. Run `cargo insta test` to run all snapshots.
+test transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering ... FAILED
+
+failures:
+
+failures:
+    transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4810 filtered out; finished in 0.03s
+
+</system-out>
+            <system-err>stored new snapshot /home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tui/src/transcript_view/snapshots/codex_tui__transcript_view__text__recap_source_tests__recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering.snap.new
+
+thread &apos;transcript_view::text::recap_source_tests::recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering&apos; (3692585) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13:
+snapshot assertion for &apos;recap_copy_joins_soft_wraps_without_changing_checkpoint_rendering&apos; failed in line 36
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="transcript_view::text::source_cell_tests::reasoning_copy_joins_soft_wraps_and_retains_the_existing_rendering" classname="codex-tui" timestamp="2026-09-27T08:32:42.175+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::source_cell_tests::resize_restores_the_exact_styles_of_whitespace_omitted_by_wrapping" classname="codex-tui" timestamp="2026-09-27T08:32:42.178+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tab_tests::hard_wrapped_tabs_keep_source_characters_and_actual_row_stops" classname="codex-tui" timestamp="2026-09-27T08:32:42.181+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tab_tests::leading_and_repeated_tabs_remain_selectable_below_one_tab_stop" classname="codex-tui" timestamp="2026-09-27T08:32:42.183+00:00" time="0.021"/>
+        <testcase name="transcript_view::text::tab_tests::ordinary_spaces_before_tabs_affect_the_stop_without_entering_the_gutter" classname="codex-tui" timestamp="2026-09-27T08:32:42.199+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::tests::adjacent_stream_fragments_copy_the_original_whitespace_gap" classname="codex-tui" timestamp="2026-09-27T08:32:42.202+00:00" time="0.020"/>
+        <testcase name="transcript_view::text::tab_tests::tab_stops_restart_after_wrapping_and_resize_preserves_source_and_links" classname="codex-tui" timestamp="2026-09-27T08:32:42.200+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::tab_tests::styled_tabs_use_row_stops_including_the_gutter" classname="codex-tui" timestamp="2026-09-27T08:32:42.199+00:00" time="0.024"/>
+        <testcase name="transcript_view::text::tests::aligned_text_excludes_synthetic_leading_columns" classname="codex-tui" timestamp="2026-09-27T08:32:42.204+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tests::copying_wrapped_text_preserves_only_hard_newlines" classname="codex-tui" timestamp="2026-09-27T08:32:42.223+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tests::background_stdin_copy_preserves_indentation_and_newlines" classname="codex-tui" timestamp="2026-09-27T08:32:42.222+00:00" time="0.024"/>
+        <testcase name="transcript_view::text::tests::empty_logical_lines_keep_their_hard_breaks" classname="codex-tui" timestamp="2026-09-27T08:32:42.223+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::tests::hit_testing_uses_graphemes_and_does_not_select_padding" classname="codex-tui" timestamp="2026-09-27T08:32:42.226+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tests::narrow_wrapping_keeps_joined_emoji_whole" classname="codex-tui" timestamp="2026-09-27T08:32:42.246+00:00" time="0.022"/>
+        <testcase name="transcript_view::text::tests::partial_stream_fragment_does_not_copy_unseen_source_text" classname="codex-tui" timestamp="2026-09-27T08:32:42.268+00:00" time="0.020"/>
+        <testcase name="transcript_view::text::tests::command_and_output_copy_preserve_hard_lines_across_resize" classname="codex-tui" timestamp="2026-09-27T08:32:42.222+00:00" time="0.067"/>
+        <testcase name="transcript_view::text::tests::repeated_source_prefix_never_becomes_a_synthetic_indent" classname="codex-tui" timestamp="2026-09-27T08:32:42.288+00:00" time="0.023"/>
+        <testcase name="transcript_view::text::tests::selected_revision_rewraps_both_directions_with_styles_and_indents" classname="codex-tui" timestamp="2026-09-27T08:32:42.290+00:00" time="0.020"/>
+        <testcase name="transcript_view::text::tests::selection_highlights_wide_graphemes_without_trailing_padding" classname="codex-tui" timestamp="2026-09-27T08:32:42.310+00:00" time="0.021"/>
+        <testcase name="transcript_view::text::tests::maximum_width_long_line_reflows_without_u16_wrap_overflow" classname="codex-tui" timestamp="2026-09-27T08:32:42.246+00:00" time="0.097"/>
+        <testcase name="transcript_view::text::tests::source_provenance_preserves_spaces_and_excludes_gutters" classname="codex-tui" timestamp="2026-09-27T08:32:42.332+00:00" time="0.020"/>
+        <testcase name="transcript_view::text::tests::url_aware_reflow_preserves_copy_and_bounds_oversized_tokens" classname="codex-tui" timestamp="2026-09-27T08:32:42.343+00:00" time="0.021"/>
+        <testcase name="transcript_view::text::tests::source_backed_markdown_copy_preserves_code_indentation" classname="codex-tui" timestamp="2026-09-27T08:32:42.310+00:00" time="0.062"/>
+        <testcase name="transcript_view::text::tests::visible_rows_preserve_styles_and_wrapped_hyperlinks" classname="codex-tui" timestamp="2026-09-27T08:32:42.352+00:00" time="0.021"/>
+        <testcase name="unarchive_prompt::tests::inline_prompt_preserves_shell_context_snapshot" classname="codex-tui" timestamp="2026-09-27T08:32:42.365+00:00" time="0.023"/>
+        <testcase name="update_action::tests::maps_install_context_to_update_action" classname="codex-tui" timestamp="2026-09-27T08:32:42.373+00:00" time="0.020"/>
+        <testcase name="worktree_startup::tests::latest_directory_uses_turn_context_and_preserves_fallback" classname="codex-tui" timestamp="2026-09-27T08:32:42.373+00:00" time="0.024"/>
+        <testcase name="wrapping::tests::borrowed_slice_range_rejects_slices_outside_source_text" classname="codex-tui" timestamp="2026-09-27T08:32:42.388+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::text_contains_url_like_accepts_custom_scheme_with_separator" classname="codex-tui" timestamp="2026-09-27T08:32:42.393+00:00" time="0.020"/>
+        <testcase name="wrapping::tests::text_contains_url_like_matches_expected_tokens" classname="codex-tui" timestamp="2026-09-27T08:32:42.397+00:00" time="0.020"/>
+        <testcase name="transcript_view::text::tests::offsets_can_reach_rows_after_u16_limit" classname="codex-tui" timestamp="2026-09-27T08:32:42.248+00:00" time="0.180"/>
+        <testcase name="wrapping::tests::text_contains_url_like_rejects_invalid_ports" classname="codex-tui" timestamp="2026-09-27T08:32:42.408+00:00" time="0.021"/>
+        <testcase name="wrapping::tests::text_contains_url_like_rejects_non_urls" classname="codex-tui" timestamp="2026-09-27T08:32:42.413+00:00" time="0.019"/>
+        <testcase name="bottom_pane::textarea::wrapping::tests::visible_prefix_bounds_long_hanging_runs_without_splitting_graphemes" classname="codex-tui" timestamp="2026-09-27T08:32:40.365+00:00" time="2.235"/>
+        <testcase name="transcript_view::text::tests::layout_retains_rows_beyond_terminal_coordinate_range" classname="codex-tui" timestamp="2026-09-27T08:32:42.245+00:00" time="0.538"/>
+    </testsuite>
+    <testsuite name="codex-tui::all" tests="3" skipped="0" errors="0" failures="0">
+        <testcase name="suite::focus_palette::fullscreen_mouse::fullscreen_sgr_right_click_preserves_unconfirmed_selection_and_draft" classname="codex-tui::all" timestamp="2026-09-27T08:32:42.417+00:00" time="0.723"/>
+        <testcase name="suite::unicode_math::rich_math_is_independent_of_textual_lists" classname="codex-tui::all" timestamp="2026-09-27T08:32:42.429+00:00" time="0.816"/>
+        <testcase name="suite::unicode_lists::disabled_lists_keep_textual_markers_in_the_terminal" classname="codex-tui::all" timestamp="2026-09-27T08:32:42.429+00:00" time="0.840"/>
+    </testsuite>
+</testsuites>

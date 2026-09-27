@@ -1,0 +1,16 @@
+{
+  "source_commit": "5d22c3fc0c995196e5c5f492d18191030e27f249",
+  "method": "rsync checksum without times; remove only previously tracked paths; refuse active Rust jobs",
+  "elapsed_seconds": 14.142844915390015,
+  "removed_tracked_paths": [
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_apply_patch_scroll_vt100.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_completed_stream.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_follows_resized_tail.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_paginated_history_states.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_prepended_history.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_renders_live_tail.snap",
+    "codex-rs/tui/src/snapshots/codex_tui__pager_overlay__tests__transcript_overlay_snapshot_basic.snap"
+  ],
+  "matching_codex_rs_files": 7402,
+  "mismatches": []
+}

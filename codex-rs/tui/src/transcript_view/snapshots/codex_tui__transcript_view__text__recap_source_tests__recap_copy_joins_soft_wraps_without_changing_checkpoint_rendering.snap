@@ -1,0 +1,64 @@
+---
+source: tui/src/transcript_view/recap_source_tests.rs
+assertion_line: 36
+expression: "frames.join(\"\\n\\n\")"
+---
+width=24
+Buffer {
+    area: Rect { x: 0, y: 0, width: 24, height: 9 },
+    content: [
+        "─ Conversation recap ───",
+        "                        ",
+        "  Preserve the existing ",
+        "  checkpoint layout and ",
+        "  source spacing.       ",
+        "                        ",
+        "  Next: visit           ",
+        "  ]8;;https://a.ioh]8;;]8;;https://a.iot]8;;]8;;https://a.iot]8;;]8;;https://a.iop]8;;]8;;https://a.ios]8;;]8;;https://a.io:]8;;]8;;https://a.io/]8;;]8;;https://a.io/]8;;]8;;https://a.ioa]8;;]8;;https://a.io.]8;;]8;;https://a.ioi]8;;]8;;https://a.ioo]8;; and run  ",
+        "  the focused tests.    ",
+    ],
+    styles: [
+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+    ]
+}
+
+width=40
+Buffer {
+    area: Rect { x: 0, y: 0, width: 40, height: 7 },
+    content: [
+        "─ Conversation recap ───────────────────",
+        "                                        ",
+        "  Preserve the existing checkpoint      ",
+        "  layout and source spacing.            ",
+        "                                        ",
+        "  Next: visit ]8;;https://a.ioh]8;;]8;;https://a.iot]8;;]8;;https://a.iot]8;;]8;;https://a.iop]8;;]8;;https://a.ios]8;;]8;;https://a.io:]8;;]8;;https://a.io/]8;;]8;;https://a.io/]8;;]8;;https://a.ioa]8;;]8;;https://a.io.]8;;]8;;https://a.ioi]8;;]8;;https://a.ioo]8;; and run the  ",
+        "  focused tests.                        ",
+    ],
+    styles: [
+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+    ]
+}
+
+width=80
+Buffer {
+    area: Rect { x: 0, y: 0, width: 80, height: 5 },
+    content: [
+        "─ Conversation recap ───────────────────────────────────────────────────────────",
+        "                                                                                ",
+        "  Preserve the existing checkpoint layout and source spacing.                   ",
+        "                                                                                ",
+        "  Next: visit ]8;;https://a.ioh]8;;]8;;https://a.iot]8;;]8;;https://a.iot]8;;]8;;https://a.iop]8;;]8;;https://a.ios]8;;]8;;https://a.io:]8;;]8;;https://a.io/]8;;]8;;https://a.io/]8;;]8;;https://a.ioa]8;;]8;;https://a.io.]8;;]8;;https://a.ioi]8;;]8;;https://a.ioo]8;; and run the focused tests.                           ",
+    ],
+    styles: [
+        x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+        x: 20, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+        x: 0, y: 1, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+    ]
+}

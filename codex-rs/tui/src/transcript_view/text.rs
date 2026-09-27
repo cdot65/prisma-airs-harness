@@ -489,3 +489,7 @@ mod tab_tests;
 #[cfg(test)]
 #[path = "text_legacy_tests.rs"]
 mod legacy_tests;
+
+#[cfg(test)]
+#[path = "recap_source_tests.rs"]
+mod recap_source_tests;

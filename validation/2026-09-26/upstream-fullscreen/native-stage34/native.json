@@ -1,0 +1,32 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "--test-threads",
+    "4",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 100,
+  "elapsed_seconds": 698.3868100643158,
+  "owned_tmp": "/private/tmp/airs-terminal-native-ela3ksf6",
+  "junit": {
+    "name": "nextest-run",
+    "tests": "6250",
+    "skipped": "0",
+    "failures": "1",
+    "errors": "0",
+    "uuid": "a85f1c42-9804-47e5-a8da-21ea51259f70",
+    "timestamp": "2026-09-27T03:27:05.856-05:00",
+    "time": "359.053"
+  }
+}

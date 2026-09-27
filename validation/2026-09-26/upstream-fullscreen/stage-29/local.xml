@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="2" skipped="0" failures="0" errors="0" uuid="4d16b941-8a51-4922-b100-a1f56399d268" timestamp="2026-09-27T06:51:36.073+00:00" time="1.242">
+    <testsuite name="codex-config" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="tui_keymap::tests::transcript_find_accepts_custom_chords_and_can_be_disabled" classname="codex-config" timestamp="2026-09-27T06:51:36.095+00:00" time="0.014"/>
+    </testsuite>
+    <testsuite name="codex-tui::all" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="suite::transcript_find::terminal_find_preserves_draft_in_inline_and_fullscreen_modes" classname="codex-tui::all" timestamp="2026-09-27T06:51:36.095+00:00" time="1.221"/>
+    </testsuite>
+</testsuites>

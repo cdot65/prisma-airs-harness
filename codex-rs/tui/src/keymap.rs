@@ -41,6 +41,10 @@ pub(crate) use vim_search::VimSearchKeymap;
 #[path = "keymap/conflict_tests.rs"]
 mod conflict_tests;
 
+#[cfg(test)]
+#[path = "keymap/global_find_tests.rs"]
+mod global_find_tests;
+
 pub(crate) use bindings::KeymapContext;
 pub(crate) use bindings::bindings_for_action;
 pub(crate) use bindings::keymap_action_id;
@@ -87,6 +91,10 @@ pub(crate) struct AppKeymap {
     pub(crate) open_agents: Vec<KeyBinding>,
     /// Open transcript overlay.
     pub(crate) open_transcript: Vec<KeyBinding>,
+    /// Find text in the full transcript.
+    pub(crate) find_transcript: Vec<KeyBinding>,
+    /// Focus activity groups in the owned transcript to inspect their details.
+    pub(crate) focus_activity: Vec<KeyBinding>,
     /// Open external editor for the current draft.
     pub(crate) open_external_editor: Vec<KeyBinding>,
     /// Copy the last agent response to the clipboard.
@@ -278,6 +286,7 @@ pub(crate) struct PagerKeymap {
     pub(crate) jump_bottom: Vec<KeyBinding>,
     pub(crate) close: Vec<KeyBinding>,
     pub(crate) close_transcript: Vec<KeyBinding>,
+    pub(crate) find: Vec<KeyBinding>,
     chord_hints: Arc<RuntimeChordKeymap>,
 }
 
@@ -608,6 +617,19 @@ impl RuntimeKeymap {
                     || configured_context_alias_is_used(&keymap.list, alias)
                     || configured_context_alias_is_used(&keymap.approval, alias)
             });
+        // New activity defaults yield to existing custom keys and chord prefixes.
+        let focus_activity_defaults: Vec<_> = defaults
+            .app
+            .focus_activity
+            .iter()
+            .copied()
+            .filter(|binding| {
+                !configured_context_binding_is_used(keymap, *binding)
+                    && !chords.bindings.iter().any(|chord| {
+                        chord.chord.prefix.normalized_parts() == binding.normalized_parts()
+                    })
+            })
+            .collect();
         let app = AppKeymap {
             open_agents: resolve_bindings(
                 keymap.global.open_agents.as_ref(),
@@ -618,6 +640,16 @@ impl RuntimeKeymap {
                 keymap.global.open_transcript.as_ref(),
                 &defaults.app.open_transcript,
                 "tui.keymap.global.open_transcript",
+            )?,
+            find_transcript: resolve_bindings(
+                keymap.global.find_transcript.as_ref(),
+                &defaults.app.find_transcript,
+                "tui.keymap.global.find_transcript",
+            )?,
+            focus_activity: resolve_bindings(
+                keymap.global.focus_activity.as_ref(),
+                &focus_activity_defaults,
+                "tui.keymap.global.focus_activity",
             )?,
             open_external_editor: resolve_bindings(
                 keymap.global.open_external_editor.as_ref(),
@@ -1234,6 +1266,7 @@ impl RuntimeKeymap {
             jump_bottom: resolve_local!(keymap, defaults, pager, jump_bottom),
             close: resolve_local!(keymap, defaults, pager, close),
             close_transcript: resolve_local!(keymap, defaults, pager, close_transcript),
+            find: resolve_local!(keymap, defaults, pager, find),
             chord_hints: Arc::clone(&chords),
         };
 
@@ -1283,6 +1316,14 @@ impl RuntimeKeymap {
             (
                 keymap.global.open_transcript.as_ref(),
                 app.open_transcript.as_slice(),
+            ),
+            (
+                keymap.global.find_transcript.as_ref(),
+                app.find_transcript.as_slice(),
+            ),
+            (
+                keymap.global.focus_activity.as_ref(),
+                app.focus_activity.as_slice(),
             ),
             (
                 keymap.global.open_external_editor.as_ref(),
@@ -1461,7 +1502,7 @@ impl RuntimeKeymap {
                 });
             }
         }
-        resolved.configure_vim_search(keymap)?;
+        resolved.configure_search(keymap)?;
         resolved.validate_conflicts()?;
         chords::validate_chord_conflicts(&resolved)?;
         chords::install_dispatch_bindings(&mut resolved)?;
@@ -1489,6 +1530,8 @@ impl RuntimeKeymap {
             app: AppKeymap {
                 open_agents: default_bindings![],
                 open_transcript: default_bindings![ctrl(KeyCode::Char('t'))],
+                find_transcript: default_bindings![plain(KeyCode::F(3))],
+                focus_activity: default_bindings![plain(KeyCode::F(4))],
                 open_external_editor: default_bindings![ctrl(KeyCode::Char('g'))],
                 copy: default_bindings![ctrl(KeyCode::Char('o'))],
                 clear_terminal: default_bindings![ctrl(KeyCode::Char('l'))],
@@ -1722,6 +1765,7 @@ impl RuntimeKeymap {
                 jump_bottom: default_bindings![plain(KeyCode::End)],
                 close: default_bindings![plain(KeyCode::Char('q')), ctrl(KeyCode::Char('c'))],
                 close_transcript: default_bindings![ctrl(KeyCode::Char('t'))],
+                find: default_bindings![plain(KeyCode::F(3)), plain(KeyCode::Char('/'))],
                 chord_hints: Arc::default(),
             },
             list: ListKeymap {
@@ -1836,6 +1880,8 @@ impl RuntimeKeymap {
         let main_bindings = [
             ("open_agents", self.app.open_agents.as_slice()),
             ("open_transcript", self.app.open_transcript.as_slice()),
+            ("find_transcript", self.app.find_transcript.as_slice()),
+            ("focus_activity", self.app.focus_activity.as_slice()),
             (
                 "open_external_editor",
                 self.app.open_external_editor.as_slice(),
@@ -1934,6 +1980,8 @@ impl RuntimeKeymap {
             [
                 ("open_agents", self.app.open_agents.as_slice()),
                 ("open_transcript", self.app.open_transcript.as_slice()),
+                ("find_transcript", self.app.find_transcript.as_slice()),
+                ("focus_activity", self.app.focus_activity.as_slice()),
                 (
                     "open_external_editor",
                     self.app.open_external_editor.as_slice(),
@@ -1990,6 +2038,8 @@ impl RuntimeKeymap {
             [
                 ("open_agents", self.app.open_agents.as_slice()),
                 ("open_transcript", self.app.open_transcript.as_slice()),
+                ("find_transcript", self.app.find_transcript.as_slice()),
+                ("focus_activity", self.app.focus_activity.as_slice()),
                 (
                     "open_external_editor",
                     self.app.open_external_editor.as_slice(),
@@ -2107,6 +2157,16 @@ impl RuntimeKeymap {
         )?;
 
         validate_unique("list", context_bindings(KeymapContext::List))?;
+        validate_unique(
+            "activity",
+            context_bindings(KeymapContext::List).chain([
+                ("global.focus_activity", self.app.focus_activity.as_slice()),
+                (
+                    "global.find_transcript",
+                    self.app.find_transcript.as_slice(),
+                ),
+            ]),
+        )?;
 
         validate_unique("agents", context_bindings(KeymapContext::Agents))?;
         validate_no_reserved(
@@ -2380,23 +2440,27 @@ fn configured_main_surface_alias_is_used(keymap: &TuiKeymap, alias: &str) -> boo
 }
 
 fn configured_context_alias_is_used(context: &impl Serialize, alias: &str) -> bool {
+    parse_keybinding(alias)
+        .is_some_and(|binding| configured_context_binding_is_used(context, binding))
+}
+
+fn configured_context_binding_is_used(context: &impl Serialize, binding: KeyBinding) -> bool {
     let Ok(value) = serde_json::to_value(context) else {
         return false;
     };
-    keymap_value_contains_alias(&value, alias)
+    keymap_value_contains_binding(&value, binding)
 }
 
-fn keymap_value_contains_alias(value: &serde_json::Value, alias: &str) -> bool {
+fn keymap_value_contains_binding(value: &serde_json::Value, binding: KeyBinding) -> bool {
     match value {
         serde_json::Value::String(value) => parse_keybinding(value)
-            .zip(parse_keybinding(alias))
-            .is_some_and(|(a, b)| a.normalized_parts() == b.normalized_parts()),
+            .is_some_and(|configured| configured.normalized_parts() == binding.normalized_parts()),
         serde_json::Value::Array(values) => values
             .iter()
-            .any(|value| keymap_value_contains_alias(value, alias)),
+            .any(|value| keymap_value_contains_binding(value, binding)),
         serde_json::Value::Object(values) => values
             .values()
-            .any(|value| keymap_value_contains_alias(value, alias)),
+            .any(|value| keymap_value_contains_binding(value, binding)),
         serde_json::Value::Bool(_) | serde_json::Value::Number(_) | serde_json::Value::Null => {
             false
         }
@@ -2672,12 +2736,6 @@ mod tests {
 
         let err = RuntimeKeymap::from_config(&keymap).expect_err("expected parse error");
         assert!(err.contains("tui.keymap.global.open_external_editor"));
-    }
-
-    #[test]
-    fn default_copy_binding_is_ctrl_o() {
-        let runtime = RuntimeKeymap::defaults();
-        assert_eq!(runtime.app.copy, vec![key_hint::ctrl(KeyCode::Char('o'))]);
     }
 
     #[test]

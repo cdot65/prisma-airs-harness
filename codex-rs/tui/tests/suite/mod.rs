@@ -17,3 +17,6 @@ mod unicode_lists;
 
 #[cfg(unix)]
 mod unicode_math;
+
+#[cfg(unix)]
+mod transcript_find;

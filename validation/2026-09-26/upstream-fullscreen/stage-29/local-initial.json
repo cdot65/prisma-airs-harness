@@ -1,0 +1,23 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(transcript_view) | test(owned_transcript) | test(keymap) | test(key_chord) | test(pager_overlay) | test(resume_picker) | test(private_dialog)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 149.6982879638672
+}

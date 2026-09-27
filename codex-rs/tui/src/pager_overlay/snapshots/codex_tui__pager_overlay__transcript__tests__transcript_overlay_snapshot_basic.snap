@@ -1,6 +1,5 @@
 ---
 source: tui/src/pager_overlay/legacy_transcript_tests.rs
-assertion_line: 291
 expression: "format!(\"{:?}\", term.backend().buffer())"
 ---
 Buffer {
@@ -20,7 +19,7 @@ Buffer {
         "                        ",
         "Ctrl+Space select       ",
         " ↑/↓ to scroll   pgup/pg",
-        " q close   esc edit prev",
+        " q close   f3 find   esc",
         "                        ",
     ],
     styles: [

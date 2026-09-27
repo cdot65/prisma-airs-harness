@@ -16,6 +16,7 @@ impl App {
         cfg!(unix)
             && !self.enhanced_keys_supported
             && self.overlay.is_none()
+            && !self.transcript_view.is_search_active()
             && self.chat_widget.no_modal_or_popup_active()
             && matches!(key_event.code, KeyCode::Char(_))
             && matches!(key_event.kind, KeyEventKind::Press | KeyEventKind::Repeat)
@@ -41,9 +42,7 @@ impl App {
                 self.key_chord_matcher.clone().advance(
                     key_event,
                     &self.keymap.chords,
-                    active_contexts,
-                    tokio::time::Instant::now(),
-                ),
+                    active_contexts),
                 crate::keymap::KeyChordMatch::Pending(_)
                     | crate::keymap::KeyChordMatch::Completed(_)
             )
@@ -54,18 +53,18 @@ impl App {
         tui: &mut tui::Tui,
         key_event: KeyEvent,
     ) -> Option<KeyEvent> {
-        if matches!(&self.overlay, Some(Overlay::Transcript(overlay)) if overlay.owns_interaction_key(key_event))
-        {
-            self.cancel_pending_key_chord();
-            return Some(key_event);
+        self.transcript_view.set_keymap_bindings(&self.keymap);
+        if let Some(Overlay::Transcript(overlay)) = &mut self.overlay {
+            overlay.set_keymap_bindings(&self.keymap);
         }
-        if tui.is_owned_screen()
-            && self.overlay.is_none()
-            && self.chat_widget.no_modal_or_popup_active()
-            && self.transcript_view.owns_interaction_key(key_event)
-            && (self.transcript_view.has_active_interaction()
-                || self.backtrack.overlay_preview_active
-                || crate::transcript_view::JumpTarget::from_key(key_event).is_none())
+        if matches!(&self.overlay, Some(Overlay::Transcript(overlay)) if overlay.owns_interaction_key(key_event))
+            || (tui.is_owned_screen()
+                && self.overlay.is_none()
+                && self.chat_widget.no_modal_or_popup_active()
+                && self.transcript_view.owns_interaction_key(key_event)
+                && (self.transcript_view.has_active_interaction()
+                    || self.backtrack.overlay_preview_active
+                    || crate::transcript_view::JumpTarget::from_key(key_event).is_none()))
         {
             let close_chord = tui.is_owned_screen()
                 && self.overlay.is_none()
@@ -76,7 +75,6 @@ impl App {
                     key_event,
                     &self.keymap.chords,
                     self.active_keymap_contexts(),
-                    tokio::time::Instant::now(),
                 ) {
                     crate::keymap::KeyChordMatch::Completed(event) => {
                         self.keymap.pager.close_transcript.is_pressed(event)
@@ -99,29 +97,24 @@ impl App {
         }
         let contexts = self.active_keymap_contexts();
         let was_pending = self.key_chord_matcher.is_pending();
-        match self.key_chord_matcher.advance(
-            key_event,
-            &self.keymap.chords,
-            contexts,
-            tokio::time::Instant::now(),
-        ) {
+        match self
+            .key_chord_matcher
+            .advance(key_event, &self.keymap.chords, contexts)
+        {
             crate::keymap::KeyChordMatch::PassThrough => {
                 if was_pending && !self.key_chord_matcher.is_pending() {
                     self.set_key_chord_hint_override(/*items*/ None);
                 }
                 Some(key_event)
             }
-            crate::keymap::KeyChordMatch::Pending(prefix) => {
-                if self.backtrack.primed {
+            crate::keymap::KeyChordMatch::Pending(_) => {
+                if self.backtrack.primed && !self.backtrack.overlay_preview_active {
                     self.reset_backtrack_state();
                 }
-                self.set_key_chord_hint_override(Some(vec![
-                    (
-                        format!("{} …", prefix.display_label()),
-                        "waiting for next key".to_string(),
-                    ),
-                    ("esc".to_string(), "cancel".to_string()),
-                ]));
+                self.set_key_chord_hint_override(self.key_chord_matcher.pending_hint_items(
+                    &self.keymap.chords,
+                    tui.terminal.last_known_screen_size.width,
+                ));
                 tui.frame_requester()
                     .schedule_frame_in(crate::keymap::KEY_CHORD_TIMEOUT);
                 None
@@ -140,10 +133,7 @@ impl App {
 
     pub(super) fn expire_pending_key_chord(&mut self) {
         let contexts = self.active_keymap_contexts();
-        if self
-            .key_chord_matcher
-            .expire(contexts, tokio::time::Instant::now())
-        {
+        if self.key_chord_matcher.expire(contexts) {
             self.set_key_chord_hint_override(/*items*/ None);
         }
     }
@@ -155,6 +145,9 @@ impl App {
     }
 
     fn set_key_chord_hint_override(&mut self, items: Option<Vec<(String, String)>>) {
+        if let Some(Overlay::Transcript(overlay)) = &mut self.overlay {
+            overlay.key_chord_hint = items.clone();
+        }
         self.agents_overview
             .view_state
             .lock()
@@ -164,8 +157,23 @@ impl App {
     }
 
     pub(super) fn active_keymap_contexts(&self) -> crate::keymap::KeymapContextSet {
-        if self.overlay.is_some() {
-            return crate::keymap::KeymapContextSet::new(crate::keymap::KeymapContext::Pager);
+        use crate::keymap::KeymapContext;
+        use crate::keymap::KeymapContextSet;
+        if let Some(overlay) = &self.overlay {
+            let context = if matches!(overlay, Overlay::Transcript(view) if view.is_search_active())
+            {
+                KeymapContext::Editor
+            } else {
+                KeymapContext::Pager
+            };
+            return KeymapContextSet::new(context);
+        }
+        if self.transcript_view.is_search_active() && self.chat_widget.no_modal_or_popup_active() {
+            return KeymapContextSet::new(KeymapContext::Editor);
+        }
+        if self.transcript_view.is_activity_focused() && self.chat_widget.no_modal_or_popup_active()
+        {
+            return KeymapContextSet::activity();
         }
 
         let contexts = self.chat_widget.keymap_contexts();
@@ -465,12 +473,19 @@ impl App {
             return;
         }
 
-        if app_keymap_shortcuts_available && self.keymap.app.open_transcript.is_pressed(key_event) {
+        let find_transcript = self.keymap.app.find_transcript.is_pressed(key_event);
+        if app_keymap_shortcuts_available
+            && (self.keymap.app.open_transcript.is_pressed(key_event) || find_transcript)
+        {
             self.scrollback_has_older_history = self
                 .chat_widget
                 .thread_id()
                 .is_some_and(|thread_id| app_server.has_older_history(thread_id));
             self.open_transcript_overlay(tui);
+            if find_transcript && let Some(Overlay::Transcript(overlay)) = &mut self.overlay {
+                overlay.set_keymap_bindings(&self.keymap);
+                overlay.begin_search();
+            }
             return;
         }
 
@@ -495,7 +510,9 @@ impl App {
             // Esc so the active UI (e.g. status indicator, modals, popups)
             // handles it.
             if !tui.is_owned_screen() && self.should_handle_backtrack_esc(key_event) {
-                self.handle_backtrack_esc_key(tui);
+                if key_event.kind == KeyEventKind::Press {
+                    self.handle_backtrack_esc_key(tui);
+                }
             } else if self.should_reject_side_backtrack_esc(key_event) {
                 self.reject_side_backtrack_esc();
             } else {
@@ -527,7 +544,11 @@ impl App {
                 // This avoids stale "Esc-primed" state after the user starts typing
                 // (even if they later backspace to empty).
                 if key_event.code != KeyCode::Esc && self.backtrack.primed {
-                    self.reset_backtrack_state();
+                    if self.backtrack.overlay_preview_active {
+                        self.close_transcript_overlay(tui);
+                    } else {
+                        self.reset_backtrack_state();
+                    }
                 }
                 self.chat_widget.handle_key_event(key_event);
             }
@@ -622,6 +643,7 @@ impl App {
 
     pub(super) fn should_handle_backtrack_esc(&self, key_event: KeyEvent) -> bool {
         !self.chat_widget.side_conversation_active()
+            && !self.chat_widget.shortcut_overlay_visible()
             && self.chat_widget.is_normal_backtrack_mode()
             && self.chat_widget.composer_is_empty()
             && !self.chat_widget.should_handle_vim_insert_escape(key_event)
@@ -629,6 +651,7 @@ impl App {
 
     pub(super) fn should_reject_side_backtrack_esc(&self, key_event: KeyEvent) -> bool {
         self.chat_widget.side_conversation_active()
+            && !self.chat_widget.shortcut_overlay_visible()
             && self.chat_widget.is_normal_backtrack_mode()
             && self.chat_widget.composer_is_empty()
             && !self.chat_widget.should_handle_vim_insert_escape(key_event)
@@ -648,6 +671,10 @@ impl App {
         self.chat_widget.refresh_status_line();
     }
 }
+
+#[cfg(test)]
+#[path = "input_ownership_tests.rs"]
+mod ownership_tests;
 
 #[cfg(test)]
 mod tests {

@@ -45,7 +45,11 @@ fn layouts_refresh_for_width_animation_and_mutable_frames() {
             cache.get(
                 &history,
                 width,
-                CellPresentation { separated: false },
+                CellPresentation {
+                    separated: false,
+                    expanded: false,
+                    disclosure: false,
+                },
                 || TextLayout::new(history.transcript_hyperlink_lines(width), width),
             )
         };
@@ -95,7 +99,11 @@ fn recent_entries_are_reused_and_old_entries_are_evicted() {
         cache.get(
             &history,
             /*width*/ 20,
-            CellPresentation { separated: false },
+            CellPresentation {
+                separated: false,
+                expanded: false,
+                disclosure: false,
+            },
             || {
                 TextLayout::new(
                     history.transcript_hyperlink_lines(/*width*/ 20),
@@ -109,7 +117,11 @@ fn recent_entries_are_reused_and_old_entries_are_evicted() {
         cache.get(
             &history,
             /*width*/ 20,
-            CellPresentation { separated: false },
+            CellPresentation {
+                separated: false,
+                expanded: false,
+                disclosure: false,
+            },
             || {
                 TextLayout::new(
                     history.transcript_hyperlink_lines(/*width*/ 20),
@@ -142,13 +154,21 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
     cache.get(
         &first,
         /*width*/ 120,
-        CellPresentation { separated: false },
+        CellPresentation {
+            separated: false,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(first.transcript_hyperlink_lines(120), 120),
     );
     let recent = cache.get(
         &second,
         /*width*/ 120,
-        CellPresentation { separated: false },
+        CellPresentation {
+            separated: false,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(second.transcript_hyperlink_lines(120), 120),
     );
     assert_eq!(cache.entries.len(), 1);
@@ -156,7 +176,11 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
     let large = cache.get(
         &oversized,
         /*width*/ 120,
-        CellPresentation { separated: false },
+        CellPresentation {
+            separated: false,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(oversized.transcript_hyperlink_lines(120), 120),
     );
     assert_eq!(cache.entries.len(), 1);
@@ -167,14 +191,22 @@ fn byte_budget_evicts_old_entries_but_retains_one_oversized_visible_entry() {
         &cache.get(
             &oversized,
             /*width*/ 120,
-            CellPresentation { separated: false },
+            CellPresentation {
+                separated: false,
+                expanded: false,
+                disclosure: false
+            },
             || TextLayout::new(oversized.transcript_hyperlink_lines(120), 120)
         )
     ));
     cache.get(
         &second,
         /*width*/ 120,
-        CellPresentation { separated: false },
+        CellPresentation {
+            separated: false,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(second.transcript_hyperlink_lines(120), 120),
     );
     assert_eq!(cache.entries.len(), 1);
@@ -191,13 +223,21 @@ fn cached_layout_does_not_keep_source_cell_alive_and_separator_changes_refresh_i
     let plain = cache.get(
         &cell,
         /*width*/ 20,
-        CellPresentation { separated: false },
+        CellPresentation {
+            separated: false,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(cell.transcript_hyperlink_lines(20), 20),
     );
     let separated = cache.get(
         &cell,
         /*width*/ 20,
-        CellPresentation { separated: true },
+        CellPresentation {
+            separated: true,
+            expanded: false,
+            disclosure: false,
+        },
         || TextLayout::new(cell.transcript_hyperlink_lines(20), 20),
     );
     assert_eq!(separated.row_count(), plain.row_count() + 1);

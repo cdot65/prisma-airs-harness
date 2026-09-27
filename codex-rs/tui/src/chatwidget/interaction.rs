@@ -5,10 +5,6 @@ use crate::bottom_pane::BottomPaneView;
 use crate::clipboard_copy::CopyFormat;
 
 impl ChatWidget {
-    pub(crate) fn shortcut_overlay_visible(&self) -> bool {
-        self.bottom_pane.shortcut_overlay_visible()
-    }
-
     pub(crate) fn set_agents_navigation_enabled(&mut self, enabled: bool) {
         self.bottom_pane.set_agents_navigation_enabled(enabled);
     }
@@ -273,6 +269,10 @@ impl ChatWidget {
     ) -> bool {
         self.bottom_pane
             .replace_selection_view_if_present(view_id, params)
+    }
+
+    pub(crate) fn shortcut_overlay_visible(&self) -> bool {
+        self.bottom_pane.shortcut_overlay_visible()
     }
 
     pub(crate) fn no_modal_or_popup_active(&self) -> bool {

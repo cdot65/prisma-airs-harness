@@ -3952,6 +3952,8 @@
             "global": {
               "clear_terminal": null,
               "copy": null,
+              "find_transcript": null,
+              "focus_activity": null,
               "open_agents": null,
               "open_external_editor": null,
               "open_transcript": null,
@@ -3978,6 +3980,7 @@
             "pager": {
               "close": null,
               "close_transcript": null,
+              "find": null,
               "half_page_down": null,
               "half_page_up": null,
               "jump_bottom": null,
@@ -4623,6 +4626,22 @@
           ],
           "description": "Copy the last agent response to the clipboard."
         },
+        "find_transcript": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeybindingsSpec"
+            }
+          ],
+          "description": "Find text in the full transcript."
+        },
+        "focus_activity": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeybindingsSpec"
+            }
+          ],
+          "description": "Focus activity groups in the owned transcript to inspect their details."
+        },
         "open_agents": {
           "allOf": [
             {
@@ -4809,6 +4828,8 @@
           "default": {
             "clear_terminal": null,
             "copy": null,
+            "find_transcript": null,
+            "focus_activity": null,
             "open_agents": null,
             "open_external_editor": null,
             "open_transcript": null,
@@ -4849,6 +4870,7 @@
           "default": {
             "close": null,
             "close_transcript": null,
+            "find": null,
             "half_page_down": null,
             "half_page_up": null,
             "jump_bottom": null,
@@ -5073,6 +5095,14 @@
             }
           ],
           "description": "Close the transcript overlay via its dedicated toggle key."
+        },
+        "find": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeybindingsSpec"
+            }
+          ],
+          "description": "Find text in a transcript pager."
         },
         "half_page_down": {
           "allOf": [

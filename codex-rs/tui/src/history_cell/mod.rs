@@ -230,10 +230,8 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
         self.transcript_hyperlink_lines(width)
     }
 
-    /// Whether differing activity presentations can contain genuinely hidden details.
-    /// The caller also compares compact and expanded content; overrides suppress differences
-    /// that only change headings, status decoration, or ordering of already-visible information.
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
+    /// Whether an activity offers details beyond its compact presentation.
+    /// Prefer source metadata so collapsed rendering does not materialize hidden content.
     fn has_hidden_activity_details(&self, _width: u16) -> bool {
         true
     }

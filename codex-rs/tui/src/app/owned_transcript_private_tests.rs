@@ -2,8 +2,23 @@
 use super::*;
 use pretty_assertions::assert_eq;
 
+#[derive(Clone, Copy)]
+enum SearchState {
+    Inactive,
+    Active,
+}
+
 #[tokio::test]
 async fn fullscreen_private_dialogs_do_not_copy_or_submit_credentials() -> Result<()> {
+    check_private_dialogs(SearchState::Inactive).await
+}
+
+#[tokio::test]
+async fn fullscreen_private_dialogs_keep_keys_and_callbacks_out_of_active_find() -> Result<()> {
+    check_private_dialogs(SearchState::Active).await
+}
+
+async fn check_private_dialogs(search: SearchState) -> Result<()> {
     let (mut app, mut events, mut operations) =
         crate::app::tests::make_test_app_with_channels().await;
     let mut server = Box::pin(crate::start_embedded_app_server_for_picker(&app.config)).await?;
@@ -13,6 +28,10 @@ async fn fullscreen_private_dialogs_do_not_copy_or_submit_credentials() -> Resul
     app.transcript_cells = vec![Arc::new(history_cell::PlainHistoryCell::new(vec![
         "public transcript content".into(),
     ]))];
+    if matches!(search, SearchState::Active) {
+        app.transcript_view.begin_search();
+        app.transcript_view.paste_search("public transcript");
+    }
     for mcp in [false, true] {
         let (sender, mut receiver) = tokio::sync::oneshot::channel();
         let private = if mcp {
@@ -39,7 +58,15 @@ async fn fullscreen_private_dialogs_do_not_copy_or_submit_credentials() -> Resul
             TuiEvent::Key(KeyEvent::new(KeyCode::Char(' '), KeyModifiers::CONTROL)),
         )
         .await?;
-        assert!(!app.transcript_view.has_active_interaction());
+        assert_eq!(
+            app.transcript_view.has_active_interaction(),
+            matches!(search, SearchState::Active)
+        );
+        assert!(
+            app.transcript_view
+                .selected_text(&app.transcript_cells)
+                .is_none()
+        );
         assert!(matches!(
             receiver.try_recv(),
             Err(tokio::sync::oneshot::error::TryRecvError::Empty)
@@ -64,6 +91,20 @@ async fn fullscreen_private_dialogs_do_not_copy_or_submit_credentials() -> Resul
         )
         .await?;
         assert_eq!(receiver.await?, private);
+        if matches!(search, SearchState::Active) {
+            assert!(app.transcript_view.is_search_active());
+            let footer = app
+                .transcript_view
+                .footer_with_navigation(
+                    /*width*/ 100,
+                    crate::motion::MotionMode::Reduced,
+                    "esc latest",
+                )
+                .expect("Find footer");
+            let text = footer.text.to_string();
+            assert!(text.contains("public transcript"));
+            assert!(!text.contains(private));
+        }
         assert_eq!(
             app.chat_widget.composer_text_with_pending(),
             "preserve this unsent draft"

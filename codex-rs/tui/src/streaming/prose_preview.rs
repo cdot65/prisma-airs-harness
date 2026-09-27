@@ -60,10 +60,22 @@ impl ProsePreview {
                 render_mode,
                 inline_visualization_context,
             ),
-            PreviewMode::Math => textwrap::wrap(&source[start..], width.unwrap_or(usize::MAX))
-                .into_iter()
-                .map(|line| HyperlinkLine::new(Line::from(line.into_owned())))
-                .collect(),
+            PreviewMode::Math => {
+                let width = width.unwrap_or(usize::MAX);
+                // Each hard line owns its source; soft wraps share it, retaining TeX whitespace.
+                source[start..]
+                    .split('\n')
+                    .flat_map(|text| {
+                        let line = HyperlinkLine::from(text.to_owned());
+                        let wrapped = crate::wrapping::word_wrap_line_with_source(
+                            &line.line,
+                            crate::wrapping::RtOptions::new(width)
+                                .wrap_algorithm(textwrap::Options::new(width).wrap_algorithm),
+                        );
+                        crate::terminal_hyperlinks::remap_source_wrapped_line(&line, wrapped)
+                    })
+                    .collect()
+            }
         };
         if start > 0 {
             lines.insert(0, HyperlinkLine::new(Line::from("…")));

@@ -5,9 +5,9 @@ use super::*;
 use crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines;
 use crate::terminal_hyperlinks::annotate_web_urls;
 use crate::terminal_hyperlinks::lines_with_sources_eq;
-use crate::terminal_hyperlinks::remap_wrapped_line;
+use crate::terminal_hyperlinks::remap_source_wrapped_line;
 use crate::wrapping::url_preserving_wrap_options;
-use crate::wrapping::word_wrap_line;
+use crate::wrapping::word_wrap_line_with_source;
 use std::borrow::Cow;
 
 #[derive(Debug)]
@@ -218,15 +218,12 @@ impl HistoryCell for UserHistoryCell {
 
                         // Terminal autowrap loses the message gutter and background. Explicitly split
                         // oversized URL tokens while retaining their complete OSC-8 destination.
-                        let forced_lines = word_wrap_line(
+                        let forced_lines = word_wrap_line_with_source(
                             &line.line,
                             url_preserving_wrap_options(RtOptions::new(usize::from(wrap_width)))
                                 .break_words(/*break_words*/ true),
-                        )
-                        .iter()
-                        .map(line_to_static)
-                        .collect();
-                        remap_wrapped_line(&line, forced_lines)
+                        );
+                        remap_source_wrapped_line(&line, forced_lines)
                     })
                     .collect::<Vec<_>>();
             while wrapped.last().is_some_and(|line| {
@@ -266,6 +263,9 @@ impl HistoryCell for UserHistoryCell {
         }
 
         lines.push(HyperlinkLine::new(Line::from("").style(style)));
+        for source in lines.iter_mut().filter_map(|line| line.source.as_mut()) {
+            source.right_reserve = 1;
+        }
         lines
     }
 
@@ -493,6 +493,10 @@ fn normalize_whitespace_only_hyperlink_lines(mut lines: Vec<HyperlinkLine>) -> V
         {
             line.line = Line::default().style(line.line.style);
             line.hyperlinks.clear();
+            if let Some(source) = &mut line.source {
+                source.prefix_bytes = 0;
+                source.range.end = source.range.start;
+            }
         }
     }
     lines

@@ -4,6 +4,39 @@ use assert_matches::assert_matches;
 use pretty_assertions::assert_eq;
 
 #[test]
+fn user_prompt_source_survives_url_wrapping_gutters_and_repeated_lines() {
+    let message = "  日本語  https://example.com/a/very/long/path\nrepeated  line\nrepeated  line";
+    let cell = UserHistoryCell {
+        message: message.to_owned(),
+        text_elements: Vec::new(),
+        local_image_paths: Vec::new(),
+        remote_image_urls: Vec::new(),
+    };
+    for width in [8, 24, 80] {
+        let lines = cell.display_hyperlink_lines(width);
+        let mut logical: Vec<std::sync::Arc<str>> = Vec::new();
+        for origin in lines.iter().filter_map(|line| line.source.as_ref()) {
+            assert_eq!(origin.right_reserve, 1);
+            if !logical
+                .last()
+                .is_some_and(|last| std::sync::Arc::ptr_eq(last, &origin.text))
+            {
+                logical.push(std::sync::Arc::clone(&origin.text));
+            }
+        }
+        assert_eq!(
+            logical
+                .iter()
+                .map(AsRef::as_ref)
+                .collect::<Vec<&str>>()
+                .join("\n"),
+            message,
+            "source excludes display gutters at width {width}"
+        );
+    }
+}
+
+#[test]
 fn sanitizer_borrows_clean_text_and_removes_control_sequences() {
     for (text, expected) in [
         ("clean\ttext\n", "clean\ttext\n"),

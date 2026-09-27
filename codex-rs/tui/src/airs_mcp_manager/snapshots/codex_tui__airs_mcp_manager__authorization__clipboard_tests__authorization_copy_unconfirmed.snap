@@ -1,0 +1,20 @@
+---
+source: tui/src/airs_mcp_manager/authorization_clipboard_tests.rs
+assertion_line: 28
+expression: rendered
+---
+Sign in to gateway MCP
+Waiting for browser approval
+
+Open the link on your laptop or phone. After SSO and consent, a localhost
+page may fail to load. Copy its entire address, paste it below, then press
+Enter. AIRS continues here.
+Callback received (hidden) · Enter to submit
+Copy requested but not confirmed. Select and copy the displayed link if
+needed.
+
+Authorization link · Ctrl+Y copies the full link
+https://auth.example/authorize
+
+Ctrl+O open here · Ctrl+Y copy · Ctrl+U clear · PgUp/PgDn scroll · Esc
+cancel

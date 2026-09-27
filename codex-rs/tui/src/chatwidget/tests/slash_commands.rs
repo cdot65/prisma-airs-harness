@@ -2116,7 +2116,7 @@ async fn slash_copy_picker_copies_status_fields_and_preserves_source_after_copyi
         );
         chat.copy_selection_with(value, label, |text| {
             assert_eq!(text, value);
-            Ok(None)
+            Ok(crate::clipboard_copy::CopyOutcome::Copied(None))
         });
         drain_insert_history(&mut rx);
         assert!(chat.bottom_pane.no_modal_or_popup_active());
@@ -2661,7 +2661,9 @@ async fn slash_copy_stores_clipboard_lease_and_preserves_it_on_failure() {
 
     chat.copy_last_agent_markdown_with(|markdown| {
         assert_eq!(markdown, "copy me");
-        Ok(Some(crate::clipboard_copy::ClipboardLease::test()))
+        Ok(crate::clipboard_copy::CopyOutcome::Copied(Some(
+            crate::clipboard_copy::ClipboardLease::test(),
+        )))
     });
 
     assert!(chat.clipboard_lease.is_some());
@@ -2689,7 +2691,9 @@ async fn slash_copy_stores_clipboard_lease_and_preserves_it_on_failure() {
 
     chat.copy_selection_with("print('ok')\n", "python code", |content| {
         assert_eq!(content, "print('ok')\n");
-        Ok(Some(crate::clipboard_copy::ClipboardLease::test()))
+        Ok(crate::clipboard_copy::CopyOutcome::Copied(Some(
+            crate::clipboard_copy::ClipboardLease::test(),
+        )))
     });
     assert!(chat.clipboard_lease.is_some());
     let rendered = lines_to_single_string(&drain_insert_history(&mut rx)[0]);

@@ -12,13 +12,15 @@ impl ChatWidget {
     pub(crate) fn copy_airs_report_with(
         &mut self,
         text: &str,
-        copy: impl FnOnce(&str) -> Result<Option<crate::clipboard_copy::ClipboardLease>, String>,
+        copy: impl FnOnce(&str) -> Result<crate::clipboard_copy::CopyOutcome, String>,
     ) -> &'static str {
         match copy(text) {
-            Ok(lease) => {
-                self.clipboard_lease = lease;
-                "Report sent to clipboard. If your terminal blocks clipboard access, preview or save a local copy."
-            }
+            Ok(outcome) => match outcome.store(&mut self.clipboard_lease) {
+                crate::clipboard_copy::CopyStatus::Confirmed => "Report copied to clipboard.",
+                crate::clipboard_copy::CopyStatus::Unconfirmed => {
+                    "Report copy requested but not confirmed. Preview or save a local copy if your terminal blocks clipboard access."
+                }
+            },
             Err(_) => "Clipboard unavailable. Preview the report or save a local copy.",
         }
     }

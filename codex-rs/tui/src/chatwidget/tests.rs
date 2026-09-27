@@ -303,3 +303,6 @@ mod airs_routing;
 
 #[path = "tests/subagent_activity_tests.rs"]
 mod subagent_activity_tests;
+
+#[path = "tests/clipboard_outcome_tests.rs"]
+mod clipboard_outcome_tests;

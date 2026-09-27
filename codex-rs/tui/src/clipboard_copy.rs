@@ -16,7 +16,12 @@
 //! is always `None`.
 //!
 //! Markdown copies also offer HTML on the native clipboard. Terminal and WSL
-//! fallbacks retain the original text. Image paste lives in `clipboard_paste`.
+//! fallbacks retain the original text. Terminal sends are unacknowledged requests,
+//! not confirmed delivery. Image paste lives in `clipboard_paste`.
+
+mod outcome;
+pub(crate) use outcome::CopyOutcome;
+pub(crate) use outcome::CopyStatus;
 
 use base64::Engine;
 use std::io::Write;
@@ -44,10 +49,7 @@ pub(crate) enum CopyFormat {
 /// copy, if needed.
 ///
 /// OSC 52 is supported by kitty, WezTerm, iTerm2, Ghostty, and others.
-pub(crate) fn copy_to_clipboard(
-    text: &str,
-    format: CopyFormat,
-) -> Result<Option<ClipboardLease>, String> {
+pub(crate) fn copy_to_clipboard(text: &str, format: CopyFormat) -> Result<CopyOutcome, String> {
     copy_to_clipboard_with(
         text,
         format,
@@ -110,7 +112,10 @@ fn copy_to_clipboard_with(
     osc52_copy_fn: impl Fn(&str) -> Result<(), String>,
     arboard_copy_fn: impl Fn(&str, Option<&str>) -> Result<Option<ClipboardLease>, String>,
     wsl_copy_fn: impl Fn(&str) -> Result<(), String>,
-) -> Result<Option<ClipboardLease>, String> {
+) -> Result<CopyOutcome, String> {
+    if text.is_empty() {
+        return Err("nothing to copy: the selected content is empty".to_string());
+    }
     if environment.ssh_session {
         // Over SSH the native clipboard writes to the remote machine which is
         // useless. Terminal-mediated copy reaches the local terminal emulator.
@@ -120,7 +125,7 @@ fn copy_to_clipboard_with(
             &tmux_copy_fn,
             &osc52_copy_fn,
         )
-        .map(|()| None)
+        .map(|()| CopyOutcome::Requested)
         .map_err(|terminal_err| {
             tracing::warn!("terminal clipboard copy failed over SSH: {terminal_err}");
             if environment.tmux_session {
@@ -136,14 +141,14 @@ fn copy_to_clipboard_with(
         CopyFormat::Markdown => Some(crate::clipboard_html::render_markdown(text)),
     };
     match arboard_copy_fn(text, html.as_deref()) {
-        Ok(lease) => Ok(lease),
+        Ok(lease) => Ok(CopyOutcome::Copied(lease)),
         Err(native_err) => {
             if environment.wsl_session {
                 tracing::warn!(
                     "native clipboard copy failed: {native_err}, falling back to WSL PowerShell"
                 );
                 match wsl_copy_fn(text) {
-                    Ok(()) => return Ok(None),
+                    Ok(()) => return Ok(CopyOutcome::Copied(None)),
                     Err(wsl_err) => {
                         tracing::warn!(
                             "WSL PowerShell clipboard copy failed: {wsl_err}, falling back to terminal clipboard"
@@ -154,7 +159,7 @@ fn copy_to_clipboard_with(
                             &tmux_copy_fn,
                             &osc52_copy_fn,
                         )
-                        .map(|()| None)
+                        .map(|()| CopyOutcome::Requested)
                         .map_err(|terminal_err| {
                             if environment.tmux_session {
                                 format!(
@@ -178,7 +183,7 @@ fn copy_to_clipboard_with(
                 &tmux_copy_fn,
                 &osc52_copy_fn,
             )
-            .map(|()| None)
+            .map(|()| CopyOutcome::Requested)
             .map_err(|terminal_err| {
                 if environment.tmux_session {
                     format!("native clipboard: {native_err}; terminal fallback: {terminal_err}")
@@ -519,6 +524,7 @@ mod tests {
 
     use super::CopyEnvironment;
     use super::CopyFormat;
+    use super::CopyOutcome;
     use super::OSC52_MAX_RAW_BYTES;
     use super::copy_to_clipboard_with;
     use super::osc52_sequence;
@@ -633,7 +639,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(tmux_calls.get(), 0);
         assert_eq!(osc_calls.get(), 1);
         assert_eq!(native_calls.get(), 0);
@@ -706,7 +712,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(tmux_calls.get(), 1);
         assert_eq!(osc_calls.get(), 0);
         assert_eq!(native_calls.get(), 0);
@@ -741,7 +747,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(tmux_calls.get(), 1);
         assert_eq!(osc_calls.get(), 1);
         assert_eq!(native_calls.get(), 0);
@@ -829,7 +835,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(Some(_))));
+        assert!(matches!(result, Ok(CopyOutcome::Copied(Some(_)))));
         assert_eq!(osc_calls.get(), 0);
         assert_eq!(native_calls.get(), 1);
         assert_eq!(wsl_calls.get(), 0);
@@ -856,7 +862,7 @@ mod tests {
                 },
                 |_| panic!("native copy should succeed"),
             );
-            assert!(matches!(result, Ok(None)));
+            assert!(matches!(result, Ok(CopyOutcome::Copied(None))));
         }
     }
 
@@ -885,7 +891,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(osc_calls.get(), 1);
         assert_eq!(native_calls.get(), 1);
         assert_eq!(wsl_calls.get(), 0);
@@ -919,7 +925,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(tmux_calls.get(), 1);
         assert_eq!(osc_calls.get(), 0);
         assert_eq!(native_calls.get(), 1);
@@ -950,7 +956,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Copied(None))));
         assert_eq!(osc_calls.get(), 0);
         assert_eq!(native_calls.get(), 1);
         assert_eq!(wsl_calls.get(), 1);
@@ -980,7 +986,7 @@ mod tests {
             },
         );
 
-        assert!(matches!(result, Ok(None)));
+        assert!(matches!(result, Ok(CopyOutcome::Requested)));
         assert_eq!(osc_calls.get(), 1);
         assert_eq!(native_calls.get(), 1);
         assert_eq!(wsl_calls.get(), 1);
@@ -1058,3 +1064,7 @@ mod tests {
         assert_eq!(wsl_calls.get(), 1);
     }
 }
+
+#[cfg(test)]
+#[path = "clipboard_copy/outcome_tests.rs"]
+mod outcome_tests;

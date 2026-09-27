@@ -9,12 +9,9 @@ impl ChatWidget {
             markdown,
             crate::clipboard_copy::CopyFormat::PlainText,
         ) {
-            Ok(lease) => {
-                self.clipboard_lease = lease;
-                self.add_info_message(
-                    "Copied conversation to clipboard".to_string(),
-                    /*hint*/ None,
-                );
+            Ok(outcome) => {
+                let status = outcome.store(&mut self.clipboard_lease);
+                self.add_info_message(status.message("conversation"), /*hint*/ None);
             }
             Err(error) => self.add_error_message(format!("Copy failed: {error}")),
         }

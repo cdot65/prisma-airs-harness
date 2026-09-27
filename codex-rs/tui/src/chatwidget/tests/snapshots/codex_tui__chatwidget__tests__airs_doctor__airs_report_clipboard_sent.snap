@@ -1,13 +1,13 @@
 ---
 source: tui/src/chatwidget/tests/airs_doctor.rs
+assertion_line: 134
 expression: "render_doctor(&chat, 88)"
 ---
 
 
   Diagnostic report
   Version, platform, authentication method and check results. Names, addresses, paths
-  and raw details are omitted. Nothing is uploaded. Report sent to clipboard. If your
-  terminal blocks clipboard access, preview or save a local copy.
+  and raw details are omitted. Nothing is uploaded. Report copied to clipboard.
 
 › 1. Preview report     Read the exact report; Esc returns here.
   2. Copy report        Send plain text to your clipboard; terminal support may be

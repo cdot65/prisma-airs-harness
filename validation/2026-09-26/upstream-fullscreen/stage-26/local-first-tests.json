@@ -1,0 +1,31 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(clipboard) | test(copy) | test(airs_doctor) | test(authorization)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 100,
+  "elapsed_seconds": 121.72831606864929,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "131",
+    "skipped": "0",
+    "failures": "3",
+    "errors": "0",
+    "uuid": "47f52655-055e-4516-a484-1b16376ae027",
+    "timestamp": "2026-09-27T05:22:29.118+00:00",
+    "time": "0.740"
+  }
+}

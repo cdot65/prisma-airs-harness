@@ -95,6 +95,22 @@ impl AuthorizationView {
     }
 }
 
+impl AuthorizationView {
+    fn copy_authorization_link_with(
+        &mut self,
+        copy: impl FnOnce(&str) -> Result<crate::clipboard_copy::CopyOutcome, String>,
+    ) {
+        self.notice = match copy(&self.url) {
+            Ok(outcome) => match outcome.store(&mut self.clipboard) {
+                crate::clipboard_copy::CopyStatus::Confirmed => "Authorization link copied.",
+                crate::clipboard_copy::CopyStatus::Unconfirmed =>
+                    "Copy requested but not confirmed. Select and copy the displayed link if needed.",
+            },
+            Err(_) => "Clipboard unavailable. Select and copy the displayed link.",
+        }.into();
+    }
+}
+
 impl BottomPaneView for AuthorizationView {
     fn handle_key_event(&mut self, key: KeyEvent) {
         if key.kind == KeyEventKind::Release {
@@ -113,16 +129,9 @@ impl BottomPaneView for AuthorizationView {
             KeyCode::PageDown => self.scroll.set(self.scroll.get().saturating_add(6)),
             KeyCode::PageUp => self.scroll.set(self.scroll.get().saturating_sub(6)),
             KeyCode::Char('y') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-                match crate::clipboard_copy::copy_to_clipboard(&self.url, CopyFormat::PlainText) {
-                    Ok(lease) => {
-                        self.clipboard = lease;
-                        self.notice = "Authorization link copied.".into();
-                    }
-                    Err(_) => {
-                        self.notice =
-                            "Clipboard unavailable. Select and copy the displayed link.".into()
-                    }
-                }
+                self.copy_authorization_link_with(|url| {
+                    crate::clipboard_copy::copy_to_clipboard(url, CopyFormat::PlainText)
+                });
             }
             KeyCode::Enter if !self.input.trim().is_empty() => {
                 if let Some(sender) = self.sender.take() {
@@ -260,3 +269,7 @@ impl Renderable for AuthorizationView {
 #[cfg(test)]
 #[path = "authorization_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "authorization_clipboard_tests.rs"]
+mod clipboard_tests;

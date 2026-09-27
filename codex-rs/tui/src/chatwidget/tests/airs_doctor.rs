@@ -123,7 +123,9 @@ async fn report_copy_failure_keeps_lease_draft_and_local_fallback() {
     let text = crate::airs_doctor::report::render(None);
     let status = chat.copy_airs_report_with(&text, |copied| {
         assert_eq!(copied, text.as_ref());
-        Ok(Some(crate::clipboard_copy::ClipboardLease::test()))
+        Ok(crate::clipboard_copy::CopyOutcome::Copied(Some(
+            crate::clipboard_copy::ClipboardLease::test(),
+        )))
     });
     assert!(chat.clipboard_lease.is_some());
     chat.show_airs_doctor(views::report_actions(

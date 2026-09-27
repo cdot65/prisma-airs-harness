@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="222" skipped="0" failures="1" errors="0" uuid="a50a2173-4503-478d-a18a-a30cd4d4604d" timestamp="2026-09-27T02:04:36.999+00:00" time="3.418">
+    <testsuite name="codex-tui" tests="222" skipped="0" errors="0" failures="1">
+        <testcase name="chatwidget::tests::exec_flow::app_server_exec_approval_request_splits_shell_wrapped_command" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.023"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_full_flow_integration_like" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_approval_sends_op_with_call_id" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.042"/>
+        <testcase name="app::tests::buffered_replay::buffered_replay_renders_completed_text_without_streaming_again" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.044"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_events_emit_history_cells" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.066"/>
+        <testcase name="chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed" classname="codex-tui" timestamp="2026-09-27T02:04:37.129+00:00" time="0.077">
+            <failure message="thread &apos;chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed&apos; (2513807) panicked at tui/src/chatwidget/tests/exec_flow.rs:281:9" type="test failure with exit code 101">thread &apos;chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed&apos; (2513807) panicked at tui/src/chatwidget/tests/exec_flow.rs:281:9:
+assertion failed: `(left == right)`
+
+Diff &lt; left / right &gt; :
+&lt;6
+&gt;5
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed ... FAILED
+
+failures:
+
+failures:
+    chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4488 filtered out; finished in 0.05s
+
+</system-out>
+            <system-err>
+thread &apos;chatwidget::tests::exec_flow::adjacent_exploration_groups_across_reasoning_live_and_replayed&apos; (2513807) panicked at tui/src/chatwidget/tests/exec_flow.rs:281:9:
+assertion failed: `(left == right)`
+
+Diff &lt; left / right &gt; :
+&lt;6
+&gt;5
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_untrusted_shows_approval_modal" classname="codex-tui" timestamp="2026-09-27T02:04:37.174+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_request_omits_diff_summary_from_modal" classname="codex-tui" timestamp="2026-09-27T02:04:37.172+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_manual_approval_adjusts_header" classname="codex-tui" timestamp="2026-09-27T02:04:37.153+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::exec_flow::apply_patch_manual_flow_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.171+00:00" time="0.072"/>
+        <testcase name="chatwidget::tests::exec_flow::approval_modal_patch_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.213+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::exec_flow::bang_shell_enter_while_task_running_submits_run_user_shell_command" classname="codex-tui" timestamp="2026-09-27T02:04:37.227+00:00" time="0.033"/>
+        <testcase name="chatwidget::tests::exec_flow::approval_modal_exec_multiline_prefix_hides_execpolicy_option_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.195+00:00" time="0.076"/>
+        <testcase name="chatwidget::tests::exec_flow::disabled_slash_command_while_task_running_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.244+00:00" time="0.032"/>
+        <testcase name="chatwidget::tests::exec_flow::approval_modal_exec_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.206+00:00" time="0.079"/>
+        <testcase name="chatwidget::tests::exec_flow::approval_modal_exec_without_reason_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.212+00:00" time="0.077"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_approval_decision_truncates_multiline_and_long_commands" classname="codex-tui" timestamp="2026-09-27T02:04:37.251+00:00" time="0.076"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_approval_emits_proposed_command_and_decision_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.260+00:00" time="0.078"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_approval_uses_approval_id_when_present" classname="codex-tui" timestamp="2026-09-27T02:04:37.271+00:00" time="0.077"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_end_without_begin_does_not_flush_unrelated_running_exploring_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.276+00:00" time="0.071"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_end_without_begin_uses_event_command" classname="codex-tui" timestamp="2026-09-27T02:04:37.289+00:00" time="0.068"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_end_without_begin_flushes_completed_unrelated_exploring_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.286+00:00" time="0.071"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_history_extends_previous_when_consecutive" classname="codex-tui" timestamp="2026-09-27T02:04:37.347+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_history_shows_unified_exec_tool_calls" classname="codex-tui" timestamp="2026-09-27T02:04:37.357+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::exec_flow::exploration_nonzero_exits_remain_visible_beside_successful_reads" classname="codex-tui" timestamp="2026-09-27T02:04:37.357+00:00" time="0.042"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_history_cell_shows_working_then_completed" classname="codex-tui" timestamp="2026-09-27T02:04:37.327+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_history_cell_shows_working_then_failed" classname="codex-tui" timestamp="2026-09-27T02:04:37.338+00:00" time="0.071"/>
+        <testcase name="chatwidget::tests::exec_flow::exec_history_shows_unified_exec_startup_commands" classname="codex-tui" timestamp="2026-09-27T02:04:37.348+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::exec_flow::image_generation_begin_restores_working_status_after_single_line_preamble" classname="codex-tui" timestamp="2026-09-27T02:04:37.401+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::image_generation_call_adds_history_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.409+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::exec_flow::interrupt_preserves_unified_exec_processes" classname="codex-tui" timestamp="2026-09-27T02:04:37.422+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::external_writer_snapshot_freezes_active_command_and_mcp_rows" classname="codex-tui" timestamp="2026-09-27T02:04:37.388+00:00" time="0.073"/>
+        <testcase name="chatwidget::tests::exec_flow::interrupt_preserves_unified_exec_wait_streak_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.437+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::failed_exploration_keeps_overlapping_commands_active_until_all_finish" classname="codex-tui" timestamp="2026-09-27T02:04:37.399+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::exec_flow::overlapping_exploring_exec_end_is_not_misclassified_as_orphan" classname="codex-tui" timestamp="2026-09-27T02:04:37.443+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::final_worked_for_uses_cumulative_turn_duration_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.399+00:00" time="0.082"/>
+        <testcase name="chatwidget::tests::exec_flow::preamble_keeps_working_status_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.456+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_begin_restores_status_indicator_after_preamble" classname="codex-tui" timestamp="2026-09-27T02:04:37.481+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::exec_flow::turn_complete_keeps_unified_exec_processes" classname="codex-tui" timestamp="2026-09-27T02:04:37.478+00:00" time="0.045"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_begin_restores_working_status_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.492+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::replayed_command_completion_preserves_tracking_without_duplicate_starts" classname="codex-tui" timestamp="2026-09-27T02:04:37.461+00:00" time="0.072"/>
+        <testcase name="chatwidget::tests::exec_flow::replayed_commands_preserve_individual_output_and_failure_status" classname="codex-tui" timestamp="2026-09-27T02:04:37.473+00:00" time="0.074"/>
+        <testcase name="chatwidget::tests::exec_flow::replayed_completion_preserves_unrelated_running_command" classname="codex-tui" timestamp="2026-09-27T02:04:37.473+00:00" time="0.078"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_empty_poll_for_finished_process_does_not_show_waiting_status" classname="codex-tui" timestamp="2026-09-27T02:04:37.521+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_empty_then_non_empty_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.523+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_end_after_task_complete_is_suppressed" classname="codex-tui" timestamp="2026-09-27T02:04:37.527+00:00" time="0.032"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_interaction_after_task_complete_is_suppressed" classname="codex-tui" timestamp="2026-09-27T02:04:37.534+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_non_empty_then_empty_snapshots" classname="codex-tui" timestamp="2026-09-27T02:04:37.547+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_wait_after_final_agent_message_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.556+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_wait_before_streamed_agent_message_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.557+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_wait_status_header_updates_on_late_command_display" classname="codex-tui" timestamp="2026-09-27T02:04:37.560+00:00" time="0.033"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_wait_status_renders_command_in_single_details_row_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.570+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_unknown_end_with_active_exploring_cell_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.551+00:00" time="0.069"/>
+        <testcase name="chatwidget::tests::exec_flow::unified_exec_waiting_multiple_empty_snapshots" classname="codex-tui" timestamp="2026-09-27T02:04:37.585+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::exec_flow::user_message_during_user_shell_command_is_queued_not_steered" classname="codex-tui" timestamp="2026-09-27T02:04:37.592+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::view_image_tool_call_adds_history_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.594+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::exec_flow::view_image_tool_call_preserves_foreign_path" classname="codex-tui" timestamp="2026-09-27T02:04:37.605+00:00" time="0.033"/>
+        <testcase name="chatwidget::tests::history_replay::app_server_forked_thread_history_line_uses_app_server_title_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.620+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::app_server_forked_thread_history_line_without_app_server_name_ignores_local_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.622+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::exec_flow::user_shell_command_renders_output_not_exploring" classname="codex-tui" timestamp="2026-09-27T02:04:37.594+00:00" time="0.068"/>
+        <testcase name="chatwidget::tests::history_replay::deferred_mcp_lifecycle_events_keep_fifo_after_stream_finishes" classname="codex-tui" timestamp="2026-09-27T02:04:37.627+00:00" time="0.038"/>
+        <testcase name="chatwidget::tests::history_replay::failed_repl_mcp_tool_call_preserves_status_and_result" classname="codex-tui" timestamp="2026-09-27T02:04:37.630+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::history_replay::forked_thread_history_line_includes_name_and_id_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.638+00:00" time="0.033"/>
+        <testcase name="chatwidget::tests::history_replay::forked_thread_history_line_without_name_shows_id_once_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.655+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::live_reasoning_summary_drops_empty_parts_without_losing_content" classname="codex-tui" timestamp="2026-09-27T02:04:37.657+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::live_reasoning_summary_is_not_rendered_twice_when_item_completes" classname="codex-tui" timestamp="2026-09-27T02:04:37.662+00:00" time="0.033"/>
+        <testcase name="chatwidget::tests::history_replay::prompt_edit_thread_history_line_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.665+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_delegated_tool_output_is_attributed_without_seeding_composer_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.670+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_failed_turns_preserve_overload_warnings_between_retries" classname="codex-tui" timestamp="2026-09-27T02:04:37.671+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_in_progress_mcp_tool_call_stays_active" classname="codex-tui" timestamp="2026-09-27T02:04:37.689+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_in_progress_turn_marks_task_running" classname="codex-tui" timestamp="2026-09-27T02:04:37.692+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_nested_review_prompts_do_not_render_or_seed_composer_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.695+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_reasoning_item_preserves_summary_parts_and_hides_raw_reasoning_when_disabled" classname="codex-tui" timestamp="2026-09-27T02:04:37.700+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_retryable_app_server_error_keeps_turn_running" classname="codex-tui" timestamp="2026-09-27T02:04:37.706+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_reasoning_item_shows_raw_reasoning_when_enabled" classname="codex-tui" timestamp="2026-09-27T02:04:37.706+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_review_prompt_does_not_seed_composer_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.725+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_stream_error_does_not_set_retry_status_or_status_indicator" classname="codex-tui" timestamp="2026-09-27T02:04:37.726+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_thread_closed_notification_does_not_exit_tui" classname="codex-tui" timestamp="2026-09-27T02:04:37.730+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_message_preserves_remote_image_urls" classname="codex-tui" timestamp="2026-09-27T02:04:37.735+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_message_with_only_local_images_renders_history_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.741+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_message_preserves_text_elements_and_local_images" classname="codex-tui" timestamp="2026-09-27T02:04:37.741+00:00" time="0.039"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_messages_seed_composer_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.761+00:00" time="0.036"/>
+        <testcase name="chatwidget::tests::history_replay::restored_conversation_ultra_remains_selected_after_switching_to_plan" classname="codex-tui" timestamp="2026-09-27T02:04:37.764+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::replayed_user_message_with_only_remote_images_renders_history_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.759+00:00" time="0.040"/>
+        <testcase name="chatwidget::tests::history_replay::resumed_initial_messages_render_history" classname="codex-tui" timestamp="2026-09-27T02:04:37.770+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::session_configured_external_sandbox_keeps_external_runtime_policy" classname="codex-tui" timestamp="2026-09-27T02:04:37.778+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::session_configured_preserves_profile_workspace_roots" classname="codex-tui" timestamp="2026-09-27T02:04:37.779+00:00" time="0.037"/>
+        <testcase name="chatwidget::tests::history_replay::session_configured_syncs_widget_config_permissions_and_cwd" classname="codex-tui" timestamp="2026-09-27T02:04:37.797+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::stream_recovery_restores_previous_status_header" classname="codex-tui" timestamp="2026-09-27T02:04:37.798+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::history_replay::thread_snapshot_replay_preserves_agent_message_during_review_mode" classname="codex-tui" timestamp="2026-09-27T02:04:37.799+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::thread_snapshot_replayed_stream_recovery_restores_previous_status_header" classname="codex-tui" timestamp="2026-09-27T02:04:37.805+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::history_replay::thread_snapshot_replayed_turn_started_marks_task_running" classname="codex-tui" timestamp="2026-09-27T02:04:37.813+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::mcp_startup::mcp_startup_updates_preserve_streaming_status_suppression" classname="codex-tui" timestamp="2026-09-27T02:04:37.817+00:00" time="0.034"/>
+        <testcase name="chatwidget::tests::plan_mode::plan_completion_restores_status_indicator_after_streaming_plan_output" classname="codex-tui" timestamp="2026-09-27T02:04:37.832+00:00" time="0.035"/>
+        <testcase name="chatwidget::tests::review_mode::steer_enter_uses_pending_steers_while_turn_is_running_without_streaming" classname="codex-tui" timestamp="2026-09-27T02:04:37.833+00:00" time="0.036"/>
+        <testcase name="exec_cell::live_output::tests::keeps_all_short_lines_and_chunk_boundaries_within_the_live_byte_budget" classname="codex-tui" timestamp="2026-09-27T02:04:37.851+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::status_and_layout::streaming_final_answer_keeps_task_running_state" classname="codex-tui" timestamp="2026-09-27T02:04:37.839+00:00" time="0.033"/>
+        <testcase name="exec_cell::live_output::tests::bounds_long_no_newline_output_and_preserves_utf8_head_and_tail" classname="codex-tui" timestamp="2026-09-27T02:04:37.848+00:00" time="0.028"/>
+        <testcase name="exec_cell::live_output::tests::truncated_ansi_sequence_does_not_hide_the_retained_tail" classname="codex-tui" timestamp="2026-09-27T02:04:37.871+00:00" time="0.021"/>
+        <testcase name="exec_cell::live_output::tests::retained_output_stays_within_the_live_byte_budget" classname="codex-tui" timestamp="2026-09-27T02:04:37.867+00:00" time="0.035"/>
+        <testcase name="exec_cell::render::tests::command_truncation_ellipsis_does_not_include_transcript_hint" classname="codex-tui" timestamp="2026-09-27T02:04:37.893+00:00" time="0.019"/>
+        <testcase name="exec_cell::live_output::tests::switches_to_bounded_storage_after_the_byte_budget_and_preserves_split_crlf" classname="codex-tui" timestamp="2026-09-27T02:04:37.869+00:00" time="0.043"/>
+        <testcase name="chatwidget::tests::status_and_layout::running_hook_does_not_displace_active_exec_cell" classname="codex-tui" timestamp="2026-09-27T02:04:37.833+00:00" time="0.083"/>
+        <testcase name="exec_cell::render::tests::active_command_without_animations_is_stable" classname="codex-tui" timestamp="2026-09-27T02:04:37.872+00:00" time="0.058"/>
+        <testcase name="exec_cell::render::tests::exploring_display_does_not_split_long_url_like_search_query" classname="codex-tui" timestamp="2026-09-27T02:04:37.912+00:00" time="0.023"/>
+        <testcase name="exec_cell::render::tests::output_lines_ellipsis_includes_transcript_hint" classname="codex-tui" timestamp="2026-09-27T02:04:37.916+00:00" time="0.019"/>
+        <testcase name="exec_cell::render::tests::command_display_does_not_split_long_url_token" classname="codex-tui" timestamp="2026-09-27T02:04:37.876+00:00" time="0.060"/>
+        <testcase name="exec_cell::render::tests::output_lines_handles_newline_dense_output_without_materializing_every_line" classname="codex-tui" timestamp="2026-09-27T02:04:37.930+00:00" time="0.023"/>
+        <testcase name="exec_cell::render::tests::truncate_lines_middle_does_not_truncate_blank_prefixed_output_lines" classname="codex-tui" timestamp="2026-09-27T02:04:37.936+00:00" time="0.019"/>
+        <testcase name="exec_cell::render::tests::streamed_output_renders_head_tail_previews" classname="codex-tui" timestamp="2026-09-27T02:04:37.936+00:00" time="0.022"/>
+        <testcase name="exec_cell::render::tests::powershell_skill_read_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.935+00:00" time="0.024"/>
+        <testcase name="exec_cell::render::tests::desired_transcript_height_accounts_for_wrapped_url_like_rows" classname="codex-tui" timestamp="2026-09-27T02:04:37.902+00:00" time="0.064"/>
+        <testcase name="exec_cell::render::tests::truncate_lines_middle_keeps_omitted_count_in_line_units" classname="codex-tui" timestamp="2026-09-27T02:04:37.953+00:00" time="0.019"/>
+        <testcase name="exec_cell::render::tests::output_display_does_not_split_long_url_like_token_without_scheme" classname="codex-tui" timestamp="2026-09-27T02:04:37.912+00:00" time="0.065"/>
+        <testcase name="history_cell::tests::streaming_agent_tail_blank_line_uses_one_viewport_row" classname="codex-tui" timestamp="2026-09-27T02:04:37.959+00:00" time="0.019"/>
+        <testcase name="inline_visualization::tests::hides_incomplete_streaming_content_reference" classname="codex-tui" timestamp="2026-09-27T02:04:37.966+00:00" time="0.020"/>
+        <testcase name="inline_visualization::tests::hides_incomplete_streaming_directive" classname="codex-tui" timestamp="2026-09-27T02:04:37.972+00:00" time="0.020"/>
+        <testcase name="inline_visualization::tests::streaming_hides_partial_directive_and_renders_completed_link" classname="codex-tui" timestamp="2026-09-27T02:04:37.977+00:00" time="0.023"/>
+        <testcase name="markdown_stream::tests::loose_vs_tight_list_items_streaming_matches_full" classname="codex-tui" timestamp="2026-09-27T02:04:37.986+00:00" time="0.022"/>
+        <testcase name="markdown_stream::tests::streaming_html_block_then_text_matches_full" classname="codex-tui" timestamp="2026-09-27T02:04:37.992+00:00" time="0.019"/>
+        <testcase name="exec_cell::render::tests::truncated_live_output_preview_and_transcript_snapshot" classname="codex-tui" timestamp="2026-09-27T02:04:37.954+00:00" time="0.069"/>
+        <testcase name="exec_cell::render::tests::user_shell_output_is_limited_by_screen_lines" classname="codex-tui" timestamp="2026-09-27T02:04:37.957+00:00" time="0.066"/>
+        <testcase name="streaming::chunking::tests::catch_up_batch_drains_current_backlog" classname="codex-tui" timestamp="2026-09-27T02:04:38.024+00:00" time="0.022"/>
+        <testcase name="render::highlight::streaming::tests::appended_lines_preserve_multiline_syntax_state" classname="codex-tui" timestamp="2026-09-27T02:04:38.001+00:00" time="0.058"/>
+        <testcase name="render::highlight::streaming::tests::empty_and_unknown_language_fences_append" classname="codex-tui" timestamp="2026-09-27T02:04:38.012+00:00" time="0.057"/>
+        <testcase name="streaming::chunking::tests::drops_back_to_smooth_when_idle" classname="codex-tui" timestamp="2026-09-27T02:04:38.046+00:00" time="0.023"/>
+        <testcase name="streaming::chunking::tests::enters_catch_up_on_age_threshold" classname="codex-tui" timestamp="2026-09-27T02:04:38.059+00:00" time="0.019"/>
+        <testcase name="render::highlight::streaming::tests::incomplete_lines_and_theme_changes_discard_state" classname="codex-tui" timestamp="2026-09-27T02:04:38.024+00:00" time="0.058"/>
+        <testcase name="streaming::chunking::tests::exits_catch_up_after_hysteresis_hold" classname="codex-tui" timestamp="2026-09-27T02:04:38.069+00:00" time="0.019"/>
+        <testcase name="streaming::chunking::tests::enters_catch_up_on_depth_threshold" classname="codex-tui" timestamp="2026-09-27T02:04:38.069+00:00" time="0.021"/>
+        <testcase name="markdown_render::web_links::tests::streaming_and_full_render_agree_with_label_only_links" classname="codex-tui" timestamp="2026-09-27T02:04:37.978+00:00" time="0.116"/>
+        <testcase name="streaming::chunking::tests::holds_reentry_after_catch_up_exit" classname="codex-tui" timestamp="2026-09-27T02:04:38.078+00:00" time="0.018"/>
+        <testcase name="streaming::chunking::tests::severe_backlog_can_reenter_during_hold" classname="codex-tui" timestamp="2026-09-27T02:04:38.082+00:00" time="0.020"/>
+        <testcase name="streaming::chunking::tests::severe_backlog_uses_faster_paced_batches" classname="codex-tui" timestamp="2026-09-27T02:04:38.089+00:00" time="0.018"/>
+        <testcase name="streaming::chunking::tests::smooth_mode_is_default" classname="codex-tui" timestamp="2026-09-27T02:04:38.090+00:00" time="0.018"/>
+        <testcase name="streaming::code_fence::tests::detects_only_source_preserving_open_fences" classname="codex-tui" timestamp="2026-09-27T02:04:38.094+00:00" time="0.018"/>
+        <testcase name="streaming::code_fence::tests::every_possible_closer_returns_to_the_canonical_parser" classname="codex-tui" timestamp="2026-09-27T02:04:38.096+00:00" time="0.020"/>
+        <testcase name="streaming::code_fence::tests::lazy_initialization_rejects_a_changed_theme" classname="codex-tui" timestamp="2026-09-27T02:04:38.102+00:00" time="0.019"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_raw_preview_preserves_line_on_newline" classname="codex-tui" timestamp="2026-09-27T02:04:38.109+00:00" time="0.022"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_aligned_stream_matches_complete_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.107+00:00" time="0.029"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_stream_holds_display_until_closed_and_preserves_source" classname="codex-tui" timestamp="2026-09-27T02:04:38.117+00:00" time="0.024"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_unfinished_display_is_visible_and_reflows" classname="codex-tui" timestamp="2026-09-27T02:04:38.122+00:00" time="0.028"/>
+        <testcase name="streaming::controller::preview_tests::partial_markdown_structures_remain_newline_gated" classname="codex-tui" timestamp="2026-09-27T02:04:38.136+00:00" time="0.027"/>
+        <testcase name="streaming::controller::preview_tests::long_unicode_preview_keeps_recent_text_and_finalizes_full_source" classname="codex-tui" timestamp="2026-09-27T02:04:38.130+00:00" time="0.035"/>
+        <testcase name="streaming::controller::preview_tests::prose_after_a_table_is_previewed_until_another_table_starts" classname="codex-tui" timestamp="2026-09-27T02:04:38.141+00:00" time="0.027"/>
+        <testcase name="streaming::controller::preview_tests::source_only_changes_refresh_the_preview_and_active_tail" classname="codex-tui" timestamp="2026-09-27T02:04:38.163+00:00" time="0.022"/>
+        <testcase name="streaming::controller::math_tests::unicode_math_rejected_display_keeps_its_closer_and_following_text" classname="codex-tui" timestamp="2026-09-27T02:04:38.113+00:00" time="0.076"/>
+        <testcase name="streaming::controller::rendering_preferences_tests::spatial_math_rows_keep_distinct_logical_sources" classname="codex-tui" timestamp="2026-09-27T02:04:38.186+00:00" time="0.023"/>
+        <testcase name="streaming::controller::rendering_preferences_tests::unfinished_math_preview_retains_hard_lines_and_authored_whitespace" classname="codex-tui" timestamp="2026-09-27T02:04:38.188+00:00" time="0.020"/>
+        <testcase name="streaming::controller::preview_tests::prose_preview_resumes_after_fenced_code" classname="codex-tui" timestamp="2026-09-27T02:04:38.149+00:00" time="0.064"/>
+        <testcase name="streaming::controller::tests::controller_does_not_hold_back_pipe_prose_without_table_delimiter" classname="codex-tui" timestamp="2026-09-27T02:04:38.213+00:00" time="0.019"/>
+        <testcase name="streaming::controller::rendering_preferences_tests::unfinished_math_reflows_and_finalizes_without_rewriting_source" classname="codex-tui" timestamp="2026-09-27T02:04:38.208+00:00" time="0.025"/>
+        <testcase name="streaming::controller::tests::controller_converts_no_outer_table_between_preboxed_sections" classname="codex-tui" timestamp="2026-09-27T02:04:38.209+00:00" time="0.033"/>
+        <testcase name="streaming::controller::tests::controller_does_not_stall_repeated_pipe_prose_paragraphs" classname="codex-tui" timestamp="2026-09-27T02:04:38.233+00:00" time="0.021"/>
+        <testcase name="streaming::controller::preview_tests::unterminated_prose_reflows_and_finishes_without_duplication" classname="codex-tui" timestamp="2026-09-27T02:04:38.166+00:00" time="0.092"/>
+        <testcase name="streaming::controller::tests::controller_has_live_tail_reflects_tail_presence" classname="codex-tui" timestamp="2026-09-27T02:04:38.241+00:00" time="0.019"/>
+        <testcase name="streaming::controller::tests::controller_handles_table_immediately_after_heading" classname="codex-tui" timestamp="2026-09-27T02:04:38.234+00:00" time="0.029"/>
+        <testcase name="streaming::controller::tests::controller_holds_blockquoted_table_tail_until_stable" classname="codex-tui" timestamp="2026-09-27T02:04:38.254+00:00" time="0.030"/>
+        <testcase name="streaming::controller::tests::controller_keeps_pre_table_lines_queued_when_table_is_confirmed" classname="codex-tui" timestamp="2026-09-27T02:04:38.284+00:00" time="0.028"/>
+        <testcase name="streaming::controller::tests::controller_keeps_markdown_fenced_no_outer_tables_mutable_until_finalize" classname="codex-tui" timestamp="2026-09-27T02:04:38.258+00:00" time="0.068"/>
+        <testcase name="streaming::controller::tests::controller_keeps_markdown_fenced_tables_mutable_until_finalize" classname="codex-tui" timestamp="2026-09-27T02:04:38.261+00:00" time="0.065"/>
+        <testcase name="streaming::controller::tests::controller_keeps_non_markdown_fenced_tables_as_code" classname="codex-tui" timestamp="2026-09-27T02:04:38.263+00:00" time="0.068"/>
+        <testcase name="streaming::controller::tests::controller_live_tail_keeps_uncommitted_table_cell_newline_gated" classname="codex-tui" timestamp="2026-09-27T02:04:38.313+00:00" time="0.026"/>
+        <testcase name="streaming::controller::tests::controller_loose_vs_tight_with_commit_ticks_matches_full" classname="codex-tui" timestamp="2026-09-27T02:04:38.331+00:00" time="0.023"/>
+        <testcase name="streaming::controller::tests::controller_live_tail_rerenders_table_tail_after_resize" classname="codex-tui" timestamp="2026-09-27T02:04:38.325+00:00" time="0.035"/>
+        <testcase name="streaming::controller::tests::controller_live_view_matches_render_during_interleaved_table_streaming" classname="codex-tui" timestamp="2026-09-27T02:04:38.326+00:00" time="0.046"/>
+        <testcase name="streaming::controller::tests::controller_renders_separators_for_multi_table_response_shape" classname="codex-tui" timestamp="2026-09-27T02:04:38.339+00:00" time="0.036"/>
+        <testcase name="streaming::controller::tests::controller_set_width_after_first_line_emit_does_not_requeue_first_line" classname="codex-tui" timestamp="2026-09-27T02:04:38.361+00:00" time="0.021"/>
+        <testcase name="streaming::controller::tests::controller_renders_separators_for_no_outer_pipes_table_shape" classname="codex-tui" timestamp="2026-09-27T02:04:38.354+00:00" time="0.035"/>
+        <testcase name="streaming::controller::tests::controller_set_width_no_duplicate_after_emit" classname="codex-tui" timestamp="2026-09-27T02:04:38.376+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::controller_set_width_during_confirmed_table_stream_matches_finalize_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.372+00:00" time="0.028"/>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_drain_keeps_pending_queue" classname="codex-tui" timestamp="2026-09-27T02:04:38.381+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_drain_no_lost_lines" classname="codex-tui" timestamp="2026-09-27T02:04:38.389+00:00" time="0.022"/>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_wrapped_emit_keeps_wrapped_remainder" classname="codex-tui" timestamp="2026-09-27T02:04:38.396+00:00" time="0.023"/>
+        <testcase name="streaming::controller::tests::controller_set_width_preserves_in_flight_tail" classname="codex-tui" timestamp="2026-09-27T02:04:38.402+00:00" time="0.019"/>
+        <testcase name="streaming::controller::tests::controller_set_width_partial_wrapped_emit_preserves_remaining_content" classname="codex-tui" timestamp="2026-09-27T02:04:38.400+00:00" time="0.021"/>
+        <testcase name="streaming::controller::tests::controller_set_width_preserves_table_tail_when_queue_is_empty" classname="codex-tui" timestamp="2026-09-27T02:04:38.411+00:00" time="0.023"/>
+        <testcase name="render::highlight::streaming::tests::crossing_each_highlighting_limit_requires_a_canonical_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.008+00:00" time="0.426"/>
+        <testcase name="streaming::controller::tests::controller_set_width_rebuilds_queued_lines" classname="codex-tui" timestamp="2026-09-27T02:04:38.419+00:00" time="0.022"/>
+        <testcase name="streaming::controller::tests::controller_stabilizes_two_column_no_outer_table_in_response" classname="codex-tui" timestamp="2026-09-27T02:04:38.422+00:00" time="0.028"/>
+        <testcase name="streaming::controller::tests::controller_stabilizes_first_no_outer_pipes_table_in_response" classname="codex-tui" timestamp="2026-09-27T02:04:38.421+00:00" time="0.029"/>
+        <testcase name="streaming::controller::tests::controller_tick_batch_zero_is_noop" classname="codex-tui" timestamp="2026-09-27T02:04:38.434+00:00" time="0.023"/>
+        <testcase name="streaming::controller::tests::controller_streamed_table_matches_full_render_widths" classname="codex-tui" timestamp="2026-09-27T02:04:38.434+00:00" time="0.028"/>
+        <testcase name="streaming::controller::tests::finalized_plan_stream_preserves_semantic_url_fragments" classname="codex-tui" timestamp="2026-09-27T02:04:38.441+00:00" time="0.027"/>
+        <testcase name="streaming::controller::tests::incremental_holdback_detects_header_delimiter_across_chunk_boundary" classname="codex-tui" timestamp="2026-09-27T02:04:38.450+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::incremental_holdback_matches_stateless_scan_per_chunk" classname="codex-tui" timestamp="2026-09-27T02:04:38.458+00:00" time="0.019"/>
+        <testcase name="streaming::controller::tests::finalized_stream_table_preserves_semantic_url_fragments" classname="codex-tui" timestamp="2026-09-27T02:04:38.450+00:00" time="0.030"/>
+        <testcase name="streaming::controller::tests::plan_controller_has_live_tail_reflects_tail_presence" classname="codex-tui" timestamp="2026-09-27T02:04:38.462+00:00" time="0.018"/>
+        <testcase name="streaming::controller::tests::plan_controller_holds_table_header_as_live_tail" classname="codex-tui" timestamp="2026-09-27T02:04:38.468+00:00" time="0.021"/>
+        <testcase name="streaming::controller::tests::plan_controller_set_width_preserves_in_flight_tail" classname="codex-tui" timestamp="2026-09-27T02:04:38.470+00:00" time="0.021"/>
+        <testcase name="streaming::controller::tests::queued_heading_is_emitted_once_after_incremental_append" classname="codex-tui" timestamp="2026-09-27T02:04:38.480+00:00" time="0.021"/>
+        <testcase name="streaming::controller::tests::plan_controller_streamed_table_matches_final_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.479+00:00" time="0.029"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_detects_header_plus_delimiter" classname="codex-tui" timestamp="2026-09-27T02:04:38.489+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_detects_single_column_header_plus_delimiter" classname="codex-tui" timestamp="2026-09-27T02:04:38.491+00:00" time="0.019"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_ignores_table_like_lines_inside_blockquoted_other_fence" classname="codex-tui" timestamp="2026-09-27T02:04:38.502+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_ignores_table_like_lines_inside_unclosed_long_fence" classname="codex-tui" timestamp="2026-09-27T02:04:38.509+00:00" time="0.020"/>
+        <testcase name="streaming::controller::tests::table_holdback_state_treats_indented_fence_text_as_plain_content" classname="codex-tui" timestamp="2026-09-27T02:04:38.509+00:00" time="0.020"/>
+        <testcase name="streaming::render::inline_math_tests::unicode_math_inline_stream_preserves_display_exclusion_boundaries" classname="codex-tui" timestamp="2026-09-27T02:04:38.510+00:00" time="0.024"/>
+        <testcase name="streaming::controller::tests::plan_controller_streamed_markdown_fenced_table_matches_final_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.476+00:00" time="0.066"/>
+        <testcase name="streaming::controller::rendering_preferences_tests::lists_and_math_match_incremental_and_emitted_responses" classname="codex-tui" timestamp="2026-09-27T02:04:38.168+00:00" time="0.402"/>
+        <testcase name="streaming::render::tests::code_fence_tests::crossing_a_highlight_limit_removes_previously_highlighted_colors" classname="codex-tui" timestamp="2026-09-27T02:04:38.529+00:00" time="0.060"/>
+        <testcase name="streaming::render::tests::growing_single_top_level_blocks_render_and_scan_in_one_pass" classname="codex-tui" timestamp="2026-09-27T02:04:38.570+00:00" time="0.027"/>
+        <testcase name="streaming::render::tests::code_fence_tests::recomputing_after_resize_or_mode_change_drops_fence_state" classname="codex-tui" timestamp="2026-09-27T02:04:38.543+00:00" time="0.061"/>
+        <testcase name="streaming::render::tests::incremental_file_citations_preserve_metadata_unicode_and_markdown" classname="codex-tui" timestamp="2026-09-27T02:04:38.589+00:00" time="0.023"/>
+        <testcase name="streaming::render::tests::code_fence_tests::ambiguous_and_normalized_fences_use_canonical_semantics" classname="codex-tui" timestamp="2026-09-27T02:04:38.522+00:00" time="0.091"/>
+        <testcase name="streaming::render::tests::code_fence_tests::growing_code_fences_preserve_styles_unicode_links_and_blank_lines" classname="codex-tui" timestamp="2026-09-27T02:04:38.530+00:00" time="0.085"/>
+        <testcase name="streaming::render::tests::incremental_raw_render_preserves_blank_lines" classname="codex-tui" timestamp="2026-09-27T02:04:38.597+00:00" time="0.020"/>
+        <testcase name="streaming::render::tests::incremental_render_does_not_add_blank_line_before_html_block" classname="codex-tui" timestamp="2026-09-27T02:04:38.604+00:00" time="0.020"/>
+        <testcase name="streaming::render::tests::inline_visualization_content_references_use_canonical_full_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.615+00:00" time="0.021"/>
+        <testcase name="streaming::render::tests::inline_visualization_context_without_directives_keeps_stable_prefix" classname="codex-tui" timestamp="2026-09-27T02:04:38.618+00:00" time="0.020"/>
+        <testcase name="streaming::render::tests::inline_visualization_directive_survives_raw_to_rich_render_mode_switch" classname="codex-tui" timestamp="2026-09-27T02:04:38.624+00:00" time="0.022"/>
+        <testcase name="streaming::render::tests::inline_visualizations_use_canonical_full_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.636+00:00" time="0.022"/>
+        <testcase name="streaming::render::tests::inline_visualizations_without_context_use_canonical_full_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.638+00:00" time="0.020"/>
+        <testcase name="streaming::render::tests::reference_link_definition_survives_raw_to_rich_render_mode_switch" classname="codex-tui" timestamp="2026-09-27T02:04:38.658+00:00" time="0.022"/>
+        <testcase name="streaming::render::tests::incremental_render_keeps_final_block_mutable_and_matches_full_render" classname="codex-tui" timestamp="2026-09-27T02:04:38.612+00:00" time="0.072"/>
+        <testcase name="streaming::render::tests::incremental_render_preserves_heading_and_normalized_html_seams" classname="codex-tui" timestamp="2026-09-27T02:04:38.613+00:00" time="0.071"/>
+        <testcase name="streaming::tests::drain_n_clamps_to_available_lines" classname="codex-tui" timestamp="2026-09-27T02:04:38.685+00:00" time="0.019"/>
+        <testcase name="streaming::render::tests::shell_pid_preserves_following_equations" classname="codex-tui" timestamp="2026-09-27T02:04:38.684+00:00" time="0.027"/>
+        <testcase name="streaming::render::tests::paragraphs_after_unwrapped_table_fence_advance_stable_source" classname="codex-tui" timestamp="2026-09-27T02:04:38.646+00:00" time="0.066"/>
+        <testcase name="streaming::render::tests::reference_link_definition_recomputes_earlier_and_later_blocks" classname="codex-tui" timestamp="2026-09-27T02:04:38.658+00:00" time="0.071"/>
+        <testcase name="streaming::render::tests::code_fence_tests::long_open_fence_retains_its_rendered_prefix" classname="codex-tui" timestamp="2026-09-27T02:04:38.534+00:00" time="0.222"/>
+        <testcase name="streaming::render::tests::rejected_math_openers_allow_bounded_incremental_rendering" classname="codex-tui" timestamp="2026-09-27T02:04:38.680+00:00" time="1.737"/>
+    </testsuite>
+</testsuites>

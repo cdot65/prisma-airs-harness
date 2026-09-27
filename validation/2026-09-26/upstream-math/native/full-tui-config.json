@@ -1,0 +1,29 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "--test-threads",
+    "4",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 526.504576921463,
+  "owned_tmp": "/private/tmp/airs-terminal-native-bny7wcdb",
+  "junit": {
+    "name": "nextest-run",
+    "tests": "4809",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "e307944e-3d55-46f0-b326-d8558925150e",
+    "timestamp": "2026-09-26T19:52:35.835-05:00",
+    "time": "310.587"
+  },
+  "owned_tmp_cleaned": true
+}

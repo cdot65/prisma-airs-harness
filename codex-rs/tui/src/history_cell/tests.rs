@@ -569,11 +569,10 @@ fn session_configured_event(model: &str) -> ThreadSessionState {
 }
 
 #[test]
-fn unified_exec_interaction_cell_renders_input() {
+fn unified_exec_interaction_cell_retains_detailed_input() {
     let input = (1..=16).map(|line| format!("line {line}\n")).collect();
     let cell = new_unified_exec_interaction(Some("cat".to_string()), input);
-    let lines = render_lines(&cell.display_lines(/*width*/ 80));
-    assert_eq!(lines, render_transcript(&cell));
+    let lines = render_lines(&cell.transcript_lines(/*width*/ 80));
     insta::assert_snapshot!(lines.join("\n"), @"
     ↳ Interacted with background terminal · cat
       └ line 1
@@ -596,7 +595,7 @@ fn unified_exec_interaction_cell_renders_input() {
 }
 
 #[test]
-fn unified_exec_interaction_cell_renders_wait() {
+fn unified_exec_interaction_cell_retains_detailed_wait() {
     let cell = new_unified_exec_interaction(/*command_display*/ None, String::new());
     let lines = render_transcript(&cell);
     assert_eq!(lines, vec!["• Waited for background terminal"]);
@@ -1125,10 +1124,10 @@ fn prefixed_wrapped_history_cell_does_not_split_url_like_token() {
 }
 
 #[test]
-fn unified_exec_interaction_cell_does_not_split_url_like_stdin_token() {
+fn unified_exec_interaction_details_do_not_split_url_like_stdin_token() {
     let url_like = "example.test/api/v1/projects/alpha-team/releases/2026-02-17/builds/1234567890";
     let cell = UnifiedExecInteractionCell::new(Some("true".to_string()), url_like.to_string());
-    let rendered = render_lines(&cell.display_lines(/*width*/ 24));
+    let rendered = render_lines(&cell.transcript_lines(/*width*/ 24));
 
     assert_eq!(
         rendered
@@ -1178,7 +1177,7 @@ fn prefixed_wrapped_history_cell_height_matches_wrapped_rendering() {
 }
 
 #[test]
-fn unified_exec_interaction_cell_height_matches_wrapped_rendering() {
+fn unified_exec_interaction_details_wrap_long_input() {
     let url_like = "example.test/api/v1/projects/alpha-team/releases/2026-02-17/builds/1234567890/artifacts/reports/performance/summary/detail/with/a/very/long/path";
     let cell: Box<dyn HistoryCell> = Box::new(UnifiedExecInteractionCell::new(
         Some("true".to_string()),
@@ -1186,16 +1185,18 @@ fn unified_exec_interaction_cell_height_matches_wrapped_rendering() {
     ));
 
     let width: u16 = 24;
-    let logical_height = cell.display_lines(width).len() as u16;
-    let wrapped_height = cell.desired_height(width);
+    let lines = cell.transcript_hyperlink_lines(width);
+    let logical_height = lines.len() as u16;
+    let paragraph = HyperlinkParagraph::new(&lines, Style::default());
+    let wrapped_height = u16::try_from(paragraph.line_count(width)).unwrap();
     assert!(
         wrapped_height > logical_height,
         "expected wrapped height to exceed logical line count ({logical_height}), got {wrapped_height}"
     );
 
-    let area = Rect::new(0, 0, width, wrapped_height);
+    let area = Rect::new(/*x*/ 0, /*y*/ 0, width, wrapped_height);
     let mut buf = ratatui::buffer::Buffer::empty(area);
-    cell.render(area, &mut buf);
+    paragraph.render(area, &mut buf);
 
     let first_row = (0..area.width)
         .map(|x| {

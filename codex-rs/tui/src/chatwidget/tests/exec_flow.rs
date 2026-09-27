@@ -1053,7 +1053,7 @@ async fn unified_exec_wait_after_final_agent_message_snapshot() {
     complete_assistant_message(&mut chat, "msg-1", "Final response.", /*phase*/ None);
     handle_turn_completed(&mut chat, "turn-1", /*duration_ms*/ None);
 
-    let cells = drain_insert_history(&mut rx);
+    let cells = drain_insert_history_transcript(&mut rx);
     let combined = cells
         .iter()
         .map(|lines| lines_to_single_string(lines))
@@ -1077,7 +1077,7 @@ async fn unified_exec_wait_before_streamed_agent_message_snapshot() {
     handle_agent_message_delta(&mut chat, "Streaming response.");
     handle_turn_completed(&mut chat, "turn-wait-1", /*duration_ms*/ None);
 
-    let cells = drain_insert_history(&mut rx);
+    let cells = drain_insert_history_transcript(&mut rx);
     let combined = cells
         .iter()
         .map(|lines| lines_to_single_string(lines))
@@ -1189,7 +1189,7 @@ async fn unified_exec_waiting_multiple_empty_snapshots() {
 
     handle_turn_completed(&mut chat, "turn-wait-3", /*duration_ms*/ None);
 
-    let cells = drain_insert_history(&mut rx);
+    let cells = drain_insert_history_transcript(&mut rx);
     let combined = cells
         .iter()
         .map(|lines| lines_to_single_string(lines))
@@ -1226,7 +1226,7 @@ async fn unified_exec_empty_then_non_empty_snapshot() {
     terminal_interaction(&mut chat, "call-wait-2a", "proc-2", "");
     terminal_interaction(&mut chat, "call-wait-2b", "proc-2", "ls\n");
 
-    let cells = drain_insert_history(&mut rx);
+    let cells = drain_insert_history_transcript(&mut rx);
     let combined = cells
         .iter()
         .map(|lines| lines_to_single_string(lines))
@@ -1252,7 +1252,7 @@ async fn unified_exec_non_empty_then_empty_snapshots() {
         .expect("status indicator should be visible");
     assert_eq!(status.header(), "Waiting for background terminal");
     assert_eq!(status.details(), Some("just fix"));
-    let pre_cells = drain_insert_history(&mut rx);
+    let pre_cells = drain_insert_history_transcript(&mut rx);
     let active_combined = pre_cells
         .iter()
         .map(|lines| lines_to_single_string(lines))
@@ -1261,7 +1261,7 @@ async fn unified_exec_non_empty_then_empty_snapshots() {
 
     handle_turn_completed(&mut chat, "turn-1", /*duration_ms*/ None);
 
-    let post_cells = drain_insert_history(&mut rx);
+    let post_cells = drain_insert_history_transcript(&mut rx);
     let mut combined = pre_cells
         .iter()
         .map(|lines| lines_to_single_string(lines))

@@ -83,6 +83,10 @@ impl TooltipHistoryCell {
 }
 
 impl HistoryCell for TooltipHistoryCell {
+    fn compact_hyperlink_lines(&self, _width: u16) -> Vec<HyperlinkLine> {
+        Vec::new()
+    }
+
     fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
         let indent = "  ";
         let indent_width = display_width(indent);
@@ -109,6 +113,10 @@ impl HistoryCell for TooltipHistoryCell {
 pub struct SessionInfoCell(CompositeHistoryCell);
 
 impl HistoryCell for SessionInfoCell {
+    fn compact_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        self.0.compact_hyperlink_lines(width)
+    }
+
     fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
         self.0.display_lines(width)
     }

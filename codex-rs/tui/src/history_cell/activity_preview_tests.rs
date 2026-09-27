@@ -45,3 +45,23 @@ fn compact_copy_retains_meaningful_status_and_styles() {
         Line::from(vec!["Failed (exit 2) ".bold(), "command".cyan()])
     );
 }
+
+#[test]
+fn terminal_bookkeeping_is_retained_in_transcript_and_raw_history() {
+    use crate::history_cell::HistoryCell;
+    use crate::history_cell::new_unified_exec_interaction;
+    let cell = new_unified_exec_interaction(Some("cat".into()), "  └ actual input\nsecond".into());
+    assert!(cell.display_lines(/*width*/ 40).is_empty());
+    let lines = cell.transcript_hyperlink_lines(/*width*/ 40);
+    let sources = lines
+        .iter()
+        .filter_map(|line| line.source.as_ref())
+        .map(|source| source.text[source.range.clone()].to_owned())
+        .collect::<Vec<_>>();
+    assert!(sources.iter().any(|text| text == "  └ actual input"));
+    assert!(
+        cell.raw_lines()
+            .iter()
+            .any(|line| line.to_string() == "second")
+    );
+}

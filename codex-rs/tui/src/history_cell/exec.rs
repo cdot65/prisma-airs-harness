@@ -1,6 +1,7 @@
 //! Background terminal interaction and process-summary history cells.
 
 use super::*;
+use crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines;
 use crate::width::display_width;
 
 #[derive(Debug)]
@@ -19,7 +20,15 @@ impl UnifiedExecInteractionCell {
 }
 
 impl HistoryCell for UnifiedExecInteractionCell {
-    fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
+    fn display_lines(&self, _width: u16) -> Vec<Line<'static>> {
+        Vec::new()
+    }
+
+    fn transcript_lines(&self, width: u16) -> Vec<Line<'static>> {
+        visible_lines(self.transcript_hyperlink_lines(width))
+    }
+
+    fn transcript_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         if width == 0 {
             return Vec::new();
         }
@@ -39,9 +48,7 @@ impl HistoryCell for UnifiedExecInteractionCell {
         }
         let header = Line::from(header_spans);
 
-        let mut out: Vec<Line<'static>> = Vec::new();
-        let header_wrapped = adaptive_wrap_line(&header, RtOptions::new(wrap_width));
-        push_owned_lines(&header_wrapped, &mut out);
+        let mut out = adaptive_wrap_hyperlink_lines(&[header.into()], RtOptions::new(wrap_width));
 
         if waited_only {
             return out;
@@ -53,8 +60,8 @@ impl HistoryCell for UnifiedExecInteractionCell {
             .map(|line| Line::from(line.to_string()))
             .collect();
 
-        let input_wrapped = adaptive_wrap_lines(
-            input_lines,
+        let input_wrapped = adaptive_wrap_hyperlink_lines(
+            &plain_hyperlink_lines(input_lines),
             RtOptions::new(wrap_width)
                 .initial_indent(Line::from("  └ ".dim()))
                 .subsequent_indent(Line::from("    ".dim())),

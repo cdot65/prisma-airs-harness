@@ -15,6 +15,7 @@ animations = false
 whimsy = false
 show_tooltips = false
 auto_recap = false
+fullscreen_transcript = true
 vim_mode_default = true
 terminal_resize_reflow_max_rows = 0
 session_picker_view = "comfortable"
@@ -50,6 +51,7 @@ fast_default_opt_out = true
             expected.rendering.math = false;
             expected.show_tooltips = false;
             expected.auto_recap = false;
+            expected.fullscreen_transcript = true;
             expected.vim_mode_default = true;
             expected.terminal_resize_reflow_max_rows = Some(0);
             expected.session_picker_view = Some(SessionPickerViewMode::Comfortable);
@@ -109,5 +111,35 @@ async fn local_writes_preserve_selected_user_file_and_home_destinations() -> any
         Some("comfortable")
     );
     assert_eq!(home_config["tui"].get("theme"), None);
+    Ok(())
+}
+
+#[tokio::test]
+async fn fullscreen_preference_is_independent_of_deprecated_flag() -> anyhow::Result<()> {
+    for preference in [None, Some(false), Some(true)] {
+        for deprecated in [false, true] {
+            let home = tempfile::tempdir()?;
+            let mut overrides = vec![("features.transcript_v2".to_string(), deprecated.into())];
+            if let Some(preference) = preference {
+                overrides.push(("tui.fullscreen_transcript".to_string(), preference.into()));
+            }
+            let config = ConfigBuilder::default()
+                .codex_home(home.path().to_path_buf())
+                .loader_overrides(LoaderOverrides::without_managed_config_for_tests())
+                .cli_overrides(overrides)
+                .build()
+                .await?;
+            assert_eq!(
+                LocalSettings::from(&config).tui.fullscreen_transcript,
+                preference.unwrap_or(false)
+            );
+            let notices = config
+                .features
+                .legacy_feature_usages()
+                .map(|usage| usage.alias.as_str())
+                .collect::<Vec<_>>();
+            assert_eq!(notices, vec!["features.transcript_v2"]);
+        }
+    }
     Ok(())
 }

@@ -91,7 +91,7 @@ impl Stage {
 /// Unique features toggled via configuration.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Feature {
-    /// Enable the interactive transcript composer and turn-selection UI.
+    /// Deprecated no-op; use `tui.fullscreen_transcript` instead.
     TranscriptV2,
     // Stable.
     /// Enable the default shell tool.
@@ -576,6 +576,10 @@ impl Features {
                         Feature::WebSearchCached,
                     );
                 }
+                "transcript_v2" => {
+                    self.record_legacy_usage_force("features.transcript_v2", Feature::TranscriptV2);
+                    continue;
+                }
                 "tui_app_server" => {
                     continue;
                 }
@@ -680,6 +684,10 @@ impl Features {
 fn legacy_usage_notice(alias: &str, feature: Feature) -> (String, Option<String>) {
     let canonical = feature.key();
     match feature {
+        Feature::TranscriptV2 => (
+            "`[features].transcript_v2` is deprecated and ignored.".to_string(),
+            Some("Use `[tui].fullscreen_transcript` in config.toml instead.".to_string()),
+        ),
         Feature::WebSearchRequest | Feature::WebSearchCached => {
             let label = match alias {
                 "web_search" => "[features].web_search",
@@ -901,7 +909,7 @@ pub const FEATURES: &[FeatureSpec] = &[
     FeatureSpec {
         id: Feature::TranscriptV2,
         key: "transcript_v2",
-        stage: Stage::UnderDevelopment,
+        stage: Stage::Deprecated,
         default_enabled: false,
     },
     // Stable features.

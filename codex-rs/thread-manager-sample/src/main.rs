@@ -238,6 +238,7 @@ fn new_config(model: Option<String>, arg0_paths: Arg0DispatchPaths) -> anyhow::R
         tui_terminal_title: None,
         tui_theme: None,
         tui_raw_output_mode: false,
+        tui_fullscreen_transcript: false,
         tui_pet: None,
         tui_pet_anchor: TuiPetAnchor::Composer,
         terminal_resize_reflow: TerminalResizeReflowConfig::default(),

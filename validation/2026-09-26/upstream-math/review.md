@@ -1,9 +1,8 @@
-# Math rendering — connected review, workspace gate pending
+# Math rendering — completed source integration
 
 Runtime source: `01d1a56d7d40cf63cca0cc8bb502b21565f62235`.
 This is an adversarial engineering self-review, not independent certification.
-Scores remain unassigned until the full GNU workspace result is compared with
-the retained baseline. Signed distribution belongs to the final delivery gate.
+All four source-integration criteria score **9/10**: implementation (connected renderer, preference and terminal checks), code quality (bounded private modules and warning-free lint), design (literal fallback, client ownership and unchanged source/context), and feature completeness (local/native plus full workspace evidence). Signed distribution belongs to the final delivery gate.
 
 ## Scope and design
 
@@ -51,9 +50,7 @@ modules remain below 500 lines. Structured aligned layout is a private module.
 - Scoped config/core/TUI lint has zero warnings locally and on Apple Silicon.
   Formatting passed. Final source parity matches all 7,218 tracked `codex-rs`
   files on the Mac. No tests were repeated solely for lint or formatting.
-- Full GNU run 3859 / Actions 312 is pending on the exact runtime/tooling source.
-  Its complete log, assertion-level baseline comparison and retry outcomes are
-  required before this feature clears its gate.
+- Full GNU run 3859 / Actions 312 on the exact runtime/tooling source: **18,657 passed, 3 failed, 34 skipped**, 2002.448 seconds, no retry-pass flakes. Every assertion in both attempts of each inherited failure matches the stable baseline after only timestamp/ANSI/indent/PID/fixture-path normalization. The suite is explicitly **not all green**. Complete raw log and comparisons are retained.
 
 ## Adversarial findings
 

@@ -1,0 +1,54 @@
+{
+  "feature": "Bounded terminal math rendering and independent client-owned preference",
+  "runtime_commit": "01d1a56d7d40cf63cca0cc8bb502b21565f62235",
+  "scope": "Source integration and real native terminal validation; signed delivery remains a separate gate",
+  "review_type": "Adversarial self-review backed by executable evidence, not independent certification",
+  "scores": {
+    "implementation": 9,
+    "code_quality": 9,
+    "design": 9,
+    "feature_completeness": 9
+  },
+  "validation": {
+    "local_initial_passed": 4802,
+    "local_initial_failed_new_snapshot": 1,
+    "local_snapshot_closure_passed": 1,
+    "native_passed": 4809,
+    "skips_each": 6,
+    "affected_retries": 0,
+    "math_pty_cases_each": 4,
+    "matching_tracked_codex_rs_files": 7218,
+    "lint_warnings_each": 0,
+    "actual_schema_generated": true,
+    "gnu_workspace": {
+      "source_commit": "01d1a56d7d40cf63cca0cc8bb502b21565f62235",
+      "run_id": 3859,
+      "duration_seconds": 2002.448,
+      "total": 18660,
+      "passed": 18657,
+      "failed": 3,
+      "skipped": 34,
+      "failures": [
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+      ],
+      "only_reviewed_baseline_failures": true,
+      "suite_all_green": false,
+      "retained_log_sha256": "58ea1ae96532934953031d49cfa82d055c592fe6f7dbb9e239423a2d9571c34a",
+      "log_source": "Complete uploaded CI validation artifact (queried for run 3859); source-verified GNU container and terminal CI run status checked separately",
+      "retry_passes": [],
+      "first_attempt_failures": [
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+      ]
+    }
+  },
+  "limitations": [
+    "Native/source evidence does not constitute a new signed/notarized package",
+    "Owner font/usability and real-account acceptance remain",
+    "Terminal math is a bounded subset with literal fallback for unsupported expressions",
+    "Full GNU suite is not all green; every inherited failure assertion matches the retained stable baseline"
+  ]
+}

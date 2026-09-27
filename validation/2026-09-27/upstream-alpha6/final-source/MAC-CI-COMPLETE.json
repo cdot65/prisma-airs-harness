@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "run_id": 3864,
+  "actions_index": 314,
+  "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "status": "1",
+  "jobs": [
+    [
+      "24486",
+      "preflight",
+      "1"
+    ],
+    [
+      "24487",
+      "build",
+      "1"
+    ],
+    [
+      "24488",
+      "acceptance",
+      "1"
+    ]
+  ]
+}

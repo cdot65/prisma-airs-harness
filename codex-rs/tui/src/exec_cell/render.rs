@@ -13,7 +13,8 @@ use crate::motion::activity_indicator;
 use crate::render::highlight::highlight_bash_to_lines;
 use crate::render::line_utils::prefix_lines;
 use crate::render::line_utils::push_owned_lines;
-use crate::tool_output::tool_output_preview;
+use crate::terminal_hyperlinks::visible_lines;
+use crate::tool_output::tool_output_hyperlink_preview;
 use crate::ui_consts::TRANSCRIPT_HINT;
 use crate::wrapping::RtOptions;
 use crate::wrapping::adaptive_wrap_line;
@@ -178,11 +179,11 @@ fn dimmed_output_line(raw: &str) -> Line<'static> {
 
 fn output_preview_lines(output: &CommandOutput, width: usize) -> Vec<Line<'static>> {
     let (total, _) = output.line_counts();
-    tool_output_preview(
+    visible_lines(tool_output_hyperlink_preview(
         output.lines().map(|raw| dimmed_output_line(raw.as_ref())),
         width,
         total,
-    )
+    ))
 }
 
 fn activity_marker(start_time: Option<Instant>, animations_enabled: bool) -> Span<'static> {

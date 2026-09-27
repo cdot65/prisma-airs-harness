@@ -281,7 +281,7 @@ impl McpToolCallCell {
         }
 
         if mode == McpToolCallRenderMode::Display {
-            detail_lines = preview.finish();
+            detail_lines = visible_lines(preview.finish_hyperlink_lines());
         }
         if !detail_lines.is_empty() {
             let initial_prefix: Span<'static> = if inline_invocation {

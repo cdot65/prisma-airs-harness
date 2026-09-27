@@ -1,0 +1,33 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(tmux) | test(alternate_screen) | test(keyboard_modes) | test(fullscreen_sgr) | test(owned_transcript)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 175.52427506446838,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "86",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "56751f26-d1a8-4fa9-9f8f-c28378216edf",
+    "timestamp": "2026-09-27T08:12:24.495+00:00",
+    "time": "1.657"
+  }
+}

@@ -1560,9 +1560,7 @@ class TerminalIntegration(unittest.TestCase):
     )
     def test_embedded_gateway_skill_runs_admin_help_in_agent_shell(self):
         self.prompt = "$prisma-airs-gateway Inspect the admin guardrail list options without calling the gateway."
-        self.tool_command = (
-            '"$AIRS_MANAGED_CLI" aigateway admin-guardrails list --help > admin-help.txt'
-        )
+        self.tool_command = '"$AIRS_MANAGED_CLI" aigateway admin-guardrails list --help > admin-help.txt'
         self.configure()
         result = self.execute()
         self.assertEqual(result.returncode, 0, result.stderr)

@@ -1,0 +1,27 @@
+from pathlib import Path
+import subprocess,json,time,tarfile,sys
+root=Path('/home/cdot/.cache/airs-upstream-release-20260927'); source='f7e03c65933041621ef9c6aecc0062610ae0a9b5'
+ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','-o','ConnectTimeout=10','cdot@10.0.1.121']
+remote='/Users/cdot/.cache/airs-upstream-release-20260927/SIGNING-COMPLETE.json'
+end=time.monotonic()+7200
+while True:
+ r=subprocess.run([*ssh,'test ! -f '+remote+' || cat '+remote],capture_output=True,text=True)
+ if r.returncode==0 and r.stdout.strip():
+  receipt=json.loads(r.stdout);assert receipt['source_commit']==source
+  (root/'SIGNING-COMPLETE.json').write_text(json.dumps(receipt,indent=2)+'\n')
+  if receipt['exit_code']:raise RuntimeError('Native signing or tests failed; inspect Mac SIGNING.log')
+  break
+ if time.monotonic()>end:raise TimeoutError('Signing did not complete')
+ time.sleep(30)
+staged='/Users/cdot/.local/share/airs-forgejo-runner/gateway-candidates/'+source+'/signed-output'
+subprocess.run(['scp','-r','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','cdot@10.0.1.121:'+staged,str(root/'signed-output')],check=True)
+native=root/'native';native.mkdir()
+archives=list((root/'signed-output').glob('*.tar.gz'));assert len(archives)==1
+with tarfile.open(archives[0]) as t:t.extractall(native,filter='data')
+releases=list(native.glob('airs-harness-*'));assert len(releases)==1
+repo=Path('/tmp/airs-upstream-release-source-20260927/signing-source')
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+command=[sys.executable,'scripts/package_airs_npm.py','--release-directory',str(releases[0]),'--output-directory',str(root/'candidate-npm'),'--registry','https://npm.cdot.io','--bundle-cli','--mac-preview']
+with (root/'candidate-packaging.log').open('w') as log:r=subprocess.run(command,cwd=repo,stdout=log,stderr=subprocess.STDOUT)
+(root/'CANDIDATE-PACKAGING-COMPLETE.json').write_text(json.dumps({'source_commit':source,'exit_code':r.returncode})+'\n')
+raise SystemExit(r.returncode)

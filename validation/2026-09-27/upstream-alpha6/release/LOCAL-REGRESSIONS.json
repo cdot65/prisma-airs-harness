@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "tests_passed": 6254,
+  "native_receipt_sha256": "41d74d0eb7d8fedc2bf05f1a07ddae5832af9662785a83f34497dd04ce44f0ec",
+  "test_log_sha256": "d73d220a1d7eec62fbcd6bd423932f6e9a6aa62ad0a6560418d67b116fd02cdd",
+  "source_parity_sha256": "6f2ebab7af0cd25700d37513d1c85ac6b6ecb3242cfa229e80d7c2d67d5d32a6",
+  "clippy_exit_code": 0,
+  "format_exit_code": 0,
+  "scope": "Final-source Apple Silicon CLI/TUI/config/features suite; stage36 scoped lint/format precede version-only stamp; GNU workspace and installed candidate gates remain separate"
+}

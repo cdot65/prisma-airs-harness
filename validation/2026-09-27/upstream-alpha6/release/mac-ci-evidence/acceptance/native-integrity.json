@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "version": "airs 0.1.3-alpha.6.mcp.1",
+  "binary_sha256": "f9b8ed2a78bc8ae380fcf3a96c80d697a994cfbe054dbfe3f4141fdd2b52c93d",
+  "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "checksums_verified": true,
+  "required_notices_present": true,
+  "emulated_version_probe": null,
+  "scope": "extracted package integrity; executable fixtures are a separate check"
+}

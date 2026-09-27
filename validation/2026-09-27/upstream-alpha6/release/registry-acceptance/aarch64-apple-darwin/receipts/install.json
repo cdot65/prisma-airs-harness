@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/validate_airs_test_registry_install.py",
+    "--spec",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/registry-acceptance/aarch64-apple-darwin.work/install-f114b441595f4ccf8d8d56c4f007d0d2/SPEC.json",
+    "--packages",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/staged",
+    "--prefix",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/registry-acceptance/aarch64-apple-darwin.work/install-f114b441595f4ccf8d8d56c4f007d0d2/prefix"
+  ],
+  "command_sha256": "5426ed0893073a72d1172ccc40102f16a70995ddd192832432a756f4cc3316a8",
+  "dependencies": {},
+  "exit_code": 0,
+  "input_sha256": "fa379f83cb500207b5e60dc6f5feefab1948fd924da5d382f436a0a54c729932",
+  "inputs": {
+    "binary_sha256": "21ed11cf1b4fd4aea9164896821fc7432ab58697d4965987537d0a2a582c113f",
+    "candidate_metadata_sha256": "7056a55fd43855cabbdfdc52761b62e9906c2ee9dcb1233f75c22c9147a0245a",
+    "candidate_packages_sha256": "cb1385d57861439b1da0dabb843ebdad89ddb218695ff56f9f706f0f455fe92d",
+    "contract": {
+      "normal_python": true,
+      "selection": "INSTALL-VERIFICATION.json",
+      "stage": "install",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "spec_sha256": "db7bafb74afa3e53ff3124ff50ad8ee2945fa2358f54e058e1607ca8f83ec31a",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "tooling_sha256": "8cd0970ec5a1c45ba2d0e291d02172462fcf05092300e2545b92b5269392bb48",
+    "version": "0.1.3-alpha.6.mcp.1"
+  },
+  "outputs": {
+    "files/install/INSTALL-NETWORK.json": {
+      "sha256": "3efbeecabab9871c15d25d2fd4aa31fafb6c9ae8488c800b61c8a7bd331715fb",
+      "size": 317
+    },
+    "files/install/INSTALL-VERIFICATION.json": {
+      "sha256": "e932da971027e7522f9db5462a4b5288d3cec3f9bc79304747c36eddf2a7c7aa",
+      "size": 4654
+    },
+    "logs/install.log": {
+      "sha256": "539bb51718be614c69c406d88e8a9f092d1b7bdeb3a3ea65633c48213d8ad4c5",
+      "size": 4654
+    }
+  },
+  "schema_version": 1,
+  "stage": "install"
+}

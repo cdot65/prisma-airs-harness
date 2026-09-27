@@ -1,0 +1,176 @@
+{
+  "scope": "Accepted September 26 review and five-phase implementation contract",
+  "features": [
+    {
+      "feature": "upstream-seatbelt",
+      "evidence": "validation/2026-09-26/upstream-seatbelt/ACCEPTANCE.json",
+      "sha256": "1b27b0891375b24c04455ea100242934496183e3580d9a8431a2e9196b9a81b1",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-linux-fds",
+      "evidence": "validation/2026-09-26/upstream-linux-fds/ACCEPTANCE.json",
+      "sha256": "9b9fa280569ce8425489ce8c14ec720ac480dbc30a541ab32901f2e6f40c5221",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-mcp-descriptors",
+      "evidence": "validation/2026-09-26/upstream-mcp-descriptors/ACCEPTANCE.json",
+      "sha256": "9f494183e7c5100b6efa4b7599d5f8d8782bff8437ea7db29931467e61e954fb",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-tls",
+      "evidence": "validation/2026-09-26/upstream-tls/ACCEPTANCE.json",
+      "sha256": "52974c707b4f243ff67680ea3706799872755dc2f53d51f5dd3c2431d2d4b389",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-mac-sockets",
+      "evidence": "validation/2026-09-26/upstream-mac-sockets/ACCEPTANCE.json",
+      "sha256": "31e9b6d650ef5292bfee2e4ef285ae6352efe6e6cd9617e86ec8279e4b17c275",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-stream-retention",
+      "evidence": "validation/2026-09-26/upstream-stream-retention/ACCEPTANCE.json",
+      "sha256": "6fa2c1bafeb9104facf877ac04bec82fdee89cbac7df6a4e76b5418f05f6a717",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-subagent-ordering",
+      "evidence": "validation/2026-09-26/upstream-subagent-ordering/ACCEPTANCE.json",
+      "sha256": "f6a0e80510388429b9d3d10f82f19dab095390bcf3f3d95bda18ccd2116958ff",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-transport",
+      "evidence": "validation/2026-09-26/upstream-transport/CONNECTED-FEATURE-GATE.json",
+      "sha256": "627cd1c50f8e8994f40278261becb6299de00b94de40b47b284d6f9c47bc4c9d",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-session",
+      "evidence": "validation/2026-09-26/upstream-session/CONNECTED-FEATURE-GATE.json",
+      "sha256": "cb6562dcb9eac33ff8dfb0879438348d50e3e10f2ac123a4216d29ed016bde9f",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-retry-after",
+      "evidence": "validation/2026-09-26/upstream-retry-after/CONNECTED-FEATURE-GATE.json",
+      "sha256": "af10aacc840f32970bb92cc2f9aec5c77fd93149db71b10498751ccef78bb662",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-terminal-ssh",
+      "evidence": "validation/2026-09-26/upstream-terminal-ssh/FEATURE-GATE.json",
+      "sha256": "10164cae106608eb24a268872296cfdf51ebbd17d52f592130684093c23c67a1",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-unicode-lists",
+      "evidence": "validation/2026-09-26/upstream-unicode-lists/FEATURE-GATE.json",
+      "sha256": "4fbb8b352925a0ede50ceba64511f9ee734d7a3eef965c85b81592e5f47134e3",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "upstream-math",
+      "evidence": "validation/2026-09-26/upstream-math/FEATURE-GATE.json",
+      "sha256": "641a3d705b9cd5d898ceb34b654f3315a81cf3dd1ce7124296c6e5482d59e25a",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      }
+    },
+    {
+      "feature": "opt-in fullscreen and search",
+      "evidence": "validation/2026-09-26/upstream-fullscreen/stage-01 through stage-36; validation/2026-09-27/upstream-alpha6/final-source",
+      "scores": {
+        "implementation": 9,
+        "code_quality": 9,
+        "design": 9,
+        "feature_completeness": 9
+      },
+      "basis": "Connected renderer/input, modal and draft ownership, Unicode logical copy/search, native mouse PTY, persisted environment preference and restart checks; final-source native and GNU suites plus exact signed/registry acceptance."
+    }
+  ],
+  "gateway_contract": "Gateway-only inference and remote MCP; CAS issuer/resource-bound OAuth; workspace keys do not imply MCP login; TypeSafe native-store access uses actual-agent approval. Negative and recovery tests retained in transport/session/native acceptance.",
+  "deliberate_exclusions": [
+    "Linux distribution until owner Mac acceptance",
+    "Windows-only changes and distribution",
+    "stable promotion",
+    "automatic daemon or remote executor",
+    "new authentication service",
+    "hosted/OpenAI defaults and access-program fields"
+  ],
+  "remaining_live_acceptance": [
+    "Real-account inference",
+    "ServiceNow sign-in and read through gateway /mcp",
+    "Restart/reuse and permitted config/model routing",
+    "Optional approved paid Jev probe",
+    "Owner terminal fonts, search, selection and clipboard usability"
+  ],
+  "review_limit": "Adversarial self-review, not independent certification. Fixture evidence does not establish owner authorization or paid model accuracy."
+}

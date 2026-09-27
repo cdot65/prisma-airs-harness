@@ -1,0 +1,44 @@
+from pathlib import Path
+import subprocess,json,time,tarfile,sys
+r=Path('/home/cdot/.cache/airs-upstream-release-20260927');remote='/Users/cdot/.cache/airs-upstream-release-20260927';target=remote+'/upstream013r6-candidate';ssh=['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','-o','ConnectTimeout=10','cdot@10.0.1.121'];end=time.monotonic()+7200
+while not (r/'REGISTRY-VERIFICATION-DISPATCHED.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Registry verification not dispatched')
+ time.sleep(15)
+# Separate native GUI process for the previous Mac-preview upgrade/rollback.
+code='''from pathlib import Path
+import json,subprocess,plistlib
+r=Path('/Users/cdot/.cache/airs-upstream-release-20260927');out=r/'alpha4-roundtrip';out.mkdir();runner=out/'run.py';venv='/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin'
+runner.write_text("from pathlib import Path\\nimport json,subprocess,sys\\nr=Path(__file__).resolve().parent\\np=subprocess.run([sys.executable,str(r.parent/'alpha4-roundtrip.py')])\\n(r/'COMPLETE.json').write_text(json.dumps({'passed':p.returncode==0,'exit_code':p.returncode})+'\\\\n')\\nraise SystemExit(p.returncode)\\n")
+p=out/'job.plist';p.write_bytes(plistlib.dumps({'Label':'io.cdot.airs.upstream013r6.alpha4-roundtrip','ProgramArguments':[venv+'/python',str(runner)],'RunAtLoad':True,'WorkingDirectory':str(out),'EnvironmentVariables':{'PATH':venv+':/opt/homebrew/bin:/usr/bin:/bin','HOME':'/Users/cdot','TERM':'xterm-256color'},'StandardOutPath':str(out/'MAC.log'),'StandardErrorPath':str(out/'MAC.log')}));subprocess.run(['launchctl','bootstrap','gui/501',str(p)],check=True)
+'''
+subprocess.run([*ssh,'/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=code.encode(),check=True)
+reports={}
+while len(reports)<2:
+ for key,path in [('registry',target+'/REGISTRY-HOST-COMPLETE.json'),('previous_preview',remote+'/alpha4-roundtrip/COMPLETE.json')]:
+  if key in reports:continue
+  result=subprocess.run([*ssh,'test ! -f '+path+' || cat '+path],capture_output=True,text=True)
+  if result.returncode==0 and result.stdout.strip():
+   report=json.loads(result.stdout);reports[key]=report
+   (r/(key.upper()+'-HOST-COMPLETE.json')).write_text(json.dumps(report,indent=2)+'\n')
+   assert report['passed'],key+' acceptance failed; inspect native diagnostics'
+ if time.monotonic()>end:raise TimeoutError('Registry or preview rollback did not complete')
+ if len(reports)<2:time.sleep(20)
+code='''from pathlib import Path
+import tarfile,sys
+r=Path('/Users/cdot/.cache/airs-upstream-release-20260927')
+areas=['upstream013r6-candidate/registry-acceptance/aarch64-apple-darwin','upstream013r6-candidate/verify-dispatch','alpha4-roundtrip']
+with tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz') as t:
+ for area in areas:
+  for p in sorted((r/area).rglob('*')):
+   if p.is_file() and p.suffix in ['.json','.log','.txt'] and not p.name.endswith('.private.log') and 'prefix' not in p.relative_to(r).parts:
+    assert p.stat().st_size<20*1024**2
+    rel=p.relative_to(r).as_posix().removeprefix('upstream013r6-candidate/')
+    t.add(p,arcname=rel,recursive=False)
+'''
+with (r/'registry-evidence.tar.gz').open('wb') as output:subprocess.run([*ssh,'/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=code.encode(),stdout=output,check=True)
+with tarfile.open(r/'registry-evidence.tar.gz') as t:t.extractall(r,filter='data')
+base=[sys.executable,str(r/'frozen-tooling/scripts/airs_test_release.py')]
+with (r/'registry-verify-all.log').open('w') as log:p=subprocess.run(base+['verify-all','--spec',str(r/'SPEC.json'),'--acceptance',str(r/'registry-acceptance'),'--installation','registry'],stdout=log,stderr=subprocess.STDOUT)
+assert p.returncode==0,'Aggregate registry verification failed'
+(r/'REGISTRY-FINAL-COMPLETE.json').write_text(json.dumps({'passed':True,'registry':reports['registry'],'previous_preview':reports['previous_preview'],'version':'0.1.3-alpha.6.mcp.1','platform':'aarch64-apple-darwin'},indent=2)+'\n')
+print('Fresh registry acceptance and alpha.5 upgrade/rollback passed')

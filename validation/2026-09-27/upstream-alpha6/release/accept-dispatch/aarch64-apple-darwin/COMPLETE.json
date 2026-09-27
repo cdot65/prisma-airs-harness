@@ -1,0 +1,34 @@
+{
+  "mode": "accept",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "6c96f565e3a193af351071c08987d0bab8402810685e9f150995e8d74fddee37",
+  "tooling_manifest_sha256": "731b075f18cd4f2a179dbfb05f8108f62343349ddf9b0150a25075afa35c4112",
+  "tooling_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "expected_native_sha256": "21ed11cf1b4fd4aea9164896821fc7432ab58697d4965987537d0a2a582c113f",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "b9a41f9f1c25c99eeabfd945baf26aface343e948eeb7c5b5fe9d8dcfed6cf9d",
+    "candidate_packages_sha256": "e94bbf930a6e2061a2b37a5ba914d24816e123fa82a00dd76865d8f590e16113"
+  },
+  "commands": [
+    {
+      "name": "accept",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/airs_test_release.py",
+        "accept",
+        "--spec",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/candidate-npm",
+        "--scripts",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 378.16031870804727
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,20 @@
+from pathlib import Path
+import subprocess,json,tarfile,hashlib,time
+r=Path('/home/cdot/.cache/airs-upstream-release-20260927');end=time.monotonic()+10800
+while not (r/'STAGING-COMPLETE.json').is_file():
+ if time.monotonic()>end:raise TimeoutError('Staging incomplete')
+ time.sleep(20)
+assert json.loads((r/'STAGING-COMPLETE.json').read_text())['passed']
+paths=[]
+for area in ['staged','candidate-acceptance/aarch64-apple-darwin']:
+ paths += [p for p in sorted((r/area).rglob('*')) if p.is_file() and p.suffix in ('.json','.tgz')]
+files={}
+with tarfile.open(r/'registry-inputs.tar','w') as t:
+ for p in paths:
+  rel=p.relative_to(r).as_posix();files[rel]=hashlib.sha256(p.read_bytes()).hexdigest();t.add(p,arcname=rel)
+with (r/'registry-inputs.tar').open('rb') as f:h=hashlib.file_digest(f,'sha256').hexdigest()
+manifest={'archive_sha256':h,'files':files,'spec':json.loads((r/'SPEC.json').read_text())}
+(r/'REGISTRY-TRANSFER.json').write_text(json.dumps(manifest,indent=2)+'\n')
+subprocess.run(['scp','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes',str(r/'REGISTRY-TRANSFER.json'),str(r/'registry-inputs.tar'),'cdot@10.0.1.121:/Users/cdot/.cache/airs-upstream-release-20260927/'],check=True)
+(r/'REGISTRY-INPUTS.json').write_text(json.dumps(manifest,indent=2)+'\n')
+print('Registry verification inputs prepared; nothing published')

@@ -426,3 +426,53 @@ Adapted `e29eceb751` (PR 46867) using existing AIRS controllers and interrupt qu
 ### Transport policy enforcement — in progress
 
 Stage 1 imports `973ec2942c` (PR 45503) policy/permit primitives and factory identity. HTTP suite: 96 passed, zero skips; scoped lint/format pass. This is a prerequisite only: HTTP/redirect/body/WebSocket enforcement and AIRS policy ownership are not yet connected, and no final feature scores or release readiness are claimed. Evidence: `validation/2026-09-26/upstream-transport/stage-01.json`.
+
+
+### September 27 closure: alpha.6 Mac preview
+
+The historical in-progress entries above are superseded by the completed bounded
+integration at runtime/tooling `f7e03c65933041621ef9c6aecc0062610ae0a9b5`.
+`0.1.3-alpha.6.mcp.1` is signed, notarized and published under `mac-preview`.
+Exact candidate and fresh registry acceptance, actual-agent Jev approval, stable
+and alpha.5 upgrade/rollback passed. CLI remains 7.1.5. Stable and Linux tags are
+unchanged. Owner real-account and terminal visual acceptance remains explicit.
+
+The remaining source gates are retained with their corrective iterations:
+
+- Transport: `validation/2026-09-26/upstream-transport/CONNECTED-FEATURE-GATE.json`.
+  Adapted redirect/body/stream and WebSocket policy enforcement, preserving
+  terminal gateway denials, revocation and no replay. Upstream primitives and
+  dependency commits are recorded in the individual stage receipts.
+- Session: `validation/2026-09-26/upstream-session/CONNECTED-FEATURE-GATE.json`.
+  Accepted prompts and gateway config/model pairing survive bounded/full
+  checkpoint reconstruction, resume, rollback and fork. Rejected resume-time
+  persistence changes are retained in review evidence; no environment-ID swap.
+- Retry-After: `validation/2026-09-26/upstream-retry-after/CONNECTED-FEATURE-GATE.json`.
+  Narrow adaptation of `9d8de196748b57d7f463a7757eaa447b6483a331`; one monotonic
+  deadline bounds HTTP/stream/WebSocket fallback. Denial, revocation and partial
+  delivery cannot trigger replay.
+- Terminal SSH: `validation/2026-09-26/upstream-terminal-ssh/FEATURE-GATE.json`,
+  adapting `2925d06f5a91703548575e6b52f17591e8af85b2`; native detection, screen
+  overrides and real resume-picker PTY coverage remain separate from auth.
+- Unicode lists: `validation/2026-09-26/upstream-unicode-lists/FEATURE-GATE.json`,
+  adapting `5a11c456060c2ce131de1ba195fc7729f7d7db66` with persisted preference.
+- Math: `validation/2026-09-26/upstream-math/FEATURE-GATE.json`; bounded rendering
+  subset, literal unsupported fallback and connected preference, with prerequisite
+  upstream references and layout snapshots retained in that feature's stages.
+- Fullscreen: `validation/2026-09-26/upstream-fullscreen/stage-01` through
+  `stage-36`; coherent opt-in renderer/input prerequisites, environment `/tui`
+  preference requiring restart, F3 search, F4 activity, selection/copy provenance,
+  private modal priority, resize/draft retention, tmux policy and actual mouse PTY
+  coverage. Each stage records upstream provenance and deliberate adaptations.
+
+Each connected feature has separate implementation, code-quality, design and
+bounded-completeness scores of 9/10 after adversarial self-review. This is not an
+independent certification. Full native final-source suite: 6,254 passes, zero
+retries. GNU: 18,995 passes, three exact inherited assertion failures, 35 skips,
+no retry-only passes; not an all-green result. Final delivery evidence is under
+`validation/2026-09-27/upstream-alpha6/`.
+
+No automatic daemon, remote executor, direct upstream MCP, replacement OAuth
+service, hosted route, access-program field or OpenAI model default was imported.
+The existing same-issuer OAuth metadata fallback remains. Windows-only changes,
+Linux distributions and stable promotion remain outside this Mac handoff.

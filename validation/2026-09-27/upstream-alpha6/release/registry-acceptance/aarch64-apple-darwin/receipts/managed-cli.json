@@ -1,0 +1,53 @@
+{
+  "command": [
+    "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/validate_prisma_cli.py",
+    "--launcher",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/registry-acceptance/aarch64-apple-darwin.work/install-f114b441595f4ccf8d8d56c4f007d0d2/prefix/lib/node_modules/airs-harness/bin/airs.js",
+    "--receipt",
+    "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/registry-acceptance/aarch64-apple-darwin.work/managed-cli-b4ea4b3b44dd471791c6f788b8a1b3cb/MANAGED-CLI.json"
+  ],
+  "command_sha256": "d6d826d0d3da2f56c06a982a30a81cfff4726d7b887e2332e4e6a055f31b6b34",
+  "dependencies": {
+    "doctor": "63be05ef966d01fc0bc0b687dd14bd2ea1f4a7b0a86b3b7e56282f238860d7b0",
+    "install": "a6df5b46bebd685a4912187b8096c26c84d22d6544a1360e5011ed8830e2eaaf",
+    "installed-regressions": "8a05e99460e521f5042612156d2d0355d3016d6d1223772b0cc11a5d3ae98984",
+    "mcp-manager": "497e09e5f2d8452b231ba842ccf0a5ece4b0e97b6bcb35f4208e99aaea457e80",
+    "onboarding": "472ed975a6ed628ceb2d6e60981f41113d325ac2e675902fa9fb1538fe604d12",
+    "terminals": "ee05b539e8417bfaead12976eb022f519aec1772acf9575f8ccfde125d24064a"
+  },
+  "exit_code": 0,
+  "input_sha256": "8b391c3f813fa6becba0bae8bbedca1f4da7dcae315cc6f240bee9e08278c051",
+  "inputs": {
+    "binary_sha256": "21ed11cf1b4fd4aea9164896821fc7432ab58697d4965987537d0a2a582c113f",
+    "candidate_metadata_sha256": "7056a55fd43855cabbdfdc52761b62e9906c2ee9dcb1233f75c22c9147a0245a",
+    "candidate_packages_sha256": "cb1385d57861439b1da0dabb843ebdad89ddb218695ff56f9f706f0f455fe92d",
+    "contract": {
+      "normal_python": true,
+      "selection": "MANAGED-CLI.json",
+      "stage": "managed-cli",
+      "target": "aarch64-apple-darwin"
+    },
+    "installation": "registry",
+    "observed_target": "aarch64-apple-darwin",
+    "packaging_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "spec_sha256": "db7bafb74afa3e53ff3124ff50ad8ee2945fa2358f54e058e1607ca8f83ec31a",
+    "target": "aarch64-apple-darwin",
+    "tooling_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "tooling_sha256": "8cd0970ec5a1c45ba2d0e291d02172462fcf05092300e2545b92b5269392bb48",
+    "version": "0.1.3-alpha.6.mcp.1"
+  },
+  "outputs": {
+    "files/managed-cli/MANAGED-CLI.json": {
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1",
+      "size": 468
+    },
+    "logs/managed-cli.log": {
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1",
+      "size": 468
+    }
+  },
+  "schema_version": 1,
+  "stage": "managed-cli"
+}

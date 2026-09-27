@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,urllib.request,time
+r=Path('/home/cdot/.cache/airs-upstream-release-20260927');end=time.monotonic()+7200
+while not (r/'REGISTRY-FINAL-COMPLETE.json').exists():
+ if time.monotonic()>end:raise TimeoutError('Fresh registry verification incomplete')
+ time.sleep(20)
+assert json.loads((r/'REGISTRY-FINAL-COMPLETE.json').read_text())['passed']
+results={}
+for name in ['airs-harness','airs-harness-darwin-arm64','airs-harness-linux-x64','airs-harness-linux-arm64']:
+ with urllib.request.urlopen('https://npm.cdot.io/'+name,timeout=30) as response:metadata=json.load(response)
+ tags=metadata['dist-tags'];assert tags['latest']=='0.1.2',name+' stable tag changed'
+ if name in ['airs-harness','airs-harness-darwin-arm64']:
+  assert tags['mac-preview']=='0.1.3-alpha.6.mcp.1',name+' preview tag mismatch'
+  assert '0.1.3-alpha.6.mcp.1' in metadata['versions']
+ else:assert '0.1.3-alpha.6.mcp.1' not in metadata['versions'],name+' unexpectedly distributed'
+ results[name]=tags
+(r/'REGISTRY-TAGS-VERIFIED.json').write_text(json.dumps({'passed':True,'tags':results,'version':'0.1.3-alpha.6.mcp.1','linux_distribution_deferred':True},indent=2)+'\n')
+print('Exact Mac preview tags, unchanged stable and deferred Linux distribution verified')

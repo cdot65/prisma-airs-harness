@@ -1,0 +1,40 @@
+from pathlib import Path
+import subprocess, sys, json, tarfile, hashlib, shutil
+repo=Path('/home/cdot/development/cdot65/airs-terminal-upstream-20260924')
+r=Path('/home/cdot/.cache/airs-upstream-release-20260927')
+source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+assert len(source)==40 and source!='b326c7dcd284cc37515805978f245ed8b9c1ab31'
+(r/'SOURCE.json').write_text(json.dumps({'source_commit':source})+'\n')
+for name in ['signing-runner.py','collect-candidate.py','dispatch-candidate-r4.py']:
+ p=r/name;s=p.read_text()
+ for old in ['b7108c8a39a4afa4f36e228461ed70d1f98cf1c1','b326c7dcd284cc37515805978f245ed8b9c1ab31']:s=s.replace(old,source)
+ p.write_text(s)
+checkout=Path('/tmp/airs-upstream-release-source-20260927/signing-source');checkout.parent.mkdir(parents=True,exist_ok=True)
+subprocess.run(['git','clone','--no-hardlinks','--single-branch','--depth','1','--branch','feat/airs-upstream-20260926','file://'+str(repo),str(checkout)],check=True)
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=checkout,text=True).strip()==source
+frozen=r/'frozen-tooling';frozen.mkdir()
+subprocess.run([sys.executable,str(repo/'scripts/airs_test_release.py'),'snapshot-tooling','--scripts',str(repo/'scripts'),'--commit',source,'--output',str(frozen/'ACCEPTANCE-TOOLING.json')],check=True)
+m=json.loads((frozen/'ACCEPTANCE-TOOLING.json').read_text())
+for rel,h in m['files'].items():
+ src=repo/rel;dest=frozen/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dest)
+ assert hashlib.sha256(dest.read_bytes()).hexdigest()==h
+with tarfile.open(r/'source-and-tooling.tar.gz','w:gz') as t:
+ t.add(checkout,arcname='signing-source');t.add(frozen,arcname='frozen-tooling')
+ for name in ['signing-runner.py','signing-job.plist','native-worker.py','prepare-native-candidates.py','prepare-native-registry.py','alpha4-roundtrip.py']:t.add(r/name,arcname=name)
+key='/home/cdot/.ssh/airs-jadzia-runner';remote='/Users/cdot/.cache/airs-upstream-release-20260927'
+ssh=['ssh','-i',key,'-o','BatchMode=yes','cdot@10.0.1.121']
+subprocess.run(ssh+['mkdir -p '+remote],check=True)
+subprocess.run(['scp','-i',key,'-o','BatchMode=yes',str(r/'source-and-tooling.tar.gz'),'cdot@10.0.1.121:'+remote+'/'],check=True)
+code=f"""from pathlib import Path
+import tarfile,subprocess
+r=Path('{remote}')
+with tarfile.open(r/'source-and-tooling.tar.gz') as t:t.extractall(r,filter='data')
+s=r/'signing-source'
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=s,text=True).strip()=='{source}'
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=s,text=True).strip()
+subprocess.run(['git','clone','--no-hardlinks',str(s),str(s/'runtime')],check=True)
+subprocess.run(['launchctl','bootstrap','gui/501',str(r/'signing-job.plist')],check=True)
+"""
+subprocess.run(ssh+['/opt/homebrew/opt/python@3.13/libexec/bin/python3 -'],input=code.encode(),check=True)
+print('Prepared exact source, frozen tooling and signing waiter:',source)

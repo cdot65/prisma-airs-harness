@@ -1,0 +1,66 @@
+{
+  "mode": "verify",
+  "target": "aarch64-apple-darwin",
+  "spec_sha256": "6c96f565e3a193af351071c08987d0bab8402810685e9f150995e8d74fddee37",
+  "tooling_manifest_sha256": "731b075f18cd4f2a179dbfb05f8108f62343349ddf9b0150a25075afa35c4112",
+  "tooling_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "expected_native_sha256": "21ed11cf1b4fd4aea9164896821fc7432ab58697d4965987537d0a2a582c113f",
+  "production_acceptance": false,
+  "inputs": {
+    "candidate_metadata_sha256": "7056a55fd43855cabbdfdc52761b62e9906c2ee9dcb1233f75c22c9147a0245a",
+    "candidate_packages_sha256": "cb1385d57861439b1da0dabb843ebdad89ddb218695ff56f9f706f0f455fe92d"
+  },
+  "commands": [
+    {
+      "name": "verify",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/airs_test_release.py",
+        "verify",
+        "--spec",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/SPEC.json",
+        "--packages",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/staged",
+        "--scripts",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts",
+        "--output",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/registry-acceptance",
+        "--acceptance",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/upstream013r6-candidate/candidate-acceptance"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 400.14686729200184
+    },
+    {
+      "name": "typesafe-node",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/test_airs_typesafe_node_native.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.138869374990463
+    },
+    {
+      "name": "test_airs_policy_retry",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/test_airs_policy_retry.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.246129041071981
+    },
+    {
+      "name": "test_airs_doctor",
+      "command": [
+        "/Users/cdot/.cache/airs-native-mcp-20260919/venv/bin/python",
+        "/Users/cdot/.cache/airs-upstream-release-20260927/frozen-tooling/scripts/test_airs_doctor.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.812931207939982
+    }
+  ],
+  "passed": true
+}

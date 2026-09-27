@@ -1,0 +1,405 @@
+{
+  "run_id": 3864,
+  "files": [
+    {
+      "path": "preflight/artifact-tests.log",
+      "sha256": "14ad95fc632f715ad7d9d3d75ce79b36397fab793de7018601acb802c5efc241",
+      "bytes": 631
+    },
+    {
+      "path": "preflight/cache-identity-tests.log",
+      "sha256": "415179d22a435fba07aeb4473db1f04fc3914313805c79bfa13e220ae0d296c7",
+      "bytes": 394
+    },
+    {
+      "path": "preflight/npm-registry-tests.log",
+      "sha256": "5ba41f0ca579972470e2a51abf282918b3d742a8faf1050cd17e44fb6e0dbfa9",
+      "bytes": 830
+    },
+    {
+      "path": "preflight/PREFLIGHT.json",
+      "sha256": "b6c79fa363db36ec944fae7511075592cf0c5a948957341666a582f7843e947d",
+      "bytes": 250
+    },
+    {
+      "path": "preflight/launcher-tests.log",
+      "sha256": "17fcb31787d020df3826a7745774dd4b5f02b4985d101a57cd23b7cb1c0498a0",
+      "bytes": 6970
+    },
+    {
+      "path": "preflight/packaging-tests.log",
+      "sha256": "349db1acd2f47e0ac7a20ef59ff1c0d9838783c22e2dbe77edeb13dc5226d18f",
+      "bytes": 2410
+    },
+    {
+      "path": "preflight/workflow-contracts.log",
+      "sha256": "46597f821a7f7f2b37181c46d4405eb5e8c5444109a51149aa0c636d625e7621",
+      "bytes": 288
+    },
+    {
+      "path": "preflight/bundle-tests.log",
+      "sha256": "863a0174993dcff742ee6e895ab10ac1b5e84b48e43ec1a1142da91006e0a50f",
+      "bytes": 4101
+    },
+    {
+      "path": "build/signing.log",
+      "sha256": "ddaf7979d71e8410f933904c5ff65d763d5034a6b8b1d0222edeaf38c24f8771",
+      "bytes": 391
+    },
+    {
+      "path": "build/ARTIFACT-VERIFIED.json",
+      "sha256": "e5c4660628be8ea3f8c638a43a26e7b30947a6f4e85998808d062a975ffcf43d",
+      "bytes": 945
+    },
+    {
+      "path": "build/artifact-selection.json",
+      "sha256": "0399e1d56a61214389d11496e7b27e69e92a0f551c15b1456577cdc20898a587",
+      "bytes": 1024
+    },
+    {
+      "path": "build/CANDIDATE.json",
+      "sha256": "b182a898fc0ac847e0d733a9d1d37de411127e4df5060cf6800af3d79b65e78a",
+      "bytes": 585
+    },
+    {
+      "path": "build/cache-identity.json",
+      "sha256": "d96b21bb267d088c4284581aae5e3045baeda695c53120c991c4357024a9dd17",
+      "bytes": 1784
+    },
+    {
+      "path": "build/cache-status.json",
+      "sha256": "d92b5b335bccbd186f17e67454df3e899d28bcc2aab3f8adbe94668874db7ebc",
+      "bytes": 303
+    },
+    {
+      "path": "build/cli-build.log",
+      "sha256": "6588bab0e329a8df0c554e8d8584422ee7f4f86f4a35e8588e6781ab96f5767d",
+      "bytes": 1154801
+    },
+    {
+      "path": "build/cli-build-timing.html",
+      "sha256": "5bdab89b71c8e67a74379f2cba2aa9f6a9444abd75d177961d85626b6032b646",
+      "bytes": 1143947
+    },
+    {
+      "path": "build/fixture-build-timing.html",
+      "sha256": "e985b62388cfe61f51be1b0f95c6a67238bf57e4116e6a54067cdb0abe92923e",
+      "bytes": 221744
+    },
+    {
+      "path": "build/fixture-build.log",
+      "sha256": "48ad807b36c3420d7c82c5ff97c48f7cae2a88c587616d91d4c5834e9a295c76",
+      "bytes": 132786
+    },
+    {
+      "path": "build/sccache-stats.json",
+      "sha256": "5a232998fb742089541a16f85cc117f9e216bcdfa0c488998dff6daae3bfda50",
+      "bytes": 1058
+    },
+    {
+      "path": "acceptance/cli-keychain.json",
+      "sha256": "42833e94f69bc26147316a139a8f22c2cf8b3ef61394b477d19df34c6f68b956",
+      "bytes": 492
+    },
+    {
+      "path": "acceptance/ARTIFACT-VERIFIED.json",
+      "sha256": "e5c4660628be8ea3f8c638a43a26e7b30947a6f4e85998808d062a975ffcf43d",
+      "bytes": 945
+    },
+    {
+      "path": "acceptance/airs-harness-signing.log",
+      "sha256": "dad801cf547d55c4468fc090ad9415cb73088032779c2c9a0096f982200ec3e4",
+      "bytes": 400
+    },
+    {
+      "path": "acceptance/fixtures/logout-transcript.log",
+      "sha256": "cdf826d7ca6d4ae4e5a32e93f13501a3c5ebefb19a0b005f4dd7f663b8451d60",
+      "bytes": 7189
+    },
+    {
+      "path": "acceptance/fixtures/test_airs_project_config_applies_in_trusted_directory.json",
+      "sha256": "4e431ef2f39971cbd25fc8c846587bec4f24ba4866e6e087865a2275d4ebaa89",
+      "bytes": 68372
+    },
+    {
+      "path": "acceptance/fixtures/test_codex_project_config_does_not_override_airs_route.json",
+      "sha256": "5a6153a5ad7745e103c8047247e52112131cf598f3db19c21a9f86a2f7f36154",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_accepts_reasoning_only_bounded_probe.json",
+      "sha256": "59e940d750ce49b19c7b5dc88dbd9b84da9a3463171faeeb9ce1df755bb50511",
+      "bytes": 367
+    },
+    {
+      "path": "acceptance/VALIDATION.json",
+      "sha256": "8ec2adb2a621acf410609e186221a53c6944c7d9872b2371dce3c47ef9cd1a93",
+      "bytes": 1339
+    },
+    {
+      "path": "acceptance/fixtures/test_gateway_ignores_stale_reasoning_and_has_runtime_context.json",
+      "sha256": "2988a594d8033cdd6e2f0e512c6e41dc89cc68a7a80ce939fd7913ef30c26e1d",
+      "bytes": 68372
+    },
+    {
+      "path": "acceptance/fixtures/test_inference_redirect_is_not_followed.json",
+      "sha256": "391c5a4c90b912f2cdbf8a2b730c3e9208249c61ce88285a82737419339bed4d",
+      "bytes": 33842
+    },
+    {
+      "path": "acceptance/fixtures/test_inline_question_preserves_draft_and_gateway_route.json",
+      "sha256": "29a5f01a7b37a0159471b654eeecbec76faf178d99d4258cad1c71775e779f66",
+      "bytes": 218327
+    },
+    {
+      "path": "acceptance/fixtures/test_interactive_model_switch_omits_unadvertised_reasoning.json",
+      "sha256": "bb4a52344fb5d71f015890d88c915ea4757bd897ef1e52d0bad478a6555065a9",
+      "bytes": 233247
+    },
+    {
+      "path": "acceptance/fixtures/test_worktree_preserves_gateway_binding_and_isolates_local_edits.json",
+      "sha256": "1053f376658ea05f9ce1e4dbd884443de4acca872a1fd96060e97b7d81c91ba2",
+      "bytes": 202609
+    },
+    {
+      "path": "acceptance/keychain.json",
+      "sha256": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed",
+      "bytes": 644
+    },
+    {
+      "path": "acceptance/native-cli-keychain.json",
+      "sha256": "42833e94f69bc26147316a139a8f22c2cf8b3ef61394b477d19df34c6f68b956",
+      "bytes": 492
+    },
+    {
+      "path": "acceptance/libraries.log",
+      "sha256": "6438fcaf746fae5544f2ea7f58993ab49a8bf168c3ae06b7000785f045d85f08",
+      "bytes": 1668
+    },
+    {
+      "path": "acceptance/native-integrity.json",
+      "sha256": "07b5b001e1199fc6e3a627dffb7e63f9b9f2d02688550cc789a61acab4458a93",
+      "bytes": 396
+    },
+    {
+      "path": "acceptance/native-tests.log",
+      "sha256": "e5934da48455fd7e84b59c7d11bbb06cf7b83016c6b4caa2319503e75b9307ff",
+      "bytes": 12160
+    },
+    {
+      "path": "acceptance/npm-diagnostics/INSTALL-NETWORK.json",
+      "sha256": "b300919749913e7e50458987b07a2732ef82cdfe497622290e6618a463e36acd",
+      "bytes": 11972
+    },
+    {
+      "path": "acceptance/npm-diagnostics/INSTALL-VERIFICATION.json",
+      "sha256": "47ae77439b2caf68e3742a19b1ac2e26d38ccd9777809fa8a3cc7aad98ad489a",
+      "bytes": 14223
+    },
+    {
+      "path": "acceptance/npm-diagnostics/npm-install.log",
+      "sha256": "677f2adc9eeccc30a3090b5687ab7e7f27f4a8f5a07aaace0953317f0ff6f4d5",
+      "bytes": 25
+    },
+    {
+      "path": "acceptance/npm-install.json",
+      "sha256": "47ae77439b2caf68e3742a19b1ac2e26d38ccd9777809fa8a3cc7aad98ad489a",
+      "bytes": 14223
+    },
+    {
+      "path": "acceptance/npm-tests.log",
+      "sha256": "ee474895e57d2ce8ebeb7c798b681c5c7952a4b64ee72310772621aeb8ce63dc",
+      "bytes": 7132
+    },
+    {
+      "path": "acceptance/prisma-cli.json",
+      "sha256": "63f3059e754f69d28f765e985675c7992769bdce6595d0a2af72627a627e01e1",
+      "bytes": 468
+    },
+    {
+      "path": "acceptance/python-packages.txt",
+      "sha256": "f34afa570e820bcaa1a3bfd03a8349682db91ce5a14af98e9065c0db460816da",
+      "bytes": 27
+    },
+    {
+      "path": "acceptance/signing.log",
+      "sha256": "dad801cf547d55c4468fc090ad9415cb73088032779c2c9a0096f982200ec3e4",
+      "bytes": 400
+    },
+    {
+      "path": "acceptance/store_acceptance-signing.log",
+      "sha256": "75dc9e7fd49834251af4e03b406a89076f480d34d8830fdc0e27f2576032af79",
+      "bytes": 403
+    },
+    {
+      "path": "acceptance/test-tooling-source.txt",
+      "sha256": "558d4e0ccdf7c5ca466807a5189af2c4e960f5d3bbc5749b808825a538a705b4",
+      "bytes": 41
+    },
+    {
+      "path": "acceptance/artifact-selection.json",
+      "sha256": "d16218b07051ee6e3d0732960114128dbc22e8525122d2f584e490d36800fba3",
+      "bytes": 1156
+    },
+    {
+      "path": "acceptance/fixtures/test_credential_change_and_repository_destination_override_fail_closed.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_json_is_redacted_and_reports_missing_credentials.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_verify_access_denial_preserves_binding_and_redacts_response.json",
+      "sha256": "59e940d750ce49b19c7b5dc88dbd9b84da9a3463171faeeb9ce1df755bb50511",
+      "bytes": 367
+    },
+    {
+      "path": "acceptance/fixtures/test_history_revision_pins_legacy_environment_key_and_capability_catalog.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_rejects_unsafe_gateway_before_display_or_any_request.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_verify_access_uses_bounded_authenticated_wire_and_selected_route.json",
+      "sha256": "59e940d750ce49b19c7b5dc88dbd9b84da9a3463171faeeb9ce1df755bb50511",
+      "bytes": 367
+    },
+    {
+      "path": "acceptance/fixtures/test_existing_home_is_reused_without_moving_credentials_or_history.json",
+      "sha256": "ccb052adedbcb58aa46aab69e82659937f1a4eb533e2a6a67be3937eb9893ff2",
+      "bytes": 68286
+    },
+    {
+      "path": "acceptance/fixtures/test_explicit_route_local_tool_and_continuation.json",
+      "sha256": "58d52cb800e5c861b39e7af6148d5379330d5a701ad803728c13cdd852359f1d",
+      "bytes": 68372
+    },
+    {
+      "path": "acceptance/fixtures/test_gateway_advertised_reasoning_is_sent.json",
+      "sha256": "0bae3badb011ad347e58a5a92ba88ebd21b05055010f3073065108315f57c65a",
+      "bytes": 68538
+    },
+    {
+      "path": "acceptance/fixtures/test_gateway_default_local_tool_and_continuation.json",
+      "sha256": "63744795ab599fa6d462915d8996b1620eb83971e500cd8d7813a8e6481af0d8",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_invalid_binding_errors_do_not_echo_record_contents.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_legacy_home_override_still_selects_existing_state.json",
+      "sha256": "581ff57ebd29257b8a3edfa9ec2c8a809d0dc76ddb4281c086316f5e5370fb2e",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_legacy_project_config_is_read_until_new_directory_exists.json",
+      "sha256": "87741bc17925238a30d89ad9a980752944b2f0fd266849a1e187e29dc2b48504",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_local_compaction_uses_gateway_responses_and_omits_model.json",
+      "sha256": "a1c940a95ccf41f75501953e4731c9624b07ca3cbb57af479a85fda4db9d8dcc",
+      "bytes": 83196
+    },
+    {
+      "path": "acceptance/fixtures/test_mcp_wire_identity_and_separate_credentials.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_missing_credential_fails_without_inference.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_named_environments_and_file_credential_without_export.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_native_status_and_plain_doctor_inspect_configuration_without_store_access.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_new_home_override_takes_precedence_over_legacy.json",
+      "sha256": "f553ce6faf4a1174e47e19579e10ca9f23892103747c5fba1d3514759a13b2ef",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_plain_terminal_setup_retains_public_settings_after_cancelled_login.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_running_client_stays_revoked_after_subprocess_logout_and_relogin.json",
+      "sha256": "942e3bf35cdadcdafa136242ef1a32c4053ecd7b3c58fff0b53c095b56004e1c",
+      "bytes": 146187
+    },
+    {
+      "path": "acceptance/fixtures/test_saved_environment_cannot_enable_unvalidated_upstream_services.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_saved_legacy_catalog_uses_new_identity_without_rewriting_history.json",
+      "sha256": "7a0a215239b915ee889dd0c47bec00499e342e1f4023ee4ad30e94bbc27ea6dc",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_saved_legacy_user_agent_uses_current_wire_branding.json",
+      "sha256": "24b3e56e6d4bbef23535ef45b4179be00a280189a3e986bf06bd665e0b913999",
+      "bytes": 68284
+    },
+    {
+      "path": "acceptance/fixtures/test_setup_refuses_overwrite.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_unconfigured_and_invalid_routes_fail_before_inference.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_doctor_rejects_oversized_or_fifo_catalog_without_blocking.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_mcp_credential_binding_rejects_changed_key_destination_and_removal.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_setup_without_context_flag_persists_default.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_workspace_login_hides_paste_and_restores_terminal_on_cancel.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_workspace_login_rejects_multiline_paste_without_echo_or_binding.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    },
+    {
+      "path": "acceptance/fixtures/test_workspace_login_restores_terminal_when_terminated.json",
+      "sha256": "4e80c890415517fd4bd6f6748f3dcb806ca5974ae447b8a3e1ea8bf227f86883",
+      "bytes": 63
+    }
+  ]
+}

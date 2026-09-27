@@ -1,0 +1,25 @@
+from pathlib import Path
+import json,time,subprocess,sys
+r=Path('/home/cdot/.cache/airs-upstream-release-20260927');end=time.monotonic()+7200
+while not all((r/name).is_file() for name in ['WORKSPACE-REVIEW.json','STAGING-COMPLETE.json','REGISTRY-INPUTS.json','LOCAL-REGRESSIONS.json','MAC-CI-COMPLETE.json']):
+ if time.monotonic()>end:raise TimeoutError('Workspace review not complete; nothing published')
+ time.sleep(15)
+assert json.loads((r/'MAC-CI-COMPLETE.json').read_text())['passed'], 'Mac workflow acceptance failed'
+review=json.loads((r/'WORKSPACE-REVIEW.json').read_text());assert review['run_id']==3863 and review['source_commit']=='f7e03c65933041621ef9c6aecc0062610ae0a9b5'
+assert review['suite_all_green'] or review['only_reviewed_baseline_failures'], 'New workspace failure; publication stopped'
+assert json.loads((r/'STAGING-COMPLETE.json').read_text())['passed']
+assert json.loads((r/'CANDIDATE-HOST-COMPLETE.json').read_text())['passed']
+spec=json.loads((r/'SPEC.json').read_text());assert spec['scope']=='owner-authorized-mac-preview' and spec['tag']=='mac-preview' and spec['version']=='0.1.3-alpha.6.mcp.1'
+assert spec['source_commit']=='f7e03c65933041621ef9c6aecc0062610ae0a9b5' and spec['tooling_commit']=='f7e03c65933041621ef9c6aecc0062610ae0a9b5'
+assert json.loads((r/'LOCAL-REGRESSIONS.json').read_text())['passed']
+base=[sys.executable,str(r/'frozen-tooling/scripts/airs_test_release.py')]
+subprocess.run(base+['verify-all','--spec',str(r/'SPEC.json'),'--acceptance',str(r/'candidate-acceptance')],check=True,stdout=subprocess.DEVNULL)
+with (r/'publish.log').open('w') as log:
+ p=subprocess.run(base+['publish','--spec',str(r/'SPEC.json'),'--packages',str(r/'staged'),'--acceptance',str(r/'candidate-acceptance'),'--output',str(r/'publication'),'--userconfig','/home/cdot/.cache/airs-routing-20260925/publish.npmrc'],stdout=log,stderr=subprocess.STDOUT)
+if p.returncode:raise RuntimeError('Publication failed; inspect bounded publication log')
+receipt=json.loads((r/'publication/PUBLICATION.json').read_text());assert receipt['published']
+print('Published verified Apple Silicon packages under mac-preview',flush=True)
+transfer=json.loads((r/'REGISTRY-INPUTS.json').read_text());h=transfer['archive_sha256'];assert len(h)==64
+cmd='/opt/homebrew/opt/python@3.13/libexec/bin/python3 /Users/cdot/.cache/airs-upstream-release-20260927/prepare-native-registry.py '+h
+p=subprocess.run(['ssh','-i','/home/cdot/.ssh/airs-jadzia-runner','-o','BatchMode=yes','cdot@10.0.1.121',cmd],check=True)
+(r/'REGISTRY-VERIFICATION-DISPATCHED.json').write_text(json.dumps({'published':True,'verification_dispatched':True,'spec':spec})+'\n')

@@ -1,0 +1,102 @@
+{
+  "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "tooling_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "packaging_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+  "version": "0.1.3-alpha.6.mcp.1",
+  "scope": "owner-authorized-mac-preview",
+  "tag": "mac-preview",
+  "registry": "https://npm.cdot.io",
+  "candidate_and_registry_verified": true,
+  "signed_and_notarized": true,
+  "platforms": [
+    "aarch64-apple-darwin"
+  ],
+  "bundled_cli": "7.1.5",
+  "feature_scores": {
+    "mac_sandbox_and_descriptor_isolation": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "tls_and_enterprise_trust": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "transport_and_session_reliability": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "retry_after": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "terminal_ssh_and_tmux": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "unicode_lists_and_math": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "opt_in_fullscreen_search_selection": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    },
+    "signed_mac_preview_delivery": {
+      "implementation": 9,
+      "code_quality": 9,
+      "design": 9,
+      "feature_completeness": 9
+    }
+  },
+  "review_method": "Evidence-backed adversarial self-review; not independent certification. Per-feature findings and corrective iterations are retained in validation/2026-09-26 and the vault PRD.",
+  "score_limit": "Scores apply to the accepted bounded Mac preview. Owner real-account and visual acceptance remain explicit and earn no unrun credit.",
+  "workspace": {
+    "source_commit": "f7e03c65933041621ef9c6aecc0062610ae0a9b5",
+    "run_id": 3863,
+    "duration_seconds": 2010.099,
+    "total": 18998,
+    "passed": 18995,
+    "failed": 3,
+    "skipped": 35,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "only_reviewed_baseline_failures": true,
+    "suite_all_green": false,
+    "retained_log_sha256": "69cf9b2de68e1b2358404a3dae5d71a57c1e80c8e8491b31535b1a6f7481562d",
+    "log_source": "Complete uploaded CI validation artifact (queried for run 3863); source-verified GNU container and terminal CI run status checked separately",
+    "retry_passes": [],
+    "first_attempt_failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ]
+  },
+  "previous_versions_checked": [
+    "0.1.2",
+    "0.1.3-alpha.5.mcp.1"
+  ],
+  "deferred": [
+    "Linux distributions until owner Mac acceptance",
+    "stable promotion"
+  ],
+  "production_acceptance": false,
+  "paid_jev_calls": false,
+  "documentation_source_commit": "61cbf3b0018e33fa0de5d591c2fffa09bbffc459"
+}

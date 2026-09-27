@@ -76,6 +76,10 @@ async fn exercise(preference: &str, expected: &[&str]) -> Result<()> {
     )?;
     terminal.wait_for_startup()?;
     terminal.wait_for_screen("Lists ready.")?;
+    // A disposable final-line preview can arrive before the stable commit queue drains.
+    for &line in expected {
+        terminal.wait_for_screen(line)?;
+    }
     let screen = terminal.screen_contents();
     for &line in expected {
         ensure!(screen.contains(line), "missing {line:?}; screen:\n{screen}");

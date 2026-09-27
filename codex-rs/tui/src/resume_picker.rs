@@ -6733,7 +6733,7 @@ session_picker_view = "dense"
     }
 
     #[test]
-    fn thread_to_transcript_cells_shows_raw_reasoning_over_summary_when_enabled() {
+    fn thread_to_transcript_cells_retains_summary_and_raw_reasoning_when_enabled() {
         use crate::thread_transcript::thread_to_transcript_cells;
 
         let thread_id = ThreadId::new();
@@ -6797,7 +6797,7 @@ session_picker_view = "dense"
         .join("\n");
 
         assert!(rendered.contains("raw reasoning content"));
-        assert!(!rendered.contains("public summary"));
+        assert!(rendered.contains("public summary"));
     }
 
     #[tokio::test]

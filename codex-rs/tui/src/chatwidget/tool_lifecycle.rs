@@ -4,6 +4,7 @@
 //! events as transcript cells.
 
 use super::*;
+use crate::thread_transcript::tools::McpHistory;
 use codex_utils_path_uri::LegacyAppPathString;
 
 impl ChatWidget {
@@ -207,38 +208,14 @@ impl ChatWidget {
     pub(crate) fn handle_mcp_tool_call_completed_now(&mut self, item: ThreadItem) {
         self.flush_answer_stream_with_separator();
 
-        let ThreadItem::McpToolCall {
+        let Some(McpHistory {
             id,
-            server,
-            tool,
-            status,
-            arguments,
+            invocation,
+            duration,
             result,
-            error,
-            duration_ms,
-            ..
-        } = item
+        }) = McpHistory::from_item(item)
         else {
             return;
-        };
-        let invocation = McpInvocation {
-            server,
-            tool,
-            arguments: Some(arguments),
-        };
-        let duration = Duration::from_millis(duration_ms.unwrap_or_default().max(0) as u64);
-        let result = match (result, error) {
-            (_, Some(error)) => Err(error.message),
-            (Some(result), None) => {
-                let result = *result;
-                Ok(codex_protocol::mcp::CallToolResult {
-                    content: result.content,
-                    structured_content: result.structured_content,
-                    is_error: Some(status == codex_app_server_protocol::McpToolCallStatus::Failed),
-                    meta: None,
-                })
-            }
-            (None, None) => Err("MCP tool call completed without a result".to_string()),
         };
 
         let extra_cell = match self

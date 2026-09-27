@@ -202,10 +202,10 @@ async fn exploration_reasoning_during_followup_command_stays_ordered() {
     let first = begin_exec(&mut chat, "first", "ls");
     end_exec(&mut chat, first, "file.txt\n", "", /*exit_code*/ 0);
     chat.on_agent_reasoning_delta("Read the file next.".to_string());
-    chat.on_agent_reasoning_final();
+    chat.on_agent_reasoning_final(/*source_item_id*/ None);
     let second = begin_exec(&mut chat, "second", "cat file.txt");
     chat.on_agent_reasoning_delta("Waiting for the file.".to_string());
-    chat.on_agent_reasoning_final();
+    chat.on_agent_reasoning_final(/*source_item_id*/ None);
     assert!(drain_insert_history(&mut rx).is_empty());
     end_exec(&mut chat, second, "contents\n", "", /*exit_code*/ 0);
     let transcript = chat.active_cell_transcript_lines(/*width*/ 80).unwrap();
@@ -274,7 +274,7 @@ async fn adjacent_exploration_groups_across_reasoning_live_and_replayed() {
                         );
                     } else {
                         chat.on_agent_reasoning_delta(summary.to_string());
-                        chat.on_agent_reasoning_final();
+                        chat.on_agent_reasoning_final(/*source_item_id*/ None);
                     }
                 }
             }

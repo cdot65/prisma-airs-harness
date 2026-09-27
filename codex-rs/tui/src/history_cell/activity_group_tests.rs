@@ -1,6 +1,7 @@
 use super::*;
 use crate::history_cell::HistoryRenderMode;
 use crate::history_cell::PlainHistoryCell;
+use crate::history_cell::ReasoningSummaryCell;
 use crate::history_cell::WebHyperlinkHistoryCell;
 use crate::history_cell::new_reasoning_summary_block;
 use crate::terminal_hyperlinks::HyperlinkLine;
@@ -14,16 +15,16 @@ use std::path::Path;
 #[test]
 fn prepending_history_preserves_detail_order_and_raw_contract() {
     let mut older = ActivityGroup::new(vec!["older command"]);
-    older.push_detail(
-        new_reasoning_summary_block(vec!["older reasoning".into()], Path::new("/tmp")).into(),
-    );
+    older.push_detail(Arc::<ReasoningSummaryCell>::from(
+        new_reasoning_summary_block(vec!["older reasoning".into()], Path::new("/tmp")),
+    ));
     let mut current = ActivityGroup::new(vec!["current command"]);
     current.push_detail(Arc::new(PlainHistoryCell::new(vec![Line::from(
         "terminal input",
     )])));
-    current.push_detail(
-        new_reasoning_summary_block(vec!["current reasoning".into()], Path::new("/tmp")).into(),
-    );
+    current.push_detail(Arc::<ReasoningSummaryCell>::from(
+        new_reasoning_summary_block(vec!["current reasoning".into()], Path::new("/tmp")),
+    ));
     current.prepend(older);
 
     assert_eq!(current.calls, vec!["older command", "current command"]);

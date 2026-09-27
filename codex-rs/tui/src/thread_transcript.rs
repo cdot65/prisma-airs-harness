@@ -23,6 +23,7 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use ratatui::style::Stylize as _;
 
 mod other_items;
+mod projection;
 pub(crate) mod tools;
 
 pub(crate) type TranscriptCells = Vec<Arc<dyn HistoryCell>>;
@@ -68,13 +69,19 @@ pub(crate) fn thread_to_transcript_cells(
 ) -> TranscriptCells {
     let cwd = thread.cwd;
     let thread_id = ThreadId::from_string(&thread.id).ok();
-    let mut cells = thread_items_to_transcript_cells(
-        thread_id,
-        &cwd,
-        thread.turns.into_iter().flat_map(|turn| turn.items),
-        raw_reasoning_visibility,
-        config,
-    );
+    let mut cells = thread
+        .turns
+        .into_iter()
+        .flat_map(|turn| {
+            thread_items_to_transcript_cells(
+                thread_id,
+                &cwd,
+                turn.items,
+                raw_reasoning_visibility,
+                config,
+            )
+        })
+        .collect::<TranscriptCells>();
     if cells.is_empty() {
         cells.push(Arc::new(PlainHistoryCell::new(vec![
             "No transcript content available".italic().dim().into(),
@@ -93,20 +100,12 @@ pub(crate) fn thread_items_to_transcript_cells(
     let inline_visualization_context = config.and_then(|config| {
         thread_id.and_then(|thread_id| InlineVisualizationContext::from_config(config, thread_id))
     });
-    let mut cells: TranscriptCells = Vec::new();
-    for item in items {
-        if let Some(cell) = tools::historical_tool_fallback(&item) {
-            cells.push(Arc::new(cell));
-        } else {
-            cells.extend(item_to_cells(
-                item,
-                cwd,
-                raw_reasoning_visibility,
-                inline_visualization_context.clone(),
-            ));
-        }
-    }
-    cells
+    projection::project_items(
+        cwd,
+        items,
+        raw_reasoning_visibility,
+        inline_visualization_context,
+    )
 }
 
 /// Reconstruct presentation only, without starting work or changing active session state.
@@ -193,23 +192,28 @@ fn item_to_cells(
             }
         }
         ThreadItem::Reasoning {
-            summary, content, ..
+            id,
+            summary,
+            content,
         } => {
-            let (header, text) =
-                if matches!(raw_reasoning_visibility, RawReasoningVisibility::Visible)
-                    && !content.is_empty()
-                {
-                    ("Reasoning".to_string(), content.join("\n\n"))
-                } else {
-                    split_reasoning_summary_parts(&summary)
-                };
+            let (header, mut text) = split_reasoning_summary_parts(&summary);
+            if matches!(raw_reasoning_visibility, RawReasoningVisibility::Visible)
+                && !content.is_empty()
+            {
+                if !text.is_empty() {
+                    text.push_str("\n\n");
+                }
+                text.push_str(&content.join("\n\n"));
+            }
             if !text.trim().is_empty() {
-                cells.push(Arc::new(ReasoningSummaryCell::new(
+                let mut cell = ReasoningSummaryCell::new(
                     header,
                     text,
                     cwd.as_path(),
-                    /*transcript_only*/ false,
-                )));
+                    /*transcript_only*/ true,
+                );
+                cell.set_source_item_id(id);
+                cells.push(Arc::new(cell));
             }
         }
         item @ ThreadItem::CommandExecution { .. } => {

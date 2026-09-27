@@ -296,9 +296,26 @@ pub(crate) struct ReasoningSummaryCell {
     /// Session cwd used to render local file links inside the reasoning body.
     cwd: PathBuf,
     transcript_only: bool,
+    source_item_id: Option<String>,
 }
 
 impl ReasoningSummaryCell {
+    pub(crate) fn set_source_item_id(&mut self, id: String) {
+        self.source_item_id = Some(id);
+    }
+
+    #[allow(
+        dead_code,
+        reason = "Consumed by the following paginated-history integration slice."
+    )]
+    pub(crate) fn source_item_id(&self) -> Option<&str> {
+        self.source_item_id.as_deref()
+    }
+
+    pub(crate) fn is_transcript_only(&self) -> bool {
+        self.transcript_only
+    }
+
     /// Create a reasoning summary cell that will render local file links relative to the session
     /// cwd active when the summary was recorded.
     pub(crate) fn new(header: String, content: String, cwd: &Path, transcript_only: bool) -> Self {
@@ -307,6 +324,7 @@ impl ReasoningSummaryCell {
             content,
             cwd: cwd.to_path_buf(),
             transcript_only,
+            source_item_id: None,
         }
     }
 
@@ -636,18 +654,10 @@ pub(crate) fn new_user_prompt(
 pub(crate) fn new_reasoning_summary_block(
     reasoning_parts: Vec<String>,
     cwd: &Path,
-) -> Box<dyn HistoryCell> {
+) -> Box<ReasoningSummaryCell> {
     let (header, content) = split_reasoning_summary_parts(&reasoning_parts);
-    let title_only = content
-        .strip_prefix("**")
-        .and_then(|content| content.strip_suffix("**"))
-        .is_some_and(|content| !content.is_empty() && !content.contains("**"));
-    let transcript_only = header.is_empty() && !title_only;
     Box::new(ReasoningSummaryCell::new(
-        header,
-        content,
-        cwd,
-        transcript_only,
+        header, content, cwd, /*transcript_only*/ true,
     ))
 }
 

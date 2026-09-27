@@ -1,0 +1,19 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-E",
+    "test(group_projection) | test(history_replay) | test(exec_flow) | test(plan) | test(reasoning) | test(thread_transcript) | test(subagent) | test(airs_recovery) | test(live_app_server_file_change)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 51.124505043029785
+}

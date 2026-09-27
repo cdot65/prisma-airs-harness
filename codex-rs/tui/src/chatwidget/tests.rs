@@ -249,6 +249,8 @@ mod exec_compact;
 mod exec_flow;
 mod goal_menu;
 mod goal_validation;
+#[path = "tests/group_projection_tests.rs"]
+mod group_projection_tests;
 mod guardian;
 pub(crate) mod helpers;
 mod history_replay;

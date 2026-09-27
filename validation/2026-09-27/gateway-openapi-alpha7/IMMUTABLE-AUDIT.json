@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "evidence_commit": "868ce290a5c8caff24c0e61d996963acb7a70866",
+  "verified_files": 152,
+  "candidate_stage_receipts": 10,
+  "registry_stage_receipts": 10,
+  "runtime_source": "61013886e841c8996e952692f1fcb8475cdd9ec3",
+  "scope": "Immutable committed evidence hashes; stage receipts validated by recorded candidate/registry verify-all runs"
+}

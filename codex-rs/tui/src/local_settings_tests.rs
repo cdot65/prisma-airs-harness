@@ -20,6 +20,7 @@ terminal_resize_reflow_max_rows = 0
 session_picker_view = "comfortable"
 [tui.rendering]
 lists = false
+math = false
 [history]
 persistence = "none"
 max_bytes = 4096
@@ -46,6 +47,7 @@ fast_default_opt_out = true
             expected.animations = false;
             expected.whimsy = false;
             expected.rendering.lists = false;
+            expected.rendering.math = false;
             expected.show_tooltips = false;
             expected.auto_recap = false;
             expected.vim_mode_default = true;

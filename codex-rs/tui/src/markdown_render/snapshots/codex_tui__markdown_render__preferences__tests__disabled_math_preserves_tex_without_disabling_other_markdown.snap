@@ -1,0 +1,27 @@
+---
+source: tui/src/markdown_render/preferences_tests.rs
+assertion_line: 44
+expression: "format!(\"disabled math:\\n{plain}\\n\\nrich:\\n{rich}\\n\\nsource:\\n{source}\")"
+---
+disabled math:
+☑ Ready
+
+Equation: \(\alpha^2 + \beta_{10}\).
+
+\[\frac{a}{b}\]
+
+rich:
+☑ Ready
+
+Equation: α² + β₁₀.
+
+a
+─
+b
+
+source:
+- [x] **Ready**
+
+Equation: \(\alpha^2 + \beta_{10}\).
+
+\[\frac{a}{b}\]

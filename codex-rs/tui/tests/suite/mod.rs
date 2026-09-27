@@ -14,3 +14,6 @@ mod worktree_stack;
 mod terminal_ssh;
 #[cfg(unix)]
 mod unicode_lists;
+
+#[cfg(unix)]
+mod unicode_math;

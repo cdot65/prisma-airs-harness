@@ -9,8 +9,17 @@ use pretty_assertions::assert_eq;
 #[test]
 fn disabled_lists_keep_textual_markers_and_restore_without_changing_source() {
     let source = "- [ ] Pending\n- [x] **Done**\n- Ordinary\n";
-    init(TuiRendering { lists: false });
-    assert_eq!(current(), TuiRendering { lists: false });
+    init(TuiRendering {
+        lists: false,
+        ..TuiRendering::default()
+    });
+    assert_eq!(
+        current(),
+        TuiRendering {
+            lists: false,
+            ..TuiRendering::default()
+        }
+    );
     let plain = render_markdown_text(source);
     assert_eq!(plain.to_string(), "- [ ] Pending\n- [x] Done\n- Ordinary");
     init(TuiRendering::default());
@@ -29,5 +38,26 @@ fn disabled_lists_keep_textual_markers_and_restore_without_changing_source() {
     }));
     insta::assert_snapshot!(format!(
         "plain:\n{plain}\n\nrich:\n{rich}\n\nsource:\n{source}"
+    ));
+}
+
+#[test]
+fn disabled_math_preserves_tex_without_disabling_other_markdown() {
+    let source =
+        "- [x] **Ready**\n\nEquation: \\(\\alpha^2 + \\beta_{10}\\).\n\n\\[\\frac{a}{b}\\]\n";
+    init(TuiRendering {
+        math: false,
+        ..TuiRendering::default()
+    });
+    let plain = render_markdown_text(source);
+    assert_eq!(
+        plain.to_string(),
+        "☑ Ready\n\nEquation: \\(\\alpha^2 + \\beta_{10}\\).\n\n\\[\\frac{a}{b}\\]"
+    );
+    init(TuiRendering::default());
+    let rich = render_markdown_text(source);
+    assert!(rich.to_string().contains("Equation: α² + β₁₀."));
+    insta::assert_snapshot!(format!(
+        "disabled math:\n{plain}\n\nrich:\n{rich}\n\nsource:\n{source}"
     ));
 }

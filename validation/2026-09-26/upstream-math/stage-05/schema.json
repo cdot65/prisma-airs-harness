@@ -1,0 +1,8 @@
+{
+  "command": [
+    "just",
+    "write-config-schema"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 135.35321402549744
+}

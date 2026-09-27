@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="1" skipped="0" failures="0" errors="0" uuid="8b9a8ce2-6ca1-41a6-abad-03bf0f9e583b" timestamp="2026-09-27T00:47:29.316+00:00" time="0.043">
+    <testsuite name="codex-tui" tests="1" skipped="0" errors="0" failures="0">
+        <testcase name="markdown_render::preferences::tests::disabled_math_preserves_tex_without_disabling_other_markdown" classname="codex-tui" timestamp="2026-09-27T00:47:29.332+00:00" time="0.027"/>
+    </testsuite>
+</testsuites>

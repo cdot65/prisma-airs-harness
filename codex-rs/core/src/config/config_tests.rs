@@ -1356,6 +1356,7 @@ async fn runtime_config_uses_tui_raw_output_mode_and_rendering() {
         raw_output_mode = true
         [tui.rendering]
         lists = false
+        math = false
     "#;
     let cfg_toml: ConfigToml = toml::from_str(toml).expect("deserialize raw_output_mode=true");
     let cfg = Config::load_from_base_config_with_overrides(
@@ -1369,7 +1370,10 @@ async fn runtime_config_uses_tui_raw_output_mode_and_rendering() {
     assert!(cfg.tui_raw_output_mode);
     assert_eq!(
         cfg.tui_rendering,
-        codex_config::types::TuiRendering { lists: false }
+        codex_config::types::TuiRendering {
+            lists: false,
+            math: false
+        }
     );
 }
 

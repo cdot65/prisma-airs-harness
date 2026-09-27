@@ -11,10 +11,15 @@ use serde::Serialize;
 pub struct TuiRendering {
     /// Render Markdown bullets and task checkboxes using Unicode symbols.
     pub lists: bool,
+    /// Render supported math expressions using bounded Unicode layouts.
+    pub math: bool,
 }
 
 impl Default for TuiRendering {
     fn default() -> Self {
-        Self { lists: true }
+        Self {
+            lists: true,
+            math: true,
+        }
     }
 }

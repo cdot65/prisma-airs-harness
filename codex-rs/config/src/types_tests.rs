@@ -91,10 +91,28 @@ fn memories_config_clamps_rate_limit_remaining_threshold() {
 fn tui_list_rendering_defaults_and_explicit_overrides_are_independent_of_animation() {
     for source in ["", "animations = false\nwhimsy = false"] {
         let config: Tui = toml::from_str(source).expect("parse TUI settings");
-        assert_eq!(config.rendering, TuiRendering { lists: true });
+        assert_eq!(config.rendering, TuiRendering::default());
     }
     let config: Tui = toml::from_str("animations = true\n[rendering]\nlists = false")
         .expect("parse explicit list rendering override");
-    assert_eq!(config.rendering, TuiRendering { lists: false });
+    assert_eq!(
+        config.rendering,
+        TuiRendering {
+            lists: false,
+            ..TuiRendering::default()
+        }
+    );
     assert!(config.animations);
+}
+
+#[test]
+fn tui_math_and_lists_can_be_configured_independently() {
+    for lists in [false, true] {
+        for math in [false, true] {
+            let source = format!("animations = false\n[rendering]\nlists = {lists}\nmath = {math}");
+            let config: Tui = toml::from_str(&source).expect("parse independent renderers");
+            assert_eq!(config.rendering, TuiRendering { lists, math });
+            assert!(!config.animations);
+        }
+    }
 }

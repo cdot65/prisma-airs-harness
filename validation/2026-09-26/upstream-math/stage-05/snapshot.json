@@ -1,0 +1,27 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-tui",
+    "-E",
+    "test(disabled_math_preserves_tex_without_disabling_other_markdown)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 268.6410984992981,
+  "junit": {
+    "name": "nextest-run",
+    "tests": "1",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "8b9a8ce2-6ca1-41a6-abad-03bf0f9e583b",
+    "timestamp": "2026-09-27T00:47:29.316+00:00",
+    "time": "0.043"
+  }
+}

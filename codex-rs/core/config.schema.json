@@ -4129,7 +4129,8 @@
             }
           ],
           "default": {
-            "lists": true
+            "lists": true,
+            "math": true
           },
           "description": "Rich content rendering, independent of animation settings."
         },
@@ -5160,6 +5161,11 @@
         "lists": {
           "default": true,
           "description": "Render Markdown bullets and task checkboxes using Unicode symbols.",
+          "type": "boolean"
+        },
+        "math": {
+          "default": true,
+          "description": "Render supported math expressions using bounded Unicode layouts.",
           "type": "boolean"
         }
       },

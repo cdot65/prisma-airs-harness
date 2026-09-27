@@ -671,3 +671,39 @@ fn preview_titles_bound_normalization_without_changing_retained_arguments() {
         );
     }
 }
+
+#[test]
+fn compact_mcp_copy_excludes_gutters_without_revealing_hidden_output() {
+    let mut cell = new_active_mcp_tool_call(
+        "copy-boundary".to_owned(),
+        McpInvocation {
+            server: "service-now".to_owned(),
+            tool: "lookup".to_owned(),
+            arguments: None,
+        },
+        /*animations_enabled*/ false,
+    );
+    cell.complete(Duration::ZERO, Ok(result(vec![json!({"type": "text", "text": "hidden first row\nvisible one\n  └ real data\nfinal longer row"})])));
+    let lines = cell.compact_hyperlink_lines(/*width*/ 16);
+    let copied = lines
+        .iter()
+        .map(|line| {
+            let source = line.source.as_ref().unwrap();
+            source.text[source.range.clone()].to_owned()
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        copied,
+        vec![
+            "Called servic…",
+            "visible one",
+            "  └ real da…",
+            "final longe…"
+        ]
+    );
+    assert!(
+        cell.raw_lines()
+            .iter()
+            .any(|line| line.to_string() == "hidden first row")
+    );
+}

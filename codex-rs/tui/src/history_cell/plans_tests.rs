@@ -36,3 +36,67 @@ fn finalized_plan_file_citation_renders_as_local_path_snapshot() {
 
     insta::assert_snapshot!(rendered, @"• Proposed Plan\n \n \n  • Quarterly Report.xlsx");
 }
+
+#[test]
+fn compact_plan_prioritizes_work_and_preserves_copy_labels_and_details() {
+    let cell = new_plan_update(UpdatePlanArgs {
+        explanation: Some("Retain full explanation".into()),
+        plan: vec![
+            PlanItemArg {
+                step: "Completed first".into(),
+                status: StepStatus::Completed,
+            },
+            PlanItemArg {
+                step: "Pending work".into(),
+                status: StepStatus::Pending,
+            },
+            PlanItemArg {
+                step: "Current work".into(),
+                status: StepStatus::InProgress,
+            },
+            PlanItemArg {
+                step: "Extra pending work".into(),
+                status: StepStatus::Pending,
+            },
+        ],
+    });
+    let lines = cell.compact_hyperlink_lines(/*width*/ 32);
+    let copied = lines
+        .iter()
+        .map(|line| {
+            let source = line.source.as_ref().unwrap();
+            source.text[source.range.clone()].to_owned()
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        copied,
+        vec![
+            "Updated Plan · 1/4 complete",
+            "□ Current work",
+            "□ Pending work",
+            "□ Extra pending work"
+        ]
+    );
+    assert!(cell.has_hidden_activity_details(/*width*/ 32));
+    let raw = cell
+        .raw_lines()
+        .iter()
+        .map(ToString::to_string)
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(raw.contains("Retain full explanation"));
+    assert!(raw.find("Completed first").unwrap() < raw.find("Pending work").unwrap());
+    insta::assert_snapshot!(ratatui::text::Text::from(visible_lines(lines)), @"
+    • Updated Plan · 1/4 complete
+      └ □ Current work
+        □ Pending work
+        □ Extra pending work
+    ");
+    for width in [0, 1, 3, 16] {
+        assert!(
+            cell.compact_hyperlink_lines(width)
+                .iter()
+                .all(|line| line.width() <= usize::from(width))
+        );
+    }
+}

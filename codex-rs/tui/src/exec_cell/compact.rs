@@ -4,7 +4,7 @@ use super::model::ExecCell;
 use crate::exec_command::strip_bash_lc_and_escape;
 use crate::history_cell::HistoryRenderMode;
 use crate::history_cell::activity_preview::DETAIL_PREVIEW_LINES;
-use crate::history_cell::activity_preview::clipped_line;
+use crate::history_cell::activity_preview::clipped_prefixed_line;
 use crate::motion::MotionMode;
 use crate::motion::ReducedMotionIndicator;
 use crate::motion::activity_indicator;
@@ -84,28 +84,35 @@ impl ExecCell {
         // Highlight before clipping so the compact row keeps the same shell token colors.
         let mut command_lines = highlight_bash_to_lines(&script).into_iter();
         let mut header = command_lines.next().unwrap_or_default();
-        header
-            .spans
-            .splice(0..0, [marker, " ".into(), title.bold(), " ".into()]);
+        header.spans.splice(0..0, [title.bold(), " ".into()]);
         if command_lines.next().is_some() {
             header.push_span(" …");
         }
-        let mut lines = vec![clipped_line(header, width)];
+        let mut lines = vec![clipped_prefixed_line(
+            Line::from(vec![marker, " ".into()]),
+            header,
+            width,
+        )];
         if let Some(output) = &call.output {
             let tail: Vec<_> = output.lines().rev().take(DETAIL_PREVIEW_LINES).collect();
             for (index, raw) in tail.into_iter().rev().enumerate() {
                 let mut line = ansi_escape_line(raw.as_ref());
-                line.spans.insert(
-                    /*index*/ 0,
-                    if index == 0 { "  └ " } else { "    " }.dim(),
-                );
+
                 line.spans.iter_mut().for_each(|span| {
                     span.style = span.style.add_modifier(Modifier::DIM);
                 });
-                lines.push(clipped_line(line, width));
+                lines.push(clipped_prefixed_line(
+                    Line::from(if index == 0 { "  └ " } else { "    " }.dim()),
+                    line,
+                    width,
+                ));
             }
             if lines.len() == 1 && !call.is_unified_exec_interaction() {
-                lines.push(clipped_line(Line::from("  └ (no output)".dim()), width));
+                lines.push(clipped_prefixed_line(
+                    Line::from("  └ ".dim()),
+                    Line::from("(no output)".dim()),
+                    width,
+                ));
             }
         }
         lines

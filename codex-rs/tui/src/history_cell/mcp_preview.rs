@@ -4,7 +4,7 @@ use super::McpToolCallCell;
 use super::NodeReplExecOutput;
 use super::result::McpResultKind;
 use crate::history_cell::activity_preview::DETAIL_PREVIEW_LINES;
-use crate::history_cell::activity_preview::clipped_line;
+use crate::history_cell::activity_preview::clipped_prefixed_line;
 use crate::live_wrap::take_prefix_by_width;
 use crate::motion::MotionMode;
 use crate::motion::ReducedMotionIndicator;
@@ -33,14 +33,9 @@ impl McpToolCallCell {
             ),
         };
         let title = self.preview_title();
-        let mut lines = vec![clipped_line(
-            Line::from(vec![
-                marker,
-                " ".into(),
-                verb.bold(),
-                " ".into(),
-                title.fg(Color::Cyan),
-            ]),
+        let mut lines = vec![clipped_prefixed_line(
+            Line::from(vec![marker, " ".into()]),
+            Line::from(vec![verb.bold(), " ".into(), title.fg(Color::Cyan)]),
             width,
         )];
         let mut details = VecDeque::with_capacity(DETAIL_PREVIEW_LINES);
@@ -103,11 +98,9 @@ impl McpToolCallCell {
             }
         }
         for (index, detail) in details.into_iter().enumerate() {
-            lines.push(clipped_line(
-                Line::from(vec![
-                    if index == 0 { "  └ " } else { "    " }.dim(),
-                    detail.dim(),
-                ]),
+            lines.push(clipped_prefixed_line(
+                Line::from(if index == 0 { "  └ " } else { "    " }.dim()),
+                Line::from(detail.dim()),
                 width,
             ));
         }

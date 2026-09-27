@@ -54,9 +54,12 @@ fn reading_live_output_retains_its_revision_until_explicit_navigation() {
         let buffer = render(&mut overlay, area);
         assert_eq!(
             content_rows(&overlay, &buffer),
-            (2..6)
-                .map(|row| format!("streaming row {row}"))
-                .collect::<Vec<_>>()
+            [
+                "first prompt",
+                "streaming row 3",
+                "streaming row 4",
+                "streaming row 5"
+            ]
         );
         assert!(!overlay.view.is_following());
     }
@@ -71,7 +74,7 @@ fn reading_live_output_retains_its_revision_until_explicit_navigation() {
     assert_eq!(
         content_rows(&overlay, &completed),
         [
-            "streaming row 2",
+            "first prompt",
             "streaming row 3",
             "streaming row 4",
             "streaming row 5"

@@ -127,6 +127,7 @@ mod effort_status_line;
 mod experimental_features_view;
 mod file_search_popup;
 mod footer;
+mod footer_flash;
 pub(crate) use footer::footer_hint_items_line;
 mod list_selection_view;
 mod memories_settings_view;
@@ -301,11 +302,6 @@ pub(crate) struct BottomPaneParams {
 }
 
 impl BottomPane {
-    pub(crate) fn show_footer_flash(&mut self, line: Line<'static>, duration: Duration) {
-        self.composer.show_footer_flash(line, duration);
-        self.request_redraw();
-    }
-
     pub fn new(params: BottomPaneParams) -> Self {
         Self::new_with_composer_config(params, ChatComposerConfig::default())
     }

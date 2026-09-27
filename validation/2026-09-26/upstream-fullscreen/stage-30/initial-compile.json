@@ -1,0 +1,23 @@
+{
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "-p",
+    "codex-config",
+    "-p",
+    "codex-features",
+    "-E",
+    "test(transcript_view) | test(owned_transcript) | test(backtrack) | test(browsing) | test(history_hydration) | test(history_pagination) | test(composer_hints) | test(tool_details) | test(transcript_selection) | test(prompt_edit) | test(transcript_composer) | test(wrapped_url)",
+    "--test-threads",
+    "6",
+    "--retries",
+    "0"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 54.28212237358093
+}

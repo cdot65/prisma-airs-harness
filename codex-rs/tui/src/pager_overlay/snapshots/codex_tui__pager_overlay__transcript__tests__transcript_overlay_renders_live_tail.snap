@@ -1,5 +1,6 @@
 ---
 source: tui/src/pager_overlay/legacy_transcript_tests.rs
+assertion_line: 348
 expression: term.backend()
 ---
 "/ T R A N S C R I P T / / / / / / / / / "
@@ -10,5 +11,5 @@ expression: term.backend()
 "                                        "
 "Ctrl+Space select                       "
 " ↑/↓ to scroll   pgup/pgdn to page   hom"
-" q close   f3 find   esc edit previous  "
+" q close   f3 find   esc browse prompts "
 "                                        "

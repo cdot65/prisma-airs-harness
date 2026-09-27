@@ -212,20 +212,17 @@ pub(crate) trait HistoryCell: std::fmt::Debug + Send + Sync + Any {
     }
 
     /// Compact presentation for the owned transcript, which can reveal details in place.
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     fn compact_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         self.display_hyperlink_lines(width)
     }
 
     /// Stable, namespaced member identities used to retain disclosure across grouping and replay.
     /// Empty identities indicate ordinary content without a local disclosure control.
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     fn activity_ids(&self) -> Vec<String> {
         Vec::new()
     }
 
     /// Available activity details, preserving source order and any upstream truncation notices.
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     fn expanded_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         self.transcript_hyperlink_lines(width)
     }

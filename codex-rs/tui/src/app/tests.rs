@@ -29,6 +29,8 @@ mod buffered_replay;
 mod connector_policy;
 #[path = "tests/disconnect_tests.rs"]
 mod disconnect;
+#[path = "tests/history_hydration_tests.rs"]
+mod history_hydration_tests;
 #[path = "tests/key_chords.rs"]
 mod key_chords;
 #[path = "tests/luna_reserve_recovery_tests.rs"]
@@ -40,11 +42,15 @@ mod misalignment_policy;
 mod model_catalog;
 #[path = "tests/model_defaults_tests.rs"]
 mod model_defaults;
+#[path = "tests/pagination_browsing_tests.rs"]
+mod pagination_browsing_tests;
 #[path = "tests/patch_approval_tests.rs"]
 mod patch_approval_tests;
 #[path = "tests/permission_shortcuts_tests.rs"]
 mod permission_shortcuts_tests;
 mod plugin_catalog;
+#[path = "tests/prompt_edit_safety.rs"]
+mod prompt_edit_safety;
 mod rate_limits;
 #[path = "tests/recap_generation_tests.rs"]
 mod recap_generation;
@@ -61,6 +67,8 @@ mod stream_animation_tests;
 mod thread_usage;
 #[path = "tests/transcript_composer.rs"]
 mod transcript_composer;
+#[path = "tests/transcript_selection.rs"]
+mod transcript_selection;
 #[path = "tests/turn_submission.rs"]
 mod turn_submission;
 #[path = "tests/unavailable_commands_tests.rs"]
@@ -69,6 +77,7 @@ mod unavailable_commands;
 use super::*;
 use crate::app_backtrack::BacktrackSelection;
 use crate::app_backtrack::BacktrackState;
+use crate::app_backtrack::nth_user_position;
 use crate::app_backtrack::user_count;
 use crate::app_event::HistoryBatchEntryResponse;
 
@@ -5887,8 +5896,8 @@ async fn make_test_app() -> Box<App> {
         runtime_permission_profile_override: None,
         file_search,
         transcript_cells: Vec::new(),
+        transcript_view: crate::transcript_view::TranscriptView::default(),
         native_history: Default::default(),
-        transcript_view: Default::default(),
         last_rendered_history_tail: None,
         last_thread_usage_status_cell: None,
         pending_thread_usage_history_refresh: false,
@@ -5984,8 +5993,8 @@ pub(super) async fn make_test_app_with_channels() -> (
             runtime_permission_profile_override: None,
             file_search,
             transcript_cells: Vec::new(),
+            transcript_view: crate::transcript_view::TranscriptView::default(),
             native_history: Default::default(),
-            transcript_view: Default::default(),
             last_rendered_history_tail: None,
             last_thread_usage_status_cell: None,
             pending_thread_usage_history_refresh: false,
@@ -7292,10 +7301,10 @@ async fn backtrack_selection_preserves_selected_prompt_and_requests_branch() {
         event,
         AppEvent::ForkSessionForPromptEdit {
             thread_id,
-            nth_user_message,
+            selected_cell,
             prompt,
         } if thread_id == expected.thread_id
-            && nth_user_message == expected.nth_user_message
+            && Arc::ptr_eq(&selected_cell, &app.transcript_cells[nth_user_position(&app.transcript_cells, expected.nth_user_message).unwrap()])
             && prompt == expected.prompt
     );
 
@@ -7882,6 +7891,13 @@ async fn prompt_edit_forks_before_selected_prompt_and_preserves_source() -> Resu
         )
         .await?;
     let selected_turn = started.turns[1].clone();
+    app.transcript_cells = crate::thread_transcript::thread_items_to_transcript_cells(
+        Some(source_thread_id),
+        &app.config.cwd,
+        started.turns.iter().flat_map(|turn| turn.items.clone()),
+        crate::thread_transcript::RawReasoningVisibility::Hidden,
+        Some(&app.config),
+    );
     app.enqueue_primary_thread_session(started.session, started.turns)
         .await?;
     app.scrollback_has_older_history = app_server.has_older_history(source_thread_id);
@@ -7928,16 +7944,21 @@ async fn prompt_edit_forks_before_selected_prompt_and_preserves_source() -> Resu
         mention_bindings: Vec::new(),
     };
 
-    let control = Box::pin(app.handle_event(
-        &mut tui,
-        &mut app_server,
-        AppEvent::ForkSessionForPromptEdit {
-            thread_id: source_thread_id,
-            nth_user_message: 1,
-            prompt: prompt.clone(),
-        },
-    ))
-    .await?;
+    // An older page can arrive after Enter queues the edit. Keep the selected cell's
+    // identity instead of the index it had when that event was created.
+    let loaded_cells = std::mem::take(&mut app.transcript_cells);
+    let selected = crate::app_backtrack::nth_user_position(&loaded_cells, /*nth*/ 1).unwrap();
+    app.transcript_cells = vec![Arc::clone(&loaded_cells[selected])];
+    app.apply_backtrack_selection(crate::app_backtrack::BacktrackSelection {
+        thread_id: source_thread_id,
+        nth_user_message: 0,
+        prompt: prompt.clone(),
+    });
+    let queued_edit = std::iter::from_fn(|| app_event_rx.try_recv().ok())
+        .find(|event| matches!(event, AppEvent::ForkSessionForPromptEdit { .. }))
+        .expect("queued edit");
+    app.transcript_cells = loaded_cells;
+    let control = Box::pin(app.handle_event(&mut tui, &mut app_server, queued_edit)).await?;
 
     assert!(matches!(control, AppRunControl::Continue));
     let forked_thread_id = app
@@ -8031,6 +8052,13 @@ async fn prompt_edit_before_first_prompt_starts_fresh_thread() -> Result<()> {
             crate::app_server_session::ResumeModelSettings::OverrideFromCurrentConfig,
         )
         .await?;
+    app.transcript_cells = crate::thread_transcript::thread_items_to_transcript_cells(
+        Some(source_thread_id),
+        &app.config.cwd,
+        started.turns.iter().flat_map(|turn| turn.items.clone()),
+        crate::thread_transcript::RawReasoningVisibility::Hidden,
+        Some(&app.config),
+    );
     app.enqueue_primary_thread_session(started.session, started.turns)
         .await?;
     app.select_permission_profile(
@@ -8050,7 +8078,9 @@ async fn prompt_edit_before_first_prompt_starts_fresh_thread() -> Result<()> {
         &mut app_server,
         AppEvent::ForkSessionForPromptEdit {
             thread_id: source_thread_id,
-            nth_user_message: 0,
+            selected_cell: Arc::clone(
+                &app.transcript_cells[nth_user_position(&app.transcript_cells, /*nth*/ 0).unwrap()],
+            ),
             prompt: crate::chatwidget::UserMessage::from("first prompt"),
         },
     ))
@@ -8083,7 +8113,9 @@ async fn prompt_edit_before_first_prompt_starts_fresh_thread() -> Result<()> {
         &mut app_server,
         AppEvent::ForkSessionForPromptEdit {
             thread_id: source_thread_id,
-            nth_user_message: 0,
+            selected_cell: Arc::clone(
+                &app.transcript_cells[nth_user_position(&app.transcript_cells, /*nth*/ 0).unwrap()],
+            ),
             prompt: crate::chatwidget::UserMessage::from("first prompt"),
         },
     ))

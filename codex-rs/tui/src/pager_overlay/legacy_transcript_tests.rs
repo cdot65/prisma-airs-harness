@@ -225,9 +225,17 @@ fn navigation_supersedes_home_before_and_after_the_first_draw() {
                 expected.render(area, &mut Buffer::empty(area));
                 actual.render(area, &mut Buffer::empty(area));
             }
-            expected.navigate(key);
-            actual.navigate(KeyEvent::new(KeyCode::Home, KeyModifiers::NONE));
-            actual.navigate(key);
+            expected
+                .view
+                .navigate_pager(key, &expected.cells, &expected.keymap);
+            actual.view.navigate_pager(
+                KeyEvent::new(KeyCode::Home, KeyModifiers::NONE),
+                &actual.cells,
+                &actual.keymap,
+            );
+            actual
+                .view
+                .navigate_pager(key, &actual.cells, &actual.keymap);
             assert_eq!(actual.view.history, TranscriptHistoryState::LoadingOlder);
             actual.prepend(vec![Arc::new(TestCell {
                 lines: vec!["received older history".into()],
@@ -262,8 +270,16 @@ fn transcript_overlay_snapshots_paginated_history_states() {
         ("complete", TranscriptHistoryState::Complete),
     ] {
         overlay.set_history_state(TranscriptHistoryState::Partial);
-        overlay.navigate(KeyEvent::new(KeyCode::Home, KeyModifiers::NONE));
-        overlay.navigate(KeyEvent::new(KeyCode::End, KeyModifiers::NONE));
+        overlay.view.navigate_pager(
+            KeyEvent::new(KeyCode::Home, KeyModifiers::NONE),
+            &overlay.cells,
+            &overlay.keymap,
+        );
+        overlay.view.navigate_pager(
+            KeyEvent::new(KeyCode::End, KeyModifiers::NONE),
+            &overlay.cells,
+            &overlay.keymap,
+        );
         overlay.set_history_state(state);
         let mut buf = Buffer::empty(area);
         overlay.render(area, &mut buf);
@@ -346,7 +362,11 @@ fn transcript_overlay_renders_live_tail() {
     term.draw(|f| overlay.render(f.area(), f.buffer_mut()))
         .expect("draw");
     assert_snapshot!(term.backend());
-    overlay.navigate(KeyEvent::new(KeyCode::Home, KeyModifiers::NONE));
+    overlay.view.navigate_pager(
+        KeyEvent::new(KeyCode::Home, KeyModifiers::NONE),
+        &overlay.cells,
+        &overlay.keymap,
+    );
     term.draw(|frame| overlay.render(frame.area(), frame.buffer_mut()))
         .expect("draw");
     assert!(buffer_to_text(term.backend().buffer(), overlay.content_area).contains("tail"));
@@ -597,13 +617,21 @@ fn transcript_overlay_paging_is_continuous_and_round_trips() {
                 .map(|i| format!("line-{i:02}\n"))
                 .collect::<String>()
         );
-        overlay.navigate(KeyEvent::new(KeyCode::PageDown, KeyModifiers::NONE));
+        overlay.view.navigate_pager(
+            KeyEvent::new(KeyCode::PageDown, KeyModifiers::NONE),
+            &overlay.cells,
+            &overlay.keymap,
+        );
     }
     overlay.view.scroll(&overlay.cells, /*rows*/ -17);
     overlay.render(area, &mut buffer);
     let before = buffer.clone();
     for key in [KeyCode::PageDown, KeyCode::PageUp] {
-        overlay.navigate(KeyEvent::new(key, KeyModifiers::NONE));
+        overlay.view.navigate_pager(
+            KeyEvent::new(key, KeyModifiers::NONE),
+            &overlay.cells,
+            &overlay.keymap,
+        );
         overlay.render(area, &mut buffer);
     }
     assert_eq!(buffer, before);
@@ -766,7 +794,7 @@ fn transcript_overlay_clips_zero_and_short_viewports_to_their_area() {
 }
 
 #[test]
-fn edit_prev_hint_is_visible() {
+fn browse_prompts_hint_is_visible() {
     let mut overlay = transcript_overlay(vec![Arc::new(TestCell {
         lines: vec![Line::from("hello")],
     })]);
@@ -778,8 +806,8 @@ fn edit_prev_hint_is_visible() {
 
     let s = buffer_to_text(&buf, area);
     assert!(
-        s.contains("edit prev"),
-        "expected 'edit prev' hint in overlay footer, got: {s:?}"
+        s.contains("browse prompts"),
+        "expected 'browse prompts' hint in overlay footer, got: {s:?}"
     );
 }
 

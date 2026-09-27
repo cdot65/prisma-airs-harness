@@ -110,3 +110,18 @@ fn compact_patch_failure_bounds_dense_combining_diagnostics() {
             .any(|line| line.to_string() == "last diagnostic")
     );
 }
+
+#[test]
+fn failed_patch_keeps_diagnostics_beyond_the_legacy_preview() {
+    let diagnostics = (1..=12)
+        .map(|line| format!("diagnostic line {line}"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let cell = new_patch_apply_failure(diagnostics.clone());
+    assert_eq!(
+        cell.raw_lines(),
+        std::iter::once(Line::from("Failed to apply patch"))
+            .chain(diagnostics.lines().map(|line| Line::from(line.to_owned())))
+            .collect::<Vec<_>>()
+    );
+}

@@ -465,3 +465,7 @@ impl HistoryCell for SessionHeaderHistoryCell {
         lines
     }
 }
+
+#[cfg(test)]
+#[path = "session_transcript_tests.rs"]
+mod transcript_tests;

@@ -51,7 +51,6 @@ pub(crate) struct OutputLinesParams {
 
 struct CommandDisplay {
     lines: Vec<HyperlinkLine>,
-    #[allow(dead_code, reason = "Used by later layers of the TUI refresh stack.")]
     hidden_details: bool,
 }
 
@@ -1345,3 +1344,7 @@ mod tests {
         );
     }
 }
+
+#[cfg(test)]
+#[path = "wrapped_url_tests.rs"]
+mod wrapped_url_tests;

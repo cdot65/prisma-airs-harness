@@ -1,0 +1,38 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 test:browser
+npm notice run playwright test
+[WebServer] npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm notice run prisma-airs-reference-architecture@0.1.0 serve
+[WebServer] npm notice run docusaurus serve --host 127.0.0.1 --port 4173
+[WebServer] (node:3947221) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 23 tests using 1 worker
+
+(node:3947251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/site.spec.js:6:3 › lesson start-here renders its diagrams without browser errors (257ms)
+  ✓   2 tests/site.spec.js:6:3 › lesson architecture renders its diagrams without browser errors (380ms)
+  ✓   3 tests/site.spec.js:6:3 › lesson harness renders its diagrams without browser errors (462ms)
+  ✓   4 tests/site.spec.js:6:3 › lesson keycloak renders its diagrams without browser errors (416ms)
+  ✓   5 tests/site.spec.js:6:3 › lesson cie renders its diagrams without browser errors (444ms)
+  ✓   6 tests/site.spec.js:6:3 › lesson login renders its diagrams without browser errors (460ms)
+  ✓   7 tests/site.spec.js:6:3 › lesson gateway renders its diagrams without browser errors (322ms)
+  ✓   8 tests/site.spec.js:6:3 › lesson mcp renders its diagrams without browser errors (415ms)
+  ✓   9 tests/site.spec.js:6:3 › lesson walkthrough renders its diagrams without browser errors (337ms)
+  ✓  10 tests/site.spec.js:6:3 › lesson lifecycle renders its diagrams without browser errors (457ms)
+  ✓  11 tests/site.spec.js:6:3 › lesson operations renders its diagrams without browser errors (337ms)
+  ✓  12 tests/site.spec.js:6:3 › lesson troubleshooting renders its diagrams without browser errors (320ms)
+  ✓  13 tests/site.spec.js:6:3 › lesson labs renders its diagrams without browser errors (201ms)
+  ✓  14 tests/site.spec.js:6:3 › lesson glossary renders its diagrams without browser errors (200ms)
+  ✓  15 tests/site.spec.js:6:3 › lesson evidence renders its diagrams without browser errors (219ms)
+  ✓  16 tests/site.spec.js:22:1 › authorization exercise denies each missing condition (498ms)
+  ✓  17 tests/site.spec.js:32:1 › home works on a small screen and links use the project base path (225ms)
+  ✓  18 tests/site.spec.js:41:1 › diagrams also render in dark mode (491ms)
+  ✓  19 tests/site.spec.js:48:1 › diagram expansion supports zoom, SVG download and Escape (565ms)
+  ✓  20 tests/site.spec.js:61:1 › ServiceNow onboarding is discoverable and explains in-session MCP authorization (546ms)
+  ✓  21 tests/site.spec.js:96:1 › first-session guide separates workspace keys, local names and explicit verification (455ms)
+  ✓  22 tests/site.spec.js:121:1 › release evidence separates published fixture acceptance from deferred live checks (282ms)
+  ✓  23 tests/site.spec.js:145:1 › Jev setup explains the saved-key permission boundary (371ms)
+
+  23 passed (10.2s)

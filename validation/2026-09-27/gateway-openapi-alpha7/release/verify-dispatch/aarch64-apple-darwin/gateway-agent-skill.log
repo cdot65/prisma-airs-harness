@@ -1,0 +1,7 @@
+test_embedded_gateway_skill_runs_admin_help_in_agent_shell (__main__.TerminalIntegration.test_embedded_gateway_skill_runs_admin_help_in_agent_shell) ... ok
+test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell (__main__.TerminalIntegration.test_embedded_prisma_skill_runs_managed_doctor_in_agent_shell) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.990s
+
+OK

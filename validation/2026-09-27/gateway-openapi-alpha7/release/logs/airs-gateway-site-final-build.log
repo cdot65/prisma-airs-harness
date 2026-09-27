@@ -1,0 +1,10 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run prisma-airs-reference-architecture@0.1.0 build
+npm notice run docusaurus build
+[INFO] [en] Creating an optimized production build...
+[webpackbar] ℹ Compiling Client
+[webpackbar] ℹ Compiling Server
+[webpackbar] ✔ Server: Compiled successfully in 1.44s
+[webpackbar] ✔ Client: Compiled successfully in 1.58s
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.

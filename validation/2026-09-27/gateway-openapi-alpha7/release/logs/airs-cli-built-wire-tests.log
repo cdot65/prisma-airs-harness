@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /home/cdot/development/cdot65/prisma-airs-cli
+
+ ✓ tests/integration/aigateway-admin-guardrails.spec.ts (2 tests) 542ms
+   ✓ refuses invalid pagination before OAuth and does not retry denied routes on the control plane  345ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  17:46:35
+   Duration  812ms (transform 34ms, setup 17ms, collect 11ms, tests 542ms, environment 0ms, prepare 71ms)
+

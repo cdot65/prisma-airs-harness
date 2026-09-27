@@ -1,0 +1,337 @@
+npm warn Unknown user config "always-auth" (//verdaccio.verdaccio.svc.cluster.local:4873/:always-auth). This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm notice run @cdot65/prisma-airs-sdk@0.33.0 test:coverage
+npm notice run vitest run --coverage
+
+ RUN  v3.2.7 /home/cdot/development/cdot65/prisma-airs-sdk
+      Coverage enabled with v8
+
+ ✓ test/scan/content.spec.ts (30 tests) 67ms
+ ✓ test/models/red-team.spec.ts (169 tests) 31ms
+ ✓ test/http/resilience.spec.ts (46 tests) 39ms
+ ✓ test/docs/cli-inference-preflight.spec.ts (8 tests) 284ms
+ ✓ test/ai-gateway/workspaces-client.spec.ts (35 tests) 20ms
+ ✓ test/ai-gateway/telemetry-validation.spec.ts (130 tests) 54ms
+ ✓ test/ai-gateway/telemetry-query-contracts.spec.ts (248 tests) 86ms
+ ✓ test/ai-gateway/telemetry-group-filters.spec.ts (295 tests) 79ms
+ ✓ test/ai-gateway/observability-details.spec.ts (63 tests) 57ms
+ ✓ test/ai-gateway/provider-http.spec.ts (77 tests) 69ms
+ ✓ test/ai-gateway/prompt-completions.spec.ts (67 tests) 104ms
+ ✓ test/http/event-stream.spec.ts (22 tests) 27ms
+ ✓ test/ai-gateway/telemetry-validated-copy.spec.ts (11 tests) 20ms
+ ✓ test/models/mgmt-security-profile.spec.ts (54 tests) 21ms
+ ✓ test/ai-gateway/observability.spec.ts (26 tests) 26ms
+ ✓ test/docs/realtime-probe.spec.ts (22 tests) 784ms
+   ✓ bounded realtime discovery > does not report cleanup success when termination never closes  507ms
+ ✓ test/management/oauth-deadline.spec.ts (16 tests) 28ms
+ ✓ test/ai-gateway/inference.spec.ts (36 tests) 42ms
+ ✓ test/ai-gateway/integrations-client.spec.ts (23 tests) 20ms
+ ✓ test/ai-gateway/dashboard-reads.spec.ts (54 tests) 41ms
+ ✓ test/http/request.spec.ts (33 tests) 942ms
+   ✓ request — error handling > retries on 5xx and eventually throws SERVER_SIDE_ERROR  922ms
+ ✓ test/scan/scanner.spec.ts (31 tests) 36ms
+ ✓ test/red-team/custom-attacks-client.spec.ts (44 tests) 24ms
+ ✓ test/model-security/custom-rules-client.spec.ts (23 tests) 26ms
+ ✓ test/model-security/scans-client.spec.ts (31 tests) 15ms
+ ✓ test/openapi/provider-multipart.spec.ts (117 tests) 42ms
+ ✓ test/red-team/capabilities.spec.ts (7 tests) 25ms
+ ✓ test/ai-gateway/fine-tuning.spec.ts (16 tests) 30ms
+ ✓ test/red-team/client.spec.ts (35 tests) 31ms
+ ✓ test/ai-gateway/admin-guardrails-client.spec.ts (19 tests) 27ms
+ ✓ test/preflight/load-spec.spec.ts (6 tests) 15ms
+ ✓ test/management/dashboard.spec.ts (26 tests) 29ms
+ ✓ test/management/client.spec.ts (19 tests) 24ms
+ ✓ test/models/model-security.spec.ts (56 tests) 23ms
+ ✓ test/models/dlp-data-profile.spec.ts (40 tests) 12ms
+ ✓ test/openapi/gateway-routing.spec.ts (10 tests) 1074ms
+   ✓ official gateway operation routing > connects actual SDK call sites to their declared transport planes  1064ms
+ ✓ test/red-team/targets-client.spec.ts (28 tests) 23ms
+ ✓ test/management/topics.spec.ts (19 tests) 21ms
+ ✓ test/red-team/reports-client.spec.ts (33 tests) 23ms
+ ✓ test/http/tsg-header.spec.ts (3 tests) 9ms
+ ✓ test/http-retry.spec.ts (25 tests) 1741ms
+   ✓ executeWithRetry > retries on retryable status codes  803ms
+   ✓ executeWithRetry > retries on network errors  864ms
+ ✓ test/http/debug.spec.ts (23 tests) 9ms
+ ✓ test/docs/mcp-metadata.spec.ts (31 tests) 18ms
+ ✓ test/agentguard/client.spec.ts (19 tests) 27ms
+ ✓ test/models/runtime-policy-extensions.spec.ts (29 tests) 25ms
+ ✓ test/management/dashboard-sessions.spec.ts (102 tests) 99ms
+ ✓ test/ai-gateway/model-pricing.spec.ts (59 tests) 49ms
+ ✓ test/red-team/custom-attack-reports-client.spec.ts (19 tests) 21ms
+ ✓ test/ai-gateway/api-keys-client.spec.ts (18 tests) 19ms
+ ✓ test/ai-gateway/batches.spec.ts (6 tests) 14ms
+ ✓ test/ai-gateway/secret-references.spec.ts (39 tests) 39ms
+ ✓ test/docs/mcp-discovery.spec.ts (19 tests) 30ms
+ ✓ test/management/dashboard-extensions.spec.ts (72 tests) 93ms
+ ✓ test/http/problem.spec.ts (22 tests) 23ms
+ ✓ test/openapi/analytics-adapters.spec.ts (5 tests) 24ms
+ ✓ test/docs/synthetic-mcp.spec.ts (13 tests) 138ms
+ ✓ test/preflight/allowlist.spec.ts (9 tests) 10ms
+ ✓ test/ai-gateway/realtime.spec.ts (44 tests) 397ms
+ ✓ test/ai-gateway/mcp-integrations-client.spec.ts (17 tests) 14ms
+ ✓ test/iam/scopes-client.spec.ts (16 tests) 21ms
+ ✓ test/models/mgmt-custom-topic.spec.ts (9 tests) 12ms
+ ✓ test/docs/owned-usage-policy.spec.ts (20 tests) 22ms
+ ✓ test/models/dlp-data-pattern.spec.ts (43 tests) 13ms
+ ✓ test/ai-gateway/guardrails-client.spec.ts (10 tests) 17ms
+ ✓ test/management/profiles.spec.ts (18 tests) 17ms
+ ✓ test/ai-gateway/deployments-client.spec.ts (11 tests) 14ms
+ ✓ test/models/red-team-enums.spec.ts (65 tests) 11ms
+ ✓ test/ai-gateway/nested-values.spec.ts (13 tests) 8ms
+ ✓ test/ai-gateway/telemetry-client.spec.ts (23 tests) 22ms
+ ✓ test/listing-clients.spec.ts (50 tests) 17ms
+ ✓ test/http/runtime-transport.spec.ts (4 tests) 18ms
+ ✓ test/management/oauth-client.spec.ts (29 tests) 22ms
+ ✓ test/model-security/models-client.spec.ts (10 tests) 16ms
+ ✓ test/management/dlp/data-profiles.spec.ts (11 tests) 23ms
+ ✓ test/docs/dashboard-example-evidence.spec.ts (5 tests) 25ms
+ ✓ test/management/dlp/data-filtering-profiles.spec.ts (10 tests) 15ms
+ ✓ test/ai-gateway/request-model-wiring.spec.ts (27 tests) 19ms
+ ✓ test/models/red-team-network-broker.spec.ts (8 tests) 11ms
+ ✓ test/docs/brand-assets.spec.ts (3 tests) 15ms
+ ✓ test/ai-gateway/configs-client.spec.ts (9 tests) 12ms
+ ✓ test/models/ai-gateway.spec.ts (39 tests) 14ms
+ ✓ test/openapi/analytics-group-adapters.spec.ts (4 tests) 18ms
+ ✓ test/management/dlp/data-patterns.spec.ts (13 tests) 16ms
+ ✓ test/docs/service-dns.spec.ts (8 tests) 18ms
+ ✓ test/management/customer-apps.spec.ts (10 tests) 19ms
+ ✓ test/model-security/security-groups-client.spec.ts (25 tests) 22ms
+ ✓ test/openapi/contracts.spec.ts (240 tests) 352ms
+ ✓ test/errors.spec.ts (7 tests) 11ms
+ ✓ test/http/request-validation.spec.ts (2 tests) 15ms
+ ✓ test/utils.spec.ts (9 tests) 9ms
+ ✓ test/docs/administration-probes.spec.ts (14 tests) 10ms
+ ✓ test/red-team/scans-client.spec.ts (9 tests) 14ms
+ ✓ test/docs/image-inputs.spec.ts (13 tests) 10ms
+ ✓ test/management/dlp/dictionaries.spec.ts (14 tests) 16ms
+ ✓ test/models/dlp-data-filtering-profile.spec.ts (26 tests) 14ms
+ ✓ test/models/ai-gateway-routing.spec.ts (26 tests) 13ms
+ ✓ test/red-team/adapters-client.spec.ts (15 tests) 17ms
+ ✓ test/models/red-team-connection-schemas.spec.ts (26 tests) 18ms
+ ✓ test/openapi/validators.spec.ts (4 tests) 20ms
+ ✓ test/docs/cli-consumer-selection.spec.ts (13 tests) 22ms
+ ✓ test/ai-gateway/providers-client.spec.ts (12 tests) 15ms
+ ✓ test/models/passthrough.spec.ts (54 tests) 17ms
+ ✓ test/management/scan-logs.spec.ts (2 tests) 12ms
+ ✓ test/docs/media-fixtures.spec.ts (2 tests) 6ms
+ ✓ test/http/auth/oauth.spec.ts (10 tests) 13ms
+ ✓ test/models/dlp-dictionary.spec.ts (25 tests) 17ms
+ ✓ test/management/api-keys.spec.ts (7 tests) 17ms
+ ✓ test/validators.spec.ts (20 tests) 10ms
+ ✓ test/red-team/instances-client.spec.ts (8 tests) 14ms
+ ✓ test/ai-gateway/live-responses.spec.ts (77 tests) 21ms
+ ✓ test/ai-gateway/organisations-client.spec.ts (7 tests) 15ms
+ ✓ test/red-team/network-broker-client.spec.ts (11 tests) 19ms
+ ✓ test/models/dlp-json-nullable.spec.ts (6 tests) 8ms
+ ✓ test/docs/dashboard-example-output.spec.ts (7 tests) 6ms
+ ✓ test/openapi/realtime.spec.ts (4 tests) 1354ms
+   ✓ independent real WebSocket upgrade contract > pins the operation and distinguishes its 101 response from an ordinary JSON response  1314ms
+ ✓ test/listing.spec.ts (27 tests) 19ms
+ ✓ test/models/ai-gateway-requests.spec.ts (24 tests) 11ms
+ ✓ test/management/dlp-profiles.spec.ts (1 test) 10ms
+ ✓ test/ai-gateway/extensions.spec.ts (29 tests) 15ms
+ ✓ test/red-team/eula-client.spec.ts (3 tests) 11ms
+ ✓ test/model-security/security-rules-client.spec.ts (7 tests) 12ms
+ ✓ test/docs/cli-error.spec.ts (14 tests) 8ms
+ ✓ test/ai-gateway/file-batches.spec.ts (3 tests) 10ms
+ ✓ test/http/auth/api-key.spec.ts (10 tests) 6ms
+ ✓ test/ai-gateway/plugins-client.spec.ts (3 tests) 10ms
+ ✓ test/docs/release-history.spec.ts (17 tests) 11ms
+ ✓ test/models/mgmt-schemas.spec.ts (19 tests) 9ms
+ ✓ test/models/models.spec.ts (15 tests) 12ms
+ ✓ test/management/deployment-profiles.spec.ts (2 tests) 10ms
+ ✓ test/ai-gateway/probe.spec.ts (9 tests) 9ms
+ ✓ test/ai-gateway/audit-logs-client.spec.ts (2 tests) 7ms
+ ✓ test/ai-gateway/client.spec.ts (19 tests) 10ms
+ ✓ test/iam/scope-name.spec.ts (4 tests) 3ms
+ ✓ test/models/model-security-enums.spec.ts (35 tests) 10ms
+ ✓ test/models/enums.spec.ts (15 tests) 6ms
+ ✓ test/oauth-config.spec.ts (14 tests) 7ms
+ ✓ test/models/dlp-page.spec.ts (6 tests) 8ms
+ ✓ test/management/oauth-management.spec.ts (3 tests) 11ms
+ ✓ test/preflight/diff-schemas.spec.ts (9 tests) 9ms
+ ✓ test/ai-gateway/window.spec.ts (3 tests) 8ms
+ ✓ test/constants.spec.ts (1 test) 5ms
+ ✓ test/configuration.spec.ts (14 tests) 10ms
+ ✓ test/models/dlp-audit.spec.ts (6 tests) 5ms
+ ✓ test/preflight/resolve-name.spec.ts (7 tests) 5ms
+ ✓ test/ai-gateway/secret-fields.spec.ts (5 tests) 6ms
+ ✓ test/model-security/client.spec.ts (14 tests) 11ms
+ ✓ test/ai-gateway/onepassword-loader.spec.ts (2 tests) 6ms
+ ✓ test/models/detection-reports.spec.ts (21 tests) 11ms
+ ✓ test/docs/live-harness.spec.ts (2 tests) 10ms
+ ✓ test/openapi/model-pricing.spec.ts (5 tests) 13ms
+ ✓ test/ai-gateway/telemetry-filter-schema.spec.ts (15 tests) 9ms
+ ✓ test/openapi/acceptance.spec.ts (8 tests) 6ms
+ ✓ test/ai-gateway/public-api.spec.ts (3 tests) 6ms
+ ✓ test/ai-gateway/write-conformance.spec.ts (3 tests) 9ms
+ ✓ test/docs/sdk-inference-preflight.spec.ts (6 tests) 4956ms
+   ✓ SDK inference package preflight > rejects unavailable package entry before the key lifecycle: relative/index.js  1881ms
+   ✓ SDK inference package preflight > rejects unavailable package entry before the key lifecycle:   1243ms
+   ✓ SDK inference package preflight > rejects unavailable package entry before the key lifecycle: /nonexistent-prisma-airs-preflight/index.js  948ms
+   ✓ SDK inference package preflight > rejects a readable module with no SDK version before the key lifecycle  563ms
+ ✓ test/openapi/specimen.spec.ts (2 tests) 3ms
+ ✓ test/openapi/inventory.spec.ts (4 tests) 15ms
+ ✓ test/openapi/validation.spec.ts (7581 tests) 3489ms
+ ✓ test/docs/example-coverage.spec.ts (1 test) 15749ms
+   ✓ @example coverage > every public method/function has an @example  15747ms
+
+ Test Files  159 passed (159)
+      Tests  11755 passed (11755)
+   Start at  17:24:47
+   Duration  16.85s (transform 8.30s, setup 0ms, collect 79.89s, tests 34.25s, environment 60ms, prepare 18.01s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.71 |    96.89 |     100 |   99.71 |                   
+ src               |    99.1 |    97.35 |     100 |    99.1 |                   
+  configuration.ts |     100 |      100 |     100 |     100 |                   
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+  errors.ts        |     100 |      100 |     100 |     100 |                   
+  http-retry.ts    |   99.44 |    95.38 |     100 |   99.44 | 258               
+  listing.ts       |     100 |      100 |     100 |     100 |                   
+  oauth-config.ts  |   92.64 |    97.05 |     100 |   92.64 | 67-71             
+  utils.ts         |     100 |      100 |     100 |     100 |                   
+  validators.ts    |     100 |      100 |     100 |     100 |                   
+ src/agentguard    |     100 |      100 |     100 |     100 |                   
+  client.ts        |     100 |      100 |     100 |     100 |                   
+ src/ai-gateway    |   99.39 |    96.11 |     100 |   99.39 |                   
+  ...ils-client.ts |     100 |      100 |     100 |     100 |                   
+  ...eys-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ogs-client.ts |     100 |      100 |     100 |     100 |                   
+  client.ts        |     100 |      100 |     100 |     100 |                   
+  ...igs-client.ts |     100 |      100 |     100 |     100 |                   
+  ...nts-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ils-client.ts |     100 |      100 |     100 |     100 |                   
+  ...nce-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ons-client.ts |   96.22 |    90.32 |     100 |   96.22 | 77-81,118-120     
+  ...rts-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ons-client.ts |     100 |    92.85 |     100 |     100 | 64                
+  ...ers-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ing-client.ts |     100 |      100 |     100 |     100 |                   
+  nested-values.ts |   94.18 |    83.15 |     100 |   94.18 | ...29,131-132,150 
+  ...ons-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ins-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ers-client.ts |     100 |      100 |     100 |     100 |                   
+  ...its-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ces-client.ts |     100 |      100 |     100 |     100 |                   
+  runtime-wire.ts  |     100 |      100 |     100 |     100 |                   
+  secret-fields.ts |   96.94 |     90.9 |     100 |   96.94 | 140-143           
+  ...ces-client.ts |     100 |      100 |     100 |     100 |                   
+  ...try-client.ts |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+  ...its-client.ts |     100 |      100 |     100 |     100 |                   
+  window.ts        |     100 |       95 |     100 |     100 | 49                
+  ...ces-client.ts |     100 |      100 |     100 |     100 |                   
+ src/http          |   99.48 |    96.22 |     100 |   99.48 |                   
+  abort.ts         |     100 |      100 |     100 |     100 |                   
+  debug.ts         |     100 |      100 |     100 |     100 |                   
+  event-stream.ts  |     100 |    91.76 |     100 |     100 | ...07,136,168,186 
+  problem.ts       |     100 |      100 |     100 |     100 |                   
+  query.ts         |     100 |      100 |     100 |     100 |                   
+  realtime.ts      |     100 |    97.91 |     100 |     100 | 341,347,379       
+  request.ts       |   97.53 |    94.07 |     100 |   97.53 | ...13,140-141,198 
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ src/http/auth     |     100 |      100 |     100 |     100 |                   
+  api-key.ts       |     100 |      100 |     100 |     100 |                   
+  oauth.ts         |     100 |      100 |     100 |     100 |                   
+  tsg-header.ts    |     100 |      100 |     100 |     100 |                   
+ src/iam           |     100 |      100 |     100 |     100 |                   
+  scope-name.ts    |     100 |      100 |     100 |     100 |                   
+  scopes-client.ts |     100 |      100 |     100 |     100 |                   
+ src/management    |   99.44 |    92.11 |     100 |   99.44 |                   
+  api-keys.ts      |     100 |    77.77 |     100 |     100 | 36,124,128        
+  client.ts        |     100 |      100 |     100 |     100 |                   
+  customer-apps.ts |     100 |    77.77 |     100 |     100 | 35,113,117        
+  dashboard.ts     |     100 |      100 |     100 |     100 |                   
+  ...t-profiles.ts |     100 |      100 |     100 |     100 |                   
+  dlp-profiles.ts  |     100 |      100 |     100 |     100 |                   
+  oauth-client.ts  |     100 |    98.27 |     100 |     100 | 294               
+  ...management.ts |     100 |      100 |     100 |     100 |                   
+  profiles.ts      |     100 |     87.5 |     100 |     100 | 45-46,206         
+  scan-logs.ts     |     100 |      100 |     100 |     100 |                   
+  topics.ts        |   95.83 |    83.33 |     100 |   95.83 | 190-192,207-209   
+ ...management/dlp |   99.29 |    97.18 |     100 |   99.29 |                   
+  ...g-profiles.ts |     100 |      100 |     100 |     100 |                   
+  data-patterns.ts |     100 |      100 |     100 |     100 |                   
+  data-profiles.ts |     100 |      100 |     100 |     100 |                   
+  dictionaries.ts  |   97.82 |       92 |     100 |   97.82 | 53-55             
+ ...model-security |     100 |      100 |     100 |     100 |                   
+  client.ts        |     100 |      100 |     100 |     100 |                   
+  ...les-client.ts |     100 |      100 |     100 |     100 |                   
+  models-client.ts |     100 |      100 |     100 |     100 |                   
+  scans-client.ts  |     100 |      100 |     100 |     100 |                   
+  ...ups-client.ts |     100 |      100 |     100 |     100 |                   
+  ...les-client.ts |     100 |      100 |     100 |     100 |                   
+ src/models        |   99.91 |       99 |     100 |   99.91 |                   
+  agentguard.ts    |     100 |      100 |     100 |     100 |                   
+  ...guardrails.ts |     100 |      100 |     100 |     100 |                   
+  ...-dashboard.ts |     100 |      100 |     100 |     100 |                   
+  ...extensions.ts |     100 |      100 |     100 |     100 |                   
+  ...-inference.ts |     100 |      100 |     100 |     100 |                   
+  ...el-pricing.ts |     100 |      100 |     100 |     100 |                   
+  ...y-realtime.ts |     100 |      100 |     100 |     100 |                   
+  ...y-requests.ts |   98.12 |    71.42 |     100 |   98.12 | 201-204,207-210   
+  ...ay-routing.ts |      99 |    94.11 |     100 |      99 | 103-104           
+  ai-gateway.ts    |     100 |      100 |     100 |     100 |                   
+  ai-profile.ts    |     100 |      100 |     100 |     100 |                   
+  async-scan.ts    |     100 |      100 |     100 |     100 |                   
+  ...on-reports.ts |     100 |      100 |     100 |     100 |                   
+  detection.ts     |     100 |      100 |     100 |     100 |                   
+  dlp-audit.ts     |     100 |      100 |     100 |     100 |                   
+  ...ng-profile.ts |     100 |      100 |     100 |     100 |                   
+  ...ta-pattern.ts |     100 |      100 |     100 |     100 |                   
+  ...ta-profile.ts |     100 |      100 |     100 |     100 |                   
+  ...dictionary.ts |     100 |      100 |     100 |     100 |                   
+  ...n-nullable.ts |     100 |      100 |     100 |     100 |                   
+  dlp-page.ts      |     100 |      100 |     100 |     100 |                   
+  dlp-report.ts    |     100 |      100 |     100 |     100 |                   
+  enums.ts         |     100 |      100 |     100 |     100 |                   
+  ...r-response.ts |     100 |      100 |     100 |     100 |                   
+  iam.ts           |     100 |      100 |     100 |     100 |                   
+  metadata.ts      |     100 |      100 |     100 |     100 |                   
+  mgmt-api-key.ts  |     100 |      100 |     100 |     100 |                   
+  ...stom-topic.ts |     100 |      100 |     100 |     100 |                   
+  ...stomer-app.ts |     100 |      100 |     100 |     100 |                   
+  ...d-sessions.ts |     100 |      100 |     100 |     100 |                   
+  ...-dashboard.ts |     100 |      100 |     100 |     100 |                   
+  ...nt-profile.ts |     100 |      100 |     100 |     100 |                   
+  ...lp-profile.ts |     100 |      100 |     100 |     100 |                   
+  mgmt-oauth.ts    |     100 |      100 |     100 |     100 |                   
+  mgmt-scan-log.ts |     100 |      100 |     100 |     100 |                   
+  ...ty-profile.ts |     100 |      100 |     100 |     100 |                   
+  ...stom-rules.ts |     100 |      100 |     100 |     100 |                   
+  ...rity-enums.ts |     100 |      100 |     100 |     100 |                   
+  ...l-security.ts |     100 |      100 |     100 |     100 |                   
+  oauth-token.ts   |     100 |      100 |     100 |     100 |                   
+  ...t-detected.ts |     100 |      100 |     100 |     100 |                   
+  ...pabilities.ts |     100 |      100 |     100 |     100 |                   
+  ...am-details.ts |     100 |      100 |     100 |     100 |                   
+  ...team-enums.ts |     100 |      100 |     100 |     100 |                   
+  ...ork-broker.ts |     100 |      100 |     100 |     100 |                   
+  red-team.ts      |     100 |      100 |     100 |     100 |                   
+  ...e-detected.ts |     100 |      100 |     100 |     100 |                   
+  scan-detail.ts   |     100 |      100 |     100 |     100 |                   
+  ...-id-result.ts |     100 |      100 |     100 |     100 |                   
+  scan-request.ts  |     100 |      100 |     100 |     100 |                   
+  scan-response.ts |     100 |      100 |     100 |     100 |                   
+  threat-report.ts |     100 |      100 |     100 |     100 |                   
+  tool-event.ts    |     100 |      100 |     100 |     100 |                   
+  urlf-report.ts   |     100 |      100 |     100 |     100 |                   
+ src/red-team      |     100 |    96.98 |     100 |     100 |                   
+  ...ers-client.ts |     100 |    94.44 |     100 |     100 | 169               
+  client.ts        |     100 |    93.93 |     100 |     100 | 219-220           
+  ...rts-client.ts |     100 |      100 |     100 |     100 |                   
+  ...cks-client.ts |     100 |    95.74 |     100 |     100 | 158,481           
+  eula-client.ts   |     100 |      100 |     100 |     100 |                   
+  ...ces-client.ts |     100 |      100 |     100 |     100 |                   
+  ...ker-client.ts |     100 |      100 |     100 |     100 |                   
+  ...rts-client.ts |     100 |      100 |     100 |     100 |                   
+  scans-client.ts  |     100 |      100 |     100 |     100 |                   
+  ...ets-client.ts |     100 |     92.3 |     100 |     100 | 227,231-237       
+ src/scan          |   96.64 |    97.93 |     100 |   96.64 |                   
+  content.ts       |     100 |      100 |     100 |     100 |                   
+  scanner.ts       |   94.01 |       95 |     100 |   94.01 | 79-83,122-126     
+-------------------|---------|----------|---------|---------|-------------------

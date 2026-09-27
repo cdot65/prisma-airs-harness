@@ -1,0 +1,39 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling libc v0.2.186
+   Compiling syn v2.0.117
+   Compiling serde_core v1.0.228
+   Compiling serde_json v1.0.149
+   Compiling serde v1.0.228
+   Compiling memchr v2.8.1
+   Compiling thiserror-impl v2.0.18
+   Compiling serde_derive v1.0.228
+   Compiling serde_derive_internals v0.29.1
+   Compiling getrandom v0.4.2
+   Compiling dirs-sys v0.5.0
+   Compiling ts-rs-macros v11.1.0
+   Compiling schemars_derive v0.8.22
+   Compiling thiserror v2.0.18
+   Compiling errno v0.3.14
+   Compiling rustix v1.1.4
+   Compiling ts-rs v11.1.0
+   Compiling schemars v0.8.22
+   Compiling dirs v6.0.0
+   Compiling once_cell v1.21.4
+   Compiling fastrand v2.3.0
+   Compiling tempfile v3.27.0
+   Compiling codex-utils-absolute-path v0.154.0 (/Users/cdot/.cache/airs-gateway-release-20260927/signing-source/codex-rs/utils/absolute-path)
+   Compiling codex-utils-home-dir v0.154.0 (/Users/cdot/.cache/airs-gateway-release-20260927/signing-source/codex-rs/utils/home-dir)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.64s
+────────────
+ Nextest run ID 439affc6-6542-48e5-8cd8-1f34f41a4034 with nextest profile: local
+    Starting 8 tests across 1 binary
+        PASS [   0.018s] (1/8) codex-utils-home-dir airs_session::tests::round_trip_and_other_environment_isolation
+        PASS [   0.019s] (2/8) codex-utils-home-dir airs_session::tests::logout_then_login_never_resurrects_existing_guard
+        PASS [   0.018s] (3/8) codex-utils-home-dir airs_session::tests::logout_marker_and_invalid_records_are_fail_closed
+        PASS [   0.019s] (4/8) codex-utils-home-dir airs_session::tests::legacy_clients_stop_on_first_epoch_and_missing_records_fail_closed
+        PASS [   0.008s] (5/8) codex-utils-home-dir tests::find_codex_home_env_file_path_is_fatal
+        PASS [   0.008s] (6/8) codex-utils-home-dir tests::find_codex_home_env_valid_directory_canonicalizes
+        PASS [   0.008s] (7/8) codex-utils-home-dir tests::find_codex_home_env_missing_path_is_fatal
+        PASS [   0.008s] (8/8) codex-utils-home-dir tests::find_codex_home_without_env_uses_default_home_dir
+────────────
+     Summary [   0.028s] 8 tests run: 8 passed, 0 skipped

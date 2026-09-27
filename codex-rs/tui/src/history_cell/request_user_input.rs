@@ -12,6 +12,10 @@ pub(crate) struct RequestUserInputResultCell {
 
 impl HistoryCell for RequestUserInputResultCell {
     fn display_lines(&self, width: u16) -> Vec<Line<'static>> {
+        visible_lines(self.display_hyperlink_lines(width))
+    }
+
+    fn display_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
         let width = width.max(1) as usize;
         let total = self.questions.len();
         let answered = self
@@ -28,10 +32,10 @@ impl HistoryCell for RequestUserInputResultCell {
         let mut header = vec!["•".dim(), " ".into(), "Questions".bold()];
         header.push(format!(" {answered}/{total} answered").dim());
         if self.interrupted {
-            header.push(" (interrupted)".cyan());
+            header.push(" (interrupted)".fg(Color::Cyan));
         }
 
-        let mut lines: Vec<Line<'static>> = vec![header.into()];
+        let mut lines = vec![HyperlinkLine::new(header.into())];
 
         for question in &self.questions {
             let answer = self.answers.get(&question.id);
@@ -47,7 +51,24 @@ impl HistoryCell for RequestUserInputResultCell {
                 Style::default(),
             );
             if answer_missing && let Some(last) = question_lines.last_mut() {
-                last.spans.push(" (unanswered)".dim());
+                let suffix = " (unanswered)";
+                last.line.spans.push(suffix.dim());
+                if let Some(source) = &mut last.source {
+                    // The suffix is deliberately appended after wrapping, matching the existing UI.
+                    let mut logical = source.styled_range(0..source.range.end);
+                    logical.spans.push(suffix.dim());
+                    let logical =
+                        crate::terminal_hyperlinks::LogicalLineSource::from_line(&logical);
+                    source.range.end = logical.text.len();
+                    for line in &mut question_lines {
+                        if let Some(source) = &mut line.source {
+                            source.text = std::sync::Arc::clone(&logical.text);
+                            source.styles = std::sync::Arc::clone(&logical.styles);
+                            source.line_style = logical.line_style;
+                            source.span_style = Style::default();
+                        }
+                    }
+                }
             }
             lines.extend(question_lines);
 
@@ -108,6 +129,10 @@ impl HistoryCell for RequestUserInputResultCell {
         lines
     }
 
+    fn transcript_hyperlink_lines(&self, width: u16) -> Vec<HyperlinkLine> {
+        self.display_hyperlink_lines(width)
+    }
+
     fn raw_lines(&self) -> Vec<Line<'static>> {
         let total = self.questions.len();
         let answered = self
@@ -151,22 +176,22 @@ impl HistoryCell for RequestUserInputResultCell {
     }
 }
 
-/// Wrap a plain string with textwrap and prefix each line, while applying a style to the content.
+/// Retain the first-line label as text, keeping continuation alignment display-only.
 fn wrap_with_prefix(
     text: &str,
     width: usize,
     initial_prefix: Span<'static>,
     subsequent_prefix: Span<'static>,
     style: Style,
-) -> Vec<Line<'static>> {
-    let line = Line::from(vec![Span::from(text.to_string()).set_style(style)]);
+) -> Vec<HyperlinkLine> {
+    let label = initial_prefix.content.trim_start_matches(' ').to_owned();
+    let line = HyperlinkLine::new(Line::from(Span::from(text.to_string()).set_style(style)));
     let opts = RtOptions::new(width.max(1))
         .initial_indent(Line::from(vec![initial_prefix]))
         .subsequent_indent(Line::from(vec![subsequent_prefix]));
-    let wrapped = adaptive_wrap_line(&line, opts);
-    let mut out = Vec::new();
-    push_owned_lines(&wrapped, &mut out);
-    out
+    let mut wrapped = crate::terminal_hyperlinks::adaptive_wrap_hyperlink_lines(&[line], opts);
+    crate::terminal_hyperlinks::retain_initial_prefix(&mut wrapped, &label);
+    wrapped
 }
 
 /// Split a request_user_input answer into option labels and an optional freeform note.
@@ -185,3 +210,7 @@ fn split_request_user_input_answer(
     }
     (options, note)
 }
+
+#[cfg(test)]
+#[path = "request_user_input_tests.rs"]
+mod tests;

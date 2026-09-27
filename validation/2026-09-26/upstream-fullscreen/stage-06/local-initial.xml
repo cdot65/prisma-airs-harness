@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="108" skipped="0" failures="1" errors="0" uuid="e6c0c915-cb21-40a7-b8e5-d8217e4727ba" timestamp="2026-09-27T02:20:01.328+00:00" time="0.749">
+    <testsuite name="codex-tui" tests="108" skipped="0" errors="0" failures="1">
+        <testcase name="app::pending_interactive_replay::tests::thread_event_snapshot_keeps_newer_request_user_input_pending_when_same_turn_has_queue" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.024"/>
+        <testcase name="app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_request_user_input_after_server_resolution" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.024"/>
+        <testcase name="app::pending_interactive_replay::tests::thread_event_snapshot_drops_answered_request_user_input_for_multi_prompt_turn" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.024"/>
+        <testcase name="app::pending_interactive_replay::tests::request_user_input_does_not_count_as_pending_thread_approval" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.024"/>
+        <testcase name="app::pending_interactive_replay::tests::thread_event_snapshot_drops_resolved_request_user_input_after_user_answer" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.024"/>
+        <testcase name="app::pending_interactive_replay::tests::thread_event_snapshot_keeps_pending_request_user_input" classname="codex-tui" timestamp="2026-09-27T02:20:01.455+00:00" time="0.026"/>
+        <testcase name="bottom_pane::request_user_input::render::tests::halfwidth_sound_marks_are_truncated_at_a_grapheme_boundary" classname="codex-tui" timestamp="2026-09-27T02:20:01.479+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::render::tests::halfwidth_sound_marks_are_truncated_and_rendered_at_a_grapheme_boundary" classname="codex-tui" timestamp="2026-09-27T02:20:01.479+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_absent_has_no_timer" classname="codex-tui" timestamp="2026-09-27T02:20:01.480+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_hides_timer_during_grace_period" classname="codex-tui" timestamp="2026-09-27T02:20:01.480+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_key_interaction_snoozes_timer" classname="codex-tui" timestamp="2026-09-27T02:20:01.481+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_expiry_emits_empty_answer" classname="codex-tui" timestamp="2026-09-27T02:20:01.480+00:00" time="0.027"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_paste_interaction_snoozes_timer" classname="codex-tui" timestamp="2026-09-27T02:20:01.501+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_uses_is_blocking_without_auto_resolution_ms" classname="codex-tui" timestamp="2026-09-27T02:20:01.503+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_resets_for_queued_request" classname="codex-tui" timestamp="2026-09-27T02:20:01.503+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_visible_countdown_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.506+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::auto_resolution_visible_countdown_is_red" classname="codex-tui" timestamp="2026-09-27T02:20:01.505+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::backspace_in_options_clears_selection" classname="codex-tui" timestamp="2026-09-27T02:20:01.506+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::backspace_on_empty_notes_closes_notes_ui" classname="codex-tui" timestamp="2026-09-27T02:20:01.524+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::desired_height_keeps_spacers_and_preferred_options_visible" classname="codex-tui" timestamp="2026-09-27T02:20:01.525+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::enter_commits_default_selection_on_non_last_option_question" classname="codex-tui" timestamp="2026-09-27T02:20:01.528+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_drops_committed_answers" classname="codex-tui" timestamp="2026-09-27T02:20:01.528+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_in_notes_mode_clears_notes_and_hides_ui" classname="codex-tui" timestamp="2026-09-27T02:20:01.529+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::enter_commits_default_selection_on_last_option_question" classname="codex-tui" timestamp="2026-09-27T02:20:01.527+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_in_notes_mode_with_text_clears_notes_and_hides_ui" classname="codex-tui" timestamp="2026-09-27T02:20:01.549+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_commit_resets_when_draft_changes" classname="codex-tui" timestamp="2026-09-27T02:20:01.551+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_draft_is_not_submitted_without_enter" classname="codex-tui" timestamp="2026-09-27T02:20:01.552+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_in_notes_mode_without_options_interrupts" classname="codex-tui" timestamp="2026-09-27T02:20:01.549+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::footer_wraps_tips_without_splitting_individual_tips" classname="codex-tui" timestamp="2026-09-27T02:20:01.550+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::esc_in_options_mode_interrupts" classname="codex-tui" timestamp="2026-09-27T02:20:01.550+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_questions_submit_empty_when_empty" classname="codex-tui" timestamp="2026-09-27T02:20:01.574+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_enter_with_empty_text_is_unanswered" classname="codex-tui" timestamp="2026-09-27T02:20:01.573+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_footer_shows_configured_submit_binding" classname="codex-tui" timestamp="2026-09-27T02:20:01.573+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_requires_enter_with_text_to_mark_answered" classname="codex-tui" timestamp="2026-09-27T02:20:01.574+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_shift_enter_inserts_newline_without_advancing" classname="codex-tui" timestamp="2026-09-27T02:20:01.574+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_footer_displays_configured_chords_without_internal_dispatch_keys" classname="codex-tui" timestamp="2026-09-27T02:20:01.573+00:00" time="0.027"/>
+        <testcase name="bottom_pane::request_user_input::tests::h_l_move_between_questions_in_options" classname="codex-tui" timestamp="2026-09-27T02:20:01.597+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::horizontal_list_keys_move_between_questions_in_options" classname="codex-tui" timestamp="2026-09-27T02:20:01.600+00:00" time="0.020"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_shows_ctrl_p_and_ctrl_n_question_navigation_tip" classname="codex-tui" timestamp="2026-09-27T02:20:01.596+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_uses_configured_composer_submit_binding" classname="codex-tui" timestamp="2026-09-27T02:20:01.597+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::highlighted_option_questions_are_unanswered" classname="codex-tui" timestamp="2026-09-27T02:20:01.597+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::freeform_submit_binding_wins_over_question_navigation" classname="codex-tui" timestamp="2026-09-27T02:20:01.596+00:00" time="0.026"/>
+        <testcase name="bottom_pane::request_user_input::tests::large_paste_is_preserved_when_switching_questions" classname="codex-tui" timestamp="2026-09-27T02:20:01.620+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::interrupt_discards_queued_requests_and_emits_interrupt" classname="codex-tui" timestamp="2026-09-27T02:20:01.619+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::left_right_move_between_questions_in_options" classname="codex-tui" timestamp="2026-09-27T02:20:01.621+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::layout_allocates_all_wrapped_options_when_space_allows" classname="codex-tui" timestamp="2026-09-27T02:20:01.621+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::notes_are_captured_for_selected_option" classname="codex-tui" timestamp="2026-09-27T02:20:01.623+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::is_other_adds_none_of_the_above_and_submits_it" classname="codex-tui" timestamp="2026-09-27T02:20:01.620+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::notes_submission_commits_selected_option" classname="codex-tui" timestamp="2026-09-27T02:20:01.643+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::options_notes_focus_hides_question_navigation_tip" classname="codex-tui" timestamp="2026-09-27T02:20:01.644+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::number_keys_select_and_submit_options" classname="codex-tui" timestamp="2026-09-27T02:20:01.643+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::options_scroll_while_editing_notes" classname="codex-tui" timestamp="2026-09-27T02:20:01.645+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::options_can_submit_empty_when_unanswered" classname="codex-tui" timestamp="2026-09-27T02:20:01.644+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::pending_paste_placeholder_survives_submission_and_back_navigation" classname="codex-tui" timestamp="2026-09-27T02:20:01.645+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::queued_requests_are_fifo" classname="codex-tui" timestamp="2026-09-27T02:20:01.665+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_freeform_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.668+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_footer_wrap_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.666+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_freeform_chord_only_submit_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.666+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_freeform_remapped_submit_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.667+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_freeform_remapped_interrupt_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.666+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_options_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.690+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_long_option_text_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.689+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_options_notes_visible_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.690+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_hidden_options_footer_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.689+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_multi_question_last_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.689+00:00" time="0.025"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_multi_question_first_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.689+00:00" time="0.029"/>
+        <testcase name="bottom_pane::request_user_input::tests::resolved_current_request_advances_to_next_same_turn_prompt" classname="codex-tui" timestamp="2026-09-27T02:20:01.718+00:00" time="0.020"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_uses_remapped_interrupt_binding_while_notes_are_visible" classname="codex-tui" timestamp="2026-09-27T02:20:01.714+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_scroll_options_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.714+00:00" time="0.026"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_tight_height_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.714+00:00" time="0.028"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_unanswered_confirmation_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.714+00:00" time="0.028"/>
+        <testcase name="bottom_pane::request_user_input::tests::request_user_input_wrapped_options_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.715+00:00" time="0.028"/>
+        <testcase name="bottom_pane::request_user_input::tests::resolved_request_dismisses_overlay_without_emitting_events" classname="codex-tui" timestamp="2026-09-27T02:20:01.738+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::resolved_queued_request_removes_only_that_prompt" classname="codex-tui" timestamp="2026-09-27T02:20:01.738+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::switching_from_freeform_with_text_resets_focus_and_keeps_last_option_empty" classname="codex-tui" timestamp="2026-09-27T02:20:01.742+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::switching_to_options_resets_notes_focus_when_notes_hidden" classname="codex-tui" timestamp="2026-09-27T02:20:01.743+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::skipped_option_questions_count_as_unanswered" classname="codex-tui" timestamp="2026-09-27T02:20:01.742+00:00" time="0.022"/>
+        <testcase name="bottom_pane::request_user_input::tests::selected_long_wrapped_option_stays_visible" classname="codex-tui" timestamp="2026-09-27T02:20:01.740+00:00" time="0.030"/>
+        <testcase name="bottom_pane::request_user_input::tests::typing_in_options_does_not_open_notes" classname="codex-tui" timestamp="2026-09-27T02:20:01.764+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::tab_in_notes_clears_notes_and_hides_ui" classname="codex-tui" timestamp="2026-09-27T02:20:01.762+00:00" time="0.023"/>
+        <testcase name="bottom_pane::request_user_input::tests::tab_opens_notes_when_option_selected" classname="codex-tui" timestamp="2026-09-27T02:20:01.764+00:00" time="0.021"/>
+        <testcase name="bottom_pane::request_user_input::tests::tab_and_enter_open_notes_for_other_option" classname="codex-tui" timestamp="2026-09-27T02:20:01.762+00:00" time="0.024"/>
+        <testcase name="bottom_pane::request_user_input::tests::vim_keys_move_option_selection" classname="codex-tui" timestamp="2026-09-27T02:20:01.765+00:00" time="0.023"/>
+        <testcase name="chatwidget::tests::plan_mode::handle_request_user_input_sets_pending_notification" classname="codex-tui" timestamp="2026-09-27T02:20:01.770+00:00" time="0.036"/>
+        <testcase name="keymap::tests::interrupt_turn_rejects_request_user_input_question_navigation_bindings" classname="codex-tui" timestamp="2026-09-27T02:20:01.788+00:00" time="0.019"/>
+        <testcase name="keymap::chords::tests::rejects_duplicate_chat_and_list_chords_used_by_request_user_input" classname="codex-tui" timestamp="2026-09-27T02:20:01.786+00:00" time="0.021"/>
+        <testcase name="chatwidget::tests::plan_mode::request_user_input_notification_overrides_pending_agent_turn_complete_notification" classname="codex-tui" timestamp="2026-09-27T02:20:01.785+00:00" time="0.036"/>
+        <testcase name="terminal_hyperlinks::regression_tests::decorated_hyperlinks_preserve_joined_emoji_columns" classname="codex-tui" timestamp="2026-09-27T02:20:01.806+00:00" time="0.020"/>
+        <testcase name="chatwidget::tests::status_and_layout::request_user_input_interrupt_pauses_active_goal_turn" classname="codex-tui" timestamp="2026-09-27T02:20:01.786+00:00" time="0.041"/>
+        <testcase name="terminal_hyperlinks::regression_tests::oversized_destinations_remain_plain_text" classname="codex-tui" timestamp="2026-09-27T02:20:01.808+00:00" time="0.020"/>
+        <testcase name="history_cell::request_user_input::tests::completed_and_interrupted_results" classname="codex-tui" timestamp="2026-09-27T02:20:01.786+00:00" time="0.043">
+            <failure message="thread &apos;history_cell::request_user_input::tests::completed_and_interrupted_results&apos; (2528010) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13" type="test failure with exit code 101">thread &apos;history_cell::request_user_input::tests::completed_and_interrupted_results&apos; (2528010) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13:
+snapshot assertion for &apos;completed_and_interrupted_results&apos; failed in line 55
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Snapshot Summary ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Snapshot file: tui/src/history_cell/snapshots/codex_tui__history_cell__request_user_input__tests__completed_and_interrupted_results.snap
+Snapshot: completed_and_interrupted_results
+Source: tui/src/history_cell/request_user_input_tests.rs:55
+────────────────────────────────────────────────────────────────────────────────
+Expression: snapshots.join(&quot;\n&quot;)
+────────────────────────────────────────────────────────────────────────────────
+-old snapshot
++new results
+────────────┬───────────────────────────────────────────────────────────────────
+   13    13 │         x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+   14    14 │         x: 11, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   15    15 │         x: 24, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   16    16 │         x: 0, y: 3, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   17       │-        x: 12, y: 3, fg: Rgb(99, 168, 248), bg: Reset, underline: Reset, modifier: NONE,
+         17 │+        x: 12, y: 3, fg: Cyan, bg: Reset, underline: Reset, modifier: NONE,
+   18    18 │         x: 25, y: 3, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   19    19 │         x: 0, y: 4, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   20       │-        x: 10, y: 4, fg: Rgb(99, 168, 248), bg: Reset, underline: Reset, modifier: NONE,
+         20 │+        x: 10, y: 4, fg: Cyan, bg: Reset, underline: Reset, modifier: NONE,
+   21    21 │         x: 31, y: 4, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   22    22 │     ]
+   23    23 │ }
+   24    24 │ interrupted: Buffer {
+┈┈┈┈┈┈┈┈┈┈┈┈┼┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+   33    33 │         x: 0, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   34    34 │         x: 1, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   35    35 │         x: 2, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: BOLD,
+   36    36 │         x: 11, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   37       │-        x: 24, y: 0, fg: Rgb(99, 168, 248), bg: Reset, underline: Reset, modifier: NONE,
+         37 │+        x: 24, y: 0, fg: Cyan, bg: Reset, underline: Reset, modifier: NONE,
+   38    38 │         x: 38, y: 0, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   39    39 │         x: 14, y: 2, fg: Reset, bg: Reset, underline: Reset, modifier: DIM,
+   40    40 │         x: 27, y: 2, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   41       │-        x: 0, y: 3, fg: Rgb(99, 168, 248), bg: Reset, underline: Reset, modifier: NONE,
+         41 │+        x: 0, y: 3, fg: Cyan, bg: Reset, underline: Reset, modifier: DIM,
+   42    42 │         x: 33, y: 3, fg: Reset, bg: Reset, underline: Reset, modifier: NONE,
+   43    43 │     ]
+   44    44 │ }
+────────────┴───────────────────────────────────────────────────────────────────
+To update snapshots run `cargo insta review`
+Stopped on the first failure. Run `cargo insta test` to run all snapshots.
+test history_cell::request_user_input::tests::completed_and_interrupted_results ... FAILED
+
+failures:
+
+failures:
+    history_cell::request_user_input::tests::completed_and_interrupted_results
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4499 filtered out; finished in 0.02s
+
+</system-out>
+            <system-err>stored new snapshot /home/cdot/development/cdot65/airs-terminal-upstream-20260924/codex-rs/tui/src/history_cell/snapshots/codex_tui__history_cell__request_user_input__tests__completed_and_interrupted_results.snap.new
+
+thread &apos;history_cell::request_user_input::tests::completed_and_interrupted_results&apos; (2528010) panicked at /home/cdot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/insta-1.46.3/src/runtime.rs:719:13:
+snapshot assertion for &apos;completed_and_interrupted_results&apos; failed in line 55
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_word_wrapping" classname="codex-tui" timestamp="2026-09-27T02:20:01.827+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_scrolled_wrapped_rows" classname="codex-tui" timestamp="2026-09-27T02:20:01.826+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::regression_tests::trims_long_runs_of_unmatched_closing_delimiters" classname="codex-tui" timestamp="2026-09-27T02:20:01.821+00:00" time="0.026"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_halfwidth_dakuten" classname="codex-tui" timestamp="2026-09-27T02:20:01.827+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_follow_wrapped_wide_glyphs" classname="codex-tui" timestamp="2026-09-27T02:20:01.830+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::tests::discovers_punctuated_web_url_columns" classname="codex-tui" timestamp="2026-09-27T02:20:01.847+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::buffer_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T02:20:01.847+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::decorates_a_contiguous_web_link_with_one_osc8_pair" classname="codex-tui" timestamp="2026-09-27T02:20:01.847+00:00" time="0.022"/>
+        <testcase name="terminal_hyperlinks::tests::forced_width_hyperlinks_render_wide_and_halfwidth_cells_snapshot" classname="codex-tui" timestamp="2026-09-27T02:20:01.847+00:00" time="0.023"/>
+        <testcase name="terminal_hyperlinks::tests::hyperlink_columns_follow_a_long_prefix_without_wrapping" classname="codex-tui" timestamp="2026-09-27T02:20:01.849+00:00" time="0.024"/>
+        <testcase name="terminal_hyperlinks::tests::only_web_destinations_receive_osc8" classname="codex-tui" timestamp="2026-09-27T02:20:01.868+00:00" time="0.020"/>
+        <testcase name="terminal_hyperlinks::tests::preserves_balanced_parentheses_in_bare_web_urls" classname="codex-tui" timestamp="2026-09-27T02:20:01.869+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::matching_hyperlinks_preserve_visible_cell_width_for_ratatui_diff" classname="codex-tui" timestamp="2026-09-27T02:20:01.868+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::trusted_file_destination_receives_osc8_without_enabling_plain_file_links" classname="codex-tui" timestamp="2026-09-27T02:20:01.870+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_multiple_links_across_indented_unicode_lines" classname="codex-tui" timestamp="2026-09-27T02:20:01.873+00:00" time="0.021"/>
+        <testcase name="terminal_hyperlinks::tests::wrapping_maps_repeated_link_labels_by_source_position" classname="codex-tui" timestamp="2026-09-27T02:20:01.890+00:00" time="0.019"/>
+        <testcase name="terminal_hyperlinks::regression_tests::discovers_many_web_urls_with_incremental_columns" classname="codex-tui" timestamp="2026-09-27T02:20:01.807+00:00" time="0.270"/>
+    </testsuite>
+</testsuites>

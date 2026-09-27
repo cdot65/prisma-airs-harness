@@ -1,0 +1,16 @@
+---
+source: tui/src/chatwidget/tests/exec_compact_tests.rs
+assertion_line: 21
+expression: "snapshots.join(\"\\n\\n\")"
+---
+exit 0:
+• Explored
+  └ Search absent in .
+
+exit 1:
+• Explored
+  └ Search absent in . (exit 1)
+
+exit 2:
+• Explored · 1 failed
+  └ Search absent in . (exit 2)

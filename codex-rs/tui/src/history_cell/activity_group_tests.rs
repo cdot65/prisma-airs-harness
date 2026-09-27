@@ -14,46 +14,37 @@ use std::path::Path;
 #[test]
 fn prepending_history_preserves_detail_order_and_raw_contract() {
     let mut older = ActivityGroup::new(vec!["older command"]);
-    older.push_reasoning(new_reasoning_summary_block(
-        vec!["older reasoning".into()],
-        Path::new("/tmp"),
-    ));
+    older.push_detail(
+        new_reasoning_summary_block(vec!["older reasoning".into()], Path::new("/tmp")).into(),
+    );
     let mut current = ActivityGroup::new(vec!["current command"]);
     current.push_detail(Arc::new(PlainHistoryCell::new(vec![Line::from(
         "terminal input",
     )])));
-    current.push_reasoning(new_reasoning_summary_block(
-        vec!["current reasoning".into()],
-        Path::new("/tmp"),
-    ));
+    current.push_detail(
+        new_reasoning_summary_block(vec!["current reasoning".into()], Path::new("/tmp")).into(),
+    );
     current.prepend(older);
 
-    let render = |mode| {
+    assert_eq!(current.calls, vec!["older command", "current command"]);
+    let render = |position, mode| {
         current
-            .transcript_lines(/*width*/ 80, mode, |_, call, lines| {
-                lines.push(Line::from((*call).to_owned()));
-            })
+            .details
+            .lines_after(position, 80, mode)
             .iter()
-            .map(ToString::to_string)
+            .map(|line| line.line.to_string())
             .collect::<Vec<_>>()
     };
     assert_eq!(
-        render(HistoryRenderMode::Rich),
-        vec![
-            "older command",
-            "",
-            "• older reasoning",
-            "current command",
-            "",
-            "terminal input",
-            "",
-            "• current reasoning",
-        ]
+        render(1, HistoryRenderMode::Rich),
+        vec!["", "• older reasoning"]
     );
     assert_eq!(
-        render(HistoryRenderMode::Raw),
-        vec!["older command", "current command", "terminal input"]
+        render(2, HistoryRenderMode::Rich),
+        vec!["", "terminal input", "", "• current reasoning"]
     );
+    assert_eq!(render(1, HistoryRenderMode::Raw), Vec::<String>::new());
+    assert_eq!(render(2, HistoryRenderMode::Raw), vec!["terminal input"]);
 }
 
 #[test]

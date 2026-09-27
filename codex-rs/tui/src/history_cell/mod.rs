@@ -104,10 +104,6 @@ use url::Url;
 const RAW_DIFF_SUMMARY_WIDTH: usize = 10_000;
 
 mod activity_details;
-#[allow(
-    dead_code,
-    reason = "Used by the following compact command integration stage."
-)]
 pub(crate) mod activity_preview;
 mod approvals;
 mod base;

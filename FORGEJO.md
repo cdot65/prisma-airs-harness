@@ -5,8 +5,9 @@ Open new issues and pull requests there. GitHub is a public source mirror;
 historical GitHub pull requests remain available, and their open heads were
 preserved as `archive/github-pr-N` branches in Forgejo.
 
-Forgejo owns CI and release authorization. GitHub package and container workflows
-are retained as `.disabled` files for historical reference; do not re-enable them.
+Forgejo owns CI and release authorization. Harness GitHub workflows are disabled at repository level and retained as
+historical references; do not re-enable them. SDK/CLI workflows are archived
+with `.disabled` suffixes.
 GitHub Pages remains at its existing URL. Documentation is deployed only from an
 `airs-docs-<full commit SHA>` tag approved in Forgejo and copied by the push mirror.
 The GitHub Pages job verifies that the tag matches the exact source commit.
@@ -34,10 +35,9 @@ reconcile both histories before resuming. Existing package versions are immutabl
 # Source, CI and mirror operations
 
 The canonical Rust repository is https://git.cdot.io/cdot/prisma-airs-harness.
-The private GitHub repository `cdot65/prisma-airs-harness` is a one-way push
+The public GitHub repository `cdot65/prisma-airs-harness` is a one-way push
 mirror. Push branches to Forgejo. The local `origin` points to Forgejo and
-`github` retains the mirror URL. The independent TypeScript repositories in
-other Forgejo namespaces are not this project.
+`github` retains the mirror URL. The SDK and CLI are separate canonical repositories in the same `cdot` namespace.
 
 Forgejo mirrors all branches and tags on push and hourly using a dedicated
 GitHub deploy key. Compare branch/tag hashes before repairing a failed mirror;

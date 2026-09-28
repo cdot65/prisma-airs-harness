@@ -2,9 +2,7 @@ name: AIRS Harness package contracts
 on:
   push:
     branches: [main, integrate/codex-0.154-candidate]
-    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**', 'codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/**']
   pull_request:
-    paths: ['npm/airs-harness/**', 'scripts/**', '.forgejo/workflows/**', 'codex-rs/skills/src/assets/samples/prisma-airs-asr-judge/**']
   workflow_dispatch:
 jobs:
   contracts:
@@ -16,6 +14,8 @@ jobs:
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          fetch-depth: 0
+      - run: python3 scripts/check_airs_license_notices.py
       - run: node --test npm/airs-harness/*.test.js
       - run: python3 -m unittest discover -s scripts -p test_airs_npm_registry.py -v
       - run: python3 -m unittest discover -s scripts -p test_package_airs_harness.py -v

@@ -1,0 +1,8 @@
+Modification notice for codex-rs/response-debug-context/src/lib.rs
+
+This file is distributed with modifications in Prisma AIRS Harness
+relative to OpenAI Codex commit 6b9826e3aa83b1a5947db50f4332cb9c65f1b340.
+Changes include fork adaptations and selected later upstream updates.
+See Git history for individual authors and changes. Original copyright
+and license notices remain applicable; this notice does not relicense
+third-party content. See the repository LICENSE, NOTICE and LICENSING.md.

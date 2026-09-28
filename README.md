@@ -401,7 +401,8 @@ unchanged for reviewable upstream updates. See [BASELINE.json](BASELINE.json) an
 [UPSTREAM.md](UPSTREAM.md) for the fork boundary.
 
 Codex-derived code remains Apache-2.0. Preserve [LICENSE](LICENSE), [NOTICE](NOTICE),
-dependency notices and upstream history. The product does not imply OpenAI
+dependency notices and upstream history. See [LICENSING.md](LICENSING.md) for
+modification notices and package license boundaries. The product does not imply OpenAI
 endorsement. [README.upstream.md](README.upstream.md) preserves the original intro;
 [IMPLEMENTATION.md](IMPLEMENTATION.md) records historical prototype work.
 

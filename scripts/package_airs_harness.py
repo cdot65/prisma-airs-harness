@@ -282,6 +282,20 @@ def main():
         for filename in ["COPYRIGHT.html", "COPYRIGHT-library.html"]:
             shutil.copy2(rust_notices / filename, runtime_notices / filename)
         shutil.copytree(rust_notices / "licenses", runtime_notices / "licenses")
+        # Vendored code is not covered by Cargo registry license collection.
+        vendored_notices = root / "licenses/vendored"
+        vendored_notices.mkdir(parents=True)
+        shutil.copy2(
+            repo / "third_party/wezterm/LICENSE", vendored_notices / "wezterm-LICENSE"
+        )
+        if "linux" in args.target:
+            sources = root / "licenses/bubblewrap-source"
+            shutil.copytree(
+                repo / "codex-rs/vendor/bubblewrap", sources / "vendor/bubblewrap"
+            )
+            shutil.copytree(repo / "codex-rs/bwrap", sources / "bwrap")
+            for name in ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml"]:
+                shutil.copy2(repo / "codex-rs" / name, sources / name)
         inventory = []
         for identifier in sorted(selected):
             package = packages[identifier]

@@ -81,6 +81,15 @@ class NativePackaging(unittest.TestCase):
             "verify_management_airs_audit.mjs",
         ]:
             (root / "scripts" / name).touch()
+        vendored = root / "third_party/wezterm"
+        vendored.mkdir(parents=True)
+        (vendored / "LICENSE").write_text("vendored MIT notice")
+        for name in ["vendor/bubblewrap", "bwrap"]:
+            source = root / "codex-rs" / name
+            source.mkdir(parents=True, exist_ok=True)
+            (source / "COPYING").write_text("fixture source and license")
+        (root / "codex-rs/rust-toolchain.toml").write_text("fixture toolchain")
+        (root / "codex-rs/Cargo.toml").write_text("fixture workspace")
         notices = directory / "sysroot/share/doc/rust"
         (notices / "licenses").mkdir(parents=True)
         for name in ["COPYRIGHT.html", "COPYRIGHT-library.html", "licenses/LICENSE"]:
@@ -215,6 +224,16 @@ class NativePackaging(unittest.TestCase):
             with tarfile.open(archive) as tar:
                 root = tar.getnames()[0]
                 info = json.load(tar.extractfile(root + "/BUILD-INFO.json"))
+                self.assertEqual(
+                    tar.extractfile(root + "/licenses/vendored/wezterm-LICENSE").read(),
+                    b"vendored MIT notice",
+                )
+                self.assertEqual(
+                    tar.extractfile(
+                        root + "/licenses/bubblewrap-source/vendor/bubblewrap/COPYING"
+                    ).read(),
+                    b"fixture source and license",
+                )
                 validation_bytes = tar.extractfile(root + "/VALIDATION.json").read()
                 self.assertEqual(
                     info["validation_receipt_sha256"],

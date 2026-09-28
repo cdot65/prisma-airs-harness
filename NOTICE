@@ -4,3 +4,14 @@ Copyright 2025 OpenAI
 This project includes code derived from [Ratatui](https://github.com/ratatui/ratatui), licensed under the MIT license.
 Copyright (c) 2016-2022 Florian Dehau
 Copyright (c) 2023-2025 The Ratatui Developers
+
+Prisma AIRS Harness fork
+Copyright 2026 Calvin Remsburg (project-owned additions and modifications)
+
+This distribution modifies OpenAI Codex for Prisma AIRS AI Gateway,
+environment and credential management, MCP authorization, managed product CLI
+and skills, terminal behavior, and independent release packaging.
+Fork modification notices are carried in adjacent .license files; see
+the source repository's LICENSING.md for scope and maintenance. Original upstream notices are retained.
+Third-party components retain their licenses. No trademark rights or
+OpenAI endorsement are granted by this distribution.

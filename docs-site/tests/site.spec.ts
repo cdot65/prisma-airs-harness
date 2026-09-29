@@ -2,7 +2,9 @@ import {test, expect} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 
 const manifest = JSON.parse(readFileSync('sources.json', 'utf8')) as {slug: string}[];
-const routes = ['', ...manifest.map(row => row.slug.slice(1) + '/'),
+const routes = ['overview/', 'configuration/keycloak/', 'configuration/entra/',
+  'configuration/gateway/', 'configuration/mcp/', 'platform/deployment/',
+  'validation/acceptance/', 'operations/cheat-sheet/', 'guides/skills/', ...manifest.map(row => row.slug.slice(1) + '/'),
   ...['environments', 'mcp', 'terminal', 'judge', 'releases', 'architecture', 'development', 'deployment']
     .map(name => `guides/${name}/`),
   ...['airs', 'env', 'env-create', 'login', 'mcp-login', 'doctor', 'typesafe']
@@ -22,22 +24,29 @@ for (const route of routes) {
   });
 }
 
-test('desktop navigation, collapsible TOC, code and diagram', async ({page}) => {
+test('hero paths and desktop layout without a right-hand contents panel', async ({page}) => {
   await page.setViewportSize({width: 1440, height: 1000});
-  await page.goto('guides/terminal/');
-  const toggle = page.getByRole('button', {name: 'Collapse on-page navigation'});
-  await toggle.click();
-  await expect(page.getByRole('button', {name: 'Expand on-page navigation'})).toHaveAttribute('aria-expanded', 'false');
-  await page.getByRole('button', {name: 'Expand on-page navigation'}).click();
+  await page.goto('./');
+  await expect(page.getByRole('heading', {level: 1})).toContainText('Local control.');
+  await page.getByRole('link', {name: 'Get started →', exact: true}).click();
+  await expect(page.locator('article h1')).toBeVisible();
+  await expect(page.locator('aside[aria-label="On-page navigation"]')).toHaveCount(0);
+  await expect(page.locator('.theme-doc-toc-desktop')).toHaveCount(0);
   await page.getByRole('link', {name: 'CLI Reference', exact: true}).first().click();
-  await expect(page.locator('article pre')).toContainText('Usage: airs');
-  await page.goto('guides/architecture/');
-  await expect(page.locator('.docusaurus-mermaid-container svg')).toBeVisible();
+  await expect(page).toHaveURL(/reference\/airs\//);
+  await expect(page.locator('article pre').first()).toContainText('Usage: airs');
+  for (const route of ['guides/architecture/', 'configuration/keycloak/', 'configuration/entra/',
+    'configuration/mcp/', 'configuration/gateway/', 'validation/acceptance/', 'guides/skills/']) {
+    await page.goto(route);
+    await expect(page.locator('.docusaurus-mermaid-container svg').first()).toBeVisible();
+    await expect(page.locator('.docusaurus-mermaid-container')).not.toContainText('Syntax error');
+  }
 });
 
 test('mobile navigation and readable layout', async ({page}) => {
   await page.setViewportSize({width: 390, height: 844});
   await page.goto('./');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByRole('button', {name: 'Toggle navigation bar'}).click();
   await expect(page.locator('.navbar-sidebar')).toBeVisible();
   await page.keyboard.press('Escape');

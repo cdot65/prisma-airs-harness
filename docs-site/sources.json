@@ -1,0 +1,8 @@
+[
+  {"source":"GETTING-STARTED.md","id":"getting-started","slug":"/getting-started","title":"Getting started"},
+  {"source":"PRISMA-AIRS-CLI.md","id":"bundled-cli","slug":"/guides/bundled-cli","title":"Bundled CLI and skills"},
+  {"source":"UBUNTU-TEST-HOST.md","id":"ubuntu","slug":"/guides/ubuntu","title":"Ubuntu preparation"},
+  {"source":"RELEASE-0.1.2.md","id":"stable","slug":"/releases/stable-0-1-2","title":"Stable 0.1.2"},
+  {"source":"validation/2026-09-27/gateway-openapi-alpha7/release/README.md","id":"preview","slug":"/releases/alpha7","title":"Apple Silicon alpha.7"},
+  {"source":"validation/2026-09-27/upstream-alpha6/release/README.md","id":"terminal-preview","slug":"/releases/alpha6","title":"Terminal alpha.6"}
+]

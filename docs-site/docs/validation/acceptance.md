@@ -94,8 +94,8 @@ client scopes. Inspect only nonsecret configuration in support output.
 
 ```sh
 airs env status work
-airs --environment work login
-airs --environment work doctor --verify-access
+airs login
+airs doctor --verify-access
 ```
 
 The sign-in must finish native credential persistence. Doctor must return a
@@ -103,7 +103,7 @@ successful gateway access check; a saved credential alone is insufficient.
 The probe sends a small inference request and can consume quota. It does not
 send project files and does not test MCP.
 
-Open `airs --environment work` and ask for a short harmless response. Confirm
+Open `airs` and ask for a short harmless response. Confirm
 that it completes, including streaming completion, without provider or policy
 errors. Restart the process and repeat to test stored-credential reuse. If the
 gateway route fails, fix the route. Do not substitute a direct provider endpoint.

@@ -77,37 +77,41 @@ You create this key in the gateway, not in the harness.
 4. Copy the key when it is issued. You will paste it in the next step, and you
    should not put it in a command argument, your shell history or a chat message.
 
-## 3. Sign in with the key
+## 3. Start AIRS and connect
 
-Create a local profile for the gateway, then sign in:
+Run `airs` and answer the prompts. On a fresh installation it opens a welcome
+screen and walks you through connecting, so there are no setup flags to remember:
 
 ```sh
-airs env create workspace-api --gateway-url https://gateway.example.com/v1
-airs --environment workspace-api login --with-api-key
+airs
 ```
 
-The first command saves the gateway URL as an environment named `workspace-api`.
-An environment is only a local profile: where to connect, which credential to use
-and where your conversation history lives. The workspace in the gateway is what
-decides what that credential may do, which is why their names do not need to
-match.
+1. **Welcome to Prisma AIRS.** Choose **Connect an environment**.
+2. **Environment name.** Accept `work`, or type another short name. An environment
+   is only a local profile: where to connect, which credential to use and where your
+   conversation history lives.
+3. **AI Gateway URL.** Enter the inference API root your administrator gave you, such
+   as `https://gateway.example.com/v1`.
+4. **Create this environment?** Choose **Create environment and sign in**.
+5. **Sign in to continue.** Choose **Use a workspace API key**, then paste the key
+   into the hidden field and press Enter.
 
-The second command opens a hidden prompt. Paste the key and press Enter. The
-harness stores it in your operating system's credential store, and **Credential
-saved** means that storage worked. It does not yet mean the gateway accepted the
-key, and the next step checks that.
+The screen never asks you to pick a gateway workspace, because the key you created in
+step 2 already belongs to one. The workspace decides what that key may do, which is why
+its name does not need to match your environment's. The harness stores the key in your
+operating system's credential store, and **Credential saved** means that storage
+worked. It does not yet mean the gateway accepted the key. The next step checks that.
+
+From now on, running `airs` opens this environment. You only need the
+`--environment` flag when you keep more than one, which
+[Environments](https://cdot65.github.io/prisma-airs-harness/guides/environments/) covers.
 
 ## 4. Validate the connection with /doctor
 
-Open the harness in that environment:
-
-```sh
-airs --environment workspace-api
-```
-
-Enter `/doctor`. It shows the health of this environment's connection. Opening the
-view and refreshing it send nothing to the gateway. To test the connection itself,
-choose **Verify gateway access**, then **Send connectivity check**.
+Once AIRS opens, enter `/doctor`. It shows the health of this environment's
+connection. Opening the view and refreshing it send nothing to the gateway. To test
+the connection itself, choose **Verify gateway access**, then **Send connectivity
+check**.
 
 That check sends one small inference request and reports whether the gateway
 accepted it. It sends no local files, conversation content or tools. It can use a
@@ -118,7 +122,7 @@ route all worked for one real request.
 You can run the same check from the shell:
 
 ```sh
-airs --environment workspace-api doctor --verify-access
+airs doctor --verify-access
 ```
 
 If the check fails, the status tells you which stage broke:
@@ -135,7 +139,8 @@ Give your administrator the trace ID from the failure, and never the key itself.
 
 ## 5. Send your first request and find it in the gateway logs
 
-In the same session, ask for something short and harmless:
+In the same session, ask for something short and harmless. If you closed AIRS, run
+`airs` again to reopen it:
 
 > Reply with one short sentence confirming you received this.
 

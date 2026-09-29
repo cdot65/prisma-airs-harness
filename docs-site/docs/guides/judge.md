@@ -44,7 +44,7 @@ evaluation. It is never an automatic replacement for a requested live run.
 
 Inside AIRS, open `/typesafe` and choose **Save or replace API key**. Paste the
 key into the hidden field. For terminal automation, use
-`airs --environment work env typesafe set`.
+`airs env typesafe set`.
 
 ### 2. Check access
 

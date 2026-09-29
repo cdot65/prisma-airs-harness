@@ -558,7 +558,9 @@ class NpmCandidatePackaging(unittest.TestCase):
                         manifest = json.load(tar.extractfile("package/package.json"))
                         self.assertEqual(manifest.get("private", False), candidate)
                         if manifest["name"] == (
-                            "@cdot65/prisma-airs-harness" if scoped else "prisma-airs-harness"
+                            "@cdot65/prisma-airs-harness"
+                            if scoped
+                            else "prisma-airs-harness"
                         ):
                             self.assertEqual(
                                 manifest["dependencies"], template["dependencies"]

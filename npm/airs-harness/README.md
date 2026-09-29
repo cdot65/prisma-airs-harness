@@ -4,15 +4,15 @@
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
 the gateway owns upstream OAuth. The npm package remains `airs-harness`.
 
-## Apple Silicon Gateway preview
+## Gateway agent release 0.1.3
 
-The 0.1.3-alpha.7.mcp.1 preview bundles CLI 7.2.0 and SDK 0.34.0, adding explicit
+Release 0.1.3 bundles CLI 7.2.0 and SDK 0.34.0, adding explicit
 organisation guardrails with `airs cli aigateway admin-guardrails`. Workspace
 policies remain under `guardrails`. This management surface uses the selected
 product tenant; `/config`, `/model` and `/mcp` retain their session routing and
 login roles. Admin listing has live read acceptance; mutations are specification-tested.
 See the [command guide](https://cdot65.github.io/prisma-airs-cli/cli/aigateway/official-spec-alignment/).
-Stable installation instructions follow below.
+Installation instructions follow below.
 
 ## Install or update
 
@@ -29,15 +29,14 @@ install a supported Node version using your organization's usual method, reopen
 the terminal and check again. npm may otherwise finish with `EBADENGINE`; the
 launcher rejects unsupported Node before starting AIRS or its bundled CLI.
 
-This guide covers **0.1.2**, including the in-session `/mcp`
+This guide covers **0.1.3**, including the in-session `/mcp`
 manager, `/doctor` dashboard and optional `/typesafe` setup for the bundled Jev judge. New environments require native MCP storage;
 existing environments retain their configured mode and tokens. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate from automated checks.
-Install this exact version from your registry, from the organization's
-LAN/VPN, then inspect its version:
+Install this exact version from public npm, then inspect its version:
 
 ```sh
-npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```
@@ -52,7 +51,7 @@ include optional dependencies and do not require `--include=optional`. If your
 npm configuration omits them, re-enable them for installation. The launcher does
 not compile or download code at startup. See the [Mac guide](MACOS.md).
 
-The harness includes Prisma AIRS CLI **7.1.5** and nine product skills as
+The harness includes Prisma AIRS CLI **7.2.0** and nine product skills as
 `airs cli`. If an older standalone CLI already owns `airs`, upgrade it first:
 
 ```sh
@@ -178,3 +177,5 @@ SSO does not supply management API credentials. See [Bundled Prisma AIRS CLI and
 skills](PRISMA-AIRS-CLI.md) for setup, capabilities and limits, and the
 [public first-session guide](https://cdot65.github.io/prisma-airs-reference-architecture/learn/login/)
 for the educational walkthrough.
+
+Full documentation: [Prisma AIRS Harness](https://cdot65.github.io/prisma-airs-harness/), including gateway deployment, Keycloak and Entra configuration, validation and command cheat sheets. The same release is also distributed through `https://npm.cdot.io`.

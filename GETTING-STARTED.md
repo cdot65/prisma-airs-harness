@@ -4,29 +4,29 @@
 
 The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
 
-**Release: 0.1.2.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
+**Release: 0.1.3.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
 
 The owner confirmed the complete inference → ServiceNow sign-in → read-only query → restart/reuse workflow on Apple Silicon with the preceding mcp.6 release. Automated package checks and real-account acceptance are recorded separately.
 
-The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.1.5** and nine product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
+The npm package remains `airs-harness`; invoke it as `airs`. **Prisma AIRS CLI 7.2.0** and nine product skills are bundled as `airs cli`, so no separate product CLI installation is required. Supported native packages are Linux x64, Linux ARM64 and Apple Silicon; Windows and Intel Mac packages are outside this release.
 
 Check Node.js and npm in the terminal you will use. The harness requires **22.13.0 or newer in the 22.x line, or 23.5.0 or newer** (`^22.13.0 || >=23.5.0`). Installing npm on Ubuntu does not upgrade a distro-provided Node 18. Install a supported Node version using your organization's method, reopen the terminal, and check again.
 
 ```sh
 node --version
 npm --version
-npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
+npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```
 
-Replace the example registry with your administrator's registry. Ordinary installs include the matching native package; `--include=optional` is unnecessary unless npm configuration explicitly omits optional dependencies. Upgrades preserve existing environments, credentials and histories. Restart an already running AIRS process after upgrading.
+The same release is also distributed through `https://npm.cdot.io`. Ordinary installs include the matching native package; `--include=optional` is unnecessary unless npm configuration explicitly omits optional dependencies. Upgrades preserve existing environments, credentials and histories. Restart an already running AIRS process after upgrading.
 
 If `airs` reports that its native package is unavailable, reinstall the exact package version shown in the error with `--include=optional`. Use the same registry and installation scope as before: retain `-g` for a global installation, or run the install in the same project for a local installation. This repairs missing optional dependencies without changing releases or your npm configuration.
 
-If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Stable harness [0.1.2](https://github.com/cdot65/prisma-airs-harness/blob/main/RELEASE-0.1.2.md) bundles CLI 7.1.5 and the Jev judge skill. Standalone CLI 7.1.5 is also published on public npm under `next`.
+If an old standalone CLI owns `airs`, upgrade it to `@cdot65/prisma-airs-cli@7.0.1` first; it uses `airs-cli`. Do not force npm to overwrite another package's command. Harness 0.1.3 bundles CLI 7.2.0, SDK 0.34.0 and the Jev judge skill. No separate CLI installation is required.
 
-Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.2; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
+Use `type -a airs airs-cli airs-harness` and `airs --migration-check` to investigate a shadowed executable. A temporary `airs-harness` compatibility alias remains in 0.1.3; new commands use `airs`. If an earlier review installation exported `PATH` or `AIRS_HARNESS_HOME`, use a fresh terminal so those exports do not select its isolated state.
 
 ### 1. Get the connection details and access
 
@@ -35,9 +35,9 @@ Ask your administrator for these public connection settings. The values below ar
 | Setting | Example | Used for |
 | --- | --- | --- |
 | Inference API URL | `https://gateway.example.com/v1` | Model requests through AI Gateway |
-| Company OIDC issuer | `https://sso.example.com/realms/company` | Your inference browser sign-in |
-| Public native client ID | `harness-native` | The installed harness; no client secret |
-| Inference audience | `airs-inference` | The resource expected in the inference token |
+| Company OIDC issuer | `https://sso.example.com/realms/example-corp` | Your inference browser sign-in |
+| Public native client ID | `ai-gateway-agent` | The installed harness; no client secret |
+| Inference audience | `stack-ai-inference` | The resource expected in the inference token |
 | ServiceNow gateway MCP URL | `https://gateway-mcp.example.com/mcp-service-now-dev/mcp` | Your gateway-mediated ServiceNow connection |
 
 Your account needs inference access, membership in the gateway workspace that exposes ServiceNow, and a ServiceNow MCP subject binding with the appropriate incident permissions. Being able to sign into SSO does not grant those permissions automatically. The administrator provisions the gateway integration and its upstream OAuth client before you add it locally. The example integration targets a ServiceNow development instance.
@@ -54,7 +54,7 @@ For a new profile, start guided creation:
 airs env create work
 ```
 
-Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by 0.1.2 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
+Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments created by 0.1.3 need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
 
 If `work` already exists, reuse it:
 
@@ -105,9 +105,9 @@ To supply public settings explicitly, use the existing command form:
 
 ```sh
 airs --environment work login \
-  --issuer-url https://sso.example.com/realms/company \
-  --oidc-client-id harness-native \
-  --audience airs-inference
+  --issuer-url https://sso.example.com/realms/example-corp \
+  --oidc-client-id ai-gateway-agent \
+  --audience stack-ai-inference
 ```
 
 If login was cancelled, run `airs --environment work login` and choose company SSO again. To inspect the saved environment or retry an access check without another browser login:
@@ -167,9 +167,9 @@ To try SSO while keeping a working workspace-key environment, use a separate loc
 airs env create work-sso --gateway-url https://gateway.example.com/v1
 airs env use work
 airs --environment work-sso login --device-auth \
-  --issuer-url https://sso.example.com/realms/company \
-  --oidc-client-id harness-native \
-  --audience airs-inference
+  --issuer-url https://sso.example.com/realms/example-corp \
+  --oidc-client-id ai-gateway-agent \
+  --audience stack-ai-inference
 ```
 
 Keep the SSH terminal open. Open your laptop or phone browser yourself; the SSH process cannot open that browser automatically. Open the displayed verification link there, enter the displayed code, and complete company sign-in there. AIRS polls the issuer from the SSH host; this flow needs no inbound callback or SSH port forward. The code is short-lived: if it expires or you cancel with Ctrl+C, rerun the login command to start a new attempt. After the command reports that credentials were stored, run `airs --environment work-sso doctor --verify-access`. This separate check sends one small inference request and can consume gateway quota. Once access is verified, open `airs --environment work-sso`. If credentials were saved but the gateway denies access, fix the reported route, entitlement or policy issue; successful browser approval does not grant a missing gateway entitlement.
@@ -212,7 +212,7 @@ Set `animations = false` under `[tui]` in the environment configuration, or laun
 
 ### 4. Open AIRS and check MCP storage for existing environments
 
-**New environments created by 0.1.2:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
+**New environments created by 0.1.3:** native MCP storage is already configured. Open AIRS and continue with `/mcp`; no configuration edit is needed. If the OS credential store is unavailable, sign-in fails without saving a plaintext fallback. Restore the credential service before retrying.
 
 **Existing environments and mcp.3:** upgrading preserves the existing mode and saved tokens. To inspect the mode, run `airs env show work`, locate `state_directory`, and inspect that directory's `config.toml`. The explicit native-only setting is this **top-level** key, before any `[table]` headers:
 
@@ -258,7 +258,7 @@ airs --environment work mcp login service-now --no-browser
 
 Enter `/doctor` for the current environment's connection-health dashboard. Opening it or choosing **Refresh diagnostics** does not send an inference request. **Verify gateway access** opens a confirmation; **Send connectivity check** sends a small inference request that can consume quota and appear in gateway logs. It sends no local files, conversation content or tools. This verifies inference, not ServiceNow permissions.
 
-**Pending test release:** this branch adds the following diagnostic-report actions; publication and native acceptance are still in progress.
+Release 0.1.3 includes the following diagnostic-report actions.
 
 For a support summary, choose **Diagnostic report**, then **Preview report**. The report contains the AIRS version, platform, authentication method, known check outcomes and recovery steps. It omits environment and connection names, addresses, paths, credentials, raw errors and conversation content. It reuses the last completed check; previewing, copying or saving it does not probe the gateway again. An inference check that has not run is **Not verified**.
 
@@ -322,4 +322,4 @@ airs env remove work
 
 `env remove` preserves local files and history and does not itself revoke credentials. If it was the default, select another environment before starting a new session. Recreating the same name creates a fresh namespace, not a reconnection to the preserved history.
 
-The steps above define what to verify. They do not claim that this documentation edit performed a fresh human SSO login or a live ServiceNow tool call. See [implementation evidence](https://cdot65.github.io/prisma-airs-reference-architecture/learn/evidence/) for the recorded deployment and release limits.
+The steps above define what to verify. They do not claim that this documentation edit performed a fresh human SSO login or a live ServiceNow tool call. See the [harness validation guide](https://cdot65.github.io/prisma-airs-harness/validation/acceptance/) and release notes for recorded checks and their limits.

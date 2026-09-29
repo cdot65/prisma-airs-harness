@@ -109,6 +109,7 @@ jobs:
       CARGO_BUILD_JOBS: 2
       CARGO_INCREMENTAL: 0
       RUSTC_WRAPPER: sccache
+      SCCACHE_CACHE_SIZE: 10G
       SCCACHE_GHA_ENABLED: "false"
       SCCACHE_GHA_VERSION: airs-harness-rust-v1
       CARGO_PROFILE_RELEASE_DEBUG: 0
@@ -121,8 +122,17 @@ jobs:
       - name: Require Apple Silicon before installing build tools
         run: |
           test "$(uname -m)" = arm64
-          # Refuse a fresh Rust build before consuming the owner's remaining disk.
-          python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 100 * 1024**3, "At least 100 GiB free is required for Mac Rust compilation/cache"'
+          # A release build peaks near 30 GiB (target, cache archive, sources, sccache).
+          # Refuse below 40 GiB so the owner's Mac keeps headroom; warn below 60.
+          python3 - <<'DISK'
+          import shutil
+          free = shutil.disk_usage(".").free / 1024**3
+          print(f"{free:.1f} GiB free on the runner volume")
+          if free < 40:
+              raise SystemExit(f"Only {free:.1f} GiB free; Mac Rust compilation needs at least 40 GiB. Run scripts/airs_mac_runner_cleanup.sh on the runner.")
+          if free < 60:
+              print(f"::warning::Only {free:.1f} GiB free on the Mac runner; run scripts/airs_mac_runner_cleanup.sh soon")
+          DISK
           test "$RUNNER_ARCH" = ARM64
           mkdir -p "$RUNNER_TEMP/airs-evidence"
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -163,10 +173,12 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
             runtime/codex-rs/target
-          key: airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ needs.preflight.outputs.runtime_source }}
+          # One entry per dependency set, not per commit: Cargo rebuilds only changed
+          # crates, and the runner cache no longer grows by a full target per build.
+          key: airs-macos-v3-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}
           restore-keys: |
+            airs-macos-v3-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
             airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
-            airs-macos-v1-${{ runner.arch }}-
       - name: Native build prerequisites and runner identity
         run: |
           brew install cmake pkgconf

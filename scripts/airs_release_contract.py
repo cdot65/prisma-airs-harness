@@ -163,7 +163,8 @@ def validate_result(name, value, spec, target):
     if name == "upgrade":
         require(
             value.get("previous") == spec["previous_version"]
-            and value.get("previous_registry") == spec["registry"]
+            and value.get("previous_registry")
+            == spec.get("previous_registry", spec["registry"])
             and value.get("version") == spec["version"]
             and value.get("configuration_preserved") is True
             and value.get("legacy_target_preserved") is True,

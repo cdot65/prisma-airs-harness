@@ -301,7 +301,7 @@ def invocation(
             "--previous",
             spec["previous_version"],
             "--registry",
-            spec["registry"],
+            spec.get("previous_registry", spec["registry"]),
             "--output",
             str(work / "upgrade"),
         ]

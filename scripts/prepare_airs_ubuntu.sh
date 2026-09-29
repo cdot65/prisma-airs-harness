@@ -14,9 +14,9 @@ case "$mode" in install|--check|--unlock) ;; *) echo 'Usage: bash prepare_airs_u
 # shellcheck source=/dev/null
 source /etc/os-release
 [[ ${ID:-} == ubuntu && $(uname -m) == x86_64 ]] || { echo 'This preparation script targets Ubuntu x86_64.' >&2; exit 2; }
-version=${AIRS_TEST_VERSION:-0.1.2}
+version=${AIRS_TEST_VERSION:-0.1.3}
 [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]] || { echo 'Use an exact published version, not an npm tag.' >&2; exit 2; }
-registry=https://npm.cdot.io
+registry=https://registry.npmjs.org
 state=$HOME/.local/state/airs-test-host
 prefix=$HOME/.local/share/airs-test-host/npm
 config=$HOME/.config/airs-test-host
@@ -92,7 +92,7 @@ else
         export AIRS_HARNESS_HOME="$work/airs" CODEX_HOME="$work/core"
         unset AIRS_READINESS_UNUSED_CREDENTIAL
         timeout 20 "$prefix/bin/airs" env create readiness \
-            --gateway-url https://gateway.redtail.cdot.io/v1 \
+            --gateway-url https://gateway.example.com/v1 \
             --credential-env AIRS_READINESS_UNUSED_CREDENTIAL &&
         timeout 20 "$prefix/bin/airs" sandbox -c 'sandbox_mode="read-only"' -- \
             /bin/sh -c 'test "$(cat "$1")" = sandbox-readiness-marker && ! (printf forbidden >> "$1")' \
@@ -110,7 +110,7 @@ if curl --proto '=https' --tlsv1.2 -fsS --connect-timeout 10 --max-time 30 \
     pass 'The exact npm package is reachable over verified HTTPS.'
 else fail 'Registry TLS/connectivity or package availability failed.'; fi
 if code=$(curl --proto '=https' --tlsv1.2 -sS -o /dev/null -w '%{http_code}' \
-    --connect-timeout 10 --max-time 20 https://gateway.redtail.cdot.io/v1); then
+    --connect-timeout 10 --max-time 20 https://gateway.example.com/v1); then
     case "$code" in 2??|3??|400|401|403|404|405) pass "Gateway TLS/connectivity works (HTTP $code; authentication is not tested).";;
         *) fail "Gateway returned HTTP $code; investigate before login.";; esac
 else fail 'Gateway DNS/TLS/connectivity failed.'; fi

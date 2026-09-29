@@ -1,0 +1,10 @@
+{
+  "test": "codex-app-server-protocol schema_fixtures_tests::typescript_schema_fixtures_match_generated",
+  "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+  "disposition": "corrected-test-fixture",
+  "original_log_sha256": "a602deb5f20c360725bfbba574a4879dd2fbf63820b6b3e948d0c97157458ace",
+  "focused_source": "426c0ef007d885d7d4d8eca10ff75d685f7142c6",
+  "focused_log_sha256": "f9e7bc7afcc1bed77438c601a2f0706e29ee619d172abffe78b755a0e62c7f6e",
+  "runtime_source_unchanged": true,
+  "disabled_installed_command": null
+}

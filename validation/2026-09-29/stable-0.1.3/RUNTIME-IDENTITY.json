@@ -1,0 +1,14 @@
+{
+  "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+  "alpha_reference": "95bd20dce01d9ecff2362fccc6b5dd131f753d7c",
+  "previous_alpha": "0.1.3-alpha.7.mcp.1",
+  "runtime_unchanged_except_version": true,
+  "runtime_diff_paths": [
+    "codex-rs/utils/home-dir/src/lib.rs"
+  ],
+  "unchanged_upstream_paths": [
+    "codex-rs/exec-server/tests/exec_process.rs"
+  ],
+  "upstream_revision": "rust-v0.154.0",
+  "version_diff_sha256": "28be3753e0ced483612f782b791032be28b45c47cc407cc7721574e6e933a961"
+}

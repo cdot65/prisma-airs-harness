@@ -6,31 +6,40 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
-The 0.1.2 npm package includes this guide and helper. It retains the fixes for the
+The 0.1.3 npm package includes this guide and helper. It retains the fixes for the
 competing-keyring-daemon problem in the mcp.4 helper, verifies the default
 collection's lock state, and prints the actual script path for later unlocks.
 On a machine with npm, download the published package:
 
 ```bash
-npm pack airs-harness@0.1.2 --registry=https://npm.cdot.io
-tar -xOf airs-harness-0.1.2.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.2.sh
+npm pack airs-harness@0.1.3 --registry=https://registry.npmjs.org
+tar -xOf airs-harness-0.1.3.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.3.sh
 ```
 
-Review the script, then copy it to `~/prepare-airs-ubuntu-0.1.2.sh` on your Ubuntu host
-(for example with `scp`). This download does not install or run the harness.
-Run the corrected copied script in an interactive SSH terminal:
+The helper ships with a sanitized gateway endpoint. **Configure that endpoint
+before running it**: replace `gateway.your-company.com` below with your actual
+inference hostname (and adjust `/v1` if your listener uses another prefix). The
+URL is public configuration and must not contain credentials.
 
 ```bash
-bash ~/prepare-airs-ubuntu-0.1.2.sh
+sed -i 's|https://gateway.example.com/v1|https://gateway.your-company.com/v1|g' prepare-airs-ubuntu-0.1.3.sh
+```
+
+Review the configured script, then copy it to `~/prepare-airs-ubuntu-0.1.3.sh` on your Ubuntu host
+(for example with `scp`). This download does not install or run the harness.
+Run the configured copy in an interactive SSH terminal:
+
+```bash
+bash ~/prepare-airs-ubuntu-0.1.3.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
-The helper defaults to `0.1.2` from `https://npm.cdot.io`,
+The helper defaults to `0.1.3` from `https://registry.npmjs.org`,
 matching this package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.2 bash ~/prepare-airs-ubuntu-0.1.2.sh
+AIRS_TEST_VERSION=0.1.3 bash ~/prepare-airs-ubuntu-0.1.3.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service
@@ -84,8 +93,8 @@ even if the browser cannot load that localhost page. Do not paste callbacks into
 the agent conversation. Inference `login --no-browser` is a different flow from
 `--device-auth` and still needs its callback to reach Ubuntu.
 
-After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-0.1.2.sh --unlock`.
-Use `bash ~/prepare-airs-ubuntu-0.1.2.sh --check` for checks without installing packages
+After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-0.1.3.sh --unlock`.
+Use `bash ~/prepare-airs-ubuntu-0.1.3.sh --check` for checks without installing packages
 or prompting for a keyring password. Both modes may create a disposable readiness
 record and sandbox environment, which they clean up. They do not test real SSO,
 workspace API-key authorization or ServiceNow access.

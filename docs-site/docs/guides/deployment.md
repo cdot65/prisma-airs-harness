@@ -44,7 +44,7 @@ an ARM64 cross-build or QEMU version probe alone is not release acceptance.
 Candidate and fresh registry checks cover native credential storage, bundled CLI,
 upgrade/rollback and the relevant agent workflow before promotion.
 
-Harness packages go to `npm.cdot.io`; the separate SDK and CLI publish to npmjs.org.
+Harness 0.1.3 is distributed through public npmjs.org and `npm.cdot.io`.
 Current versions and platform boundaries are in [release channels](releases.md).
 The repository's `RELEASE.md`, `RELEASE-TEST-PACKAGES.md`, release specifications
 and retained receipts describe the operational procedure and actual acceptance.

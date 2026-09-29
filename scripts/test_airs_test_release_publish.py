@@ -140,6 +140,50 @@ class PublicationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Protected"):
                 _publish(spec, plan, packages, self.output, registry)
 
+    def test_first_public_stable_publish_records_initial_latest_and_visibility_delay(
+        self,
+    ):
+        with patch(__name__ + ".VERSION", "0.1.3"):
+            spec, plan, packages = fixture(self.root / "public")
+            spec.update(
+                scope="owner-authorized-stable",
+                tag="stable-candidate",
+                registry="https://registry.npmjs.org",
+            )
+            registry = MemoryRegistry(plan)
+            for document in registry.documents.values():
+                document["dist-tags"] = {}
+            original_publish = registry.publish
+            original_metadata = registry.metadata
+            delayed = set()
+
+            def publish(archive, tag):
+                original_publish(archive, tag)
+                name = registry.published[-1]
+                registry.documents[name]["dist-tags"]["latest"] = "0.1.3"
+                delayed.add(name)
+
+            def metadata(name):
+                if name in delayed:
+                    delayed.remove(name)
+                    return {"name": name, "versions": {}, "dist-tags": {}}
+                return original_metadata(name)
+
+            registry.publish = publish
+            registry.metadata = metadata
+            with patch("airs_test_release_publish.time.sleep") as sleep:
+                receipt = _publish(spec, plan, packages, self.output, registry)
+            self.assertTrue(receipt["published"])
+            self.assertEqual(receipt["registry_created_initial_latest"], PACKAGE_ORDER)
+            self.assertEqual(registry.published, PACKAGE_ORDER)
+            self.assertEqual(sleep.call_count, len(PACKAGE_ORDER))
+            self.assertEqual(
+                _publish(spec, plan, packages, self.output, registry), receipt
+            )
+            registry.documents[PACKAGE_ORDER[0]]["dist-tags"]["latest"] = "0.1.4"
+            with self.assertRaisesRegex(ValueError, "Protected"):
+                _publish(spec, plan, packages, self.output, registry)
+
     def test_interrupted_native_publish_resumes_before_launcher_and_preserves_tags(
         self,
     ):

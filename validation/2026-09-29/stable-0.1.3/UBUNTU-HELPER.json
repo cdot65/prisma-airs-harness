@@ -1,0 +1,19 @@
+{
+  "version": "0.1.3",
+  "packaged_helper_sha256": "bdda79f908569863d45ca0e3b739a42481d30e4463ed60af56f31132cac41c72",
+  "configured_helper_sha256": "b9755908e3e0859c16273d4c8aba965e1c40e28bf746af3012214a922aa64b96",
+  "configuration_change": "Sanitized example endpoint replaced with the deployed HTTPS gateway, no credentials",
+  "isolated_home_prefix_dbus_keyring": true,
+  "version_override": false,
+  "seconds": 19.777,
+  "exit_code": 0,
+  "checks": [
+    "PASS new encrypted keyring and native write/read/delete",
+    "PASS already-unlocked service is reused",
+    "PASS unlocked check reuses the service without prompting",
+    "PASS quoted rerun command preserves the spaced script path",
+    "PASS locked check and wrong-password diagnosis preserve the keyring",
+    "PASS correct password unlocks the D-Bus service after a failed attempt"
+  ],
+  "passed": true
+}

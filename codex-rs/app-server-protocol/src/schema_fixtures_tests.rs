@@ -48,14 +48,13 @@ fn stable_precomputed_exports_match_schema_fixtures() -> Result<()> {
     let schema_root = schema_root()?;
     let exports = decode_precomputed_exports(/*experimental_api*/ false)?;
 
-    assert_eq!(
-        exports.typescript,
-        collect_export_files_recursive(&schema_root.join("typescript"))?
-    );
-    assert_eq!(
-        exports.json_schema,
-        collect_export_files_recursive(&schema_root.join("json"))?
-    );
+    // SPDX sidecars describe licensing; they are not generated API exports.
+    let mut typescript = collect_export_files_recursive(&schema_root.join("typescript"))?;
+    let mut json_schema = collect_export_files_recursive(&schema_root.join("json"))?;
+    typescript.retain(|path, _| !path.ends_with(".license"));
+    json_schema.retain(|path, _| !path.ends_with(".license"));
+    assert_eq!(exports.typescript, typescript);
+    assert_eq!(exports.json_schema, json_schema);
 
     let internal_dir = tempfile::tempdir().context("create internal schema temp dir")?;
     generate_internal_json_schema(internal_dir.path())?;
@@ -236,10 +235,16 @@ fn schema_root() -> Result<PathBuf> {
 }
 
 fn read_tree(root: &Path, label: &str) -> Result<BTreeMap<PathBuf, Vec<u8>>> {
-    read_schema_fixture_subtree(root, label).with_context(|| {
+    let mut files = read_schema_fixture_subtree(root, label).with_context(|| {
         format!(
             "read {label} schema fixture subtree from {}",
             root.display()
         )
-    })
+    })?;
+    // Keep license notices on disk without comparing them to generated schemas.
+    files.retain(|path, _| {
+        path.extension()
+            .is_none_or(|extension| extension != "license")
+    });
+    Ok(files)
 }

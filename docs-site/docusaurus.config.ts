@@ -1,11 +1,11 @@
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import gruvboxTheme from './src/css/prism-gruvbox';
+import airsTheme from './src/css/prism-airs';
 
 const config: Config = {
   title: 'Prisma AIRS Harness',
   tagline: 'A local terminal agent connected through Prisma AIRS AI Gateway',
-  favicon: 'img/logo.svg',
+  favicon: 'img/brand-logo.png',
   url: 'https://cdot65.github.io',
   baseUrl: '/prisma-airs-harness/',
   organizationName: 'cdot65',
@@ -23,11 +23,15 @@ const config: Config = {
     theme: {customCss: './src/css/custom.css'},
   } satisfies Preset.Options]],
   themeConfig: {
+    mermaid: {theme: {light: 'dark', dark: 'dark'}, options: {themeVariables: {
+      background: '#030609', primaryColor: '#061b29', primaryTextColor: '#f5f8fa',
+      primaryBorderColor: '#00ddf2', lineColor: '#8999a6', secondaryColor: '#0b293b', tertiaryColor: '#061b29',
+    }}},
     docs: {sidebar: {hideable: true}},
     colorMode: {defaultMode: 'dark', disableSwitch: true, respectPrefersColorScheme: false},
     navbar: {
       title: 'Prisma AIRS Harness',
-      logo: {alt: 'Prisma AIRS Harness', src: 'img/logo.svg'},
+      logo: {alt: 'Prisma AIRS Harness', src: 'img/brand-logo.png'},
       items: [
         {type: 'docSidebar', sidebarId: 'docs', label: 'Docs', position: 'left'},
         {type: 'docSidebar', sidebarId: 'commands', label: 'CLI Reference', position: 'left'},
@@ -55,7 +59,7 @@ const config: Config = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} cdot65. Apache-2.0. Built with Docusaurus.`,
     },
-    prism: {theme: gruvboxTheme, darkTheme: gruvboxTheme,
+    prism: {theme: airsTheme, darkTheme: airsTheme,
       additionalLanguages: ['bash', 'json', 'yaml', 'python', 'powershell', 'toml', 'diff', 'rust']},
   } satisfies Preset.ThemeConfig,
 };

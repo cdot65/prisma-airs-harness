@@ -1,0 +1,99 @@
+{
+  "version": "0.1.3",
+  "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+  "workspace": {
+    "scope": "full-workspace",
+    "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+    "tests_run": 18998,
+    "passed": 18992,
+    "failed": 6,
+    "skipped": 35,
+    "failures": [
+      "codex-app-server-protocol schema_fixtures_tests::json_schema_fixtures_match_generated",
+      "codex-app-server-protocol schema_fixtures_tests::stable_precomputed_exports_match_schema_fixtures",
+      "codex-app-server-protocol schema_fixtures_tests::typescript_schema_fixtures_match_generated",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "run": 333,
+    "summary": "     Summary [2063.258s] 18998 tests run: 18992 passed (5 slow), 6 failed, 35 skipped",
+    "log_sha256": "a602deb5f20c360725bfbba574a4879dd2fbf63820b6b3e948d0c97157458ace",
+    "artifact_sha256": "bfbeddf370bb7e5f522c4ed742d9266c3c5b02d7ece7b21a6e9423ef56dee150",
+    "focused_run": 339,
+    "focused_tests_passed": 302,
+    "baseline_review": {
+      "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+      "upstream_revision": "rust-v0.154.0",
+      "upstream_implementations_unchanged": true,
+      "unresolved_release_blockers": [],
+      "cases": {
+        "codex-app-server-protocol schema_fixtures_tests::json_schema_fixtures_match_generated": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "evidence_sha256": "4a42ec61647c762009c19d1f6fec470f06d2ee4877c5bd1641991c494881231a",
+          "evidence_file": "baseline-evidence/01.json",
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": false
+        },
+        "codex-app-server-protocol schema_fixtures_tests::stable_precomputed_exports_match_schema_fixtures": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "evidence_sha256": "ed39be8364e0759cf3c9d7617e9c91191afe8cd61b168e6d3f81b664ee637516",
+          "evidence_file": "baseline-evidence/02.json",
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": false
+        },
+        "codex-app-server-protocol schema_fixtures_tests::typescript_schema_fixtures_match_generated": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "evidence_sha256": "0779080552f7eaf19d6a87422c9dc512f7afefab962d767697984ec61a53c80a",
+          "evidence_file": "baseline-evidence/03.json",
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": false
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "7c26b7fd2dba1779a05bdbf69b2c0daaac21f509f56f0c75530a7c6ad0186d6b",
+          "evidence_file": "baseline-evidence/04.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "a3addf93e30a925ca3992f41b10a0439c03dcd6760d50c82abf1760c13dcdedc",
+          "evidence_file": "baseline-evidence/05.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "8ea81086fa30e8f45ced180de4f50dd8eeb38fb49fd9a3b4e79b27a9ce2dbfc9",
+          "evidence_file": "baseline-evidence/06.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        }
+      },
+      "review_type": "Exact-source review; original full workspace remains failed"
+    }
+  },
+  "release_authorization": {
+    "version": "0.1.3",
+    "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+    "explicit_stable_publication": true,
+    "attended_acceptance_claimed": false,
+    "runtime_unchanged_from_requested_alpha": true,
+    "previous_alpha": "0.1.3-alpha.7.mcp.1",
+    "evidence_sha256": "4d6e7df25079ed9ac6add8bc2a044323b70202400c5d62ebed582b7bcd154d82",
+    "runtime_review_sha256": "d318be8f72cb5a7460cf2d77dfe9a5079f063a4f00fb4e96955ad466f577dae4"
+  }
+}

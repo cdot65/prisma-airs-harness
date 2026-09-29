@@ -294,8 +294,8 @@ def main():
                 repo / "codex-rs/vendor/bubblewrap", sources / "vendor/bubblewrap"
             )
             shutil.copytree(repo / "codex-rs/bwrap", sources / "bwrap")
-            for name in ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml"]:
-                shutil.copy2(repo / "codex-rs" / name, sources / name)
+            for source_name in ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml"]:
+                shutil.copy2(repo / "codex-rs" / source_name, sources / source_name)
         inventory = []
         for identifier in sorted(selected):
             package = packages[identifier]

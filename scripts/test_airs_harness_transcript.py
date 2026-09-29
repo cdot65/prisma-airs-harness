@@ -114,6 +114,21 @@ class TranscriptTerminal(unittest.TestCase):
                 self.assertEqual(fixture.requests, [])
                 self.assertEqual(fixture.mcp_requests, [])
 
+    def test_harness_starts_fullscreen_without_interface_settings(self):
+        fixture = harness.TerminalIntegration()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        # An existing empty file keeps the acceptance pin away: harness defaults apply.
+        (fixture.home / "settings.toml").write_text("")
+        fixture.configure()
+        with TerminalSession(
+            harness.BINARY, fixture.env, fixture.work, arguments=[]
+        ) as terminal:
+            fixture.terminal_transcript = terminal.transcript
+            terminal.start()
+            terminal.wait_for(b"\x1b[?1049h")
+        self.assertEqual(fixture.requests, [])
+
     def test_transcript_resize_restores_draft_without_replaying_inference(self):
         fixture = harness.TerminalIntegration()
         fixture.setUp()

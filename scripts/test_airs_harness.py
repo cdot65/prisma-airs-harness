@@ -1203,6 +1203,12 @@ class TerminalIntegration(unittest.TestCase):
         self.home = self.root / "state"
         self.work = self.root / "work"
         self.work.mkdir()
+        # These terminal contracts exercise inline scrollback. The harness defaults
+        # to fullscreen; pin inline through the harness-wide settings file.
+        self.home.mkdir(mode=0o700)
+        (self.home / "settings.toml").write_text(
+            "[tui]\nfullscreen_transcript = false\n"
+        )
         self.requests = []
         self.health_requests = []
         self.mcp_requests = []

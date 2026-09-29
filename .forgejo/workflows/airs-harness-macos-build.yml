@@ -19,6 +19,11 @@ on:
         type: boolean
         required: true
         default: true
+      publish_tag:
+        description: Optional npm.cdot.io dist-tag for the accepted Mac candidate (e.g. mac-preview); empty publishes nothing
+        type: string
+        required: false
+        default: ""
       preflight_only:
         description: Run cheap contracts only; do not compile or claim native acceptance
         type: boolean
@@ -417,6 +422,32 @@ jobs:
             ${{ runner.temp }}/airs-npm/tarballs/*.tgz
             ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           retention-days: 30
+      - name: Publish the accepted Mac candidate to npm.cdot.io under an explicit tag
+        if: ${{ inputs.publish_tag != '' }}
+        env:
+          AIRS_PUBLISH_TAG: ${{ inputs.publish_tag }}
+        run: |
+          # Uses the runner account's existing npm.cdot.io login; no credential enters this repository.
+          case "$AIRS_PUBLISH_TAG" in
+            latest|stable-candidate|alpha|onboarding|migration|gateway-validation) echo "Refusing protected tag $AIRS_PUBLISH_TAG" >&2; exit 1 ;;
+          esac
+          printf '%s' "$AIRS_PUBLISH_TAG" | grep -Eq '^[a-z][a-z0-9-]{1,31}$'
+          registry=https://npm.cdot.io
+          userconfig="$HOME/.npmrc"
+          test -f "$userconfig" || { echo "No npm login on this runner ($userconfig)" >&2; exit 1; }
+          npm whoami --registry "$registry" --userconfig "$userconfig"
+          latest_before="$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")"
+          tarballs="$RUNNER_TEMP/airs-npm/tarballs"
+          # Native packages first so the launcher never resolves a missing platform package.
+          for tgz in "$tarballs"/*.tgz; do
+            case "$(basename "$tgz")" in airs-harness-[0-9]*) continue ;; esac
+            npm publish "$tgz" --tag "$AIRS_PUBLISH_TAG" --registry "$registry" --userconfig "$userconfig"
+          done
+          for tgz in "$tarballs"/airs-harness-[0-9]*.tgz; do
+            npm publish "$tgz" --tag "$AIRS_PUBLISH_TAG" --registry "$registry" --userconfig "$userconfig"
+          done
+          test "$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")" = "$latest_before"
+          echo "airs-harness@$AIRS_PUBLISH_TAG -> $(npm view "airs-harness@$AIRS_PUBLISH_TAG" version --registry "$registry" --userconfig "$userconfig")"
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         if: always()
         with:

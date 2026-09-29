@@ -334,6 +334,7 @@ class NativePackaging(unittest.TestCase):
                 archive, binary = self.package(Path(directory), target, candidate=True)
                 with tarfile.open(archive) as tar:
                     root = tar.getnames()[0]
+                    self.assertEqual(root, archive.name.removesuffix(".tar.gz"))
                     self.assertEqual(
                         tar.extractfile(root + "/airs-harness").read(), binary
                     )

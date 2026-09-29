@@ -2,7 +2,7 @@
 
 ## SSO to ServiceNow: a complete first session
 
-The outcome is concrete: you sign into the harness as yourself, connect the ServiceNow MCP integration in the same environment, and ask the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, and the ServiceNow backend uses a server-side integration account.
+By the end you will have signed into the harness as yourself, connected the ServiceNow MCP integration in the same environment, and asked the agent to read an incident. Your company SSO identity is used throughout the human login steps. Inference and MCP still receive separate credentials, because they are separate connections to the gateway, and the ServiceNow backend uses a server-side integration account.
 
 **Release: 0.1.3.** The stable release includes guided environment setup, company SSO or workspace API-key inference, the in-session `/mcp` connection manager, and `/doctor`. Desktop MCP sign-in opens the browser and reports credential storage and tool discovery. SSH users can paste the full callback into the hidden sign-in field. Existing environments retain their storage mode when upgraded. Native MCP device authorization remains dependent on gateway support.
 
@@ -74,7 +74,7 @@ Creation with `--gateway-url` saves and selects the environment without opening 
 
 ### Environments and gateway workspaces are independent
 
-An **environment** is a local profile containing a gateway URL, credential binding, model settings, MCP connections and conversation history. Create one when you need separate credentials, destinations or histories—for example, `work-sso` and `workspace-api`.
+An **environment** is a local profile containing a gateway URL, credential binding, model settings, MCP connections and conversation history. Create one when you need separate credentials, destinations or histories, for example `work-sso` and `workspace-api`.
 
 Native MCP keyring records with the same connection name and URL can be shared by the same OS user across environments. Use distinct MCP connection names when you need separate local MCP credentials; a different environment name alone does not isolate that record.
 

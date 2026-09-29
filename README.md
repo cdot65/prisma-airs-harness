@@ -1,8 +1,8 @@
 # Prisma AIRS Harness
 
-A local terminal agent built for **Prisma AIRS AI Gateway**. Work with project
-files, run approved commands, use bundled Prisma AIRS skills, and call remote MCP
-tools through the gateway.
+A local terminal agent built to work with Prisma AIRS AI Gateway. It works with
+your project files, runs commands you approve, includes bundled Prisma AIRS
+skills, and calls remote MCP tools through the gateway.
 
 [Documentation](https://cdot65.github.io/prisma-airs-harness/) ·
 [Getting started](GETTING-STARTED.md) ·
@@ -52,10 +52,12 @@ add the gateway integration and complete its separate organizational login.
 After tool discovery, start a new conversation and verify an actual read-only
 tool result.
 
-The gateway owns upstream MCP OAuth. Both model inference and remote MCP go
-through AI Gateway. Local files, shell execution, sandboxing, approvals and
-history remain in the local runtime; selected contents and tool results can
-become model context.
+It helps to know where the line sits between the local runtime and the gateway.
+Both model inference and remote MCP go through AI Gateway, and the gateway owns
+upstream MCP OAuth. Local files, shell execution, sandboxing, approvals and
+history remain in the local runtime. Selected contents and tool results can
+still become model context, so something read locally can end up in a request
+to the gateway.
 
 ## Documentation paths
 

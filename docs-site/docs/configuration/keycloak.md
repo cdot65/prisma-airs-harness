@@ -2,17 +2,95 @@
 title: Keycloak inference sign-in
 ---
 
-This guide reproduces the deployed identity design with sanitized names. The
-harness is a **public native OIDC client**. Keycloak authenticates the person;
-AI Gateway validates the resulting access token and enforces access to a model
-route. Signing in and being authorized to invoke a model are separate checks.
+This guide reproduces the deployed identity design with sanitized names. It has
+two parts. The first explains how sign-in and authorization fit together, so you
+know what each setting is for. The second is the procedure: create the realm
+objects, attach the token contract, enforce it at the gateway and sign in from the
+harness.
 
 Complete [platform deployment](../platform/deployment.md) first. Keep a Keycloak
 administrator session available and use a test user before assigning production
 groups. The examples use Keycloak realm `example-corp`, user `alex`, native client
 `ai-gateway-agent`, and resource client `stack-ai-inference`.
 
-## 1. Establish the realm
+## How sign-in and authorization work
+
+The harness is a public native OIDC client. Keycloak authenticates the person;
+AI Gateway validates the resulting access token and enforces access to a model
+route. Signing in and being authorized to invoke a model are separate checks, and
+each one can fail without the other.
+
+```mermaid
+sequenceDiagram
+  actor Person
+  participant Agent as Harness
+  participant Browser
+  participant KC as Keycloak
+  participant Store as OS credential store
+  participant GW as AI Gateway
+  Agent->>Browser: Authorization URL, state, PKCE S256 challenge
+  Browser->>KC: Authenticate person
+  KC-->>Browser: Authorization code
+  Browser->>Agent: Loopback callback with code and state
+  Agent->>KC: Code + PKCE verifier (no client secret)
+  KC-->>Agent: Access and refresh tokens
+  Agent->>Store: Persist credential
+  Agent->>GW: Inference with gateway access token
+  GW->>GW: Verify signature, claims, role and policy
+  GW-->>Agent: Authorized response or explicit denial
+```
+
+**Two clients, two jobs.** The native client `ai-gateway-agent` is what the
+harness signs in as. The resource client `stack-ai-inference` never signs anyone
+in. It names the audience and owns the client role `invoke`, so the token can
+say both who the person is and what they may invoke. The harness holds no client
+secret, which is why PKCE protects the code exchange instead.
+
+**The loopback callback.** The harness binds a loopback listener on an available
+port. Keycloak's native loopback redirect handling allows that dynamic port with
+one registered path, so the registration can stay narrow. A broad wildcard
+callback would work, but it widens what an attacker can redirect a code to.
+Device authorization is an alternative flow enabled by the issuer; it is not a
+password grant.
+
+**What the token has to say.** The gateway does not trust a token because Keycloak
+signed it. It checks that the token was issued for this gateway and this client,
+that it carries the inference scope, that it names the right workspace, and that
+the person holds the `invoke` role. Each mapper in the token contract exists to
+put one of those facts in the token:
+
+- the audience says the token is meant for the gateway;
+- `azp` says which client asked for it;
+- `completions.write` in the scope says the client may run inference;
+- `portkey_workspace` and the default-config claims say where the request goes;
+- `harness_inference_roles` says what this person may do.
+
+With full scope disabled, the client only receives roles that the user holds and
+that the client's scope mappings allow. So a role reaches the token only if both
+are true, which is why the role is granted to the user and separately allowed in
+the client's scope mappings. That is also why you verify the effective token and
+not just the admin form.
+
+**Why decoding is not validation.** Reading a JWT's claims tells you what it
+says, not whether it is genuine. The gateway must verify the signature against
+Keycloak's keys and then check the issuer, audience, client, expiry, permission
+and workspace. A token can decode cleanly and still fail every one of those.
+
+**Tokens and keys are different credentials.** A JWT guardrail rejects opaque
+workspace API keys, because a key has no signature, issuer or claims to validate.
+If you want both methods, the gateway must explicitly support each credential
+method, or use separate policy bindings or workspaces. Disabling JWT checks so a
+key works removes the check for everyone else on that route. See
+[gateway configuration](gateway.md).
+
+**Lifetimes.** Short-lived access tokens limit how long a stolen or stale token
+works, and refresh-token revocation with reuse set to zero stops a copied refresh
+token from being replayed. The reference values are in step 1. They are examples
+and not a reason to weaken your organization's policy.
+
+## Set it up
+
+### 1. Establish the realm
 
 Use an externally reachable HTTPS issuer:
 `https://sso.example.com/realms/example-corp`. Its discovery document is
@@ -27,24 +105,27 @@ zero. These are example operational settings, not a requirement to weaken your
 organization's policy. Keep clocks synchronized. Refresh recovery belongs in
 [operations](../operations/cheat-sheet.md), not in a longer-lived static token.
 
-## 2. Create the resource role and group
+### 2. Create the resource role and group
 
 In the Keycloak admin console, select the realm and create an OpenID Connect
-resource client named `stack-ai-inference`. This client names the audience and
-owns the client role `invoke`; it is not a second interactive harness login.
-Disable interactive flows and service accounts that this resource client does
-not use.
+resource client named `stack-ai-inference`. It is not a second interactive
+harness login, so disable interactive flows and service accounts that this
+resource client does not use.
 
 Create its client role `invoke`. Create group
 `/stacks/ai-inference/production/users` and map that client role to the group.
-Add test user `alex` to the group only after the negative authorization check
-in [validation](../validation/acceptance.md). Ordinary realm membership must not
-automatically grant model access. Also enroll the person in the gateway workspace
-using its supported membership workflow. The deployed gateway checks that
-membership separately; the `invoke` role and a workspace claim alone do not
-create it. Use the same email/identity mapping as the gateway member record.
+Ordinary realm membership must not automatically grant model access.
 
-## 3. Create the installed-application client
+Add test user `alex` to the group only after the negative authorization check
+in [validation](../validation/acceptance.md). That way you have seen the gateway
+deny a signed-in user without the grant before you watch it succeed.
+
+Also enroll the person in the gateway workspace using its supported membership
+workflow. The deployed gateway checks that membership separately; the `invoke`
+role and a workspace claim alone do not create it. Use the same email/identity
+mapping as the gateway member record.
+
+### 3. Create the installed-application client
 
 Create OpenID Connect client `ai-gateway-agent` with these settings:
 
@@ -61,13 +142,12 @@ Create OpenID Connect client `ai-gateway-agent` with these settings:
 | Web origins | Empty |
 | Full scope allowed | Off |
 
-The harness binds a loopback listener on an available port. Keycloak's native
-loopback redirect handling allows that dynamic port with this registered path;
-do not substitute a broad wildcard callback. Keep the host `127.0.0.1` and path
-`/callback` consistent. Device authorization is an alternative flow enabled by
-the issuer; it is not a password grant.
+Keep the host `127.0.0.1` and path `/callback` consistent, and do not substitute
+a broad wildcard callback. See the
+[Keycloak native OIDC guide](https://www.keycloak.org/securing-apps/oidc-layers)
+for loopback redirect behavior.
 
-## 4. Attach the token contract
+### 4. Attach the token contract
 
 Create a dedicated OIDC client scope `agent-inference`. Attach it as a **default**
 scope to `ai-gateway-agent`, alongside `basic`, `profile`, `email`, `roles`, and
@@ -98,8 +178,7 @@ role mapper, leave the role prefix empty and map actual user roles; never
 hardcode `invoke` into every user's token.
 
 In the native client's scope mappings, explicitly allow the resource client's
-`invoke` role. With full scope disabled, both the user's grant and the client's
-scope mapping are needed. Verify the effective token, not just the admin form.
+`invoke` role. Then verify the effective token, not just the admin form.
 
 The deployed design also has an optional `agent-runtime-defaults` scope for
 administrator-managed user attributes: `gw_config_slug` → `defaults.config_slug`,
@@ -109,7 +188,7 @@ administrator-managed user attributes: `gw_config_slug` → `defaults.config_slu
 the same claim until you have tested precedence and the missing-attribute case.
 Never let ordinary users edit authorization, route, or limit attributes.
 
-## 5. Enforce the contract at AI Gateway
+### 5. Enforce the contract at AI Gateway
 
 Configure JWT validation in the gateway policy for this SSO route:
 
@@ -134,16 +213,16 @@ contract checks `^invoke$`. If you grant additional roles, test the guardrail's
 array matching behavior explicitly before changing that contract. Apply the
 policy to both chat completion and Responses request types used by your routes.
 
-Decoding a JWT is not validation. Reject invalid signatures, wrong issuer,
-audience or client, expired tokens, missing permission and the wrong workspace.
-A saved config must also select a provisioned provider/model and the required
-AIRS security policy. See [gateway configuration](gateway.md).
+Test that the gateway rejects invalid signatures, the wrong issuer, audience or
+client, expired tokens, missing permission and the wrong workspace. A saved config
+must also select a provisioned provider/model and the required AIRS security
+policy. See [gateway configuration](gateway.md).
 
-An unconditional JWT guardrail rejects opaque workspace API keys. Use a gateway
-configuration that explicitly supports each credential method, or separate
-policy bindings/workspaces; do not disable JWT checks to make a key work.
+If you also enroll users by workspace key, do not disable the JWT checks to make
+a key work. Use a gateway configuration that explicitly supports each credential
+method, or separate policy bindings and workspaces.
 
-## 6. Sign in from the harness
+### 6. Sign in from the harness
 
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
@@ -160,28 +239,6 @@ issuer-enabled device flow. Native credential storage must succeed before the
 sign-in is usable. The doctor probe makes a small inference request and can
 consume quota.
 
-```mermaid
-sequenceDiagram
-  actor Person
-  participant Agent as Harness
-  participant Browser
-  participant KC as Keycloak
-  participant Store as OS credential store
-  participant GW as AI Gateway
-  Agent->>Browser: Authorization URL, state, PKCE S256 challenge
-  Browser->>KC: Authenticate person
-  KC-->>Browser: Authorization code
-  Browser->>Agent: Loopback callback with code and state
-  Agent->>KC: Code + PKCE verifier (no client secret)
-  KC-->>Agent: Access and refresh tokens
-  Agent->>Store: Persist credential
-  Agent->>GW: Inference with gateway access token
-  GW->>GW: Verify signature, claims, role and policy
-  GW-->>Agent: Authorized response or explicit denial
-```
-
 Continue with [Entra federation](entra.md) if needed, then run the complete
 [acceptance workflow](../validation/acceptance.md). Inference login does not
 sign in the gateway MCP connection.
-
-See the [Keycloak native OIDC guide](https://www.keycloak.org/securing-apps/oidc-layers) for loopback redirect behavior.

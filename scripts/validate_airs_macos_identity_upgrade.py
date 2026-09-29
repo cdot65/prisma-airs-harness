@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check old/new signing identity and Keychain reuse with disposable credentials."""
+"""Check signing identity and disposable Keychain reuse in a desktop session."""
 
 import argparse
 import hashlib
@@ -73,7 +73,10 @@ def main():
         fixture.env.pop("AIRS_TEST_CREDENTIAL", None)
         result = run(args.previous, "login", "--with-api-key", stdin=key + "\n")
         if result.returncode:
-            raise RuntimeError("Previous release could not save the test credential")
+            raise RuntimeError(
+                "Previous release could not save the test credential: "
+                + result.stderr.replace(key, "[REDACTED]")[-2000:]
+            )
         binding = json.loads((fixture.home / "credential-binding.json").read_text())
         helper = ("credential", "--home", str(fixture.home), "--binding", binding["id"])
         for binary in [args.previous, args.candidate, args.previous, args.candidate]:

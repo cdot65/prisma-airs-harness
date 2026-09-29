@@ -9,7 +9,24 @@ skills, and calls remote MCP tools through the gateway.
 [Release notes](RELEASE-0.1.3.md) ·
 [Canonical source](https://git.cdot.io/cdot/prisma-airs-harness)
 
-## Install
+## Apple Silicon preview
+
+The renamed npm package is `prisma-airs-harness`. Version `0.1.4-alpha.2.mcp.1`
+restores Developer ID signing and notarization while preserving the existing
+macOS signing identity. The command remains `airs`.
+
+```sh
+# Only when migrating an existing airs-harness npm installation:
+npm uninstall -g airs-harness
+npm install -g prisma-airs-harness@mac-preview --registry=https://npm.cdot.io
+airs --version
+```
+
+The uninstall removes the old npm command links, preserving AIRS environments,
+credentials and history. See [package migration](npm/airs-harness/README.md).
+This preview is Apple Silicon only. The existing public stable package follows.
+
+## Install the existing stable release
 
 Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 
@@ -21,7 +38,7 @@ airs env create work
 airs
 ```
 
-The npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
+The stable npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
 SDK are bundled, and `airs cli --version` shows the CLI version. If your
 organization distributes through its own registry, add
 `--registry=<registry URL>`.

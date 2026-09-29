@@ -2,10 +2,37 @@
 title: Remote tools through AI Gateway
 ---
 
-The native MCP client runs inside AIRS. Connect it to the administrator-provided
-HTTPS **AI Gateway MCP listener**, including the final `/mcp` path. The gateway
+This page has two parts. The first explains how remote tools reach the agent, so
+you know what a sign-in does and does not give you. The second is the procedure:
+connect, verify, renew and sign out. For the administrator's side of the setup and
+the full authorization flow, see [MCP authorization](../configuration/mcp.md).
+
+## How remote tools work
+
+The native MCP client runs inside AIRS. It connects to the administrator-provided
+HTTPS AI Gateway MCP listener, including the final `/mcp` path. The gateway
 proxies the upstream server and manages upstream OAuth. Company SSO for inference
-and company SSO for MCP produce separate credentials and permissions.
+and company SSO for MCP produce separate credentials and permissions, so a working
+inference login says nothing about tool access.
+
+**Four states, not one.** Saved configuration, sign-in, discovery and tool
+authorization are distinct states. A connection can be saved but not signed in,
+or signed in but with no tools discovered, or discovered but not authorized for a
+particular tool. When something fails, the useful question is which state you are
+in, because each has a different fix.
+
+**Why the callback goes in a hidden field.** On SSH, the browser's localhost page
+may fail because the harness is on the remote host. The manager's hidden field
+takes the full callback URL instead. Keep it out of the agent conversation, where
+it can become model context.
+
+**Why device authorization differs.** Inference supports `login --device-auth`
+when the company issuer permits it. Native MCP device authorization depends on
+gateway support, so MCP uses the browser and manual callback flow.
+
+**Why the gateway is never bypassed.** A direct upstream URL skips the gateway's
+authorization instead of fixing a gateway problem, so the harness does not use one
+as a fallback.
 
 ## Connect and verify
 
@@ -27,22 +54,19 @@ For the example ServiceNow integration:
 An authorized empty result is valid. A connected label alone does not establish
 end-to-end access. See the complete [SSO-to-ServiceNow walkthrough](../generated/getting-started.md).
 
-## Recovery and sign-out
+## Renew and sign out
 
 Use `/mcp` to sign in, reconnect and verify, sign out or remove a connection.
-`/doctor` also exposes connection diagnostics. Saved configuration, sign-in,
-discovery and tool authorization are distinct states; fix the reported stage.
-Removing configuration does not prove credential revocation. Sign out first when
-retiring a connection, and revoke gateway-held upstream grants through the gateway.
+`/doctor` also exposes connection diagnostics. Fix the state that is reported
+rather than starting over.
 
 `airs logout` signs out inference. `airs mcp logout service-now` signs out that
 native MCP connection. Neither substitutes for the other. Stop running sessions
 when discarding cached access tokens.
 
-Inference supports `login --device-auth` when the company issuer permits it.
-Native MCP device authorization depends on gateway support; use the MCP browser
-and manual callback flow described above. Never paste a callback into the agent
-conversation or use a direct upstream URL to bypass a gateway problem.
+Removing configuration does not prove credential revocation; the credential can
+still be valid after the local entry is gone. Sign out first when retiring a
+connection, and revoke gateway-held upstream grants through the gateway.
 
 For shell-based setup, inspect `airs mcp --help` and the generated
 [MCP login reference](../generated/reference/mcp-login.md).

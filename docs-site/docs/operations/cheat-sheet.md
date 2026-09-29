@@ -2,6 +2,11 @@
 title: Hands-on command cheat sheet
 ---
 
+This page is for doing things: the commands, in the order you usually need them.
+It keeps explanations short on purpose. When you want to know why a command
+behaves the way it does, follow the link at the top of each section to the page
+that explains it.
+
 These commands use sanitized example endpoints. Replace public settings with
 those supplied by your administrator. Enter secrets only in hidden prompts or
 the identity provider's browser. Use [configuration](../configuration/keycloak.md)
@@ -10,9 +15,11 @@ for the expected results.
 
 ## Install and identify
 
+How releases are organized: [Releases and installation channels](../guides/releases.md).
+
 ```sh
 node --version
-npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
+npm install -g airs-harness
 airs --version
 airs cli --version
 type -a airs airs-cli airs-harness
@@ -20,9 +27,13 @@ type -a airs airs-cli airs-harness
 
 Supported: Apple Silicon, Linux x64 and Linux ARM64. Node requires
 `^22.13.0 || >=23.5.0`. If optional dependencies were omitted by local npm
-configuration, reinstall the same version with `--include=optional`.
+configuration, reinstall the same version with `--include=optional`. To install a
+specific version or use your organization's registry, see
+[release channels](../guides/releases.md#install-upgrade-and-roll-back).
 
 ## Create a profile and sign in
+
+How environments and credentials fit together: [Environments](../guides/environments.md).
 
 ```sh
 # New profile only; this saves the URL without opening sign-in.
@@ -57,10 +68,13 @@ airs env use work
 airs --environment work
 ```
 
-`env show` can include private local paths and endpoints. Doctor's access probe
-sends an inference request; it does not test MCP. `env use` affects new processes.
+`env show` can include private local paths and endpoints, so review its output
+before sharing it. Doctor's access probe sends an inference request; it does not
+test MCP. `env use` affects new processes.
 
 ## Inside the terminal
+
+How the terminal session and routing work: [Terminal workflow](../guides/terminal.md).
 
 | Action | Command |
 | --- | --- |
@@ -70,10 +84,10 @@ sends an inference request; it does not test MCP. `env use` affects new processe
 | Inspect permitted model routes | `/model` |
 | Configure the optional judge credential | `/typesafe` |
 
-After an MCP identity or inventory change, choose **Start new conversation**.
-Use `/mcp` → **Add gateway MCP server** with local name `incident-tools` and the
-complete gateway URL. On SSH, paste the final browser callback only into the
-hidden MCP authorization field.
+To add a tool connection, use `/mcp` → **Add gateway MCP server** with local name
+`incident-tools` and the complete gateway URL. On SSH, paste the final browser
+callback only into the hidden MCP authorization field. After an MCP identity or
+inventory change, choose **Start new conversation**.
 
 Read-only test prompt:
 
@@ -81,7 +95,7 @@ Read-only test prompt:
 > short descriptions and priorities. Do not create or update records.
 
 Inspect the actual tool call and result; an answer without a tool call is not
-a connection test.
+a connection test. Why: [Remote tools through AI Gateway](../guides/mcp.md).
 
 ## MCP shell alternative
 
@@ -99,6 +113,8 @@ and upstream system passwords do not belong in this connection configuration.
 
 ## Product administration (separate credentials)
 
+How the bundled CLI and skills fit in: [Skills and the local agent loop](../guides/skills.md).
+
 ```sh
 airs cli tenant create platform-admin
 airs cli --tenant platform-admin doctor
@@ -111,6 +127,8 @@ airs cli --tenant platform-admin runtime --help
 `--tenant` in operational commands.
 
 ## Provision gateway resources
+
+How a request is authorized and routed: [Workspace, models and API keys](../configuration/gateway.md).
 
 Run these commands as the management administrator after configuring the
 `platform-admin` tenant. The workspace command creates and binds its SCM scope.
@@ -177,8 +195,9 @@ airs cli --tenant platform-admin aigateway telemetry requests \
   --workspace "$AIRS_DOCS_WORKSPACE_SLUG" --days 1
 ```
 
-These commands follow the bundled CLI 7.2.0 command contracts. Creating a resource
-does not establish a successful model request or tool call; complete the
+These commands follow the bundled CLI's command contracts. Check
+`airs cli aigateway --help` if a flag differs on your installation. Creating a
+resource does not establish a successful model request or tool call; complete the
 [validation workflow](../validation/acceptance.md) with your actual user.
 
 ## Recover and retire
@@ -199,16 +218,22 @@ airs env remove work
 Unregistering preserves local files and history and does not revoke remote
 credentials. Revoke a workspace key or gateway-held upstream grant at its server
 when required. Identical native MCP connection names and URLs can share a
-credential record for the same OS user across environments.
+credential record for the same OS user across environments, so signing out in
+one environment can affect another.
 
 ## Update or roll back
 
 ```sh
-npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
-# Previous stable distribution is available from the original registry:
-npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
+# Update to the latest stable release.
+npm install -g airs-harness@latest
+
+# Roll back by naming the earlier version.
+npm install -g airs-harness@<previous-version>
 ```
 
-Close running harness sessions before switching installed versions. Preserve
-state and consult the release record for upgrade/rollback results. Do not delete
-credential stores or conversation history to repair an installation.
+Use the same registry the earlier version was published to; see
+[release channels](../guides/releases.md). Close running harness sessions before
+switching installed versions. Preserve state and consult the release record for
+upgrade and rollback results. Do not delete credential stores or conversation
+history to repair an installation. Upgrade and rollback leave them in place, and
+deleting them loses sign-ins and history without touching the package itself.

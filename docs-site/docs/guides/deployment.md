@@ -2,10 +2,42 @@
 title: Documentation and package deployment
 ---
 
+This page covers how this site and the native packages are published. The first
+part explains how the pipeline is set up and why. The second part is the
+procedure for publishing the documentation.
+
+## How publishing is set up
+
 Forgejo owns source review, CI and package release authorization. The GitHub
 repository is a one-way source mirror. Documentation uses GitHub Pages at
-**https://cdot65.github.io/prisma-airs-harness/**, with the same tagged publication
+https://cdot65.github.io/prisma-airs-harness/, with the same tagged publication
 pattern as the SDK and CLI sites.
+
+**Why a tag names the exact commit.** The live site is built from a tag of the form
+`airs-docs-<full commit SHA>`. The GitHub workflow verifies that the tag and the
+commit match before it builds anything, so the published site can always be traced
+back to reviewed source. The deployed `source.json` records that commit, which is
+how you check it afterward.
+
+**Why only one workflow is enabled.** The GitHub repository enables only the owned
+documentation workflow. Inherited upstream and historical package workflows remain
+disabled. Pages deploys through the `github-pages` environment with `pages: write`
+and OIDC deployment permissions, so it needs no npm credentials and no separate
+deployment token.
+
+**Documentation and packages are separate pipelines.** Publishing documentation
+does not build or promote binaries. Package delivery uses the owned
+`.forgejo/workflows/airs-harness-*` workflows and the repository's release
+tooling. Source, tooling and packaging commit identities are recorded
+independently, and an existing package version is immutable, so a published
+package cannot be quietly replaced.
+
+**Why acceptance is per platform.** Apple Silicon candidates are Developer ID signed
+and notarized on the dedicated Mac runner. Linux x64 and ARM64 packages require
+exact installed acceptance, because an ARM64 cross-build or QEMU version probe
+alone does not exercise native credential storage or the sandbox. Candidate and
+fresh registry checks cover native credential storage, the bundled CLI,
+upgrade and rollback, and the relevant agent workflow before promotion.
 
 ## Publish documentation
 
@@ -26,25 +58,10 @@ git tag "airs-docs-${source_commit}" "$source_commit"
 git push origin "refs/tags/airs-docs-${source_commit}"
 ```
 
-The GitHub repository enables only the owned documentation workflow; inherited
-upstream and historical package workflows remain disabled. Pages uses the
-`github-pages` environment, `pages: write` and OIDC deployment permissions. It
-does not require npm credentials or a separate deployment token.
+## Publish a package
 
-## Native package delivery
-
-Documentation publication does not build or promote binaries. Harness package
-delivery uses the owned `.forgejo/workflows/airs-harness-*` workflows and the
-repository's release tooling. Source, tooling and packaging commit identities
-are recorded independently. Existing package versions are immutable.
-
-Apple Silicon candidates are Developer ID signed and notarized on the dedicated
-Mac runner. Linux x64 and ARM64 packages require exact installed acceptance;
-an ARM64 cross-build or QEMU version probe alone is not release acceptance.
-Candidate and fresh registry checks cover native credential storage, bundled CLI,
-upgrade/rollback and the relevant agent workflow before promotion.
-
-Harness 0.1.3 is distributed through public npmjs.org and `npm.cdot.io`.
-Current versions and platform boundaries are in [release channels](releases.md).
+Package publication follows the repository's release procedure, not this page.
 The repository's `RELEASE.md`, `RELEASE-TEST-PACKAGES.md`, release specifications
-and retained receipts describe the operational procedure and actual acceptance.
+and retained receipts describe the operational procedure and the actual
+acceptance. Current versions and platform boundaries are in
+[release channels](releases.md).

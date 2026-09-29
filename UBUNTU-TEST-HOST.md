@@ -16,9 +16,18 @@ npm pack airs-harness@0.1.3 --registry=https://registry.npmjs.org
 tar -xOf airs-harness-0.1.3.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.3.sh
 ```
 
-Review the script, then copy it to `~/prepare-airs-ubuntu-0.1.3.sh` on your Ubuntu host
+The helper ships with a sanitized gateway endpoint. **Configure that endpoint
+before running it**: replace `gateway.your-company.com` below with your actual
+inference hostname (and adjust `/v1` if your listener uses another prefix). The
+URL is public configuration and must not contain credentials.
+
+```bash
+sed -i 's|https://gateway.example.com/v1|https://gateway.your-company.com/v1|g' prepare-airs-ubuntu-0.1.3.sh
+```
+
+Review the configured script, then copy it to `~/prepare-airs-ubuntu-0.1.3.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
-Run the corrected copied script in an interactive SSH terminal:
+Run the configured copy in an interactive SSH terminal:
 
 ```bash
 bash ~/prepare-airs-ubuntu-0.1.3.sh

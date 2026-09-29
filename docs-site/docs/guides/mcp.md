@@ -36,7 +36,7 @@ as a fallback.
 
 ## Connect and verify
 
-1. Open `airs --environment work`, then enter `/mcp`.
+1. Open `airs`, then enter `/mcp`.
 2. Choose **Add gateway MCP server** and enter a local name such as `service-now`
    and the gateway MCP URL. The name does not select a gateway workspace.
 3. Complete company sign-in and any gateway-managed consent. On SSH, open the

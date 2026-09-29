@@ -37,7 +37,7 @@ function rewriteLinks(text, source) {
     if (/^(?:[a-z]+:|\/|#)/i.test(href)) return match;
     const [file, anchor] = href.split('#');
     const target = path.posix.normalize(path.posix.join(fromRoot ? '' : path.posix.dirname(source), file));
-    if (target.startsWith(staticPrefix)) return `](/prisma-airs-harness/${target.slice(staticPrefix.length)})`;
+    if (target.startsWith(staticPrefix)) return `](/${target.slice(staticPrefix.length)})`;
     const url = routes.get(target) ?? sourceUrl(target);
     return `](${url}${anchor ? `#${anchor}` : ''})`;
   });

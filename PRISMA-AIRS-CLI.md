@@ -208,7 +208,7 @@ looks the way you expect in the list output before you continue.
 ### 6. Hand the workspace to a user
 
 The user creates their own workspace API key and follows
-[Getting started](GETTING-STARTED.md). Give them the gateway inference URL, the name
+[Getting started](GETTING-STARTED.md). Give them the gateway address, without `/v1` because AIRS adds it, the name
 of the workspace, and the saved config that the key should carry. Do not send them
 your tenant credentials, and keep your provider credential out of the handoff.
 

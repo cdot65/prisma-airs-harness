@@ -1,0 +1,109 @@
+"""Verify the published Mac preview with isolated state and synthetic keys."""
+import json
+import os
+from pathlib import Path
+import secrets
+import subprocess
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent / "scripts"))
+import test_airs_harness as harness
+from airs_harness_pty import TerminalSession
+from validate_airs_onboarding_preview import Preview
+
+rows = []
+
+
+def check(name, condition):
+    if not condition:
+        raise AssertionError(name)
+    rows.append({"test": name, "passed": True})
+    print(name + ": passed", flush=True)
+
+
+fixture = harness.TerminalIntegration()
+fixture.setUp()
+try:
+    fixture.configure()
+    settings = Path(fixture.env["AIRS_HARNESS_HOME"]) / "settings.toml"
+    binding_path = fixture.home / "credential-binding.json"
+    key = "synthetic-preview-" + secrets.token_hex(16)
+    before = len(fixture.requests)
+    result = subprocess.run(
+        [str(harness.BINARY), "--environment", "work", "login", "--replace", "--with-api-key"],
+        input=key + "\n", text=True, capture_output=True, cwd=fixture.work,
+        env=fixture.env, timeout=60,
+    )
+    check("noninteractive explicit key replacement", result.returncode == 0)
+    check("replacement sends exactly one gateway test", len(fixture.requests) == before + 1)
+    headers = {k.lower(): v for k, v in fixture.requests[-1][1].items()}
+    check("gateway test uses replacement key", headers.get("authorization") == "Bearer " + key)
+    binding = json.loads(binding_path.read_text())
+    readback = fixture.run_cli("credential", "--home", str(fixture.home), "--binding", binding["id"])
+    check("replacement persisted in native Keychain", readback.returncode == 0 and readback.stdout == key + "\n")
+
+    for arguments, selection in [(["env", "auth", "work"], 0), (["--environment", "work", "login"], 1)]:
+        saved = binding_path.read_bytes()
+        count = len(fixture.requests)
+        terminal = Preview(harness.BINARY, arguments=arguments, environment=fixture.env,
+                           directory=fixture.work, columns=120, rows=40)
+        try:
+            for label in ["Update authentication", "Replace the workspace API key", "Switch to company SSO", "Test the current credential"]:
+                terminal.expect(label)
+            if selection:
+                terminal.send(b"\x1b[B")
+            terminal.send(b"\r")
+            terminal.expect("Before you replace this credential")
+            terminal.send(b"\r")
+            terminal.expect("Replace this environment's credential?")
+            terminal.send(b"\x1b[B\r")
+            terminal.finish("", status=1)
+        finally:
+            terminal.close()
+        check("update menu and confirmation: " + " ".join(arguments), True)
+        check("cancel preserves credential and sends no request: " + str(selection),
+              binding_path.read_bytes() == saved and len(fixture.requests) == count)
+
+    count = len(fixture.requests)
+    saved = binding_path.read_bytes()
+    terminal = Preview(harness.BINARY, arguments=["env", "auth", "work"], environment=fixture.env,
+                       directory=fixture.work, columns=120, rows=40)
+    try:
+        terminal.expect("Update authentication")
+        terminal.send(b"\x1b[B\x1b[B\r")
+        terminal.expect("You're ready to use AIRS", timeout=30)
+        terminal.send(b"\r")
+        terminal.finish("")
+    finally:
+        terminal.close()
+    check("test-current action sends one request without changing credential",
+          len(fixture.requests) == count + 1 and binding_path.read_bytes() == saved)
+
+    for name, contents, fullscreen in [("default fullscreen", "", True),
+                                     ("settings select inline", "[tui]\nfullscreen_transcript = false\n", False)]:
+        tui = harness.TerminalIntegration()
+        tui.setUp()
+        try:
+            (Path(tui.env["AIRS_HARNESS_HOME"]) / "settings.toml").write_text(contents)
+            tui.configure()
+            with TerminalSession(harness.BINARY, tui.env, tui.work, arguments=[]) as terminal:
+                terminal.start()
+                check(name, (b"\x1b[?1049h" in terminal.transcript) == fullscreen)
+        finally:
+            tui.doCleanups()
+    settings.write_text('model = "forbidden-global-model"\n')
+    with TerminalSession(harness.BINARY, fixture.env, fixture.work, arguments=[]) as terminal:
+        terminal.wait_until(lambda: terminal.process.poll() is not None)
+        check("startup refuses non-interface model setting", terminal.process.returncode != 0
+              and b"accepts only interface settings" in terminal.transcript
+              and b"model" in terminal.transcript)
+    settings.write_text("")
+finally:
+    (Path(fixture.env["AIRS_HARNESS_HOME"]) / "settings.toml").write_text("")
+    fixture.run_cli("--environment", "work", "logout")
+    fixture.doCleanups()
+
+Path(__file__).with_name("INSTALLED-SMOKE.json").write_text(json.dumps({
+    "passed": True, "tests": rows, "version": subprocess.check_output([str(harness.BINARY), "--version"], text=True).strip(),
+    "scope": "Published Apple Silicon install, real Keychain, synthetic loopback gateway; no production SSO acceptance",
+}, indent=2) + "\n")

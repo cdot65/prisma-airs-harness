@@ -1,0 +1,52 @@
+"""Bind anonymous registry and installed bytes to the retained CI packages."""
+import base64
+import hashlib
+import json
+from pathlib import Path
+import tarfile
+import urllib.request
+
+root = Path(__file__).parent
+baseline = json.loads((root / "REGISTRY-BEFORE.json").read_text())
+version = "0.1.4-alpha.1.mcp.1"
+records = []
+for archive in sorted((root / "staged-final/tarballs").glob("*.tgz")):
+    content = archive.read_bytes()
+    with tarfile.open(archive) as package:
+        manifest = json.load(package.extractfile("package/package.json"))
+        name = manifest["name"]
+        assert manifest["version"] == version
+        metadata = json.load(urllib.request.urlopen("https://npm.cdot.io/" + name))
+        assert metadata["dist-tags"]["mac-preview"] == version
+        assert metadata["dist-tags"]["latest"] == "0.1.3"
+        assert {k: v for k, v in metadata["dist-tags"].items() if k != "mac-preview"} == {
+            k: v for k, v in baseline[name].items() if k != "mac-preview"
+        }
+        published = metadata["versions"][version]
+        integrity = "sha512-" + base64.b64encode(hashlib.sha512(content).digest()).decode()
+        assert published["dist"]["integrity"] == integrity
+        url = published["dist"]["tarball"]
+        assert url.startswith("https://npm.cdot.io/")
+        downloaded = urllib.request.urlopen(url).read()
+        assert hashlib.sha256(downloaded).digest() == hashlib.sha256(content).digest()
+        installed = root / "install/lib/node_modules/airs-harness"
+        if name != "airs-harness":
+            installed = installed / "node_modules" / name
+        checked = 0
+        for member in package:
+            if not member.isfile():
+                continue
+            relative = Path(member.name).relative_to("package")
+            assert ".." not in relative.parts
+            actual = (installed / relative).read_bytes()
+            expected = package.extractfile(member).read()
+            assert hashlib.sha256(actual).digest() == hashlib.sha256(expected).digest(), str(relative)
+            checked += 1
+        if name == "airs-harness":
+            assert manifest["optionalDependencies"] == {"airs-harness-darwin-arm64": version}
+        records.append({"name": name, "version": version, "sha256": hashlib.sha256(content).hexdigest(),
+                        "integrity": integrity, "installed_files_verified": checked,
+                        "dist_tags": metadata["dist-tags"]})
+        print(name + ": registry integrity, installed bytes and protected tags verified", flush=True)
+assert {row["name"] for row in records} == {"airs-harness", "airs-harness-darwin-arm64"}
+(root / "REGISTRY-VERIFIED.json").write_text(json.dumps({"passed": True, "packages": records}, indent=2) + "\n")

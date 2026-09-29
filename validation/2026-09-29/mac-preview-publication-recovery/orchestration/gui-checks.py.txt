@@ -1,0 +1,16 @@
+import os,subprocess,json
+from pathlib import Path
+root=Path(__file__).parent
+os.chdir(root)
+env=dict(os.environ,AIRS_HARNESS_BIN=str(root/'install/bin/airs-harness'),AIRS_MANAGED_CLI_ACCEPTANCE='1')
+commands=[
+ [str(root/'venv/bin/python3'),str(root/'installed-smoke.py')],
+ [str(root/'venv/bin/python3'),str(root/'scripts/validate_airs_macos_keychain.py'),'--binary',str(root/'install/bin/airs-harness'),'--receipt',str(root/'REGISTRY-KEYCHAIN.json')],
+ [str(root/'venv/bin/python3'),str(root/'scripts/validate_prisma_cli.py'),'--launcher',str(root/'install/lib/node_modules/airs-harness/bin/airs-harness.js'),'--receipt',str(root/'REGISTRY-MANAGED-CLI.json')],
+]
+rows=[]
+for cmd in commands:
+ r=subprocess.run(cmd,env=env)
+ rows.append({'check':Path(cmd[1]).name,'exit_code':r.returncode})
+ (root/'GUI-CHECKS.json').write_text(json.dumps({'complete':len(rows)==len(commands),'passed':len(rows)==len(commands) and all(x['exit_code']==0 for x in rows),'results':rows},indent=2)+'\n')
+ if r.returncode:raise SystemExit(r.returncode)

@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "passed": true,
+  "results": [
+    {
+      "check": "installed-smoke.py",
+      "exit_code": 0
+    },
+    {
+      "check": "validate_airs_macos_keychain.py",
+      "exit_code": 0
+    },
+    {
+      "check": "validate_prisma_cli.py",
+      "exit_code": 0
+    }
+  ]
+}

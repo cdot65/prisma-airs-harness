@@ -1,0 +1,44 @@
+{
+  "published": true,
+  "registry": "https://npm.cdot.io",
+  "tag": "mac-preview",
+  "source_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "packages": [
+    {
+      "candidate_sha256": "7e9c0eb9105e4fd5ad9c0108c4642f6ce1fd7c2dcb951c5ed3ee10acb0bf1fb2",
+      "filename": "airs-harness-darwin-arm64-0.1.4-alpha.1.mcp.1.tgz",
+      "integrity": "sha512-gL0w74sc0OLDvpFS2d/SAdN+cb7U+fN5PsBgX3tJ9rgzBAp6s85bGTNPlUfb0WBRFNRM4aV59Xvj5nkP1t9D2w==",
+      "name": "airs-harness-darwin-arm64",
+      "sha256": "2eaa4c4f306d4871f969d1297cf191b7393413989998c296edd6809b24e37689",
+      "version": "0.1.4-alpha.1.mcp.1",
+      "dist_tags": {
+        "latest": "0.1.3",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.3",
+        "mac-preview": "0.1.4-alpha.1.mcp.1"
+      }
+    },
+    {
+      "candidate_sha256": "7d1566f9b74b7b53adcd2c1eb263945e46d98abfcd4342cfa631b3baef4795a5",
+      "filename": "airs-harness-0.1.4-alpha.1.mcp.1.tgz",
+      "integrity": "sha512-YjebqwZrpogJEIlFpG0692ZNRj9prX46TE8fTZgM5NMdqzpmCMV47c9vM7rAFYmbu8NNVa0Sf+iQIp0mJiEXUw==",
+      "name": "airs-harness",
+      "sha256": "2851582e0f09b3d6563213cc33df0a80db5d7972fa2ec9bf6dac3afd3e282993",
+      "version": "0.1.4-alpha.1.mcp.1",
+      "dist_tags": {
+        "latest": "0.1.3",
+        "alpha": "0.1.0-alpha.22.onboarding.4",
+        "gateway-validation": "0.1.0-alpha.21",
+        "migration": "0.1.0-alpha.22",
+        "onboarding": "0.1.0-alpha.22.onboarding.4",
+        "mcp": "0.1.3-alpha.2.mcp.1",
+        "stable-candidate": "0.1.3",
+        "mac-preview": "0.1.4-alpha.1.mcp.1"
+      }
+    }
+  ]
+}

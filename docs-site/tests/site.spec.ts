@@ -60,5 +60,5 @@ test('published provenance matches the build inputs', async ({request}) => {
   const source = await response.json();
   const expected = JSON.parse(readFileSync('static/source.json', 'utf8'));
   expect(source).toEqual(expected);
-  expect(source.inputs.length).toBe(15);
+  expect(source.inputs.length).toBe(16);
 });

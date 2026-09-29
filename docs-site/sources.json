@@ -6,6 +6,12 @@
     "title": "Getting started"
   },
   {
+    "source": "SSO-SERVICENOW.md",
+    "id": "sso-servicenow",
+    "slug": "/guides/sso-servicenow",
+    "title": "SSO and ServiceNow walkthrough"
+  },
+  {
     "source": "PRISMA-AIRS-CLI.md",
     "id": "bundled-cli",
     "slug": "/guides/bundled-cli",

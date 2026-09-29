@@ -8,7 +8,7 @@ An independently installed product CLI uses **`airs-cli ...`**.
 
 New harness environments use native MCP credential storage by default.
 Existing environment modes and tokens stay unchanged; this does
-not change CLI tenants or product API authentication. See [Getting started](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
+not change CLI tenants or product API authentication. See [Getting started](SSO-SERVICENOW.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
 for optional MCP storage migration, including signing out in the original mode
 before changing configuration and signing in again.
 

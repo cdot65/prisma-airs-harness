@@ -28,7 +28,8 @@ sign in.
 
 | Task | Guide |
 | --- | --- |
-| Install, connect to a gateway and sign in | [Getting started](generated/getting-started.md) |
+| Install, sign in with a workspace key and send a first request | [Getting started](generated/getting-started.md) |
+| Sign in with company SSO and connect ServiceNow | [SSO and ServiceNow walkthrough](generated/sso-servicenow.md) |
 | Separate accounts, destinations and history | [Environments](guides/environments.md) |
 | Authorize ServiceNow and other remote tools | [Gateway MCP](guides/mcp.md) |
 | Resume work, select routes and configure the terminal | [Terminal workflow](guides/terminal.md) |

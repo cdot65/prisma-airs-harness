@@ -10,7 +10,7 @@ const sidebars: SidebarsConfig = {
       'configuration/mcp', 'guides/environments']},
     {type: 'category', label: 'Validation', items: ['validation/acceptance']},
     {type: 'category', label: 'Hands-on operations', items: [
-      'operations/cheat-sheet', 'guides/terminal', 'guides/mcp', 'guides/judge',
+      'operations/cheat-sheet', 'generated/sso-servicenow', 'guides/terminal', 'guides/mcp', 'guides/judge',
       'generated/bundled-cli', 'generated/ubuntu']},
     'guides/releases',
   ],

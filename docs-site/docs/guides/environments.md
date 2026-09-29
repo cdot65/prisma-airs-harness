@@ -71,6 +71,61 @@ before changing an existing environment's MCP storage mode.
 credentials; recreating the name creates a fresh namespace. Choose a different
 default when retiring the current one.
 
+### Change an environment's credential
+
+Use this when a workspace API key is rotated, when you move from company SSO to a
+workspace key (or back), or when a different company user should own the
+environment. The environment keeps its name, gateway, MCP connections and saved
+conversations; only the inference credential changes.
+
+```sh
+airs env auth work
+```
+
+The guided flow shows how the environment signs in today and offers the matching
+choices: replace the workspace API key, switch to company SSO, sign in again as the
+same SSO user, change the SSO user or settings, switch to a workspace key, or test
+the current credential. Running `airs --environment work login` on an environment
+that is already signed in opens the same menu. Before anything is replaced it asks
+for confirmation. It then saves the new credential, removes the previous one from
+this device's secure storage, and sends one minimal inference request to confirm
+gateway access.
+
+Replacing a credential has these effects:
+
+- Open AIRS sessions in the environment stop; restart them with `airs resume`.
+- Saved conversations stay in the environment and continue with the new credential.
+- The old workspace key still works at the gateway until you revoke it there.
+- A replaced company sign-in is revoked at the issuer when it can be reached.
+- MCP servers set up with company sign-in (`setup-mcp --issuer-url`) need a fresh
+  sign-in as the new user: repeat `airs setup-mcp` with the same options.
+
+For automation, pass `--replace` with an explicit credential source. Without
+`--replace`, a different credential is refused and nothing changes:
+
+```sh
+# New workspace key from a file or pipe (stored in the OS credential store).
+airs --environment work login --replace --with-api-key < new-key.txt
+
+# Or reference an owner-only file or an environment variable.
+airs --environment work login --replace --credential-file /secure/new-key
+airs --environment work login --replace --credential-env AIRS_WORK_KEY
+
+# Switch to company SSO.
+airs --environment work login --replace \
+  --issuer-url https://id.example.com/realms/company \
+  --oidc-client-id airs-harness --audience airs-gateway
+
+# Confirm access again at any time.
+airs --environment work doctor --verify-access
+```
+
+With `--replace`, `login` runs the same access test and exits nonzero if the
+gateway does not accept the new credential. The credential is still saved, so fix
+gateway access and rerun `doctor --verify-access`. Within an open conversation,
+`/signin` → **Change key or sign-in method** shows these commands for the current
+environment.
+
 ### Recover a sign-in
 
 Use `airs --environment work login --restore-session` if a rejected or uncertain

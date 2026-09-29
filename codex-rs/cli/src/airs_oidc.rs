@@ -214,7 +214,7 @@ fn ensure_restore_identity(binding: &Binding, returned: &Identity) -> anyhow::Re
         returned.config == identity.config
             && returned.subject == identity.subject
             && fingerprint(&binding.gateway_url, returned)? == binding.credential_fingerprint,
-        "A different identity cannot restore this conversation. Use a separate environment; existing credentials were not changed"
+        "A different identity cannot restore this conversation; existing credentials were not changed. To switch this environment to another identity, run airs env auth"
     );
     Ok(())
 }
@@ -268,17 +268,8 @@ async fn login_inner(
     );
     let gateway_url = airs_environment::gateway(home)?;
     let credential_fingerprint = fingerprint(&gateway_url, &tokens.identity)?;
-    let existing = if home.join("credential-binding.json").exists() {
-        Some(super::airs_credentials::read_binding(home)?)
-    } else {
-        None
-    };
-    if let Some(previous) = &existing {
-        anyhow::ensure!(
-            previous.credential_fingerprint == credential_fingerprint,
-            "this identity requires a new environment; existing history belongs to another credential"
-        );
-    }
+    let (existing, replaced) =
+        super::airs_credentials::existing_for(home, &credential_fingerprint, args.replace)?;
     let subject = tokens.identity.subject.clone();
     let issuer = tokens.identity.config.issuer.clone();
     let binding = Binding {
@@ -294,12 +285,20 @@ async fn login_inner(
         home,
         &binding,
         &serde_json::to_string(&Stored::Active { tokens })?,
-        || attempt.commit(|| super::airs_credentials::install_binding(home, &binding)),
+        || attempt.commit(|| super::airs_credentials::activate(home, &binding, args.replace)),
     )?;
+    if let Some(previous) = &replaced {
+        super::airs_credentials::retire_replaced(home, previous).await;
+    }
     if progress.is_none() {
         println!(
             "Signed in through {issuer}. Verified subject: {subject}. Credentials stored in the OS store."
         );
+        if replaced.is_some() {
+            println!(
+                "This sign-in replaced the environment's previous credential. Restart open sessions in this environment."
+            );
+        }
     }
     Ok(())
 }

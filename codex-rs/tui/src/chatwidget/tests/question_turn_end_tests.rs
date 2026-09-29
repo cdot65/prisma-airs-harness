@@ -264,6 +264,7 @@ async fn question_recovery_preserves_gateway_sign_in_and_never_submits_the_draft
     chat.bottom_pane
         .show_selection_view(crate::chatwidget::airs_recovery::sign_in_view(
             /*attempt*/ None,
+            "airs --environment work",
         ));
 
     handle_turn_completed(&mut chat, "turn", /*duration_ms*/ None);

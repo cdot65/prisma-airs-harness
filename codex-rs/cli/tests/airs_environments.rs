@@ -211,3 +211,84 @@ fn creation_errors_do_not_register_an_environment() -> Result<()> {
     }
     Ok(())
 }
+
+#[cfg(unix)]
+#[test]
+fn login_replaces_an_environment_credential_only_with_explicit_consent() -> Result<()> {
+    use std::os::unix::fs::PermissionsExt;
+    let root = tempfile::tempdir()?;
+    let home = root.path();
+    command(home)?
+        .args([
+            "env",
+            "create",
+            "work",
+            "--gateway-url",
+            "https://gateway.example/v1",
+        ])
+        .assert()
+        .success();
+    let keys = tempfile::tempdir()?;
+    let key = |name: &str, value: &str| -> Result<String> {
+        let path = keys.path().join(name);
+        std::fs::write(&path, value)?;
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600))?;
+        Ok(path.to_string_lossy().into_owned())
+    };
+    let first = key("first", "synthetic-first-workspace-key")?;
+    let second = key("second", "synthetic-second-workspace-key")?;
+    command(home)?
+        .args([
+            "--environment",
+            "work",
+            "login",
+            "--credential-file",
+            &first,
+        ])
+        .assert()
+        .success();
+    command(home)?
+        .args([
+            "--environment",
+            "work",
+            "login",
+            "--credential-file",
+            &second,
+        ])
+        .assert()
+        .failure()
+        .stderr(contains("already uses a different credential"))
+        .stderr(contains("airs env auth"));
+    // The synthetic gateway is unreachable, so the post-replacement test reports
+    // the saved-but-unverified state and exits nonzero for automation.
+    command(home)?
+        .args([
+            "--environment",
+            "work",
+            "login",
+            "--replace",
+            "--credential-file",
+            &second,
+        ])
+        .assert()
+        .failure()
+        .stdout(contains("Replaced this environment's credential"))
+        .stderr(contains("gateway access not yet verified"));
+    command(home)?
+        .args([
+            "--environment",
+            "work",
+            "login",
+            "--credential-file",
+            &second,
+        ])
+        .assert()
+        .success();
+    command(home)?
+        .args(["env", "auth", "work"])
+        .assert()
+        .failure()
+        .stderr(contains("interactive terminal"))
+        .stderr(contains("login --replace"));
+    Ok(())
+}

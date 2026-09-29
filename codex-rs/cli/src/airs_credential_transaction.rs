@@ -238,6 +238,25 @@ pub(super) fn recover(home: &Path, store: &impl Store) -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Delete the native entry of a binding that a confirmed replacement superseded.
+/// The caller holds the environment lock, and the active binding owns another account.
+pub(super) fn retire(home: &Path, previous: &Binding, store: &impl Store) -> anyhow::Result<()> {
+    let Some(kind) = previous.source.as_ref().and_then(store_kind) else {
+        return Ok(());
+    };
+    // One journal slot: finish any earlier intent before recording this one.
+    recover(home, store)?;
+    airs_environment::atomic_write(
+        &home.join(JOURNAL),
+        &serde_json::to_vec(&Pending {
+            schema_version: 1,
+            store: kind,
+            account: previous.id,
+        })?,
+    )?;
+    recover(home, store)
+}
+
 pub(super) fn persist(
     home: &Path,
     binding: &Binding,

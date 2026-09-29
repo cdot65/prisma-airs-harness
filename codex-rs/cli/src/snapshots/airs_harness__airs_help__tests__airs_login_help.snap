@@ -1,6 +1,5 @@
 ---
 source: cli/src/airs_help_tests.rs
-assertion_line: 24
 expression: login.render_long_help().to_string()
 ---
 Manage login
@@ -29,6 +28,10 @@ Options:
 
       --credential-env <CREDENTIAL_ENV>
           Reference a credential environment variable; nothing secret is persisted
+
+      --replace
+          Replace this environment's existing credential with another workspace key or company
+          identity. Open sessions stop; saved conversations stay in this environment
 
       --with-api-key
           Enter a workspace API key at a hidden terminal prompt and save it in the OS credential

@@ -63,3 +63,72 @@ fn changed_gateway_and_logout_fail_closed() {
     .unwrap();
     assert!(read_binding(temp.path()).is_err());
 }
+
+#[cfg(unix)]
+#[tokio::test]
+async fn replacing_a_credential_requires_consent_and_repins_existing_history() {
+    use std::os::unix::fs::PermissionsExt;
+    let temp = tempfile::tempdir().unwrap();
+    let home = temp.path();
+    std::fs::write(
+        home.join("config.toml"),
+        "[model_providers.airs]\nbase_url = 'https://gateway.example/v1'\n",
+    )
+    .unwrap();
+    let key = |name: &str, value: &str| {
+        let path = home.join(name);
+        std::fs::write(&path, value).unwrap();
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600)).unwrap();
+        path
+    };
+    let args = |path: PathBuf, replace: bool| LoginArgs {
+        credential_file: Some(path),
+        replace,
+        ..Default::default()
+    };
+    let first = key("first-key", "first-workspace-key");
+    let second = key("second-key", "second-workspace-key");
+    login(home, &args(first, false), /*stdin_key*/ false)
+        .await
+        .unwrap();
+    let original = read_binding(home).unwrap();
+    let pinned = serde_json::json!({
+        "schema_version": 1,
+        "gateway_url": "https://gateway.example/v1",
+        "credential_identity": fingerprint("first-workspace-key"),
+        "capability_revision": "fixture-capabilities",
+        "context_window": 1000000,
+        "mcp_config_revision": null,
+    });
+    std::fs::write(
+        home.join("session-binding.json"),
+        serde_json::to_vec(&pinned).unwrap(),
+    )
+    .unwrap();
+
+    let error = login(home, &args(second.clone(), false), false)
+        .await
+        .unwrap_err();
+    assert!(error.is::<CredentialChanged>());
+    assert_eq!(
+        read_binding(home).unwrap().credential_fingerprint,
+        original.credential_fingerprint
+    );
+
+    login(home, &args(second, true), false).await.unwrap();
+    let replaced = read_binding(home).unwrap();
+    assert_eq!(
+        replaced.credential_fingerprint,
+        fingerprint("second-workspace-key")
+    );
+    assert_ne!(replaced.id, original.id);
+    let config = std::fs::read_to_string(home.join("config.toml")).unwrap();
+    assert!(config.contains(&replaced.id.to_string()));
+    assert!(!config.contains(&original.id.to_string()));
+    let mut expected = pinned;
+    expected["credential_identity"] = fingerprint("second-workspace-key").into();
+    let actual: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(home.join("session-binding.json")).unwrap()).unwrap();
+    assert_eq!(actual, expected);
+    assert_eq!(identity(home).unwrap(), fingerprint("second-workspace-key"));
+}

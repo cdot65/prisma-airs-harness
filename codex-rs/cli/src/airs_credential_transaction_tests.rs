@@ -691,3 +691,56 @@ fn cleanup_rejects_symlinks_without_touching_the_referenced_account() {
         )])
     );
 }
+
+#[test]
+fn replacement_retires_only_the_superseded_account_and_retries_failed_deletion() {
+    let home = tempfile::tempdir().unwrap();
+    let store = FakeStore::default();
+    let previous = binding(Source::KeyringV2);
+    let replacement = binding(Source::Oidc {
+        identity: codex_airs_identity::Identity {
+            config: codex_airs_identity::IdentityConfig {
+                issuer: "https://identity.example".into(),
+                client_id: "harness".into(),
+                audience: "gateway".into(),
+            },
+            subject: "fixture-subject".into(),
+            display_name: None,
+        },
+    });
+    store
+        .save(StoreKind::WorkspaceKeyringV2, previous.id, "old-key")
+        .unwrap();
+    store
+        .save(StoreKind::OidcIdentityV1, replacement.id, "new-identity")
+        .unwrap();
+    std::fs::write(
+        home.path().join("credential-binding.json"),
+        serde_json::to_vec(&replacement).unwrap(),
+    )
+    .unwrap();
+
+    store.fail_delete.set(true);
+    assert!(retire(home.path(), &previous, &store).is_err());
+    assert!(home.path().join(JOURNAL).exists());
+    assert_eq!(store.values.borrow().len(), 2);
+
+    store.fail_delete.set(false);
+    recover(home.path(), &store).unwrap();
+    assert!(!home.path().join(JOURNAL).exists());
+    assert_eq!(
+        store.values.borrow().keys().copied().collect::<Vec<_>>(),
+        vec![(StoreKind::OidcIdentityV1, replacement.id)]
+    );
+
+    // Referenced files and variables are never deleted by the harness.
+    retire(
+        home.path(),
+        &binding(Source::File {
+            path: home.path().join("key"),
+        }),
+        &store,
+    )
+    .unwrap();
+    assert!(!home.path().join(JOURNAL).exists());
+}

@@ -47,7 +47,23 @@ pub struct LoginArgs {
     /// Reference a credential environment variable; nothing secret is persisted.
     #[arg(long)]
     pub credential_env: Option<String>,
+    /// Replace this environment's existing credential with another workspace key or
+    /// company identity. Open sessions stop; saved conversations stay in this environment.
+    #[arg(long, conflicts_with = "restore_session")]
+    pub replace: bool,
 }
+
+/// A different credential was offered to an environment that already has one.
+#[derive(Debug)]
+pub(super) struct CredentialChanged;
+
+impl std::fmt::Display for CredentialChanged {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("This environment already uses a different credential. Replace it with airs env auth (guided), or repeat this login with --replace. Open sessions stop; saved conversations stay in this environment")
+    }
+}
+
+impl std::error::Error for CredentialChanged {}
 
 #[derive(Debug, clap::Args)]
 pub struct HelperArgs {
@@ -178,12 +194,12 @@ pub(super) fn resolve(binding: &Binding) -> anyhow::Result<String> {
     let token = validate_token(&token)?.to_owned();
     anyhow::ensure!(
         fingerprint(&token) == binding.credential_fingerprint,
-        "credential identity changed; create a new environment to keep histories separate"
+        "credential changed since sign-in; to use it in this environment run airs env auth or login --replace"
     );
     Ok(token)
 }
 
-pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<()> {
+pub async fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<()> {
     let attempt = super::airs_auth_lifecycle::LoginAttempt::begin(home)?;
     let _lock = airs_environment::lock(home)?;
     anyhow::ensure!(
@@ -226,16 +242,8 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
     };
     let gateway_url = airs_environment::gateway(home)?;
     let credential_fingerprint = fingerprint(&token);
-    let existing = if home.join("credential-binding.json").exists() {
-        Some(read_binding(home)?)
-    } else {
-        None
-    };
+    let (existing, replaced) = existing_for(home, &credential_fingerprint, args.replace)?;
     if let Some(previous) = &existing {
-        anyhow::ensure!(
-            previous.credential_fingerprint == credential_fingerprint,
-            "a different credential requires a new environment; existing sessions must not change identity"
-        );
         // Existing raw bindings retain their format. A future migration must
         // explicitly verify V2 before changing ownership or retiring V1.
         if matches!(source, Source::KeyringV2) && matches!(previous.source, Some(Source::Keyring)) {
@@ -249,18 +257,89 @@ pub fn login(home: &Path, args: &LoginArgs, stdin_key: bool) -> anyhow::Result<(
         credential_fingerprint,
         source: Some(source),
     };
+    let install = || activate(home, &binding, args.replace);
     if matches!(binding.source, Some(Source::Keyring | Source::KeyringV2)) {
         transaction::persist(home, &binding, &token, &transaction::NativeStore, || {
-            attempt.commit(|| install_binding(home, &binding))
+            attempt.commit(install)
         })?;
     } else {
-        attempt.commit(|| install_binding(home, &binding))?;
+        attempt.commit(install)?;
     }
-    println!(
-        "Configured workspace credential for {}. No individual user identity is asserted.",
-        binding.gateway_url
-    );
+    if let Some(previous) = &replaced {
+        retire_replaced(home, previous).await;
+        println!(
+            "Replaced this environment's credential with a workspace credential for {}. Restart open sessions in this environment.",
+            binding.gateway_url
+        );
+    } else {
+        println!(
+            "Configured workspace credential for {}. No individual user identity is asserted.",
+            binding.gateway_url
+        );
+    }
     Ok(())
+}
+
+/// Return the binding to keep and, for a confirmed replacement, the one it supersedes.
+/// A replacement always receives a new native account so formats never share an entry.
+pub(super) fn existing_for(
+    home: &Path,
+    credential_fingerprint: &str,
+    replace: bool,
+) -> anyhow::Result<(Option<Binding>, Option<Binding>)> {
+    if !home.join("credential-binding.json").exists() {
+        return Ok((None, None));
+    }
+    let previous = read_binding(home)?;
+    if previous.credential_fingerprint == credential_fingerprint {
+        return Ok((Some(previous), None));
+    }
+    anyhow::ensure!(replace, CredentialChanged);
+    Ok((None, Some(previous)))
+}
+
+/// Install the helper configuration; a replacement also re-pins saved history to it.
+pub(super) fn activate(home: &Path, binding: &Binding, replace: bool) -> anyhow::Result<()> {
+    install_binding(home, binding)?;
+    if replace {
+        super::airs_session_binding::rebind_credential(home, &binding.credential_fingerprint)?;
+    }
+    Ok(())
+}
+
+/// Remove a superseded native credential after its replacement is active, then revoke
+/// a replaced company sign-in at its issuer. A failed deletion keeps a nonsecret
+/// cleanup record that the next login or logout retries.
+pub(super) async fn retire_replaced(home: &Path, previous: &Binding) {
+    let tokens = matches!(previous.source, Some(Source::Oidc { .. }))
+        .then(|| super::airs_oidc::load_active(previous).ok())
+        .flatten();
+    if let Err(error) = transaction::retire(home, previous, &transaction::NativeStore) {
+        eprintln!(
+            "The previous credential is no longer used, but secure storage could not remove it yet ({error:#}). The next login or logout retries the removal."
+        );
+    }
+    if let Some(tokens) = tokens {
+        revoke_previous(tokens).await;
+    }
+}
+
+/// Best-effort issuer revocation of a sign-in that is no longer used. Its access
+/// tokens expire normally when the issuer cannot confirm revocation.
+pub(super) async fn revoke_previous(tokens: codex_airs_identity::Tokens) {
+    let revoked = tokio::time::timeout(std::time::Duration::from_secs(15), async {
+        match super::airs_oidc::discover_provider(tokens.identity.config.clone()).await {
+            Ok(provider) => provider.revoke(&tokens).await.is_ok(),
+            Err(_) => false,
+        }
+    })
+    .await
+    .unwrap_or(false);
+    if !revoked {
+        eprintln!(
+            "The previous company sign-in was removed from this device; issuer revocation could not be confirmed, so its access tokens expire normally."
+        );
+    }
 }
 
 pub(super) fn persist_oidc_binding(

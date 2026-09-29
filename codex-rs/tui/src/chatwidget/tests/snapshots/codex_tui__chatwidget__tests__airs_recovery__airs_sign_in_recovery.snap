@@ -7,7 +7,11 @@ expression: "lines.join(\"\\n\")"
   Restore company sign-in
   Your conversation and draft stay here. Sign in as the same person.
 
-› 1. Sign in  Open your browser and save the verified credentials in the native store.
-  2. Cancel   Keep this conversation and draft; sign in later with /signin.
+› 1. Sign in                       Open your browser and save the verified credentials
+                                   in the native store.
+  2. Change key or sign-in method  Use a different workspace API key, company user, or
+                                   sign-in method.
+  3. Cancel                        Keep this conversation and draft; sign in later
+                                   with /signin.
 
   Press enter to confirm or esc to go back

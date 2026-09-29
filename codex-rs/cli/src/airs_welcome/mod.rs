@@ -22,6 +22,109 @@ pub(super) enum Entry {
     Session,
     Login(airs_oidc::LoginFlow),
     Create(airs_harness::SetupArgs),
+    /// Change an environment's authentication (airs env auth).
+    UpdateAuth,
+}
+
+/// Menu positions in the sign-in loop below.
+const COMPANY: usize = 0;
+const WORKSPACE_KEY: usize = 1;
+
+/// What the user chose in the update menu for an already signed-in environment.
+#[derive(Debug, PartialEq, Eq)]
+enum Update {
+    /// Run the sign-in loop with this action; `replace` is the confirmed consent.
+    SignIn { action: usize, replace: bool },
+    /// Send the connectivity test with the current credential only.
+    Test,
+}
+
+fn update_items(current: &airs_login::Method) -> Vec<(OnboardingMenuItem, Update)> {
+    let replace = |action| Update::SignIn {
+        action,
+        replace: true,
+    };
+    let mut items = match current {
+        airs_login::Method::WorkspaceKey { .. } => vec![
+            (
+                item(
+                    "Replace the workspace API key",
+                    "Enter a new key from your administrator; input is hidden",
+                ),
+                replace(WORKSPACE_KEY),
+            ),
+            (
+                item(
+                    "Switch to company SSO",
+                    "Sign in with your browser instead of a key",
+                ),
+                replace(COMPANY),
+            ),
+        ],
+        airs_login::Method::Company { .. } => vec![
+            (
+                item("Sign in again", "Refresh the same company identity"),
+                Update::SignIn {
+                    action: COMPANY,
+                    replace: false,
+                },
+            ),
+            (
+                item(
+                    "Change company SSO user or settings",
+                    "Another user, issuer, client ID or audience",
+                ),
+                replace(COMPANY),
+            ),
+            (
+                item(
+                    "Switch to a workspace API key",
+                    "Replace company sign-in with a key; input is hidden",
+                ),
+                replace(WORKSPACE_KEY),
+            ),
+        ],
+    };
+    items.push((
+        item(
+            "Test the current credential",
+            "Send one minimal inference request; nothing changes",
+        ),
+        Update::Test,
+    ));
+    items
+}
+
+/// Explain the consequences once, then require an explicit choice to replace.
+fn confirm_replacement(ui: &mut AirsOnboarding, environment: Option<&str>) -> anyhow::Result<bool> {
+    if ui.message(&OnboardingProgress {
+        title: "Before you replace this credential".into(),
+        detail: airs_login::REPLACEMENT_NOTICE.into(),
+        link: None,
+    })? == OnboardingResult::Cancelled
+    {
+        return Ok(false);
+    }
+    Ok(selected(
+        ui.menu(
+            "Replace this environment's credential?",
+            &[
+                item(
+                    "Replace and test access",
+                    "Sign in with the new credential, then send one test request",
+                ),
+                item("Keep the current credential", "Exit without changes"),
+            ],
+        )?,
+        environment,
+    )? == 0)
+}
+
+fn unchanged(environment: Option<&str>) -> anyhow::Error {
+    let command = airs_environment::command(environment);
+    anyhow::anyhow!(
+        "No changes were made; this environment keeps its current credential. Update it later with {command} env auth."
+    )
 }
 
 fn item(label: &str, detail: &str) -> OnboardingMenuItem {
@@ -119,6 +222,34 @@ pub(super) async fn run(
     }
     let mut selection = selection.context("No environment selected")?;
     let mut retry_action = None;
+    let mut replace = false;
+    if matches!(entry, Entry::Login(_) | Entry::UpdateAuth)
+        && let Some(current) = airs_login::current_method(&selection.home)?
+    {
+        ui.set_context(context(&selection));
+        let (items, updates): (Vec<_>, Vec<_>) = update_items(&current).into_iter().unzip();
+        let title = format!("Update authentication · now {}", current.describe());
+        let update = match ui.menu(&title, &items)? {
+            OnboardingResult::Selected(index) => &updates[index],
+            OnboardingResult::Cancelled => return Err(unchanged(selection.name.as_deref())),
+        };
+        match update {
+            Update::Test => {
+                verify(&mut ui, &selection, /*note*/ None).await?;
+                return Ok(selection.name);
+            }
+            Update::SignIn {
+                action,
+                replace: confirm,
+            } => {
+                if *confirm && !confirm_replacement(&mut ui, selection.name.as_deref())? {
+                    return Err(unchanged(selection.name.as_deref()));
+                }
+                replace = *confirm;
+                retry_action = Some(*action);
+            }
+        }
+    }
     loop {
         ui.set_context(context(&selection));
         display = options(&selection.home, overrides);
@@ -158,7 +289,7 @@ pub(super) async fn run(
             }
             continue;
         }
-        let result = if action == 1 {
+        let result = if action == WORKSPACE_KEY {
             // Secure key entry owns raw mode itself. Never copy a secret into render state.
             drop(ui);
             eprintln!(
@@ -168,13 +299,18 @@ pub(super) async fn run(
             );
             let result = airs_credentials::login(
                 &selection.home,
-                &airs_credentials::LoginArgs::default(),
+                &airs_credentials::LoginArgs {
+                    replace,
+                    ..Default::default()
+                },
                 /*stdin_key*/ true,
-            );
+            )
+            .await;
             ui = AirsOnboarding::open(context(&selection), display)?;
             result
         } else {
-            let args = forms::company(&mut ui, &selection.home, selection.name.as_deref())?;
+            let mut args = forms::company(&mut ui, &selection.home, selection.name.as_deref())?;
+            args.replace = replace;
             if matches!(preferred, airs_oidc::LoginFlow::Browser) {
                 preferred = match selected(
                     ui.menu(
@@ -230,6 +366,16 @@ pub(super) async fn run(
             }
         };
         if let Err(error) = result {
+            // Signing in with another key or identity is an update, not a dead end.
+            if !replace && error.is::<airs_credentials::CredentialChanged>() {
+                if confirm_replacement(&mut ui, selection.name.as_deref())? {
+                    replace = true;
+                    retry_action = Some(action);
+                    preferred = airs_oidc::LoginFlow::Browser;
+                    continue;
+                }
+                return Err(unchanged(selection.name.as_deref()));
+            }
             selected(
                 ui.message(&OnboardingProgress {
                     title: "Sign-in needs your attention".into(),
@@ -262,7 +408,14 @@ pub(super) async fn run(
             }
             continue;
         }
-        verify(&mut ui, &selection).await?;
+        verify(
+            &mut ui,
+            &selection,
+            replace.then_some(
+                "This environment now uses the new credential. Restart any other open AIRS sessions in it.",
+            ),
+        )
+        .await?;
         if created_environment
             && airs_typesafe::read(&selection.home).is_ok_and(|settings| settings.is_none())
             && std::env::var_os(airs_typesafe::KEY_VARIABLE).is_none()
@@ -312,6 +465,7 @@ fn pick(
 async fn verify(
     ui: &mut AirsOnboarding,
     selection: &airs_environment::Selection,
+    note: Option<&str>,
 ) -> anyhow::Result<()> {
     let command = airs_environment::command(selection.name.as_deref());
     loop {
@@ -336,7 +490,13 @@ async fn verify(
                 "Credential saved · gateway access needs attention"
             }
             .into(),
-            detail: verification.after_login(selection.name.as_deref()),
+            detail: match note {
+                Some(note) => format!(
+                    "{}\n{note}",
+                    verification.after_login(selection.name.as_deref())
+                ),
+                None => verification.after_login(selection.name.as_deref()),
+            },
             link: None,
         })? == OnboardingResult::Cancelled
         {

@@ -1,0 +1,24 @@
+[
+  {
+    "platform": "linux-x64",
+    "build_run": 331,
+    "source_archive_sha256": "b8192e0b6e5abc7dfdb5310fbd0186a2453bb740a6c2e8561776efa383cb3b46",
+    "corrected_archive_sha256": "21d9ce0da6ecd94852ddbf5e5ca1215d7fe3fdf011992587b2d0b58070413265",
+    "binary_sha256": "cd3a240935ab8beaa2cd2f219a400509f1e0b17ec132ac866d7ccae8ada87aa9",
+    "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+    "transformation": "Rename top-level rust-toolchain.toml directory to archive basename; all member contents and internal checksums preserved",
+    "member_checksums_verified": true,
+    "native_acceptance": false
+  },
+  {
+    "platform": "linux-arm64",
+    "build_run": 332,
+    "source_archive_sha256": "171b31e35cd79aee2001b0816a90511fbe3e19dcd7dece0d2e61b33cd2a1202e",
+    "corrected_archive_sha256": "831f8cfcf3b976aceb2f12d4d3021d8782452cc87a99b51bc977cd97930c6c81",
+    "binary_sha256": "90f014de6a7b73c260e48b9ac93e0f92fbe11a9dcce2c6b5924758e00f740a8e",
+    "source_commit": "900792f8707c8f2a47d9814575469ecc4817be75",
+    "transformation": "Rename top-level rust-toolchain.toml directory to archive basename; all member contents and internal checksums preserved",
+    "member_checksums_verified": true,
+    "native_acceptance": false
+  }
+]

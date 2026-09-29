@@ -7,6 +7,7 @@ import re
 import stat
 import subprocess
 import tempfile
+import time
 from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import HTTPRedirectHandler, build_opener
@@ -98,7 +99,7 @@ class Registry:
                 NPM_CONFIG_LOGLEVEL="error",
                 NPM_CONFIG_LOGS_MAX="0",
                 NPM_CONFIG_FETCH_RETRIES="0",
-                NPM_CONFIG_FETCH_TIMEOUT="30000",
+                NPM_CONFIG_FETCH_TIMEOUT="180000",
             )
             result = subprocess.run(
                 [
@@ -227,9 +228,21 @@ def _publish(spec, plan, packages, output, registry):
 
     def check_tags(name, document):
         original = _tags({"dist-tags": receipt["original_tags"][name]})
+        protected = _protected(_tags(document), spec["tag"])
+        # npm creates latest for a package's first stable release, even when
+        # publishing with a candidate tag. No established channel is replaced.
+        initial_latest = (
+            not original
+            and spec["registry"] == "https://registry.npmjs.org"
+            and spec["scope"] == "owner-authorized-stable"
+            and protected == {"latest": spec["version"]}
+        )
+        if initial_latest:
+            created = receipt.setdefault("registry_created_initial_latest", [])
+            if name not in created:
+                created.append(name)
         require(
-            _protected(_tags(document), spec["tag"])
-            == _protected(original, spec["tag"]),
+            initial_latest or protected == _protected(original, spec["tag"]),
             "Protected registry tags changed; refusing further publication",
         )
 
@@ -249,7 +262,14 @@ def _publish(spec, plan, packages, output, registry):
                 "Archive changed during publication",
             )
             registry.publish(archive, spec["tag"])
-            document = registry.metadata(name)
+            # A successful upload can precede anonymous metadata visibility.
+            # Retry reads only; never repeat the immutable publication blindly.
+            for attempt in range(21):
+                document = registry.metadata(name)
+                if spec["version"] in document["versions"]:
+                    break
+                if attempt < 20:
+                    time.sleep(3)
         require(
             _existing(document, record, spec["tag"]),
             "Published version is absent from the registry",

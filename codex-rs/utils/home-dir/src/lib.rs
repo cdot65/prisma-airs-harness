@@ -29,6 +29,16 @@ pub fn is_airs_harness() -> bool {
     APPLICATION_HOME.get().is_some()
 }
 
+/// The harness application directory that holds every environment, when initialized.
+pub fn airs_application_home() -> Option<AbsolutePathBuf> {
+    APPLICATION_HOME.get().cloned()
+}
+
+/// Harness-wide interface preferences shared by every environment (settings.toml).
+pub fn airs_settings_path() -> Option<AbsolutePathBuf> {
+    airs_application_home().map(|root| root.join("settings.toml"))
+}
+
 /// Public command name for built-in instructions, distinct from package names.
 pub fn command_name() -> &'static str {
     if is_airs_harness() { "airs" } else { "codex" }

@@ -1,3 +1,4 @@
+mod airs_settings;
 mod application;
 mod layer_io;
 mod local;
@@ -288,6 +289,9 @@ pub async fn load_config_layers_state(
 
     let mut layers = Vec::<ConfigLayerEntry>::new();
     layers.push(packaged_defaults_layer);
+    if let Some(settings) = airs_settings::layer(fs, strict_config).await? {
+        layers.push(settings);
+    }
 
     let cli_overrides_layer = if cli_overrides.is_empty() {
         None

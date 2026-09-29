@@ -156,10 +156,18 @@ fn context(selection: &airs_environment::Selection) -> OnboardingContext {
 }
 
 fn options(home: &Path, overrides: &[String]) -> OnboardingOptions {
-    let mut animations = std::fs::read_to_string(home.join("config.toml"))
-        .ok()
-        .and_then(|text| toml::from_str::<toml::Value>(&text).ok())
-        .and_then(|config| config.get("tui")?.get("animations")?.as_bool())
+    let animations_in = |path: &Path| {
+        std::fs::read_to_string(path)
+            .ok()
+            .and_then(|text| toml::from_str::<toml::Value>(&text).ok())
+            .and_then(|config| config.get("tui")?.get("animations")?.as_bool())
+    };
+    // The environment's own config.toml overrides harness-wide settings.toml.
+    let mut animations = animations_in(&home.join("config.toml"))
+        .or_else(|| {
+            codex_utils_home_dir::airs_settings_path()
+                .and_then(|path| animations_in(path.as_path()))
+        })
         .unwrap_or(true);
     for entry in overrides {
         if let Some((key, value)) = entry.split_once('=')

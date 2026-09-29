@@ -91,8 +91,7 @@ airs cli --tenant platform-admin aigateway --help
 
 The first command prompts for SCM tenant service group, OAuth client ID and a
 hidden client secret. It does not sign the harness into inference. Use the
-management console or the installed CLI's help to provision resources for your
-tenant. The CLI's admin-plane and data-plane endpoints are management settings;
+management console or the [resource provisioning commands](../operations/cheat-sheet.md#provision-gateway-resources) to create a workspace and bind provider/MCP integrations. The CLI's admin-plane and data-plane endpoints are management settings;
 do not substitute the deployed inference listener for them.
 
 Follow [gateway configuration](../configuration/gateway.md) to bind the workspace,

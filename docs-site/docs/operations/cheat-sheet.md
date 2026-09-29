@@ -110,6 +110,77 @@ airs cli --tenant platform-admin runtime --help
 `airs`; a harness environment flag does not select a CLI tenant. Prefer explicit
 `--tenant` in operational commands.
 
+## Provision gateway resources
+
+Run these commands as the management administrator after configuring the
+`platform-admin` tenant. The workspace command creates and binds its SCM scope.
+An administrator must then grant that scope to the intended SCM service account.
+This management grant is separate from the end user's Keycloak role and gateway
+workspace membership.
+
+```sh
+airs cli --tenant platform-admin aigateway workspaces create \
+  --name agent-production \
+  --description 'Production agent inference and gateway tools' --output json
+
+airs cli --tenant platform-admin aigateway workspaces list --plane admin --output json
+airs cli --tenant platform-admin aigateway integrations providers
+```
+
+Record the returned workspace UUID, slug and scope name. Set the following public
+identifiers to your actual values; they are examples, not credentials:
+
+```sh
+AIRS_DOCS_ORG_ID='1234567890'
+AIRS_DOCS_WORKSPACE_ID='11111111-1111-4111-8111-111111111111'
+AIRS_DOCS_WORKSPACE_SLUG='replace-with-returned-workspace-slug'
+
+# The provider credential is requested in a hidden prompt.
+airs cli --tenant platform-admin aigateway integrations create \
+  --organisation-id "$AIRS_DOCS_ORG_ID" --ai-provider open-ai \
+  --name agent-models --slug agent-models
+
+airs cli --tenant platform-admin aigateway integrations list --output json
+```
+
+Use the integration UUID returned by your tenant, then bind only this workspace
+while preserving other assignments:
+
+```sh
+AIRS_DOCS_INTEGRATION_ID='22222222-2222-4222-8222-222222222222'
+airs cli --tenant platform-admin aigateway integrations workspaces set \
+  "$AIRS_DOCS_INTEGRATION_ID" \
+  --workspace-binding "$AIRS_DOCS_WORKSPACE_ID=true" --preserve-existing
+airs cli --tenant platform-admin aigateway integrations workspaces list \
+  "$AIRS_DOCS_INTEGRATION_ID" --output json
+airs cli --tenant platform-admin aigateway integrations models list \
+  "$AIRS_DOCS_INTEGRATION_ID" --output json
+```
+
+Select an allowed model and create the saved route and JWT policy using the
+[gateway configuration checklist](../configuration/gateway.md). Provider model
+names and policy schemas depend on the deployed gateway. Confirm the saved-config
+slug before entering it in the identity claim mapper.
+
+Bind a provisioned MCP integration in the same way:
+
+```sh
+AIRS_DOCS_MCP_ID='33333333-3333-4333-8333-333333333333'
+airs cli --tenant platform-admin aigateway mcp integrations workspaces set \
+  "$AIRS_DOCS_MCP_ID" \
+  --workspace-binding "$AIRS_DOCS_WORKSPACE_ID=true" --preserve-existing
+airs cli --tenant platform-admin aigateway mcp integrations workspaces list \
+  "$AIRS_DOCS_MCP_ID" --output json
+
+# Inspect traffic after the user's validation request.
+airs cli --tenant platform-admin aigateway telemetry requests \
+  --workspace "$AIRS_DOCS_WORKSPACE_SLUG" --days 1
+```
+
+These commands follow the bundled CLI 7.2.0 command contracts. Creating a resource
+does not establish a successful model request or tool call; complete the
+[validation workflow](../validation/acceptance.md) with your actual user.
+
 ## Recover and retire
 
 ```sh

@@ -5,10 +5,12 @@ Open new issues and pull requests there. GitHub is a public source mirror;
 historical GitHub pull requests remain available, and their open heads were
 preserved as `archive/github-pr-N` branches in Forgejo.
 
-Forgejo owns CI and release authorization. Harness GitHub workflows are disabled at repository level and retained as
-historical references; do not re-enable them. SDK/CLI workflows are archived
+Forgejo owns CI and release authorization. The owned `airs-harness-docs.yml`
+GitHub workflow publishes the harness documentation; all inherited upstream and
+historical package workflows remain disabled. SDK/CLI workflows are archived
 with `.disabled` suffixes.
-GitHub Pages remains at its existing URL. Documentation is deployed only from an
+Harness documentation is at https://cdot65.github.io/prisma-airs-harness/.
+Documentation is deployed only from an
 `airs-docs-<full commit SHA>` tag approved in Forgejo and copied by the push mirror.
 The GitHub Pages job verifies that the tag matches the exact source commit.
 
@@ -41,9 +43,9 @@ mirror. Push branches to Forgejo. The local `origin` points to Forgejo and
 
 Forgejo mirrors all branches and tags on push and hourly using a dedicated
 GitHub deploy key. Compare branch/tag hashes before repairing a failed mirror;
-never push divergent development directly to GitHub. GitHub Actions is disabled
-at repository level. Existing `.github/workflows` files are historical migration
-inputs; `.forgejo/workflows` owns execution. Inherited upstream automation must
+never push divergent development directly to GitHub. GitHub Actions enables only
+the owned documentation workflow. Other `.github/workflows` files are historical
+migration inputs; `.forgejo/workflows` owns application CI. Inherited upstream automation must
 remain inactive. Git mirrors do not synchronize future issue/PR discussions or
 release assets; use Forgejo for new reviews and release records.
 

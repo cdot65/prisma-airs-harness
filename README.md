@@ -1,5 +1,9 @@
 # Prisma AIRS Harness
 
+[Harness documentation](https://cdot65.github.io/prisma-airs-harness/) ·
+[Getting started](https://cdot65.github.io/prisma-airs-harness/getting-started/) ·
+[CLI reference](https://cdot65.github.io/prisma-airs-harness/reference/airs/)
+
 [Install stable 0.1.2 with bundled CLI 7.1.5 and the Jev judge](RELEASE-0.1.2.md).
 
 A standalone local terminal agent derived from the open-source Codex Rust CLI.

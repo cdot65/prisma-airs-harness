@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" width="1200" height="1200">
+<defs>
+  <clipPath id="shield">
+    <path d="M600 90 C760 150 885 170 1010 175 L1010 500 C1010 770 850 985 600 1110 C350 985 190 770 190 500 L190 175 C315 170 440 150 600 90 Z"/>
+  </clipPath>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="6" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fffdf0" stop-opacity=".92"/>
+    <stop offset=".8" stop-color="#fff" stop-opacity="1"/>
+  </linearGradient>
+</defs>
+
+<g clip-path="url(#shield)">
+  <rect width="1200" height="1200" fill="#050505"/>
+
+  <!-- Incoming white beam -->
+  <polygon points="70,590 438,515 445,532 70,615"
+           fill="url(#beam)" filter="url(#glow)"/>
+
+  <!-- Rainbow spectrum -->
+  <polygon points="762,535 1125,620 1125,646 762,551" fill="#f33b2f"/>
+  <polygon points="762,551 1125,646 1125,672 762,567" fill="#f58a2b"/>
+  <polygon points="762,567 1125,672 1125,698 762,583" fill="#f7e34b"/>
+  <polygon points="762,583 1125,698 1125,724 762,599" fill="#4dc56b"/>
+  <polygon points="762,599 1125,724 1125,750 762,615" fill="#55b9ec"/>
+  <polygon points="762,615 1125,750 1125,776 762,631" fill="#9b7ad6"/>
+
+  <!-- Bash terminal replacing Prisma logo -->
+  <g>
+    <!-- cyan aura -->
+    <rect x="430" y="385" width="340" height="310" rx="28"
+          fill="none" stroke="#00c0e8" stroke-width="18"
+          opacity=".18" filter="url(#glow)"/>
+
+    <!-- terminal body -->
+    <rect x="430" y="385" width="340" height="310" rx="28"
+          fill="#071216" stroke="#00c0e8" stroke-width="8"/>
+
+    <!-- title bar separator -->
+    <path d="M430 455 H770" stroke="#00c0e8" stroke-width="7"/>
+
+    <!-- terminal window controls -->
+    <circle cx="470" cy="420" r="10" fill="#00c0e8"/>
+    <circle cx="505" cy="420" r="10" fill="#00c0e8" opacity=".65"/>
+    <circle cx="540" cy="420" r="10" fill="#00c0e8" opacity=".35"/>
+
+    <!-- bash prompt: >_ -->
+    <path d="M500 525 L570 575 L500 625"
+          fill="none" stroke="#00c0e8" stroke-width="18"
+          stroke-linecap="round" stroke-linejoin="round"
+          filter="url(#glow)"/>
+    <path d="M600 625 H690"
+          fill="none" stroke="#00c0e8" stroke-width="18"
+          stroke-linecap="round" filter="url(#glow)"/>
+
+    <!-- crisp foreground -->
+    <path d="M500 525 L570 575 L500 625"
+          fill="none" stroke="#dffcff" stroke-width="8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M600 625 H690"
+          fill="none" stroke="#dffcff" stroke-width="8"
+          stroke-linecap="round"/>
+  </g>
+
+  <!-- interaction glows -->
+  <circle cx="442" cy="524" r="5" fill="#fff" filter="url(#glow)"/>
+  <circle cx="762" cy="583" r="5" fill="#dffcff" filter="url(#glow)"/>
+</g>
+</svg>

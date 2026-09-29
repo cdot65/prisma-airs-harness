@@ -1,0 +1,26 @@
+name: AIRS Harness documentation
+on:
+  push:
+    branches: [main, docs/harness-site]
+  pull_request:
+    branches: [main]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu@sha256:4f2d5083a9d10d018c1c511eb8665cd480553c11975e78fd903a46daa830768b
+    timeout-minutes: 20
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: https://github.com/actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm ci
+        working-directory: docs-site
+      - run: npx playwright install --with-deps chromium
+        working-directory: docs-site
+      - run: npm run check
+        working-directory: docs-site

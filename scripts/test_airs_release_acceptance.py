@@ -625,6 +625,7 @@ class StructuredExecutionTests(unittest.TestCase):
     def test_registry_install_and_upgrade_receive_explicit_registry(self):
         spec = validate_spec(sample_spec())
         spec["registry"] = "https://another-registry.example.com"
+        spec["previous_registry"] = "https://previous-registry.example.com"
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             command, result = acceptance.invocation(
@@ -652,7 +653,9 @@ class StructuredExecutionTests(unittest.TestCase):
                 root / "prefix",
                 (root / "airs", root / "native", root / "launcher"),
             )
-            self.assertEqual(spec["registry"], command[command.index("--registry") + 1])
+            self.assertEqual(
+                spec["previous_registry"], command[command.index("--registry") + 1]
+            )
 
 
 if __name__ == "__main__":

@@ -11,6 +11,8 @@ from promote_airs_stable import (
     WORKSPACE_BASELINE_011,
     WORKSPACE_BASELINE_012,
     WORKSPACE_SOURCE_012,
+    WORKSPACE_SOURCE_013,
+    WORKSPACE_BASELINE_013,
     promote,
     validate_readiness,
     validate_workspace,
@@ -254,6 +256,69 @@ class StablePromotionTests(unittest.TestCase):
                 ):
                     validate_workspace(spec, changed)
         self.assertEqual(workspace["failed"], 3)
+
+    def test_013_review_and_explicit_authorization_are_source_bound(self):
+        spec = {**self.spec, "version": "0.1.3", "source_commit": WORKSPACE_SOURCE_013}
+        workspace = {
+            "scope": "full-workspace",
+            "source_commit": WORKSPACE_SOURCE_013,
+            "passed": 18992,
+            "failed": 6,
+            "failures": list(WORKSPACE_BASELINE_013),
+            "baseline_review": {
+                "source_commit": WORKSPACE_SOURCE_013,
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": {
+                    name: {
+                        "disposition": disposition,
+                        "evidence_verified": True,
+                        "evidence_sha256": "a" * 64,
+                        "installed_command_rejected": True,
+                        "focused_check_passed": True,
+                        "runtime_source_unchanged": True,
+                    }
+                    for name, disposition in WORKSPACE_BASELINE_013.items()
+                },
+            },
+        }
+        authorization = {
+            "version": "0.1.3",
+            "source_commit": WORKSPACE_SOURCE_013,
+            "explicit_stable_publication": True,
+            "attended_acceptance_claimed": False,
+            "runtime_unchanged_from_requested_alpha": True,
+            "previous_alpha": "0.1.3-alpha.7.mcp.1",
+            "evidence_sha256": "a" * 64,
+        }
+        ready = {
+            "version": "0.1.3",
+            "source_commit": WORKSPACE_SOURCE_013,
+            "workspace": workspace,
+            "release_authorization": authorization,
+        }
+        validate_readiness(spec, ready)
+        for field, value in [
+            ("source_commit", "b" * 40),
+            ("version", "0.1.4"),
+            ("explicit_stable_publication", False),
+            ("attended_acceptance_claimed", True),
+            ("runtime_unchanged_from_requested_alpha", False),
+            ("evidence_sha256", "invalid"),
+        ]:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate_readiness(
+                    spec,
+                    {**ready, "release_authorization": {**authorization, field: value}},
+                )
+        for name in WORKSPACE_BASELINE_013:
+            changed = copy.deepcopy(workspace)
+            changed["baseline_review"]["cases"][name]["evidence_verified"] = False
+            with self.subTest(case=name), self.assertRaises(ValueError):
+                validate_workspace(spec, changed)
+        with self.assertRaises(ValueError):
+            validate_workspace({**spec, "version": "0.1.4"}, workspace)
 
     def test_wrong_registry_mode_or_package_bytes_prevent_promotion(self):
         self.verification["installation"] = "candidate"

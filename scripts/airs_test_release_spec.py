@@ -132,6 +132,8 @@ def validate_spec(document):
     }
     if previous.stable:
         fields.add("previous_release")
+    if "previous_registry" in document:
+        fields.add("previous_registry")
     require(
         set(document) == fields, "Unexpected or missing release specification fields"
     )
@@ -202,22 +204,25 @@ def validate_spec(document):
         re.fullmatch(r"[A-Z0-9]{10}", document["developer_id_team"]) is not None,
         "Invalid Developer ID team",
     )
-    registry = document["registry"]
-    parsed = urlsplit(registry)
-    require(
-        parsed.scheme == "https"
-        and parsed.hostname
-        and parsed.username is None
-        and parsed.password is None
-        and not any(c in registry for c in "\\?# ")
-        and parsed.port != 0,
-        "Registry requires HTTPS without credentials, query, fragment or whitespace",
-    )
-    require(
-        not parsed.path
-        or all(part not in (".", "..") for part in parsed.path.split("/")),
-        "Invalid registry path",
-    )
+    for registry in {
+        document["registry"],
+        document.get("previous_registry", document["registry"]),
+    }:
+        parsed = urlsplit(registry)
+        require(
+            parsed.scheme == "https"
+            and parsed.hostname
+            and parsed.username is None
+            and parsed.password is None
+            and not any(c in registry for c in "\\?# ")
+            and parsed.port != 0,
+            "Registry requires HTTPS without credentials, query, fragment or whitespace",
+        )
+        require(
+            not parsed.path
+            or all(part not in (".", "..") for part in parsed.path.split("/")),
+            "Invalid registry path",
+        )
     platforms = document["platforms"]
     require(
         isinstance(platforms, list)
@@ -244,7 +249,9 @@ def validate_spec(document):
         seen.add(target)
     # Copy and canonicalize ordering without mutating the caller's declaration.
     result = dict(document)
-    result["registry"] = registry.rstrip("/")
+    result["registry"] = document["registry"].rstrip("/")
+    if "previous_registry" in document:
+        result["previous_registry"] = document["previous_registry"].rstrip("/")
     result["platforms"] = [
         dict(next(p for p in platforms if p["target"] == target))
         for target in release_targets(document)

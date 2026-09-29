@@ -92,6 +92,17 @@ WORKSPACE_BASELINE_012 = {
 }
 
 
+# Release 0.1.3 retains the complete six-failure run. Three schema comparisons
+# are corrected in tests only; the remaining cases are disabled upstream services.
+WORKSPACE_SOURCE_013 = "900792f8707c8f2a47d9814575469ecc4817be75"
+WORKSPACE_BASELINE_013 = {
+    **WORKSPACE_BASELINE_012,
+    "codex-app-server-protocol schema_fixtures_tests::json_schema_fixtures_match_generated": "corrected-test-fixture",
+    "codex-app-server-protocol schema_fixtures_tests::typescript_schema_fixtures_match_generated": "corrected-test-fixture",
+    "codex-app-server-protocol schema_fixtures_tests::stable_precomputed_exports_match_schema_fixtures": "corrected-test-fixture",
+}
+
+
 def validate_workspace(spec, workspace):
     require(
         workspace.get("scope") == "full-workspace"
@@ -110,6 +121,8 @@ def validate_workspace(spec, workspace):
         baseline = WORKSPACE_BASELINE_011
     elif spec["version"] == "0.1.2" and spec["source_commit"] == WORKSPACE_SOURCE_012:
         baseline = WORKSPACE_BASELINE_012
+    elif spec["version"] == "0.1.3" and spec["source_commit"] == WORKSPACE_SOURCE_013:
+        baseline = WORKSPACE_BASELINE_013
     failures = workspace.get("failures", [])
     review = workspace.get("baseline_review", {})
     require(
@@ -156,6 +169,25 @@ def validate_readiness(spec, readiness):
         "Readiness source/version mismatch",
     )
     validate_workspace(spec, readiness.get("workspace", {}))
+    # The owner explicitly requested stable publication of the current alpha.
+    # Record that authorization separately from attended production SSO evidence.
+    authorization = readiness.get("release_authorization", {})
+    if authorization:
+        require(
+            spec["version"] == "0.1.3"
+            and spec["source_commit"] == WORKSPACE_SOURCE_013
+            and authorization.get("version") == spec["version"]
+            and authorization.get("source_commit") == spec["source_commit"]
+            and authorization.get("explicit_stable_publication") is True
+            and authorization.get("attended_acceptance_claimed") is False
+            and authorization.get("runtime_unchanged_from_requested_alpha") is True
+            and authorization.get("previous_alpha") == "0.1.3-alpha.7.mcp.1"
+            and isinstance(authorization.get("evidence_sha256"), str)
+            and len(authorization["evidence_sha256"]) == 64
+            and all(c in "0123456789abcdef" for c in authorization["evidence_sha256"]),
+            "Explicit release authorization is incomplete or outside its scope",
+        )
+        return
     owner = readiness.get("owner_acceptance", {})
     require(
         owner.get("version") in (spec["version"], spec["previous_version"])
@@ -207,6 +239,7 @@ def promote(spec, plan, verification, readiness, output, registry):
             "version": spec["version"],
             "source_commit": spec["source_commit"],
             "workspace": readiness["workspace"],
+            "release_authorization": readiness.get("release_authorization"),
             "original_tags": {
                 name: registry.metadata(name)["dist-tags"] for name in PACKAGE_ORDER
             },

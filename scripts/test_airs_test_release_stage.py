@@ -153,6 +153,22 @@ def candidates(root, spec):
 
 
 class SpecTests(unittest.TestCase):
+    def test_cross_registry_baseline_requires_a_safe_explicit_origin(self):
+        spec = {
+            **sample_spec(),
+            "registry": "https://registry.npmjs.org",
+            "previous_registry": "https://npm.cdot.io",
+        }
+        self.assertEqual(validate_spec(spec), spec)
+        for origin in [
+            "http://npm.cdot.io",
+            "https://user:secret@npm.cdot.io",
+            "https://npm.cdot.io/?token=secret",
+            "https://npm.cdot.io/../private",
+        ]:
+            with self.subTest(origin=origin), self.assertRaises(ValueError):
+                validate_spec({**spec, "previous_registry": origin})
+
     def test_valid_spec_is_copied_and_ordered(self):
         spec = sample_spec()
         spec["platforms"].reverse()

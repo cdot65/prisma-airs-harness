@@ -70,7 +70,7 @@ to the gateway.
 - [MCP authorization](https://cdot65.github.io/prisma-airs-harness/configuration/mcp/)
 - [End-to-end validation](https://cdot65.github.io/prisma-airs-harness/validation/acceptance/)
 - [Command cheat sheet](https://cdot65.github.io/prisma-airs-harness/operations/cheat-sheet/)
-- [Bundled CLI and skills](PRISMA-AIRS-CLI.md)
+- [Provision a workspace with the bundled CLI](PRISMA-AIRS-CLI.md)
 - [Ubuntu host preparation](UBUNTU-TEST-HOST.md)
 
 Product administration uses a separate CLI tenant (`airs cli tenant create`).

@@ -69,7 +69,7 @@ model request, which is why the loop above matters for what you approve.
 Invoke a skill with `$name`. Local skills live in `.agents/skills/<name>/SKILL.md`
 or the selected environment's skills directory. The managed product CLI and
 embedded skills are described in
-[Bundled CLI and skills](../generated/bundled-cli.md).
+[Provision a workspace with the bundled CLI](../generated/bundled-cli.md).
 
 ### Work safely with the product CLI
 

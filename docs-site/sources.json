@@ -15,7 +15,7 @@
     "source": "PRISMA-AIRS-CLI.md",
     "id": "bundled-cli",
     "slug": "/guides/bundled-cli",
-    "title": "Bundled CLI and skills"
+    "title": "Provision a workspace with the bundled CLI"
   },
   {
     "source": "UBUNTU-TEST-HOST.md",

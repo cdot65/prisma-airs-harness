@@ -49,7 +49,7 @@ Restart running AIRS processes after an upgrade.
 
 ## Create, sign in and connect ServiceNow
 
-Follow [Getting started](GETTING-STARTED.md#sso-to-servicenow-a-complete-first-session)
+Follow [Getting started](SSO-SERVICENOW.md#sso-to-servicenow-a-complete-first-session)
 for the complete flow with company SSO or a workspace API key for inference.
 For a new local profile, `airs env create work` guides you through settings and
 sign-in. With explicit settings, login is a separate step:
@@ -68,7 +68,7 @@ New environments created by mcp.4 already set
 `mcp_oauth_credentials_store = "keyring"`, requiring Keychain persistence before
 MCP sign-in succeeds. Existing environments keep their original mode and tokens;
 upgrading does not migrate them. For mcp.3 or an existing environment, follow
-[the storage check and optional migration](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+[the storage check and optional migration](SSO-SERVICENOW.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
 If tokens already exist, successfully sign out every MCP connection with saved
 credentials, including expired or sign-in-required connections, in the original
 mode before changing the setting, then sign in again. A configuration edit alone does not

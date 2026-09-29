@@ -84,7 +84,7 @@ For company inference SSO without a browser on Ubuntu, use **Use device authoriz
 or `airs --environment NAME login --device-auth`. Open the verification link and
 enter the code in a browser on your laptop or phone; keep SSH open while AIRS
 polls. The company issuer must enable this grant for the harness client. Device
-login needs no callback port or SSH tunnel. Follow [the SSH walkthrough](GETTING-STARTED.md#browserless-sign-in-over-ssh)
+login needs no callback port or SSH tunnel. Follow [the SSH walkthrough](SSO-SERVICENOW.md#browserless-sign-in-over-ssh)
 to use a separate SSO environment while preserving an existing workspace-key profile.
 
 Gateway MCP authorization is separate. Inside `/mcp`, open its authorization URL

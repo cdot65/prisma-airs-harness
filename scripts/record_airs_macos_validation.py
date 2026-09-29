@@ -48,7 +48,11 @@ def main():
         "native_tests": re.search(r"Ran (\d+) tests", tests).group(1),
         "sandbox": "workspace-write; native macOS Seatbelt",
         "keychain": keychain,
-        "signing": "ad-hoc signature verified; no Developer ID notarization",
+        "signing": (
+            json.loads((args.evidence / "SIGNING.json").read_text())
+            if (args.evidence / "SIGNING.json").exists()
+            else "ad-hoc signature verified; no Developer ID notarization"
+        ),
         "macos_version": subprocess.check_output(
             ["sw_vers", "-productVersion"], text=True
         ).strip(),

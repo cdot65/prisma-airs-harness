@@ -2,9 +2,31 @@
 
 `airs` starts the native Prisma AIRS terminal agent. Inference and remote MCP
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
-the gateway owns upstream OAuth. The npm package remains `airs-harness`.
+the gateway owns upstream OAuth. New previews use the npm package `prisma-airs-harness`; the command remains `airs`.
 
-## Gateway agent release 0.1.3
+## Signed Apple Silicon preview and package migration
+
+Version `0.1.4-alpha.2.mcp.1` is the first `prisma-airs-harness` preview.
+It uses the existing Developer ID identity and signing identifier, with Apple
+notarization. The native dependency retains its `airs-harness-darwin-arm64` name.
+
+When migrating an existing global `airs-harness` installation, remove the old npm
+package first to release its command links, then install the renamed package:
+
+```sh
+npm uninstall -g airs-harness
+npm install -g prisma-airs-harness@mac-preview --registry=https://npm.cdot.io
+airs --version
+```
+
+This changes npm-managed files only. Keep your AIRS home, saved environments,
+Keychain items and conversation history. Do not use `--force` or reset permissions.
+If installation fails, reinstall `airs-harness@0.1.3` from the same registry.
+Subsequent updates use `npm install -g prisma-airs-harness@mac-preview
+--registry=https://npm.cdot.io` (one line). This preview is Apple Silicon only;
+public npm and the existing stable channel remain on `airs-harness@0.1.3`.
+
+## Gateway agent release 0.1.3 (existing stable package)
 
 Release 0.1.3 bundles CLI 7.2.0 and SDK 0.34.0, adding explicit
 organisation guardrails with `airs cli aigateway admin-guardrails`. Workspace

@@ -33,6 +33,8 @@ in one.
 
 ## 1. Install the harness
 
+### Check your Node version
+
 Check Node first, in the terminal you will use:
 
 ```sh
@@ -44,18 +46,28 @@ If Node is older than the range above, install a supported version using your
 organization's method, then reopen the terminal and check again. Installing npm on
 Ubuntu does not upgrade a distro-provided Node 18.
 
-Then install the harness:
+### Install
 
 ```sh
 npm install -g airs-harness
+```
+
+The npm package is `airs-harness` and the command is `airs`. The Prisma AIRS CLI is
+bundled, so you do not install a separate product CLI. If your organization
+distributes through its own registry, add `--registry=<registry URL>` to the install
+command.
+
+### Confirm the install
+
+Once the install finishes, check that your shell finds the new command:
+
+```sh
 airs --version
 airs cli --version
 ```
 
-The npm package is `airs-harness` and the command is `airs`. The Prisma AIRS CLI is
-bundled, and `airs cli --version` shows which one you have, so you do not install a
-separate product CLI. If your organization distributes through its own registry,
-add `--registry=<registry URL>` to the install command.
+The first shows the harness version, and the second shows the version of the
+Prisma AIRS CLI that came with it.
 
 If `airs` reports that its native package is unavailable, reinstall with
 `--include=optional`. That happens only when your npm configuration omits optional
@@ -188,16 +200,32 @@ From now on, running `airs` opens this environment. You only need the
 ## 4. Validate the connection with /doctor
 
 Sign-in already ran one check, so `/doctor` is how you run another whenever you
-need to: after a restart, after replacing a key, or when requests start failing. It
-shows the health of this environment's connection. Opening the view and refreshing it
-send nothing to the gateway. To test the connection itself, enter `/doctor`, then
-choose **Verify gateway access** and **Send connectivity check**.
+need to: after a restart, after replacing a key, or when requests start failing.
+Enter `/doctor` in the session to open **Connection health** for the environment
+you are using.
 
-That check sends one small inference request and reports whether the gateway
-accepted it. It sends no local files, conversation content or tools. It can use a
-little gateway quota and it will appear in the gateway logs. **Gateway access
-verified** means your key, your workspace and your route all worked for one real
-request.
+![The Connection health view for the workspace-api environment, with the actions Refresh diagnostics, Verify gateway access and Credential recovery, followed by status lines for gateway access, the credential service, credential cleanup, credential configuration and configuration.](docs-site/static/img/getting-started/airs-doctor.png)
+
+The top of the view offers three actions:
+
+- **Refresh diagnostics** rereads your configuration and health. It sends no
+  inference request.
+- **Verify gateway access** sends one minimal inference request, with no
+  conversation, files or tools. This is the real test of your connection.
+- **Credential recovery** tells you how to replace a workspace key: exit and run
+  `airs --environment NAME login`, using the environment shown at the top.
+
+Below the actions is a status line for each part of the connection. Expect
+**Gateway access** to read **Not verified** when you first open the view. It means
+this view has not run the check yet, because a saved credential and a healthy
+response do not prove that the gateway will accept a request. The other lines,
+the credential service, credential cleanup, credential configuration and your
+configuration, should read **OK**.
+
+Choose **Verify gateway access**, then **Send connectivity check**. That request
+can use a little gateway quota and it will appear in the gateway logs. When it
+succeeds, **Gateway access** changes to **verified**, which means your key, your
+workspace and your route all worked for one real request.
 
 You can run the same check from the shell:
 

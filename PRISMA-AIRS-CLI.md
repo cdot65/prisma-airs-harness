@@ -1,131 +1,292 @@
-# Bundled Prisma AIRS CLI and skills
+# Provision a workspace with the bundled CLI
 
-This guide covers harness **0.1.2**. Install this exact version
-from `https://npm.cdot.io` under `latest`. It includes `@cdot65/prisma-airs-cli@7.1.5` and SDK
-`0.33.0`. One npm harness installation includes the pinned CLI and nine embedded
-product skills. `airs` starts the harness; **`airs cli ...`** runs its bundled CLI.
-An independently installed product CLI uses **`airs-cli ...`**.
+This guide is for the gateway administrator. It takes you from an empty Prisma AIRS
+tenant to a workspace that users can sign into: a service account, a CLI tenant, a
+workspace, a provider integration, and a saved config that routes to a model. It
+ends by handing the workspace to a user, who follows
+[Getting started](GETTING-STARTED.md), and by checking their traffic from the
+terminal.
 
-New harness environments use native MCP credential storage by default.
-Existing environment modes and tokens stay unchanged; this does
-not change CLI tenants or product API authentication. See [Getting started](SSO-SERVICENOW.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
-for optional MCP storage migration, including signing out in the original mode
-before changing configuration and signing in again.
+It assumes a sandbox tenant. Every step here creates real resources, and the
+service account in step 1 is deliberately broad. Do not use these settings as they
+are in a production tenant.
+
+## How the bundled CLI and provisioning work
+
+**Two commands, two jobs.** One npm installation of the harness includes the Prisma
+AIRS CLI and its embedded product skills. `airs` starts the harness, and
+`airs cli ...` runs the bundled CLI. A separately installed product CLI uses
+`airs-cli ...`, and the harness never substitutes it for the bundled one. Put `cli`
+immediately after `airs`, because a harness `--environment` flag does not reach the
+CLI.
+
+**A tenant is not an environment.** A harness environment is a local profile for
+inference: a gateway URL, an inference credential and a conversation history. A CLI
+tenant holds the product credentials, meaning a service group ID, an OAuth client ID
+and its secret. `airs env use` and `airs cli tenant switch` are independent
+selections, and company SSO or a workspace key does not stand in for tenant
+credentials. That is why the harness works before any tenant exists, and why an
+administrator needs both.
+
+**Three separate grants.** Being able to provision a workspace is not the same as
+being able to use it. The management grant lets your service account create
+resources. A user's identity role lets them call the gateway, and workspace
+membership decides which workspace they land in. Granting one does not grant the
+others, so when a user is denied, ask which of the three is missing.
+
+**A workspace is a chain, not a record.** Each link is created by a different
+command and identified differently, and a later step usually needs an identifier
+that an earlier one printed.
+
+| Resource | Made by | What later steps need |
+| --- | --- | --- |
+| IAM scope, then workspace | `aigateway workspaces create` | Workspace UUID for bindings and configs, workspace slug for telemetry, and the scope name |
+| Provider integration | `aigateway integrations create` | Integration UUID and its slug |
+| Workspace binding and models | `integrations workspaces set`, `integrations models` | Model slug |
+| Saved config | `aigateway configs create` | The config's slug, which users and tokens reference |
+| User workspace key | `aigateway api-keys user create` or the console | Handed to the user once |
+
+Do not substitute one identifier for another. The workspace UUID, the workspace
+slug and the scope name are different values, and commands are picky about which
+they take. Relationship commands take the UUID, and telemetry takes the slug.
+
+**Why the order matters.** A user's key gives access, but it does not create a route
+to a model. The route is the saved config, and it needs a provider integration that
+is bound to the workspace, which in turn needs the workspace to exist. Provisioning
+in the order below means each step has what it depends on.
+
+**Skills.** The embedded skills cover diagnosis, Runtime Security, Guardrail
+Generation, Red Teaming, AI Gateway, Model Security, DLP Testing and DLP Management.
+They run the bundled CLI by its absolute path, so a change to your shell's `PATH`
+cannot select another version. A skill changes what the agent tries to do, not what
+it is allowed to do, so the credentials and approvals in this guide still decide the
+outcome.
+
+## Set it up
+
+### 1. Create a service account in Strata Cloud Manager
+
+The CLI authenticates as a service account. In Strata Cloud Manager:
+
+1. Open **System Settings**, then **Identity & Access Management**.
+2. Choose **Add Identity** and select **Service Account** from the dropdown.
+3. Enter a client ID as the username.
+4. Download the OAuth client credentials when they are shown. You cannot retrieve
+   the secret again later.
+5. Set the permissions to **All apps and services** with the role **Superuser**, and
+   leave the scope blank.
+
+That role is broad on purpose, so that you can focus on the workflow. In a real
+tenant, give the service account only what these commands need. A narrower role also
+needs the workspace's scope granted to it, and step 3 shows how to find that name.
+
+Keep the downloaded credentials somewhere private, never in a repository or a chat.
+
+### 2. Create a tenant and check it
+
+`tenant create` prompts for the tenant service group (TSG) ID, the OAuth client ID
+and the client secret, which is hidden as you type. It saves a private configuration
+but does not select it, so `tenant switch` is a separate step:
 
 ```sh
-airs --version
-airs cli --version
-airs cli --help
-airs cli tenant list
-airs cli doctor --output json
+airs cli tenant create sandbox
+airs cli tenant switch sandbox
+airs cli --tenant sandbox doctor
 ```
 
-CLI commands work before harness environment setup or company SSO. Put `cli`
-immediately after `airs`; harness `--environment` does not select a product tenant.
-`airs doctor` checks the harness; `airs cli doctor` checks product API readiness.
-The managed runner verifies the exact bundled CLI and never substitutes a global
-installation. Node 22.13+ in the 22.x line, or 23.5+, is required; keep npm optional
-dependencies enabled for native executables and image/document generation.
+For automation, `--tsg-id`, `--client-id` and `--client-secret-stdin` supply the same
+values without a prompt, and `--config <path>` registers an existing JSON file
+without copying it. Never paste a secret into a command argument or a chat.
 
-## Upgrade command ownership
+Doctor reports pass, warn, fail or skip for the tenant's configuration, credentials
+and API connectivity. It is a preflight and not proof that every operation is
+permitted, so a pass here means the credentials work, not that you can create a
+workspace. Prefer an explicit `--tenant` in scripts, because the saved selection can
+change under you.
 
-If an old global product CLI owns `airs`, upgrade it first:
+### 3. Create the workspace
+
+This step creates resources. `workspaces create` does three things in order: it
+creates an IAM scope, creates the workspace with that scope name, and binds the scope
+so the workspace gets data-plane access.
 
 ```sh
-npm install -g @cdot65/prisma-airs-cli@7.0.1 --registry=https://registry.npmjs.org
-airs-cli --version
-npm install -g airs-harness@0.1.2 --registry=https://npm.cdot.io
-airs --version
-airs cli --version
+airs cli --tenant sandbox aigateway workspaces create \
+  --name agent-sandbox \
+  --description 'Sandbox agent inference' --output json
 ```
 
-The `mcp` tag selects the currently published test build; inspect `airs --version` after installation. Normal installs include optional dependencies, so `--include=optional` is only a repair option when npm configuration omitted them.
-
-Fresh harness users need only the second installation. The harness does not
-install a global `airs-cli`. Open a fresh shell and inspect `type -a airs airs-cli airs-harness` if an alias, manual file or another package manager still resolves
-an old executable. Resolve ownership through its original installer; do not force
-npm to overwrite unknown files. The `airs-harness` launcher and its old
-`airs-harness airs ...` forwarding remain compatibility entrypoints in alpha.22
-and are scheduled for removal in alpha.23. Environments, history, saved logins,
-MCP registrations and storage paths remain unchanged.
-
-For a read-only check before global installation:
+Record the returned workspace UUID, slug and scope name, and set them as variables
+for the steps that follow:
 
 ```sh
-npm exec --yes --registry=https://npm.cdot.io --package=airs-harness@mcp -- airs --migration-check
+AIRS_DOCS_WORKSPACE_ID='11111111-1111-4111-8111-111111111111'
+AIRS_DOCS_WORKSPACE_SLUG='replace-with-returned-workspace-slug'
 ```
 
-This reports PATH entries and recognized package owners without executing those
-commands or changing any installation. Inspect shell aliases/functions separately.
-
-## Select product credentials
-
-CLI 7 reads the selected tenant's JSON configuration. Credential environment
-variables, `PRISMA_AIRS_CONFIG_PATH` and a project `.env` are ignored. Existing
-CLI 6 tenant registrations work unchanged. To register a protected legacy file:
+Confirm the workspace and its binding:
 
 ```sh
-airs cli tenant create development --config /absolute/path/to/config.json
-airs cli tenant switch development
-airs cli doctor --output json
+airs cli --tenant sandbox aigateway workspaces list --plane admin --output json
+airs cli --tenant sandbox aigateway workspaces list --output json
 ```
 
-Or run `airs cli tenant create development` in a terminal for guided TSG ID,
-OAuth client ID and hidden secret entry. Use `tenant set NAME KEY` for supported
-edits; approved automation can supply secrets through stdin. Never paste secrets
-into chat or put them in command arguments.
+The first list reads the admin plane, and the second reads the data plane, which
+only shows workspaces your service account can see. If the workspace appears in the
+first but not the second, the service account lacks the role for that workspace's
+scope name. Add that role scope in Strata Cloud Manager under Access Management. With
+the Superuser role from step 1 you should not need to.
 
-Scanner credentials are `airsApiKey` or `airsApiToken`. Management uses
-`mgmtClientId`, `mgmtClientSecret` and `mgmtTsgId` with the tenant's token endpoint.
-Company SSO and MCP grants do not substitute for these product credentials.
-`airs env use` and `airs cli tenant switch` have independent selections. A trusted
-`PRISMA_AIRS_TENANTS_PATH` can isolate the CLI registry; the harness does not
-implicitly bind a CLI tenant to an environment.
+### 4. Add a provider integration
 
-## Skills and validation
+List the providers your tenant offers, then create an OpenAI integration. The
+provider credential is requested in a hidden prompt, so it stays out of your shell
+history:
 
-Ask inside the harness:
+```sh
+AIRS_DOCS_ORG_ID='1234567890'
+
+airs cli --tenant sandbox aigateway integrations providers
+
+airs cli --tenant sandbox aigateway integrations create \
+  --organisation-id "$AIRS_DOCS_ORG_ID" --ai-provider open-ai \
+  --name agent-models --slug agent-models
+
+airs cli --tenant sandbox aigateway integrations list --output json
+```
+
+`--key-file` and `--key-stdin` also supply the credential for automation. Avoid
+`--key`, which puts it in shell history. Record the integration UUID that the list
+returns, then bind only this workspace to it:
+
+```sh
+AIRS_DOCS_INTEGRATION_ID='22222222-2222-4222-8222-222222222222'
+
+airs cli --tenant sandbox aigateway integrations workspaces set \
+  "$AIRS_DOCS_INTEGRATION_ID" \
+  --workspace-binding "$AIRS_DOCS_WORKSPACE_ID=true" --preserve-existing
+
+airs cli --tenant sandbox aigateway integrations workspaces list \
+  "$AIRS_DOCS_INTEGRATION_ID" --output json
+```
+
+`--preserve-existing` matters. Without it, `workspaces set` replaces the
+integration's entire set of workspace bindings, and every workspace you did not name
+loses access. With it, the command changes only the workspace you name.
+
+Then see which models the integration exposes:
+
+```sh
+airs cli --tenant sandbox aigateway integrations models list \
+  "$AIRS_DOCS_INTEGRATION_ID" --output json
+```
+
+Choose one model slug. `integrations models set` states the complete set of enabled
+models, so name every model that should stay enabled, not just the one you are adding.
+
+### 5. Create the saved config
+
+The saved config is the route from a request to a model. It points a target at the
+integration by its slug, prefixed with `@`, and pins the model for that target:
+
+```sh
+airs cli --tenant sandbox aigateway configs create \
+  --name agent-default \
+  --workspace "$AIRS_DOCS_WORKSPACE_ID" \
+  --set-string 'config.targets[0].provider=@agent-models' \
+  --set-string 'config.targets[0].override_params.model=<model-slug>' \
+  --output json
+
+airs cli --tenant sandbox aigateway configs list \
+  --workspace "$AIRS_DOCS_WORKSPACE_ID" --output json
+```
+
+Record the config's slug, since users and identity tokens reference it. Provider
+model names and policy schemas depend on the deployed gateway, so confirm the config
+looks the way you expect in the list output before you continue.
+
+### 6. Hand the workspace to a user
+
+The user creates their own workspace API key and follows
+[Getting started](GETTING-STARTED.md). Give them the gateway inference URL, the name
+of the workspace, and the saved config that the key should carry. Do not send them
+your tenant credentials, and keep your provider credential out of the handoff.
+
+If you would rather create the key for them, `aigateway api-keys user create` takes
+`--workspace`, `--user-id`, `--name`, `--expires-at` and
+`--scopes completions.write`. Add `--secret-output <path>` to write the one-time
+secret to a new file that only you can read, instead of printing it. Attach the saved
+config to the key in the console, as Getting started describes.
+
+### 7. Check their traffic
+
+After the user's first request, look at it from the CLI. Relationship commands use the
+workspace UUID, but telemetry uses the slug:
+
+```sh
+airs cli --tenant sandbox aigateway telemetry requests \
+  --workspace "$AIRS_DOCS_WORKSPACE_SLUG" --days 1
+airs cli --tenant sandbox aigateway telemetry logs list \
+  --workspace "$AIRS_DOCS_WORKSPACE_SLUG" --page-size 50
+```
+
+Creating a resource does not establish a successful model request. The request in
+the logs, from the user's own key, is what tells you the whole chain works.
+
+## Add guardrails
+
+Guardrails exist at two levels, and the command tells you which. `aigateway
+guardrails` manages guardrails for one workspace. `aigateway admin-guardrails`
+manages organization-wide ones on the admin plane, and it has no workspace fallback.
+Start by listing what is available, because the checks you can enable come from the
+catalog and not from a fixed list:
+
+```sh
+airs cli --tenant sandbox aigateway guardrails catalog
+airs cli --tenant sandbox aigateway guardrails list \
+  --workspace "$AIRS_DOCS_WORKSPACE_ID"
+```
+
+A guardrail is a set of checks and the actions to take when they trigger. Take the
+check identifiers from the catalog output, and set each field explicitly:
+
+```sh
+airs cli --tenant sandbox aigateway guardrails create \
+  --name deny-risk \
+  --workspace "$AIRS_DOCS_WORKSPACE_ID" \
+  --set 'checks[0].id=<check-id-from-catalog>' \
+  --set actions.deny=true
+```
+
+Test a guardrail with input that should be blocked and input that should not, before
+users depend on it. A block shows up as HTTP 446, or as a blocking hook inside an
+HTTP 200, so read the policy result and not only the status.
+
+## Run a skill from the harness
+
+Once a tenant is selected, ask the harness to use a skill against it. Start with a
+read-only request:
 
 > Use $prisma-airs-cli to check the bundled version and selected tenant, then
 > diagnose missing settings without revealing credentials or modifying configuration.
 
-The embedded skills cover diagnosis, Runtime Security, Guardrail Generation,
-Red Teaming, AI Gateway, Model Security, DLP Testing and DLP Management. Agent
-shell tools invoke the absolute `AIRS_MANAGED_CLI` path, so login-shell PATH changes
-cannot select another product version. User-created skills are preserved.
-AgentGuard is available through CLI help but has no dedicated embedded skill yet.
+Skills require complete scan evidence before they treat an Allow summary as success.
+Guardrail writes and rollback can partially fail, so preserve your baseline policy
+and verify the actual state afterward.
 
-Doctor distinguishes pass/warn/fail/skip and performs network probes when
-credentials are present. It is not proof of every operation or permission.
-Skills require complete scan evidence before treating an Allow summary or
-aggregate evaluation metric as success. Guardrail writes and rollback can
-partially fail; preserve baseline policy and verify actual state. DLP corpus
-generation is not document scanning, and ZIP generation is unsupported. Model
-Security's separate Python scanner requires its own provisioning when requested.
+## If an old CLI owns the command
 
-The single-install bundle applies to npm distributions for Linux x64, Linux
-ARM64 and Apple Silicon. Bare native archives do not include Node or the managed
-CLI; use npm for `airs cli` and product skills. Windows launcher contracts remain
-tested separately; this release does not add a Windows native package.
+If a previously installed standalone product CLI already owns `airs`, upgrade it
+first, since it moves to `airs-cli`. Do not force npm to overwrite another package's
+command. Then check what your shell resolves:
 
-For future upgrades, pin the CLI and SDK exactly, review command/credential
-contracts, refresh affected embedded skills and the lockfile, rebuild native
-assets, and validate clean installs and upgrades on every released platform.
-Retain bundle hashes, signing evidence and published-package acceptance receipts.
+```sh
+type -a airs airs-cli airs-harness
+airs --migration-check
+```
 
-## Optional TypeSafe Jev setup inside AIRS
-
-Release **0.1.2** makes the bundled skill request per-command
-approval for live judging because native
-credential-store access and TypeSafe network access can be blocked by the shell
-sandbox. A successful `/typesafe` save or `/doctor` check does not grant those
-permissions to shell tools. Approve the specific judge command inside AIRS;
-dry-run and explicit replay do not require this live-access approval. An
-unreadable key from an unapproved shell attempt is not proof of missing setup.
-
-Use `/typesafe` in a running harness session to save or replace the API key in a
-hidden field, inspect its configuration, or remove the saved key. Setup is
-optional and belongs to the current harness environment. Keys never enter the
-conversation. The ASR skill's Node entrypoint retrieves that environment's key
-automatically and invokes the bundled TypeScript implementation. No Python or
-external setup command is required. Saving does not run a paid evaluation.
+`airs --migration-check` reports the entries on `PATH` and the packages that own them,
+without executing those commands or changing anything. Inspect shell aliases and
+functions separately, since it cannot see them. Open a fresh shell after any change.
+A standalone `airs-cli` and `airs cli` share the same tenant store, so switching the
+saved CLI tenant in one changes the other.

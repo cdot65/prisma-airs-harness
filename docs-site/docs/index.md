@@ -33,7 +33,7 @@ sign in.
 | Separate accounts, destinations and history | [Environments](guides/environments.md) |
 | Authorize ServiceNow and other remote tools | [Gateway MCP](guides/mcp.md) |
 | Resume work, select routes and configure the terminal | [Terminal workflow](guides/terminal.md) |
-| Run product administration commands | [Bundled CLI and skills](generated/bundled-cli.md) |
+| Provision a workspace with the bundled CLI (administrators) | [Provision a workspace](generated/bundled-cli.md) |
 | Score exported red-team results | [TypeSafe Jev judge](guides/judge.md) |
 | Look up a command or flag | [Command cheat sheet](operations/cheat-sheet.md) and [CLI reference](generated/reference/airs.md) |
 | Check that a deployment works end to end | [Acceptance validation](validation/acceptance.md) |

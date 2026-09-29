@@ -63,7 +63,7 @@ Set `tui.animations=false` for quiet operation; `NO_COLOR=1` removes accent colo
 
 Local skills live in `.agents/skills/<name>/SKILL.md` or the selected environment's
 skills directory. Invoke a skill with `$name`. The managed product CLI and embedded
-skills are described in [Bundled CLI and skills](../generated/bundled-cli.md).
+skills are described in [Provision a workspace with the bundled CLI](../generated/bundled-cli.md).
 
 ### Select a config and model
 

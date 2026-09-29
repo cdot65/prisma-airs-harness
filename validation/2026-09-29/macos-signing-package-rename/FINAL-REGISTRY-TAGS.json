@@ -1,0 +1,30 @@
+{
+  "https://npm.cdot.io/prisma-airs-harness": {
+    "mac-preview": "0.1.4-alpha.2.mcp.1",
+    "latest": "0.1.4-alpha.2.mcp.1"
+  },
+  "https://npm.cdot.io/airs-harness": {
+    "latest": "0.1.3",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.3-alpha.2.mcp.1",
+    "stable-candidate": "0.1.3",
+    "mac-preview": "0.1.4-alpha.1.mcp.1"
+  },
+  "https://npm.cdot.io/airs-harness-darwin-arm64": {
+    "latest": "0.1.3",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.3-alpha.2.mcp.1",
+    "stable-candidate": "0.1.3",
+    "mac-preview": "0.1.4-alpha.2.mcp.1"
+  },
+  "https://registry.npmjs.org/airs-harness": {
+    "stable-candidate": "0.1.3",
+    "latest": "0.1.3"
+  }
+}

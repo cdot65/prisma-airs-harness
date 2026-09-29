@@ -109,3 +109,8 @@ insufficient. Release notes distinguish fixtures from live-account acceptance.
 
 Derived from Codex; see [UPSTREAM.md](UPSTREAM.md), [LICENSE](LICENSE) and
 [NOTICE](NOTICE) for upstream provenance and licensing.
+
+The private registry currently exposes the sole `prisma-airs-harness` preview as
+`latest` too: Verdaccio reconstructs that tag when it is absent. Use the explicit
+`@mac-preview` selector. This is not stable promotion; `airs-harness@latest`
+remains 0.1.3 on both registries.

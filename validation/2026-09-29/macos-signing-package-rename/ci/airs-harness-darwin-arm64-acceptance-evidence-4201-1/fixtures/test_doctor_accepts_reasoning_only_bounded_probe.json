@@ -1,0 +1,16 @@
+{
+  "requests": [
+    {
+      "path": "/prefix/v1/responses",
+      "body": {
+        "input": "Reply only with OK. This is a Prisma AIRS Harness connectivity check.",
+        "max_output_tokens": 16,
+        "store": false,
+        "stream": false
+      },
+      "user_agent": "airs-harness/0.1.4-alpha.2.mcp.1"
+    }
+  ],
+  "phase_counts": {},
+  "transcript": ""
+}

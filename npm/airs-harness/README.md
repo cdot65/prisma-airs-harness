@@ -201,3 +201,8 @@ skills](PRISMA-AIRS-CLI.md) for setup, capabilities and limits, and the
 for the educational walkthrough.
 
 Full documentation: [Prisma AIRS Harness](https://cdot65.github.io/prisma-airs-harness/), including gateway deployment, Keycloak and Entra configuration, validation and command cheat sheets. The same release is also distributed through `https://npm.cdot.io`.
+
+The private registry currently exposes the sole `prisma-airs-harness` preview as
+`latest` too: Verdaccio reconstructs that tag when it is absent. Use the explicit
+`@mac-preview` selector. This is not stable promotion; `airs-harness@latest`
+remains 0.1.3 on both registries.

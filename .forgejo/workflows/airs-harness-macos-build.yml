@@ -80,6 +80,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v > "$RUNNER_TEMP/airs-preflight/bundle-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_airs_npm_registry.py -v > "$RUNNER_TEMP/airs-preflight/npm-registry-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_airs_macos_artifact.py -v > "$RUNNER_TEMP/airs-preflight/artifact-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_stage_airs_macos_preview.py -v > "$RUNNER_TEMP/airs-preflight/preview-stage-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_macos_workflow_split.py -v > "$RUNNER_TEMP/airs-preflight/workflow-contracts.log" 2>&1
           python3 - <<'CHECK'
           import json, os, subprocess
@@ -124,6 +125,13 @@ jobs:
       AIRS_CLI_OPT_LEVEL: "1"
       AIRS_RUNTIME_SOURCE: ${{ needs.preflight.outputs.runtime_source }}
     steps:
+      - name: Check preview tag and registry login before compilation
+        if: ${{ inputs.publish_tag != '' }}
+        env:
+          AIRS_PUBLISH_TAG: ${{ inputs.publish_tag }}
+        run: |
+          test "$AIRS_PUBLISH_TAG" = mac-preview || { echo "Only mac-preview publication is supported" >&2; exit 1; }
+          npm whoami --registry https://npm.cdot.io --userconfig "$HOME/.npmrc"
       - name: Require Apple Silicon before installing build tools
         run: |
           test "$(uname -m)" = arm64
@@ -437,7 +445,12 @@ jobs:
           test -f "$userconfig" || { echo "No npm login on this runner ($userconfig)" >&2; exit 1; }
           npm whoami --registry "$registry" --userconfig "$userconfig"
           latest_before="$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")"
-          tarballs="$RUNNER_TEMP/airs-npm/tarballs"
+          native_latest_before="$(npm view airs-harness-darwin-arm64 dist-tags.latest --registry "$registry" --userconfig "$userconfig")"
+          python3 scripts/stage_airs_macos_preview.py \
+            --packages "$RUNNER_TEMP/airs-npm" --evidence "$RUNNER_TEMP/airs-evidence" \
+            --output "$RUNNER_TEMP/airs-preview" --source-commit "$AIRS_RUNTIME_SOURCE" --tag "$AIRS_PUBLISH_TAG" \
+            > "$RUNNER_TEMP/airs-evidence/preview-staging.json"
+          tarballs="$RUNNER_TEMP/airs-preview/tarballs"
           # Native packages first so the launcher never resolves a missing platform package.
           for tgz in "$tarballs"/*.tgz; do
             case "$(basename "$tgz")" in airs-harness-[0-9]*) continue ;; esac
@@ -447,6 +460,7 @@ jobs:
             npm publish "$tgz" --tag "$AIRS_PUBLISH_TAG" --registry "$registry" --userconfig "$userconfig"
           done
           test "$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")" = "$latest_before"
+          test "$(npm view airs-harness-darwin-arm64 dist-tags.latest --registry "$registry" --userconfig "$userconfig")" = "$native_latest_before"
           echo "airs-harness@$AIRS_PUBLISH_TAG -> $(npm view "airs-harness@$AIRS_PUBLISH_TAG" version --registry "$registry" --userconfig "$userconfig")"
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         if: always()

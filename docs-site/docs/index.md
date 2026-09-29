@@ -63,8 +63,9 @@ access, policy and upstream MCP authorization.
 | What has to be deployed around the harness, and in what order? | [Deploy the gateway platform](platform/deployment.md) |
 
 Supported platforms are Linux x64, Linux ARM64 and Apple Silicon. There are no
-Windows or Intel Mac distributions. Current versions and what each release
-includes are on the [release channels](guides/releases.md) page.
+Windows or Intel Mac distributions. Channels and how to install or roll back
+are on the [release channels](guides/releases.md) page, and each release's
+contents and test results are in its release record.
 
 This is the harness product documentation. The separate
 [reference architecture curriculum](https://cdot65.github.io/prisma-airs-reference-architecture/)

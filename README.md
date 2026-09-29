@@ -6,7 +6,7 @@ skills, and calls remote MCP tools through the gateway.
 
 [Documentation](https://cdot65.github.io/prisma-airs-harness/) ·
 [Getting started](GETTING-STARTED.md) ·
-[Release 0.1.3](RELEASE-0.1.3.md) ·
+[Release notes](RELEASE-0.1.3.md) ·
 [Canonical source](https://git.cdot.io/cdot/prisma-airs-harness)
 
 ## Install
@@ -14,15 +14,17 @@ skills, and calls remote MCP tools through the gateway.
 Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 
 ```sh
-npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
+npm install -g airs-harness
 airs --version
 airs cli --version
 airs env create work
 airs
 ```
 
-The same version is distributed through `https://npm.cdot.io`. The npm package
-is `airs-harness`; the command is `airs`. CLI 7.2.0 and SDK 0.34.0 are bundled.
+The npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
+SDK are bundled, and `airs cli --version` shows the CLI version. If your
+organization distributes through its own registry, add
+`--registry=<registry URL>`.
 A separate product CLI installation is unnecessary. Windows and Intel Mac
 packages are not provided. Linux requires a usable Bubblewrap sandbox and an
 unlocked Secret Service session; macOS uses the user's Keychain.

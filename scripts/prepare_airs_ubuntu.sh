@@ -81,7 +81,7 @@ fi
 if [[ ! -x $prefix/bin/airs ]]; then fail 'The dedicated airs installation is missing.'
 else
     if "$prefix/bin/airs" --version; then pass 'Installed airs launches.'; else fail 'Installed airs failed to launch.'; fi
-    if node -e 'const p=require(process.argv[1]);process.exit(p.version===process.argv[2]?0:1)' "$prefix/lib/node_modules/prisma-airs-harness/package.json" "$version"; then
+    if node -e 'const p=require(process.argv[1]);process.exit(p.version===process.argv[2]?0:1)' "$prefix/lib/node_modules/@cdot65/prisma-airs-harness/package.json" "$version"; then
         pass "Installed package matches $version."
     else fail 'Installed package version does not match the requested version.'; fi
     if "$prefix/bin/airs" cli --version; then pass 'Bundled product CLI launches.'; else fail 'Bundled product CLI failed.'; fi
@@ -105,7 +105,7 @@ else
     fi
 fi
 if curl --proto '=https' --tlsv1.2 -fsS --connect-timeout 10 --max-time 30 \
-    "$registry/prisma-airs-harness/$version" -o "$work/package.json" && \
+    "$registry/@cdot65%2fprisma-airs-harness/$version" -o "$work/package.json" && \
     jq -e --arg version "$version" '.version == $version' "$work/package.json" >/dev/null; then
     pass 'The exact npm package is reachable over verified HTTPS.'
 else fail 'Registry TLS/connectivity or package availability failed.'; fi

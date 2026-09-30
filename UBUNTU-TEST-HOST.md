@@ -6,15 +6,19 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
-The 0.1.4 npm package includes this guide and helper. It retains the fixes for the
-competing-keyring-daemon problem in the mcp.4 helper, verifies the default
-collection's lock state, and prints the actual script path for later unlocks.
-On a machine with npm, download the published package:
+The helper retains the fixes for the competing-keyring-daemon problem in the
+mcp.4 helper, verifies the default collection's lock state, and prints the actual
+script path for later unlocks. Download the release's copy from the repository:
 
 ```bash
-npm pack @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
-tar -xOf cdot65-prisma-airs-harness-0.1.4.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.4.sh
+curl --proto '=https' --tlsv1.2 -fsSLo prepare-airs-ubuntu-0.1.4.sh \
+  https://raw.githubusercontent.com/cdot65/prisma-airs-harness/airs-harness-v0.1.4/scripts/prepare_airs_ubuntu.sh
 ```
+
+Do not use the copy inside the `@cdot65/prisma-airs-harness@0.1.4` npm package:
+its installed-version and registry checks still name the unscoped launcher path,
+so it reports `NOT READY` against a correct installation. The repository copy at
+the release tag is the verified helper.
 
 The helper ships with a sanitized gateway endpoint. **Configure that endpoint
 before running it**: replace `gateway.your-company.com` below with your actual

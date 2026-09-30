@@ -1,0 +1,20 @@
+{
+  "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+  "alpha_reference": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "previous_alpha": "0.1.4-alpha.2.mcp.1",
+  "runtime_unchanged_except_version": false,
+  "runtime_changes_since_alpha": [
+    {
+      "pull_request": 60,
+      "merge_commit": "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40"
+    },
+    {
+      "pull_request": 56,
+      "merge_commit": "c9b18e59cf4586abc57c2b0a02ac5797518263b3",
+      "note": "already contained in the alpha.2 preview source through its stacked base"
+    }
+  ],
+  "runtime_diff_summary": " 25 files changed, 1186 insertions(+), 5 deletions(-)",
+  "runtime_diff_paths": 25,
+  "upstream_revision": "rust-v0.154.0"
+}

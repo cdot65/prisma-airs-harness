@@ -1,0 +1,106 @@
+{
+  "version": "0.1.4",
+  "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+  "workspace": {
+    "scope": "full-workspace",
+    "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+    "tests_run": 19016,
+    "passed": 19011,
+    "failed": 5,
+    "skipped": 35,
+    "failures": [
+      "codex-cli::bin/codex airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle",
+      "codex-cli::bin/codex airs_help::tests::standalone_login_help_describes_hidden_input",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "run": 4226,
+    "summary": "Summary [2041.401s] 19016 tests run: 19011 passed (5 slow), 5 failed, 35 skipped",
+    "log_sha256": "78883911a9ef55f011990b2c07c6ad3a1da7e605d265e78273f16763af52ab20",
+    "artifact_sha256": "bd4c84d9439a45d3c705dcd759d1cacca3277c7c0158bf8f7f3d69417c0da0a9",
+    "focused_run": 4245,
+    "focused_source": "8aaa691379f2cba1e50b6b2565fdce8133e09c67",
+    "focused_summary": "Summary [  34.337s] 1044 tests run: 1044 passed, 0 skipped",
+    "baseline_review": {
+      "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+      "upstream_revision": "rust-v0.154.0",
+      "upstream_implementations_unchanged": true,
+      "unresolved_release_blockers": [],
+      "cases": {
+        "codex-cli::bin/codex airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "evidence_sha256": "7d6485c2713b6124b87466851615721340bcc21ece3ed049d1ab677e1acb833c",
+          "evidence_file": "baseline-evidence/01.json",
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": false
+        },
+        "codex-cli::bin/codex airs_help::tests::standalone_login_help_describes_hidden_input": {
+          "disposition": "corrected-test-fixture",
+          "evidence_verified": true,
+          "evidence_sha256": "50ce1d337ec1405d6108aeb662a7ff457e3283b9092f126dd47f2277cd8ee63a",
+          "evidence_file": "baseline-evidence/02.json",
+          "focused_check_passed": true,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": false
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "bc3ba8bf447fc2b0e9d614b488916de8e59f64080303d4aa152f0ae3aba5ca9d",
+          "evidence_file": "baseline-evidence/03.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "44108b1c8266a4db0aa86172227335bfcdb7674b3ac7a559823e9d1e368dec8d",
+          "evidence_file": "baseline-evidence/04.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "f98c12473127544364bb86fb4366208320d7ef3abb6c2329ef048b2f60797d13",
+          "evidence_file": "baseline-evidence/05.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        }
+      }
+    }
+  },
+  "release_authorization": {
+    "version": "0.1.4",
+    "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+    "explicit_stable_publication": true,
+    "attended_acceptance_claimed": false,
+    "runtime_unchanged_from_requested_alpha": false,
+    "previous_alpha": "0.1.4-alpha.2.mcp.1",
+    "reviewed_changes": [
+      {
+        "pull_request": 56,
+        "merge_commit": "c9b18e59cf4586abc57c2b0a02ac5797518263b3",
+        "accepted_as": "0.1.4-alpha.1.mcp.1 mac-preview: installed native, Keychain and managed CLI acceptance (Forgejo run 416); owner test-build acceptance recorded 2026-09-30"
+      },
+      {
+        "pull_request": 59,
+        "merge_commit": "05423d46578ad2d96e7f9cc52955cd88b59a6fde",
+        "accepted_as": "0.1.4-alpha.2.mcp.1 mac-preview: Developer ID signed and notarized, 61 native and 43 installed tests, cross-release Keychain continuity (Forgejo run 424); owner test-build acceptance recorded 2026-09-30"
+      },
+      {
+        "pull_request": 60,
+        "merge_commit": "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40",
+        "accepted_as": "Fresh-conversation Prisma AIRS mark: owner-tested local build 2026-09-29/30; 6 unit tests, full codex-tui suite, pty smoke checks"
+      }
+    ],
+    "evidence_sha256": "f7f69ba615ba459df1116cb0dae360aa40dd647712f8fc25b8670910eeb06c83",
+    "runtime_review_sha256": "6acb9724cca16acd884540fd90b223bb9a71054a33a483c710d4bf4780db409b"
+  }
+}

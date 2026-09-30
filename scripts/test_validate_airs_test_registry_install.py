@@ -243,7 +243,7 @@ class InstalledBytes(unittest.TestCase):
             "tag": "mcp",
             "registry": "https://npm.example.test",
         }
-        row = {"name": "airs-harness", "integrity": "sha512-synthetic"}
+        row = {"name": "@cdot65/prisma-airs-harness", "integrity": "sha512-synthetic"}
         published = {
             "name": row["name"],
             "version": spec["version"],

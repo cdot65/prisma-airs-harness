@@ -21,7 +21,10 @@ from airs_release_receipts import (
     write_stage,
 )
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
+    launcher_migration,
+    previous_launcher,
     release_targets,
     canonical_digest,
     digest_file,
@@ -70,8 +73,11 @@ def result_for(name, spec, target):
     elif name == "upgrade":
         result.update(
             previous=spec["previous_version"],
+            previous_package=previous_launcher(spec),
             previous_registry=spec["registry"],
             version=spec["version"],
+            package=LAUNCHER,
+            launcher_migration=launcher_migration(spec),
             configuration_preserved=True,
             legacy_target_preserved=True,
         )
@@ -292,9 +298,9 @@ class AcceptanceEvidenceTests(unittest.TestCase):
         from validate_airs_npm_upgrade import archive_manifest
 
         record = load_json(self.packages / "NPM-PACKAGES.json")["publish_order"][-1]
-        self.assertFalse((self.packages / "airs-harness").exists())
+        self.assertFalse((self.packages / LAUNCHER).exists())
         manifest, archive = archive_manifest(self.packages, record)
-        self.assertEqual("airs-harness", manifest["name"])
+        self.assertEqual(LAUNCHER, manifest["name"])
         self.assertEqual(self.spec["version"], manifest["version"])
         with self.assertRaisesRegex(ValueError, "integrity mismatch"):
             archive_manifest(self.packages, {**record, "sha256": "f" * 64})
@@ -489,7 +495,7 @@ class StructuredExecutionTests(unittest.TestCase):
             spec = validate_spec(sample_spec())
             target = next(iter(TARGETS))
             prefix = root / "prefix"
-            launcher = prefix / "lib/node_modules/airs-harness"
+            launcher = prefix / "lib/node_modules" / LAUNCHER
             native_package = prefix / "lib/node_modules" / TARGETS[target]
             (native_package / "bin").mkdir(parents=True)
             native = native_package / "bin/airs-harness"
@@ -503,7 +509,7 @@ class StructuredExecutionTests(unittest.TestCase):
             atomic_json(
                 launcher / "package.json",
                 {
-                    "name": "airs-harness",
+                    "name": LAUNCHER,
                     "version": spec["version"],
                     "optionalDependencies": {
                         name: spec["version"] for name in TARGETS.values()

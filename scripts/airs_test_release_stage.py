@@ -10,6 +10,8 @@ from airs_release_acceptance import verify_acceptance_set
 from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import (
+    LAUNCHER,
+    archive_filename,
     STABLE_SCOPE,
     TARGETS,
     package_order,
@@ -70,7 +72,7 @@ def _candidate_records(spec, root):
     for row in records:
         require(row.get("version") == spec["version"], "Candidate version mismatch")
         require(
-            row.get("filename") == f"{row['name']}-{spec['version']}.tgz",
+            row.get("filename") == archive_filename(row["name"], spec["version"]),
             "Unexpected archive filename",
         )
     return metadata, records
@@ -85,7 +87,7 @@ def _package_identity(spec, row, inventory):
         "Package manifest identity mismatch",
     )
     require(manifest.get("private") is True, "Expected a private unvalidated candidate")
-    if row["name"] == "airs-harness":
+    if row["name"] == LAUNCHER:
         require(
             manifest.get("optionalDependencies")
             == {name: spec["version"] for name in package_order(spec)[:-1]},
@@ -211,7 +213,7 @@ def _replacements(spec, row, inventory, acceptance):
     manifest = dict(inventory["json"][MANIFEST])
     manifest.pop("private")
     changes = {MANIFEST: _bytes(manifest)}
-    if row["name"] == "airs-harness":
+    if row["name"] == LAUNCHER:
         return changes
     info = dict(inventory["json"][BUILD])
     platform = next(p for p in acceptance["platforms"] if p["target"] == info["target"])

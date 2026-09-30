@@ -13,7 +13,9 @@ from unittest.mock import patch
 import airs_test_release_archive as archive
 import airs_test_release_stage as stage
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
+    archive_filename,
     release_targets,
     canonical_digest,
     digest_file,
@@ -61,7 +63,7 @@ def candidates(root, spec):
     records = []
     for target, name in [
         *((t, TARGETS[t]) for t in release_targets(spec)),
-        (None, "airs-harness"),
+        (None, LAUNCHER),
     ]:
         manifest = {"name": name, "version": spec["version"], "private": True}
         members = []
@@ -104,7 +106,7 @@ def candidates(root, spec):
                 manifest.update(os=["darwin"], cpu=["arm64"])
             members.append(("package/bin/launcher.js", b"trusted launcher", 0o755))
         members.append((stage.MANIFEST, encoded(manifest), 0o644))
-        filename = f"{name}-{spec['version']}.tgz"
+        filename = archive_filename(name, spec["version"])
         write_tar(root / "tarballs" / filename, members)
         inspected = archive.inspect_archive(root / "tarballs" / filename)
         records.append(

@@ -8,7 +8,7 @@ files, runs your project tools, includes the bundled product CLI, and reaches
 remote tools through Prisma AIRS AI Gateway.
 
 ```sh
-npm install -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs env create work
 airs
 ```

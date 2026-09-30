@@ -24,7 +24,7 @@ How releases are organized: [Releases and installation channels](../guides/relea
 
 ```sh
 node --version
-npm install -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs --version
 airs cli --version
 type -a airs airs-cli airs-harness
@@ -241,10 +241,11 @@ one environment can affect another.
 
 ```sh
 # Update to the latest stable release.
-npm install -g airs-harness@latest
+npm install -g @cdot65/prisma-airs-harness@latest
 
-# Roll back by naming the earlier version.
-npm install -g airs-harness@<previous-version>
+# Roll back by naming the earlier version. Releases before 0.1.4 used the
+# package name airs-harness; uninstall the current package first when crossing it.
+npm install -g @cdot65/prisma-airs-harness@<previous-version>
 ```
 
 Use the same registry the earlier version was published to; see

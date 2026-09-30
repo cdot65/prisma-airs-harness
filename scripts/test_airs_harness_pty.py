@@ -26,7 +26,11 @@ if BINARY.suffix == ".js":
             "node",
             "-e",
             "const r=require('module').createRequire(process.argv[1]);"
-            "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));",
+            "const m=require(require('path').join(require('path').dirname(process.argv[1]),'..','package.json'));"
+            "const legacy='airs-harness-'+process.platform+'-'+process.arch;"
+            "const deps=m.optionalDependencies||{};"
+            "const name=[legacy,'@cdot65/prisma-'+legacy].find(n=>Object.hasOwn(deps,n))||legacy;"
+            "console.log(r.resolve(name+'/package.json'));",
             str(BINARY),
         ],
         text=True,

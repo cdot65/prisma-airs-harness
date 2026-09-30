@@ -36,6 +36,12 @@
     "title": "Ubuntu preparation"
   },
   {
+    "source": "RELEASE-0.1.4.md",
+    "id": "stable-014",
+    "slug": "/releases/stable-0-1-4",
+    "title": "Stable 0.1.4"
+  },
+  {
     "source": "RELEASE-0.1.3.md",
     "id": "stable-013",
     "slug": "/releases/stable-0-1-3",

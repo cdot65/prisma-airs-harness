@@ -11,7 +11,7 @@ skills, and calls remote MCP tools through the gateway.
 
 [Documentation](https://cdot65.github.io/prisma-airs-harness/) ·
 [Getting started](GETTING-STARTED.md) ·
-[Release notes](RELEASE-0.1.4.md) ·
+[Release notes](RELEASE-0.1.5.md) ·
 [Canonical source](https://git.cdot.io/cdot/prisma-airs-harness)
 
 ## Install

@@ -14,7 +14,7 @@ case "$mode" in install|--check|--unlock) ;; *) echo 'Usage: bash prepare_airs_u
 # shellcheck source=/dev/null
 source /etc/os-release
 [[ ${ID:-} == ubuntu && $(uname -m) == x86_64 ]] || { echo 'This preparation script targets Ubuntu x86_64.' >&2; exit 2; }
-version=${AIRS_TEST_VERSION:-0.1.4}
+version=${AIRS_TEST_VERSION:-0.1.5}
 [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]] || { echo 'Use an exact published version, not an npm tag.' >&2; exit 2; }
 registry=https://registry.npmjs.org
 # The launcher package; every installed path and registry URL below derives from it.

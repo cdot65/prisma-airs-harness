@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+  "version": "0.1.5",
+  "target": "x86_64-unknown-linux-musl",
+  "binary_sha256": "4a58f3eb9f8dbf7873b6bf20c444fc7c64b1dd50dc2c07d3491ae131f6c2e988",
+  "command": [
+    "airs",
+    "exec-server",
+    "--listen",
+    "ws://127.0.0.1:0"
+  ],
+  "exit_code": 1,
+  "message": "this upstream service command is not enabled in the AIRS protocol prototype",
+  "isolated_profile": true,
+  "test_credentials_used": false,
+  "scope": "Installed AIRS rejects the upstream remote execution service before starting a listener"
+}

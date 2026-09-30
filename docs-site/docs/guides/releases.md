@@ -34,9 +34,9 @@ There is no Windows or Intel Mac release. Node requires `^22.13.0 || >=23.5.0`.
 
 **What a release record covers.** Each release has a record with its exact runtime
 and tooling provenance, platform results and known fixture limitations. Read the
-[current release record](../generated/stable-014.md) for what the stable release
+[current release record](../generated/stable-015.md) for what the stable release
 includes and how it was tested. The
-[previous stable records](../generated/stable-013.md) and [0.1.2](../generated/stable.md),
+[previous stable records](../generated/stable-014.md), [0.1.3](../generated/stable-013.md) and [0.1.2](../generated/stable.md),
 [Apple Silicon preview record](../generated/preview.md) and
 [terminal preview record](../generated/terminal-preview.md) remain available as
 historical evidence.

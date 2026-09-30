@@ -48,7 +48,12 @@ def run(arguments, environment, log):
 
 def installed_launcher(prefix, names):
     """Exactly one of the launcher package names must be installed in the prefix."""
-    present = [name for name in names if (prefix / "lib/node_modules" / name).is_dir()]
+    # A same-name upgrade names the launcher twice; count each name once.
+    present = [
+        name
+        for name in dict.fromkeys(names)
+        if (prefix / "lib/node_modules" / name).is_dir()
+    ]
     require(len(present) == 1, "Expected exactly one installed launcher package")
     return present[0]
 
@@ -299,12 +304,17 @@ def main():
             env = install_environment(destination, registry, True)
             env["AIRS_HARNESS_HOME"] = str(state)
             # npm refuses to let a differently named package take over the same
-            # commands without --force, so a renamed launcher is replaced by name.
-            uninstalled = destination == prefix and uninstall(
-                destination,
-                previous_package,
-                registry,
-                args.output / (case + "-uninstall.log"),
+            # commands without --force, so a renamed launcher is replaced by name;
+            # a same-name upgrade must install over the previous version in place.
+            uninstalled = (
+                migration
+                and destination == prefix
+                and uninstall(
+                    destination,
+                    previous_package,
+                    registry,
+                    args.output / (case + "-uninstall.log"),
+                )
             )
             assert uninstalled == (migration and destination == prefix)
             run(

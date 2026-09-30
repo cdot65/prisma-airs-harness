@@ -113,6 +113,11 @@ WORKSPACE_BASELINE_014 = {
     "codex-cli::bin/codex airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle": "corrected-test-fixture",
     "codex-cli::bin/codex airs_help::tests::standalone_login_help_describes_hidden_input": "corrected-test-fixture",
 }
+# Release 0.1.5 stamps merged main after 0.1.4: the runtime is the 0.1.4 source
+# plus its version stamp, and the corrected `codex` help snapshots are merged, so
+# only the disabled upstream service cases remain eligible failures.
+WORKSPACE_SOURCE_015 = "312fe9c5fda63332c148670327db2620b4d6e82f"
+WORKSPACE_BASELINE_015 = dict(WORKSPACE_BASELINE_012)
 # Owner-authorized stable publications. A release whose runtime equals the last
 # preview plus its version stamp records that; one that merges reviewed changes
 # after the preview must list every merge so the diff from the accepted preview
@@ -133,6 +138,13 @@ RELEASE_AUTHORIZATIONS = {
             59: "05423d46578ad2d96e7f9cc52955cd88b59a6fde",
             60: "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40",
         },
+    },
+    # 0.1.5 has no preview: its reference runtime is the published stable 0.1.4.
+    "0.1.5": {
+        "source_commit": WORKSPACE_SOURCE_015,
+        "previous_alpha": "0.1.4",
+        "runtime_unchanged_from_requested_alpha": True,
+        "reviewed_changes": None,
     },
 }
 
@@ -159,6 +171,8 @@ def validate_workspace(spec, workspace):
         baseline = WORKSPACE_BASELINE_013
     elif spec["version"] == "0.1.4" and spec["source_commit"] == WORKSPACE_SOURCE_014:
         baseline = WORKSPACE_BASELINE_014
+    elif spec["version"] == "0.1.5" and spec["source_commit"] == WORKSPACE_SOURCE_015:
+        baseline = WORKSPACE_BASELINE_015
     failures = workspace.get("failures", [])
     review = workspace.get("baseline_review", {})
     require(

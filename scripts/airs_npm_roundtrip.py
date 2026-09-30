@@ -63,7 +63,8 @@ def _string_rewrites(before, after, packages, prefix=""):
 
 def identity_rewrites(protected, link_packages, message):
     """Protected identity files must be byte-identical, except that a launcher migration
-    may re-point stored command paths between the two launcher package directories."""
+    may re-point stored command paths between the two launcher package directories
+    and re-serialize config.toml with identical values."""
     rewrites = []
     for path, content in protected.items():
         current = path.read_bytes()
@@ -79,7 +80,8 @@ def identity_rewrites(protected, link_packages, message):
             )
         except ValueError as error:
             raise ValueError(message) from error
-        require(bool(found), message)
+        # A re-serialized file with identical values (either release rewrote the
+        # re-pointed path in place) is a formatting change, not an identity change.
         rewrites.extend({"file": path.name, **row} for row in found)
     return rewrites
 

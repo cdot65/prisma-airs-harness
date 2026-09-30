@@ -1,7 +1,7 @@
 {
   "name": "prisma-airs-harness",
   "private": true,
-  "version": "0.1.4-alpha.2.mcp.1",
+  "version": "0.1.4",
   "description": "Prisma AIRS Harness: a local coding agent using your Prisma AIRS AI Gateway.",
   "license": "Apache-2.0",
   "type": "module",

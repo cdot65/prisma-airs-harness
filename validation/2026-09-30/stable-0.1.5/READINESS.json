@@ -1,0 +1,70 @@
+{
+  "version": "0.1.5",
+  "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+  "workspace": {
+    "scope": "full-workspace",
+    "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+    "tests_run": 19016,
+    "passed": 19013,
+    "failed": 3,
+    "skipped": 35,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "run": 4281,
+    "summary": "Summary [2081.322s] 19016 tests run: 19013 passed (5 slow), 3 failed, 35 skipped",
+    "log_sha256": "5a4ee4f975685ad65796b7e30d7906c1d3fdcbac3578a996ed397ce8efdf0538",
+    "artifact_sha256": "8558e7fc33d0da54bb159480be7f9e3f3ad1261d2f333c91ed1a1d7b6a817cb0",
+    "focused_run": null,
+    "focused_source": null,
+    "focused_summary": null,
+    "baseline_review": {
+      "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+      "upstream_revision": "rust-v0.154.0",
+      "upstream_implementations_unchanged": true,
+      "unresolved_release_blockers": [],
+      "cases": {
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "2c8dee37840267409c5877a33f1f6faa938ab5bda0152544fa500c54ff17c461",
+          "evidence_file": "baseline-evidence/01.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "d02318738e81fb7b9a982a7011e45bbbbce2963c8ba2b9a949afee7ae7134d87",
+          "evidence_file": "baseline-evidence/02.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "disposition": "disabled-upstream-service",
+          "evidence_verified": true,
+          "evidence_sha256": "d9254cbdfca7554783d15edd5650eca20f965555945a170368cf7fe70c9076c7",
+          "evidence_file": "baseline-evidence/03.json",
+          "focused_check_passed": false,
+          "runtime_source_unchanged": true,
+          "installed_command_rejected": true
+        }
+      }
+    }
+  },
+  "release_authorization": {
+    "version": "0.1.5",
+    "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+    "explicit_stable_publication": true,
+    "attended_acceptance_claimed": false,
+    "runtime_unchanged_from_requested_alpha": true,
+    "previous_alpha": "0.1.4",
+    "reviewed_changes": null,
+    "evidence_sha256": "99b415ff0de5840802e106141b293e3588c63dfc79509ea30bbfef9028fbc2d4",
+    "runtime_review_sha256": "e13aafba88a9560bdb69a8629dcb7ce9e52dbe5640cdfda017cf4430898dffdd"
+  }
+}

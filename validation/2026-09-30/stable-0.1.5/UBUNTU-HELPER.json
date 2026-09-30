@@ -1,0 +1,12 @@
+{
+  "version": "0.1.5",
+  "helper_source": "packaged launcher scripts/prepare_airs_ubuntu.sh (public default installation)",
+  "packaged_helper_sha256": "8e71a7a761f119b089e30bdab2e974e9764219e56b428e5a63c06b2b589eb18c",
+  "configured_helper_sha256": "ec45b152189f01d7aed6237cb6d1decfb279df68aceb34e05fb01983ae0afc5e",
+  "configuration_change": "Sanitized example endpoint replaced with the deployed gateway URL",
+  "exit_code": 0,
+  "passed": true,
+  "checks_passed": 6,
+  "elapsed_seconds": 19.9,
+  "isolated_home": true
+}

@@ -65,6 +65,7 @@ impl App {
         screen_size: Size,
     ) -> Result<Rect> {
         let motion = MotionMode::from_animations_enabled(self.local_settings.tui.animations);
+        let composer = self.first_screen_composer();
         let latest_navigation = if self.enter_returns_to_latest() {
             "enter/esc latest"
         } else {
@@ -112,6 +113,7 @@ impl App {
         let mut rendered_cursor = None;
         let mut footer_height_changed = false;
         let mut feedback_tick = None;
+        let mut mark_tick = None;
         tui.draw(screen_size.height, |frame| {
             ratatui::widgets::Clear.render(
                 Rect::new(/*x*/ 0, /*y*/ 0, screen_size.width, available),
@@ -138,6 +140,19 @@ impl App {
                 });
             feedback_tick =
                 view.render_composer_gap(follow_area, composer_tip.as_ref(), frame.buffer);
+            // The mark only uses rows the transcript left empty, so it never moves content.
+            mark_tick = chat_widget
+                .empty_state_animation
+                .borrow_mut()
+                .render_first_screen(
+                    Rect {
+                        width: screen_size.width,
+                        ..view.remaining_area()
+                    },
+                    frame.buffer,
+                    composer,
+                    motion,
+                );
             // Rendering resolves whether new activity is still hidden. Paint that result in
             // this frame so a revision change cannot flash a stale activity hint.
             let mut footer =
@@ -172,6 +187,9 @@ impl App {
             tui.frame_requester().schedule_frame();
         }
         if let Some(delay) = feedback_tick {
+            tui.frame_requester().schedule_frame_in(delay);
+        }
+        if let Some(delay) = mark_tick {
             tui.frame_requester().schedule_frame_in(delay);
         }
 
@@ -209,6 +227,10 @@ impl App {
             return Ok(false);
         }
         if matches!(event, TuiEvent::FocusLost) {
+            self.chat_widget
+                .empty_state_animation
+                .borrow_mut()
+                .cancel_replay();
             // Show the static, faded decoration immediately when the terminal loses focus.
             tui.frame_requester().schedule_frame();
         }
@@ -231,6 +253,17 @@ impl App {
             if mouse.kind != crossterm::event::MouseEventKind::Moved {
                 let size = tui.prepare_draw_size()?;
                 self.render_owned_transcript(tui, size)?;
+            }
+            // A click on the resting mark replays its spin; the frame above recorded its stage.
+            if self.chat_widget.no_modal_or_popup_active()
+                && self
+                    .chat_widget
+                    .empty_state_animation
+                    .borrow_mut()
+                    .handle_mouse(*mouse)
+            {
+                tui.frame_requester().schedule_frame();
+                return Ok(true);
             }
             if composer_ready
                 && self.handle_composer_copy_event(tui, event, tui::Tui::copy_transcript_selection)

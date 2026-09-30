@@ -218,6 +218,9 @@ impl ChatWidget {
             active_side_conversation: false,
             blocks_direct_input: false,
             external_writer_view: false,
+            empty_state_animation: std::cell::RefCell::new(
+                crate::empty_state_animation::EmptyStateAnimation::default(),
+            ),
             misalignment_policy_violation: None,
             normal_placeholder_text: placeholder,
             side_placeholder_text: side_placeholder,

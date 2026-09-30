@@ -9,7 +9,24 @@ skills, and calls remote MCP tools through the gateway.
 [Release notes](RELEASE-0.1.3.md) ·
 [Canonical source](https://git.cdot.io/cdot/prisma-airs-harness)
 
-## Install
+## Apple Silicon preview
+
+The renamed npm package is `prisma-airs-harness`. Version `0.1.4-alpha.2.mcp.1`
+restores Developer ID signing and notarization while preserving the existing
+macOS signing identity. The command remains `airs`.
+
+```sh
+# Only when migrating an existing airs-harness npm installation:
+npm uninstall -g airs-harness
+npm install -g prisma-airs-harness@mac-preview --registry=https://npm.cdot.io
+airs --version
+```
+
+The uninstall removes the old npm command links, preserving AIRS environments,
+credentials and history. See [package migration](npm/airs-harness/README.md).
+This preview is Apple Silicon only. The existing public stable package follows.
+
+## Install the existing stable release
 
 Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 
@@ -20,7 +37,7 @@ airs cli --version
 airs
 ```
 
-The npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
+The stable npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
 SDK are bundled, and `airs cli --version` shows the CLI version. If your
 organization distributes through its own registry, add
 `--registry=<registry URL>`.
@@ -97,3 +114,8 @@ insufficient. Release notes distinguish fixtures from live-account acceptance.
 
 Derived from Codex; see [UPSTREAM.md](UPSTREAM.md), [LICENSE](LICENSE) and
 [NOTICE](NOTICE) for upstream provenance and licensing.
+
+The private registry currently exposes the sole `prisma-airs-harness` preview as
+`latest` too: Verdaccio reconstructs that tag when it is absent. Use the explicit
+`@mac-preview` selector. This is not stable promotion; `airs-harness@latest`
+remains 0.1.3 on both registries.

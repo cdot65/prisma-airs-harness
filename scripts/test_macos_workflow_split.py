@@ -9,6 +9,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class MacWorkflowBoundary(unittest.TestCase):
+    def test_forgejo_preview_checks_auth_early_and_publishes_staged_packages(self):
+        text = (ROOT / ".forgejo/workflows/airs-harness-macos-build.yml").read_text()
+        build = text.split("\n  build:\n", 1)[1].split("\n  acceptance:\n", 1)[0]
+        self.assertLess(
+            build.index("npm whoami"), build.index("name: Build native agent")
+        )
+        publish = text.split("name: Publish the accepted Mac candidate", 1)[1]
+        self.assertLess(
+            publish.index("stage_airs_macos_preview.py"), publish.index("npm publish")
+        )
+        self.assertIn('tarballs="$RUNNER_TEMP/airs-preview/tarballs"', publish)
+        self.assertNotIn('tarballs="$RUNNER_TEMP/airs-npm/tarballs"', publish)
+        self.assertIn('--evidence "$RUNNER_TEMP/airs-evidence"', publish)
+        self.assertIn('= "$native_latest_before"', publish)
+
     def test_acceptance_cannot_compile_or_promote_and_pipelines_fail_closed(self):
         for name in ["release", "revalidate"]:
             text = (

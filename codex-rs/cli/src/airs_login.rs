@@ -66,6 +66,85 @@ pub(super) fn existing_binding(home: &Path) -> anyhow::Result<Option<Binding>> {
     }
 }
 
+/// How an environment currently authenticates. Carries no secret values.
+#[derive(Debug, PartialEq, Eq)]
+pub(super) enum Method {
+    WorkspaceKey { storage: String },
+    Company { issuer: String, user: String },
+}
+
+impl Method {
+    pub(super) fn describe(&self) -> String {
+        match self {
+            Self::WorkspaceKey { storage } => format!("a workspace API key ({storage})"),
+            Self::Company { issuer, user } => format!("company SSO as {user} via {issuer}"),
+        }
+    }
+}
+
+/// Detect an established sign-in so login can offer to update it instead of failing.
+/// Signed-out environments return None; their next login is an ordinary sign-in.
+pub(super) fn current_method(home: &Path) -> anyhow::Result<Option<Method>> {
+    let Some(binding) = existing_binding(home)? else {
+        return Ok(None);
+    };
+    if home.join("logged-out").try_exists()? {
+        return Ok(None);
+    }
+    Ok(binding.source.map(|source| match source {
+        Source::Oidc { identity } => Method::Company {
+            issuer: identity.config.issuer,
+            user: identity.display_name.unwrap_or(identity.subject),
+        },
+        Source::Keyring | Source::KeyringV2 => Method::WorkspaceKey {
+            storage: "OS credential store".into(),
+        },
+        Source::File { path } => Method::WorkspaceKey {
+            storage: format!("file {}", path.display()),
+        },
+        Source::Environment { variable } => Method::WorkspaceKey {
+            storage: format!("environment variable {variable}"),
+        },
+    }))
+}
+
+pub(super) const REPLACEMENT_NOTICE: &str = "Open AIRS sessions in this environment stop and must be restarted (airs resume). Saved conversations stay here and continue with the new credential. The previous key or sign-in is removed from this device; revoke old workspace keys in AIRS. MCP servers set up with company sign-in must be signed in again as the new user: repeat airs setup-mcp with the same options.";
+
+/// Guided authentication change for an existing environment (airs env auth).
+pub(super) async fn update(root: &Path, requested: Option<&str>) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        std::io::stdin().is_terminal() && std::io::stderr().is_terminal(),
+        "Guided authentication changes require an interactive terminal. Automation: airs --environment NAME login --replace with --with-api-key, --credential-file, --credential-env or --issuer-url; see airs env auth --help"
+    );
+    if codex_tui::AirsOnboarding::supported() {
+        super::airs_welcome::run(root, requested, super::airs_welcome::Entry::UpdateAuth, &[])
+            .await?;
+        return Ok(());
+    }
+    airs_environment::select(root, requested)?;
+    let home = codex_core::config::find_codex_home()?;
+    let environment = airs_environment::name_for_home(root, home.as_path())?;
+    interactive(
+        home.as_path(),
+        airs_oidc::LoginFlow::Browser,
+        environment.as_deref(),
+    )
+    .await
+}
+
+/// Automation performs the same connectivity test as guided replacement.
+pub(super) async fn verify_replacement(
+    home: &Path,
+    environment: Option<&str>,
+) -> anyhow::Result<()> {
+    eprintln!("{}", super::airs_access::DISCLOSURE);
+    let access = super::airs_access::verify(home).await;
+    let report = access.after_login(environment);
+    anyhow::ensure!(access.outcome.is_ok(), "{report}");
+    eprintln!("{report}");
+    Ok(())
+}
+
 /// Classify missing sign-in without probing, replacing or suppressing store errors.
 pub(super) fn needs_login(
     home: &Path,
@@ -195,8 +274,8 @@ fn company_settings(
     input: &mut impl BufRead,
     output: &mut impl Write,
 ) -> anyhow::Result<IdentityConfig> {
-    // An established binding owns the identity/history boundary. Only damaged
-    // public connection settings may be replaced through this recovery prompt.
+    // An established binding supplies the defaults; changing them is an explicit
+    // replacement. Only damaged public settings trigger this recovery prompt.
     let bound_config = existing_binding(home)?.and_then(|binding| match binding.source {
         Some(Source::Oidc { identity }) => Some(identity.config),
         _ => None,
@@ -264,9 +343,17 @@ pub(super) async fn interactive(
     let command = airs_environment::command(environment);
     // Check configuration before collecting input, without probing secret storage.
     airs_environment::gateway(home)?;
+    let current = current_method(home)?;
     let choice = {
         let mut input = std::io::stdin().lock();
         let mut output = std::io::stderr().lock();
+        if let Some(current) = &current {
+            writeln!(
+                output,
+                "This environment signs in with {}.\nChoosing a different key or identity replaces it. {REPLACEMENT_NOTICE}\n",
+                current.describe()
+            )?;
+        }
         let menu = match preferred_flow {
             airs_oidc::LoginFlow::Browser | airs_oidc::LoginFlow::BrowserManual => SIGN_IN_MENU,
             airs_oidc::LoginFlow::Device => DEVICE_SIGN_IN_MENU,
@@ -274,6 +361,8 @@ pub(super) async fn interactive(
         prompt(&mut input, &mut output, menu)
             .with_context(|| format!("Resume sign-in with: {command} login"))?
     };
+    // Choosing a method while one is established is the explicit replacement consent.
+    let replace = current.is_some();
     let result = match choice.as_str() {
         "1" => {
             let config = company_settings(
@@ -286,12 +375,23 @@ pub(super) async fn interactive(
                 issuer_url: Some(config.issuer),
                 oidc_client_id: Some(config.client_id),
                 audience: Some(config.audience),
+                replace,
                 ..Default::default()
             };
             remember_settings(home, &args)?;
             airs_oidc::login(home, &args, preferred_flow).await
         }
-        "2" => airs_credentials::login(home, &LoginArgs::default(), /*stdin_key*/ true),
+        "2" => {
+            airs_credentials::login(
+                home,
+                &LoginArgs {
+                    replace,
+                    ..Default::default()
+                },
+                /*stdin_key*/ true,
+            )
+            .await
+        }
         _ => Err(anyhow::anyhow!(
             "Sign-in cancelled; choose 1 or 2 next time"
         )),

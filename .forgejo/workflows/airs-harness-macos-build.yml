@@ -15,10 +15,15 @@ on:
         required: false
         default: ""
       private_candidate:
-        description: Must remain true until the separately approved signing release
+        description: Build private candidates; publication requires signed acceptance
         type: boolean
         required: true
         default: true
+      publish_tag:
+        description: Optional npm.cdot.io dist-tag for the accepted Mac candidate (e.g. mac-preview); empty publishes nothing
+        type: string
+        required: false
+        default: ""
       preflight_only:
         description: Run cheap contracts only; do not compile or claim native acceptance
         type: boolean
@@ -64,7 +69,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/airs-preflight"
           if [ "$AIRS_PRIVATE_CANDIDATE" != true ]; then
-            echo 'Only private candidates are supported until the separately approved signing release.'
+            echo 'Candidates must remain private until signed acceptance passes.'
             exit 1
           fi
           git -C runtime rev-parse HEAD | sed 's/^/sha=/' >> "$GITHUB_OUTPUT"
@@ -75,6 +80,8 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_airs_bundle*.py' -v > "$RUNNER_TEMP/airs-preflight/bundle-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_airs_npm_registry.py -v > "$RUNNER_TEMP/airs-preflight/npm-registry-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_airs_macos_artifact.py -v > "$RUNNER_TEMP/airs-preflight/artifact-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_airs_signed_macos_artifact.py -v > "$RUNNER_TEMP/airs-preflight/signing-tests.log" 2>&1
+          python3 -m unittest discover -s scripts -p test_stage_airs_macos_preview.py -v > "$RUNNER_TEMP/airs-preflight/preview-stage-tests.log" 2>&1
           python3 -m unittest discover -s scripts -p test_macos_workflow_split.py -v > "$RUNNER_TEMP/airs-preflight/workflow-contracts.log" 2>&1
           python3 - <<'CHECK'
           import json, os, subprocess
@@ -109,6 +116,7 @@ jobs:
       CARGO_BUILD_JOBS: 2
       CARGO_INCREMENTAL: 0
       RUSTC_WRAPPER: sccache
+      SCCACHE_CACHE_SIZE: 10G
       SCCACHE_GHA_ENABLED: "false"
       SCCACHE_GHA_VERSION: airs-harness-rust-v1
       CARGO_PROFILE_RELEASE_DEBUG: 0
@@ -118,11 +126,28 @@ jobs:
       AIRS_CLI_OPT_LEVEL: "1"
       AIRS_RUNTIME_SOURCE: ${{ needs.preflight.outputs.runtime_source }}
     steps:
+      - name: Check preview tag and registry login before compilation
+        if: ${{ inputs.publish_tag != '' }}
+        env:
+          AIRS_PUBLISH_TAG: ${{ inputs.publish_tag }}
+        run: |
+          test "$AIRS_PUBLISH_TAG" = mac-preview || { echo "Only mac-preview publication is supported" >&2; exit 1; }
+          npm whoami --registry https://npm.cdot.io --userconfig "$HOME/.npmrc"
+          security find-identity -v -p codesigning "$HOME/Library/Keychains/login.keychain-db" | grep -F '9E9F6E0D92526D725FABC1BBDC2F1757049F1805'
       - name: Require Apple Silicon before installing build tools
         run: |
           test "$(uname -m)" = arm64
-          # Refuse a fresh Rust build before consuming the owner's remaining disk.
-          python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 100 * 1024**3, "At least 100 GiB free is required for Mac Rust compilation/cache"'
+          # A release build peaks near 30 GiB (target, cache archive, sources, sccache).
+          # Refuse below 40 GiB so the owner's Mac keeps headroom; warn below 60.
+          python3 - <<'DISK'
+          import shutil
+          free = shutil.disk_usage(".").free / 1024**3
+          print(f"{free:.1f} GiB free on the runner volume")
+          if free < 40:
+              raise SystemExit(f"Only {free:.1f} GiB free; Mac Rust compilation needs at least 40 GiB. Run scripts/airs_mac_runner_cleanup.sh on the runner.")
+          if free < 60:
+              print(f"::warning::Only {free:.1f} GiB free on the Mac runner; run scripts/airs_mac_runner_cleanup.sh soon")
+          DISK
           test "$RUNNER_ARCH" = ARM64
           mkdir -p "$RUNNER_TEMP/airs-evidence"
       - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -163,10 +188,12 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git/db
             runtime/codex-rs/target
-          key: airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ needs.preflight.outputs.runtime_source }}
+          # One entry per dependency set, not per commit: Cargo rebuilds only changed
+          # crates, and the runner cache no longer grows by a full target per build.
+          key: airs-macos-v3-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-${{ hashFiles('runtime/codex-rs/Cargo.lock', 'runtime/codex-rs/rust-toolchain.toml') }}
           restore-keys: |
+            airs-macos-v3-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
             airs-macos-v2-${{ runner.arch }}-${{ steps.cache_identity.outputs.cache_key }}-
-            airs-macos-v1-${{ runner.arch }}-
       - name: Native build prerequisites and runner identity
         run: |
           brew install cmake pkgconf
@@ -281,7 +308,7 @@ jobs:
   acceptance:
     needs: build
     runs-on: airs-macos-arm64
-    timeout-minutes: 45
+    timeout-minutes: 90
     env:
       AIRS_RELEASE_TARGET: aarch64-apple-darwin
       AIRS_RELEASE_SUFFIX: darwin-arm64
@@ -349,7 +376,9 @@ jobs:
           codesign -dvv "$RUNNER_TEMP/compiled/airs-harness" 2> "$RUNNER_TEMP/airs-evidence/signing.log"
           otool -L "$RUNNER_TEMP/compiled/airs-harness" | tee "$RUNNER_TEMP/airs-evidence/libraries.log"
           brew install ripgrep
-      - name: Exercise Keychain through the preserved native CLI
+      - name: Sign with the existing Developer ID identity and notarize before acceptance
+        run: python3 scripts/sign_airs_macos_preview.py --binary "$RUNNER_TEMP/compiled/airs-harness" --evidence "$RUNNER_TEMP/airs-evidence"
+      - name: Exercise Keychain through the signed native CLI
         run: python3 scripts/validate_airs_macos_keychain.py --binary "$RUNNER_TEMP/compiled/airs-harness" --receipt "$RUNNER_TEMP/airs-evidence/native-cli-keychain.json"
       - name: Native execution, sandbox and Keychain acceptance
         run: |
@@ -371,13 +400,13 @@ jobs:
           AIRS_BUILD_COMMAND: ${{ steps.restore.outputs.build_command }}
           AIRS_BUILD_PROFILE: ${{ steps.restore.outputs.profile }}
         run: |
-          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --unvalidated-candidate --build-command "$AIRS_BUILD_COMMAND" --profile "$AIRS_BUILD_PROFILE" --binary-processing 'strip -S; codesign --force --sign -' --output-directory "$RUNNER_TEMP/airs-package"
+          python3 scripts/package_airs_harness.py --source-directory runtime --binary "$RUNNER_TEMP/compiled/airs-harness" --metadata "$RUNNER_TEMP/airs-metadata.json" --target "$AIRS_RELEASE_TARGET" --unvalidated-candidate --build-command "$AIRS_BUILD_COMMAND" --profile "$AIRS_BUILD_PROFILE" --signing-receipt "$RUNNER_TEMP/airs-evidence/SIGNING.json" --binary-processing none --output-directory "$RUNNER_TEMP/airs-package"
           AIRS_PACKAGE_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('npm/airs-harness/package.json')).version")"
           tar -xzf "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX.tar.gz" -C "$RUNNER_TEMP/airs-package"
           python3 scripts/verify_airs_release.py --directory "$RUNNER_TEMP/airs-package" --receipt "$RUNNER_TEMP/airs-evidence/native-integrity.json"
           python3 scripts/package_airs_npm.py --release-directory "$RUNNER_TEMP/airs-package/airs-harness-$AIRS_PACKAGE_VERSION-$AIRS_RELEASE_SUFFIX" --output-directory "$RUNNER_TEMP/airs-npm" --registry https://npm.cdot.io
           python3 scripts/validate_airs_npm.py --packages "$RUNNER_TEMP/airs-npm" --prefix "$RUNNER_TEMP/AIRS Candidate Install" > "$RUNNER_TEMP/airs-evidence/npm-install.json"
-          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/AIRS Candidate Install/lib/node_modules/airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
+          python3 scripts/validate_prisma_cli.py --launcher "$RUNNER_TEMP/AIRS Candidate Install/lib/node_modules/prisma-airs-harness/bin/airs-harness.js" --receipt "$RUNNER_TEMP/airs-evidence/prisma-cli.json"
           AIRS_MANAGED_CLI_ACCEPTANCE=1 AIRS_HARNESS_BIN="$RUNNER_TEMP/AIRS Candidate Install/bin/airs-harness" python3 -m unittest discover -s scripts -p test_airs_harness.py -v > "$RUNNER_TEMP/airs-evidence/npm-tests.log" 2>&1
       - name: Exercise Keychain through the exact installed npm candidate
         run: |
@@ -405,6 +434,38 @@ jobs:
             ${{ runner.temp }}/airs-npm/tarballs/*.tgz
             ${{ runner.temp }}/airs-npm/NPM-PACKAGES.json
           retention-days: 30
+      - name: Publish the accepted Mac candidate to npm.cdot.io under an explicit tag
+        if: ${{ inputs.publish_tag != '' }}
+        env:
+          AIRS_PUBLISH_TAG: ${{ inputs.publish_tag }}
+        run: |
+          # Uses the runner account's existing npm.cdot.io login; no credential enters this repository.
+          case "$AIRS_PUBLISH_TAG" in
+            latest|stable-candidate|alpha|onboarding|migration|gateway-validation) echo "Refusing protected tag $AIRS_PUBLISH_TAG" >&2; exit 1 ;;
+          esac
+          printf '%s' "$AIRS_PUBLISH_TAG" | grep -Eq '^[a-z][a-z0-9-]{1,31}$'
+          registry=https://npm.cdot.io
+          userconfig="$HOME/.npmrc"
+          test -f "$userconfig" || { echo "No npm login on this runner ($userconfig)" >&2; exit 1; }
+          npm whoami --registry "$registry" --userconfig "$userconfig"
+          latest_before="$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")"
+          native_latest_before="$(npm view airs-harness-darwin-arm64 dist-tags.latest --registry "$registry" --userconfig "$userconfig")"
+          python3 scripts/stage_airs_macos_preview.py \
+            --packages "$RUNNER_TEMP/airs-npm" --evidence "$RUNNER_TEMP/airs-evidence" \
+            --output "$RUNNER_TEMP/airs-preview" --source-commit "$AIRS_RUNTIME_SOURCE" --tag "$AIRS_PUBLISH_TAG" \
+            > "$RUNNER_TEMP/airs-evidence/preview-staging.json"
+          tarballs="$RUNNER_TEMP/airs-preview/tarballs"
+          # Native packages first so the launcher never resolves a missing platform package.
+          for tgz in "$tarballs"/*.tgz; do
+            case "$(basename "$tgz")" in prisma-airs-harness-[0-9]*) continue ;; esac
+            npm publish "$tgz" --tag "$AIRS_PUBLISH_TAG" --registry "$registry" --userconfig "$userconfig"
+          done
+          for tgz in "$tarballs"/prisma-airs-harness-[0-9]*.tgz; do
+            npm publish "$tgz" --tag "$AIRS_PUBLISH_TAG" --registry "$registry" --userconfig "$userconfig"
+          done
+          test "$(npm view airs-harness dist-tags.latest --registry "$registry" --userconfig "$userconfig")" = "$latest_before"
+          test "$(npm view airs-harness-darwin-arm64 dist-tags.latest --registry "$registry" --userconfig "$userconfig")" = "$native_latest_before"
+          echo "prisma-airs-harness@$AIRS_PUBLISH_TAG -> $(npm view "prisma-airs-harness@$AIRS_PUBLISH_TAG" version --registry "$registry" --userconfig "$userconfig")"
       - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
         if: always()
         with:

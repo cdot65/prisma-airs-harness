@@ -87,3 +87,65 @@ fn selected_environment_cancellation_has_snapshot_coverage() {
     Sign-in cancelled. Existing environments are preserved; resume with airs login.
     ");
 }
+
+#[test]
+fn update_menu_requires_replacement_consent_except_for_same_identity_sign_in() {
+    let labels = |method| -> Vec<(String, Update)> {
+        update_items(&method)
+            .into_iter()
+            .map(|(item, update)| (item.label, update))
+            .collect()
+    };
+    assert_eq!(
+        labels(airs_login::Method::WorkspaceKey {
+            storage: "OS credential store".into()
+        }),
+        vec![
+            (
+                "Replace the workspace API key".into(),
+                Update::SignIn {
+                    action: WORKSPACE_KEY,
+                    replace: true
+                }
+            ),
+            (
+                "Switch to company SSO".into(),
+                Update::SignIn {
+                    action: COMPANY,
+                    replace: true
+                }
+            ),
+            ("Test the current credential".into(), Update::Test),
+        ]
+    );
+    assert_eq!(
+        labels(airs_login::Method::Company {
+            issuer: "https://identity.example".into(),
+            user: "fixture-user".into()
+        }),
+        vec![
+            (
+                "Sign in again".into(),
+                Update::SignIn {
+                    action: COMPANY,
+                    replace: false
+                }
+            ),
+            (
+                "Change company SSO user or settings".into(),
+                Update::SignIn {
+                    action: COMPANY,
+                    replace: true
+                }
+            ),
+            (
+                "Switch to a workspace API key".into(),
+                Update::SignIn {
+                    action: WORKSPACE_KEY,
+                    replace: true
+                }
+            ),
+            ("Test the current credential".into(), Update::Test),
+        ]
+    );
+}

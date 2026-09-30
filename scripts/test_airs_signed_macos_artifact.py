@@ -11,7 +11,7 @@ import zipfile
 import airs_signed_macos_artifact as signed
 
 
-DETAILS = "CodeDirectory v=20500 flags=0x10000(runtime)\nAuthority=Developer ID Application: Example (G5QLZ5A8TA)\nTeamIdentifier=G5QLZ5A8TA\nTimestamp=Sep 9, 2026\n"
+DETAILS = "Identifier=airs-harness\nCodeDirectory v=20500 flags=0x10000(runtime)\nAuthority=Developer ID Application: Example (G5QLZ5A8TA)\nTeamIdentifier=G5QLZ5A8TA\nTimestamp=Sep 9, 2026\n"
 
 
 class SignedIntakeTests(unittest.TestCase):
@@ -108,6 +108,9 @@ class SignedIntakeTests(unittest.TestCase):
         signed.check_details(DETAILS)
         for details in [
             DETAILS.replace("G5QLZ5A8TA", "OTHERTTEAM"),
+            DETAILS.replace(
+                "Identifier=airs-harness", "Identifier=airs-harness-build-id"
+            ),
             DETAILS.replace("0x10000(runtime)", "0x0(none)"),
             DETAILS.replace(
                 "Authority=Developer ID Application: Example (G5QLZ5A8TA)",
@@ -155,6 +158,8 @@ class SignedIntakeTests(unittest.TestCase):
                     output = (
                         "arm64\n"
                         if Path(command[0]).name == "lipo"
+                        else "designated => " + signed.DESIGNATED_REQUIREMENT + "\n"
+                        if "-r-" in command
                         else DETAILS
                         if "-d" in command
                         else ""

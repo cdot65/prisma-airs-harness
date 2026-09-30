@@ -1,0 +1,8 @@
+{
+  "build_cache": "skipped",
+  "dependency_source_cache": "skipped",
+  "primary_key": "airs-macos-v3-ARM64-aade5864d02e0851e8f13fff7536d18fea1c6d1bb402c895f362f73a79de4f3b-d56fc627968ce072a76e1449ef0b1f687c69238e1a43778c1816dc800197ec24",
+  "matched_key": "airs-macos-v3-arm64-aade5864d02e0851e8f13fff7536d18fea1c6d1bb402c895f362f73a79de4f3b-d56fc627968ce072a76e1449ef0b1f687c69238e1a43778c1816dc800197ec24",
+  "legacy_fallback": false,
+  "cache_hit_is_build_proof": false
+}

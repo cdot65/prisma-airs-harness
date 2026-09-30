@@ -1,0 +1,66 @@
+{
+  "published": false,
+  "source_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "package_tooling": {
+    "packaging_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+    "native_source_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+    "files": {
+      "scripts/package_airs_npm.py": "a9a2952def7ccf03267f65e6af3bc2e9bcafd024ba362a29b08d1766884744cc",
+      "npm/airs-harness/package.json": "ff8cfc5bf85933e6a7595b89b0b2eb85bdfac4037bf92b6f3e97c1e034e77b2c",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/completion.js": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "npm/airs-harness/lib/launcher.js": "1122419c074a29b1ca4b9105149db2635c3d3b6f3ec5314008d4782545207d90",
+      "npm/airs-harness/lib/migration-check.js": "fd7c75e1aab9ad95e303ec311f0b2e345c7fc04fa700a354e0cfa17b6bea2ef5",
+      "npm/airs-harness/lib/native.js": "fdf5f5c7a637890a33e62fbdc2aa2c78b362c9f63e77c83393b654be71d971a0",
+      "npm/airs-harness/lib/prisma-cli.js": "c9803da6dcdfa3dda15c629f5cf759777a15ed36b1b40a9ee4dd61de06be8128",
+      "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "npm/airs-harness/bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "npm/airs-harness/bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs-cli.cmd": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    }
+  },
+  "packaging_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "7.2.0"
+  },
+  "registry": "https://npm.cdot.io",
+  "publish_order": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.4-alpha.1.mcp.1",
+      "filename": "airs-harness-darwin-arm64-0.1.4-alpha.1.mcp.1.tgz",
+      "integrity": "sha512-gL0w74sc0OLDvpFS2d/SAdN+cb7U+fN5PsBgX3tJ9rgzBAp6s85bGTNPlUfb0WBRFNRM4aV59Xvj5nkP1t9D2w==",
+      "sha256": "2eaa4c4f306d4871f969d1297cf191b7393413989998c296edd6809b24e37689",
+      "candidate_sha256": "7e9c0eb9105e4fd5ad9c0108c4642f6ce1fd7c2dcb951c5ed3ee10acb0bf1fb2"
+    },
+    {
+      "name": "airs-harness",
+      "version": "0.1.4-alpha.1.mcp.1",
+      "filename": "airs-harness-0.1.4-alpha.1.mcp.1.tgz",
+      "integrity": "sha512-YjebqwZrpogJEIlFpG0692ZNRj9prX46TE8fTZgM5NMdqzpmCMV47c9vM7rAFYmbu8NNVa0Sf+iQIp0mJiEXUw==",
+      "sha256": "2851582e0f09b3d6563213cc33df0a80db5d7972fa2ec9bf6dac3afd3e282993",
+      "candidate_sha256": "7d1566f9b74b7b53adcd2c1eb263945e46d98abfcd4342cfa631b3baef4795a5"
+    }
+  ],
+  "release_status": "accepted-mac-preview",
+  "publishable": true,
+  "tag": "mac-preview",
+  "release_ready": false,
+  "notarized": false,
+  "acceptance_evidence_sha256": {
+    "artifact-selection.json": "351a78201bbdf3b959fce18396d7bd3203f93532c644b0296c040f3ca0b82304",
+    "VALIDATION.json": "f42aa58348f894d80398049646f5f03ac550eae82c89777d29f5bd97041c549d",
+    "native-integrity.json": "6ce81b200267536af4a0cd863d9ea9cf0e1669e01a8a297a5c5d1815460ace0e",
+    "native-cli-keychain.json": "32c6f1883da1b1864b014cb9bb66d8dca24ad809781921e16c3e1a62bcb9b1f8",
+    "cli-keychain.json": "32c6f1883da1b1864b014cb9bb66d8dca24ad809781921e16c3e1a62bcb9b1f8",
+    "keychain.json": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed",
+    "npm-install.json": "5e8033a65655791fd8003038f9513dee17e2344632090385eea2f86b3b135211",
+    "prisma-cli.json": "7ef7d76d7e970e299fe9534023a1b3eba96e701e40e52450160abf5590fef91b",
+    "native-tests.log": "3a4bc299e5b2e74b817ba2f65d36eeda4db04425b69f4a53ba4df674dbf9895d",
+    "npm-tests.log": "ca75224ea047d8eb069dcea3e45ea0e93cae02d432657a0d1cc1f3f7b491c8a8"
+  },
+  "staging_script_sha256": "40afd2a1f97331231b48e36e0916a0333f76c31a56d6da395d039a486bda1471",
+  "candidate_metadata_sha256": "1470c77fae99498b1c7c9097214a8bf7d576878de17ef142e88c34093cddbc3d"
+}

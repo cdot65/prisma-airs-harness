@@ -1,0 +1,14 @@
+{
+  "repo": "https://git.cdot.io/cdot/prisma-airs-harness",
+  "source_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "tooling_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "previous_passed_source": "eaf20a463b73e489cb932475085ef4a0189a4b13",
+  "diff": [
+    ".forgejo/workflows/airs-harness-macos-build.yml"
+  ],
+  "version": "0.1.4-alpha.1.mcp.1",
+  "registry": "https://npm.cdot.io",
+  "tag": "mac-preview",
+  "latest": "0.1.3",
+  "run": 4192
+}

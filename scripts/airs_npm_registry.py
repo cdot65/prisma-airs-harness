@@ -88,7 +88,11 @@ def registry_handler(metadata, archives, requests, unexpected, redirects, bundle
                 return
             if path not in metadata:
                 if bundled or path.startswith(
-                    ("/airs-harness", "/@cdot65/prisma-airs-harness")
+                    (
+                        "/airs-harness",
+                        "/prisma-airs-harness",
+                        "/@cdot65/prisma-airs-harness",
+                    )
                 ):
                     unexpected.append(path)
                     self.send_error(404)

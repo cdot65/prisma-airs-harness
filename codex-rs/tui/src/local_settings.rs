@@ -62,11 +62,15 @@ impl From<&Config> for LocalSettings {
             history: config.history.clone(),
             notices: config.notices.clone(),
             codex_home: config.codex_home.clone(),
-            user_config_path: config
-                .config_layer_stack
-                .get_user_config_file()
-                .cloned()
-                .unwrap_or_else(|| config.codex_home.join("config.toml")),
+            // The harness keeps interface preferences in one file shared by every
+            // environment; each environment's config.toml holds its gateway binding.
+            user_config_path: codex_utils_home_dir::airs_settings_path().unwrap_or_else(|| {
+                config
+                    .config_layer_stack
+                    .get_user_config_file()
+                    .cloned()
+                    .unwrap_or_else(|| config.codex_home.join("config.toml"))
+            }),
         }
     }
 }

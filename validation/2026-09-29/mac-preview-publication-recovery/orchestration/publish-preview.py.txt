@@ -1,0 +1,36 @@
+import json,sys
+from pathlib import Path
+root=Path(__file__).parent
+sys.path.insert(0,str(root/'scripts'))
+from airs_test_release_publish import Registry
+from airs_test_release_spec import digest_file
+staged=root/'staged-final'
+metadata=json.loads((staged/'NPM-PACKAGES.json').read_text())
+assert metadata['source_commit']=='11f676685f34289036b2885bea714439c0cd03b1'
+assert metadata['registry']=='https://npm.cdot.io' and metadata['tag']=='mac-preview'
+assert metadata['publishable'] and not metadata['release_ready'] and not metadata['notarized']
+records=metadata['publish_order']
+assert [x['name'] for x in records]==['airs-harness-darwin-arm64','airs-harness']
+baseline=json.loads((root/'REGISTRY-BEFORE.json').read_text())
+out=root/'publication';out.mkdir(exist_ok=True)
+registry=Registry('https://npm.cdot.io',Path.home()/'.npmrc',out)
+completed=[]
+for row in records:
+ assert row['version']=='0.1.4-alpha.1.mcp.1'
+ archive=staged/'tarballs'/row['filename']
+ assert digest_file(archive)==row['sha256']
+ before=registry.metadata(row['name'])
+ assert before['dist-tags']['latest']=='0.1.3'
+ assert {k:v for k,v in before['dist-tags'].items() if k!='mac-preview'}=={k:v for k,v in baseline[row['name']].items() if k!='mac-preview'}
+ existing=before['versions'].get(row['version'])
+ if existing:
+  assert existing['dist']['integrity']==row['integrity'] and before['dist-tags']['mac-preview']==row['version']
+ else:
+  registry.publish(archive,'mac-preview')
+ after=registry.metadata(row['name'])
+ assert after['versions'][row['version']]['dist']['integrity']==row['integrity']
+ assert after['dist-tags']['mac-preview']==row['version']
+ assert {k:v for k,v in after['dist-tags'].items() if k!='mac-preview'}=={k:v for k,v in baseline[row['name']].items() if k!='mac-preview'}
+ completed.append(dict(row,dist_tags=after['dist-tags']))
+ (out/'PUBLICATION.json').write_text(json.dumps({'published':len(completed)==2,'registry':'https://npm.cdot.io','tag':'mac-preview','source_commit':metadata['source_commit'],'packages':completed},indent=2)+'\n')
+ print('Published '+row['name']+'@'+row['version']+'; all other tags preserved',flush=True)

@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "ref": "fix/macos-signing-package-name",
+    "inputs": {
+      "source_ref": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+      "tooling_ref": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+      "private_candidate": "true",
+      "preflight_only": "false",
+      "publish_tag": "mac-preview"
+    }
+  },
+  "result": {
+    "status": 204
+  }
+}

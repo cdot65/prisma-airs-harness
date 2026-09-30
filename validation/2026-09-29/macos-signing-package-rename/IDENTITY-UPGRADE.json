@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "disposable credential; no owner credentials",
+  "identities": {
+    "previous": {
+      "version": "airs 0.1.3",
+      "binary_sha256": "3197bfb8678bf0cdfbe50dd67dfd851ecdd623349e6f89cf5ae9553fed4b4040",
+      "designated_requirement": "identifier \"airs-harness\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G5QLZ5A8TA"
+    },
+    "candidate": {
+      "version": "airs 0.1.4-alpha.2.mcp.1",
+      "binary_sha256": "ca192dc951a4753e06b2d947877ee7ee09b40cbd694ad15f3fa7b0282cf7b98d",
+      "designated_requirement": "identifier \"airs-harness\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G5QLZ5A8TA"
+    }
+  },
+  "same_designated_requirement": true,
+  "previous_write_candidate_read": true,
+  "rollback_read": true
+}

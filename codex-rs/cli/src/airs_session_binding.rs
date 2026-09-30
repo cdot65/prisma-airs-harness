@@ -58,7 +58,7 @@ pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
         let previous: Revision = serde_json::from_slice(&std::fs::read(path)?)?;
         anyhow::ensure!(
             previous == revision || previous == legacy,
-            "session environment revision changed (gateway, credential, capabilities or MCP bindings); create a new environment to keep existing history bound to its original configuration"
+            "session environment revision changed (gateway, credential, capabilities or MCP bindings). If only the credential changed, run airs env auth; otherwise create a new environment to keep existing history bound to its original configuration"
         );
         if previous != revision {
             // Normalize first. Either saved executable location remains valid
@@ -72,4 +72,22 @@ pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
         airs_environment::atomic_write(&path, &serde_json::to_vec_pretty(&revision)?)?;
     }
     Ok(())
+}
+
+/// A confirmed credential replacement keeps this environment's history and re-pins
+/// only its credential identity. Gateway, capability and MCP pins are unchanged.
+pub(super) fn rebind_credential(home: &Path, credential_identity: &str) -> anyhow::Result<()> {
+    let path = home.join("session-binding.json");
+    let bytes = match std::fs::read(&path) {
+        Ok(bytes) => bytes,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(error) => return Err(error).context("Cannot read the session binding"),
+    };
+    let mut revision: Revision = serde_json::from_slice(&bytes)
+        .map_err(|_| anyhow::anyhow!("Invalid session binding; credentials were not replaced"))?;
+    if revision.credential_identity == credential_identity {
+        return Ok(());
+    }
+    revision.credential_identity = credential_identity.to_owned();
+    airs_environment::atomic_write(&path, &serde_json::to_vec_pretty(&revision)?)
 }

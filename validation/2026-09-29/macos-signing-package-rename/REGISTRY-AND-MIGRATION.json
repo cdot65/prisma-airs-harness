@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "version": "0.1.4-alpha.2.mcp.1",
+  "package": "prisma-airs-harness",
+  "anonymous_fresh_install": true,
+  "registry_archives_match_accepted_packages": true,
+  "installed_files_match_archives": true,
+  "signing_verified": true,
+  "npm_rename_migration": true,
+  "fixture_state_preserved": true,
+  "native_binary": "/Users/cdot/.cache/airs-signing-20260929/fresh-prefix/lib/node_modules/prisma-airs-harness/node_modules/airs-harness-darwin-arm64/bin/airs-harness",
+  "old_stable_unchanged": true
+}

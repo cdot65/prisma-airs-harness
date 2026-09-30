@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "private_candidate": true,
+  "published": false,
+  "release_ready": false,
+  "runtime_source": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "build_tooling_source": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "compilation_run": "4201",
+  "compilation_attempt": "1",
+  "binary_sha256": "ef6505c7e337a7a808863744c9eda1436940eec03c4d59fc866890661592812c",
+  "fixture_sha256": "483975f819b1eda7f9dc6b6caf98ff4142948dd7c372ec06ad8a68680a16a58d",
+  "cli_opt_level": "1",
+  "signing": {
+    "ad_hoc": true,
+    "developer_id": false,
+    "notarized": false
+  },
+  "archive_sha256": "754e8206be9f1081c7f8e4f4aefe1e630b563d70796e5e1e4fe86b30ec033cac",
+  "profile": "release; codex-cli opt-level=1; other packages use release settings; lto=false; codegen-units=16; debug=0",
+  "build_command": "cargo --config profile.release.package.codex-cli.opt-level=1 build --locked --release -p codex-cli --bin airs-harness --timings",
+  "artifact_name": "airs-harness-darwin-arm64-unvalidated-executables-4201-1"
+}

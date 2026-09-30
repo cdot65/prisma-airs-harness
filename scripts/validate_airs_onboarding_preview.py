@@ -28,6 +28,8 @@ from pathlib import Path
 
 import pyte
 
+from airs_harness_pty import pin_inline_interface
+
 
 class AlternateScreen(pyte.Screen):
     """Add the DEC 1049 buffer switch used by crossterm to pyte's VT model."""
@@ -96,6 +98,7 @@ class Preview:
         )
         if environment is None:
             env.pop("NO_COLOR", None)
+        pin_inline_interface(env)
         # Acquire the controlling terminal after Python starts in a new session.
         # preexec_fn can deadlock when this driver shares a process with the
         # threaded HTTPS identity fixture.

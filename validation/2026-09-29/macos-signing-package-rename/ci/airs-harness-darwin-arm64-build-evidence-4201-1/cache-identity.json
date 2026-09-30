@@ -1,0 +1,37 @@
+{
+  "cache_key": "aade5864d02e0851e8f13fff7536d18fea1c6d1bb402c895f362f73a79de4f3b",
+  "inputs": {
+    "schema_version": 1,
+    "compiler": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2",
+    "sccache": "sccache 0.16.0",
+    "environment": {
+      "RUNNER_OS": "macOS",
+      "RUNNER_ARCH": "ARM64",
+      "ImageOS": "airsmacos-arm64",
+      "ImageVersion": "",
+      "AIRS_RELEASE_TARGET": "aarch64-apple-darwin",
+      "AIRS_CLI_OPT_LEVEL": "1",
+      "CARGO_INCREMENTAL": "0",
+      "CARGO_BUILD_TARGET": "",
+      "RUSTFLAGS": "",
+      "CARGO_ENCODED_RUSTFLAGS": "",
+      "CARGO_PROFILE_RELEASE_DEBUG": "0",
+      "CARGO_PROFILE_RELEASE_LTO": "false",
+      "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": "16",
+      "CARGO_PROFILE_DEV_DEBUG": "",
+      "CARGO_PROFILE_TEST_DEBUG": "",
+      "MACOSX_DEPLOYMENT_TARGET": "",
+      "SDKROOT": "",
+      "DEVELOPER_DIR": ""
+    },
+    "files": {
+      "Cargo.lock": "ea9f5a6661a3948fa8e76dea679895e9bf57ea8a98df579e16b73e5c65cc2870",
+      "Cargo.toml": "7496b46073823dab366e172c7793e590d1b38d05036ac476aa057e059789e3ad",
+      "rust-toolchain.toml": "570656042681cfd8795403a455baf9a33035331a07db0645e866bbcea89a3d64",
+      ".cargo/config.toml": "b8ae1cea341beb2d4a3c8fb81f97a96f4aee1fd53f769c57f140dfe949806a80"
+    },
+    "sdk_version": "26.5",
+    "command_line_tools": "package-id: com.apple.pkg.CLTools_Executables\nversion: 26.6.0.0.1781586589\nvolume: /\nlocation: /\ninstall-time: 1785005473",
+    "clang": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin"
+  }
+}

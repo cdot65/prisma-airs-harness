@@ -1,0 +1,67 @@
+{
+  "published": false,
+  "source_commit": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "package_tooling": {
+    "packaging_commit": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+    "native_source_commit": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+    "files": {
+      "scripts/package_airs_npm.py": "a9a2952def7ccf03267f65e6af3bc2e9bcafd024ba362a29b08d1766884744cc",
+      "npm/airs-harness/package.json": "61d55eadf4b80338de6e708fd5b8a2378f782c0cc61c458f27a4398e060d8110",
+      "npm/airs-harness/lib/child.js": "36149dda57af24d6cf5ccf7731f66f6e39c41172fe9f31feee7e910a29d016cc",
+      "npm/airs-harness/lib/completion.js": "091b9eca0d31768a83ffdbc765239d79224f2436820b88ecc046676fb4f04977",
+      "npm/airs-harness/lib/launcher.js": "1122419c074a29b1ca4b9105149db2635c3d3b6f3ec5314008d4782545207d90",
+      "npm/airs-harness/lib/migration-check.js": "c455e21392377bbd83bea6f0315b2fb81c7d108397db303da190cdee4c4bef39",
+      "npm/airs-harness/lib/native.js": "fdf5f5c7a637890a33e62fbdc2aa2c78b362c9f63e77c83393b654be71d971a0",
+      "npm/airs-harness/lib/prisma-cli.js": "c9803da6dcdfa3dda15c629f5cf759777a15ed36b1b40a9ee4dd61de06be8128",
+      "npm/airs-harness/lib/runtime.js": "b60f4699fd4046c6b981e85fea072251d25289325161dae715ee3cac6560460b",
+      "npm/airs-harness/bin/airs-harness.js": "ca47079119e753d7ad535a8930ea03972c766989fd6d40458cb4ffd1a27b14af",
+      "npm/airs-harness/bin/airs.js": "255a9e3dbe5eaaa9a06ce941decaca6571b5ebc18e6876fa9acdf9343d869ad5",
+      "npm/airs-harness/managed-cli/airs-cli": "81181ff2d5534bf869b8d28d60c5782fae56dd56dc3eff70f54f8d760bf6970e",
+      "npm/airs-harness/managed-cli/airs-cli.cmd": "8f257e3704cf468a4c7bbd178d9a2d23654e6fba760fe1bedb3c10279b3aaf4f",
+      "npm/airs-harness/managed-cli/empty.env": "9cfb361be922dfda00192d6d47ed21bc2f9f61a3501e0f4df89c9f4c26503c08"
+    }
+  },
+  "packaging_commit": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "required_dependencies": {
+    "@cdot65/prisma-airs-cli": "7.2.0"
+  },
+  "registry": "https://npm.cdot.io",
+  "publish_order": [
+    {
+      "name": "airs-harness-darwin-arm64",
+      "version": "0.1.4-alpha.2.mcp.1",
+      "filename": "airs-harness-darwin-arm64-0.1.4-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-IReqTxzmqzRPM7q7en0ZaETMPfAe6pTtI1lrapDkqxRFXio9A5JQkfYdARMNdGeCQcbD087PXlncdz5w9hvwng==",
+      "sha256": "a197160c236813958af236bed271ee94d47fd1e5db8e850df56e2e378c14e494",
+      "candidate_sha256": "c650543dd140ec0af9ba2c6d7c5e5f2e968f85fb7b072eaac7d0ad21ab49fd1a"
+    },
+    {
+      "name": "prisma-airs-harness",
+      "version": "0.1.4-alpha.2.mcp.1",
+      "filename": "prisma-airs-harness-0.1.4-alpha.2.mcp.1.tgz",
+      "integrity": "sha512-bgkDTf6S3+RLReOVn/K7mhnxyM/Z2uzVMH2MiJQAjLklPQhTRF4GPKkNmbM36aBI/af3FYtRuj5nYJ5vuh51PA==",
+      "sha256": "e2b19ba99fd4fc6893834b23090c2ffe90666746626285aec05ac116a52f679c",
+      "candidate_sha256": "58f2cdc79d96d332a0217cb0efef26c397f3909ff15372ca157d813dab925011"
+    }
+  ],
+  "release_status": "accepted-mac-preview",
+  "publishable": true,
+  "tag": "mac-preview",
+  "release_ready": false,
+  "notarized": true,
+  "acceptance_evidence_sha256": {
+    "SIGNING.json": "1493426bcef777577fceb03717e10c71695c2efa98d790c2e41405ecb66a31b8",
+    "artifact-selection.json": "1bf572b76770ce6730bdbf617107d3149b43a7462ea0e4160666a101305db650",
+    "VALIDATION.json": "90d5fc7ce01cb9ac6325482085fff844e99bedb4a074d6b83b1f7d1857d19cf0",
+    "native-integrity.json": "e9a90ed8f3db2e154a62c93db31268f4374d59cdbc5a02b4ea9e0756aa1fbb2c",
+    "native-cli-keychain.json": "404f5e2769110b4bf74d2b5539e9ed895d81d6fbe0adf63776519f9089c70cc2",
+    "cli-keychain.json": "404f5e2769110b4bf74d2b5539e9ed895d81d6fbe0adf63776519f9089c70cc2",
+    "keychain.json": "77628a5180b6481c7abae75d452a57334bdeb5cba3f6fb4ad04b4854e5684aed",
+    "npm-install.json": "abf77f28afecf4d6d5391669ccd352dd98d3defe6cc10574534003e867ea1765",
+    "prisma-cli.json": "7ef7d76d7e970e299fe9534023a1b3eba96e701e40e52450160abf5590fef91b",
+    "native-tests.log": "b174ab01ce62e8cf70b33f3f5f60fddac79b34663e6725e2f22b1c4b155ab05f",
+    "npm-tests.log": "28c939e9f4c9843b2d7d74da5e9447abfd85a0b97f7c5e85f74fb21d0d500eba"
+  },
+  "staging_script_sha256": "a921fd11c0474a00e98a69b5a5de28142f154aff8d80c789f34256d611950247",
+  "candidate_metadata_sha256": "4975ae66f063a65f70bbb14ab51abf002f5468dbd7d4520c02d0c39a8d86c4de"
+}

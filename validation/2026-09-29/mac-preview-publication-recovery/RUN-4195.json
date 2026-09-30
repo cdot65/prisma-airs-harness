@@ -1,0 +1,9 @@
+{
+  "id": 4195,
+  "status": "success",
+  "commit_sha": "c1eb7185cac43ecc3f391d4107e9e4cc23a92e2f",
+  "workflow_id": "airs-harness-macos-build.yml",
+  "started": "2026-09-29T18:58:17Z",
+  "stopped": "2026-09-29T18:58:53Z",
+  "html_url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/419"
+}

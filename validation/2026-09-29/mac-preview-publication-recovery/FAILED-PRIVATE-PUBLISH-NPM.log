@@ -1,0 +1,40 @@
+18 notice 1.1kB licenses/zstd-sys-2.0.16+zstd.1.5.7/LICENSE.Mit
+18 notice 18.1kB licenses/zstd-sys-2.0.16+zstd.1.5.7/zstd/COPYING
+18 notice 1.5kB licenses/zstd-sys-2.0.16+zstd.1.5.7/zstd/LICENSE
+18 notice 11.4kB licenses/zune-core-0.5.1/LICENSE-APACHE
+18 notice 1.1kB licenses/zune-core-0.5.1/LICENSE-MIT
+18 notice 859B licenses/zune-core-0.5.1/LICENSE-ZLIB
+18 notice 11.4kB licenses/zune-jpeg-0.5.12/LICENSE-APACHE
+18 notice 1.1kB licenses/zune-jpeg-0.5.12/LICENSE-MIT
+18 notice 859B licenses/zune-jpeg-0.5.12/LICENSE-ZLIB
+18 notice 621B package.json
+19 notice Tarball Details
+20 notice name: airs-harness-darwin-arm64
+21 notice version: 0.1.4-alpha.1.mcp.1
+22 notice filename: airs-harness-darwin-arm64-0.1.4-alpha.1.mcp.1.tgz
+23 notice package size: 115.6 MB
+24 notice unpacked size: 338.9 MB
+25 notice shasum: 2c1e0ceaf3ffdc2618a9a0a96c5637f0bfb624c8
+26 notice integrity: sha512-RE3oD3+APBf5Y[...]5jjfXnY69D+bg==
+27 notice total files: 1618
+28 notice
+29 notice Publishing to https://npm.cdot.io/ with tag mac-preview and default access
+30 verbose stack Error: This package has been marked as private
+30 verbose stack Remove the 'private' field from the package.json to publish it.
+30 verbose stack     at publish (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/node_modules/libnpmpublish/lib/publish.js:17:7)
+30 verbose stack     at /Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/commands/publish.js:162:43
+30 verbose stack     at otplease (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/utils/auth.js:8:18)
+30 verbose stack     at #publish (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/commands/publish.js:162:13)
+30 verbose stack     at async Publish.exec (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/commands/publish.js:46:5)
+30 verbose stack     at async Npm.exec (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/npm.js:207:9)
+30 verbose stack     at async module.exports (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/cli/entry.js:74:5)
+31 error code EPRIVATE
+32 error This package has been marked as private
+32 error Remove the 'private' field from the package.json to publish it.
+33 verbose cwd /Users/cdot/.local/share/airs-forgejo-runner/jobs/232b41895f4b9e39/hostexecutor
+34 verbose os Darwin 25.6.0
+35 verbose node v22.23.2
+36 verbose npm  v10.9.8
+37 verbose exit 1
+38 verbose code 1
+39 error A complete log of this run can be found in: /Users/cdot/.npm/_logs/2026-09-29T18_47_55_524Z-debug-0.log

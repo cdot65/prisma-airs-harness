@@ -31,8 +31,9 @@ use** sends a fixed, bounded inference check without conversation text, files or
 tools, though quota and gateway logging can apply. A failed or cancelled check
 keeps the previous routing pair, so a bad selection does not replace a working one.
 
-**Inline or fullscreen.** Inline is the default display. Fullscreen is opt-in per
-environment and takes effect after AIRS restarts.
+**Inline or fullscreen.** Fullscreen is the default display. Choose inline
+scrollback in `settings.toml` or with `/tui`; the change takes effect after AIRS
+restarts.
 
 ## Use the terminal
 
@@ -55,7 +56,7 @@ Use arrows or Tab to move, Enter to select and Escape to cancel or interrupt.
 | `/typesafe` | Manages the optional judge key |
 | `/config` | Selects a saved gateway config for this conversation |
 | `/model` | Selects a model for this conversation |
-| `/tui` | Chooses fullscreen per environment |
+| `/tui` | Chooses fullscreen or inline scrollback for every environment |
 
 Set `tui.animations=false` for quiet operation; `NO_COLOR=1` removes accent colors.
 
@@ -74,8 +75,37 @@ the menu to run the bounded check before switching.
 
 ### Use fullscreen and search
 
-Enter `/tui` to choose fullscreen for the current environment, then restart AIRS.
-In fullscreen, F3 opens search and F4 controls activity detail.
+AIRS starts fullscreen. Enter `/tui` to switch between fullscreen and inline
+scrollback, then restart AIRS. In fullscreen, F3 opens search and F4 controls
+activity detail.
+
+### Set interface preferences
+
+Interface preferences live in one file shared by every environment:
+`~/.airs-harness/settings.toml` (under `AIRS_HARNESS_HOME` when that is set). Create
+it with any of these sections:
+
+```toml
+hide_agent_reasoning = false
+
+[tui]
+fullscreen_transcript = true   # false for inline scrollback
+alternate_screen = "auto"      # "always" or "never"
+animations = true
+show_tooltips = true
+vim_mode_default = false
+```
+
+Accepted top-level keys are `tui`, `file_opener`, `hide_agent_reasoning`,
+`show_raw_agent_reasoning`, `disable_paste_burst`, `notice` and `history`. AIRS
+refuses to start if the file contains anything else, such as a model, gateway,
+credential, MCP or sandbox setting: those stay in each environment's
+`config.toml` so a shared file cannot redirect an environment.
+
+`/tui`, the theme picker, the status line and terminal title menus, and keymap
+changes save to this file. An environment's own `config.toml`, project settings and
+command-line options (`-c tui.fullscreen_transcript=false`, `--no-alt-screen`)
+still take precedence for that environment or launch.
 
 See [release channels](releases.md) for how to check which release you are
 running and how to install a different one.

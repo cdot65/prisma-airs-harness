@@ -13,6 +13,7 @@ Commands:
   show      Inspect a named or selected environment without showing credentials
   status    Show the gateway and local credential availability for an environment
   rename    Rename an environment while preserving its credentials and history
+  auth      Replace an environment's key or switch between company SSO and a workspace key
   remove    Unregister an environment, preserving its local history on disk
   typesafe  Manage the optional TypeSafe judge API key for an environment
   help      Print this message or the help of the given subcommand(s)

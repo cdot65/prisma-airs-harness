@@ -219,8 +219,11 @@ resource does not establish a successful model request or tool call; complete th
 # Restore the same person's inference identity for saved sessions.
 airs login --restore-session
 
-# Replace a workspace key through the hidden prompt.
-airs --environment workspace-api login --with-api-key
+# Change the credential: rotate a key, or switch between SSO and a key (guided).
+airs env auth workspace-api
+
+# Rotate a workspace key without prompts; tests access afterwards.
+airs --environment workspace-api login --replace --with-api-key < new-key.txt
 
 # Retire each credential separately, then unregister the local profile.
 airs mcp logout incident-tools

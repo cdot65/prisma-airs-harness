@@ -9,6 +9,24 @@ import struct
 import subprocess
 import termios
 import time
+from pathlib import Path
+
+
+def pin_inline_interface(environment):
+    """Keep acceptance on inline scrollback unless a test chose its own settings.
+
+    The harness starts fullscreen by default. Terminal contracts written for inline
+    output pin it through the harness-wide settings file; an existing file, even an
+    empty one, is left untouched so a test can exercise the real default.
+    """
+    home = environment.get("AIRS_HARNESS_HOME") or environment.get("AIRS_TERMINAL_HOME")
+    if not home:
+        return
+    settings = Path(home) / "settings.toml"
+    if settings.exists():
+        return
+    settings.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    settings.write_text("[tui]\nfullscreen_transcript = false\n")
 
 
 class TerminalSession:
@@ -21,6 +39,7 @@ class TerminalSession:
         arguments=None,
         terminal_type="xterm-256color",
     ):
+        pin_inline_interface(environment)
         self.master, slave = pty.openpty()
         fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 40, 120, 0, 0))
 

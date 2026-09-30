@@ -1,0 +1,31 @@
+0 verbose cli /Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/bin/node /Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/bin/npm
+1 info using npm@10.9.8
+2 info using node@v22.23.2
+3 silly config load:file:/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/cdot/.local/share/airs-forgejo-runner/jobs/72c4a247bdc7ed7e/hostexecutor/.npmrc
+5 silly config load:file:/Users/cdot/.npmrc
+6 silly config load:file:/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/etc/npmrc
+7 verbose title npm whoami
+8 verbose argv "whoami" "--registry" "https://npm.cdot.io" "--userconfig" "/Users/cdot/.npmrc"
+9 verbose logfile logs-max:10 dir:/Users/cdot/.npm/_logs/2026-09-29T15_58_50_302Z-
+10 verbose logfile /Users/cdot/.npm/_logs/2026-09-29T15_58_50_302Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 verbose stack Error: This command requires you to be logged in.
+13 verbose stack     at module.exports (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/utils/get-identity.js:23:5)
+13 verbose stack     at Whoami.exec (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/commands/whoami.js:11:28)
+13 verbose stack     at /Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/npm.js:255:63
+13 verbose stack     at Object.start (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/node_modules/proc-log/lib/index.js:101:21)
+13 verbose stack     at #exec (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/npm.js:254:17)
+13 verbose stack     at async Npm.exec (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/npm.js:207:9)
+13 verbose stack     at async module.exports (/Users/cdot/.local/share/airs-forgejo-runner/jobs/tool_cache/node/22.23.2/arm64/lib/node_modules/npm/lib/cli/entry.js:74:5)
+14 error code ENEEDAUTH
+15 error need auth This command requires you to be logged in.
+16 error need auth You need to authorize this machine using `npm adduser`
+17 verbose cwd /Users/cdot/.local/share/airs-forgejo-runner/jobs/72c4a247bdc7ed7e/hostexecutor
+18 verbose os Darwin 25.6.0
+19 verbose node v22.23.2
+20 verbose npm  v10.9.8
+21 verbose exit 1
+22 verbose code 1
+23 error A complete log of this run can be found in: /Users/cdot/.npm/_logs/2026-09-29T15_58_50_302Z-debug-0.log

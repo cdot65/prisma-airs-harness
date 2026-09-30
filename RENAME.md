@@ -113,4 +113,5 @@ Publication is complete for `airs-harness`, `airs-harness-linux-x64` and
 is now 256 MiB; reserved package names do not proxy to public npm. Native
 packages were published before the launcher, and anonymous downloads match
 staged integrity values. Mac native execution and Keychain acceptance passed.
-See [PUBLICATION.md](PUBLICATION.md) for the publication receipts and limits.
+See the retired [PUBLICATION.md](https://git.cdot.io/cdot/prisma-airs-harness/src/commit/b763f9f8eb284d27a877867710e55d72c05f137a/PUBLICATION.md) for the publication receipts
+and limits.

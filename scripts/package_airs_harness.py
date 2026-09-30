@@ -169,7 +169,6 @@ def main():
             "LICENSE",
             "NOTICE",
             "README.md",
-            "RELEASE.md",
             "RENAME.md",
             "MACOS.md",
             "PRISMA-AIRS-CLI.md",
@@ -177,9 +176,6 @@ def main():
             "BASELINE.json",
             "VALIDATION.json",
             "AGENTS.md",
-            "README.upstream.md",
-            "IMPLEMENTATION.md",
-            "PLAN.md",
         ]:
             shutil.copy2(repo / filename, root / filename)
         if args.validation:

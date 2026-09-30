@@ -34,7 +34,8 @@ pinned off at runtime for existing environments as well as new setup output.
 4. Independent product entry point, private application home, setup and startup
    guards. Product and upstream binaries share source without an external runtime.
 5. Executable protocol tests and UI snapshots. Historical prototype limitations
-   are in IMPLEMENTATION.md; current evidence is in RELEASE.md and VALIDATION.json.
+   are in the retired [IMPLEMENTATION.md](https://git.cdot.io/cdot/prisma-airs-harness/src/commit/b763f9f8eb284d27a877867710e55d72c05f137a/IMPLEMENTATION.md); current evidence
+   is in the `RELEASE-0.1.x.md` records and VALIDATION.json.
 6. Linux/musl compatibility: preserve the existing sandbox restrictions while
    recognizing Bubblewrap's /proc diagnostics; pin protected directory inodes
    with O_PATH and use actual helper binaries in musl test fixtures.

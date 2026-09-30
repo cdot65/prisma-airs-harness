@@ -47,7 +47,6 @@ class NativePackaging(unittest.TestCase):
             "LICENSE",
             "NOTICE",
             "README.md",
-            "RELEASE.md",
             "RENAME.md",
             "MACOS.md",
             "PRISMA-AIRS-CLI.md",
@@ -55,9 +54,6 @@ class NativePackaging(unittest.TestCase):
             "BASELINE.json",
             "VALIDATION.json",
             "AGENTS.md",
-            "README.upstream.md",
-            "IMPLEMENTATION.md",
-            "PLAN.md",
         ]:
             (root / name).write_text('{"passed":true}')
         for name in [

@@ -49,10 +49,12 @@ Ubuntu does not upgrade a distro-provided Node 18.
 ### Install
 
 ```sh
-npm install -g airs-harness
+npm install -g prisma-airs-harness
 ```
 
-The npm package is `airs-harness` and the command is `airs`. The Prisma AIRS CLI is
+The npm package is `prisma-airs-harness` and the command is `airs`. If an older
+`airs-harness` package is installed, run `npm uninstall -g airs-harness` first;
+your environments, credentials and history are kept. The Prisma AIRS CLI is
 bundled, so you do not install a separate product CLI. If your organization
 distributes through its own registry, add `--registry=<registry URL>` to the install
 command.

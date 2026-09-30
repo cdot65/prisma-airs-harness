@@ -69,7 +69,11 @@ does not establish that `0.1.0-alpha.22.mcp.3` has been published.
 ```
 
 The previous version must be an exact existing version, distinct from the new
-version, available anonymously from the selected registry. The upgrade check
+version, available anonymously from the selected registry. Releases before
+0.1.4-alpha.2 were published as `airs-harness`; the tooling derives that name from
+the previous version and, when it differs from the current `prisma-airs-harness`
+launcher, the upgrade check replaces the package by name (uninstall, then
+install, never `--force`) and requires the receipt to say so. The upgrade check
 installs it and exercises configuration and legacy-command preservation.
 Registry URLs must use HTTPS and contain no credentials, query or fragment.
 

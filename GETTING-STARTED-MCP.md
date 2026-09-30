@@ -161,8 +161,8 @@ Choose **Add gateway MCP server** and answer two prompts:
 AIRS saves the connection, reads the gateway's OAuth metadata, registers itself,
 and opens the sign-in dialog. The manager always requests the three scopes listed
 in [How MCP sign-in works](#how-mcp-sign-in-works). If your administrator gave you
-different scope names, add the server [from the
-shell](#set-up-from-the-shell-instead) instead.
+different scope names, add the server
+[from the shell](#set-up-from-the-shell-instead) instead.
 
 ### 3. Sign in
 
@@ -195,9 +195,9 @@ Choose the same company account you use for inference. If you use a workspace ke
 for inference, choose the account that holds the MCP grant. The link in the dialog
 shows what is being requested: your registered client, PKCE, a `127.0.0.1`
 callback (`/callback/` followed by an ID for this attempt), the three scopes and
-the MCP server as the `resource`. If the consent
-page names the client **Codex**, that is expected: it is the name the harness
-registers under, inherited from the open-source client it is built on.
+the MCP server as the `resource`. If the consent page names the client **Codex**,
+that is expected: it is the name the harness registers under, inherited from the
+open-source client it is built on.
 
 ### 4. Start a new conversation
 

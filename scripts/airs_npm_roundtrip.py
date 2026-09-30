@@ -15,6 +15,14 @@ from airs_native_test_store import record_exists
 from validate_airs_lifecycle import native_identity, tooling_identity
 
 
+def link_package(link):
+    """Name of the npm package directory an installed command link resolves into."""
+    target = Path(os.path.normpath(Path(link).parent / os.readlink(link)))
+    parts = target.parts
+    require("node_modules" in parts, "Command link does not point into npm packages")
+    return parts[parts.index("node_modules") + 1]
+
+
 def stop_terminal(session):
     terminal = session.terminal
     terminal.process.terminate()
@@ -29,12 +37,19 @@ def observe_roundtrip(
     inspect_native,
     expected_previous_hash,
     expected_previous_source,
+    link_packages=None,
 ):
-    """Install callbacks execute exact versions into one retained npm prefix."""
+    """Install callbacks execute exact versions into one retained npm prefix.
+
+    ``link_packages`` maps each phase to the launcher package name its commands
+    must resolve into when the previous release shipped under another name.
+    Without it, every command link must stay byte-identical across the roundtrip.
+    ``install`` returns whether it removed the other launcher package by name.
+    """
     tooling = tooling_identity()
     recorder = EventRecorder()
     observe_roundtrip.phase = "install-previous"
-    install("previous")
+    uninstalled = [bool(install("previous"))]
     previous_native, previous_info = inspect_native(prefix)
     previous_hash = native_identity(previous_native, previous_native)
     require(
@@ -45,6 +60,23 @@ def observe_roundtrip(
     links = {
         name: os.readlink(prefix / "bin" / name) for name in ("airs", "airs-harness")
     }
+
+    def check_links(phase):
+        if link_packages is None:
+            require(
+                {name: os.readlink(prefix / "bin" / name) for name in links} == links,
+                "Upgrade changed npm command links",
+            )
+        else:
+            require(
+                all(
+                    link_package(prefix / "bin" / name) == link_packages[phase]
+                    for name in links
+                ),
+                "Command links do not resolve into the expected launcher package",
+            )
+
+    check_links("previous")
     cache = Path.home() / ".cache/airs-lifecycle-tests"
     cache.mkdir(mode=0o700, parents=True, exist_ok=True)
     require(not cache.is_symlink(), "Lifecycle fixture cache must not be a symlink")
@@ -83,18 +115,14 @@ def observe_roundtrip(
             ):
                 observe_roundtrip.phase = phase + "-install"
                 stop_terminal(session)
-                install(phase)
+                uninstalled.append(bool(install(phase)))
                 binary, info = inspect_native(prefix)
                 digest = native_identity(binary, binary)
                 require(
                     digest == info["binary_sha256"],
                     "Reinstalled native provenance mismatch",
                 )
-                require(
-                    {name: os.readlink(prefix / "bin" / name) for name in links}
-                    == links,
-                    "Upgrade changed npm command links",
-                )
+                check_links(phase)
                 require(
                     all(
                         path.read_bytes() == content
@@ -196,13 +224,14 @@ def observe_roundtrip(
                 "candidate_source_commit": rounds[0]["source_commit"],
                 "previous_source_commit": previous_info["source_commit"],
                 "command_links_preserved": True,
+                "command_links_retargeted": link_packages is not None,
                 "configuration_preserved": True,
                 "real_conversation_preserved": True,
                 "inference_credential_reused": True,
                 "mcp_credential_reused": True,
                 "native_cleanup_completed": True,
                 "real_mcp_turns": 3,
-                "uninstall_used": False,
+                "uninstall_used": any(uninstalled),
                 "force_used": False,
                 "production_acceptance": False,
             }

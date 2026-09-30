@@ -13,6 +13,7 @@ from unittest.mock import patch
 import airs_test_release_archive as archive
 import airs_test_release_stage as stage
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
     release_targets,
     canonical_digest,
@@ -61,7 +62,7 @@ def candidates(root, spec):
     records = []
     for target, name in [
         *((t, TARGETS[t]) for t in release_targets(spec)),
-        (None, "airs-harness"),
+        (None, LAUNCHER),
     ]:
         manifest = {"name": name, "version": spec["version"], "private": True}
         members = []

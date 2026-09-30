@@ -17,6 +17,7 @@ from airs_release_receipts import atomic_json, evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive
 from airs_test_release_publish import Registry
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
     package_order,
     digest_file,
@@ -150,7 +151,7 @@ def install(spec, packages, prefix, *, selection="exact"):
         "Registry install requires exactly three natives and one launcher",
     )
     inventories = {}
-    selected = ["airs-harness", TARGETS[target]]
+    selected = [LAUNCHER, TARGETS[target]]
     for record in records:
         require(
             record["version"] == spec["version"]
@@ -195,9 +196,7 @@ def install(spec, packages, prefix, *, selection="exact"):
             "--no-fund",
             "--registry",
             spec["registry"],
-            "airs-harness"
-            if selection == "default"
-            else "airs-harness@" + spec["version"],
+            LAUNCHER if selection == "default" else LAUNCHER + "@" + spec["version"],
         ],
         cwd=prefix,
         env=environment,
@@ -221,9 +220,9 @@ def install(spec, packages, prefix, *, selection="exact"):
         result.returncode == 0,
         "Anonymous npm installation failed; check registry availability and prerequisites",
     )
-    launcher = prefix / "lib/node_modules/airs-harness"
+    launcher = prefix / "lib/node_modules" / LAUNCHER
     native_package = launcher / "node_modules" / TARGETS[target]
-    verify_installed_files(launcher, inventories["airs-harness"])
+    verify_installed_files(launcher, inventories[LAUNCHER])
     verify_installed_files(native_package, inventories[TARGETS[target]])
     native = native_package / "bin/airs-harness"
     native_hash = digest_file(native)
@@ -281,7 +280,7 @@ def install(spec, packages, prefix, *, selection="exact"):
         "default_channel_verified_before_and_after_install": selection == "default",
         "source_commit": spec["source_commit"],
         "binary_sha256": native_hash,
-        "launcher_package": "airs-harness",
+        "launcher_package": LAUNCHER,
         "native_package": TARGETS[target],
         "package_tooling": tooling,
         "prisma_airs_cli_version": cli_version,

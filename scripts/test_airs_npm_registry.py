@@ -2,7 +2,6 @@
 
 import hashlib
 from http.server import ThreadingHTTPServer
-import io
 import json
 import os
 from pathlib import Path
@@ -101,9 +100,9 @@ class RegistryContracts(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             packages = root / "packages"
-            launcher = packages / "airs-harness"
+            launcher = packages / "prisma-airs-harness"
             launcher.mkdir(parents=True)
-            manifest = {"name": "airs-harness", "version": "0.0.0-fixture"}
+            manifest = {"name": "prisma-airs-harness", "version": "0.0.0-fixture"}
             (launcher / "package.json").write_text(json.dumps(manifest))
             (packages / "NPM-PACKAGES.json").write_text(
                 json.dumps(

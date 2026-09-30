@@ -13,6 +13,9 @@ from promote_airs_stable import (
     WORKSPACE_SOURCE_012,
     WORKSPACE_SOURCE_013,
     WORKSPACE_BASELINE_013,
+    WORKSPACE_SOURCE_014,
+    WORKSPACE_BASELINE_014,
+    RELEASE_AUTHORIZATIONS,
     promote,
     validate_readiness,
     validate_workspace,
@@ -319,6 +322,93 @@ class StablePromotionTests(unittest.TestCase):
                 validate_workspace(spec, changed)
         with self.assertRaises(ValueError):
             validate_workspace({**spec, "version": "0.1.4"}, workspace)
+
+    def test_014_authorization_lists_every_reviewed_merge_since_the_preview(self):
+        spec = {**self.spec, "version": "0.1.4", "source_commit": WORKSPACE_SOURCE_014}
+        reviewed = RELEASE_AUTHORIZATIONS["0.1.4"]["reviewed_changes"]
+        workspace = {
+            "scope": "full-workspace",
+            "source_commit": WORKSPACE_SOURCE_014,
+            "passed": 19000,
+            "failed": 3,
+            "failures": list(WORKSPACE_BASELINE_014),
+            "baseline_review": {
+                "source_commit": WORKSPACE_SOURCE_014,
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": {
+                    name: {
+                        "disposition": disposition,
+                        "evidence_verified": True,
+                        "evidence_sha256": "a" * 64,
+                        "installed_command_rejected": True,
+                    }
+                    for name, disposition in WORKSPACE_BASELINE_014.items()
+                },
+            },
+        }
+        changes = [
+            {"pull_request": number, "merge_commit": commit, "accepted_as": "review"}
+            for number, commit in reviewed.items()
+        ]
+        authorization = {
+            "version": "0.1.4",
+            "source_commit": WORKSPACE_SOURCE_014,
+            "explicit_stable_publication": True,
+            "attended_acceptance_claimed": False,
+            "runtime_unchanged_from_requested_alpha": False,
+            "previous_alpha": "0.1.4-alpha.2.mcp.1",
+            "reviewed_changes": changes,
+            "evidence_sha256": "a" * 64,
+        }
+        ready = {
+            "version": "0.1.4",
+            "source_commit": WORKSPACE_SOURCE_014,
+            "workspace": workspace,
+            "release_authorization": authorization,
+        }
+        validate_readiness(spec, ready)
+        # A clean run needs no baseline review at all.
+        validate_readiness(
+            spec,
+            {**ready, "workspace": {**workspace, "failed": 0, "failures": []}},
+        )
+        for field, value in [
+            ("runtime_unchanged_from_requested_alpha", True),
+            ("previous_alpha", "0.1.4-alpha.1.mcp.1"),
+            ("reviewed_changes", None),
+            ("reviewed_changes", changes[:-1]),
+            ("reviewed_changes", list(reversed(changes))),
+            (
+                "reviewed_changes",
+                [{**changes[0], "merge_commit": "b" * 40}, *changes[1:]],
+            ),
+            ("reviewed_changes", [{**changes[0], "accepted_as": ""}, *changes[1:]]),
+            ("evidence_sha256", "invalid"),
+        ]:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate_readiness(
+                    spec,
+                    {**ready, "release_authorization": {**authorization, field: value}},
+                )
+        # 0.1.3's unchanged-runtime authorization cannot be reused for 0.1.4.
+        with self.assertRaises(ValueError):
+            validate_readiness({**spec, "source_commit": WORKSPACE_SOURCE_013}, ready)
+        # The corrected schema fixtures are no longer an eligible 0.1.4 failure.
+        stale = copy.deepcopy(workspace)
+        stale["failed"] = 4
+        name = next(iter(set(WORKSPACE_BASELINE_013) - set(WORKSPACE_BASELINE_014)))
+        stale["failures"].append(name)
+        stale["baseline_review"]["cases"][name] = {
+            "disposition": "corrected-test-fixture",
+            "evidence_verified": True,
+            "evidence_sha256": "a" * 64,
+            "focused_check_passed": True,
+            "runtime_source_unchanged": True,
+        }
+        with self.assertRaises(ValueError):
+            validate_readiness(spec, {**ready, "workspace": stale})
 
     def test_wrong_registry_mode_or_package_bytes_prevent_promotion(self):
         self.verification["installation"] = "candidate"

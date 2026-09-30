@@ -18,7 +18,12 @@ from unittest.mock import patch
 
 from airs_npm_registry import install_environment
 from airs_test_release_publish import Registry, _publish, publish_packages
-from airs_test_release_spec import PACKAGE_ORDER, canonical_digest, validate_spec
+from airs_test_release_spec import (
+    LAUNCHER,
+    PACKAGE_ORDER,
+    canonical_digest,
+    validate_spec,
+)
 
 VERSION = "0.1.0-alpha.22.mcp.3"
 
@@ -29,7 +34,7 @@ def fixture(root):
     records = []
     for name in PACKAGE_ORDER:
         manifest = {"name": name, "version": VERSION}
-        if name == "airs-harness":
+        if name == LAUNCHER:
             manifest.update(
                 bin={"airs": "bin/airs.js"},
                 optionalDependencies={n: VERSION for n in PACKAGE_ORDER[:-1]},
@@ -40,7 +45,7 @@ def fixture(root):
         path = packages / "tarballs" / f"{name}-{VERSION}.tgz"
         with tarfile.open(path, "w:gz", format=tarfile.USTAR_FORMAT) as archive:
             contents = {"package/package.json": json.dumps(manifest).encode()}
-            if name == "airs-harness":
+            if name == LAUNCHER:
                 contents["package/bin/airs.js"] = (
                     f'#!/usr/bin/env node\nconsole.log("airs {VERSION}");\n'.encode()
                 )
@@ -395,7 +400,7 @@ class PublicationTests(unittest.TestCase):
                 "--no-fund",
                 "--registry",
                 url,
-                "airs-harness@" + VERSION,
+                LAUNCHER + "@" + VERSION,
             ],
             cwd=prefix,
             env=environment,

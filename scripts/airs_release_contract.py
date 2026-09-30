@@ -5,9 +5,12 @@ from pathlib import Path
 from airs_release_receipts import evidence_path, verify_stage
 from airs_test_release_spec import (
     COMMIT,
+    LAUNCHER,
     TARGETS,
     MAC_SCOPE,
+    launcher_migration,
     package_order,
+    previous_launcher,
     release_targets,
     canonical_digest,
     digest_file,
@@ -166,6 +169,9 @@ def validate_result(name, value, spec, target):
             and value.get("previous_registry")
             == spec.get("previous_registry", spec["registry"])
             and value.get("version") == spec["version"]
+            and value.get("previous_package") == previous_launcher(spec)
+            and value.get("package") == LAUNCHER
+            and value.get("launcher_migration") is launcher_migration(spec)
             and value.get("configuration_preserved") is True
             and value.get("legacy_target_preserved") is True,
             "Upgrade identity or preservation mismatch",
@@ -209,10 +215,15 @@ def validate_result(name, value, spec, target):
                 ),
                 "Stable roundtrip preservation missing",
             )
+            # A renamed launcher is replaced by name (uninstall, then install),
+            # never forced. Same-name upgrades must not uninstall at all.
             require(
-                all(
+                roundtrip.get("uninstall_used") is launcher_migration(spec)
+                and roundtrip.get("command_links_retargeted")
+                is launcher_migration(spec)
+                and all(
                     roundtrip.get(key) is False
-                    for key in ("uninstall_used", "force_used", "production_acceptance")
+                    for key in ("force_used", "production_acceptance")
                 )
                 and type(roundtrip.get("real_mcp_turns")) is int
                 and roundtrip["real_mcp_turns"] == 3,

@@ -10,6 +10,7 @@ from airs_release_acceptance import verify_acceptance_set
 from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import (
+    LAUNCHER,
     STABLE_SCOPE,
     TARGETS,
     package_order,
@@ -85,7 +86,7 @@ def _package_identity(spec, row, inventory):
         "Package manifest identity mismatch",
     )
     require(manifest.get("private") is True, "Expected a private unvalidated candidate")
-    if row["name"] == "airs-harness":
+    if row["name"] == LAUNCHER:
         require(
             manifest.get("optionalDependencies")
             == {name: spec["version"] for name in package_order(spec)[:-1]},
@@ -211,7 +212,7 @@ def _replacements(spec, row, inventory, acceptance):
     manifest = dict(inventory["json"][MANIFEST])
     manifest.pop("private")
     changes = {MANIFEST: _bytes(manifest)}
-    if row["name"] == "airs-harness":
+    if row["name"] == LAUNCHER:
         return changes
     info = dict(inventory["json"][BUILD])
     platform = next(p for p in acceptance["platforms"] if p["target"] == info["target"])

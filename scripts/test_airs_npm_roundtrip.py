@@ -10,7 +10,7 @@ import unittest
 from airs_npm_versions import released_version
 from airs_release_contract import validate_result
 from airs_release_execution import invocation
-from airs_test_release_spec import TARGETS, validate_spec
+from airs_test_release_spec import LAUNCHER, TARGETS, launcher_migration, validate_spec
 from test_airs_test_release_stage import sample_spec
 from test_airs_release_acceptance import result_for
 
@@ -62,7 +62,8 @@ def roundtrip_result(spec, target):
                 )
             },
             "real_mcp_turns": 3,
-            "uninstall_used": False,
+            "command_links_retargeted": launcher_migration(spec),
+            "uninstall_used": launcher_migration(spec),
             "force_used": False,
             "production_acceptance": False,
         },
@@ -84,6 +85,20 @@ class VersionSelection(unittest.TestCase):
             with self.subTest(version=version):
                 parsed = released_version(version)
                 self.assertEqual((parsed.command, parsed.setup), (command, setup))
+
+    def test_launcher_package_name_boundary(self):
+        for version, package in (
+            ("0.1.0-alpha.12", "airs-harness"),
+            ("0.1.0-alpha.22.mcp.6", "airs-harness"),
+            ("0.1.3", "airs-harness"),
+            ("0.1.3-alpha.7.mcp.1", "airs-harness"),
+            ("0.1.4-alpha.1.mcp.1", "airs-harness"),
+            ("0.1.4-alpha.2.mcp.1", LAUNCHER),
+            ("0.1.4", LAUNCHER),
+            ("0.2.0", LAUNCHER),
+        ):
+            with self.subTest(version=version):
+                self.assertEqual(released_version(version).package, package)
 
     def test_tags_ranges_and_unpinned_stable_fail_before_output_mutation(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -143,6 +158,7 @@ class StableBaseline(unittest.TestCase):
             )
             self.assertEqual(args[args.index("--previous-native-sha256") + 1], "e" * 64)
             self.assertEqual(args[args.index("--previous-source-commit") + 1], "d" * 40)
+            self.assertEqual(args[args.index("--previous-package") + 1], "airs-harness")
 
     def test_missing_malformed_duplicate_or_extra_baselines_are_rejected(self):
         original = stable_spec()
@@ -187,6 +203,47 @@ class StableBaseline(unittest.TestCase):
         for key in ("force_used", "uninstall_used", "production_acceptance"):
             value = copy.deepcopy(receipt)
             value["roundtrip"][key] = 0
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+
+    def test_renamed_launcher_requires_by_name_replacement_without_force(self):
+        spec = validate_spec(stable_spec())
+        self.assertTrue(launcher_migration(spec))
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        self.assertTrue(receipt["roundtrip"]["uninstall_used"])
+        validate_result("upgrade", receipt, spec, target)
+        for key in ("uninstall_used", "command_links_retargeted"):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"][key] = False
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+        value = copy.deepcopy(receipt)
+        value["roundtrip"]["force_used"] = True
+        with self.assertRaises(ValueError):
+            validate_result("upgrade", value, spec, target)
+        for key, wrong in (
+            ("previous_package", LAUNCHER),
+            ("package", "airs-harness"),
+            ("launcher_migration", False),
+        ):
+            value = copy.deepcopy(receipt)
+            value[key] = wrong
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+
+    def test_same_name_upgrade_must_not_uninstall(self):
+        spec = stable_spec()
+        spec.update(version="0.1.5-alpha.1.mcp.1", previous_version="0.1.4")
+        spec = validate_spec(spec)
+        self.assertFalse(launcher_migration(spec))
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        self.assertFalse(receipt["roundtrip"]["uninstall_used"])
+        validate_result("upgrade", receipt, spec, target)
+        for key in ("uninstall_used", "command_links_retargeted"):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"][key] = True
             with self.subTest(key=key), self.assertRaises(ValueError):
                 validate_result("upgrade", value, spec, target)
 

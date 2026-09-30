@@ -68,7 +68,9 @@ class ProductGate(unittest.TestCase):
                     "mcp_credential_reused": True,
                     "native_cleanup_completed": True,
                     "real_mcp_turns": 3,
-                    "uninstall_used": False,
+                    # 0.1.1 shipped as airs-harness; the renamed launcher replaces it.
+                    "command_links_retargeted": True,
+                    "uninstall_used": True,
                     "force_used": False,
                     "production_acceptance": False,
                 },

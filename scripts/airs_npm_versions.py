@@ -25,6 +25,17 @@ class ReleasedVersion:
         )
 
     @property
+    def package(self):
+        # The npm launcher became `prisma-airs-harness` with 0.1.4-alpha.2. Every
+        # earlier publication, including 0.1.4-alpha.1, shipped as `airs-harness`.
+        return (
+            "airs-harness"
+            if self.base <= (0, 1, 3)
+            or (self.base == (0, 1, 4) and self.alpha is not None and self.alpha < 2)
+            else "prisma-airs-harness"
+        )
+
+    @property
     def setup(self):
         return (
             ["setup"]

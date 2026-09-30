@@ -22,7 +22,9 @@ TARGETS = {
     "aarch64-unknown-linux-musl": "airs-harness-linux-arm64",
     "aarch64-apple-darwin": "airs-harness-darwin-arm64",
 }
-PACKAGE_ORDER = [*TARGETS.values(), "airs-harness"]
+# The launcher that every new publication ships; previous releases may predate it.
+LAUNCHER = "prisma-airs-harness"
+PACKAGE_ORDER = [*TARGETS.values(), LAUNCHER]
 MAX_ARCHIVE = 512 * 1024 * 1024
 MAX_JSON = 1024 * 1024
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -38,7 +40,17 @@ def release_targets(spec):
 
 
 def package_order(spec):
-    return [*(TARGETS[target] for target in release_targets(spec)), "airs-harness"]
+    return [*(TARGETS[target] for target in release_targets(spec)), LAUNCHER]
+
+
+def previous_launcher(spec):
+    """The launcher package name the declared previous version was published under."""
+    return released_version(spec["previous_version"]).package
+
+
+def launcher_migration(spec):
+    """Upgrading from the previous version replaces the launcher package by name."""
+    return previous_launcher(spec) != LAUNCHER
 
 
 def require(condition, message):

@@ -31,7 +31,7 @@ class MacPreview(unittest.TestCase):
     def test_only_explicit_mac_scope_accepts_one_signed_platform(self):
         spec = self.spec()
         self.assertEqual(
-            package_order(spec), ["airs-harness-darwin-arm64", "airs-harness"]
+            package_order(spec), ["airs-harness-darwin-arm64", "prisma-airs-harness"]
         )
         for change in [
             {"scope": "owner-authorized-test", "tag": "mcp"},

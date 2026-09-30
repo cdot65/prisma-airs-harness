@@ -101,6 +101,34 @@ WORKSPACE_BASELINE_013 = {
     "codex-app-server-protocol schema_fixtures_tests::typescript_schema_fixtures_match_generated": "corrected-test-fixture",
     "codex-app-server-protocol schema_fixtures_tests::stable_precomputed_exports_match_schema_fixtures": "corrected-test-fixture",
 }
+# Release 0.1.4 stamps merged main: the accepted 0.1.4-alpha.2 preview (renamed
+# launcher, Developer ID signing), in-place environment auth replacement and
+# the fresh-conversation mark. The schema fixture correction is merged, so only
+# the disabled upstream service cases remain eligible.
+WORKSPACE_SOURCE_014 = "946dc6e34c9bd7f439c5fa00a9c05a11bee53673"
+WORKSPACE_BASELINE_014 = dict(WORKSPACE_BASELINE_012)
+# Owner-authorized stable publications. A release whose runtime equals the last
+# preview plus its version stamp records that; one that merges reviewed changes
+# after the preview must list every merge so the diff from the accepted preview
+# is explicit rather than implied.
+RELEASE_AUTHORIZATIONS = {
+    "0.1.3": {
+        "source_commit": WORKSPACE_SOURCE_013,
+        "previous_alpha": "0.1.3-alpha.7.mcp.1",
+        "runtime_unchanged_from_requested_alpha": True,
+        "reviewed_changes": None,
+    },
+    "0.1.4": {
+        "source_commit": WORKSPACE_SOURCE_014,
+        "previous_alpha": "0.1.4-alpha.2.mcp.1",
+        "runtime_unchanged_from_requested_alpha": False,
+        "reviewed_changes": {
+            56: "c9b18e59cf4586abc57c2b0a02ac5797518263b3",
+            59: "05423d46578ad2d96e7f9cc52955cd88b59a6fde",
+            60: "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40",
+        },
+    },
+}
 
 
 def validate_workspace(spec, workspace):
@@ -123,6 +151,8 @@ def validate_workspace(spec, workspace):
         baseline = WORKSPACE_BASELINE_012
     elif spec["version"] == "0.1.3" and spec["source_commit"] == WORKSPACE_SOURCE_013:
         baseline = WORKSPACE_BASELINE_013
+    elif spec["version"] == "0.1.4" and spec["source_commit"] == WORKSPACE_SOURCE_014:
+        baseline = WORKSPACE_BASELINE_014
     failures = workspace.get("failures", [])
     review = workspace.get("baseline_review", {})
     require(
@@ -173,20 +203,38 @@ def validate_readiness(spec, readiness):
     # Record that authorization separately from attended production SSO evidence.
     authorization = readiness.get("release_authorization", {})
     if authorization:
+        known = RELEASE_AUTHORIZATIONS.get(spec["version"], {})
         require(
-            spec["version"] == "0.1.3"
-            and spec["source_commit"] == WORKSPACE_SOURCE_013
+            known.get("source_commit") == spec["source_commit"]
             and authorization.get("version") == spec["version"]
             and authorization.get("source_commit") == spec["source_commit"]
             and authorization.get("explicit_stable_publication") is True
             and authorization.get("attended_acceptance_claimed") is False
-            and authorization.get("runtime_unchanged_from_requested_alpha") is True
-            and authorization.get("previous_alpha") == "0.1.3-alpha.7.mcp.1"
+            and authorization.get("runtime_unchanged_from_requested_alpha")
+            is known["runtime_unchanged_from_requested_alpha"]
+            and authorization.get("previous_alpha") == known["previous_alpha"]
             and isinstance(authorization.get("evidence_sha256"), str)
             and len(authorization["evidence_sha256"]) == 64
             and all(c in "0123456789abcdef" for c in authorization["evidence_sha256"]),
             "Explicit release authorization is incomplete or outside its scope",
         )
+        reviewed = known["reviewed_changes"]
+        changes = authorization.get("reviewed_changes")
+        if reviewed is None:
+            require(changes is None, "Unchanged runtime cannot list reviewed changes")
+        else:
+            require(
+                isinstance(changes, list)
+                and [c.get("pull_request") for c in changes] == list(reviewed)
+                and all(
+                    isinstance(c, dict)
+                    and c.get("merge_commit") == reviewed[c["pull_request"]]
+                    and isinstance(c.get("accepted_as"), str)
+                    and 0 < len(c["accepted_as"]) <= 256
+                    for c in changes
+                ),
+                "Every merged change since the accepted preview must be reviewed",
+            )
         return
     owner = readiness.get("owner_acceptance", {})
     require(

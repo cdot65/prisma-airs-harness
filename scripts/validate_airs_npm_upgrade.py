@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Exercise npm upgrades and legacy-command migration without uninstalling.
+"""Exercise npm upgrades and legacy-command migration without forcing npm.
+
+A previous release published under the old launcher name is replaced by name:
+the old package is uninstalled and the renamed launcher installed into the same
+prefix. Same-name upgrades never uninstall.
 
 The old version comes from the owned registry. Candidate archives are served by
 the existing isolated test registry; all new native bytes must match provenance.
@@ -21,10 +25,10 @@ from pathlib import Path
 from airs_npm_registry import install_environment, registry_handler
 from airs_release_receipts import evidence_path
 from airs_test_release_archive import inspect_archive
-from airs_test_release_spec import COMMIT, SHA256, require
+from airs_test_release_spec import COMMIT, LAUNCHER, SHA256, require
 from airs_npm_versions import released_version
 from airs_native_test_store import native_test_command
-from airs_npm_roundtrip import observe_roundtrip
+from airs_npm_roundtrip import link_package, observe_roundtrip
 
 
 def run(arguments, environment, log):
@@ -42,8 +46,42 @@ def run(arguments, environment, log):
     return result.stdout.strip()
 
 
-def native_info(prefix):
-    manifest = prefix / "lib/node_modules/airs-harness/package.json"
+def installed_launcher(prefix, names):
+    """Exactly one of the launcher package names must be installed in the prefix."""
+    present = [name for name in names if (prefix / "lib/node_modules" / name).is_dir()]
+    require(len(present) == 1, "Expected exactly one installed launcher package")
+    return present[0]
+
+
+def uninstall(prefix, name, registry, log):
+    """Remove a launcher package by name without --force; report whether it existed."""
+    if not (prefix / "lib/node_modules" / name).is_dir():
+        return False
+    run(
+        [
+            "npm",
+            "uninstall",
+            "-g",
+            "--prefix",
+            str(prefix),
+            "--ignore-scripts",
+            "--no-audit",
+            "--no-fund",
+            "--registry=" + registry,
+            name,
+        ],
+        install_environment(prefix, registry, False),
+        log,
+    )
+    require(
+        not (prefix / "lib/node_modules" / name).exists(),
+        "npm uninstall left the previous launcher package behind",
+    )
+    return True
+
+
+def native_info(prefix, package):
+    manifest = prefix / "lib/node_modules" / package / "package.json"
     path = subprocess.check_output(
         [
             "node",
@@ -84,6 +122,10 @@ def main():
     parser.add_argument("--packages", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--previous", default="0.1.0-alpha.12")
+    parser.add_argument(
+        "--previous-package",
+        help="Launcher package name the previous version was published under",
+    )
     parser.add_argument("--registry", default="https://npm.cdot.io")
     parser.add_argument("--previous-native-sha256")
     parser.add_argument("--previous-source-commit")
@@ -106,6 +148,9 @@ def main():
         previous_version = released_version(args.previous)
     except ValueError as error:
         parser.error(str(error))
+    previous_package = args.previous_package or previous_version.package
+    if previous_package not in ("airs-harness", LAUNCHER):
+        parser.error("Unknown previous launcher package")
     if previous_version.stable and (
         not SHA256.fullmatch(args.previous_native_sha256 or "")
         or not COMMIT.fullmatch(args.previous_source_commit or "")
@@ -137,8 +182,9 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     packages = args.packages.resolve(strict=True)
     records = json.loads((packages / "NPM-PACKAGES.json").read_text())["publish_order"]
-    launcher = next(record for record in records if record["name"] == "airs-harness")
+    launcher = next(record for record in records if record["name"] == LAUNCHER)
     assert launcher["version"] != args.previous
+    migration = previous_package != launcher["name"]
     prefix = args.output / "npm managed prefix"
     prefix.mkdir()
     old_env = install_environment(prefix, args.registry, False)
@@ -154,7 +200,7 @@ def main():
             "--no-audit",
             "--no-fund",
             "--registry=" + args.registry,
-            "airs-harness@" + args.previous,
+            previous_package + "@" + args.previous,
         ],
         old_env,
         args.output / "install-previous.log",
@@ -165,7 +211,7 @@ def main():
         run([str(command), "--version"], old_env, args.output / "previous-version.log")
         == previous_command_name + " " + args.previous
     )
-    old_native, old_info = native_info(prefix)
+    old_native, old_info = native_info(prefix, previous_package)
     old_hash = hashlib.sha256(old_native.read_bytes()).hexdigest()
     assert old_hash == old_info["binary_sha256"]
     if previous_version.stable:
@@ -247,6 +293,15 @@ def main():
         ]:
             env = install_environment(destination, registry, True)
             env["AIRS_HARNESS_HOME"] = str(state)
+            # npm refuses to let a differently named package take over the same
+            # commands without --force, so a renamed launcher is replaced by name.
+            uninstalled = destination == prefix and uninstall(
+                destination,
+                previous_package,
+                registry,
+                args.output / (case + "-uninstall.log"),
+            )
+            assert uninstalled == (migration and destination == prefix)
             run(
                 [
                     "npm",
@@ -259,7 +314,7 @@ def main():
                     "--no-fund",
                     "--registry",
                     registry,
-                    "airs-harness@" + launcher["version"],
+                    launcher["name"] + "@" + launcher["version"],
                     *flags,
                 ],
                 env,
@@ -271,7 +326,7 @@ def main():
                 args.output / (case + "-version.log"),
             )
             assert actual == "airs " + launcher["version"]
-            binary, info = native_info(destination)
+            binary, info = native_info(destination, launcher["name"])
             digest = hashlib.sha256(binary.read_bytes()).hexdigest()
             assert digest == info["binary_sha256"] and digest != old_hash
             results.append(
@@ -279,7 +334,7 @@ def main():
                     "case": case,
                     "passed": True,
                     "binary_sha256": digest,
-                    "uninstall_used": False,
+                    "uninstall_used": uninstalled,
                     "manual_command_removal": False,
                     "force_used": bool(flags),
                     "known_manual_link_preserved": destination == legacy,
@@ -295,13 +350,18 @@ def main():
             {
                 "case": "legacy-command-before-separate-npm-prefix",
                 "passed": True,
-                "binary_sha256": native_info(prefix)[1]["binary_sha256"],
+                "binary_sha256": native_info(prefix, launcher["name"])[1][
+                    "binary_sha256"
+                ],
                 "uninstall_used": False,
                 "manual_command_removal": False,
                 "force_used": False,
             }
         )
-        assert os.readlink(command) == old_link
+        if migration:
+            assert link_package(command) == launcher["name"]
+        else:
+            assert os.readlink(command) == old_link
         assert hashlib.sha256(preserved_binary.read_bytes()).hexdigest() == old_hash
         after = {
             str(p.relative_to(state)): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -325,6 +385,14 @@ def main():
             def install_phase(phase):
                 url = args.registry if phase == "previous" else registry
                 version = args.previous if phase == "previous" else launcher["version"]
+                name = previous_package if phase == "previous" else launcher["name"]
+                other = launcher["name"] if phase == "previous" else previous_package
+                removed = migration and uninstall(
+                    prefix,
+                    other,
+                    url,
+                    args.output / ("roundtrip-" + phase + "-uninstall.log"),
+                )
                 environment = install_environment(prefix, url, phase == "candidate")
                 run(
                     [
@@ -337,7 +405,7 @@ def main():
                         "--no-audit",
                         "--no-fund",
                         "--registry=" + url,
-                        "airs-harness@" + version,
+                        name + "@" + version,
                     ],
                     environment,
                     args.output / ("roundtrip-" + phase + "-install.log"),
@@ -352,22 +420,32 @@ def main():
                         == "airs " + version,
                         "Roundtrip command reports wrong version",
                     )
+                return removed
 
+            names = (previous_package, launcher["name"])
             roundtrip = observe_roundtrip(
                 prefix,
                 args.previous,
                 launcher["version"],
                 install_phase,
-                native_info,
+                lambda root: native_info(root, installed_launcher(root, names)),
                 args.previous_native_sha256,
                 args.previous_source_commit,
+                link_packages=(
+                    {"previous": previous_package, "candidate": launcher["name"]}
+                    if migration
+                    else None
+                ),
             )
         receipt = {
             "schema_version": 2,
             "roundtrip": roundtrip,
             "passed": True,
             "previous": args.previous,
+            "previous_package": previous_package,
             "version": launcher["version"],
+            "package": launcher["name"],
+            "launcher_migration": migration,
             "platform": os.uname().sysname,
             "configuration_preserved": True,
             "previous_registry": args.registry,

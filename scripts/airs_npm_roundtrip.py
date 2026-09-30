@@ -6,6 +6,7 @@ import os
 import shutil
 from pathlib import Path
 import tempfile
+import tomllib
 
 from airs_harness_pty import TerminalSession
 from airs_lifecycle_contract import EventRecorder, require
@@ -21,6 +22,66 @@ def link_package(link):
     parts = target.parts
     require("node_modules" in parts, "Command link does not point into npm packages")
     return parts[parts.index("node_modules") + 1]
+
+
+def _string_rewrites(before, after, packages, prefix=""):
+    """Differences between two parsed TOML documents that only move a stored path
+    from one launcher package directory to the other. Any other change is fatal."""
+    if isinstance(before, dict) and isinstance(after, dict):
+        require(set(before) == set(after), "Installation changed configured identity")
+        rewrites = []
+        for key in before:
+            rewrites.extend(
+                _string_rewrites(before[key], after[key], packages, f"{prefix}{key}.")
+            )
+        return rewrites
+    if isinstance(before, list) and isinstance(after, list):
+        require(len(before) == len(after), "Installation changed configured identity")
+        return [
+            r
+            for a, b in zip(before, after)
+            for r in _string_rewrites(a, b, packages, prefix)
+        ]
+    if before == after:
+        return []
+    require(
+        isinstance(before, str) and isinstance(after, str),
+        "Installation changed configured identity",
+    )
+    for source, target in ((packages[0], packages[1]), (packages[1], packages[0])):
+        old, new = f"/lib/node_modules/{source}/", f"/lib/node_modules/{target}/"
+        if old in before and before.replace(old, new) == after:
+            return [
+                {
+                    "key": prefix.rstrip("."),
+                    "from_package": source,
+                    "to_package": target,
+                }
+            ]
+    raise ValueError("Installation changed configured identity")
+
+
+def identity_rewrites(protected, link_packages, message):
+    """Protected identity files must be byte-identical, except that a launcher migration
+    may re-point stored command paths between the two launcher package directories."""
+    rewrites = []
+    for path, content in protected.items():
+        current = path.read_bytes()
+        if current == content:
+            continue
+        require(link_packages is not None and path.name == "config.toml", message)
+        packages = (link_packages["previous"], link_packages["candidate"])
+        try:
+            found = _string_rewrites(
+                tomllib.loads(content.decode()),
+                tomllib.loads(current.decode()),
+                packages,
+            )
+        except ValueError as error:
+            raise ValueError(message) from error
+        require(bool(found), message)
+        rewrites.extend({"file": path.name, **row} for row in found)
+    return rewrites
 
 
 def stop_terminal(session):
@@ -109,6 +170,7 @@ def observe_roundtrip(
             }
             initial_identity = session.snapshot()
             rounds = []
+            rewrites = []
             for phase, label in (
                 ("candidate", "after_upgrade"),
                 ("previous", "after_rollback"),
@@ -123,12 +185,13 @@ def observe_roundtrip(
                     "Reinstalled native provenance mismatch",
                 )
                 check_links(phase)
-                require(
-                    all(
-                        path.read_bytes() == content
-                        for path, content in protected.items()
-                    ),
-                    "Installation changed configured identity",
+                rewrites.extend(
+                    {"phase": phase + "-install", **row}
+                    for row in identity_rewrites(
+                        protected,
+                        link_packages,
+                        "Installation changed configured identity",
+                    )
                 )
                 require(
                     all(
@@ -179,12 +242,13 @@ def observe_roundtrip(
                         current[key] == initial_identity[key],
                         "Resumed turn changed identity or conversation",
                     )
-                require(
-                    all(
-                        path.read_bytes() == content
-                        for path, content in protected.items()
-                    ),
-                    "Resumed turn changed configured identity",
+                rewrites.extend(
+                    {"phase": phase + "-resumed-turn", **row}
+                    for row in identity_rewrites(
+                        protected,
+                        link_packages,
+                        "Resumed turn changed configured identity",
+                    )
                 )
                 require(
                     not (session.home / ".credentials.json").exists(),
@@ -226,6 +290,7 @@ def observe_roundtrip(
                 "command_links_preserved": True,
                 "command_links_retargeted": link_packages is not None,
                 "configuration_preserved": True,
+                "configuration_rewrites": rewrites,
                 "real_conversation_preserved": True,
                 "inference_credential_reused": True,
                 "mcp_credential_reused": True,

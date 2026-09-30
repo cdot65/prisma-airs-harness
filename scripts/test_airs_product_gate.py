@@ -70,6 +70,7 @@ class ProductGate(unittest.TestCase):
                     "real_mcp_turns": 3,
                     # 0.1.1 shipped as airs-harness; the renamed launcher replaces it.
                     "command_links_retargeted": True,
+                    "configuration_rewrites": [],
                     "uninstall_used": True,
                     "force_used": False,
                     "production_acceptance": False,

@@ -103,10 +103,16 @@ WORKSPACE_BASELINE_013 = {
 }
 # Release 0.1.4 stamps merged main: the accepted 0.1.4-alpha.2 preview (renamed
 # launcher, Developer ID signing), in-place environment auth replacement and
-# the fresh-conversation mark. The schema fixture correction is merged, so only
-# the disabled upstream service cases remain eligible.
+# the fresh-conversation mark. The schema fixture correction is merged. Run 4226
+# reproduced the disabled upstream service cases plus two stale `codex` binary
+# help snapshots that the `airs-harness` binary's identical tests already pass;
+# the snapshot files are corrected in tests only.
 WORKSPACE_SOURCE_014 = "946dc6e34c9bd7f439c5fa00a9c05a11bee53673"
-WORKSPACE_BASELINE_014 = dict(WORKSPACE_BASELINE_012)
+WORKSPACE_BASELINE_014 = {
+    **WORKSPACE_BASELINE_012,
+    "codex-cli::bin/codex airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle": "corrected-test-fixture",
+    "codex-cli::bin/codex airs_help::tests::standalone_login_help_describes_hidden_input": "corrected-test-fixture",
+}
 # Owner-authorized stable publications. A release whose runtime equals the last
 # preview plus its version stamp records that; one that merges reviewed changes
 # after the preview must list every merge so the diff from the accepted preview

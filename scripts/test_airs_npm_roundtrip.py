@@ -63,6 +63,7 @@ def roundtrip_result(spec, target):
             },
             "real_mcp_turns": 3,
             "command_links_retargeted": launcher_migration(spec),
+            "configuration_rewrites": [],
             "uninstall_used": launcher_migration(spec),
             "force_used": False,
             "production_acceptance": False,
@@ -231,6 +232,47 @@ class StableBaseline(unittest.TestCase):
             value[key] = wrong
             with self.subTest(key=key), self.assertRaises(ValueError):
                 validate_result("upgrade", value, spec, target)
+
+    def test_configuration_rewrites_are_bounded_to_the_launcher_directories(self):
+        spec = validate_spec(stable_spec())
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        rewrite = {
+            "phase": "candidate-resumed-turn",
+            "file": "config.toml",
+            "key": "mcp_servers.airs.command",
+            "from_package": "airs-harness",
+            "to_package": LAUNCHER,
+        }
+        receipt["roundtrip"]["configuration_rewrites"] = [
+            rewrite,
+            {
+                **rewrite,
+                "phase": "previous-resumed-turn",
+                "from_package": LAUNCHER,
+                "to_package": "airs-harness",
+            },
+        ]
+        validate_result("upgrade", receipt, spec, target)
+        for bad in (
+            {**rewrite, "file": "environments.json"},
+            {**rewrite, "to_package": "airs-harness"},
+            {**rewrite, "from_package": "something-else"},
+            {**rewrite, "key": None},
+        ):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"]["configuration_rewrites"] = [bad]
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+        same = stable_spec()
+        same.update(version="0.1.5-alpha.1.mcp.1", previous_version="0.1.4")
+        same = validate_spec(same)
+        value = roundtrip_result(same, target)
+        value["roundtrip"]["configuration_rewrites"] = [
+            {**rewrite, "from_package": LAUNCHER, "to_package": LAUNCHER}
+        ]
+        with self.assertRaises(ValueError):
+            validate_result("upgrade", value, same, target)
 
     def test_same_name_upgrade_must_not_uninstall(self):
         spec = stable_spec()

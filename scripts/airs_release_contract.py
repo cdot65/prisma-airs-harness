@@ -216,7 +216,23 @@ def validate_result(name, value, spec, target):
                 "Stable roundtrip preservation missing",
             )
             # A renamed launcher is replaced by name (uninstall, then install),
-            # never forced. Same-name upgrades must not uninstall at all.
+            # never forced, and may re-point stored command paths between the two
+            # launcher package directories. Same-name upgrades change nothing.
+            rewrites = roundtrip.get("configuration_rewrites")
+            packages = {previous_launcher(spec), LAUNCHER}
+            require(
+                isinstance(rewrites, list)
+                and (launcher_migration(spec) or not rewrites)
+                and all(
+                    isinstance(row, dict)
+                    and row.get("file") == "config.toml"
+                    and {row.get("from_package"), row.get("to_package")} == packages
+                    and isinstance(row.get("key"), str)
+                    and isinstance(row.get("phase"), str)
+                    for row in rewrites
+                ),
+                "Stable roundtrip configuration rewrite outside the launcher migration",
+            )
             require(
                 roundtrip.get("uninstall_used") is launcher_migration(spec)
                 and roundtrip.get("command_links_retargeted")

@@ -329,8 +329,8 @@ class StablePromotionTests(unittest.TestCase):
         workspace = {
             "scope": "full-workspace",
             "source_commit": WORKSPACE_SOURCE_014,
-            "passed": 19000,
-            "failed": 3,
+            "passed": 19011,
+            "failed": 5,
             "failures": list(WORKSPACE_BASELINE_014),
             "baseline_review": {
                 "source_commit": WORKSPACE_SOURCE_014,
@@ -343,6 +343,8 @@ class StablePromotionTests(unittest.TestCase):
                         "evidence_verified": True,
                         "evidence_sha256": "a" * 64,
                         "installed_command_rejected": True,
+                        "focused_check_passed": True,
+                        "runtime_source_unchanged": True,
                     }
                     for name, disposition in WORKSPACE_BASELINE_014.items()
                 },

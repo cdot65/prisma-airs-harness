@@ -56,20 +56,20 @@ For a new profile, start guided creation:
 airs env create work
 ```
 
-Enter `https://gateway.example.com/v1`, choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
+Enter the gateway address, such as `https://gateway.example.com` (AIRS adds the `/v1` inference path), choose **Create environment and sign in**, and follow one of the authentication paths below. This shell command finishes at the shell after sign-in. New environments need no manual MCP storage setting. Cancelling before creation saves nothing; cancelling after creation preserves the environment so you can resume login.
 
 If `work` already exists, reuse it:
 
 ```sh
 airs env use work
-airs --environment work login
+airs login
 ```
 
 Alternatively, supply the gateway URL explicitly, then sign in separately:
 
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
-airs --environment work login
+airs login
 ```
 
 Creation with `--gateway-url` saves and selects the environment without opening sign-in. Bare `airs` also offers **Connect an environment** on a fresh installation. In the welcome screen, **Choose another environment** selects a destination for that session; `airs env use NAME` changes the saved default. Do not recreate an existing profile to repair a cancelled or denied login.
@@ -106,17 +106,17 @@ The access check sends one small inference request and can consume gateway quota
 To supply public settings explicitly, use the existing command form:
 
 ```sh
-airs --environment work login \
+airs login \
   --issuer-url https://sso.example.com/realms/example-corp \
   --oidc-client-id ai-gateway-agent \
   --audience stack-ai-inference
 ```
 
-If login was cancelled, run `airs --environment work login` and choose company SSO again. To inspect the saved environment or retry an access check without another browser login:
+If login was cancelled, run `airs login` and choose company SSO again. To inspect the saved environment or retry an access check without another browser login:
 
 ```sh
 airs env status work
-airs --environment work doctor --verify-access
+airs doctor --verify-access
 ```
 
 `env status` inspects local configuration; it does not prove fresh authentication or remote access. `doctor --verify-access` sends another inference probe. Neither result tests ServiceNow tools. Adding MCP will not repair an incorrect inference URL or missing inference entitlement.
@@ -141,7 +141,7 @@ status and lets you remove the saved key. Escape cancels without changing an
 existing key. Your conversation and unsent draft are preserved.
 
 No external command is required. For terminal automation, the existing
-`airs --environment work env typesafe set` remains available. Use `/doctor` and
+`airs env typesafe set` remains available. Use `/doctor` and
 its access verification action to check the key against the TypeSafe models
 endpoint; saving a key alone does not verify remote acceptance.
 
@@ -227,7 +227,7 @@ Changing this setting alone does **not** move or delete existing tokens. If no M
 The new default does not change native credential identity: the same OS user's identical MCP connection name and URL can share a native record across environments. Signing out that record can affect those environments; use distinct connection names when separate credentials are needed. Linux needs an available Secret Service session, and macOS may request Keychain authorization.
 
 ```sh
-airs --environment work
+airs
 ```
 
 The remaining connection workflow stays inside AIRS. It uses the environment displayed by this session, even if another terminal changes the saved default.
@@ -249,11 +249,11 @@ The URL must be the gateway's integration URL, including `/mcp`, never the direc
 Shell commands remain available as an optional fallback:
 
 ```sh
-airs --environment work mcp add service-now \
+airs mcp add service-now \
   --url https://gateway-mcp.example.com/mcp-service-now-dev/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 # Only if the add flow did not finish sign-in:
-airs --environment work mcp login service-now --no-browser
+airs mcp login service-now --no-browser
 ```
 
 ### 6. Inspect health and verify a read-only ServiceNow call
@@ -287,7 +287,7 @@ airs cli runtime --help
 
 `tenant create` prompts for the tenant service group ID, OAuth client ID and a hidden client secret, and saves a private JSON configuration. It does not select the tenant until `tenant switch`. To register an existing JSON file without copying or changing it, use `airs cli tenant create development --config /secure/development.json` instead. Doctor reports which capabilities the configuration supports; it can perform remote probes and is not a guarantee that every product is licensed or authorized.
 
-Harness environments and CLI tenants are independent. `airs env use work` selects the conversation, inference login and MCP connections. `airs cli tenant switch development` selects product credentials. Prefer `airs cli --tenant development ...` in scripts. Put `cli` immediately after `airs`; `airs --environment work cli ...` does not select a product tenant. Company SSO does not supply Prisma AIRS management API credentials, and the CLI does not read old dotenv credentials as a fallback.
+Harness environments and CLI tenants are independent. `airs env use work` selects the conversation, inference login and MCP connections. `airs cli tenant switch development` selects product credentials. Prefer `airs cli --tenant development ...` in scripts. Put `cli` immediately after `airs`; a harness `--environment` flag does not select a product tenant. Company SSO does not supply Prisma AIRS management API credentials, and the CLI does not read old dotenv credentials as a fallback.
 
 In the harness, ask:
 
@@ -301,24 +301,24 @@ List environments with `airs env list`; switch the saved default with `airs env 
 
 | Symptom | Next step |
 | --- | --- |
-| Inference login was cancelled | `airs --environment work login`; reuse the environment |
+| Inference login was cancelled | `airs login`; reuse the environment |
 | Gateway MCP login needs renewal | `/mcp` → `service-now` → **Sign in**, then **Start new conversation** |
 | Inference succeeds but ServiceNow is absent | `/mcp` in the selected environment, then the gateway URL and workspace integration grant |
 | Browser callback says success but the terminal fails | `/doctor`; check native credential-store persistence and keep the terminal open through completion |
-| Workspace key needs replacement | Leave the session, run `airs --environment work login --with-api-key`, then reopen the same environment |
+| Workspace key needs replacement | Leave the session, run `airs login --with-api-key`, then reopen the same environment |
 | Credential cleanup is pending | Restore credential-service access, then retry the displayed environment-specific login or logout; unavailable does not necessarily mean locked |
 | Gateway returns 404 | Check the exact ServiceNow gateway URL and its final `/mcp` |
 | Tools return an authorization error | Have an administrator check the gateway workspace grant and upstream incident roles/scopes/subject binding |
 
 For inference SSO renewal, `/doctor` offers **Restore company sign-in**, or use `/signin`. Workspace-key replacement remains a shell operation. Neither operation grants MCP permissions. Escape cancels an unfinished action; existing work remains saved.
 
-If startup or resume stops because the inference refresh was rejected or its outcome is unknown, restore sign-in from the shell with `airs --environment work login --restore-session`, using the affected environment’s name. Sign in as the same person, then retry the original command. This restores access to the saved conversation; an already-open session continues to use `/signin`.
+If startup or resume stops because the inference refresh was rejected or its outcome is unknown, restore sign-in from the shell with `airs --environment NAME login --restore-session`, using the affected environment’s name. Sign in as the same person, then retry the original command. This restores access to the saved conversation; an already-open session continues to use `/signin`.
 
 To retire the environment, use `/mcp` → **Sign out** if desired, then sign out the credentials you intend to remove while it is still selected and unregister it:
 
 ```sh
-airs --environment work mcp logout service-now
-airs --environment work logout
+airs mcp logout service-now
+airs logout
 airs env remove work
 ```
 

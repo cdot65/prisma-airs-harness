@@ -226,11 +226,11 @@ method, or separate policy bindings and workspaces.
 
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
-airs --environment work login \
+airs login \
   --issuer-url https://sso.example.com/realms/example-corp \
   --oidc-client-id ai-gateway-agent \
   --audience stack-ai-inference
-airs --environment work doctor --verify-access
+airs doctor --verify-access
 ```
 
 Skip creation when `work` exists. Enter the user's password only on the identity

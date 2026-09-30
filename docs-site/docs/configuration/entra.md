@@ -127,7 +127,7 @@ Run the normal harness login and choose Entra in the browser. Confirm the final
 issuer is Keycloak, the audience is `stack-ai-inference`, the client is
 `ai-gateway-agent`, the workspace is correct and the `invoke` grant is present.
 Inspect claims only in a private local tool; do not paste a live token into an
-online decoder. Run `airs --environment work doctor --verify-access`, then the
+online decoder. Run `airs doctor --verify-access`, then the
 separate MCP read-only check in [acceptance](../validation/acceptance.md).
 
 Test removal as well as access. Remove the Entra assignment, log in again through

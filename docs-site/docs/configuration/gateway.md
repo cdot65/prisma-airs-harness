@@ -97,7 +97,9 @@ explicit policy permits selecting another saved route.
 
 In the gateway's workspace API-key management, create a **user workspace key**
 with inference permission, expiration and limits. Copy it once into the hidden
-harness prompt:
+harness prompt. The easiest way is to run `airs`: its welcome screen asks for an
+environment name and the gateway URL, then offers **Use a workspace API key**. To do
+it from the shell, for a script or a second environment:
 
 ```sh
 airs env create workspace-api --gateway-url https://gateway.example.com/v1
@@ -106,10 +108,11 @@ airs --environment workspace-api doctor --verify-access
 ```
 
 Skip environment creation if the profile exists. Never pass a key as a command
-argument or paste it into an agent prompt. The last two commands prove different
-things. A successful save proves the key is in local credential storage. The
-doctor probe proves the gateway accepted one inference request with it. A key
-does not create an OIDC session and does not sign in MCP.
+argument or paste it into an agent prompt. Here the environment is named because it is
+a second profile, and the last two commands prove different things. A successful
+save proves the key is in local credential storage. The doctor probe proves the
+gateway accepted one inference request with it. A key does not create an OIDC
+session and does not sign in MCP.
 
 Test both permitted and denied cases for each authentication method rather than
 bypassing the identity guardrail.

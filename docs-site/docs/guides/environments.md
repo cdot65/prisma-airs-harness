@@ -34,27 +34,35 @@ with a legacy `.airs-terminal` fallback.
 belong to the selected environment and cannot be replaced by project overrides,
 so a repository you open cannot point your credentials at a different gateway.
 
-**What selects an environment.** `env use` changes the default for new processes,
-and `--environment` selects one invocation. A running conversation keeps the
-environment it started in, so changing the default does not move a session that
-is already open.
+**What selects an environment.** Most people never need to choose. The first time you
+run `airs`, its welcome screen creates an environment for you and signs you in, and
+after that `airs` opens it. `env use` changes the default for new processes when you
+keep several, and `--environment` selects one invocation without changing it. A
+running conversation keeps the environment it started in, so changing the default does
+not move a session that is already open.
 
 ## Work with environments
 
 ### Create, sign in and inspect
 
+To create your first environment, run `airs` and answer the welcome screen: an
+environment name, the gateway URL, and then company SSO or a workspace API key. The
+commands below do the same thing without the screen, for scripts and for adding more
+environments:
+
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
-airs --environment work login
+airs login
 airs env list
 airs env show work
 airs env status work
-airs --environment work doctor --verify-access
+airs doctor --verify-access
 airs env use work
 ```
 
 Creation with `--gateway-url` saves and selects the environment without starting
-sign-in. Omit the flag for guided creation and sign-in.
+sign-in. Omit the flag for guided creation and sign-in. Commands act on the default
+environment. Add `--environment NAME` to run one command against another.
 
 `env status` reports local state. `doctor --verify-access` sends a small inference
 probe and can consume gateway quota. Neither proves a remote tool works. After
@@ -128,7 +136,7 @@ environment.
 
 ### Recover a sign-in
 
-Use `airs --environment work login --restore-session` if a rejected or uncertain
+Use `airs login --restore-session` if a rejected or uncertain
 inference refresh prevents startup or resume. Sign in as the same person. Within
 an open conversation, use `/signin`. Use `/mcp` separately for MCP recovery.
 

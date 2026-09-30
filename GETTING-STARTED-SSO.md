@@ -488,8 +488,9 @@ inference credential, and asks for confirmation first. It stops open sessions in
 that environment; resume them with `airs resume`. If the new credential is a
 different person, sign in to MCP connections again as that person.
 
-`logout` revokes the refresh token at Keycloak. It does not sign out MCP
-connections added with `/mcp`; sign those out in `/mcp`. Company sign-ins for
+`logout` revokes the refresh token at Keycloak and stops MCP use in the
+environment until you sign in again. It keeps the tokens of MCP connections added
+with `/mcp`, which work again after you sign in; sign those out in `/mcp`. Company sign-ins for
 MCP servers set up with `airs setup-mcp` are signed out and revoked too. An access token already issued stays valid until it expires,
 within minutes with the reference 15-minute lifetime. If Keycloak cannot be
 reached, the local sign-out still happens and the command says revocation could

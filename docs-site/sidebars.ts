@@ -2,7 +2,11 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
   docs: [
-    'index', 'generated/getting-started',
+    'index',
+    {type: 'category', label: 'Getting started', collapsed: false, items: [
+      {type: 'doc', id: 'generated/getting-started', label: 'Workspace API key'},
+      {type: 'doc', id: 'generated/getting-started-sso', label: 'Company SSO'},
+      {type: 'doc', id: 'generated/getting-started-mcp', label: 'MCP servers with OAuth'}]},
     {type: 'category', label: 'Architecture and deployment', items: [
       'guides/architecture', 'platform/deployment', 'guides/skills']},
     {type: 'category', label: 'Configuration', items: [
@@ -10,7 +14,7 @@ const sidebars: SidebarsConfig = {
       'configuration/mcp', 'guides/environments']},
     {type: 'category', label: 'Validation', items: ['validation/acceptance']},
     {type: 'category', label: 'Hands-on operations', items: [
-      'operations/cheat-sheet', 'generated/sso-servicenow', 'guides/terminal', 'guides/mcp', 'guides/judge',
+      'operations/cheat-sheet', 'guides/terminal', 'guides/mcp', 'guides/judge',
       'generated/bundled-cli', 'generated/ubuntu']},
     'guides/releases',
   ],

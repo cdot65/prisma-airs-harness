@@ -28,8 +28,9 @@ sign in.
 
 | Task | Guide |
 | --- | --- |
-| Install, sign in with a workspace key and send a first request | [Getting started](generated/getting-started.md) |
-| Sign in with company SSO and connect ServiceNow | [SSO and ServiceNow walkthrough](generated/sso-servicenow.md) |
+| Install, sign in with a workspace key and send a first request | [Getting started with a workspace API key](generated/getting-started.md) |
+| Sign in as yourself with Keycloak or Microsoft Entra ID | [Getting started with company SSO](generated/getting-started-sso.md) |
+| Connect ServiceNow or another remote MCP server with OAuth | [Getting started with MCP servers](generated/getting-started-mcp.md) |
 | Separate accounts, destinations and history | [Environments](guides/environments.md) |
 | Authorize ServiceNow and other remote tools | [Gateway MCP](guides/mcp.md) |
 | Resume work, select routes and configure the terminal | [Terminal workflow](guides/terminal.md) |

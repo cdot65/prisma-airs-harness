@@ -69,7 +69,7 @@ probe and can consume gateway quota. Neither proves a remote tool works. After
 MCP sign-in, verify an actual read-only tool result.
 
 Follow the
-[migration steps](../generated/sso-servicenow.md#4-open-airs-and-check-mcp-storage-for-existing-environments)
+[migration steps](../generated/getting-started-mcp.md#environments-created-before-native-mcp-storage)
 before changing an existing environment's MCP storage mode.
 
 ### Rename and remove

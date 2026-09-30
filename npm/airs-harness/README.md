@@ -94,8 +94,10 @@ compatibility fallback. Keep targets referenced by existing credential bindings.
 
 ## First session: inference, then gateway MCP
 
-Follow [Getting started](GETTING-STARTED.md) for the complete SSO-to-ServiceNow
-journey, including workspace API keys as an alternative for inference. A local
+Follow [Getting started](GETTING-STARTED.md) to sign in with a workspace API key,
+[Getting started with company SSO](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-SSO.md) for company sign-in, and
+[MCP servers with OAuth](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md) to connect ServiceNow or another
+remote tool server. A local
 environment name does **not** bind to a gateway workspace name. Separate
 environments when you need separate connections, credentials or history.
 
@@ -136,7 +138,7 @@ including expired or sign-in-required connections, in the original storage mode
 first. Exit
 AIRS, change the setting, reopen the environment and sign in again. Editing the
 setting alone does not migrate or delete tokens. If cleanup fails, resolve it
-before changing modes. See [the complete storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+before changing modes. See [the complete storage guidance](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md#environments-created-before-native-mcp-storage).
 Identical connection names and URLs can share a native record across the same
 OS user's environments; use distinct names when separate credentials are needed.
 Linux needs an available Secret Service session; macOS uses Keychain. Installing

@@ -31,6 +31,8 @@ METADATA = {
     "package/PACKAGE-TOOLING.json",
     "package/validation-evidence/original-build-candidate.json",
 }
+# Shipped text whose content the release gate reads; captured like metadata, not parsed.
+TEXT = {"package/scripts/prepare_airs_ubuntu.sh"}
 MUTABLE = {
     "package/package.json",
     "package/BUILD-INFO.json",
@@ -76,7 +78,7 @@ class _Payload:
 
 
 def _scan(path, visitor=None):
-    result = {"members": {}, "metadata": {}, "json": {}}
+    result = {"members": {}, "metadata": {}, "json": {}, "text": {}}
     seen, required_dirs, path_bytes = {}, set(), 0
     with (
         regular_file(path, MAX_ARCHIVE) as raw,
@@ -131,7 +133,7 @@ def _scan(path, visitor=None):
                 "Archive inventory exceeds limit",
             )
             require(not directory or info.size == 0, "Directory contains payload")
-            capture = name in METADATA
+            capture = name in METADATA or name in TEXT
             require(
                 not capture or (not directory and info.size <= MAX_JSON),
                 "Metadata exceeds limit",
@@ -150,7 +152,9 @@ def _scan(path, visitor=None):
                 "type": "dir" if directory else "file",
                 "sha256": payload.digest.hexdigest(),
             }
-            if capture:
+            if name in TEXT:
+                result["text"][name] = bytes(payload.captured)
+            elif capture:
                 raw_metadata = bytes(payload.captured)
                 result["metadata"][name] = raw_metadata
                 result["json"][name] = json_bytes(raw_metadata)

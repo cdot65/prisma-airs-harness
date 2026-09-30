@@ -9,6 +9,7 @@ import tempfile
 from airs_release_acceptance import verify_acceptance_set
 from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
+from airs_ubuntu_helper import HELPER_MEMBER, verify_ubuntu_helper
 from airs_test_release_spec import (
     LAUNCHER,
     archive_filename,
@@ -98,6 +99,14 @@ def _package_identity(spec, row, inventory):
                 manifest.get("os") == ["darwin"] and manifest.get("cpu") == ["arm64"],
                 "Mac preview launcher must reject other platforms",
             )
+        # The shipped Ubuntu helper must install and check this launcher, not a
+        # previous name; the check reads the archived copy, never the repository.
+        helper = inventory["text"].get(HELPER_MEMBER)
+        require(helper is not None, "Launcher archive lacks the Ubuntu helper")
+        try:
+            verify_ubuntu_helper(helper, LAUNCHER, spec["version"])
+        except ValueError as error:
+            raise ValueError("Packaged Ubuntu helper names another launcher") from error
         return
     target = next(target for target, name in TARGETS.items() if name == row["name"])
     system, architecture = PLATFORM_MANIFEST[target]

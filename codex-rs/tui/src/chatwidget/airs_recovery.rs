@@ -15,7 +15,12 @@ impl ChatWidget {
     }
 
     pub(crate) fn show_airs_sign_in(&mut self, attempt: Option<u64>) {
-        let mut view = sign_in_view(attempt);
+        let command = match crate::airs_branding::environment_name(&self.config.codex_home) {
+            Some(name) if name.starts_with('-') => format!("airs --environment={name}"),
+            Some(name) => format!("airs --environment {name}"),
+            None => "airs".into(),
+        };
+        let mut view = sign_in_view(attempt, &command);
         if let Some(thread_id) = self.thread_id() {
             for (name, server) in self.config.mcp_servers.get() {
                 if super::airs_mcp_recovery::supports_oauth(server) {
@@ -47,7 +52,12 @@ impl ChatWidget {
     }
 }
 
-pub(super) fn sign_in_view(attempt: Option<u64>) -> SelectionViewParams {
+pub(super) fn sign_in_view(attempt: Option<u64>, command: &str) -> SelectionViewParams {
+    // A different credential ends this session's gateway access, so the change runs
+    // from the terminal where its guided flow can confirm, save and test it.
+    let change = format!(
+        "To replace this environment's workspace API key or switch between company SSO and a key, exit AIRS and run: {command} env auth\nIt confirms the change, saves it and sends one test request. Then continue this conversation with: {command} resume"
+    );
     SelectionViewParams {
         title: Some("Restore company sign-in".into()),
         subtitle: Some("Your conversation and draft stay here. Sign in as the same person.".into()),
@@ -60,6 +70,19 @@ pub(super) fn sign_in_view(attempt: Option<u64>) -> SelectionViewParams {
                         .into(),
                 ),
                 actions: vec![Box::new(|tx| tx.send(AppEvent::AirsSignIn))],
+                dismiss_on_select: true,
+                ..Default::default()
+            },
+            SelectionItem {
+                name: "Change key or sign-in method".into(),
+                description: Some(
+                    "Use a different workspace API key, company user, or sign-in method.".into(),
+                ),
+                actions: vec![Box::new(move |tx| {
+                    tx.send(AppEvent::InsertHistoryCell(Box::new(
+                        crate::history_cell::new_info_event(change.clone(), /*hint*/ None),
+                    )))
+                })],
                 dismiss_on_select: true,
                 ..Default::default()
             },

@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "test": "noninteractive explicit key replacement",
+      "passed": true
+    },
+    {
+      "test": "replacement sends exactly one gateway test",
+      "passed": true
+    },
+    {
+      "test": "gateway test uses replacement key",
+      "passed": true
+    },
+    {
+      "test": "replacement persisted in native Keychain",
+      "passed": true
+    },
+    {
+      "test": "update menu and confirmation: env auth work",
+      "passed": true
+    },
+    {
+      "test": "cancel preserves credential and sends no request: 0",
+      "passed": true
+    },
+    {
+      "test": "update menu and confirmation: --environment work login",
+      "passed": true
+    },
+    {
+      "test": "cancel preserves credential and sends no request: 1",
+      "passed": true
+    },
+    {
+      "test": "test-current action sends one request without changing credential",
+      "passed": true
+    },
+    {
+      "test": "default fullscreen",
+      "passed": true
+    },
+    {
+      "test": "settings select inline",
+      "passed": true
+    },
+    {
+      "test": "startup refuses non-interface model setting",
+      "passed": true
+    }
+  ],
+  "version": "airs 0.1.4-alpha.1.mcp.1",
+  "scope": "Published Apple Silicon install, real Keychain, synthetic loopback gateway; no production SSO acceptance"
+}

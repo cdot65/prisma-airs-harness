@@ -242,11 +242,13 @@ def worker(name):
                 columns=100,
                 rows=40,
             )
-            terminal.expect("Sign in to continue")
+            # A signed-in environment offers to update its authentication; Esc
+            # leaves the saved credential unchanged.
+            terminal.expect("Update authentication")
             terminal.send(b"\x1b")
             terminal.finish("", status=1)
             require(
-                f"resume with {command} login."
+                f"Update it later with {command} env auth."
                 in terminal.transcript.decode(errors="replace")
             )
             require(registry_path.read_bytes() == before)

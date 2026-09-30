@@ -1,0 +1,22 @@
+{
+  "airs-harness": {
+    "latest": "0.1.3",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.3-alpha.2.mcp.1",
+    "stable-candidate": "0.1.3",
+    "mac-preview": "0.1.3-alpha.7.mcp.1"
+  },
+  "airs-harness-darwin-arm64": {
+    "latest": "0.1.3",
+    "alpha": "0.1.0-alpha.22.onboarding.4",
+    "gateway-validation": "0.1.0-alpha.21",
+    "migration": "0.1.0-alpha.22",
+    "onboarding": "0.1.0-alpha.22.onboarding.4",
+    "mcp": "0.1.3-alpha.2.mcp.1",
+    "stable-candidate": "0.1.3",
+    "mac-preview": "0.1.3-alpha.7.mcp.1"
+  }
+}

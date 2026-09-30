@@ -148,3 +148,34 @@ credential and package-integrity checks when moving runners.
 
 No dedicated host has been selected yet; host access is pending and does not
 block the current hosted Apple Silicon release.
+
+## Forgejo runner disk space
+
+The Forgejo `airs-macos-arm64` runner is the owner's Mac, so the build refuses to
+start below **40 GiB** free and warns below 60 GiB. The job log reports the actual
+free space. A release build peaks near 30 GiB: about 5–7 GiB of `target/`, the
+cache archive and its extracted copy, 2.5 GiB of Cargo sources, up to 10 GiB of
+sccache (`SCCACHE_CACHE_SIZE`) and package staging.
+
+The build cache is keyed by `Cargo.lock` and the toolchain, not by commit, so the
+runner keeps one compiled `target/` per dependency set instead of one per build.
+Cargo rebuilds only the crates that changed.
+
+`scripts/airs_mac_runner_cleanup.sh` reclaims space without touching release
+evidence. By default it only reports; `--apply` removes. It skips everything while
+a runner job is in progress, then removes:
+
+- bulky files from `~/.cache/airs-*` scratch folders older than 14 days, keeping
+  `.json`, `.md`, `.log` and `.txt` evidence, and archives older than 14 days;
+- runner job work directories older than 2 days;
+- action cache blobs unused for 21 days (a pruned entry restores as a cache miss).
+
+Install it once on the runner to run daily at 04:30:
+
+```sh
+scripts/airs_mac_runner_cleanup.sh            # preview
+scripts/airs_mac_runner_cleanup.sh --install  # launchd job io.cdot.airs-runner-cleanup
+```
+
+It logs to `~/Library/Logs/airs-runner-cleanup.log`. `KEEP_DAYS`, `CACHE_DAYS` and
+`RUNNER_HOME` override the defaults.

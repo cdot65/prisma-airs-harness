@@ -1348,7 +1348,15 @@ async fn cli_main(
                     airs_oidc::restore_session(home.as_path(), flow).await
                 } else if args.airs.issuer_url.is_some() {
                     airs_login::remember_settings(home.as_path(), &args.airs)?;
-                    airs_oidc::login(home.as_path(), &args.airs, flow).await
+                    airs_oidc::login(home.as_path(), &args.airs, flow).await?;
+                    if args.airs.replace {
+                        airs_login::verify_replacement(
+                            home.as_path(),
+                            selected_environment.as_deref(),
+                        )
+                        .await?;
+                    }
+                    Ok(())
                 } else if args.with_api_key
                     || args.airs.credential_file.is_some()
                     || args.airs.credential_env.is_some()
@@ -1357,7 +1365,15 @@ async fn cli_main(
                         !args.use_device_code,
                         "--device-auth cannot be combined with workspace credential options"
                     );
-                    airs_credentials::login(home.as_path(), &args.airs, args.with_api_key)
+                    airs_credentials::login(home.as_path(), &args.airs, args.with_api_key).await?;
+                    if args.airs.replace {
+                        airs_login::verify_replacement(
+                            home.as_path(),
+                            selected_environment.as_deref(),
+                        )
+                        .await?;
+                    }
+                    Ok(())
                 } else {
                     airs_login::interactive(home.as_path(), flow, selected_environment.as_deref())
                         .await

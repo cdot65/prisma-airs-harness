@@ -1,0 +1,51 @@
+{
+  "product": "Prisma AIRS Harness",
+  "compilation_run": "4192",
+  "validation_run": "4192",
+  "validation_tooling_commit": "11f676685f34289036b2885bea714439c0cd03b1",
+  "product_version": "0.1.4-alpha.1.mcp.1",
+  "target": "aarch64-apple-darwin",
+  "binary_sha256": "eda210ca422b810861e6b4f2d35598a7f955781d451d6304c9fc56c8d2b0b05a",
+  "native_tests": "61",
+  "sandbox": "workspace-write; native macOS Seatbelt",
+  "keychain": {
+    "passed": true,
+    "platform": "darwin",
+    "separate_processes": 7,
+    "workspace_v2_max_token_bytes": 16384,
+    "cases": [
+      {
+        "passed": true,
+        "phase": "write"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-pend"
+      },
+      {
+        "passed": true,
+        "phase": "read-and-delete"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-legacy-write"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-and-write-v2"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-both-delete-legacy"
+      },
+      {
+        "passed": true,
+        "phase": "workspace-read-and-delete-v2"
+      }
+    ]
+  },
+  "signing": "ad-hoc signature verified; no Developer ID notarization",
+  "macos_version": "26.6.2",
+  "live_gateway_e2e": false,
+  "source_commit": "11f676685f34289036b2885bea714439c0cd03b1"
+}

@@ -209,11 +209,29 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
         )?);
         None
     };
-    if let Some(previous) = &existing {
+    // After the environment's inference identity was replaced (airs env auth), its
+    // OIDC MCP bindings still name the previous user. Only such a stale binding may be
+    // re-signed in place as the new inference user; any other identity change is refused.
+    let mut stale = None;
+    if let Some(previous) = &existing
+        && previous.credential_fingerprint != binding.credential_fingerprint
+    {
+        let inference_subject = match &super::airs_credentials::read_binding(home)?.source {
+            Some(Source::Oidc { identity }) => Some(identity.subject.clone()),
+            _ => None,
+        };
+        let previous_subject = match previous.oidc.as_ref().and_then(|b| b.source.as_ref()) {
+            Some(Source::Oidc { identity }) => Some(identity.subject.clone()),
+            _ => None,
+        };
         anyhow::ensure!(
-            previous.credential_fingerprint == binding.credential_fingerprint,
+            previous_subject.is_some() && previous_subject != inference_subject,
             "MCP identity changed; create a new environment for this resource identity"
         );
+        stale = previous
+            .oidc
+            .as_ref()
+            .and_then(|identity| airs_oidc::load_active(identity).ok());
     }
     let helper = helper_command(&std::env::current_exe()?, home, binding.id)?;
     let mut server = serde_json::json!({"url": binding.url, "http_headers_helper": helper,
@@ -230,6 +248,9 @@ pub async fn setup(home: &Path, args: &SetupArgs) -> anyhow::Result<()> {
     }
     if let (Some(identity), Some(tokens)) = (&binding.oidc, tokens) {
         airs_oidc::store_tokens(identity, tokens)?;
+    }
+    if let Some(tokens) = stale {
+        super::airs_credentials::revoke_previous(tokens).await;
     }
     servers.insert(args.name.clone(), server);
     let directory = home.join("mcp-bindings");

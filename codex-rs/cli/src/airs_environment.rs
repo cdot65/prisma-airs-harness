@@ -29,6 +29,14 @@ pub enum Command {
     Status { name: Option<String> },
     /// Rename an environment while preserving its credentials and history.
     Rename { name: String, new_name: String },
+    /// Replace an environment's key or switch between company SSO and a workspace key.
+    ///
+    /// Guided: confirms the change, saves it and tests gateway access. Saved
+    /// conversations stay in the environment; open sessions must be restarted.
+    #[command(
+        after_help = "Automation (no prompts):\n  airs --environment NAME login --replace --with-api-key < key-file\n  airs --environment NAME login --replace --credential-file PATH\n  airs --environment NAME login --replace --issuer-url URL --oidc-client-id ID --audience AUD\nThen confirm access: airs --environment NAME doctor --verify-access"
+    )]
+    Auth { name: Option<String> },
     /// Unregister an environment, preserving its local history on disk.
     Remove { name: String },
     /// Manage the optional TypeSafe judge API key for an environment.
@@ -318,6 +326,15 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
     if let Command::Typesafe { command } = command {
         return super::airs_typesafe::run(root, command, requested).await;
     }
+    if let Command::Auth { name } = command {
+        anyhow::ensure!(
+            name.as_deref()
+                .zip(requested)
+                .is_none_or(|(name, requested)| name == requested),
+            "environment name conflicts with --environment"
+        );
+        return super::airs_login::update(root, name.as_deref().or(requested)).await;
+    }
     // The wizard owns its registry lock and releases it before browser sign-in.
     if let Command::Create { name, args } = command {
         anyhow::ensure!(
@@ -340,8 +357,13 @@ pub async fn run(root: &Path, command: &Command, requested: Option<&str>) -> any
     let _lock = lock(root)?;
     let mut registry = read(root)?;
     match command {
-        Command::Create { .. } | Command::Status { .. } | Command::Typesafe { .. } => {
-            unreachable!("creation, status and typesafe are handled before locking the registry")
+        Command::Create { .. }
+        | Command::Status { .. }
+        | Command::Typesafe { .. }
+        | Command::Auth { .. } => {
+            unreachable!(
+                "creation, status, typesafe and auth are handled before locking the registry"
+            )
         }
         Command::List => {
             for (name, environment) in &registry.environments {

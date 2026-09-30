@@ -158,7 +158,7 @@ pub(super) fn company(
                     item("Continue with saved settings", &config.issuer),
                     item(
                         "Review or change public settings",
-                        "A different identity requires a separate environment",
+                        "Issuer, client ID or audience; a new identity replaces the current one",
                     ),
                 ],
             )?,

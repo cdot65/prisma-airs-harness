@@ -7,7 +7,7 @@ use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 /// Standalone product version, distinct from the pinned upstream crate versions.
-pub const AIRS_HARNESS_VERSION: &str = "0.1.3";
+pub const AIRS_HARNESS_VERSION: &str = "0.1.4-alpha.1.mcp.1";
 static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 
 /// Select one independent AIRS environment before loading runtime configuration.
@@ -27,6 +27,16 @@ pub fn select_airs_environment_home(path: PathBuf) -> std::io::Result<()> {
 /// Whether this process was initialized as the standalone AIRS harness.
 pub fn is_airs_harness() -> bool {
     APPLICATION_HOME.get().is_some()
+}
+
+/// The harness application directory that holds every environment, when initialized.
+pub fn airs_application_home() -> Option<AbsolutePathBuf> {
+    APPLICATION_HOME.get().cloned()
+}
+
+/// Harness-wide interface preferences shared by every environment (settings.toml).
+pub fn airs_settings_path() -> Option<AbsolutePathBuf> {
+    airs_application_home().map(|root| root.join("settings.toml"))
 }
 
 /// Public command name for built-in instructions, distinct from package names.

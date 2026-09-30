@@ -98,7 +98,9 @@ impl SlashCommand {
             }
             SlashCommand::Config => "choose a saved AI Gateway configuration",
             SlashCommand::Doctor => "check environment health and recover gateway or MCP access",
-            SlashCommand::Signin => "restore company or MCP sign-in for this AIRS session",
+            SlashCommand::Signin => {
+                "restore company or MCP sign-in, or change this environment's key or method"
+            }
             SlashCommand::Feedback => "send logs to maintainers",
             SlashCommand::New => "start a new chat during a conversation",
             SlashCommand::Init => "create an AGENTS.md file with instructions for Codex",

@@ -387,3 +387,33 @@ fn dangling_binding_link_is_not_treated_as_an_unsigned_environment() {
     .unwrap();
     assert!(needs_login(home.path(), |_| false).is_err());
 }
+
+#[test]
+fn current_method_detects_established_sign_in_without_secret_values() {
+    let home = home();
+    assert_eq!(current_method(home.path()).unwrap(), None);
+    binding(home.path(), Some(Source::KeyringV2));
+    assert_eq!(
+        current_method(home.path()).unwrap(),
+        Some(Method::WorkspaceKey {
+            storage: "OS credential store".into()
+        })
+    );
+    binding(
+        home.path(),
+        Some(Source::Oidc {
+            identity: codex_airs_identity::Identity {
+                config: config(),
+                subject: "fixture-subject".to_owned(),
+                display_name: None,
+            },
+        }),
+    );
+    let company = current_method(home.path()).unwrap().unwrap();
+    assert_eq!(
+        company.describe(),
+        "company SSO as fixture-subject via https://identity.example/realms/company"
+    );
+    std::fs::write(home.path().join("logged-out"), "signed out").unwrap();
+    assert_eq!(current_method(home.path()).unwrap(), None);
+}

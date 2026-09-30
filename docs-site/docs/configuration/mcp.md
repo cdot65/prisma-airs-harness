@@ -90,7 +90,7 @@ outside the read-only group. Provide the integration's full gateway URL, such as
 
 ### 2. Connect as a user
 
-Open `airs --environment work`, enter `/mcp`, and select **Add gateway MCP server**.
+Open `airs`, enter `/mcp`, and select **Add gateway MCP server**.
 Use local name `incident-tools` and the administrator-provided gateway URL.
 Complete organizational sign-in and any gateway-managed upstream consent. On
 SSH, open the displayed link on your browser device, then paste the entire final
@@ -104,11 +104,11 @@ conversation** after a connection or identity change.
 To add the connection from the shell instead of the in-session manager:
 
 ```sh
-airs --environment work mcp add incident-tools \
+airs mcp add incident-tools \
   --url https://gateway-mcp.example.com/tools-dev/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 # Use only if the add flow did not finish login:
-airs --environment work mcp login incident-tools --no-browser
+airs mcp login incident-tools --no-browser
 ```
 
 Scopes must match the gateway's published authorization contract. The example

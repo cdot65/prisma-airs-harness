@@ -34,7 +34,6 @@ Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 npm install -g airs-harness
 airs --version
 airs cli --version
-airs env create work
 airs
 ```
 
@@ -58,18 +57,24 @@ Your administrator supplies the gateway URL and either public OIDC settings
 or a user workspace API key. Inference supports Keycloak company SSO, including
 Entra federation through Keycloak, or workspace keys entered in a hidden prompt.
 
+Run `airs`. On a fresh installation it opens a welcome screen that asks for an
+environment name and the gateway URL, then offers company SSO or a workspace API
+key, so there are no setup flags to pass. Enter `/doctor` in the session to verify
+the connection. It makes a small inference request and can consume quota. To
+script the same steps, or to keep several environments, pass the flags directly:
+
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
-airs --environment work login
-airs --environment work doctor --verify-access
-airs --environment work
+airs login
+airs doctor --verify-access
+airs
 ```
 
-Skip creation when the profile exists. Doctor makes a small inference request
-and can consume quota. It does not verify MCP. In the terminal, use `/mcp` to
-add the gateway integration and complete its separate organizational login.
-After tool discovery, start a new conversation and verify an actual read-only
-tool result.
+Skip creation when the profile exists. Add `--environment NAME` to any command to
+target a different environment for that command. Doctor does not verify MCP. In
+the terminal, use `/mcp` to add the gateway integration and complete its separate
+organizational login. After tool discovery, start a new conversation and verify an
+actual read-only tool result.
 
 It helps to know where the line sits between the local runtime and the gateway.
 Both model inference and remote MCP go through AI Gateway, and the gateway owns

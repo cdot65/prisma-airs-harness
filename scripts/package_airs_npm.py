@@ -13,6 +13,9 @@ import shutil
 import subprocess
 from urllib.parse import urlparse
 
+from airs_test_release_spec import LAUNCHER as PUBLISHED_LAUNCHER
+from airs_ubuntu_helper import verify_ubuntu_helper
+
 
 TARGETS = {
     "x86_64-unknown-linux-musl": ("linux", "x64"),
@@ -177,6 +180,13 @@ def main():
     ]:
         shutil.copy2(root / name, launcher / name)
     (launcher / "scripts").mkdir()
+    # The shipped helper documents the published launcher at this exact version,
+    # whatever private name a CI candidate carries; staging re-checks the archive.
+    verify_ubuntu_helper(
+        (root / "scripts/prepare_airs_ubuntu.sh").read_text(),
+        PUBLISHED_LAUNCHER,
+        manifest["version"],
+    )
     shutil.copy2(
         root / "scripts/prepare_airs_ubuntu.sh",
         launcher / "scripts/prepare_airs_ubuntu.sh",

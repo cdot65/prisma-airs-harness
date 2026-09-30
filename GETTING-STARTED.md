@@ -238,7 +238,8 @@ and temporary folders.
 
 ![The AIRS session header listing model, directory, environment, gateway, identity and permissions, above an empty prompt.](docs-site/static/img/getting-started/airs-session-ready.png)
 
-From now on, running `airs` opens this environment. Setup is done. Exit the
+The environment is now your default. From here on, `airs` and every `airs`
+command use it without you naming it. Setup is done. Exit the
 session with Ctrl+C when you want to run the checks in Part 2 from the shell, or
 keep it open in another terminal.
 
@@ -249,8 +250,8 @@ environment, the same setup is three commands:
 
 ```sh
 airs env create workspace-api --gateway-url https://gateway.example.com/v1
-airs --environment workspace-api login --with-api-key
-airs --environment workspace-api doctor --verify-access
+airs login --with-api-key
+airs doctor --verify-access
 ```
 
 - `env create` with `--gateway-url` saves and selects the environment without
@@ -258,7 +259,7 @@ airs --environment workspace-api doctor --verify-access
 - `login --with-api-key` shows the hidden `Workspace API key` prompt, stores the
   key and prints `Configured workspace credential for https://gateway.example.com/v1.
   No individual user identity is asserted.` A script can pipe the key on standard
-  input instead: `airs --environment workspace-api login --with-api-key < key-file`.
+  input instead: `airs login --with-api-key < key-file`.
 - `doctor --verify-access` runs the access check the screens ran for you. Step 7
   explains its output.
 
@@ -337,8 +338,7 @@ Credential configuration: Saved; availability and gateway access not checked. Ru
 ```
 
 `Workspace credential; saved OS-store binding` means the key is in your Keychain
-or keyring, referenced by that ID. `airs env status workspace-api` prints the same
-report for a named environment. If you see `logged out; run airs login`, no key is
+or keyring, referenced by that ID. `airs env status` prints the same report. If you see `logged out; run airs login`, no key is
 saved; sign in again with `airs login`.
 
 Notice the last line. Everything so far describes what is saved on your machine.
@@ -358,8 +358,7 @@ The top of the view offers three actions:
 - **Verify gateway access** sends one minimal inference request, with no
   conversation, files or tools. This is the real test of your connection.
 - **Credential recovery** tells you how to replace a workspace key: exit and run
-  `airs --environment NAME login`, which opens the same replace menu as
-  `airs env auth NAME`.
+  `airs login`, which opens the same replace menu as `airs env auth`.
 
 Below the actions is a status line for each part of the connection. **Gateway
 access** reads **Not verified** when you first open the view, because this view
@@ -474,22 +473,23 @@ and what it forwarded.
 | `airs login --with-api-key` | Hidden prompt; stores the key in the OS credential store | Saves the key | No |
 | `airs --version`, `airs cli --version` | Harness and bundled CLI versions | No | No |
 | `airs env list` | Lists environments; `*` marks the default | No | No |
-| `airs env show [NAME]` | Name, ID, gateway and state directory | No | No |
-| `airs login status`, `airs env status [NAME]` | Gateway and how the credential is stored | No | No |
+| `airs env show` | Name, ID, gateway and state directory | No | No |
+| `airs login status`, `airs env status` | Gateway and how the credential is stored | No | No |
 | `airs doctor` | Local checks and a gateway health probe | No | Health only, no credential |
 | `airs doctor --verify-access` | All of the above, plus one inference request | No | Yes, up to 16 tokens |
 | `/doctor` | The same checks inside a session | No | Only when you choose **Verify gateway access** |
 
-Commands that act on an environment use the default one. Add `--environment NAME`
-to run one command against another, for example
-`airs --environment workspace-api doctor`.
+Every command acts on your default environment, the one you created in step 4, so
+you never need to name it. You only name an environment when you keep more than
+one, for example a key-based one and an SSO one: `airs env use NAME` switches the
+default, and `--environment NAME` runs a single command against another one.
 
 ## Replace, sign out and remove
 
 | Task | Command |
 | --- | --- |
-| Replace the key, or switch this environment to company SSO | `airs env auth workspace-api` |
-| Sign out and delete the stored key, keeping the environment and its history | `airs --environment workspace-api logout` |
+| Replace the key, or switch this environment to company SSO | `airs env auth` |
+| Sign out and delete the stored key, keeping the environment and its history | `airs logout` |
 | Unregister the environment (history stays on disk) | `airs env remove workspace-api` |
 
 `env remove` does not delete the stored key, so sign out first when you retire an

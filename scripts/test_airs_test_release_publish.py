@@ -18,9 +18,12 @@ from unittest.mock import patch
 
 from airs_npm_registry import install_environment
 from airs_test_release_publish import Registry, _publish, publish_packages
+from urllib.parse import unquote
+
 from airs_test_release_spec import (
     LAUNCHER,
     PACKAGE_ORDER,
+    archive_filename,
     canonical_digest,
     validate_spec,
 )
@@ -40,9 +43,9 @@ def fixture(root):
                 optionalDependencies={n: VERSION for n in PACKAGE_ORDER[:-1]},
             )
         else:
-            platform, architecture = name.removeprefix("airs-harness-").split("-")
+            platform, architecture = name.rsplit("-", 2)[-2:]
             manifest.update(os=[platform], cpu=[architecture])
-        path = packages / "tarballs" / f"{name}-{VERSION}.tgz"
+        path = packages / "tarballs" / archive_filename(name, VERSION)
         with tarfile.open(path, "w:gz", format=tarfile.USTAR_FORMAT) as archive:
             contents = {"package/package.json": json.dumps(manifest).encode()}
             if name == LAUNCHER:
@@ -329,14 +332,14 @@ class PublicationTests(unittest.TestCase):
 
             def do_GET(self):
                 anonymous_reads.append(self.headers.get("Authorization") is None)
-                if self.path in archives:
-                    payload = archives[self.path]
+                if unquote(self.path) in archives:
+                    payload = archives[unquote(self.path)]
                     self.send_response(200)
                     self.send_header("Content-Length", str(len(payload)))
                     self.end_headers()
                     self.wfile.write(payload)
-                elif self.path[1:] in documents:
-                    self.respond(200, documents[self.path[1:]])
+                elif unquote(self.path[1:]) in documents:
+                    self.respond(200, documents[unquote(self.path[1:])])
                 else:
                     self.respond(404, {"error": "not_found"})
 
@@ -344,7 +347,7 @@ class PublicationTests(unittest.TestCase):
                 if self.headers.get("Authorization") != "Bearer " + token:
                     self.respond(401, {"error": "unauthorized"})
                     return
-                name = self.path[1:]
+                name = unquote(self.path[1:])
                 size = int(self.headers.get("Content-Length", "0"))
                 if name not in PACKAGE_ORDER or not 0 < size < 1024 * 1024:
                     self.respond(400, {"error": "invalid"})

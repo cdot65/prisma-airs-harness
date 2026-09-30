@@ -11,6 +11,7 @@ from airs_release_receipts import evidence_path, safe_destination
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import (
     LAUNCHER,
+    archive_filename,
     STABLE_SCOPE,
     TARGETS,
     package_order,
@@ -71,7 +72,7 @@ def _candidate_records(spec, root):
     for row in records:
         require(row.get("version") == spec["version"], "Candidate version mismatch")
         require(
-            row.get("filename") == f"{row['name']}-{spec['version']}.tgz",
+            row.get("filename") == archive_filename(row["name"], spec["version"]),
             "Unexpected archive filename",
         )
     return metadata, records

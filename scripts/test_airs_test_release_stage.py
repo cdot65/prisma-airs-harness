@@ -15,6 +15,7 @@ import airs_test_release_stage as stage
 from airs_test_release_spec import (
     LAUNCHER,
     TARGETS,
+    archive_filename,
     release_targets,
     canonical_digest,
     digest_file,
@@ -105,7 +106,7 @@ def candidates(root, spec):
                 manifest.update(os=["darwin"], cpu=["arm64"])
             members.append(("package/bin/launcher.js", b"trusted launcher", 0o755))
         members.append((stage.MANIFEST, encoded(manifest), 0o644))
-        filename = f"{name}-{spec['version']}.tgz"
+        filename = archive_filename(name, spec["version"])
         write_tar(root / "tarballs" / filename, members)
         inspected = archive.inspect_archive(root / "tarballs" / filename)
         records.append(

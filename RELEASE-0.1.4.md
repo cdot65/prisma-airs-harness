@@ -1,6 +1,6 @@
 # Prisma AIRS Harness 0.1.4
 
-Stable 0.1.4 is the first release published as `prisma-airs-harness`, for Apple
+Stable 0.1.4 is the first release published as `@cdot65/prisma-airs-harness`, for Apple
 Silicon, Linux x64 and Linux ARM64. It bundles Prisma AIRS CLI **7.2.0** and SDK
 **0.34.0**. Inference and remote MCP traffic use AI Gateway; provider credentials
 and upstream OAuth stay at the gateway. The command remains `airs`.
@@ -8,7 +8,7 @@ and upstream OAuth stay at the gateway. The command remains `airs`.
 ## Install
 
 ```sh
-npm install -g prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```
@@ -23,11 +23,11 @@ credential bindings and conversation history are preserved:
 
 ```sh
 npm uninstall -g airs-harness
-npm install -g prisma-airs-harness@0.1.4
+npm install -g @cdot65/prisma-airs-harness@0.1.4
 ```
 
-Never use `--force`. The native packages keep their `airs-harness-<platform>-<arch>`
-names and the Apple Silicon signing identifier remains `airs-harness`.
+Never use `--force`. The native packages are `@cdot65/prisma-airs-harness-<platform>-<arch>`
+and the Apple Silicon signing identifier remains `airs-harness`.
 
 ## Changes since 0.1.3
 
@@ -40,7 +40,7 @@ names and the Apple Silicon signing identifier remains `airs-harness`.
 - Fullscreen transcript by default, with an inline override in `settings.toml`.
 - Apple Silicon binaries are Developer ID signed and Apple notarized again, with
   the same identifier and team as earlier signed releases.
-- The npm launcher is renamed to `prisma-airs-harness`; the stable release
+- The npm launcher is renamed to `@cdot65/prisma-airs-harness`; the stable release
   tooling accepts and verifies the by-name migration from `airs-harness`.
 - A fresh conversation shows the Prisma AIRS mark in unused terminal rows; a
   click replays its spin. It is hidden while drafting, dismissed by activity, and
@@ -58,7 +58,7 @@ then.
 ## Roll back
 
 ```sh
-npm uninstall -g prisma-airs-harness
+npm uninstall -g @cdot65/prisma-airs-harness
 npm install -g airs-harness@0.1.3
 ```
 

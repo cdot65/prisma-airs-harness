@@ -36,7 +36,7 @@ cleanup() {
 }
 trap cleanup EXIT
 printf 'AIRS host preparation: %s / %s / user %s\n' "$PRETTY_NAME" "$(uname -m)" "$(id -un)"
-printf 'Requested package: prisma-airs-harness@%s\nReport: %s\n' "$version" "$report"
+printf 'Requested package: @cdot65/prisma-airs-harness@%s\nReport: %s\n' "$version" "$report"
 if [[ $mode == install ]]; then
     sudo -v
     sudo apt-get update
@@ -59,7 +59,7 @@ fi
 if [[ $mode == install ]]; then
     mkdir -p "$prefix"
     npm install --global --prefix "$prefix" --include=optional --engine-strict \
-        --registry="$registry" "prisma-airs-harness@$version"
+        --registry="$registry" "@cdot65/prisma-airs-harness@$version"
     cat > "$config/env.sh" <<'ENV'
 # AIRS test-host tools and the existing per-user D-Bus session.
 export PATH="$HOME/.local/share/airs-test-host/npm/bin:$PATH"

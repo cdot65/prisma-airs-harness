@@ -12,8 +12,8 @@ collection's lock state, and prints the actual script path for later unlocks.
 On a machine with npm, download the published package:
 
 ```bash
-npm pack prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
-tar -xOf prisma-airs-harness-0.1.4.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.4.sh
+npm pack @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
+tar -xOf cdot65-prisma-airs-harness-0.1.4.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.4.sh
 ```
 
 The helper ships with a sanitized gateway endpoint. **Configure that endpoint

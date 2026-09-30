@@ -87,8 +87,13 @@ def native_info(prefix, package):
             "node",
             "-e",
             (
-                "const {createRequire}=require('module');const r=createRequire(process.argv[1]);"
-                "console.log(r.resolve('airs-harness-'+process.platform+'-'+process.arch+'/package.json'));"
+                "const {createRequire}=require('module');const fs=require('fs');"
+                "const r=createRequire(process.argv[1]);"
+                "const m=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));"
+                "const legacy='airs-harness-'+process.platform+'-'+process.arch;"
+                "const deps=m.optionalDependencies||{};"
+                "const name=[legacy,'@cdot65/prisma-'+legacy].find(n=>Object.hasOwn(deps,n))||legacy;"
+                "console.log(r.resolve(name+'/package.json'));"
             ),
             str(manifest),
         ],
@@ -149,7 +154,7 @@ def main():
     except ValueError as error:
         parser.error(str(error))
     previous_package = args.previous_package or previous_version.package
-    if previous_package not in ("airs-harness", LAUNCHER):
+    if previous_package not in ("airs-harness", "prisma-airs-harness", LAUNCHER):
         parser.error("Unknown previous launcher package")
     if previous_version.stable and (
         not SHA256.fullmatch(args.previous_native_sha256 or "")

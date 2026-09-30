@@ -14,19 +14,19 @@ skills, and calls remote MCP tools through the gateway.
 Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 
 ```sh
-npm install -g prisma-airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs --version
 airs cli --version
 airs
 ```
 
-The npm package is `prisma-airs-harness` from 0.1.4 onward; the command is `airs`.
+The npm package is `@cdot65/prisma-airs-harness` from 0.1.4 onward; the command is `airs`.
 Existing installations of the previous package name migrate once, keeping AIRS
 environments, credentials and history:
 
 ```sh
 npm uninstall -g airs-harness
-npm install -g prisma-airs-harness
+npm install -g @cdot65/prisma-airs-harness
 ```
 
 The uninstall only releases the old npm command links; never use `--force`.

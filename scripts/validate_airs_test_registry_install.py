@@ -18,6 +18,7 @@ from airs_test_release_archive import inspect_archive
 from airs_test_release_publish import Registry
 from airs_test_release_spec import (
     LAUNCHER,
+    archive_filename,
     TARGETS,
     package_order,
     digest_file,
@@ -155,7 +156,7 @@ def install(spec, packages, prefix, *, selection="exact"):
     for record in records:
         require(
             record["version"] == spec["version"]
-            and record["filename"] == f"{record['name']}-{spec['version']}.tgz",
+            and record["filename"] == archive_filename(record["name"], spec["version"]),
             "Staged registry package identity mismatch",
         )
         if record["name"] in selected:

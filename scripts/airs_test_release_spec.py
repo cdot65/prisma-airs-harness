@@ -18,12 +18,12 @@ STABLE_SCOPE = "owner-authorized-stable"
 STABLE_TAG = "stable-candidate"
 STABLE_VERSION = re.compile(r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\Z")
 TARGETS = {
-    "x86_64-unknown-linux-musl": "airs-harness-linux-x64",
-    "aarch64-unknown-linux-musl": "airs-harness-linux-arm64",
-    "aarch64-apple-darwin": "airs-harness-darwin-arm64",
+    "x86_64-unknown-linux-musl": "@cdot65/prisma-airs-harness-linux-x64",
+    "aarch64-unknown-linux-musl": "@cdot65/prisma-airs-harness-linux-arm64",
+    "aarch64-apple-darwin": "@cdot65/prisma-airs-harness-darwin-arm64",
 }
-# The launcher that every new publication ships; previous releases may predate it.
-LAUNCHER = "prisma-airs-harness"
+# The scoped launcher that every new publication ships; previous releases may predate it.
+LAUNCHER = "@cdot65/prisma-airs-harness"
 PACKAGE_ORDER = [*TARGETS.values(), LAUNCHER]
 MAX_ARCHIVE = 512 * 1024 * 1024
 MAX_JSON = 1024 * 1024
@@ -41,6 +41,11 @@ def release_targets(spec):
 
 def package_order(spec):
     return [*(TARGETS[target] for target in release_targets(spec)), LAUNCHER]
+
+
+def archive_filename(name, version):
+    """The tarball name npm pack produces for a package, scoped names flattened."""
+    return f"{name.lstrip('@').replace('/', '-')}-{version}.tgz"
 
 
 def previous_launcher(spec):

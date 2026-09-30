@@ -21,7 +21,10 @@ def link_package(link):
     target = Path(os.path.normpath(Path(link).parent / os.readlink(link)))
     parts = target.parts
     require("node_modules" in parts, "Command link does not point into npm packages")
-    return parts[parts.index("node_modules") + 1]
+    index = parts.index("node_modules") + 1
+    name = parts[index]
+    # Scoped packages occupy two path components under node_modules.
+    return name + "/" + parts[index + 1] if name.startswith("@") else name
 
 
 def _string_rewrites(before, after, packages, prefix=""):

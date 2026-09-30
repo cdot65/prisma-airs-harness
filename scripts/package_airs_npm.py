@@ -74,6 +74,10 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     packages = []
     dependencies = {}
+    # Scoped packages are restricted by default on the public registry.
+    publish_config = {"registry": args.registry}
+    if args.scoped:
+        publish_config["access"] = "public"
     source_commit = None
     releases = [
         (
@@ -151,7 +155,7 @@ def main():
                 "VALIDATION.json",
                 "validation-evidence/",
             ],
-            "publishConfig": {"registry": args.registry},
+            "publishConfig": publish_config,
         }
         if candidate:
             native_manifest["private"] = True
@@ -181,7 +185,7 @@ def main():
     if candidate:
         manifest["private"] = True
     manifest["optionalDependencies"] = dependencies
-    manifest["publishConfig"] = {"registry": args.registry}
+    manifest["publishConfig"] = publish_config
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
     cli_bundle = None
     bundle_sources = []

@@ -94,7 +94,8 @@ class VersionSelection(unittest.TestCase):
             ("0.1.3", "airs-harness"),
             ("0.1.3-alpha.7.mcp.1", "airs-harness"),
             ("0.1.4-alpha.1.mcp.1", "airs-harness"),
-            ("0.1.4-alpha.2.mcp.1", LAUNCHER),
+            ("0.1.4-alpha.2.mcp.1", "prisma-airs-harness"),
+            ("0.1.4-alpha.3.mcp.1", "prisma-airs-harness"),
             ("0.1.4", LAUNCHER),
             ("0.2.0", LAUNCHER),
         ):

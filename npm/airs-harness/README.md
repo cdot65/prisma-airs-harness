@@ -2,28 +2,28 @@
 
 `airs` starts the native Prisma AIRS terminal agent. Inference and remote MCP
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
-the gateway owns upstream OAuth. The npm package is `prisma-airs-harness`; the command remains `airs`.
+the gateway owns upstream OAuth. The npm package is `@cdot65/prisma-airs-harness`; the command remains `airs`.
 
 ## Package migration from airs-harness
 
-Stable 0.1.4 is the first `prisma-airs-harness` release. The Apple Silicon
+Stable 0.1.4 is the first `@cdot65/prisma-airs-harness` release. The Apple Silicon
 binary keeps the existing Developer ID identity and `airs-harness` signing
-identifier, with Apple notarization. The native dependencies retain their
-`airs-harness-<platform>-<arch>` names.
+identifier, with Apple notarization. The native dependencies are
+`@cdot65/prisma-airs-harness-<platform>-<arch>`.
 
 When migrating an existing global `airs-harness` installation, remove the old npm
 package first to release its command links, then install the renamed package:
 
 ```sh
 npm uninstall -g airs-harness
-npm install -g prisma-airs-harness@0.1.4
+npm install -g @cdot65/prisma-airs-harness@0.1.4
 airs --version
 ```
 
 This changes npm-managed files only. Keep your AIRS home, saved environments,
 Keychain items and conversation history. Do not use `--force` or reset permissions.
 If installation fails, reinstall `airs-harness@0.1.3` from the same registry.
-Subsequent updates use `npm install -g prisma-airs-harness@latest`.
+Subsequent updates use `npm install -g @cdot65/prisma-airs-harness@latest`.
 
 ## Gateway agent release 0.1.4
 
@@ -61,7 +61,7 @@ workspace-key and ServiceNow acceptance remain separate from automated checks.
 Install this exact version from public npm, then inspect its version:
 
 ```sh
-npm install -g prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```

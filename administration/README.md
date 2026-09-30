@@ -81,7 +81,7 @@ has connection overhead and does not guarantee upstream scanner availability.
 The infrastructure README records application and rollback commands. Revision 32 also adds the exact backend hostname `mcp-airs.cdot.io` to
 `TRUSTED_CUSTOM_HOSTS`, preserving the existing allowlist and SSRF enforcement.
 The scanner runs two replicas of the digest-pinned Harbor image documented in
-RELEASE.md. Inference routing is preserved.
+the retired [alpha release notes](https://git.cdot.io/cdot/prisma-airs-harness/src/commit/b763f9f8eb284d27a877867710e55d72c05f137a/RELEASE.md). Inference routing is preserved.
 
 ## Management and validation
 

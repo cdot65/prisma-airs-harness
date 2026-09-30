@@ -10,8 +10,8 @@ must remain unchanged.
 This runbook describes the process; it is not a publication receipt. Consult the
 actual release specification, acceptance evidence and `PUBLICATION.json` before
 claiming that a version is ready. See [Getting started](GETTING-STARTED.md) for
-installation and identity workflows, and [RELEASE.md](RELEASE.md) for the wider
-release policy and existing platform build/signing procedures.
+installation and identity workflows, [MACOS-BUILDS.md](MACOS-BUILDS.md) for Apple
+Silicon build and signing, and [FORGEJO.md](FORGEJO.md) for release authority.
 
 ## Prepare immutable inputs
 

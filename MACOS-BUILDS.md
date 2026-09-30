@@ -5,7 +5,8 @@ prohibited by project policy. Inherited upstream workflows remain disabled.
 
 The first hosted `macos-15` build compiled the release executable and Keychain
 fixture in **3,021 seconds (50m 21s)**. It passed compilation and signing checks,
-then exposed three fixture assumptions. See [PUBLICATION.md](PUBLICATION.md).
+then exposed three fixture assumptions. See the retired
+[PUBLICATION.md](https://git.cdot.io/cdot/prisma-airs-harness/src/commit/b763f9f8eb284d27a877867710e55d72c05f137a/PUBLICATION.md).
 This is a measured cold-build baseline, not a warm-cache performance estimate.
 
 ## Current pipeline

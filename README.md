@@ -1,5 +1,10 @@
 # Prisma AIRS Harness
 
+[![npm](https://img.shields.io/npm/v/@cdot65/prisma-airs-harness)](https://www.npmjs.com/package/@cdot65/prisma-airs-harness)
+[![Node](https://img.shields.io/node/v/@cdot65/prisma-airs-harness)](https://www.npmjs.com/package/@cdot65/prisma-airs-harness)
+[![Documentation](https://github.com/cdot65/prisma-airs-harness/actions/workflows/airs-harness-docs.yml/badge.svg)](https://github.com/cdot65/prisma-airs-harness/actions/workflows/airs-harness-docs.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 A local terminal agent built to work with Prisma AIRS AI Gateway. It works with
 your project files, runs commands you approve, includes bundled Prisma AIRS
 skills, and calls remote MCP tools through the gateway.
@@ -40,8 +45,9 @@ unlocked Secret Service session; macOS uses the user's Keychain.
 
 If npm configuration omits optional dependencies, reinstall the same version
 with `--include=optional`. If another package owns `airs`, inspect `type -a airs
- airs-cli airs-harness` and follow the [migration guide](RENAME.md); do not force
-an overwrite. Upgrades preserve environments, credentials and history. Restart
+ airs-cli airs-harness`. An older standalone Prisma AIRS CLI must first be upgraded
+to `@cdot65/prisma-airs-cli@7.0.1` or later, whose command is `airs-cli`; do not
+force an overwrite. Upgrades preserve environments, credentials and history. Restart
 running sessions after upgrading.
 
 ## Connect and verify
@@ -105,8 +111,8 @@ Apple Silicon artifacts are Developer ID signed and notarized. Linux ARM64
 requires native installed acceptance; a cross-build or QEMU probe alone is
 insufficient. Release notes distinguish fixtures from live-account acceptance.
 
-Derived from Codex; see [UPSTREAM.md](UPSTREAM.md), [LICENSE](LICENSE) and
-[NOTICE](NOTICE) for upstream provenance and licensing.
+Derived from [OpenAI Codex](https://github.com/openai/codex); see [LICENSE](LICENSE),
+[NOTICE](NOTICE) and [LICENSING.md](LICENSING.md) for provenance and licensing.
 
 The previous package name `airs-harness` stays at 0.1.3 on both registries for
 rollback; it is not updated further.

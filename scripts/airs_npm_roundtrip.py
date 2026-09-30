@@ -27,15 +27,16 @@ def link_package(link):
     return name + "/" + parts[index + 1] if name.startswith("@") else name
 
 
-def _string_rewrites(before, after, packages, prefix=""):
+def _string_rewrites(before, after, trees, prefix=""):
     """Differences between two parsed TOML documents that only move a stored path
-    from one launcher package directory to the other. Any other change is fatal."""
+    from one launcher's installed package tree into the other's. Any other change
+    is fatal."""
     if isinstance(before, dict) and isinstance(after, dict):
         require(set(before) == set(after), "Installation changed configured identity")
         rewrites = []
         for key in before:
             rewrites.extend(
-                _string_rewrites(before[key], after[key], packages, f"{prefix}{key}.")
+                _string_rewrites(before[key], after[key], trees, f"{prefix}{key}.")
             )
         return rewrites
     if isinstance(before, list) and isinstance(after, list):
@@ -43,7 +44,7 @@ def _string_rewrites(before, after, packages, prefix=""):
         return [
             r
             for a, b in zip(before, after)
-            for r in _string_rewrites(a, b, packages, prefix)
+            for r in _string_rewrites(a, b, trees, prefix)
         ]
     if before == after:
         return []
@@ -51,35 +52,55 @@ def _string_rewrites(before, after, packages, prefix=""):
         isinstance(before, str) and isinstance(after, str),
         "Installation changed configured identity",
     )
-    for source, target in ((packages[0], packages[1]), (packages[1], packages[0])):
-        old, new = f"/lib/node_modules/{source}/", f"/lib/node_modules/{target}/"
+    phases = ("previous", "candidate")
+    for source, target in (phases, phases[::-1]):
+        # A path inside the native package moves with the native package (a
+        # renamed launcher may rename it too, moving two components at once);
+        # any other path inside the launcher moves with the launcher package.
+        native, package = trees[source]["directories"]
+        index = 0 if native in before else 1
+        old, new = (
+            trees[source]["directories"][index],
+            trees[target]["directories"][index],
+        )
         if old in before and before.replace(old, new) == after:
             return [
                 {
                     "key": prefix.rstrip("."),
-                    "from_package": source,
-                    "to_package": target,
+                    "from_package": trees[source]["package"],
+                    "to_package": trees[target]["package"],
                 }
             ]
     raise ValueError("Installation changed configured identity")
 
 
-def identity_rewrites(protected, link_packages, message):
+def package_trees(prefix, package, native):
+    """The installed directories a launcher's stored paths may point into: its
+    native package directory and its own package directory, most specific first."""
+    return {
+        "package": package,
+        "directories": (
+            str(Path(native).parent.parent) + "/",
+            str(prefix / "lib/node_modules" / package) + "/",
+        ),
+    }
+
+
+def identity_rewrites(protected, trees, message):
     """Protected identity files must be byte-identical, except that a launcher migration
-    may re-point stored command paths between the two launcher package directories
-    and re-serialize config.toml with identical values."""
+    may re-point stored command paths between the two launchers' installed package
+    trees and re-serialize config.toml with identical values."""
     rewrites = []
     for path, content in protected.items():
         current = path.read_bytes()
         if current == content:
             continue
-        require(link_packages is not None and path.name == "config.toml", message)
-        packages = (link_packages["previous"], link_packages["candidate"])
+        require(trees is not None and path.name == "config.toml", message)
         try:
             found = _string_rewrites(
                 tomllib.loads(content.decode()),
                 tomllib.loads(current.decode()),
-                packages,
+                trees,
             )
         except ValueError as error:
             raise ValueError(message) from error
@@ -143,6 +164,13 @@ def observe_roundtrip(
             )
 
     check_links("previous")
+    trees = None
+    if link_packages is not None:
+        trees = {
+            "previous": package_trees(
+                prefix, link_packages["previous"], previous_native
+            )
+        }
     cache = Path.home() / ".cache/airs-lifecycle-tests"
     cache.mkdir(mode=0o700, parents=True, exist_ok=True)
     require(not cache.is_symlink(), "Lifecycle fixture cache must not be a symlink")
@@ -190,11 +218,13 @@ def observe_roundtrip(
                     "Reinstalled native provenance mismatch",
                 )
                 check_links(phase)
+                if trees is not None:
+                    trees[phase] = package_trees(prefix, link_packages[phase], binary)
                 rewrites.extend(
                     {"phase": phase + "-install", **row}
                     for row in identity_rewrites(
                         protected,
-                        link_packages,
+                        trees,
                         "Installation changed configured identity",
                     )
                 )
@@ -251,7 +281,7 @@ def observe_roundtrip(
                     {"phase": phase + "-resumed-turn", **row}
                     for row in identity_rewrites(
                         protected,
-                        link_packages,
+                        trees,
                         "Resumed turn changed configured identity",
                     )
                 )

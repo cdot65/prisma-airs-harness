@@ -7,6 +7,7 @@ import tempfile
 from pathlib import Path
 import unittest
 
+from airs_npm_roundtrip import identity_rewrites, package_trees
 from airs_npm_versions import released_version
 from airs_release_contract import validate_result
 from airs_release_execution import invocation
@@ -274,6 +275,77 @@ class StableBaseline(unittest.TestCase):
         ]
         with self.assertRaises(ValueError):
             validate_result("upgrade", value, same, target)
+
+    def test_identity_rewrites_follow_the_installed_package_trees(self):
+        prefix = Path("/opt/npm")
+        legacy = prefix / "lib/node_modules/airs-harness"
+        scoped = prefix / "lib/node_modules" / LAUNCHER
+        trees = {
+            "previous": package_trees(
+                prefix,
+                "airs-harness",
+                legacy / "node_modules/airs-harness-linux-x64/bin/airs-harness",
+            ),
+            "candidate": package_trees(
+                prefix,
+                LAUNCHER,
+                scoped / "node_modules" / (LAUNCHER + "-linux-x64/bin/airs-harness"),
+            ),
+        }
+        template = "[model_providers.airs.auth]\ncommand = %s\nscopes = [%s]\n"
+        before = template % (
+            f'"{legacy}/node_modules/airs-harness-linux-x64/bin/airs-harness"',
+            '"mcp:tools:call", "mcp:tools:list"',
+        )
+        # A renamed launcher moves the stored native path two components at once
+        # and may re-serialize unchanged values.
+        after = template % (
+            f'"{scoped}/node_modules/{LAUNCHER}-linux-x64/bin/airs-harness"',
+            '\n    "mcp:tools:call",\n    "mcp:tools:list",\n',
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.toml"
+            config.write_text(after)
+            self.assertEqual(
+                identity_rewrites({config: before.encode()}, trees, "changed"),
+                [
+                    {
+                        "file": "config.toml",
+                        "key": "model_providers.airs.auth.command",
+                        "from_package": "airs-harness",
+                        "to_package": LAUNCHER,
+                    }
+                ],
+            )
+            config.write_text(before)
+            self.assertEqual(
+                identity_rewrites({config: before.encode()}, trees, "changed"), []
+            )
+            for wrong in (
+                # Only the launcher directory moved; the native package did not.
+                template
+                % (
+                    f'"{scoped}/node_modules/airs-harness-linux-x64/bin/airs-harness"',
+                    '"mcp:tools:call", "mcp:tools:list"',
+                ),
+                after.replace("mcp:tools:list", "mcp:servers:read"),
+                after.replace("bin/airs-harness", "bin/other"),
+                template
+                % (
+                    f'"{prefix}/lib/node_modules/other/bin/airs-harness"',
+                    '"mcp:tools:call", "mcp:tools:list"',
+                ),
+            ):
+                config.write_text(wrong)
+                with self.subTest(wrong=wrong), self.assertRaises(ValueError):
+                    identity_rewrites({config: before.encode()}, trees, "changed")
+            config.write_text(after)
+            with self.assertRaises(ValueError):
+                identity_rewrites({config: before.encode()}, None, "changed")
+            other = Path(directory) / "environments.json"
+            other.write_text("{}")
+            with self.assertRaises(ValueError):
+                identity_rewrites({other: b"[]"}, trees, "changed")
 
     def test_same_name_upgrade_must_not_uninstall(self):
         spec = stable_spec()

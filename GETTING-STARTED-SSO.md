@@ -140,8 +140,9 @@ where your conversations are kept. Create one for SSO:
 airs env create work-sso
 ```
 
-The first screens are the same as in the workspace API key guide: keep or change
-the name, enter the gateway URL without `/v1`, and choose **Create environment and
+It becomes your default environment, so every command in this guide uses it
+without naming it. The first screens are the same as in the workspace API key
+guide: keep or change the name, enter the gateway URL without `/v1`, and choose **Create environment and
 sign in**. Running `airs` on a fresh installation opens the same screens.
 
 On **Sign in to continue**, choose **Sign in with company SSO**. It is already
@@ -233,11 +234,11 @@ Every screen above has a command equivalent, for scripts and repeatable setups:
 
 ```sh
 airs env create work-sso --gateway-url https://gateway.example.com/v1
-airs --environment work-sso login \
+airs login \
   --issuer-url https://sso.example.com/realms/example-corp \
   --oidc-client-id ai-gateway-agent \
   --audience stack-ai-inference
-airs --environment work-sso doctor --verify-access
+airs doctor --verify-access
 ```
 
 - `env create` with `--gateway-url` saves and selects the environment without
@@ -257,7 +258,7 @@ local state or send at most one small request.
 ### 6. Validate the saved identity
 
 ```sh
-airs --environment work-sso login status
+airs login status
 ```
 
 Expected output:
@@ -332,7 +333,7 @@ anyone can use.
 Now send one real request:
 
 ```sh
-airs --environment work-sso doctor --verify-access
+airs doctor --verify-access
 ```
 
 `doctor` prints one line per check. The `gateway_access` line, with its time and
@@ -378,7 +379,7 @@ Give your administrator the trace ID, never the token.
 Open the session and ask for something short:
 
 ```sh
-airs --environment work-sso
+airs
 ```
 
 When the reply streams back, find the request in **AI Security → AI Gateway →
@@ -413,7 +414,7 @@ entered are kept, so you only change the one that is wrong.
 
 Inside the guided flow, **Try sign-in again** retries at once. To change a setting,
 choose **Back to sign-in options**, then **Sign in with company SSO**, then **Review
-or change public settings**. From the shell, `airs --environment work-sso login`
+or change public settings**. From the shell, `airs login`
 opens the same screens. The environment and its history are kept.
 
 ## Sign in over SSH
@@ -423,7 +424,7 @@ laptop browser's redirect. Use device authorization instead, which needs no
 callback and no port forward:
 
 ```sh
-airs --environment work-sso login --device-auth \
+airs login --device-auth \
   --issuer-url https://sso.example.com/realms/example-corp \
   --oidc-client-id ai-gateway-agent \
   --audience stack-ai-inference
@@ -477,9 +478,9 @@ maximum session length, AIRS asks you to sign in again.
 | Task | Command |
 | --- | --- |
 | Sign in again inside a session, keeping the conversation | `/signin`, then **Sign in** |
-| Restore sign-in when startup or resume stops on a rejected refresh | `airs --environment work-sso login --restore-session` |
-| Switch an environment between a workspace key and SSO | `airs env auth work-sso` |
-| Sign out and revoke the refresh token at Keycloak | `airs --environment work-sso logout` |
+| Restore sign-in when startup or resume stops on a rejected refresh | `airs login --restore-session` |
+| Switch an environment between a workspace key and SSO | `airs env auth` |
+| Sign out and revoke the refresh token at Keycloak | `airs logout` |
 | Unregister the environment (history stays on disk) | `airs env remove work-sso` |
 
 Restoring a session must be done as the same person. `env auth` keeps the
@@ -508,7 +509,7 @@ retire an environment.
 | `airs login status` | Issuer, subject and audience of the saved identity | No | No |
 | `airs doctor --verify-access` | Local checks plus one inference request | No | Yes, up to 16 tokens |
 | `airs login --restore-session` | Signs in again as the same person without stopping open sessions | Refreshes the credential | Sign-in |
-| `airs env auth NAME` | Switches between SSO and a key, or changes the SSO user | Replaces the credential | Sign-in and one access check |
+| `airs env auth` | Switches between SSO and a key, or changes the SSO user | Replaces the credential | Sign-in and one access check |
 | `airs logout` | Signs out and revokes the refresh token | Deletes the credential | Revocation to Keycloak |
 
 ## What to do next

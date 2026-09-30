@@ -1,5 +1,10 @@
 # Prisma AIRS Harness
 
+[![npm](https://img.shields.io/npm/v/@cdot65/prisma-airs-harness)](https://www.npmjs.com/package/@cdot65/prisma-airs-harness)
+[![Node](https://img.shields.io/node/v/@cdot65/prisma-airs-harness)](https://www.npmjs.com/package/@cdot65/prisma-airs-harness)
+[![Documentation](https://github.com/cdot65/prisma-airs-harness/actions/workflows/airs-harness-docs.yml/badge.svg)](https://github.com/cdot65/prisma-airs-harness/actions/workflows/airs-harness-docs.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 A local terminal agent built to work with Prisma AIRS AI Gateway. It works with
 your project files, runs commands you approve, includes bundled Prisma AIRS
 skills, and calls remote MCP tools through the gateway.

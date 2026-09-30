@@ -40,8 +40,9 @@ unlocked Secret Service session; macOS uses the user's Keychain.
 
 If npm configuration omits optional dependencies, reinstall the same version
 with `--include=optional`. If another package owns `airs`, inspect `type -a airs
- airs-cli airs-harness` and follow the [migration guide](RENAME.md); do not force
-an overwrite. Upgrades preserve environments, credentials and history. Restart
+ airs-cli airs-harness`. An older standalone Prisma AIRS CLI must first be upgraded
+to `@cdot65/prisma-airs-cli@7.0.1` or later, whose command is `airs-cli`; do not
+force an overwrite. Upgrades preserve environments, credentials and history. Restart
 running sessions after upgrading.
 
 ## Connect and verify
@@ -105,8 +106,8 @@ Apple Silicon artifacts are Developer ID signed and notarized. Linux ARM64
 requires native installed acceptance; a cross-build or QEMU probe alone is
 insufficient. Release notes distinguish fixtures from live-account acceptance.
 
-Derived from Codex; see [UPSTREAM.md](UPSTREAM.md), [LICENSE](LICENSE) and
-[NOTICE](NOTICE) for upstream provenance and licensing.
+Derived from [OpenAI Codex](https://github.com/openai/codex); see [LICENSE](LICENSE),
+[NOTICE](NOTICE) and [LICENSING.md](LICENSING.md) for provenance and licensing.
 
 The previous package name `airs-harness` stays at 0.1.3 on both registries for
 rollback; it is not updated further.

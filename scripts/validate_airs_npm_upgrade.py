@@ -48,7 +48,12 @@ def run(arguments, environment, log):
 
 def installed_launcher(prefix, names):
     """Exactly one of the launcher package names must be installed in the prefix."""
-    present = [name for name in names if (prefix / "lib/node_modules" / name).is_dir()]
+    # A same-name upgrade names the launcher twice; count each name once.
+    present = [
+        name
+        for name in dict.fromkeys(names)
+        if (prefix / "lib/node_modules" / name).is_dir()
+    ]
     require(len(present) == 1, "Expected exactly one installed launcher package")
     return present[0]
 

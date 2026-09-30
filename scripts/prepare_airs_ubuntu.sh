@@ -14,7 +14,7 @@ case "$mode" in install|--check|--unlock) ;; *) echo 'Usage: bash prepare_airs_u
 # shellcheck source=/dev/null
 source /etc/os-release
 [[ ${ID:-} == ubuntu && $(uname -m) == x86_64 ]] || { echo 'This preparation script targets Ubuntu x86_64.' >&2; exit 2; }
-version=${AIRS_TEST_VERSION:-0.1.3}
+version=${AIRS_TEST_VERSION:-0.1.4}
 [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]] || { echo 'Use an exact published version, not an npm tag.' >&2; exit 2; }
 registry=https://registry.npmjs.org
 state=$HOME/.local/state/airs-test-host
@@ -36,7 +36,7 @@ cleanup() {
 }
 trap cleanup EXIT
 printf 'AIRS host preparation: %s / %s / user %s\n' "$PRETTY_NAME" "$(uname -m)" "$(id -un)"
-printf 'Requested package: airs-harness@%s\nReport: %s\n' "$version" "$report"
+printf 'Requested package: prisma-airs-harness@%s\nReport: %s\n' "$version" "$report"
 if [[ $mode == install ]]; then
     sudo -v
     sudo apt-get update
@@ -59,7 +59,7 @@ fi
 if [[ $mode == install ]]; then
     mkdir -p "$prefix"
     npm install --global --prefix "$prefix" --include=optional --engine-strict \
-        --registry="$registry" "airs-harness@$version"
+        --registry="$registry" "prisma-airs-harness@$version"
     cat > "$config/env.sh" <<'ENV'
 # AIRS test-host tools and the existing per-user D-Bus session.
 export PATH="$HOME/.local/share/airs-test-host/npm/bin:$PATH"
@@ -81,7 +81,7 @@ fi
 if [[ ! -x $prefix/bin/airs ]]; then fail 'The dedicated airs installation is missing.'
 else
     if "$prefix/bin/airs" --version; then pass 'Installed airs launches.'; else fail 'Installed airs failed to launch.'; fi
-    if node -e 'const p=require(process.argv[1]);process.exit(p.version===process.argv[2]?0:1)' "$prefix/lib/node_modules/airs-harness/package.json" "$version"; then
+    if node -e 'const p=require(process.argv[1]);process.exit(p.version===process.argv[2]?0:1)' "$prefix/lib/node_modules/prisma-airs-harness/package.json" "$version"; then
         pass "Installed package matches $version."
     else fail 'Installed package version does not match the requested version.'; fi
     if "$prefix/bin/airs" cli --version; then pass 'Bundled product CLI launches.'; else fail 'Bundled product CLI failed.'; fi
@@ -105,7 +105,7 @@ else
     fi
 fi
 if curl --proto '=https' --tlsv1.2 -fsS --connect-timeout 10 --max-time 30 \
-    "$registry/airs-harness/$version" -o "$work/package.json" && \
+    "$registry/prisma-airs-harness/$version" -o "$work/package.json" && \
     jq -e --arg version "$version" '.version == $version' "$work/package.json" >/dev/null; then
     pass 'The exact npm package is reachable over verified HTTPS.'
 else fail 'Registry TLS/connectivity or package availability failed.'; fi

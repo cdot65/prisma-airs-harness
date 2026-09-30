@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "package": "prisma-airs-harness",
+  "version": "0.1.4-alpha.2.mcp.1",
+  "registry": "https://npm.cdot.io",
+  "tag": "mac-preview",
+  "runtime_source": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "packaging_source": "debc504ab5acf64e4caaa37286bf801930e6cfdc",
+  "forgejo_run": 4201,
+  "forgejo_url": "https://git.cdot.io/cdot/prisma-airs-harness/actions/runs/424",
+  "binary_sha256": "ca192dc951a4753e06b2d947877ee7ee09b40cbd694ad15f3fa7b0282cf7b98d",
+  "developer_id_team": "G5QLZ5A8TA",
+  "identifier": "airs-harness",
+  "native_tests": {
+    "run": 61,
+    "skipped": 5
+  },
+  "installed_tests": {
+    "run": 43,
+    "skipped": 1
+  },
+  "cross_version_keychain": {
+    "previous": "0.1.3",
+    "upgrade": true,
+    "rollback": true,
+    "session": "signed-in desktop",
+    "owner_credentials_used": false
+  },
+  "fresh_anonymous_install": true,
+  "npm_name_migration": true,
+  "existing_stable": "airs-harness@0.1.3",
+  "public_npm_modified": false,
+  "registry_latest_caveat": "Verdaccio 6.9.2 normalizeDistTags synthesizes latest from the highest version when absent; removing the new package latest tag does not prevent that fallback. No existing stable tag moved. Always select mac-preview for this new-name preview."
+}

@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 from airs_test_release_archive import inspect_archive
+from airs_signed_macos_artifact import DESIGNATED_REQUIREMENT, TEAM
 from stage_airs_macos_preview import BUILD, MANIFEST, NATIVE, REGISTRY, encoded, stage
 
 
@@ -24,8 +25,20 @@ class MacPreviewStaging(unittest.TestCase):
         self.source, self.version = "a" * 40, "0.1.4-alpha.1.mcp.1"
         binary = b"accepted executable payload"
         self.binary_hash = hashlib.sha256(binary).hexdigest()
+        self.signing = {
+            "binary_sha256": self.binary_hash,
+            "source_commit": self.source,
+            "target": "aarch64-apple-darwin",
+            "team_id": TEAM,
+            "identifier": "airs-harness",
+            "designated_requirement": DESIGNATED_REQUIREMENT,
+            "codesign_verified": True,
+            "hardened_runtime": True,
+            "notarization_verified": True,
+        }
+        self.save(self.evidence / "SIGNING.json", self.signing)
         records = []
-        for name in [NATIVE, "airs-harness"]:
+        for name in [NATIVE, "prisma-airs-harness"]:
             manifest = {
                 "name": name,
                 "version": self.version,
@@ -38,6 +51,7 @@ class MacPreviewStaging(unittest.TestCase):
                 members.update(
                     {
                         "package/bin/airs-harness": binary,
+                        "package/SIGNING.json": encoded(self.signing),
                         BUILD: encoded(
                             {
                                 "source_commit": self.source,
@@ -45,7 +59,10 @@ class MacPreviewStaging(unittest.TestCase):
                                 "target": "aarch64-apple-darwin",
                                 "binary_sha256": self.binary_hash,
                                 "publishable": False,
-                                "release_status": "unsigned-unvalidated-candidate",
+                                "release_status": "signed-unvalidated-candidate",
+                                "signing_receipt_sha256": hashlib.sha256(
+                                    encoded(self.signing)
+                                ).hexdigest(),
                             }
                         ),
                     }
@@ -86,7 +103,7 @@ class MacPreviewStaging(unittest.TestCase):
                 "validation_tooling_source": self.source,
                 "binary_sha256": self.binary_hash,
                 "acceptance_run": "42",
-                "signing": {"ad_hoc": True, "developer_id": False, "notarized": False},
+                "signing": {"ad_hoc": False, "developer_id": True, "notarized": True},
             },
         )
         self.save(
@@ -131,7 +148,7 @@ class MacPreviewStaging(unittest.TestCase):
     def test_stages_only_metadata_and_retains_candidate_provenance(self):
         receipt = self.promote()
         self.assertFalse(receipt["release_ready"])
-        self.assertFalse(receipt["notarized"])
+        self.assertTrue(receipt["notarized"])
         for row in receipt["publish_order"]:
             old = inspect_archive(self.packages / "tarballs" / row["filename"])
             new = inspect_archive(self.output / "tarballs" / row["filename"])
@@ -148,6 +165,20 @@ class MacPreviewStaging(unittest.TestCase):
                     ],
                     old["json"][BUILD],
                 )
+
+    def test_rejects_unsigned_or_changed_signing_identity(self):
+        for change in [
+            {"identifier": "airs-harness-build-id"},
+            {"designated_requirement": 'cdhash H"123"'},
+            {"notarization_verified": False},
+            {"team_id": "OTHER"},
+            {"binary_sha256": "f" * 64},
+        ]:
+            with self.subTest(change=change):
+                self.save(self.evidence / "SIGNING.json", dict(self.signing, **change))
+                with self.assertRaisesRegex(ValueError, "signing identity"):
+                    self.promote()
+                self.assertFalse(self.output.exists())
 
     def test_rejects_protected_tag_without_creating_output(self):
         with self.assertRaisesRegex(ValueError, "mac-preview"):

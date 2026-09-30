@@ -13,6 +13,10 @@ import urllib.request
 import zipfile
 
 TEAM = "G5QLZ5A8TA"
+IDENTIFIER = "airs-harness"
+# Keep the same designated requirement as the previously distributed Developer
+# ID builds. npm package names and binary versions must not affect this identity.
+DESIGNATED_REQUIREMENT = 'identifier "airs-harness" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G5QLZ5A8TA'
 MEMBER = "prisma-airs-harness-signing/airs-harness"
 SIDECAR = "prisma-airs-harness-signing/._airs-harness"
 LEGACY_MEMBER = "prisma-airs-harness-alpha10-signing/airs-harness"
@@ -106,6 +110,8 @@ def restore(archive, directory, archive_sha256, binary_sha256):
 
 
 def check_details(details):
+    if not re.search(r"^Identifier=airs-harness$", details, re.MULTILINE):
+        raise ValueError("Code signing identifier changed")
     flags = re.search(r"\bflags=0x([0-9a-fA-F]+)\(", details)
     if not flags or not int(flags[1], 16) & 0x10000:
         raise ValueError("Hardened runtime is absent")
@@ -157,6 +163,10 @@ def verify(
     )
     details = run("details", ["/usr/bin/codesign", "-d", "--verbose=4", str(binary)])
     check_details(details)
+    requirements = run("requirements", ["/usr/bin/codesign", "-d", "-r-", str(binary)])
+    designated = re.search(r"^designated => (.+)$", requirements, re.MULTILINE)
+    if not designated or designated[1] != DESIGNATED_REQUIREMENT:
+        raise ValueError("Designated requirement differs from existing releases")
     # Apple WWDC2019 session703 prescribes an explicit notarized requirement
     # for non-app code. spctl's app assessment rejects standalone Mach-O tools.
     # codesign(1) --check-notarization forces ticket lookup on this fresh host.
@@ -181,6 +191,8 @@ def verify(
         "binary_sha256": binary_sha256,
         "target": "aarch64-apple-darwin",
         "team_id": TEAM,
+        "identifier": IDENTIFIER,
+        "designated_requirement": DESIGNATED_REQUIREMENT,
         "codesign_verified": True,
         "hardened_runtime": True,
         "notarization_verified": True,

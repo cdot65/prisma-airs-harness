@@ -30,7 +30,8 @@ def main():
     launchers = [
         r
         for r in records
-        if r["name"] in ("airs-harness", "@cdot65/prisma-airs-harness")
+        if r["name"]
+        in ("airs-harness", "prisma-airs-harness", "@cdot65/prisma-airs-harness")
     ]
     if len(launchers) != 1:
         raise ValueError("Expected exactly one declared harness launcher")

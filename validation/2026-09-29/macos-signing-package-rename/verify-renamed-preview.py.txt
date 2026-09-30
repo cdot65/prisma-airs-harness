@@ -1,0 +1,55 @@
+"""Verify the renamed preview from anonymous registry downloads and migrate npm."""
+import hashlib,json,os,subprocess,sys
+from pathlib import Path
+from urllib.request import urlopen
+from urllib.parse import urlsplit
+sys.path.insert(0,str(Path(__file__).parent/'tooling/scripts'))
+from airs_npm_registry import install_environment
+from airs_test_release_archive import inspect_archive
+from validate_airs_test_registry_install import verify_installed_files
+from airs_signed_macos_artifact import verify
+root=Path(__file__).parent
+plan=json.loads((root/'preview-staging.json').read_text())
+registry='https://npm.cdot.io';version='0.1.4-alpha.2.mcp.1';launcher='prisma-airs-harness'
+assert [r['name'] for r in plan['publish_order']]==['airs-harness-darwin-arm64',launcher]
+assert plan['notarized'] is True
+prefix=root/'fresh-prefix';prefix.mkdir()
+env=install_environment(prefix,registry,False)
+for k in list(env):
+ if k.startswith(('AIRS_','OPENAI_')) or k in ('CODEX_HOME','CODEX_SQLITE_HOME','NODE_OPTIONS'):env.pop(k)
+records={}
+for row in plan['publish_order']:
+ assert row['version']==version
+ with urlopen(registry+'/'+row['name'],timeout=30) as r:doc=json.load(r)
+ assert doc['dist-tags']['mac-preview']==version
+ dist=doc['versions'][version]['dist'];assert dist['integrity']==row['integrity']
+ u=urlsplit(dist['tarball']);assert u.scheme=='https' and u.netloc=='npm.cdot.io' and not u.query
+ archive=root/row['filename']
+ with urlopen(dist['tarball'],timeout=120) as response,archive.open('xb') as out:
+  while b:=response.read(1024*1024):out.write(b)
+ inventory=inspect_archive(archive)
+ assert inventory['sha256']==row['sha256'] and inventory['integrity']==row['integrity']
+ records[row['name']]=inventory
+
+def npm(*args,location=prefix):
+ with (root/'npm-acceptance.log').open('a') as log:
+  subprocess.run(['npm',*args,'--prefix',str(location),'--registry',registry],env=env,cwd=root,stdout=log,stderr=log,check=True,timeout=300)
+npm('install','-g',launcher+'@'+version,'--no-audit','--no-fund')
+launcher_dir=prefix/'lib/node_modules'/launcher
+native_manifest=Path(subprocess.check_output(['node','-e','process.stdout.write(require.resolve("airs-harness-darwin-arm64/package.json",{paths:[process.argv[1]]}))',str(launcher_dir)],env=env,text=True))
+for name,package in [(launcher,launcher_dir),('airs-harness-darwin-arm64',native_manifest.parent)]:verify_installed_files(package,records[name])
+binary=native_manifest.parent/'bin/airs-harness'
+signing=json.loads((native_manifest.parent/'SIGNING.json').read_text())
+verify(binary,signing['binary_sha256'],root/'FRESH-SIGNING.json',signing['source_commit'],signing['asset_id'],signing['archive_sha256'],signing['owner_reported_submission_id'])
+assert subprocess.check_output([str(prefix/'bin/airs'),'--version'],text=True).strip()=='airs '+version
+migration=root/'migration-prefix'
+npm('install','-g','airs-harness@0.1.3','--no-audit','--no-fund',location=migration)
+state=root/'migration-state';state.mkdir();marker=state/'history.jsonl';marker.write_text('{"fixture":"preserve across npm rename"}\n');before=hashlib.sha256(marker.read_bytes()).hexdigest()
+env['AIRS_HARNESS_HOME']=str(state)
+npm('uninstall','-g','airs-harness',location=migration)
+npm('install','-g',launcher+'@'+version,'--no-audit','--no-fund',location=migration)
+assert hashlib.sha256(marker.read_bytes()).hexdigest()==before
+assert subprocess.check_output([str(migration/'bin/airs'),'--version'],env=env,text=True).strip()=='airs '+version
+assert not (migration/'lib/node_modules/airs-harness').exists()
+receipt={'passed':True,'version':version,'package':launcher,'anonymous_fresh_install':True,'registry_archives_match_accepted_packages':True,'installed_files_match_archives':True,'signing_verified':True,'npm_rename_migration':True,'fixture_state_preserved':True,'native_binary':str(binary),'old_stable_unchanged':True}
+(root/'REGISTRY-AND-MIGRATION.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2))

@@ -14,6 +14,16 @@ Use an Apple Silicon Mac on the organization's LAN/VPN. Intel Macs are outside
 this distribution. Run a native ARM64 Node installation from your signed-in
 desktop session; avoid a Rosetta terminal selecting an x64 Node process.
 
+## Signed preview and npm package rename
+
+The current test channel uses `prisma-airs-harness@mac-preview` on npm.cdot.io.
+Version `0.1.4-alpha.2.mcp.1` restores Developer ID signing and Apple notarization
+with the same `airs-harness` signing identifier and developer team as earlier
+signed releases. Follow the [one-time npm migration](npm/airs-harness/README.md)
+when moving from the old `airs-harness` package. The command remains `airs`.
+
+The instructions below describe the historical 0.1.2 stable installation.
+
 ## Install or update
 
 The supported Node range is `^22.13.0 || >=23.5.0`: Node 22.13.0 or newer in 22.x,

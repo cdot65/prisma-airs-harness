@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Stage an accepted, ad-hoc signed Mac candidate for npm.cdot.io/mac-preview.
+"""Stage an accepted, Developer ID signed Mac candidate for npm.cdot.io/mac-preview.
 
-This is not the notarized release path. Preserve candidate provenance and every
+Require notarization and the existing signing identity. Preserve provenance and every
 runtime byte, and bind the metadata-only promotion to the native CI receipts.
 """
 
@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 from airs_release_receipts import evidence_path
+from airs_signed_macos_artifact import DESIGNATED_REQUIREMENT, TEAM
 from airs_test_release_archive import inspect_archive, rewrite_archive
 from airs_test_release_spec import digest_file, load_json, require
 
@@ -32,7 +33,7 @@ def stage(packages, evidence, output, source_commit, tag):
     require(metadata.get("registry") == REGISTRY, "Only npm.cdot.io is allowed")
     records = metadata.get("publish_order", [])
     require(
-        [r["name"] for r in records] == [NATIVE, "airs-harness"],
+        [r["name"] for r in records] == [NATIVE, "prisma-airs-harness"],
         "Expected Mac native and launcher only",
     )
     version = records[0]["version"]
@@ -48,7 +49,7 @@ def stage(packages, evidence, output, source_commit, tag):
         and selection.get("validation_tooling_source")
         == metadata.get("packaging_commit")
         and selection.get("signing")
-        == {"ad_hoc": True, "developer_id": False, "notarized": False}
+        == {"ad_hoc": False, "developer_id": True, "notarized": True}
         and validation.get("source_commit") == source_commit
         and validation.get("validation_tooling_commit")
         == metadata.get("packaging_commit")
@@ -58,7 +59,23 @@ def stage(packages, evidence, output, source_commit, tag):
         and validation.get("validation_run") == selection.get("acceptance_run"),
         "Native acceptance identity mismatch",
     )
-    evidence_hashes = {}
+    signing = load_json(evidence_path(evidence, "SIGNING.json"))
+    require(
+        signing.get("binary_sha256") == binary
+        and signing.get("source_commit") == source_commit
+        and signing.get("target") == "aarch64-apple-darwin"
+        and signing.get("team_id") == TEAM
+        and signing.get("identifier") == "airs-harness"
+        and signing.get("designated_requirement") == DESIGNATED_REQUIREMENT
+        and all(
+            signing.get(k) is True
+            for k in ("codesign_verified", "hardened_runtime", "notarization_verified")
+        ),
+        "Developer ID signing identity or notarization mismatch",
+    )
+    evidence_hashes = {
+        "SIGNING.json": digest_file(evidence_path(evidence, "SIGNING.json"))
+    }
     for name in [
         "artifact-selection.json",
         "VALIDATION.json",
@@ -137,16 +154,22 @@ def stage(packages, evidence, output, source_commit, tag):
                 == binary,
                 "Native payload differs from accepted binary",
             )
+            require(
+                inventory["json"].get("package/SIGNING.json") == signing
+                and original.get("signing_receipt_sha256")
+                == evidence_hashes["SIGNING.json"],
+                "Native package signing receipt mismatch",
+            )
             info = dict(
                 original, release_status="accepted-mac-preview", publishable=True
             )
             receipt = dict(
                 validation,
-                scope="owner-authorized-ad-hoc-mac-preview",
+                scope="owner-authorized-signed-mac-preview",
                 registry=REGISTRY,
                 tag=tag,
                 release_ready=False,
-                notarized=False,
+                notarized=True,
                 live_gateway_e2e=False,
                 acceptance_evidence_sha256=evidence_hashes,
             )
@@ -189,7 +212,7 @@ def stage(packages, evidence, output, source_commit, tag):
         published=False,
         tag=tag,
         release_ready=False,
-        notarized=False,
+        notarized=True,
         acceptance_evidence_sha256=evidence_hashes,
         staging_script_sha256=digest_file(Path(__file__)),
         candidate_metadata_sha256=digest_file(

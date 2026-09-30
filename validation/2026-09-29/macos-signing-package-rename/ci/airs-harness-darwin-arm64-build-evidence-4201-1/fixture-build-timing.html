@@ -1,0 +1,8956 @@
+
+<html>
+<head>
+  <title>Cargo Build Timings — codex-airs-identity 0.154.0</title>
+  <meta charset="utf-8">
+<style type="text/css">
+:root {
+  --error-text: #e80000;
+  --text: #000;
+  --background: #fff;
+  --h1-border-bottom: #c0c0c0;
+  --table-box-shadow: rgba(0, 0, 0, 0.1);
+  --table-th: #d5dde5;
+  --table-th-background: #1b1e24;
+  --table-th-border-bottom: #9ea7af;
+  --table-th-border-right: #343a45;
+  --table-tr-border-top: #c1c3d1;
+  --table-tr-border-bottom: #c1c3d1;
+  --table-tr-odd-background: #ebebeb;
+  --table-td-background: #ffffff;
+  --table-td-border-right: #C1C3D1;
+  --canvas-background: #f7f7f7;
+  --canvas-axes: #303030;
+  --canvas-grid: #e6e6e6;
+  --canvas-codegen: #aa95e8;
+  --canvas-link: #95e8aa;
+  --canvas-other: #e895aa;
+  --canvas-custom-build: #f0b165;
+  --canvas-not-custom-build: #95cce8;
+  --canvas-dep-line: #ddd;
+  --canvas-dep-line-highlighted: #000;
+  --canvas-cpu: rgba(250, 119, 0, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --error-text: #e80000;
+    --text: #fff;
+    --background: #121212;
+    --h1-border-bottom: #444;
+    --table-box-shadow: rgba(255, 255, 255, 0.1);
+    --table-th: #a0a0a0;
+    --table-th-background: #2c2c2c;
+    --table-th-border-bottom: #555;
+    --table-th-border-right: #444;
+    --table-tr-border-top: #333;
+    --table-tr-border-bottom: #333;
+    --table-tr-odd-background: #1e1e1e;
+    --table-td-background: #262626;
+    --table-td-border-right: #333;
+    --canvas-background: #1a1a1a;
+    --canvas-axes: #b0b0b0;
+    --canvas-grid: #333;
+    --canvas-block: #aa95e8;
+    --canvas-custom-build: #f0b165;
+    --canvas-not-custom-build: #95cce8;
+    --canvas-dep-line: #444;
+    --canvas-dep-line-highlighted: #fff;
+    --canvas-cpu: rgba(250, 119, 0, 0.2);
+  }
+}
+
+html {
+  font-family: sans-serif;
+  color: var(--text);
+  background: var(--background);
+}
+
+.canvas-container {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.canvas-container.hidden {
+  display: none;
+}
+
+h1 {
+  border-bottom: 1px solid var(--h1-border-bottom);
+}
+
+.graph {
+  display: block;
+}
+
+.my-table {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 5px 10px var(--table-box-shadow);
+}
+
+.my-table th {
+  color: var(--table-th);
+  background: var(--table-th-background);
+  border-bottom: 4px solid var(--table-th-border-bottom);
+  border-right: 1px solid var(--table-th-border-right);
+  font-size: 18px;
+  font-weight: 100;
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.my-table th:first-child {
+  border-top-left-radius: 3px;
+}
+
+.my-table th:last-child {
+  border-top-right-radius: 3px;
+  border-right:none;
+}
+
+.my-table tr {
+  border-top: 1px solid var(--table-tr-border-top);
+  border-bottom: 1px solid var(--table-tr-border-bottom);
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.my-table tr:first-child {
+  border-top:none;
+}
+
+.my-table tr:last-child {
+  border-bottom:none;
+}
+
+.my-table tr:nth-child(odd) td {
+  background: var(--table-tr-odd-background);
+}
+
+.my-table tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+
+.my-table tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+
+.my-table td {
+  background: var(--table-td-background);
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  font-weight: 300;
+  font-size: 14px;
+  border-right: 1px solid var(--table-td-border-right);
+}
+
+.my-table td:last-child {
+  border-right: 0px;
+}
+
+.summary-table td:first-child {
+  vertical-align: top;
+  text-align: right;
+}
+
+.input-table td {
+  text-align: center;
+}
+
+.error-text {
+  color: var(--error-text);
+}
+
+</style>
+</head>
+<body>
+
+<h1>Cargo Build Timings</h1>
+See <a href="https://doc.rust-lang.org/nightly/cargo/reference/timings.html">Documentation</a>
+
+<table class="my-table summary-table">
+<tr>
+<td>Targets:</td><td>codex-airs-identity 0.154.0 ( store_acceptance "example")</td>
+</tr>
+<tr>
+<td>Profile:</td><td>release</td>
+</tr>
+<tr>
+<td>Fresh units:</td><td>308</td>
+</tr>
+<tr>
+<td>Dirty units:</td><td>5</td>
+</tr>
+<tr>
+<td>Total units:</td><td>313</td>
+</tr>
+<tr>
+<td>Max concurrency:</td><td>2 (jobs=2 ncpu=12)</td>
+</tr>
+<tr>
+<td>Build start:</td><td>2026-09-29T23:03:09.428204Z</td>
+</tr>
+<tr>
+<td>Total time:</td><td>5.2s</td>
+</tr>
+<tr>
+<td>rustc:</td><td>rustc 1.95.0 (59807616e 2026-04-14)<br>Host: aarch64-apple-darwin<br>Target: aarch64-apple-darwin</td>
+</tr>
+
+</table>
+
+<table class="input-table">
+  <tr>
+    <td><label for="min-unit-time">Min unit time:</label></td>
+    <td title="Scale corresponds to a number of pixels per second. It is automatically initialized based on your viewport width.">
+      <label for="scale">Scale:</label>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="range" min="0" max="30" step="0.1" value="0" id="min-unit-time"></td>
+    <!--
+        The scale corresponds to some number of "pixels per second".
+        Its min, max, and initial values are automatically set by JavaScript on page load,
+        based on the client viewport.
+    -->
+    <td><input type="range" min="1" max="100" value="50" id="scale"></td>
+  </tr>
+  <tr>
+    <td><output for="min-unit-time" id="min-unit-time-output"></output></td>
+    <td><output for="scale" id="scale-output"></output></td>
+    <td></td>
+  </tr>
+</table>
+
+<div id="pipeline-container" class="canvas-container"></div>
+<div id="timing-container" class="canvas-container"></div>
+
+<table class="my-table">
+<thead>
+<tr>
+  <th></th>
+  <th>Unit</th>
+  <th>Total</th>
+  <th>Frontend</th>
+<th>Codegen</th>
+  <th>Features</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td>1.</td>
+<td>codex-http-client v0.154.0</td>
+<td>2.5s</td>
+<td>2.5s (100%)</td>
+<td>0.0s (0%)</td>
+<td></td>
+</tr>
+
+<tr>
+<td>2.</td>
+<td>codex-airs-identity v0.154.0</td>
+<td>1.2s</td>
+<td>1.2s (100%)</td>
+<td>0.0s (0%)</td>
+<td></td>
+</tr>
+
+<tr>
+<td>3.</td>
+<td>codex-airs-identity v0.154.0 store_acceptance "example"</td>
+<td>0.5s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>4.</td>
+<td>codex-keyring-store v0.154.0</td>
+<td>0.4s</td>
+<td>0.4s (100%)</td>
+<td>0.0s (0%)</td>
+<td></td>
+</tr>
+
+<tr>
+<td>5.</td>
+<td>codex-utils-rustls-provider v0.154.0</td>
+<td>0.3s</td>
+<td>0.2s (96%)</td>
+<td>0.0s (4%)</td>
+<td></td>
+</tr>
+
+<tr>
+<td>6.</td>
+<td>aho-corasick v1.1.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>perf-literal, std</td>
+</tr>
+
+<tr>
+<td>7.</td>
+<td>aws-lc-rs v1.18.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-sys, prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>8.</td>
+<td>aws-lc-rs v1.18.1 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-sys, prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>9.</td>
+<td>aws-lc-rs v1.18.1 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-sys, prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>10.</td>
+<td>aws-lc-sys v0.45.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>11.</td>
+<td>aws-lc-sys v0.45.0 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>12.</td>
+<td>aws-lc-sys v0.45.0 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>prebuilt-nasm</td>
+</tr>
+
+<tr>
+<td>13.</td>
+<td>base16ct v0.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc</td>
+</tr>
+
+<tr>
+<td>14.</td>
+<td>base64 v0.21.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>15.</td>
+<td>base64 v0.22.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>16.</td>
+<td>base64ct v1.8.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc</td>
+</tr>
+
+<tr>
+<td>17.</td>
+<td>bitflags v2.13.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>18.</td>
+<td>block-buffer v0.10.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>19.</td>
+<td>bytes v1.12.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>20.</td>
+<td>cc v1.2.55</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>parallel</td>
+</tr>
+
+<tr>
+<td>21.</td>
+<td>cfg-if v1.0.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>22.</td>
+<td>chrono v0.4.43</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, clock, iana-time-zone, js-sys, now, serde, std, wasm-bindgen, wasmbind, winapi, windows-link</td>
+</tr>
+
+<tr>
+<td>23.</td>
+<td>cmake v0.1.57</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>24.</td>
+<td>zstd-sys v2.0.16+zstd.1.5.7 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>25.</td>
+<td>zstd-sys v2.0.16+zstd.1.5.7 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>26.</td>
+<td>zstd-sys v2.0.16+zstd.1.5.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>27.</td>
+<td>zstd-safe v7.2.4 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arrays, legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>28.</td>
+<td>zstd-safe v7.2.4 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arrays, legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>29.</td>
+<td>const-oid v0.9.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>30.</td>
+<td>cookie v0.18.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>percent-encode, percent-encoding</td>
+</tr>
+
+<tr>
+<td>31.</td>
+<td>cookie v0.18.1 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>percent-encode, percent-encoding</td>
+</tr>
+
+<tr>
+<td>32.</td>
+<td>cookie v0.18.1 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>percent-encode, percent-encoding</td>
+</tr>
+
+<tr>
+<td>33.</td>
+<td>cookie_store v0.22.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, public_suffix, serde, serde_json</td>
+</tr>
+
+<tr>
+<td>34.</td>
+<td>core-foundation v0.9.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, link</td>
+</tr>
+
+<tr>
+<td>35.</td>
+<td>core-foundation v0.10.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, link</td>
+</tr>
+
+<tr>
+<td>36.</td>
+<td>core-foundation-sys v0.8.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, link</td>
+</tr>
+
+<tr>
+<td>37.</td>
+<td>cpufeatures v0.2.17</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>38.</td>
+<td>crypto-bigint v0.5.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>generic-array, rand_core, zeroize</td>
+</tr>
+
+<tr>
+<td>39.</td>
+<td>crypto-common v0.1.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>40.</td>
+<td>curve25519-dalek v4.1.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, digest, precomputed-tables, zeroize</td>
+</tr>
+
+<tr>
+<td>41.</td>
+<td>curve25519-dalek v4.1.3 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, digest, precomputed-tables, zeroize</td>
+</tr>
+
+<tr>
+<td>42.</td>
+<td>curve25519-dalek v4.1.3 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, digest, precomputed-tables, zeroize</td>
+</tr>
+
+<tr>
+<td>43.</td>
+<td>darling v0.21.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, suggestions</td>
+</tr>
+
+<tr>
+<td>44.</td>
+<td>darling_core v0.21.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>strsim, suggestions</td>
+</tr>
+
+<tr>
+<td>45.</td>
+<td>darling_macro v0.21.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>46.</td>
+<td>deadpool v0.12.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, managed, unmanaged</td>
+</tr>
+
+<tr>
+<td>47.</td>
+<td>deadpool-runtime v0.1.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>48.</td>
+<td>der v0.7.10</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, oid, pem, std, zeroize</td>
+</tr>
+
+<tr>
+<td>49.</td>
+<td>deranged v0.5.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, powerfmt</td>
+</tr>
+
+<tr>
+<td>50.</td>
+<td>digest v0.10.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, block-buffer, const-oid, core-api, default, mac, oid, std, subtle</td>
+</tr>
+
+<tr>
+<td>51.</td>
+<td>displaydoc v0.2.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>52.</td>
+<td>document-features v0.2.12</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default</td>
+</tr>
+
+<tr>
+<td>53.</td>
+<td>dunce v1.0.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>54.</td>
+<td>dyn-clone v1.0.20</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>55.</td>
+<td>ecdsa v0.16.9</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, arithmetic, der, digest, hazmat, pem, pkcs8, rfc6979, signing, spki, std, verifying</td>
+</tr>
+
+<tr>
+<td>56.</td>
+<td>ed25519 v2.2.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, pem, pkcs8, std</td>
+</tr>
+
+<tr>
+<td>57.</td>
+<td>ed25519-dalek v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, fast, pem, pkcs8, std, zeroize</td>
+</tr>
+
+<tr>
+<td>58.</td>
+<td>either v1.15.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std, use_std</td>
+</tr>
+
+<tr>
+<td>59.</td>
+<td>elliptic-curve v0.13.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, arithmetic, digest, ecdh, ff, group, hazmat, pem, pkcs8, sec1, std</td>
+</tr>
+
+<tr>
+<td>60.</td>
+<td>encoding_rs v0.8.35</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default</td>
+</tr>
+
+<tr>
+<td>61.</td>
+<td>equivalent v1.0.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>62.</td>
+<td>errno v0.3.14</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>63.</td>
+<td>fastrand v2.3.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>64.</td>
+<td>ff v0.13.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc</td>
+</tr>
+
+<tr>
+<td>65.</td>
+<td>find-msvc-tools v0.1.9</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>66.</td>
+<td>fnv v1.0.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>67.</td>
+<td>fnv v1.0.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>68.</td>
+<td>form_urlencoded v1.2.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>69.</td>
+<td>fs_extra v1.3.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>70.</td>
+<td>futures v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, async-await, default, executor, futures-executor, std</td>
+</tr>
+
+<tr>
+<td>71.</td>
+<td>futures-channel v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, futures-sink, sink, std</td>
+</tr>
+
+<tr>
+<td>72.</td>
+<td>futures-core v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>73.</td>
+<td>futures-executor v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>74.</td>
+<td>futures-io v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>75.</td>
+<td>futures-macro v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>76.</td>
+<td>futures-sink v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>77.</td>
+<td>futures-task v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, std</td>
+</tr>
+
+<tr>
+<td>78.</td>
+<td>futures-util v0.3.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, async-await, async-await-macro, channel, futures-channel, futures-io, futures-macro, futures-sink, io, memchr, sink, slab, std</td>
+</tr>
+
+<tr>
+<td>79.</td>
+<td>generic-array v0.14.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>more_lengths, zeroize</td>
+</tr>
+
+<tr>
+<td>80.</td>
+<td>generic-array v0.14.7 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>more_lengths, zeroize</td>
+</tr>
+
+<tr>
+<td>81.</td>
+<td>generic-array v0.14.7 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>more_lengths, zeroize</td>
+</tr>
+
+<tr>
+<td>82.</td>
+<td>getrandom v0.2.17</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>83.</td>
+<td>getrandom v0.3.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>84.</td>
+<td>getrandom v0.3.4 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>85.</td>
+<td>getrandom v0.3.4 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>86.</td>
+<td>getrandom v0.4.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>87.</td>
+<td>getrandom v0.4.2 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>88.</td>
+<td>getrandom v0.4.2 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>89.</td>
+<td>group v0.13.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc</td>
+</tr>
+
+<tr>
+<td>90.</td>
+<td>h2 v0.4.16</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>91.</td>
+<td>hashbrown v0.17.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>92.</td>
+<td>hkdf v0.12.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>93.</td>
+<td>hmac v0.12.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>reset</td>
+</tr>
+
+<tr>
+<td>94.</td>
+<td>http v1.4.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>95.</td>
+<td>http-body v1.0.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>96.</td>
+<td>http-body-util v0.1.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default</td>
+</tr>
+
+<tr>
+<td>97.</td>
+<td>httparse v1.10.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>98.</td>
+<td>httparse v1.10.1 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>99.</td>
+<td>httparse v1.10.1 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>100.</td>
+<td>httpdate v1.0.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>101.</td>
+<td>hyper v1.8.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>client, default, full, http1, http2, server</td>
+</tr>
+
+<tr>
+<td>102.</td>
+<td>hyper-rustls v0.27.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>http1, http2, native-tokio, ring, rustls-native-certs, tls12, webpki-roots, webpki-tokio</td>
+</tr>
+
+<tr>
+<td>103.</td>
+<td>hyper-tls v0.6.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>104.</td>
+<td>hyper-util v0.1.20</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>client, client-legacy, client-proxy, client-proxy-system, default, http1, http2, server, tokio</td>
+</tr>
+
+<tr>
+<td>105.</td>
+<td>iana-time-zone v0.1.65</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>fallback</td>
+</tr>
+
+<tr>
+<td>106.</td>
+<td>icu_collections v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>107.</td>
+<td>icu_locale_core v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>zerovec</td>
+</tr>
+
+<tr>
+<td>108.</td>
+<td>icu_normalizer v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>compiled_data</td>
+</tr>
+
+<tr>
+<td>109.</td>
+<td>icu_normalizer_data v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>110.</td>
+<td>icu_normalizer_data v2.2.0 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>111.</td>
+<td>icu_normalizer_data v2.2.0 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>112.</td>
+<td>icu_properties v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>compiled_data</td>
+</tr>
+
+<tr>
+<td>113.</td>
+<td>icu_properties_data v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>114.</td>
+<td>icu_properties_data v2.2.0 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>115.</td>
+<td>icu_properties_data v2.2.0 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>116.</td>
+<td>icu_provider v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>baked</td>
+</tr>
+
+<tr>
+<td>117.</td>
+<td>ident_case v1.0.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>118.</td>
+<td>idna v1.1.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, compiled_data, default, std</td>
+</tr>
+
+<tr>
+<td>119.</td>
+<td>idna_adapter v1.2.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>compiled_data</td>
+</tr>
+
+<tr>
+<td>120.</td>
+<td>indexmap v2.14.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>121.</td>
+<td>ipnet v2.11.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>122.</td>
+<td>iri-string v0.7.10</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>123.</td>
+<td>itertools v0.10.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, use_alloc, use_std</td>
+</tr>
+
+<tr>
+<td>124.</td>
+<td>itoa v1.0.17</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>125.</td>
+<td>jobserver v0.1.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>126.</td>
+<td>jsonwebtoken v9.3.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, pem, simple_asn1, use_pem</td>
+</tr>
+
+<tr>
+<td>127.</td>
+<td>keyring v3.6.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>apple-native, crypto-rust</td>
+</tr>
+
+<tr>
+<td>128.</td>
+<td>lazy_static v1.5.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>spin, spin_no_std</td>
+</tr>
+
+<tr>
+<td>129.</td>
+<td>libc v0.2.186</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>130.</td>
+<td>libc v0.2.186</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>131.</td>
+<td>libc v0.2.186 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>132.</td>
+<td>libc v0.2.186 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>133.</td>
+<td>libc v0.2.186 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>134.</td>
+<td>libm v0.2.16</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arch, default</td>
+</tr>
+
+<tr>
+<td>135.</td>
+<td>libm v0.2.16 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arch, default</td>
+</tr>
+
+<tr>
+<td>136.</td>
+<td>libm v0.2.16 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arch, default</td>
+</tr>
+
+<tr>
+<td>137.</td>
+<td>litemap v0.8.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>138.</td>
+<td>litrs v1.0.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>139.</td>
+<td>log v0.4.34</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>140.</td>
+<td>memchr v2.8.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>141.</td>
+<td>mime v0.3.17</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>142.</td>
+<td>mio v1.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>net, os-ext, os-poll</td>
+</tr>
+
+<tr>
+<td>143.</td>
+<td>native-tls v0.2.14</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>144.</td>
+<td>native-tls v0.2.14 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>145.</td>
+<td>native-tls v0.2.14 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>146.</td>
+<td>num-bigint v0.4.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>147.</td>
+<td>num-bigint-dig v0.8.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, prime, rand, u64_digit, zeroize</td>
+</tr>
+
+<tr>
+<td>148.</td>
+<td>num-bigint-dig v0.8.6 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, prime, rand, u64_digit, zeroize</td>
+</tr>
+
+<tr>
+<td>149.</td>
+<td>num-bigint-dig v0.8.6 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, prime, rand, u64_digit, zeroize</td>
+</tr>
+
+<tr>
+<td>150.</td>
+<td>num-conv v0.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>151.</td>
+<td>num-conv v0.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>152.</td>
+<td>num-integer v0.1.46</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128</td>
+</tr>
+
+<tr>
+<td>153.</td>
+<td>num-iter v0.1.45</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>154.</td>
+<td>num-traits v0.2.19</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, libm, std</td>
+</tr>
+
+<tr>
+<td>155.</td>
+<td>num-traits v0.2.19 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, libm, std</td>
+</tr>
+
+<tr>
+<td>156.</td>
+<td>num-traits v0.2.19 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>i128, libm, std</td>
+</tr>
+
+<tr>
+<td>157.</td>
+<td>num_cpus v1.17.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>158.</td>
+<td>oauth2 v5.0.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>reqwest, rustls-tls, timing-resistant-secret-traits</td>
+</tr>
+
+<tr>
+<td>159.</td>
+<td>once_cell v1.21.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, race, std</td>
+</tr>
+
+<tr>
+<td>160.</td>
+<td>openidconnect v4.0.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, reqwest, rustls-tls, timing-resistant-secret-traits</td>
+</tr>
+
+<tr>
+<td>161.</td>
+<td>opentelemetry v0.31.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, futures, futures-core, futures-sink, internal-logs, logs, metrics, pin-project-lite, thiserror, trace, tracing</td>
+</tr>
+
+<tr>
+<td>162.</td>
+<td>ordered-float v2.10.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>163.</td>
+<td>p256 v0.13.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, arithmetic, default, digest, ecdsa, ecdsa-core, pem, pkcs8, sha2, sha256, std</td>
+</tr>
+
+<tr>
+<td>164.</td>
+<td>p384 v0.13.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, arithmetic, default, digest, ecdh, ecdsa, ecdsa-core, pem, pkcs8, sha2, sha384, std</td>
+</tr>
+
+<tr>
+<td>165.</td>
+<td>pem v3.0.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>166.</td>
+<td>pem-rfc7468 v0.7.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc</td>
+</tr>
+
+<tr>
+<td>167.</td>
+<td>percent-encoding v2.3.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>168.</td>
+<td>pin-project-lite v0.2.16</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>169.</td>
+<td>pin-utils v0.1.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>170.</td>
+<td>pkcs1 v0.7.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, pem, pkcs8, std, zeroize</td>
+</tr>
+
+<tr>
+<td>171.</td>
+<td>pkcs8 v0.10.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, pem, std</td>
+</tr>
+
+<tr>
+<td>172.</td>
+<td>pkg-config v0.3.32</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>173.</td>
+<td>anyhow v1.0.103</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>174.</td>
+<td>zstd-safe v7.2.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arrays, legacy, std, zdict_builder</td>
+</tr>
+
+<tr>
+<td>175.</td>
+<td>ppv-lite86 v0.2.21</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>simd, std</td>
+</tr>
+
+<tr>
+<td>176.</td>
+<td>primeorder v0.13.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>177.</td>
+<td>proc-macro2 v1.0.106</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>178.</td>
+<td>proc-macro2 v1.0.106 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>179.</td>
+<td>proc-macro2 v1.0.106 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>180.</td>
+<td>psl-types v2.0.11</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>181.</td>
+<td>publicsuffix v2.3.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, idna, punycode</td>
+</tr>
+
+<tr>
+<td>182.</td>
+<td>quote v1.0.45</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>183.</td>
+<td>quote v1.0.45 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>184.</td>
+<td>quote v1.0.45 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>185.</td>
+<td>rand v0.8.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, getrandom, libc, rand_chacha, std, std_rng</td>
+</tr>
+
+<tr>
+<td>186.</td>
+<td>rand_chacha v0.3.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>std</td>
+</tr>
+
+<tr>
+<td>187.</td>
+<td>rand_core v0.6.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, getrandom, std</td>
+</tr>
+
+<tr>
+<td>188.</td>
+<td>regex v1.12.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, perf, perf-backtrack, perf-cache, perf-dfa, perf-inline, perf-literal, perf-onepass, std, unicode, unicode-age, unicode-bool, unicode-case, unicode-gencat, unicode-perl, unicode-script, unicode-segment</td>
+</tr>
+
+<tr>
+<td>189.</td>
+<td>regex-automata v0.4.13</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, dfa-onepass, hybrid, meta, nfa-backtrack, nfa-pikevm, nfa-thompson, perf-inline, perf-literal, perf-literal-multisubstring, perf-literal-substring, std, syntax, unicode, unicode-age, unicode-bool, unicode-case, unicode-gencat, unicode-perl, unicode-script, unicode-segment, unicode-word-boundary</td>
+</tr>
+
+<tr>
+<td>190.</td>
+<td>regex-syntax v0.8.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std, unicode, unicode-age, unicode-bool, unicode-case, unicode-gencat, unicode-perl, unicode-script, unicode-segment</td>
+</tr>
+
+<tr>
+<td>191.</td>
+<td>reqwest v0.12.28</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>__rustls, __rustls-ring, __tls, charset, cookies, default, default-tls, h2, http2, json, rustls-tls, rustls-tls-native-roots, rustls-tls-native-roots-no-provider, rustls-tls-webpki-roots, rustls-tls-webpki-roots-no-provider, stream, system-proxy</td>
+</tr>
+
+<tr>
+<td>192.</td>
+<td>rfc6979 v0.4.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>193.</td>
+<td>ring v0.17.14</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, dev_urandom_fallback, std</td>
+</tr>
+
+<tr>
+<td>194.</td>
+<td>ring v0.17.14 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, dev_urandom_fallback, std</td>
+</tr>
+
+<tr>
+<td>195.</td>
+<td>ring v0.17.14 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, dev_urandom_fallback, std</td>
+</tr>
+
+<tr>
+<td>196.</td>
+<td>rsa v0.9.10</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, pem, std, u64_digit</td>
+</tr>
+
+<tr>
+<td>197.</td>
+<td>rustc_version v0.4.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>198.</td>
+<td>rustix v1.1.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, fs, std</td>
+</tr>
+
+<tr>
+<td>199.</td>
+<td>rustix v1.1.4 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, fs, std</td>
+</tr>
+
+<tr>
+<td>200.</td>
+<td>rustix v1.1.4 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, fs, std</td>
+</tr>
+
+<tr>
+<td>201.</td>
+<td>rustls v0.23.45</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-rs, aws_lc_rs, ring, std, tls12</td>
+</tr>
+
+<tr>
+<td>202.</td>
+<td>rustls v0.23.45 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-rs, aws_lc_rs, ring, std, tls12</td>
+</tr>
+
+<tr>
+<td>203.</td>
+<td>rustls v0.23.45 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>aws-lc-rs, aws_lc_rs, ring, std, tls12</td>
+</tr>
+
+<tr>
+<td>204.</td>
+<td>rustls-native-certs v0.8.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>205.</td>
+<td>rustls-pki-types v1.14.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, std</td>
+</tr>
+
+<tr>
+<td>206.</td>
+<td>rustls-webpki v0.103.15</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, aws-lc-rs, ring, std</td>
+</tr>
+
+<tr>
+<td>207.</td>
+<td>ryu v1.0.22</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>208.</td>
+<td>sec1 v0.7.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, der, pem, pkcs8, point, std, subtle, zeroize</td>
+</tr>
+
+<tr>
+<td>209.</td>
+<td>security-framework v2.11.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>OSX_10_10, OSX_10_11, OSX_10_12, OSX_10_9, default</td>
+</tr>
+
+<tr>
+<td>210.</td>
+<td>security-framework v3.5.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>OSX_10_12, default</td>
+</tr>
+
+<tr>
+<td>211.</td>
+<td>security-framework-sys v2.15.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>OSX_10_10, OSX_10_11, OSX_10_12, OSX_10_9, default</td>
+</tr>
+
+<tr>
+<td>212.</td>
+<td>semver v1.0.27</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>213.</td>
+<td>serde v1.0.228</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, derive, rc, serde_derive, std</td>
+</tr>
+
+<tr>
+<td>214.</td>
+<td>serde v1.0.228 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, derive, rc, serde_derive, std</td>
+</tr>
+
+<tr>
+<td>215.</td>
+<td>serde v1.0.228 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, derive, rc, serde_derive, std</td>
+</tr>
+
+<tr>
+<td>216.</td>
+<td>serde-value v0.7.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>217.</td>
+<td>serde_core v1.0.228</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, rc, result, std</td>
+</tr>
+
+<tr>
+<td>218.</td>
+<td>serde_core v1.0.228 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, rc, result, std</td>
+</tr>
+
+<tr>
+<td>219.</td>
+<td>serde_core v1.0.228 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, rc, result, std</td>
+</tr>
+
+<tr>
+<td>220.</td>
+<td>serde_derive v1.0.228</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default</td>
+</tr>
+
+<tr>
+<td>221.</td>
+<td>serde_json v1.0.149</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>222.</td>
+<td>serde_json v1.0.149 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>223.</td>
+<td>serde_json v1.0.149 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>224.</td>
+<td>serde_path_to_error v0.1.20</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>225.</td>
+<td>serde_plain v1.0.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>226.</td>
+<td>serde_urlencoded v0.7.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>227.</td>
+<td>serde_with v3.17.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, macros, std</td>
+</tr>
+
+<tr>
+<td>228.</td>
+<td>serde_with_macros v3.17.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>229.</td>
+<td>sha2 v0.10.9</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, oid, std</td>
+</tr>
+
+<tr>
+<td>230.</td>
+<td>sharded-slab v0.1.7</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>231.</td>
+<td>shlex v1.3.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>232.</td>
+<td>signature v2.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, digest, rand_core, std</td>
+</tr>
+
+<tr>
+<td>233.</td>
+<td>simple_asn1 v0.6.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>234.</td>
+<td>slab v0.4.12</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>235.</td>
+<td>smallvec v1.15.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>const_generics, const_new</td>
+</tr>
+
+<tr>
+<td>236.</td>
+<td>socket2 v0.6.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>all</td>
+</tr>
+
+<tr>
+<td>237.</td>
+<td>spin v0.9.9</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>once</td>
+</tr>
+
+<tr>
+<td>238.</td>
+<td>spki v0.7.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, pem, std</td>
+</tr>
+
+<tr>
+<td>239.</td>
+<td>stable_deref_trait v1.2.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>240.</td>
+<td>strsim v0.11.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>241.</td>
+<td>subtle v2.6.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, i128, std</td>
+</tr>
+
+<tr>
+<td>242.</td>
+<td>syn v2.0.117</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>clone-impls, default, derive, extra-traits, fold, full, parsing, printing, proc-macro, visit, visit-mut</td>
+</tr>
+
+<tr>
+<td>243.</td>
+<td>syn v3.0.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>clone-impls, default, derive, full, parsing, printing, proc-macro</td>
+</tr>
+
+<tr>
+<td>244.</td>
+<td>sync_wrapper v1.0.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>futures, futures-core</td>
+</tr>
+
+<tr>
+<td>245.</td>
+<td>synstructure v0.13.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, proc-macro</td>
+</tr>
+
+<tr>
+<td>246.</td>
+<td>system-configuration v0.7.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>247.</td>
+<td>system-configuration-sys v0.6.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>248.</td>
+<td>system-configuration-sys v0.6.0 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>249.</td>
+<td>system-configuration-sys v0.6.0 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>250.</td>
+<td>tempfile v3.27.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, getrandom</td>
+</tr>
+
+<tr>
+<td>251.</td>
+<td>thiserror v1.0.69</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>252.</td>
+<td>thiserror v1.0.69 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>253.</td>
+<td>thiserror v1.0.69 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>254.</td>
+<td>thiserror v2.0.18</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>255.</td>
+<td>thiserror v2.0.18 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>256.</td>
+<td>thiserror v2.0.18 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>257.</td>
+<td>thiserror-impl v1.0.69</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>258.</td>
+<td>thiserror-impl v2.0.18</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>259.</td>
+<td>thread_local v1.1.9</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>260.</td>
+<td>time v0.3.47</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default, formatting, macros, parsing, std</td>
+</tr>
+
+<tr>
+<td>261.</td>
+<td>time-core v0.1.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>262.</td>
+<td>time-core v0.1.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>263.</td>
+<td>time-macros v0.2.27</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>formatting, parsing</td>
+</tr>
+
+<tr>
+<td>264.</td>
+<td>tinystr v0.8.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>zerovec</td>
+</tr>
+
+<tr>
+<td>265.</td>
+<td>tokio v1.52.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>bytes, default, fs, io-util, libc, macros, mio, net, rt, socket2, sync, time, tokio-macros</td>
+</tr>
+
+<tr>
+<td>266.</td>
+<td>tokio-macros v2.7.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>267.</td>
+<td>tokio-native-tls v0.3.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>268.</td>
+<td>tokio-rustls v0.26.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>ring, tls12</td>
+</tr>
+
+<tr>
+<td>269.</td>
+<td>tokio-util v0.7.18</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>codec, default, io</td>
+</tr>
+
+<tr>
+<td>270.</td>
+<td>tower v0.5.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>futures-core, futures-util, pin-project-lite, retry, sync_wrapper, timeout, tokio, util</td>
+</tr>
+
+<tr>
+<td>271.</td>
+<td>tower-http v0.6.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>follow-redirect, futures-util, iri-string, tower</td>
+</tr>
+
+<tr>
+<td>272.</td>
+<td>tower-layer v0.3.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>273.</td>
+<td>tower-service v0.3.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>274.</td>
+<td>tracing v0.1.44</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>attributes, default, std, tracing-attributes</td>
+</tr>
+
+<tr>
+<td>275.</td>
+<td>tracing-attributes v0.1.31</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>276.</td>
+<td>tracing-core v0.1.36</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, once_cell, std</td>
+</tr>
+
+<tr>
+<td>277.</td>
+<td>tracing-log v0.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>278.</td>
+<td>tracing-opentelemetry v0.32.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, metrics, smallvec, tracing-log</td>
+</tr>
+
+<tr>
+<td>279.</td>
+<td>tracing-subscriber v0.3.22</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, registry, sharded-slab, std, thread_local</td>
+</tr>
+
+<tr>
+<td>280.</td>
+<td>try-lock v0.2.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>281.</td>
+<td>typenum v1.20.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>282.</td>
+<td>unicode-ident v1.0.22</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>283.</td>
+<td>untrusted v0.9.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>284.</td>
+<td>url v2.5.8</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, serde, std</td>
+</tr>
+
+<tr>
+<td>285.</td>
+<td>utf8_iter v1.0.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>286.</td>
+<td>uuid v1.20.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, rng, serde, std, v4</td>
+</tr>
+
+<tr>
+<td>287.</td>
+<td>version_check v0.9.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>288.</td>
+<td>want v0.3.1</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>289.</td>
+<td>webpki-roots v1.0.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>290.</td>
+<td>wiremock v0.6.5</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>291.</td>
+<td>writeable v0.6.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>292.</td>
+<td>yoke v0.8.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>derive, zerofrom</td>
+</tr>
+
+<tr>
+<td>293.</td>
+<td>yoke-derive v0.8.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>294.</td>
+<td>zerocopy v0.8.37</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>simd</td>
+</tr>
+
+<tr>
+<td>295.</td>
+<td>zerocopy v0.8.37 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>simd</td>
+</tr>
+
+<tr>
+<td>296.</td>
+<td>zerocopy v0.8.37 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>simd</td>
+</tr>
+
+<tr>
+<td>297.</td>
+<td>zerofrom v0.1.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>derive</td>
+</tr>
+
+<tr>
+<td>298.</td>
+<td>zerofrom-derive v0.1.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>299.</td>
+<td>zeroize v1.8.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>alloc, default</td>
+</tr>
+
+<tr>
+<td>300.</td>
+<td>zerotrie v0.2.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>yoke, zerofrom</td>
+</tr>
+
+<tr>
+<td>301.</td>
+<td>zerovec v0.11.6</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>derive, yoke</td>
+</tr>
+
+<tr>
+<td>302.</td>
+<td>zerovec-derive v0.11.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>303.</td>
+<td>zmij v1.0.19</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>304.</td>
+<td>zmij v1.0.19 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>305.</td>
+<td>zmij v1.0.19 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>306.</td>
+<td>zstd v0.13.3</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>arrays, default, legacy, zdict_builder</td>
+</tr>
+
+<tr>
+<td>307.</td>
+<td>potential_utf v0.1.4</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>zerovec</td>
+</tr>
+
+<tr>
+<td>308.</td>
+<td>anyhow v1.0.103 build-script</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>309.</td>
+<td>anyhow v1.0.103 build-script (run)</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td>default, std</td>
+</tr>
+
+<tr>
+<td>310.</td>
+<td>assert-json-diff v2.0.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>311.</td>
+<td>atomic-waker v1.1.2</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>312.</td>
+<td>autocfg v1.5.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>313.</td>
+<td>powerfmt v0.2.0</td>
+<td>0.0s</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<script>
+DURATION = 6;
+const UNIT_DATA = [
+  {
+    "i": 172,
+    "name": "pkg-config",
+    "version": "0.3.32",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 307,
+    "name": "zstd-safe",
+    "version": "7.2.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "arrays",
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 2,
+    "name": "anyhow",
+    "version": "1.0.103",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 3,
+    "name": "anyhow",
+    "version": "1.0.103",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 4,
+    "name": "assert-json-diff",
+    "version": "2.0.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 5,
+    "name": "atomic-waker",
+    "version": "1.1.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 6,
+    "name": "autocfg",
+    "version": "1.5.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 7,
+    "name": "aws-lc-rs",
+    "version": "1.18.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "aws-lc-sys",
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 8,
+    "name": "aws-lc-rs",
+    "version": "1.18.1",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "aws-lc-sys",
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 9,
+    "name": "aws-lc-rs",
+    "version": "1.18.1",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "aws-lc-sys",
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 10,
+    "name": "aws-lc-sys",
+    "version": "0.45.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 11,
+    "name": "aws-lc-sys",
+    "version": "0.45.0",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 12,
+    "name": "aws-lc-sys",
+    "version": "0.45.0",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "prebuilt-nasm"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 13,
+    "name": "base16ct",
+    "version": "0.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 14,
+    "name": "base64",
+    "version": "0.21.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 15,
+    "name": "base64",
+    "version": "0.22.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 16,
+    "name": "base64ct",
+    "version": "1.8.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 17,
+    "name": "bitflags",
+    "version": "2.13.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 18,
+    "name": "block-buffer",
+    "version": "0.10.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 19,
+    "name": "bytes",
+    "version": "1.12.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 20,
+    "name": "cc",
+    "version": "1.2.55",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "parallel"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 21,
+    "name": "cfg-if",
+    "version": "1.0.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 22,
+    "name": "chrono",
+    "version": "0.4.43",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "clock",
+      "iana-time-zone",
+      "js-sys",
+      "now",
+      "serde",
+      "std",
+      "wasm-bindgen",
+      "wasmbind",
+      "winapi",
+      "windows-link"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 23,
+    "name": "cmake",
+    "version": "0.1.57",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 312,
+    "name": "zstd-sys",
+    "version": "2.0.16+zstd.1.5.7",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 311,
+    "name": "zstd-sys",
+    "version": "2.0.16+zstd.1.5.7",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 310,
+    "name": "zstd-sys",
+    "version": "2.0.16+zstd.1.5.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 309,
+    "name": "zstd-safe",
+    "version": "7.2.4",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "arrays",
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 308,
+    "name": "zstd-safe",
+    "version": "7.2.4",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "arrays",
+      "legacy",
+      "std",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 29,
+    "name": "const-oid",
+    "version": "0.9.6",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 30,
+    "name": "cookie",
+    "version": "0.18.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "percent-encode",
+      "percent-encoding"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 31,
+    "name": "cookie",
+    "version": "0.18.1",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "percent-encode",
+      "percent-encoding"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 32,
+    "name": "cookie",
+    "version": "0.18.1",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "percent-encode",
+      "percent-encoding"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 33,
+    "name": "cookie_store",
+    "version": "0.22.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "public_suffix",
+      "serde",
+      "serde_json"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 34,
+    "name": "core-foundation",
+    "version": "0.9.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "link"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 35,
+    "name": "core-foundation",
+    "version": "0.10.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "link"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 36,
+    "name": "core-foundation-sys",
+    "version": "0.8.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "link"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 37,
+    "name": "cpufeatures",
+    "version": "0.2.17",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 38,
+    "name": "crypto-bigint",
+    "version": "0.5.5",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "generic-array",
+      "rand_core",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 39,
+    "name": "crypto-common",
+    "version": "0.1.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 40,
+    "name": "curve25519-dalek",
+    "version": "4.1.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "digest",
+      "precomputed-tables",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 41,
+    "name": "curve25519-dalek",
+    "version": "4.1.3",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "alloc",
+      "digest",
+      "precomputed-tables",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 42,
+    "name": "curve25519-dalek",
+    "version": "4.1.3",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "alloc",
+      "digest",
+      "precomputed-tables",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 43,
+    "name": "darling",
+    "version": "0.21.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "suggestions"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 44,
+    "name": "darling_core",
+    "version": "0.21.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "strsim",
+      "suggestions"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 45,
+    "name": "darling_macro",
+    "version": "0.21.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 46,
+    "name": "deadpool",
+    "version": "0.12.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "managed",
+      "unmanaged"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 47,
+    "name": "deadpool-runtime",
+    "version": "0.1.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 48,
+    "name": "der",
+    "version": "0.7.10",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "oid",
+      "pem",
+      "std",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 49,
+    "name": "deranged",
+    "version": "0.5.5",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "powerfmt"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 50,
+    "name": "digest",
+    "version": "0.10.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "block-buffer",
+      "const-oid",
+      "core-api",
+      "default",
+      "mac",
+      "oid",
+      "std",
+      "subtle"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 51,
+    "name": "displaydoc",
+    "version": "0.2.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 52,
+    "name": "document-features",
+    "version": "0.2.12",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 53,
+    "name": "dunce",
+    "version": "1.0.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 54,
+    "name": "dyn-clone",
+    "version": "1.0.20",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 55,
+    "name": "ecdsa",
+    "version": "0.16.9",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "arithmetic",
+      "der",
+      "digest",
+      "hazmat",
+      "pem",
+      "pkcs8",
+      "rfc6979",
+      "signing",
+      "spki",
+      "std",
+      "verifying"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 56,
+    "name": "ed25519",
+    "version": "2.2.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "pem",
+      "pkcs8",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 57,
+    "name": "ed25519-dalek",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "fast",
+      "pem",
+      "pkcs8",
+      "std",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 58,
+    "name": "either",
+    "version": "1.15.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std",
+      "use_std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 59,
+    "name": "elliptic-curve",
+    "version": "0.13.8",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "arithmetic",
+      "digest",
+      "ecdh",
+      "ff",
+      "group",
+      "hazmat",
+      "pem",
+      "pkcs8",
+      "sec1",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 60,
+    "name": "encoding_rs",
+    "version": "0.8.35",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 61,
+    "name": "equivalent",
+    "version": "1.0.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 62,
+    "name": "errno",
+    "version": "0.3.14",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 63,
+    "name": "fastrand",
+    "version": "2.3.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 64,
+    "name": "ff",
+    "version": "0.13.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 65,
+    "name": "find-msvc-tools",
+    "version": "0.1.9",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 66,
+    "name": "fnv",
+    "version": "1.0.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 67,
+    "name": "fnv",
+    "version": "1.0.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 68,
+    "name": "form_urlencoded",
+    "version": "1.2.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 69,
+    "name": "fs_extra",
+    "version": "1.3.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 70,
+    "name": "futures",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "async-await",
+      "default",
+      "executor",
+      "futures-executor",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 71,
+    "name": "futures-channel",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "futures-sink",
+      "sink",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 72,
+    "name": "futures-core",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 73,
+    "name": "futures-executor",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 74,
+    "name": "futures-io",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 75,
+    "name": "futures-macro",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 76,
+    "name": "futures-sink",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 77,
+    "name": "futures-task",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 78,
+    "name": "futures-util",
+    "version": "0.3.34",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "async-await",
+      "async-await-macro",
+      "channel",
+      "futures-channel",
+      "futures-io",
+      "futures-macro",
+      "futures-sink",
+      "io",
+      "memchr",
+      "sink",
+      "slab",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 79,
+    "name": "generic-array",
+    "version": "0.14.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "more_lengths",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 80,
+    "name": "generic-array",
+    "version": "0.14.7",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "more_lengths",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 81,
+    "name": "generic-array",
+    "version": "0.14.7",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "more_lengths",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 82,
+    "name": "getrandom",
+    "version": "0.2.17",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 83,
+    "name": "getrandom",
+    "version": "0.3.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 84,
+    "name": "getrandom",
+    "version": "0.3.4",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 85,
+    "name": "getrandom",
+    "version": "0.3.4",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 86,
+    "name": "getrandom",
+    "version": "0.4.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 87,
+    "name": "getrandom",
+    "version": "0.4.2",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 88,
+    "name": "getrandom",
+    "version": "0.4.2",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 89,
+    "name": "group",
+    "version": "0.13.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 90,
+    "name": "h2",
+    "version": "0.4.16",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 91,
+    "name": "hashbrown",
+    "version": "0.17.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 92,
+    "name": "hkdf",
+    "version": "0.12.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 93,
+    "name": "hmac",
+    "version": "0.12.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "reset"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 94,
+    "name": "http",
+    "version": "1.4.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 95,
+    "name": "http-body",
+    "version": "1.0.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 96,
+    "name": "http-body-util",
+    "version": "0.1.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 97,
+    "name": "httparse",
+    "version": "1.10.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 98,
+    "name": "httparse",
+    "version": "1.10.1",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 99,
+    "name": "httparse",
+    "version": "1.10.1",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 100,
+    "name": "httpdate",
+    "version": "1.0.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 101,
+    "name": "hyper",
+    "version": "1.8.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "client",
+      "default",
+      "full",
+      "http1",
+      "http2",
+      "server"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 102,
+    "name": "hyper-rustls",
+    "version": "0.27.7",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "http1",
+      "http2",
+      "native-tokio",
+      "ring",
+      "rustls-native-certs",
+      "tls12",
+      "webpki-roots",
+      "webpki-tokio"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 103,
+    "name": "hyper-tls",
+    "version": "0.6.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 104,
+    "name": "hyper-util",
+    "version": "0.1.20",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "client",
+      "client-legacy",
+      "client-proxy",
+      "client-proxy-system",
+      "default",
+      "http1",
+      "http2",
+      "server",
+      "tokio"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 105,
+    "name": "iana-time-zone",
+    "version": "0.1.65",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "fallback"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 106,
+    "name": "icu_collections",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 107,
+    "name": "icu_locale_core",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "zerovec"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 108,
+    "name": "icu_normalizer",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "compiled_data"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 109,
+    "name": "icu_normalizer_data",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 110,
+    "name": "icu_normalizer_data",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 111,
+    "name": "icu_normalizer_data",
+    "version": "2.2.0",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 112,
+    "name": "icu_properties",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "compiled_data"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 113,
+    "name": "icu_properties_data",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 114,
+    "name": "icu_properties_data",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 115,
+    "name": "icu_properties_data",
+    "version": "2.2.0",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 116,
+    "name": "icu_provider",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "baked"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 117,
+    "name": "ident_case",
+    "version": "1.0.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 118,
+    "name": "idna",
+    "version": "1.1.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "compiled_data",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 119,
+    "name": "idna_adapter",
+    "version": "1.2.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "compiled_data"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 120,
+    "name": "indexmap",
+    "version": "2.14.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 121,
+    "name": "ipnet",
+    "version": "2.11.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 122,
+    "name": "iri-string",
+    "version": "0.7.10",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 123,
+    "name": "itertools",
+    "version": "0.10.5",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "use_alloc",
+      "use_std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 124,
+    "name": "itoa",
+    "version": "1.0.17",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 125,
+    "name": "jobserver",
+    "version": "0.1.34",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 126,
+    "name": "jsonwebtoken",
+    "version": "9.3.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "pem",
+      "simple_asn1",
+      "use_pem"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 127,
+    "name": "keyring",
+    "version": "3.6.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "apple-native",
+      "crypto-rust"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 128,
+    "name": "lazy_static",
+    "version": "1.5.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "spin",
+      "spin_no_std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 129,
+    "name": "libc",
+    "version": "0.2.186",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 130,
+    "name": "libc",
+    "version": "0.2.186",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 131,
+    "name": "libc",
+    "version": "0.2.186",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 132,
+    "name": "libc",
+    "version": "0.2.186",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 133,
+    "name": "libc",
+    "version": "0.2.186",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 134,
+    "name": "libm",
+    "version": "0.2.16",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "arch",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 135,
+    "name": "libm",
+    "version": "0.2.16",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "arch",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 136,
+    "name": "libm",
+    "version": "0.2.16",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "arch",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 137,
+    "name": "litemap",
+    "version": "0.8.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 138,
+    "name": "litrs",
+    "version": "1.0.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 139,
+    "name": "log",
+    "version": "0.4.34",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 140,
+    "name": "memchr",
+    "version": "2.8.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 141,
+    "name": "mime",
+    "version": "0.3.17",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 142,
+    "name": "mio",
+    "version": "1.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "net",
+      "os-ext",
+      "os-poll"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 143,
+    "name": "native-tls",
+    "version": "0.2.14",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 144,
+    "name": "native-tls",
+    "version": "0.2.14",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 145,
+    "name": "native-tls",
+    "version": "0.2.14",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 146,
+    "name": "num-bigint",
+    "version": "0.4.6",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 147,
+    "name": "num-bigint-dig",
+    "version": "0.8.6",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "i128",
+      "prime",
+      "rand",
+      "u64_digit",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 148,
+    "name": "num-bigint-dig",
+    "version": "0.8.6",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "i128",
+      "prime",
+      "rand",
+      "u64_digit",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 149,
+    "name": "num-bigint-dig",
+    "version": "0.8.6",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "i128",
+      "prime",
+      "rand",
+      "u64_digit",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 150,
+    "name": "num-conv",
+    "version": "0.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 151,
+    "name": "num-conv",
+    "version": "0.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 152,
+    "name": "num-integer",
+    "version": "0.1.46",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "i128"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 153,
+    "name": "num-iter",
+    "version": "0.1.45",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 154,
+    "name": "num-traits",
+    "version": "0.2.19",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "i128",
+      "libm",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 155,
+    "name": "num-traits",
+    "version": "0.2.19",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "i128",
+      "libm",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 156,
+    "name": "num-traits",
+    "version": "0.2.19",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "i128",
+      "libm",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 157,
+    "name": "num_cpus",
+    "version": "1.17.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 158,
+    "name": "oauth2",
+    "version": "5.0.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "reqwest",
+      "rustls-tls",
+      "timing-resistant-secret-traits"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 159,
+    "name": "once_cell",
+    "version": "1.21.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "race",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 160,
+    "name": "openidconnect",
+    "version": "4.0.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "reqwest",
+      "rustls-tls",
+      "timing-resistant-secret-traits"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 161,
+    "name": "opentelemetry",
+    "version": "0.31.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "futures",
+      "futures-core",
+      "futures-sink",
+      "internal-logs",
+      "logs",
+      "metrics",
+      "pin-project-lite",
+      "thiserror",
+      "trace",
+      "tracing"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 162,
+    "name": "ordered-float",
+    "version": "2.10.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 163,
+    "name": "p256",
+    "version": "0.13.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "arithmetic",
+      "default",
+      "digest",
+      "ecdsa",
+      "ecdsa-core",
+      "pem",
+      "pkcs8",
+      "sha2",
+      "sha256",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 164,
+    "name": "p384",
+    "version": "0.13.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "arithmetic",
+      "default",
+      "digest",
+      "ecdh",
+      "ecdsa",
+      "ecdsa-core",
+      "pem",
+      "pkcs8",
+      "sha2",
+      "sha384",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 165,
+    "name": "pem",
+    "version": "3.0.6",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 166,
+    "name": "pem-rfc7468",
+    "version": "0.7.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 167,
+    "name": "percent-encoding",
+    "version": "2.3.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 168,
+    "name": "pin-project-lite",
+    "version": "0.2.16",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 169,
+    "name": "pin-utils",
+    "version": "0.1.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 170,
+    "name": "pkcs1",
+    "version": "0.7.5",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "pem",
+      "pkcs8",
+      "std",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 171,
+    "name": "pkcs8",
+    "version": "0.10.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "pem",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 0,
+    "name": "aho-corasick",
+    "version": "1.1.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "perf-literal",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 1,
+    "name": "anyhow",
+    "version": "1.0.103",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 174,
+    "name": "powerfmt",
+    "version": "0.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 175,
+    "name": "ppv-lite86",
+    "version": "0.2.21",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "simd",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 176,
+    "name": "primeorder",
+    "version": "0.13.6",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 177,
+    "name": "proc-macro2",
+    "version": "1.0.106",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 178,
+    "name": "proc-macro2",
+    "version": "1.0.106",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 179,
+    "name": "proc-macro2",
+    "version": "1.0.106",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 180,
+    "name": "psl-types",
+    "version": "2.0.11",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 181,
+    "name": "publicsuffix",
+    "version": "2.3.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "idna",
+      "punycode"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 182,
+    "name": "quote",
+    "version": "1.0.45",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 183,
+    "name": "quote",
+    "version": "1.0.45",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 184,
+    "name": "quote",
+    "version": "1.0.45",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 185,
+    "name": "rand",
+    "version": "0.8.6",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "getrandom",
+      "libc",
+      "rand_chacha",
+      "std",
+      "std_rng"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 186,
+    "name": "rand_chacha",
+    "version": "0.3.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 187,
+    "name": "rand_core",
+    "version": "0.6.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "getrandom",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 188,
+    "name": "regex",
+    "version": "1.12.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "perf",
+      "perf-backtrack",
+      "perf-cache",
+      "perf-dfa",
+      "perf-inline",
+      "perf-literal",
+      "perf-onepass",
+      "std",
+      "unicode",
+      "unicode-age",
+      "unicode-bool",
+      "unicode-case",
+      "unicode-gencat",
+      "unicode-perl",
+      "unicode-script",
+      "unicode-segment"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 189,
+    "name": "regex-automata",
+    "version": "0.4.13",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "dfa-onepass",
+      "hybrid",
+      "meta",
+      "nfa-backtrack",
+      "nfa-pikevm",
+      "nfa-thompson",
+      "perf-inline",
+      "perf-literal",
+      "perf-literal-multisubstring",
+      "perf-literal-substring",
+      "std",
+      "syntax",
+      "unicode",
+      "unicode-age",
+      "unicode-bool",
+      "unicode-case",
+      "unicode-gencat",
+      "unicode-perl",
+      "unicode-script",
+      "unicode-segment",
+      "unicode-word-boundary"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 190,
+    "name": "regex-syntax",
+    "version": "0.8.8",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std",
+      "unicode",
+      "unicode-age",
+      "unicode-bool",
+      "unicode-case",
+      "unicode-gencat",
+      "unicode-perl",
+      "unicode-script",
+      "unicode-segment"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 191,
+    "name": "reqwest",
+    "version": "0.12.28",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "__rustls",
+      "__rustls-ring",
+      "__tls",
+      "charset",
+      "cookies",
+      "default",
+      "default-tls",
+      "h2",
+      "http2",
+      "json",
+      "rustls-tls",
+      "rustls-tls-native-roots",
+      "rustls-tls-native-roots-no-provider",
+      "rustls-tls-webpki-roots",
+      "rustls-tls-webpki-roots-no-provider",
+      "stream",
+      "system-proxy"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 192,
+    "name": "rfc6979",
+    "version": "0.4.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 193,
+    "name": "ring",
+    "version": "0.17.14",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "dev_urandom_fallback",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 194,
+    "name": "ring",
+    "version": "0.17.14",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "alloc",
+      "default",
+      "dev_urandom_fallback",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 195,
+    "name": "ring",
+    "version": "0.17.14",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "alloc",
+      "default",
+      "dev_urandom_fallback",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 196,
+    "name": "rsa",
+    "version": "0.9.10",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "pem",
+      "std",
+      "u64_digit"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 197,
+    "name": "rustc_version",
+    "version": "0.4.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 198,
+    "name": "rustix",
+    "version": "1.1.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "fs",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 199,
+    "name": "rustix",
+    "version": "1.1.4",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "alloc",
+      "default",
+      "fs",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 200,
+    "name": "rustix",
+    "version": "1.1.4",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "alloc",
+      "default",
+      "fs",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 201,
+    "name": "rustls",
+    "version": "0.23.45",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "aws-lc-rs",
+      "aws_lc_rs",
+      "ring",
+      "std",
+      "tls12"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 202,
+    "name": "rustls",
+    "version": "0.23.45",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "aws-lc-rs",
+      "aws_lc_rs",
+      "ring",
+      "std",
+      "tls12"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 203,
+    "name": "rustls",
+    "version": "0.23.45",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "aws-lc-rs",
+      "aws_lc_rs",
+      "ring",
+      "std",
+      "tls12"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 204,
+    "name": "rustls-native-certs",
+    "version": "0.8.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 205,
+    "name": "rustls-pki-types",
+    "version": "1.14.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 206,
+    "name": "rustls-webpki",
+    "version": "0.103.15",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "aws-lc-rs",
+      "ring",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 207,
+    "name": "ryu",
+    "version": "1.0.22",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 208,
+    "name": "sec1",
+    "version": "0.7.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "der",
+      "pem",
+      "pkcs8",
+      "point",
+      "std",
+      "subtle",
+      "zeroize"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 209,
+    "name": "security-framework",
+    "version": "2.11.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "OSX_10_10",
+      "OSX_10_11",
+      "OSX_10_12",
+      "OSX_10_9",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 210,
+    "name": "security-framework",
+    "version": "3.5.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "OSX_10_12",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 211,
+    "name": "security-framework-sys",
+    "version": "2.15.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "OSX_10_10",
+      "OSX_10_11",
+      "OSX_10_12",
+      "OSX_10_9",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 212,
+    "name": "semver",
+    "version": "1.0.27",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 213,
+    "name": "serde",
+    "version": "1.0.228",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "derive",
+      "rc",
+      "serde_derive",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 214,
+    "name": "serde",
+    "version": "1.0.228",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "derive",
+      "rc",
+      "serde_derive",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 215,
+    "name": "serde",
+    "version": "1.0.228",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "derive",
+      "rc",
+      "serde_derive",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 216,
+    "name": "serde-value",
+    "version": "0.7.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 217,
+    "name": "serde_core",
+    "version": "1.0.228",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "rc",
+      "result",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 218,
+    "name": "serde_core",
+    "version": "1.0.228",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "alloc",
+      "rc",
+      "result",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 219,
+    "name": "serde_core",
+    "version": "1.0.228",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "alloc",
+      "rc",
+      "result",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 220,
+    "name": "serde_derive",
+    "version": "1.0.228",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 221,
+    "name": "serde_json",
+    "version": "1.0.149",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 222,
+    "name": "serde_json",
+    "version": "1.0.149",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 223,
+    "name": "serde_json",
+    "version": "1.0.149",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 224,
+    "name": "serde_path_to_error",
+    "version": "0.1.20",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 225,
+    "name": "serde_plain",
+    "version": "1.0.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 226,
+    "name": "serde_urlencoded",
+    "version": "0.7.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 227,
+    "name": "serde_with",
+    "version": "3.17.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "macros",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 228,
+    "name": "serde_with_macros",
+    "version": "3.17.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 229,
+    "name": "sha2",
+    "version": "0.10.9",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "oid",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 230,
+    "name": "sharded-slab",
+    "version": "0.1.7",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 231,
+    "name": "shlex",
+    "version": "1.3.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 232,
+    "name": "signature",
+    "version": "2.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "digest",
+      "rand_core",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 233,
+    "name": "simple_asn1",
+    "version": "0.6.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 234,
+    "name": "slab",
+    "version": "0.4.12",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 235,
+    "name": "smallvec",
+    "version": "1.15.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "const_generics",
+      "const_new"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 236,
+    "name": "socket2",
+    "version": "0.6.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "all"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 237,
+    "name": "spin",
+    "version": "0.9.9",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "once"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 238,
+    "name": "spki",
+    "version": "0.7.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "pem",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 239,
+    "name": "stable_deref_trait",
+    "version": "1.2.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 240,
+    "name": "strsim",
+    "version": "0.11.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 241,
+    "name": "subtle",
+    "version": "2.6.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "i128",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 242,
+    "name": "syn",
+    "version": "2.0.117",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "clone-impls",
+      "default",
+      "derive",
+      "extra-traits",
+      "fold",
+      "full",
+      "parsing",
+      "printing",
+      "proc-macro",
+      "visit",
+      "visit-mut"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 243,
+    "name": "syn",
+    "version": "3.0.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "clone-impls",
+      "default",
+      "derive",
+      "full",
+      "parsing",
+      "printing",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 244,
+    "name": "sync_wrapper",
+    "version": "1.0.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "futures",
+      "futures-core"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 245,
+    "name": "synstructure",
+    "version": "0.13.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "proc-macro"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 246,
+    "name": "system-configuration",
+    "version": "0.7.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 247,
+    "name": "system-configuration-sys",
+    "version": "0.6.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 248,
+    "name": "system-configuration-sys",
+    "version": "0.6.0",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 249,
+    "name": "system-configuration-sys",
+    "version": "0.6.0",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 250,
+    "name": "tempfile",
+    "version": "3.27.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "getrandom"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 251,
+    "name": "thiserror",
+    "version": "1.0.69",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 252,
+    "name": "thiserror",
+    "version": "1.0.69",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 253,
+    "name": "thiserror",
+    "version": "1.0.69",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 254,
+    "name": "thiserror",
+    "version": "2.0.18",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 255,
+    "name": "thiserror",
+    "version": "2.0.18",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 256,
+    "name": "thiserror",
+    "version": "2.0.18",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "default",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 257,
+    "name": "thiserror-impl",
+    "version": "1.0.69",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 258,
+    "name": "thiserror-impl",
+    "version": "2.0.18",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 259,
+    "name": "thread_local",
+    "version": "1.1.9",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 260,
+    "name": "time",
+    "version": "0.3.47",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default",
+      "formatting",
+      "macros",
+      "parsing",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 261,
+    "name": "time-core",
+    "version": "0.1.8",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 262,
+    "name": "time-core",
+    "version": "0.1.8",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 263,
+    "name": "time-macros",
+    "version": "0.2.27",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "formatting",
+      "parsing"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 264,
+    "name": "tinystr",
+    "version": "0.8.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "zerovec"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 265,
+    "name": "tokio",
+    "version": "1.52.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "bytes",
+      "default",
+      "fs",
+      "io-util",
+      "libc",
+      "macros",
+      "mio",
+      "net",
+      "rt",
+      "socket2",
+      "sync",
+      "time",
+      "tokio-macros"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 266,
+    "name": "tokio-macros",
+    "version": "2.7.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 267,
+    "name": "tokio-native-tls",
+    "version": "0.3.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 268,
+    "name": "tokio-rustls",
+    "version": "0.26.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "ring",
+      "tls12"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 269,
+    "name": "tokio-util",
+    "version": "0.7.18",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "codec",
+      "default",
+      "io"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 270,
+    "name": "tower",
+    "version": "0.5.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "futures-core",
+      "futures-util",
+      "pin-project-lite",
+      "retry",
+      "sync_wrapper",
+      "timeout",
+      "tokio",
+      "util"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 271,
+    "name": "tower-http",
+    "version": "0.6.8",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "follow-redirect",
+      "futures-util",
+      "iri-string",
+      "tower"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 272,
+    "name": "tower-layer",
+    "version": "0.3.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 273,
+    "name": "tower-service",
+    "version": "0.3.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 274,
+    "name": "tracing",
+    "version": "0.1.44",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "attributes",
+      "default",
+      "std",
+      "tracing-attributes"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 275,
+    "name": "tracing-attributes",
+    "version": "0.1.31",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 276,
+    "name": "tracing-core",
+    "version": "0.1.36",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "once_cell",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 277,
+    "name": "tracing-log",
+    "version": "0.2.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 278,
+    "name": "tracing-opentelemetry",
+    "version": "0.32.1",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "metrics",
+      "smallvec",
+      "tracing-log"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 279,
+    "name": "tracing-subscriber",
+    "version": "0.3.22",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "registry",
+      "sharded-slab",
+      "std",
+      "thread_local"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 280,
+    "name": "try-lock",
+    "version": "0.2.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 281,
+    "name": "typenum",
+    "version": "1.20.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 282,
+    "name": "unicode-ident",
+    "version": "1.0.22",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 283,
+    "name": "untrusted",
+    "version": "0.9.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 284,
+    "name": "url",
+    "version": "2.5.8",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "serde",
+      "std"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 285,
+    "name": "utf8_iter",
+    "version": "1.0.4",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 286,
+    "name": "uuid",
+    "version": "1.20.0",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "default",
+      "rng",
+      "serde",
+      "std",
+      "v4"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 287,
+    "name": "version_check",
+    "version": "0.9.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 288,
+    "name": "want",
+    "version": "0.3.1",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 289,
+    "name": "webpki-roots",
+    "version": "1.0.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 290,
+    "name": "wiremock",
+    "version": "0.6.5",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 291,
+    "name": "writeable",
+    "version": "0.6.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 292,
+    "name": "yoke",
+    "version": "0.8.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "derive",
+      "zerofrom"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 293,
+    "name": "yoke-derive",
+    "version": "0.8.2",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 294,
+    "name": "zerocopy",
+    "version": "0.8.37",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "simd"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 295,
+    "name": "zerocopy",
+    "version": "0.8.37",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [
+      "simd"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 296,
+    "name": "zerocopy",
+    "version": "0.8.37",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [
+      "simd"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 297,
+    "name": "zerofrom",
+    "version": "0.1.6",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "derive"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 298,
+    "name": "zerofrom-derive",
+    "version": "0.1.6",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 299,
+    "name": "zeroize",
+    "version": "1.8.2",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "alloc",
+      "default"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 300,
+    "name": "zerotrie",
+    "version": "0.2.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "yoke",
+      "zerofrom"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 301,
+    "name": "zerovec",
+    "version": "0.11.6",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "derive",
+      "yoke"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 302,
+    "name": "zerovec-derive",
+    "version": "0.11.3",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 303,
+    "name": "zmij",
+    "version": "1.0.19",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 304,
+    "name": "zmij",
+    "version": "1.0.19",
+    "mode": "todo",
+    "target": " build-script",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 305,
+    "name": "zmij",
+    "version": "1.0.19",
+    "mode": "run-custom-build",
+    "target": " build-script (run)",
+    "features": [],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 306,
+    "name": "zstd",
+    "version": "0.13.3",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "arrays",
+      "default",
+      "legacy",
+      "zdict_builder"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 173,
+    "name": "potential_utf",
+    "version": "0.1.4",
+    "mode": "todo",
+    "target": "",
+    "features": [
+      "zerovec"
+    ],
+    "start": 0.0,
+    "duration": 0.0,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  },
+  {
+    "i": 28,
+    "name": "codex-utils-rustls-provider",
+    "version": "0.154.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.82,
+    "duration": 0.26,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [
+      26
+    ],
+    "sections": [
+      [
+        "frontend",
+        {
+          "start": 0.0,
+          "end": 0.25
+        }
+      ],
+      [
+        "codegen",
+        {
+          "start": 0.25,
+          "end": 0.26
+        }
+      ]
+    ]
+  },
+  {
+    "i": 27,
+    "name": "codex-keyring-store",
+    "version": "0.154.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 0.82,
+    "duration": 0.37,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": [
+      [
+        "frontend",
+        {
+          "start": 0.0,
+          "end": 0.37
+        }
+      ],
+      [
+        "codegen",
+        {
+          "start": 0.37,
+          "end": 0.37
+        }
+      ]
+    ]
+  },
+  {
+    "i": 26,
+    "name": "codex-http-client",
+    "version": "0.154.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 1.08,
+    "duration": 2.46,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [
+      24
+    ],
+    "sections": [
+      [
+        "frontend",
+        {
+          "start": 0.0,
+          "end": 2.45
+        }
+      ],
+      [
+        "codegen",
+        {
+          "start": 2.45,
+          "end": 2.46
+        }
+      ]
+    ]
+  },
+  {
+    "i": 24,
+    "name": "codex-airs-identity",
+    "version": "0.154.0",
+    "mode": "todo",
+    "target": "",
+    "features": [],
+    "start": 3.53,
+    "duration": 1.18,
+    "unblocked_units": [
+      25
+    ],
+    "unblocked_rmeta_units": [],
+    "sections": [
+      [
+        "frontend",
+        {
+          "start": 0.0,
+          "end": 1.18
+        }
+      ],
+      [
+        "codegen",
+        {
+          "start": 1.18,
+          "end": 1.18
+        }
+      ]
+    ]
+  },
+  {
+    "i": 25,
+    "name": "codex-airs-identity",
+    "version": "0.154.0",
+    "mode": "todo",
+    "target": " store_acceptance \"example\"",
+    "features": [],
+    "start": 4.71,
+    "duration": 0.53,
+    "unblocked_units": [],
+    "unblocked_rmeta_units": [],
+    "sections": null
+  }
+];
+const CONCURRENCY_DATA = [
+  {
+    "t": 0.0,
+    "active": 0,
+    "waiting": 0,
+    "inactive": 5
+  },
+  {
+    "t": 0.82,
+    "active": 2,
+    "waiting": 0,
+    "inactive": 3
+  },
+  {
+    "t": 1.0699999999999998,
+    "active": 2,
+    "waiting": 1,
+    "inactive": 2
+  },
+  {
+    "t": 1.08,
+    "active": 2,
+    "waiting": 0,
+    "inactive": 2
+  },
+  {
+    "t": 1.19,
+    "active": 1,
+    "waiting": 0,
+    "inactive": 2
+  },
+  {
+    "t": 3.53,
+    "active": 2,
+    "waiting": 0,
+    "inactive": 1
+  },
+  {
+    "t": 3.54,
+    "active": 1,
+    "waiting": 0,
+    "inactive": 1
+  },
+  {
+    "t": 4.71,
+    "active": 1,
+    "waiting": 0,
+    "inactive": 0
+  },
+  {
+    "t": 5.24,
+    "active": 0,
+    "waiting": 0,
+    "inactive": 0
+  }
+];
+const CPU_USAGE = [
+  [
+    0.821284167,
+    8.695652173913047
+  ],
+  [
+    1.075552375,
+    16.721311475409834
+  ],
+  [
+    1.18730025,
+    43.28358208955224
+  ],
+  [
+    1.788134417,
+    9.735744089012528
+  ],
+  [
+    2.433819708,
+    11.1254851228978
+  ],
+  [
+    3.086361625,
+    39.56466069142125
+  ],
+  [
+    3.526921208,
+    70.32136105860113
+  ],
+  [
+    4.188181,
+    19.670050761421322
+  ],
+  [
+    4.70455225,
+    39.12337662337663
+  ]
+];
+// Position of the vertical axis.
+const X_LINE = 50;
+// General-use margin size.
+const MARGIN = 5;
+// Position of the horizontal axis, relative to the bottom.
+const Y_LINE = 35;
+// Minimum distance between time tick labels.
+const MIN_TICK_DIST = 50;
+// Radius for rounded rectangle corners.
+const RADIUS = 3;
+// Height of unit boxes.
+const BOX_HEIGHT = 25;
+// Distance between Y tick marks on the unit graph.
+const Y_TICK_DIST = BOX_HEIGHT + 2;
+// Rects used for mouseover detection.
+// Objects of {x, y, x2, y2, i} where `i` is the index into UNIT_DATA.
+let HIT_BOXES = [];
+// Index into UNIT_DATA of the last unit hovered over by mouse.
+let LAST_HOVER = null;
+// Key is unit index, value is {x, y, width, sections} of the box.
+let UNIT_COORDS = {};
+// Map of unit index to the index it was unlocked by.
+let REVERSE_UNIT_DEPS = {};
+let REVERSE_UNIT_RMETA_DEPS = {};
+let UNIT_BY_INDEX = {};
+
+const MIN_GRAPH_WIDTH = 200;
+const MAX_GRAPH_WIDTH = 4096;
+
+// How many pixels per second is added by each scale value
+const SCALE_PIXELS_PER_SEC = 8;
+
+function scale_to_graph_width(scale) {
+  // The scale corresponds to `SCALE_PIXELS_PER_SEC` pixels per seconds.
+  // We thus multiply it by that, and the total duration, to get the graph width.
+  const width = scale * SCALE_PIXELS_PER_SEC * DURATION;
+
+  // We then cap the size of the graph. It is hard to view if it is too large, and
+  // browsers may not render a large graph because it takes too much memory.
+  // 4096 is still ridiculously large, and probably won't render on mobile
+  // browsers, but should be ok for many desktop environments.
+  // Also use a minimum width of 200.
+  return Math.max(MIN_GRAPH_WIDTH, Math.min(MAX_GRAPH_WIDTH, width));
+}
+
+// This function performs the reverse of `scale_to_graph_width`.
+function width_to_graph_scale(width) {
+  const maxWidth = Math.min(MAX_GRAPH_WIDTH, width);
+  const minWidth = Math.max(MIN_GRAPH_WIDTH, width);
+
+  const trimmedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+
+  const scale = Math.round(trimmedWidth / (DURATION * SCALE_PIXELS_PER_SEC));
+  return Math.max(1, scale);
+}
+
+// Init scale value and limits based on the client's window width and min/max graph width.
+const scaleElement = document.getElementById('scale');
+scaleElement.min = width_to_graph_scale(MIN_GRAPH_WIDTH);
+scaleElement.max = width_to_graph_scale(MAX_GRAPH_WIDTH);
+scaleElement.value = width_to_graph_scale(window.innerWidth * 0.75);
+
+// Colors from css
+const getCssColor = name => getComputedStyle(document.body).getPropertyValue(name);
+const TEXT_COLOR = getCssColor('--text');
+const BG_COLOR = getCssColor('--background');
+const CANVAS_BG = getCssColor('--canvas-background');
+const AXES_COLOR = getCssColor('--canvas-axes');
+const GRID_COLOR = getCssColor('--canvas-grid');
+const CODEGEN_COLOR = getCssColor('--canvas-codegen');
+const LINK_COLOR = getCssColor('--canvas-link');
+// Final leftover section after link
+const OTHER_COLOR = getCssColor('--canvas-other');
+const CUSTOM_BUILD_COLOR = getCssColor('--canvas-custom-build');
+const NOT_CUSTOM_BUILD_COLOR = getCssColor('--canvas-not-custom-build');
+const DEP_LINE_COLOR = getCssColor('--canvas-dep-line');
+const DEP_LINE_HIGHLIGHTED_COLOR = getCssColor('--canvas-dep-line-highlighted');
+const CPU_COLOR = getCssColor('--canvas-cpu');
+
+for (const unit of UNIT_DATA) {
+  UNIT_BY_INDEX[unit.i] = unit;
+  for (let unblocked of unit.unblocked_units) {
+    REVERSE_UNIT_DEPS[unblocked] = unit.i;
+  }
+  for (let unblocked of unit.unblocked_rmeta_units) {
+    REVERSE_UNIT_RMETA_DEPS[unblocked] = unit.i;
+  }
+}
+
+// Compute x,y coordinate of each block.
+// We also populate a map with the count of each unit name to disambiguate if necessary
+function compute_unit_coords(units, px_per_sec) {
+  const unitCount = new Map();
+  UNIT_COORDS = {};
+  for (i = 0; i < units.length; i++) {
+    let unit = units[i];
+    let y = i * Y_TICK_DIST + 1;
+    let x = px_per_sec * unit.start;
+
+    const sections = [];
+    if (unit.sections !== null) {
+      // We have access to compilation sections
+      for (const section of unit.sections) {
+        const [name, { start, end }] = section;
+        sections.push({
+          name,
+          start: x + px_per_sec * start,
+          width: (end - start) * px_per_sec
+        });
+      }
+    }
+
+    let width = Math.max(px_per_sec * unit.duration, 1.0);
+    UNIT_COORDS[unit.i] = { x, y, width, sections };
+
+    const count = unitCount.get(unit.name) || 0;
+    unitCount.set(unit.name, count + 1);
+  }
+
+  return { UNIT_COORDS, unitCount }
+}
+
+class SvgRenderer {
+  constructor() {}
+
+  render_pipeline_graph() {
+    if (UNIT_DATA.length == 0) {
+      return;
+    }
+    HIT_BOXES.length = 0;
+    const min_time = document.getElementById('min-unit-time').valueAsNumber;
+
+    const units = UNIT_DATA.filter(unit => unit.duration >= min_time);
+
+    const graph_height = Y_TICK_DIST * units.length;
+    let { canvas_height, canvas_width, graph_width, px_per_sec } = graph_dimension(graph_height);
+    const axes = this._draw_graph_axes({ canvas_height, graph_height, graph_width, px_per_sec });
+
+    // Draw Y tick marks.
+    let y_ticks = '';
+    if (units.length != 0) {
+      const path_commands = Array(units.length - 1)
+        .fill(0)
+        .map((_, idx) => {
+          const n = idx + 1;
+          const y = MARGIN + Y_TICK_DIST * n;
+          return `M${X_LINE} ${y} h-5`;
+        });
+      y_ticks = `<path class="axis axis-y" d="${path_commands.join(" ")}"></path>`;
+    }
+
+    // Draw Y labels.
+    const y_labels = Array(units.length)
+      .fill(0)
+      .map((_, n) => {
+          let y = MARGIN + Y_TICK_DIST * n + Y_TICK_DIST / 2;
+          return `<text class="axis axis-y" x="${X_LINE - 4}" y="${y}">${n + 1}</text>`;
+      })
+      .join("");
+
+    // Draw the graph.
+    const { UNIT_COORDS, unitCount } = compute_unit_coords(units, px_per_sec);
+    const presentSections = new Set();
+
+    // Draw the blocks.
+    let blocks = Array(units.length)
+      .fill(0)
+      .map((_, i) => {
+        let unit = units[i];
+        let { x, y, width, sections } = UNIT_COORDS[unit.i];
+
+        const boxes = [this._roundedRect("", x, y, width, unit)].concat(
+          sections.map((section) => {
+            presentSections.add(section.name);
+            return this._roundedRect(
+              section.name,
+              section.start,
+              y,
+              section.width,
+              unit,
+            );
+          }),
+        );
+
+        const labelName = (unitCount.get(unit.name) || 0) > 1 ? `${unit.name} (v${unit.version})${unit.target}` : `${unit.name}${unit.target}`;
+        const label = `${labelName}: ${unit.duration}s`;
+
+        const text_info_width = measure_text_width(label);
+        const label_x = Math.min(x + 5.0, canvas_width - text_info_width - X_LINE);
+        const box_label = `<text class="box" x="${label_x}" y="${y + BOX_HEIGHT / 2}">${label}</text>`;
+
+        const dep_lines = this._draw_dep_lines(unit.i);
+        return boxes.concat(box_label).concat(dep_lines);
+      })
+      .flat()
+      .join("");
+
+    blocks = `
+<g id="boxes" transform="translate(${X_LINE} ${MARGIN})">${blocks}</g>
+<g id="hl-dep-lines" transform="translate(${X_LINE} ${MARGIN})"></g>`;
+
+    // Draw a legend.
+    const legend = `
+<g class="legend" transform="translate(${canvas_width-200},${MARGIN})">
+  ${this._draw_legend(160, get_legend_entries(presentSections))}
+</g>`;
+
+    const svg_container = document.getElementById("pipeline-container");
+    if (svg_container) {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", canvas_width);
+      svg.setAttribute("height", canvas_height);
+      Object.assign(svg.style, {
+        background: CANVAS_BG,
+        color: TEXT_COLOR,
+        fontFamily: 'sans-serif',
+        fontSize: '16px'
+      });
+      svg.innerHTML = `
+<style type="text/css">
+  path.axis {
+    fill: none;
+    stroke: ${AXES_COLOR};
+    stroke-width: 2;
+  }
+  text.axis {
+    fill: ${AXES_COLOR};
+    font-size: 16px;
+    stroke: none;
+    text-anchor: middle;
+  }
+  text.axis-y {
+    dominant-baseline: middle;
+    text-anchor: end;
+  }
+  .grid {
+    stroke: ${GRID_COLOR};
+    stroke-dasharray: 2 4;
+    stroke-width: 2;
+  }
+  rect.box {
+    fill: ${NOT_CUSTOM_BUILD_COLOR};
+    height: ${BOX_HEIGHT}px;
+    rx: ${RADIUS}px;
+    ry: ${RADIUS}px;
+  }
+  rect.box.run-custom-build {
+    fill: ${CUSTOM_BUILD_COLOR};
+  }
+  rect.box.codegen {
+    fill: ${CODEGEN_COLOR};
+  }
+  rect.box.link {
+    fill: ${LINK_COLOR};
+  }
+  rect.box.other {
+    fill: ${OTHER_COLOR}
+  }
+  text.box {
+    dominant-baseline: middle;
+    fill: ${TEXT_COLOR};
+    font-size: 14px;
+    text-anchor: start
+  }
+  .dep-line {
+    fill: none;
+    stroke: ${DEP_LINE_COLOR};
+    stroke-dasharray: 2;
+    stroke-width: 2;
+  }
+  #hl-dep-lines .dep-line{
+    stroke: ${DEP_LINE_HIGHLIGHTED_COLOR};
+  }
+  path.legend__cell {
+    stroke-width: 2;
+  }
+  .legend__desc {
+    fill: ${TEXT_COLOR};
+    dominant-baseline: middle;
+  }
+</style>
+${axes}
+${y_ticks}
+${y_labels}
+${blocks}
+${legend}`;
+      svg_container.innerHTML = svg.outerHTML;
+    }
+  }
+
+  // Draw a legend at the current position of the ctx.
+  // entries should be an array of objects with the following scheme:
+  // {
+  //   "name": <name of the legend entry> [string],
+  //   "color": <color of the legend entry> [string],
+  //   "line": <should the entry be a thin line or a rectangle> [bool]
+  // }
+  _draw_legend(width, entries) {
+    const entry_height = 20;
+
+    // Add a bit of margin to the bottom and top
+    const height = entries.length * entry_height + 4;
+
+    // Draw background
+    let legend = [];
+    legend.push(`<rect stroke="${TEXT_COLOR}" stroke-width="1" fill="${BG_COLOR}" width="${width}" height="${height}"></rect>`);
+
+    // Dimension of a block
+    const block_height = 15;
+    const block_width = 30;
+
+    // Margin from the left edge
+    const x_start = 5;
+    // Width of the "mark" section (line/block)
+    const mark_width = 45;
+
+    // Draw legend entries
+    let y = 12;
+    for (const entry of entries) {
+      const cell = entry.line ?
+        `<path class="legend__cell" stroke="${entry.color}" d="M${x_start} ${y} h ${mark_width}"></path>` :
+        `
+<rect class="legend__cell" fill="${entry.color}" width="${block_width}" height="${block_height}"
+  x="${x_start + (mark_width - block_width) / 2}" y="${y - (block_height / 2)}"
+></rect>`;
+      legend.push(cell);
+      legend.push(`<text class="legend__desc" x="${x_start + mark_width + 4}" y="${y + 1}">${entry.name}</text>`)
+      y += entry_height;
+    }
+    return legend.join("")
+  }
+
+  // Draws lines from the given unit to the units it unlocks.
+  _draw_dep_lines(unit_idx) {
+    const unit = UNIT_BY_INDEX[unit_idx];
+    const { x, y, sections } = UNIT_COORDS[unit_idx];
+    return unit.unblocked_units
+      .map((unblocked) => this._draw_one_dep_line(x, y, unblocked, unit_idx))
+      .concat(
+        unit.unblocked_rmeta_units.map((unblocked) => {
+          const codegen_x = get_codegen_section_x(sections);
+          return this._draw_one_dep_line(codegen_x, y, unblocked, unit_idx);
+        }),
+      )
+      .join("");
+  }
+
+  _draw_one_dep_line(from_x, from_y, to_unit, from_unit) {
+    if (to_unit in UNIT_COORDS) {
+      let { x: u_x, y: u_y } = UNIT_COORDS[to_unit];
+      // Use multiple path instead to avoid potential rendering issue while scrolling in Firefox.
+      return `
+<path class="dep-line" data-unblocked="${to_unit}" data-unblocked-by="${from_unit}" d="M ${from_x} ${from_y + BOX_HEIGHT / 2} h -5"></path>
+<path class="dep-line" data-unblocked="${to_unit}" data-unblocked-by="${from_unit}" d="M ${from_x - 5} ${from_y + BOX_HEIGHT / 2} V ${u_y + BOX_HEIGHT / 2}"></path>
+<path class="dep-line" data-unblocked="${to_unit}" data-unblocked-by="${from_unit}" d="M ${from_x - 5} ${u_y + BOX_HEIGHT / 2} H${u_x}"></path>
+`;
+    }
+  }
+
+  render_timing_graph() {
+    if (CONCURRENCY_DATA.length == 0) {
+      return;
+    }
+    const HEIGHT = 400;
+    const AXIS_HEIGHT = HEIGHT - MARGIN - Y_LINE;
+    const TOP_MARGIN = 10;
+    const GRAPH_HEIGHT = AXIS_HEIGHT - TOP_MARGIN;
+
+    let { canvas_height, canvas_width, graph_height, graph_width, px_per_sec } = graph_dimension(AXIS_HEIGHT);
+    const axis_bottom = this._draw_graph_axes({ canvas_height, graph_height, graph_width, px_per_sec });
+
+    // Draw Y tick marks and labels.
+    let max_v = 0;
+    for (let c of CONCURRENCY_DATA) {
+      max_v = Math.max(max_v, c.active, c.waiting, c.inactive);
+    }
+    const px_per_v = GRAPH_HEIGHT / max_v;
+    const { step, tick_dist, num_ticks } = split_ticks(max_v, px_per_v, GRAPH_HEIGHT);
+
+    const labels = [];
+    const ticks_path_commands = Array(num_ticks)
+      .fill(0)
+      .map((_, n) => {
+        const y = HEIGHT - Y_LINE - ((n + 1) * tick_dist);
+        labels.push( `<text class="axis axis-y" x="${X_LINE - 10}" y="${y}">${(n + 1) * step}</text>`);
+        return `M${X_LINE} ${y} h-5`;
+      })
+      .join(" ");
+    const ticks = `<path class="axis axis-y" d="${ticks_path_commands}"></path>`;
+    const ticks_labels = labels.join("");
+
+    // Label the Y axis.
+    let label_y = (HEIGHT - Y_LINE) / 2;
+
+    const y_axis_label = `<text class="axis axis-label" transform="translate(15, ${label_y}) rotate(270)"># Units</text>`
+    const axis_left = `${y_axis_label}${ticks}${ticks_labels}`;
+
+    // Draw the graph.
+
+    function coord(t, v) {
+      return {
+        x: graph_width * (t / DURATION),
+        y: TOP_MARGIN + GRAPH_HEIGHT * (1.0 - (v / max_v))
+      };
+    }
+
+    const cpuFillStyle = CPU_COLOR;
+    let cpu = "";
+    if (CPU_USAGE.length > 1) {
+      const bottomLeft = coord(CPU_USAGE[0][0], 0);
+      const bottomRight = coord(CPU_USAGE[CPU_USAGE.length - 1][0], 0);
+      const path_commands = [`M${bottomLeft.x} ${bottomLeft.y}`]
+      .concat(
+        Array(CPU_USAGE.length)
+          .fill(0)
+          .map((_, i) => {
+            let [time, usage] = CPU_USAGE[i];
+            let { x, y } = coord(time, (usage / 100.0) * max_v);
+            return `L${x} ${y}`;
+          }),
+      )
+      .concat(`L${bottomRight.x} ${bottomRight.y}`);
+      cpu = `<path stroke-width="0" fill="${cpuFillStyle}" d="${path_commands.join("")}"></path>`;
+    }
+
+    function draw_line(style, key) {
+      let first = CONCURRENCY_DATA[0];
+      let last = coord(first.t, key(first));
+      const path_commands = [];
+      path_commands.push(`M${last.x} ${last.y}`)
+      for (let i = 1; i < CONCURRENCY_DATA.length; i++) {
+        let c = CONCURRENCY_DATA[i];
+        let { x, y } = coord(c.t, key(c));
+        path_commands.push(`L${x} ${last.y} V${y}`);
+        last = { x, y };
+      }
+      return `<path class="status-line" stroke="${style}" d="${path_commands.join("")}"></path>`
+    }
+
+    const lines = [];
+    lines.push(draw_line('blue', function(c) { return c.inactive; }));
+    lines.push(draw_line('red', function(c) { return c.waiting; }));
+    lines.push(draw_line('green', function(c) { return c.active; }));
+
+    const timings = `<g class="graph-content" transform="translate(${X_LINE} ${MARGIN})">${cpu}${lines}</g>`;
+
+    // Draw a legend.
+    const legend = `
+<g class="legend" transform="translate(${canvas_width-200},${MARGIN})">
+${this._draw_legend(150, [{
+    name: "Waiting",
+    color: "red",
+    line: true
+  }, {
+    name: "Inactive",
+    color: "blue",
+    line: true
+  }, {
+    name: "Active",
+    color: "green",
+    line: true
+  }, {
+    name: "CPU Usage",
+    color: cpuFillStyle,
+    line: false
+}])}
+</g>`;
+
+    const svg_container = document.getElementById("timing-container");
+    if (svg_container) {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", canvas_width);
+      svg.setAttribute("height", canvas_height);
+      Object.assign(svg.style, {
+        background: CANVAS_BG,
+        color: TEXT_COLOR,
+        fontFamily: 'sans-serif',
+        fontSize: '16px'
+      });
+      svg.innerHTML = `
+<style type="text/css">
+  path.axis {
+    fill: none;
+    stroke: ${AXES_COLOR};
+    stroke-width: 2;
+  }
+  text.axis {
+    fill: ${AXES_COLOR};
+    font-size: 16px;
+    stroke: none;
+    text-anchor: middle;
+  }
+  text.axis-y {
+    dominant-baseline: middle;
+    text-anchor: end;
+  }
+  .grid {
+    stroke: ${GRID_COLOR};
+    stroke-dasharray: 2 4;
+    stroke-width: 2;
+  }
+  .status-line {
+    fill: none;
+    stroke-width: 2;
+  }
+  path.legend__cell {
+    stroke-width: 2;
+  }
+  .legend__desc {
+    fill: ${TEXT_COLOR};
+    dominant-baseline: middle;
+  }
+</style>
+${axis_bottom}
+${axis_left}
+${timings}
+${legend}
+`;
+      svg_container.innerHTML = svg.outerHTML;
+    }
+  }
+
+  _draw_graph_axes({ canvas_height, graph_height, graph_width, px_per_sec }) {
+    // Draw main axes.
+    const main_axes = `
+<path class="axis" d="
+  M${X_LINE} ${MARGIN}
+  V${graph_height + MARGIN}
+  H${X_LINE + graph_width + 20}"
+></path>`;
+
+    // Draw X tick marks.
+    const { step, tick_dist, num_ticks } = split_ticks(DURATION, px_per_sec, graph_width);
+    const TICK_LENGTH = 5;
+    const grid_height = canvas_height - Y_LINE;
+    const labels = [];
+    const ticks_path_commands = Array(num_ticks)
+        .fill(0)
+        .map((_, n) => {
+          const x = X_LINE + ((n + 1) * tick_dist);
+          const label = `
+  <text class="axis" x="${x}" y="${grid_height + 20}">
+    ${(n + 1) * step}s
+  </text>`;
+          labels.push(label);
+          return `M${x} ${grid_height} v${TICK_LENGTH}`;
+        })
+        .join(" ");
+
+    const ticks = `<path class="axis"  d="${ticks_path_commands}"></path>`;
+    const ticks_labels = labels.join("")
+
+    // Draw vertical lines.
+    const vertical_lines = Array(num_ticks)
+      .fill(0)
+      .map((_, n) => {
+        const x = X_LINE + ((n + 1) * tick_dist);
+        return `<path class="grid" d="M${x} ${grid_height - 1} V${MARGIN}"></path>`;
+      })
+      .join("");
+    return `${main_axes}${ticks}${vertical_lines}${ticks_labels}`;
+  }
+
+  _roundedRect(section_name, x, y, width, unit) {
+    return `
+<rect class="box ${unit.mode} ${section_name}" data-i="${unit.i}" x="${x}" y="${y}" width="${width}"
+  onmousemove="hl(${unit.i})"
+>
+</rect>`
+  }
+}
+
+// Determine the width of text for svg.
+function measure_text_width(text) {
+  let ctx;
+  let canvas = measure_text_width.canvas;
+  if (!canvas) {
+    canvas = (measure_text_width.canvas = document.createElement("canvas"));
+  }
+  ctx = canvas.getContext("2d");
+  ctx.font = '14px sans-serif';
+  const text_info = ctx.measureText(text);
+  return text_info.width;
+}
+
+// Gets the x-coordinate of the codegen section of a unit.
+//
+// This is for drawing rmeta dependency lines.
+function get_codegen_section_x(sections) {
+    const codegen_section = sections.find(s => s.name === "codegen")
+    if (!codegen_section) {
+        // This happens only when type-checking (e.g., `cargo check`)
+        return null;
+    }
+    return codegen_section.start;
+}
+
+function get_legend_entries(presentSections) {
+    let frontend_name = "Frontend/rest";
+    if (presentSections.has("other")) {
+      frontend_name = "Frontend";
+    }
+
+    const legend_entries = [{
+      name: frontend_name,
+      color: NOT_CUSTOM_BUILD_COLOR,
+      line: false
+    }];
+    if (presentSections.has("codegen")) {
+      legend_entries.push({
+        name: "Codegen",
+        color: CODEGEN_COLOR,
+        line: false
+      });
+    }
+    if (presentSections.has("link")) {
+      legend_entries.push({
+        name: "Linking",
+        color: LINK_COLOR,
+        line: false
+      });
+    }
+    if (presentSections.has("other")) {
+      legend_entries.push({
+        name: "Other",
+        color: OTHER_COLOR,
+        line: false
+      });
+    }
+  return legend_entries
+}
+
+function graph_dimension(graph_height) {
+  const scale = document.getElementById('scale').valueAsNumber;
+  const graph_width = scale_to_graph_width(scale);
+  const px_per_sec = graph_width / DURATION;
+  const canvas_width = Math.max(graph_width + X_LINE + 30, X_LINE + 250);
+  const canvas_height = graph_height + MARGIN + Y_LINE;
+  return { canvas_height, canvas_width, graph_height, graph_width, px_per_sec, scale }
+}
+
+// Determine the spacing and number of ticks along an axis.
+function split_ticks(max_value, px_per_v, max_px) {
+  const max_ticks = Math.floor(max_px / MIN_TICK_DIST);
+  if (max_ticks <= 1) {
+    // Graph is too small for even 1 tick.
+    return {step: max_value, tick_dist: max_px, num_ticks: 1};
+  }
+  let step;
+  if (max_value <= max_ticks) {
+    step = 1;
+  } else if (max_value <= max_ticks * 2) {
+    step = 2;
+  } else if (max_value <= max_ticks * 4) {
+    step = 4;
+  } else if (max_value <= max_ticks * 5) {
+    step = 5;
+  } else {
+    step = 10;
+    let count = 0;
+    while (true) {
+      if (count > 100) {
+        throw Error("tick loop too long");
+      }
+      count += 1;
+      if (max_value <= max_ticks * step) {
+        break;
+      }
+      step += 10;
+    }
+  }
+  const tick_dist = px_per_v * step;
+  const num_ticks = Math.floor(max_value / step);
+  return {step, tick_dist, num_ticks};
+}
+
+function hl(i) {
+  // Highlight dependency lines on mouse hover.
+  if (i === undefined || i == LAST_HOVER) {
+    return
+  }
+  LAST_HOVER = i;
+  let g = document.getElementById("hl-dep-lines");
+
+  if (g) {
+    const selector = '#boxes .dep-line[data-unblocked="'+i+'"],#boxes .dep-line[data-unblocked-by="' + i + '"]';
+    const lines = Array.from(document.querySelectorAll(selector)).map(el => el.outerHTML);
+    g.innerHTML = lines.join("");
+  }
+}
+
+let renderer = new SvgRenderer();
+try {
+  renderer.render_pipeline_graph();
+  renderer.render_timing_graph();
+} catch (err) {
+  console.error(err);
+}
+
+// Set up and handle controls.
+{
+  const range = document.getElementById('min-unit-time');
+  const time_output = document.getElementById('min-unit-time-output');
+  time_output.innerHTML = `${range.value}s`;
+  range.oninput = event => {
+    time_output.innerHTML = `${range.value}s`;
+    try {
+      renderer.render_pipeline_graph();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const scale = document.getElementById('scale');
+  const scale_output = document.getElementById('scale-output');
+  scale_output.innerHTML = `${scale.value}`;
+  scale.oninput = event => {
+    scale_output.innerHTML = `${scale.value}`;
+    try {
+      renderer.render_pipeline_graph();
+      renderer.render_timing_graph();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  Array.from(document.querySelectorAll("input[name='renderer']")).forEach(function(el) {
+    el.addEventListener("change", function(event) {
+      renderer = setupRenderer(event.target.value);
+      try {
+        renderer.render_pipeline_graph();
+        renderer.render_timing_graph();
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
+}
+
+</script>
+</body>
+</html>

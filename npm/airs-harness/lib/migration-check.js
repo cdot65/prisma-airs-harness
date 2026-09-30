@@ -21,7 +21,7 @@ export function inspectCommands(environment = process.env) {
             const manifest = path.join(parent, "package.json");
             if (existsSync(manifest) && statSync(manifest).size < 1024 * 1024) {
               const value = JSON.parse(readFileSync(manifest, "utf8"));
-              if (["airs-harness", "@cdot65/prisma-airs-cli"].includes(value.name)) {
+              if (["airs-harness", "prisma-airs-harness", "@cdot65/prisma-airs-cli"].includes(value.name)) {
                 owner = { name: value.name, version: value.version };
                 break;
               }

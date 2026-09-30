@@ -323,6 +323,18 @@ impl TranscriptView {
         self.selection.is_some() || self.search.is_active() || self.is_activity_focused()
     }
 
+    /// Rows below the last painted transcript row, inside the area of the latest render.
+    pub(crate) fn remaining_area(&self) -> Rect {
+        let used = u16::try_from(self.visible.len())
+            .unwrap_or(u16::MAX)
+            .min(self.area.height);
+        Rect {
+            y: self.area.y + used,
+            height: self.area.height - used,
+            ..self.area
+        }
+    }
+
     pub(crate) fn is_detailed(&self) -> bool {
         self.detailed
     }

@@ -15,6 +15,14 @@ impl ChatWidget {
             return;
         }
 
+        if replay_kind.is_some()
+            || matches!(
+                &notification,
+                ServerNotification::TurnStarted(_) | ServerNotification::ItemStarted(_)
+            )
+        {
+            self.empty_state_animation.borrow_mut().dismiss();
+        }
         let was_replaying_turn_completion = self.thread_usage.replaying_turn_completion;
         self.thread_usage.replaying_turn_completion = replay_kind.is_some();
         let from_replay = replay_kind.is_some();

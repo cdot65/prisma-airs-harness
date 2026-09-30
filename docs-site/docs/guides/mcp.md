@@ -52,7 +52,8 @@ For the example ServiceNow integration:
 > short descriptions and priorities. Do not create or update records.
 
 An authorized empty result is valid. A connected label alone does not establish
-end-to-end access. See the complete [SSO-to-ServiceNow walkthrough](../generated/sso-servicenow.md).
+end-to-end access. The [MCP getting started guide](../generated/getting-started-mcp.md)
+walks through each step with screenshots and the expected output.
 
 ## Renew and sign out
 

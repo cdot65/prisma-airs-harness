@@ -289,7 +289,7 @@ which you run as `airs cli`.
 | If you see | Do this |
 | --- | --- |
 | `command not found: airs` | npm's global `bin` directory is not on your `PATH`. Run `npm prefix -g` and add its `bin` folder to `PATH`. |
-| An error that the native package is unavailable | Reinstall with `npm install -g airs-harness --include=optional`. Your npm configuration omitted optional dependencies, which is where the native package lives. |
+| An error that the native package is unavailable | Reinstall with `npm install -g @cdot65/prisma-airs-harness --include=optional`. Your npm configuration omitted optional dependencies, which is where the native package lives. |
 | A much older version | Another `airs` is earlier on your `PATH`. `type -a airs` lists every copy. |
 
 ### 6. Validate the environment

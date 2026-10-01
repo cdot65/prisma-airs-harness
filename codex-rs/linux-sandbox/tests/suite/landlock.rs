@@ -176,6 +176,27 @@ async fn run_cmd_result_with_permission_profile_for_cwd(
     timeout_ms: u64,
     use_legacy_landlock: bool,
 ) -> Result<codex_protocol::exec_output::ExecToolCallOutput> {
+    run_cmd_result_with_permission_profile_and_helper(
+        cmd,
+        cwd,
+        permission_profile,
+        env,
+        timeout_ms,
+        use_legacy_landlock,
+        codex_linux_sandbox_exe(),
+    )
+    .await
+}
+
+async fn run_cmd_result_with_permission_profile_and_helper(
+    cmd: &[&str],
+    cwd: AbsolutePathBuf,
+    permission_profile: PermissionProfile,
+    env: HashMap<String, String>,
+    timeout_ms: u64,
+    use_legacy_landlock: bool,
+    sandbox_helper: PathBuf,
+) -> Result<codex_protocol::exec_output::ExecToolCallOutput> {
     let sandbox_cwd = cwd.clone();
     let params = ExecParams {
         command: cmd.iter().copied().map(str::to_owned).collect(),
@@ -191,7 +212,7 @@ async fn run_cmd_result_with_permission_profile_for_cwd(
         justification: None,
         arg0: None,
     };
-    let codex_linux_sandbox_exe = Some(codex_linux_sandbox_exe());
+    let codex_linux_sandbox_exe = Some(sandbox_helper);
 
     process_exec_tool_call(
         params,
@@ -1025,7 +1046,10 @@ async fn sandbox_starts_with_denied_tmp_without_exposing_registry() {
     std::fs::write(temp.path().join("AGENTS.md"), "project instructions\n")
         .expect("write instructions");
     let cwd = AbsolutePathBuf::try_from(temp.path()).expect("absolute workspace");
-    let sandbox_helper = codex_linux_sandbox_exe();
+    // Keep the helper outside the denied directory even when Cargo's cache lives in /tmp.
+    let helper_temp = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let sandbox_helper = helper_temp.path().join("codex-linux-sandbox");
+    std::fs::copy(codex_linux_sandbox_exe(), &sandbox_helper).unwrap();
     let helper_dir = AbsolutePathBuf::try_from(sandbox_helper.parent().expect("helper parent"))
         .expect("absolute helper directory");
 
@@ -1058,7 +1082,7 @@ async fn sandbox_starts_with_denied_tmp_without_exposing_registry() {
                 "DENIED_SECRET".to_string(),
                 secret.path().display().to_string(),
             );
-            let output = run_cmd_result_with_permission_profile_for_cwd(
+            let output = run_cmd_result_with_permission_profile_and_helper(
                 &[
                     "sh",
                     "-c",
@@ -1075,6 +1099,7 @@ test ! -e "$registry"
                 env,
                 LONG_TIMEOUT_MS,
                 /*use_legacy_landlock*/ false,
+                sandbox_helper.clone(),
             )
             .await
             .expect("sandbox should start with denied temp directory");

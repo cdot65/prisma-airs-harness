@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "version": "0.1.6",
+  "scope": "owner-authorized-public-npm-release",
+  "registry": "https://registry.npmjs.org",
+  "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+  "acceptance_tooling_commit": "5d1123bf33d00c234b58f499f098c1d38886d7ca",
+  "publication_tooling_commit": "9cf63cac55fab5192af7eaaaa9c6b6a3654f0dd6",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713"
+    }
+  ],
+  "published": true,
+  "public_latest": "0.1.6",
+  "private_latest_observed": "0.1.6",
+  "private_promotion_performed": false,
+  "candidate_acceptance": {
+    "spec_sha256": "f4642df77e714b5728fd67f4d69355e7d824394343ecdeb8470bdaaab007bc95",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "tooling_commit": "5d1123bf33d00c234b58f499f098c1d38886d7ca",
+    "packaging_commit": "f0135d41909dabf440606070e68b1bca23b08219",
+    "version": "0.1.6",
+    "candidate_metadata_sha256": "c6376275e194551c8e1dcbedcc2045d6dcfbf1b26832834fb6dc211bc31f55c3",
+    "candidate_packages_sha256": "2d75b01964901564ef8ee27411563044b0359e9f811861d260882358c8762c11",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625",
+        "acceptance_sha256": "304074338d8d7fd9ed5f160f5e9a458941484b23ca757c4a30c60ce8cd26f187",
+        "evidence_sha256": "37af2edff3ba8da774cb8967d10545926a1611b2faf6116710dfdaa40cf61597",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044",
+        "acceptance_sha256": "f0f9d19138acf0825f55481a59f396438070b15a77bf975965b10e17c6a90481",
+        "evidence_sha256": "ec5ec6f75f189cd1751b4737919cfaeeeb82dad70e0fa315cbf1dcc513a80398",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+        "acceptance_sha256": "4fee610694e13ee812ab81071b47541b83c1fafd0c9fdd1394224867abb8322a",
+        "evidence_sha256": "8d5d8b55d720129b1811c098b58670be41f2af0139cf1a2ded88bfa70073ed86",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ]
+      }
+    ],
+    "evidence_sha256": "c2bb20f85b963c05367ab78aff17cc92ba5ea6938b0d315833115df00c2f9b1d"
+  },
+  "registry_acceptance": {
+    "spec_sha256": "f4642df77e714b5728fd67f4d69355e7d824394343ecdeb8470bdaaab007bc95",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "tooling_commit": "5d1123bf33d00c234b58f499f098c1d38886d7ca",
+    "packaging_commit": "f0135d41909dabf440606070e68b1bca23b08219",
+    "version": "0.1.6",
+    "candidate_metadata_sha256": "54b78b83e2f9532e07edd1849607a2b633fdbedadd1aebf357f475cd4747478a",
+    "candidate_packages_sha256": "19aa8b9502a8686fa1caeb030015885e2af9eab905eb93f22d73798df818dfcc",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625",
+        "acceptance_sha256": "8a6a289f6f553a0fbd718452a117677ad6d0052f67d30719fdc83429ff56a8ee",
+        "evidence_sha256": "f08a9dad628788b26bc8dd02d78f901424e257299efa32573d843cc1cc0cde3e",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044",
+        "acceptance_sha256": "5e77a7e01c871c3dec5ca33de5cc7da9bdfd81b3020f8b22e3d8dacceebc09e8",
+        "evidence_sha256": "769ba28b3448cca5a6ceabe39940f45fa0e021a1f1fb38d422cd8b6586482160",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+        "acceptance_sha256": "a3ab195dfd8396f073aace68e15bf72fc9a53a512bc09626774369a81c11f207",
+        "evidence_sha256": "246aff62aabebaa1e30ef72fea19c99d4209d2f11135636beeba1603bf7bc2b6",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ]
+      }
+    ],
+    "evidence_sha256": "4e1db9abd98a8f855957a6c421122d42c4936db2c6a5b36161dfd916e10e208a"
+  },
+  "successful_workflow_runs": [
+    532,
+    533
+  ],
+  "feature_scores": [
+    {
+      "feature": "Sandbox boundaries and macOS TLS trust",
+      "score": 9,
+      "evidence": "Applied-policy Linux sandbox checks, native macOS alias/trust integration, denial-retention tests, full GNU review and installed native credential/TLS acceptance."
+    },
+    {
+      "feature": "Command completion and launch-error reporting",
+      "score": 9,
+      "evidence": "Producer-owned complete transcript, cancellation-safe launch events, UTF-8/head-tail regressions and early/final-output-once checks on six native candidate/registry installations."
+    },
+    {
+      "feature": "Markdown copy and blank-task draft retention",
+      "score": 9,
+      "evidence": "Balanced Markdown/table snapshots, protected composer and bounded clipboard-worker tests, actual remote app-server blank-task restoration and native PTY copy/draft checks on all targets."
+    },
+    {
+      "feature": "Opt-in instant steering",
+      "score": 9,
+      "evidence": "Native default/enabled steering tests, observable no-replay append check, backoff/compaction/queued-input regressions and durable stdio/gRPC/WebSocket continuation tests."
+    }
+  ],
+  "workspace": {
+    "validated_source": "30f9686cefdac98b7faa4840a2eedd8209b90bfd",
+    "runtime_source": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "tests_run": 19100,
+    "passed": 19097,
+    "failed": 3,
+    "skipped": 35,
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "new_failures": [],
+    "validation_log_sha256": "907b73781438df6a435b31ca59d87c30ebe737a846e0cf5de58f03d529caf906"
+  },
+  "mac_signing": {
+    "schema_version": 1,
+    "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+    "target": "aarch64-apple-darwin",
+    "team_id": "G5QLZ5A8TA",
+    "identifier": "airs-harness",
+    "designated_requirement": "identifier \"airs-harness\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G5QLZ5A8TA",
+    "codesign_verified": true,
+    "hardened_runtime": true,
+    "notarization_verified": true,
+    "notarization_method": "codesign-online-explicit-notarized-requirement",
+    "gatekeeper_app_assessment": "not-applicable-raw-cli",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "asset_id": "forgejo-run-4355",
+    "archive_sha256": "ffc4e447298f1175fa4eb3bfa9af9b201f699e00d5ca016e06c98e34c8e5ae53",
+    "accepted_archive_members": [
+      "prisma-airs-harness-signing/airs-harness",
+      "prisma-airs-harness-alpha10-signing/airs-harness"
+    ],
+    "owner_reported_submission_id": "dd51dfe2-770f-49b6-b2a6-228b127f2720",
+    "submission_api_queried": false,
+    "verification_log_sha256": {
+      "SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+      "SIGNING-codesign.log": "70164ada1e520bc93ca0ec59a7d2f2db85e0945d67d6e67b2e5486fc4869723d",
+      "SIGNING-details.log": "a566388a96879b0bb1eee4f6bcccb006a74983fdf83466857906a3d7ad13006f",
+      "SIGNING-requirements.log": "aea15e179c5bbb8f8396293c1569684d5e37e3f627a1950212fbb28178bb9132",
+      "SIGNING-notarization.log": "70164ada1e520bc93ca0ec59a7d2f2db85e0945d67d6e67b2e5486fc4869723d"
+    },
+    "published": false,
+    "release_ready": false
+  },
+  "notarization": {
+    "status": "Accepted",
+    "id": "dd51dfe2-770f-49b6-b2a6-228b127f2720",
+    "message": "Processing complete"
+  },
+  "ubuntu_helper": {
+    "passed": true,
+    "exit_code": 0,
+    "packaged_helper_sha256": "77319181ec7e34b1fd439aa10c44379fa30bb21e9f97e4cea78aa63b55deab44",
+    "configured_helper_sha256": "07f43554fcf30f6b98a69320054dd22a4e3e4993cb2f1fe29cc81d822848f7be",
+    "configuration_change": "Deployed gateway URL only; public npm registry default unchanged",
+    "checks_passed": 6,
+    "isolated_home": true,
+    "isolated_encrypted_keyring": true,
+    "elapsed_seconds": 20.29554800700862
+  },
+  "default_installs_passed": true,
+  "production_sso_claimed": false,
+  "paid_jev_service_claimed": false,
+  "evidence_bundle": {
+    "filename": "evidence.tar.gz",
+    "sha256": "d957830ac0bbda34afd1ee06e95c233c491b7fc8170b1d18d4b090dc06113b3d",
+    "files": 489
+  }
+}

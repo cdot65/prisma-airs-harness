@@ -1,5 +1,9 @@
 # AIRS 0.1.6 private test release
 
+This records the private-release snapshot before public promotion. The
+[subsequent public release](../public-0.1.6/README.md) is now published as
+`latest=0.1.6`; final reads also show that version as `latest` on npm.cdot.io.
+
 Published to **https://npm.cdot.io** for Linux x64, native-validated Linux ARM64
 and Developer ID signed/notarized Apple Silicon. The three native packages and
 `@cdot65/prisma-airs-harness` launcher are exactly **0.1.6**, under

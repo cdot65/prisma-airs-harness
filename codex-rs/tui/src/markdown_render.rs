@@ -135,14 +135,24 @@ impl Default for MarkdownStyles {
 struct IndentContext {
     prefix: Vec<Span<'static>>,
     marker: Option<Vec<Span<'static>>>,
+    copy_marker: String,
     is_list: bool,
 }
 
 impl IndentContext {
     fn new(prefix: Vec<Span<'static>>, marker: Option<Vec<Span<'static>>>, is_list: bool) -> Self {
+        // Keep the canonical marker separate from depth-dependent display padding.
+        let copy_marker = marker
+            .iter()
+            .flatten()
+            .map(|span| span.content.as_ref())
+            .collect::<String>()
+            .trim_start()
+            .replace('•', "-");
         Self {
             prefix,
             marker,
+            copy_marker,
             is_list,
         }
     }
@@ -366,6 +376,7 @@ struct LinkState {
     /// can collapse to this canonical target without losing descriptive labels.
     local_target_display: Option<String>,
     local_label_spans: Vec<Span<'static>>,
+    local_label_inline: Vec<Vec<crate::markdown_copy::Inline>>,
 }
 
 fn should_render_link_destination(dest_url: &str) -> bool {
@@ -387,6 +398,8 @@ where
     text: Vec<HyperlinkLine>,
     styles: MarkdownStyles,
     inline_styles: Vec<Style>,
+    copy_inline: Vec<crate::markdown_copy::Inline>,
+    copy_line: crate::markdown_copy::CopyLine,
     indent_stack: Vec<IndentContext>,
     list_indices: Vec<Option<u64>>,
     list_needs_blank_before_next_item: Vec<bool>,
@@ -429,6 +442,8 @@ where
             text: Vec::new(),
             styles: MarkdownStyles::default(),
             inline_styles: Vec::new(),
+            copy_inline: Vec::new(),
+            copy_line: Default::default(),
             indent_stack: Vec::new(),
             list_indices: Vec::new(),
             list_needs_blank_before_next_item: Vec::new(),
@@ -464,9 +479,20 @@ where
 
     fn handle_event(&mut self, event: Event<'a>, range: Range<usize>) {
         self.prepare_for_event(&event);
+        if let Some(inline) = crate::markdown_copy::Inline::from_event(&event) {
+            self.copy_inline.push(inline);
+        }
+        let close_inline = matches!(
+            event,
+            Event::Code(_)
+                | Event::End(
+                    TagEnd::Emphasis | TagEnd::Strong | TagEnd::Strikethrough | TagEnd::Link
+                )
+        );
+
         match event {
             Event::Start(tag) => self.start_tag(tag, range),
-            Event::End(tag) => self.end_tag(tag),
+            Event::End(tag) => self.end_tag(tag, range),
             Event::Text(text) => self.text(text),
             Event::Code(code) => self.code(code),
             Event::SoftBreak => self.soft_break(),
@@ -477,6 +503,7 @@ where
                     self.push_blank_line();
                 }
                 self.push_line(Line::from("———"));
+                self.copy_line.rule = true;
                 self.needs_newline = true;
             }
             Event::Html(html) => self.html(html, /*inline*/ false),
@@ -492,6 +519,9 @@ where
                     }
                 }
             }
+        }
+        if close_inline {
+            self.copy_inline.pop();
         }
     }
 
@@ -577,9 +607,15 @@ where
         }
     }
 
-    fn end_tag(&mut self, tag: TagEnd) {
+    fn end_tag(&mut self, tag: TagEnd, range: Range<usize>) {
         match tag {
-            TagEnd::Paragraph => self.end_paragraph(),
+            TagEnd::Paragraph => {
+                self.copy_line.hard_break |= self
+                    .input
+                    .get(..range.end)
+                    .is_some_and(|prefix| prefix.ends_with("  \n") || prefix.ends_with("  \r\n"));
+                self.end_paragraph();
+            }
             TagEnd::Heading(_) => self.end_heading(),
             TagEnd::BlockQuote => self.end_blockquote(),
             TagEnd::CodeBlock => self.end_codeblock(),
@@ -646,7 +682,9 @@ where
             HeadingLevel::H6 => self.styles.h6,
         };
         let content = format!("{} ", "#".repeat(level as usize));
+        let heading = content.len();
         self.push_line(Line::from(vec![Span::styled(content, heading_style)]));
+        self.copy_line.heading = heading;
         self.push_inline_style(heading_style);
         self.needs_newline = false;
     }
@@ -815,6 +853,7 @@ where
             self.push_table_cell_hard_break();
             return;
         }
+        self.copy_line.hard_break = true;
         self.push_line(Line::default());
     }
 
@@ -978,6 +1017,7 @@ where
                 self.push_prewrapped_line(line, pending_marker_line);
             } else {
                 self.push_hyperlink_line(line);
+                self.copy_line.code = true;
                 self.flush_current_line();
             }
             pending_marker_line = false;
@@ -1886,6 +1926,7 @@ where
                 None
             },
             local_label_spans: Vec::new(),
+            local_label_inline: Vec::new(),
             destination: dest_url,
         });
     }
@@ -1955,8 +1996,14 @@ where
                         self.push_line(Line::default());
                     }
                     if show_label {
-                        for label_span in link.local_label_spans {
+                        for (label_span, inline) in link
+                            .local_label_spans
+                            .into_iter()
+                            .zip(link.local_label_inline)
+                        {
+                            let previous = std::mem::replace(&mut self.copy_inline, inline);
                             self.push_span(label_span);
+                            self.copy_inline = previous;
                         }
                         self.push_span(" (".into());
                     }
@@ -1980,6 +2027,13 @@ where
     fn push_local_link_label_span(&mut self, span: Span<'static>) {
         if let Some(link) = self.link.as_mut() {
             link.local_label_spans.push(span);
+            link.local_label_inline.push(
+                self.copy_inline[..self
+                    .copy_inline
+                    .len()
+                    .min(crate::markdown_copy::MAX_COPY_DEPTH)]
+                    .to_vec(),
+            );
         }
     }
 
@@ -1998,10 +2052,13 @@ where
     fn flush_current_line(&mut self) {
         if let Some(mut line) = self.current_line_content.take() {
             let style = self.current_line_style;
+            let mut source = crate::terminal_hyperlinks::LogicalLineSource::from_line(&line.line);
+            source.copy = Some(std::sync::Arc::new(std::mem::take(&mut self.copy_line)));
             // NB we don't wrap code in code blocks, in order to preserve whitespace for copy/paste.
             if !self.current_line_in_code_block
                 && let Some(width) = self.wrap_width
             {
+                line.source = Some(source);
                 let opts = RtOptions::new(width)
                     .initial_indent(self.current_initial_indent.clone().into())
                     .subsequent_indent(self.current_subsequent_indent.clone().into());
@@ -2013,8 +2070,6 @@ where
                 }
             } else {
                 let mut spans = self.current_initial_indent.clone();
-                let mut source =
-                    crate::terminal_hyperlinks::LogicalLineSource::from_line(&line.line);
                 source.prefix_bytes = spans.iter().map(|span| span.content.len()).sum();
                 source.continuation_indent = self.current_subsequent_indent.clone().into();
                 line.source = Some(source);
@@ -2057,6 +2112,16 @@ where
         };
 
         let mut spans = self.prefix_spans(pending_marker_line);
+        let mut source = crate::terminal_hyperlinks::LogicalLineSource::from_line(&line.line);
+        let mut copy = crate::markdown_copy::CopyLine::default();
+        copy.prefix = self.copy_prefix(pending_marker_line);
+        copy.continuation = self.copy_prefix(/*pending_marker_line*/ false);
+        copy.item_prefix = self.copy_prefix(/*pending_marker_line*/ true);
+        copy.code = true;
+        source.copy = Some(std::sync::Arc::new(copy));
+        source.prefix_bytes = spans.iter().map(|span| span.content.len()).sum();
+        source.continuation_indent = self.prefix_spans(/*pending_marker_line*/ false).into();
+        line.source = Some(source);
         let shift = Self::spans_display_width(&spans);
         spans.append(&mut line.line.spans);
         for hyperlink in &mut line.hyperlinks {
@@ -2079,6 +2144,14 @@ where
         self.current_initial_indent = self.prefix_spans(was_pending);
         self.current_subsequent_indent = self.prefix_spans(/*pending_marker_line*/ false);
         self.current_line_style = style;
+        self.copy_line = crate::markdown_copy::CopyLine::default();
+        self.copy_line.prefix = self.copy_prefix(was_pending);
+        self.copy_line.continuation = self.copy_prefix(/*pending_marker_line*/ false);
+        self.copy_line.item_prefix = self.copy_prefix(/*pending_marker_line*/ true);
+        self.copy_line.code = self.in_code_block;
+        // Heading markers are already visible; retain them as Markdown syntax.
+        self.copy_line
+            .push(line.spans.iter().map(|span| span.content.len()).sum(), &[]);
         self.current_line_content = Some(HyperlinkLine::new(line));
         self.current_line_in_code_block = self.in_code_block;
         self.line_ends_with_local_link_target = false;
@@ -2100,6 +2173,7 @@ where
             self.push_line(Line::default());
         }
         if let Some(line) = self.current_line_content.as_mut() {
+            self.copy_line.push(span.content.len(), &self.copy_inline);
             line.push_span(
                 span,
                 self.link.as_ref().map(|link| link.destination.as_str()),
@@ -2112,6 +2186,15 @@ where
             self.push_line(Line::default());
         }
         if let Some(line) = self.current_line_content.as_mut() {
+            self.copy_line.push(
+                appended
+                    .line
+                    .spans
+                    .iter()
+                    .map(|span| span.content.len())
+                    .sum(),
+                &self.copy_inline,
+            );
             let shift = line.width();
             line.line.spans.append(&mut appended.line.spans);
             line.hyperlinks
@@ -2152,6 +2235,33 @@ where
 
     fn push_output_line(&mut self, line: HyperlinkLine) {
         self.text.push(line);
+    }
+
+    // Markdown needs relative container indentation, not the display's fixed-depth padding.
+    fn copy_prefix(&self, pending_marker_line: bool) -> String {
+        // Code's display padding is not a Markdown container. Keep only the innermost semantic
+        // containers so lazy continuation lines cannot each retain an arbitrarily deep prefix.
+        let containers =
+            &self.indent_stack[..self.indent_stack.len() - usize::from(self.in_code_block)];
+        let containers = &containers[containers
+            .len()
+            .saturating_sub(crate::markdown_copy::MAX_COPY_DEPTH)..];
+        let last_list = containers.iter().rposition(|context| context.is_list);
+        let mut prefix = String::new();
+        for (index, context) in containers.iter().enumerate() {
+            if context.is_list {
+                let marker = &context.copy_marker;
+                let width = marker.find('[').unwrap_or(marker.len());
+                if pending_marker_line && Some(index) == last_list {
+                    prefix.push_str(marker);
+                } else {
+                    prefix.extend(std::iter::repeat_n(' ', width));
+                }
+            } else {
+                prefix.extend(context.prefix.iter().map(|span| span.content.as_ref()));
+            }
+        }
+        prefix
     }
 
     fn prefix_spans(&self, pending_marker_line: bool) -> Vec<Span<'static>> {

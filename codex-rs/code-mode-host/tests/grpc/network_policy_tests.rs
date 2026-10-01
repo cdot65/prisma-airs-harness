@@ -62,7 +62,10 @@ async fn account_change_revokes_active_rpc_and_renews_the_cached_client() -> Res
         .map_err(anyhow::Error::msg)?;
     let mut pending = request("await new Promise(() => {});");
     pending.yield_time_ms = Some(60_000);
-    let started = session.execute(pending).await.map_err(anyhow::Error::msg)?;
+    let started = session
+        .execute(pending, /*preempt*/ None)
+        .await
+        .map_err(anyhow::Error::msg)?;
 
     controller.policy().invalidate();
     assert!(

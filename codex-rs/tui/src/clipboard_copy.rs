@@ -245,14 +245,7 @@ pub(crate) fn is_wsl_session() -> bool {
 /// fd 2 to `/dev/null` around the call to keep the screen clean.
 #[cfg(not(target_os = "android"))]
 fn arboard_copy(text: &str, html: Option<&str>) -> Result<Option<ClipboardLease>, String> {
-    #[cfg(target_os = "macos")]
-    let _stderr_lock = STDERR_SUPPRESSION_MUTEX
-        .get_or_init(|| std::sync::Mutex::new(()))
-        .lock()
-        .map_err(|_| "stderr suppression lock poisoned".to_string())?;
-    let _guard = SuppressStderr::new();
-    let mut clipboard =
-        arboard::Clipboard::new().map_err(|e| format!("clipboard unavailable: {e}"))?;
+    let mut clipboard = native_clipboard()?;
     match html {
         Some(html) => clipboard
             .set_html(html, Some(text))
@@ -269,6 +262,18 @@ fn arboard_copy(text: &str, html: Option<&str>) -> Result<Option<ClipboardLease>
     {
         Ok(None)
     }
+}
+
+/// Initialize the local clipboard quietly; subsequent reads do not hold the stderr lock.
+#[cfg(not(target_os = "android"))]
+pub(crate) fn native_clipboard() -> Result<arboard::Clipboard, String> {
+    #[cfg(target_os = "macos")]
+    let _stderr_lock = STDERR_SUPPRESSION_MUTEX
+        .get_or_init(|| std::sync::Mutex::new(()))
+        .lock()
+        .map_err(|_| "stderr suppression lock poisoned".to_string())?;
+    let _guard = SuppressStderr::new();
+    arboard::Clipboard::new().map_err(|error| format!("clipboard unavailable: {error}"))
 }
 
 #[cfg(target_os = "android")]

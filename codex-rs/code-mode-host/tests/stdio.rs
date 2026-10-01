@@ -232,7 +232,10 @@ async fn interrupt_yields_observations_without_stopping_the_cell() {
         codex_utils_cargo_bin::cargo_bin("codex-code-mode-host").expect("host binary"),
     );
     let (delegate, mut events) = CancellationDelegate::new();
-    let session = provider.create_session(delegate.clone()).await.expect("create session");
+    let session = provider
+        .create_session(delegate.clone())
+        .await
+        .expect("create session");
     let mut request = execute_request("await tools.block({}); text('done');");
     request.yield_time_ms = Some(60_000);
     request.enabled_tools = vec![ToolDefinition {

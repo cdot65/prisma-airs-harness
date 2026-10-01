@@ -199,13 +199,11 @@ impl Drop for DriverHarness {
 async fn old_host_does_not_receive_yield_frames() {
     let mut harness = DriverHarness::start();
     let session = remote_session();
-    let _cleanup = harness.open(session.clone(), Arc::new(RecordingDelegate::default())).await;
+    let _cleanup = harness
+        .open(session.clone(), Arc::new(RecordingDelegate::default()))
+        .await;
     let _started = harness
-        .start_cell(
-            session.clone(),
-            /*request_id*/ 2,
-            "1",
-        )
+        .start_cell(session.clone(), /*request_id*/ 2, "1")
         .await;
     harness
         .event_tx

@@ -120,6 +120,15 @@ fn copy_on_select_preserves_link_activation_and_ignores_empty_drags() {
             ..Default::default()
         };
         render(&mut view, &cells, /*width*/ 30, /*height*/ 1);
+        let activate = MouseEvent {
+            modifiers: KeyModifiers::CONTROL,
+            ..mouse(MouseEventKind::Down(MouseButton::Left), /*column*/ 2)
+        };
+        assert!(matches!(
+            view.handle_mouse(activate, &cells),
+            Some(ViewAction::OpenLink(url)) if url == "https://example.com/docs"
+        ));
+        assert_eq!(view.selected_text(&cells), None);
         let down = mouse(MouseEventKind::Down(MouseButton::Left), /*column*/ 2);
         assert!(matches!(
             view.handle_mouse(down, &cells),
@@ -139,8 +148,7 @@ fn copy_on_select_preserves_link_activation_and_ignores_empty_drags() {
             &cells,
         );
         match (drag, release, action) {
-            (None, _, Some(ViewAction::OpenLink(url))) => {
-                assert_eq!(url, "https://example.com/docs");
+            (None, _, Some(ViewAction::Changed)) => {
                 assert_eq!(view.selected_text(&cells), None);
             }
             (Some(_), 5, Some(ViewAction::CopyOnSelect(copied))) => {

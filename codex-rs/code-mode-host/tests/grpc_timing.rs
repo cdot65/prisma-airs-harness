@@ -54,20 +54,18 @@ async fn execution_timing_includes_javascript_but_excludes_delayed_reads() -> Re
     for (index, suffix) in endings.into_iter().enumerate() {
         let observed = Instant::now();
         let mut execution = client
-            .execute(
-                grpc::ExecuteRequest {
-                    session_id: opened.session_id.clone(),
-                    execution_id: format!("execution-{index}"),
-                    tool_call_id: format!("call-{index}"),
-                    source: format!(
-                        "const until = Date.now() + 150; while (Date.now() < until) {{}} \
+            .execute(grpc::ExecuteRequest {
+                session_id: opened.session_id.clone(),
+                execution_id: format!("execution-{index}"),
+                tool_call_id: format!("call-{index}"),
+                source: format!(
+                    "const until = Date.now() + 150; while (Date.now() < until) {{}} \
                      await new Promise(resolve => setTimeout(resolve, 150)); {suffix}"
-                    ),
-                    enabled_tools: Vec::new(),
-                    yield_time_ms: Some(/*value*/ 5_000),
-                    max_output_tokens: Some(/*value*/ 1_000),
-                },
-            )
+                ),
+                enabled_tools: Vec::new(),
+                yield_time_ms: Some(/*value*/ 5_000),
+                max_output_tokens: Some(/*value*/ 1_000),
+            })
             .await?
             .into_inner();
         let started = timeout(TEST_TIMEOUT, execution.message())

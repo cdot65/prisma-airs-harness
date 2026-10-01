@@ -357,7 +357,10 @@ async fn shutdown_immediately_rejects_new_operations() -> Result<()> {
     let shutdown = session.shutdown();
     let expected = "code mode session is shutting down".to_string();
     assert_eq!(
-        session.execute(request("text('too late');"), /*preempt*/ None).await.err(),
+        session
+            .execute(request("text('too late');"), /*preempt*/ None)
+            .await
+            .err(),
         Some(expected.clone())
     );
     assert_eq!(
@@ -390,7 +393,12 @@ async fn cancelling_execution_before_admission_keeps_the_session_usable() -> Res
     let mut pending = request("await new Promise(() => {});");
     pending.yield_time_ms = Some(/*value*/ 1);
 
-    assert!(session.execute(pending, /*preempt*/ None).now_or_never().is_none());
+    assert!(
+        session
+            .execute(pending, /*preempt*/ None)
+            .now_or_never()
+            .is_none()
+    );
 
     let abandoned_cell = cell_id("1");
     timeout(TEST_TIMEOUT, async {

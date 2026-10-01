@@ -915,7 +915,19 @@ where
             .map(std::mem::take)
             .unwrap_or(false)
         {
+            let index = self.text.len();
             self.push_blank_line();
+            // This spacer separates rendered siblings after a wrapped item. It is not a
+            // paragraph break in the selected Markdown and must not make a tight list loose.
+            if let Some(line) = self.text.get_mut(index) {
+                let mut source =
+                    crate::terminal_hyperlinks::LogicalLineSource::from_line(&line.line);
+                source.copy = Some(std::sync::Arc::new(crate::markdown_copy::CopyLine {
+                    omit: true,
+                    ..Default::default()
+                }));
+                line.source = Some(source);
+            }
         }
         self.flush_current_line();
         self.list_item_start_line_counts.push(self.text.len());

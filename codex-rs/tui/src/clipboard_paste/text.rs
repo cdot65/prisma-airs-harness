@@ -1,4 +1,4 @@
-//! Local clipboard text reads, executed only by the shared clipboard worker.
+//! Local clipboard text reads, executed only by the bounded asynchronous reader.
 //! WSL reads the Windows clipboard; it never falls back to a separate Linux clipboard.
 
 use codex_protocol::user_input::MAX_USER_INPUT_TEXT_CHARS;
@@ -22,7 +22,7 @@ pub(crate) fn read(deadline: Instant) -> Result<String, String> {
             .block_on(read_command(command, deadline));
     }
     #[cfg(not(target_os = "android"))]
-    let text = match arboard::Clipboard::new().and_then(|mut clipboard| clipboard.get_text()) {
+    let text = match crate::clipboard_copy::native_clipboard()?.get_text() {
         Ok(text) => text,
         Err(arboard::Error::ContentNotAvailable) => String::new(),
         Err(_) => return Err("clipboard text is unavailable".into()),

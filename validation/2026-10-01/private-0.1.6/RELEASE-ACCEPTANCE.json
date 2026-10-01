@@ -1,0 +1,380 @@
+{
+  "schema_version": 1,
+  "version": "0.1.6",
+  "scope": "private-owner-test-release",
+  "registry": "https://npm.cdot.io",
+  "tag": "stable-candidate",
+  "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+  "tooling_commit": "30f9686cefdac98b7faa4840a2eedd8209b90bfd",
+  "packaging_commit": "f0135d41909dabf440606070e68b1bca23b08219",
+  "platforms": [
+    {
+      "target": "x86_64-unknown-linux-musl",
+      "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625"
+    },
+    {
+      "target": "aarch64-unknown-linux-musl",
+      "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044"
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713"
+    }
+  ],
+  "published": true,
+  "candidate_acceptance": {
+    "spec_sha256": "db4d6f419e166142313990ddee291f7b8db7f77a4fb4df7eae998136c32b96cb",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "tooling_commit": "30f9686cefdac98b7faa4840a2eedd8209b90bfd",
+    "packaging_commit": "f0135d41909dabf440606070e68b1bca23b08219",
+    "version": "0.1.6",
+    "candidate_metadata_sha256": "7c252ed152b7a53cf9d3854afabf184fd19fd93e4e43cfc989b516068f94bf19",
+    "candidate_packages_sha256": "8f22158e176380338ae562a72039449f4e259f50116230eef18a4dbe8a87b6d9",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625",
+        "acceptance_sha256": "d836859856d7259ea6481ccb38566b8d62c6bb644e2a2f5f9e32c51ec828004b",
+        "evidence_sha256": "ee644166f1bd0181a69dfd8429d6ce8ab4d4712fc66b0ca9dcdbf4a1f9c41216",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044",
+        "acceptance_sha256": "9b8e1fe5a1a26cd5b2225e1fa1985c1297177f443d09dc4481d9f042143ecbfa",
+        "evidence_sha256": "899ba12f34518d00632f5d833f9bfe4853c2eeea14cddb2c64e5a03c1a746fee",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+        "acceptance_sha256": "6f893899fceed6e01875ff55b4cd755af9dd0007a6b21a727d8105629df3c594",
+        "evidence_sha256": "26b3f89da2d36d034d4a5d9f6bcafea738aef2c0629b7b34c0c1e5de0fd6d7db",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ]
+      }
+    ],
+    "evidence_sha256": "43266c9d58616e8bc8e62b4dbc475996dfa258f5582604e8bd42c7c56e94553f"
+  },
+  "registry_acceptance": {
+    "spec_sha256": "db4d6f419e166142313990ddee291f7b8db7f77a4fb4df7eae998136c32b96cb",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "tooling_commit": "30f9686cefdac98b7faa4840a2eedd8209b90bfd",
+    "packaging_commit": "f0135d41909dabf440606070e68b1bca23b08219",
+    "version": "0.1.6",
+    "candidate_metadata_sha256": "bf17f0e17322290e0da25f8f1700c0c4aeecfbe20e9be1b23fb25da15392dbb8",
+    "candidate_packages_sha256": "465b295d90c7815d8521c4da67c97c19d851bfca70079b84780ada0e81771f7d",
+    "platforms": [
+      {
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625",
+        "acceptance_sha256": "61357979729af5299af14ff4a93a639f780ea5d90ae5eb26b0d9a5a1fdbef3d9",
+        "evidence_sha256": "f94660f1eebdc8d38936ad0d7ebf7cbafb0b0d9a41fca80b6eb6c6f346ca8e55",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-unknown-linux-musl",
+        "binary_sha256": "ed654ffedc8ddcb180b9086f83b9e249403937a367ef677c5631b18061a26044",
+        "acceptance_sha256": "01780874b9aa01dc53721c008cfe023f44f94a1f633a0196a69a9b1df94359a9",
+        "evidence_sha256": "c4d47b1d05dafefcd14c72619d86935c6bbdb970eabec7d6acc04c505207292f",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output"
+        ]
+      },
+      {
+        "target": "aarch64-apple-darwin",
+        "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+        "acceptance_sha256": "2f3a81a33c977d32a8c433056d4aa2f6a269c4c32ba4b12df96cc1f69409f272",
+        "evidence_sha256": "e883fbc6fead3ca35ac3ad8572297c65c0f28cbce95e08ac05b60e95b343b73a",
+        "stages": [
+          "install",
+          "onboarding",
+          "terminals",
+          "installed-regressions",
+          "mcp-manager",
+          "doctor",
+          "managed-cli",
+          "upgrade",
+          "command-output",
+          "mac-signature"
+        ]
+      }
+    ],
+    "evidence_sha256": "89e8a9eb840d1d31e04f1aaf20120643135f30f119aec5ae6ee261eb7e954800"
+  },
+  "workspace": {
+    "scope": "private-owner-test-release",
+    "version": "0.1.6",
+    "runtime_source": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "validated_source": "30f9686cefdac98b7faa4840a2eedd8209b90bfd",
+    "runtime_tree_identical": true,
+    "tests_run": 19100,
+    "passed": 19097,
+    "failed": 3,
+    "skipped": 35,
+    "summary": "Summary [2052.786s] 19100 tests run: 19097 passed (5 slow, 1 flaky), 3 failed, 35 skipped",
+    "failures": [
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery",
+      "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox"
+    ],
+    "new_failures": [],
+    "private_release_eligible": true,
+    "stable_public_promotion_authorized": false,
+    "known_failure_review": {
+      "baseline_version": "0.1.5",
+      "baseline_source": "312fe9c5fda63332c148670327db2620b4d6e82f",
+      "baseline_log_sha256": "5a4ee4f975685ad65796b7e30d7906c1d3fdcbac3578a996ed397ce8efdf0538",
+      "assertions": {
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_pipe_recovery": {
+          "matches_0_1_5": true,
+          "normalized_assertion": "exec-server/tests/exec_process.rs:539:5\n<xxxx\n>xx",
+          "assertion_sha256": "b450489c4f4d5fc3e1df37f21d85036d6e3bae6375c18e7adfb740c90a383a26"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_capture_failure_falls_back_and_retries::remote_tty_recovery": {
+          "matches_0_1_5": true,
+          "normalized_assertion": "exec-server/tests/exec_process.rs:539:5\n<xxxx\n>xx",
+          "assertion_sha256": "b450489c4f4d5fc3e1df37f21d85036d6e3bae6375c18e7adfb740c90a383a26"
+        },
+        "codex-exec-server::exec_process shell_snapshot_v2_filters_profile_exports_and_stays_in_memory::remote_sandbox": {
+          "matches_0_1_5": true,
+          "normalized_assertion": "exec-server/tests/exec_process.rs:331:9\n(\n>    \"helper|profile|missing|missing|/tmp/airstests/REVIEWED-TEMP/runtime-bin:/tmp/airstests/REVIEWED-TEMP/profile-bin:/usr/bin:/bin|missing|missing\",\n\"\",\n<    \"/tmp/airstests/REVIEWED-TEMP/.bashrc: line 1: /tmp/airstests/REVIEWED-TEMP/captures: Read-only file system\\n\",\nSome(\n<        41,\n>        0,\n),\ntrue,\n)",
+          "assertion_sha256": "daa2a4b1ebaf3c9126b2c0e5ef8076fa723245fe1c0181eee077f0bc854e35b4"
+        }
+      },
+      "selected_tests_and_cli_gate_unchanged": true,
+      "installed_upstream_service_denied_before_listener": {
+        "passed": true,
+        "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+        "version": "0.1.6",
+        "target": "x86_64-unknown-linux-musl",
+        "binary_sha256": "b1f333045caaa400befa7afcacf034bd369bda2b4d0c1ebec4b13c33815d9625",
+        "command": [
+          "airs",
+          "exec-server",
+          "--listen",
+          "ws://127.0.0.1:0"
+        ],
+        "exit_code": 1,
+        "message": "this upstream service command is not enabled in the AIRS protocol prototype",
+        "isolated_profile": true,
+        "test_credentials_used": false,
+        "scope": "Installed AIRS rejects the upstream remote execution service before starting a listener"
+      },
+      "disposition": "Three upstream remote shell-snapshot assertions exactly match 0.1.5. AIRS deliberately disables the external exec-server command, bounding their release impact. These failures remain recorded and are not passing tests."
+    },
+    "validation_log_sha256": "907b73781438df6a435b31ca59d87c30ebe737a846e0cf5de58f03d529caf906"
+  },
+  "installed_feature_checks": [
+    {
+      "phase": "candidate",
+      "target": "x86_64-unknown-linux-musl",
+      "tests_run": 65,
+      "skipped": 1,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    },
+    {
+      "phase": "candidate",
+      "target": "aarch64-unknown-linux-musl",
+      "tests_run": 65,
+      "skipped": 1,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    },
+    {
+      "phase": "candidate",
+      "target": "aarch64-apple-darwin",
+      "tests_run": 65,
+      "skipped": 3,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    },
+    {
+      "phase": "registry",
+      "target": "x86_64-unknown-linux-musl",
+      "tests_run": 65,
+      "skipped": 1,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    },
+    {
+      "phase": "registry",
+      "target": "aarch64-unknown-linux-musl",
+      "tests_run": 65,
+      "skipped": 1,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    },
+    {
+      "phase": "registry",
+      "target": "aarch64-apple-darwin",
+      "tests_run": 65,
+      "skipped": 3,
+      "priority_tests": [
+        "test_airs_harness_priorities.AdoptionTerminal.test_completed_command_reports_early_output_and_final_tail_once",
+        "test_airs_harness_priorities.AdoptionTerminal.test_default_steering_waits_for_stream_completion",
+        "test_airs_harness_priorities.AdoptionTerminal.test_fullscreen_selection_copies_markdown_and_keeps_unsent_draft",
+        "test_airs_harness_priorities.AdoptionTerminal.test_opt_in_steering_preempts_stream_without_replaying_completed_tool"
+      ],
+      "passed": true
+    }
+  ],
+  "feature_scores": [
+    {
+      "feature": "Sandbox boundaries and macOS TLS trust",
+      "score": 9,
+      "evidence": "Applied-policy Linux sandbox checks, native macOS alias/trust integration, denial-retention tests, full GNU review and installed native credential/TLS acceptance."
+    },
+    {
+      "feature": "Command completion and launch-error reporting",
+      "score": 9,
+      "evidence": "Producer-owned complete transcript, cancellation-safe launch events, UTF-8/head-tail regressions and early/final-output-once checks on six native candidate/registry installations."
+    },
+    {
+      "feature": "Markdown copy and blank-task draft retention",
+      "score": 9,
+      "evidence": "Balanced Markdown/table snapshots, protected composer and bounded clipboard-worker tests, actual remote app-server blank-task restoration and native PTY copy/draft checks on all targets."
+    },
+    {
+      "feature": "Opt-in instant steering",
+      "score": 9,
+      "evidence": "Native default/enabled steering tests, observable no-replay append check, backoff/compaction/queued-input regressions and durable stdio/gRPC/WebSocket continuation tests."
+    }
+  ],
+  "score_rubric": {
+    "tested_behavior": 2,
+    "safety_and_state_preservation": 2,
+    "regression_coverage": 2,
+    "exact_native_package_acceptance": 2,
+    "documented_defaults_and_controls": 1,
+    "owner_attended_acceptance": 0,
+    "maximum": 10,
+    "assessor": "Codex implementation and private-test readiness review"
+  },
+  "stable_latest": "0.1.5",
+  "public_npm_unchanged": true,
+  "macos_signing": {
+    "schema_version": 1,
+    "binary_sha256": "882f5ca2b3b45f0439fedfea18d6a6f5581284257ec7d912298096165cc76713",
+    "target": "aarch64-apple-darwin",
+    "team_id": "G5QLZ5A8TA",
+    "identifier": "airs-harness",
+    "designated_requirement": "identifier \"airs-harness\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G5QLZ5A8TA",
+    "codesign_verified": true,
+    "hardened_runtime": true,
+    "notarization_verified": true,
+    "notarization_method": "codesign-online-explicit-notarized-requirement",
+    "gatekeeper_app_assessment": "not-applicable-raw-cli",
+    "source_commit": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+    "asset_id": "forgejo-run-4355",
+    "archive_sha256": "ffc4e447298f1175fa4eb3bfa9af9b201f699e00d5ca016e06c98e34c8e5ae53",
+    "accepted_archive_members": [
+      "prisma-airs-harness-signing/airs-harness",
+      "prisma-airs-harness-alpha10-signing/airs-harness"
+    ],
+    "owner_reported_submission_id": "dd51dfe2-770f-49b6-b2a6-228b127f2720",
+    "submission_api_queried": false,
+    "verification_log_sha256": {
+      "SIGNING-architecture.log": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01",
+      "SIGNING-codesign.log": "70164ada1e520bc93ca0ec59a7d2f2db85e0945d67d6e67b2e5486fc4869723d",
+      "SIGNING-details.log": "a566388a96879b0bb1eee4f6bcccb006a74983fdf83466857906a3d7ad13006f",
+      "SIGNING-requirements.log": "aea15e179c5bbb8f8396293c1569684d5e37e3f627a1950212fbb28178bb9132",
+      "SIGNING-notarization.log": "70164ada1e520bc93ca0ec59a7d2f2db85e0945d67d6e67b2e5486fc4869723d"
+    },
+    "published": false,
+    "release_ready": false
+  },
+  "notarization": {
+    "status": "Accepted",
+    "id": "dd51dfe2-770f-49b6-b2a6-228b127f2720",
+    "message": "Processing complete"
+  },
+  "production_sso_acceptance": false,
+  "paid_jev_service_acceptance": false,
+  "limits": [
+    "Gateway/TypeSafe semantic verdicts use controlled fixtures; deterministic code owns permission decisions.",
+    "Owner visual/real-account acceptance remains separate from automated private-release readiness.",
+    "The Ubuntu preparation example needs its registry set to https://npm.cdot.io for this private-only version; its public-npm default cannot discover 0.1.6.",
+    "Full workspace retains individually reviewed upstream remote-shell failures; the complete suite is not reported as all passing."
+  ],
+  "evidence_bundle": {
+    "filename": "evidence.tar.gz",
+    "sha256": "a05658060a4f77f131b571bd8c0763efb5ddf745e809bf81753c62ed6201d603",
+    "files": 506,
+    "inventory_sha256": "a972bd04647e430eed9166361f43ad25da1f261e0d0c0cc71bd4f48fbe026a39"
+  }
+}

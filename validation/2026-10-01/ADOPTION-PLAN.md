@@ -58,9 +58,15 @@ fixture appends to a file so duplicated execution is observable. Earlier failure
 and their corrections are retained beside the successful logs.
 
 Source evidence: `feature-validation/SOURCE-ACCEPTANCE.json`. The 0.1.6 private
-test release is in preparation. Installed candidate acceptance, fresh registry
-acceptance and final feature scores remain pending; source tests alone do not
-establish release acceptance. Stable dist-tags remain on 0.1.5.
+test release is now published to npm.cdot.io for all three required targets.
+Exact installed candidate and fresh registry acceptance passed on native Linux
+x64, native Linux ARM64 and signed/notarized Apple Silicon. All four features
+meet 9/10 implementation/private-test readiness; owner attended acceptance is
+the remaining scoring point. Stable `latest` remains 0.1.5 and public npm is
+unchanged. Full GNU passed 19,097 tests with three assertion-matched inherited
+remote-shell failures and 35 skips; no new failures remain. The Ubuntu preparation
+example requires its registry to be configured for the private release.
+Final receipts and the offline integrity audit: `private-0.1.6/README.md`.
 
 Use affected-crate `just test`, scoped lint and `just fmt`; preserve raw failures.
 Before release, require exact candidate/fresh registry acceptance, gateway

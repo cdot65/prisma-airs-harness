@@ -19,7 +19,10 @@ pub(crate) fn mcp_user_agent() -> HeaderValue {
             "airs-harness/{}",
             codex_utils_home_dir::AIRS_HARNESS_VERSION
         ))
-        .expect("static product version is a valid HTTP header")
+        .unwrap_or_else(|error| {
+            tracing::error!("invalid AIRS product user-agent header: {error}");
+            HeaderValue::from_static("airs-harness")
+        })
     } else {
         HeaderValue::from_static(MCP_USER_AGENT)
     }

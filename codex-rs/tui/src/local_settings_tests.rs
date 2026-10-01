@@ -3,6 +3,7 @@ use crate::legacy_core::config::ConfigBuilder;
 use crate::legacy_core::config::edit::ConfigEditsBuilder;
 use codex_config::LoaderOverrides;
 use codex_config::types::SessionPickerViewMode;
+use codex_terminal_detection::Multiplexer;
 use pretty_assertions::assert_eq;
 
 #[tokio::test]
@@ -16,6 +17,7 @@ whimsy = false
 show_tooltips = false
 auto_recap = false
 fullscreen_transcript = true
+copy_on_select = "never"
 vim_mode_default = true
 terminal_resize_reflow_max_rows = 0
 session_picker_view = "comfortable"
@@ -52,6 +54,7 @@ fast_default_opt_out = true
             expected.show_tooltips = false;
             expected.auto_recap = false;
             expected.fullscreen_transcript = true;
+            expected.copy_on_select = CopyOnSelect::Never;
             expected.vim_mode_default = true;
             expected.terminal_resize_reflow_max_rows = Some(0);
             expected.session_picker_view = Some(SessionPickerViewMode::Comfortable);
@@ -65,6 +68,83 @@ fast_default_opt_out = true
             (&local.history, &local.notices),
             (&config.history, &config.notices)
         );
+    }
+    Ok(())
+}
+
+#[tokio::test]
+async fn copy_on_select_respects_terminal_defaults_and_config_overrides() -> anyhow::Result<()> {
+    for (configured, launch_override, expected) in [
+        (None, None, CopyOnSelect::Auto),
+        (Some("auto"), None, CopyOnSelect::Auto),
+        (Some("always"), None, CopyOnSelect::Always),
+        (Some("never"), None, CopyOnSelect::Never),
+        (Some("never"), Some("always"), CopyOnSelect::Always),
+        (Some("always"), Some("never"), CopyOnSelect::Never),
+        (Some("always"), Some("auto"), CopyOnSelect::Auto),
+        (Some("never"), Some("auto"), CopyOnSelect::Auto),
+    ] {
+        let home = tempfile::tempdir()?;
+        let config_path = home.path().join("config.toml");
+        let config_text = configured
+            .map(|mode| format!("[tui]\ncopy_on_select = \"{mode}\"\n"))
+            .unwrap_or_default();
+        std::fs::write(&config_path, &config_text)?;
+        let config = ConfigBuilder::default()
+            .codex_home(home.path().to_path_buf())
+            .strict_config(true)
+            .loader_overrides(LoaderOverrides {
+                ignore_project_config: true,
+                ..LoaderOverrides::without_managed_config_for_tests()
+            })
+            .cli_overrides(
+                launch_override
+                    .map(|mode| ("tui.copy_on_select".into(), mode.into()))
+                    .into_iter()
+                    .collect(),
+            )
+            .build()
+            .await?;
+        let local = LocalSettings::from(&config);
+        assert_eq!(
+            (config.tui_copy_on_select, local.tui.copy_on_select),
+            (expected, expected),
+        );
+        for (name, multiplexer, default_enabled) in [
+            (TerminalName::Iterm2, None, true),
+            (TerminalName::AppleTerminal, None, true),
+            (TerminalName::Ghostty, None, false),
+            (TerminalName::Kitty, None, false),
+            (TerminalName::Unknown, None, cfg!(target_os = "macos")),
+            (
+                TerminalName::Ghostty,
+                Some(Multiplexer::Tmux { version: None }),
+                true,
+            ),
+            (
+                TerminalName::Kitty,
+                Some(Multiplexer::Zellij { version: None }),
+                true,
+            ),
+        ] {
+            let terminal = TerminalInfo {
+                name,
+                multiplexer,
+                term_program: None,
+                version: None,
+                term: None,
+            };
+            assert_eq!(
+                local.copy_on_select(&terminal),
+                match expected {
+                    CopyOnSelect::Auto => default_enabled,
+                    CopyOnSelect::Always => true,
+                    CopyOnSelect::Never => false,
+                },
+                "terminal={terminal:?}, override={expected:?}",
+            );
+        }
+        assert_eq!(std::fs::read_to_string(config_path)?, config_text);
     }
     Ok(())
 }
@@ -156,6 +236,7 @@ async fn launch_screen_mode_survives_configuration_reload() -> anyhow::Result<()
         .build()
         .await?;
     config.tui_fullscreen_transcript = true;
+    config.tui_copy_on_select = CopyOnSelect::Always;
     config.tui_alternate_screen = AltScreenMode::Auto;
 
     for (alternate_screen, owned, expected_mode, expected_alt) in [
@@ -174,6 +255,7 @@ async fn launch_screen_mode_survives_configuration_reload() -> anyhow::Result<()
 
         let mut reloaded_config = config.clone();
         reloaded_config.tui_fullscreen_transcript = false;
+        reloaded_config.tui_copy_on_select = CopyOnSelect::Never;
         reloaded_config.tui_alternate_screen = AltScreenMode::Never;
         reloaded_config.tui_theme = Some("nord".into());
         let mut expected = LocalSettings::from(&reloaded_config);

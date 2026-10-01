@@ -772,6 +772,10 @@ pub struct Config {
     /// Own the fullscreen transcript when the alternate screen is enabled.
     pub tui_fullscreen_transcript: bool,
 
+    /// Override the terminal-specific default for copying transcript mouse selections.
+    pub tui_copy_on_select: codex_config::types::CopyOnSelect,
+    pub tui_right_click_paste: codex_config::types::RightClickPaste,
+
     /// Start the TUI in the specified collaboration mode (plan/default).
 
     /// Controls whether the TUI uses the terminal's alternate screen buffer.
@@ -4461,6 +4465,8 @@ impl Config {
                 .map(|t| t.raw_output_mode)
                 .unwrap_or(false),
             tui_fullscreen_transcript: cfg.tui.as_ref().is_some_and(|tui| tui.fullscreen_transcript),
+            tui_copy_on_select: cfg.tui.as_ref().map(|tui| tui.copy_on_select).unwrap_or_default(),
+            tui_right_click_paste: cfg.tui.as_ref().map(|tui| tui.right_click_paste).unwrap_or_default(),
             tui_alternate_screen: cfg
                 .tui
                 .as_ref()

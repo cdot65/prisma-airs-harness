@@ -4,6 +4,34 @@
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
 the gateway owns upstream OAuth. The npm package is `@cdot65/prisma-airs-harness`; the command remains `airs`.
 
+## Private 0.1.6 test build
+
+The 0.1.6 test packages target Linux x64, Linux ARM64 and Apple Silicon on
+`npm.cdot.io`. Stable `latest` remains on 0.1.5. Install the exact test version:
+
+```sh
+npm install -g @cdot65/prisma-airs-harness@0.1.6 --registry=https://npm.cdot.io
+airs --version
+```
+
+This build improves local sandbox boundaries and macOS TLS trust lookup,
+preserves completed command output and launch errors, copies transcript selections
+with Markdown formatting, and retains unsent drafts when switching blank tasks.
+Instant steering is opt-in: launch with `airs --enable instant_interrupt` to apply
+new instructions during an active response. The default waits for that response.
+
+Terminal copy and paste preferences belong in the harness home `settings.toml`
+(normally `~/.airs-harness/settings.toml`):
+
+```toml
+[tui]
+copy_on_select = "auto" # "always" or "never" overrides the terminal default
+right_click_paste = "auto" # "on" or "off" overrides the local fallback
+```
+
+Right-click copies an existing selection first. Paste applies to an editable
+fullscreen composer; SSH and terminal-owned paste paths retain terminal handling.
+
 ## Package migration from airs-harness
 
 Stable 0.1.4 was the first `@cdot65/prisma-airs-harness` release; 0.1.5 is the current one. The Apple Silicon

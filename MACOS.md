@@ -16,14 +16,14 @@ desktop session; avoid a Rosetta terminal selecting an x64 Node process.
 
 ## Signed release and npm package rename
 
-Stable 0.1.4 is published as `@cdot65/prisma-airs-harness` on public npm and npm.cdot.io.
+Stable 0.1.5 is published as `@cdot65/prisma-airs-harness` on public npm and npm.cdot.io.
 It restores Developer ID signing and Apple notarization with the same
 `airs-harness` signing identifier and developer team as earlier signed releases.
 Follow the [one-time npm migration](npm/airs-harness/README.md) when moving from
 the old `airs-harness` package. The command remains `airs`.
 
 The instructions below describe the historical 0.1.2 stable installation; replace
-`airs-harness@0.1.2 --registry=https://npm.cdot.io` with `@cdot65/prisma-airs-harness@0.1.4`.
+`airs-harness@0.1.2 --registry=https://npm.cdot.io` with `@cdot65/prisma-airs-harness@0.1.5`.
 
 ## Install or update
 

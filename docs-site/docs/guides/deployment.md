@@ -61,7 +61,7 @@ git push origin "refs/tags/airs-docs-${source_commit}"
 ## Publish a package
 
 Package publication follows the repository's release procedure, not this page.
-The repository's `RELEASE.md`, `RELEASE-TEST-PACKAGES.md`, release specifications
-and retained receipts describe the operational procedure and the actual
+The repository's `RELEASE-TEST-PACKAGES.md`, `MACOS-BUILDS.md`, the
+`RELEASE-0.1.x.md` records, release specifications and retained receipts describe the operational procedure and the actual
 acceptance. Current versions and platform boundaries are in
 [release channels](releases.md).

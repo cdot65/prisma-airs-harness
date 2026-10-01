@@ -6,7 +6,7 @@ the gateway owns upstream OAuth. The npm package is `@cdot65/prisma-airs-harness
 
 ## Package migration from airs-harness
 
-Stable 0.1.4 is the first `@cdot65/prisma-airs-harness` release. The Apple Silicon
+Stable 0.1.4 was the first `@cdot65/prisma-airs-harness` release; 0.1.5 is the current one. The Apple Silicon
 binary keeps the existing Developer ID identity and `airs-harness` signing
 identifier, with Apple notarization. The native dependencies are
 `@cdot65/prisma-airs-harness-<platform>-<arch>`.
@@ -16,7 +16,7 @@ package first to release its command links, then install the renamed package:
 
 ```sh
 npm uninstall -g airs-harness
-npm install -g @cdot65/prisma-airs-harness@0.1.4
+npm install -g @cdot65/prisma-airs-harness@0.1.5
 airs --version
 ```
 
@@ -25,9 +25,11 @@ Keychain items and conversation history. Do not use `--force` or reset permissio
 If installation fails, reinstall `airs-harness@0.1.3` from the same registry.
 Subsequent updates use `npm install -g @cdot65/prisma-airs-harness@latest`.
 
-## Gateway agent release 0.1.4
+## Gateway agent release 0.1.5
 
-Release 0.1.4 adds in-place credential replacement (`airs env auth`, `airs login
+Release 0.1.5 corrects the bundled Ubuntu preparation helper, whose installed-version
+and registry checks in 0.1.4 still named the unscoped launcher; the runtime is
+otherwise unchanged from 0.1.4. Release 0.1.4 adds in-place credential replacement (`airs env auth`, `airs login
 --replace`), restores Developer ID signing and Apple notarization for Apple
 Silicon, defaults the terminal to the fullscreen transcript with a `settings.toml`
 override, and shows the Prisma AIRS mark on fresh conversations.
@@ -54,14 +56,14 @@ install a supported Node version using your organization's usual method, reopen
 the terminal and check again. npm may otherwise finish with `EBADENGINE`; the
 launcher rejects unsupported Node before starting AIRS or its bundled CLI.
 
-This guide covers **0.1.4**, including the in-session `/mcp`
+This guide covers **0.1.5**, including the in-session `/mcp`
 manager, `/doctor` dashboard and optional `/typesafe` setup for the bundled Jev judge. New environments require native MCP storage;
 existing environments retain their configured mode and tokens. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate from automated checks.
 Install this exact version from public npm, then inspect its version:
 
 ```sh
-npm install -g @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-harness@0.1.5 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```

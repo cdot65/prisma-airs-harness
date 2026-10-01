@@ -6,19 +6,19 @@ owned by your user. The script targets Ubuntu x86_64 and detects the installed
 release. Ubuntu 26.04's Node.js package satisfies the harness requirement; an older
 unsupported Node version stops preparation with an explicit error.
 
-The helper retains the fixes for the competing-keyring-daemon problem in the
-mcp.4 helper, verifies the default collection's lock state, and prints the actual
-script path for later unlocks. Download the release's copy from the repository:
+The 0.1.5 npm package includes this guide and helper. It retains the fixes for the
+competing-keyring-daemon problem in the mcp.4 helper, verifies the default
+collection's lock state, and prints the actual script path for later unlocks.
+On a machine with npm, download the published package:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -fsSLo prepare-airs-ubuntu-0.1.4.sh \
-  https://raw.githubusercontent.com/cdot65/prisma-airs-harness/airs-harness-v0.1.4/scripts/prepare_airs_ubuntu.sh
+npm pack @cdot65/prisma-airs-harness@0.1.5 --registry=https://registry.npmjs.org
+tar -xOf cdot65-prisma-airs-harness-0.1.5.tgz package/scripts/prepare_airs_ubuntu.sh > prepare-airs-ubuntu-0.1.5.sh
 ```
 
-Do not use the copy inside the `@cdot65/prisma-airs-harness@0.1.4` npm package:
-its installed-version and registry checks still name the unscoped launcher path,
-so it reports `NOT READY` against a correct installation. The repository copy at
-the release tag is the verified helper.
+Do not use the helper bundled in the 0.1.4 package: its installed-version and
+registry checks named the unscoped launcher path and reported `NOT READY` against
+a correct installation. The 0.1.5 helper is verified as packaged.
 
 The helper ships with a sanitized gateway endpoint. **Configure that endpoint
 before running it**: replace `gateway.your-company.com` below with your actual
@@ -26,24 +26,24 @@ inference hostname (and adjust `/v1` if your listener uses another prefix). The
 URL is public configuration and must not contain credentials.
 
 ```bash
-sed -i 's|https://gateway.example.com/v1|https://gateway.your-company.com/v1|g' prepare-airs-ubuntu-0.1.4.sh
+sed -i 's|https://gateway.example.com/v1|https://gateway.your-company.com/v1|g' prepare-airs-ubuntu-0.1.5.sh
 ```
 
-Review the configured script, then copy it to `~/prepare-airs-ubuntu-0.1.4.sh` on your Ubuntu host
+Review the configured script, then copy it to `~/prepare-airs-ubuntu-0.1.5.sh` on your Ubuntu host
 (for example with `scp`). This download does not install or run the harness.
 Run the configured copy in an interactive SSH terminal:
 
 ```bash
-bash ~/prepare-airs-ubuntu-0.1.4.sh
+bash ~/prepare-airs-ubuntu-0.1.5.sh
 source ~/.config/airs-test-host/env.sh
 ```
 
-The helper defaults to `0.1.4` from `https://registry.npmjs.org`,
+The helper defaults to `0.1.5` from `https://registry.npmjs.org`,
 matching this package.
 You can select another published version with `AIRS_TEST_VERSION`:
 
 ```bash
-AIRS_TEST_VERSION=0.1.4 bash ~/prepare-airs-ubuntu-0.1.4.sh
+AIRS_TEST_VERSION=0.1.5 bash ~/prepare-airs-ubuntu-0.1.5.sh
 ```
 
 The script installs Node.js/npm, Git/ripgrep, Bubblewrap, D-Bus/Secret Service
@@ -97,8 +97,8 @@ even if the browser cannot load that localhost page. Do not paste callbacks into
 the agent conversation. Inference `login --no-browser` is a different flow from
 `--device-auth` and still needs its callback to reach Ubuntu.
 
-After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-0.1.4.sh --unlock`.
-Use `bash ~/prepare-airs-ubuntu-0.1.4.sh --check` for checks without installing packages
+After reboot or keyring lock, use `bash ~/prepare-airs-ubuntu-0.1.5.sh --unlock`.
+Use `bash ~/prepare-airs-ubuntu-0.1.5.sh --check` for checks without installing packages
 or prompting for a keyring password. Both modes may create a disposable readiness
 record and sandbox environment, which they clean up. They do not test real SSO,
 workspace API-key authorization or ServiceNow access.

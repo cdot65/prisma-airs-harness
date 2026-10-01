@@ -148,4 +148,5 @@ signing/acceptance job succeeds. Failed acceptance does not authorize promotion.
 The `authenticated-mcp-internal-alpha` promotion receipt describes measured
 native and npm acceptance. It is separate from the independently reviewed
 release channel and makes no full-workspace or independent-review claim.
-See [MCP onboarding and architecture](MCP.md).
+See [MCP authorization](https://cdot65.github.io/prisma-airs-harness/configuration/mcp/)
+and [MCP servers with OAuth](GETTING-STARTED-MCP.md).

@@ -1,0 +1,11 @@
+{
+  "source_commit": "312fe9c5fda63332c148670327db2620b4d6e82f",
+  "alpha_reference": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+  "previous_alpha": "0.1.4",
+  "runtime_unchanged_except_version": true,
+  "runtime_changes_since_alpha": [],
+  "runtime_diff_summary": " 4 files changed, 26 insertions(+), 23 deletions(-)",
+  "runtime_diff_paths": 4,
+  "upstream_revision": "rust-v0.154.0",
+  "reference_is_published_stable": true
+}

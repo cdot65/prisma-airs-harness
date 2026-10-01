@@ -15,6 +15,8 @@ from promote_airs_stable import (
     WORKSPACE_BASELINE_013,
     WORKSPACE_SOURCE_014,
     WORKSPACE_BASELINE_014,
+    WORKSPACE_SOURCE_015,
+    WORKSPACE_BASELINE_015,
     RELEASE_AUTHORIZATIONS,
     promote,
     validate_readiness,
@@ -322,6 +324,77 @@ class StablePromotionTests(unittest.TestCase):
                 validate_workspace(spec, changed)
         with self.assertRaises(ValueError):
             validate_workspace({**spec, "version": "0.1.4"}, workspace)
+
+    def test_015_stamps_the_published_014_runtime_without_snapshot_failures(self):
+        spec = {**self.spec, "version": "0.1.5", "source_commit": WORKSPACE_SOURCE_015}
+        self.assertEqual(set(WORKSPACE_BASELINE_015), set(WORKSPACE_BASELINE_012))
+        workspace = {
+            "scope": "full-workspace",
+            "source_commit": WORKSPACE_SOURCE_015,
+            "passed": 19013,
+            "failed": 3,
+            "failures": list(WORKSPACE_BASELINE_015),
+            "baseline_review": {
+                "source_commit": WORKSPACE_SOURCE_015,
+                "upstream_revision": "rust-v0.154.0",
+                "upstream_implementations_unchanged": True,
+                "unresolved_release_blockers": [],
+                "cases": {
+                    name: {
+                        "disposition": disposition,
+                        "evidence_verified": True,
+                        "evidence_sha256": "a" * 64,
+                        "installed_command_rejected": True,
+                    }
+                    for name, disposition in WORKSPACE_BASELINE_015.items()
+                },
+            },
+        }
+        authorization = {
+            "version": "0.1.5",
+            "source_commit": WORKSPACE_SOURCE_015,
+            "explicit_stable_publication": True,
+            "attended_acceptance_claimed": False,
+            "runtime_unchanged_from_requested_alpha": True,
+            "previous_alpha": "0.1.4",
+            "reviewed_changes": None,
+            "evidence_sha256": "a" * 64,
+        }
+        ready = {
+            "version": "0.1.5",
+            "source_commit": WORKSPACE_SOURCE_015,
+            "workspace": workspace,
+            "release_authorization": authorization,
+        }
+        validate_readiness(spec, ready)
+        # The stale `codex` help snapshots were corrected before 0.1.5; they are
+        # no longer an eligible failure.
+        stale = copy.deepcopy(workspace)
+        name = next(iter(set(WORKSPACE_BASELINE_014) - set(WORKSPACE_BASELINE_015)))
+        stale["failed"] = 4
+        stale["failures"].append(name)
+        stale["baseline_review"]["cases"][name] = {
+            "disposition": "corrected-test-fixture",
+            "evidence_verified": True,
+            "evidence_sha256": "a" * 64,
+            "focused_check_passed": True,
+            "runtime_source_unchanged": True,
+        }
+        with self.assertRaises(ValueError):
+            validate_workspace(spec, stale)
+        for field, value in [
+            ("previous_alpha", "0.1.4-alpha.2.mcp.1"),
+            ("runtime_unchanged_from_requested_alpha", False),
+            ("reviewed_changes", [{"pull_request": 64, "merge_commit": "b" * 40}]),
+        ]:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate_readiness(
+                    spec,
+                    {**ready, "release_authorization": {**authorization, field: value}},
+                )
+        # 0.1.4's authorization and source cannot be reused for 0.1.5.
+        with self.assertRaises(ValueError):
+            validate_readiness({**spec, "source_commit": WORKSPACE_SOURCE_014}, ready)
 
     def test_014_authorization_lists_every_reviewed_merge_since_the_preview(self):
         spec = {**self.spec, "version": "0.1.4", "source_commit": WORKSPACE_SOURCE_014}

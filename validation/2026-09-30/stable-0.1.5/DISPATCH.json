@@ -1,0 +1,52 @@
+{
+  "ref": "release/0.1.5",
+  "source": "312fe9c5fda63332c148670327db2620b4d6e82f",
+  "runs": {
+    "airs-harness-linux-x64.yml": {
+      "id": 4275,
+      "inputs": {
+        "source_ref": "312fe9c5fda63332c148670327db2620b4d6e82f"
+      }
+    },
+    "airs-harness-linux-arm64.yml": {
+      "id": 4280,
+      "inputs": {
+        "source_ref": "312fe9c5fda63332c148670327db2620b4d6e82f"
+      }
+    },
+    "airs-harness-linux.yml": {
+      "id": 4281,
+      "inputs": {
+        "source_ref": "312fe9c5fda63332c148670327db2620b4d6e82f",
+        "tooling_ref": "312fe9c5fda63332c148670327db2620b4d6e82f",
+        "test_filter": ""
+      }
+    },
+    "airs-harness-macos-build.yml": {
+      "id": 4282,
+      "inputs": {
+        "tooling_ref": "312fe9c5fda63332c148670327db2620b4d6e82f",
+        "source_ref": "312fe9c5fda63332c148670327db2620b4d6e82f",
+        "private_candidate": "true",
+        "publish_tag": "",
+        "preflight_only": "false"
+      }
+    },
+    "airs-harness-gateway-package.yml": {
+      "id": 4295,
+      "inputs": {
+        "source_ref": "312fe9c5fda63332c148670327db2620b4d6e82f",
+        "archive_sha256": "47633967a621ef2bee8c3aac563a534efdda35bba3474fbdf1cd0d585244344f",
+        "binary_sha256": "bd9b3b3eba50bec7d04be3673f8eda9e4079a9b0e5675ded1402a81617f64510",
+        "fixture_sha256": "8e13fa90be3e37a2d843f15723c9f881776b24004d4689bf2042e0482976191a"
+      }
+    }
+  },
+  "run_ids": {
+    "linux_x64": 4275,
+    "linux_arm64": 4280,
+    "workspace": 4281,
+    "macos_build": 4282,
+    "macos_signing": 4295
+  }
+}

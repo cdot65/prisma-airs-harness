@@ -1,0 +1,15 @@
+{
+  "version": "0.1.5",
+  "helper_source": "packaged launcher scripts/prepare_airs_ubuntu.sh (candidate installation)",
+  "packaged_helper_sha256": "8e71a7a761f119b089e30bdab2e974e9764219e56b428e5a63c06b2b589eb18c",
+  "configured_helper_sha256": "ec45b152189f01d7aed6237cb6d1decfb279df68aceb34e05fb01983ae0afc5e",
+  "configuration_change": "Sanitized example endpoint replaced with the deployed gateway URL",
+  "exit_code": 1,
+  "passed": false,
+  "checks_passed": 9,
+  "elapsed_seconds": 3.2,
+  "isolated_home": true,
+  "candidate_binary_sha256": "4a58f3eb9f8dbf7873b6bf20c444fc7c64b1dd50dc2c07d3491ae131f6c2e988",
+  "phase": "pre-publication candidate installation",
+  "expected_failure": "The exact npm package is not published yet, so the registry availability check cannot pass before publication; the packaged helper content is gated by the packager and stable staging, and the full readiness run repeats after public publication."
+}

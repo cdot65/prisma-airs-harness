@@ -1,0 +1,12 @@
+{
+  "version": "0.1.5",
+  "authorized_actions": [
+    "stable 0.1.5 correcting the packaged Ubuntu helper",
+    "publication to npmjs.org using Conjur data/airs-release-bot/npmjs/token",
+    "promotion on npm.cdot.io"
+  ],
+  "source_baseline": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+  "previous_alpha": "0.1.4",
+  "owner_acceptance": "Owner asked on 2026-09-30 to plan and implement the fix for the 0.1.4 packaged Ubuntu helper defect; no attended production acceptance claimed",
+  "reviewed_changes": null
+}

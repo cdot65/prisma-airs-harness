@@ -237,6 +237,12 @@ enum WritableRootPathResolution {
     PreserveMutableComponents,
 }
 
+#[derive(Clone, Copy)]
+enum RootMetadataWriteMounts {
+    Separate,
+    InheritWritableRoot,
+}
+
 impl WritableRootPathResolution {
     fn resolve(self, path: AbsolutePathBuf) -> AbsolutePathBuf {
         match self {
@@ -701,6 +707,89 @@ impl FileSystemSandboxPolicy {
         }
 
         rebuilt
+    }
+
+    /// Grants root and root-metadata write for an approved command unless explicitly denied.
+    /// If a retained denial cannot be resolved or denies the root, keep the original policy.
+    pub fn for_approved_command(&self, context: &FileSystemSandboxPolicyContext<'_>) -> Self {
+        if self.kind != FileSystemSandboxKind::Restricted {
+            return self.clone();
+        }
+        let mut approved = Self::restricted(vec![FileSystemSandboxEntry::new(
+            FileSystemPath::Special {
+                value: FileSystemSpecialPath::Root,
+            },
+            FileSystemAccessMode::Write,
+        )]);
+        approved.preserve_deny_read_restrictions_from(self);
+        if context.workspace_roots.is_empty()
+            && approved.entries.iter().any(|entry| {
+                matches!(
+                    &entry.path,
+                    FileSystemPath::Special {
+                        value: FileSystemSpecialPath::ProjectRoots { .. }
+                    }
+                ) || matches!(
+                    &entry.path,
+                    FileSystemPath::GlobPattern { pattern }
+                        if pattern.starts_with(PROJECT_ROOTS_GLOB_PATTERN_PREFIX)
+                )
+            })
+        {
+            return self.clone();
+        }
+        for entry in &approved.entries {
+            let subpath = match &entry.path {
+                FileSystemPath::Special {
+                    value: FileSystemSpecialPath::ProjectRoots { subpath },
+                } => subpath.as_deref(),
+                FileSystemPath::GlobPattern { pattern } => {
+                    pattern.strip_prefix(PROJECT_ROOTS_GLOB_PATTERN_PREFIX)
+                }
+                FileSystemPath::Path { .. } | FileSystemPath::Special { .. } => None,
+            };
+            if let Some(subpath) = subpath
+                && (subpath.starts_with('~')
+                    || context.workspace_roots.iter().any(|root| {
+                        resolve_scoped_workspace_path(root, subpath).is_none()
+                    }))
+            {
+                return self.clone();
+            }
+        }
+        let mut approved =
+            approved.materialize_project_roots_with_path_uris(context.workspace_roots);
+        let Some(root) = file_system_root(context) else {
+            return self.clone();
+        };
+        let Ok(prepared) =
+            approved.prepare_deny_read_matcher(context, InvalidDenyReadGlobBehavior::ReturnError)
+        else {
+            return self.clone();
+        };
+        let matcher = ReadDenyMatcher {
+            native_cwd: None,
+            user_home_dir: None,
+            temporary_directories: Vec::new(),
+            prepared,
+        };
+        if !approved.resolve_access(&root, context).can_write()
+            || matcher.is_read_denied_uri(&root, context)
+        {
+            return self.clone();
+        }
+        for name in PROTECTED_METADATA_PATH_NAMES {
+            let Ok(path) = root.join_descendant(name) else {
+                return self.clone();
+            };
+            if !matcher.is_read_denied_uri(&path, context) {
+                approved.entries.push(FileSystemSandboxEntry::new(
+                    path.into(),
+                    FileSystemAccessMode::Write,
+                ));
+            }
+        }
+        approved
     }
 
     /// Preserve explicit read-deny rules from `existing` when a caller
@@ -1443,7 +1532,27 @@ impl FileSystemSandboxPolicy {
     /// Returns the writable roots together with read-only carveouts resolved
     /// against the provided cwd.
     pub fn get_writable_roots_with_cwd(&self, cwd: &Path) -> Vec<WritableRoot> {
-        self.get_writable_roots_with_cwd_impl(cwd, WritableRootPathResolution::Effective)
+        self.get_writable_roots_with_cwd_impl(
+            cwd,
+            WritableRootPathResolution::Effective,
+            RootMetadataWriteMounts::Separate,
+        )
+    }
+
+    /// Omits redundant root-metadata mounts when the filesystem root is writable.
+    ///
+    /// Explicit root metadata writes still disable their default protection. Linux
+    /// inherits those writes from its root bind so a metadata symlink cannot cause
+    /// a second bind to reopen its target under an explicitly denied directory.
+    pub fn get_writable_roots_with_cwd_inheriting_root_metadata(
+        &self,
+        cwd: &Path,
+    ) -> Vec<WritableRoot> {
+        self.get_writable_roots_with_cwd_impl(
+            cwd,
+            WritableRootPathResolution::Effective,
+            RootMetadataWriteMounts::InheritWritableRoot,
+        )
     }
 
     /// Reports configured writable roots for diagnostics without inspecting the filesystem.
@@ -1484,6 +1593,7 @@ impl FileSystemSandboxPolicy {
         self.get_writable_roots_with_cwd_impl(
             cwd,
             WritableRootPathResolution::PreserveMutableComponents,
+            RootMetadataWriteMounts::Separate,
         )
     }
 
@@ -1491,6 +1601,7 @@ impl FileSystemSandboxPolicy {
         &self,
         cwd: &Path,
         path_resolution: WritableRootPathResolution,
+        root_metadata_mounts: RootMetadataWriteMounts,
     ) -> Vec<WritableRoot> {
         if self.has_full_disk_write_access() {
             return Vec::new();
@@ -1567,9 +1678,21 @@ impl FileSystemSandboxPolicy {
                 }
             }))
             .collect();
+        let inherits_root_metadata = matches!(
+            root_metadata_mounts,
+            RootMetadataWriteMounts::InheritWritableRoot
+        ) && prepared_entries.iter().any(|entry| {
+            entry.entry.access.can_write() && entry.entry.path.as_path().parent().is_none()
+        });
         let writable_entries: Vec<&PreparedFileSystemEntry<'_>> = prepared_entries
             .iter()
             .filter(|entry| entry.entry.access.can_write())
+            .filter(|entry| {
+                let path = entry.entry.path.as_path();
+                !inherits_root_metadata
+                    || path.parent().is_none_or(|parent| parent.parent().is_some())
+                    || !path.file_name().is_some_and(is_protected_metadata_name)
+            })
             .collect();
 
         let effective_cwd = AbsolutePathBuf::from_absolute_path(cwd)
@@ -1702,6 +1825,27 @@ impl FileSystemSandboxPolicy {
                 .collect(),
             /*normalize_effective_paths*/ true,
         )
+    }
+
+    /// Includes literal denies alongside their resolved targets so Linux can reject a denial
+    /// through a writable symlink instead of only masking the symlink's current target.
+    pub fn get_unreadable_roots_with_cwd_preserving_symlinks(
+        &self,
+        cwd: &Path,
+    ) -> Vec<AbsolutePathBuf> {
+        let mut roots = self.get_unreadable_roots_with_cwd(cwd);
+        if matches!(self.kind, FileSystemSandboxKind::Restricted) {
+            for entry in self.resolved_entries_with_cwd(cwd) {
+                if entry.access == FileSystemAccessMode::Deny
+                    && entry.path.as_path().parent().is_some()
+                    && !self.can_read_local_path_with_cwd(entry.path.as_path(), cwd)
+                    && !roots.contains(&entry.path)
+                {
+                    roots.push(entry.path);
+                }
+            }
+        }
+        roots
     }
 
     /// Returns unreadable glob patterns resolved against the provided cwd.
@@ -4595,3 +4739,7 @@ mod tests {
         assert!(!is_read_denied(&other, &policy, temp.path()));
     }
 }
+
+#[cfg(test)]
+#[path = "permissions_approved_materialization_tests.rs"]
+mod approved_materialization_tests;

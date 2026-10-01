@@ -18,7 +18,7 @@ docker run -d --name "$name" --cpus=2 --memory=8g \
   -v airs-gnu-target-v1:/airs-target \
   -v airs-gnu-native-v1:/airs-native \
   -e AIRS_WORKSPACE_TEST_FILTER \
-  -e CARGO_BUILD_JOBS=2 -e CARGO_INCREMENTAL=0 \
+  -e CARGO_BUILD_JOBS=1 -e CARGO_INCREMENTAL=0 \
   -e CARGO_PROFILE_DEV_DEBUG=0 -e CARGO_PROFILE_TEST_DEBUG=0 \
   -e CARGO_TARGET_DIR=/airs-target -e RUNNER_TEMP=/tmp \
   -e TERM=xterm-256color -e COLORTERM=truecolor \

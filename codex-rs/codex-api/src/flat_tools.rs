@@ -116,6 +116,7 @@ impl FlatTools {
         }
         let (tx, rx_event) = mpsc::channel(32);
         let upstream_request_id = stream.upstream_request_id.take();
+        let interrupt = stream.interrupt.take();
         tokio::spawn(async move {
             loop {
                 let next = tokio::select! {
@@ -134,6 +135,7 @@ impl FlatTools {
         ResponseStream {
             rx_event,
             upstream_request_id,
+            interrupt,
         }
     }
 }

@@ -80,6 +80,7 @@ async fn streaming_restores_added_and_done_preserving_arguments_ids_and_errors()
     drop(tx);
     let mut output = mapping.restore_stream(ResponseStream {
         rx_event,
+        interrupt: None,
         upstream_request_id: Some("request-1".to_owned()),
     });
     assert_eq!(output.upstream_request_id, Some("request-1".to_owned()));

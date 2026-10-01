@@ -99,6 +99,7 @@ pub fn spawn_response_stream(
     ResponseStream {
         rx_event,
         upstream_request_id,
+        interrupt: None,
     }
 }
 
@@ -484,18 +485,25 @@ pub fn process_responses_event(
                 "response.failed event received".into(),
             )));
         }
-        "response.incomplete" => {
-            let reason = event.response.as_ref().and_then(|response| {
-                response
-                    .get("incomplete_details")
-                    .and_then(|details| details.get("reason"))
-                    .and_then(Value::as_str)
-            });
-            let reason = reason.unwrap_or("unknown");
-            let message = format!("Incomplete response returned, reason: {reason}");
-            return Err(ResponsesEventError::Api(ApiError::Stream(message)));
-        }
-        "response.completed" => {
+        "response.completed" | "response.incomplete" => {
+            let interrupted = event.kind == "response.incomplete";
+            if interrupted {
+                let reason = event
+                    .response
+                    .as_ref()
+                    .and_then(|response| {
+                        response
+                            .get("incomplete_details")
+                            .and_then(|details| details.get("reason"))
+                            .and_then(Value::as_str)
+                    })
+                    .unwrap_or("unknown");
+                if reason != "interrupted" {
+                    return Err(ResponsesEventError::Api(ApiError::Stream(format!(
+                        "Incomplete response returned, reason: {reason}"
+                    ))));
+                }
+            }
             if let Some(resp_val) = event.response {
                 let metadata = resp_val
                     .get("usage")
@@ -510,7 +518,11 @@ pub fn process_responses_event(
                             response_id: resp.id,
                             token_usage: resp.usage.map(Into::into),
                             usage_metadata: resp.usage_metadata,
-                            end_turn: resp.end_turn,
+                            end_turn: if interrupted {
+                                Some(false)
+                            } else {
+                                resp.end_turn
+                            },
                         }));
                     }
                     Err(err) => {

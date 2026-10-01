@@ -232,7 +232,8 @@ impl App {
             self.insert_history_cell(tui, Box::new(cell));
         }
         if let Some(cell) = self.chat_widget.take_pending_rate_limit_reset_hint() {
-            self.insert_history_cell(tui, Box::new(cell));
+            // Startup metadata, so the fresh-conversation mark stays visible.
+            self.insert_history_cell(tui, Box::new(history_cell::SessionNoticeCell(cell)));
         }
     }
 

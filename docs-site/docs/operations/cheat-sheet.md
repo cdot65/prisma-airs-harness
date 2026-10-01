@@ -7,6 +7,11 @@ It keeps explanations short on purpose. When you want to know why a command
 behaves the way it does, follow the link at the top of each section to the page
 that explains it.
 
+Most commands act on your default environment, the one `airs` opens, so you do not
+need to name it. Add `--environment NAME` to run a single command against a
+different environment. The examples below leave the flag off unless they are
+working with a specific one.
+
 These commands use sanitized example endpoints. Replace public settings with
 those supplied by your administrator. Enter secrets only in hidden prompts or
 the identity provider's browser. Use [configuration](../configuration/keycloak.md)
@@ -19,7 +24,7 @@ How releases are organized: [Releases and installation channels](../guides/relea
 
 ```sh
 node --version
-npm install -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs --version
 airs cli --version
 type -a airs airs-cli airs-harness
@@ -35,20 +40,28 @@ specific version or use your organization's registry, see
 
 How environments and credentials fit together: [Environments](../guides/environments.md).
 
+The simplest way is to run `airs` and use the welcome screen. It asks for an
+environment name and the gateway URL, then offers company SSO or a workspace API
+key. Use the commands below to script it, to pass public OIDC settings, or to add a
+second environment.
+
 ```sh
-# New profile only; this saves the URL without opening sign-in.
+# New profile only; this saves and selects it without opening sign-in.
 airs env create work --gateway-url https://gateway.example.com/v1
 
 # Browser OIDC through Keycloak (choose Entra there if configured).
-airs --environment work login \
+airs login \
   --issuer-url https://sso.example.com/realms/example-corp \
   --oidc-client-id ai-gateway-agent \
   --audience stack-ai-inference
 
 # Attended SSH alternative, when the issuer enables device authorization.
-airs --environment work login --device-auth
+airs login --device-auth
 
-# Separate workspace-key profile; key is entered in a hidden prompt.
+# Sign in with a workspace key; the key is entered in a hidden prompt.
+airs login --with-api-key
+
+# A second, separate profile for a workspace key, selected by name.
 airs env create workspace-api --gateway-url https://gateway.example.com/v1
 airs --environment workspace-api login --with-api-key
 ```
@@ -63,9 +76,9 @@ create` for an existing profile.
 airs env list
 airs env show work
 airs env status work
-airs --environment work doctor --verify-access
+airs doctor --verify-access
 airs env use work
-airs --environment work
+airs
 ```
 
 `env show` can include private local paths and endpoints, so review its output
@@ -100,12 +113,12 @@ a connection test. Why: [Remote tools through AI Gateway](../guides/mcp.md).
 ## MCP shell alternative
 
 ```sh
-airs --environment work mcp add incident-tools \
+airs mcp add incident-tools \
   --url https://gateway-mcp.example.com/tools-dev/mcp \
   --scopes mcp:servers:read,mcp:tools:list,mcp:tools:call
 # Only if sign-in remains incomplete:
-airs --environment work mcp login incident-tools --no-browser
-airs --environment work mcp --help
+airs mcp login incident-tools --no-browser
+airs mcp --help
 ```
 
 Use the scopes published for your gateway integration. Inference credentials
@@ -204,7 +217,7 @@ resource does not establish a successful model request or tool call; complete th
 
 ```sh
 # Restore the same person's inference identity for saved sessions.
-airs --environment work login --restore-session
+airs login --restore-session
 
 # Change the credential: rotate a key, or switch between SSO and a key (guided).
 airs env auth workspace-api
@@ -213,8 +226,8 @@ airs env auth workspace-api
 airs --environment workspace-api login --replace --with-api-key < new-key.txt
 
 # Retire each credential separately, then unregister the local profile.
-airs --environment work mcp logout incident-tools
-airs --environment work logout
+airs mcp logout incident-tools
+airs logout
 airs env remove work
 ```
 
@@ -228,10 +241,11 @@ one environment can affect another.
 
 ```sh
 # Update to the latest stable release.
-npm install -g airs-harness@latest
+npm install -g @cdot65/prisma-airs-harness@latest
 
-# Roll back by naming the earlier version.
-npm install -g airs-harness@<previous-version>
+# Roll back by naming the earlier version. Releases before 0.1.4 used the
+# package name airs-harness; uninstall the current package first when crossing it.
+npm install -g @cdot65/prisma-airs-harness@<previous-version>
 ```
 
 Use the same registry the earlier version was published to; see

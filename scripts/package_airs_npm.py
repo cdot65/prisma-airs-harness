@@ -13,6 +13,9 @@ import shutil
 import subprocess
 from urllib.parse import urlparse
 
+from airs_test_release_spec import LAUNCHER as PUBLISHED_LAUNCHER
+from airs_ubuntu_helper import verify_ubuntu_helper
+
 
 TARGETS = {
     "x86_64-unknown-linux-musl": ("linux", "x64"),
@@ -74,6 +77,10 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     packages = []
     dependencies = {}
+    # Scoped packages are restricted by default on the public registry.
+    publish_config = {"registry": args.registry}
+    if args.scoped:
+        publish_config["access"] = "public"
     source_commit = None
     releases = [
         (
@@ -151,7 +158,7 @@ def main():
                 "VALIDATION.json",
                 "validation-evidence/",
             ],
-            "publishConfig": {"registry": args.registry},
+            "publishConfig": publish_config,
         }
         if candidate:
             native_manifest["private"] = True
@@ -173,6 +180,13 @@ def main():
     ]:
         shutil.copy2(root / name, launcher / name)
     (launcher / "scripts").mkdir()
+    # The shipped helper documents the published launcher at this exact version,
+    # whatever private name a CI candidate carries; staging re-checks the archive.
+    verify_ubuntu_helper(
+        (root / "scripts/prepare_airs_ubuntu.sh").read_text(),
+        PUBLISHED_LAUNCHER,
+        manifest["version"],
+    )
     shutil.copy2(
         root / "scripts/prepare_airs_ubuntu.sh",
         launcher / "scripts/prepare_airs_ubuntu.sh",
@@ -181,7 +195,7 @@ def main():
     if candidate:
         manifest["private"] = True
     manifest["optionalDependencies"] = dependencies
-    manifest["publishConfig"] = {"registry": args.registry}
+    manifest["publishConfig"] = publish_config
     (launcher / "package.json").write_text(json.dumps(manifest, indent=2) + "\n")
     cli_bundle = None
     bundle_sources = []

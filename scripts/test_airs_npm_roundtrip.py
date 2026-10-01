@@ -7,10 +7,11 @@ import tempfile
 from pathlib import Path
 import unittest
 
+from airs_npm_roundtrip import identity_rewrites, package_trees
 from airs_npm_versions import released_version
 from airs_release_contract import validate_result
 from airs_release_execution import invocation
-from airs_test_release_spec import TARGETS, validate_spec
+from airs_test_release_spec import LAUNCHER, TARGETS, launcher_migration, validate_spec
 from test_airs_test_release_stage import sample_spec
 from test_airs_release_acceptance import result_for
 
@@ -62,7 +63,9 @@ def roundtrip_result(spec, target):
                 )
             },
             "real_mcp_turns": 3,
-            "uninstall_used": False,
+            "command_links_retargeted": launcher_migration(spec),
+            "configuration_rewrites": [],
+            "uninstall_used": launcher_migration(spec),
             "force_used": False,
             "production_acceptance": False,
         },
@@ -84,6 +87,21 @@ class VersionSelection(unittest.TestCase):
             with self.subTest(version=version):
                 parsed = released_version(version)
                 self.assertEqual((parsed.command, parsed.setup), (command, setup))
+
+    def test_launcher_package_name_boundary(self):
+        for version, package in (
+            ("0.1.0-alpha.12", "airs-harness"),
+            ("0.1.0-alpha.22.mcp.6", "airs-harness"),
+            ("0.1.3", "airs-harness"),
+            ("0.1.3-alpha.7.mcp.1", "airs-harness"),
+            ("0.1.4-alpha.1.mcp.1", "airs-harness"),
+            ("0.1.4-alpha.2.mcp.1", "prisma-airs-harness"),
+            ("0.1.4-alpha.3.mcp.1", "prisma-airs-harness"),
+            ("0.1.4", LAUNCHER),
+            ("0.2.0", LAUNCHER),
+        ):
+            with self.subTest(version=version):
+                self.assertEqual(released_version(version).package, package)
 
     def test_tags_ranges_and_unpinned_stable_fail_before_output_mutation(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -143,6 +161,7 @@ class StableBaseline(unittest.TestCase):
             )
             self.assertEqual(args[args.index("--previous-native-sha256") + 1], "e" * 64)
             self.assertEqual(args[args.index("--previous-source-commit") + 1], "d" * 40)
+            self.assertEqual(args[args.index("--previous-package") + 1], "airs-harness")
 
     def test_missing_malformed_duplicate_or_extra_baselines_are_rejected(self):
         original = stable_spec()
@@ -187,6 +206,159 @@ class StableBaseline(unittest.TestCase):
         for key in ("force_used", "uninstall_used", "production_acceptance"):
             value = copy.deepcopy(receipt)
             value["roundtrip"][key] = 0
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+
+    def test_renamed_launcher_requires_by_name_replacement_without_force(self):
+        spec = validate_spec(stable_spec())
+        self.assertTrue(launcher_migration(spec))
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        self.assertTrue(receipt["roundtrip"]["uninstall_used"])
+        validate_result("upgrade", receipt, spec, target)
+        for key in ("uninstall_used", "command_links_retargeted"):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"][key] = False
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+        value = copy.deepcopy(receipt)
+        value["roundtrip"]["force_used"] = True
+        with self.assertRaises(ValueError):
+            validate_result("upgrade", value, spec, target)
+        for key, wrong in (
+            ("previous_package", LAUNCHER),
+            ("package", "airs-harness"),
+            ("launcher_migration", False),
+        ):
+            value = copy.deepcopy(receipt)
+            value[key] = wrong
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+
+    def test_configuration_rewrites_are_bounded_to_the_launcher_directories(self):
+        spec = validate_spec(stable_spec())
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        rewrite = {
+            "phase": "candidate-resumed-turn",
+            "file": "config.toml",
+            "key": "mcp_servers.airs.command",
+            "from_package": "airs-harness",
+            "to_package": LAUNCHER,
+        }
+        receipt["roundtrip"]["configuration_rewrites"] = [
+            rewrite,
+            {
+                **rewrite,
+                "phase": "previous-resumed-turn",
+                "from_package": LAUNCHER,
+                "to_package": "airs-harness",
+            },
+        ]
+        validate_result("upgrade", receipt, spec, target)
+        for bad in (
+            {**rewrite, "file": "environments.json"},
+            {**rewrite, "to_package": "airs-harness"},
+            {**rewrite, "from_package": "something-else"},
+            {**rewrite, "key": None},
+        ):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"]["configuration_rewrites"] = [bad]
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                validate_result("upgrade", value, spec, target)
+        same = stable_spec()
+        same.update(version="0.1.5-alpha.1.mcp.1", previous_version="0.1.4")
+        same = validate_spec(same)
+        value = roundtrip_result(same, target)
+        value["roundtrip"]["configuration_rewrites"] = [
+            {**rewrite, "from_package": LAUNCHER, "to_package": LAUNCHER}
+        ]
+        with self.assertRaises(ValueError):
+            validate_result("upgrade", value, same, target)
+
+    def test_identity_rewrites_follow_the_installed_package_trees(self):
+        prefix = Path("/opt/npm")
+        legacy = prefix / "lib/node_modules/airs-harness"
+        scoped = prefix / "lib/node_modules" / LAUNCHER
+        trees = {
+            "previous": package_trees(
+                prefix,
+                "airs-harness",
+                legacy / "node_modules/airs-harness-linux-x64/bin/airs-harness",
+            ),
+            "candidate": package_trees(
+                prefix,
+                LAUNCHER,
+                scoped / "node_modules" / (LAUNCHER + "-linux-x64/bin/airs-harness"),
+            ),
+        }
+        template = "[model_providers.airs.auth]\ncommand = %s\nscopes = [%s]\n"
+        before = template % (
+            f'"{legacy}/node_modules/airs-harness-linux-x64/bin/airs-harness"',
+            '"mcp:tools:call", "mcp:tools:list"',
+        )
+        # A renamed launcher moves the stored native path two components at once
+        # and may re-serialize unchanged values.
+        after = template % (
+            f'"{scoped}/node_modules/{LAUNCHER}-linux-x64/bin/airs-harness"',
+            '\n    "mcp:tools:call",\n    "mcp:tools:list",\n',
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.toml"
+            config.write_text(after)
+            self.assertEqual(
+                identity_rewrites({config: before.encode()}, trees, "changed"),
+                [
+                    {
+                        "file": "config.toml",
+                        "key": "model_providers.airs.auth.command",
+                        "from_package": "airs-harness",
+                        "to_package": LAUNCHER,
+                    }
+                ],
+            )
+            config.write_text(before)
+            self.assertEqual(
+                identity_rewrites({config: before.encode()}, trees, "changed"), []
+            )
+            for wrong in (
+                # Only the launcher directory moved; the native package did not.
+                template
+                % (
+                    f'"{scoped}/node_modules/airs-harness-linux-x64/bin/airs-harness"',
+                    '"mcp:tools:call", "mcp:tools:list"',
+                ),
+                after.replace("mcp:tools:list", "mcp:servers:read"),
+                after.replace("bin/airs-harness", "bin/other"),
+                template
+                % (
+                    f'"{prefix}/lib/node_modules/other/bin/airs-harness"',
+                    '"mcp:tools:call", "mcp:tools:list"',
+                ),
+            ):
+                config.write_text(wrong)
+                with self.subTest(wrong=wrong), self.assertRaises(ValueError):
+                    identity_rewrites({config: before.encode()}, trees, "changed")
+            config.write_text(after)
+            with self.assertRaises(ValueError):
+                identity_rewrites({config: before.encode()}, None, "changed")
+            other = Path(directory) / "environments.json"
+            other.write_text("{}")
+            with self.assertRaises(ValueError):
+                identity_rewrites({other: b"[]"}, trees, "changed")
+
+    def test_same_name_upgrade_must_not_uninstall(self):
+        spec = stable_spec()
+        spec.update(version="0.1.5-alpha.1.mcp.1", previous_version="0.1.4")
+        spec = validate_spec(spec)
+        self.assertFalse(launcher_migration(spec))
+        target = next(iter(TARGETS))
+        receipt = roundtrip_result(spec, target)
+        self.assertFalse(receipt["roundtrip"]["uninstall_used"])
+        validate_result("upgrade", receipt, spec, target)
+        for key in ("uninstall_used", "command_links_retargeted"):
+            value = copy.deepcopy(receipt)
+            value["roundtrip"][key] = True
             with self.subTest(key=key), self.assertRaises(ValueError):
                 validate_result("upgrade", value, spec, target)
 

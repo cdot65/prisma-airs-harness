@@ -116,6 +116,7 @@ impl ChatWidget {
         if self.has_misalignment_policy_violation() {
             return (false, None);
         }
+        self.empty_state_animation.borrow_mut().dismiss();
         if self.input_queue.rate_limit_recovery_pending {
             self.input_queue
                 .queued_user_messages

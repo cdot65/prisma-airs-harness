@@ -229,11 +229,10 @@ def _publish(spec, plan, packages, output, registry):
     def check_tags(name, document):
         original = _tags({"dist-tags": receipt["original_tags"][name]})
         protected = _protected(_tags(document), spec["tag"])
-        # npm creates latest for a package's first stable release, even when
+        # Registries create latest for a package's first release, even when
         # publishing with a candidate tag. No established channel is replaced.
         initial_latest = (
             not original
-            and spec["registry"] == "https://registry.npmjs.org"
             and spec["scope"] == "owner-authorized-stable"
             and protected == {"latest": spec["version"]}
         )

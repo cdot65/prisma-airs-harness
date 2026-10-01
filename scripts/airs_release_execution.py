@@ -10,8 +10,10 @@ import sys
 from airs_release_contract import PATTERNS, RESULTS, package_summary
 from airs_release_receipts import atomic_json, evidence_path
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
     package_order,
+    previous_launcher,
     canonical_digest,
     digest_file,
     load_json,
@@ -81,11 +83,10 @@ def clean_environment():
 def installed_identity(spec, packages, prefix, target, environment):
     from airs_bundle import verify_bundle
 
-    launcher = prefix / "lib/node_modules/airs-harness"
+    launcher = prefix / "lib/node_modules" / LAUNCHER
     manifest = load_json(launcher / "package.json")
     require(
-        manifest.get("name") == "airs-harness"
-        and manifest.get("version") == spec["version"],
+        manifest.get("name") == LAUNCHER and manifest.get("version") == spec["version"],
         "Installed launcher identity mismatch",
     )
     require(
@@ -300,6 +301,8 @@ def invocation(
             str(packages),
             "--previous",
             spec["previous_version"],
+            "--previous-package",
+            previous_launcher(spec),
             "--registry",
             spec.get("previous_registry", spec["registry"]),
             "--output",

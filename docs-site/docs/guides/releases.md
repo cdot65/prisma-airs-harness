@@ -10,7 +10,7 @@ and in your own `--version` output.
 
 ## How releases are organized
 
-Install the npm package `airs-harness`; run the command `airs`. Each release
+Install the npm package `@cdot65/prisma-airs-harness` (named `airs-harness` before 0.1.4); run the command `airs`. Each release
 bundles a Prisma AIRS CLI and SDK, so a separate product CLI installation is not
 needed. `airs cli --version` shows the bundled CLI.
 
@@ -34,9 +34,9 @@ There is no Windows or Intel Mac release. Node requires `^22.13.0 || >=23.5.0`.
 
 **What a release record covers.** Each release has a record with its exact runtime
 and tooling provenance, platform results and known fixture limitations. Read the
-[current release record](../generated/stable-013.md) for what the stable release
+[current release record](../generated/stable-014.md) for what the stable release
 includes and how it was tested. The
-[previous stable record](../generated/stable.md),
+[previous stable records](../generated/stable-013.md) and [0.1.2](../generated/stable.md),
 [Apple Silicon preview record](../generated/preview.md) and
 [terminal preview record](../generated/terminal-preview.md) remain available as
 historical evidence.
@@ -57,15 +57,15 @@ executable replacement is required.
 ### Install and check
 
 ```sh
-npm install -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs --version
 airs cli --version
 ```
 
 To install a specific version for a reproducible setup, name it:
-`npm install -g airs-harness@<version>`. If your organization publishes through its
+`npm install -g @cdot65/prisma-airs-harness@<version>`. If your organization publishes through its
 own registry, add `--registry=<registry URL>`. Check which versions and tags a
-registry offers with `npm view airs-harness dist-tags`.
+registry offers with `npm view @cdot65/prisma-airs-harness dist-tags`.
 
 ### Upgrade
 
@@ -77,9 +77,11 @@ old version until they restart.
 Close running sessions first. Then install the previous version by number:
 
 ```sh
-npm install -g airs-harness@<previous-version>
+npm install -g @cdot65/prisma-airs-harness@<previous-version>
 ```
 
+Versions before 0.1.4 were published as `airs-harness`: uninstall
+`@cdot65/prisma-airs-harness` first, then `npm install -g airs-harness@<previous-version>`.
 Use the same registry the previous version was published to. If it is not found,
 the registry you chose may not carry it.
 

@@ -211,6 +211,7 @@ mod agents_overview;
 mod agents_overview_details;
 mod agents_overview_threads;
 mod agents_overview_view;
+mod empty_state_policy;
 mod native_history;
 mod owned_transcript;
 mod right_click_paste;
@@ -1095,6 +1096,11 @@ impl App {
         if tui.is_owned_screen() {
             return self.render_owned_transcript(tui, screen_size);
         }
+        // Other screen owners never paint the mark; keep its clock where the last frame left it.
+        self.chat_widget
+            .empty_state_animation
+            .borrow_mut()
+            .pause_clock();
         let dashboard_visible = self
             .chat_widget
             .selected_index_for_present_view(AGENTS_OVERVIEW_VIEW_ID)

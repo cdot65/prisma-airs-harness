@@ -6,39 +6,31 @@ skills, and calls remote MCP tools through the gateway.
 
 [Documentation](https://cdot65.github.io/prisma-airs-harness/) ·
 [Getting started](GETTING-STARTED.md) ·
-[Release notes](RELEASE-0.1.3.md) ·
+[Release notes](RELEASE-0.1.4.md) ·
 [Canonical source](https://git.cdot.io/cdot/prisma-airs-harness)
 
-## Apple Silicon preview
-
-The renamed npm package is `prisma-airs-harness`. Version `0.1.4-alpha.2.mcp.1`
-restores Developer ID signing and notarization while preserving the existing
-macOS signing identity. The command remains `airs`.
-
-```sh
-# Only when migrating an existing airs-harness npm installation:
-npm uninstall -g airs-harness
-npm install -g prisma-airs-harness@mac-preview --registry=https://npm.cdot.io
-airs --version
-```
-
-The uninstall removes the old npm command links, preserving AIRS environments,
-credentials and history. See [package migration](npm/airs-harness/README.md).
-This preview is Apple Silicon only. The existing public stable package follows.
-
-## Install the existing stable release
+## Install
 
 Use Node `^22.13.0 || >=23.5.0` on Apple Silicon, Linux x64 or Linux ARM64.
 
 ```sh
-npm install -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
 airs --version
 airs cli --version
-airs env create work
 airs
 ```
 
-The stable npm package is `airs-harness`; the command is `airs`. The Prisma AIRS CLI and
+The npm package is `@cdot65/prisma-airs-harness` from 0.1.4 onward; the command is `airs`.
+Existing installations of the previous package name migrate once, keeping AIRS
+environments, credentials and history:
+
+```sh
+npm uninstall -g airs-harness
+npm install -g @cdot65/prisma-airs-harness
+```
+
+The uninstall only releases the old npm command links; never use `--force`.
+See [package migration](npm/airs-harness/README.md). The Prisma AIRS CLI and
 SDK are bundled, and `airs cli --version` shows the CLI version. If your
 organization distributes through its own registry, add
 `--registry=<registry URL>`.
@@ -58,18 +50,24 @@ Your administrator supplies the gateway URL and either public OIDC settings
 or a user workspace API key. Inference supports Keycloak company SSO, including
 Entra federation through Keycloak, or workspace keys entered in a hidden prompt.
 
+Run `airs`. On a fresh installation it opens a welcome screen that asks for an
+environment name and the gateway URL, then offers company SSO or a workspace API
+key, so there are no setup flags to pass. Enter `/doctor` in the session to verify
+the connection. It makes a small inference request and can consume quota. To
+script the same steps, or to keep several environments, pass the flags directly:
+
 ```sh
 airs env create work --gateway-url https://gateway.example.com/v1
-airs --environment work login
-airs --environment work doctor --verify-access
-airs --environment work
+airs login
+airs doctor --verify-access
+airs
 ```
 
-Skip creation when the profile exists. Doctor makes a small inference request
-and can consume quota. It does not verify MCP. In the terminal, use `/mcp` to
-add the gateway integration and complete its separate organizational login.
-After tool discovery, start a new conversation and verify an actual read-only
-tool result.
+Skip creation when the profile exists. Add `--environment NAME` to any command to
+target a different environment for that command. Doctor does not verify MCP. In
+the terminal, use `/mcp` to add the gateway integration and complete its separate
+organizational login. After tool discovery, start a new conversation and verify an
+actual read-only tool result.
 
 It helps to know where the line sits between the local runtime and the gateway.
 Both model inference and remote MCP go through AI Gateway, and the gateway owns
@@ -110,7 +108,5 @@ insufficient. Release notes distinguish fixtures from live-account acceptance.
 Derived from Codex; see [UPSTREAM.md](UPSTREAM.md), [LICENSE](LICENSE) and
 [NOTICE](NOTICE) for upstream provenance and licensing.
 
-The private registry currently exposes the sole `prisma-airs-harness` preview as
-`latest` too: Verdaccio reconstructs that tag when it is absent. Use the explicit
-`@mac-preview` selector. This is not stable promotion; `airs-harness@latest`
-remains 0.1.3 on both registries.
+The previous package name `airs-harness` stays at 0.1.3 on both registries for
+rollback; it is not updated further.

@@ -6,6 +6,7 @@ import os
 import shutil
 from pathlib import Path
 import tempfile
+import tomllib
 
 from airs_harness_pty import TerminalSession
 from airs_lifecycle_contract import EventRecorder, require
@@ -13,6 +14,100 @@ from airs_lifecycle_faults import identity_record_exists
 from airs_lifecycle_session import LifecycleSession
 from airs_native_test_store import record_exists
 from validate_airs_lifecycle import native_identity, tooling_identity
+
+
+def link_package(link):
+    """Name of the npm package directory an installed command link resolves into."""
+    target = Path(os.path.normpath(Path(link).parent / os.readlink(link)))
+    parts = target.parts
+    require("node_modules" in parts, "Command link does not point into npm packages")
+    index = parts.index("node_modules") + 1
+    name = parts[index]
+    # Scoped packages occupy two path components under node_modules.
+    return name + "/" + parts[index + 1] if name.startswith("@") else name
+
+
+def _string_rewrites(before, after, trees, prefix=""):
+    """Differences between two parsed TOML documents that only move a stored path
+    from one launcher's installed package tree into the other's. Any other change
+    is fatal."""
+    if isinstance(before, dict) and isinstance(after, dict):
+        require(set(before) == set(after), "Installation changed configured identity")
+        rewrites = []
+        for key in before:
+            rewrites.extend(
+                _string_rewrites(before[key], after[key], trees, f"{prefix}{key}.")
+            )
+        return rewrites
+    if isinstance(before, list) and isinstance(after, list):
+        require(len(before) == len(after), "Installation changed configured identity")
+        return [
+            r
+            for a, b in zip(before, after)
+            for r in _string_rewrites(a, b, trees, prefix)
+        ]
+    if before == after:
+        return []
+    require(
+        isinstance(before, str) and isinstance(after, str),
+        "Installation changed configured identity",
+    )
+    phases = ("previous", "candidate")
+    for source, target in (phases, phases[::-1]):
+        # A path inside the native package moves with the native package (a
+        # renamed launcher may rename it too, moving two components at once);
+        # any other path inside the launcher moves with the launcher package.
+        native, package = trees[source]["directories"]
+        index = 0 if native in before else 1
+        old, new = (
+            trees[source]["directories"][index],
+            trees[target]["directories"][index],
+        )
+        if old in before and before.replace(old, new) == after:
+            return [
+                {
+                    "key": prefix.rstrip("."),
+                    "from_package": trees[source]["package"],
+                    "to_package": trees[target]["package"],
+                }
+            ]
+    raise ValueError("Installation changed configured identity")
+
+
+def package_trees(prefix, package, native):
+    """The installed directories a launcher's stored paths may point into: its
+    native package directory and its own package directory, most specific first."""
+    return {
+        "package": package,
+        "directories": (
+            str(Path(native).parent.parent) + "/",
+            str(prefix / "lib/node_modules" / package) + "/",
+        ),
+    }
+
+
+def identity_rewrites(protected, trees, message):
+    """Protected identity files must be byte-identical, except that a launcher migration
+    may re-point stored command paths between the two launchers' installed package
+    trees and re-serialize config.toml with identical values."""
+    rewrites = []
+    for path, content in protected.items():
+        current = path.read_bytes()
+        if current == content:
+            continue
+        require(trees is not None and path.name == "config.toml", message)
+        try:
+            found = _string_rewrites(
+                tomllib.loads(content.decode()),
+                tomllib.loads(current.decode()),
+                trees,
+            )
+        except ValueError as error:
+            raise ValueError(message) from error
+        # A re-serialized file with identical values (either release rewrote the
+        # re-pointed path in place) is a formatting change, not an identity change.
+        rewrites.extend({"file": path.name, **row} for row in found)
+    return rewrites
 
 
 def stop_terminal(session):
@@ -29,12 +124,19 @@ def observe_roundtrip(
     inspect_native,
     expected_previous_hash,
     expected_previous_source,
+    link_packages=None,
 ):
-    """Install callbacks execute exact versions into one retained npm prefix."""
+    """Install callbacks execute exact versions into one retained npm prefix.
+
+    ``link_packages`` maps each phase to the launcher package name its commands
+    must resolve into when the previous release shipped under another name.
+    Without it, every command link must stay byte-identical across the roundtrip.
+    ``install`` returns whether it removed the other launcher package by name.
+    """
     tooling = tooling_identity()
     recorder = EventRecorder()
     observe_roundtrip.phase = "install-previous"
-    install("previous")
+    uninstalled = [bool(install("previous"))]
     previous_native, previous_info = inspect_native(prefix)
     previous_hash = native_identity(previous_native, previous_native)
     require(
@@ -45,6 +147,30 @@ def observe_roundtrip(
     links = {
         name: os.readlink(prefix / "bin" / name) for name in ("airs", "airs-harness")
     }
+
+    def check_links(phase):
+        if link_packages is None:
+            require(
+                {name: os.readlink(prefix / "bin" / name) for name in links} == links,
+                "Upgrade changed npm command links",
+            )
+        else:
+            require(
+                all(
+                    link_package(prefix / "bin" / name) == link_packages[phase]
+                    for name in links
+                ),
+                "Command links do not resolve into the expected launcher package",
+            )
+
+    check_links("previous")
+    trees = None
+    if link_packages is not None:
+        trees = {
+            "previous": package_trees(
+                prefix, link_packages["previous"], previous_native
+            )
+        }
     cache = Path.home() / ".cache/airs-lifecycle-tests"
     cache.mkdir(mode=0o700, parents=True, exist_ok=True)
     require(not cache.is_symlink(), "Lifecycle fixture cache must not be a symlink")
@@ -77,30 +203,30 @@ def observe_roundtrip(
             }
             initial_identity = session.snapshot()
             rounds = []
+            rewrites = []
             for phase, label in (
                 ("candidate", "after_upgrade"),
                 ("previous", "after_rollback"),
             ):
                 observe_roundtrip.phase = phase + "-install"
                 stop_terminal(session)
-                install(phase)
+                uninstalled.append(bool(install(phase)))
                 binary, info = inspect_native(prefix)
                 digest = native_identity(binary, binary)
                 require(
                     digest == info["binary_sha256"],
                     "Reinstalled native provenance mismatch",
                 )
-                require(
-                    {name: os.readlink(prefix / "bin" / name) for name in links}
-                    == links,
-                    "Upgrade changed npm command links",
-                )
-                require(
-                    all(
-                        path.read_bytes() == content
-                        for path, content in protected.items()
-                    ),
-                    "Installation changed configured identity",
+                check_links(phase)
+                if trees is not None:
+                    trees[phase] = package_trees(prefix, link_packages[phase], binary)
+                rewrites.extend(
+                    {"phase": phase + "-install", **row}
+                    for row in identity_rewrites(
+                        protected,
+                        trees,
+                        "Installation changed configured identity",
+                    )
                 )
                 require(
                     all(
@@ -151,12 +277,13 @@ def observe_roundtrip(
                         current[key] == initial_identity[key],
                         "Resumed turn changed identity or conversation",
                     )
-                require(
-                    all(
-                        path.read_bytes() == content
-                        for path, content in protected.items()
-                    ),
-                    "Resumed turn changed configured identity",
+                rewrites.extend(
+                    {"phase": phase + "-resumed-turn", **row}
+                    for row in identity_rewrites(
+                        protected,
+                        trees,
+                        "Resumed turn changed configured identity",
+                    )
                 )
                 require(
                     not (session.home / ".credentials.json").exists(),
@@ -196,13 +323,15 @@ def observe_roundtrip(
                 "candidate_source_commit": rounds[0]["source_commit"],
                 "previous_source_commit": previous_info["source_commit"],
                 "command_links_preserved": True,
+                "command_links_retargeted": link_packages is not None,
                 "configuration_preserved": True,
+                "configuration_rewrites": rewrites,
                 "real_conversation_preserved": True,
                 "inference_credential_reused": True,
                 "mcp_credential_reused": True,
                 "native_cleanup_completed": True,
                 "real_mcp_turns": 3,
-                "uninstall_used": False,
+                "uninstall_used": any(uninstalled),
                 "force_used": False,
                 "production_acceptance": False,
             }

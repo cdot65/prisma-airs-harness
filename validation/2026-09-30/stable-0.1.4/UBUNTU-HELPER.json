@@ -1,0 +1,14 @@
+{
+  "version": "0.1.4",
+  "packaged_helper_sha256": "0a96a206223801f8f72c18fd1fb17316590e238cba36a5aebcabae20aa0ce923",
+  "packaged_helper_defect": "Installed-version and registry checks name the unscoped launcher path; use the repository copy",
+  "repository_helper_sha256": "6c67ed19ee6f5d92ab8b65f466c5d33b373c5cd8ec9fb2f3522442e650248ca3",
+  "helper_source": "repository scripts/prepare_airs_ubuntu.sh",
+  "configured_helper_sha256": "587268311aa3524ec1eeee079032b16c0eba0ea3c08a9d68c2734182cfde7d4f",
+  "configuration_change": "Sanitized example endpoint replaced with the deployed gateway URL",
+  "exit_code": 0,
+  "passed": true,
+  "checks_passed": 6,
+  "elapsed_seconds": 20.1,
+  "isolated_home": true
+}

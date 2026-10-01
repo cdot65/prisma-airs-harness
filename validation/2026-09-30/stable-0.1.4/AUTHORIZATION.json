@@ -1,0 +1,33 @@
+{
+  "version": "0.1.4",
+  "authorized_actions": [
+    "stable 0.1.4 including merged PRs 56, 59 and 60",
+    "publication to npmjs.org using Conjur data/airs-release-bot/npmjs/token",
+    "promotion on npm.cdot.io"
+  ],
+  "source_baseline": "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40",
+  "previous_alpha": "0.1.4-alpha.2.mcp.1",
+  "owner_acceptance": "Owner selected \"Stable 0.1.4 with PRs 56 + 59\" and \"Extend stable tooling, then ship 0.1.4\" on 2026-09-30; no new attended production SSO claim",
+  "reviewed_changes": [
+    {
+      "pull_request": 56,
+      "merge_commit": "c9b18e59cf4586abc57c2b0a02ac5797518263b3",
+      "accepted_as": "0.1.4-alpha.1.mcp.1 mac-preview: installed native, Keychain and managed CLI acceptance (Forgejo run 416); owner test-build acceptance recorded 2026-09-30"
+    },
+    {
+      "pull_request": 59,
+      "merge_commit": "05423d46578ad2d96e7f9cc52955cd88b59a6fde",
+      "accepted_as": "0.1.4-alpha.2.mcp.1 mac-preview: Developer ID signed and notarized, 61 native and 43 installed tests, cross-release Keychain continuity (Forgejo run 424); owner test-build acceptance recorded 2026-09-30"
+    },
+    {
+      "pull_request": 60,
+      "merge_commit": "a8046d50bfb83ddf64f3f343ad082a69bfe5ad40",
+      "accepted_as": "Fresh-conversation Prisma AIRS mark: owner-tested local build 2026-09-29/30; 6 unit tests, full codex-tui suite, pty smoke checks"
+    }
+  ],
+  "platforms": [
+    "linux-x64",
+    "linux-arm64",
+    "darwin-arm64"
+  ]
+}

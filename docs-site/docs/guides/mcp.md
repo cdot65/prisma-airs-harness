@@ -36,7 +36,7 @@ as a fallback.
 
 ## Connect and verify
 
-1. Open `airs --environment work`, then enter `/mcp`.
+1. Open `airs`, then enter `/mcp`.
 2. Choose **Add gateway MCP server** and enter a local name such as `service-now`
    and the gateway MCP URL. The name does not select a gateway workspace.
 3. Complete company sign-in and any gateway-managed consent. On SSH, open the
@@ -52,7 +52,8 @@ For the example ServiceNow integration:
 > short descriptions and priorities. Do not create or update records.
 
 An authorized empty result is valid. A connected label alone does not establish
-end-to-end access. See the complete [SSO-to-ServiceNow walkthrough](../generated/sso-servicenow.md).
+end-to-end access. The [MCP getting started guide](../generated/getting-started-mcp.md)
+walks through each step with screenshots and the expected output.
 
 ## Renew and sign out
 

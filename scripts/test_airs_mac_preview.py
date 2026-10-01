@@ -8,6 +8,7 @@ import unittest
 
 from airs_release_acceptance import verify_acceptance_set
 from airs_test_release_spec import (
+    TARGETS,
     MAC_SCOPE,
     MAC_TAG,
     MAC_TARGET,
@@ -31,7 +32,8 @@ class MacPreview(unittest.TestCase):
     def test_only_explicit_mac_scope_accepts_one_signed_platform(self):
         spec = self.spec()
         self.assertEqual(
-            package_order(spec), ["airs-harness-darwin-arm64", "airs-harness"]
+            package_order(spec),
+            ["@cdot65/prisma-airs-harness-darwin-arm64", "@cdot65/prisma-airs-harness"],
         )
         for change in [
             {"scope": "owner-authorized-test", "tag": "mcp"},
@@ -66,7 +68,10 @@ class MacPreview(unittest.TestCase):
             result = _publish(spec, plan, staged, root / "publication", registry)
             self.assertTrue(result["published"])
             self.assertEqual(registry.published, package_order(spec))
-            for name in ["airs-harness-linux-x64", "airs-harness-linux-arm64"]:
+            for name in [
+                TARGETS["x86_64-unknown-linux-musl"],
+                TARGETS["aarch64-unknown-linux-musl"],
+            ]:
                 self.assertEqual(registry.documents[name], before[name])
             for name in package_order(spec):
                 self.assertEqual(

@@ -1,0 +1,80 @@
+{
+  "version": "0.1.4",
+  "replacement": "@cdot65/prisma-airs-harness",
+  "message": "Renamed to @cdot65/prisma-airs-harness. Run: npm uninstall -g prisma-airs-harness && npm install -g @cdot65/prisma-airs-harness@0.1.4",
+  "results": [
+    {
+      "package": "airs-harness-linux-x64",
+      "version": "0.1.4",
+      "registry": "https://registry.npmjs.org",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-linux-x64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "airs-harness-linux-arm64",
+      "version": "0.1.4",
+      "registry": "https://registry.npmjs.org",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-linux-arm64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "airs-harness-darwin-arm64",
+      "version": "0.1.4",
+      "registry": "https://registry.npmjs.org",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-darwin-arm64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "prisma-airs-harness",
+      "version": "0.1.4",
+      "registry": "https://registry.npmjs.org",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Renamed to @cdot65/prisma-airs-harness. Run: npm uninstall -g prisma-airs-harness && npm install -g @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "airs-harness-linux-x64",
+      "version": "0.1.4",
+      "registry": "https://npm.cdot.io",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-linux-x64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "airs-harness-linux-arm64",
+      "version": "0.1.4",
+      "registry": "https://npm.cdot.io",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-linux-arm64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "airs-harness-darwin-arm64",
+      "version": "0.1.4",
+      "registry": "https://npm.cdot.io",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Superseded by @cdot65/prisma-airs-harness-darwin-arm64@0.1.4, the native package of @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    },
+    {
+      "package": "prisma-airs-harness",
+      "version": "0.1.4",
+      "registry": "https://npm.cdot.io",
+      "exit_code": 0,
+      "stderr_tail": "",
+      "deprecated_message": "Renamed to @cdot65/prisma-airs-harness. Run: npm uninstall -g prisma-airs-harness && npm install -g @cdot65/prisma-airs-harness@0.1.4",
+      "verified": true
+    }
+  ],
+  "all_verified": true
+}

@@ -25,6 +25,19 @@ class ReleasedVersion:
         )
 
     @property
+    def package(self):
+        # Every publication through 0.1.3, and the 0.1.4-alpha.1 preview, shipped as
+        # `airs-harness`; the later 0.1.4 previews were the unscoped rename; stable
+        # 0.1.4 onward ships under the organization scope.
+        if self.base <= (0, 1, 3) or (
+            self.base == (0, 1, 4) and self.alpha is not None and self.alpha < 2
+        ):
+            return "airs-harness"
+        if self.base == (0, 1, 4) and self.alpha is not None:
+            return "prisma-airs-harness"
+        return "@cdot65/prisma-airs-harness"
+
+    @property
     def setup(self):
         return (
             ["setup"]

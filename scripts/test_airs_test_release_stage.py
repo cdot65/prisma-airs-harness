@@ -12,8 +12,11 @@ from unittest.mock import patch
 
 import airs_test_release_archive as archive
 import airs_test_release_stage as stage
+from test_airs_ubuntu_helper import helper_text
 from airs_test_release_spec import (
+    LAUNCHER,
     TARGETS,
+    archive_filename,
     release_targets,
     canonical_digest,
     digest_file,
@@ -61,7 +64,7 @@ def candidates(root, spec):
     records = []
     for target, name in [
         *((t, TARGETS[t]) for t in release_targets(spec)),
-        (None, "airs-harness"),
+        (None, LAUNCHER),
     ]:
         manifest = {"name": name, "version": spec["version"], "private": True}
         members = []
@@ -103,8 +106,15 @@ def candidates(root, spec):
             if spec["scope"] == "owner-authorized-mac-preview":
                 manifest.update(os=["darwin"], cpu=["arm64"])
             members.append(("package/bin/launcher.js", b"trusted launcher", 0o755))
+            members.append(
+                (
+                    "package/scripts/prepare_airs_ubuntu.sh",
+                    helper_text(version=spec["version"]).encode(),
+                    0o755,
+                )
+            )
         members.append((stage.MANIFEST, encoded(manifest), 0o644))
-        filename = f"{name}-{spec['version']}.tgz"
+        filename = archive_filename(name, spec["version"])
         write_tar(root / "tarballs" / filename, members)
         inspected = archive.inspect_archive(root / "tarballs" / filename)
         records.append(
@@ -406,6 +416,11 @@ class StageTests(unittest.TestCase):
             [
                 (stage.MANIFEST, original["metadata"][stage.MANIFEST], 0o644),
                 ("package/bin/launcher.js", b"replaced launcher", 0o755),
+                (
+                    "package/scripts/prepare_airs_ubuntu.sh",
+                    original["text"]["package/scripts/prepare_airs_ubuntu.sh"],
+                    0o755,
+                ),
             ],
         )
         forged = archive.inspect_archive(target)
@@ -413,6 +428,47 @@ class StageTests(unittest.TestCase):
         (self.output / "NPM-PACKAGES.json").write_bytes(encoded(plan))
         with self.assertRaisesRegex(ValueError, "runtime payload"):
             stage.verify_staged(self.spec, self.output, self.evidence)
+
+    def test_packaged_helper_must_name_the_shipped_launcher(self):
+        spec = validate_spec(sample_spec())
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "candidates"
+            candidates(root, spec)
+            filename = archive_filename(LAUNCHER, spec["version"])
+            path = root / "tarballs" / filename
+            inventory = archive.inspect_archive(path)
+            stale = helper_text(version=spec["version"]).replace(
+                '"$prefix/lib/node_modules/$package/package.json"',
+                '"$prefix/lib/node_modules/prisma-airs-harness/package.json"',
+            )
+            members = [
+                (name, b"", row["mode"])
+                for name, row in inventory["members"].items()
+                if row["type"] == "file"
+            ]
+            rebuilt = []
+            for name, _, mode in members:
+                if name == "package/scripts/prepare_airs_ubuntu.sh":
+                    payload = stale.encode()
+                elif name in inventory["metadata"]:
+                    payload = inventory["metadata"][name]
+                elif name == "package/bin/launcher.js":
+                    payload = b"trusted launcher"
+                else:
+                    payload = b""
+                rebuilt.append((name, payload, mode))
+            path.unlink()
+            write_tar(path, rebuilt)
+            metadata = json.loads((root / "NPM-PACKAGES.json").read_text())
+            inspected = archive.inspect_archive(path)
+            for row in metadata["publish_order"]:
+                if row["name"] == LAUNCHER:
+                    row.update(
+                        sha256=inspected["sha256"], integrity=inspected["integrity"]
+                    )
+            (root / "NPM-PACKAGES.json").write_bytes(encoded(metadata))
+            with self.assertRaisesRegex(ValueError, "Ubuntu helper"):
+                stage.inspect_packages(spec, root)
 
     def test_symlinked_archive_is_rejected(self):
         record = stage.inspect_packages(self.spec, self.source)["publish_order"][0]
@@ -435,6 +491,11 @@ class StageTests(unittest.TestCase):
             [
                 (stage.MANIFEST, original["metadata"][stage.MANIFEST], 0o644),
                 ("package/bin/launcher.js", b"forged candidate", 0o755),
+                (
+                    "package/scripts/prepare_airs_ubuntu.sh",
+                    original["text"]["package/scripts/prepare_airs_ubuntu.sh"],
+                    0o755,
+                ),
             ],
         )
         forged = archive.inspect_archive(target)

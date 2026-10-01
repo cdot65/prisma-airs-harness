@@ -14,15 +14,16 @@ Use an Apple Silicon Mac on the organization's LAN/VPN. Intel Macs are outside
 this distribution. Run a native ARM64 Node installation from your signed-in
 desktop session; avoid a Rosetta terminal selecting an x64 Node process.
 
-## Signed preview and npm package rename
+## Signed release and npm package rename
 
-The current test channel uses `prisma-airs-harness@mac-preview` on npm.cdot.io.
-Version `0.1.4-alpha.2.mcp.1` restores Developer ID signing and Apple notarization
-with the same `airs-harness` signing identifier and developer team as earlier
-signed releases. Follow the [one-time npm migration](npm/airs-harness/README.md)
-when moving from the old `airs-harness` package. The command remains `airs`.
+Stable 0.1.4 is published as `@cdot65/prisma-airs-harness` on public npm and npm.cdot.io.
+It restores Developer ID signing and Apple notarization with the same
+`airs-harness` signing identifier and developer team as earlier signed releases.
+Follow the [one-time npm migration](npm/airs-harness/README.md) when moving from
+the old `airs-harness` package. The command remains `airs`.
 
-The instructions below describe the historical 0.1.2 stable installation.
+The instructions below describe the historical 0.1.2 stable installation; replace
+`airs-harness@0.1.2 --registry=https://npm.cdot.io` with `@cdot65/prisma-airs-harness@0.1.4`.
 
 ## Install or update
 
@@ -59,8 +60,10 @@ Restart running AIRS processes after an upgrade.
 
 ## Create, sign in and connect ServiceNow
 
-Follow [Getting started](SSO-SERVICENOW.md#sso-to-servicenow-a-complete-first-session)
-for the complete flow with company SSO or a workspace API key for inference.
+Follow [Getting started](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED.md) for a workspace API key, or
+[Getting started with company SSO](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-SSO.md) for company sign-in.
+Connect ServiceNow or another remote tool server with
+[MCP servers with OAuth](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md).
 For a new local profile, `airs env create work` guides you through settings and
 sign-in. With explicit settings, login is a separate step:
 
@@ -78,7 +81,7 @@ New environments created by mcp.4 already set
 `mcp_oauth_credentials_store = "keyring"`, requiring Keychain persistence before
 MCP sign-in succeeds. Existing environments keep their original mode and tokens;
 upgrading does not migrate them. For mcp.3 or an existing environment, follow
-[the storage check and optional migration](SSO-SERVICENOW.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+[the storage check and optional migration](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md#environments-created-before-native-mcp-storage).
 If tokens already exist, successfully sign out every MCP connection with saved
 credentials, including expired or sign-in-required connections, in the original
 mode before changing the setting, then sign in again. A configuration edit alone does not

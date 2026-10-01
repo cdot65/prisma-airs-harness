@@ -1,0 +1,16 @@
+{
+  "test": "codex-cli::bin/codex airs_help::tests::standalone_environment_help_describes_the_complete_lifecycle",
+  "source_commit": "946dc6e34c9bd7f439c5fa00a9c05a11bee53673",
+  "disposition": "corrected-test-fixture",
+  "original_log_sha256": "78883911a9ef55f011990b2c07c6ad3a1da7e605d265e78273f16763af52ab20",
+  "focused_run": 4245,
+  "focused_source": "8aaa691379f2cba1e50b6b2565fdce8133e09c67",
+  "focused_log_sha256": "9dc6e69e868d6b787b604b8da6048baddcb08c49ed9a9bc99fb2027aad853bc0",
+  "focused_summary": "Summary [  34.337s] 1044 tests run: 1044 passed, 0 skipped",
+  "runtime_source_unchanged": true,
+  "test_only_changes": [
+    "codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_environment_help.snap",
+    "codex-rs/cli/src/snapshots/codex__airs_help__tests__airs_login_help.snap"
+  ],
+  "disabled_installed_command": null
+}

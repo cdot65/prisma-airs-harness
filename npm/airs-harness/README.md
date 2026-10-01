@@ -2,32 +2,35 @@
 
 `airs` starts the native Prisma AIRS terminal agent. Inference and remote MCP
 both use AI Gateway. The built-in MCP client connects to the gateway integration;
-the gateway owns upstream OAuth. New previews use the npm package `prisma-airs-harness`; the command remains `airs`.
+the gateway owns upstream OAuth. The npm package is `@cdot65/prisma-airs-harness`; the command remains `airs`.
 
-## Signed Apple Silicon preview and package migration
+## Package migration from airs-harness
 
-Version `0.1.4-alpha.2.mcp.1` is the first `prisma-airs-harness` preview.
-It uses the existing Developer ID identity and signing identifier, with Apple
-notarization. The native dependency retains its `airs-harness-darwin-arm64` name.
+Stable 0.1.4 is the first `@cdot65/prisma-airs-harness` release. The Apple Silicon
+binary keeps the existing Developer ID identity and `airs-harness` signing
+identifier, with Apple notarization. The native dependencies are
+`@cdot65/prisma-airs-harness-<platform>-<arch>`.
 
 When migrating an existing global `airs-harness` installation, remove the old npm
 package first to release its command links, then install the renamed package:
 
 ```sh
 npm uninstall -g airs-harness
-npm install -g prisma-airs-harness@mac-preview --registry=https://npm.cdot.io
+npm install -g @cdot65/prisma-airs-harness@0.1.4
 airs --version
 ```
 
 This changes npm-managed files only. Keep your AIRS home, saved environments,
 Keychain items and conversation history. Do not use `--force` or reset permissions.
 If installation fails, reinstall `airs-harness@0.1.3` from the same registry.
-Subsequent updates use `npm install -g prisma-airs-harness@mac-preview
---registry=https://npm.cdot.io` (one line). This preview is Apple Silicon only;
-public npm and the existing stable channel remain on `airs-harness@0.1.3`.
+Subsequent updates use `npm install -g @cdot65/prisma-airs-harness@latest`.
 
-## Gateway agent release 0.1.3 (existing stable package)
+## Gateway agent release 0.1.4
 
+Release 0.1.4 adds in-place credential replacement (`airs env auth`, `airs login
+--replace`), restores Developer ID signing and Apple notarization for Apple
+Silicon, defaults the terminal to the fullscreen transcript with a `settings.toml`
+override, and shows the Prisma AIRS mark on fresh conversations.
 Release 0.1.3 bundles CLI 7.2.0 and SDK 0.34.0, adding explicit
 organisation guardrails with `airs cli aigateway admin-guardrails`. Workspace
 policies remain under `guardrails`. This management surface uses the selected
@@ -51,14 +54,14 @@ install a supported Node version using your organization's usual method, reopen
 the terminal and check again. npm may otherwise finish with `EBADENGINE`; the
 launcher rejects unsupported Node before starting AIRS or its bundled CLI.
 
-This guide covers **0.1.3**, including the in-session `/mcp`
+This guide covers **0.1.4**, including the in-session `/mcp`
 manager, `/doctor` dashboard and optional `/typesafe` setup for the bundled Jev judge. New environments require native MCP storage;
 existing environments retain their configured mode and tokens. Real-account SSO,
 workspace-key and ServiceNow acceptance remain separate from automated checks.
 Install this exact version from public npm, then inspect its version:
 
 ```sh
-npm install -g airs-harness@0.1.3 --registry=https://registry.npmjs.org
+npm install -g @cdot65/prisma-airs-harness@0.1.4 --registry=https://registry.npmjs.org
 airs --version
 airs cli --version
 ```
@@ -94,8 +97,10 @@ compatibility fallback. Keep targets referenced by existing credential bindings.
 
 ## First session: inference, then gateway MCP
 
-Follow [Getting started](GETTING-STARTED.md) for the complete SSO-to-ServiceNow
-journey, including workspace API keys as an alternative for inference. A local
+Follow [Getting started](GETTING-STARTED.md) to sign in with a workspace API key,
+[Getting started with company SSO](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-SSO.md) for company sign-in, and
+[MCP servers with OAuth](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md) to connect ServiceNow or another
+remote tool server. A local
 environment name does **not** bind to a gateway workspace name. Separate
 environments when you need separate connections, credentials or history.
 
@@ -136,7 +141,7 @@ including expired or sign-in-required connections, in the original storage mode
 first. Exit
 AIRS, change the setting, reopen the environment and sign in again. Editing the
 setting alone does not migrate or delete tokens. If cleanup fails, resolve it
-before changing modes. See [the complete storage guidance](GETTING-STARTED.md#4-open-airs-and-check-mcp-storage-for-existing-environments).
+before changing modes. See [the complete storage guidance](https://github.com/cdot65/prisma-airs-harness/blob/main/GETTING-STARTED-MCP.md#environments-created-before-native-mcp-storage).
 Identical connection names and URLs can share a native record across the same
 OS user's environments; use distinct names when separate credentials are needed.
 Linux needs an available Secret Service session; macOS uses Keychain. Installing
@@ -202,7 +207,5 @@ for the educational walkthrough.
 
 Full documentation: [Prisma AIRS Harness](https://cdot65.github.io/prisma-airs-harness/), including gateway deployment, Keycloak and Entra configuration, validation and command cheat sheets. The same release is also distributed through `https://npm.cdot.io`.
 
-The private registry currently exposes the sole `prisma-airs-harness` preview as
-`latest` too: Verdaccio reconstructs that tag when it is absent. Use the explicit
-`@mac-preview` selector. This is not stable promotion; `airs-harness@latest`
-remains 0.1.3 on both registries.
+The previous package name `airs-harness` stays at 0.1.3 on both registries for
+rollback; it is not updated further.

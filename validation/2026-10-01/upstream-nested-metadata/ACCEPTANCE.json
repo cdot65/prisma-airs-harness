@@ -1,0 +1,55 @@
+{
+  "feature": "nested writable metadata mount ordering",
+  "date": "2026-10-01",
+  "baseline": "f42eec46e1",
+  "upstream_commit": "8bbe8f8702471b90c75df20104bf91d20001b0d7",
+  "branch": "airs/upstream-sandbox-2026-10-01",
+  "unit": {
+    "passed": 111,
+    "skipped": 0
+  },
+  "focused_integration": {
+    "passed": 4,
+    "filtered_out": 41,
+    "early_return": false
+  },
+  "full_owning_crate": {
+    "passed": 155,
+    "skipped": 1,
+    "namespace_early_return_notices": 4
+  },
+  "regression_on_original_code": {
+    "exit": 100,
+    "expected_failure": "duplicate metadata mounts"
+  },
+  "clippy": {
+    "standard_exit": 101,
+    "strict_exit": 101,
+    "blocker": "preexisting static-header expect_used in rmcp-client/src/utils.rs:18"
+  },
+  "format": {
+    "exit": 0,
+    "unrelated_changes_restored": 17
+  },
+  "source_files": {
+    "codex-rs/linux-sandbox/src/bwrap.rs": "c1b03d1d68b2fe3e897b02b583e8c5c58743ce2179437ac3d400277ccbf60e0b",
+    "codex-rs/linux-sandbox/tests/suite/landlock.rs": "d4453bfc0de43a75ff85c4d81f18244378f1d375ef302d449c507bfa9e76cfd5",
+    "codex-rs/linux-sandbox/tests/suite/nested_metadata_tests.rs": "8079c63dd0f1e5ce479888529dafecf650316b5688981eb393ae518748c0b71c",
+    "codex-rs/codex-client/src/retry.rs": "0945bdac30a42095e973c996df0e6b54d3d4239dc0717114fc0e0c593b1ee754"
+  },
+  "evidence": {
+    "REVIEW.md": "60528da5533c63c19ee630dace3cd9561e4eb3e41ceba6803219d484f54eec83",
+    "baseline-sandboxing.log.gz": "3417a33226f60f85a15220fdc3377234db8b2ffbdfd30622dd4cdfc30dd4eca2",
+    "clippy-inherited-client.log.gz": "4aaa9de03032488854391f298924d06cce7661e1dede0bc94ce8bdce87c25ad5",
+    "clippy-initial.log.gz": "1c3e1d41aa88dfee0c6ad44581c79eeb2d4937a8c493e9cc88db9aaeed9e6eb1",
+    "clippy-standard.log.gz": "1913e7d1bc1af29fbfdfdbabc908cbec1742a34574b8a56e48bd526ba432a974",
+    "clippy-strict.log.gz": "357c6df2e56854f20fdd3779436b1b0e6894349d036bf29ab88f818fc580866f",
+    "format.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "full-crate.log.gz": "006fdc136f4eb7b32aee8a9161eecaf10bda0cd9fe13b15954f0e349100a40aa",
+    "integration.log.gz": "26bd93fee58d28d6f3f79f85260a7ff35048d3dd84762de7b5caa88fa6204ef3",
+    "regression-before-fix.log.gz": "89b26f21f34ff5c325ba07017f42b3f53be88b08025f1c49f17200c8c695d011",
+    "unit.log.gz": "963ba0c6ca9ca43b0b8dd9bc8dc8a14a6cc6189aa4c3f210b319f3074f6d3574"
+  },
+  "status": "implemented; tests passed; lint and packaged acceptance outstanding",
+  "release_readiness_score": null
+}

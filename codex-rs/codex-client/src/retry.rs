@@ -101,7 +101,7 @@ where
                 let retry_attempt = attempt + 1;
                 let retry_after = err.retry_after();
                 let delay = retry_after
-                    .map(|advice| advice.remaining_delay())
+                    .map(codex_http_client::RetryAfter::remaining_delay)
                     .unwrap_or_else(|| backoff(policy.base_delay, retry_attempt));
                 crate::record_retry!(retry_attempt, delay, RetryOperation::HttpRequest);
                 if let Some(advice) = retry_after {

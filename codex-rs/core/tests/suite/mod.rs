@@ -41,6 +41,8 @@ mod agent_websocket;
 mod agents_md;
 mod apply_patch_cli;
 mod apply_patch_serialization;
+#[cfg(target_os = "macos")]
+mod apply_patch_system_aliases;
 #[cfg(not(target_os = "windows"))]
 mod approvals;
 mod audio_truncation;

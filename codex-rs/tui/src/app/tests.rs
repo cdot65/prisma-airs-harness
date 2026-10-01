@@ -9208,6 +9208,7 @@ async fn clear_only_ui_reset_preserves_chat_session_state() {
     app.overlay = Some(Overlay::new_transcript(
         app.transcript_cells.clone(),
         crate::keymap::RuntimeKeymap::defaults().pager,
+        /*copy_on_select*/ false,
     ));
     app.deferred_history_lines = vec![Line::from("stale buffered line").into()];
     app.has_emitted_history_lines = true;
@@ -9342,3 +9343,4 @@ mod navigation_reconnect;
 
 #[path = "tests/stream_termination_tests.rs"]
 mod stream_termination_tests;
+

@@ -56,10 +56,15 @@ fn copy_shortcuts_clear_selection_only_after_confirmed_delivery() {
                     panic!("selection key must request a copy");
                 };
                 assert_eq!(text, "selected\tcafé");
-                let failed = view.copy_selected_text_with(&cells, &text, |text| {
-                    assert_eq!(text, "selected\tcafé");
-                    Err("clipboard unavailable".to_string())
-                });
+                let failed = view.copy_selected_text_with(
+                    &cells,
+                    &text,
+                    /*clear_selection*/ true,
+                    |text, _format| {
+                        assert_eq!(text, "selected\tcafé");
+                        Err("clipboard unavailable".to_string())
+                    },
+                );
                 assert_eq!(failed, Err("clipboard unavailable".to_string()));
                 assert_eq!(
                     view.selected_text(&cells).as_deref(),
@@ -71,10 +76,15 @@ fn copy_shortcuts_clear_selection_only_after_confirmed_delivery() {
                 else {
                     panic!("failed copy must remain retryable");
                 };
-                let copied = view.copy_selected_text_with(&cells, &text, |text| {
-                    assert_eq!(text, "selected\tcafé");
-                    Ok(status)
-                });
+                let copied = view.copy_selected_text_with(
+                    &cells,
+                    &text,
+                    /*clear_selection*/ true,
+                    |text, _format| {
+                        assert_eq!(text, "selected\tcafé");
+                        Ok(status)
+                    },
+                );
                 assert_eq!(copied, Ok(status));
                 assert_eq!(
                     (view.selected_text(&cells), view.is_search_active()),
@@ -121,7 +131,7 @@ fn command_c_ignores_release_and_copies_only_an_active_selection() {
         panic!("Cmd+C must copy the transcript selection");
     };
     assert_eq!(text, "selected café");
-    view.copy_selected_text_with(&cells, &text, |_| {
+    view.copy_selected_text_with(&cells, &text, /*clear_selection*/ true, |_, _format| {
         Ok(crate::clipboard_copy::CopyStatus::Confirmed)
     })
     .unwrap();

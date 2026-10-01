@@ -41,6 +41,9 @@ impl App {
         let chat_widget = &self.chat_widget;
         let transcript_width = chat_widget.history_wrap_width(width);
         let view = &mut self.transcript_view;
+        view.copy_on_select = self
+            .local_settings
+            .copy_on_select(&codex_terminal_detection::terminal_info());
         view.set_keymap_bindings(&self.keymap);
         view.set_presentation(view.is_detailed(), chat_widget.history_render_mode());
         let active_key = chat_widget.active_cell_transcript_key();
@@ -233,7 +236,12 @@ impl App {
                 self.render_owned_transcript(tui, size)?;
             }
             if composer_ready
-                && self.handle_composer_copy_event(tui, event, tui::Tui::copy_transcript_selection)
+                && self.handle_composer_copy_event(tui, event, |tui, text| {
+                    tui.copy_transcript_selection(
+                        text,
+                        crate::clipboard_copy::CopyFormat::PlainText,
+                    )
+                })
             {
                 return Ok(true);
             }
@@ -388,13 +396,17 @@ impl App {
             return self.handle_owned_backtrack_event(tui, event);
         };
         let resume_following = matches!(action, ViewAction::CopyAndFollow(_));
+        let copy_on_select = matches!(action, ViewAction::CopyOnSelect(_));
         match action {
             ViewAction::Changed => {}
-            ViewAction::Copy(text) | ViewAction::CopyAndFollow(text) => {
+            ViewAction::Copy(text)
+            | ViewAction::CopyOnSelect(text)
+            | ViewAction::CopyAndFollow(text) => {
                 let result = self.transcript_view.copy_selected_text_with(
                     &self.transcript_cells,
                     &text,
-                    |text| tui.copy_transcript_selection(text),
+                    !copy_on_select,
+                    |text, format| tui.copy_transcript_selection(text, format),
                 );
                 self.transcript_view
                     .show_copy_feedback(&result, text.chars().count());

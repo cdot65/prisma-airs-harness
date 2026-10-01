@@ -15,6 +15,7 @@ use super::*;
 pub(crate) enum ViewAction {
     Changed,
     Copy(String),
+    CopyOnSelect(String),
     CopyAndFollow(String),
     OpenLink(String),
 }
@@ -220,8 +221,14 @@ impl TranscriptView {
                     self.extend_selection(event.column, event.row);
                 }
                 self.end_drag();
-                if self.selected_text(cells).is_none() {
+                let selected = self.selected_text(cells);
+                if selected.is_none() {
                     self.end_selection(cells);
+                }
+                if self.copy_on_select
+                    && let Some(text) = selected.filter(|text| !text.is_empty())
+                {
+                    return Some(ViewAction::CopyOnSelect(text));
                 }
             }
             _ => return None,

@@ -58,8 +58,14 @@ pub(crate) enum Overlay {
 }
 
 impl Overlay {
-    pub(crate) fn new_transcript(cells: Vec<Arc<dyn HistoryCell>>, keymap: PagerKeymap) -> Self {
-        Self::Transcript(Box::new(TranscriptOverlay::new(cells, keymap)))
+    pub(crate) fn new_transcript(
+        cells: Vec<Arc<dyn HistoryCell>>,
+        keymap: PagerKeymap,
+        copy_on_select: bool,
+    ) -> Self {
+        let mut overlay = TranscriptOverlay::new(cells, keymap);
+        overlay.view.copy_on_select = copy_on_select;
+        Self::Transcript(Box::new(overlay))
     }
 
     pub(crate) fn new_static_with_lines(

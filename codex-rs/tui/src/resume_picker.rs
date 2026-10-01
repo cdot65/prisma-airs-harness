@@ -330,6 +330,7 @@ struct SessionPickerViewPersistence {
 }
 
 struct SessionPickerRunOptions {
+    copy_on_select: bool,
     show_all: bool,
     filter_cwd: Option<PathBuf>,
     local_filter_cwd: Option<PathBuf>,
@@ -439,6 +440,7 @@ async fn run_resume_picker_with_launch_context(
     let provider_filter = picker_provider_filter(config, uses_remote_workspace);
     let runtime_keymap = picker_runtime_keymap(local_settings)?;
     let options = SessionPickerRunOptions {
+        copy_on_select: local_settings.copy_on_select(&codex_terminal_detection::terminal_info()),
         show_all,
         filter_cwd: cwd_filter,
         local_filter_cwd,
@@ -497,6 +499,7 @@ pub async fn run_fork_picker_with_app_server(
     let provider_filter = picker_provider_filter(config, uses_remote_workspace);
     let runtime_keymap = picker_runtime_keymap(local_settings)?;
     let options = SessionPickerRunOptions {
+        copy_on_select: local_settings.copy_on_select(&codex_terminal_detection::terminal_info()),
         show_all,
         filter_cwd: cwd_filter,
         local_filter_cwd,
@@ -550,6 +553,7 @@ async fn run_session_picker_with_loader(
         options.action,
     );
     state.local_filter_cwd = options.local_filter_cwd;
+    state.copy_on_select = options.copy_on_select;
     state.worktrees_enabled = options.worktrees_enabled;
     state.density = options.initial_density;
     state.view_persistence = options.view_persistence;
@@ -817,6 +821,7 @@ impl Drop for AltScreenGuard<'_> {
 }
 
 struct PickerState {
+    copy_on_select: bool,
     // Resolve local filesystem membership once per cwd for each page-loading cycle.
     local_cwd_matches: HashMap<PathBuf, bool>,
     requester: FrameRequester,
@@ -1015,6 +1020,7 @@ impl PickerState {
         action: SessionPickerAction,
     ) -> Self {
         Self {
+            copy_on_select: false,
             requester,
             relative_time_reference: None,
             pagination: PaginationState::new(),
@@ -1116,7 +1122,11 @@ impl PickerState {
         else {
             return;
         };
-        let mut overlay = Overlay::new_transcript(cells.clone(), self.keymap.pager.clone());
+        let mut overlay = Overlay::new_transcript(
+            cells.clone(),
+            self.keymap.pager.clone(),
+            self.copy_on_select,
+        );
         if let Overlay::Transcript(view) = &mut overlay {
             view.set_keymap_bindings(&self.keymap);
         }

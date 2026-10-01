@@ -856,7 +856,9 @@ impl App {
         event: TuiEvent,
     ) -> Result<AppRunControl> {
         if matches!(&event, TuiEvent::Key(_))
-            && self.handle_composer_copy_event(tui, &event, tui::Tui::copy_transcript_selection)
+            && self.handle_composer_copy_event(tui, &event, |tui, text| {
+                tui.copy_transcript_selection(text, crate::clipboard_copy::CopyFormat::PlainText)
+            })
         {
             return Ok(AppRunControl::Continue);
         }

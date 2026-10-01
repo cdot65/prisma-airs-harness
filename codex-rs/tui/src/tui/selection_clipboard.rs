@@ -6,9 +6,13 @@ use crate::clipboard_copy::CopyOutcome;
 use crate::clipboard_copy::CopyStatus;
 
 impl Tui {
-    pub(crate) fn copy_transcript_selection(&mut self, text: &str) -> Result<CopyStatus, String> {
+    pub(crate) fn copy_transcript_selection(
+        &mut self,
+        text: &str,
+        format: CopyFormat,
+    ) -> Result<CopyStatus, String> {
         self.copy_transcript_selection_with(text, |text| {
-            crate::clipboard_copy::copy_to_clipboard(text, CopyFormat::PlainText)
+            crate::clipboard_copy::copy_to_clipboard(text, format)
         })
     }
 

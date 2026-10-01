@@ -49,6 +49,7 @@ def verify_plan(root, approved_digest, mode):
         "READINESS.json",
         "staged-npm/NPM-PACKAGES.json",
         "PAYLOAD-EQUIVALENCE.json",
+        "PUBLICATION-TOOLING.json",
     }
     require(set(plan.get("files", {})) == expected, "Incomplete workflow inputs")
     for name, digest in plan["files"].items():
@@ -87,11 +88,26 @@ def verify_plan(root, approved_digest, mode):
         ["git", "rev-parse", "HEAD"], cwd=REPO, text=True
     ).strip()
     require(
-        commit == spec["tooling_commit"],
-        "Workflow checkout differs from reviewed tooling",
+        commit == plan.get("publication_tooling_commit"),
+        "Workflow checkout differs from reviewed publication tooling",
     )
-    for name, digest in load_json(tooling / "ACCEPTANCE-TOOLING.json")["files"].items():
-        require(digest_file(REPO / name) == digest, "Workflow tooling changed")
+    publication_tooling = load_json(root / "PUBLICATION-TOOLING.json")
+    verify_tooling(REPO, publication_tooling, commit)
+    accepted = load_json(tooling / "ACCEPTANCE-TOOLING.json")["files"]
+    require(
+        set(accepted) == set(publication_tooling["files"]),
+        "Publication tooling changed the accepted validator inventory",
+    )
+    allowed = {
+        "scripts/airs_forgejo_public_npm.py",
+        "scripts/airs_test_release_publish.py",
+        "scripts/test_airs_test_release_publish.py",
+    }
+    for name, digest in accepted.items():
+        require(
+            name in allowed or publication_tooling["files"][name] == digest,
+            "Publication update changed native acceptance tooling: " + name,
+        )
     subprocess.run(
         [sys.executable, str(REPO / "validation/2026-10-01/private-0.1.6/audit.py")],
         check=True,

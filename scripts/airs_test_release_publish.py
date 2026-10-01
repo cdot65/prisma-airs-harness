@@ -10,7 +10,7 @@ import tempfile
 import time
 from urllib.error import HTTPError
 from urllib.parse import quote
-from urllib.request import HTTPRedirectHandler, build_opener
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from airs_release_receipts import atomic_json, safe_destination
 from airs_test_release_spec import (
@@ -51,9 +51,15 @@ class Registry:
     def metadata(self, name):
         require(name in PACKAGE_ORDER, "Unexpected package name")
         try:
-            with self.opener.open(
-                self.registry + "/" + quote(name, safe=""), timeout=30
-            ) as response:
+            request = Request(
+                self.registry
+                + "/"
+                + quote(name, safe="")
+                + "?airs_readback="
+                + str(time.time_ns()),
+                headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+            )
+            with self.opener.open(request, timeout=30) as response:
                 payload = response.read(8 * 1024 * 1024 + 1)
         except HTTPError as error:
             if error.code == 404:
@@ -263,12 +269,12 @@ def _publish(spec, plan, packages, output, registry):
             registry.publish(archive, spec["tag"])
             # A successful upload can precede anonymous metadata visibility.
             # Retry reads only; never repeat the immutable publication blindly.
-            for attempt in range(21):
+            for attempt in range(121):
                 document = registry.metadata(name)
                 if spec["version"] in document["versions"]:
                     break
-                if attempt < 20:
-                    time.sleep(3)
+                if attempt < 120:
+                    time.sleep(5)
         require(
             _existing(document, record, spec["tag"]),
             "Published version is absent from the registry",

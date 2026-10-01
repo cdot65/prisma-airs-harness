@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       tooling_ref:
-        description: Exact accepted publication tooling commit
+        description: Exact approved publication tooling commit
         type: string
-        default: 5d1123bf33d00c234b58f499f098c1d38886d7ca
         required: true
       mode:
         description: Publish stable-candidate, or promote after fresh public native acceptance
@@ -22,7 +21,7 @@ concurrency:
 jobs:
   public-npm:
     runs-on: airs-macos-arm64
-    timeout-minutes: 25
+    timeout-minutes: 45
     env:
       TMPDIR: /Users/cdot/.cache/airs-016-20261001/release/public/workflow-tmp
       PYTHONOPTIMIZE: '0'
@@ -36,6 +35,7 @@ jobs:
           mkdir -p "$TMPDIR"
           /opt/homebrew/bin/python3.13 -m unittest discover -s scripts -p test_promote_airs_stable.py -v
           /opt/homebrew/bin/python3.13 -m unittest discover -s scripts -p test_airs_forgejo_public_npm.py -v
+          /opt/homebrew/bin/python3.13 -m unittest discover -s scripts -p test_airs_test_release_publish.py -v
       - name: Verify exact approved artifacts and publish through the owned release gates
         env:
           AIRS_MODE: ${{ inputs.mode }}

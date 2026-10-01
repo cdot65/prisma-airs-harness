@@ -18,7 +18,7 @@ from unittest.mock import patch
 
 from airs_npm_registry import install_environment
 from airs_test_release_publish import Registry, _publish, publish_packages
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
 
 from airs_test_release_spec import (
     LAUNCHER,
@@ -314,7 +314,7 @@ class PublicationTests(unittest.TestCase):
 
     def test_real_npm_interruption_resume_and_anonymous_install(self):
         documents = self.registry.documents
-        archives, mutations, anonymous_reads = {}, [], []
+        archives, mutations, anonymous_reads, fresh_reads = {}, [], [], []
         failed = [False]
         token = "synthetic-token-never-in-release-receipts"
 
@@ -332,14 +332,17 @@ class PublicationTests(unittest.TestCase):
 
             def do_GET(self):
                 anonymous_reads.append(self.headers.get("Authorization") is None)
-                if unquote(self.path) in archives:
-                    payload = archives[unquote(self.path)]
+                path = urlsplit(self.path).path
+                if urlsplit(self.path).query.startswith("airs_readback="):
+                    fresh_reads.append((self.path, self.headers.get("Cache-Control")))
+                if unquote(path) in archives:
+                    payload = archives[unquote(path)]
                     self.send_response(200)
                     self.send_header("Content-Length", str(len(payload)))
                     self.end_headers()
                     self.wfile.write(payload)
-                elif unquote(self.path[1:]) in documents:
-                    self.respond(200, documents[unquote(self.path[1:])])
+                elif unquote(path[1:]) in documents:
+                    self.respond(200, documents[unquote(path[1:])])
                 else:
                     self.respond(404, {"error": "not_found"})
 
@@ -385,6 +388,9 @@ class PublicationTests(unittest.TestCase):
         receipt = self.run_publish()
         self.assertTrue(receipt["published"])
         self.assertEqual(mutations, PACKAGE_ORDER)
+        self.assertGreater(len(fresh_reads), len(PACKAGE_ORDER))
+        self.assertEqual(len({path for path, _ in fresh_reads}), len(fresh_reads))
+        self.assertTrue(all(control == "no-cache" for _, control in fresh_reads))
         self.assertIn(True, anonymous_reads)
         self.assertNotIn(token, (self.output / "PUBLICATION.json").read_text())
         anonymous_start = len(anonymous_reads)

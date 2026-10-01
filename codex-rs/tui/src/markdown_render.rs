@@ -922,10 +922,9 @@ where
             if let Some(line) = self.text.get_mut(index) {
                 let mut source =
                     crate::terminal_hyperlinks::LogicalLineSource::from_line(&line.line);
-                source.copy = Some(std::sync::Arc::new(crate::markdown_copy::CopyLine {
-                    omit: true,
-                    ..Default::default()
-                }));
+                let mut copy = crate::markdown_copy::CopyLine::default();
+                copy.omit = true;
+                source.copy = Some(std::sync::Arc::new(copy));
                 line.source = Some(source);
             }
         }

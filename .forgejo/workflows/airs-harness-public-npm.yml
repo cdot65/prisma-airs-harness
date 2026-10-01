@@ -1,0 +1,47 @@
+name: AIRS Harness approved public npm publication
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Publish stable-candidate, or promote after fresh public native acceptance
+        type: choice
+        options: [publish, promote]
+        required: true
+      approved_plan_sha256:
+        description: Reviewed WORKFLOW-PLAN.json SHA256 for the exact release and mode
+        type: string
+        required: true
+concurrency:
+  group: airs-harness-public-npm
+  cancel-in-progress: false
+jobs:
+  public-npm:
+    runs-on: airs-macos-arm64
+    timeout-minutes: 25
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify contracts before registry mutation
+        run: |
+          /opt/homebrew/bin/python3.13 -m unittest discover -s scripts -p test_promote_airs_stable.py -v
+          /opt/homebrew/bin/python3.13 -m unittest discover -s scripts -p test_airs_forgejo_public_npm.py -v
+      - name: Verify exact approved artifacts and publish through the owned release gates
+        env:
+          AIRS_MODE: ${{ inputs.mode }}
+          AIRS_PLAN_SHA: ${{ inputs.approved_plan_sha256 }}
+        run: |
+          export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+          /opt/homebrew/bin/python3.13 scripts/airs_forgejo_public_npm.py --mode "$AIRS_MODE" --approved-plan-sha256 "$AIRS_PLAN_SHA"
+      - name: Remove temporary Conjur-backed npm credential
+        if: always()
+        run: rm -f "$HOME/.cache/airs-016-20261001/release/public/npmrc"
+      - uses: https://code.forgejo.org/actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5
+        if: always()
+        with:
+          name: airs-public-npm-${{ inputs.mode }}-${{ github.run_id }}
+          path: |
+            /Users/cdot/.cache/airs-016-20261001/release/public/WORKFLOW-PLAN.json
+            /Users/cdot/.cache/airs-016-20261001/release/public/PAYLOAD-EQUIVALENCE.json
+            /Users/cdot/.cache/airs-016-20261001/release/public/workflow-publish/*.json
+            /Users/cdot/.cache/airs-016-20261001/release/public/workflow-promote/*.json

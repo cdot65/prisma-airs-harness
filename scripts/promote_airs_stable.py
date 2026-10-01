@@ -118,11 +118,22 @@ WORKSPACE_BASELINE_014 = {
 # only the disabled upstream service cases remain eligible failures.
 WORKSPACE_SOURCE_015 = "312fe9c5fda63332c148670327db2620b4d6e82f"
 WORKSPACE_BASELINE_015 = dict(WORKSPACE_BASELINE_012)
+# 0.1.6 run 4354 retained three normalized assertions matching 0.1.5.
+# The exact installed executable rejects exec-server before opening a listener.
+# The complete failure log and comparison remain in the private acceptance bundle.
+WORKSPACE_SOURCE_016 = "f3d55fc1a1316fb8e191e87a5267d616db7bdef9"
+WORKSPACE_BASELINE_016 = dict(WORKSPACE_BASELINE_012)
 # Owner-authorized stable publications. A release whose runtime equals the last
 # preview plus its version stamp records that; one that merges reviewed changes
 # after the preview must list every merge so the diff from the accepted preview
 # is explicit rather than implied.
 RELEASE_AUTHORIZATIONS = {
+    "0.1.6": {
+        "source_commit": WORKSPACE_SOURCE_016,
+        "previous_alpha": "0.1.6",
+        "runtime_unchanged_from_requested_alpha": True,
+        "reviewed_changes": None,
+    },
     "0.1.3": {
         "source_commit": WORKSPACE_SOURCE_013,
         "previous_alpha": "0.1.3-alpha.7.mcp.1",
@@ -173,6 +184,8 @@ def validate_workspace(spec, workspace):
         baseline = WORKSPACE_BASELINE_014
     elif spec["version"] == "0.1.5" and spec["source_commit"] == WORKSPACE_SOURCE_015:
         baseline = WORKSPACE_BASELINE_015
+    elif spec["version"] == "0.1.6" and spec["source_commit"] == WORKSPACE_SOURCE_016:
+        baseline = WORKSPACE_BASELINE_016
     failures = workspace.get("failures", [])
     review = workspace.get("baseline_review", {})
     require(
@@ -182,7 +195,12 @@ def validate_workspace(spec, workspace):
         and set(failures) <= baseline.keys()
         and review.get("source_commit") == spec["source_commit"]
         and review.get("upstream_revision") == "rust-v0.154.0"
-        and review.get("upstream_implementations_unchanged") is True
+        and (
+            review.get("selected_tests_and_cli_gate_unchanged") is True
+            and review.get("assertions_match_baseline") is True
+            if spec["version"] == "0.1.6"
+            else review.get("upstream_implementations_unchanged") is True
+        )
         and review.get("unresolved_release_blockers") == [],
         "Unclassified workspace failures prevent promotion",
     )

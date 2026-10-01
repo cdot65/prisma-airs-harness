@@ -201,6 +201,8 @@ pub enum Feature {
     MultiAgentMode,
     /// Removed compatibility flag for the deleted agent-job tools.
     SpawnCsv,
+    /// Preempt foreground model responses and code-mode observations on new user input.
+    InstantInterrupt,
     /// Enable apps.
     Apps,
     /// Route first-party ChatGPT requests through PSP.
@@ -1042,6 +1044,12 @@ pub const FEATURES: &[FeatureSpec] = &[
     FeatureSpec {
         id: Feature::CodeModeInterrupt,
         key: "code_mode_interrupt",
+        stage: Stage::UnderDevelopment,
+        default_enabled: false,
+    },
+    FeatureSpec {
+        id: Feature::InstantInterrupt,
+        key: "instant_interrupt",
         stage: Stage::UnderDevelopment,
         default_enabled: false,
     },

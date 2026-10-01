@@ -3647,6 +3647,11 @@ impl Session {
             );
         }
         Ok(Arc::new(StepContext {
+            preempt: turn_context
+                .config
+                .features
+                .enabled(Feature::InstantInterrupt)
+                .then(CancellationToken::new),
             mcp_authentication_failure: Default::default(),
             settings,
             token_budget,

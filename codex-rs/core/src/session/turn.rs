@@ -545,7 +545,13 @@ pub(crate) async fn run_turn(
                     if run_pending_session_start_hooks(&sess, &turn_context).await {
                         return Ok(None);
                     }
-                    can_drain_pending_input = !model_needs_follow_up;
+                    // After a signaled step, drain the steer even if compaction
+                    // leaves the estimated context above the token limit.
+                    can_drain_pending_input = !model_needs_follow_up
+                        || step_context
+                            .preempt
+                            .as_ref()
+                            .is_some_and(CancellationToken::is_cancelled);
                     continue;
                 }
 
@@ -1425,6 +1431,14 @@ async fn run_sampling_request(
     cancellation_token: CancellationToken,
 ) -> CodexResult<(SamplingRequestResult, Vec<ResponseItem>)> {
     let turn_context = Arc::clone(&step_context.turn);
+    let preempt = step_context.preempt.clone().unwrap_or_default();
+    let _input_watch = if let Some(preempt) = &step_context.preempt {
+        sess.input_queue
+            .watch_user_input(&sess.active_turn, &turn_context.sub_id, preempt.clone())
+            .await
+    } else {
+        None
+    };
     let base_instructions = sess.get_prompt_base_instructions().await;
 
     let tool_runtime = ToolCallRuntime::new(
@@ -1498,15 +1512,13 @@ async fn run_sampling_request(
             },
         };
 
-        if original_input.is_none() {
-            original_input = Some(prompt.input);
-        }
+        let original_input = original_input.get_or_insert(prompt.input);
 
         if !err.is_retryable() {
             return Err(err);
         }
 
-        handle_retryable_response_stream_error(
+        let retry = handle_retryable_response_stream_error(
             &mut retry_state,
             max_retries,
             err,
@@ -1515,7 +1527,22 @@ async fn run_sampling_request(
             &turn_context,
             ResponsesStreamRequest::Sampling,
         )
+        .or_cancel(&preempt)
+        .or_cancel(&cancellation_token)
         .await?;
+        if cancellation_token.is_cancelled() {
+            return Err(CodexErr::TurnAborted);
+        }
+        if preempt.is_cancelled() {
+            return Ok((
+                SamplingRequestResult {
+                    needs_follow_up: true,
+                    last_agent_message: None,
+                },
+                std::mem::take(original_input),
+            ));
+        }
+        retry??;
         turn_context.turn_timing_state.record_sampling_retry();
     }
 }
@@ -2303,6 +2330,7 @@ async fn try_run_sampling_request(
         .features
         .enabled(Feature::ConcurrentReasoningSummaries)
         && turn_context.provider.info().is_openai();
+    let mut preempt = step_context.preempt.clone().unwrap_or_default();
     let mut stream = client_session
         .stream(
             prompt,
@@ -2362,16 +2390,35 @@ async fn try_run_sampling_request(
             codex.usage.total_tokens = field::Empty,
         );
 
-        let event = match stream
+        let event = stream
             .next()
             .instrument(trace_span!(parent: &handle_responses, "receiving"))
+            .or_cancel(&preempt)
             .or_cancel(&cancellation_token)
-            .await
-        {
-            Ok(event) => event,
-            Err(codex_async_utils::CancelErr::Cancelled) => {
-                break Err(CodexErr::TurnAborted);
+            .await;
+        if cancellation_token.is_cancelled() {
+            break Err(CodexErr::TurnAborted);
+        }
+        let event = match event {
+            Ok(Ok(event)) => event,
+            Ok(Err(_)) => {
+                if let Some(interrupt) = stream.interrupt.take() {
+                    if step_context.settings.model_info.use_responses_lite {
+                        let _ = interrupt.send(());
+                    }
+                    // Drain the response normally before reusing its connection and history.
+                    preempt = CancellationToken::new();
+                    needs_follow_up = true;
+                    continue;
+                }
+                // TODO: Reconcile any response item already being presented to the client.
+                drop(stream);
+                break Ok(SamplingRequestResult {
+                    needs_follow_up: true,
+                    last_agent_message,
+                });
             }
+            Err(_) => break Err(CodexErr::TurnAborted),
         };
 
         let event = match event {

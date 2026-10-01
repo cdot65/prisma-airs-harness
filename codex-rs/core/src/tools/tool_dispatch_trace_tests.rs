@@ -82,6 +82,7 @@ impl codex_code_mode::CodeModeSession for MissingCellCodeModeSession {
     fn execute<'a>(
         &'a self,
         _request: codex_code_mode::ExecuteRequest,
+        _preempt: Option<tokio_util::sync::CancellationToken>,
     ) -> codex_code_mode::CodeModeSessionResultFuture<'a, codex_code_mode::StartedCell> {
         Box::pin(async { Err("test session cannot execute cells".to_string()) })
     }
@@ -89,6 +90,7 @@ impl codex_code_mode::CodeModeSession for MissingCellCodeModeSession {
     fn wait<'a>(
         &'a self,
         request: codex_code_mode::WaitRequest,
+        _preempt: Option<CancellationToken>,
     ) -> codex_code_mode::CodeModeSessionResultFuture<'a, codex_code_mode::WaitOutcome> {
         self.terminate(request.cell_id)
     }

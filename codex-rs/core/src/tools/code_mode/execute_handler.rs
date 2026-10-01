@@ -33,7 +33,7 @@ impl CodeModeExecuteHandler {
     async fn execute(
         &self,
         session: std::sync::Arc<crate::session::session::Session>,
-        turn: std::sync::Arc<crate::session::turn_context::TurnContext>,
+        step_context: std::sync::Arc<crate::session::step_context::StepContext>,
         call_id: String,
         originating_item_id: Option<codex_protocol::ResponseItemId>,
         code: String,
@@ -41,7 +41,11 @@ impl CodeModeExecuteHandler {
     ) -> Result<FunctionToolOutput, FunctionCallError> {
         let args =
             codex_code_mode::parse_exec_source(&code).map_err(FunctionCallError::RespondToModel)?;
-        let exec = ExecContext { session, turn };
+        let preempt = step_context.preempt.clone();
+        let exec = ExecContext {
+            session,
+            turn: std::sync::Arc::clone(&step_context.turn),
+        };
         let mut enabled_tools = Vec::with_capacity(self.nested_tool_specs.len());
         for (spec, cached_runtime) in &self.nested_tool_specs {
             if let Some(cached_definitions) = cached_runtime
@@ -67,13 +71,16 @@ impl CodeModeExecuteHandler {
             .session
             .services
             .code_mode_service
-            .execute(codex_code_mode::ExecuteRequest {
-                tool_call_id: call_id.clone(),
-                enabled_tools,
-                source: args.code.clone(),
-                yield_time_ms: args.yield_time_ms,
-                max_output_tokens: args.max_output_tokens,
-            })
+            .execute(
+                codex_code_mode::ExecuteRequest {
+                    tool_call_id: call_id.clone(),
+                    enabled_tools,
+                    source: args.code.clone(),
+                    yield_time_ms: args.yield_time_ms,
+                    max_output_tokens: args.max_output_tokens,
+                },
+                preempt,
+            )
             .await
             .map_err(FunctionCallError::RespondToModel)?;
         let cell_id = started_cell.cell_id.clone();
@@ -172,6 +179,7 @@ impl CodeModeExecuteHandler {
             call_id,
             tool_name,
             payload,
+            step_context,
             ..
         } = invocation;
 
@@ -187,7 +195,7 @@ impl CodeModeExecuteHandler {
             ToolPayload::Custom { input } if is_exec_tool_name(&tool_name) => self
                 .execute(
                     session,
-                    turn,
+                    step_context,
                     call_id,
                     originating_item_id,
                     input,

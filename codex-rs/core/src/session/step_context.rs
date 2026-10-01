@@ -13,6 +13,8 @@ use codex_otel::SessionTelemetry;
 
 /// Request-scoped state that may change between model sampling requests.
 pub(crate) struct StepContext {
+    /// Yield this sampling request when user input arrives; running cells remain available.
+    pub(crate) preempt: Option<tokio_util::sync::CancellationToken>,
     /// Stop automatic model continuation after preserving this step's failed MCP result.
     pub(crate) mcp_authentication_failure: std::sync::Mutex<Option<String>>,
     pub(crate) turn: Arc<TurnContext>,

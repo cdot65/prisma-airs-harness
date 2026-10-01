@@ -122,18 +122,20 @@ impl CodeModeService {
     pub(crate) async fn execute(
         &self,
         mut request: codex_code_mode::ExecuteRequest,
+        preempt: Option<CancellationToken>,
     ) -> Result<codex_code_mode::StartedCell, String> {
         request
             .yield_time_ms
             .get_or_insert(self.default_exec_yield_time_ms);
-        self.session().await?.execute(request).await
+        self.session().await?.execute(request, preempt).await
     }
 
     pub(crate) async fn wait(
         &self,
         request: codex_code_mode::WaitRequest,
+        preempt: Option<CancellationToken>,
     ) -> Result<codex_code_mode::WaitOutcome, String> {
-        self.session().await?.wait(request).await
+        self.session().await?.wait(request, preempt).await
     }
 
     pub(crate) async fn terminate(

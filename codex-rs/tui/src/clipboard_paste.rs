@@ -1,3 +1,5 @@
+pub(crate) mod text;
+
 use std::path::Path;
 use std::path::PathBuf;
 use tempfile::Builder;

@@ -5,6 +5,15 @@ use crate::bottom_pane::BottomPaneView;
 use crate::clipboard_copy::CopyFormat;
 
 impl ChatWidget {
+    pub(crate) fn right_click_paste_target(&self) -> Option<(String, usize)> {
+        self.bottom_pane.can_paste_on_right_click().then(|| {
+            (
+                self.bottom_pane.composer_text(),
+                self.bottom_pane.composer_cursor(),
+            )
+        })
+    }
+
     pub(crate) fn end_composer_drag(&mut self) {
         self.bottom_pane.end_composer_drag();
     }

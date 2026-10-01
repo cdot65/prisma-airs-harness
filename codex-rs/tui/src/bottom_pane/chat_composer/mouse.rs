@@ -1,7 +1,7 @@
 //! Mouse gestures flush pending typing before layout and hit testing. Left dragging selects
 //! editable text using the textarea's last rendered viewport and hides completion suggestions.
 //! Double/triple clicks select words/logical lines using the transcript's shared gesture rules.
-//! Copy preserves the draft; confirmed right-click copies clear selection, keyboard copies retain it.
+//! Copy preserves the draft and cursor; confirmed copies clear selection for every gesture.
 
 use super::*;
 use crate::clipboard_copy::CopyStatus;
@@ -11,6 +11,14 @@ use crossterm::event::MouseEvent;
 use crossterm::event::MouseEventKind;
 
 impl ChatComposer {
+    pub(crate) fn can_paste_on_right_click(&self) -> bool {
+        self.draft.input_enabled
+            && !self.blocks_direct_input
+            && self.history_search.is_none()
+            && self.draft.textarea.vim_query().is_none()
+            && self.draft.textarea.mouse_selection_range().is_none()
+    }
+
     pub(crate) fn insert_str(&mut self, text: &str) {
         let started_vim_edit = self.begin_direct_vim_edit();
         let elements_before = self
@@ -54,7 +62,7 @@ impl ChatComposer {
         let text = &self.draft.textarea.text()[range];
         let char_count = text.chars().count();
         let result = copy(text);
-        if matches!(event, TuiEvent::Mouse(_)) && result == Ok(CopyStatus::Confirmed) {
+        if result == Ok(CopyStatus::Confirmed) {
             self.draft.textarea.set_cursor(self.draft.textarea.cursor());
         }
         Some((char_count, result))

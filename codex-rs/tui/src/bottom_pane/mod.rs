@@ -1047,9 +1047,12 @@ impl BottomPane {
         self.composer.current_text()
     }
 
-    #[cfg(test)]
     pub(crate) fn composer_cursor(&self) -> usize {
-        self.composer.cursor()
+        self.composer.current_cursor()
+    }
+
+    pub(crate) fn can_paste_on_right_click(&self) -> bool {
+        !self.has_active_view() && self.composer.can_paste_on_right_click()
     }
 
     #[cfg(test)]

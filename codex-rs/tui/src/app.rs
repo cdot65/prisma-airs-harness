@@ -213,6 +213,7 @@ mod agents_overview_threads;
 mod agents_overview_view;
 mod native_history;
 mod owned_transcript;
+mod right_click_paste;
 pub(crate) use agents_overview::AGENTS_OVERVIEW_VIEW_ID;
 mod airs_doctor;
 mod airs_mcp_manager;
@@ -563,6 +564,8 @@ pub(crate) struct App {
     pub(crate) chat_widget: ChatWidget,
     workspace_command_runner: Option<WorkspaceCommandRunner>,
     /// Legacy bootstrap and server-setting inputs; local preferences live in `local_settings`.
+    right_click_paste_environment: right_click_paste::PasteEnvironment,
+    pending_right_click_paste: Option<right_click_paste::PendingPaste>,
     pub(crate) config: Config,
     pub(crate) local_settings: crate::local_settings::LocalSettings,
     launch_cwd: PathBuf,
@@ -855,6 +858,8 @@ impl App {
         app_server: &mut AppServerSession,
         event: TuiEvent,
     ) -> Result<AppRunControl> {
+        self.invalidate_right_click_paste(&event);
+        let event = self.finish_right_click_paste(tui, event);
         if matches!(&event, TuiEvent::Key(_))
             && self.handle_composer_copy_event(tui, &event, |tui, text| {
                 tui.copy_transcript_selection(text, crate::clipboard_copy::CopyFormat::PlainText)
@@ -923,6 +928,9 @@ impl App {
         self.cancel_primed_browsing_for_event(&event);
         if self.handle_owned_transcript_event(tui, app_server, &event)? {
             return Ok(AppRunControl::Continue);
+        }
+        if let TuiEvent::Mouse(mouse) = &event {
+            self.start_right_click_paste(tui, *mouse);
         }
         // Leave browsing before unhandled editing input reaches shortcuts or offline input.
         // Offline Enter cannot confirm a rewind and leaves the preview available to read.

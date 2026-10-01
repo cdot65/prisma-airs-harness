@@ -72,6 +72,8 @@ pub(super) async fn make_test_app() -> App {
         thread_event_listener_tasks: HashMap::new(),
         agent_navigation: AgentNavigationState::default(),
         agents_overview: Default::default(),
+        right_click_paste_environment: super::right_click_paste::PasteEnvironment::detect(),
+        pending_right_click_paste: None,
         side_threads: HashMap::new(),
         abandoned_side_threads: HashSet::new(),
         active_thread_id: None,

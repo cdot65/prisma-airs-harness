@@ -218,7 +218,7 @@ fn terminal_clipboard_copy_with(
 }
 
 /// Detect whether the current process is running inside an SSH session.
-fn is_ssh_session() -> bool {
+pub(crate) fn is_ssh_session() -> bool {
     std::env::var_os("SSH_TTY").is_some() || std::env::var_os("SSH_CONNECTION").is_some()
 }
 
@@ -228,12 +228,12 @@ fn is_tmux_session() -> bool {
 }
 
 #[cfg(target_os = "linux")]
-fn is_wsl_session() -> bool {
+pub(crate) fn is_wsl_session() -> bool {
     crate::clipboard_paste::is_probably_wsl()
 }
 
 #[cfg(not(target_os = "linux"))]
-fn is_wsl_session() -> bool {
+pub(crate) fn is_wsl_session() -> bool {
     false
 }
 

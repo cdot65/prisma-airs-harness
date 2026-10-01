@@ -24,6 +24,11 @@ use crate::protocol::NetworkAccess;
 use crate::protocol::SandboxPolicy;
 use crate::protocol::WritableRoot;
 
+mod local_aliases;
+
+pub use local_aliases::LocalFileSystemPolicyMatcher;
+use local_aliases::LocalPolicyContext;
+
 const PROTECTED_METADATA_GIT_PATH_NAME: &str = ".git";
 const PROTECTED_METADATA_AGENTS_PATH_NAME: &str = ".agents";
 const PROTECTED_METADATA_CODEX_PATH_NAME: &str = ".codex";
@@ -247,7 +252,7 @@ impl WritableRootPathResolution {
     fn resolve(self, path: AbsolutePathBuf) -> AbsolutePathBuf {
         match self {
             Self::Effective => normalize_effective_absolute_path(path),
-            Self::PreserveMutableComponents => normalize_trusted_top_level_alias(path),
+            Self::PreserveMutableComponents => path.normalize_system_aliases().unwrap_or(path),
         }
     }
 }
@@ -750,9 +755,10 @@ impl FileSystemSandboxPolicy {
             };
             if let Some(subpath) = subpath
                 && (subpath.starts_with('~')
-                    || context.workspace_roots.iter().any(|root| {
-                        resolve_scoped_workspace_path(root, subpath).is_none()
-                    }))
+                    || context
+                        .workspace_roots
+                        .iter()
+                        .any(|root| resolve_scoped_workspace_path(root, subpath).is_none()))
             {
                 return self.clone();
             }
@@ -1031,7 +1037,9 @@ impl FileSystemSandboxPolicy {
         cwd: &Path,
     ) -> FileSystemAccessMode {
         with_local_policy_context(path, cwd, |path, context| {
-            self.resolve_access(path, context)
+            self.prepare_local_matching(context)
+                .map(|matching| matching.resolve_access(path))
+                .unwrap_or(FileSystemAccessMode::Deny)
         })
         .unwrap_or(FileSystemAccessMode::Deny)
     }
@@ -1045,7 +1053,9 @@ impl FileSystemSandboxPolicy {
     /// Native-path compatibility adapter for local executor boundaries.
     pub fn can_write_local_path_with_cwd(&self, path: &Path, cwd: &Path) -> bool {
         with_local_policy_context(path, cwd, |path, context| {
-            self.can_write_path(path, context)
+            self.prepare_local_matching(context)
+                .and_then(|matching| matching.can_write_path(path))
+                .unwrap_or(false)
         })
         .unwrap_or(false)
     }
@@ -1517,12 +1527,22 @@ impl FileSystemSandboxPolicy {
         if self.has_full_disk_read_access() {
             return Vec::new();
         }
+        let Some(local_context) = LocalPolicyContext::new(cwd) else {
+            return Vec::new();
+        };
+        let Ok(matching) = self.prepare_local_matching(&local_context.as_context()) else {
+            return Vec::new();
+        };
 
         dedup_absolute_paths(
             self.resolved_entries_with_cwd(cwd)
                 .into_iter()
                 .filter(|entry| entry.access.can_read())
-                .filter(|entry| self.can_read_local_path_with_cwd(entry.path.as_path(), cwd))
+                .filter(|entry| {
+                    matching
+                        .resolve_access(&PathUri::from_abs_path(&entry.path))
+                        .can_read()
+                })
                 .map(|entry| entry.path)
                 .collect(),
             /*normalize_effective_paths*/ true,
@@ -1614,13 +1634,21 @@ impl FileSystemSandboxPolicy {
         {
             return Vec::new();
         }
+        let Some(local_context) = LocalPolicyContext::new(cwd) else {
+            return Vec::new();
+        };
+        let Ok(matching) = self.prepare_local_matching(&local_context.as_context()) else {
+            return Vec::new();
+        };
         // Resolve precedence and filesystem aliases once per entry, rather than repeating
         // that work for every writable root while collecting its read-only carveouts.
         let effective_entries: Vec<&ResolvedFileSystemEntry> = resolved_entries
             .iter()
             .filter(|entry| {
                 entry.access.can_write()
-                    == self.can_write_local_path_with_cwd(entry.path.as_path(), cwd)
+                    == matching
+                        .can_write_path(&PathUri::from_abs_path(&entry.path))
+                        .unwrap_or(false)
             })
             .collect();
         if !effective_entries
@@ -1722,7 +1750,7 @@ impl FileSystemSandboxPolicy {
                 .map(|entry| &entry.entry.path)
                 .collect();
             let protected_metadata_names =
-                protected_metadata_names_for_writable_root(self, &root, &raw_writable_roots, cwd);
+                protected_metadata_names_for_writable_root(&matching, &root, &raw_writable_roots);
             let protect_missing_dot_codex = effective_cwd.as_ref() == Some(&root);
             let mut read_only_subpaths: Vec<AbsolutePathBuf> =
                 default_read_only_subpaths_for_writable_root(&root, protect_missing_dot_codex)
@@ -1811,12 +1839,22 @@ impl FileSystemSandboxPolicy {
         let root = AbsolutePathBuf::from_absolute_path(cwd)
             .ok()
             .map(|cwd| absolute_root_path_for_cwd(&cwd));
+        let local_context = LocalPolicyContext::new(cwd);
+        let matching = local_context
+            .as_ref()
+            .and_then(|context| self.prepare_local_matching(&context.as_context()).ok());
 
         dedup_absolute_paths(
             self.resolved_entries_with_cwd(cwd)
                 .iter()
                 .filter(|entry| entry.access == FileSystemAccessMode::Deny)
-                .filter(|entry| !self.can_read_local_path_with_cwd(entry.path.as_path(), cwd))
+                .filter(|entry| {
+                    !matching.as_ref().is_some_and(|matching| {
+                        matching
+                            .resolve_access(&PathUri::from_abs_path(&entry.path))
+                            .can_read()
+                    })
+                })
                 // Restricted policies already deny reads outside explicit allow roots,
                 // so materializing the filesystem root here would erase narrower
                 // readable carveouts when downstream sandboxes apply deny masks last.
@@ -2168,16 +2206,8 @@ fn with_local_policy_context<T>(
 ) -> Option<T> {
     let cwd = AbsolutePathBuf::from_absolute_path(cwd).ok()?;
     let path = PathUri::from(resolve_candidate_path(path, cwd.as_path())?);
-    let cwd = PathUri::from(cwd);
-    let user_home_dir = PathUri::from_host_native_path("~").ok();
-    let temporary_directories = local_temporary_directories();
-    let context = FileSystemSandboxPolicyContext {
-        cwd: &cwd,
-        workspace_roots: std::slice::from_ref(&cwd),
-        user_home_dir: user_home_dir.as_ref(),
-        temporary_directories: Some(&temporary_directories),
-    };
-    Some(evaluate(&path, &context))
+    let context = LocalPolicyContext::new(cwd.as_path())?;
+    Some(evaluate(&path, &context.as_context()))
 }
 
 pub fn file_system_root(context: &FileSystemSandboxPolicyContext<'_>) -> Option<PathUri> {
@@ -2395,27 +2425,6 @@ fn normalize_effective_absolute_path(path: AbsolutePathBuf) -> AbsolutePathBuf {
     path
 }
 
-fn normalize_trusted_top_level_alias(path: AbsolutePathBuf) -> AbsolutePathBuf {
-    let Some(top_level) = path.as_path().ancestors().find(|ancestor| {
-        ancestor.parent().is_some() && ancestor.parent().and_then(Path::parent).is_none()
-    }) else {
-        return path;
-    };
-    let Ok(metadata) = std::fs::symlink_metadata(top_level) else {
-        return path;
-    };
-    if !metadata.file_type().is_symlink() {
-        return path;
-    }
-    let Ok(canonical_top_level) = top_level.canonicalize() else {
-        return path;
-    };
-    let Ok(suffix) = path.as_path().strip_prefix(top_level) else {
-        return path;
-    };
-    AbsolutePathBuf::from_absolute_path(canonical_top_level.join(suffix)).unwrap_or(path)
-}
-
 pub(crate) fn default_read_only_subpaths_for_writable_root(
     writable_root: &AbsolutePathBuf,
     protect_missing_dot_codex: bool,
@@ -2583,10 +2592,9 @@ fn has_explicit_resolved_path_entry(
 }
 
 fn protected_metadata_names_for_writable_root(
-    policy: &FileSystemSandboxPolicy,
+    matching: &LocalFileSystemPolicyMatcher<'_>,
     root: &AbsolutePathBuf,
     raw_writable_roots: &[&AbsolutePathBuf],
-    cwd: &Path,
 ) -> Vec<String> {
     let mut protected_names = Vec::new();
     for metadata_name in PROTECTED_METADATA_PATH_NAMES {
@@ -2598,7 +2606,9 @@ fn protected_metadata_names_for_writable_root(
         );
 
         if metadata_paths.iter().all(|metadata_path| {
-            !policy.can_write_local_path_with_cwd(metadata_path.as_path(), cwd)
+            !matching
+                .can_write_path(&PathUri::from_abs_path(metadata_path))
+                .unwrap_or(false)
         }) {
             protected_names.push((*metadata_name).to_string());
         }
@@ -3352,8 +3362,12 @@ mod tests {
             AbsolutePathBuf::from_absolute_path(writable_root).expect("absolute writable root");
         let outside_root =
             AbsolutePathBuf::from_absolute_path(outside_root).expect("absolute outside root");
-        let expected_writable_root = normalize_trusted_top_level_alias(writable_root.clone());
-        let expected_outside_root = normalize_trusted_top_level_alias(outside_root);
+        let expected_writable_root = writable_root
+            .normalize_system_aliases()
+            .expect("normalize writable root");
+        let expected_outside_root = outside_root
+            .normalize_system_aliases()
+            .expect("normalize outside root");
         let policy = FileSystemSandboxPolicy::restricted(vec![FileSystemSandboxEntry::new(
             writable_root.into(),
             FileSystemAccessMode::Write,

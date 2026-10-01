@@ -26,6 +26,7 @@ pub(crate) const AGENTS_OVERVIEW_VIEW_ID: &str = "agents-overview";
 
 #[derive(Default)]
 pub(super) struct AgentsOverviewState {
+    pub(super) blank_sessions: HashMap<ThreadId, AppServerStartedThread>,
     /// Missing metadata records a local resume until the next metadata refresh.
     pub(super) threads: HashMap<ThreadId, Option<Thread>>,
     pub(super) last_messages: HashMap<ThreadId, String>,
@@ -304,6 +305,7 @@ impl App {
         {
             return Ok(AppRunControl::Continue);
         }
+        let mut restored_blank_session = false;
         if self.primary_thread_id != Some(root_thread_id) {
             let previous_displayed_thread_id = self.current_displayed_thread_id();
             let mut previous_thread_ids =
@@ -437,20 +439,29 @@ impl App {
                     crate::app_server_session::ResumeModelSettings::PreserveExistingThread
                 }
             };
-            let resumed = match app_server
-                .resume_thread(
-                    &local_settings,
-                    resume_config.clone(),
-                    root_thread_id,
-                    resume_model_settings,
-                )
-                .await
+            let resumed = if !unloaded
+                && let Some(blank) = self.agents_overview.blank_sessions.get(&root_thread_id)
             {
-                Ok(resumed) => resumed,
-                Err(error) => {
-                    self.chat_widget
-                        .add_error_message(format!("Failed to attach to task: {error}"));
-                    return Ok(AppRunControl::Continue);
+                restored_blank_session = true;
+                let mut blank = blank.clone();
+                blank.session.thread_name.clone_from(&target_thread.name);
+                blank
+            } else {
+                match app_server
+                    .resume_thread(
+                        &local_settings,
+                        resume_config.clone(),
+                        root_thread_id,
+                        resume_model_settings,
+                    )
+                    .await
+                {
+                    Ok(resumed) => resumed,
+                    Err(error) => {
+                        self.chat_widget
+                            .add_error_message(format!("Failed to attach to task: {error}"));
+                        return Ok(AppRunControl::Continue);
+                    }
                 }
             };
             if !previous_running_thread_ids.is_empty() {
@@ -479,7 +490,8 @@ impl App {
                 }
             }
             if previous_running_thread_ids.is_empty() {
-                self.shutdown_current_thread(app_server).await;
+                self.detach_current_thread_for_navigation(app_server, Some(root_thread_id))
+                    .await;
             }
             // Explicit user choices carry across cold resumes; inherited task settings do not.
             self.runtime_approval_policy_override =
@@ -554,6 +566,7 @@ impl App {
                 if previous_running_thread_ids.is_empty()
                     && thread_id != root_thread_id
                     && Some(thread_id) != previous_displayed_thread_id
+                    && !self.agents_overview.blank_sessions.contains_key(&thread_id)
                     && let Err(error) = app_server.thread_unsubscribe(thread_id).await
                 {
                     tracing::warn!(%thread_id, %error, "failed to unsubscribe previous agent thread");
@@ -570,8 +583,11 @@ impl App {
         self.replay_agents_overview_requests(app_server, root_thread_id)
             .await;
         if self.current_displayed_thread_id() == Some(root_thread_id)
-            && let Some(input_state) = self.agents_overview.input_states.remove(&root_thread_id)
+            && let Some(mut input_state) = self.agents_overview.input_states.remove(&root_thread_id)
         {
+            let pending_settings = restored_blank_session
+                .then(|| input_state.pending_thread_settings.take())
+                .flatten();
             let preserve_in_flight_turn = self
                 .active_turn_id_for_thread(root_thread_id)
                 .await
@@ -582,6 +598,9 @@ impl App {
                     preserve_in_flight_turn,
                 },
             );
+            if let Some(settings) = pending_settings {
+                self.chat_widget.on_thread_settings_updated(settings);
+            }
             if !preserve_in_flight_turn {
                 self.chat_widget.maybe_send_next_queued_input();
             }

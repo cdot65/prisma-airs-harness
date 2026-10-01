@@ -448,6 +448,7 @@ impl ChatWidget {
             pending_pastes: draft.pending_pastes,
         };
         Some(ThreadInputState {
+            pending_thread_settings: None,
             questions: self
                 .bottom_pane
                 .questions

@@ -841,6 +841,22 @@ impl App {
                 if started.blocks_direct_input {
                     self.mark_primary_thread_parent_owned(thread_id);
                 }
+                // Lifecycle notifications may arrive before the thread/start response.
+                if !self.config.ephemeral
+                    && !matches!(self.app_server_target, AppServerTarget::Embedded)
+                    && !self.pending_primary_events.iter().any(|event| {
+                        matches!(event, ThreadBufferedEvent::Notification(notification)
+                            if matches!(notification.as_ref(),
+                                ServerNotification::TurnStarted(_)
+                                    | ServerNotification::ThreadClosed(_)
+                                    | ServerNotification::ThreadArchived(_)
+                                    | ServerNotification::ThreadDeleted(_)))
+                    })
+                {
+                    self.agents_overview
+                        .blank_sessions
+                        .insert(thread_id, started.clone());
+                }
                 // A full usage read can finish before thread/start. Apply its cached fallback
                 // after attachment but before the initial prompt or queued draft is submitted.
                 let recovery_was_pending = self.chat_widget.hold_rate_limit_recovery();
@@ -919,12 +935,28 @@ impl App {
             .await
         {
             Ok(mut started) => {
-                self.shutdown_current_thread(app_server).await;
-                let tracked_thread_ids: Vec<ThreadId> =
-                    self.thread_event_channels.keys().copied().collect();
-                for thread_id in tracked_thread_ids {
-                    if let Err(err) = app_server.thread_unsubscribe(thread_id).await {
-                        tracing::warn!("failed to unsubscribe tracked thread {thread_id}: {err}");
+                if let Some(thread_id) = self.current_displayed_thread_id()
+                    && let Some(blank) = self.agents_overview.blank_sessions.get_mut(&thread_id)
+                {
+                    if let Some(channel) = self.thread_event_channels.get(&thread_id)
+                        && let Some(session) = channel.store.lock().await.session.as_ref()
+                    {
+                        blank.session = session.clone();
+                    }
+                    if let Some(input) = self.chat_widget.capture_thread_input_state() {
+                        self.agents_overview.input_states.insert(thread_id, input);
+                    }
+                }
+                self.detach_current_thread_for_navigation(
+                    app_server,
+                    Some(started.session.thread_id),
+                )
+                .await;
+                for thread_id in Vec::from_iter(self.thread_event_channels.keys().copied()) {
+                    if !self.agents_overview.blank_sessions.contains_key(&thread_id)
+                        && let Err(error) = app_server.thread_unsubscribe(thread_id).await
+                    {
+                        tracing::warn!(%thread_id, %error, "failed to unsubscribe tracked thread");
                     }
                 }
                 self.local_settings = self.local_settings.reloaded(&config);
@@ -944,6 +976,14 @@ impl App {
                 } else {
                     None
                 };
+                let thread_id = started.session.thread_id;
+                if !self.config.ephemeral
+                    && !matches!(self.app_server_target, AppServerTarget::Embedded)
+                {
+                    self.agents_overview
+                        .blank_sessions
+                        .insert(thread_id, started.clone());
+                }
                 if let Err(err) = self
                     .replace_chat_widget_with_app_server_thread(
                         tui,
@@ -953,6 +993,7 @@ impl App {
                     )
                     .await
                 {
+                    self.agents_overview.blank_sessions.remove(&thread_id);
                     self.chat_widget.add_error_message(format!(
                         "Failed to attach to fresh app-server thread: {err}"
                     ));

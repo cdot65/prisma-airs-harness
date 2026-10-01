@@ -9348,3 +9348,5 @@ mod navigation_reconnect;
 #[path = "tests/stream_termination_tests.rs"]
 mod stream_termination_tests;
 
+#[path = "tests/blank_session_tests.rs"]
+mod blank_session_tests;

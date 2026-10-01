@@ -41,6 +41,15 @@ impl App {
         else {
             return;
         };
+        if matches!(
+            notification,
+            ServerNotification::TurnStarted(_)
+                | ServerNotification::ThreadClosed(_)
+                | ServerNotification::ThreadArchived(_)
+                | ServerNotification::ThreadDeleted(_)
+        ) {
+            self.agents_overview.blank_sessions.remove(&thread_id);
+        }
         self.track_agents_overview_activity(thread_id, notification);
         let thread = self
             .agents_overview

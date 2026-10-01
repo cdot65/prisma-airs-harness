@@ -25,6 +25,25 @@ impl App {
         }
     }
 
+    /// Retain live blank tasks during navigation; they have no persisted rollout to resume.
+    pub(super) async fn detach_current_thread_for_navigation(
+        &mut self,
+        app_server: &mut AppServerSession,
+        destination: Option<ThreadId>,
+    ) {
+        self.shutdown_side_threads(app_server).await;
+        if let Some(thread_id) = self.chat_widget.thread_id() {
+            if destination != Some(thread_id)
+                && !self.agents_overview.blank_sessions.contains_key(&thread_id)
+                && let Err(error) = app_server.thread_unsubscribe(thread_id).await
+            {
+                tracing::warn!(%thread_id, %error, "failed to detach thread");
+            }
+            self.abort_thread_event_listener(thread_id);
+            self.pending_server_profiles.remove(&thread_id);
+        }
+    }
+
     pub(super) async fn shutdown_side_threads(&mut self, app_server: &mut AppServerSession) {
         let side_thread_ids: Vec<ThreadId> = self.side_threads.keys().copied().collect();
         for side_thread_id in side_thread_ids {

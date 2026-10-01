@@ -1774,6 +1774,7 @@ async fn restore_thread_input_state_applies_running_state_policy() {
     });
     let input_state = ThreadInputState {
         questions: None,
+        pending_thread_settings: None,
         composer: Some(ThreadComposerState {
             text: "composer draft".to_string(),
             ..Default::default()

@@ -188,11 +188,14 @@ async fn next_event(events_rx: &mut mpsc::UnboundedReceiver<DelegateEvent>) -> D
 async fn yields_and_resumes() {
     let service = InProcessCodeModeSession::new();
     let cell = service
-        .execute(ExecuteRequest {
-            source: r#"text("before"); yield_control(); text("after");"#.to_string(),
-            yield_time_ms: Some(60_000),
-            ..execute_request("")
-        })
+        .execute(
+            ExecuteRequest {
+                source: r#"text("before"); yield_control(); text("after");"#.to_string(),
+                yield_time_ms: Some(60_000),
+                ..execute_request("")
+            },
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -208,10 +211,13 @@ async fn yields_and_resumes() {
     );
     assert_eq!(
         service
-            .wait(WaitRequest {
-                cell_id: cell_id("1"),
-                yield_time_ms: 60_000,
-            })
+            .wait(
+                WaitRequest {
+                    cell_id: cell_id("1"),
+                    yield_time_ms: 60_000,
+                },
+                /*preempt*/ None,
+            )
             .await
             .unwrap(),
         WaitOutcome::LiveCell(RuntimeResponse::Result {
@@ -278,9 +284,10 @@ text("after");
 async fn observed_natural_completion_wins_over_termination() {
     let service = InProcessCodeModeSession::new();
     let cell = service
-        .execute(execute_request(
-            r#"yield_control(); store("finished", true); text("done");"#,
-        ))
+        .execute(
+            execute_request(r#"yield_control(); store("finished", true); text("done");"#),
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -295,10 +302,13 @@ async fn observed_natural_completion_wins_over_termination() {
     tokio::time::timeout(Duration::from_secs(1), async {
         loop {
             let response = service
-                .execute(ExecuteRequest {
-                    yield_time_ms: Some(60_000),
-                    ..execute_request(r#"text(String(load("finished")));"#)
-                })
+                .execute(
+                    ExecuteRequest {
+                        yield_time_ms: Some(60_000),
+                        ..execute_request(r#"text(String(load("finished")));"#)
+                    },
+                    /*preempt*/ None,
+                )
                 .await
                 .unwrap()
                 .initial_response()
@@ -337,9 +347,10 @@ async fn termination_cancels_pending_callbacks_before_responding() {
     let (delegate, mut events_rx) = BlockingDelegate::new();
     let service = InProcessCodeModeSession::with_delegate(delegate.clone());
     let cell = service
-        .execute(execute_request(
-            r#"notify("pending"); await new Promise(() => {});"#,
-        ))
+        .execute(
+            execute_request(r#"notify("pending"); await new Promise(() => {});"#),
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -379,7 +390,10 @@ async fn shutdown_cancels_notifications_while_natural_completion_is_draining() {
     let (delegate, mut events_rx) = HeldNotificationDelegate::new();
     let service = Arc::new(InProcessCodeModeSession::with_delegate(delegate.clone()));
     service
-        .execute(execute_request(r#"notify("pending");"#))
+        .execute(
+            execute_request(r#"notify("pending");"#),
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -409,9 +423,10 @@ async fn repeated_termination_is_rejected_while_callback_cleanup_is_pending() {
     let (delegate, mut events_rx) = HeldNotificationDelegate::new();
     let service = Arc::new(InProcessCodeModeSession::with_delegate(delegate.clone()));
     let cell = service
-        .execute(execute_request(
-            r#"notify("pending"); await new Promise(() => {});"#,
-        ))
+        .execute(
+            execute_request(r#"notify("pending"); await new Promise(() => {});"#),
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -461,7 +476,10 @@ async fn repeated_termination_is_rejected_while_callback_cleanup_is_pending() {
 async fn second_observer_is_rejected_without_displacing_the_first() {
     let service = InProcessCodeModeSession::new();
     let cell = service
-        .execute(execute_request("await new Promise(() => {});"))
+        .execute(
+            execute_request("await new Promise(() => {});"),
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 
@@ -475,17 +493,23 @@ async fn second_observer_is_rejected_without_displacing_the_first() {
     );
 
     let first_observer = service
-        .begin_wait(WaitRequest {
-            cell_id: cell_id("1"),
-            yield_time_ms: 60_000,
-        })
+        .begin_wait(
+            WaitRequest {
+                cell_id: cell_id("1"),
+                yield_time_ms: 60_000,
+            },
+            /*preempt*/ None,
+        )
         .await;
     assert_eq!(
         service
-            .wait(WaitRequest {
-                cell_id: cell_id("1"),
-                yield_time_ms: 60_000,
-            })
+            .wait(
+                WaitRequest {
+                    cell_id: cell_id("1"),
+                    yield_time_ms: 60_000,
+                },
+                /*preempt*/ None,
+            )
             .await
             .unwrap_err(),
         "exec cell 1 already has an active observer"
@@ -511,12 +535,15 @@ async fn natural_completion_cleans_up_callbacks_before_responding() {
     let (delegate, mut events_rx) = BlockingDelegate::new();
     let service = InProcessCodeModeSession::with_delegate(delegate.clone());
     let cell = service
-        .execute(ExecuteRequest {
-            enabled_tools: vec![blocking_tool()],
-            source: r#"tools.block({}); text("done");"#.to_string(),
-            yield_time_ms: Some(60_000),
-            ..execute_request("")
-        })
+        .execute(
+            ExecuteRequest {
+                enabled_tools: vec![blocking_tool()],
+                source: r#"tools.block({}); text("done");"#.to_string(),
+                yield_time_ms: Some(60_000),
+                ..execute_request("")
+            },
+            /*preempt*/ None,
+        )
         .await
         .unwrap();
 

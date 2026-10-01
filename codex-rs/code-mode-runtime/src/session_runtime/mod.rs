@@ -19,6 +19,7 @@ pub(crate) use self::types::CreateCellRequest;
 pub(crate) use self::types::Error;
 pub(crate) use self::types::ImageDetail;
 pub(crate) use self::types::NestedToolCall;
+pub(crate) use self::types::Observation;
 pub(crate) use self::types::ObserveMode;
 pub(crate) use self::types::OutputItem;
 pub(crate) use self::types::SessionRuntimeDelegate;
@@ -77,14 +78,14 @@ impl<D: SessionRuntimeDelegate> SessionRuntime<D> {
     pub(crate) async fn execute(
         &self,
         request: CreateCellRequest,
-        initial_observe_mode: ObserveMode,
+        initial_observation: impl Into<Observation> + Send,
     ) -> Result<StartedCell, Error> {
         if self.inner.shutdown_token.is_cancelled() {
             return Err(Error::ShuttingDown);
         }
         let cell_id = self.allocate_cell_id()?;
         let initial_event = self
-            .start_cell(cell_id.clone(), request, initial_observe_mode)
+            .start_cell(cell_id.clone(), request, initial_observation.into())
             .await?;
         Ok(StartedCell {
             cell_id,
@@ -103,7 +104,7 @@ impl<D: SessionRuntimeDelegate> SessionRuntime<D> {
     pub(crate) async fn begin_observe(
         &self,
         cell_id: &CellId,
-        mode: ObserveMode,
+        observation: impl Into<Observation> + Send,
     ) -> Result<PendingEvent, Error> {
         let handle = self
             .inner
@@ -114,7 +115,7 @@ impl<D: SessionRuntimeDelegate> SessionRuntime<D> {
             .cloned()
             .ok_or_else(|| Error::MissingCell(cell_id.clone()))?;
         Ok(PendingEvent {
-            event: map_actor_event(cell_id.clone(), handle.observe(mode)),
+            event: map_actor_event(cell_id.clone(), handle.observe(observation)),
         })
     }
 
@@ -158,7 +159,7 @@ impl<D: SessionRuntimeDelegate> SessionRuntime<D> {
         &self,
         cell_id: CellId,
         request: CreateCellRequest,
-        initial_observe_mode: ObserveMode,
+        initial_observation: Observation,
     ) -> Result<RuntimeEventFuture, Error> {
         let stored_values = self.inner.stored_values.lock().await.clone();
         let host = Arc::new(RuntimeCellHost {
@@ -178,7 +179,7 @@ impl<D: SessionRuntimeDelegate> SessionRuntime<D> {
             request,
             stored_values,
             host,
-            initial_observe_mode,
+            initial_observation,
             cell_state,
             self.inner.task_failure_handler.clone(),
         )

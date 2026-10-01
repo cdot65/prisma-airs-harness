@@ -149,12 +149,19 @@ impl CodeModeSessionDelegate for NoopCodeModeSessionDelegate {
 /// must keep those values isolated. Implementations may execute cells
 /// in-process or remotely.
 pub trait CodeModeSession: Send + Sync {
+    /// Start a durable cell; signaling preempt yields its observation without stopping it.
     fn execute<'a>(
         &'a self,
         request: ExecuteRequest,
+        preempt: Option<CancellationToken>,
     ) -> CodeModeSessionResultFuture<'a, StartedCell>;
 
-    fn wait<'a>(&'a self, request: WaitRequest) -> CodeModeSessionResultFuture<'a, WaitOutcome>;
+    /// Observe a cell until its frontier, timeout, or preemption signal.
+    fn wait<'a>(
+        &'a self,
+        request: WaitRequest,
+        preempt: Option<CancellationToken>,
+    ) -> CodeModeSessionResultFuture<'a, WaitOutcome>;
 
     fn terminate<'a>(&'a self, cell_id: CellId) -> CodeModeSessionResultFuture<'a, WaitOutcome>;
 

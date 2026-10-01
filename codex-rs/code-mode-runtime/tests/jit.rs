@@ -11,13 +11,16 @@ async fn code_mode_runs_with_jit_disabled() {
 
     let service = InProcessCodeModeSession::new();
     let started = service
-        .execute(ExecuteRequest {
-            tool_call_id: "call_1".to_string(),
-            enabled_tools: Vec::new(),
-            source: "21 * 2;".to_string(),
-            yield_time_ms: None,
-            max_output_tokens: None,
-        })
+        .execute(
+            ExecuteRequest {
+                tool_call_id: "call_1".to_string(),
+                enabled_tools: Vec::new(),
+                source: "21 * 2;".to_string(),
+                yield_time_ms: None,
+                max_output_tokens: None,
+            },
+            /*preempt*/ None,
+        )
         .await
         .expect("start code-mode cell");
     let cell_id = started.cell_id.clone();

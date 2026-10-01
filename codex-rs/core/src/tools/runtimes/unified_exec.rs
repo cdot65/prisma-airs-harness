@@ -57,6 +57,10 @@ use std::io;
 use std::time::Duration;
 use tokio_util::sync::CancellationToken;
 
+mod launch;
+
+use launch::with_launch_failure_events;
+
 // Allow 5s for Guardian cleanup and 5s for controller processing after review.
 const REMOTE_NETWORK_POLICY_DECISION_MARGIN: Duration = Duration::from_secs(10);
 
@@ -492,7 +496,8 @@ impl<'a> ToolRuntime<UnifiedExecRequest, UnifiedExecAttempt> for UnifiedExecRunt
                                 }))
                             }
                             other => ToolError::Rejected(other.to_string()),
-                        })?;
+                        });
+                    let process = with_launch_failure_events(process, req, ctx).await?;
                     return Ok(UnifiedExecAttempt {
                         process,
                         metrics_sidecar,
@@ -538,7 +543,8 @@ impl<'a> ToolRuntime<UnifiedExecRequest, UnifiedExecAttempt> for UnifiedExecRunt
                 Box::new(NoopSpawnLifecycle),
                 req.turn_environment.environment.as_ref(),
             )
-            .await?;
+            .await;
+        let process = with_launch_failure_events(process, req, ctx).await?;
         Ok(UnifiedExecAttempt {
             process,
             metrics_sidecar,

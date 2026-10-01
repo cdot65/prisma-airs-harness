@@ -7,8 +7,8 @@ changes to the host's clipboard.
 
 import base64
 import codecs
-import json
 import os
+from pathlib import Path
 import re
 import threading
 import time
@@ -66,6 +66,10 @@ class AdoptionTerminal(unittest.TestCase):
         fixture = self.fixture()
         first = "Run the first steering fixture."
         steer = "Continue with the second steering fixture."
+        # Appending makes a replay observable even if a duplicate tool call reused its ID.
+        fixture.tool_command = (
+            "printf 'local tool worked\\n' >> result.txt && cat result.txt"
+        )
         fixture.phase_replies = {
             first: "Initial response held.",
             steer: "Steer received.",
@@ -121,7 +125,7 @@ class AdoptionTerminal(unittest.TestCase):
             prompt: "**Priority bold** and `priority_code`\n\n- first fixture item\n- second fixture item",
             draft: "Protected draft received.",
         }
-        (fixture.home / "settings.toml").write_text(
+        (Path(fixture.env["AIRS_HARNESS_HOME"]) / "settings.toml").write_text(
             '[tui]\nfullscreen_transcript = true\ncopy_on_select = "always"\n'
             'right_click_paste = "off"\n'
         )
@@ -133,10 +137,6 @@ class AdoptionTerminal(unittest.TestCase):
             harness.BINARY, environment, fixture.work, arguments=[]
         ) as terminal:
             terminal.start()
-            terminal.send_line(prompt)
-            terminal.wait_for(b"second fixture item")
-            os.write(terminal.master, b"\x1b[200~" + draft.encode() + b"\x1b[201~")
-            terminal.wait_for(draft.encode())
             screen = pyte.Screen(120, 40)
             stream = pyte.Stream(screen)
             decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
@@ -148,6 +148,11 @@ class AdoptionTerminal(unittest.TestCase):
                 consumed = len(terminal.transcript)
                 return screen.display
 
+            terminal.send_line(prompt)
+            terminal.wait_until(
+                lambda: any("second fixture item" in row for row in rendered())
+            )
+            os.write(terminal.master, b"\x1b[200~" + draft.encode() + b"\x1b[201~")
             terminal.wait_until(lambda: any(draft in row for row in rendered()))
             rows = rendered()
             start_y = next(y for y, row in enumerate(rows) if "Priority bold" in row)
@@ -191,7 +196,9 @@ class AdoptionTerminal(unittest.TestCase):
             until = time.monotonic() + 0.2
             terminal.wait_until(lambda: time.monotonic() >= until, timeout=2)
             os.write(terminal.master, b"\r")
-            terminal.wait_for(b"Protected draft received.")
+            terminal.wait_until(
+                lambda: any("Protected draft received." in row for row in rendered())
+            )
         requests = conversation_requests(fixture)
         self.assertEqual(len(requests), 3)
         self.assertEqual(harness.latest_user_text(requests[-1][2]), draft)

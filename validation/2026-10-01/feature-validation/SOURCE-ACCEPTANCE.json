@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "runtime_source": "f3d55fc1a1316fb8e191e87a5267d616db7bdef9",
+  "source_checks": {
+    "linux_scoped": {
+      "passed": true,
+      "tests_run": 5307,
+      "flaky_retries": 1,
+      "filtered_out": 4016,
+      "log": "airs-016-scoped-tests-2.log.gz"
+    },
+    "apple_silicon_scoped": {
+      "passed": true,
+      "tests_run": 5315,
+      "flaky_retries": 3,
+      "filtered_out": 4037,
+      "log": "native-scoped-tests-3.log.gz"
+    },
+    "scoped_fix": {
+      "passed": true,
+      "log": "airs-016-fix-1.log.gz"
+    },
+    "config_schema": {
+      "passed": true,
+      "log": "airs-016-schema-2.log.gz"
+    },
+    "apple_silicon_pty": {
+      "passed": true,
+      "tests_run": 4,
+      "log": "native-diagnostic-priorities-4.log.gz"
+    }
+  },
+  "installed_candidate_acceptance": false,
+  "registry_acceptance": false,
+  "final_feature_scores": null,
+  "production_sso_acceptance": false
+}

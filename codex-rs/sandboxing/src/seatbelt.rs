@@ -15,6 +15,7 @@ use std::collections::HashMap;
 use std::collections::VecDeque;
 use std::path::Path;
 use std::path::PathBuf;
+use std::sync::OnceLock;
 use tracing::warn;
 use url::Url;
 
@@ -26,6 +27,19 @@ const MACOS_SEATBELT_TLS_TRUST_POLICY: &str =
 const MACOS_SEATBELT_PREFERENCES_POLICY: &str = include_str!("seatbelt_preferences_policy.sbpl");
 const MACOS_RESTRICTED_READ_ONLY_PLATFORM_DEFAULTS: &str =
     include_str!("seatbelt_read_only_platform_defaults.sbpl");
+const MACOS_DESKTOP_PLATFORM_DEFAULTS: &str =
+    include_str!("seatbelt_desktop_platform_defaults.sbpl");
+static DESKTOP_PROCESS_SANDBOX: OnceLock<()> = OnceLock::new();
+
+/// Permanently selects the strict desktop OS runtime policy for this owned process.
+///
+/// The ordinary process defaults grant global temporary-directory writes. Desktop
+/// grants only loader/IPC prerequisites and its explicit filesystem profile.
+pub fn install_desktop_process_sandbox() -> std::io::Result<()> {
+    DESKTOP_PROCESS_SANDBOX
+        .set(())
+        .map_err(|_| std::io::Error::other("Desktop process sandbox was already selected"))
+}
 // Ordinary processes need system scratch directories for compatibility, but filesystem helpers
 // must not inherit scratch access beyond the paths their permission profile explicitly grants.
 const MACOS_PROCESS_PLATFORM_DEFAULTS: &str = r#"
@@ -1025,7 +1039,9 @@ pub(crate) fn create_seatbelt_command_args_with_profile(
     if file_system_sandbox_policy.has_full_disk_read_access() {
         policy_sections.push(MACOS_SEATBELT_PREFERENCES_POLICY.to_string());
     }
-    if include_platform_defaults {
+    if DESKTOP_PROCESS_SANDBOX.get().is_some() {
+        policy_sections.push(MACOS_DESKTOP_PLATFORM_DEFAULTS.to_string());
+    } else if include_platform_defaults {
         policy_sections.push(MACOS_RESTRICTED_READ_ONLY_PLATFORM_DEFAULTS.to_string());
         if profile == MacosSeatbeltProfile::Process {
             policy_sections.push(MACOS_PROCESS_PLATFORM_DEFAULTS.to_string());

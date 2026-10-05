@@ -1,0 +1,25 @@
+; Loader and process startup only. Filesystem reads come from the explicit
+; desktop profile; never grant temporary directories or application state here.
+(allow file-map-executable
+  (subpath "/System/Library")
+  (subpath "/usr/lib")
+  (subpath "/Library/Apple"))
+(allow system-mac-syscall (mac-policy-name "vnguard"))
+(allow system-mac-syscall
+  (require-all (mac-policy-name "Sandbox") (mac-syscall-number 67)))
+(allow system-fsctl (fsctl-command FSIOC_CAS_BSDFLAGS))
+(allow mach-lookup
+  (global-name "com.apple.secinitd")
+  (global-name "com.apple.system.opendirectoryd.membership")
+  (global-name "com.apple.system.DirectoryService.libinfo_v1")
+  (global-name "com.apple.system.opendirectoryd.libinfo"))
+(allow file-read-metadata file-test-existence
+  (literal "/") (literal "/etc") (literal "/var") (literal "/tmp")
+  (literal "/System/Volumes") (literal "/System/Volumes/Data")
+  (path-ancestors "/System/Volumes/Data/private"))
+; The C runtime requires opening the root directory while resolving cwd.
+; This literal grants no descendant reads.
+(allow file-read* file-test-existence (literal "/"))
+(allow file-read-metadata (subpath "/dev"))
+(allow file-read-data file-test-existence file-write-data (subpath "/dev/fd"))
+(allow file-read* file-write* (literal "/dev/null"))

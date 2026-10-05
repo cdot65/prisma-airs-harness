@@ -110,7 +110,19 @@ pub(super) async fn run(arg0_paths: Arg0DispatchPaths, args: &Args) -> anyhow::R
         std::env::var_os("CODEX_ROLLOUT_TRACE_ROOT").is_none(),
         "Desktop trace recording must be disabled"
     );
-    let mut input = tokio::io::BufReader::new(tokio::io::stdin());
+    // Desktop owns a pipe, not an interactive terminal. A blocking stdin task
+    // cannot be cancelled when supervision loss retires the runtime while the
+    // native host still has its writer open.
+    #[cfg(unix)]
+    let stdin = {
+        use std::os::fd::AsFd;
+        tokio::net::unix::pipe::Receiver::from_owned_fd(
+            std::io::stdin().as_fd().try_clone_to_owned()?,
+        )?
+    };
+    #[cfg(not(unix))]
+    let stdin = tokio::io::stdin();
+    let mut input = tokio::io::BufReader::new(stdin);
     let bootstrap = read_frame(&mut input, FRAME_LIMIT).await;
     let result = match bootstrap {
         Ok(Some(bytes)) => match serde_json::from_slice::<BootstrapRequest>(&bytes) {

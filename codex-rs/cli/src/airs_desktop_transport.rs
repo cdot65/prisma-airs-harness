@@ -149,6 +149,16 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
     context: ContextBinding,
     secret: Zeroizing<String>,
 ) -> anyhow::Result<()> {
+    // Cancellation must also release a pending write when the native host has
+    // stopped reading. Keep desktop's owned pipe outside blocking stdio tasks.
+    #[cfg(unix)]
+    let mut output = {
+        use std::os::fd::AsFd;
+        tokio::net::unix::pipe::Sender::from_owned_fd(
+            std::io::stdout().as_fd().try_clone_to_owned()?,
+        )?
+    };
+    #[cfg(not(unix))]
     let mut output = tokio::io::stdout();
     write_json(&mut output, &json!({"id":0,"result":{"v":1,"protocol":"airs-desktop/1","runtimeVersion":codex_utils_home_dir::AIRS_HARNESS_VERSION,"tenantId":context.tenant_id,"workspaceId":context.workspace_id,"credentialId":context.credential_id,"credentialEpoch":context.credential_epoch}}), &secret).await?;
     let sender = runtime.sender();
@@ -200,6 +210,13 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             let sender = sender.clone();
                             let context = context.clone();
                             pending.push(async move {
+                                // Stop owned local commands before core cancellation
+                                // can kill their parents and lose descendant ancestry.
+                                #[cfg(target_os = "macos")]
+                                if method == "turn/interrupt"
+                                    && !matches!(tokio::task::spawn_blocking(codex_utils_pty::cancel_desktop_commands).await, Ok(Ok(()))) {
+                                    return (id.clone(), method, rejection(id));
+                                }
                                 let result = if let Some(request) = native_request {
                                     match sender.request(request).await {
                                         Ok(Ok(result)) => {
@@ -212,6 +229,14 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                                 }
                                             json!({"id":id,"result":result})
                                         }
+                                        // Local cleanup can complete a short tool
+                                        // before core observes the interruption.
+                                        // It is already safely stopped; preserve
+                                        // idempotence for this exact terminal race.
+                                        #[cfg(target_os = "macos")]
+                                        Ok(Err(error)) if method == "turn/interrupt"
+                                            && error.code == -32600
+                                            && error.message == "no active turn to interrupt" => json!({"id":id,"result":{}}),
                                         Ok(Err(_)) | Err(_) => rejection(id.clone()),
                                     }
                                 } else if let Some(replay) = restore {

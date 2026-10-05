@@ -1,5 +1,9 @@
 ; Loader and process startup only. Filesystem reads come from the explicit
 ; desktop profile; never grant temporary directories or application state here.
+; Native Desktop admits a single process and exec replacement only. Forbidding
+; child creation closes daemon reparenting that Darwin cannot track reliably.
+; Ordinary Harness process policy continues to allow its existing fork behavior.
+(deny process-fork)
 (allow file-map-executable
   (subpath "/System/Library")
   (subpath "/usr/lib")

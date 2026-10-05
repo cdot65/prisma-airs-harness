@@ -3029,6 +3029,20 @@ policy amendments, additional permissions, network grants and grant roots are
 unavailable. Approval does not bypass the selected-folder sandbox. Desktop macOS
 processes use explicit OS loader prerequisites and the named filesystem profile,
 without the generic process policy's global temporary-directory permissions.
+Approved commands run one process and may replace it with `exec`. Desktop's
+Seatbelt policy denies child process creation, so pipelines and build/test runners
+that spawn workers are unavailable. Native approval cannot remove that restriction;
+the model must report the limitation rather than retry outside the sandbox.
+
+On macOS a secret-free, independently supervised helper registers each command
+before user code starts. An in-process backup watches helper health. Engine death,
+helper loss, native stdin EOF and validated turn interruption stop admitted commands;
+loss of supervision prevents further command admission and retires the runtime.
+Private cancellation requests use fresh correlated acknowledgements after cleanup.
+These guarantees rely on the single-process policy: descendant polling alone cannot
+track an immediate double fork and reparent. Ordinary Harness command behavior is
+unchanged. An already-completed owned turn accepts interruption idempotently after
+local cleanup; interruption of an unowned thread is rejected.
 
 This mode disables extensions, host skill discovery/watchers, hooks, legacy notify,
 shell snapshots, plugins, agent spawning, and conversation tracing. Threads use

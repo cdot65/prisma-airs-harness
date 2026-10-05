@@ -84,6 +84,7 @@ codex-tui = { workspace = true }
 codex-utils-absolute-path = { workspace = true }
 codex-utils-home-dir = { workspace = true }
 codex-utils-path = { workspace = true }
+codex-utils-pty = { workspace = true }
 crossterm = { workspace = true, features = ["event-stream"] }
 futures = { workspace = true }
 http = { workspace = true }
@@ -134,7 +135,6 @@ app_test_support = { workspace = true }
 assert_cmd = { workspace = true }
 assert_matches = { workspace = true }
 codex-utils-cargo-bin = { workspace = true }
-codex-utils-pty = { workspace = true }
 flate2 = { workspace = true }
 insta = { workspace = true }
 predicates = { workspace = true }

@@ -51,6 +51,8 @@ mod airs_application_network;
 mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_desktop;
+#[cfg(target_os = "macos")]
+mod airs_desktop_supervision;
 mod airs_doctor;
 mod airs_doctor_catalog;
 mod airs_doctor_storage;
@@ -1186,6 +1188,17 @@ fn stage_str(stage: Stage) -> &'static str {
 }
 
 fn main() -> anyhow::Result<()> {
+    #[cfg(target_os = "macos")]
+    if std::env::args_os()
+        .nth(1)
+        .is_some_and(|arg| arg == codex_utils_pty::DESKTOP_SUPERVISOR_ARG)
+    {
+        anyhow::ensure!(
+            airs_harness::is_standalone() && std::env::args_os().count() == 2,
+            "Invalid desktop command supervisor"
+        );
+        return codex_utils_pty::run_desktop_supervisor().map_err(anyhow::Error::from);
+    }
     let desktop_home = if airs_harness::is_standalone()
         && std::env::args_os()
             .nth(1)
@@ -1206,6 +1219,16 @@ fn main() -> anyhow::Result<()> {
     codex_build_info::initialize!();
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
+        #[cfg(target_os = "macos")]
+        if desktop_home.is_some() {
+            // arg0 dispatch has finished its single-threaded environment setup;
+            // supervision starts before bootstrap imports the inference key.
+            return airs_desktop_supervision::run(Box::pin(cli_main(
+                arg0_paths,
+                remote_control_disabled,
+            )))
+            .await;
+        }
         // Keep the CLI dispatcher off the runtime's stack while the TUI rebuilds a thread.
         Box::pin(cli_main(arg0_paths, remote_control_disabled)).await?;
         Ok(())

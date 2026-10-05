@@ -2623,6 +2623,7 @@ dependencies = [
  "codex-execpolicy",
  "codex-extension-api",
  "codex-features",
+ "codex-feedback",
  "codex-git-attribution",
  "codex-git-utils",
  "codex-history",
@@ -2689,6 +2690,7 @@ dependencies = [
  "which 8.0.0",
  "windows-sys 0.52.0",
  "wiremock",
+ "zeroize",
  "zstd",
 ]
 

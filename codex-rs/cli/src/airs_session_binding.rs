@@ -23,6 +23,14 @@ struct Revision {
 
 /// Caller holds the configuration lock through any subsequent helper path rewrite.
 pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
+    validate_identity_locked(home, airs_credentials::identity(home)?)
+}
+
+/// An owned memory credential supplies its identity without reading a credential store.
+pub(super) fn validate_identity_locked(
+    home: &Path,
+    credential_identity: String,
+) -> anyhow::Result<()> {
     let config: toml::Value = toml::from_str(
         &std::fs::read_to_string(home.join("config.toml"))
             .context("environment is not configured; run airs env create")?,
@@ -34,7 +42,7 @@ pub(super) fn validate_locked(home: &Path) -> anyhow::Result<()> {
     let mut revision = Revision {
         schema_version: 1,
         gateway_url: airs_environment::gateway(home)?,
-        credential_identity: airs_credentials::identity(home)?,
+        credential_identity,
         capability_revision: airs_credentials::fingerprint(&std::fs::read_to_string(catalog)?),
         context_window: config
             .get("model_context_window")

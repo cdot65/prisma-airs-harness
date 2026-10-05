@@ -50,6 +50,7 @@ mod airs_access;
 mod airs_application_network;
 mod airs_auth_lifecycle;
 mod airs_credentials;
+mod airs_desktop;
 mod airs_doctor;
 mod airs_doctor_catalog;
 mod airs_doctor_storage;
@@ -176,6 +177,9 @@ struct MultitoolCli {
 
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
+    /// Run the bounded native Desktop transport over stdin/stdout.
+    #[clap(hide = true)]
+    DesktopServer(airs_desktop::Args),
     /// Run the bundled Prisma AIRS product CLI (npm distribution).
     #[clap(hide = !airs_harness::is_standalone())]
     Cli {
@@ -1182,8 +1186,21 @@ fn stage_str(stage: Stage) -> &'static str {
 }
 
 fn main() -> anyhow::Result<()> {
+    let desktop_home = if airs_harness::is_standalone()
+        && std::env::args_os()
+            .nth(1)
+            .is_some_and(|arg| arg == "desktop-server")
+    {
+        Some(tempfile::Builder::new().prefix("airs-desktop-").tempdir()?)
+    } else {
+        None
+    };
     if airs_harness::is_standalone() {
-        codex_core::config::initialize_airs_harness_home()?;
+        if let Some(home) = &desktop_home {
+            codex_utils_home_dir::initialize_airs_harness_home_at(home.path().to_path_buf())?;
+        } else {
+            codex_core::config::initialize_airs_harness_home()?;
+        }
         let _ = codex_login::default_client::set_default_originator("airs-harness".to_string());
     }
     codex_build_info::initialize!();
@@ -1213,6 +1230,23 @@ async fn cli_main(
     } else {
         MultitoolCli::parse()
     };
+    if let Some(Subcommand::DesktopServer(args)) = &subcommand {
+        anyhow::ensure!(
+            environment.is_none()
+                && root_config_overrides.raw_overrides.is_empty()
+                && feature_toggles.enable.is_empty()
+                && feature_toggles.disable.is_empty(),
+            "Desktop settings must come from bootstrap"
+        );
+        anyhow::ensure!(
+            airs_harness::is_standalone()
+                && std::env::args_os()
+                    .nth(1)
+                    .is_some_and(|arg| arg == "desktop-server"),
+            "Run airs-harness desktop-server directly without root overrides"
+        );
+        return airs_desktop::run(arg0_paths, args).await;
+    }
     if matches!(&subcommand, Some(Subcommand::Cli { .. })) {
         anyhow::bail!(
             "Run 'airs cli ...' through the npm-installed airs command, with cli immediately after airs. Harness flags such as --environment do not select a product tenant. Native archives do not bundle the product CLI."
@@ -1466,6 +1500,9 @@ async fn cli_main(
 
     let open_agents_overview = matches!(&subcommand, Some(Subcommand::Agents(_)));
     match subcommand {
+        Some(Subcommand::DesktopServer(_)) => {
+            anyhow::bail!("Desktop transport requires its isolated startup")
+        }
         None | Some(Subcommand::Agents(_)) => {
             prepend_config_flags(
                 &mut interactive.config_overrides,
@@ -2865,6 +2902,7 @@ fn unsupported_subcommand_name_for_strict_config(
     match subcommand {
         Some(Subcommand::Cli { .. }) => Some("cli"),
         Some(Subcommand::LegacyProduct { .. }) => Some("runtime"),
+        Some(Subcommand::DesktopServer(_)) => Some("desktop-server"),
         Some(Subcommand::McpSetup(_)) => Some("setup-mcp"),
         Some(Subcommand::McpCredential(_)) => Some("mcp-credential"),
         Some(Subcommand::Env { .. }) => Some("env"),

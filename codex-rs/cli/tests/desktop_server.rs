@@ -169,7 +169,7 @@ async fn desktop_server_approved_commands_stay_inside_selected_project() -> Resu
             json!({"type":"response.created","response":{"id":"command-response"}}),
             json!({"type":"response.output_item.done","item":{"type":"function_call","id":"command-item","call_id":"scope-probe","name":"exec_command","arguments":json!({"cmd":script,"yield_time_ms":1000,"max_output_tokens":2000,"login":false}).to_string()}}),
             json!({"type":"response.completed","response":{"id":"command-response","usage":{"input_tokens":1,"output_tokens":1,"total_tokens":2}}}),
-        ]);
+        ])?;
         let server = MockServer::start().await;
         Mock::given(method("POST"))
             .and(path("/v1/responses"))
@@ -180,7 +180,9 @@ async fn desktop_server_approved_commands_stay_inside_selected_project() -> Resu
             .await;
         Mock::given(method("POST"))
             .and(path("/v1/responses"))
-            .respond_with(ResponseTemplate::new(200).set_body_raw(completed(), "text/event-stream"))
+            .respond_with(
+                ResponseTemplate::new(200).set_body_raw(completed()?, "text/event-stream"),
+            )
             .with_priority(2)
             .mount(&server)
             .await;
@@ -267,7 +269,7 @@ async fn desktop_server_model_escalation_cannot_escape_project_after_native_acce
         json!({"type":"response.created","response":{"id":"escalation-response"}}),
         json!({"type":"response.output_item.done","item":{"type":"function_call","id":"escalation-item","call_id":"escalation-probe","name":"exec_command","arguments":json!({"cmd":script,"sandbox_permissions":"require_escalated","justification":"Fixture asks for broader access","login":false}).to_string()}}),
         json!({"type":"response.completed","response":{"id":"escalation-response","usage":{"input_tokens":1,"output_tokens":1,"total_tokens":2}}}),
-    ]);
+    ])?;
     let server = MockServer::start().await;
     Mock::given(method("POST"))
         .and(path("/v1/responses"))
@@ -278,7 +280,7 @@ async fn desktop_server_model_escalation_cannot_escape_project_after_native_acce
         .await;
     Mock::given(method("POST"))
         .and(path("/v1/responses"))
-        .respond_with(ResponseTemplate::new(200).set_body_raw(completed(), "text/event-stream"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(completed()?, "text/event-stream"))
         .with_priority(2)
         .mount(&server)
         .await;
@@ -330,19 +332,19 @@ async fn desktop_server_model_escalation_cannot_escape_project_after_native_acce
     Ok(())
 }
 
-fn sse(items: Vec<Value>) -> String {
+fn sse(items: Vec<Value>) -> Result<String> {
     items
         .into_iter()
         .map(|item| {
-            format!(
+            Ok(format!(
                 "event: {}\ndata: {item}\n\n",
-                item["type"].as_str().expect("SSE fixture event type")
-            )
+                item["type"].as_str().context("SSE fixture event type")?
+            ))
         })
         .collect()
 }
 
-fn completed() -> String {
+fn completed() -> Result<String> {
     sse(vec![
         json!({"type":"response.created","response":{"id":"fixture-response"}}),
         json!({"type":"response.output_item.done","item":{"id":"fixture-message","type":"message","role":"assistant","content":[{"type":"output_text","text":"Offline fixture completed","annotations":[]}]}}),
@@ -373,7 +375,7 @@ async fn desktop_server_preserves_selected_routing_and_passively_restores_projec
     let server = MockServer::start().await;
     Mock::given(method("POST"))
         .and(path("/v1/responses"))
-        .respond_with(ResponseTemplate::new(200).set_body_raw(completed(), "text/event-stream"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(completed()?, "text/event-stream"))
         .mount(&server)
         .await;
     let temp = tempfile::tempdir()?;
@@ -465,7 +467,7 @@ async fn desktop_server_routes_memory_key_rejects_authority_and_exports_only_ram
         .respond_with(
             ResponseTemplate::new(200)
                 .insert_header("content-type", "text/event-stream")
-                .set_body_raw(completed(), "text/event-stream"),
+                .set_body_raw(completed()?, "text/event-stream"),
         )
         .mount(&server)
         .await;

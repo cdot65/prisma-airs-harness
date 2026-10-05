@@ -20,6 +20,14 @@ use wiremock::matchers::path;
 
 const KEY: &str = r#"fixture-desktop-credential-"\\-never-in-context"#;
 
+#[cfg(target_os = "macos")]
+#[path = "desktop_server/shutdown.rs"]
+mod shutdown;
+
+#[cfg(target_os = "macos")]
+#[path = "desktop_server/admission.rs"]
+mod admission;
+
 struct Desktop {
     child: Child,
     input: ChildStdin,
@@ -49,18 +57,21 @@ impl Desktop {
         gateway_config: Option<&str>,
         model: Option<&str>,
     ) -> Result<Self> {
-        let mut child =
-            tokio::process::Command::new(codex_utils_cargo_bin::cargo_bin("airs-harness")?)
-                .args(["desktop-server", "--allow-http-loopback"])
-                .env_clear()
-                .env("PATH", "/usr/bin:/bin")
-                .env("HOME", temp)
-                .env("TMPDIR", temp)
-                .stdin(Stdio::piped())
-                .stdout(Stdio::piped())
-                .stderr(Stdio::inherit())
-                .kill_on_drop(true)
-                .spawn()?;
+        let mut command =
+            tokio::process::Command::new(codex_utils_cargo_bin::cargo_bin("airs-harness")?);
+        command
+            .args(["desktop-server", "--allow-http-loopback"])
+            .env_clear()
+            .env("PATH", "/usr/bin:/bin")
+            .env("HOME", temp)
+            .env("TMPDIR", temp)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::inherit())
+            .kill_on_drop(true);
+        #[cfg(unix)]
+        command.process_group(0);
+        let mut child = command.spawn()?;
         let input = child.stdin.take().context("stdin")?;
         let output = BufReader::new(child.stdout.take().context("stdout")?);
         let mut desktop = Self {
@@ -195,7 +206,12 @@ async fn desktop_server_rejects_oversized_native_tool_reply_before_model_continu
         }
     }
     let call = call.context("bounded native tool call")?;
-    desktop.send(json!({"id":call["id"],"result":{"contentItems":[{"type":"inputText","text":format!("OVERSIZED_NATIVE_TOOL_OUTPUT{}","x".repeat(64*1024))}],"success":true}})).await?;
+    let reply = json!({"id":call["id"],"result":{"contentItems":[{"type":"inputText","text":format!("OVERSIZED_NATIVE_TOOL_OUTPUT{}","x".repeat(33*1024))}],"success":true}});
+    anyhow::ensure!(
+        reply.to_string().len() < 64 * 1024,
+        "fixture must exercise the inner text limit"
+    );
+    desktop.send(reply).await?;
     drop(desktop.input);
     let status = tokio::time::timeout(Duration::from_secs(40), desktop.child.wait()).await??;
     anyhow::ensure!(
@@ -343,7 +359,7 @@ async fn desktop_server_approved_commands_stay_inside_selected_project() -> Resu
         std::fs::write(&outside, "OUTSIDE_SECRET_SENTINEL")?;
         std::fs::write(project.join("allowed.txt"), "INSIDE_READ_CONFIRMED")?;
         let script = format!(
-            "/bin/cat allowed.txt; if /bin/cat '{}' 2>/dev/null; then echo OUTSIDE_READ_BREACH; else echo OUTSIDE_READ_DENIED; fi; if echo escaped > '{}' 2>/dev/null; then echo OUTSIDE_WRITE_BREACH; else echo OUTSIDE_WRITE_DENIED; fi; if echo local > local-write.txt 2>/dev/null; then echo PROJECT_WRITE_ALLOWED; else echo PROJECT_WRITE_DENIED; fi; /usr/bin/env",
+            "IFS= read -r inside < allowed.txt; printf '%s\\n' \"$inside\"; if IFS= read -r outside < '{}' 2>/dev/null; then echo OUTSIDE_READ_BREACH; else echo OUTSIDE_READ_DENIED; fi; if echo escaped > '{}' 2>/dev/null; then echo OUTSIDE_WRITE_BREACH; else echo OUTSIDE_WRITE_DENIED; fi; if echo local > local-write.txt 2>/dev/null; then echo PROJECT_WRITE_ALLOWED; else echo PROJECT_WRITE_DENIED; fi; export -p",
             outside.display(),
             escaped.display(),
         );

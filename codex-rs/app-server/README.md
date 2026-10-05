@@ -2994,3 +2994,62 @@ admission preserves the existing credential. External browsers and approved Jev
 SDK/CLI children retain their separate user-approval and sandbox boundaries.
 Local policy denial does not establish a gateway authentication failure or grant
 permission to bypass gateway guardrails.
+
+
+## Owned Prisma AIRS Desktop transport
+
+`airs-harness desktop-server` hosts a restricted JSONL transport. It is a dedicated
+process with an ephemeral private runtime home; it does not load a saved Harness
+identity. The first frame must be a bounded `desktop/bootstrap` request with id 0:
+
+```json
+{"id":0,"method":"desktop/bootstrap","params":{"v":1,"tenantId":"11111111-1111-4111-8111-111111111111","workspaceId":"22222222-2222-4222-8222-222222222222","credentialId":"33333333-3333-4333-8333-333333333333","credentialEpoch":1,"gatewayEndpoint":"https://gateway.example/v1","apiKey":"HOST-SUPPLIED-PROTECTED-CREDENTIAL","projectPath":null,"localAccess":"readOnly","gatewayConfig":null,"model":null}}
+```
+
+The credential is supplied only through stdin and remains in a process-immutable
+in-memory auth provider. It is excluded from argv, environment, config files,
+model input and bootstrap receipts. Gateway destination, identity, credential
+epoch, selected project, local access and routing selectors are immutable for the
+process. Change native controls by retiring the process and bootstrapping again.
+Account-home ancestors, known credential folders and private runtime state cannot
+be selected as projects. The project path is canonicalized before admission.
+
+The receipt uses protocol `airs-desktop/1`, runtime version and matching UUID/epoch
+fields. The client then sends the ordinary `initialize` and `initialized`
+handshake. Admitted ordinary methods are `thread/start`, `thread/read` (metadata
+only), `turn/start` and `turn/interrupt`. Generic filesystem/process, auth,
+configuration, remote-executor and steering RPCs are unavailable. Thread and turn
+settings cannot override the bootstrap authority. Dynamic tool specs use the
+existing namespaced `DynamicToolSpec` protocol; execution stays in the native host.
+
+The runtime sends ordinary app-server notifications and supported server requests
+for command approvals, writable-project file approvals and dynamic tool calls.
+Approval replies may use only `accept`, `decline` or `cancel`; session-wide grants,
+policy amendments, additional permissions, network grants and grant roots are
+unavailable. Approval does not bypass the selected-folder sandbox. Desktop macOS
+processes use explicit OS loader prerequisites and the named filesystem profile,
+without the generic process policy's global temporary-directory permissions.
+
+This mode disables extensions, host skill discovery/watchers, hooks, legacy notify,
+shell snapshots, plugins, agent spawning, and conversation tracing. Threads use
+only the in-memory thread store; history persistence, rollout/database recording,
+analytics and feedback are disabled. The host encrypts and protects archives.
+
+`desktop/history/read {threadId}` returns `{context,replay}` for an idle thread.
+The replay contains schemaVersion 1, an exact engineRevision contract, canonical
+CreateThreadParams and full RolloutItems including compaction and tool provenance.
+`desktop/history/restore {context,replay,dynamicTools}` validates the current
+bootstrap context and stored permissions/settings, passively reconstructs RAM
+history, and attaches the current admitted tool catalog. It never starts a turn or
+executes historical tool calls. The ordinary restore response retains metadata
+and clears thread.turns because the host already has its protected displayed
+transcript. A trusted host may rebind only its process-local credential epoch after
+verifying that the archive still names the unchanged stored credential reference.
+
+Bootstrap and ordinary input frames are at most 64 KiB; replay frames are at most
+4 MiB. Text turn input is limited to eight items of at most 8192 UTF-8 bytes each.
+The transport allows eight pending requests, 32 pending host requests and 16
+threads. Catalogs have at most 64 functions, 4096 bytes per function and 48 KiB
+total. Output redaction includes decoded JSON, embedded JSON strings and bounded
+repeated JSON escaping. Event lag, stale approvals and unsupported messages fail
+closed. The hidden HTTP-loopback option exists solely for offline fixture tests.

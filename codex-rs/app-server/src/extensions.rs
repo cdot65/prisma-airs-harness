@@ -21,6 +21,7 @@ use codex_extension_api::ExtensionRegistryBuilder;
 use codex_extension_api::ExtensionWarning;
 use codex_extension_api::InternalSessionSpawnFuture;
 use codex_extension_api::InternalSessionSpawner;
+use codex_extension_api::SkillInvocationContributor;
 use codex_goal_extension::GoalExtensionConfig;
 use codex_goal_extension::GoalService;
 use codex_http_client::HttpClientFactory;
@@ -50,6 +51,20 @@ pub(crate) struct ThreadExtensionDependencies {
     pub(crate) http_client_factory: HttpClientFactory,
     /// Process-scoped queue shared by idle dispatch and app-server requests.
     pub(crate) queue_service: Option<Arc<QueuedItemService>>,
+}
+
+/// Desktop owns its native catalog and admits no ambient host extensions.
+pub(crate) fn desktop_thread_extensions() -> Arc<ExtensionRegistry<Config>> {
+    struct NoHostSkillDiscovery;
+    impl SkillInvocationContributor for NoHostSkillDiscovery {
+        fn requires_host_skill_discovery(&self) -> bool {
+            false
+        }
+    }
+    let mut builder = ExtensionRegistryBuilder::new();
+    // An entirely empty registry retains core's legacy host-skill discovery behavior.
+    builder.skill_invocation_contributor(Arc::new(NoHostSkillDiscovery));
+    Arc::new(builder.build())
 }
 
 pub(crate) fn thread_extensions<S>(
@@ -357,6 +372,19 @@ mod tests {
     use crate::thread_state::ConnectionCapabilities;
 
     use super::*;
+
+    #[test]
+    fn desktop_registry_prevents_legacy_skill_discovery_without_ambient_capabilities() {
+        let registry = desktop_thread_extensions();
+        assert!(!registry.requires_host_skill_discovery());
+        assert!(registry.tool_contributors().is_empty());
+        assert!(registry.context_contributors().is_empty());
+        assert!(registry.mcp_server_contributors().is_empty());
+        assert!(registry.thread_lifecycle_contributors().is_empty());
+        assert!(registry.turn_lifecycle_contributors().is_empty());
+        assert!(registry.turn_input_contributors().is_empty());
+        assert!(registry.config_contributors().is_empty());
+    }
 
     #[tokio::test]
     async fn app_server_event_sink_uses_listener_fifo_for_goal_updates_warnings_and_clears() {

@@ -254,6 +254,7 @@ async fn build_test_processor(
         analytics_events_client.clone(),
     ));
     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+        thread_extension_mode: crate::message_processor::ThreadExtensionMode::Standard,
         outgoing,
         analytics_events_client,
         arg0_paths: Arg0DispatchPaths::default(),

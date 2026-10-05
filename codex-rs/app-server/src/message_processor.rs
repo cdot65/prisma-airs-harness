@@ -13,6 +13,7 @@ use crate::error_code::invalid_params;
 use crate::error_code::invalid_request;
 use crate::extensions::ThreadExtensionDependencies;
 use crate::extensions::app_server_extension_event_sink;
+use crate::extensions::desktop_thread_extensions;
 use crate::extensions::guardian_agent_spawner;
 use crate::extensions::thread_extensions;
 use crate::external_agent_migration::ExternalAgentConfigRequestProcessor;
@@ -243,7 +244,14 @@ impl ConnectionSessionState {
     }
 }
 
+#[derive(Clone, Copy)]
+pub(crate) enum ThreadExtensionMode {
+    Standard,
+    Desktop,
+}
+
 pub(crate) struct MessageProcessorArgs {
+    pub(crate) thread_extension_mode: ThreadExtensionMode,
     pub(crate) outgoing: Arc<OutgoingMessageSender>,
     pub(crate) analytics_events_client: AnalyticsEventsClient,
     pub(crate) arg0_paths: Arg0DispatchPaths,
@@ -265,10 +273,32 @@ pub(crate) struct MessageProcessorArgs {
 }
 
 impl MessageProcessor {
+    pub(crate) async fn export_desktop_history(
+        &self,
+        thread_id: String,
+    ) -> std::result::Result<crate::request_processors::DesktopReplay, JSONRPCErrorError> {
+        self.thread_processor
+            .export_desktop_history(thread_id)
+            .await
+    }
+
+    pub(crate) async fn restore_desktop_history(
+        &self,
+        params: crate::request_processors::DesktopRestoreParams,
+        connection_id: ConnectionId,
+        session: &ConnectionSessionState,
+    ) -> std::result::Result<codex_app_server_protocol::ThreadResumeResponse, JSONRPCErrorError>
+    {
+        self.thread_processor
+            .restore_desktop_history(params, connection_id, session.client_mcp_extensions())
+            .await
+    }
+
     /// Create a new `MessageProcessor`, retaining a handle to the outgoing
     /// `Sender` so handlers can enqueue messages to be written to stdout.
     pub(crate) fn new(args: MessageProcessorArgs) -> Self {
         let MessageProcessorArgs {
+            thread_extension_mode,
             outgoing,
             analytics_events_client,
             arg0_paths,
@@ -329,22 +359,25 @@ impl MessageProcessor {
                 codex_core::CodexAppsToolsCache::default(),
                 session_source,
                 environment_manager,
-                thread_extensions(
-                    guardian_agent_spawner(thread_manager.clone()),
-                    ThreadExtensionDependencies {
-                        event_sink: Arc::clone(&extension_event_sink),
-                        auth_manager: auth_manager.clone(),
-                        state_db: state_db.clone(),
-                        analytics_events_client: analytics_events_client.clone(),
-                        thread_manager: thread_manager.clone(),
-                        goal_service: Arc::clone(&goal_service),
-                        environment_manager: Arc::clone(&environment_manager_for_extensions),
-                        executor_skill_provider: Arc::clone(&executor_skill_provider),
-                        git_attribution_base_url: config.chatgpt_base_url.clone(),
-                        http_client_factory: config.http_client_factory(),
-                        queue_service: queue_service.clone(),
-                    },
-                ),
+                match thread_extension_mode {
+                    ThreadExtensionMode::Desktop => desktop_thread_extensions(),
+                    ThreadExtensionMode::Standard => thread_extensions(
+                        guardian_agent_spawner(thread_manager.clone()),
+                        ThreadExtensionDependencies {
+                            event_sink: Arc::clone(&extension_event_sink),
+                            auth_manager: auth_manager.clone(),
+                            state_db: state_db.clone(),
+                            analytics_events_client: analytics_events_client.clone(),
+                            thread_manager: thread_manager.clone(),
+                            goal_service: Arc::clone(&goal_service),
+                            environment_manager: Arc::clone(&environment_manager_for_extensions),
+                            executor_skill_provider: Arc::clone(&executor_skill_provider),
+                            git_attribution_base_url: config.chatgpt_base_url.clone(),
+                            http_client_factory: config.http_client_factory(),
+                            queue_service: queue_service.clone(),
+                        },
+                    ),
+                },
                 Arc::new(CodexHomeUserInstructionsProvider::new(
                     config.codex_home.clone(),
                 )),
@@ -375,11 +408,18 @@ impl MessageProcessor {
         thread_manager
             .plugins_manager()
             .set_analytics_events_client(analytics_events_client.clone());
-        let skills_watcher = SkillsWatcher::new(
-            thread_manager.skills_service(),
-            &config.codex_home,
-            outgoing.clone(),
-        );
+        let skills_watcher = match thread_extension_mode {
+            ThreadExtensionMode::Standard => SkillsWatcher::new(
+                thread_manager.skills_service(),
+                &config.codex_home,
+                outgoing.clone(),
+            ),
+            ThreadExtensionMode::Desktop => SkillsWatcher::disabled(
+                thread_manager.skills_service(),
+                &config.codex_home,
+                outgoing.clone(),
+            ),
+        };
 
         let pending_thread_unloads = Arc::new(Mutex::new(HashSet::new()));
         let thread_watch_manager =

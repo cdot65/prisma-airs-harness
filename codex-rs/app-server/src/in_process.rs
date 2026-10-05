@@ -58,12 +58,16 @@ use crate::error_code::invalid_request;
 use crate::message_processor::ConnectionSessionState;
 use crate::message_processor::MessageProcessor;
 use crate::message_processor::MessageProcessorArgs;
+use crate::message_processor::ThreadExtensionMode;
 use crate::outgoing_message::ConnectionId;
 use crate::outgoing_message::OutgoingEnvelope;
 use crate::outgoing_message::OutgoingMessage;
 use crate::outgoing_message::OutgoingMessageSender;
 use crate::outgoing_message::QueuedOutgoingMessage;
 use crate::plugin_config_reload::PluginStartupConfig;
+pub use crate::request_processors::DESKTOP_REPLAY_ENGINE_REVISION;
+pub use crate::request_processors::DesktopReplay;
+pub use crate::request_processors::DesktopRestoreParams;
 use crate::transport::CHANNEL_CAPACITY;
 use crate::transport::OutboundConnectionState;
 use crate::transport::route_outgoing_envelope;
@@ -101,6 +105,10 @@ use tracing::warn;
 
 #[path = "in_process_bootstrap.rs"]
 mod bootstrap;
+
+#[path = "in_process_desktop_history.rs"]
+mod desktop_history;
+use desktop_history::DesktopHistoryCommand;
 
 const IN_PROCESS_CONNECTION_ID: ConnectionId = ConnectionId(0);
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
@@ -190,6 +198,7 @@ pub enum InProcessServerEvent {
 /// replies are fire-and-forget from the caller's perspective (transport errors are
 /// caught by `try_send` on the outer channel).
 enum InProcessClientMessage {
+    DesktopHistory(DesktopHistoryCommand),
     Request {
         request: Box<ClientRequest>,
         response_tx: oneshot::Sender<PendingClientRequestResponse>,
@@ -211,6 +220,7 @@ enum InProcessClientMessage {
 }
 
 enum ProcessorCommand {
+    DesktopHistory(DesktopHistoryCommand),
     Request(Box<ClientRequest>),
     Notification(ClientNotification),
 }
@@ -419,7 +429,36 @@ async fn run_outbound_router(
     }
 }
 
-async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcessClientHandle> {
+/// Starts the runtime without a handshake so an owned host can forward the client's initialize.
+///
+/// The host must send `initialize` and `initialized` before invoking other operations.
+pub async fn start_uninitialized(args: InProcessStartArgs) -> IoResult<InProcessClientHandle> {
+    start_with_extension_mode(args, ThreadExtensionMode::Standard).await
+}
+
+/// Starts the owned desktop host with no ambient extension tools or skill providers.
+///
+/// The caller must pin `skip_host_skill_discovery` and forward the initialize handshake.
+pub async fn start_desktop_uninitialized(
+    args: InProcessStartArgs,
+) -> IoResult<InProcessClientHandle> {
+    if !args
+        .config
+        .features
+        .enabled(codex_features::Feature::SkipHostSkillDiscovery)
+    {
+        return Err(IoError::new(
+            ErrorKind::InvalidInput,
+            "desktop requires host skill discovery to be disabled",
+        ));
+    }
+    start_with_extension_mode(args, ThreadExtensionMode::Desktop).await
+}
+
+async fn start_with_extension_mode(
+    mut args: InProcessStartArgs,
+    thread_extension_mode: ThreadExtensionMode,
+) -> IoResult<InProcessClientHandle> {
     let config_manager = ConfigManager::new(
         args.config.codex_home.to_path_buf(),
         args.cli_overrides,
@@ -478,6 +517,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         let (processor_tx, mut processor_rx) = mpsc::channel::<ProcessorCommand>(channel_capacity);
         let mut processor_handle = tokio::spawn(async move {
             let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+                thread_extension_mode,
                 outgoing: Arc::clone(&processor_outgoing),
                 analytics_events_client,
                 arg0_paths: args.arg0_paths,
@@ -494,7 +534,10 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 code_mode_session_provider: None,
                 rpc_transport: AppServerRpcTransport::InProcess,
                 remote_control_handle: None,
-                plugin_startup_tasks: Some(PluginStartupConfig::Current),
+                plugin_startup_tasks: match thread_extension_mode {
+                    ThreadExtensionMode::Standard => Some(PluginStartupConfig::Current),
+                    ThreadExtensionMode::Desktop => None,
+                },
             }));
             let mut thread_created_rx = processor.thread_created_receiver();
             let session = Arc::new(ConnectionSessionState::new());
@@ -504,6 +547,13 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 tokio::select! {
                     command = processor_rx.recv() => {
                         match command {
+                            Some(ProcessorCommand::DesktopHistory(command)) => {
+                                if session.initialized() {
+                                    command.execute(processor.as_ref(), session.as_ref()).await;
+                                } else {
+                                    command.fail(invalid_request("desktop replay requires initialization"));
+                                }
+                            }
                             Some(ProcessorCommand::Request(request)) => {
                                 let was_initialized = session.initialized();
                                 processor
@@ -583,6 +633,23 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             tokio::select! {
                 message = client_rx.recv() => {
                     match message {
+                        Some(InProcessClientMessage::DesktopHistory(command)) => {
+                            if let Err(error) = processor_tx.try_send(ProcessorCommand::DesktopHistory(command)) {
+                                match error {
+                                    mpsc::error::TrySendError::Full(ProcessorCommand::DesktopHistory(command)) => {
+                                        command.fail(JSONRPCErrorError {
+                                            code: OVERLOADED_ERROR_CODE,
+                                            message: "in-process app-server request queue is full".to_string(),
+                                            data: None,
+                                        });
+                                    }
+                                    mpsc::error::TrySendError::Closed(ProcessorCommand::DesktopHistory(command)) => {
+                                        command.fail(internal_error("in-process app-server request processor is closed"));
+                                    }
+                                    _ => unreachable!("only desktop history commands were submitted"),
+                                }
+                            }
+                        }
                         Some(InProcessClientMessage::Request { request, response_tx }) => {
                             let request = *request;
                             let request_id = request.id().clone();

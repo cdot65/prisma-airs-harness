@@ -28,6 +28,7 @@ const WATCHER_THROTTLE_INTERVAL: Duration = Duration::from_secs(10);
 const WATCHER_THROTTLE_INTERVAL: Duration = Duration::from_millis(50);
 
 pub(crate) struct SkillsWatcher {
+    discovery_enabled: bool,
     subscriber: FileWatcherSubscriber,
     runtime_extra_roots_registration: Mutex<WatchRegistration>,
     shutdown_token: CancellationToken,
@@ -40,6 +41,35 @@ impl SkillsWatcher {
         codex_home: &AbsolutePathBuf,
         outgoing: Arc<OutgoingMessageSender>,
     ) -> Arc<Self> {
+        Self::with_discovery(skills_service, codex_home, outgoing, true)
+    }
+
+    pub(crate) fn disabled(
+        skills_service: Arc<HostSkillsService>,
+        codex_home: &AbsolutePathBuf,
+        outgoing: Arc<OutgoingMessageSender>,
+    ) -> Arc<Self> {
+        Self::with_discovery(skills_service, codex_home, outgoing, false)
+    }
+
+    fn with_discovery(
+        skills_service: Arc<HostSkillsService>,
+        codex_home: &AbsolutePathBuf,
+        outgoing: Arc<OutgoingMessageSender>,
+        discovery_enabled: bool,
+    ) -> Arc<Self> {
+        if !discovery_enabled {
+            let (subscriber, _) = Arc::new(FileWatcher::noop()).add_subscriber();
+            let shutdown_token = CancellationToken::new();
+            let shutdown_drop_guard = shutdown_token.clone().drop_guard();
+            return Arc::new(Self {
+                discovery_enabled,
+                subscriber,
+                runtime_extra_roots_registration: Mutex::new(WatchRegistration::default()),
+                shutdown_token,
+                _shutdown_drop_guard: shutdown_drop_guard,
+            });
+        }
         let file_watcher = match FileWatcher::new() {
             Ok(file_watcher) => Arc::new(file_watcher),
             Err(err) => {
@@ -59,6 +89,7 @@ impl SkillsWatcher {
             shutdown_token.child_token(),
         );
         Arc::new(Self {
+            discovery_enabled,
             subscriber,
             runtime_extra_roots_registration: Mutex::new(WatchRegistration::default()),
             shutdown_token,
@@ -71,6 +102,9 @@ impl SkillsWatcher {
     }
 
     pub(crate) fn register_runtime_extra_roots(&self, extra_roots: &[AbsolutePathBuf]) {
+        if !self.discovery_enabled {
+            return;
+        }
         let roots = extra_roots
             .iter()
             .map(|root| WatchPath {
@@ -92,6 +126,9 @@ impl SkillsWatcher {
         thread_manager: &ThreadManager,
         environments: &[TurnEnvironmentSelection],
     ) -> WatchRegistration {
+        if !self.discovery_enabled {
+            return WatchRegistration::default();
+        }
         let Some(environment_selection) = environments.first() else {
             return WatchRegistration::default();
         };

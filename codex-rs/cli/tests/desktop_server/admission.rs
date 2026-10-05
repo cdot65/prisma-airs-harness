@@ -179,7 +179,9 @@ async fn admission_probe(probe: Probe, terminal: Terminal) -> Result<()> {
     if let Some(expected) = expected {
         anyhow::ensure!(
             project.join(expected).exists() && output.contains(expected),
-            "direct execution or literal EPERM admission proof missing"
+            "direct execution or literal EPERM admission proof missing: fixture={expected}, marker={}, bounded fixture output={:?}",
+            project.join(expected).exists(),
+            output.chars().take(512).collect::<String>()
         );
         anyhow::ensure!(
             output.contains("Process exited with code 0"),

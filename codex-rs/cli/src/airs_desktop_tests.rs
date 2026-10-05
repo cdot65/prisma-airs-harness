@@ -88,3 +88,60 @@ async fn desktop_transport_redacts_json_escaped_and_nested_credentials() -> anyh
     );
     Ok(())
 }
+
+#[tokio::test]
+async fn desktop_transport_decodes_deep_unicode_object_keys_before_redaction() -> anyhow::Result<()>
+{
+    let secret = r#"fixture-"\\-protected-key"#;
+    let quoted = serde_json::to_string(secret)?;
+    for layers in [9, 12] {
+        // Only the first character is escaped: this is small enough to retain
+        // the entire credential through ordinary tool-output truncation.
+        let mut payload = format!(
+            r#"{{"\u0066{}":"fixture-unicode-object-key"}}"#,
+            &quoted[2..quoted.len() - 1]
+        );
+        for _ in 0..layers {
+            payload = serde_json::to_string(&payload)?;
+        }
+        let mut bytes = Vec::new();
+        transport::write_json(&mut bytes, &json!({"payload":payload}), secret).await?;
+        let outer: serde_json::Value = serde_json::from_slice(&bytes)?;
+        let mut decoded = outer["payload"].clone();
+        for _ in 0..=layers {
+            if let Some(text) = decoded.as_str() {
+                decoded = serde_json::from_str(text)?;
+            }
+        }
+        assert_eq!(
+            decoded["[protected credential]"],
+            "fixture-unicode-object-key"
+        );
+        assert!(
+            !decoded
+                .as_object()
+                .unwrap()
+                .keys()
+                .any(|key| key.contains(secret))
+        );
+    }
+    Ok(())
+}
+
+#[tokio::test]
+async fn desktop_transport_masks_unchecked_unicode_json_structures() -> anyhow::Result<()> {
+    let secret = r#"fixture-"\\-protected-key"#;
+    let quoted = serde_json::to_string(secret)?;
+    let object = format!(r#"{{"\u0066{}":"fixture"}}"#, &quoted[2..quoted.len() - 1]);
+    for payload in [
+        format!("{}{}{}", "[".repeat(130), object, "]".repeat(130)),
+        format!("{object} incomplete JSON"),
+        format!(r#"unwrapped \u0066{}"#, &quoted[2..quoted.len() - 1]),
+    ] {
+        let mut bytes = Vec::new();
+        transport::write_json(&mut bytes, &json!({"payload":payload}), secret).await?;
+        let output: serde_json::Value = serde_json::from_slice(&bytes)?;
+        assert_eq!(output["payload"], "[protected credential]");
+    }
+    Ok(())
+}

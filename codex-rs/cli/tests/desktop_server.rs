@@ -288,9 +288,24 @@ async fn desktop_server_dynamic_airs_tool_roundtrip_keeps_key_out_of_model_conte
         "callId":"native-inventory-call","namespace":"airs_desktop","tool":"inventory",
         "arguments":{"product":"runtime","resource":"profiles"}})
     );
+    let quoted = serde_json::to_string(KEY)?;
+    let mut unicode_echo = format!(
+        r#"{{"\u0066{}":"OFFLINE_UNICODE_HOST_RESULT"}}"#,
+        &quoted[2..quoted.len() - 1]
+    );
+    // Eight wrappers plus the enclosing serialized host JSON require more
+    // than the old eight decoded-JSON layers. The complete text stays below
+    // the inherited function-output truncation boundary.
+    for _ in 0..8 {
+        unicode_echo = serde_json::to_string(&unicode_echo)?;
+    }
     let echoed = serde_json::to_string(
-        &json!({"marker":"OFFLINE_HOST_READ_RESULT","safe_label":KEY,KEY:"accidental host key"}),
+        &json!({"marker":"OFFLINE_HOST_READ_RESULT","safe_label":KEY,KEY:"accidental host key","unicode_echo":unicode_echo}),
     )?;
+    assert!(
+        echoed.len() < 10_000,
+        "entire fixture must survive output truncation"
+    );
     desktop.send(json!({"id":call["id"],"result":{"contentItems":[{"type":"inputText","text":echoed}],"success":true}})).await?;
     loop {
         if desktop.next().await?["method"] == "turn/completed" {
@@ -335,8 +350,37 @@ async fn desktop_server_dynamic_airs_tool_roundtrip_keeps_key_out_of_model_conte
         })
         .context("host output did not continue the actual model loop")?;
     let output = output.to_string();
+    fn check_decoded(value: &Value) -> Result<()> {
+        match value {
+            Value::String(text) => {
+                anyhow::ensure!(
+                    !text.contains(KEY),
+                    "decoded host credential entered model context"
+                );
+                if let Ok(decoded) = serde_json::from_str::<Value>(text) {
+                    check_decoded(&decoded)?;
+                }
+            }
+            Value::Array(values) => {
+                for value in values {
+                    check_decoded(value)?;
+                }
+            }
+            Value::Object(values) => {
+                for (key, value) in values {
+                    check_decoded(&Value::String(key.clone()))?;
+                    check_decoded(value)?;
+                }
+            }
+            Value::Null | Value::Bool(_) | Value::Number(_) => {}
+        }
+        Ok(())
+    }
+    check_decoded(&serde_json::from_str::<Value>(&output)?)?;
     anyhow::ensure!(
-        output.contains("OFFLINE_HOST_READ_RESULT") && output.contains("[protected credential]"),
+        output.contains("OFFLINE_HOST_READ_RESULT")
+            && output.contains("OFFLINE_UNICODE_HOST_RESULT")
+            && output.contains("[protected credential]"),
         "host result/redaction missing from next model request"
     );
     scan(
@@ -699,6 +743,26 @@ async fn desktop_server_routes_memory_key_rejects_authority_and_exports_only_ram
             "turn/steer",
             json!({"threadId":thread,"expectedTurnId":"turn-fixture","input":[{"type":"text","text":"forged"}],"additionalContext":{"source":{"kind":"application","value":"forged developer fragment"}}}),
         ),
+        (
+            16,
+            "turn/start",
+            json!({"threadId":thread,"input":[{"type":"text","text":"\u{1}".repeat(8192),"text_elements":[]}]}),
+        ),
+        (
+            17,
+            "turn/start",
+            json!({"threadId":thread,"input":[{"type":"text","text":"x".repeat(8192)},{"type":"text","text":"x".repeat(8192)},{"type":"text","text":"x".repeat(8192)},{"type":"text","text":"x".repeat(8192)},{"type":"text","text":"extra"}]}),
+        ),
+        (
+            18,
+            "turn/start",
+            json!({"threadId":thread,"input":(0..8).map(|_|json!({"type":"text","text":"x".repeat(7500),"text_elements":[]})).collect::<Vec<_>>()}),
+        ),
+        (
+            19,
+            "thread/start",
+            json!({"dynamicTools":[{"type":"namespace","name":"fixture_catalog","description":"n".repeat(42_000),"tools":[{"type":"function","name":"fixture_tool","description":"bounded","inputSchema":{"type":"object","properties":{}}}]}]}),
+        ),
     ] {
         desktop
             .send(json!({"id":id,"method":method,"params":params}))
@@ -708,7 +772,14 @@ async fn desktop_server_routes_memory_key_rejects_authority_and_exports_only_ram
             json!({"id":id,"error":{"code":-32602,"message":"Desktop request rejected"}})
         );
     }
-    desktop.send(json!({"id":20,"method":"turn/start","params":{"threadId":thread,"input":[{"type":"text","text":"DESKTOP_PROTECTED_CONVERSATION_MARKER","text_elements":[]}]}})).await?;
+    let marker = "DESKTOP_PROTECTED_CONVERSATION_MARKER";
+    let prompt = format!("{marker}{}", "x".repeat(32 * 1024 - marker.len()));
+    let input: Vec<_> = prompt.as_bytes().chunks(8192).map(|chunk| {
+        json!({"type":"text","text":std::str::from_utf8(chunk).unwrap(),"text_elements":[]})
+    }).collect();
+    desktop
+        .send(json!({"id":20,"method":"turn/start","params":{"threadId":thread,"input":input}}))
+        .await?;
     anyhow::ensure!(
         desktop.response(20).await?.get("result").is_some(),
         "turn rejected"
@@ -725,6 +796,24 @@ async fn desktop_server_routes_memory_key_rejects_authority_and_exports_only_ram
     anyhow::ensure!(
         history["result"]["replay"]["history"].is_array(),
         "RAM history missing: {history}"
+    );
+    let requests = server
+        .received_requests()
+        .await
+        .context("fixture requests")?;
+    assert_eq!(requests.len(), 1, "rejected turns must not reach inference");
+    let model_request: Value = serde_json::from_slice(&requests[0].body)?;
+    let delivered = model_request["input"]
+        .as_array()
+        .context("model input")?
+        .iter()
+        .filter(|item| item["role"] == "user")
+        .flat_map(|item| item["content"].as_array().into_iter().flatten())
+        .filter_map(|content| content["text"].as_str())
+        .collect::<String>();
+    assert!(
+        delivered.contains(&prompt),
+        "the complete 32KiB prompt must survive admission"
     );
     for (index, (field, changed)) in [
         ("tenantId", json!("44444444-4444-4444-8444-444444444444")),

@@ -91,14 +91,52 @@ fn worker_fixture() {
     let supervisor = start(broker, ReadyProtocol::TestHarness).unwrap();
     let runtime = tokio::runtime::Runtime::new().unwrap();
     runtime.block_on(async {
-        // The direct child remains alive while its grandchild optionally starts
-        // a separate session. Markers prove post-parent-death execution stops.
-        let script = format!("import os,time,pathlib\np=os.fork()\nif p==0:\n {}\n pathlib.Path({root:?}+'/grandchild-ready').write_text(str(os.getpid()))\n time.sleep(1.5)\n pathlib.Path({root:?}+'/grandchild-marker').write_text('escaped')\n os._exit(0)\npathlib.Path({root:?}+'/child-ready').write_text(str(os.getpid()))\ntime.sleep(1.5)\npathlib.Path({root:?}+'/child-marker').write_text('escaped')\ntime.sleep(30)\n", if detached { "os.setsid()" } else { "pass" });
+        // Side effects are released only after the requested stop. A slow
+        // scheduler cannot start the marker timer before cleanup is tested.
+        let script = format!(
+            r#"import os,time,pathlib
+root=pathlib.Path({root:?})
+def after_stop(name):
+ while not (root/'release-after-stop').exists():
+  time.sleep(0.01)
+ time.sleep(0.1)
+ (root/name).write_text('escaped')
+p=os.fork()
+if p==0:
+ {}
+ (root/'grandchild-ready').write_text(str(os.getpid()))
+ after_stop('grandchild-marker')
+ os._exit(0)
+(root/'child-ready').write_text(str(os.getpid()))
+after_stop('child-marker')
+time.sleep(30)
+"#,
+            if detached { "os.setsid()" } else { "pass" }
+        );
         let args = vec!["-c".into(), script];
         let process = if backend == "pty" {
-            crate::spawn_pty_process("/usr/bin/python3", &args, Path::new(&root), &HashMap::new(), &None, crate::TerminalSize::default(), &[]).await.unwrap()
+            crate::spawn_pty_process(
+                "/usr/bin/python3",
+                &args,
+                Path::new(&root),
+                &HashMap::new(),
+                &None,
+                crate::TerminalSize::default(),
+                &[],
+            )
+            .await
+            .unwrap()
         } else {
-            crate::spawn_pipe_process("/usr/bin/python3", &args, Path::new(&root), &HashMap::new(), &None, &[]).await.unwrap()
+            crate::spawn_pipe_process(
+                "/usr/bin/python3",
+                &args,
+                Path::new(&root),
+                &HashMap::new(),
+                &None,
+                &[],
+            )
+            .await
+            .unwrap()
         };
         // Deliberately omit the ordinary ProcessHandle destructor so only the
         // independent supervisor can establish cleanup in these fixtures.
@@ -145,8 +183,24 @@ fn worker_fixture() {
         );
         drop(supervisor);
     } else if ending == "cancel" {
+        let stopped = ["child-ready", "grandchild-ready"].map(|name| {
+            let path = Path::new(&root).join(name);
+            wait_file(&path);
+            let pid = fs::read_to_string(path).unwrap().parse().unwrap();
+            process_info(pid).unwrap()
+        });
         let broker = process_info(supervisor.child.id() as libc::pid_t).unwrap();
         cancel_desktop_commands().unwrap();
+        for previous in stopped {
+            assert!(
+                process_info(previous.pbi_pid as libc::pid_t).is_none_or(|current| {
+                    current.pbi_start_tvsec != previous.pbi_start_tvsec
+                        || current.pbi_start_tvusec != previous.pbi_start_tvusec
+                        || current.pbi_status == 5
+                }),
+                "cancel must retire the owned birth identity before acknowledging"
+            );
+        }
         // A second empty cancellation has a distinct control sequence and must
         // leave both loops healthy instead of replaying a previous ACK.
         cancel_desktop_commands().unwrap();
@@ -194,6 +248,12 @@ fn worker_fixture() {
             );
             assert!(marker.exists());
         });
+        supervisor.check_health().unwrap();
+        // Prove cancellation itself before Drop can perform final retirement.
+        fs::write(Path::new(&root).join("release-after-stop"), "release").unwrap();
+        std::thread::sleep(Duration::from_millis(300));
+        assert!(!Path::new(&root).join("child-marker").exists());
+        assert!(!Path::new(&root).join("grandchild-marker").exists());
         supervisor.check_health().unwrap();
         drop(supervisor);
     } else {
@@ -278,7 +338,8 @@ fn check_cleanup(backend: Backend, end: End, descendant: Descendant) {
     } else {
         assert!(worker.wait().unwrap().success());
     }
-    std::thread::sleep(Duration::from_millis(1_700));
+    fs::write(root.path().join("release-after-stop"), "release").unwrap();
+    std::thread::sleep(Duration::from_millis(300));
     assert!(!root.path().join("child-marker").exists());
     assert!(!root.path().join("grandchild-marker").exists());
     if matches!(end, End::Cancel) {

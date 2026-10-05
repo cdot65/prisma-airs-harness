@@ -39,11 +39,32 @@ pub(super) fn validate(
                 && input.iter().all(|item| {
                     item.get("type").and_then(Value::as_str) == Some("text")
                         && item
+                            .get("text_elements")
+                            .is_none_or(|value| value.as_array().is_some_and(Vec::is_empty))
+                        && item
                             .get("text")
                             .and_then(Value::as_str)
                             .is_some_and(|text| text.len() <= 8192)
                 }),
             "Desktop turn input must be bounded text"
+        );
+        anyhow::ensure!(
+            input
+                .iter()
+                .filter_map(|item| item.get("text").and_then(Value::as_str))
+                .map(str::len)
+                .sum::<usize>()
+                <= 32 * 1024,
+            "Desktop turn text exceeds its total bound"
+        );
+        // Core combines text chunks into one user message. Include JSON escaping and reserve
+        // room below the 40K replay item cap for harness-generated IDs and attribution metadata.
+        let model_item = json!({"type":"message", "role":"user", "content":input.iter().map(|item| {
+            json!({"type":"input_text", "text":item["text"]})
+        }).collect::<Vec<_>>()});
+        anyhow::ensure!(
+            serde_json::to_vec(&model_item)?.len() <= 39_000,
+            "Desktop turn context exceeds its serialized byte bound"
         );
     }
     match request.method.as_str() {
@@ -117,6 +138,18 @@ pub(super) fn validate(
                     tools.len() <= 64
                         && functions.len() <= 64
                         && functions.iter().all(|tool| tool.to_string().len() <= 4096)
+                        && tools.iter().all(|tool| {
+                            tool.get("tools").is_none_or(|_| {
+                                tool.get("name")
+                                    .and_then(Value::as_str)
+                                    .is_some_and(|name| name.len() <= 128)
+                                    && tool
+                                        .get("description")
+                                        .and_then(Value::as_str)
+                                        .is_none_or(|description| description.len() <= 4096)
+                                    && tool.to_string().len() <= 40_000
+                            })
+                        })
                         && tools
                             .iter()
                             .map(|tool| tool.to_string().len())

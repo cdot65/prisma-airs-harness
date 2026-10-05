@@ -62,13 +62,20 @@ pub(super) async fn write_json<W: AsyncWrite + Unpin>(
 
 fn redact(value: &mut Value, secret: &str) -> anyhow::Result<()> {
     let mut limit = 0usize;
+    let mut string_bytes = 0usize;
     let mut pending = vec![&*value];
     while let Some(part) = pending.pop() {
         match part {
-            Value::String(text) => limit = limit.max(text.len()),
+            Value::String(text) => {
+                limit = limit.max(text.len());
+                string_bytes = string_bytes.saturating_add(text.len());
+            }
             Value::Array(values) => pending.extend(values),
             Value::Object(values) => {
                 limit = limit.max(values.keys().map(String::len).max().unwrap_or_default());
+                for key in values.keys() {
+                    string_bytes = string_bytes.saturating_add(key.len());
+                }
                 pending.extend(values.values());
             }
             Value::Null | Value::Bool(_) | Value::Number(_) => {}
@@ -91,25 +98,70 @@ fn redact(value: &mut Value, secret: &str) -> anyhow::Result<()> {
         encodings.push(next.to_string());
         encoded = next;
     }
-    redact_nested(value, secret, &encodings, /*depth*/ 0);
+    // JSON strings can spell any credential character as a Unicode escape.
+    // Decode complete JSON strings to the actual value, including object keys.
+    // A fixed layer cutoff would retain a deeper unchecked credential. Bound
+    // total parsing work by the admitted string bytes and fail closed instead.
+    let mut parse_budget = string_bytes
+        .min(REPLAY_LIMIT)
+        .saturating_mul(8)
+        .max(FRAME_LIMIT);
+    redact_nested(
+        value,
+        secret,
+        &encodings,
+        /*depth*/ 0,
+        &mut parse_budget,
+    );
     Ok(())
 }
 
-fn redact_nested(value: &mut Value, secret: &str, encodings: &[String], depth: usize) {
+fn redact_nested(
+    value: &mut Value,
+    secret: &str,
+    encodings: &[String],
+    depth: usize,
+    parse_budget: &mut usize,
+) {
     if secret.is_empty() {
+        return;
+    }
+    if depth >= 128 {
+        *value = Value::String("[protected credential]".to_owned());
         return;
     }
     match value {
         Value::String(text) => {
             *text = text.replace(secret, "[protected credential]");
-            if depth < 8
-                && let Ok(mut decoded) = serde_json::from_str::<Value>(text)
-            {
-                let original = decoded.clone();
-                redact_nested(&mut decoded, secret, encodings, depth + 1);
-                if decoded != original {
-                    *text = serde_json::to_string(&decoded).unwrap_or_default();
+            let unicode_spelling = text.as_bytes().windows(6).any(|part| {
+                part[0] == b'\\' && part[1] == b'u' && part[2..].iter().all(u8::is_ascii_hexdigit)
+            });
+            if matches!(text.trim_start().chars().next(), Some('"' | '{' | '[')) {
+                if text.len() > *parse_budget {
+                    *text = "[protected credential]".to_owned();
+                    return;
                 }
+                *parse_budget -= text.len();
+                match serde_json::from_str::<Value>(text) {
+                    Ok(mut decoded) => {
+                        let original = decoded.clone();
+                        redact_nested(&mut decoded, secret, encodings, depth + 1, parse_budget);
+                        if decoded != original {
+                            *text = serde_json::to_string(&decoded).unwrap_or_default();
+                        }
+                    }
+                    Err(_) if unicode_spelling => {
+                        // Includes embedded JSON beyond serde's structural
+                        // recursion limit. An unchecked Unicode spelling is
+                        // protected even when the JSON is incomplete.
+                        *text = "[protected credential]".to_owned();
+                        return;
+                    }
+                    Err(_) => {}
+                }
+            } else if unicode_spelling {
+                *text = "[protected credential]".to_owned();
+                return;
             }
             // Function arguments and diagnostic text can themselves contain
             // serialized JSON, so the decoded outer string can still escape a
@@ -122,13 +174,13 @@ fn redact_nested(value: &mut Value, secret: &str, encodings: &[String], depth: u
         }
         Value::Array(values) => values
             .iter_mut()
-            .for_each(|value| redact_nested(value, secret, encodings, depth)),
+            .for_each(|value| redact_nested(value, secret, encodings, depth + 1, parse_budget)),
         Value::Object(values) => {
             let previous = std::mem::take(values);
             for (key, mut value) in previous {
-                redact_nested(&mut value, secret, encodings, depth);
+                redact_nested(&mut value, secret, encodings, depth + 1, parse_budget);
                 let mut key = Value::String(key);
-                redact_nested(&mut key, secret, encodings, depth);
+                redact_nested(&mut key, secret, encodings, depth + 1, parse_budget);
                 values.insert(
                     key.as_str().unwrap_or("[protected field]").to_owned(),
                     value,

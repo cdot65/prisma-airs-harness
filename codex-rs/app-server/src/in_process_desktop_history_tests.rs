@@ -211,8 +211,22 @@ async fn desktop_replay_restores_compaction_into_model_context_without_executing
         ] },
     }).await?.map_err(|_| anyhow::anyhow!("inject failed"))?;
     let replacement = json!({"type":"message","role":"user","content":[{"type":"input_text","text":"COMPACTED_DESKTOP_CONTEXT"}]});
+    let mut bounded_replacement = replacement.clone();
+    bounded_replacement["content"][0]["text"] = json!("");
+    let empty_size = serde_json::to_vec(&serde_json::from_value::<
+        codex_protocol::models::ResponseItem,
+    >(bounded_replacement.clone())?)?
+    .len();
+    bounded_replacement["content"][0]["text"] = json!("x".repeat(40_000 - empty_size));
+    assert_eq!(
+        serde_json::to_vec(&serde_json::from_value::<
+            codex_protocol::models::ResponseItem,
+        >(bounded_replacement.clone())?)?
+        .len(),
+        40_000
+    );
     let compacted = serde_json::from_value(json!({
-        "message":"COMPACTED_DESKTOP_CONTEXT", "replacement_history":[replacement, call, output],
+        "message":"COMPACTED_DESKTOP_CONTEXT", "replacement_history":[replacement, bounded_replacement, call, output],
         "window_number":1, "window_id":uuid::Uuid::now_v7().to_string(),
     }))?;
     ThreadStore::append_items(
@@ -258,6 +272,99 @@ async fn desktop_replay_restores_compaction_into_model_context_without_executing
             .collect(),
     })];
     assert!(serde_json::to_vec(&current_tools)?.len() > 4096);
+    let mut oversized_catalog = current_tools.clone();
+    let DynamicToolSpec::Namespace(namespace) = &mut oversized_catalog[0] else {
+        unreachable!()
+    };
+    namespace.description = "n".repeat(42_000);
+    assert!(serde_json::to_vec(&oversized_catalog)?.len() < 48 * 1024);
+    let error = restored_client
+        .restore_desktop_history(DesktopRestoreParams {
+            replay: replay.clone(),
+            current_tools: oversized_catalog,
+        })
+        .await?
+        .err()
+        .ok_or_else(|| anyhow::anyhow!("oversized namespace fragment was admitted"))?;
+    assert_eq!(
+        error.message,
+        "desktop current tool catalog exceeds its bounds"
+    );
+    for (mutation, expected_error) in [
+        (
+            "provider",
+            "desktop replay does not match the current root runtime",
+        ),
+        ("version", "desktop replay version is incompatible"),
+        (
+            "metadata",
+            "desktop replay session metadata is inconsistent",
+        ),
+        (
+            "permission",
+            "desktop replay turn settings do not match the current runtime",
+        ),
+        (
+            "response-size",
+            "desktop replay context item exceeds its serialized byte bound",
+        ),
+        (
+            "compaction-summary-size",
+            "desktop replay context item exceeds its serialized byte bound",
+        ),
+        (
+            "compaction-replacement-size",
+            "desktop replay context item exceeds its serialized byte bound",
+        ),
+    ] {
+        let mut changed = replay.clone();
+        match mutation {
+            "provider" => changed.create.metadata.model_provider = "other".into(),
+            "version" => changed.schema_version = 2,
+            "metadata" => changed.create.originator = "forged".into(),
+            "permission" => {
+                changed
+                    .history
+                    .push(RolloutItem::TurnContext(serde_json::from_value(json!({
+                        "cwd":cwd,
+                        "approval_policy":"never",
+                        "sandbox_policy":{"type":"read-only"},
+                        "permission_profile":codex_protocol::models::PermissionProfile::Disabled,
+                        "model":"mock-model",
+                        "summary":"auto"
+                    }))?));
+            }
+            "response-size" => {
+                changed.history.push(RolloutItem::ResponseItem(serde_json::from_value::<codex_protocol::models::ResponseItem>(json!({
+                    "type":"message","role":"user","content":[{"type":"input_text","text":"x".repeat(50_000)}]
+                }))?.into()));
+            }
+            "compaction-summary-size" => {
+                changed
+                    .history
+                    .push(RolloutItem::Compacted(serde_json::from_value(json!({
+                        "message":"x".repeat(50_000)
+                    }))?));
+            }
+            "compaction-replacement-size" => {
+                changed.history.push(RolloutItem::Compacted(serde_json::from_value(json!({
+                    "message":"bounded summary", "replacement_history":[{
+                        "type":"message","role":"user","content":[{"type":"input_text","text":"x".repeat(50_000)}]
+                    }]
+                }))?));
+            }
+            _ => unreachable!(),
+        }
+        let error = restored_client
+            .restore_desktop_history(DesktopRestoreParams {
+                replay: changed,
+                current_tools: current_tools.clone(),
+            })
+            .await?
+            .err()
+            .ok_or_else(|| anyhow::anyhow!("mutated replay was accepted"))?;
+        assert_eq!(error.message, expected_error);
+    }
     let resumed = restored_client
         .restore_desktop_history(DesktopRestoreParams {
             replay: replay.clone(),
@@ -285,50 +392,6 @@ async fn desktop_replay_restores_compaction_into_model_context_without_executing
         )?,
         original_history
     );
-    for (mutation, expected_error) in [
-        (
-            "provider",
-            "desktop replay does not match the current root runtime",
-        ),
-        ("version", "desktop replay version is incompatible"),
-        (
-            "metadata",
-            "desktop replay session metadata is inconsistent",
-        ),
-        (
-            "permission",
-            "desktop replay turn settings do not match the current runtime",
-        ),
-    ] {
-        let mut changed = replay.clone();
-        match mutation {
-            "provider" => changed.create.metadata.model_provider = "other".into(),
-            "version" => changed.schema_version = 2,
-            "metadata" => changed.create.originator = "forged".into(),
-            "permission" => {
-                changed
-                    .history
-                    .push(RolloutItem::TurnContext(serde_json::from_value(json!({
-                        "cwd":cwd,
-                        "approval_policy":"never",
-                        "sandbox_policy":{"type":"read-only"},
-                        "permission_profile":codex_protocol::models::PermissionProfile::Disabled,
-                        "model":"mock-model",
-                        "summary":"auto"
-                    }))?));
-            }
-            _ => unreachable!(),
-        }
-        let error = restored_client
-            .restore_desktop_history(DesktopRestoreParams {
-                replay: changed,
-                current_tools: current_tools.clone(),
-            })
-            .await?
-            .err()
-            .ok_or_else(|| anyhow::anyhow!("mutated replay was accepted"))?;
-        assert_eq!(error.message, expected_error);
-    }
     restored_client
         .request(ClientRequest::TurnStart {
             request_id: RequestId::Integer(3),
@@ -355,9 +418,17 @@ async fn desktop_replay_restores_compaction_into_model_context_without_executing
         panic!("restored turn produced no completion");
     })
     .await?;
-    let input = response_mock.single_request().body_json()["input"].to_string();
+    let model_request = response_mock.single_request().body_json();
+    for item in model_request["input"].as_array().unwrap() {
+        assert!(
+            serde_json::to_vec(item)?.len() <= 40_000,
+            "restored model-visible item exceeds its bound"
+        );
+    }
+    let input = model_request["input"].to_string();
     assert!(input.contains("COMPACTED_DESKTOP_CONTEXT"));
     assert!(input.contains("HISTORICAL_TOOL_RESULT"));
+    assert!(input.contains(&"x".repeat(40_000 - empty_size)));
     assert!(!input.contains("OBSOLETE_BEFORE_COMPACTION"));
     assert!(!input.contains("HOSTILE_USER_SKILL_MARKER"));
     assert!(!input.contains("HOSTILE_PROJECT_SKILL_MARKER"));

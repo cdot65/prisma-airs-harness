@@ -3061,9 +3061,24 @@ transcript. A trusted host may rebind only its process-local credential epoch af
 verifying that the archive still names the unchanged stored credential reference.
 
 Bootstrap and ordinary input frames are at most 64 KiB; replay frames are at most
-4 MiB. Text turn input is limited to eight items of at most 8192 UTF-8 bytes each.
+4 MiB. Text turn input is limited to eight items of at most 8192 UTF-8 bytes each,
+32 KiB total, with no text-element annotations. The combined serialized user
+message must fit 39,000 bytes, reserving room for harness attribution below the
+40,000-byte serialized replay item limit. This includes JSON escaping overhead;
+ordinary 32 KiB ASCII prompts remain accepted.
 The transport allows eight pending requests, 32 pending host requests and 16
 threads. Catalogs have at most 64 functions, 4096 bytes per function and 48 KiB
-total. Output redaction includes decoded JSON, embedded JSON strings and bounded
-repeated JSON escaping. Event lag, stale approvals and unsupported messages fail
+total. Each namespace has at most 40,000 serialized bytes, a 128-byte name and
+4096-byte description. Output redaction includes decoded JSON, embedded JSON strings and bounded
+repeated JSON escaping. Unicode spellings are decoded before redaction; unchecked
+encoded data is replaced when parsing or bounded recursive inspection fails.
+Replay response items, compaction summaries and replacement records each have a
+40,000-byte serialized cap. Context reconstruction records and saved instructions
+are also bounded; oversized history is rejected rather than truncated or replayed.
+The ordinary text-item cap follows the existing approximate bytes/4 estimator;
+it is a conservative byte policy, not an exact provider tokenizer guarantee.
+P0 manual context review covers the admitted 32 KiB prompt, current tool schemas,
+bounded host replies, and replay/compaction records that can cross the inherited
+1K-token review threshold. No tokenizer or new context-fragment implementation
+was introduced. Event lag, stale approvals and unsupported messages fail
 closed. The hidden HTTP-loopback option exists solely for offline fixture tests.

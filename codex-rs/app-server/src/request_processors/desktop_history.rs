@@ -19,6 +19,10 @@ use codex_protocol::config_types::MultiAgentMode;
 use codex_protocol::dynamic_tools::DynamicToolNamespaceTool;
 use codex_protocol::dynamic_tools::DynamicToolSpec;
 use codex_protocol::mcp::ClientMcpExtensions;
+use codex_protocol::models::ContentItem;
+use codex_protocol::models::ContentItemKind;
+use codex_protocol::models::InternalChatMessageMetadataPassthrough;
+use codex_protocol::models::ResponseItem;
 use codex_protocol::protocol::EventMsg;
 use codex_protocol::protocol::SessionMeta;
 use codex_protocol::protocol::ThreadHistoryMode;
@@ -40,6 +44,9 @@ pub const DESKTOP_REPLAY_ENGINE_REVISION: &str =
     "1885e40eb1dc493ad5b47757694d077011afa431+desktop-v1";
 const MAX_REPLAY_BYTES: usize = 4 * 1024 * 1024;
 const MAX_REPLAY_ITEMS: usize = 8192;
+// Matches the inherited ordinary-item estimate (ceil(serialized bytes / 4) <= 10K).
+// This is a conservative byte admission policy, not an exact provider tokenizer.
+const MAX_CONTEXT_ITEM_BYTES: usize = 40_000;
 
 /// Sensitive plaintext carried only in memory between the host and its encrypted store.
 ///
@@ -155,11 +162,17 @@ impl ThreadRequestProcessor {
                 function_count = function_count.saturating_add(1);
                 serde_json::to_vec(function).map_or(true, |bytes| bytes.len() > 4096)
             }
-            DynamicToolSpec::Namespace(namespace) => namespace.tools.iter().any(|tool| {
-                let DynamicToolNamespaceTool::Function(function) = tool;
-                function_count = function_count.saturating_add(1);
-                serde_json::to_vec(function).map_or(true, |bytes| bytes.len() > 4096)
-            }),
+            DynamicToolSpec::Namespace(namespace) => {
+                namespace.name.len() > 128
+                    || namespace.description.len() > 4096
+                    || serde_json::to_vec(namespace)
+                        .map_or(true, |bytes| bytes.len() > MAX_CONTEXT_ITEM_BYTES)
+                    || namespace.tools.iter().any(|tool| {
+                        let DynamicToolNamespaceTool::Function(function) = tool;
+                        function_count = function_count.saturating_add(1);
+                        serde_json::to_vec(function).map_or(true, |bytes| bytes.len() > 4096)
+                    })
+            }
         });
         if current_tools.len() > 64
             || function_count > 64
@@ -366,6 +379,7 @@ fn validate_replay(replay: &DesktopReplay, config: &Config) -> Result<(), JSONRP
     let approval = config.permissions.approval_policy.value();
     let mut active_turn = false;
     for item in &replay.history {
+        validate_context_item(item)?;
         match item {
             RolloutItem::TurnContext(context)
                 if context.cwd != config.cwd
@@ -414,4 +428,62 @@ fn validate_replay(replay: &DesktopReplay, config: &Config) -> Result<(), JSONRP
         return Err(invalid_request("desktop replay ends in an incomplete turn"));
     }
     Ok(())
+}
+
+fn validate_context_item(item: &RolloutItem) -> Result<(), JSONRPCErrorError> {
+    fn bounded(value: &impl Serialize) -> Result<(), JSONRPCErrorError> {
+        if serde_json::to_vec(value).map_or(true, |bytes| bytes.len() > MAX_CONTEXT_ITEM_BYTES) {
+            return Err(invalid_request(
+                "desktop replay context item exceeds its serialized byte bound",
+            ));
+        }
+        Ok(())
+    }
+    match item {
+        RolloutItem::ResponseItem(response) => bounded(&response.item),
+        RolloutItem::Compacted(compacted) => {
+            // Legacy summaries become one assistant response; replacement records stay separate.
+            bounded(&ResponseItem::Message {
+                id: None,
+                role: "user".into(),
+                content: vec![ContentItem::InputText {
+                    text: compacted.message.clone(),
+                }],
+                phase: None,
+                internal_chat_message_metadata_passthrough: Some(
+                    InternalChatMessageMetadataPassthrough {
+                        content_item_kinds: Some(vec![ContentItemKind(
+                            "compaction.summary".into(),
+                        )]),
+                        ..Default::default()
+                    },
+                ),
+            })?;
+            for response in compacted.replacement_history.iter().flatten() {
+                bounded(&response.item)?;
+            }
+            for response in compacted
+                .guardian_history
+                .iter()
+                .flat_map(|history| &history.0)
+            {
+                bounded(response)?;
+            }
+            bounded(&compacted.retained_context)?;
+            bounded(&compacted.resume_metadata)
+        }
+        RolloutItem::SessionMeta(line) => bounded(&line.meta.base_instructions),
+        RolloutItem::InterAgentCommunication(communication) => {
+            bounded(&communication.to_model_input_item())
+        }
+        // These records can reconstruct later context fragments; bound the complete record.
+        RolloutItem::TurnContext(_)
+        | RolloutItem::WorldState(_)
+        | RolloutItem::RetainedContext(_) => bounded(item),
+        RolloutItem::InterAgentCommunicationMetadata { .. }
+        | RolloutItem::TokenUsageRecord(_)
+        | RolloutItem::SecurityRiskScore(_)
+        | RolloutItem::EventMsg(_)
+        | RolloutItem::RealtimeItem(_) => Ok(()),
+    }
 }

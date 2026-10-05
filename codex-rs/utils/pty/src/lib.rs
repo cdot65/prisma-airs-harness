@@ -1,5 +1,23 @@
+#[cfg(target_os = "macos")]
+mod desktop_monitor;
+#[cfg(target_os = "macos")]
+mod desktop_process_tree;
+#[cfg(target_os = "macos")]
+mod desktop_supervisor;
+#[cfg(target_os = "macos")]
+mod desktop_supervisor_io;
 #[cfg(target_os = "linux")]
 mod linux_fds;
+#[cfg(target_os = "macos")]
+pub use desktop_supervisor::DESKTOP_SUPERVISOR_ARG;
+#[cfg(target_os = "macos")]
+pub use desktop_supervisor::DesktopSupervisor;
+#[cfg(target_os = "macos")]
+pub use desktop_supervisor::cancel_desktop_commands;
+#[cfg(target_os = "macos")]
+pub use desktop_supervisor::run_desktop_supervisor;
+#[cfg(target_os = "macos")]
+pub use desktop_supervisor::start_desktop_supervisor;
 pub mod pipe;
 mod process;
 pub mod process_group;

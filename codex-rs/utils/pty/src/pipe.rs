@@ -156,10 +156,20 @@ async fn spawn_process_with_stdin_mode(
     let parent_pid = unsafe { libc::getpid() };
     #[cfg(unix)]
     let inherited_fds = inherited_fds.to_vec();
+    #[cfg(target_os = "macos")]
+    let desktop_guard = crate::desktop_supervisor::prepare_spawn()?;
+    #[cfg(target_os = "macos")]
+    let registration = desktop_guard
+        .as_ref()
+        .map(crate::desktop_supervisor::DesktopSpawnGuard::registration);
     #[cfg(unix)]
     unsafe {
         command.pre_exec(move || {
             crate::process_group::detach_from_tty()?;
+            #[cfg(target_os = "macos")]
+            if let Some(registration) = registration {
+                registration.register()?;
+            }
             #[cfg(target_os = "linux")]
             crate::process_group::set_parent_death_signal(parent_pid)?;
             crate::pty::close_inherited_fds_except(&inherited_fds);
@@ -190,6 +200,8 @@ async fn spawn_process_with_stdin_mode(
     #[cfg(windows)]
     let job = crate::win::JobObject::create().map(Arc::new);
     let mut child = command.spawn()?;
+    #[cfg(target_os = "macos")]
+    drop(desktop_guard);
     #[cfg(windows)]
     let windows_terminator = {
         // Accept the small race: a descendant created between spawn and

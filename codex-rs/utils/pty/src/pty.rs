@@ -142,7 +142,11 @@ pub async fn spawn_process(
     let _ = inherited_fds;
 
     #[cfg(unix)]
-    if !inherited_fds.is_empty() {
+    let use_raw_pty = !inherited_fds.is_empty();
+    #[cfg(target_os = "macos")]
+    let use_raw_pty = use_raw_pty || crate::desktop_supervisor::desktop_mode_enabled();
+    #[cfg(unix)]
+    if use_raw_pty {
         return spawn_process_preserving_fds(program, args, cwd, env, arg0, size, inherited_fds)
             .await;
     }
@@ -319,6 +323,12 @@ async fn spawn_process_preserving_fds(
     let stdout = slave.try_clone()?;
     let stderr = slave.try_clone()?;
     let inherited_fds = inherited_fds.to_vec();
+    #[cfg(target_os = "macos")]
+    let desktop_guard = crate::desktop_supervisor::prepare_spawn()?;
+    #[cfg(target_os = "macos")]
+    let registration = desktop_guard
+        .as_ref()
+        .map(crate::desktop_supervisor::DesktopSpawnGuard::registration);
 
     unsafe {
         command
@@ -343,6 +353,10 @@ async fn spawn_process_preserving_fds(
                 if libc::setsid() == -1 {
                     return Err(std::io::Error::last_os_error());
                 }
+                #[cfg(target_os = "macos")]
+                if let Some(registration) = registration {
+                    registration.register()?;
+                }
 
                 // stdin now refers to the PTY slave, so make that fd the
                 // controlling terminal for the child's new session. stdout and
@@ -358,6 +372,8 @@ async fn spawn_process_preserving_fds(
     }
 
     let mut child = command.spawn()?;
+    #[cfg(target_os = "macos")]
+    drop(desktop_guard);
     drop(slave);
     let process_group_id = child.id();
 

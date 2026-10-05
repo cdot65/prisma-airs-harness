@@ -7,7 +7,7 @@ use std::sync::OnceLock;
 
 static APPLICATION_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 /// Standalone product version, distinct from the pinned upstream crate versions.
-pub const AIRS_HARNESS_VERSION: &str = "0.1.6";
+pub const AIRS_HARNESS_VERSION: &str = "0.1.7-desktop.1";
 static ENVIRONMENT_HOME: OnceLock<AbsolutePathBuf> = OnceLock::new();
 
 /// Select one independent AIRS environment before loading runtime configuration.
@@ -73,6 +73,12 @@ pub fn initialize_airs_harness_home() -> std::io::Result<()> {
             }
         }
     };
+    initialize_airs_harness_home_at(path)
+}
+
+/// Bind an embedder-owned isolated home without consulting environment overrides.
+/// The caller owns its lifetime; application selection remains process-immutable.
+pub fn initialize_airs_harness_home_at(path: PathBuf) -> std::io::Result<()> {
     if !path.is_absolute() {
         return Err(std::io::Error::new(
             std::io::ErrorKind::InvalidInput,

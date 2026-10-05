@@ -198,6 +198,9 @@ pub(crate) fn resolve_provider_auth(
     auth: Option<&CodexAuth>,
     provider: &ModelProviderInfo,
 ) -> codex_protocol::error::Result<SharedAuthProvider> {
+    if let Some(auth) = crate::desktop_gateway_auth::resolve(provider) {
+        return auth;
+    }
     if provider.gateway.is_some() && provider.auth.is_some() && auth.is_none() {
         return Err(CodexErr::Fatal(
             "AIRS credential helper could not supply the bound credential; run airs env status, then airs login if needed".to_string(),

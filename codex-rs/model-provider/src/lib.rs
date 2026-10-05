@@ -1,6 +1,7 @@
 mod amazon_bedrock;
 mod auth;
 mod bearer_auth_provider;
+mod desktop_gateway_auth;
 mod models_endpoint;
 mod provider;
 mod shared_state;
@@ -18,6 +19,7 @@ pub use codex_model_provider_info::AMAZON_BEDROCK_PROVIDER_ID;
 pub use codex_model_provider_info::AMAZON_BEDROCK_RUNTIME_PROVIDER_ID;
 pub use codex_model_provider_info::CHATGPT_CODEX_BASE_URL;
 pub use codex_protocol::account::ProviderAccount;
+pub use desktop_gateway_auth::install_desktop_gateway_auth;
 pub use provider::ModelProvider;
 pub use provider::ModelProviderFuture;
 pub use provider::ProviderAccountError;

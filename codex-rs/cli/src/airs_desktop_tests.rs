@@ -55,7 +55,13 @@ async fn desktop_transport_redacts_json_escaped_and_nested_credentials() -> anyh
     let twice = serde_json::to_string(&nested)?;
     let encoded = serde_json::to_string(secret)?;
     let key = format!("diagnostic-{}", &encoded[1..encoded.len() - 1]);
-    let value = json!({"direct":secret,"arguments":nested,"nested":twice,secret:"private",key:"encoded-private"});
+    let mut repeated = secret.to_owned();
+    for _ in 0..12 {
+        let quoted = serde_json::to_string(&repeated)?;
+        repeated = quoted[1..quoted.len() - 1].to_owned();
+    }
+    let deep_key = format!("repeated-{repeated}");
+    let value = json!({"direct":secret,"arguments":nested,"nested":twice,secret:"private",key:"encoded-private",deep_key:"repeated-private"});
     let mut bytes = Vec::new();
     transport::write_json(&mut bytes, &value, secret).await?;
     let output: String = String::from_utf8(bytes)?;
@@ -75,6 +81,10 @@ async fn desktop_transport_redacts_json_escaped_and_nested_credentials() -> anyh
     assert_eq!(
         decoded["diagnostic-[protected credential]"],
         "encoded-private"
+    );
+    assert_eq!(
+        decoded["repeated-[protected credential]"],
+        "repeated-private"
     );
     Ok(())
 }

@@ -149,6 +149,188 @@ impl Desktop {
     }
 }
 
+#[tokio::test]
+async fn desktop_server_rejects_oversized_native_tool_reply_before_model_continuation() -> Result<()>
+{
+    let server = MockServer::start().await;
+    let tool = sse(vec![
+        json!({"type":"response.created","response":{"id":"bounded-tool-response"}}),
+        json!({"type":"response.output_item.done","item":{"type":"function_call","id":"bounded-tool-item","call_id":"bounded-native-call","name":"airs_desktop__inventory","arguments":"{}"}}),
+        json!({"type":"response.completed","response":{"id":"bounded-tool-response","usage":{"input_tokens":1,"output_tokens":1,"total_tokens":2}}}),
+    ])?;
+    Mock::given(method("POST"))
+        .and(path("/v1/responses"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(tool, "text/event-stream"))
+        .with_priority(1)
+        .up_to_n_times(1)
+        .mount(&server)
+        .await;
+    Mock::given(method("POST"))
+        .and(path("/v1/responses"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(completed()?, "text/event-stream"))
+        .with_priority(2)
+        .mount(&server)
+        .await;
+    let temp = tempfile::tempdir()?;
+    let mut desktop = Desktop::start(temp.path(), &format!("{}/v1", server.uri()), None).await?;
+    desktop.send(json!({"id":2,"method":"thread/start","params":{
+        "ephemeral":true,"approvalPolicy":"on-request","approvalsReviewer":"user",
+        "dynamicTools":[{"type":"namespace","name":"airs_desktop","description":"Native AIRS host tools","tools":[{"type":"function","name":"inventory","description":"Read native Runtime inventory","inputSchema":{"type":"object","properties":{},"additionalProperties":false}}]}]
+    }})).await?;
+    let thread = desktop.response(2).await?["result"]["thread"]["id"]
+        .as_str()
+        .context("bounded tool thread")?
+        .to_owned();
+    desktop.send(json!({"id":3,"method":"turn/start","params":{"threadId":thread,"input":[{"type":"text","text":"Read native inventory","text_elements":[]}]}})).await?;
+    desktop.response(3).await?;
+    let mut call = desktop
+        .seen
+        .iter()
+        .find(|v| v["method"] == "item/tool/call")
+        .cloned();
+    while call.is_none() {
+        let value = desktop.next().await?;
+        if value["method"] == "item/tool/call" {
+            call = Some(value);
+        }
+    }
+    let call = call.context("bounded native tool call")?;
+    desktop.send(json!({"id":call["id"],"result":{"contentItems":[{"type":"inputText","text":format!("OVERSIZED_NATIVE_TOOL_OUTPUT{}","x".repeat(64*1024))}],"success":true}})).await?;
+    drop(desktop.input);
+    let status = tokio::time::timeout(Duration::from_secs(40), desktop.child.wait()).await??;
+    anyhow::ensure!(
+        !status.success(),
+        "oversized ordinary reply did not close the owned runtime"
+    );
+    for request in server
+        .received_requests()
+        .await
+        .context("bounded fixture requests")?
+    {
+        anyhow::ensure!(
+            !String::from_utf8_lossy(&request.body).contains("OVERSIZED_NATIVE_TOOL_OUTPUT"),
+            "oversized native tool output reached the model"
+        );
+    }
+    scan(temp.path(), &[KEY, "OVERSIZED_NATIVE_TOOL_OUTPUT"])?;
+    Ok(())
+}
+
+#[tokio::test]
+async fn desktop_server_dynamic_airs_tool_roundtrip_keeps_key_out_of_model_context() -> Result<()> {
+    let server = MockServer::start().await;
+    let tool = sse(vec![
+        json!({"type":"response.created","response":{"id":"native-tool-response"}}),
+        json!({"type":"response.output_item.done","item":{"type":"function_call","id":"native-tool-item","call_id":"native-inventory-call","name":"airs_desktop__inventory","arguments":"{\"product\":\"runtime\",\"resource\":\"profiles\"}"}}),
+        json!({"type":"response.completed","response":{"id":"native-tool-response","usage":{"input_tokens":1,"output_tokens":1,"total_tokens":2}}}),
+    ])?;
+    Mock::given(method("POST"))
+        .and(path("/v1/responses"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(tool, "text/event-stream"))
+        .with_priority(1)
+        .up_to_n_times(1)
+        .mount(&server)
+        .await;
+    Mock::given(method("POST"))
+        .and(path("/v1/responses"))
+        .respond_with(ResponseTemplate::new(200).set_body_raw(completed()?, "text/event-stream"))
+        .with_priority(2)
+        .mount(&server)
+        .await;
+    let temp = tempfile::tempdir()?;
+    let mut desktop = Desktop::start(temp.path(), &format!("{}/v1", server.uri()), None).await?;
+    desktop.send(json!({"id":2,"method":"thread/start","params":{
+        "ephemeral":true,"approvalPolicy":"on-request","approvalsReviewer":"user",
+        "dynamicTools":[{"type":"namespace","name":"airs_desktop","description":"Native AIRS host tools","tools":[{"type":"function","name":"inventory","description":"Read native Runtime inventory","inputSchema":{"type":"object","properties":{"product":{"const":"runtime"},"resource":{"const":"profiles"}},"required":["product","resource"],"additionalProperties":false}}]}]
+    }})).await?;
+    let thread = desktop.response(2).await?["result"]["thread"]["id"]
+        .as_str()
+        .context("native tool thread")?
+        .to_owned();
+    desktop.send(json!({"id":3,"method":"turn/start","params":{
+        "threadId":thread,"input":[{"type":"text","text":format!("Inspect native Runtime profiles. Accidental protected echo: {KEY}"),"text_elements":[]}]
+    }})).await?;
+    let turn = desktop.response(3).await?["result"]["turn"]["id"]
+        .as_str()
+        .context("native tool turn")?
+        .to_owned();
+    let mut call = desktop
+        .seen
+        .iter()
+        .find(|value| value["method"] == "item/tool/call")
+        .cloned();
+    while call.is_none() {
+        let value = desktop.next().await?;
+        if value["method"] == "item/tool/call" {
+            call = Some(value);
+        }
+    }
+    let call = call.context("native host call")?;
+    assert_eq!(
+        call["params"],
+        json!({"threadId":thread,"turnId":turn,
+        "callId":"native-inventory-call","namespace":"airs_desktop","tool":"inventory",
+        "arguments":{"product":"runtime","resource":"profiles"}})
+    );
+    let echoed = serde_json::to_string(
+        &json!({"marker":"OFFLINE_HOST_READ_RESULT","safe_label":KEY,KEY:"accidental host key"}),
+    )?;
+    desktop.send(json!({"id":call["id"],"result":{"contentItems":[{"type":"inputText","text":echoed}],"success":true}})).await?;
+    loop {
+        if desktop.next().await?["method"] == "turn/completed" {
+            break;
+        }
+    }
+    let requests = server
+        .received_requests()
+        .await
+        .context("fixture requests")?;
+    assert_eq!(requests.len(), 2);
+    for request in &requests {
+        assert_eq!(
+            request
+                .headers
+                .get("x-portkey-api-key")
+                .context("memory credential header")?,
+            KEY
+        );
+        let body = String::from_utf8_lossy(&request.body);
+        anyhow::ensure!(
+            !body.contains("fixture-desktop-credential"),
+            "protected inference identity entered model context"
+        );
+    }
+    let first: Value = requests[0].body_json()?;
+    anyhow::ensure!(
+        first["tools"]
+            .as_array()
+            .context("model tool catalog")?
+            .iter()
+            .any(|tool| tool["type"] == "function" && tool["name"] == "airs_desktop__inventory"),
+        "native tool missing from model tools"
+    );
+    let next: Value = requests[1].body_json()?;
+    let output = next["input"]
+        .as_array()
+        .context("next model input")?
+        .iter()
+        .find(|item| {
+            item["type"] == "function_call_output" && item["call_id"] == "native-inventory-call"
+        })
+        .context("host output did not continue the actual model loop")?;
+    let output = output.to_string();
+    anyhow::ensure!(
+        output.contains("OFFLINE_HOST_READ_RESULT") && output.contains("[protected credential]"),
+        "host result/redaction missing from next model request"
+    );
+    scan(
+        temp.path(),
+        &[KEY, "OFFLINE_HOST_READ_RESULT", "Offline fixture completed"],
+    )?;
+    desktop.stop().await?;
+    Ok(())
+}
+
 #[cfg(target_os = "macos")]
 #[tokio::test]
 async fn desktop_server_approved_commands_stay_inside_selected_project() -> Result<()> {

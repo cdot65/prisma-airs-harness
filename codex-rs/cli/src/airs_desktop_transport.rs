@@ -48,21 +48,7 @@ pub(super) async fn write_json<W: AsyncWrite + Unpin>(
     secret: &str,
 ) -> anyhow::Result<()> {
     let mut value = value.clone();
-    let mut encodings = Vec::new();
-    let mut encoded = secret.to_owned();
-    for _ in 0..8 {
-        let quoted = serde_json::to_string(&encoded)?;
-        let next = quoted
-            .get(1..quoted.len().saturating_sub(1))
-            .unwrap_or_default()
-            .to_owned();
-        if next.is_empty() || next == encoded || next.len() > FRAME_LIMIT {
-            break;
-        }
-        encodings.push(next.clone());
-        encoded = next;
-    }
-    redact_nested(&mut value, secret, &encodings, /*depth*/ 0);
+    redact(&mut value, secret)?;
     let frame = serde_json::to_string(&value)?;
     anyhow::ensure!(
         frame.len() < REPLAY_LIMIT,
@@ -71,6 +57,41 @@ pub(super) async fn write_json<W: AsyncWrite + Unpin>(
     writer.write_all(frame.as_bytes()).await?;
     writer.write_all(b"\n").await?;
     writer.flush().await?;
+    Ok(())
+}
+
+fn redact(value: &mut Value, secret: &str) -> anyhow::Result<()> {
+    let mut limit = 0usize;
+    let mut pending = vec![&*value];
+    while let Some(part) = pending.pop() {
+        match part {
+            Value::String(text) => limit = limit.max(text.len()),
+            Value::Array(values) => pending.extend(values),
+            Value::Object(values) => {
+                limit = limit.max(values.keys().map(String::len).max().unwrap_or_default());
+                pending.extend(values.values());
+            }
+            Value::Null | Value::Bool(_) | Value::Number(_) => {}
+        }
+    }
+    let limit = limit.min(REPLAY_LIMIT);
+    let mut encodings = Zeroizing::new(Vec::new());
+    let mut encoded = Zeroizing::new(secret.to_owned());
+    loop {
+        let quoted = Zeroizing::new(serde_json::to_string(encoded.as_str())?);
+        let next = Zeroizing::new(
+            quoted
+                .get(1..quoted.len().saturating_sub(1))
+                .unwrap_or_default()
+                .to_owned(),
+        );
+        if next.is_empty() || next == encoded || next.len() > limit {
+            break;
+        }
+        encodings.push(next.to_string());
+        encoded = next;
+    }
+    redact_nested(value, secret, &encodings, /*depth*/ 0);
     Ok(())
 }
 
@@ -141,7 +162,11 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
             tokio::select! {
                 frame = read_frame(&mut input, REPLAY_LIMIT) => {
                     let Some(frame) = frame? else { break; };
-                    let message: JSONRPCMessage = serde_json::from_slice(&frame).map_err(|_| anyhow::anyhow!("Invalid desktop frame"))?;
+                    let mut message: Value = serde_json::from_slice(&frame).map_err(|_| anyhow::anyhow!("Invalid desktop frame"))?;
+                    // The protected inference identity cannot enter the model
+                    // through an accidental host tool echo or user RPC either.
+                    redact(&mut message, &secret)?;
+                    let message: JSONRPCMessage = serde_json::from_value(message).map_err(|_| anyhow::anyhow!("Invalid desktop frame"))?;
                     match message {
                         JSONRPCMessage::Request(mut request) => {
                             let replay_method = matches!(request.method.as_str(), "desktop/history/read" | "desktop/history/restore");
@@ -215,17 +240,31 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             });
                         }
                         JSONRPCMessage::Notification(notification) => {
+                            anyhow::ensure!(frame.len() <= FRAME_LIMIT, "Desktop notification exceeded its limit");
                             anyhow::ensure!(initialized && notification.method == "initialized", "Unsupported desktop notification");
                             sender.notify(ClientNotification::Initialized)?;
                         }
                         JSONRPCMessage::Response(response) => {
+                            anyhow::ensure!(frame.len() <= FRAME_LIMIT, "Desktop reply exceeded its limit");
                             let kind = approvals.remove(&response.id).ok_or_else(||anyhow::anyhow!("Stale desktop approval or tool reply"))?;
                             if matches!(kind.0.as_str(),"item/commandExecution/requestApproval"|"item/fileChange/requestApproval") {
                                 anyhow::ensure!(response.result.get("decision").and_then(Value::as_str).is_some_and(|decision| matches!(decision,"accept"|"decline"|"cancel")), "Unsupported desktop approval decision");
                             }
+                            if kind.0 == "item/tool/call" {
+                                let items = response.result.get("contentItems").and_then(Value::as_array).ok_or_else(||anyhow::anyhow!("Invalid desktop tool reply"))?;
+                                anyhow::ensure!(items.len() <= 8 && response.result.get("success").is_some_and(Value::is_boolean), "Invalid desktop tool reply");
+                                let mut size = 0usize;
+                                for item in items {
+                                    anyhow::ensure!(item.get("type").and_then(Value::as_str) == Some("inputText"), "Unavailable desktop tool output");
+                                    let text = item.get("text").and_then(Value::as_str).ok_or_else(||anyhow::anyhow!("Invalid desktop tool reply"))?;
+                                    size = size.saturating_add(text.len());
+                                }
+                                anyhow::ensure!(size <= 32 * 1024, "Desktop tool output exceeded its limit");
+                            }
                             sender.respond_to_server_request(response.id, response.result)?;
                         }
                         JSONRPCMessage::Error(error) => {
+                            anyhow::ensure!(frame.len() <= FRAME_LIMIT, "Desktop reply exceeded its limit");
                             anyhow::ensure!(approvals.remove(&error.id).is_some(), "Stale desktop approval or tool reply");
                             sender.fail_server_request(error.id, codex_app_server_protocol::JSONRPCErrorError {code:-32603,message:"Desktop tool or approval failed".into(),data:None})?;
                         }

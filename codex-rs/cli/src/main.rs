@@ -50,6 +50,10 @@ mod airs_access;
 mod airs_application_network;
 mod airs_auth_lifecycle;
 mod airs_credentials;
+#[cfg(target_os = "macos")]
+mod airs_desktop;
+#[cfg(not(target_os = "macos"))]
+#[path = "airs_desktop_unavailable.rs"]
 mod airs_desktop;
 #[cfg(target_os = "macos")]
 mod airs_desktop_supervision;

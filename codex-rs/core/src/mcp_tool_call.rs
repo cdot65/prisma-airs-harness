@@ -50,6 +50,7 @@ use codex_protocol::items::TurnItem;
 use codex_protocol::mcp::CONFIRMATION_POLICIES_META_KEY;
 use codex_protocol::mcp::CallToolResult;
 use codex_protocol::mcp::is_node_repl_backed_server;
+use codex_protocol::mcp_approval_meta::AIRS_DESKTOP_ITEM_ID_KEY;
 use codex_protocol::mcp_approval_meta::APPROVAL_KIND_KEY as MCP_TOOL_APPROVAL_KIND_KEY;
 use codex_protocol::mcp_approval_meta::APPROVAL_KIND_MCP_TOOL_CALL as MCP_TOOL_APPROVAL_KIND_MCP_TOOL_CALL;
 use codex_protocol::mcp_approval_meta::CONNECTOR_DESCRIPTION_KEY as MCP_TOOL_APPROVAL_CONNECTOR_DESCRIPTION_KEY;
@@ -1588,7 +1589,7 @@ pub(crate) async fn request_mcp_tool_user_approval(
             openai_file_input_optional_fields: None,
         };
         let request_id = rmcp::model::RequestId::String(question_id.clone().into());
-        let request =
+        let mut request =
             build_mcp_tool_approval_elicitation_request(McpToolApprovalElicitationRequest {
                 server,
                 metadata: Some(&metadata),
@@ -1603,6 +1604,18 @@ pub(crate) async fn request_mcp_tool_user_approval(
                     .map(|rendered_template| rendered_template.elicitation_message.as_str()),
                 prompt_options,
             });
+        // Bind the approval to its `mcpToolCall` item. The elicitation router
+        // strips this reserved key from server-originated requests.
+        if let ElicitationRequest::Form {
+            meta: Some(serde_json::Value::Object(meta)),
+            ..
+        } = &mut request
+        {
+            meta.insert(
+                AIRS_DESKTOP_ITEM_ID_KEY.to_string(),
+                serde_json::Value::String(id.clone()),
+            );
+        }
         let decision = parse_mcp_tool_approval_elicitation_response(
             sess.request_mcp_server_elicitation(turn_context, server.clone(), request_id, request)
                 .await

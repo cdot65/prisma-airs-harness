@@ -4,6 +4,12 @@
 pub const APPROVAL_KIND_KEY: &str = "codex_approval_kind";
 pub const APPROVAL_KIND_MCP_TOOL_CALL: &str = "mcp_tool_call";
 pub const APPROVAL_KIND_TOOL_SUGGESTION: &str = "tool_suggestion";
+/// Reserved for metadata that core alone adds for the AIRS Desktop runtime.
+/// The MCP elicitation router removes this namespace from every
+/// server-originated request, so its presence proves a core origin.
+pub const AIRS_DESKTOP_META_PREFIX: &str = "airs_desktop_";
+/// The `mcpToolCall` thread item a core MCP tool approval belongs to.
+pub const AIRS_DESKTOP_ITEM_ID_KEY: &str = "airs_desktop_item_id";
 pub const REQUEST_TYPE_KEY: &str = "codex_request_type";
 pub const REQUEST_TYPE_APPROVAL_REQUEST: &str = "approval_request";
 pub const STRICT_AUTO_REVIEW_KEY: &str = "codex_strict_auto_review";

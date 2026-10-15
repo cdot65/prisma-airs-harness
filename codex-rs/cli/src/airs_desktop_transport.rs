@@ -46,6 +46,64 @@ struct RestoreRequest {
 const MCP_TOOL_APPROVAL: &str = "mcpServer/elicitation/request#mcp_tool_call";
 /// Any other MCP elicitation; Desktop may only decline or cancel it.
 const MCP_ELICITATION: &str = "mcpServer/elicitation/request";
+/// Core binds its MCP tool approval to this `mcpToolCall` item id. codex-mcp
+/// removes the `airs_desktop_` namespace from every server-originated
+/// elicitation, so only core can produce it.
+const DESKTOP_ITEM_ID_KEY: &str = codex_protocol::mcp_approval_meta::AIRS_DESKTOP_ITEM_ID_KEY;
+/// Started MCP tool calls that may still request one native approval.
+const MCP_ITEM_LIMIT: usize = 64;
+
+/// Classifies an MCP elicitation by its origin, never by server metadata alone.
+///
+/// A core tool approval is a form that names a started, not yet approved
+/// `mcpToolCall` item of the same thread and server through the core-only
+/// item key. Every other elicitation that uses a reserved `codex_` or
+/// `airs_desktop_` key is declined before it reaches Desktop, so a server
+/// cannot present a prompt that looks like a native approval.
+enum McpOrigin {
+    CoreToolApproval,
+    Server,
+    ReservedServer,
+}
+
+fn mcp_origin(
+    params: &Value,
+    mcp_items: &mut HashMap<(String, String), (String, String)>,
+) -> McpOrigin {
+    use codex_protocol::mcp_approval_meta::APPROVAL_KIND_KEY;
+    use codex_protocol::mcp_approval_meta::APPROVAL_KIND_MCP_TOOL_CALL;
+    let meta = params.get("_meta").and_then(Value::as_object);
+    let core_item = meta
+        .filter(|meta| {
+            params.get("mode").and_then(Value::as_str) == Some("form")
+                && meta.get(APPROVAL_KIND_KEY).and_then(Value::as_str)
+                    == Some(APPROVAL_KIND_MCP_TOOL_CALL)
+        })
+        .and_then(|meta| meta.get(DESKTOP_ITEM_ID_KEY))
+        .and_then(Value::as_str)
+        .map(|item| {
+            (
+                params["threadId"].as_str().unwrap_or_default().to_owned(),
+                item.to_owned(),
+            )
+        });
+    if let Some(key) = core_item
+        && mcp_items
+            .get(&key)
+            .is_some_and(|(server, _)| params["serverName"].as_str() == Some(server))
+    {
+        // One native approval per started tool call.
+        mcp_items.remove(&key);
+        return McpOrigin::CoreToolApproval;
+    }
+    if meta.is_some_and(|meta| {
+        meta.keys()
+            .any(|key| key.starts_with("codex_") || key.starts_with("airs_desktop_"))
+    }) {
+        return McpOrigin::ReservedServer;
+    }
+    McpOrigin::Server
+}
 
 pub(super) async fn write_json<W: AsyncWrite + Unpin, S: AsRef<str>>(
     writer: &mut W,
@@ -224,6 +282,8 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
     let mut pending = FuturesUnordered::new();
     let mut request_ids = HashSet::new();
     let mut approvals: HashMap<RequestId, (String, String, String)> = HashMap::new();
+    // (thread, item) -> (server, turn) for started MCP tool calls.
+    let mut mcp_items: HashMap<(String, String), (String, String)> = HashMap::new();
     let mut threads = HashSet::new();
     let mut initialized = false;
     let result = async {
@@ -381,9 +441,12 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             let id: RequestId = serde_json::from_value(value["id"].clone())?;
                             let method = value["method"].as_str().unwrap_or_default();
                             let params = &value["params"];
-                            let tool_approval = method == MCP_ELICITATION
-                                && params.get("mode").and_then(Value::as_str) == Some("form")
-                                && params.get("_meta").and_then(|meta| meta.get("codex_approval_kind")).and_then(Value::as_str) == Some("mcp_tool_call");
+                            let origin = (method == MCP_ELICITATION).then(|| mcp_origin(params, &mut mcp_items));
+                            if matches!(origin, Some(McpOrigin::ReservedServer)) {
+                                sender.respond_to_server_request(id, json!({"action":"decline","content":null,"_meta":null}))?;
+                                continue;
+                            }
+                            let tool_approval = matches!(origin, Some(McpOrigin::CoreToolApproval));
                             let unavailable = match method {
                                 MCP_ELICITATION => false,
                                 "item/commandExecution/requestApproval" => params.get("additionalPermissions").is_some_and(|value| !value.is_null()) || params.get("networkApprovalContext").is_some_and(|value| !value.is_null()),
@@ -406,6 +469,21 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                 let thread = value["params"]["threadId"].as_str().unwrap_or_default();
                                 let turn = value["params"]["turn"]["id"].as_str().unwrap_or_default();
                                 approvals.retain(|_,(_,pending_thread,pending_turn)| pending_thread != thread || pending_turn != turn);
+                                mcp_items.retain(|(item_thread,_),(_,item_turn)| item_thread != thread || item_turn != turn);
+                            }
+                            if let Some(item) = value["params"]["item"].as_object()
+                                && item.get("type").and_then(Value::as_str) == Some("mcpToolCall")
+                                && let (Some(thread), Some(id)) = (value["params"]["threadId"].as_str(), item.get("id").and_then(Value::as_str))
+                            {
+                                let key = (thread.to_owned(), id.to_owned());
+                                match value["method"].as_str() {
+                                    // Beyond the bound a later approval fails closed.
+                                    Some("item/started") if mcp_items.len() < MCP_ITEM_LIMIT => {
+                                        mcp_items.insert(key, (item.get("server").and_then(Value::as_str).unwrap_or_default().to_owned(), value["params"]["turnId"].as_str().unwrap_or_default().to_owned()));
+                                    }
+                                    Some("item/completed") => { mcp_items.remove(&key); }
+                                    _ => {}
+                                }
                             }
                             write_json(&mut output, &value, &secrets).await?;
                         }

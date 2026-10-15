@@ -86,6 +86,13 @@ fn bootstrap_accepts_bounded_workspace_mcp_servers() -> anyhow::Result<()> {
         validate_with(loopback, &LOOPBACK)?.mcp_servers[0].url,
         "http://127.0.0.1:9/mcp"
     );
+    // The shortest admitted token is sixteen visible ASCII bytes.
+    let mut shortest = mcp_server("workspace_tools", "https://mcp-airs.example/mcp");
+    shortest["accessToken"] = json!("t".repeat(16));
+    assert_eq!(
+        validate_with(with_mcp(vec![shortest]), &DENIED)?.mcp_servers[0].name,
+        "workspace_tools"
+    );
     Ok(())
 }
 
@@ -157,6 +164,11 @@ fn bootstrap_rejects_invalid_workspace_mcp_servers() {
             )],
         ),
         ("empty token", vec![field("accessToken", json!(""))]),
+        ("one byte token", vec![field("accessToken", json!("t"))]),
+        (
+            "short token",
+            vec![field("accessToken", json!("t".repeat(15)))],
+        ),
         (
             "oversized token",
             vec![field("accessToken", json!("t".repeat(16 * 1024 + 1)))],

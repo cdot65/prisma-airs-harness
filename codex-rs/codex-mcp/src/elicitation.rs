@@ -24,6 +24,7 @@ use codex_protocol::approvals::ElicitationRequestEvent;
 use codex_protocol::mcp::ClientMcpExtensions;
 use codex_protocol::mcp::OPENAI_ELICITATION_EXTENSION_ID;
 use codex_protocol::mcp::RequestId as ProtocolRequestId;
+use codex_protocol::mcp_approval_meta::AIRS_DESKTOP_META_PREFIX;
 use codex_protocol::mcp_approval_meta::APPROVAL_KIND_KEY;
 use codex_protocol::mcp_approval_meta::APPROVAL_KIND_TOOL_SUGGESTION;
 use codex_protocol::mcp_approval_meta::APPROVALS_REVIEWER_KEY;
@@ -413,7 +414,7 @@ impl ElicitationRequestManager {
                     NEXT_ELICITATION_REQUEST_ID.fetch_add(1, Ordering::Relaxed)
                 );
                 let routed_request_id = RequestId::String(public_request_id.clone().into());
-                let request = match elicitation {
+                let mut request = match elicitation {
                     Elicitation::UserVerification { .. } => {
                         return Ok(ElicitationResponse {
                             action: ElicitationAction::Cancel,
@@ -474,6 +475,7 @@ impl ElicitationRequestManager {
                         requested_schema,
                     },
                 };
+                remove_core_reserved_meta(&mut request);
                 let (tx, rx) = oneshot::channel();
                 let _active_elicitation = lifecycle.as_ref().map(ElicitationLifecycle::start);
                 let request_key = (server_name.clone(), routed_request_id);
@@ -503,6 +505,22 @@ impl ElicitationRequestManager {
             }
             .boxed()
         })
+    }
+}
+
+/// Only core may bind an approval to a Desktop thread item. Remove that
+/// reserved namespace from every server-originated request before it is
+/// forwarded, so an upstream server cannot claim a core origin.
+fn remove_core_reserved_meta(request: &mut ElicitationRequest) {
+    let meta = match request {
+        ElicitationRequest::Form { meta, .. }
+        | ElicitationRequest::OpenAiForm { meta, .. }
+        | ElicitationRequest::OpenAiElicitationForm { meta, .. }
+        | ElicitationRequest::Url { meta, .. } => meta,
+        ElicitationRequest::UserVerification { .. } => return,
+    };
+    if let Some(Value::Object(fields)) = meta {
+        fields.retain(|key, _| !key.starts_with(AIRS_DESKTOP_META_PREFIX));
     }
 }
 

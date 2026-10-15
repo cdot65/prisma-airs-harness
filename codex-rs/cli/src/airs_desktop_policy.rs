@@ -215,13 +215,26 @@ pub(super) fn validate(
         }
         "turn/interrupt" => {}
         // Read-only inventory of an owned thread. It never starts a login,
-        // reloads servers or accepts configuration overrides.
+        // reloads servers or accepts configuration overrides. Desktop grants at
+        // most eight servers, so one bounded page of tools and auth state is
+        // the whole inventory; resource enumeration is never requested.
         "mcpServerStatus/list" => {
             anyhow::ensure!(
                 p.keys()
-                    .all(|key| matches!(key.as_str(), "threadId" | "cursor" | "limit" | "detail")),
+                    .all(|key| matches!(key.as_str(), "threadId" | "cursor" | "limit" | "detail"))
+                    && p.get("detail")
+                        .is_none_or(|detail| detail.is_null()
+                            || detail.as_str() == Some("toolsAndAuthOnly"))
+                    && p.get("limit").is_none_or(|limit| limit.is_null()
+                        || limit.as_u64().is_some_and(|limit| (1..=8).contains(&limit)))
+                    && p.get("cursor")
+                        .is_none_or(|cursor| cursor.is_null() || cursor.is_string()),
                 "Desktop MCP status request is unsupported"
             );
+            p.insert("detail".into(), json!("toolsAndAuthOnly"));
+            if p.get("limit").is_none_or(Value::is_null) {
+                p.insert("limit".into(), json!(8));
+            }
         }
         _ => anyhow::bail!("Method is unavailable in Desktop"),
     }

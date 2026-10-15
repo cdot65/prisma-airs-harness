@@ -63,6 +63,46 @@ fn desktop_admission_reads_owned_mcp_status_but_refuses_login_reload_and_direct_
         validate(&mut status, &context, &threads)?,
         ClientRequest::McpServerStatusList { .. }
     ));
+    // Omitted detail would mean Full inventory; Desktop always pins the
+    // bounded tools-and-auth view and one page of at most eight servers.
+    for (params, limit) in [
+        (json!({"threadId":"thread-fixture"}), 8),
+        (
+            json!({"threadId":"thread-fixture","detail":null,"limit":null}),
+            8,
+        ),
+        (
+            json!({"threadId":"thread-fixture","limit":3,"cursor":null}),
+            3,
+        ),
+    ] {
+        let mut status = request("mcpServerStatus/list", params);
+        let ClientRequest::McpServerStatusList { params, .. } =
+            validate(&mut status, &context, &threads)?
+        else {
+            anyhow::bail!("expected an MCP status request");
+        };
+        assert_eq!(
+            serde_json::to_value(&params)?["detail"],
+            json!("toolsAndAuthOnly")
+        );
+        assert_eq!(params.limit, Some(limit));
+    }
+    for params in [
+        json!({"threadId":"thread-fixture","detail":"full"}),
+        json!({"threadId":"thread-fixture","detail":"everything"}),
+        json!({"threadId":"thread-fixture","limit":9}),
+        json!({"threadId":"thread-fixture","limit":0}),
+        json!({"threadId":"thread-fixture","limit":-1}),
+        json!({"threadId":"thread-fixture","limit":"8"}),
+        json!({"threadId":"thread-fixture","cursor":7}),
+    ] {
+        let mut status = request("mcpServerStatus/list", params.clone());
+        assert!(
+            validate(&mut status, &context, &threads).is_err(),
+            "{params} must be refused"
+        );
+    }
     for (method, params) in [
         // Status is bound to an owned conversation.
         ("mcpServerStatus/list", json!({})),

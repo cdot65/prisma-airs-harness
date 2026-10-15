@@ -3068,6 +3068,23 @@ async fn assert_mcp_user_approval_persistence(
         }
     };
     assert_eq!(request.server_name, "memory");
+    // Core binds its approval to the `mcpToolCall` item (the tool call id).
+    let ElicitationRequest::Form {
+        meta: Some(meta), ..
+    } = &request.request
+    else {
+        panic!("expected an MCP tool approval form with metadata");
+    };
+    assert_eq!(
+        (
+            meta.get("codex_approval_kind"),
+            meta.get("airs_desktop_item_id")
+        ),
+        (
+            Some(&serde_json::json!("mcp_tool_call")),
+            Some(&serde_json::json!("call-mcp-persist"))
+        )
+    );
     session
         .resolve_elicitation(
             "memory".to_string(),

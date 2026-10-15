@@ -12,6 +12,9 @@ use zeroize::Zeroizing;
 
 pub(super) const MAX_SERVERS: usize = 8;
 const MAX_URL_BYTES: usize = 2048;
+/// Every granted token joins plain-text output redaction; a short token
+/// would rewrite ordinary frame text.
+const MIN_TOKEN_BYTES: usize = 16;
 const MAX_TOKEN_BYTES: usize = 16 * 1024;
 const STARTUP_TIMEOUT_SECONDS: i64 = 30;
 const TOOL_TIMEOUT_SECONDS: i64 = 120;
@@ -114,8 +117,7 @@ pub(super) fn validate(
             );
             // Bearer tokens are visible ASCII; this excludes whitespace and controls.
             anyhow::ensure!(
-                !grant.access_token.is_empty()
-                    && grant.access_token.len() <= MAX_TOKEN_BYTES
+                (MIN_TOKEN_BYTES..=MAX_TOKEN_BYTES).contains(&grant.access_token.len())
                     && grant
                         .access_token
                         .bytes()

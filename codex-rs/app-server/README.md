@@ -3040,7 +3040,8 @@ Gateway: `"mcpServers":[{"name","serverId","url","accessToken"}]`. Names match
 `^[a-z][a-z0-9_]{0,31}$`, are unique and are neither `airs_desktop` nor
 `codex_apps`; server IDs are 1-64 ASCII letters, digits or hyphens; URLs are HTTPS
 (HTTP only for loopback with the offline fixture switch) without userinfo, query
-or fragment; tokens are 1-16384 visible ASCII bytes. Unknown keys or any violation
+or fragment; tokens are 16-16384 visible ASCII bytes (every token is also
+redacted from output, so shorter values are refused). Unknown keys or any violation
 reject the whole bootstrap. Each server becomes an optional (`required = false`)
 Streamable HTTP registration with 30-second startup and 120-second tool timeouts
 and `default_tools_approval_mode = "prompt"`. The token stays in a
@@ -3054,17 +3055,31 @@ echoes `"mcpServers":[{"name","serverId"}]` (empty when none), and the replay
 context records each name, server ID and URL.
 
 `mcpServerStatus/list {threadId, cursor?, limit?, detail?}` is admitted for an
-owned thread. It reports `runtimeStatus` from the conversation's live
-connections and reads tools through a short-lived separate MCP session; it never
-starts a login or reloads servers. `mcpServer/oauth/login`,
+owned thread. `detail` is always `toolsAndAuthOnly` (omitted or null is replaced;
+any other value is rejected) and `limit` is 1-8 (omitted or null becomes 8). It
+reports `runtimeStatus` from the conversation's live connections and reads tools
+through a short-lived separate MCP session; it never starts a login or reloads
+servers. `mcpServer/oauth/login`,
 `config/mcpServer/reload`, `mcpServer/tool/call`, `mcpServer/resource/read` and
 configuration writes remain unavailable. Every MCP tool call first emits
 `item/started` (`mcpToolCall`, `inProgress`) and then an
 `mcpServer/elicitation/request` in `form` mode with
-`_meta.codex_approval_kind = "mcp_tool_call"`. Its reply may contain only
+`_meta.codex_approval_kind = "mcp_tool_call"` and
+`_meta.airs_desktop_item_id` set to the `id` of that `mcpToolCall` item; parallel
+calls each name their own item. Its reply may contain only
 `{"action":"accept"|"decline"|"cancel"}` with null or absent `content` and
-`_meta`; any other MCP elicitation may only be declined or cancelled. Remembered
-or form-content replies retire the runtime. `item/completed` reports `completed`
+`_meta`. Remembered or form-content replies retire the runtime.
+
+The approval origin is not taken from server-controlled metadata. Core alone adds
+`airs_desktop_item_id`: the MCP elicitation router removes every `airs_desktop_*`
+key from server-originated elicitations, and the transport admits an approval only
+when that key names a started, not yet approved `mcpToolCall` item of the same
+thread and server (one approval per item). Every other elicitation is a server
+elicitation. If one carries any `codex_*` or `airs_desktop_*` `_meta` key, the
+runtime declines it to the server and it never reaches Desktop, so Desktop never
+sees those keys on a server elicitation. Remaining server elicitations reach
+Desktop unchanged and may only be declined or cancelled; `accept` retires the
+runtime. `item/completed` reports `completed`
 with the MCP result, or `failed` with `user rejected MCP tool call`.
 
 On macOS a secret-free, independently supervised helper registers each command

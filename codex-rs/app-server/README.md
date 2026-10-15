@@ -3017,13 +3017,14 @@ be selected as projects. The project path is canonicalized before admission.
 The receipt uses protocol `airs-desktop/1`, runtime version and matching UUID/epoch
 fields. The client then sends the ordinary `initialize` and `initialized`
 handshake. Admitted ordinary methods are `thread/start`, `thread/read` (metadata
-only), `turn/start` and `turn/interrupt`. Generic filesystem/process, auth,
+only), `turn/start`, `turn/interrupt` and `mcpServerStatus/list` (owned thread). Generic filesystem/process, auth,
 configuration, remote-executor and steering RPCs are unavailable. Thread and turn
 settings cannot override the bootstrap authority. Dynamic tool specs use the
 existing namespaced `DynamicToolSpec` protocol; execution stays in the native host.
 
 The runtime sends ordinary app-server notifications and supported server requests
-for command approvals, writable-project file approvals and dynamic tool calls.
+for command approvals, writable-project file approvals, dynamic tool calls and
+MCP elicitations.
 Approval replies may use only `accept`, `decline` or `cancel`; session-wide grants,
 policy amendments, additional permissions, network grants and grant roots are
 unavailable. Approval does not bypass the selected-folder sandbox. Desktop macOS
@@ -3033,6 +3034,38 @@ Approved commands run one process and may replace it with `exec`. Desktop's
 Seatbelt policy denies child process creation, so pipelines and build/test runners
 that spawn workers are unavailable. Native approval cannot remove that restriction;
 the model must report the limitation rather than retry outside the sandbox.
+
+The bootstrap may grant up to eight workspace MCP servers reached through the AI
+Gateway: `"mcpServers":[{"name","serverId","url","accessToken"}]`. Names match
+`^[a-z][a-z0-9_]{0,31}$`, are unique and are neither `airs_desktop` nor
+`codex_apps`; server IDs are 1-64 ASCII letters, digits or hyphens; URLs are HTTPS
+(HTTP only for loopback with the offline fixture switch) without userinfo, query
+or fragment; tokens are 1-16384 visible ASCII bytes. Unknown keys or any violation
+reject the whole bootstrap. Each server becomes an optional (`required = false`)
+Streamable HTTP registration with 30-second startup and 120-second tool timeouts
+and `default_tools_approval_mode = "prompt"`. The token stays in a
+process-immutable, memory-only `Authorization: Bearer` provider bound to that
+name and canonical URL. It is excluded from generated configuration, runtime
+files, argv, environment, logs and receipts, and is redacted from transport
+output. These servers never read stored OAuth credentials, a keyring or a
+credentials file, and never start an OAuth login. An unauthorized server fails
+startup (`authenticationRequired`) without blocking inference. The receipt
+echoes `"mcpServers":[{"name","serverId"}]` (empty when none), and the replay
+context records each name, server ID and URL.
+
+`mcpServerStatus/list {threadId, cursor?, limit?, detail?}` is admitted for an
+owned thread. It reports `runtimeStatus` from the conversation's live
+connections and reads tools through a short-lived separate MCP session; it never
+starts a login or reloads servers. `mcpServer/oauth/login`,
+`config/mcpServer/reload`, `mcpServer/tool/call`, `mcpServer/resource/read` and
+configuration writes remain unavailable. Every MCP tool call first emits
+`item/started` (`mcpToolCall`, `inProgress`) and then an
+`mcpServer/elicitation/request` in `form` mode with
+`_meta.codex_approval_kind = "mcp_tool_call"`. Its reply may contain only
+`{"action":"accept"|"decline"|"cancel"}` with null or absent `content` and
+`_meta`; any other MCP elicitation may only be declined or cancelled. Remembered
+or form-content replies retire the runtime. `item/completed` reports `completed`
+with the MCP result, or `failed` with `user rejected MCP tool call`.
 
 On macOS a secret-free, independently supervised helper registers each command
 before user code starts. An in-process backup watches helper health. Engine death,

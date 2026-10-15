@@ -105,6 +105,7 @@ mod client_capabilities;
 mod client_tool_catalog;
 pub(crate) mod codex_apps;
 pub(crate) mod connection_manager;
+mod desktop_auth;
 pub(crate) mod elicitation;
 mod event_stream;
 mod executor_environment_http_client;

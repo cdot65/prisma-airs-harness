@@ -2,6 +2,14 @@ use super::*;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 
+const DENIED: Args = Args {
+    allow_http_loopback: false,
+};
+const LOOPBACK: Args = Args {
+    allow_http_loopback: true,
+};
+const MCP_TOKEN: &str = "fixture-workspace-mcp-token";
+
 fn bootstrap() -> serde_json::Value {
     json!({"id":0,"method":"desktop/bootstrap","params":{
         "v":1,"tenantId":"11111111-1111-4111-8111-111111111111",
@@ -22,9 +30,217 @@ fn bootstrap_rejects_unknown_fields_and_unselected_write_access() {
     assert!(
         serde_json::from_value::<BootstrapRequest>(value)
             .unwrap()
-            .validate()
+            .validate(&DENIED)
             .is_err()
     );
+}
+
+fn mcp_server(name: &str, url: &str) -> serde_json::Value {
+    json!({"name":name,"serverId":"srv-0001","url":url,"accessToken":MCP_TOKEN})
+}
+
+fn with_mcp(servers: Vec<serde_json::Value>) -> serde_json::Value {
+    let mut value = bootstrap();
+    value["params"]["mcpServers"] = json!(servers);
+    value
+}
+
+fn validate_with(value: serde_json::Value, args: &Args) -> anyhow::Result<ContextBinding> {
+    serde_json::from_value::<BootstrapRequest>(value)?.validate(args)
+}
+
+#[test]
+fn bootstrap_accepts_bounded_workspace_mcp_servers() -> anyhow::Result<()> {
+    let context = validate_with(
+        with_mcp(vec![
+            mcp_server(
+                "workspace_tools",
+                "https://mcp-airs.example/scm-ngfw-mcp/mcp",
+            ),
+            mcp_server("z2", "https://mcp-airs.example"),
+        ]),
+        &DENIED,
+    )?;
+    assert_eq!(
+        serde_json::to_value(&context.mcp_servers)?,
+        json!([
+            {"name":"workspace_tools","serverId":"srv-0001","url":"https://mcp-airs.example/scm-ngfw-mcp/mcp"},
+            {"name":"z2","serverId":"srv-0001","url":"https://mcp-airs.example/"}
+        ])
+    );
+    let serialized = serde_json::to_string(&context)?;
+    assert!(!serialized.contains(MCP_TOKEN));
+    // Replay contexts written before workspace MCP existed still match.
+    let context = validate_with(bootstrap(), &DENIED)?;
+    assert_eq!(context.mcp_servers, Vec::new());
+    assert!(!serde_json::to_string(&context)?.contains("mcpServers"));
+    let mut explicit_null = bootstrap();
+    explicit_null["params"]["mcpServers"] = serde_json::Value::Null;
+    assert_eq!(
+        validate_with(explicit_null, &DENIED)?.mcp_servers,
+        Vec::new()
+    );
+    let loopback = with_mcp(vec![mcp_server("local", "http://127.0.0.1:9/mcp")]);
+    assert!(validate_with(loopback.clone(), &DENIED).is_err());
+    assert_eq!(
+        validate_with(loopback, &LOOPBACK)?.mcp_servers[0].url,
+        "http://127.0.0.1:9/mcp"
+    );
+    Ok(())
+}
+
+#[test]
+fn bootstrap_rejects_invalid_workspace_mcp_servers() {
+    let valid = || mcp_server("workspace_tools", "https://mcp-airs.example/mcp");
+    let field = |key: &str, value: serde_json::Value| {
+        let mut server = valid();
+        server[key] = value;
+        server
+    };
+    let cases: Vec<(&str, Vec<serde_json::Value>)> = vec![
+        ("uppercase name", vec![field("name", json!("Workspace"))]),
+        ("leading digit", vec![field("name", json!("1tools"))]),
+        ("hyphenated name", vec![field("name", json!("work-space"))]),
+        ("empty name", vec![field("name", json!(""))]),
+        (
+            "long name",
+            vec![field("name", json!(format!("a{}", "b".repeat(32))))],
+        ),
+        (
+            "reserved host namespace",
+            vec![field("name", json!("airs_desktop"))],
+        ),
+        (
+            "reserved apps namespace",
+            vec![field("name", json!("codex_apps"))],
+        ),
+        ("duplicate name", vec![valid(), valid()]),
+        ("empty server id", vec![field("serverId", json!(""))]),
+        (
+            "long server id",
+            vec![field("serverId", json!("a".repeat(65)))],
+        ),
+        (
+            "server id punctuation",
+            vec![field("serverId", json!("srv_01"))],
+        ),
+        (
+            "plain http",
+            vec![field("url", json!("http://mcp-airs.example/mcp"))],
+        ),
+        (
+            "http non-loopback with switch",
+            vec![field("url", json!("http://10.0.0.1/mcp"))],
+        ),
+        (
+            "query",
+            vec![field("url", json!("https://mcp-airs.example/mcp?x=1"))],
+        ),
+        (
+            "fragment",
+            vec![field("url", json!("https://mcp-airs.example/mcp#x"))],
+        ),
+        (
+            "userinfo",
+            vec![field("url", json!("https://user:pw@mcp-airs.example/mcp"))],
+        ),
+        (
+            "whitespace url",
+            vec![field("url", json!("https://mcp-airs.example/m cp"))],
+        ),
+        ("relative url", vec![field("url", json!("/mcp"))]),
+        (
+            "oversized url",
+            vec![field(
+                "url",
+                json!(format!("https://mcp-airs.example/{}", "a".repeat(2048))),
+            )],
+        ),
+        ("empty token", vec![field("accessToken", json!(""))]),
+        (
+            "oversized token",
+            vec![field("accessToken", json!("t".repeat(16 * 1024 + 1)))],
+        ),
+        (
+            "token whitespace",
+            vec![field("accessToken", json!("fixture token"))],
+        ),
+        (
+            "token control",
+            vec![field("accessToken", json!("fixture\u{7}token"))],
+        ),
+        (
+            "token newline",
+            vec![field("accessToken", json!("fixture\ntoken"))],
+        ),
+        ("unknown key", vec![field("headers", json!({"x":"y"}))]),
+        (
+            "missing token",
+            vec![{
+                let mut server = valid();
+                server.as_object_mut().unwrap().remove("accessToken");
+                server
+            }],
+        ),
+        (
+            "too many servers",
+            (0..9)
+                .map(|index| mcp_server(&format!("tools{index}"), "https://mcp-airs.example/mcp"))
+                .collect(),
+        ),
+    ];
+    for (case, servers) in cases {
+        assert!(
+            validate_with(with_mcp(servers), &LOOPBACK).is_err(),
+            "{case} must reject the bootstrap"
+        );
+    }
+    let mut not_array = bootstrap();
+    not_array["params"]["mcpServers"] = json!({"workspace_tools":valid()});
+    assert!(validate_with(not_array, &DENIED).is_err());
+}
+
+#[test]
+fn workspace_mcp_config_prompts_for_every_tool_and_never_carries_credentials() -> anyhow::Result<()>
+{
+    let request: BootstrapRequest = serde_json::from_value(with_mcp(vec![mcp_server(
+        "workspace_tools",
+        "https://mcp-airs.example/mcp",
+    )]))?;
+    let context = request.validate(&DENIED)?;
+    let config = mcp::config(&context.mcp_servers)?;
+    assert_eq!(
+        config,
+        toml::from_str::<toml::Value>(
+            r#"
+            [workspace_tools]
+            url = "https://mcp-airs.example/mcp"
+            enabled = true
+            required = false
+            startup_timeout_sec = 30
+            tool_timeout_sec = 120
+            default_tools_approval_mode = "prompt"
+            "#
+        )?
+    );
+    assert!(!toml::to_string(&config)?.contains(MCP_TOKEN));
+    let parsed: std::collections::HashMap<String, codex_config::McpServerConfig> =
+        config.try_into()?;
+    let server = &parsed["workspace_tools"];
+    assert!(!server.required);
+    assert_eq!(
+        server.default_tools_approval_mode,
+        Some(codex_config::AppToolApproval::Prompt)
+    );
+    let credentials = mcp::credentials(request.mcp_grants(), &context.mcp_servers)?;
+    assert_eq!(credentials.len(), 1);
+    assert_eq!(credentials[0].server_name, "workspace_tools");
+    assert_eq!(credentials[0].url, "https://mcp-airs.example/mcp");
+    assert_eq!(
+        credentials[0].authorization,
+        format!("Bearer {MCP_TOKEN}").as_str()
+    );
+    Ok(())
 }
 
 #[tokio::test]
@@ -40,7 +256,7 @@ async fn bounded_reader_rejects_oversized_and_truncated_frames_without_echo() {
 #[test]
 fn context_serialization_excludes_bootstrap_credential() {
     let request: BootstrapRequest = serde_json::from_value(bootstrap()).unwrap();
-    let context = request.validate().unwrap();
+    let context = request.validate(&DENIED).unwrap();
     assert!(
         !serde_json::to_string(&context)
             .unwrap()
@@ -63,7 +279,7 @@ async fn desktop_transport_redacts_json_escaped_and_nested_credentials() -> anyh
     let deep_key = format!("repeated-{repeated}");
     let value = json!({"direct":secret,"arguments":nested,"nested":twice,secret:"private",key:"encoded-private",deep_key:"repeated-private"});
     let mut bytes = Vec::new();
-    transport::write_json(&mut bytes, &value, secret).await?;
+    transport::write_json(&mut bytes, &value, &[secret]).await?;
     let output: String = String::from_utf8(bytes)?;
     let decoded: serde_json::Value = serde_json::from_str(&output)?;
     assert_eq!(decoded["direct"], "[protected credential]");
@@ -105,7 +321,7 @@ async fn desktop_transport_decodes_deep_unicode_object_keys_before_redaction() -
             payload = serde_json::to_string(&payload)?;
         }
         let mut bytes = Vec::new();
-        transport::write_json(&mut bytes, &json!({"payload":payload}), secret).await?;
+        transport::write_json(&mut bytes, &json!({"payload":payload}), &[secret]).await?;
         let outer: serde_json::Value = serde_json::from_slice(&bytes)?;
         let mut decoded = outer["payload"].clone();
         for _ in 0..=layers {
@@ -139,7 +355,7 @@ async fn desktop_transport_masks_unchecked_unicode_json_structures() -> anyhow::
         format!(r#"unwrapped \u0066{}"#, &quoted[2..quoted.len() - 1]),
     ] {
         let mut bytes = Vec::new();
-        transport::write_json(&mut bytes, &json!({"payload":payload}), secret).await?;
+        transport::write_json(&mut bytes, &json!({"payload":payload}), &[secret]).await?;
         let output: serde_json::Value = serde_json::from_slice(&bytes)?;
         assert_eq!(output["payload"], "[protected credential]");
     }

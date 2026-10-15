@@ -42,13 +42,20 @@ struct RestoreRequest {
     dynamic_tools: Vec<codex_protocol::dynamic_tools::DynamicToolSpec>,
 }
 
-pub(super) async fn write_json<W: AsyncWrite + Unpin>(
+/// Approval for one MCP tool call; Desktop may accept, decline or cancel it.
+const MCP_TOOL_APPROVAL: &str = "mcpServer/elicitation/request#mcp_tool_call";
+/// Any other MCP elicitation; Desktop may only decline or cancel it.
+const MCP_ELICITATION: &str = "mcpServer/elicitation/request";
+
+pub(super) async fn write_json<W: AsyncWrite + Unpin, S: AsRef<str>>(
     writer: &mut W,
     value: &Value,
-    secret: &str,
+    secrets: &[S],
 ) -> anyhow::Result<()> {
     let mut value = value.clone();
-    redact(&mut value, secret)?;
+    for secret in secrets {
+        redact(&mut value, secret.as_ref())?;
+    }
     let frame = serde_json::to_string(&value)?;
     anyhow::ensure!(
         frame.len() < REPLAY_LIMIT,
@@ -199,7 +206,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
     mut input: R,
     mut runtime: InProcessClientHandle,
     context: ContextBinding,
-    secret: Zeroizing<String>,
+    secrets: Vec<Zeroizing<String>>,
 ) -> anyhow::Result<()> {
     // Cancellation must also release a pending write when the native host has
     // stopped reading. Keep desktop's owned pipe outside blocking stdio tasks.
@@ -212,7 +219,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
     };
     #[cfg(not(unix))]
     let mut output = tokio::io::stdout();
-    write_json(&mut output, &json!({"id":0,"result":{"v":1,"protocol":"airs-desktop/1","runtimeVersion":codex_utils_home_dir::AIRS_HARNESS_VERSION,"tenantId":context.tenant_id,"workspaceId":context.workspace_id,"credentialId":context.credential_id,"credentialEpoch":context.credential_epoch}}), &secret).await?;
+    write_json(&mut output, &json!({"id":0,"result":{"v":1,"protocol":"airs-desktop/1","runtimeVersion":codex_utils_home_dir::AIRS_HARNESS_VERSION,"tenantId":context.tenant_id,"workspaceId":context.workspace_id,"credentialId":context.credential_id,"credentialEpoch":context.credential_epoch,"mcpServers":context.mcp_servers.iter().map(|server| json!({"name":server.name,"serverId":server.server_id})).collect::<Vec<_>>()}}), &secrets).await?;
     let sender = runtime.sender();
     let mut pending = FuturesUnordered::new();
     let mut request_ids = HashSet::new();
@@ -227,7 +234,9 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                     let mut message: Value = serde_json::from_slice(&frame).map_err(|_| anyhow::anyhow!("Invalid desktop frame"))?;
                     // The protected inference identity cannot enter the model
                     // through an accidental host tool echo or user RPC either.
-                    redact(&mut message, &secret)?;
+                    for secret in &secrets {
+                        redact(&mut message, secret)?;
+                    }
                     let message: JSONRPCMessage = serde_json::from_value(message).map_err(|_| anyhow::anyhow!("Invalid desktop frame"))?;
                     match message {
                         JSONRPCMessage::Request(mut request) => {
@@ -237,7 +246,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                 || request_ids.contains(&request.id)
                                 || (request.method != "initialize" && !initialized)
                             {
-                                write_json(&mut output, &rejection(request.id), &secret).await?;
+                                write_json(&mut output, &rejection(request.id), &secrets).await?;
                                 continue;
                             }
                             let id = request.id.clone();
@@ -252,7 +261,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                 })))
                                 || (!replay_method && native_request.is_none())
                             {
-                                write_json(&mut output, &rejection(id), &secret).await?;
+                                write_json(&mut output, &rejection(id), &secrets).await?;
                                 continue;
                             }
                             request_ids.insert(id.clone());
@@ -327,6 +336,15 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             if matches!(kind.0.as_str(),"item/commandExecution/requestApproval"|"item/fileChange/requestApproval") {
                                 anyhow::ensure!(response.result.get("decision").and_then(Value::as_str).is_some_and(|decision| matches!(decision,"accept"|"decline"|"cancel")), "Unsupported desktop approval decision");
                             }
+                            if matches!(kind.0.as_str(), MCP_TOOL_APPROVAL | MCP_ELICITATION) {
+                                // Only a plain decision is honoured: no form content,
+                                // remembered grants or other client metadata.
+                                let allowed: &[&str] = if kind.0 == MCP_TOOL_APPROVAL { &["accept", "decline", "cancel"] } else { &["decline", "cancel"] };
+                                anyhow::ensure!(response.result.as_object().is_some_and(|reply| reply.keys().all(|key| matches!(key.as_str(), "action" | "content" | "_meta")))
+                                    && response.result.get("action").and_then(Value::as_str).is_some_and(|action| allowed.contains(&action))
+                                    && response.result.get("content").is_none_or(Value::is_null)
+                                    && response.result.get("_meta").is_none_or(Value::is_null), "Unsupported desktop MCP elicitation reply");
+                            }
                             if kind.0 == "item/tool/call" {
                                 let items = response.result.get("contentItems").and_then(Value::as_array).ok_or_else(||anyhow::anyhow!("Invalid desktop tool reply"))?;
                                 anyhow::ensure!(items.len() <= 8 && response.result.get("success").is_some_and(Value::is_boolean), "Invalid desktop tool reply");
@@ -354,7 +372,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                         anyhow::ensure!(threads.len() < 16, "Desktop thread limit exceeded");
                         threads.insert(thread.into());
                     }
-                    write_json(&mut output, &response, &secret).await?;
+                    write_json(&mut output, &response, &secrets).await?;
                 }
                 event = runtime.next_event() => {
                     match event {
@@ -363,7 +381,11 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             let id: RequestId = serde_json::from_value(value["id"].clone())?;
                             let method = value["method"].as_str().unwrap_or_default();
                             let params = &value["params"];
+                            let tool_approval = method == MCP_ELICITATION
+                                && params.get("mode").and_then(Value::as_str) == Some("form")
+                                && params.get("_meta").and_then(|meta| meta.get("codex_approval_kind")).and_then(Value::as_str) == Some("mcp_tool_call");
                             let unavailable = match method {
+                                MCP_ELICITATION => false,
                                 "item/commandExecution/requestApproval" => params.get("additionalPermissions").is_some_and(|value| !value.is_null()) || params.get("networkApprovalContext").is_some_and(|value| !value.is_null()),
                                 "item/fileChange/requestApproval" => context.local_access == super::LocalAccess::ReadOnly || params.get("grantRoot").is_some_and(|value| !value.is_null()),
                                 "item/tool/call" => false,
@@ -374,8 +396,9 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                 continue;
                             }
                             anyhow::ensure!(approvals.len() < 32 && !approvals.contains_key(&id), "Desktop pending tool limit exceeded");
-                            approvals.insert(id,(method.to_owned(), params["threadId"].as_str().unwrap_or_default().to_owned(), params["turnId"].as_str().unwrap_or_default().to_owned()));
-                            write_json(&mut output, &value, &secret).await?;
+                            let kind = if tool_approval { MCP_TOOL_APPROVAL } else { method };
+                            approvals.insert(id,(kind.to_owned(), params["threadId"].as_str().unwrap_or_default().to_owned(), params["turnId"].as_str().unwrap_or_default().to_owned()));
+                            write_json(&mut output, &value, &secrets).await?;
                         }
                         Some(InProcessServerEvent::ServerNotification(notification)) => {
                             let value = serde_json::to_value(notification)?;
@@ -384,7 +407,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                 let turn = value["params"]["turn"]["id"].as_str().unwrap_or_default();
                                 approvals.retain(|_,(_,pending_thread,pending_turn)| pending_thread != thread || pending_turn != turn);
                             }
-                            write_json(&mut output, &value, &secret).await?;
+                            write_json(&mut output, &value, &secrets).await?;
                         }
                         Some(InProcessServerEvent::Lagged{..}) => anyhow::bail!("Desktop event stream exceeded its capacity"),
                         None => break,

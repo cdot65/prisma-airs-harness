@@ -212,7 +212,7 @@ where
         };
         let config = server.config().clone();
         let runtime_context = runtime_context.clone();
-        let has_runtime_auth = matches!(&config.auth, McpServerAuth::ChatGpt)
+        let has_runtime_auth = (matches!(&config.auth, McpServerAuth::ChatGpt)
             && auth.is_some_and(CodexAuth::uses_codex_backend)
             && matches!(
                 &config.transport,
@@ -220,7 +220,8 @@ where
                     bearer_token_env_var: None,
                     ..
                 }
-            );
+            ))
+            || crate::desktop_auth::desktop_auth_provider(&name, &config).is_some();
         async move {
             let auth_state = match compute_auth_status(
                 &name,

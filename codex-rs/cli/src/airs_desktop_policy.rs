@@ -214,6 +214,15 @@ pub(super) fn validate(
             p.insert("includeTurns".into(), json!(false));
         }
         "turn/interrupt" => {}
+        // Read-only inventory of an owned thread. It never starts a login,
+        // reloads servers or accepts configuration overrides.
+        "mcpServerStatus/list" => {
+            anyhow::ensure!(
+                p.keys()
+                    .all(|key| matches!(key.as_str(), "threadId" | "cursor" | "limit" | "detail")),
+                "Desktop MCP status request is unsupported"
+            );
+        }
         _ => anyhow::bail!("Method is unavailable in Desktop"),
     }
     ClientRequest::try_from(request.clone()).map_err(|_| anyhow::anyhow!("Invalid desktop request"))

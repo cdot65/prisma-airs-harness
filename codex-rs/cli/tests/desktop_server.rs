@@ -28,6 +28,9 @@ mod shutdown;
 #[path = "desktop_server/admission.rs"]
 mod admission;
 
+#[path = "desktop_server/workspace_mcp.rs"]
+mod workspace_mcp;
+
 struct Desktop {
     child: Child,
     input: ChildStdin,
@@ -57,6 +60,20 @@ impl Desktop {
         gateway_config: Option<&str>,
         model: Option<&str>,
     ) -> Result<Self> {
+        Self::launch(
+            temp,
+            json!({
+                "v":1,"tenantId":"11111111-1111-4111-8111-111111111111",
+                "workspaceId":"22222222-2222-4222-8222-222222222222",
+                "credentialId":"33333333-3333-4333-8333-333333333333","credentialEpoch":7,
+                "gatewayEndpoint":endpoint,"apiKey":KEY,"projectPath":project,
+                "localAccess":access,"gatewayConfig":gateway_config,"model":model
+            }),
+        )
+        .await
+    }
+
+    async fn launch(temp: &Path, bootstrap: Value) -> Result<Self> {
         let mut command =
             tokio::process::Command::new(codex_utils_cargo_bin::cargo_bin("airs-harness")?);
         command
@@ -81,13 +98,7 @@ impl Desktop {
             seen: Vec::new(),
         };
         desktop
-            .send(json!({"id":0,"method":"desktop/bootstrap","params":{
-                "v":1,"tenantId":"11111111-1111-4111-8111-111111111111",
-                "workspaceId":"22222222-2222-4222-8222-222222222222",
-                "credentialId":"33333333-3333-4333-8333-333333333333","credentialEpoch":7,
-                "gatewayEndpoint":endpoint,"apiKey":KEY,"projectPath":project,
-                "localAccess":access,"gatewayConfig":gateway_config,"model":model
-            }}))
+            .send(json!({"id":0,"method":"desktop/bootstrap","params":bootstrap}))
             .await?;
         let response = desktop.response(0).await?;
         anyhow::ensure!(response.get("result").is_some(), "bootstrap rejected");

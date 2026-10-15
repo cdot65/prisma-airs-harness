@@ -31,6 +31,7 @@ use std::time::Duration;
 
 use crate::binding::call_tool_result_from_rmcp;
 use crate::catalog::McpServerSource;
+use crate::desktop_auth::desktop_auth_provider;
 use crate::elicitation::ElicitationRequestManager;
 use crate::elicitation::ElicitationRequestRouter;
 use crate::event_stream::EventStreamConnectionSettings;
@@ -347,12 +348,16 @@ impl McpConnectionSet {
             };
             // If Codex Apps has an env bearer token, that is its auth path. Do
             // not also attach the ambient CodexAuth provider.
-            let runtime_auth_provider =
-                if server_name == CODEX_APPS_MCP_SERVER_NAME && uses_env_bearer_token {
-                    None
-                } else {
-                    chatgpt_auth_provider_for_server(&server, chatgpt_auth_provider)
-                };
+            // A Desktop host credential is memory-only and bound to this exact
+            // registration; it replaces stored OAuth and ambient credentials.
+            let runtime_auth_provider = desktop_auth_provider(&server_name, &configured_config)
+                .or_else(|| {
+                    if server_name == CODEX_APPS_MCP_SERVER_NAME && uses_env_bearer_token {
+                        None
+                    } else {
+                        chatgpt_auth_provider_for_server(&server, chatgpt_auth_provider)
+                    }
+                });
             if is_host_owned_codex_apps {
                 event_stream_connection = Some(Arc::new(EventStreamConnectionSettings {
                     server: server.clone(),

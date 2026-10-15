@@ -10,6 +10,8 @@ use tokio::io::AsyncBufReadExt;
 use zeroize::Zeroize;
 use zeroize::Zeroizing;
 
+#[path = "airs_desktop_mcp.rs"]
+mod mcp;
 #[path = "airs_desktop_runtime.rs"]
 mod runtime;
 #[path = "airs_desktop_transport.rs"]
@@ -23,6 +25,23 @@ pub(super) struct Args {
     /// Permit HTTP only for an offline loopback fixture.
     #[arg(long, hide = true)]
     pub allow_http_loopback: bool,
+}
+
+/// Whether offline fixtures may use plain HTTP on a loopback host.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(super) enum HttpLoopback {
+    Allowed,
+    Denied,
+}
+
+impl Args {
+    fn http_loopback(&self) -> HttpLoopback {
+        if self.allow_http_loopback {
+            HttpLoopback::Allowed
+        } else {
+            HttpLoopback::Denied
+        }
+    }
 }
 
 #[derive(Clone, Copy, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -46,6 +65,9 @@ pub(super) struct ContextBinding {
     pub local_access: LocalAccess,
     pub gateway_config: Option<String>,
     pub model: Option<String>,
+    /// Workspace MCP inventory; omitted when empty so earlier replay contexts still match.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mcp_servers: Vec<mcp::McpServerBinding>,
 }
 
 #[derive(Deserialize)]
@@ -63,6 +85,8 @@ struct Bootstrap {
     local_access: LocalAccess,
     gateway_config: Option<String>,
     model: Option<String>,
+    #[serde(default)]
+    mcp_servers: Option<Vec<mcp::McpServerGrant>>,
 }
 
 impl Drop for Bootstrap {
@@ -133,16 +157,16 @@ pub(super) async fn run(arg0_paths: Arg0DispatchPaths, args: &Args) -> anyhow::R
         Err(_) => Err(anyhow::anyhow!("Invalid desktop bootstrap")),
     };
     match result {
-        Ok((runtime, context, secret)) => transport::serve(input, runtime, context, secret).await,
+        Ok((runtime, context, secrets)) => transport::serve(input, runtime, context, secrets).await,
         Err(_) => {
-            transport::write_json(&mut tokio::io::stdout(), &serde_json::json!({"id":0,"error":{"code":-32602,"message":"Desktop bootstrap rejected"}}), "").await?;
+            transport::write_json(&mut tokio::io::stdout(), &serde_json::json!({"id":0,"error":{"code":-32602,"message":"Desktop bootstrap rejected"}}), &[""]).await?;
             Err(anyhow::anyhow!("Desktop bootstrap rejected"))
         }
     }
 }
 
 impl BootstrapRequest {
-    fn validate(&self) -> anyhow::Result<ContextBinding> {
+    fn validate(&self, args: &Args) -> anyhow::Result<ContextBinding> {
         anyhow::ensure!(
             self.id == 0 && self.method == "desktop/bootstrap" && self.params.v == 1,
             "Unsupported desktop bootstrap"
@@ -181,6 +205,7 @@ impl BootstrapRequest {
             codex_model_provider_info::GatewayRouting::validate_saved_config(config)
                 .map_err(anyhow::Error::msg)?;
         }
+        let mcp_servers = mcp::validate(self.mcp_grants(), args.http_loopback())?;
         Ok(ContextBinding {
             tenant_id: p.tenant_id,
             workspace_id: p.workspace_id,
@@ -191,7 +216,12 @@ impl BootstrapRequest {
             local_access: p.local_access,
             gateway_config: p.gateway_config.clone(),
             model: p.model.clone(),
+            mcp_servers,
         })
+    }
+
+    fn mcp_grants(&self) -> &[mcp::McpServerGrant] {
+        self.params.mcp_servers.as_deref().unwrap_or_default()
     }
 }
 

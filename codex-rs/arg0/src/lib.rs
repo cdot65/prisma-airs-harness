@@ -173,6 +173,12 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
     path_entry_guard
 }
 
+/// Verify the Desktop-only native Linux helper without adding a CLI dependency.
+#[cfg(target_os = "linux")]
+pub fn verify_desktop_linux_backend() -> std::io::Result<()> {
+    codex_linux_sandbox::verify_desktop_backend()
+}
+
 fn prepare_path_env_var_with_aliases(
     install_context: &InstallContext,
     existing_path: Option<OsString>,

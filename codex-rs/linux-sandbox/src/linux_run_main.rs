@@ -39,6 +39,7 @@ use codex_sandboxing::landlock::CODEX_LINUX_SANDBOX_ARG0;
 
 static BWRAP_CHILD_PID: AtomicI32 = AtomicI32::new(0);
 static PENDING_FORWARDED_SIGNAL: AtomicI32 = AtomicI32::new(0);
+pub(crate) static DESKTOP_COMMAND_MODE: AtomicBool = AtomicBool::new(false);
 
 const FORWARDED_SIGNALS: &[libc::c_int] =
     &[libc::SIGHUP, libc::SIGINT, libc::SIGQUIT, libc::SIGTERM];
@@ -143,6 +144,10 @@ pub struct LandlockCommand {
     #[arg(long = "no-proc", default_value_t = false)]
     pub no_proc: bool,
 
+    /// Internal strict Desktop lane; never falls back to generic permissions.
+    #[arg(long, hide = true, default_value_t = false)]
+    pub desktop_command: bool,
+
     /// Full command args to run under the Linux sandbox helper.
     #[arg(trailing_var_arg = true)]
     pub command: Vec<String>,
@@ -166,6 +171,7 @@ pub fn run_main() -> ! {
         proxy_route_spec,
         verify_fd_mounts,
         no_proc,
+        desktop_command,
         command,
     } = LandlockCommand::parse();
 
@@ -177,10 +183,38 @@ pub fn run_main() -> ! {
     }
     ensure_inner_stage_mode_is_valid(apply_seccomp_then_exec, use_legacy_landlock);
     let EffectivePermissions {
-        permission_profile,
-        file_system_sandbox_policy,
+        mut permission_profile,
+        mut file_system_sandbox_policy,
         network_sandbox_policy,
     } = resolve_permission_profile(permission_profile).unwrap_or_else(|err| panic!("{err}"));
+    if desktop_command {
+        // FS helpers add the generic :minimal grant. Desktop already supplies
+        // exact loader reads; generic Linux defaults would expose all of /etc.
+        file_system_sandbox_policy.entries.retain(|entry| {
+            !matches!(
+                &entry.path,
+                FileSystemPath::Special {
+                    value: FileSystemSpecialPath::Minimal
+                }
+            )
+        });
+        permission_profile = PermissionProfile::from_runtime_permissions_with_enforcement(
+            permission_profile.enforcement(),
+            &file_system_sandbox_policy,
+            network_sandbox_policy,
+        );
+        assert!(
+            cfg!(target_arch = "x86_64")
+                && !use_legacy_landlock
+                && !allow_network_for_proxy
+                && no_proc
+                && !file_system_sandbox_policy.has_full_disk_read_access()
+                && !file_system_sandbox_policy.has_full_disk_write_access()
+                && !network_sandbox_policy.is_enabled(),
+            "Desktop requires offline, restricted AMD64 Bubblewrap without proc or legacy fallback"
+        );
+        DESKTOP_COMMAND_MODE.store(true, Ordering::Release);
+    }
     ensure_legacy_landlock_mode_supports_policy(
         use_legacy_landlock,
         &file_system_sandbox_policy,
@@ -248,6 +282,12 @@ pub fn run_main() -> ! {
         if command_pid == 0 {
             reset_forwarded_signal_handlers_to_default();
             signal_mask.restore();
+            #[cfg(target_arch = "x86_64")]
+            if desktop_command {
+                crate::desktop_process::install_command_restrictions().unwrap_or_else(|error| {
+                    panic!("Desktop process restrictions unavailable: {error}")
+                });
+            }
             exec_or_panic(command);
         }
 
@@ -302,6 +342,7 @@ pub fn run_main() -> ! {
             command_cwd: command_cwd.as_deref(),
             permission_profile: &permission_profile,
             allow_network_for_proxy,
+            desktop_command,
             proxy_route_spec,
             command,
         });
@@ -1511,6 +1552,7 @@ struct InnerSeccompCommandArgs<'a> {
     command_cwd: Option<&'a Path>,
     permission_profile: &'a PermissionProfile,
     allow_network_for_proxy: bool,
+    desktop_command: bool,
     proxy_route_spec: Option<String>,
     command: Vec<String>,
 }
@@ -1522,6 +1564,7 @@ fn build_inner_seccomp_command(args: InnerSeccompCommandArgs<'_>) -> Vec<String>
         command_cwd,
         permission_profile,
         allow_network_for_proxy,
+        desktop_command,
         proxy_route_spec,
         command,
     } = args;
@@ -1548,6 +1591,9 @@ fn build_inner_seccomp_command(args: InnerSeccompCommandArgs<'_>) -> Vec<String>
         permission_profile_json,
         "--apply-seccomp-then-exec".to_string(),
     ]);
+    if desktop_command {
+        inner.extend(["--desktop-command".to_string(), "--no-proc".to_string()]);
+    }
     if allow_network_for_proxy {
         inner.push("--allow-network-for-proxy".to_string());
         let proxy_route_spec = proxy_route_spec

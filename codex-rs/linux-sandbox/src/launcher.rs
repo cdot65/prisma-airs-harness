@@ -37,6 +37,23 @@ struct SystemBwrapCapabilities {
 
 pub(crate) fn exec_bwrap(mut argv: Vec<String>, preserved_files: Vec<File>) -> ! {
     argv.insert(1, "--as-pid-1".to_string());
+    if crate::linux_run_main::DESKTOP_COMMAND_MODE.load(std::sync::atomic::Ordering::Acquire) {
+        let separator = argv
+            .iter()
+            .position(|argument| argument == "--")
+            .unwrap_or_else(|| panic!("Desktop Bubblewrap command separator is missing"));
+        // Freeze synthetic scratch directories after explicit mounts. The
+        // approved writable project remains a distinct writable bind mount.
+        argv.splice(
+            separator..separator,
+            [
+                "--remount-ro".to_string(),
+                "/".to_string(),
+                "--remount-ro".to_string(),
+                "/dev".to_string(),
+            ],
+        );
+    }
 
     match preferred_bwrap_launcher() {
         BubblewrapLauncher::System(launcher) => {
@@ -124,6 +141,12 @@ fn translate_legacy_bwrap_fd_mounts(argv: &mut Vec<String>) -> Result<(), String
 }
 
 fn preferred_bwrap_launcher() -> BubblewrapLauncher {
+    if crate::linux_run_main::DESKTOP_COMMAND_MODE.load(std::sync::atomic::Ordering::Acquire) {
+        return BubblewrapLauncher::Bundled(
+            bundled_bwrap::desktop_launcher()
+                .unwrap_or_else(|error| panic!("Desktop bundled Bubblewrap unavailable: {error}")),
+        );
+    }
     static LAUNCHER: OnceLock<BubblewrapLauncher> = OnceLock::new();
     LAUNCHER
         .get_or_init(|| {

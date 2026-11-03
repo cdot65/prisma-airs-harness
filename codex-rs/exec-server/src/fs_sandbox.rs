@@ -150,7 +150,18 @@ impl FileSystemSandboxRunner {
         }
         let command = SandboxCommand {
             program: helper.as_path().as_os_str().to_owned(),
-            args: vec![CODEX_FS_HELPER_ARG1.to_string()],
+            args: {
+                let args = vec![CODEX_FS_HELPER_ARG1.to_string()];
+                #[cfg(target_os = "linux")]
+                let args = {
+                    let mut desktop_args = args;
+                    if codex_sandboxing::landlock::desktop_process_sandbox_enabled() {
+                        desktop_args.push("--airs-desktop-owned-helper".to_string());
+                    }
+                    desktop_args
+                };
+                args
+            },
             cwd: cwd.uri.clone(),
             env: self.helper_env.clone(),
             managed_network: None,
@@ -497,6 +508,25 @@ pub(crate) fn spawn_command(
     command.stdout(std::process::Stdio::piped());
     command.stderr(std::process::Stdio::piped());
     command.kill_on_drop(true);
+    #[cfg(target_os = "linux")]
+    if codex_sandboxing::landlock::desktop_process_sandbox_enabled() {
+        codex_utils_pty::require_desktop_command_supervision().map_err(io_error)?;
+        let parent = unsafe { libc::getpid() };
+        // Native FS helpers retain the owned engine group; they never admit
+        // arbitrary user executables outside the strict Bubblewrap chain.
+        unsafe {
+            command.pre_exec(move || {
+                if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGKILL) != 0 {
+                    return Err(std::io::Error::last_os_error());
+                }
+                if libc::getppid() != parent {
+                    libc::_exit(125);
+                }
+                codex_utils_pty::pty::close_inherited_fds_except(&[]);
+                Ok(())
+            });
+        }
+    }
     // macOS cannot receive passed fds with close-on-exec set atomically.
     #[cfg(target_os = "macos")]
     // SAFETY: Descriptor cleanup only uses fork-safe system calls.

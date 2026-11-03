@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io::Read;
 use std::os::fd::AsRawFd;
 use std::os::raw::c_char;
+use std::os::unix::fs::MetadataExt;
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
 use std::path::PathBuf;
@@ -32,6 +33,50 @@ pub(crate) fn launcher() -> Option<BundledBwrapLauncher> {
         .map(|program| BundledBwrapLauncher { program })
 }
 
+pub(crate) fn desktop_launcher() -> std::io::Result<BundledBwrapLauncher> {
+    let launcher = launcher()
+        .ok_or_else(|| std::io::Error::other("Desktop requires a bundled Bubblewrap resource"))?;
+    let file = File::open(launcher.program.as_path())?;
+    verify_desktop_file(&file)?;
+    verify_digest(&file, expected_sha256(), launcher.program.as_path())
+        .map_err(std::io::Error::other)?;
+    Ok(launcher)
+}
+
+fn verify_desktop_file(file: &File) -> std::io::Result<()> {
+    let metadata = file.metadata()?;
+    let uid = unsafe { libc::getuid() };
+    if expected_sha256().is_none()
+        || !metadata.is_file()
+        || metadata.mode() & 0o6022 != 0
+        || metadata.mode() & 0o111 == 0
+        || ![0, uid].contains(&metadata.uid())
+        || uid != unsafe { libc::geteuid() }
+    {
+        return Err(std::io::Error::other(
+            "Desktop Bubblewrap identity or privilege metadata differs",
+        ));
+    }
+    let capabilities = unsafe {
+        libc::fgetxattr(
+            file.as_raw_fd(),
+            c"security.capability".as_ptr(),
+            std::ptr::null_mut(),
+            0,
+        )
+    };
+    if capabilities >= 0 {
+        return Err(std::io::Error::other(
+            "Desktop Bubblewrap must have no file capabilities",
+        ));
+    }
+    let error = std::io::Error::last_os_error();
+    if !matches!(error.raw_os_error(), Some(libc::ENODATA | libc::EOPNOTSUPP)) {
+        return Err(error);
+    }
+    Ok(())
+}
+
 impl BundledBwrapLauncher {
     pub(crate) fn exec(&self, argv: Vec<String>, preserved_files: Vec<File>) -> ! {
         let bwrap_file = File::open(self.program.as_path()).unwrap_or_else(|err| {
@@ -40,6 +85,16 @@ impl BundledBwrapLauncher {
                 self.program.as_path().display()
             )
         });
+        if crate::linux_run_main::DESKTOP_COMMAND_MODE.load(std::sync::atomic::Ordering::Acquire) {
+            verify_desktop_file(&bwrap_file)
+                .unwrap_or_else(|error| panic!("Desktop Bubblewrap metadata unavailable: {error}"));
+            if unsafe { libc::prctl(libc::PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) } != 0 {
+                panic!(
+                    "Desktop no-new-privileges unavailable: {}",
+                    std::io::Error::last_os_error()
+                );
+            }
+        }
         if let Err(err) = verify_digest(&bwrap_file, expected_sha256(), self.program.as_path()) {
             eprintln!("{err}");
             std::process::exit(crate::BUNDLED_BWRAP_DIGEST_VERIFICATION_FAILURE_EXIT_CODE);

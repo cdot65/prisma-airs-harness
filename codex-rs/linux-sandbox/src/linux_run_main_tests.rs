@@ -532,6 +532,7 @@ fn managed_proxy_inner_command_includes_route_spec() {
         command_cwd: Some(Path::new("/tmp/link")),
         permission_profile: &permission_profile,
         allow_network_for_proxy: true,
+        desktop_command: false,
         proxy_route_spec: Some("{\"routes\":[]}".to_string()),
         command: vec!["/bin/true".to_string()],
     });
@@ -548,6 +549,7 @@ fn inner_command_includes_permission_profile_flag() {
         command_cwd: Some(Path::new("/tmp/link")),
         permission_profile: &permission_profile,
         allow_network_for_proxy: false,
+        desktop_command: false,
         proxy_route_spec: None,
         command: vec!["/bin/true".to_string()],
     });
@@ -560,6 +562,28 @@ fn inner_command_includes_permission_profile_flag() {
 }
 
 #[test]
+fn desktop_inner_command_retains_strict_mode_before_user_arguments() {
+    let permission_profile = read_only_permission_profile();
+    let args = build_inner_seccomp_command(InnerSeccompCommandArgs {
+        sandbox_policy_cwd: Path::new("/project"),
+        command_cwd: Some(Path::new("/project")),
+        permission_profile: &permission_profile,
+        allow_network_for_proxy: false,
+        desktop_command: true,
+        proxy_route_spec: None,
+        command: vec!["/bin/true".to_string()],
+    });
+    let separator = args.iter().position(|arg| arg == "--").unwrap();
+    assert!(
+        args[..separator]
+            .iter()
+            .any(|arg| arg == "--desktop-command")
+    );
+    assert!(args[..separator].iter().any(|arg| arg == "--no-proc"));
+    assert_eq!(&args[separator + 1..], &["/bin/true".to_string()]);
+}
+
+#[test]
 fn non_managed_inner_command_omits_route_spec() {
     let permission_profile = read_only_permission_profile();
     let args = build_inner_seccomp_command(InnerSeccompCommandArgs {
@@ -567,6 +591,7 @@ fn non_managed_inner_command_omits_route_spec() {
         command_cwd: Some(Path::new("/tmp/link")),
         permission_profile: &permission_profile,
         allow_network_for_proxy: false,
+        desktop_command: false,
         proxy_route_spec: None,
         command: vec!["/bin/true".to_string()],
     });
@@ -583,6 +608,7 @@ fn managed_proxy_inner_command_requires_route_spec() {
             command_cwd: Some(Path::new("/tmp/link")),
             permission_profile: &permission_profile,
             allow_network_for_proxy: true,
+            desktop_command: false,
             proxy_route_spec: None,
             command: vec!["/bin/true".to_string()],
         })

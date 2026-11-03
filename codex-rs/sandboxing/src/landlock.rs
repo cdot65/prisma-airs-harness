@@ -1,5 +1,20 @@
 use codex_protocol::models::PermissionProfile;
 use std::path::Path;
+use std::sync::OnceLock;
+
+static DESKTOP_COMMANDS: OnceLock<()> = OnceLock::new();
+
+/// Select the immutable, strict Desktop command lane for this owned runtime.
+pub fn install_desktop_process_sandbox() -> std::io::Result<()> {
+    DESKTOP_COMMANDS
+        .set(())
+        .map_err(|_| std::io::Error::other("Desktop process sandbox was already selected"))
+}
+
+/// Whether this runtime selected Desktop, including after supervision failure.
+pub fn desktop_process_sandbox_enabled() -> bool {
+    DESKTOP_COMMANDS.get().is_some()
+}
 
 /// Basename used when the Codex executable self-invokes as the Linux sandbox
 /// helper.
@@ -47,6 +62,18 @@ pub fn create_linux_sandbox_command_args_for_permission_profile(
         "--permission-profile".to_string(),
         permission_profile_json,
     ];
+    if desktop_process_sandbox_enabled() {
+        let (filesystem, network) = permission_profile.to_runtime_permissions();
+        assert!(
+            !use_legacy_landlock
+                && !allow_network_for_proxy
+                && !filesystem.has_full_disk_read_access()
+                && !filesystem.has_full_disk_write_access()
+                && !network.is_enabled(),
+            "Desktop requires restricted filesystem and offline Bubblewrap commands"
+        );
+        linux_cmd.extend(["--desktop-command".to_string(), "--no-proc".to_string()]);
+    }
     // Proxy-only networking requires bubblewrap's isolated network namespace.
     if use_legacy_landlock && !allow_network_for_proxy {
         linux_cmd.push("--use-legacy-landlock".to_string());

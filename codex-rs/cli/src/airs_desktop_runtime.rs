@@ -16,6 +16,10 @@ use codex_protocol::protocol::SessionSource;
 use std::sync::Arc;
 use zeroize::Zeroizing;
 
+#[cfg(target_os = "linux")]
+#[path = "airs_desktop_linux.rs"]
+mod linux_policy;
+
 pub(super) async fn bootstrap(
     mut arg0_paths: Arg0DispatchPaths,
     args: &Args,
@@ -29,7 +33,16 @@ pub(super) async fn bootstrap(
     // Direct unified exec keeps the sandbox while avoiding a process-specific
     // optional zsh interception helper in durable replay permissions.
     arg0_paths.main_execve_wrapper_exe = None;
+    #[cfg(target_os = "macos")]
     codex_sandboxing::seatbelt::install_desktop_process_sandbox()?;
+    #[cfg(target_os = "linux")]
+    {
+        codex_utils_pty::require_desktop_command_supervision()?;
+        codex_arg0::verify_desktop_linux_backend()?;
+        codex_sandboxing::landlock::install_desktop_process_sandbox()?;
+    }
+    #[cfg(not(any(target_os = "macos", target_os = "linux")))]
+    anyhow::bail!("Desktop OS command isolation is unavailable");
     anyhow::ensure!(
         !std::env::vars_os()
             .any(|(name, _)| name.to_string_lossy().starts_with("CODEX_EXEC_SERVER_")),
@@ -84,6 +97,16 @@ pub(super) async fn bootstrap(
                 "Project scope includes protected credentials"
             );
         }
+        #[cfg(target_os = "linux")]
+        linux_policy::protect_project(
+            project,
+            &account_home,
+            arg0_paths
+                .codex_self_exe
+                .as_ref()
+                .and_then(|executable| executable.parent())
+                .context("Missing desktop engine resources")?,
+        )?;
         if let Some(home) = std::env::var_os("HOME") {
             anyhow::ensure!(
                 !std::path::PathBuf::from(home).starts_with(project),
@@ -180,7 +203,7 @@ pub(super) async fn bootstrap(
     // `:minimal` includes macOS-wide temporary-directory writes. Desktop needs
     // only the public OS runtime plus the selected project, never private state.
     let mut filesystem = serde_json::Map::from_iter([("/".into(), serde_json::json!("deny"))]);
-    for path in [
+    let mut platform_paths = vec![
         "/bin",
         "/sbin",
         "/usr/bin",
@@ -188,6 +211,14 @@ pub(super) async fn bootstrap(
         "/usr/lib",
         "/usr/libexec",
         "/usr/share",
+        "/dev/null",
+        "/dev/zero",
+        "/dev/random",
+        "/dev/urandom",
+        "/dev/fd",
+    ];
+    #[cfg(target_os = "macos")]
+    platform_paths.extend([
         "/System/Library",
         "/Library/Apple",
         "/private/etc/passwd",
@@ -195,18 +226,34 @@ pub(super) async fn bootstrap(
         "/private/etc/services",
         "/private/etc/localtime",
         "/private/var/db/timezone",
-        "/dev/null",
-        "/dev/zero",
-        "/dev/random",
-        "/dev/urandom",
-        "/dev/fd",
-    ] {
+    ]);
+    #[cfg(target_os = "linux")]
+    platform_paths.extend([
+        "/lib",
+        "/lib64",
+        "/etc/ld.so.cache",
+        "/etc/passwd",
+        "/etc/group",
+        "/etc/nsswitch.conf",
+        "/etc/localtime",
+    ]);
+    for path in platform_paths {
         filesystem.insert(path.into(), serde_json::json!("read"));
     }
     let executable = arg0_paths
         .codex_self_exe
         .as_ref()
         .context("Missing desktop executable")?;
+    #[cfg(target_os = "linux")]
+    if let Some(project) = &context.project_path {
+        let resources = executable
+            .parent()
+            .context("Missing desktop engine resources")?;
+        anyhow::ensure!(
+            !project.starts_with(resources) && !resources.starts_with(project),
+            "Project scope overlaps trusted runtime resources"
+        );
+    }
     filesystem.insert(
         executable.to_string_lossy().into_owned(),
         serde_json::json!("read"),

@@ -9,6 +9,8 @@ mod bazel_bwrap;
 mod bundled_bwrap;
 #[cfg(target_os = "linux")]
 mod bwrap;
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+mod desktop_process;
 #[cfg(target_os = "linux")]
 mod exec_util;
 #[cfg(target_os = "linux")]
@@ -27,6 +29,18 @@ mod proxy_routing;
 /// Exit status returned when bundled bubblewrap fails digest verification.
 #[cfg(target_os = "linux")]
 pub const BUNDLED_BWRAP_DIGEST_VERIFICATION_FAILURE_EXIT_CODE: i32 = 8;
+
+/// Require the exact nonprivileged bundled helper before Desktop bootstrap.
+#[cfg(target_os = "linux")]
+pub fn verify_desktop_backend() -> std::io::Result<()> {
+    if !cfg!(target_arch = "x86_64") {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::Unsupported,
+            "Desktop Linux requires AMD64",
+        ));
+    }
+    bundled_bwrap::desktop_launcher().map(|_| ())
+}
 
 #[cfg(target_os = "linux")]
 pub fn run_main() -> ! {

@@ -94,11 +94,19 @@ impl ChildTerminator for PtyChildTerminator {
 #[cfg(unix)]
 struct RawPidTerminator {
     process_group_id: u32,
+    #[cfg(target_os = "linux")]
+    desktop: Option<crate::desktop_supervisor::DesktopCommand>,
 }
 
 #[cfg(unix)]
 impl ChildTerminator for RawPidTerminator {
     fn signal(&mut self, signal: ProcessSignal) -> std::io::Result<()> {
+        #[cfg(target_os = "linux")]
+        if let Some(desktop) = &self.desktop {
+            return match signal {
+                ProcessSignal::Interrupt => desktop.signal(libc::SIGINT),
+            };
+        }
         match signal {
             ProcessSignal::Interrupt => {
                 crate::process_group::interrupt_process_group(self.process_group_id)
@@ -107,6 +115,10 @@ impl ChildTerminator for RawPidTerminator {
     }
 
     fn kill(&mut self) -> std::io::Result<()> {
+        #[cfg(target_os = "linux")]
+        if let Some(desktop) = &self.desktop {
+            return desktop.signal(libc::SIGKILL);
+        }
         crate::process_group::kill_process_group(self.process_group_id)
     }
 }
@@ -143,7 +155,7 @@ pub async fn spawn_process(
 
     #[cfg(unix)]
     let use_raw_pty = !inherited_fds.is_empty();
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     let use_raw_pty = use_raw_pty || crate::desktop_supervisor::desktop_mode_enabled();
     #[cfg(unix)]
     if use_raw_pty {
@@ -323,9 +335,9 @@ async fn spawn_process_preserving_fds(
     let stdout = slave.try_clone()?;
     let stderr = slave.try_clone()?;
     let inherited_fds = inherited_fds.to_vec();
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     let desktop_guard = crate::desktop_supervisor::prepare_spawn()?;
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     let registration = desktop_guard
         .as_ref()
         .map(crate::desktop_supervisor::DesktopSpawnGuard::registration);
@@ -353,7 +365,7 @@ async fn spawn_process_preserving_fds(
                 if libc::setsid() == -1 {
                     return Err(std::io::Error::last_os_error());
                 }
-                #[cfg(target_os = "macos")]
+                #[cfg(any(target_os = "macos", target_os = "linux"))]
                 if let Some(registration) = registration {
                     registration.register()?;
                 }
@@ -372,7 +384,12 @@ async fn spawn_process_preserving_fds(
     }
 
     let mut child = command.spawn()?;
-    #[cfg(target_os = "macos")]
+    #[cfg(target_os = "linux")]
+    let desktop = desktop_guard
+        .as_ref()
+        .map(crate::desktop_supervisor::DesktopSpawnGuard::command)
+        .transpose()?;
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     drop(desktop_guard);
     drop(slave);
     let process_group_id = child.id();
@@ -413,7 +430,11 @@ async fn spawn_process_preserving_fds(
 
     let handle = ProcessHandle::new(
         writer_tx,
-        Box::new(RawPidTerminator { process_group_id }),
+        Box::new(RawPidTerminator {
+            process_group_id,
+            #[cfg(target_os = "linux")]
+            desktop,
+        }),
         reader_handle,
         Vec::new(),
         writer_handle,

@@ -34,6 +34,8 @@ enum WindowsChildTerminator {
 }
 
 struct PipeChildTerminator {
+    #[cfg(target_os = "linux")]
+    desktop: Option<crate::desktop_supervisor::DesktopCommand>,
     #[cfg(windows)]
     windows: WindowsChildTerminator,
     #[cfg(unix)]
@@ -42,6 +44,12 @@ struct PipeChildTerminator {
 
 impl ChildTerminator for PipeChildTerminator {
     fn signal(&mut self, signal: ProcessSignal) -> io::Result<()> {
+        #[cfg(target_os = "linux")]
+        if let Some(desktop) = &self.desktop {
+            return match signal {
+                ProcessSignal::Interrupt => desktop.signal(libc::SIGINT),
+            };
+        }
         match signal {
             ProcessSignal::Interrupt => {
                 #[cfg(unix)]
@@ -63,6 +71,10 @@ impl ChildTerminator for PipeChildTerminator {
     }
 
     fn kill(&mut self) -> io::Result<()> {
+        #[cfg(target_os = "linux")]
+        if let Some(desktop) = &self.desktop {
+            return desktop.signal(libc::SIGKILL);
+        }
         #[cfg(all(unix, not(target_os = "macos")))]
         {
             crate::process_group::kill_process_group(self.process_group_id)
@@ -156,9 +168,9 @@ async fn spawn_process_with_stdin_mode(
     let parent_pid = unsafe { libc::getpid() };
     #[cfg(unix)]
     let inherited_fds = inherited_fds.to_vec();
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     let desktop_guard = crate::desktop_supervisor::prepare_spawn()?;
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     let registration = desktop_guard
         .as_ref()
         .map(crate::desktop_supervisor::DesktopSpawnGuard::registration);
@@ -166,12 +178,14 @@ async fn spawn_process_with_stdin_mode(
     unsafe {
         command.pre_exec(move || {
             crate::process_group::detach_from_tty()?;
-            #[cfg(target_os = "macos")]
+            #[cfg(any(target_os = "macos", target_os = "linux"))]
             if let Some(registration) = registration {
                 registration.register()?;
             }
             #[cfg(target_os = "linux")]
-            crate::process_group::set_parent_death_signal(parent_pid)?;
+            if registration.is_none() {
+                crate::process_group::set_parent_death_signal(parent_pid)?;
+            }
             crate::pty::close_inherited_fds_except(&inherited_fds);
             Ok(())
         });
@@ -200,7 +214,12 @@ async fn spawn_process_with_stdin_mode(
     #[cfg(windows)]
     let job = crate::win::JobObject::create().map(Arc::new);
     let mut child = command.spawn()?;
-    #[cfg(target_os = "macos")]
+    #[cfg(target_os = "linux")]
+    let desktop = desktop_guard
+        .as_ref()
+        .map(crate::desktop_supervisor::DesktopSpawnGuard::command)
+        .transpose()?;
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     drop(desktop_guard);
     #[cfg(windows)]
     let windows_terminator = {
@@ -314,6 +333,8 @@ async fn spawn_process_with_stdin_mode(
     let handle = ProcessHandle::new(
         writer_tx,
         Box::new(PipeChildTerminator {
+            #[cfg(target_os = "linux")]
+            desktop,
             #[cfg(windows)]
             windows: windows_terminator,
             #[cfg(unix)]

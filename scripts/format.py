@@ -59,9 +59,8 @@ def buildifier_formatter_group(*, check: bool) -> FormatterGroup:
             continue
         path = Path(os.fsdecode(encoded_path))
         name = path.name
-        # Release evidence such as BUILD.json is JSON, not a Starlark BUILD file.
-        # Buildifier can parse a JSON object and then corrupt its JSON syntax.
-        if path.suffix == ".json":
+        # Evidence and adjacent modification notices are not Starlark sources.
+        if path.suffix in {".json", ".license"}:
             continue
         if (
             name in {"BUILD", "WORKSPACE", "MODULE.bazel"}

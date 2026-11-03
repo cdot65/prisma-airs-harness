@@ -31,6 +31,11 @@ may use threads and exec replacement but cannot create another process or
 session. Killing the supervised root must retire that complete namespace.
 Missing pidfd/backend support is unavailable, never a generic fallback.
 
+The standalone Desktop Linux sandbox alias is dispatched before account-home
+initialization only when its internal flag precedes the command separator.
+The typed filesystem helper requires its exact additional owned-helper marker
+and three-argument shape. Ordinary helper invocations retain their startup.
+
 ## Bounded verification
 
 The initial exact-source `codex-utils-pty` mirror ran on Enterprise's actual
@@ -38,6 +43,8 @@ Linux7.2.8-9-omarchy AMD64 host with Rust1.99.1 and nextest0.9.148:
 
 - Original crate run: **34 passed**, two private subprocess entry points skipped.
 - Follow-up Desktop-only run: **7 passed**; unchanged crate evidence was retained.
+- Exact Linux early-dispatch selector: **2 passed**, including the owned typed
+  filesystem-helper route. The complete CLI awaits the pinned engine compile.
 - Scoped Clippy fix used the original engine workspace lint policy/config:
   passed with no source changes. No test repetition followed that no-op fix.
 

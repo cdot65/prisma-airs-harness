@@ -16,7 +16,11 @@
     "codex-rs/utils/pty/src/linux_desktop_supervisor_tests.rs": "0f0682e193f4a945efc72a9c802015c98f346958478d19719692b7d07f951ee0",
     "codex-rs/utils/pty/src/lib.rs": "7f3a845ec42f01cf62bbaa176f6bfc7099238d389b4044d3db321e144dc75d37",
     "codex-rs/utils/pty/src/pipe.rs": "6d2b75d2430051335f7c7be17c2b95bc46b3163355f6f89438e76486b84845d4",
-    "codex-rs/utils/pty/src/pty.rs": "a9677960bd985c660476421e16645d131665fcebddb7e528583bec8c9d286305"
+    "codex-rs/utils/pty/src/pty.rs": "a9677960bd985c660476421e16645d131665fcebddb7e528583bec8c9d286305",
+    "codex-rs/cli/src/main.rs": "b2d7d11a836c2a5af310cde18eb7064b066e031265c5681f9b4b2a02348ba6c0",
+    "codex-rs/cli/src/airs_desktop_transport.rs": "9fdfe273d4c31d9591cf35dac42038d8555dd129b2ac2b42b32727c15f24be70",
+    "codex-rs/cli/src/airs_desktop_linux_dispatch.rs": "644f52102ea92719e574ac6a951535be2dba7a6b3ae2f8f324867d7078b4dd06",
+    "codex-rs/cli/src/airs_desktop_linux_dispatch_tests.rs": "e3c5c9dfbd9dea41e15495259da72e5b4ad77f304b5ac8068c898ce4ac020b6b"
   },
   "retained_packet_sha256": {
     "probe-source-receipt.json": "52ccb10ac8be8ad602fdf49c3d88f9436ca94f59dea300210483395082408d6b",
@@ -34,7 +38,15 @@
     "just-download-receipt.json": "fff7854b6f5e4c27ddf1cd361f6d0e506490e129571546e062b7a76ce7217d02",
     "Cargo.lock": "42a72dd8477a6a055ab1978ba622995efc640d5da8c2372704a64d4071ddf956",
     "probe-lints.toml": "3b27cf972ef8ed778e7580d30d4e834e1d4e7af66d7a358de0f44da4cf4b97b6",
-    "probe-clippy.toml": "323037ae6e8136646a8a80fd59724b32bbb3e3b2b7ea745ac79841443d4a71a9"
+    "probe-clippy.toml": "323037ae6e8136646a8a80fd59724b32bbb3e3b2b7ea745ac79841443d4a71a9",
+    "cli-dispatch-source-05.json": "c313e06e7a939116163795bfc2ae595835fb5c6644619e0658f2993c9c30b542",
+    "cli-dispatch-source-05.tar": "170d5346de1c4ca07f0b24fc4360150f69367df929062ffde19f3be3fc2d427d",
+    "cli-dispatch-source-06.json": "4356a178ad33406db951152a51272d401346c84841baed03f4c3c10ab93a6ded",
+    "cli-dispatch-source-06.tar": "767a62571acd6677627c7defc5af62af90f9a30857d730e45bb39bc8943a58f9",
+    "execution-05.json": "d6172197c6eae16b2156b30e8aaccf39993a0cfd70876370195b5e07068b251d",
+    "execution-05.log": "5ecc3001ff2bbb3e878ef72e652bc57335a14a720c5646d27f83f4d98508bfa7",
+    "execution-06.json": "8848af7497c8acc881acff60eb29a5ae362968df6d5c525441d4039d76316ca2",
+    "execution-06.log": "2f1b6e2454708c0236a746a8f977099092871bc74f996b7fab656509076c741f"
   },
   "outcomes": [
     {
@@ -81,6 +93,13 @@
         "--locked"
       ],
       "source_changes": 0
+    },
+    {
+      "receipt": "execution-06.json",
+      "exit_code": 0,
+      "scope": "exact Linux early helper selector module only, including owned FS-helper marker; no complete CLI compile",
+      "passed": 2,
+      "clippy_source_changes": 0
     }
   ],
   "remaining": [

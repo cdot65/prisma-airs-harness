@@ -333,7 +333,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                             pending.push(async move {
                                 // Stop owned local commands before core cancellation
                                 // can kill their parents and lose descendant ancestry.
-                                #[cfg(target_os = "macos")]
+                                #[cfg(any(target_os = "macos", target_os = "linux"))]
                                 if method == "turn/interrupt"
                                     && !matches!(tokio::task::spawn_blocking(codex_utils_pty::cancel_desktop_commands).await, Ok(Ok(()))) {
                                     return (id.clone(), method, rejection(id));
@@ -354,7 +354,7 @@ pub(super) async fn serve<R: AsyncBufRead + Unpin>(
                                         // before core observes the interruption.
                                         // It is already safely stopped; preserve
                                         // idempotence for this exact terminal race.
-                                        #[cfg(target_os = "macos")]
+                                        #[cfg(any(target_os = "macos", target_os = "linux"))]
                                         Ok(Err(error)) if method == "turn/interrupt"
                                             && error.code == -32600
                                             && error.message == "no active turn to interrupt" => json!({"id":id,"result":{}}),

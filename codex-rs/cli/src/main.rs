@@ -51,7 +51,9 @@ mod airs_application_network;
 mod airs_auth_lifecycle;
 mod airs_credentials;
 mod airs_desktop;
-#[cfg(target_os = "macos")]
+#[cfg(target_os = "linux")]
+mod airs_desktop_linux_dispatch;
+#[cfg(any(target_os = "macos", target_os = "linux"))]
 mod airs_desktop_supervision;
 mod airs_doctor;
 mod airs_doctor_catalog;
@@ -1188,7 +1190,7 @@ fn stage_str(stage: Stage) -> &'static str {
 }
 
 fn main() -> anyhow::Result<()> {
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     if std::env::args_os()
         .nth(1)
         .is_some_and(|arg| arg == codex_utils_pty::DESKTOP_SUPERVISOR_ARG)
@@ -1198,6 +1200,15 @@ fn main() -> anyhow::Result<()> {
             "Invalid desktop command supervisor"
         );
         return codex_utils_pty::run_desktop_supervisor().map_err(anyhow::Error::from);
+    }
+    #[cfg(target_os = "linux")]
+    if airs_harness::is_standalone()
+        && airs_desktop_linux_dispatch::is_desktop_helper(std::env::args_os())
+    {
+        // Trusted Desktop helper stages must reach arg0 dispatch before any
+        // ordinary account-home setup or saved-identity discovery can run.
+        codex_arg0::arg0_dispatch();
+        anyhow::bail!("Desktop Linux helper dispatch returned unexpectedly");
     }
     let desktop_home = if airs_harness::is_standalone()
         && std::env::args_os()
@@ -1219,7 +1230,7 @@ fn main() -> anyhow::Result<()> {
     codex_build_info::initialize!();
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
-        #[cfg(target_os = "macos")]
+        #[cfg(any(target_os = "macos", target_os = "linux"))]
         if desktop_home.is_some() {
             // arg0 dispatch has finished its single-threaded environment setup;
             // supervision starts before bootstrap imports the inference key.

@@ -67,6 +67,12 @@ fn resolve_existing_ancestor(path: &Path) -> io::Result<PathBuf> {
                 return Ok(resolved.join(suffix));
             }
             Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                // An existing dangling symlink is not a plain missing suffix.
+                match std::fs::symlink_metadata(ancestor) {
+                    Ok(_) => return Err(error),
+                    Err(missing) if missing.kind() == io::ErrorKind::NotFound => {}
+                    Err(other) => return Err(other),
+                }
                 ancestor = ancestor.parent().ok_or(error)?;
             }
             Err(error) => return Err(error),

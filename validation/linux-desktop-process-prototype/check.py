@@ -81,6 +81,21 @@ with tempfile.TemporaryDirectory(prefix="desktop-policy-fixture-") as temporary:
                 "expected_exit_code": expected,
             }
         )
+    (account / ".config").unlink()
+    (account / ".config").symlink_to(
+        project / "future-private-config", target_is_directory=True
+    )
+    result = subprocess.run(
+        [str(binary), "project-policy", str(project), str(account), str(resources)],
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert result.returncode == 3, "Dangling private ancestor must fail closed"
+    outcomes.append(
+        {"mode": "dangling-private-config", "exit_code": 3, "expected_exit_code": 3}
+    )
 print(
     json.dumps(
         {

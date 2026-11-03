@@ -1,0 +1,12 @@
+[package]
+name = "airs-linux-desktop-process-prototype"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+# Isolated kernel-boundary probe: do not compile the entire engine/core graph.
+[workspace]
+
+[dependencies]
+libc = "=0.2.182"
+seccompiler = "=0.5.0"

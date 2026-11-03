@@ -1,0 +1,91 @@
+{
+  "schema": "airs-linux-desktop-lifetime-probe/1",
+  "base_engine_source": "9331a5839bc6a763d94dee7584746f58bbbe1181",
+  "scope": "exact-source crate/kernel proof only; not a pinned engine build or full helper-chain qualification",
+  "host": {
+    "kernel": "Linux 7.2.8-9-omarchy",
+    "architecture": "x86_64",
+    "rustc": "1.99.1 (58cf8f9c3 2026-10-13)",
+    "cargo": "1.99.1 (5f94df478 2026-08-27)",
+    "nextest": "0.9.148",
+    "just": "1.59.0"
+  },
+  "source_sha256": {
+    "codex-rs/utils/pty/src/linux_desktop_io.rs": "5d99832f618903db1d4e932e66d9c3cd8fd84afbf8742bccef690c3e55cad2c1",
+    "codex-rs/utils/pty/src/linux_desktop_supervisor.rs": "435cd170ef1427f499e056a7b757d8afb74413fe6c03c41691558dcc659ba2e7",
+    "codex-rs/utils/pty/src/linux_desktop_supervisor_tests.rs": "0f0682e193f4a945efc72a9c802015c98f346958478d19719692b7d07f951ee0",
+    "codex-rs/utils/pty/src/lib.rs": "7f3a845ec42f01cf62bbaa176f6bfc7099238d389b4044d3db321e144dc75d37",
+    "codex-rs/utils/pty/src/pipe.rs": "6d2b75d2430051335f7c7be17c2b95bc46b3163355f6f89438e76486b84845d4",
+    "codex-rs/utils/pty/src/pty.rs": "a9677960bd985c660476421e16645d131665fcebddb7e528583bec8c9d286305"
+  },
+  "retained_packet_sha256": {
+    "probe-source-receipt.json": "52ccb10ac8be8ad602fdf49c3d88f9436ca94f59dea300210483395082408d6b",
+    "probe-source.tar": "b1e5da6e304b8ca21575d77f80ac6eb037a30439e98c19a976fb4688e23126e1",
+    "probe-source-03-receipt.json": "4b4d9e63454d145dada023ff662756e5b0fd11cbc6e6c9bac902337960f35411",
+    "probe-source-03.tar": "9b6a16606c59fc5d3c33404b31bf68eac857020dc783fe04a85a85fb6c700ce1",
+    "execution-01.json": "b98d28f7f6e2841f70b0f308ee631f4182ce0fdaa4fcd8579de9547e2c7a2e28",
+    "execution-01.log": "613b9d903836fa3b3a3e43c9ac6748d825f7c2001564246d950af11e015f3bd0",
+    "execution-02.json": "bade959ddaa42249f592f62196e5a35f504450eca7635e03ee6a1ae58a7ffa34",
+    "execution-02.log": "8de7e467f38074a1ae1f199592cab7e0f17c614536b77441c4fb2b3cb84fd849",
+    "execution-03.json": "23e4d0efc35593272374929a9ed2b5030d3e9bd473d350f8b994875e9c8041f5",
+    "execution-03.log": "9f20b55bc82f4b6cc7de4bc63c9a70367de9517c37f76699f06d3edc0523fa4d",
+    "clippy-04.json": "1873405a1c4f3105760ce0b64722fdb2fe371dae44bf0ea44d30f8be4755b2a4",
+    "clippy-04.log": "71312474d10b64c5eb7380c84a83d9fb49ca16d97281c1106e73087056166c29",
+    "just-download-receipt.json": "fff7854b6f5e4c27ddf1cd361f6d0e506490e129571546e062b7a76ce7217d02",
+    "Cargo.lock": "42a72dd8477a6a055ab1978ba622995efc640d5da8c2372704a64d4071ddf956",
+    "probe-lints.toml": "3b27cf972ef8ed778e7580d30d4e834e1d4e7af66d7a358de0f44da4cf4b97b6",
+    "probe-clippy.toml": "323037ae6e8136646a8a80fd59724b32bbb3e3b2b7ea745ac79841443d4a71a9"
+  },
+  "outcomes": [
+    {
+      "receipt": "execution-01.json",
+      "exit_code": 101,
+      "result": "PATH-only setup failure: cargo-nextest absent; no compile ran"
+    },
+    {
+      "receipt": "execution-02.json",
+      "exit_code": 0,
+      "command": [
+        "just",
+        "test",
+        "-p",
+        "codex-utils-pty",
+        "--lib"
+      ],
+      "passed": 34,
+      "skipped_private_fixtures": 2
+    },
+    {
+      "receipt": "execution-03.json",
+      "exit_code": 0,
+      "command": [
+        "just",
+        "test",
+        "-p",
+        "codex-utils-pty",
+        "--lib",
+        "--locked",
+        "desktop_supervisor"
+      ],
+      "passed": 7,
+      "evidence_reuse": "Only affected supervisor cleanup/tests rerun; original crate outcomes retained."
+    },
+    {
+      "receipt": "clippy-04.json",
+      "exit_code": 0,
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-utils-pty",
+        "--locked"
+      ],
+      "source_changes": 0
+    }
+  ],
+  "remaining": [
+    "actual verified bundled Bubblewrap/inner-helper full chain lifetime fixture",
+    "pinned Rust1.95 Ubuntu22.04 engine build and focused Desktop boundaries"
+  ],
+  "release_qualified": false
+}

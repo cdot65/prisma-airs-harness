@@ -382,3 +382,6 @@ fn validate_root(pidfd: &OwnedFd, owner: libc::pid_t) -> io::Result<()> {
     Ok(())
 }
 
+#[cfg(test)]
+#[path = "linux_desktop_supervisor_tests.rs"]
+mod tests;
